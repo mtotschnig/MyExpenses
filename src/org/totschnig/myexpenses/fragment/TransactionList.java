@@ -40,6 +40,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
@@ -63,12 +64,18 @@ import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ActionMode;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AbsListView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -190,6 +197,7 @@ public class TransactionList extends BudgetListFragment implements
   }
 
 
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
@@ -208,6 +216,56 @@ public class TransactionList extends BudgetListFragment implements
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
+    mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    mListView.getWrappedList().setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+      private SparseBooleanArray selectedItemIds;
+
+      @Override
+      public void onItemCheckedStateChanged(ActionMode mode, int position,
+                                            long id, boolean checked) {
+        if (checked) {
+          selectedItemIds.put(position, true);
+        } else {
+          selectedItemIds.delete(position);
+        }
+        mode.setTitle(String.valueOf(selectedItemIds.size()));
+      }
+
+      @Override
+      public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        // Respond to clicks on the actions in the CAB
+        switch (item.getItemId()) {
+          case R.id.DELETE_COMMAND:
+            Toast.makeText(getActivity(),"action item clicked", Toast.LENGTH_LONG).show();
+              mode.finish(); // Action picked, so close the CAB
+              return true;
+          default:
+            return false;
+        }
+      }
+
+      @Override
+      public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        // Inflate the menu for the CAB
+        selectedItemIds = new SparseBooleanArray();
+        MenuInflater inflater = mode.getMenuInflater();
+        inflater.inflate(R.menu.expense_context, menu);
+        return true;
+      }
+
+      @Override
+      public void onDestroyActionMode(ActionMode mode) {
+        // Here you can make any necessary updates to the activity when
+        // the CAB is removed. By default, selected items are deselected/unchecked.
+      }
+
+      @Override
+      public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        // Here you can perform updates to the CAB due to
+        // an invalidate() request
+        return false;
+      }
+    });
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
