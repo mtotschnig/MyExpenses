@@ -68,9 +68,8 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
     setLanguage();
-    getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
-        | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_USE_LOGO);
-
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
   }
   @Override
   protected void onPause() {

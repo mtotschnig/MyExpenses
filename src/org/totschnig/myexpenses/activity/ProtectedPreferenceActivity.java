@@ -37,8 +37,8 @@ public class ProtectedPreferenceActivity extends PreferenceActivity {
     protection = new ProtectionDelegate(this);
     MyApplication.getInstance().setLanguage();
     if (Build.VERSION.SDK_INT > 10) {
-      ActionBar actionBar = getActionBar();
-      actionBar.setDisplayHomeAsUpEnabled(true);
+      getActionBar().setDisplayHomeAsUpEnabled(true);
+      getActionBar().setDisplayShowHomeEnabled(true);
     }
   }
   @Override
