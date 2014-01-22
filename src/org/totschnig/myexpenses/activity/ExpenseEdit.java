@@ -519,7 +519,7 @@ public class ExpenseEdit extends AmountActivity implements
     case R.id.CREATE_COMMAND:
       //create calendar
       getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,null,null), "ASYNC_TASK")
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,0L,null), "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_calendar),"PROGRESS")
       .commit();
       return true;
@@ -1286,7 +1286,7 @@ public class ExpenseEdit extends AmountActivity implements
     getSupportFragmentManager().beginTransaction()
     .add(TaskExecutionFragment.newInstance(
         TaskExecutionFragment.TASK_NEW_PLAN,
-        null,
+        0L,
         new Plan(
             0,
             System.currentTimeMillis(),

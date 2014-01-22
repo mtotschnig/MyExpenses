@@ -256,7 +256,7 @@ public class MyExpenses extends LaunchActivity implements
     if (fm.findFragmentByTag("ASYNC_TASK") == null) {
       fm.beginTransaction()
         .add(WelcomeDialogFragment.newInstance(),"WELCOME")
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,0L, null), "ASYNC_TASK")
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
         .commit();
     }
@@ -285,7 +285,7 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(mAccountId > 0);
     menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
         mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);

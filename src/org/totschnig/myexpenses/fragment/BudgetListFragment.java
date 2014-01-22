@@ -25,7 +25,7 @@ import android.util.TypedValue;
  * Helper that factors out common properties
  *
  */
-public class BudgetListFragment extends Fragment {
+public class BudgetListFragment extends ContextualActionBarFragment {
 
   protected int colorExpense;
   protected int colorIncome;
