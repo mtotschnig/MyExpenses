@@ -19,7 +19,9 @@
 		<item name="android:windowNoTitle">true</item>
 	</style>
 	<style name="BaseDark" parent="@android:style/Theme.Holo">
+    <item name="android:actionBarStyle">@style/ActionBarDark</item>
   </style>
   <style name="BaseLight" parent="@android:style/Theme.Holo.Light">
+    <item name="android:actionBarStyle">@style/ActionBarLight</item>
   </style>
 </resources>

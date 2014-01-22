@@ -21,8 +21,10 @@
   </style>
 	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar"/>
 	<style name="BaseDark" parent="@style/Theme.AppCompat">
+    <item name="actionBarStyle">@style/ActionBarDark</item>
   </style>
   <style name="BaseLight" parent="@style/Theme.AppCompat.Light">
+    <item name="actionBarStyle">@style/ActionBarLight</item>
   </style>
   <style name="ThemeDark" parent="BaseDark">
     <item name="dropdownListPreferredItemHeight">48sp</item>
@@ -104,5 +106,11 @@
   </style>
   <style name="ThemeLight.s3.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ActionBarLight" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <item name="android:icon">@drawable/ic_home_light</item>
+	</style>
+	<style name="ActionBarDark" parent="@style/Widget.AppCompat.ActionBar">
+    <item name="android:icon">@drawable/ic_home_dark</item>
   </style>
 </resources>

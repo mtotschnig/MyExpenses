@@ -185,7 +185,8 @@ public class MyExpenses extends LaunchActivity implements
     });
 
     getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
-        | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP
+        |  ActionBar.DISPLAY_USE_LOGO);
     getSupportActionBar().setCustomView(R.layout.custom_title);
     theme.resolveAttribute(R.attr.drawerImage, value, true);
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
