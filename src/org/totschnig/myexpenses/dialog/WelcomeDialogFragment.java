@@ -49,7 +49,7 @@ public class WelcomeDialogFragment extends DialogFragment {
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
     return new AlertDialog.Builder(ctx)
       .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.dialog_title_welcome))
-      .setIcon(R.drawable.icon)
+      .setIcon(R.drawable.myexpenses)
       .setView(view)
       .setPositiveButton(android.R.string.ok,null)
       .create();

@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 public class PlanNotificationClickHandler extends IntentService {
   public PlanNotificationClickHandler() {
@@ -44,7 +43,7 @@ public class PlanNotificationClickHandler extends IntentService {
     }
     int notificationId = extras.getInt("notification_id");
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.icon)
+        .setSmallIcon(R.drawable.myexpenses)
         .setContentTitle(title)
         .setContentText(getString(message));
     ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE))
