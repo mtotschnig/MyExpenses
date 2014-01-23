@@ -14,20 +14,8 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-  <item
-    android:id="@id/DELETE_COMMAND"
-    android:icon="@drawable/delete_icon"
-    app:showAsAction="always"
-    android:title="@string/menu_delete">
-  </item>
-  <group android:id="@+id/MenuGroupSingleOnly">
-  <item
-    android:id="@id/EDIT_COMMAND"
-    android:icon="@drawable/edit_icon"
-    app:showAsAction="always"
-    android:title="@string/menu_edit">
-  </item>
-  </group>
-</menu>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_menu_copy" android:right="3dp" android:bottom="3dp" />
+    <item android:drawable="@android:drawable/ic_menu_save" android:left="11dp" android:top="11dp"/>
+</layer-list>

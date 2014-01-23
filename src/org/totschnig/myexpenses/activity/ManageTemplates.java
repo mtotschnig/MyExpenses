@@ -37,12 +37,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Toast;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
@@ -141,34 +139,36 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,(Long)tag, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_DELETE_TEMPLATES,
+            (Long[])tag,
+            null),
+          "ASYNC_TASK")
         .commit();
       return true;
     case R.id.EDIT_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("template_id",(Long)tag);
+      i.putExtra("template_id",((AdapterContextMenuInfo)tag).id);
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
       return true;
     case R.id.DELETE_COMMAND:
+      Long[] itemIds = (Long []) tag;
       MessageDialogFragment.newInstance(
           R.string.dialog_title_warning_delete_template,
-          R.string.warning_delete_template,
-          new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, (Long)tag),
+          getResources().getQuantityString(R.plurals.warning_delete_template,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
           null,
           MessageDialogFragment.Button.noButton())
-        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        .show(getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     }
     return super.dispatchCommand(command, tag);
    }
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0,R.id.EDIT_COMMAND,1,R.string.menu_edit);
-    menu.add(0,R.id.DELETE_COMMAND,1,R.string.menu_delete);
-  }
   @Override
   public void onTabSelected(Tab tab, FragmentTransaction ft) {
     mViewPager.setCurrentItem(tab.getPosition());
@@ -214,8 +214,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
-      int msg = (o == null ?  R.string.save_transaction_error : R.string.save_transaction_from_template_success);
-      Toast.makeText(this,getString(msg), Toast.LENGTH_LONG).show();
+      Integer successCount = (Integer) o;
+      String msg = successCount == 0 ?  getString(R.string.save_transaction_error) :
+        getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
+      Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
     }
     PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(1));

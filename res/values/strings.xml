@@ -341,7 +341,10 @@
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_and_new_success">Successfully saved</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
-  <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">New transaction successfully saved from template</item>
+    <item quantity="other">%1$d new transactions were successfully saved from templates</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Template has been deleted</string>
   <string name="select">Select</string>
   <string name="select_category">Select category</string>
@@ -376,9 +379,12 @@
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions. &continue;</string>
   <string name="warning_delete_main_category">This category will be deleted with all its subcategories. &continue;</string>
-  <string name="warning_delete_template">This template (and any associated plan) will be deleted. &continue;</string>
+  <plurals name="warning_delete_template">
+    <item quantity="one">The selected template will be deleted.</item>
+    <item quantity="other">%1$d selected templates will be deleted.</item>
+  </plurals>
   <plurals name="warning_delete_transaction">
-    <item quantity="one">%1$d selected transaction will be deleted.</item>
+    <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>

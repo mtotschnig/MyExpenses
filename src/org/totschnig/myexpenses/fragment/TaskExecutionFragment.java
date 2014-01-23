@@ -53,7 +53,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_DELETE_ACCOUNT = 7;
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
   public static final int TASK_DELETE_PAYEES = 9;
-  public static final int TASK_DELETE_TEMPLATE = 10;
+  public static final int TASK_DELETE_TEMPLATES = 10;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
@@ -199,13 +199,18 @@ public class TaskExecutionFragment extends Fragment {
           return null;
         }
       case TASK_NEW_FROM_TEMPLATE:
-        t = Transaction.getInstanceFromTemplate(ids[0]);
-        if (mExtra != null) {
-          extraInfo = (Long[]) mExtra;
-          t.setDate(new Date(extraInfo[1]));
-          t.originPlanInstanceId = extraInfo[0];
+        int successCount=0;
+        for (long id: ids) {
+          t = Transaction.getInstanceFromTemplate(id);
+          if (mExtra != null) {
+            extraInfo = (Long[]) mExtra;
+            t.setDate(new Date(extraInfo[1]));
+            t.originPlanInstanceId = extraInfo[0];
+          }
+          if (t.save()!=null)
+            successCount++;
         }
-        return t.save();
+        return successCount;
       case TASK_REQUIRE_ACCOUNT:
         Account account;
         try {
@@ -238,8 +243,10 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_DELETE_CATEGORY:
         Category.delete(ids[0]);
         return null;
-      case TASK_DELETE_TEMPLATE:
-        Template.delete(ids[0]);
+      case TASK_DELETE_TEMPLATES:
+        for (long id: ids) {
+          Template.delete(id);
+        }
         return null;
       case TASK_TOGGLE_CRSTATUS:
         t = Transaction.getInstanceFromDb(ids[0]);

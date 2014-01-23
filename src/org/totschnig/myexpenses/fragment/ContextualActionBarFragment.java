@@ -36,12 +36,11 @@ public class ContextualActionBarFragment extends Fragment {
     String className = this.getClass().getSimpleName().toLowerCase(Locale.US);
     String resourceName = className+"_context";
     menuResource = getResources().getIdentifier(resourceName, "menu", activity.getPackageName());
-    if (menuResource == 0) {
-      throw new IllegalStateException("Menu resource " + resourceName + " not found");
-    }
   }
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
+    if (!getUserVisibleHint())
+      return false;
     int itemId = item.getItemId();
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     if (item.getGroupId()==R.id.MenuGroupSingleOnly) {
@@ -49,22 +48,29 @@ public class ContextualActionBarFragment extends Fragment {
     } else {
       SparseBooleanArray sba = new SparseBooleanArray();
       sba.put(info.position, true);
-      return dispatchCommandMultiple(itemId,sba);
+      return dispatchCommandMultiple(itemId,sba,new Long[]{info.id});
     }
   }
-  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo tag) {
+  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo info) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    return ctx.dispatchCommand(command, tag);
+    return ctx.dispatchCommand(command, info);
   }
-  public boolean dispatchCommandMultiple(int command, SparseBooleanArray tag) {
+  public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions,Long[]itemIds) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    return ctx.dispatchCommand(command, tag);
+    //we send only the positions to the default dispatch command mechanism,
+    //but subclasses can provide a method that handles the itemIds
+    return ctx.dispatchCommand(command, positions);
+  }
+  private void inflateHelper(Menu menu) {
+    MenuInflater inflater = getActivity().getMenuInflater();
+    inflater.inflate(R.menu.common_context,menu);
+    if (menuResource!=0)
+      inflater.inflate(menuResource, menu);
   }
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
-    MenuInflater inflater = getActivity().getMenuInflater();
-    inflater.inflate(menuResource, menu);
+    inflateHelper(menu);
     super.onCreateContextMenu(menu, v, menuInfo);
   }
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -82,9 +88,10 @@ public class ContextualActionBarFragment extends Fragment {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-          MenuInflater inflater = mode.getMenuInflater();
-          inflater.inflate(menuResource, menu);
-          mode.setTitle(String.valueOf(lv.getCheckedItemCount()));
+          inflateHelper(menu);
+          int count = lv.getCheckedItemCount();
+          mode.setTitle(String.valueOf(count));
+          menu.setGroupVisible(R.id.MenuGroupSingleOnly,count==1);
           return true;
         }
 
@@ -97,20 +104,29 @@ public class ContextualActionBarFragment extends Fragment {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
           int itemId = item.getItemId();
-          SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+          SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
           boolean result = false;
-          if (checkedItems != null) {
+          if (checkedItemPositions != null) {
             if (item.getGroupId()==R.id.MenuGroupSingleOnly) {
-              for (int i=0; i<checkedItems.size(); i++) {
-                if (checkedItems.valueAt(i)) {
-                  int position = checkedItems.keyAt(i);
+              for (int i=0; i<checkedItemPositions.size(); i++) {
+                if (checkedItemPositions.valueAt(i)) {
+                  int position = checkedItemPositions.keyAt(i);
                   long id = lv.getItemIdAtPosition(position);
                   View v = lv.getChildAt(position);
                   result = dispatchCommandSingle(itemId,new AdapterContextMenuInfo(v,position,id));
                 }
               }
             } else {
-              result = dispatchCommandMultiple(itemId,checkedItems);
+              long[] itemIdsPrim = lv.getCheckedItemIds();
+              int itemIdsLength = itemIdsPrim.length;
+              Long[] itemIdsObj = new Long[itemIdsLength];
+              for(int i = 0; i < itemIdsLength; ++i){
+                itemIdsObj[i] = itemIdsPrim[i];
+             }
+              result = dispatchCommandMultiple(
+                  itemId,
+                  checkedItemPositions,
+                  itemIdsObj);
             }
           }
           mode.finish();

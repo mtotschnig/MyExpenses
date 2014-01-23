@@ -57,7 +57,8 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     return super.dispatchCommandSingle(command, info);
   }
   @Override
-  public boolean dispatchCommandMultiple(int command, SparseBooleanArray sba) {
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
     switch(command) {
     case R.id.DELETE_COMMAND:
       int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex("mapped_transactions");
@@ -65,10 +66,10 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
       int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
       ArrayList<Long> idList = new ArrayList<Long>();
-      for (int i=0; i<sba.size(); i++) {
-        if (sba.valueAt(i)) {
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
           boolean deletable = true;
-          mPartiesCursor.moveToPosition(sba.keyAt(i));
+          mPartiesCursor.moveToPosition(positions.keyAt(i));
           if (mPartiesCursor.getInt(columnIndexMappedTransactions) > 0) {
             mappedTransactionsCount++;
             deletable = false;
@@ -101,7 +102,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
       }
       return true;
     }
-    return super.dispatchCommandMultiple(command, sba);
+    return super.dispatchCommandMultiple(command, positions,itemIds);
   }
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
