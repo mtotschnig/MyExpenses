@@ -52,6 +52,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,9 +103,45 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     mListView.setAdapter(mAdapter);
     mListView.setEmptyView(v.findViewById(R.id.empty));
     mListView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
-    registerForContextMenu(mListView);
+    registerForContextualActionBar(mListView);
+
+    mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+      @Override
+      public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+          if (mActionMode != null)  {
+            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+              Log.d(MyApplication.TAG, "mActionMode is not null. Setting View: " + parent.toString() + " to be selected");
+              int flatPosition = mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
+              parent.setItemChecked(
+                  flatPosition,
+                  !parent.isItemChecked(flatPosition));
+              return true;
+            }
+          }
+          return false;
+      }
+    });
+    mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+      @Override
+      public boolean onChildClick(ExpandableListView parent, View v,
+          int groupPosition, int childPosition, long id) {
+        if (mActionMode != null)  {
+          if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            Log.d(MyApplication.TAG, "mActionMode is not null. Setting View: " + parent.toString() + " to be selected");
+            int flatPosition = mListView.getFlatListPosition(
+                ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
+            parent.setItemChecked(
+                flatPosition,
+                !parent.isItemChecked(flatPosition));
+          }
+          return true;
+      }
+      return false;
+      }
+    });
     return v;
   }
+  /*
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
@@ -131,7 +169,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
       }
     }
-  }
+  }*/
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     if (!getUserVisibleHint())

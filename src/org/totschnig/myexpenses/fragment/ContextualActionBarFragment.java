@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -29,6 +30,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  */
 public class ContextualActionBarFragment extends Fragment {
   private int menuResource;
+  protected ActionMode mActionMode;
+  int expandableListSelectionType;
   
   @Override
   public void onAttach(Activity activity) {
@@ -81,6 +84,11 @@ public class ContextualActionBarFragment extends Fragment {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position,
                                               long id, boolean checked) {
+          if (lv instanceof ExpandableListView &&
+              expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL) {
+            expandableListSelectionType = ExpandableListView.getPackedPositionType(
+                ((ExpandableListView) lv).getExpandableListPosition(position));
+          }
           int count = lv.getCheckedItemCount();
           mode.setTitle(String.valueOf(count));
           mode.getMenu().setGroupVisible(R.id.MenuGroupSingleOnly,count==1);
@@ -88,10 +96,12 @@ public class ContextualActionBarFragment extends Fragment {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+          expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
           inflateHelper(menu);
           int count = lv.getCheckedItemCount();
           mode.setTitle(String.valueOf(count));
           menu.setGroupVisible(R.id.MenuGroupSingleOnly,count==1);
+          mActionMode = mode;
           return true;
         }
 
@@ -135,8 +145,7 @@ public class ContextualActionBarFragment extends Fragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-          // TODO Auto-generated method stub
-          
+          mActionMode = null;
         }
       });
     } else {
