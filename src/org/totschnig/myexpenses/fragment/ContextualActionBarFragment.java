@@ -9,8 +9,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -24,6 +22,11 @@ import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 
+/**
+ * @author Michael Totschnig
+ *  provide helper functionality to create a CAB for a ListView
+ *  below HoneyComb a context menu is used instead
+ */
 public class ContextualActionBarFragment extends Fragment {
   private int menuResource;
   

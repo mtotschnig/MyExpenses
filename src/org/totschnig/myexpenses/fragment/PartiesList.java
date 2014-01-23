@@ -60,22 +60,25 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   public boolean dispatchCommandMultiple(int command, SparseBooleanArray sba) {
     switch(command) {
     case R.id.DELETE_COMMAND:
+      int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex("mapped_transactions");
+      int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex("mapped_templates");
+      int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
       ArrayList<Long> idList = new ArrayList<Long>();
       for (int i=0; i<sba.size(); i++) {
         if (sba.valueAt(i)) {
           boolean deletable = true;
           mPartiesCursor.moveToPosition(sba.keyAt(i));
-          if (mPartiesCursor.getInt(mPartiesCursor.getColumnIndex("mapped_transactions")) > 0) {
+          if (mPartiesCursor.getInt(columnIndexMappedTransactions) > 0) {
             mappedTransactionsCount++;
             deletable = false;
           }
-          if (mPartiesCursor.getInt(mPartiesCursor.getColumnIndex("mapped_templates")) > 0) {
+          if (mPartiesCursor.getInt(columnIndexMappedTemplates) > 0) {
             mappedTemplatesCount++;
             deletable = false;
           }
           if (deletable) {
-            idList.add(mPartiesCursor.getLong(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID)));
+            idList.add(mPartiesCursor.getLong(columnIndexRowId));
           }
         }
       }

@@ -51,7 +51,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_REQUIRE_ACCOUNT = 5;
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;
-  public static final int TASK_DELETE_PAYMENT_METHOD = 8;
+  public static final int TASK_DELETE_PAYMENT_METHODS = 8;
   public static final int TASK_DELETE_PAYEES = 9;
   public static final int TASK_DELETE_TEMPLATE = 10;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
@@ -225,8 +225,10 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_DELETE_ACCOUNT:
         Account.delete(ids[0]);
         return null;
-      case TASK_DELETE_PAYMENT_METHOD:
-        PaymentMethod.delete(ids[0]);
+      case TASK_DELETE_PAYMENT_METHODS:
+        for (long id: ids) {
+          PaymentMethod.delete(id);
+        }
         return null;
       case TASK_DELETE_PAYEES:
         for (long id: ids) {

@@ -17,28 +17,12 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
-import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
-public class ManageMethods extends ProtectedFragmentActivity implements OnItemClickListener {
-  Cursor mMethodsCursor;
+public class ManageMethods extends ProtectedFragmentActivity {
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -64,46 +48,4 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
     }
     return super.dispatchCommand(command, tag);
    }
-  @Override
-  public void onItemClick(AdapterView<?> parent, View view, int position,
-      long id) {
-    Intent i = new Intent(this, MethodEdit.class);
-    i.putExtra(DatabaseConstants.KEY_ROWID, id);
-    startActivity(i);
-  }
-  /* (non-Javadoc)
-   * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
-   */
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    //predefined methods can not be deleted
-    PaymentMethod method;
-    method = PaymentMethod.getInstanceFromDb(info.id);
-    if (method.predef == null) {
-      menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-    }
-  }
-
-  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      if (Transaction.countPerMethod(info.id) > 0 ) {
-        Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
-      } else if (Template.countPerMethod(info.id) > 0 ) {
-        Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
-      }  else {
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id, null), "ASYNC_TASK")
-          .commit();
-      }
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
 }

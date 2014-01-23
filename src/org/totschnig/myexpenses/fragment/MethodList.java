@@ -15,11 +15,16 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import java.util.ArrayList;
+
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MethodEdit;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,15 +32,19 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class MethodList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MethodList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
+  private Cursor mMethodsCursor;
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,9 +65,7 @@ public class MethodList extends Fragment implements LoaderManager.LoaderCallback
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
-    //requires using activity (ManageMethods) to implement OnItemClickListener
-    lv.setOnItemClickListener((OnItemClickListener) getActivity());
-    registerForContextMenu(lv);
+    registerForContextualActionBar(lv);
     return v;
   }
 
@@ -71,12 +78,70 @@ public class MethodList extends Fragment implements LoaderManager.LoaderCallback
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+    mMethodsCursor = c;
     mAdapter.swapCursor(c);
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
+    mMethodsCursor = null;
     mAdapter.swapCursor(null);
   }
-
+  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo info) {
+    switch(command) {
+    case R.id.EDIT_COMMAND:
+      Intent i = new Intent(getActivity(), MethodEdit.class);
+      i.putExtra(DatabaseConstants.KEY_ROWID, info.id);
+      startActivity(i);
+      return true;
+    }
+    return super.dispatchCommandSingle(command, info);
+  }
+  @Override
+  public boolean dispatchCommandMultiple(int command, SparseBooleanArray sba) {
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex("mapped_transactions");
+      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex("mapped_templates");
+      int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+      int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
+      ArrayList<Long> idList = new ArrayList<Long>();
+      for (int i=0; i<sba.size(); i++) {
+        if (sba.valueAt(i)) {
+          boolean deletable = true;
+          mMethodsCursor.moveToPosition(sba.keyAt(i));
+          if (mMethodsCursor.getInt(columnIndexMappedTransactions) > 0) {
+            mappedTransactionsCount++;
+            deletable = false;
+          }
+          if (mMethodsCursor.getInt(columnIndexMappedTemplates) > 0) {
+            mappedTemplatesCount++;
+            deletable = false;
+          }
+          if (deletable) {
+            idList.add(mMethodsCursor.getLong(columnIndexRowId));
+          }
+        }
+      }
+      if (idList.size()>0) {
+        getActivity().getSupportFragmentManager().beginTransaction()
+          .add(TaskExecutionFragment.newInstance(
+              TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
+              idList.toArray(new Long[idList.size()]),
+              null),
+            "ASYNC_TASK")
+          .commit();
+      }
+      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
+        String message = "";
+        if (mappedTransactionsCount > 0)
+          message += getString(R.string.not_deletable_mapped_transactions,mappedTransactionsCount);
+        if (mappedTemplatesCount > 0)
+          message += getString(R.string.not_deletable_mapped_templates,mappedTemplatesCount);
+        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
+      }
+      return true;
+    }
+    return super.dispatchCommandMultiple(command, sba);
+  }
 }
