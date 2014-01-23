@@ -20,6 +20,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.Model;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -37,7 +39,7 @@ import android.view.MenuItem;
 
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
-    TaskExecutionFragment.TaskCallbacks{
+    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks{
   public static final int EDIT_TRANSACTION_REQUEST=1;
   public static final int EDIT_ACCOUNT_REQUEST=2;
   public static final int PREFERENCES_REQUEST=3;
@@ -157,5 +159,16 @@ public class ProtectedFragmentActivity extends ActionBarActivity
 
   protected void setLanguage() {
     MyApplication.getInstance().setLanguage();
+  }
+  @Override
+  public Model getObject() {
+    return null;
+  }
+  @Override
+  public void onPostExecute(Object result) {
+    FragmentManager m = getSupportFragmentManager();
+    FragmentTransaction t = m.beginTransaction();
+    t.remove(m.findFragmentByTag("SAVE_TASK"));
+    t.commitAllowingStateLoss();
   }
 }

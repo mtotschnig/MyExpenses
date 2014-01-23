@@ -59,11 +59,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
     .commit();
   }
-  @Override
-  public void onPostExecute(Object result) {
-    setResult(RESULT_OK);
-    finish();
-  }
 
   protected void changeEditTextBackground(ViewGroup root) {
     //not needed in HOLO

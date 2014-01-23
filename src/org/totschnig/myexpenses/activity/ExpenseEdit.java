@@ -1065,8 +1065,11 @@ public class ExpenseEdit extends AmountActivity implements
         intent.putExtra("sequence_count", sequenceCount);
         setResult(RESULT_OK,intent);
         finish();
+        //no need to call super after finish
+        return;
       }
     }
+    super.onPostExecute(result);
   }
   @Override
   public Model getObject() {

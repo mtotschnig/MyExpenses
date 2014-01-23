@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 
@@ -24,6 +25,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 /**
  * This Fragment manages a single background task and retains
@@ -127,6 +129,10 @@ public class DbWriteFragment extends Fragment {
      */
     @Override
     protected Object doInBackground(Model... object) {
+      if (object[0] == null) {
+        Log.w(MyApplication.TAG, "DbWriteFragment called from an activity that did not provide an object");
+        return null;
+      }
       Uri uri = object[0].save();
       if (returnSequenceCount && object[0] instanceof Transaction)
         return uri == null ? -1 : Transaction.getSequenceCount();

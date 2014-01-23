@@ -297,5 +297,6 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     intent.putExtra(DatabaseConstants.KEY_ROWID, ContentUris.parseId((Uri)result));
     setResult(RESULT_OK,intent);
     finish();
+    //no need to call super after finish
   }
 }
