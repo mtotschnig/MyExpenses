@@ -50,6 +50,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -615,5 +616,37 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   public void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     refresh();
+  }
+  @Override
+  protected void configureMenu(Menu menu, int count) {
+    super.configureMenu(menu, count);
+    if (count==1) {
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      for (int i=0; i<checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i)) {
+          int position = checkedItemPositions.keyAt(i);
+          long id;
+          long pos = mListView.getExpandableListPosition(position);
+          int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+          if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+            id = mListView.getExpandableListAdapter().getGroupId(groupPos);
+          } else {
+            int childPos = ExpandableListView.getPackedPositionChild(pos);
+            id = mListView.getExpandableListAdapter().getChildId(groupPos,childPos);
+          }
+          Long transactionId = mInstance2TransactionMap.get(id);
+          //state open
+          menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(transactionId == null);
+          menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(transactionId == null);
+          //state open or applied
+          menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(transactionId == null || transactionId != 0L);
+          //state cancelled or applied
+          menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(transactionId != null);
+          //state applied
+          menu.findItem(R.id.EDIT_INSTANCE_COMMAND).setVisible(transactionId != null && transactionId != 0L);
+          break;
+        }
+      }
+    }
   }
 }

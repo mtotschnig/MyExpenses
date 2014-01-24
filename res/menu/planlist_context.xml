@@ -59,8 +59,8 @@
       android:title="@string/menu_apply_template_and_edit">
     </item>
     <item
-      android:id="@id/EDIT_COMMAND"
-      android:icon="@drawable/edit_icon"
+      android:id="@id/EDIT_INSTANCE_COMMAND"
+      android:icon="@drawable/edit_instance_icon"
       android:showAsAction="always"
       android:title="@string/menu_edit">
     </item>
