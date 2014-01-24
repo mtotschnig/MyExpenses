@@ -32,6 +32,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -267,7 +268,8 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(ids[0],(Long) mExtra);
         return null;
       case TASK_NEW_PLAN:
-        return ContentUris.parseId(((Plan)mExtra).save());
+        Uri uri = ((Plan)mExtra).save();
+        return uri == null ? null : ContentUris.parseId(uri);
       case TASK_NEW_CALENDAR:
         return MyApplication.getInstance().createPlanner();
       case TASK_CANCEL_PLAN_INSTANCE:
