@@ -53,6 +53,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
@@ -214,66 +215,6 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     }
     return false;
   }
-  /*
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    if (!getUserVisibleHint())
-      return false;
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-    if (ExpandableListView.getPackedPositionType(info.packedPosition) ==
-        ExpandableListView.PACKED_POSITION_TYPE_GROUP)
-      return ((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id);
-    int group = ExpandableListView.getPackedPositionGroup(info.packedPosition),
-        child = ExpandableListView.getPackedPositionChild(info.packedPosition);
-    Cursor c = mAdapter.getChild(group,child);
-    long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
-    long templateId = mTemplatesCursor.getLong(columnIndexRowId);
-    Long transactionId = mInstance2TransactionMap.get(info.id);
-    Intent i;
-    switch(item.getItemId()) {
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      i = new Intent(getActivity(), ExpenseEdit.class);
-      i.putExtra("template_id", templateId);
-      i.putExtra("instance_id", info.id);
-      i.putExtra("instance_date", date);
-      startActivity(i);
-      return true;
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-            templateId,
-            new Long[]{info.id,date}),
-          "ASYNC_TASK")
-        .commit();
-      return true;
-    case R.id.EDIT_COMMAND:
-      i = new Intent(getActivity(), ExpenseEdit.class);
-      i.putExtra(KEY_ROWID, transactionId);
-      startActivity(i);
-      return true;
-    case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-      getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-            info.id,
-            new Long[]{templateId,transactionId}),
-          "ASYNC_TASK")
-        .commit();
-      return true;
-    case R.id.RESET_PLAN_INSTANCE_COMMAND:
-      getActivity().getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(
-          TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
-          info.id,
-          transactionId),
-        "ASYNC_TASK")
-      .commit();
-      mInstance2TransactionMap.remove(info.id);
-      return true;
-    }
-    return false;
-  }*/
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     switch(id) {
@@ -581,9 +522,30 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       Intent intent) {
     refresh();
   }
+  private void configureSingleMenuInternal(Menu menu, long id) {
+    Long transactionId = mInstance2TransactionMap.get(id);
+    //state open
+    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(transactionId == null);
+    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(transactionId == null);
+    //state open or applied
+    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(transactionId == null || transactionId != 0L);
+    //state cancelled or applied
+    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(transactionId != null);
+    //state applied
+    menu.findItem(R.id.EDIT_INSTANCE_COMMAND).setVisible(transactionId != null && transactionId != 0L);
+  }
   @Override
-  protected void configureMenu(Menu menu, int count) {
-    super.configureMenu(menu, count);
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
+    super.configureMenuLegacy(menu, menuInfo);
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+      configureSingleMenuInternal(menu,info.id);
+    }
+  }
+  @Override
+  protected void configureMenu11(Menu menu, int count) {
+    super.configureMenu11(menu, count);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD && mAdapter != null && count==1) {
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
       for (int i=0; i<checkedItemPositions.size(); i++) {
@@ -598,16 +560,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             int childPos = ExpandableListView.getPackedPositionChild(pos);
             id = mAdapter.getChildId(groupPos,childPos);
           }
-          Long transactionId = mInstance2TransactionMap.get(id);
-          //state open
-          menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(transactionId == null);
-          menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(transactionId == null);
-          //state open or applied
-          menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(transactionId == null || transactionId != 0L);
-          //state cancelled or applied
-          menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(transactionId != null);
-          //state applied
-          menu.findItem(R.id.EDIT_INSTANCE_COMMAND).setVisible(transactionId != null && transactionId != 0L);
+          configureSingleMenuInternal(menu,id);
           break;
         }
       }

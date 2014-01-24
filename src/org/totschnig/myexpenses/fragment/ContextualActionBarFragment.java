@@ -47,13 +47,25 @@ public class ContextualActionBarFragment extends Fragment {
     if (!getUserVisibleHint())
       return false;
     int itemId = item.getItemId();
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    ContextMenuInfo info = item.getMenuInfo();
     if (item.getGroupId()==R.id.MenuSingle) {
       return dispatchCommandSingle(itemId,info);
     } else {
+      int position;
+      long id;
+      if (info instanceof AdapterContextMenuInfo) {
+        position = ((AdapterContextMenuInfo) info).position;
+        id = ((AdapterContextMenuInfo) info).id;
+      } else {
+        ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
+        long packedPosition = elcmi.packedPosition;
+        ExpandableListView elv = (ExpandableListView) elcmi.targetView.getParent();
+        position = elv.getFlatListPosition(packedPosition);
+        id = elcmi.id;
+      }
       SparseBooleanArray sba = new SparseBooleanArray();
-      sba.put(info.position, true);
-      return dispatchCommandMultiple(itemId,sba,new Long[]{info.id});
+      sba.put(position, true);
+      return dispatchCommandMultiple(itemId,sba,new Long[]{id});
     }
   }
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
@@ -80,7 +92,7 @@ public class ContextualActionBarFragment extends Fragment {
     expandableListSelectionType = (menuInfo instanceof ExpandableListContextMenuInfo) ?
       ExpandableListView.getPackedPositionType(((ExpandableListContextMenuInfo) menuInfo).packedPosition) :
         ExpandableListView.PACKED_POSITION_TYPE_NULL;
-    configureMenu(menu,1);
+    configureMenuLegacy(menu,menuInfo);
   }
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void registerForContextualActionBar(final ListView lv) {
@@ -97,7 +109,7 @@ public class ContextualActionBarFragment extends Fragment {
           }
           int count = lv.getCheckedItemCount();
           mode.setTitle(String.valueOf(count));
-          configureMenu(mode.getMenu(), count);
+          configureMenu11(mode.getMenu(), count);
         }
 
         @Override
@@ -106,7 +118,7 @@ public class ContextualActionBarFragment extends Fragment {
           inflateHelper(menu);
           int count = lv.getCheckedItemCount();
           mode.setTitle(String.valueOf(count));
-          configureMenu(menu, count);
+          configureMenu11(menu, count);
           mActionMode = mode;
           return true;
         }
@@ -232,6 +244,12 @@ public class ContextualActionBarFragment extends Fragment {
         }
       });
     }
+  }
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
+    configureMenu(menu,1);
+  }
+  protected void configureMenu11(Menu menu, int count) {
+    configureMenu(menu,count);
   }
   protected void configureMenu(Menu menu, int count) {
     if (expandableListSelectionType != ExpandableListView.PACKED_POSITION_TYPE_NULL) {
