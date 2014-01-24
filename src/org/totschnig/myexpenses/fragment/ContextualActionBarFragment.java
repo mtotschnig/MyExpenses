@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 
@@ -32,7 +33,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class ContextualActionBarFragment extends Fragment {
   protected int menuResource;
   protected ActionMode mActionMode;
-  int expandableListSelectionType;
+  int expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
   
   @Override
   public void onAttach(Activity activity) {
@@ -112,7 +113,6 @@ public class ContextualActionBarFragment extends Fragment {
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-          // TODO Auto-generated method stub
           return false;
         }
 
@@ -189,6 +189,49 @@ public class ContextualActionBarFragment extends Fragment {
     } else {
       registerForContextMenu(lv);
     }
+    if (lv instanceof ExpandableListView) {
+      final ExpandableListView elv = (ExpandableListView) lv;
+      elv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        @Override
+        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+            if (mActionMode != null)  {
+              //after orientation change type is null and we have to verify it again
+              if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL) {
+                setExpandableListSelectionType(parent);
+              }
+              if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                int flatPosition = elv.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
+                parent.setItemChecked(
+                    flatPosition,
+                    !parent.isItemChecked(flatPosition));
+                return true;
+              }
+            }
+            return false;
+        }
+      });
+      elv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v,
+            int groupPosition, int childPosition, long id) {
+          if (mActionMode != null)  {
+            //after orientation change type is null and we have to verify it again
+            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL) {
+              setExpandableListSelectionType(parent);
+            }
+            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+              int flatPosition = elv.getFlatListPosition(
+                  ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
+              parent.setItemChecked(
+                  flatPosition,
+                  !parent.isItemChecked(flatPosition));
+            }
+            return true;
+        }
+        return false;
+        }
+      });
+    }
   }
   protected void configureMenu(Menu menu, int count) {
     if (expandableListSelectionType != ExpandableListView.PACKED_POSITION_TYPE_NULL) {
@@ -199,6 +242,20 @@ public class ContextualActionBarFragment extends Fragment {
       menu.setGroupVisible(R.id.MenuSingleChild, !inGroup && count==1);
     } else {
       menu.setGroupVisible(R.id.MenuSingle,count==1);
+    }
+  }
+  protected void setExpandableListSelectionType(ExpandableListView elv) {
+    SparseBooleanArray checkedItemPositions = elv.getCheckedItemPositions();
+    int checkedItemCount = checkedItemPositions.size();
+    if (checkedItemPositions != null && checkedItemCount>0) {
+      for (int i=0; i<checkedItemCount; i++) {
+        if (checkedItemPositions.valueAt(i)) {
+          int position = checkedItemPositions.keyAt(i);
+          long pos = elv.getExpandableListPosition(position);
+          expandableListSelectionType = ExpandableListView.getPackedPositionType(pos);
+          break;
+        }
+      }
     }
   }
 }

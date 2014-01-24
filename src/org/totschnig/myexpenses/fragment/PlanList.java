@@ -102,43 +102,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         );
     mListView.setAdapter(mAdapter);
     mListView.setEmptyView(v.findViewById(R.id.empty));
-    mListView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
     registerForContextualActionBar(mListView);
-
-    mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-      @Override
-      public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-          if (mActionMode != null)  {
-            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-              Log.d(MyApplication.TAG, "mActionMode is not null. Setting View: " + parent.toString() + " to be selected");
-              int flatPosition = mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
-              parent.setItemChecked(
-                  flatPosition,
-                  !parent.isItemChecked(flatPosition));
-              return true;
-            }
-          }
-          return false;
-      }
-    });
-    mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-      @Override
-      public boolean onChildClick(ExpandableListView parent, View v,
-          int groupPosition, int childPosition, long id) {
-        if (mActionMode != null)  {
-          if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            Log.d(MyApplication.TAG, "mActionMode is not null. Setting View: " + parent.toString() + " to be selected");
-            int flatPosition = mListView.getFlatListPosition(
-                ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
-            parent.setItemChecked(
-                flatPosition,
-                !parent.isItemChecked(flatPosition));
-          }
-          return true;
-      }
-      return false;
-      }
-    });
     return v;
   }
   @Override
@@ -620,7 +584,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   @Override
   protected void configureMenu(Menu menu, int count) {
     super.configureMenu(menu, count);
-    if (count==1) {
+    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD && mAdapter != null && count==1) {
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
       for (int i=0; i<checkedItemPositions.size(); i++) {
         if (checkedItemPositions.valueAt(i)) {
@@ -629,10 +593,10 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           long pos = mListView.getExpandableListPosition(position);
           int groupPos = ExpandableListView.getPackedPositionGroup(pos);
           if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            id = mListView.getExpandableListAdapter().getGroupId(groupPos);
+            id = mAdapter.getGroupId(groupPos);
           } else {
             int childPos = ExpandableListView.getPackedPositionChild(pos);
-            id = mListView.getExpandableListAdapter().getChildId(groupPos,childPos);
+            id = mAdapter.getChildId(groupPos,childPos);
           }
           Long transactionId = mInstance2TransactionMap.get(id);
           //state open
