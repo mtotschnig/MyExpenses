@@ -148,23 +148,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       return true;
     case R.id.EDIT_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("template_id",((AdapterContextMenuInfo)tag).id);
+      i.putExtra("template_id",((Long)tag));
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
-      return true;
-    case R.id.DELETE_COMMAND:
-      Long[] itemIds = (Long []) tag;
-      MessageDialogFragment.newInstance(
-          R.string.dialog_title_warning_delete_template,
-          getResources().getQuantityString(R.plurals.warning_delete_template,itemIds.length,itemIds.length),
-          new MessageDialogFragment.Button(
-              R.string.menu_delete,
-              R.id.DELETE_COMMAND_DO,
-              itemIds),
-          null,
-          MessageDialogFragment.Button.noButton())
-        .show(getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     }
     return super.dispatchCommand(command, tag);

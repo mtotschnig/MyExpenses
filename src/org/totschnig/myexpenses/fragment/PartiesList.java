@@ -30,6 +30,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +45,14 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   SimpleCursorAdapter mAdapter;
   private Cursor mPartiesCursor;
   @Override
-  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo info) {
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     switch(command) {
     case R.id.EDIT_COMMAND:
       Bundle args = new Bundle();
-      args.putLong("partyId", info.id);
+      args.putLong("partyId", menuInfo.id);
       args.putString("dialogTitle", getString(R.string.menu_edit_party));
-      args.putString("value",((TextView) info.targetView.findViewById(android.R.id.text1)).getText().toString());
+      args.putString("value",((TextView) menuInfo.targetView.findViewById(android.R.id.text1)).getText().toString());
       EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "EDIT_PARTY");
       return true;
     }

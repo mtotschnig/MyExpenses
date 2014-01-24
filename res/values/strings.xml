@@ -97,9 +97,10 @@
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
+  <string name="dialog_title_warning_delete_plan">Delete plan?</string>
   <string name="dialog_title_warning_delete_template">Delete template?</string>
   <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
-  <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
@@ -379,6 +380,10 @@
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions. &continue;</string>
   <string name="warning_delete_main_category">This category will be deleted with all its subcategories. &continue;</string>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">The selected plan will be deleted.</item>
+    <item quantity="other">%1$d selected plans will be deleted.</item>
+  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">The selected template will be deleted.</item>
     <item quantity="other">%1$d selected templates will be deleted.</item>

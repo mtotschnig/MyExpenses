@@ -16,18 +16,20 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
-  <item
-    android:id="@id/DELETE_COMMAND"
-    android:icon="@drawable/delete_icon"
-    app:showAsAction="always"
-    android:title="@string/menu_delete">
-  </item>
-  <group android:id="@+id/MenuGroupSingleOnly">
-  <item
-    android:id="@id/EDIT_COMMAND"
-    android:icon="@drawable/edit_icon"
-    app:showAsAction="always"
-    android:title="@string/menu_edit">
-  </item>
+  <group android:id="@+id/MenuBulk">
+	  <item
+	    android:id="@id/DELETE_COMMAND"
+	    android:icon="@drawable/delete_icon"
+	    app:showAsAction="always"
+	    android:title="@string/menu_delete">
+	  </item>
+  </group>
+  <group android:id="@+id/MenuSingle">
+	  <item
+	    android:id="@id/EDIT_COMMAND"
+	    android:icon="@drawable/edit_icon"
+	    app:showAsAction="always"
+	    android:title="@string/menu_edit">
+	  </item>
   </group>
 </menu>

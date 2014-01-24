@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -46,18 +47,16 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
@@ -141,35 +140,116 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     });
     return v;
   }
-  /*
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-
-    // Menu entries relevant only for the group
-    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      super.onCreateContextMenu(menu, v, menuInfo);
-    } else {
-      Long transactionId = mInstance2TransactionMap.get(info.id);
-      if (transactionId == null) {
-        //state open
-        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
-        menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
-        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
-      }
-      else if (transactionId == 0L) {
-        //state cancelled
-        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
-      }
-      else {
-        //state applied
-        menu.add(0,R.id.EDIT_COMMAND,0,R.string.menu_edit);
-        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
-        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
-      }
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    ExpandableListContextMenuInfo menuInfo = (ExpandableListContextMenuInfo) info;
+    if (ExpandableListView.getPackedPositionType(menuInfo.packedPosition) ==
+        ExpandableListView.PACKED_POSITION_TYPE_GROUP)
+      return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
+    Intent i;
+    Long transactionId = mInstance2TransactionMap.get(menuInfo.id);
+    switch(command) {
+    case R.id.EDIT_COMMAND:
+      i = new Intent(getActivity(), ExpenseEdit.class);
+      i.putExtra(KEY_ROWID, transactionId);
+      startActivity(i);
+      return true;
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      int group = ExpandableListView.getPackedPositionGroup(menuInfo.packedPosition),
+        child = ExpandableListView.getPackedPositionChild(menuInfo.packedPosition);
+      Cursor c = mAdapter.getChild(group,child);
+      long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
+      i = new Intent(getActivity(), ExpenseEdit.class);
+      i.putExtra("template_id", mAdapter.getGroupId(group));
+      i.putExtra("instance_id", menuInfo.id);
+      i.putExtra("instance_date", date);
+      startActivityForResult(i,0);
+      return true;
     }
-  }*/
+    return super.dispatchCommandSingle(command, info);
+  }
+  @Override
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    int checkedItemCount = positions.size();
+    Long[][] extra2d;
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_plan,
+          getResources().getQuantityString(R.plurals.warning_delete_plan,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
+      return true;
+    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+      extra2d = new Long[checkedItemCount][2];
+      Long[]templateIds = new Long[checkedItemCount];
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
+          Cursor c = mAdapter.getChild(group,child);
+          long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
+          //pass event instance id and date as extra
+          extra2d[i] = new Long[]{itemIds[i],date};
+          templateIds[i] = mAdapter.getGroupId(group);
+        }
+      }
+      getActivity().getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(
+          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+          templateIds,
+          extra2d),
+        "ASYNC_TASK")
+      .commit();
+    return true;
+    case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
+      extra2d = new Long[checkedItemCount][2];
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int group = ExpandableListView.getPackedPositionGroup(pos);
+          //pass templateId and transactionId in extra
+          extra2d[i] = new Long[]{mAdapter.getGroupId(group),mInstance2TransactionMap.get(itemIds[i])};
+        }
+      }
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
+            itemIds,
+            extra2d),
+          "ASYNC_TASK")
+        .commit();
+      return true;
+    case R.id.RESET_PLAN_INSTANCE_COMMAND:
+      Long[] extra = new Long[checkedItemCount];
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          //pass transactionId in extra
+          extra[i] = mInstance2TransactionMap.get(itemIds[i]);
+          mInstance2TransactionMap.remove(itemIds[i]);
+        }
+      }
+      getActivity().getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(
+          TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
+          itemIds,
+          extra),
+        "ASYNC_TASK")
+      .commit();
+      return true;
+    }
+    return false;
+  }
+  /*
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     if (!getUserVisibleHint())
@@ -228,7 +308,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       return true;
     }
     return false;
-  }
+  }*/
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     switch(id) {
@@ -530,5 +610,10 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   }
   public void listFocus() {
     mListView.requestFocus();
+  }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+    refresh();
   }
 }

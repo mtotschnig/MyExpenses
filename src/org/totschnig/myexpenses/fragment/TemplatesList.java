@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -37,6 +38,7 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +90,16 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       SparseBooleanArray positions,Long[]itemIds) {
     switch(command) {
     case R.id.DELETE_COMMAND:
-      ((ManageTemplates) getActivity()).dispatchCommand(command, itemIds);
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_template,
+          getResources().getQuantityString(R.plurals.warning_delete_template,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
       getActivity().getSupportFragmentManager().beginTransaction()
@@ -99,14 +110,17 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
   @Override
-  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo info) {
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     switch(command) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-      intent.putExtra("template_id", info.id);
+      intent.putExtra("template_id", menuInfo.id);
       intent.putExtra("instance_id", -1L);
       startActivity(intent);
       return true;
+    case R.id.EDIT_COMMAND:
+      return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
     }
     return super.dispatchCommandSingle(command, info);
   }

@@ -177,7 +177,7 @@ public class TaskExecutionFragment extends Fragment {
     protected Object doInBackground(Long... ids) {
       Transaction t;
       Long transactionId;
-      Long[] extraInfo;
+      Long[][] extraInfo2d;
       ContentResolver cr;
       switch (mTaskId) {
       case TASK_CLONE:
@@ -200,12 +200,12 @@ public class TaskExecutionFragment extends Fragment {
         }
       case TASK_NEW_FROM_TEMPLATE:
         int successCount=0;
-        for (long id: ids) {
-          t = Transaction.getInstanceFromTemplate(id);
+        for (int i=0; i<ids.length; i++) {
+          t = Transaction.getInstanceFromTemplate(ids[i]);
           if (mExtra != null) {
-            extraInfo = (Long[]) mExtra;
-            t.setDate(new Date(extraInfo[1]));
-            t.originPlanInstanceId = extraInfo[0];
+            extraInfo2d = (Long[][]) mExtra;
+            t.setDate(new Date(extraInfo2d[i][1]));
+            t.originPlanInstanceId = extraInfo2d[i][0];
           }
           if (t.save()!=null)
             successCount++;
@@ -272,31 +272,35 @@ public class TaskExecutionFragment extends Fragment {
         return MyApplication.getInstance().createPlanner();
       case TASK_CANCEL_PLAN_INSTANCE:
         cr = MyApplication.getInstance().getContentResolver();
-        extraInfo = (Long[]) mExtra;
-        transactionId = extraInfo[1];
-        Long templateId = extraInfo[0];
-        if (transactionId != null && transactionId >0L) {
-          Transaction.delete(transactionId);
-        } else {
-          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-            KEY_INSTANCEID + " = ?",
-            new String[]{String.valueOf(ids[0])});
+        for (int i=0; i<ids.length; i++) {
+          extraInfo2d = (Long[][]) mExtra;
+          transactionId = extraInfo2d[i][1];
+          Long templateId = extraInfo2d[i][0];
+          if (transactionId != null && transactionId >0L) {
+            Transaction.delete(transactionId);
+          } else {
+            cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+              KEY_INSTANCEID + " = ?",
+              new String[]{String.valueOf(ids[i])});
+          }
+          ContentValues values = new ContentValues();
+          values.putNull(KEY_TRANSACTIONID);
+          values.put(KEY_TEMPLATEID, templateId);
+          values.put(KEY_INSTANCEID, ids[i]);
+          cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
         }
-        ContentValues values = new ContentValues();
-        values.putNull(KEY_TRANSACTIONID);
-        values.put(KEY_TEMPLATEID, templateId);
-        values.put(KEY_INSTANCEID, ids[0]);
-        cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
         return null;
       case TASK_RESET_PLAN_INSTANCE:
         cr = MyApplication.getInstance().getContentResolver();
-        transactionId = (Long) mExtra;
-        if (transactionId != null && transactionId >0L) {
-          Transaction.delete(transactionId);
+        for (int i=0; i<ids.length; i++) {
+          transactionId = ((Long []) mExtra)[i];
+          if (transactionId != null && transactionId >0L) {
+            Transaction.delete(transactionId);
+          }
+          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+              KEY_INSTANCEID + " = ?",
+              new String[]{String.valueOf(ids[i])});
         }
-        cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-            KEY_INSTANCEID + " = ?",
-            new String[]{String.valueOf(ids[0])});
         return null;
       }
       return null;
