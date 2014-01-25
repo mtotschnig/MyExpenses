@@ -49,7 +49,7 @@ public class ContextualActionBarFragment extends Fragment {
       return false;
     int itemId = item.getItemId();
     ContextMenuInfo info = item.getMenuInfo();
-    if (item.getGroupId()==R.id.MenuSingle) {
+    if (item.getGroupId()==R.id.MenuSingle || item.getGroupId()==R.id.MenuSingleChild) {
       return dispatchCommandSingle(itemId,info);
     } else {
       int position;
