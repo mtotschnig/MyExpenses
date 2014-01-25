@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
@@ -41,6 +42,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -137,6 +139,72 @@ public class CategoryList extends BudgetListFragment implements
   }
 
   @Override
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
+      ArrayList<Long> idList = new ArrayList<Long>();
+      for (int i=0; i<positions.size(); i++) {
+        Cursor c;
+        if (positions.valueAt(i)) {
+          boolean deletable = true;
+          int position = positions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int type = ExpandableListView.getPackedPositionType(pos);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
+          if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            c = (Cursor) mAdapter.getChild(group,child);
+            c.moveToPosition(child);
+          } else  {
+            c = mGroupCursor;
+            c.moveToPosition(group);
+          }
+          Bundle extras = ctx.getIntent().getExtras();
+          if ((extras != null && extras.getLong(KEY_ROWID) == itemIds[i]) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0) {
+            mappedTransactionsCount++;
+            deletable = false;
+          } else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0) {
+            mappedTemplatesCount++;
+            deletable = false;
+          }
+          if (deletable) {
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex("child_count")) > 0) {
+              hasChildrenCount++;
+            }
+            idList.add(itemIds[i]);
+          }
+        }
+      }
+      if (idList.size()>0) {
+        Long[] objectIds = idList.toArray(new Long[idList.size()]);
+        if (hasChildrenCount>0) {
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_warning_delete_main_category,
+              getResources().getQuantityString(R.plurals.warning_delete_main_category,hasChildrenCount,hasChildrenCount),
+              new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
+              null,
+              MessageDialogFragment.Button.noButton())
+            .show(ctx.getSupportFragmentManager(),"DELETE_CATEGORY");
+        } else {
+          ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
+        }
+      }
+      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
+        String message = "";
+        if (mappedTransactionsCount > 0)
+          message += getString(R.string.not_deletable_mapped_transactions,mappedTransactionsCount);
+        if (mappedTemplatesCount > 0)
+          message += getString(R.string.not_deletable_mapped_templates,mappedTemplatesCount);
+        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
+      }
+      return true;
+    }
+    return false;
+  }
+  @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ManageCategories ctx = (ManageCategories) getActivity();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
@@ -167,54 +235,6 @@ public class CategoryList extends BudgetListFragment implements
     }
     return super.dispatchCommandSingle(command, info);
   }
- /* @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    
-    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-    long cat_id = info.id;
-
-    
-
-    switch(item.getItemId()) {
-      case CREATE_SUB_CAT:
-        ctx.createCat(cat_id);
-        return true;
-      case DELETE_CAT:
-        Cursor c;
-        int message = 0;
-        int group = ExpandableListView.getPackedPositionGroup(info.packedPosition),
-            child = ExpandableListView.getPackedPositionChild(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-          c = (Cursor) mAdapter.getChild(group,child);
-        } else  {
-          c = mGroupCursor;
-          if (c.getInt(c.getColumnIndex("child_count")) > 0)
-            message = R.string.not_deletable_subcats_exists;
-        }
-        Bundle extras = ctx.getIntent().getExtras();
-        if ((extras != null && extras.getLong(KEY_ROWID) == info.id) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
-          message = R.string.not_deletable_mapped_transactions;
-        else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0)
-          message = R.string.not_deletable_mapped_templates;
-        if (message != 0 )
-          Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
-        else {
-          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex("child_count")) > 0) {
-            MessageDialogFragment.newInstance(
-                R.string.dialog_title_warning_delete_main_category,
-                R.string.warning_delete_main_category,
-                new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
-                null,
-                MessageDialogFragment.Button.noButton())
-              .show(ctx.getSupportFragmentManager(),"DELETE_CATEGORY");
-          } else {
-            ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, info.id);
-          }
-        }
-        return true;
-    }
-    return false;
-    }*/
   /**
    * Mapping the categories table into the ExpandableList
    * @author Michael Totschnig

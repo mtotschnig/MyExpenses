@@ -117,7 +117,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         return true;
       case R.id.DELETE_COMMAND_DO:
         getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long)tag, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
         .commit();
       }
       return super.dispatchCommand(command, tag);

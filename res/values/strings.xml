@@ -349,7 +349,7 @@
   <string name="save_transaction_template_deleted">Template has been deleted</string>
   <string name="select">Select</string>
   <string name="select_category">Select category</string>
-  <string name="select_parent_category">Select this category</string>
+  <string name="menu_select_parent_category">Select this category</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
   <string name="split_parts_heading">Split parts</string>
@@ -379,7 +379,10 @@
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions. &continue;</string>
-  <string name="warning_delete_main_category">This category will be deleted with all its subcategories. &continue;</string>
+  <plurals name="warning_delete_main_category">
+  	<item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
+  	<item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
+  </plurals>
   <plurals name="warning_delete_plan">
     <item quantity="one">The selected plan will be deleted.</item>
     <item quantity="other">%1$d selected plans will be deleted.</item>

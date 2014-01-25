@@ -242,7 +242,9 @@ public class TaskExecutionFragment extends Fragment {
         }
         return null;
       case TASK_DELETE_CATEGORY:
-        Category.delete(ids[0]);
+        for (long id: ids) {
+          Category.delete(id);
+        }
         return null;
       case TASK_DELETE_TEMPLATES:
         for (long id: ids) {
