@@ -22,6 +22,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -31,7 +33,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *  provide helper functionality to create a CAB for a ListView
  *  below HoneyComb a context menu is used instead
  */
-public class ContextualActionBarFragment extends Fragment {
+public class ContextualActionBarFragment extends Fragment implements OnGroupClickListener, OnChildClickListener {
   protected int menuResource;
   protected ActionMode mActionMode;
   int expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
@@ -213,39 +215,37 @@ public class ContextualActionBarFragment extends Fragment {
     }
     if (lv instanceof ExpandableListView) {
       final ExpandableListView elv = (ExpandableListView) lv;
-      elv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-        @Override
-        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-            if (mActionMode != null)  {
-              if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                int flatPosition = elv.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
-                parent.setItemChecked(
-                    flatPosition,
-                    !parent.isItemChecked(flatPosition));
-                return true;
-              }
-            }
-            return false;
-        }
-      });
-      elv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-        @Override
-        public boolean onChildClick(ExpandableListView parent, View v,
-            int groupPosition, int childPosition, long id) {
-          if (mActionMode != null)  {
-            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-              int flatPosition = elv.getFlatListPosition(
-                  ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
-              parent.setItemChecked(
-                  flatPosition,
-                  !parent.isItemChecked(flatPosition));
-            }
-            return true;
-        }
-        return false;
-        }
-      });
+      elv.setOnGroupClickListener(this);
+      elv.setOnChildClickListener(this);
     }
+  }
+  @Override
+  public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+      if (mActionMode != null)  {
+        if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+          int flatPosition = parent.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
+          parent.setItemChecked(
+              flatPosition,
+              !parent.isItemChecked(flatPosition));
+          return true;
+        }
+      }
+      return false;
+  }
+  @Override
+  public boolean onChildClick(ExpandableListView parent, View v,
+      int groupPosition, int childPosition, long id) {
+    if (mActionMode != null)  {
+      if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+        int flatPosition = parent.getFlatListPosition(
+            ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
+        parent.setItemChecked(
+            flatPosition,
+            !parent.isItemChecked(flatPosition));
+      }
+      return true;
+  }
+  return false;
   }
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     configureMenu(menu,1);

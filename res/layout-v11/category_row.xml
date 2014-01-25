@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingRight="@dimen/general_padding"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/activatedBackgroundIndicator">
   <TextView
 	    android:id="@+id/label"
 	    android:layout_width="match_parent"
@@ -13,7 +14,7 @@
 	    android:layout_toLeftOf="@+id/amount"
 	    android:gravity="center_vertical" />
 	<TextView
-	    android:id="@+id/amount"
+	    android:id="@+id/amount" 
 	    android:layout_width="wrap_content"
 	    android:layout_alignParentRight="true"
 	    android:layout_height="?android:attr/listPreferredItemHeight"

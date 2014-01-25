@@ -68,14 +68,6 @@ public class CategoryList extends BudgetListFragment implements
    */
   private static final int CREATE_SUB_CAT = Menu.FIRST+2;
   /**
-   * return the main cat to the calling activity
-   */
-  private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
-  /**
-   * edit the category label
-   */
-  private static final int EDIT_CAT = Menu.FIRST+3;
-  /**
    * delete the category after checking if
    * there are mapped transactions or subcategories
    */
@@ -144,54 +136,40 @@ public class CategoryList extends BudgetListFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    //requires using activity (SelectCategory) to implement OnChildClickListener
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
-      mListView.setOnChildClickListener(this);
-      mListView.setOnGroupClickListener(this);
-    }
-    registerForContextMenu(mListView);
+    registerForContextualActionBar(mListView);
     return v;
   }
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 
-    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
-    if (ctx.helpVariant.equals(HelpVariant.distribution))
-      return;
-    // Menu entries relevant only for the group
-    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      if (ctx.helpVariant.equals(HelpVariant.select))
-        menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
-      menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
+  @Override
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
+    String label =   ((TextView) elcmi.targetView.findViewById(R.id.label)).getText().toString();
+    switch(command) {
+    case R.id.EDIT_COMMAND:
+      ctx.editCat(label,elcmi.id);
+      return true;
+    case R.id.SELECT_COMMAND:
+      Intent intent=new Intent();
+      intent.putExtra("cat_id", elcmi.id);
+      intent.putExtra("label", label);
+      ctx.setResult(ManageCategories.RESULT_OK,intent);
+      ctx.finish();
+      return true;
     }
-    menu.add(0,DELETE_CAT,0,R.string.menu_delete);
+    return super.dispatchCommandSingle(command, info);
   }
-
-  @Override
+ /* @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+    
     int type = ExpandableListView.getPackedPositionType(info.packedPosition);
     long cat_id = info.id;
 
-    String label =   ((TextView) info.targetView.findViewById(R.id.label)).getText().toString();
+    
 
     switch(item.getItemId()) {
-      case SELECT_MAIN_CAT:
-        Intent intent=new Intent();
-        intent.putExtra("cat_id", cat_id);
-        intent.putExtra("label", label);
-        ctx.setResult(ManageCategories.RESULT_OK,intent);
-        ctx.finish();
-        return true;
       case CREATE_SUB_CAT:
         ctx.createCat(cat_id);
-        return true;
-      case EDIT_CAT:
-        ctx.editCat(label,cat_id);
         return true;
       case DELETE_CAT:
         Cursor c;
@@ -202,8 +180,8 @@ public class CategoryList extends BudgetListFragment implements
           c = (Cursor) mAdapter.getChild(group,child);
         } else  {
           c = mGroupCursor;
-/*          if (c.getInt(c.getColumnIndex("child_count")) > 0)
-            message = R.string.not_deletable_subcats_exists;*/
+          if (c.getInt(c.getColumnIndex("child_count")) > 0)
+            message = R.string.not_deletable_subcats_exists;
         }
         Bundle extras = ctx.getIntent().getExtras();
         if ((extras != null && extras.getLong(KEY_ROWID) == info.id) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
@@ -228,7 +206,7 @@ public class CategoryList extends BudgetListFragment implements
         return true;
     }
     return false;
-    }
+    }*/
   /**
    * Mapping the categories table into the ExpandableList
    * @author Michael Totschnig
@@ -512,7 +490,12 @@ public class CategoryList extends BudgetListFragment implements
 */
   @Override
   public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+    if (super.onChildClick(parent, v, groupPosition,childPosition, id))
+      return true;
     ManageCategories ctx = (ManageCategories) getActivity();
+    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+      return false;
+    }
     Intent intent=new Intent();
     long sub_cat = id;
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
@@ -525,7 +508,12 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public boolean onGroupClick(ExpandableListView parent, View v,
       int groupPosition, long id) {
+    if (super.onGroupClick(parent, v, groupPosition, id))
+      return true;
     ManageCategories ctx = (ManageCategories) getActivity();
+    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+      return false;
+    }
     long cat_id = id;
     mGroupCursor.moveToPosition(groupPosition);
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
@@ -595,5 +583,14 @@ public class CategoryList extends BudgetListFragment implements
       outState.putSerializable("grouping", mGrouping);
       outState.putInt("groupingYear",mGroupingYear);
       outState.putInt("groupingSecond",mGroupingSecond);
+  }
+  @Override
+  protected void configureMenu(Menu menu, int count) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1);
+    menu.findItem(R.id.DELETE_COMMAND).setVisible(!ctx.helpVariant.equals(HelpVariant.distribution));
+    menu.findItem(R.id.SELECT_COMMAND).setVisible(inGroup && count==1 && ctx.helpVariant.equals(HelpVariant.select));
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !ctx.helpVariant.equals(HelpVariant.distribution));
   }
 }
