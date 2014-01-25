@@ -10,6 +10,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -102,19 +103,28 @@ public class ContextualActionBarFragment extends Fragment {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position,
                                               long id, boolean checked) {
+          int count = lv.getCheckedItemCount();
           if (lv instanceof ExpandableListView &&
-              expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL) {
+              count == 1) {
             expandableListSelectionType = ExpandableListView.getPackedPositionType(
                 ((ExpandableListView) lv).getExpandableListPosition(position));
           }
-          int count = lv.getCheckedItemCount();
           mode.setTitle(String.valueOf(count));
           configureMenu11(mode.getMenu(), count);
         }
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-          expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
+          //After orientation change,
+          //setting expandableListSelectionType, as tried in setExpandableListSelectionType
+          //does not work, because getExpandableListPosition does not return the correct value
+          //probably because the adapter has not yet been set up correctly
+          //thus we default to PACKED_POSITION_TYPE_GROUP
+          //this workaround works because orientation change collapses the groups
+          //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
+          expandableListSelectionType = (lv instanceof ExpandableListView) ?
+              ExpandableListView.PACKED_POSITION_TYPE_GROUP :
+              ExpandableListView.PACKED_POSITION_TYPE_NULL;
           inflateHelper(menu);
           int count = lv.getCheckedItemCount();
           mode.setTitle(String.valueOf(count));
@@ -207,10 +217,6 @@ public class ContextualActionBarFragment extends Fragment {
         @Override
         public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
             if (mActionMode != null)  {
-              //after orientation change type is null and we have to verify it again
-              if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL) {
-                setExpandableListSelectionType(parent);
-              }
               if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                 int flatPosition = elv.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
                 parent.setItemChecked(
@@ -227,10 +233,6 @@ public class ContextualActionBarFragment extends Fragment {
         public boolean onChildClick(ExpandableListView parent, View v,
             int groupPosition, int childPosition, long id) {
           if (mActionMode != null)  {
-            //after orientation change type is null and we have to verify it again
-            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL) {
-              setExpandableListSelectionType(parent);
-            }
             if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
               int flatPosition = elv.getFlatListPosition(
                   ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
@@ -262,18 +264,25 @@ public class ContextualActionBarFragment extends Fragment {
       menu.setGroupVisible(R.id.MenuSingle,count==1);
     }
   }
-  protected void setExpandableListSelectionType(ExpandableListView elv) {
+ /* protected void setExpandableListSelectionType(ExpandableListView elv) {
     SparseBooleanArray checkedItemPositions = elv.getCheckedItemPositions();
-    int checkedItemCount = checkedItemPositions.size();
-    if (checkedItemPositions != null && checkedItemCount>0) {
+    int checkedItemCount;
+    if (checkedItemPositions != null && (checkedItemCount = checkedItemPositions.size())>0) {
       for (int i=0; i<checkedItemCount; i++) {
         if (checkedItemPositions.valueAt(i)) {
           int position = checkedItemPositions.keyAt(i);
           long pos = elv.getExpandableListPosition(position);
           expandableListSelectionType = ExpandableListView.getPackedPositionType(pos);
+          //After orientation change getExpandableListPosition does not return the correct value
+          //probably because the adapter has not yet been set up correctly
+          //in that case we wall back to PACKED_POSITION_TYPE_GROUP
+          //this workaround works because orientation change collapses the groups
+          //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
+          if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL)
+            expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_GROUP;
           break;
         }
       }
     }
-  }
+  }*/
 }
