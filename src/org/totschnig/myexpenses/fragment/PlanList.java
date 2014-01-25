@@ -58,7 +58,6 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
@@ -82,6 +81,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   private ExpandableListView mListView;
   private int mExpandedPosition = -1;
   public boolean newPlanEnabled;
+  private enum TransactionState {
+    OPEN,APPLIED,CANCELLED
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -138,7 +140,6 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
     int checkedItemCount = positions.size();
-    Long[][] extra2d;
     switch(command) {
     case R.id.DELETE_COMMAND:
       MessageDialogFragment.newInstance(
@@ -153,9 +154,12 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      extra2d = new Long[checkedItemCount][2];
-      Long[]templateIds = new Long[checkedItemCount];
+      ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
+      ArrayList<Long> templateIdsAL = new ArrayList<Long>();
       for (int i=0; i<positions.size(); i++) {
+        //ignore instances that are not open
+        if (mInstance2TransactionMap.get(itemIds[i])!=null)
+          continue;
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
           long pos = mListView.getExpandableListPosition(position);
@@ -164,20 +168,20 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           Cursor c = mAdapter.getChild(group,child);
           long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
           //pass event instance id and date as extra
-          extra2d[i] = new Long[]{itemIds[i],date};
-          templateIds[i] = mAdapter.getGroupId(group);
+          extra2dAL.add(new Long[]{itemIds[i],date});
+          templateIdsAL.add(mAdapter.getGroupId(group));
         }
       }
       getActivity().getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(
           TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-          templateIds,
-          extra2d),
+          templateIdsAL.toArray(new Long[templateIdsAL.size()]),
+          extra2dAL.toArray(new Long[extra2dAL.size()][2])),
         "ASYNC_TASK")
       .commit();
     return true;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-      extra2d = new Long[checkedItemCount][2];
+      Long[][] extra2d = new Long[checkedItemCount][2];
       for (int i=0; i<positions.size(); i++) {
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
@@ -522,17 +526,27 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       Intent intent) {
     refresh();
   }
-  private void configureSingleMenuInternal(Menu menu, long id) {
-    Long transactionId = mInstance2TransactionMap.get(id);
+  private void configureMenuInternal(Menu menu, int count,boolean withOpen,boolean withApplied,boolean withCancelled) {
+    //Long transactionId = mInstance2TransactionMap.get(id);
     //state open
-    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(transactionId == null);
-    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(transactionId == null);
+    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(withOpen);
+    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count==1 && withOpen);
     //state open or applied
-    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(transactionId == null || transactionId != 0L);
+    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(withOpen || withApplied);
     //state cancelled or applied
-    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(transactionId != null);
+    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(withApplied || withCancelled);
     //state applied
-    menu.findItem(R.id.EDIT_INSTANCE_COMMAND).setVisible(transactionId != null && transactionId != 0L);
+    menu.findItem(R.id.EDIT_INSTANCE_COMMAND).setVisible(count==1 && withApplied);
+  }
+  private TransactionState getState(Long id) {
+    Long transactionId = mInstance2TransactionMap.get(id);
+    if (transactionId==null) {
+      return TransactionState.OPEN;
+    } else if (transactionId != 0L) {
+      return TransactionState.APPLIED;
+    } else {
+      return TransactionState.CANCELLED;
+    }
   }
   @Override
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
@@ -540,13 +554,27 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
     int type = ExpandableListView.getPackedPositionType(info.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-      configureSingleMenuInternal(menu,info.id);
+      boolean withOpen=false,withApplied=false,withCancelled=false;
+      switch(getState(info.id)) {
+      case APPLIED:
+        withApplied=true;
+        break;
+      case CANCELLED:
+        withCancelled=true;
+        break;
+      case OPEN:
+        withOpen=true;
+        break;
+      }
+      configureMenuInternal(menu,1,withOpen,withApplied,withCancelled);
     }
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
     super.configureMenu11(menu, count);
-    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD && mAdapter != null && count==1) {
+    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD && mAdapter != null) {
+      //find out the checked ids and check their states
+      boolean withOpen=false,withApplied=false,withCancelled=false;
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
       for (int i=0; i<checkedItemPositions.size(); i++) {
         if (checkedItemPositions.valueAt(i)) {
@@ -560,8 +588,18 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             int childPos = ExpandableListView.getPackedPositionChild(pos);
             id = mAdapter.getChildId(groupPos,childPos);
           }
-          configureSingleMenuInternal(menu,id);
-          break;
+          switch(getState(id)) {
+          case APPLIED:
+            withApplied=true;
+            break;
+          case CANCELLED:
+            withCancelled=true;
+            break;
+          case OPEN:
+            withOpen=true;
+            break;
+          }
+          configureMenuInternal(menu,count,withOpen,withApplied,withCancelled);
         }
       }
     }
