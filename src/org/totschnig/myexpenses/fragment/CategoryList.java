@@ -64,10 +64,6 @@ public class CategoryList extends BudgetListFragment implements
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;
   /**
-   * create a new sub category
-   */
-  private static final int CREATE_SUB_CAT = Menu.FIRST+2;
-  /**
    * delete the category after checking if
    * there are mapped transactions or subcategories
    */
@@ -144,7 +140,16 @@ public class CategoryList extends BudgetListFragment implements
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ManageCategories ctx = (ManageCategories) getActivity();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
-    String label =   ((TextView) elcmi.targetView.findViewById(R.id.label)).getText().toString();
+    int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
+    Cursor c;
+    int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
+        child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+      c = (Cursor) mAdapter.getChild(group,child);
+    } else  {
+      c = mGroupCursor;
+    }
+    String label = c.getString(c.getColumnIndex(KEY_LABEL));
     switch(command) {
     case R.id.EDIT_COMMAND:
       ctx.editCat(label,elcmi.id);
@@ -155,6 +160,9 @@ public class CategoryList extends BudgetListFragment implements
       intent.putExtra("label", label);
       ctx.setResult(ManageCategories.RESULT_OK,intent);
       ctx.finish();
+      return true;
+    case R.id.CREATE_COMMAND:
+      ctx.createCat(elcmi.id);
       return true;
     }
     return super.dispatchCommandSingle(command, info);

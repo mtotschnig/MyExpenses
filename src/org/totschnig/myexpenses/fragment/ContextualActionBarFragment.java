@@ -151,7 +151,6 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
               for (int i=0; i<checkedItemCount; i++) {
                 if (checkedItemPositions.valueAt(i)) {
                   int position = checkedItemPositions.keyAt(i);
-                  View v = lv.getChildAt(position);
                   ContextMenu.ContextMenuInfo info;
                   long id;
                   if (lv instanceof ExpandableListView) {
@@ -163,8 +162,11 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                       int childPos = ExpandableListView.getPackedPositionChild(pos);
                       id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
                     }
-                    info = new ExpandableListContextMenuInfo(v, pos, id);
+                    //getChildAt returned null in some cases
+                    //thus we decide to not rely on it 
+                    info = new ExpandableListContextMenuInfo(null, pos, id);
                   } else {
+                    View v = lv.getChildAt(position);
                     id = lv.getItemIdAtPosition(position);
                     info = new AdapterContextMenuInfo(v,position,id);
                   }
