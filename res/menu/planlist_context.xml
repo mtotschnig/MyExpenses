@@ -41,13 +41,15 @@
     <item
       android:id="@id/CANCEL_PLAN_INSTANCE_COMMAND"
       android:icon="@drawable/cancel_plan_instance_icon"
-      android:showAsAction="never"
+      android:showAsAction="ifRoom"
+      android:orderInCategory="1"
       android:title="@string/menu_cancel_plan_instance">
     </item>
     <item
       android:id="@id/RESET_PLAN_INSTANCE_COMMAND"
       android:icon="@drawable/reset_plan_instance_icon"
-      android:showAsAction="never"
+      android:showAsAction="ifRoom"
+      android:orderInCategory="2"
       android:title="@string/menu_reset_plan_instance">
     </item>
   </group>
@@ -56,6 +58,7 @@
       android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
       android:icon="@drawable/create_instance_edit_icon"
       android:showAsAction="always"
+      android:orderInCategory="0"
       android:title="@string/menu_apply_template_and_edit">
     </item>
     <item
