@@ -170,7 +170,7 @@
   <string name="menu_create_split_part_category">New category split part</string>
   <string name="menu_create_split_part_transfer">New transfer split part</string>
   <string name="menu_create_sub_cat">New sub category</string>
-  <string name="menu_create_template">New template</string>
+  <string name="menu_create_template_from_transaction">New template</string>
   <string name="menu_create_template_for_transaction">New transaction template</string>
   <string name="menu_create_template_for_transfer">New transfer template</string>
   <string name="menu_create_transaction">New Transaction</string>
@@ -402,5 +402,5 @@
   <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
   <string name="warning_restore">Database and preferences will be restored from the backup. The current data will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
-  <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited or deleted in the context of the split.</string>
+  <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
 </resources>

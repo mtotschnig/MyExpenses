@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -40,7 +39,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
@@ -62,22 +60,13 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ActionMode;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AbsListView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -183,21 +172,19 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
 
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    super.onCreateContextMenu(menu, v, menuInfo);
-    mTransactionsCursor.moveToPosition(info.position);
-    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-    //templates for splits is not yet implemented
-    if (! SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
-      menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
-    menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-  }
+//  @Override
+//  public void onCreateContextMenu(ContextMenu menu, View v,
+//      ContextMenuInfo menuInfo) {
+//    MenuInflater inflater = getActivity().getMenuInflater();
+//    inflater.inflate(R.menu.transactionlist_context, menu);
+//    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+//    mTransactionsCursor.moveToPosition(info.position);
+//    //templates for splits is not yet implemented
+//    if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
+//      menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
+//    super.onCreateContextMenu(menu, v, menuInfo);
+//  }
 
-
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
@@ -216,56 +203,6 @@ public class TransactionList extends BudgetListFragment implements
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
-    mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-    mListView.getWrappedList().setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-      private SparseBooleanArray selectedItemIds;
-
-      @Override
-      public void onItemCheckedStateChanged(ActionMode mode, int position,
-                                            long id, boolean checked) {
-        if (checked) {
-          selectedItemIds.put(position, true);
-        } else {
-          selectedItemIds.delete(position);
-        }
-        mode.setTitle(String.valueOf(selectedItemIds.size()));
-      }
-
-      @Override
-      public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        // Respond to clicks on the actions in the CAB
-        switch (item.getItemId()) {
-          case R.id.DELETE_COMMAND:
-            Toast.makeText(getActivity(),"action item clicked", Toast.LENGTH_LONG).show();
-              mode.finish(); // Action picked, so close the CAB
-              return true;
-          default:
-            return false;
-        }
-      }
-
-      @Override
-      public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        // Inflate the menu for the CAB
-        selectedItemIds = new SparseBooleanArray();
-        MenuInflater inflater = mode.getMenuInflater();
-        inflater.inflate(R.menu.expense_context, menu);
-        return true;
-      }
-
-      @Override
-      public void onDestroyActionMode(ActionMode mode) {
-        // Here you can make any necessary updates to the activity when
-        // the CAB is removed. By default, selected items are deselected/unchecked.
-      }
-
-      @Override
-      public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        // Here you can perform updates to the CAB due to
-        // an invalidate() request
-        return false;
-      }
-    });
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
@@ -283,11 +220,29 @@ public class TransactionList extends BudgetListFragment implements
          f.show(fm, "TRANSACTION_DETAIL");
        }
     });
-    registerForContextMenu(mListView);
+    registerForContextualActionBar(mListView.getWrappedList());
     return v;
   }
-
   @Override
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_transaction,
+          getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getActivity().getSupportFragmentManager(),"DELETE_TRANSACTION");
+      return true;
+    }
+    return super.dispatchCommandMultiple(command, positions, itemIds);
+  }
+/*  @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     //http://stackoverflow.com/questions/9753213/wrong-fragment-in-viewpager-receives-oncontextitemselected-call
     if (!getUserVisibleHint())
@@ -297,17 +252,6 @@ public class TransactionList extends BudgetListFragment implements
     Bundle args;
     FragmentManager fm = ctx.getSupportFragmentManager();
     switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      if (checkSplitPartTransfer(info.position)) {
-        MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_transaction,
-            R.string.warning_delete_transaction,
-            new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
-            null,
-            MessageDialogFragment.Button.noButton())
-          .show(ctx.getSupportFragmentManager(),"DELETE_TRANSACTION");
-      }
-      return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "ASYNC_TASK")
@@ -322,7 +266,7 @@ public class TransactionList extends BudgetListFragment implements
     }
     return super.onContextItemSelected(item);
   }
-
+*/
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
@@ -461,15 +405,6 @@ public class TransactionList extends BudgetListFragment implements
         mOpeningBalance = mAccount.openingBalance.getAmountMinor();
       }
     }
-  }
-  private boolean checkSplitPartTransfer(int position) {
-    mTransactionsCursor.moveToPosition(position);
-    Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor,columnIndexTransferPeer);
-    if (transferPeer != null && DbUtils.hasParent(transferPeer)) {
-      Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
-      return false;
-    }
-    return true;
   }
   public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
     LayoutInflater inflater;

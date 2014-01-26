@@ -363,5 +363,5 @@
   <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
   <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat. S\'esborraran les dades actuals. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
-  <string name="warning_splitpartcategory_context">Les transferències que formen part d\'una operació repartida només es poden editar o suprimir en el context del seu repartiment</string>
+  <string name="warning_splitpartcategory_context">Les transferències que formen part d\'una operació repartida només es poden editar en el context del seu repartiment</string>
 </resources>

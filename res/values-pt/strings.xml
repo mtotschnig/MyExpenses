@@ -363,5 +363,5 @@
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_restore">Banco de dados e preferências serão restauradas do backup. Os dados atuais serão excluídos. Você quer continuar?</string>
   <string name="warning_select_account">Por favor, selecione uma conta!</string>
-  <string name="warning_splitpartcategory_context">Transferências que fazem parte de um transação de divisão apenas podem ser editadas ou excluídas no contexto da divisão.</string>
+  <string name="warning_splitpartcategory_context">Transferências que fazem parte de um transação de divisão apenas podem ser editadas no contexto da divisão.</string>
 </resources>

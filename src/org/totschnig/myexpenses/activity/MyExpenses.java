@@ -497,8 +497,11 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.DELETE_COMMAND_DO:
       getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,(Long)tag, null), "ASYNC_TASK")
-      .commit();
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+            (Long[])tag, null),
+          "ASYNC_TASK")
+        .commit();
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached

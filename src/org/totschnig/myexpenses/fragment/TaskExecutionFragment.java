@@ -226,7 +226,9 @@ public class TaskExecutionFragment extends Fragment {
         }
       return account;
       case TASK_DELETE_TRANSACTION:
-        Transaction.delete(ids[0]);
+        for (long id: ids) {
+          Transaction.delete(id);
+        }
         return null;
       case TASK_DELETE_ACCOUNT:
         Account.delete(ids[0]);

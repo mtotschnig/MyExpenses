@@ -363,5 +363,5 @@
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
-  <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser editadas o eliminadas en el contexto del asiento dividido.</string>
+  <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
 </resources>

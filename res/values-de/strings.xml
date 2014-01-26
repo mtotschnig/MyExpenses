@@ -363,5 +363,5 @@
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten%1$s von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
-  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert oder gelöscht werden.</string>
+  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
 </resources>
