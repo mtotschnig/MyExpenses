@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.provider;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 
@@ -525,6 +526,27 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTION_ID:
       //maybe TODO ?: where and whereArgs are ignored
       segment = uri.getPathSegments().get(1);
+      //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
+      //because the split would be left in an invalid state, hence we transform the peer to a normal split part
+      //first we find out the account label
+      Cursor c = db.query(
+          TABLE_ACCOUNTS,
+          new String []{KEY_LABEL},
+          KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
+          new String[] {segment},
+          null, null, null);
+      c.moveToFirst();
+      String accountLabel = c.getString(0);
+      c.close();
+      ContentValues args = new ContentValues();
+      args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
+      args.putNull(KEY_TRANSFER_ACCOUNT);
+      args.putNull(KEY_TRANSFER_PEER);
+      db.update(TABLE_TRANSACTIONS,
+          args,
+          KEY_TRANSFER_PEER + " = ?",
+          new String[] {segment});
+      //we delete the transaction, its children, its transfer peers, and transfer peers of its children
       count = db.delete(TABLE_TRANSACTIONS,
           KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
               + KEY_ROWID + " IN "
@@ -678,12 +700,12 @@ public class TransactionProvider extends ContentProvider {
       String label = values.getAsString(KEY_LABEL);
       String selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
       String[] selectionArgs = new String[]{label,segment};
-      Cursor mCursor = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
-      if (mCursor.getCount() != 0) {
-        mCursor.close();
+      Cursor c = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
+      if (c.getCount() != 0) {
+        c.close();
         throw new SQLiteConstraintException();
       }
-      mCursor.close();
+      c.close();
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
       } else {
