@@ -93,9 +93,12 @@ public class Transaction extends Model {
         WEEK_END +" AS week_end"
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength+1];
+    PROJECTION_EXTENDED = new String[baseLength+2];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
+    //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
+    //thus can not be used in PROJECTION_BASE
+    PROJECTION_EXTENDED[baseLength+1] = TRANSFER_PEER_PARENT +" AS transfer_peer_parent";
   }
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   /**

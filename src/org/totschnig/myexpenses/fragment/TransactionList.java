@@ -23,7 +23,10 @@ import java.text.SimpleDateFormat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -41,6 +44,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClic
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -60,6 +64,7 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +72,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -242,6 +248,31 @@ public class TransactionList extends BudgetListFragment implements
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
+  @Override
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) info;
+    MyExpenses ctx = (MyExpenses) getActivity();
+    switch(command) {
+    case R.id.EDIT_COMMAND:
+      mTransactionsCursor.moveToPosition(acmi.position);
+      if (DbUtils.getLongOrNull(mTransactionsCursor, "transfer_peer_parent") != null) {
+        Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
+      } else {
+        Intent i = new Intent(ctx, ExpenseEdit.class);
+        i.putExtra(KEY_ROWID, acmi.id);
+        i.putExtra("transferEnabled",ctx.transferEnabled());
+        ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+      }
+      return true;
+    case R.id.CREATE_TEMPLATE_COMMAND:
+      Bundle args = new Bundle();
+      args.putLong("transactionId", acmi.id);
+      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
+      EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
+      return true;
+    }
+    return super.dispatchCommandSingle(command, info);
+  }
 /*  @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     //http://stackoverflow.com/questions/9753213/wrong-fragment-in-viewpager-receives-oncontextitemselected-call
@@ -256,12 +287,6 @@ public class TransactionList extends BudgetListFragment implements
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "ASYNC_TASK")
         .commit();
-      return true;
-    case R.id.CREATE_TEMPLATE_COMMAND:
-      args = new Bundle();
-      args.putLong("transactionId", info.id);
-      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
-      EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }
     return super.onContextItemSelected(item);
@@ -282,9 +307,7 @@ public class TransactionList extends BudgetListFragment implements
     }
     switch(id) {
     case TRANSACTION_CURSOR:
-      Uri uri = (mAccount.id < 0) ?
-          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build() :
-          TransactionProvider.TRANSACTIONS_URI;
+      Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
           uri, null, selection + " AND parent_id is null",
           selectionArgs, null);
