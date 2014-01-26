@@ -712,9 +712,17 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
-    if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
+    switch(taskId) {
+    case TaskExecutionFragment.TASK_CLONE:
+      Integer successCount = (Integer) o;
+      String msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
+        getResources().getQuantityString(R.plurals.clone_transaction_success, successCount, successCount);
+      Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
+      break;
+    case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
       getSupportActionBar().show();
       setup();
+      break;
     }
   }
   public void toggleCrStatus (View v) {

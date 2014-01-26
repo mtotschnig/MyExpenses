@@ -33,6 +33,11 @@
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="category">Category</string>
+  <string name="clone_transaction_error">Could not clone transaction.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Transaction successfully cloned</item>
+    <item quantity="other">%1$d transactions were successfully cloned</item>
+  </plurals>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
   <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with &lt;i>&app_name;&lt;/i> is limited to 5.</string>

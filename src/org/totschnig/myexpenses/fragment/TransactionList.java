@@ -180,19 +180,6 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
 
-//  @Override
-//  public void onCreateContextMenu(ContextMenu menu, View v,
-//      ContextMenuInfo menuInfo) {
-//    MenuInflater inflater = getActivity().getMenuInflater();
-//    inflater.inflate(R.menu.transactionlist_context, menu);
-//    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-//    mTransactionsCursor.moveToPosition(info.position);
-//    //templates for splits is not yet implemented
-//    if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
-//      menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
-//    super.onCreateContextMenu(menu, v, menuInfo);
-//  }
-
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
@@ -234,6 +221,7 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
+    FragmentManager fm = getActivity().getSupportFragmentManager();
     switch(command) {
     case R.id.DELETE_COMMAND:
       MessageDialogFragment.newInstance(
@@ -245,7 +233,12 @@ public class TransactionList extends BudgetListFragment implements
               itemIds),
           null,
           MessageDialogFragment.Button.noButton())
-        .show(getActivity().getSupportFragmentManager(),"DELETE_TRANSACTION");
+        .show(fm,"DELETE_TRANSACTION");
+      return true;
+    case R.id.CLONE_TRANSACTION_COMMAND:
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,itemIds, null), "ASYNC_TASK")
+        .commit();
       return true;
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);

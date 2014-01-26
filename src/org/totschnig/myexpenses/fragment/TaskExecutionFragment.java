@@ -180,10 +180,14 @@ public class TaskExecutionFragment extends Fragment {
       Long transactionId;
       Long[][] extraInfo2d;
       ContentResolver cr;
+      int successCount=0;
       switch (mTaskId) {
       case TASK_CLONE:
-        Transaction.getInstanceFromDb(ids[0]).saveAsNew();
-        return null;
+        for (long id: ids) {
+          if (Transaction.getInstanceFromDb(id).saveAsNew() != null)
+            successCount++;
+        }
+        return successCount;
       case TASK_INSTANTIATE_TRANSACTION:
         t = Transaction.getInstanceFromDb(ids[0]);
         if (t instanceof SplitTransaction)
@@ -200,7 +204,6 @@ public class TaskExecutionFragment extends Fragment {
           return null;
         }
       case TASK_NEW_FROM_TEMPLATE:
-        int successCount=0;
         for (int i=0; i<ids.length; i++) {
           t = Transaction.getInstanceFromTemplate(ids[i]);
           if (mExtra != null) {
