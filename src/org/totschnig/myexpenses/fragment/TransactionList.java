@@ -66,8 +66,10 @@ import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -669,5 +671,28 @@ public class TransactionList extends BudgetListFragment implements
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
     }
+  }
+  @Override
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
+    super.configureMenuLegacy(menu, menuInfo);
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+    configureMenuInternal(menu,info.position);
+  }
+  @Override
+  protected void configureMenu11(Menu menu, int count) {
+    super.configureMenu11(menu, count);
+    SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+    for (int i=0; i<checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i)) {
+        configureMenuInternal(menu,checkedItemPositions.keyAt(i));
+        break;
+      }
+    }
+  }
+  private void configureMenuInternal(Menu menu, int position) {
+    mTransactionsCursor.moveToPosition(position);
+    //templates for splits is not yet implemented
+    if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
+      menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
   }
 }
