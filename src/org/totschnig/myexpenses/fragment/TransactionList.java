@@ -42,6 +42,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -73,6 +74,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -93,6 +95,10 @@ public class TransactionList extends BudgetListFragment implements
   private StickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
+  /**
+   * used to restore list selection when drawer is reopened
+   */
+  private SparseBooleanArray mCheckedListItems;
 
   private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay, columnIndexTransferPeer,
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
@@ -683,9 +689,28 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
   private void configureMenuInternal(Menu menu, int position) {
-    mTransactionsCursor.moveToPosition(position);
-    //templates for splits is not yet implemented
-    if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
-      menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
+    if (mTransactionsCursor != null) {
+      mTransactionsCursor.moveToPosition(position);
+      //templates for splits is not yet implemented
+      if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
+        menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
+    }
+  }
+  @SuppressLint("NewApi")
+  public void onDrawerOpened() {
+    if (mActionMode != null) {
+      mCheckedListItems = mListView.getWrappedList().getCheckedItemPositions().clone();
+      mActionMode.finish();
+    }
+  }
+  public void onDrawerClosed() {
+    if (mCheckedListItems!=null) {
+      for (int i=0; i<mCheckedListItems.size(); i++) {
+        if (mCheckedListItems.valueAt(i)) {
+          mListView.getWrappedList().setItemChecked(mCheckedListItems.keyAt(i), true);
+        }
+      }
+    }
+    mCheckedListItems = null;
   }
 }

@@ -197,13 +197,19 @@ public class MyExpenses extends LaunchActivity implements
     /** Called when a drawer has settled in a completely closed state. */
     public void onDrawerClosed(View view) {
         super.onDrawerClosed(view);
-        ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
+        TransactionList tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
+            mViewPagerAdapter.getFragmentName(mCurrentPosition));
+        tl.onDrawerClosed();
+        //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
     }
 
     /** Called when a drawer has settled in a completely open state. */
     public void onDrawerOpened(View drawerView) {
         super.onDrawerOpened(drawerView);
-        ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
+        TransactionList tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
+            mViewPagerAdapter.getFragmentName(mCurrentPosition));
+        tl.onDrawerOpened();
+        //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
     }
 };
 
