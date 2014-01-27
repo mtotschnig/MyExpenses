@@ -658,21 +658,18 @@ public class MyExpenses extends LaunchActivity implements
       mViewPagerAdapter.swapCursor(cursor);
       mAccountId = cacheAccountId;
       if (mAccountsCursor.moveToFirst()) {
-        mCurrentPosition = -1;
+        int position = 0;
         while (mAccountsCursor.isAfterLast() == false) {
           long accountId = mAccountsCursor.getLong(columnIndexRowId);
           if (accountId == mAccountId) {
-            mCurrentPosition = mAccountsCursor.getPosition();
+            position = mAccountsCursor.getPosition();
           }
           if (accountId > 0) {
             mAccountCount++;
           }
           mAccountsCursor.moveToNext();
         }
-        //the current account was deleted, we set it to the first
-        if (mCurrentPosition == -1) {
-          mCurrentPosition = 0;
-        }
+        mCurrentPosition = position;
         moveToPosition(mCurrentPosition);
         //should be triggered through onPageSelected
         //setCurrentAccount(mCurrentPosition);
