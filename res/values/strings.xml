@@ -175,7 +175,8 @@
   <string name="menu_create_split_part_category">New category split part</string>
   <string name="menu_create_split_part_transfer">New transfer split part</string>
   <string name="menu_create_sub_cat">New sub category</string>
-  <string name="menu_create_template_from_transaction">New template</string>
+  <string name="menu_create_template">New template</string>
+  <string name="menu_create_template_from_transaction">Save as template</string>
   <string name="menu_create_template_for_transaction">New transaction template</string>
   <string name="menu_create_template_for_transfer">New transfer template</string>
   <string name="menu_create_transaction">New Transaction</string>
