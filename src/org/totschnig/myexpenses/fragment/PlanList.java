@@ -279,9 +279,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
-    long expandedId = ((ManageTemplates) getActivity()).calledFromCalendarWithId;
     switch (id) {
     case TEMPLATES_CURSOR:
+      long expandedId = ((ManageTemplates) getActivity()).calledFromCalendarWithId;
       mTemplatesCursor = c;
       if (!indexesCalculated) {
         columnIndexRowId = c.getColumnIndex(KEY_ROWID);
