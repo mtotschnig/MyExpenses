@@ -62,10 +62,10 @@
       android:title="@string/menu_apply_template_and_edit">
     </item>
     <item
-      android:id="@id/EDIT_INSTANCE_COMMAND"
-      android:icon="@drawable/edit_instance_icon"
+      android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"
+      android:icon="@drawable/edit_plan_instance_icon"
       android:showAsAction="always"
-      android:title="@string/menu_edit">
+      android:title="@string/menu_edit_plan_instance">
     </item>
   </group>
 </menu>

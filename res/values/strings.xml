@@ -157,8 +157,6 @@
   <string name="menu_aggregates">Total</string>
   <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
   <string name="menu_apply_template">Apply</string>
-  <string name="menu_apply_template_and_edit">Apply and edit</string>
-  <string name="menu_apply_template_and_save">Apply and save</string>
   <string name="menu_back">Back</string>
   <string name="menu_backup">Backup</string>
   <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
@@ -168,6 +166,8 @@
   <!-- Currently used on button for creating a new plan -->
   <string name="menu_create">Create</string>
   <string name="menu_create_account">New account</string>
+  <string name="menu_create_instance_edit">Apply and edit</string>
+  <string name="menu_create_instance_save">Apply and save</string>
   <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_party">New party</string>
@@ -187,9 +187,10 @@
   <string name="menu_edit">Edit</string>
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_cat">Edit category</string>
-  <string name="menu_edit_method">Edit Payment Method</string>
+  <string name="menu_edit_method">Edit payment method</string>
   <string name="menu_edit_party">Edit party</string>
-  <string name="menu_edit_split">Edit Split</string>
+  <string name="menu_edit_plan_instance">Edit plan instance</string>
+  <string name="menu_edit_split">Edit split</string>
   <string name="menu_edit_split_part_category">Edit category split part</string>
   <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
   <string name="menu_edit_template">Edit Template</string>

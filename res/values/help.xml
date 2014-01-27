@@ -16,6 +16,9 @@
  -->
 <resources>
   <string name="help_menu_commands">Menu commands</string>
+  <string name="help_contextual_actions">Contextual actions</string>
+  <string name="cab_delete_help_text">Delete the selected items.</string>
+  <string name="cab_edit_help_text">Edit the selected item.</string>
 
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Transaction list</string>
@@ -30,19 +33,32 @@
   <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also click on a group header to inspect the distribution for a specific group.</string>
   <string name="menu_manage_plans_help_text">Opens the list of templates and plans for the current account, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
   <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
+  <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
+  <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time.</string>
 
   <!-- ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Clicking on a list entry, lets you change the association between the method and account types.</string>
   <string name="menu_create_method_help_text">Opens the form for creating a new payment method.</string>
 
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field. You can delete and edit parties through each entry\'s context menu.</string>
+  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.</string>
   <string name="menu_create_party_help_text">Opens the dialog for specifying the name of a new payer or payee.</string>
   
   <!-- ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">This screen lists all available templates. While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers). From a template\'s context menu, you can instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. The context menu also allows editing and deleting the template.&lt;h2>Plans&lt;/h2>Plans are listed on a separate tab. When you expand an entry, you will see the list of upcoming instances of a plan. Instead of waiting for the notification you receive when an instance occurs, here you can decide to apply these future occurrences in advance in order to make them visible in your transaction list by calling the respective commands from the context menu. The state of an instance is indicated by the following icons:&lt;br>&lt;img src=\"ic_stat_open\" /&gt; The instance has not yet been applied.&lt;br>&lt;img src=\"ic_stat_applied\" /&gt; The instance has been applied.&lt;br>&lt;img src=\"ic_stat_cancelled\" /&gt; The instance has been cancelled, i.e. you have flaged it to be skipped. No transaction will be created for this instance.&lt;br>&lt;br>From the context menu, you can also reset an instance, which will delete a transaction if the instance has already been applied, or remove the cancelation flag.</string>
-  <string name="menu_create_template_for_transaction_help_text">Create a new template for a transaction</string>
-  <string name="menu_create_template_for_transfer_help_text">Create a new template for a transfer</string>
+  <string name="help_ManageTemplates_info">TEMPORARY: REMOVE ME!</string>
+  <string name="help_ManageTemplates_templates_info">This tab lists all available templates. While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers).</string>
+  <string name="help_ManageTemplates_plans_info">A plan is a template for which you have created an event (one-time or recurring) in the planner calendar. On this tab all plans are listed. When you expand a plan entry in the list, you will see the list of upcoming instances of a plan. Instead of waiting for the notification you receive when an instance occurs, here you can decide to apply these future occurrences in advance in order to make them visible in your transaction list by calling the respective commands from the context menu. The state of an instance is indicated by the following icons:&lt;br>&lt;img src=\"ic_stat_open\" /&gt; The instance has not yet been applied.&lt;br>&lt;img src=\"ic_stat_applied\" /&gt; The instance has been applied.&lt;br>&lt;img src=\"ic_stat_cancelled\" /&gt; The instance has been cancelled, i.e. you have flaged it to be skipped. No transaction will be created for this instance.</string>
+  <string name="menu_create_template_for_transaction_help_text">Create a new template or plan for a transaction.</string>
+  <string name="menu_create_template_for_transfer_help_text">Create a new template or plan for a transfer.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiate the template and save it immediately.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantiate the template and enter its editing form where you can modify it before saving.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Delete the template and any associated plan.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Edit the template and create or edit an associated plan.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Create a transaction at the time of this event instance and save it immediately.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Create a transaction at the time of this event instance and enter its editing form where you can modify it before saving.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicate that at the selected event instance, no transaction should be created.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">If a transaction has been created for this event instance, it will be deleted, if it has been flagged as cancelled, the flag is removed.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edit the transaction that has been created for the selected plan instance.</string>
   
   <!-- ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories, for all transactions in an account, or for a specific group.</string>

@@ -21,7 +21,7 @@
     android:icon="@drawable/create_instance_save_icon"
     android:showAsAction="always"
     android:orderInCategory="0"
-    android:title="@string/menu_apply_template_and_save">
+    android:title="@string/menu_create_instance_save">
   </item>
   <group android:id="@+id/MenuSingle">
 	  <item
@@ -29,7 +29,7 @@
       android:icon="@drawable/create_instance_edit_icon"
 	    android:showAsAction="always"
       android:orderInCategory="1"
-	    android:title="@string/menu_apply_template_and_edit">
+	    android:title="@string/menu_create_instance_edit">
 	  </item>
   </group>
 </menu>

@@ -28,7 +28,7 @@
   <item type="id" name="DISTRIBUTION_COMMAND"/>
   <item type="id" name="DONATE_DIALOG"/>
   <item type="id" name="EDIT_ACCOUNT_COMMAND"/>
-  <item type="id" name="EDIT_INSTANCE_COMMAND"/>
+  <item type="id" name="EDIT_PLAN_INSTANCE_COMMAND"/>
   <item type="id" name="EDIT_COMMAND"/>
   <item type="id" name="FEEDBACK_COMMAND"/>
   <item type="id" name="FTP_DIALOG"/>
