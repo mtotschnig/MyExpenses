@@ -623,7 +623,7 @@ public class CategoryList extends BudgetListFragment implements
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!ctx.helpVariant.equals(HelpVariant.distribution));
-    menu.findItem(R.id.SELECT_COMMAND).setVisible(inGroup && count==1 && ctx.helpVariant.equals(HelpVariant.select));
+    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && ctx.helpVariant.equals(HelpVariant.select));
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !ctx.helpVariant.equals(HelpVariant.distribution));
   }
 }
