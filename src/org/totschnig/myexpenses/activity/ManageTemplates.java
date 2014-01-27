@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
@@ -43,6 +44,9 @@ import android.view.MenuInflater;
 import android.widget.Toast;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
+  public enum HelpVariant {
+    templates,plans
+  }
   public static final int PLAN_INSTANCES_CURSOR = 1;
 
   public long calledFromCalendarWithId = 0;
@@ -101,6 +105,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
               .finishActionMode();
           actionBar.setSelectedNavigationItem(position);
           mCurrentPosition = position;
+          helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
         }
       });
 
@@ -117,6 +122,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
       actionBar.setSelectedNavigationItem(1);
     }
+    helpVariant = HelpVariant.templates;
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

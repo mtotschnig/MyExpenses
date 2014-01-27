@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Appliquer</string>
-  <string name="menu_apply_template_and_edit">Appliquer et éditer</string>
-  <string name="menu_apply_template_and_save">Appliquer et enregistrer</string>
+  <string name="menu_create_instance_edit">Appliquer et éditer</string>
+  <string name="menu_create_instance_save">Appliquer et enregistrer</string>
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -199,7 +199,6 @@
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
   <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée : il existe des opérations attribuées.</string>
   <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée : il existe des modèles attribués.</string>
-  <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée : elle contient des sous-catégories.</string>
   <string name="numbered">numérotation</string>
   <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
@@ -324,7 +323,7 @@
   <string name="save_transaction_template_deleted">Le modèle a été supprimé.</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
-  <string name="select_parent_category">Choisir cette catégorie</string>
+  <string name="menu_select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="split_parts_heading">Sous-opérations</string>

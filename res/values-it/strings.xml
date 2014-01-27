@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Sommato</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Applicare</string>
-  <string name="menu_apply_template_and_edit">Applicare e modificare</string>
-  <string name="menu_apply_template_and_save">Applicare e salvare</string>
+  <string name="menu_create_instance_edit">Applicare e modificare</string>
+  <string name="menu_create_instance_save">Applicare e salvare</string>
   <string name="menu_back">Indietro</string>
   <string name="menu_backup">Backup</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -199,7 +199,6 @@
   <string name="no_title_given">Non hai inserito nessun titolo.</string>
   <string name="not_deletable_mapped_transactions">Non può cancellare, perché ci sono operazione ad esso attribuite.</string>
   <string name="not_deletable_mapped_templates">Non può cancellare, perché ci sono modelli ad esso attribuite.</string>
-  <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
   <string name="numbered">numerazione</string>
   <string name="oi_pick_colors_info">Installare OI Color Picker per ulteriori opzioni</string>
   <string name="opening_balance">Saldo iniziale</string>
@@ -324,7 +323,7 @@
   <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
   <string name="select">Selezionare</string>
   <string name="select_category">Selezionare una categoria</string>
-  <string name="select_parent_category">Selezionare questa categoria</string>
+  <string name="menu_select_parent_category">Selezionare questa categoria</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="share_sending">Invia file export</string>
   <string name="split_parts_heading">Somme parziali</string>

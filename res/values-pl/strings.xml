@@ -124,8 +124,8 @@
   <string name="menu_aggregates">Suma</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Zastosuj</string>
-  <string name="menu_apply_template_and_edit">Zatwierdź i edytuj</string>
-  <string name="menu_apply_template_and_save">Zatwierdź i zapisz</string>
+  <string name="menu_create_instance_edit">Zatwierdź i edytuj</string>
+  <string name="menu_create_instance_save">Zatwierdź i zapisz</string>
   <string name="menu_back">Wstecz</string>
   <string name="menu_backup">Kopia zapasowa</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -194,7 +194,6 @@
   <string name="no_title_given">Nie wprowadziłeś tytułu.</string>
   <string name="not_deletable_mapped_transactions">Nie można usunąć, ponieważ istnieją zmapowane transakcje.</string>
   <string name="not_deletable_mapped_templates">Nie można usunąć, ponieważ istnieją zmapowane szablony.</string>
-  <string name="not_deletable_subcats_exists">Ta kategoria nie może zostać usunięta, ponieważ zawiera ona podkategorie.</string>
   <string name="numbered">ponumerowane</string>
   <string name="oi_pick_colors_info">Zainstaluj Ol Color Picker dla większego wyboru</string>
   <string name="opening_balance">Bilans otwarcia</string>
@@ -318,7 +317,7 @@
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
-  <string name="select_parent_category">Wybierz tą kategorię</string>
+  <string name="menu_select_parent_category">Wybierz tą kategorię</string>
   <string name="share_scheme_not_supported">Schemat %1$s nie jest wspierany</string>
   <string name="share_sending">Wyślij plik eksportu</string>
   <string name="split_parts_heading">Części podziału</string>

@@ -179,7 +179,6 @@
   <string name="no_title_given">Bạn vẫn chưa điền vào tiêu đề</string>
   <string name="not_deletable_mapped_transactions">Không thể xóa, vì tồn tại giao dịch tồn tại trước đó.</string>
   <string name="not_deletable_mapped_templates">Không thể xóa, vì tồn tại mẫu đã tạo trước đó.</string>
-  <string name="not_deletable_subcats_exists">Phần phân loại này không thể xóa, vì phần này có phân loại phụ thuộc.</string>
   <string name="oi_pick_colors_info">Cài đặt OI Color Picker để có thêm nhiều lựa chọn</string>
   <string name="opening_balance">Mở trạng thái cân bằng</string>
   <string name="parse_error_file_not_found">Không thể tìm thấy tập tin %1$s</string>
@@ -268,7 +267,7 @@
   <string name="save_transaction_and_new_success">Đã lưu thành công giao dịch</string>
   <string name="select">Chọ</string>
   <string name="select_category">Chọn phân loại</string>
-  <string name="select_parent_category">Chọn phân loại này</string>
+  <string name="menu_select_parent_category">Chọn phân loại này</string>
   <string name="share_scheme_not_supported">Sự phối hợp %1$s không được hỗ trợ</string>
   <string name="share_sending">Gửi tập tin xuất dữ liệu</string>
   <string name="split_parts_heading">Tác thành từng phần</string>

@@ -94,9 +94,8 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
           menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
       if (menuItems.size() == 0)
         view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
-      else
+      else {
         for (String item: menuItems) {
-          //TODO performance do not inflate multiple times
           View row = li.inflate(R.layout.help_dialog_action_row, null);
           ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
               res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
@@ -113,11 +112,46 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
             throw new NotFoundException(item);
           ((TextView) row.findViewById(R.id.help_text)).setText(
               res.getString(resId));
+          ll.addView(row,ll.getChildCount()-1);
+        }
+      }
+      resId = res.getIdentifier(activityName+"_cabitems", "array", pack);
+      menuItems.clear();
+      if (resId != 0)
+        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+      if (variant != null &&
+            (resId = res.getIdentifier(activityName + "_" + variant +"_cabitems", "array", pack)) != 0)
+          menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+      if (menuItems.size() == 0)
+        view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
+      else {
+        for (String item: menuItems) {
+          View row = li.inflate(R.layout.help_dialog_action_row, null);
+          ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
+              res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
+          ((TextView) row.findViewById(R.id.title)).setText(
+              res.getString(res.getIdentifier("menu_"+item,"string",pack)));
+          //we look for a help text specific to the variant first, then to the activity
+          //and last a generic one
+          resId = res.getIdentifier("cab_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
+          if (resId == 0) {
+            resId = res.getIdentifier("cab_" +activityName + "_" + item + "_help_text","string",pack);
+          }
+          if (resId == 0) {
+            resId = res.getIdentifier("cab_" + item + "_help_text","string",pack);
+          }
+          if (resId == 0) {
+            throw new NotFoundException(item);
+          }
+          ((TextView) row.findViewById(R.id.help_text)).setText(
+              res.getString(resId));
           ll.addView(row);
         }
+      }
       resId = variant != null ? res.getIdentifier("help_" +activityName + "_" + variant + "_title", "string", pack) : 0;
-      if (resId == 0)
+      if (resId == 0) {
         resId = res.getIdentifier("help_" +activityName + "_title", "string", pack);
+      }
       title = getString(resId);
     } catch (NotFoundException e) {
       Log.w(MyApplication.TAG, e.getMessage());

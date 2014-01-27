@@ -130,8 +130,8 @@
   <string name="menu_aggregates">Celkem</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Použít</string>
-  <string name="menu_apply_template_and_edit">Použít a upravit</string>
-  <string name="menu_apply_template_and_save">Použít a uložit</string>
+  <string name="menu_create_instance_edit">Použít a upravit</string>
+  <string name="menu_create_instance_save">Použít a uložit</string>
   <string name="menu_back">Zpět</string>
   <string name="menu_backup">Zálohování</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -200,7 +200,6 @@
   <string name="no_title_given">Nezadali jste název.</string>
   <string name="not_deletable_mapped_transactions">Nelze odstranit, protože existují připojené transakce.</string>
   <string name="not_deletable_mapped_templates">Nelze odstranit, protože existují připojené šablony.</string>
-  <string name="not_deletable_subcats_exists">Tuto kategorii nelze odstranit, protože obsahuje podkategorie.</string>
   <string name="numbered">číslování</string>
   <string name="oi_pick_colors_info">Instalujte OI Color Picker pro více možností výběru barvy.</string>
   <string name="opening_balance">Počáteční zůstatek</string>
@@ -324,7 +323,7 @@
   <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
   <string name="select">Vybrat</string>
   <string name="select_category">Vybrat kategorii</string>
-  <string name="select_parent_category">Vyberte tuto kategorii</string>
+  <string name="menu_select_parent_category">Vyberte tuto kategorii</string>
   <string name="share_scheme_not_supported">Schéma %1$s není podporováno</string>
   <string name="share_sending">Odeslat soubor exportu</string>
   <string name="split_parts_heading">Rozdělení stran</string>

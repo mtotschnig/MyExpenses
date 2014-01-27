@@ -65,11 +65,6 @@ public class CategoryList extends BudgetListFragment implements
   private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;
-  /**
-   * delete the category after checking if
-   * there are mapped transactions or subcategories
-   */
-  private static final int DELETE_CAT = Menu.FIRST+4;
 
   private MyExpandableListAdapter mAdapter;
   private ExpandableListView mListView;
@@ -199,9 +194,15 @@ public class CategoryList extends BudgetListFragment implements
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
         String message = "";
         if (mappedTransactionsCount > 0)
-          message += getString(R.string.not_deletable_mapped_transactions,mappedTransactionsCount);
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_transactions,
+              mappedTransactionsCount,
+              mappedTransactionsCount);
         if (mappedTemplatesCount > 0)
-          message += getString(R.string.not_deletable_mapped_templates,mappedTemplatesCount);
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_templates,
+              mappedTemplatesCount,
+              mappedTemplatesCount);
         Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
       }
       return true;

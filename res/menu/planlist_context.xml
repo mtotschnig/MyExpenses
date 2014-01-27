@@ -36,7 +36,7 @@
       android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
       android:icon="@drawable/create_instance_save_icon"
       android:showAsAction="always"
-      android:title="@string/menu_apply_template_and_save">
+      android:title="@string/menu_create_instance_save">
     </item>
     <item
       android:id="@id/CANCEL_PLAN_INSTANCE_COMMAND"
@@ -59,7 +59,7 @@
       android:icon="@drawable/create_instance_edit_icon"
       android:showAsAction="always"
       android:orderInCategory="0"
-      android:title="@string/menu_apply_template_and_edit">
+      android:title="@string/menu_create_instance_edit">
     </item>
     <item
       android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"

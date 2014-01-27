@@ -189,7 +189,6 @@
   <string name="no_title_given">你未輸入任何文字。</string>
   <string name="not_deletable_mapped_transactions">未能移除，由於對應的交易已存在。</string>
   <string name="not_deletable_mapped_templates">未能移除，由於對應的範本已存在。</string>
-  <string name="not_deletable_subcats_exists">這個類別不能被刪除，由於它有子類別。</string>
   <string name="numbered">編號</string>
   <string name="oi_pick_colors_info">安裝「OI顏色選擇器」來得到更多選擇</string>
   <string name="opening_balance">金額</string>
@@ -313,7 +312,7 @@
   <string name="save_transaction_template_deleted">範本已被移除</string>
   <string name="select">選取</string>
   <string name="select_category">選取類別</string>
-  <string name="select_parent_category">選取這個類別</string>
+  <string name="menu_select_parent_category">選取這個類別</string>
   <string name="share_scheme_not_supported">不支持方案 %1$s</string>
   <string name="share_sending">發送匯出檔案</string>
   <string name="split_parts_heading">分割部分</string>

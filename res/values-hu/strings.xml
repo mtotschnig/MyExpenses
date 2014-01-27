@@ -128,8 +128,8 @@
   <string name="menu_aggregates">Összesen</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Alkalmaz</string>
-  <string name="menu_apply_template_and_edit">Alkalmaz és szerkesztés</string>
-  <string name="menu_apply_template_and_save">Alkalmaz és mentés</string>
+  <string name="menu_create_instance_edit">Alkalmaz és szerkesztés</string>
+  <string name="menu_create_instance_save">Alkalmaz és mentés</string>
   <string name="menu_back">Vissza</string>
   <string name="menu_backup">Mentés</string>
   <string name="menu_clone_transaction">Másolás</string>
@@ -193,7 +193,6 @@
   <string name="no_title_given">Nem adott meg címet.</string>
   <string name="not_deletable_mapped_transactions">Nem törölhető, mert összefüggő tranzakciókat érint.</string>
   <string name="not_deletable_mapped_templates">Nem törölhető, mert összefüggő sablont érint.</string>
-  <string name="not_deletable_subcats_exists">Ez a kategória alkategóriákat tartalmaz, így nem törölhető.</string>
   <string name="numbered">számozott</string>
   <string name="oi_pick_colors_info">OI Color Picker telepítése további választási lehetőségekhez</string>
   <string name="opening_balance">Nyitó egyenleg</string>
@@ -317,7 +316,7 @@
   <string name="save_transaction_template_deleted">Sablon törölve</string>
   <string name="select">Kiválasztás</string>
   <string name="select_category">Kategória kiválasztása</string>
-  <string name="select_parent_category">Ezen kategória kiválasztása</string>
+  <string name="menu_select_parent_category">Ezen kategória kiválasztása</string>
   <string name="share_scheme_not_supported">A %1$s séma nem támogatott</string>
   <string name="share_sending">Export állomány küldése</string>
   <string name="split_parts_heading">Részletösszegek</string>

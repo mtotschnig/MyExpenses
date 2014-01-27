@@ -136,9 +136,15 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
         String message = "";
         if (mappedTransactionsCount > 0)
-          message += getString(R.string.not_deletable_mapped_transactions,mappedTransactionsCount);
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_transactions,
+              mappedTransactionsCount,
+              mappedTransactionsCount);
         if (mappedTemplatesCount > 0)
-          message += getString(R.string.not_deletable_mapped_templates,mappedTemplatesCount);
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_templates,
+              mappedTemplatesCount,
+              mappedTemplatesCount);
         Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
       }
       return true;

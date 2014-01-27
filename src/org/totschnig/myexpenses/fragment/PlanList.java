@@ -117,7 +117,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     Intent i;
     Long transactionId = mInstance2TransactionMap.get(menuInfo.id);
     switch(command) {
-    case R.id.EDIT_COMMAND:
+    case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       i = new Intent(getActivity(), ExpenseEdit.class);
       i.putExtra(KEY_ROWID, transactionId);
       startActivity(i);
@@ -536,7 +536,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     //state cancelled or applied
     menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(withApplied || withCancelled);
     //state applied
-    menu.findItem(R.id.EDIT_INSTANCE_COMMAND).setVisible(count==1 && withApplied);
+    menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).setVisible(count==1 && withApplied);
   }
   private TransactionState getState(Long id) {
     Long transactionId = mInstance2TransactionMap.get(id);

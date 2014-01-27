@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
-  <string name="menu_apply_template_and_edit">Aplicar y modificar</string>
-  <string name="menu_apply_template_and_save">Aplicar y guardar</string>
+  <string name="menu_create_instance_edit">Aplicar y modificar</string>
+  <string name="menu_create_instance_save">Aplicar y guardar</string>
   <string name="menu_back">Espalda</string>
   <string name="menu_backup">Copia de seguridad</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -199,7 +199,6 @@
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
   <string name="not_deletable_mapped_transactions">No se puede borrar, porque tiene gastos asignados.</string>
   <string name="not_deletable_mapped_templates">No se puede borrar, porque tiene plantillas asignadas.</string>
-  <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene sub-categorías.</string>
   <string name="numbered">numeración</string>
   <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
   <string name="opening_balance">Saldo inicial</string>
@@ -324,7 +323,7 @@
   <string name="save_transaction_template_deleted">Plantilla ha sido borrado</string>
   <string name="select">Escoger</string>
   <string name="select_category">Escoger una categoría</string>
-  <string name="select_parent_category">Escoger esta categoría</string>
+  <string name="menu_select_parent_category">Escoger esta categoría</string>
   <string name="share_scheme_not_supported">Esquema %1$s no está apoyado.</string>
   <string name="share_sending">Enviar el archivo</string>
   <string name="split_parts_heading">Fracciones</string>

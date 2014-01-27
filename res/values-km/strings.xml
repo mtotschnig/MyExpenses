@@ -189,7 +189,6 @@
   <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
   <string name="not_deletable_mapped_transactions">មិន​អាច​លុបបានទេ ព្រោះ​មាន​ប្រតិបត្តិការ​ភ្ជាប់​រួចហើយ។</string>
   <string name="not_deletable_mapped_templates">មិនអាចលុប​បានទេ ព្រោះមាន​ទិន្នន័យគំរូភ្ជាប់​ហើយ។</string>
-  <string name="not_deletable_subcats_exists">ចំណាត់ថ្នាក់មួយ​នេះ​មិន​អាច​លុប​បានទេ ព្រោះ​វាជា​ចំណាត់ថ្នាក់​រង</string>
   <string name="numbered">ជាលេខ</string>
   <string name="oi_pick_colors_info">បញ្ចូល កម្មវិធី រើសពណ៌ OI </string>
   <string name="opening_balance">បើក​សមតុល្យ</string>
@@ -313,7 +312,7 @@
   <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
   <string name="select">ជ្រើសរើស</string>
   <string name="select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់</string>
-  <string name="select_parent_category">ជ្រើសរើស​ចំណាត់ថ្នាក់​មួយនេះ</string>
+  <string name="menu_select_parent_category">ជ្រើសរើស​ចំណាត់ថ្នាក់​មួយនេះ</string>
   <string name="share_scheme_not_supported">គ្រោងការណ៍ %1$s មិន​ត្រូវបាន​គាំទ្រ</string>
   <string name="share_sending">ផ្ញើឯកសារនាំចេញ</string>
   <string name="split_parts_heading">ញែក​ផ្នែក</string>

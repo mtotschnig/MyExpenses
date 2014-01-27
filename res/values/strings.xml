@@ -35,8 +35,8 @@
   <string name="category">Category</string>
   <string name="clone_transaction_error">Could not clone transaction.</string>
   <plurals name="clone_transaction_success">
-    <item quantity="one">Transaction successfully cloned</item>
-    <item quantity="other">%1$d transactions were successfully cloned</item>
+    <item quantity="one">Transaction successfully cloned.</item>
+    <item quantity="other">%1$d transactions were successfully cloned.</item>
   </plurals>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
@@ -189,7 +189,7 @@
   <string name="menu_edit_cat">Edit category</string>
   <string name="menu_edit_method">Edit payment method</string>
   <string name="menu_edit_party">Edit party</string>
-  <string name="menu_edit_plan_instance">Edit plan instance</string>
+  <string name="menu_edit_plan_instance">Edit single plan occurrence</string>
   <string name="menu_edit_split">Edit split</string>
   <string name="menu_edit_split_part_category">Edit category split part</string>
   <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
@@ -205,6 +205,7 @@
   <string name="menu_manage_plans_tab_templates">Templates</string>
   <string name="menu_manage_plans_tab_plans">Plans</string>
   <string name="menu_reset">Export and reset</string>
+  <string name="menu_reset_all">Export and reset all</string>
   <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
   <string name="menu_reset_plan_instance">Reset</string>
   <string name="menu_save">Save</string>
@@ -227,9 +228,14 @@
   <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
-  <string name="not_deletable_mapped_transactions">%1$d objects are mapped to transactions and cannot be deleted.</string>
-  <string name="not_deletable_mapped_templates">%1$d objects are mapped to templates and cannot be deleted.</string>
-  <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">The selected object is mapped to a transaction and cannot be deleted.</item>
+  	<item quantity="other">%1$d objects are mapped to transactions and cannot be deleted.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">The selected object is mapped to a template and cannot be deleted.</item>
+    <item quantity="other">%1$d objects are mapped to templates and cannot be deleted.</item>
+  </plurals>
   <string name="numbered">numbered</string>
   <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
   <string name="opening_balance">Opening balance</string>
@@ -387,7 +393,7 @@
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions. &continue;</string>
   <plurals name="warning_delete_main_category">
-  	<item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
+  	<item quantity="one">The selected category has subcategories, that will be deleted as well.</item>
   	<item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
   </plurals>
   <plurals name="warning_delete_plan">

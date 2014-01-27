@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Uygula</string>
-  <string name="menu_apply_template_and_edit">Uygula ve düzenle</string>
-  <string name="menu_apply_template_and_save">Uygula ve kaydet</string>
+  <string name="menu_create_instance_edit">Uygula ve düzenle</string>
+  <string name="menu_create_instance_save">Uygula ve kaydet</string>
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -199,7 +199,6 @@
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
   <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
   <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>
-  <string name="not_deletable_subcats_exists">Bu kategori silinemez çünkü alt kategorileri var.</string>
   <string name="numbered">sayılı</string>
   <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
@@ -324,7 +323,7 @@
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
-  <string name="select_parent_category">Bu kategoriyi seç</string>
+  <string name="menu_select_parent_category">Bu kategoriyi seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="split_parts_heading">Bölünmüş alt muameleler</string>

@@ -51,7 +51,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-/*    if (MyApplication.debug) {
+    if (MyApplication.debug) {
       StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
       .detectDiskReads()
       .detectDiskWrites()
@@ -64,7 +64,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       .penaltyLog()
       .penaltyDeath()
       .build());
-    }*/
+    }
 
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);

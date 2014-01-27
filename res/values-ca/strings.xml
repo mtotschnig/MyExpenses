@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplica</string>
-  <string name="menu_apply_template_and_edit">Aplica i modifica</string>
-  <string name="menu_apply_template_and_save">Aplica i desa</string>
+  <string name="menu_create_instance_edit">Aplica i modifica</string>
+  <string name="menu_create_instance_save">Aplica i desa</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -199,7 +199,6 @@
   <string name="no_title_given">No heu afegit cap títol.</string>
   <string name="not_deletable_mapped_transactions">No ha estat possible suprimir-ho, per que té operacions assignades.</string>
   <string name="not_deletable_mapped_templates">No ha estat possible suprimir-ho, per que te plantilles assignades.</string>
-  <string name="not_deletable_subcats_exists">No ha estat possible suprimir aquesta categoria, per que te sub-categories.</string>
   <string name="numbered">numerat</string>
   <string name="oi_pick_colors_info">Podeu disposar de més opcions si instal·leu OI Color Picker</string>
   <string name="opening_balance">Saldo inicial</string>
@@ -324,7 +323,7 @@
   <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
   <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
-  <string name="select_parent_category">Trieu aquesta categoria</string>
+  <string name="menu_select_parent_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer</string>
   <string name="split_parts_heading">Particions</string>
