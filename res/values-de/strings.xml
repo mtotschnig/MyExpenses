@@ -207,8 +207,14 @@
   <string name="no_split_parts">Keine Split-Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
-  <string name="not_deletable_mapped_transactions">Kann nicht löschen, weil zugeordnete Buchungen existieren.</string>
-  <string name="not_deletable_mapped_templates">Kann nicht löschen, weil zugeordnete Vorlagen existieren.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">Das ausgewählte Objekt ist mit einer Buchung verknüpft und kann nicht gelöscht werden.</item>
+    <item quantity="other">%1$d ausgewählte Objekte sind mit Buchungen verknüpft und können nicht gelöscht werden.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">Das ausgewählte Objekt ist mit einer Vorlage verknüpft und kann nicht gelöscht werden.</item>
+    <item quantity="other">%1$d ausgewählte Objekte sind mit Vorlagen verknüpft und können nicht gelöscht werden.</item>
+  </plurals>
   <string name="numbered">nummeriert</string>
   <string name="oi_pick_colors_info">OI Color Picker installieren für mehr Auswahl</string>
   <string name="opening_balance">Anfangssaldo</string>
@@ -328,8 +334,11 @@
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
-  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
-  <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
+  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Neue Buchung wurde erfolgreich aus der Vorlage gespeichert.</item>
+    <item quantity="other">%1$d neue Buchungen wurden erfolgreich aus Vorlagen gespeichert.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
   <string name="select">Auswählen</string>
   <string name="select_category">Kategorie auswählen</string>

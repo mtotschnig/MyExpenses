@@ -354,10 +354,10 @@
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_and_new_success">Successfully saved</string>
-  <string name="save_transaction_error">Could not save new transaction from template</string>
+  <string name="save_transaction_error">Could not save new transaction from template.</string>
   <plurals name="save_transaction_from_template_success">
-    <item quantity="one">New transaction successfully saved from template</item>
-    <item quantity="other">%1$d new transactions were successfully saved from templates</item>
+    <item quantity="one">New transaction successfully saved from template.</item>
+    <item quantity="other">%1$d new transactions were successfully saved from templates.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Template has been deleted</string>
   <string name="select">Select</string>
