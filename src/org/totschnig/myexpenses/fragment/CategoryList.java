@@ -134,7 +134,11 @@ public class CategoryList extends BudgetListFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    registerForContextualActionBar(mListView);
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      registerForContextMenu(mListView);
+    } else {
+      registerForContextualActionBar(mListView);
+    }
     return v;
   }
 
