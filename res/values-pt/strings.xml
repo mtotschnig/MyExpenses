@@ -323,7 +323,7 @@
   <string name="save_transaction_template_deleted">Modelo foi excluído</string>
   <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
-  <string name="menu_select_parent_category">Selecionar esta categoria</string>
+  <string name="menu_select_category">Selecionar esta categoria</string>
   <string name="share_scheme_not_supported">Não há suporte ao esquema %1$s</string>
   <string name="share_sending">Enviar o arquivo de exportação</string>
   <string name="split_parts_heading">Dividir partes</string>

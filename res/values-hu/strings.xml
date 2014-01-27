@@ -316,7 +316,7 @@
   <string name="save_transaction_template_deleted">Sablon törölve</string>
   <string name="select">Kiválasztás</string>
   <string name="select_category">Kategória kiválasztása</string>
-  <string name="menu_select_parent_category">Ezen kategória kiválasztása</string>
+  <string name="menu_select_category">Ezen kategória kiválasztása</string>
   <string name="share_scheme_not_supported">A %1$s séma nem támogatott</string>
   <string name="share_sending">Export állomány küldése</string>
   <string name="split_parts_heading">Részletösszegek</string>

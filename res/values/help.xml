@@ -68,6 +68,8 @@
   <string name="menu_ManageCategories_distribution_grouping_help_text">Set the type of grouping and display the distribution per day, month, week or year.</string>
   <string name="menu_back_help_text">Navigate to the previous group. Can also be done through swipe gesture from left to right.</string>
   <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Opens the dialog for specifying the title of a new sub-category below the selected category.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Map the selected category to the transaction and return to the transaction form.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>

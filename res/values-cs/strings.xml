@@ -323,7 +323,7 @@
   <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
   <string name="select">Vybrat</string>
   <string name="select_category">Vybrat kategorii</string>
-  <string name="menu_select_parent_category">Vyberte tuto kategorii</string>
+  <string name="menu_select_category">Vyberte tuto kategorii</string>
   <string name="share_scheme_not_supported">Schéma %1$s není podporováno</string>
   <string name="share_sending">Odeslat soubor exportu</string>
   <string name="split_parts_heading">Rozdělení stran</string>

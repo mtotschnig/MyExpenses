@@ -317,7 +317,7 @@
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
-  <string name="menu_select_parent_category">Wybierz tą kategorię</string>
+  <string name="menu_select_category">Wybierz tą kategorię</string>
   <string name="share_scheme_not_supported">Schemat %1$s nie jest wspierany</string>
   <string name="share_sending">Wyślij plik eksportu</string>
   <string name="split_parts_heading">Części podziału</string>

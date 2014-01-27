@@ -323,7 +323,7 @@
   <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
   <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
-  <string name="menu_select_parent_category">Trieu aquesta categoria</string>
+  <string name="menu_select_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer</string>
   <string name="split_parts_heading">Particions</string>

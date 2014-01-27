@@ -26,10 +26,10 @@
   </item>
   <item
     android:id="@id/SELECT_COMMAND"
-    android:icon="@drawable/select_parent_category_icon"
+    android:icon="@drawable/select_category_icon"
     android:showAsAction="always"
     android:orderInCategory="0"
-    android:title="@string/menu_select_parent_category">
+    android:title="@string/menu_select_category">
   </item>
   </group>
 </menu>

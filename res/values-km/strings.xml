@@ -312,7 +312,7 @@
   <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
   <string name="select">ជ្រើសរើស</string>
   <string name="select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់</string>
-  <string name="menu_select_parent_category">ជ្រើសរើស​ចំណាត់ថ្នាក់​មួយនេះ</string>
+  <string name="menu_select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់​មួយនេះ</string>
   <string name="share_scheme_not_supported">គ្រោងការណ៍ %1$s មិន​ត្រូវបាន​គាំទ្រ</string>
   <string name="share_sending">ផ្ញើឯកសារនាំចេញ</string>
   <string name="split_parts_heading">ញែក​ផ្នែក</string>

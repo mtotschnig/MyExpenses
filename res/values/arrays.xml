@@ -144,6 +144,20 @@
       <item>back</item>
       <item>forward</item>
     </string-array>
+    <string-array name="ManageCategories_distribution_cabitems">
+      <item>edit</item>
+    </string-array>
+    <string-array name="ManageCategories_manage_cabitems">
+      <item>edit</item>
+      <item>create_sub_cat</item>
+      <item>delete</item>
+    </string-array>
+    <string-array name="ManageCategories_select_cabitems">
+      <item>select_category</item>
+      <item>edit</item>
+      <item>create_sub_cat</item>
+      <item>delete</item>
+    </string-array>
     <string-array name="ExpenseEdit_menuitems">
       <item>save</item>
     </string-array>

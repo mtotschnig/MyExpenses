@@ -312,7 +312,7 @@
   <string name="save_transaction_template_deleted">範本已被移除</string>
   <string name="select">選取</string>
   <string name="select_category">選取類別</string>
-  <string name="menu_select_parent_category">選取這個類別</string>
+  <string name="menu_select_category">選取這個類別</string>
   <string name="share_scheme_not_supported">不支持方案 %1$s</string>
   <string name="share_sending">發送匯出檔案</string>
   <string name="split_parts_heading">分割部分</string>

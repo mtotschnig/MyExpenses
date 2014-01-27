@@ -323,7 +323,7 @@
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
-  <string name="menu_select_parent_category">Bu kategoriyi seç</string>
+  <string name="menu_select_category">Bu kategoriyi seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="split_parts_heading">Bölünmüş alt muameleler</string>
