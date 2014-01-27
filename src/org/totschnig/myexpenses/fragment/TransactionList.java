@@ -362,6 +362,7 @@ public class TransactionList extends BudgetListFragment implements
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(c);
+      invalidateCAB();
       break;
     case SUM_CURSOR:
       c.moveToFirst();
@@ -680,11 +681,13 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   protected void configureMenu11(Menu menu, int count) {
     super.configureMenu11(menu, count);
-    SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-    for (int i=0; i<checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i)) {
-        configureMenuInternal(menu,checkedItemPositions.keyAt(i));
-        break;
+    if (count==1) {
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      for (int i=0; i<checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i)) {
+          configureMenuInternal(menu,checkedItemPositions.keyAt(i));
+          break;
+        }
       }
     }
   }

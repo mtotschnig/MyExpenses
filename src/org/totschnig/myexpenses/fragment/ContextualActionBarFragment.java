@@ -128,15 +128,14 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
               ExpandableListView.PACKED_POSITION_TYPE_GROUP :
               ExpandableListView.PACKED_POSITION_TYPE_NULL;
           inflateHelper(menu);
-          int count = lv.getCheckedItemCount();
-          mode.setTitle(String.valueOf(count));
-          configureMenu11(menu, count);
+          mode.setTitle(String.valueOf(lv.getCheckedItemCount()));
           mActionMode = mode;
           return true;
         }
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+          configureMenu11(menu, lv.getCheckedItemCount());
           return false;
         }
 
@@ -270,6 +269,13 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   public void finishActionMode() {
     if (mActionMode != null)
       mActionMode.finish();
+  }
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  public void invalidateCAB() {
+    if (mActionMode != null) {
+      //upon orientation change when action mode is restores the cursor might not yet been loaded
+      mActionMode.invalidate();
+    }
   }
  /* protected void setExpandableListSelectionType(ExpandableListView elv) {
     SparseBooleanArray checkedItemPositions = elv.getCheckedItemPositions();
