@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
+import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -53,6 +54,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -565,9 +567,13 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onPageSelected(int position) {
+    if (mCurrentPosition != -1 && Build.VERSION.SDK_INT >= 11) {
+      ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
+          mViewPagerAdapter.getFragmentName(mCurrentPosition)))
+        .finishActionMode();
+    }
     mCurrentPosition = position;
     setCurrentAccount(position);
-    //getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
   @Override

@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.PlanList;
+import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 
@@ -40,7 +40,6 @@ import android.support.v7.app.ActionBar.TabListener;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Toast;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
@@ -50,6 +49,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   private boolean mTransferEnabled = false;
   ViewPager mViewPager;
   SectionsPagerAdapter mSectionsPagerAdapter;
+  int mCurrentPosition = 0;
   
   private int monkey_state = 0;
 
@@ -96,7 +96,11 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
+          ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
+              mSectionsPagerAdapter.getFragmentName(mCurrentPosition)))
+              .finishActionMode();
           actionBar.setSelectedNavigationItem(position);
+          mCurrentPosition = position;
         }
       });
 

@@ -267,12 +267,9 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     }
   }
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  @Override
-  public void setUserVisibleHint(boolean isVisibleToUser) {
-      super.setUserVisibleHint(isVisibleToUser);
-      if (!isVisibleToUser && mActionMode != null) {
-        mActionMode.finish();
-      }
+  public void finishActionMode() {
+    if (mActionMode != null)
+      mActionMode.finish();
   }
  /* protected void setExpandableListSelectionType(ExpandableListView elv) {
     SparseBooleanArray checkedItemPositions = elv.getCheckedItemPositions();
