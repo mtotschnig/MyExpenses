@@ -266,6 +266,14 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       menu.setGroupVisible(R.id.MenuSingle,count==1);
     }
   }
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  @Override
+  public void setUserVisibleHint(boolean isVisibleToUser) {
+      super.setUserVisibleHint(isVisibleToUser);
+      if (!isVisibleToUser && mActionMode != null) {
+        mActionMode.finish();
+      }
+  }
  /* protected void setExpandableListSelectionType(ExpandableListView elv) {
     SparseBooleanArray checkedItemPositions = elv.getCheckedItemPositions();
     int checkedItemCount;
