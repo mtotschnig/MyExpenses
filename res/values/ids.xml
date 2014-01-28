@@ -36,9 +36,9 @@
   <item type="id" name="GROUPING_COMMAND_DO"/>
   <item type="id" name="HANDLE_RESTORE_ON_INSTALL_COMMAND"/>
   <item type="id" name="HELP_COMMAND"/>
-  <item type="id" name="INSERT_SPLIT_COMMAND"/>
-  <item type="id" name="INSERT_TA_COMMAND"/>
-  <item type="id" name="INSERT_TRANSFER_COMMAND"/>
+  <item type="id" name="CREATE_SPLIT_COMMAND"/>
+  <item type="id" name="CREATE_TRANSACTION_COMMAND"/>
+  <item type="id" name="CREATE_TRANSFER_COMMAND"/>
   <item type="id" name="INVERT_TRANSFER_COMMAND"/>
   <item type="id" name="MANAGE_PLANS_COMMAND" />
   <item type="id" name="MORE_ACTIONS_DIALOG"/>
@@ -50,7 +50,7 @@
   <item type="id" name="REMIND_NO_COMMAND"/>
   <item type="id" name="REMIND_YES_COMMAND"/>
   <item type="id" name="RESET_ACCOUNT_ALL_COMMAND"/>
-  <item type="id" name="RESET_ACCOUNT_COMMAND"/>
+  <item type="id" name="RESET_COMMAND"/>
   <item type="id" name="RESTORE_COMMAND"/>
   <item type="id" name="SAVE_AND_NEW_COMMAND"/>
   <item type="id" name="SELECT_ACCOUNT_DIALOG"/>

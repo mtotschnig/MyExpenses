@@ -417,10 +417,10 @@ public class MyExpenses extends LaunchActivity implements
         account.save();
       }
       return true;
-    case R.id.INSERT_TA_COMMAND:
+    case R.id.CREATE_TRANSACTION_COMMAND:
       createRow(TYPE_TRANSACTION);
       return true;
-    case R.id.INSERT_TRANSFER_COMMAND:
+    case R.id.CREATE_TRANSFER_COMMAND:
       if (transferEnabled()) {
         createRow(TYPE_TRANSFER);
       } else {
@@ -433,7 +433,7 @@ public class MyExpenses extends LaunchActivity implements
          .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
-    case R.id.INSERT_SPLIT_COMMAND:
+    case R.id.CREATE_SPLIT_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
       }
@@ -441,7 +441,7 @@ public class MyExpenses extends LaunchActivity implements
         CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
       }
       return true;
-    case R.id.RESET_ACCOUNT_COMMAND:
+    case R.id.RESET_COMMAND:
       tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
           mViewPagerAdapter.getFragmentName(mCurrentPosition));
       if (tl != null && tl.hasItems) {

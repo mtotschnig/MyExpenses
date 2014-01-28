@@ -510,10 +510,10 @@ public class ExpenseEdit extends AmountActivity implements
       mCreateNew = true;
       saveState();
       return true;
-    case R.id.INSERT_TA_COMMAND:
+    case R.id.CREATE_TRANSACTION_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
       return true;
-    case R.id.INSERT_TRANSFER_COMMAND:
+    case R.id.CREATE_TRANSFER_COMMAND:
       createRow(MyExpenses.TYPE_TRANSFER);
       return true;
     case R.id.CREATE_COMMAND:

@@ -129,7 +129,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.templates, menu);
     super.onCreateOptionsMenu(menu);
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
+    menu.findItem(R.id.CREATE_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     return true;
   }
 
@@ -137,11 +137,11 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch(command) {
-    case R.id.INSERT_TA_COMMAND:
-    case R.id.INSERT_TRANSFER_COMMAND:
+    case R.id.CREATE_TRANSACTION_COMMAND:
+    case R.id.CREATE_TRANSFER_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra("operationType",
-          command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
+          command == R.id.CREATE_TRANSACTION_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
       i.putExtra("newTemplate", true);
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       startActivity(i);

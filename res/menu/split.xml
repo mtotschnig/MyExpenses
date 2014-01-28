@@ -17,13 +17,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-    android:id="@id/INSERT_TA_COMMAND"
+    android:id="@id/CREATE_TRANSACTION_COMMAND"
     android:icon="@drawable/create_split_part_category_icon"
     app:showAsAction="always"
     android:title="@string/menu_create_split_part_category">
   </item>
   <item
-    android:id="@id/INSERT_TRANSFER_COMMAND"
+    android:id="@id/CREATE_TRANSFER_COMMAND"
     android:icon="@drawable/create_split_part_transfer_icon"
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_split_part_transfer">
