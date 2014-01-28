@@ -544,7 +544,7 @@ public class TransactionProvider extends ContentProvider {
       args.putNull(KEY_TRANSFER_PEER);
       db.update(TABLE_TRANSACTIONS,
           args,
-          KEY_TRANSFER_PEER + " = ?",
+          KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
           new String[] {segment});
       //we delete the transaction, its children, its transfer peers, and transfer peers of its children
       count = db.delete(TABLE_TRANSACTIONS,
