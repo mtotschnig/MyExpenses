@@ -526,7 +526,7 @@ public class MyExpenses extends LaunchActivity implements
         MessageDialogFragment.newInstance(
             R.string.dialog_title_warning_delete_account,
             getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
-            new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_ACCOUNT_COMMAND_DO,
+            new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
                 mAccountsCursor.getLong(columnIndexRowId)), //we do not rely on mAccountId being in sync with mCurrentPosition
             null,
             MessageDialogFragment.Button.noButton())

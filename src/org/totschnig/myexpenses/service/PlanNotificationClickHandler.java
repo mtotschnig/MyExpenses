@@ -23,7 +23,7 @@ public class PlanNotificationClickHandler extends IntentService {
   }
   @Override
   protected void onHandleIntent(Intent intent) {
-    int message;
+    String message;
     Bundle extras = intent.getExtras();
     String title = extras.getString("title");
     if (intent.getAction().equals("Apply")) {
@@ -32,20 +32,21 @@ public class PlanNotificationClickHandler extends IntentService {
         Transaction t = Transaction.getInstanceFromTemplate(templateId);
         t.setDate(new Date(extras.getLong("instance_date")));
         if (t.save() == null)
-          message = R.string.save_transaction_error;
+          message = getString(R.string.save_transaction_error);
         else
-          message = R.string.save_transaction_from_template_success;
+          message = getResources().getQuantityString(
+            R.plurals.save_transaction_from_template_success,1);
       } catch (DataObjectNotFoundException e) {
-        message = R.string.save_transaction_template_deleted;
+        message = getString(R.string.save_transaction_template_deleted);
       }
     } else {
-      message = R.string.plan_execution_canceled;
+      message = getString(R.string.plan_execution_canceled);
     }
     int notificationId = extras.getInt("notification_id");
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.myexpenses)
         .setContentTitle(title)
-        .setContentText(getString(message));
+        .setContentText(message);
     ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE))
         .notify(notificationId,builder.build());
   }

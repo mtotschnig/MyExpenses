@@ -198,8 +198,6 @@
   <string name="no_split_parts">Žádné rozdělené oddíly.</string>
   <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
   <string name="no_title_given">Nezadali jste název.</string>
-  <string name="not_deletable_mapped_transactions">Nelze odstranit, protože existují připojené transakce.</string>
-  <string name="not_deletable_mapped_templates">Nelze odstranit, protože existují připojené šablony.</string>
   <string name="numbered">číslování</string>
   <string name="oi_pick_colors_info">Instalujte OI Color Picker pro více možností výběru barvy.</string>
   <string name="opening_balance">Počáteční zůstatek</string>
@@ -319,7 +317,6 @@
   <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>
   <string name="save_transaction_and_new_success">Úspěšně uloženo</string>
   <string name="save_transaction_error">Nelze uložit novou transakci ze šablony</string>
-  <string name="save_transaction_from_template_success">Nová transakce úspěšně uložena ze šablony</string>
   <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
   <string name="select">Vybrat</string>
   <string name="select_category">Vybrat kategorii</string>
@@ -353,8 +350,6 @@
   <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu. Přejete si pokračovat?</string>
   <string name="warning_backup_exists">Databáze a preference bude uloženy na paměťovou kartu. Bude přepsána existující zálohu. Přejete si pokračovat?</string>
   <string name="warning_delete_account">Tento účet bude smazán i s jeho transakcemi. Přejete si pokračovat?</string>
-  <string name="warning_delete_template">Tato šablona (a všechny související plány) budou odstraněny. Přejete si pokračovat?</string>
-  <string name="warning_delete_transaction">Tato transakce bude odstraněna. Přejete si pokračovat?</string>
   <string name="warning_password_contrib">Nastavení bezpečnostní otázky umožňuje odemknout aplikaci i v případě, že zapomenete heslo.</string>
   <string name="warning_password_no_contrib">Pokud nastavíte heslo, dávejte pozor, abyste na to nezapoměli. Pokud nenastavíte bezpečnostní otázku (vyžaduje Moje výdaje Contrib) nebude možné heslo obnovit.</string>
   <string name="warning_reset_account">Pokud budete pokračovat všechny transakce tohoto účtu budou odstraněny z databáze a nepůjde je obnovit.</string>

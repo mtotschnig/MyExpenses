@@ -192,8 +192,6 @@
   <string name="no_split_parts">Brak części podziałów</string>
   <string name="no_templates">Brak szablonów.</string>
   <string name="no_title_given">Nie wprowadziłeś tytułu.</string>
-  <string name="not_deletable_mapped_transactions">Nie można usunąć, ponieważ istnieją zmapowane transakcje.</string>
-  <string name="not_deletable_mapped_templates">Nie można usunąć, ponieważ istnieją zmapowane szablony.</string>
   <string name="numbered">ponumerowane</string>
   <string name="oi_pick_colors_info">Zainstaluj Ol Color Picker dla większego wyboru</string>
   <string name="opening_balance">Bilans otwarcia</string>
@@ -313,7 +311,6 @@
   <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>
   <string name="save_transaction_and_new_success">Zapisano pomyślnie</string>
   <string name="save_transaction_error">Nie można zapisać nowej transakcji z szablonu</string>
-  <string name="save_transaction_from_template_success">Nowa transakcja została pomyślnie zapisana z szablonu</string>
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
@@ -345,8 +342,6 @@
   <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci. Czy chcesz kontynuować?</string>
   <string name="warning_backup_exists">Baza danych oraz preferencje zostaną zapisane na karcie pamięci. Istniejąca kopia zapasowa zostanie nadpisana. Czy chcesz kontynuować?</string>
   <string name="warning_delete_account">To konto zostanie usunięte z wszystkimi jego transakcjami. Czy chcesz kontynuować?</string>
-  <string name="warning_delete_template">Ten szablon (i każdy przywiązany plan) zostanie usunięty. Czy chcesz kontynuować?</string>
-  <string name="warning_delete_transaction">Ta transakcja zostanie usunięta. Czy chcesz kontynuować?</string>
   <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
   <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje Moje Wydatki Contrib).</string>
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>

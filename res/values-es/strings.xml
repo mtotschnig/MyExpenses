@@ -197,8 +197,14 @@
   <string name="no_split_parts">Ningunas divisiones.</string>
   <string name="no_templates">Ningunas plantillas</string>
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
-  <string name="not_deletable_mapped_transactions">No se puede borrar, porque tiene gastos asignados.</string>
-  <string name="not_deletable_mapped_templates">No se puede borrar, porque tiene plantillas asignadas.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">El objeto seleccionado se asigna a una transacción y no se puede eliminar.</item>
+  	<item quantity="other">%1$d objetos seleccionados se asignan a las transacciones y no se pueden borrar.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">El objeto seleccionado se asigna a una plantilla y no se puede eliminar.</item>
+  	<item quantity="other">%1$d objetos seleccionados se asignan a las plantillas y no se pueden borrar.</item>
+  </plurals>
   <string name="numbered">numeración</string>
   <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
   <string name="opening_balance">Saldo inicial</string>
@@ -319,7 +325,10 @@
   <string name="restore_preferences_success">Las configuraciones han sidas restauradas desde la copia de seguridad.</string>
   <string name="save_transaction_and_new_success">Guardada con éxito</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción desde plantilla</string>
-  <string name="save_transaction_from_template_success">Nueva transacción desde plantilla guardada con éxito.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Nueva transacción desde plantilla guardada con éxito.</item>
+    <item quantity="other">%1$d transacciónes nuevas se han guardada correctamente a partir de plantillas.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Plantilla ha sido borrado</string>
   <string name="select">Escoger</string>
   <string name="select_category">Escoger una categoría</string>
@@ -352,9 +361,23 @@
   <string name="unsplit_amount_greater_than_zero">Todavía hay cierta cantidad que queda non dividida.</string>
   <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta SD. ¿Quiere continuar?</string>
   <string name="warning_backup_exists">La base de datos y las configuraciones son archivadas en la tarjeta SD. Se borra la existente copia de seguridad. ¿Quiere continuar?</string>
-  <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. ¿Quiere continuar?</string>
-  <string name="warning_delete_template">Se eliminarán esta plantilla (y cualquier plan asociado). ¿Quieres continuar?</string>
-  <string name="warning_delete_transaction">Se borrará esta transacción. ¿Quieres continuar?</string>
+  <string name="warning_delete_account">Se borra cuenta \"%1$s\" con todos sus asientos.</string>
+  <plurals name="warning_delete_main_category">
+  	<item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
+  	<item quantity="other">%1$d categorías seleccionadas tienen subcategorías, que se eliminará también.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">Se eliminará el plan seleccionado.</item>
+    <item quantity="other">Se eliminará %1$d planes seleccionados.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">Se eliminará la plantilla seleccionada. </item>
+    <item quantity="other">Se eliminará %1$d plantillas seleccionadas.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">Se eliminará la transacción seleccionada.</item>
+  	<item quantity="other">Se eliminará %1$d transacciónes seleccionadas.</item>
+  </plurals>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación, en caso de que olvide su contraseña.</string>
   <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad (Requiere Mis gastos Contrib).</string>
   <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan de la base de datos y no se pueden restaurar.</string>
