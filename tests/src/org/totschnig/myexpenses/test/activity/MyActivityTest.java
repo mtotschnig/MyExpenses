@@ -70,7 +70,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
    */
   protected void clickOnActionBarItem(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
-    assertTrue(command + "not found", resourceId!=0);
+    assertTrue(command + " not found", resourceId!=0);
     if (Build.VERSION.SDK_INT > 13) {
       mSolo.clickOnActionBarItem(resourceId);
     } else {
@@ -85,7 +85,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   }
   protected void invokeContextAction(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
-    assertTrue(command + "not found", resourceId!=0);
+    assertTrue(command + " not found", resourceId!=0);
     if (Build.VERSION.SDK_INT > 13) {
       final KeyEvent downEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_CENTER);
       mInstrumentation.sendKeySync(downEvent);

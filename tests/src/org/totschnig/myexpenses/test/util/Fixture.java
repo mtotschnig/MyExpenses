@@ -87,10 +87,19 @@ public class Fixture {
         testContext.getString(R.string.testData_account1Label),
         defaultCurrency,
         2000,
-        testContext.getString(R.string.testData_account1Description), Type.CASH, Account.defaultColor
+        testContext.getString(R.string.testData_account1Description), Type.BANK, Account.defaultColor
     );
     account1.grouping = Account.Grouping.DAY;
     account1.save();
+    //Transaction 0 for D_ContextActionTest
+    Transaction op0 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    op0.amount = new Money(defaultCurrency,-1200L);
+    op0.save();
+    op0.saveAsNew();
+    op0.saveAsNew();
+    op0.saveAsNew();
+    op0.saveAsNew();
+    op0.saveAsNew();
     if (stage ==1) return;
     account2 = new Account(
         testContext.getString(R.string.testData_account2Label),
