@@ -68,11 +68,20 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
    * Clicks a visible ActionBarItem matching the specified resource id.
    * @param resourceId
    */
-  protected void clickOnActionBarItem(int resourceId) {
-    if (Build.VERSION.SDK_INT > 13)
+  protected void clickOnActionBarItem(String command) {
+    int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
+    assertTrue(command + "not found", resourceId!=0);
+    if (Build.VERSION.SDK_INT > 13) {
       mSolo.clickOnActionBarItem(resourceId);
-    else
-      ;//mSolo.clickOnVisibleActionbarItem(resourceId);
+    } else {
+      if (mSolo.waitForView(resourceId)) {
+        mSolo.clickOnView(mSolo.getView(resourceId));
+      } else {
+        mSolo.sendKey(Solo.MENU);
+        mSolo.clickOnText(mContext.getString(
+            mContext.getResources().getIdentifier("menu_"+command.toLowerCase(), "string", mContext.getPackageName())));
+      }
+    }
   }
   /**
    * @param resourceId

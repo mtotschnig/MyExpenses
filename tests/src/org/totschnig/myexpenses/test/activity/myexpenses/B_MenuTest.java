@@ -32,14 +32,14 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
   }
 
   public void testInsertTransaction() {
-    clickOnActionBarItem(R.id.INSERT_TA_COMMAND);
+    clickOnActionBarItem("CREATE_TRANSACTION");
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
   }
   /**
    * works on the assumption that Contrib app is not installed
    */
   public void testInsertSplit() {
-    clickOnActionBarItem(R.id.INSERT_SPLIT_COMMAND);
+    clickOnActionBarItem("CREATE_SPLIT");
     mSolo.waitForDialogToOpen(100);
     if (!MyApplication.getInstance().isContribEnabled) {
       assertTrue("Contrib Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_contrib_feature)));
@@ -48,25 +48,26 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
   }
   public void testEditAccount() {
-    assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, R.id.EDIT_ACCOUNT_COMMAND, 0));
+    clickOnActionBarItem("EDIT_ACCOUNT");
+    //assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, R.id.EDIT_ACCOUNT_COMMAND, 0));
     assertTrue(mSolo.waitForActivity(AccountEdit.class.getSimpleName()));
   }
   public void testHelp() {
-    assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, R.id.HELP_COMMAND, 0));
+    clickOnActionBarItem("HELP");
     assertTrue("Help Dialog not shown", mSolo.searchText(mContext.getString(R.string.help_MyExpenses_title)));
     assertTrue("Close button not shown",mSolo.searchButton(mContext.getString(android.R.string.ok), true));
     
   }
   public void testSettings() {
-    assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, R.id.SETTINGS_COMMAND, 0));
+    clickOnActionBarItem("SETTINGS");
     assertTrue(mSolo.waitForActivity(MyPreferenceActivity.class.getSimpleName()));
   }
   public void testGrouping() {
-    assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, R.id.GROUPING_COMMAND, 0));
+    clickOnActionBarItem("GROUPING");
     mSolo.waitForDialogToOpen(100);
     assertTrue("Select Grouping dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_select_grouping)));
   }
-  
+
   /**
    * on a fresh install these three commands should be inactive,
    * INSERT_TRANSFER because there is no second account,
@@ -74,17 +75,15 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
    */
   public void testInactiveItems() {
     //only when we send this key event, onPrepareOptionsMenu is called before the test
-    mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+    //mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
     for (String command : new String[] {
-        "INSERT_TRANSFER",
-        "RESET_ACCOUNT",
+        "CREATE_TRANSFER",
+        "RESET",
         "DISTRIBUTION"
     }) {
-      int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
-      assertTrue(command + "not found", resourceId!=0);
-      assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0));
+      clickOnActionBarItem(command);
       assertTrue("Inactive dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_menu_command_disabled)));
-
+      mSolo.clickOnText(mContext.getString(android.R.string.ok));
     }
   }
 }
