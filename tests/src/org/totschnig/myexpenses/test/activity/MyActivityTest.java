@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.test.activity;
 
 
 import org.totschnig.myexpenses.test.util.Fixture;
-import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+import com.robotium.solo.Solo;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -22,7 +22,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
 
   private boolean clear;
   protected Activity mActivity;
-  protected SoloCompatibilityAbs mSolo;
+  protected Solo mSolo;
   protected Instrumentation mInstrumentation;
   protected Context mContext;
   ViewPager mPager;
@@ -72,7 +72,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
     if (Build.VERSION.SDK_INT > 13)
       mSolo.clickOnActionBarItem(resourceId);
     else
-      mSolo.clickOnVisibleActionbarItem(resourceId);
+      ;//mSolo.clickOnVisibleActionbarItem(resourceId);
   }
   /**
    * @param resourceId
@@ -83,8 +83,8 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
    */
   protected boolean actionBarItemVisible(int resourceId) {
     boolean invocable = mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0);
-    if (invocable || Build.VERSION.SDK_INT > 13)
+    //if (invocable || Build.VERSION.SDK_INT > 13)
       return invocable;
-    return mSolo.actionBarItemEnabled(resourceId);
+    //return mSolo.actionBarItemEnabled(resourceId);
   }
 }

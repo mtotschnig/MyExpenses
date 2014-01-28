@@ -49,7 +49,6 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     ArrayList<String> menuItems= new ArrayList<String>();
     Class<?>[] activities = new Class<?>[] {
         ManageParties.class,
-        ManageAccounts.class,
         MethodEdit.class,
         ExpenseEdit.class,
         AccountEdit.class,
