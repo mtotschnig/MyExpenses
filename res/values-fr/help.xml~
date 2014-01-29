@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Menu de commandes</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Liste des opérations</string>
+  <string name="help_MyExpenses_info">Cet écran affiche les opérations du compte courant. La barre de navigation permet d\'accéder à la liste des comptes et de sélectionner un autre compte. Cliquez sur une entrée dans la liste pour l\'éditer.</string>
+  <string name="help_MyExpenses_crStatus_info">L\'état de la transaction est indiquée par la couleur du rectangle : gris pour non-rapprochée, bleu pour pointé, vert pour rapprochée. Cliquer sur le rectangle modifie l\'état.</string>
+  <string name="menu_create_transaction_help_text">Ouvre le formulaire pour saisir une nouvelle opération.</string>
+  <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n\'est active que si vous avez au moins deux comptes dans la même devise.</string>
+  <string name="menu_create_split_help_text">Dans une opération ventilée, vous attribuez des montants partiels à plusieurs catégories ou aux transferts vers d\'autres comptes.</string>
+  <string name="menu_reset_help_text">Cette commande exportera les opérations vers un fichier sur la carte SD en format QIF ou CSV. Par défaut, les opérations seront effacées, mais vous pouvez choisir de seulement les marquer comme exportées. Ce fichier peut être immédiatement transféré par FTP, courriel ou d\'autres applications, si vous activez cette option dans les paramètres.</string>
+  <string name="menu_edit_account_help_text">Changer les propriétés du compte courant: titre, description, solde initial, type, devise, couleur.</string>
+  <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>
+  <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer sur un groupe pour inspecter une répartition spécifique.</string>
+  <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances pour le compte courant. Vous pouvez appliquer, modifier, supprimer des modèles mais aussi définir vos opérations futures et périodiques.</string>
+  <string name="menu_create_account_help_text">Ouvre le formulaire pour définir un nouveau compte.</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Cet écran affiche la liste des méthodes prédéfinies de paiement (Chèque, Carte de crédit, Dépôt, Prélèvement) et permet d\'en créer de nouvelles. Si vous cliquez sur une entrée, vous pouvez changer l\'association entre méthode et type de compte.</string>
+  <string name="menu_create_method_help_text">Ouvre le formulaire pour définir une nouvelle méthode.</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Sur cet écran s\'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers. Vous pouvez en supprimer ou les éditer par le menu contextuel.</string>
+  <string name="menu_create_party_help_text">Ouvre une fenêtre pour saisir le nouveau tiers</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">Cet onglet répertorie tous les modèles disponibles. Alors que les modèles peuvent être tirés de transactions par leur menu contextuel, ici vous pouvez créer de nouveaux modèles à partir de rien (pour les transactions ou les transferts).</string>
+  <string name="help_ManageTemplates_plans_info">Une échéance est un modèle pour lequel vous avez créé un événement dans le calendrier de l'échéancier. Sur cet onglet les échéances sont répertoriées. Lorsque vous développez une entrée, vous pourrez voir la liste des opérations à venir d\'un échéancier. Au lieu d\'attendre la notification qui s\'affiche à terme, ici, vous pouvez décider d\'appliquer ces occurrences futures à l\'avance afin qu\'elles soient visibles dans votre liste des opérations en appelant leurs commandes respectives dans le menu contextuel. L\'état d\'une instance est indiqué par les icônes suivantes : &lt;br&gt;&lt;img src=\"ic_stat_open\"/&gt; L\'opération n\'a pas encore été appliquée.&lt;br&gt;&lt;img src=\"ic_stat_applied\" /&gt; L\'opération a été réalisée.&lt;br&gt;&lt;img src=\"ic_stat_cancelled\" /&gt; L\'opération a été annulée, c\'est-à-dire que vous l\'avez ignorée. Aucune opération ne sera créée.</string>
+  <string name="menu_create_template_for_transaction_help_text">Crée un nouveau modèle d\'opération</string>
+  <string name="menu_create_template_for_transfer_help_text">Crée un nouveau modèle de transfert</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Cet écran affiche la répartition de vos dépenses et entrées par catégories, pour toutes les transactions d\'un compte ou d\'un groupe spécifique.</string>
+  <string name="help_ManageCategories_select_info">En plus des actions que vous pouvez effectuer dans la gestion de catégories de l\'écran Préférences (créer, modifier, supprimer), sur cet écran, vous pouvez lier une opération à une catégorie sélectionnée. Vous sélectionnez une sous-catégorie pour la liaison de la transaction en cours en cliquant simplement dessus. Afin de lier une catégorie principale, vous devez appeler son menu contextuel.</string>
+  <string name="help_ManageCategories_manage_info">Sur cet écran, vous créez, éditez et supprimez les catégories. Par défaut, les catégories sont triées par la fréquence d\'utilisation (l\'ordre alphabétique est utilisé comme critère secondaire). Ce fonctionnement vous permet un accès rapide aux catégories associées aux opérations les plus utilisées. Si vous préférez voir apparaître les catégories dans l\'ordre alphabétique, vous pouvez configurer ceci dans les paramètres. Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Dans le menu contextuel des catégories, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale. Les sous-catégories ont aussi leur menu contextuel afin de les effacer ou de les modifier.</string>
+  <string name="menu_create_main_cat_help_text">Ouvre une fenêtre pour saisir le titre d\'une nouvelle catégorie principale.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Définit le type de regroupement et affiche la distribution par jour, mois, semaine ou année.</string>
+  <string name="menu_back_help_text">Naviguer vers le groupe précédent. Peut aussi être fait par le glissement de gauche à droite.</string>
+  <string name="menu_forward_help_text">Naviguer vers le groupe suivant. Peut aussi être fait par le glissement de droite à gauche.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
+  <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>
+  <string name="help_ExpenseEdit_template_title">Formulaire pour modèles</string>
+  <string name="help_ExpenseEdit_split_title">Formulaire pour opérations ventilées</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
+  <string name="help_ExpenseEdit_info">Cliquez sur le bouton = pour accéder à une calculatrice.</string>
+  <string name="help_ExpenseEdit_transaction_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée. Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois que vous entrerez un tiers. Le bouton pour définir une méthode de paiement s\'affiche uniquement si le type du compte courant est associé aux méthodes. Par défaut, seulement les comptes bancaires sont associés à quelques méthodes (Chèque, Carte de crédit, Dépôt, Prélèvement).</string>
+  <string name="help_ExpenseEdit_transfer_info">Sélectionnez le compte de transfert à partir de la liste déroulante.</string>
+  <string name="help_ExpenseEdit_template_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée. Saisissez un titre qui identifie le modèle.&lt;h2&gt;Échéances&lt;/h2&gt;Lorsque vous créez une échéance pour un modèle, celle-ci est ajoutée au calendrier géré par votre application Calendrier. L\'échéance peut-être définie comme événement ponctuel ou périodique géré par le calendrier. Vous pouvez créer, modifier et supprimer l\'échéance à partir de son bouton, mais une fois enregistrée, elle est gérée par l\'Agenda. Une échéance est définie comme automatique ou manuelle. Lorsqu\'un événement automatique arrive à son terme, l\'opération est créée et vous recevez une notification. Lorsque l’événement est de type manuel, vous recevez également une notification, mais vous devrez choisir d\'annuler, de modifier ou d\'appliquer le modèle en cours.</string>
+  <string name="help_ExpenseEdit_split_info">Entrez autant de sous-opérations que nécessaire par le menu des sous-opérations (catégorie et transfert). La moitié inférieure de l\'écran affiche la liste des sous-opérations et le montant non encore assigné à une catégorie ou à un transfert. Vous ne pouvez enregistrer l\'opération ventilée tant que le montant de l\'opération n\'a pas été attribué completement.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Sélectionner une catégorie pour la sous-opération.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Affecter un compte de transfert à la sous-opération.</string>
+  <string name="menu_create_split_part_category_help_text">Ouvre la fenêtre pour attribuer une sous-opération à une catégorie.</string>
+  <string name="menu_create_split_part_transfer_help_text">Ouvre la fenêtre pour définir une sous-opération en tant que transfert vers un autre compte.</string>
+  <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>
+  <string name="menu_save_and_new_help_text">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle  opération avec les même données.</string>
+  <string name="menu_invert_transfer_help_text">Inverser la direction du transfert en inversant \"De\" et \"Vers\" le compte.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Formulaire pour comptes</string>
+  <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -&gt; Gestion -&gt; Méthodes de paiement.</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
+  <string name="help_MethodEdit_info">Sélectionnez les types de comptes pour lesquels une méthode est applicable. Vous pouvez aussi définir un intitulé (sauf pour les méthodes prédéfinies). Par le type d\'une méthode, vous déterminez si celle-ci est applicable pour les dépenses (débit), les revenus (crédit) ou les deux (neutre).</string>
+</resources>

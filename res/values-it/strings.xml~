@@ -119,6 +119,7 @@
   </string-array>
   <string name="help_leading">Grazie di probare <i>Le mie spese</i> por Android.</string>
   <string name="important_upgrade_information_heading">Informazioni importanti</string>
+  <string name="important_upgrade_information_1"></string>
   <string name="import_categories">Importare le categorie</string>
   <string name="income">Entrate</string>
   <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
@@ -196,14 +197,8 @@
   <string name="no_split_parts">Nessuna somma parziale.</string>
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_title_given">Non hai inserito nessun titolo.</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">L\'oggetto selezionato viene mappato a una operazione e non può essere cancellato.</item>
-  	<item quantity="other">%1$d oggetti selezionati vengono mappati alle operazioni e non possono essere cancellati.</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">L\'oggetto selezionato viene mappato a un modello e non può essere cancellato.</item>
-    <item quantity="other">%1$d oggetti selezionati vengono mappati ai modelli e non possono essere cancellati.</item>
-  </plurals>
+  <string name="not_deletable_mapped_transactions">Non può cancellare, perché ci sono operazione ad esso attribuite.</string>
+  <string name="not_deletable_mapped_templates">Non può cancellare, perché ci sono modelli ad esso attribuite.</string>
   <string name="numbered">numerazione</string>
   <string name="oi_pick_colors_info">Installare OI Color Picker per ulteriori opzioni</string>
   <string name="opening_balance">Saldo iniziale</string>
@@ -324,10 +319,7 @@
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.</string>
   <string name="save_transaction_and_new_success">Salvata con successo</string>
   <string name="save_transaction_error">Non è possible salvare la nuova operazione da modello</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Nuova operazione salvata con successo da modello.</item>
-    <item quantity="other">%1$d nuove operazioni sono state salvate con successo da modelli.</item>
-  </plurals>
+  <string name="save_transaction_from_template_success">Nuova operazione salvata con successo da modello</string>
   <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
   <string name="select">Selezionare</string>
   <string name="select_category">Selezionare una categoria</string>
@@ -360,23 +352,9 @@
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non diviso.</string>
   <string name="warning_backup">Il database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string>
-  <string name="warning_delete_account">Questo conto \"%1$s\" sarà cancelatto con tutte le sue operazioni.</string>
-  <plurals name="warning_delete_main_category">
-  	<item quantity="one">La categoria selezionata ha sottocategorie, che verrà cancellate così.</item>
-  	<item quantity="other">%1$d categorie selezionate hanno sottocategorie, che verrà cancellate così.</item>
-  </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Il piano selezionato viene cancellato.</item>
-    <item quantity="other">Saranno cancellati %1$d piani selezionati.</item>
-  </plurals>
-  <plurals name="warning_delete_template">
-    <item quantity="one">Il modello selezionato verrà cancellato.</item>
-    <item quantity="other">Saranno cancellati %1$d modelli selezionati.</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">L\'operazione selezionata verrà cancellata.</item>
-  	<item quantity="other">Saranno cancellati %1$d transazioni selezionate.</item>
-  </plurals>
+  <string name="warning_delete_account">Questo conto sarà cancelatto con tutte le sue operazioni. Vuoi continuare?</string>
+  <string name="warning_delete_template">Questo modello (e di qualsiasi scedenza associata) saranno cancellati. Vuoi continuare?</string>
+  <string name="warning_delete_transaction">Questa operazione verrà cancellata. Vuoi continuare ?</string>
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
   <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticare. Non sarà in grado di recuperare, a meno che impostato una domanda di sicurezza (Richiede Le mie spese Contrib).</string>
   <string name="warning_reset_account">Se si continua, tutte le operazioni di questo conto vengono eliminati dal database e non possono essere ripristinati.</string>

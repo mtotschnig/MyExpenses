@@ -118,6 +118,7 @@
   </string-array>
   <string name="help_leading">Köszönjük, hogy a <i>Kiadásaim</i> Android változatát telepítette.</string>
   <string name="important_upgrade_information_heading">Fontos információ</string>
+  <string name="important_upgrade_information_1"></string>
   <string name="import_categories">Kategóriák importálása</string>
   <string name="income">Bevétel</string>
   <string name="invalid_number_format">Tizedes formátum nem található az Ön nyelvén. Kérem használja ezt: %1$s</string>
@@ -190,6 +191,8 @@
   <string name="no_split_parts">Nincsenek részletösszegek.</string>
   <string name="no_templates">Nincsenek sablonok.</string>
   <string name="no_title_given">Nem adott meg címet.</string>
+  <string name="not_deletable_mapped_transactions">Nem törölhető, mert összefüggő tranzakciókat érint.</string>
+  <string name="not_deletable_mapped_templates">Nem törölhető, mert összefüggő sablont érint.</string>
   <string name="numbered">számozott</string>
   <string name="oi_pick_colors_info">OI Color Picker telepítése további választási lehetőségekhez</string>
   <string name="opening_balance">Nyitó egyenleg</string>
@@ -309,6 +312,7 @@
   <string name="restore_preferences_success">Beállítások sikeresen visszaállítva a korábbi mentésből.</string>
   <string name="save_transaction_and_new_success">Sikeresen mentve</string>
   <string name="save_transaction_error">Nem sikerült a sablonból létrehozott tranzakciót menteni</string>
+  <string name="save_transaction_from_template_success">Tranzakció sikeresen mentve a sablon alapján</string>
   <string name="save_transaction_template_deleted">Sablon törölve</string>
   <string name="select">Kiválasztás</string>
   <string name="select_category">Kategória kiválasztása</string>
@@ -342,6 +346,8 @@
   <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára. Folytatja?</string>
   <string name="warning_backup_exists">Adatbázis és beállítások mentése az SD-kártyára. A korábbi mentés felülírásra kerül. Folytatja?</string>
   <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt. Folytatja?</string>
+  <string name="warning_delete_template">Ez a sablon törlésre kerül minden hozzárendelt tervvel együtt. Folytatja?</string>
+  <string name="warning_delete_transaction">Ez a tranzakció törlésre kerül. Folytatja?</string>
   <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
   <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy azt ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik, és kizárólag a Kiadásaim Contrib verzióban!</string>
   <string name="warning_reset_account">Ha folytatja minden ehhez a számlához tartozó tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>

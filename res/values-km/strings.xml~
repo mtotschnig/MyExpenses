@@ -118,6 +118,7 @@
   </string-array>
   <string name="help_leading">អរគុណ​ចំពោះការបញ្ចូល <i>My Expenses</i> លើ​ Android។</string>
   <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
+  <string name="important_upgrade_information_1"></string>
   <string name="import_categories">នាំចូល​ចំណាត់ថ្នាក់</string>
   <string name="income">ចំណូល</string>
   <string name="invalid_number_format">ទម្រង់​ទសភាគ អត់​ស្គាល់តាមការកំណត់ភាសា​របស់​អ្នកទេ។ សូម​ប្រើ %1$s</string>
@@ -186,6 +187,8 @@
   <string name="no_split_parts">គ្មាន​ផ្នែក​ណា​​ត្រូវបាន​​ញែកទេ។</string>
   <string name="no_templates">គ្មានទិន្នន័យ​​គំរូទេ។</string>
   <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
+  <string name="not_deletable_mapped_transactions">មិន​អាច​លុបបានទេ ព្រោះ​មាន​ប្រតិបត្តិការ​ភ្ជាប់​រួចហើយ។</string>
+  <string name="not_deletable_mapped_templates">មិនអាចលុប​បានទេ ព្រោះមាន​ទិន្នន័យគំរូភ្ជាប់​ហើយ។</string>
   <string name="numbered">ជាលេខ</string>
   <string name="oi_pick_colors_info">បញ្ចូល កម្មវិធី រើសពណ៌ OI </string>
   <string name="opening_balance">បើក​សមតុល្យ</string>
@@ -305,6 +308,7 @@
   <string name="restore_preferences_success">ចំណង់ចំណូលចិត្តត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
   <string name="save_transaction_and_new_success">រក្សាទុក​ដោយជោគជ័យ</string>
   <string name="save_transaction_error">មិនអាចរក្សាទុកប្រតិបត្តិការថ្មីពីទិន្នន័យគំរូ</string>
+  <string name="save_transaction_from_template_success">ប្រតិបត្តិការថ្មីបានរក្សាទុកដោយជោគជ័យពីពុម្ព</string>
   <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
   <string name="select">ជ្រើសរើស</string>
   <string name="select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់</string>
@@ -338,6 +342,8 @@
   <string name="warning_backup">មូលដ្ឋានទិន្នន័យនិងចំណង់ចំណូលចិត្តនឹងត្រូវបានរក្សាទុកទៅ sdកាត ។ តើអ្នកចង់បន្តឬ?</string>
   <string name="warning_backup_exists">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានរក្សាទុកទៅ sdcard ។ ការបម្រុងទុក ដែលមានស្រាប់ នឹងត្រូវបាន សរសេរ ជាន់ ពីលើ។ តើអ្នកចង់បន្តឬទេ?</string>
   <string name="warning_delete_account">គណនីនេះ នឹងត្រូវបានលុបជាមួយ នឹងប្រតិបត្តិការរបស់ខ្លួនទាំងអស់។ តើអ្នកចង់បន្តឬ?</string>
+  <string name="warning_delete_template">ទិន្នន័យ​គំរូ​នេះ (និង​ផែនការដែល​ទាក់ទងផ្សេងៗ) នឹង​ត្រូវបាន​លុប​ចោល។ តើអ្នក​ចង់​បន្ត​ឬទេ?</string>
+  <string name="warning_delete_transaction">ប្រតិបត្តិការ​នេះ​​នឹង​ត្រូវ​បាន​លុប​ចោល។ តើ​អ្នក​ចង់​បន្ត​ឬទេ?</string>
   <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
   <string name="warning_password_no_contrib">ប្រសិន​បើអ្នក​ដាក់​លេខ​សម្ងាត់​ សូម​ចាំថា​មិន​អាចភ្លេច​បានឡើយ។ អ្នក​នឹង​មិន​អាចយកវា​ត្រឡប់​មកវិញទេ រហូត​ទាល់​តែ​អ្នក​ដាក់​សំនួរ​សុវត្ថិភាព​មួយ (ត្រូវការកម្មវិធី My Expenses Contrib)។</string>
   <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
