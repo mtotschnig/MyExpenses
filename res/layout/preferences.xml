@@ -162,7 +162,7 @@
     <Preference android:key="@string/pref_send_feedback_key"
         android:title="@string/pref_send_feedback_title"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_category_title_bug_reports">
+    <PreferenceCategory android:title="@string/pref_category_title_crash_reports">
       <CheckBoxPreference android:key="acra.enable"
 			    android:title="@string/pref_enable_acra"
 			    android:summaryOn="@string/pref_acra_enabled"

@@ -276,7 +276,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
   <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
-  <string name="pref_category_title_bug_reports">Bug reports</string>
+  <string name="pref_category_title_crash_reports">Crash reports</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Manage</string>
