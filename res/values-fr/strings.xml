@@ -174,7 +174,7 @@
   <string name="menu_reset">Exporter et réinitialiser</string>
   <string name="menu_reset_all">Exporter et réinitialiser tous</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Réinit.</string>
+  <string name="menu_reset_plan_instance">Réinitialiser</string>
   <string name="menu_save">Enregistrer</string>
   <string name="menu_save_and_new">Enregistrer et nouveau</string>
   <string name="menu_settings">Paramètres</string>

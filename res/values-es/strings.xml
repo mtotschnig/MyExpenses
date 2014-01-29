@@ -174,7 +174,7 @@
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Restabl.</string>
+  <string name="menu_reset_plan_instance">Restablecer</string>
   <string name="menu_save">Guardar</string>
   <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_settings">Configuraciones</string>
