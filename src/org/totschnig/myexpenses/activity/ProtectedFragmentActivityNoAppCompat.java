@@ -28,7 +28,7 @@ import android.support.v4.app.FragmentActivity;
  * through Sherlock and hence need to inherit from the Base Fragment Activity
  *
  */
-public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implements
+public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity implements
     MessageDialogListener  {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;

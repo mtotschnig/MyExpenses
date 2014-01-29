@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 
 import android.os.Bundle;
 
-public class Help extends ProtectedFragmentActivityNoSherlock {
+public class Help extends ProtectedFragmentActivityNoAppCompat {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

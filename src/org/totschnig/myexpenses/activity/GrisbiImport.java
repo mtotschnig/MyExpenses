@@ -59,7 +59,7 @@ import android.util.Xml;
 import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
-public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements DialogInterface.OnClickListener {
+public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implements DialogInterface.OnClickListener {
   static final int SOURCES_DIALOG_ID = 1;
   ProgressDialog mProgressDialog;
   private AlertDialog mSourcesDialog;
