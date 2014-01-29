@@ -103,7 +103,7 @@ public class PlanExecutor extends IntentService {
             String title = account.label + " : " + template.title;
             NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.myexpenses)
+                    .setSmallIcon(R.drawable.ic_stat_planner)
                     .setContentTitle(title)
                     .setContentText(content);
             if (template.planExecutionAutomatic) {

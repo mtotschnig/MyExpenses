@@ -44,7 +44,7 @@ public class PlanNotificationClickHandler extends IntentService {
     }
     int notificationId = extras.getInt("notification_id");
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.myexpenses)
+        .setSmallIcon(R.drawable.ic_stat_planner)
         .setContentTitle(title)
         .setContentText(message);
     ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE))
