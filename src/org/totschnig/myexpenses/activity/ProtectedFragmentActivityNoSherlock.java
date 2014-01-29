@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import android.app.AlertDialog;
@@ -36,6 +37,7 @@ public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implem
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     protection = new ProtectionDelegate(this);
+    setLanguage();
   }
   @Override
   protected void onPause() {
@@ -59,5 +61,8 @@ public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implem
     if (CommonCommands.dispatchCommand(this, command))
       return true;
     return false;
+  }
+  protected void setLanguage() {
+    MyApplication.getInstance().setLanguage();
   }
 }
