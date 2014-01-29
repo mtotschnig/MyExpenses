@@ -689,6 +689,9 @@ public class ExpenseEdit extends AmountActivity implements
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
         .commit();
+    } else {
+      //prevent this flag from being sticky if form was not valid
+      mCreateNew = false;
     }
   }
   /**
