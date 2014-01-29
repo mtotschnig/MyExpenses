@@ -14,41 +14,43 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-    android:id="@id/INSERT_TA_COMMAND"
+    android:id="@id/CREATE_TRANSACTION_COMMAND"
     android:icon="@drawable/create_transaction_icon"
-    android:showAsAction="always"
+    app:showAsAction="always"
     android:title="@string/menu_create_transaction">
   </item>
   <item
-    android:id="@id/INSERT_TRANSFER_COMMAND"
+    android:id="@id/CREATE_TRANSFER_COMMAND"
     android:icon="@drawable/create_transfer_icon"
-    android:showAsAction="ifRoom"
+    app:showAsAction="ifRoom"
     android:title="@string/menu_create_transfer">
   </item>
   <item
-    android:id="@id/INSERT_SPLIT_COMMAND"
+    android:id="@id/CREATE_SPLIT_COMMAND"
     android:icon="@drawable/create_split_icon"
-    android:showAsAction="ifRoom"
+    app:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
   <item
     android:id="@id/MANAGE_PLANS_COMMAND"
-    android:showAsAction="ifRoom"
+    app:showAsAction="ifRoom"
     android:icon="@drawable/manage_plans_icon"
     android:title="@string/menu_manage_plans">
   </item>
   <item
-    android:id="@id/RESET_ACCOUNT_COMMAND"
+    android:id="@id/RESET_COMMAND"
     android:icon="@drawable/reset_icon"
-    android:showAsAction="ifRoom"
+    app:showAsAction="ifRoom"
     android:title="@string/menu_reset">
   </item>
   <item
-    android:id="@id/EDIT_ACCOUNT_COMMAND"
-    android:icon="@drawable/edit_account_icon"
-    android:title="@string/menu_edit_account">
+    android:id="@id/DISTRIBUTION_COMMAND"
+    app:showAsAction="ifRoom"
+    android:icon="@drawable/distribution_icon"
+    android:title="@string/menu_distribution">
   </item>
   <item
     android:id="@id/GROUPING_COMMAND"
@@ -56,10 +58,21 @@
     android:title="@string/menu_grouping">
   </item>
   <item
-    android:id="@id/DISTRIBUTION_COMMAND"
-    android:showAsAction="ifRoom"
-    android:icon="@drawable/distribution_icon"
-    android:title="@string/menu_distribution">
+    android:id="@id/EDIT_ACCOUNT_COMMAND"
+    android:icon="@drawable/edit_account_icon"
+    android:title="@string/menu_edit_account">
+  </item>
+  <item
+    android:id="@id/CREATE_ACCOUNT_COMMAND"
+    android:icon="@drawable/create_account_icon"
+    app:showAsAction="never"
+    android:title="@string/menu_create_account">
+  </item>
+  <item
+    android:id="@id/DELETE_ACCOUNT_COMMAND"
+    android:icon="@drawable/delete_account_icon"
+    app:showAsAction="never"
+    android:title="@string/menu_delete_account">
   </item>
   <item
     android:id="@id/SETTINGS_COMMAND"

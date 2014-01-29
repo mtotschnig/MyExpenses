@@ -42,9 +42,9 @@
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Supprimez cette limitation en installant  &lt;i&gt;Mes dépenses Contrib&lt;/i&gt;.</string>
-  <string name="dialog_contrib_reminder_gain_access">Vous gagnez également accès illimité aux fonctionnalités suivantes:</string>
+  <string name="dialog_contrib_reminder_gain_access">Vous gagnez également accès illimité aux fonctions suivantes:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;Mes dépenses&lt;/i&gt; vous est offert sans publicité et open source. S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;Mes dépenses&lt;/i&gt; vous est offert sans publicité et open source. Si elle vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Il vous reste une seule utilisation.</item>
     <item quantity="other">Il vous reste %1$d utilisations gratuites.</item>
@@ -108,7 +108,7 @@
   <string name="grouping_year">Année</string>
   <string name="grouping_yesterday">Hier</string>
   <string name="help_button_rate">Publier votre avis</string>
-  <string name="help_contextuel_help">Vous pouvez accéder à plus d\'informations sur les fonctions disponibles dans l\'entrée Aide du menu.</string>
+  <string name="help_contextuel_help">Vous pouvez accéder à plus d\'informations sur les fonctions disponibles dans l\'Aide du menu.</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
   <string name="help_heading_whats_new">Nouveautés</string>
@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Appliquer</string>
-  <string name="menu_apply_template_and_edit">Appliquer et éditer</string>
-  <string name="menu_apply_template_and_save">Appliquer et enregistrer</string>
+  <string name="menu_create_instance_edit">Appliquer et éditer</string>
+  <string name="menu_create_instance_save">Appliquer et enregistrer</string>
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -138,7 +138,7 @@
   <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
   <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Create</string>
+  <string name="menu_create">Créer</string>
   <string name="menu_create_account">Nouveau compte</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
   <string name="menu_create_method">Nouvelle méthode de paiement</string>
@@ -176,7 +176,7 @@
   <string name="menu_reset">Exporter et réinitialiser</string>
   <string name="menu_reset_all">Exporter et réinitialiser tous</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Réinitialiser</string>
+  <string name="menu_reset_plan_instance">Réinit.</string>
   <string name="menu_save">Enregistrer</string>
   <string name="menu_save_and_new">Enregistrer et nouveau</string>
   <string name="menu_settings">Paramètres</string>
@@ -191,15 +191,20 @@
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Aucune opération exportable.</string>
-  <string name="no_mapped_transactions">Pas de transactions ont été attribués à des catégories au cours de cette période.</string>
+  <string name="no_mapped_transactions">Aucune opération n\'a été attribuée à aucune catégorie au cours de cette période.</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_plans">Aucune échéance.</string>
   <string name="no_split_parts">Aucune sous-opération.</string>
   <string name="no_templates">Aucun modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
-  <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée : il existe des opérations attribuées.</string>
-  <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée : il existe des modèles attribués.</string>
-  <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée : elle contient des sous-catégories.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">L\'objet sélectionné est associé à un modèle et ne peut pas être supprimé.</item>
+  	<item quantity="other">%1$d objects are mapped to transactions and cannot be deleted.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">L\'objet sélectionné est associé à un modèle et ne peut pas être supprimé.</item>
+    <item quantity="other">%1$d objets sélectionnés sont mappés à des modèles et ne peuvent pas être supprimés.</item>
+  </plurals>
   <string name="numbered">numérotation</string>
   <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
@@ -277,7 +282,7 @@
   <string name="pref_perform_share_summaryOn">Le fichier sera envoyé après chaque export</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier local</string>
-  <string name="pref_planning_calendar_summary">Sélectionnez le calendrier dans lequel les échéances futures et périodiques seront stockés</string>
+  <string name="pref_planning_calendar_summary">Sélectionnez le calendrier dans lequel les échéances futures et périodiques seront stockées</string>
   <string name="pref_planning_calendar_title">Calendrier de l\'échéancier</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
@@ -293,7 +298,7 @@
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_shortcut_account_list_title">Raccourci \'Liste des comptes\'</string>
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
-  <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran Home</string>
+  <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
   <string name="pref_ui_fontsize_title">Augmenter la taille du texte</string>
@@ -320,11 +325,14 @@
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
   <string name="save_transaction_and_new_success">Sauvegardée</string>
   <string name="save_transaction_error">L\'opération à partir du modèle n\'a pas été enregistrée</string>
-  <string name="save_transaction_from_template_success">Nouvelle opération sauvegardée à partir du modèle</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Nouvelle opération sauvegardée à partir du modèle.</item>
+    <item quantity="other">%1$d nouvelles opérations ont été sauvegardées à partir de modèles.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Le modèle a été supprimé.</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
-  <string name="select_parent_category">Choisir cette catégorie</string>
+  <string name="menu_select_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="split_parts_heading">Sous-opérations</string>
@@ -353,15 +361,29 @@
   <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
   <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la carte SD. Voulez-vous continuer?</string>
   <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
-  <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations. Voulez-vous continuer?</string>
-  <string name="warning_delete_template">Ce modèle (ainsi que toute planification associée) sera efffacé. Voulez-vous continuer?</string>
-  <string name="warning_delete_transaction">Cette  opération sera effacée. Voulez-vous continuer?</string>
+  <string name="warning_delete_account">Le compte \"%1$s\" sera effacé ainsi que toutes ses opérations.</string>
+  <plurals name="warning_delete_main_category">
+  	<item quantity="one">La catégorie sélectionnée a sous-catégories, qui seront aussi bien supprimées.</item>
+  	<item quantity="other">%1$d catégories sélectionnées ont des sous-catégories, qui seront aussi bien supprimées.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">Le plan sélectionné sera effacé.</item>
+    <item quantity="other">%1$d plans sélectionnés seront effacés.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">Le modèle sélectionné sera effacé.</item>
+    <item quantity="other">%1$d modèles sélectionnés seront effacé.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">L\'opération sélectionnée sera effacé.</item>
+  	<item quantity="other">%1$d opérations sélectionnées seront effacées.</item>
+  </plurals>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
-  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes dépenses Contrib).</string>
+  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes Dépenses Contrib).</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde. Les données actuelles seront supprimées. Voulez-vous continuer?</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
-  <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans  celle-ci.</string>
+  <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
 </resources>

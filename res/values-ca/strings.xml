@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplica</string>
-  <string name="menu_apply_template_and_edit">Aplica i modifica</string>
-  <string name="menu_apply_template_and_save">Aplica i desa</string>
+  <string name="menu_create_instance_edit">Aplica i modifica</string>
+  <string name="menu_create_instance_save">Aplica i desa</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -197,9 +197,6 @@
   <string name="no_split_parts">No hi ha cap partició.</string>
   <string name="no_templates">No hi ha cap plantilla</string>
   <string name="no_title_given">No heu afegit cap títol.</string>
-  <string name="not_deletable_mapped_transactions">No ha estat possible suprimir-ho, per que té operacions assignades.</string>
-  <string name="not_deletable_mapped_templates">No ha estat possible suprimir-ho, per que te plantilles assignades.</string>
-  <string name="not_deletable_subcats_exists">No ha estat possible suprimir aquesta categoria, per que te sub-categories.</string>
   <string name="numbered">numerat</string>
   <string name="oi_pick_colors_info">Podeu disposar de més opcions si instal·leu OI Color Picker</string>
   <string name="opening_balance">Saldo inicial</string>
@@ -320,11 +317,10 @@
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
   <string name="save_transaction_and_new_success">S\'ha desat correctament</string>
   <string name="save_transaction_error">No ha estat possible desar la nova operació de la plantilla</string>
-  <string name="save_transaction_from_template_success">La nova operació s\'ha desat correctament des de la plantilla</string>
   <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
   <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
-  <string name="select_parent_category">Trieu aquesta categoria</string>
+  <string name="menu_select_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer</string>
   <string name="split_parts_heading">Particions</string>
@@ -354,8 +350,6 @@
   <string name="warning_backup">La base de dades i les preferències es desaran a la tarja SD. Voleu continuar?</string>
   <string name="warning_backup_exists">La base de dades i les preferències es desaran a la tarja SD. La còpia de seguretat actual es suprimirà. Voleu continuar?</string>
   <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves operacions. Voleu continuar?</string>
-  <string name="warning_delete_template">Esteu segur que voleu suprimir aquesta plantilla (i la corresponent planificació)?</string>
-  <string name="warning_delete_transaction">Esteu segur que voleu suprimir aquesta operació?</string>
   <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
   <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat (Requereix Les meves despeses Contrib).</string>
   <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
@@ -363,5 +357,5 @@
   <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
   <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat. S\'esborraran les dades actuals. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
-  <string name="warning_splitpartcategory_context">Les transferències que formen part d\'una operació repartida només es poden editar o suprimir en el context del seu repartiment</string>
+  <string name="warning_splitpartcategory_context">Les transferències que formen part d\'una operació repartida només es poden editar en el context del seu repartiment</string>
 </resources>

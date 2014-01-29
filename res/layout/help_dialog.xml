@@ -27,6 +27,9 @@
     <TextView android:id="@+id/menu_commands_heading"
         style="@style/headingStyle"
         android:text="@string/help_menu_commands"/>
+    <TextView android:id="@+id/cab_commands_heading"
+        style="@style/headingStyle"
+        android:text="@string/help_contextual_actions"/>
   </LinearLayout>
 </ScrollView>
 

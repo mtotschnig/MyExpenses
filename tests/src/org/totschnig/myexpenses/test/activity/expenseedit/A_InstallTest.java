@@ -4,7 +4,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.R;
 
-import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+import com.robotium.solo.Solo;
 
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -29,7 +29,7 @@ public class A_InstallTest extends MyActivityTest<MyExpenses> {
   public void setUp() throws Exception {
     super.setUp();
     mActivity = getActivity();
-    mSolo = new SoloCompatibilityAbs(mInstrumentation, mActivity);
+    mSolo = new Solo(mInstrumentation, mActivity);
   }
   /**
    * on Android 4 the installation is not done without a test

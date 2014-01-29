@@ -81,9 +81,9 @@ public class DatabaseConstants {
    */
   public static final String LABEL_MAIN =
     "CASE WHEN " +
-    "  transfer_peer " +
-    "THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = transfer_account) " +
+        KEY_TRANSFER_PEER +
+    " THEN " +
+    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = " + KEY_TRANSFER_ACCOUNT + ") " +
     "WHEN " +
     "  cat_id " +
     "THEN " +
@@ -99,10 +99,10 @@ public class DatabaseConstants {
     "END AS " + KEY_LABEL_MAIN;
  public static final String LABEL_SUB =
     "CASE WHEN " +
-    "  transfer_peer is null AND cat_id AND (SELECT parent_id FROM " + TABLE_CATEGORIES
-        + " WHERE _id = cat_id) " +
+    "  " + KEY_TRANSFER_PEER + " is null AND cat_id AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
+        + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
     "THEN " +
-    "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
+    "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
     "END AS " + KEY_LABEL_SUB;
   /**
    * if transaction is linked to a subcategory
@@ -110,12 +110,17 @@ public class DatabaseConstants {
    */
   public static final String SHORT_LABEL = 
     "CASE WHEN " +
-    "  transfer_peer " +
+    "  " + KEY_TRANSFER_PEER + " " +
     "THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = transfer_account) " +
+    "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
     "ELSE " +
-    "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
+    "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
     "END AS  " + KEY_LABEL;
+  public static final String TRANSFER_PEER_PARENT =
+      "(SELECT " + KEY_PARENTID
+          + " FROM " + TABLE_TRANSACTIONS + " peer WHERE peer." + KEY_ROWID
+          + " = " + VIEW_EXTENDED + "." + KEY_TRANSFER_PEER + ")";
+
   public static final Long SPLIT_CATID = 0L;
   
   public static final String WHERE_NOT_SPLIT =

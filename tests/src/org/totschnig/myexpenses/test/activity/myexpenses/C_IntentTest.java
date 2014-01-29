@@ -12,8 +12,7 @@ import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 import org.totschnig.myexpenses.R;
 
-import com.jayway.android.robotium.solo.Solo;
-import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+import com.robotium.solo.Solo;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -41,7 +40,7 @@ public class C_IntentTest extends MyActivityTest<MyExpenses> {
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
-    mSolo = new SoloCompatibilityAbs(mInstrumentation, mActivity);
+    mSolo = new Solo(mInstrumentation, mActivity);
     
     Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"));
   }
@@ -63,7 +62,7 @@ public class C_IntentTest extends MyActivityTest<MyExpenses> {
         ;
       setActivityIntent(i);
       mActivity = getActivity();
-      mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
+      mSolo = new Solo(getInstrumentation(), mActivity);
       mSolo.searchText(cursor.getString(cursor.getColumnIndex(KEY_LABEL)));
       mActivity.finish();  // close the activity
       setActivity(null);

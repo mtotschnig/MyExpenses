@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.test.util.Fixture;
 
 import android.content.Intent;
 
-import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+import com.robotium.solo.Solo;
 
 import static  org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
@@ -23,7 +23,7 @@ public class TransactionEditTest extends MyActivityTest<ExpenseEdit> {
   public void setUp() throws Exception {
     super.setUp();
     //mActivity = getActivity();
-    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
+    mSolo = new Solo(getInstrumentation(), mActivity);
     Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"));
   }
   public void testTransaction() {

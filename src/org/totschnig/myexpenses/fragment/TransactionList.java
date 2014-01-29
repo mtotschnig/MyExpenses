@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -40,8 +42,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -63,12 +67,14 @@ import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -89,6 +95,10 @@ public class TransactionList extends BudgetListFragment implements
   private StickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
+  /**
+   * used to restore list selection when drawer is reopened
+   */
+  private SparseBooleanArray mCheckedListItems;
 
   private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay, columnIndexTransferPeer,
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
@@ -120,7 +130,7 @@ public class TransactionList extends BudgetListFragment implements
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
     aObserver = new AccountObserver(new Handler());
-    ContentResolver cr= getSherlockActivity().getContentResolver();
+    ContentResolver cr= getActivity().getContentResolver();
     //when account has changed, we might have
     //1) to refresh the list (currency has changed),
     //2) update current balance(opening balance has changed),
@@ -131,7 +141,7 @@ public class TransactionList extends BudgetListFragment implements
         true,aObserver);
   }
   private void setAdapter() {
-    Context ctx = getSherlockActivity();
+    Context ctx = getActivity();
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
 
@@ -169,30 +179,16 @@ public class TransactionList extends BudgetListFragment implements
   public void onDestroy() {
     super.onDestroy();
     try {
-      ContentResolver cr = getSherlockActivity().getContentResolver();
+      ContentResolver cr = getActivity().getContentResolver();
       cr.unregisterContentObserver(aObserver);
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
     }
   }
 
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    super.onCreateContextMenu(menu, v, menuInfo);
-    mTransactionsCursor.moveToPosition(info.position);
-    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-    //templates for splits is not yet implemented
-    if (! SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
-      menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
-    menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-  }
-
-
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final MyExpenses ctx = (MyExpenses) getSherlockActivity();
+    final MyExpenses ctx = (MyExpenses) getActivity();
     mManager = getLoaderManager();
     setGrouping();
     setColors();
@@ -225,11 +221,60 @@ public class TransactionList extends BudgetListFragment implements
          f.show(fm, "TRANSACTION_DETAIL");
        }
     });
-    registerForContextMenu(mListView);
+    registerForContextualActionBar(mListView.getWrappedList());
     return v;
   }
-
   @Override
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    FragmentManager fm = getActivity().getSupportFragmentManager();
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_transaction,
+          getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(fm,"DELETE_TRANSACTION");
+      return true;
+    case R.id.CLONE_TRANSACTION_COMMAND:
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,itemIds, null), "ASYNC_TASK")
+        .commit();
+      return true;
+    }
+    return super.dispatchCommandMultiple(command, positions, itemIds);
+  }
+  @Override
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) info;
+    MyExpenses ctx = (MyExpenses) getActivity();
+    switch(command) {
+    case R.id.EDIT_COMMAND:
+      mTransactionsCursor.moveToPosition(acmi.position);
+      if (DbUtils.getLongOrNull(mTransactionsCursor, "transfer_peer_parent") != null) {
+        Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
+      } else {
+        Intent i = new Intent(ctx, ExpenseEdit.class);
+        i.putExtra(KEY_ROWID, acmi.id);
+        i.putExtra("transferEnabled",ctx.transferEnabled());
+        ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+      }
+      return true;
+    case R.id.CREATE_TEMPLATE_COMMAND:
+      Bundle args = new Bundle();
+      args.putLong("transactionId", acmi.id);
+      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
+      EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
+      return true;
+    }
+    return super.dispatchCommandSingle(command, info);
+  }
+/*  @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     //http://stackoverflow.com/questions/9753213/wrong-fragment-in-viewpager-receives-oncontextitemselected-call
     if (!getUserVisibleHint())
@@ -239,32 +284,15 @@ public class TransactionList extends BudgetListFragment implements
     Bundle args;
     FragmentManager fm = ctx.getSupportFragmentManager();
     switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      if (checkSplitPartTransfer(info.position)) {
-        MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_transaction,
-            R.string.warning_delete_transaction,
-            new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
-            null,
-            MessageDialogFragment.Button.noButton())
-          .show(ctx.getSupportFragmentManager(),"DELETE_TRANSACTION");
-      }
-      return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "ASYNC_TASK")
         .commit();
       return true;
-    case R.id.CREATE_TEMPLATE_COMMAND:
-      args = new Bundle();
-      args.putLong("transactionId", info.id);
-      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
-      EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
-      return true;
     }
     return super.onContextItemSelected(item);
   }
-
+*/
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
@@ -280,16 +308,14 @@ public class TransactionList extends BudgetListFragment implements
     }
     switch(id) {
     case TRANSACTION_CURSOR:
-      Uri uri = (mAccount.id < 0) ?
-          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build() :
-          TransactionProvider.TRANSACTIONS_URI;
-      cursorLoader = new CursorLoader(getSherlockActivity(),
+      Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
+      cursorLoader = new CursorLoader(getActivity(),
           uri, null, selection + " AND parent_id is null",
           selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
     case SUM_CURSOR:
-      cursorLoader = new CursorLoader(getSherlockActivity(),
+      cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES},
           selection + " AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ")",
@@ -306,7 +332,7 @@ public class TransactionList extends BudgetListFragment implements
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
       }
-      cursorLoader = new CursorLoader(getSherlockActivity(),
+      cursorLoader = new CursorLoader(getActivity(),
           builder.build(),
           null,null,null, null);
       break;
@@ -336,6 +362,7 @@ public class TransactionList extends BudgetListFragment implements
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(c);
+      invalidateCAB();
       break;
     case SUM_CURSOR:
       c.moveToFirst();
@@ -404,21 +431,12 @@ public class TransactionList extends BudgetListFragment implements
       }
     }
   }
-  private boolean checkSplitPartTransfer(int position) {
-    mTransactionsCursor.moveToPosition(position);
-    Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor,columnIndexTransferPeer);
-    if (transferPeer != null && DbUtils.hasParent(transferPeer)) {
-      Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
-      return false;
-    }
-    return true;
-  }
   public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
     LayoutInflater inflater;
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
-      inflater = LayoutInflater.from(getSherlockActivity());
+      inflater = LayoutInflater.from(getActivity());
     }
     @SuppressWarnings("incomplete-switch")
     @Override
@@ -653,5 +671,49 @@ public class TransactionList extends BudgetListFragment implements
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
     }
+  }
+  @Override
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
+    super.configureMenuLegacy(menu, menuInfo);
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+    configureMenuInternal(menu,info.position);
+  }
+  @Override
+  protected void configureMenu11(Menu menu, int count) {
+    super.configureMenu11(menu, count);
+    if (count==1) {
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      for (int i=0; i<checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i)) {
+          configureMenuInternal(menu,checkedItemPositions.keyAt(i));
+          break;
+        }
+      }
+    }
+  }
+  private void configureMenuInternal(Menu menu, int position) {
+    if (mTransactionsCursor != null) {
+      mTransactionsCursor.moveToPosition(position);
+      //templates for splits is not yet implemented
+      if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
+        menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
+    }
+  }
+  @SuppressLint("NewApi")
+  public void onDrawerOpened() {
+    if (mActionMode != null) {
+      mCheckedListItems = mListView.getWrappedList().getCheckedItemPositions().clone();
+      mActionMode.finish();
+    }
+  }
+  public void onDrawerClosed() {
+    if (mCheckedListItems!=null) {
+      for (int i=0; i<mCheckedListItems.size(); i++) {
+        if (mCheckedListItems.valueAt(i)) {
+          mListView.getWrappedList().setItemChecked(mCheckedListItems.keyAt(i), true);
+        }
+      }
+    }
+    mCheckedListItems = null;
   }
 }

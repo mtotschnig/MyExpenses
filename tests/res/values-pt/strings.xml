@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">Minha carteira</string>
+  <string name="testData_account1Description">Despesas diárias</string>
+  <string name="testData_account2Label">final de semana em Paris</string>
+  <string name="testData_account2Description">Agosto de 2012</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">Conta em branco</string>
+  <string name="testData_account3Description">Banco da América</string>
+  <string name="testData_transaction1SubCat">Metrô</string>
+  <string name="testData_transaction1MainCat">Transporte</string>
+  <string name="testData_transaction2SubCat">Mercearia</string>
+  <string name="testData_transaction2MainCat">Alimentação</string>
+  <string name="testData_transaction2Comment">Frutas &amp; Vegetais</string>
+  <string name="testData_transaction3SubCat">Combustível</string>
+  <string name="testData_transaction3MainCat">Carro</string>
+  <string name="testData_transaction4SubCat">Restaurante</string>
+  <string name="testData_transaction4MainCat">Alimentação</string>
+  <string name="testData_transaction4Payee">Pizzaria Antonella</string>
+  <string name="testData_transaction6MainCat">Presentes</string>
+  <string name="testData_templateMainCat">Habitação</string>
+  <string name="testData_templateSubCat">Aluguel</string>
+  <!-- a name typically used as example name -->
+  <string name="testData_templatePayee">João das Couves</string>
+</resources>

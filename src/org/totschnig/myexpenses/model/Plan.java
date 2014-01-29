@@ -15,6 +15,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -36,11 +37,29 @@ public class Plan extends Model implements Serializable {
     this.title = title;
     this.description = description;
   }
+  /**
+   * insert a new planing event into the calendar
+   * @param calendarId
+   * @return the id of the created object
+   */
   @Override
   public Uri save() {
-    // not handled here, but in Calendar app
-    return null;
+    String calendarId = MyApplication.getInstance().checkPlanner();
+    if (calendarId.equals("-1"))
+      return null;
+    ContentValues values = new ContentValues();
+    values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
+    values.put(Events.TITLE, title);
+    values.put(Events.DESCRIPTION, description);
+    values.put(Events.DTSTART, dtstart);
+    values.put(Events.DTEND, dtstart);
+    if (!TextUtils.isEmpty(rrule))
+      values.put(Events.RRULE, rrule);
+    //values.put(Events.ALL_DAY,1);
+    values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+    return cr().insert(Events.CONTENT_URI, values);
   }
+
   public static void delete(Long id) {
     String calendarId = MyApplication.getInstance().getSettings()
         .getString(MyApplication.PREFKEY_PLANNER_CALENDAR_ID, "-1");
@@ -64,26 +83,7 @@ public class Plan extends Model implements Serializable {
     }
     eventCursor.close();
   }
-  /**
-   * insert a new planing event into the calendar
-   * @param calendarId
-   * @return the id of the created object
-   */
-  public static Long create(Plan plan) {
-    String calendarId = MyApplication.getInstance().checkPlanner();
-    if (calendarId.equals("-1"))
-      return null;
-    ContentValues values = new ContentValues();
-    values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
-    values.put(Events.TITLE, plan.title);
-    values.put(Events.DESCRIPTION, plan.description);
-    values.put(Events.DTSTART, plan.dtstart);
-    values.put(Events.DTEND, plan.dtstart);
-    //values.put(Events.ALL_DAY,1);
-    values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
-    Uri uri = cr().insert(Events.CONTENT_URI, values);
-    return ContentUris.parseId(uri);
-  }
+
   public static String prettyTimeInfo(Context ctx, String rRule, Long start) {
     if (rRule != null) {
       EventRecurrence eventRecurrence = new EventRecurrence();

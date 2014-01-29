@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>
+        if (transactionId == null) {
+        //state open
+        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
+        menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
+        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
+      }
+      else if (transactionId == 0L) {
+        //state cancelled
+        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
+      }
+      else {
+        //state applied
+        menu.add(0,R.id.EDIT_COMMAND,0,R.string.menu_edit);
+        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
+        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
+ -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <group android:id="@+id/MenuBulkChild">
+    <item
+      android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
+      android:icon="@drawable/create_instance_save_icon"
+      android:showAsAction="always"
+      android:title="@string/menu_create_instance_save">
+    </item>
+    <item
+      android:id="@id/CANCEL_PLAN_INSTANCE_COMMAND"
+      android:icon="@drawable/cancel_plan_instance_icon"
+      android:showAsAction="ifRoom"
+      android:orderInCategory="1"
+      android:title="@string/menu_cancel_plan_instance">
+    </item>
+    <item
+      android:id="@id/RESET_PLAN_INSTANCE_COMMAND"
+      android:icon="@drawable/reset_plan_instance_icon"
+      android:showAsAction="ifRoom"
+      android:orderInCategory="2"
+      android:title="@string/menu_reset_plan_instance">
+    </item>
+  </group>
+  <group android:id="@+id/MenuSingleChild">
+    <item
+      android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
+      android:icon="@drawable/create_instance_edit_icon"
+      android:showAsAction="always"
+      android:orderInCategory="0"
+      android:title="@string/menu_create_instance_edit">
+    </item>
+    <item
+      android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"
+      android:icon="@drawable/edit_plan_instance_icon"
+      android:showAsAction="always"
+      android:title="@string/menu_edit_plan_instance">
+    </item>
+  </group>
+</menu>

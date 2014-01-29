@@ -187,9 +187,6 @@
   <string name="no_split_parts">沒有分裂部分。</string>
   <string name="no_templates">沒有範本</string>
   <string name="no_title_given">你未輸入任何文字。</string>
-  <string name="not_deletable_mapped_transactions">未能移除，由於對應的交易已存在。</string>
-  <string name="not_deletable_mapped_templates">未能移除，由於對應的範本已存在。</string>
-  <string name="not_deletable_subcats_exists">這個類別不能被刪除，由於它有子類別。</string>
   <string name="numbered">編號</string>
   <string name="oi_pick_colors_info">安裝「OI顏色選擇器」來得到更多選擇</string>
   <string name="opening_balance">金額</string>
@@ -309,11 +306,10 @@
   <string name="restore_preferences_success">喜好設定已經從備份恢復過來。</string>
   <string name="save_transaction_and_new_success">成功保存</string>
   <string name="save_transaction_error">無法從範本儲存新的交易</string>
-  <string name="save_transaction_from_template_success">新的交易成功被保存</string>
   <string name="save_transaction_template_deleted">範本已被移除</string>
   <string name="select">選取</string>
   <string name="select_category">選取類別</string>
-  <string name="select_parent_category">選取這個類別</string>
+  <string name="menu_select_category">選取這個類別</string>
   <string name="share_scheme_not_supported">不支持方案 %1$s</string>
   <string name="share_sending">發送匯出檔案</string>
   <string name="split_parts_heading">分割部分</string>
@@ -343,8 +339,6 @@
   <string name="warning_backup">數據庫和喜好設定將被儲存到SD卡。你要繼續嗎？</string>
   <string name="warning_backup_exists">數據庫和喜好設定將被保存到SD卡。現有備份將被覆蓋掉。你要繼續嗎？</string>
   <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除。你要繼續嗎？</string>
-  <string name="warning_delete_template">此範本 (以及任何相關的計劃) 都將會被刪除。你要繼續嗎？</string>
-  <string name="warning_delete_transaction">此項交易將被刪除。你要繼續嗎？</string>
   <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
   <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題 (貢獻後可用) 。</string>
   <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>

@@ -46,8 +46,9 @@
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Harcamalarım&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
   <plurals name="dialog_contrib_usage_count">
-     <item quantity="other">%1$d ücretsiz kullanım kalmıştır.</item>
-  </plurals>  
+    <item quantity="one">Ücretsiz bir kullanımınız kalmıştır.</item>
+    <item quantity="other">Ücretsiz %1$d kullanımınız kalmıştır.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
@@ -128,11 +129,12 @@
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Uygula</string>
-  <string name="menu_apply_template_and_edit">Uygula ve düzenle</string>
-  <string name="menu_apply_template_and_save">Uygula ve kaydet</string>
+  <string name="menu_create_instance_edit">Uygula ve düzenle</string>
+  <string name="menu_create_instance_save">Uygula ve kaydet</string>
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">İptal et</string>
   <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
   <!--Currently used on button for creating a new plan-->
@@ -195,9 +197,6 @@
   <string name="no_split_parts">Hiçbir alt muamele yok.</string>
   <string name="no_templates">Şablon yok.</string>
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
-  <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
-  <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>
-  <string name="not_deletable_subcats_exists">Bu kategori silinemez çünkü alt kategorileri var.</string>
   <string name="numbered">sayılı</string>
   <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
@@ -219,6 +218,7 @@
   <string name="plan_automatic">otomatik</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Harcamalarım planlayıcısı</string>
+  <string name="plan_event_deleted">Bu şablonla ilişkili planlama takvimden silindi.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
   <string name="plan_manual">el ile</string>
@@ -317,11 +317,10 @@
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
-  <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
-  <string name="select_parent_category">Bu kategoriyi seç</string>
+  <string name="menu_select_category">Bu kategoriyi seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="split_parts_heading">Bölünmüş alt muameleler</string>
@@ -351,8 +350,6 @@
   <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?;</string>
   <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devam etmek istiyor musunuz?;</string>
-  <string name="warning_delete_template">Bu şablon (ve ilişkili planlamalar) silinecektir. Devam etmek istiyor musunuz?</string>
-  <string name="warning_delete_transaction">Bu muamele silinecektir. Devam etmek istiyor musunuz?</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>

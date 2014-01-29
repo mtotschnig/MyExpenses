@@ -18,7 +18,10 @@
     <attr name="colorIncome" format="color" />
     <attr name="colorExpense" format="color" />
     <attr name="colorAggregate" format="color" />
+    <attr name="drawerBackground" format="color" />
     <attr name="pageMargin" format="reference" />
+    <attr name="drawerShadow" format="reference" />
+    <attr name="drawerImage" format="reference" />
     <attr name="calcIcon" format="integer" />
     <declare-styleable name="SeekBarPreference">
       <attr name="max_value" format="integer"></attr>

@@ -35,6 +35,11 @@
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="category">Category</string>
+  <string name="clone_transaction_error">Could not clone transaction.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Transaction successfully cloned.</item>
+    <item quantity="other">%1$d transactions were successfully cloned.</item>
+  </plurals>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
   <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with &lt;i>&app_name;&lt;/i> is limited to 5.</string>
@@ -99,6 +104,8 @@
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
+  <string name="dialog_title_warning_delete_plan">Delete plan?</string>
   <string name="dialog_title_warning_delete_template">Delete template?</string>
   <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
   <string name="dialog_title_welcome">Welcome!</string>
@@ -153,8 +160,6 @@
   <string name="menu_aggregates">Total</string>
   <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
   <string name="menu_apply_template">Apply</string>
-  <string name="menu_apply_template_and_edit">Apply and edit</string>
-  <string name="menu_apply_template_and_save">Apply and save</string>
   <string name="menu_back">Back</string>
   <string name="menu_backup">Backup</string>
   <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
@@ -164,6 +169,8 @@
   <!-- Currently used on button for creating a new plan -->
   <string name="menu_create">Create</string>
   <string name="menu_create_account">New account</string>
+  <string name="menu_create_instance_edit">Apply and edit</string>
+  <string name="menu_create_instance_save">Apply and save</string>
   <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_party">New party</string>
@@ -172,18 +179,21 @@
   <string name="menu_create_split_part_transfer">New transfer split part</string>
   <string name="menu_create_sub_cat">New sub category</string>
   <string name="menu_create_template">New template</string>
+  <string name="menu_create_template_from_transaction">Save as template</string>
   <string name="menu_create_template_for_transaction">New transaction template</string>
   <string name="menu_create_template_for_transfer">New transfer template</string>
   <string name="menu_create_transaction">New Transaction</string>
   <string name="menu_create_transfer">New Transfer</string>
   <string name="menu_delete">Delete</string>
+  <string name="menu_delete_account">Delete account</string>
   <string name="menu_distribution">Distribution</string>
   <string name="menu_edit">Edit</string>
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_cat">Edit category</string>
-  <string name="menu_edit_method">Edit Payment Method</string>
+  <string name="menu_edit_method">Edit payment method</string>
   <string name="menu_edit_party">Edit party</string>
-  <string name="menu_edit_split">Edit Split</string>
+  <string name="menu_edit_plan_instance">Edit single plan occurrence</string>
+  <string name="menu_edit_split">Edit split</string>
   <string name="menu_edit_split_part_category">Edit category split part</string>
   <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
   <string name="menu_edit_template">Edit Template</string>
@@ -221,9 +231,14 @@
   <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
-  <string name="not_deletable_mapped_transactions">Cannot delete, because mapped transactions exist.</string>
-  <string name="not_deletable_mapped_templates">Cannot delete, because mapped templates exist.</string>
-  <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">The selected object is mapped to a transaction and cannot be deleted.</item>
+  	<item quantity="other">%1$d objects are mapped to transactions and cannot be deleted.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">The selected object is mapped to a template and cannot be deleted.</item>
+    <item quantity="other">%1$d objects are mapped to templates and cannot be deleted.</item>
+  </plurals>
   <string name="numbered">numbered</string>
   <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
   <string name="opening_balance">Opening balance</string>
@@ -342,12 +357,15 @@
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_and_new_success">Successfully saved</string>
-  <string name="save_transaction_error">Could not save new transaction from template</string>
-  <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
+  <string name="save_transaction_error">Could not save new transaction from template.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">New transaction successfully saved from template.</item>
+    <item quantity="other">%1$d new transactions were successfully saved from templates.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Template has been deleted</string>
   <string name="select">Select</string>
   <string name="select_category">Select category</string>
-  <string name="select_parent_category">Select this category</string>
+  <string name="menu_select_category">Select this category</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
   <string name="split_parts_heading">Split parts</string>
@@ -376,9 +394,23 @@
   <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
-  <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
-  <string name="warning_delete_template">This template (and any associated plan) will be deleted. &continue;</string>
-  <string name="warning_delete_transaction">This transaction will be deleted. &continue;</string>
+  <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions.</string>
+  <plurals name="warning_delete_main_category">
+  	<item quantity="one">The selected category has subcategories, that will be deleted as well.</item>
+  	<item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">The selected plan will be deleted.</item>
+    <item quantity="other">%1$d selected plans will be deleted.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">The selected template will be deleted.</item>
+    <item quantity="other">%1$d selected templates will be deleted.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">The selected transaction will be deleted.</item>
+  	<item quantity="other">%1$d selected transactions will be deleted.</item>
+  </plurals>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
@@ -386,5 +418,5 @@
   <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
   <string name="warning_restore">Database and preferences will be restored from the backup. The current data will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
-  <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited or deleted in the context of the split.</string>
+  <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
 </resources>

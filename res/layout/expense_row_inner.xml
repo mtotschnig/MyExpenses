@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+  <View android:id="@+id/colorAccount"
+      android:layout_height="fill_parent"
+      android:layout_width="0dp"/>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<TextView
+    android:ellipsize="end"
+    android:text="DATE"
+    android:id="@+id/date"
+    android:ems="3"
+    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_centerInParent="true"
+     />
+<RelativeLayout
+    android:onClick="toggleCrStatus"
+    android:id="@+id/colorContainer"
+      android:layout_centerVertical="true"
+    android:background="?attr/selectableItemBackground"
+    android:layout_height="25dp"
+    android:layout_width="25dp"
+    android:layout_toRightOf="@+id/date">
+<View
+    android:id="@+id/color1"
+    android:layout_centerInParent="true"
+    android:layout_height="10dp"
+    android:layout_width="10dp"
+    android:layout_centerVertical="true"/>
+</RelativeLayout>
+<TextView
+    android:text="CATEGORY"
+    android:id="@+id/category"
+      android:layout_centerVertical="true"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dip"
+    android:layout_width="wrap_content"
+    android:layout_toRightOf="@+id/colorContainer"
+    android:layout_toLeftOf="@+id/amount"
+    android:layout_height="wrap_content" />
+<TextView
+    android:text="AMOUNT"
+    android:id="@+id/amount" 
+      android:layout_centerVertical="true"
+    android:layout_width="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_height="wrap_content" />
+</RelativeLayout>
+</merge>

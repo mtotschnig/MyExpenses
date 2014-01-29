@@ -17,25 +17,29 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
-
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 
 
-public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
+public class ProtectedPreferenceActivity extends PreferenceActivity {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   
+  @SuppressLint("NewApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     protection = new ProtectionDelegate(this);
     MyApplication.getInstance().setLanguage();
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
+    if (Build.VERSION.SDK_INT > 10) {
+      getActionBar().setDisplayHomeAsUpEnabled(true);
+      getActionBar().setDisplayShowHomeEnabled(true);
+    }
   }
   @Override
   protected void onPause() {

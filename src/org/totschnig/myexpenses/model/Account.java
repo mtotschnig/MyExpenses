@@ -20,7 +20,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
@@ -624,6 +626,7 @@ public class Account extends Model  implements Serializable {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
+    DecimalFormat nfFormat = new DecimalFormat();
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
     String selection = KEY_ACCOUNTID + " = " + id + " AND " + KEY_PARENTID + " is null";
@@ -692,8 +695,9 @@ public class Account extends Model  implements Serializable {
           c.getColumnIndexOrThrow(KEY_DATE))));
       long amount = c.getLong(
           c.getColumnIndexOrThrow(KEY_AMOUNT));
-      String amountAbsStr = new Money(currency,amount)
-          .getAmountMajor().abs().toPlainString();
+      BigDecimal bdAmount = new Money(currency,amount).getAmountMajor();
+      String amountQIF = bdAmount.toPlainString();
+      String amountAbsCSV = nfFormat.format(bdAmount.abs());
       try {
         status = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
       } catch (IllegalArgumentException ex) {
@@ -710,9 +714,9 @@ public class Account extends Model  implements Serializable {
           .append("\";\"")
           .appendQ(payee)
           .append("\";")
-          .append(amount>0 ? amountAbsStr : "0")
+          .append(amount>0 ? amountAbsCSV : "0")
           .append(";")
-          .append(amount<0 ? amountAbsStr : "0")
+          .append(amount<0 ? amountAbsCSV : "0")
           .append(";\"")
           .appendQ(label_main)
           .append("\";\"")
@@ -731,9 +735,7 @@ public class Account extends Model  implements Serializable {
         sb.append( "\nD" )
           .append( dateStr )
           .append( "\nT" );
-        if (amount<0)
-          sb.append( "-");
-        sb.append( amountAbsStr );
+        sb.append( amountQIF );
         if (comment.length() > 0) {
           sb.append( "\nM" )
           .append( comment );
@@ -780,8 +782,9 @@ public class Account extends Model  implements Serializable {
           }
           amount = splits.getLong(
               splits.getColumnIndexOrThrow(KEY_AMOUNT));
-          amountAbsStr = new Money(currency,amount)
-              .getAmountMajor().abs().toPlainString();
+          bdAmount = new Money(currency,amount).getAmountMajor();
+          amountQIF = bdAmount.toPlainString();
+          amountAbsCSV = nfFormat.format(bdAmount.abs().longValue());
           sb.clear();
           switch (format) {
           case CSV:
@@ -792,9 +795,9 @@ public class Account extends Model  implements Serializable {
               .append("\";\"")
               .appendQ(payee)
               .append("\";")
-              .append(amount>0 ? amountAbsStr : "0")
+              .append(amount>0 ? amountAbsCSV : "0")
               .append(";")
-              .append(amount<0 ? amountAbsStr : "0")
+              .append(amount<0 ? amountAbsCSV : "0")
               .append(";\"")
               .appendQ(label_main)
               .append("\";\"")
@@ -816,7 +819,7 @@ public class Account extends Model  implements Serializable {
             sb.append( "\n$" );
             if (amount<0)
               sb.append( "-");
-            sb.append( amountAbsStr );
+            sb.append( amountQIF );
           }
           out.write(sb.toString());
           splits.moveToNext();

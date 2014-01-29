@@ -20,11 +20,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.Model;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,14 +31,19 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-public class ProtectedFragmentActivity extends SherlockFragmentActivity
+public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
-    TaskExecutionFragment.TaskCallbacks{
-  public static final int ACTIVITY_EDIT=1;
-  public static final int ACTIVITY_EDIT_ACCOUNT=2;
-  public static final int ACTIVITY_EXPORT=3;
-  public static final int ACTIVITY_PREFERENCES=4;
+    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks{
+  public static final int EDIT_TRANSACTION_REQUEST=1;
+  public static final int EDIT_ACCOUNT_REQUEST=2;
+  public static final int PREFERENCES_REQUEST=3;
+  public static final int CREATE_ACCOUNT_REQUEST=4;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -49,7 +51,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-/*    if (MyApplication.debug) {
+    if (MyApplication.debug) {
       StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
       .detectDiskReads()
       .detectDiskWrites()
@@ -62,14 +64,14 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
       .penaltyLog()
       .penaltyDeath()
       .build());
-    }*/
+    }
 
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
     setLanguage();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
   }
   @Override
   protected void onPause() {
@@ -113,15 +115,15 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.common, menu);
     return true;
   }
   @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) {
       if (dispatchCommand(item.getItemId(),null))
         return true;
-      return super.onMenuItemSelected(featureId, item);
+      return super.onOptionsItemSelected(item);
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
@@ -157,5 +159,16 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
 
   protected void setLanguage() {
     MyApplication.getInstance().setLanguage();
+  }
+  @Override
+  public Model getObject() {
+    return null;
+  }
+  @Override
+  public void onPostExecute(Object result) {
+    FragmentManager m = getSupportFragmentManager();
+    FragmentTransaction t = m.beginTransaction();
+    t.remove(m.findFragmentByTag("SAVE_TASK"));
+    t.commitAllowingStateLoss();
   }
 }

@@ -19,16 +19,12 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.fragment.PlanList;
+import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.Intent;
@@ -39,19 +35,41 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.ContextMenu;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBar.TabListener;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
+  public enum HelpVariant {
+    templates,plans
+  }
   public static final int PLAN_INSTANCES_CURSOR = 1;
 
   public long calledFromCalendarWithId = 0;
   private boolean mTransferEnabled = false;
   ViewPager mViewPager;
   SectionsPagerAdapter mSectionsPagerAdapter;
+  int mCurrentPosition = 0;
   
+  private int monkey_state = 0;
+
+  @Override
+  public boolean onKeyUp (int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+      switch (monkey_state) {
+      case 0:
+        ((PlanList) getSupportFragmentManager().findFragmentByTag(
+            mSectionsPagerAdapter.getFragmentName(1)))
+          .listFocus();
+        return true;
+      }
+    }
+    return super.onKeyUp(keyCode, event);
+  }
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -82,7 +100,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
+          ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
+              mSectionsPagerAdapter.getFragmentName(mCurrentPosition)))
+              .finishActionMode();
           actionBar.setSelectedNavigationItem(position);
+          mCurrentPosition = position;
+          helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
         }
       });
 
@@ -99,13 +122,14 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
       actionBar.setSelectedNavigationItem(1);
     }
+    helpVariant = HelpVariant.templates;
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.templates, menu);
     super.onCreateOptionsMenu(menu);
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
+    menu.findItem(R.id.CREATE_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     return true;
   }
 
@@ -113,11 +137,11 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch(command) {
-    case R.id.INSERT_TA_COMMAND:
-    case R.id.INSERT_TRANSFER_COMMAND:
+    case R.id.CREATE_TRANSACTION_COMMAND:
+    case R.id.CREATE_TRANSFER_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra("operationType",
-          command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
+          command == R.id.CREATE_TRANSACTION_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
       i.putExtra("newTemplate", true);
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       startActivity(i);
@@ -125,34 +149,23 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,(Long)tag, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_DELETE_TEMPLATES,
+            (Long[])tag,
+            null),
+          "ASYNC_TASK")
         .commit();
       return true;
     case R.id.EDIT_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("template_id",(Long)tag);
+      i.putExtra("template_id",((Long)tag));
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
-      startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
-      return true;
-    case R.id.DELETE_COMMAND:
-      MessageDialogFragment.newInstance(
-          R.string.dialog_title_warning_delete_template,
-          R.string.warning_delete_template,
-          new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, (Long)tag),
-          null,
-          MessageDialogFragment.Button.noButton())
-        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+      startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
       return true;
     }
     return super.dispatchCommand(command, tag);
    }
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0,R.id.EDIT_COMMAND,1,R.string.menu_edit);
-    menu.add(0,R.id.DELETE_COMMAND,1,R.string.menu_delete);
-  }
   @Override
   public void onTabSelected(Tab tab, FragmentTransaction ft) {
     mViewPager.setCurrentItem(tab.getPosition());
@@ -198,8 +211,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
-      int msg = (o == null ?  R.string.save_transaction_error : R.string.save_transaction_from_template_success);
-      Toast.makeText(this,getString(msg), Toast.LENGTH_LONG).show();
+      Integer successCount = (Integer) o;
+      String msg = successCount == 0 ?  getString(R.string.save_transaction_error) :
+        getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
+      Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
     }
     PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(1));

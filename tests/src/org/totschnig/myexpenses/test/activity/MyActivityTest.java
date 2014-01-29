@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.test.activity;
 
 
 import org.totschnig.myexpenses.test.util.Fixture;
-import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+import com.robotium.solo.Solo;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -22,7 +22,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
 
   private boolean clear;
   protected Activity mActivity;
-  protected SoloCompatibilityAbs mSolo;
+  protected Solo mSolo;
   protected Instrumentation mInstrumentation;
   protected Context mContext;
   ViewPager mPager;
@@ -68,11 +68,33 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
    * Clicks a visible ActionBarItem matching the specified resource id.
    * @param resourceId
    */
-  protected void clickOnActionBarItem(int resourceId) {
-    if (Build.VERSION.SDK_INT > 13)
+  protected void clickOnActionBarItem(String command) {
+    int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
+    assertTrue(command + " not found", resourceId!=0);
+    if (Build.VERSION.SDK_INT > 13) {
       mSolo.clickOnActionBarItem(resourceId);
-    else
-      mSolo.clickOnVisibleActionbarItem(resourceId);
+    } else {
+      if (mSolo.waitForView(resourceId)) {
+        mSolo.clickOnView(mSolo.getView(resourceId));
+      } else {
+        mSolo.sendKey(Solo.MENU);
+        mSolo.clickOnText(mContext.getString(
+            mContext.getResources().getIdentifier("menu_"+command.toLowerCase(), "string", mContext.getPackageName())));
+      }
+    }
+  }
+  protected void invokeContextAction(String command) {
+    int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
+    assertTrue(command + " not found", resourceId!=0);
+    if (Build.VERSION.SDK_INT > 13) {
+      final KeyEvent downEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_CENTER);
+      mInstrumentation.sendKeySync(downEvent);
+      // Need to wait for long press
+      mInstrumentation.waitForIdleSync();
+      mSolo.clickOnView(mSolo.getView(resourceId));
+    } else {
+      mInstrumentation.invokeContextMenuAction(mActivity, resourceId, 0);
+    }
   }
   /**
    * @param resourceId
@@ -83,8 +105,8 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
    */
   protected boolean actionBarItemVisible(int resourceId) {
     boolean invocable = mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0);
-    if (invocable || Build.VERSION.SDK_INT > 13)
+    //if (invocable || Build.VERSION.SDK_INT > 13)
       return invocable;
-    return mSolo.actionBarItemEnabled(resourceId);
+    //return mSolo.actionBarItemEnabled(resourceId);
   }
 }

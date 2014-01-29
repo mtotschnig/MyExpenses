@@ -35,7 +35,7 @@
   <string name="pref_export_format_key">export_format</string>
   <string name="pref_send_feedback_key">send_feedback</string>
   <string name="pref_more_info_dialog_key">more_info_dialog</string>
-  <string name="pref_shortcut_account_list_key">shortcut_account_list</string>
+<!--   <string name="pref_shortcut_account_list_key">shortcut_account_list</string> -->
   <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
   <string name="pref_rate_key">rate</string>
   <string name="pref_ui_language_key">ui_language</string>
@@ -63,7 +63,8 @@
   
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
-  <string name="help_ManageTemplates_title">@string/menu_manage_plans</string>
+  <string name="help_ManageTemplates_templates_title">@string/menu_manage_plans_tab_templates</string>
+  <string name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
   <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
   <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
   <string name="help_ManageCategories_select_title">@string/select_category</string>

@@ -20,7 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -37,15 +37,13 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class TemplatesList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -66,7 +64,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
     View v = inflater.inflate(R.layout.templates_list, null, false);
-    ListView lv = (ListView) v.findViewById(R.id.list);
+    final ListView lv = (ListView) v.findViewById(R.id.list);
 
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
@@ -83,36 +81,48 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         0);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
-    registerForContextMenu(lv);
+    registerForContextualActionBar(lv);
     return v;
   }
+
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
-    menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
-  }
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    if (!getUserVisibleHint())
-      return false;
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    if (((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id))
-      return true;
-    switch(item.getItemId()) {
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-      intent.putExtra("template_id", info.id);
-      intent.putExtra("instance_id", -1L);
-      startActivity(intent);
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_template,
+          getResources().getQuantityString(R.plurals.warning_delete_template,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
       getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,info.id, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,itemIds, null), "ASYNC_TASK")
         .commit();
       return true;
-      }
-    return false;
+    }
+    return super.dispatchCommandMultiple(command, positions, itemIds);
+  }
+  @Override
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
+    switch(command) {
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      Intent intent = new Intent(getActivity(), ExpenseEdit.class);
+      intent.putExtra("template_id", menuInfo.id);
+      intent.putExtra("instance_id", -1L);
+      startActivity(intent);
+      return true;
+    case R.id.EDIT_COMMAND:
+      return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
+    }
+    return super.dispatchCommandSingle(command, info);
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {

@@ -44,9 +44,6 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
@@ -66,11 +63,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -127,9 +128,9 @@ public class ExpenseEdit extends AmountActivity implements
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
   //CALCULATOR_REQUEST in super = 0
-  private static final int ACTIVITY_EDIT_SPLIT = 1;
+  private static final int EDIT_SPLIT_REQUEST = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
-  protected static final int ACTIVITY_EDIT_EVENT = 4;
+  protected static final int EDIT_EVENT_REQUEST = 4;
 
   public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
@@ -469,18 +470,19 @@ public class ExpenseEdit extends AmountActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     if (mTransaction instanceof SplitTransaction) {
-      MenuInflater inflater = getSupportMenuInflater();
+      MenuInflater inflater = getMenuInflater();
       inflater.inflate(R.menu.split, menu);
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)) {
-      menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-        .setIcon(R.drawable.save_and_new_icon)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+      MenuItemCompat.setShowAsAction(
+          menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+          .setIcon(R.drawable.save_and_new_icon),
+          MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT);
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-      .setIcon(R.drawable.invert_transfer_icon)
-      .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+      MenuItemCompat.setShowAsAction(
+          menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
+          .setIcon(R.drawable.invert_transfer_icon), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
     return true;
   }
@@ -508,16 +510,16 @@ public class ExpenseEdit extends AmountActivity implements
       mCreateNew = true;
       saveState();
       return true;
-    case R.id.INSERT_TA_COMMAND:
+    case R.id.CREATE_TRANSACTION_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
       return true;
-    case R.id.INSERT_TRANSFER_COMMAND:
+    case R.id.CREATE_TRANSFER_COMMAND:
       createRow(MyExpenses.TYPE_TRANSFER);
       return true;
     case R.id.CREATE_COMMAND:
       //create calendar
       getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,null,null), "ASYNC_TASK")
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,0L,null), "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_calendar),"PROGRESS")
       .commit();
       return true;
@@ -542,7 +544,7 @@ public class ExpenseEdit extends AmountActivity implements
       i.putExtra("operationType", type);
       i.putExtra(KEY_ACCOUNTID,mAccountSpinner.getSelectedItemId());
       i.putExtra(KEY_PARENTID,mTransaction.id);
-      startActivityForResult(i, ACTIVITY_EDIT_SPLIT);
+      startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
   }
   /**
@@ -1063,8 +1065,11 @@ public class ExpenseEdit extends AmountActivity implements
         intent.putExtra("sequence_count", sequenceCount);
         setResult(RESULT_OK,intent);
         finish();
+        //no need to call super after finish
+        return;
       }
     }
+    super.onPostExecute(result);
   }
   @Override
   public Model getObject() {
@@ -1246,7 +1251,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (Utils.isIntentAvailable(this, intent)) {
       //TODO on the Xperia X8 the calendar app started with this intent crashes
       //can we catch such a crash and inform the user?
-      startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+      startActivityForResult (intent, EDIT_EVENT_REQUEST);
     } else {
       Log.w(MyApplication.TAG,"no intent found for viewing event in calendar");
     }
@@ -1284,7 +1289,7 @@ public class ExpenseEdit extends AmountActivity implements
     getSupportFragmentManager().beginTransaction()
     .add(TaskExecutionFragment.newInstance(
         TaskExecutionFragment.TASK_NEW_PLAN,
-        null,
+        0L,
         new Plan(
             0,
             System.currentTimeMillis(),

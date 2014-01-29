@@ -18,15 +18,14 @@ package org.totschnig.myexpenses.fragment;
 import org.totschnig.myexpenses.R;
 
 import android.content.res.Resources;
+import android.support.v4.app.Fragment;
 import android.util.TypedValue;
-
-import com.actionbarsherlock.app.SherlockFragment;
 
 /**
  * Helper that factors out common properties
  *
  */
-public class BudgetListFragment extends SherlockFragment {
+public class BudgetListFragment extends ContextualActionBarFragment {
 
   protected int colorExpense;
   protected int colorIncome;

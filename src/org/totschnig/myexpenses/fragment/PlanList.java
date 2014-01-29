@@ -25,17 +25,15 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -49,16 +47,17 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
@@ -82,8 +81,10 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   private ExpandableListView mListView;
   private int mExpandedPosition = -1;
   public boolean newPlanEnabled;
-  
-  
+  private enum TransactionState {
+    OPEN,APPLIED,CANCELLED
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
@@ -104,93 +105,116 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         );
     mListView.setAdapter(mAdapter);
     mListView.setEmptyView(v.findViewById(R.id.empty));
-    mListView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
-    registerForContextMenu(mListView);
+    registerForContextualActionBar(mListView);
     return v;
   }
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-
-    // Menu entries relevant only for the group
-    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      super.onCreateContextMenu(menu, v, menuInfo);
-    } else {
-      Long transactionId = mInstance2TransactionMap.get(info.id);
-      if (transactionId == null) {
-        //state open
-        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
-        menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
-        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
-      }
-      else if (transactionId == 0L) {
-        //state cancelled
-        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
-      }
-      else {
-        //state applied
-        menu.add(0,R.id.EDIT_COMMAND,0,R.string.menu_edit);
-        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
-        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
-      }
-    }
-  }
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    if (!getUserVisibleHint())
-      return false;
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-    if (ExpandableListView.getPackedPositionType(info.packedPosition) ==
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    ExpandableListContextMenuInfo menuInfo = (ExpandableListContextMenuInfo) info;
+    if (ExpandableListView.getPackedPositionType(menuInfo.packedPosition) ==
         ExpandableListView.PACKED_POSITION_TYPE_GROUP)
-      return ((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id);
-    int group = ExpandableListView.getPackedPositionGroup(info.packedPosition),
-        child = ExpandableListView.getPackedPositionChild(info.packedPosition);
-    Cursor c = mAdapter.getChild(group,child);
-    long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
-    long templateId = mTemplatesCursor.getLong(columnIndexRowId);
-    Long transactionId = mInstance2TransactionMap.get(info.id);
+      return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
     Intent i;
-    switch(item.getItemId()) {
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      i = new Intent(getActivity(), ExpenseEdit.class);
-      i.putExtra("template_id", templateId);
-      i.putExtra("instance_id", info.id);
-      i.putExtra("instance_date", date);
-      startActivity(i);
-      return true;
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-            templateId,
-            new Long[]{info.id,date}),
-          "ASYNC_TASK")
-        .commit();
-      return true;
-    case R.id.EDIT_COMMAND:
+    Long transactionId = mInstance2TransactionMap.get(menuInfo.id);
+    switch(command) {
+    case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       i = new Intent(getActivity(), ExpenseEdit.class);
       i.putExtra(KEY_ROWID, transactionId);
       startActivity(i);
       return true;
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      int group = ExpandableListView.getPackedPositionGroup(menuInfo.packedPosition),
+        child = ExpandableListView.getPackedPositionChild(menuInfo.packedPosition);
+      Cursor c = mAdapter.getChild(group,child);
+      long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
+      i = new Intent(getActivity(), ExpenseEdit.class);
+      i.putExtra("template_id", mAdapter.getGroupId(group));
+      i.putExtra("instance_id", menuInfo.id);
+      i.putExtra("instance_date", date);
+      startActivityForResult(i,0);
+      return true;
+    }
+    return super.dispatchCommandSingle(command, info);
+  }
+  @Override
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    int checkedItemCount = positions.size();
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_plan,
+          getResources().getQuantityString(R.plurals.warning_delete_plan,itemIds.length,itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
+      return true;
+    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+      ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
+      ArrayList<Long> templateIdsAL = new ArrayList<Long>();
+      for (int i=0; i<positions.size(); i++) {
+        //ignore instances that are not open
+        if (mInstance2TransactionMap.get(itemIds[i])!=null)
+          continue;
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
+          Cursor c = mAdapter.getChild(group,child);
+          long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
+          //pass event instance id and date as extra
+          extra2dAL.add(new Long[]{itemIds[i],date});
+          templateIdsAL.add(mAdapter.getGroupId(group));
+        }
+      }
+      getActivity().getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(
+          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+          templateIdsAL.toArray(new Long[templateIdsAL.size()]),
+          extra2dAL.toArray(new Long[extra2dAL.size()][2])),
+        "ASYNC_TASK")
+      .commit();
+    return true;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
+      Long[][] extra2d = new Long[checkedItemCount][2];
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int group = ExpandableListView.getPackedPositionGroup(pos);
+          //pass templateId and transactionId in extra
+          extra2d[i] = new Long[]{mAdapter.getGroupId(group),mInstance2TransactionMap.get(itemIds[i])};
+        }
+      }
       getActivity().getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(
             TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-            info.id,
-            new Long[]{templateId,transactionId}),
+            itemIds,
+            extra2d),
           "ASYNC_TASK")
         .commit();
       return true;
     case R.id.RESET_PLAN_INSTANCE_COMMAND:
+      Long[] extra = new Long[checkedItemCount];
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          //pass transactionId in extra
+          extra[i] = mInstance2TransactionMap.get(itemIds[i]);
+          mInstance2TransactionMap.remove(itemIds[i]);
+        }
+      }
       getActivity().getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(
           TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
-          info.id,
-          transactionId),
+          itemIds,
+          extra),
         "ASYNC_TASK")
       .commit();
-      mInstance2TransactionMap.remove(info.id);
       return true;
     }
     return false;
@@ -255,9 +279,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
-    long expandedId = ((ManageTemplates) getActivity()).calledFromCalendarWithId;
     switch (id) {
     case TEMPLATES_CURSOR:
+      long expandedId = ((ManageTemplates) getActivity()).calledFromCalendarWithId;
       mTemplatesCursor = c;
       if (!indexesCalculated) {
         columnIndexRowId = c.getColumnIndex(KEY_ROWID);
@@ -493,5 +517,91 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   }
   public void refresh() {
    mAdapter.notifyDataSetChanged();
+  }
+  public void listFocus() {
+    mListView.requestFocus();
+  }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+    refresh();
+  }
+  private void configureMenuInternal(Menu menu, int count,boolean withOpen,boolean withApplied,boolean withCancelled) {
+    //Long transactionId = mInstance2TransactionMap.get(id);
+    //state open
+    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(withOpen);
+    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count==1 && withOpen);
+    //state open or applied
+    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(withOpen || withApplied);
+    //state cancelled or applied
+    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(withApplied || withCancelled);
+    //state applied
+    menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).setVisible(count==1 && withApplied);
+  }
+  private TransactionState getState(Long id) {
+    Long transactionId = mInstance2TransactionMap.get(id);
+    if (transactionId==null) {
+      return TransactionState.OPEN;
+    } else if (transactionId != 0L) {
+      return TransactionState.APPLIED;
+    } else {
+      return TransactionState.CANCELLED;
+    }
+  }
+  @Override
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
+    super.configureMenuLegacy(menu, menuInfo);
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+      boolean withOpen=false,withApplied=false,withCancelled=false;
+      switch(getState(info.id)) {
+      case APPLIED:
+        withApplied=true;
+        break;
+      case CANCELLED:
+        withCancelled=true;
+        break;
+      case OPEN:
+        withOpen=true;
+        break;
+      }
+      configureMenuInternal(menu,1,withOpen,withApplied,withCancelled);
+    }
+  }
+  @Override
+  protected void configureMenu11(Menu menu, int count) {
+    super.configureMenu11(menu, count);
+    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD && mAdapter != null) {
+      //find out the checked ids and check their states
+      boolean withOpen=false,withApplied=false,withCancelled=false;
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      for (int i=0; i<checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i)) {
+          int position = checkedItemPositions.keyAt(i);
+          long id;
+          long pos = mListView.getExpandableListPosition(position);
+          int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+          if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+            id = mAdapter.getGroupId(groupPos);
+          } else {
+            int childPos = ExpandableListView.getPackedPositionChild(pos);
+            id = mAdapter.getChildId(groupPos,childPos);
+          }
+          switch(getState(id)) {
+          case APPLIED:
+            withApplied=true;
+            break;
+          case CANCELLED:
+            withCancelled=true;
+            break;
+          case OPEN:
+            withOpen=true;
+            break;
+          }
+          configureMenuInternal(menu,count,withOpen,withApplied,withCancelled);
+        }
+      }
+    }
   }
 }

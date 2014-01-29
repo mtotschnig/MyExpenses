@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.provider;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 
@@ -262,14 +263,23 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
       if (mergeCurrencyAggregates) {
-        String accountSubquery = qb.buildQuery(Account.PROJECTION_EXTENDED, selection, null, groupBy,
+        if (projection != null)
+          throw new IllegalArgumentException(
+              "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
+        String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
             null, null, null);
         qb.setTables("(SELECT _id,currency,opening_balance,"+
             "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
                 + VIEW_COMMITTED
-                + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance " +
-            "from " + TABLE_ACCOUNTS + ") as t");
+                + " WHERE account_id = accounts._id AND (cat_id is null OR cat_id != "
+                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) AS current_balance, " +
+            "(SELECT coalesce(sum(amount),0) FROM "
+                + VIEW_COMMITTED
+                + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") AS sum_expenses," +
+            "(SELECT coalesce(sum(amount),0) FROM "
+              + VIEW_COMMITTED
+              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income " +
+            "FROM " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
@@ -283,7 +293,8 @@ public class TransactionProvider extends ContentProvider {
             "'NONE' AS grouping",
             "'CASH' AS type",
             "1 AS transfer_enabled",
-            "sum(current_balance) AS current_balance"};
+            "sum(current_balance) AS current_balance",
+            "sum(sum_income) AS sum_income", "sum(sum_expenses) AS sum_expenses", "0 AS sum_transfers"};
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(new String[] {accountSubquery,currencySubquery}, null, null);
         c = db.rawQuery(sql, null);
@@ -515,6 +526,27 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTION_ID:
       //maybe TODO ?: where and whereArgs are ignored
       segment = uri.getPathSegments().get(1);
+      //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
+      //because the split would be left in an invalid state, hence we transform the peer to a normal split part
+      //first we find out the account label
+      Cursor c = db.query(
+          TABLE_ACCOUNTS,
+          new String []{KEY_LABEL},
+          KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
+          new String[] {segment},
+          null, null, null);
+      c.moveToFirst();
+      String accountLabel = c.getString(0);
+      c.close();
+      ContentValues args = new ContentValues();
+      args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
+      args.putNull(KEY_TRANSFER_ACCOUNT);
+      args.putNull(KEY_TRANSFER_PEER);
+      db.update(TABLE_TRANSACTIONS,
+          args,
+          KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
+          new String[] {segment});
+      //we delete the transaction, its children, its transfer peers, and transfer peers of its children
       count = db.delete(TABLE_TRANSACTIONS,
           KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
               + KEY_ROWID + " IN "
@@ -668,12 +700,12 @@ public class TransactionProvider extends ContentProvider {
       String label = values.getAsString(KEY_LABEL);
       String selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
       String[] selectionArgs = new String[]{label,segment};
-      Cursor mCursor = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
-      if (mCursor.getCount() != 0) {
-        mCursor.close();
+      Cursor c = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
+      if (c.getCount() != 0) {
+        c.close();
         throw new SQLiteConstraintException();
       }
-      mCursor.close();
+      c.close();
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
       } else {

@@ -15,69 +15,102 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import java.util.ArrayList;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
-public class PartiesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PartiesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   private Cursor mPartiesCursor;
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit_party);
-    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-  }
-
-  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    SherlockFragmentActivity ctx = getSherlockActivity();
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      mPartiesCursor.moveToPosition(info.position);
-      int message = 0;
-      if (mPartiesCursor.getInt(mPartiesCursor.getColumnIndex("mapped_transactions")) > 0) {
-        message = R.string.not_deletable_mapped_transactions;
-      } else if (mPartiesCursor.getInt(mPartiesCursor.getColumnIndex("mapped_templates")) > 0) {
-        message = R.string.not_deletable_mapped_templates;
-      }
-      if (message == 0)
-        ctx.getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYEE,info.id, null), "ASYNC_TASK")
-          .commit();
-      else
-        Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
-      return true;
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
+    switch(command) {
     case R.id.EDIT_COMMAND:
       Bundle args = new Bundle();
-      args.putLong("partyId", info.id);
+      args.putLong("partyId", menuInfo.id);
       args.putString("dialogTitle", getString(R.string.menu_edit_party));
-      args.putString("value",((TextView) info.targetView.findViewById(android.R.id.text1)).getText().toString());
-      EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "EDIT_PARTY");
+      args.putString("value",((TextView) menuInfo.targetView.findViewById(android.R.id.text1)).getText().toString());
+      EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "EDIT_PARTY");
       return true;
     }
-    return super.onContextItemSelected(item);
+    return super.dispatchCommandSingle(command, info);
+  }
+  @Override
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex("mapped_transactions");
+      int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex("mapped_templates");
+      int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+      int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
+      ArrayList<Long> idList = new ArrayList<Long>();
+      for (int i=0; i<positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          boolean deletable = true;
+          mPartiesCursor.moveToPosition(positions.keyAt(i));
+          if (mPartiesCursor.getInt(columnIndexMappedTransactions) > 0) {
+            mappedTransactionsCount++;
+            deletable = false;
+          }
+          if (mPartiesCursor.getInt(columnIndexMappedTemplates) > 0) {
+            mappedTemplatesCount++;
+            deletable = false;
+          }
+          if (deletable) {
+            idList.add(mPartiesCursor.getLong(columnIndexRowId));
+          }
+        }
+      }
+      if (idList.size()>0) {
+        getActivity().getSupportFragmentManager().beginTransaction()
+          .add(TaskExecutionFragment.newInstance(
+              TaskExecutionFragment.TASK_DELETE_PAYEES,
+              idList.toArray(new Long[idList.size()]),
+              null),
+            "ASYNC_TASK")
+          .commit();
+      }
+      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
+        String message = "";
+        if (mappedTransactionsCount > 0)
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_transactions,
+              mappedTransactionsCount,
+              mappedTransactionsCount);
+        if (mappedTemplatesCount > 0)
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_templates,
+              mappedTemplatesCount,
+              mappedTemplatesCount);
+        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
+      }
+      return true;
+    }
+    return super.dispatchCommandMultiple(command, positions,itemIds);
   }
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,7 +118,6 @@ public class PartiesList extends SherlockFragment implements LoaderManager.Loade
     
     final ListView lv = (ListView) v.findViewById(R.id.list);
     lv.setItemsCanFocus(false);
-    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     //((TextView) findViewById(android.R.id.empty)).setText(R.string.no_parties);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"name"};
@@ -94,13 +126,25 @@ public class PartiesList extends SherlockFragment implements LoaderManager.Loade
     int[] to = new int[]{android.R.id.text1};
 
     // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(getActivity(), 
-        android.R.layout.simple_list_item_1, null, from, to,0);
+    mAdapter = new SimpleCursorAdapter(
+        getActivity(), 
+        Build.VERSION.SDK_INT >= 11 ?
+            android.R.layout.simple_list_item_activated_1 :
+            android.R.layout.simple_list_item_1,
+        null,
+        from,
+        to,
+        0);
 
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
-    registerForContextMenu(lv);
+    registerForContextualActionBar(lv);
+    lv.setOnItemClickListener(new OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> a, View v,int position, long id) {
+      }
+    });
     return v;
   }
   @Override

@@ -1,13 +1,13 @@
 import sys
 
 if (len(sys.argv) < 3):
-  print "Usage: monkeyrunner monkey.py {lang} {country}"
+  print "Usage: monkeyrunner monkey.py {lang} {stage}"
   sys.exit(0)
 
 lang = sys.argv[1]
-country = sys.argv[2]
-stage = sys.argv[3]
+stage = sys.argv[2]
 targetdir = '/home/michael/programmieren/MyExpenses/doc/screenshots/neu/' + lang + '/'
+BACKDOOR_KEY = 'KEYCODE_CAMERA'
 def snapshot(title):
   sleep()
   filename = title+'.png'
@@ -75,57 +75,55 @@ def main():
   left()
   enter()
   snapshot("manage_accounts")
-
-  #2 AggregateDialog
-  right()
-  right()
-  enter()
-  down()
-  down()
-  snapshot("aggregate_dialog")
-
+  
   #3 GrooupedList
-  back()
   toTopLeft()
   down()
   enter()
   snapshot("grouped_list")
-
+  
   if (stage == "1"):
     finalize()
     return
-
+  
   #4 Templates and Plans
   toBottomLeft()
   right()
   right()
   right()
-  #hit Templats button
+  enter() #temmplates button
+  toTopLeft()
+  down()
+  right()
   enter()
+  sleep(2)
   down()
   enter()
   sleep(2)
-  right()
-  right()
-  right()
+  down()#apply first instance
+  device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
+  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
+  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
+  sleep()
   enter()
-  sleep(2)
-  for _ in range(10):
-    down()
+  sleep()
+  down()#cancel second instance
+  down()
+  device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
+  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
+  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
+  sleep()
+  down()
+  down()
   enter()
-  sleep(2)
-  right()
-  enter()
-  sleep(5)
+  sleep()
   snapshot("plans")
-
+  
   #5 ExportAndReset
-  back()
-  back()
   back()
   menu(0)
   snapshot("export")
-
+  
   #6 Calculator
   back()
   toBottomLeft()
@@ -138,19 +136,21 @@ def main():
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent)
   snapshot("calculator")
-
+  
   #7 Split
   back()
   back()
   toTopLeft()
   down()
+  down()#split is second, first is the transaction created from plan
   enter()
   right()
   enter()
+  
   #give time for loading
   sleep(2)
   snapshot("split")
-
+  
   #8 Distribution
   back()
   menu(3)
@@ -163,12 +163,12 @@ def main():
   down()
   enter()
   snapshot("distribution")
-
+  
   #9 Backup
   back()
   menu(4)
   if lang == 'de':
-    distance = 20
+    distance = 19
   elif lang == 'zh':
     distance = 17
   else:
@@ -177,21 +177,23 @@ def main():
     down()
   enter()
   snapshot("backup")
-
+  
   #10 Password
   back()
   back()
   menu(4)
-  if lang == 'de' or lang == 'it':
-    distance = 25
-  else:
+  if lang == 'de':
+    distance = 26
+  elif lang == 'zh':
     distance = 24
+  else:
+    distance = 25
   for _ in range(distance):
     down()
   enter()
   enter()
   snapshot("password")
-
+  
   #10 Light Theme
   back()
   back()
@@ -203,7 +205,7 @@ def main():
   enter()
   back()
   snapshot("light_theme")
-
+  
   #11 Help
   menu(5)
   snapshot("help")

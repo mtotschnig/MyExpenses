@@ -173,9 +173,6 @@
   <string name="no_split_parts">لا يوجد تقسيمات</string>
   <string name="no_templates">لا يوجد نماذج.</string>
   <string name="no_title_given">لم تقم بإدخال عنوان.</string>
-  <string name="not_deletable_mapped_transactions">لا يمكنك الحذف، لا تزال هناك عمليات معينة موجودة.</string>
-  <string name="not_deletable_mapped_templates">لا يمكنك الحذف، لا تزال هناك نماذج معينة موجودة.</string>
-  <string name="not_deletable_subcats_exists">لا يمكن حذف هذا التصنيف، لأن هناك تصنيفات أخرى تندرج تحته.</string>
   <string name="oi_pick_colors_info">قم بتثبيت OI Color Picker لمزيد من الاختيارات</string>
   <string name="opening_balance">الرصيد الافتتاحي</string>
   <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
@@ -260,11 +257,10 @@
   <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
   <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
   <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج</string>
-  <string name="save_transaction_from_template_success">تم حفظ عملية جديدة من نموذج</string>
   <string name="save_transaction_and_new_success">تم حفظ العملية بنجاح</string>
   <string name="select">اختر</string>
   <string name="select_category">اختر تصنيف</string>
-  <string name="select_parent_category">اختر هذا التصنيف</string>
+  <string name="menu_select_category">اختر هذا التصنيف</string>
   <string name="share_scheme_not_supported">الطريقة %1$s غير مدعومة</string>
   <string name="share_sending">ارسال الملف المصدّر</string>
   <string name="split_parts_heading">تقسيم</string>

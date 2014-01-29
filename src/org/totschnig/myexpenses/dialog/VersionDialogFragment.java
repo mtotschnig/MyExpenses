@@ -93,7 +93,7 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(getString(R.string.help_heading_whats_new))
-      .setIcon(R.drawable.icon)
+      .setIcon(R.drawable.myexpenses)
       .setView(view)
       .setNegativeButton(android.R.string.ok, this);
     if (!MyApplication.getInstance().isContribEnabled)

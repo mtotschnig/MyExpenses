@@ -12,6 +12,11 @@
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
   <string name="category">Kategorie</string>
+  <string name="clone_transaction_error">Buchung konnte nicht geklont werden.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Buchung wurde erfolgreich geklont.</item>
+    <item quantity="other">%1$d Buchungen wurde erfolgreich geklont.</item>
+  </plurals>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="contrib_feature_accounts_unlimited_description">Mit &lt;i&gt;Meine Ausgaben&lt;/i&gt; können Sie bis zu 5 Konten anlegen.</string>
@@ -76,6 +81,8 @@
   <string name="dialog_title_select_template">Vorlage auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
+  <string name="dialog_title_warning_delete_main_category">Hauptkategorie löschen?</string>
+  <string name="dialog_title_warning_delete_plan">Plan löschen?</string>
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
@@ -129,8 +136,8 @@
   <string name="menu_aggregates">Gesamt</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Anwenden</string>
-  <string name="menu_apply_template_and_edit">Anwenden und verändern</string>
-  <string name="menu_apply_template_and_save">Anwenden und speichern</string>
+  <string name="menu_create_instance_edit">Anwenden und verändern</string>
+  <string name="menu_create_instance_save">Anwenden und speichern</string>
   <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -148,17 +155,20 @@
   <string name="menu_create_split_part_transfer">Neuer Split-Teilbetrag (Umbuchung)</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Neue Vorlage</string>
+  <string name="menu_create_template_from_transaction">Als Vorlage speichern</string>
   <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
   <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
   <string name="menu_create_transaction">Neue Buchung</string>
   <string name="menu_create_transfer">Neue Umbuchung</string>
   <string name="menu_delete">Löschen</string>
+  <string name="menu_delete_account">Konto löschen</string>
   <string name="menu_distribution">Verteilung</string>
   <string name="menu_edit">Bearbeiten</string>
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>
   <string name="menu_edit_party">Partei verändern</string>
+  <string name="menu_edit_plan_instance">Einzelnes Ereignis verändern</string>
   <string name="menu_edit_split">Split-Buchung verändern</string>
   <string name="menu_edit_split_part_category">Split-Teilbetrag (Kategorie) verändern</string>
   <string name="menu_edit_split_part_transfer">Split-Teilbetrag (Umbuchung) verändern</string>
@@ -197,9 +207,14 @@
   <string name="no_split_parts">Keine Split-Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
-  <string name="not_deletable_mapped_transactions">Kann nicht löschen, weil zugeordnete Buchungen existieren.</string>
-  <string name="not_deletable_mapped_templates">Kann nicht löschen, weil zugeordnete Vorlagen existieren.</string>
-  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">Das ausgewählte Objekt ist mit einer Buchung verknüpft und kann nicht gelöscht werden.</item>
+    <item quantity="other">%1$d ausgewählte Objekte sind mit Buchungen verknüpft und können nicht gelöscht werden.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">Das ausgewählte Objekt ist mit einer Vorlage verknüpft und kann nicht gelöscht werden.</item>
+    <item quantity="other">%1$d ausgewählte Objekte sind mit Vorlagen verknüpft und können nicht gelöscht werden.</item>
+  </plurals>
   <string name="numbered">nummeriert</string>
   <string name="oi_pick_colors_info">OI Color Picker installieren für mehr Auswahl</string>
   <string name="opening_balance">Anfangssaldo</string>
@@ -319,12 +334,15 @@
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
-  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
-  <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
+  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Neue Buchung wurde erfolgreich aus der Vorlage gespeichert.</item>
+    <item quantity="other">%1$d neue Buchungen wurden erfolgreich aus Vorlagen gespeichert.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
   <string name="select">Auswählen</string>
   <string name="select_category">Kategorie auswählen</string>
-  <string name="select_parent_category">Wähle diese Kategorie</string>
+  <string name="menu_select_category">Wähle diese Kategorie</string>
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
   <string name="share_sending">Export Datei senden</string>
   <string name="split_parts_heading">Split-Teilbeträge</string>
@@ -354,8 +372,22 @@
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Möchten Sie fortfahren?</string>
   <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
-  <string name="warning_delete_template">Diese Vorlage (und ein etwaig dafür angelegter Plan) wird gelöscht. Möchten Sie fortfahren?</string>
-  <string name="warning_delete_transaction">Diese Buchung wird gelöscht. Möchten Sie fortfahren?</string>
+  <plurals name="warning_delete_main_category">
+    <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
+    <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">Der ausgewählte Plan wird gelöscht.</item>
+    <item quantity="other">%1$d ausgewählte Pläne werden gelöscht.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">Die ausgewählte Vorlage wird gelöscht.</item>
+    <item quantity="other">%1$d ausgewählte Vorlagen werden gelöscht.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
+    <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
+  </plurals>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
   <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt Meine Ausgaben Contrib).</string>
   <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.\tDies kann nicht rückgängig gemacht werden.</string>
@@ -363,5 +395,5 @@
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten%1$s von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
-  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert oder gelöscht werden.</string>
+  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
 </resources>

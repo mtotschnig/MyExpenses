@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -54,11 +55,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     OnSharedPreferenceChangeListener,
     OnPreferenceClickListener {
   
-  private static final int ACTIVITY_RESTORE = 1;
+  private static final int RESTORE_REQUEST = 1;
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
@@ -76,8 +77,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_RESTORE)
-      .setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_RATE)
     .setOnPreferenceClickListener(this);
@@ -216,20 +215,20 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_RESTORE)) {
-      startActivityForResult(preference.getIntent(), ACTIVITY_RESTORE);
+      startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
+/*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
       addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
       Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       return true;
-    }
+    }*/
     return false;
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
-    if (requestCode == ACTIVITY_RESTORE && resultCode == RESULT_FIRST_USER) {
+    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
       setResult(resultCode);
       finish();
     }

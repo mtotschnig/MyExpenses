@@ -83,8 +83,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     //configButtons();
-    if (requestCode == ACTIVITY_PREFERENCES && resultCode == RESULT_FIRST_USER) {
-      Intent i = new Intent(this, ManageAccounts.class);
+    if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_FIRST_USER) {
+      Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       finish();
       startActivity(i);

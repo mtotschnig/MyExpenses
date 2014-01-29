@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s již definován.</string>
   <string name="amount">Částka</string>
   <string name="app_name">Moje výdaje</string>
-  <string name="backup_failure">Zálohování na sdkartu se nezdařilo.</string>
-  <string name="backup_success">Databáze a preference byly úspěšně zapsány na sdkartu.</string>
+  <string name="backup_failure">Zálohování na paměťovou kartu se nezdařilo.</string>
+  <string name="backup_success">Databáze a preference byly úspěšně zapsány na paměťovou kartu.</string>
   <string name="category">Kategorie</string>
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
@@ -47,7 +47,8 @@
   <string name="dialog_contrib_text">&lt;i&gt; Moje výdaje &lt;/i&gt; nenabízí reklamu a mají otevřený vývoj. Prosím přispějte instalací placené verze Contrib. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Máte jedno použití zdarma.</item>
-    <item quantity="other">Máte %1$d použitích zdarma.</item>
+    <item quantity="few">Máte %1$d použití zdarma.</item>
+    <item quantity="other">Máte %1$d použití zdarma.</item>
   </plurals>
   <string name="dialog_contrib_yes">Kupte teď</string>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
@@ -129,8 +130,8 @@
   <string name="menu_aggregates">Celkem</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Použít</string>
-  <string name="menu_apply_template_and_edit">Použít a upravit</string>
-  <string name="menu_apply_template_and_save">Použít a uložit</string>
+  <string name="menu_create_instance_edit">Použít a upravit</string>
+  <string name="menu_create_instance_save">Použít a uložit</string>
   <string name="menu_back">Zpět</string>
   <string name="menu_backup">Zálohování</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -197,9 +198,6 @@
   <string name="no_split_parts">Žádné rozdělené oddíly.</string>
   <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
   <string name="no_title_given">Nezadali jste název.</string>
-  <string name="not_deletable_mapped_transactions">Nelze odstranit, protože existují připojené transakce.</string>
-  <string name="not_deletable_mapped_templates">Nelze odstranit, protože existují připojené šablony.</string>
-  <string name="not_deletable_subcats_exists">Tuto kategorii nelze odstranit, protože obsahuje podkategorie.</string>
   <string name="numbered">číslování</string>
   <string name="oi_pick_colors_info">Instalujte OI Color Picker pro více možností výběru barvy.</string>
   <string name="opening_balance">Počáteční zůstatek</string>
@@ -265,8 +263,7 @@
   <string name="pref_manage_methods_title">Způsoby plateb</string>
   <string name="pref_manage_parties_summary">Přidání, úprava, odstranění strany (plátci a příjemci).</string>
   <string name="pref_manage_parties_title">Oddíly</string>
-  <string name="pref_more_info_dialog_summary"><!-- toto je prázdné pro angličtinu a nabízí poděkování překladatelům v ostatních jazycích--></string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
+  <string name="pref_more_info_dialog_summary">Přeložil Jan Šplíchal</string>
   <string name="pref_more_info_dialog_title">Licence a kredity</string>
   <string name="pref_password_empty">Heslo nesmí být prázdné</string>
   <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
@@ -320,11 +317,10 @@
   <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>
   <string name="save_transaction_and_new_success">Úspěšně uloženo</string>
   <string name="save_transaction_error">Nelze uložit novou transakci ze šablony</string>
-  <string name="save_transaction_from_template_success">Nová transakce úspěšně uložena ze šablony</string>
   <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
   <string name="select">Vybrat</string>
   <string name="select_category">Vybrat kategorii</string>
-  <string name="select_parent_category">Vyberte tuto kategorii</string>
+  <string name="menu_select_category">Vyberte tuto kategorii</string>
   <string name="share_scheme_not_supported">Schéma %1$s není podporováno</string>
   <string name="share_sending">Odeslat soubor exportu</string>
   <string name="split_parts_heading">Rozdělení stran</string>
@@ -354,8 +350,6 @@
   <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu. Přejete si pokračovat?</string>
   <string name="warning_backup_exists">Databáze a preference bude uloženy na paměťovou kartu. Bude přepsána existující zálohu. Přejete si pokračovat?</string>
   <string name="warning_delete_account">Tento účet bude smazán i s jeho transakcemi. Přejete si pokračovat?</string>
-  <string name="warning_delete_template">Tato šablona (a všechny související plány) budou odstraněny. Přejete si pokračovat?</string>
-  <string name="warning_delete_transaction">Tato transakce bude odstraněna. Přejete si pokračovat?</string>
   <string name="warning_password_contrib">Nastavení bezpečnostní otázky umožňuje odemknout aplikaci i v případě, že zapomenete heslo.</string>
   <string name="warning_password_no_contrib">Pokud nastavíte heslo, dávejte pozor, abyste na to nezapoměli. Pokud nenastavíte bezpečnostní otázku (vyžaduje Moje výdaje Contrib) nebude možné heslo obnovit.</string>
   <string name="warning_reset_account">Pokud budete pokračovat všechny transakce tohoto účtu budou odstraněny z databáze a nepůjde je obnovit.</string>

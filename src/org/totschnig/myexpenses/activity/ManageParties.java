@@ -23,11 +23,10 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -47,7 +46,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.parties, menu);
     super.onCreateOptionsMenu(menu);
     return true;
@@ -72,8 +71,10 @@ public class ManageParties extends ProtectedFragmentActivity implements
   }
   @Override
   public void onPostExecute(Object result) {
-    if (result == null)
+    if (result == null) {
       Toast.makeText(ManageParties.this,getString(R.string.already_defined, mParty.name), Toast.LENGTH_LONG).show();
+    }
+    super.onPostExecute(result);
   }
   @Override
   public Model getObject() {

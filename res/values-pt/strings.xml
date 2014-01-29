@@ -129,8 +129,8 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
-  <string name="menu_apply_template_and_edit">Aplicar e editar</string>
-  <string name="menu_apply_template_and_save">Aplicar e salvar</string>
+  <string name="menu_create_instance_edit">Aplicar e editar</string>
+  <string name="menu_create_instance_save">Aplicar e salvar</string>
   <string name="menu_back">Voltar</string>
   <string name="menu_backup">Backup</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -197,9 +197,14 @@
   <string name="no_split_parts">Não há dividir partes.</string>
   <string name="no_templates">Sem modelos.</string>
   <string name="no_title_given">Você não digitou nenhum título.</string>
-  <string name="not_deletable_mapped_transactions">Não é possível excluir, porque existem as transações planejadas.</string>
-  <string name="not_deletable_mapped_templates">Não é possível excluir, pois existem modelos padrões planejados.</string>
-  <string name="not_deletable_subcats_exists">Esta categoria não pode ser excluída, porque tem sub-categorias.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">O objeto selecionado é mapeado para uma transação e não pode ser excluído.</item>
+  	<item quantity="other">%1$d objetos selecionados são mapeados para transações e não pode ser excluído.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">O objeto selecionado é mapeado para um modelo e não pode ser excluído.</item>
+    <item quantity="other">%1$d objetos selecionados são mapeados para modelos e não pode ser excluído.</item>
+  </plurals>
   <string name="numbered">numeradas</string>
   <string name="oi_pick_colors_info">Instale OI Color Picker para mais opções</string>
   <string name="opening_balance">Saldo inicial</string>
@@ -320,11 +325,14 @@
   <string name="restore_preferences_success">As preferências foram restauradas a partir do backup.</string>
   <string name="save_transaction_and_new_success">Salvo com sucesso</string>
   <string name="save_transaction_error">Não foi possível salvar nova transação do modelo.</string>
-  <string name="save_transaction_from_template_success">Nova transação salva com êxito do modelo</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Nova transação salva com êxito do modelo.</item>
+    <item quantity="other">%1$d novas operações foram salvas com sucesso a partir de modelos.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Modelo foi excluído</string>
   <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
-  <string name="select_parent_category">Selecionar esta categoria</string>
+  <string name="menu_select_category">Selecionar esta categoria</string>
   <string name="share_scheme_not_supported">Não há suporte ao esquema %1$s</string>
   <string name="share_sending">Enviar o arquivo de exportação</string>
   <string name="split_parts_heading">Dividir partes</string>
@@ -353,9 +361,23 @@
   <string name="unsplit_amount_greater_than_zero">Ainda há alguma quantidade esquerda non divisão.</string>
   <string name="warning_backup">Banco de dados e preferências serão salvas para o sdcard. Você quer continuar?</string>
   <string name="warning_backup_exists">Banco de dados e preferências serão salvas para o sdcard. Backup existente será substituído. Você quer continuar?</string>
-  <string name="warning_delete_account">Esta conta será excluída com todas as suas transações. Você quer continuar?</string>
-  <string name="warning_delete_template">Este modelo (e qualquer plano de associado) serão excluídos. Você quer continuar?</string>
-  <string name="warning_delete_transaction">Esta transação será excluída. Você quer continuar?</string>
+  <string name="warning_delete_account">Esta conta \"%1$s\" será excluída com todas as suas transações.</string>
+  <plurals name="warning_delete_main_category">
+  	<item quantity="one">A categoria seleccionada tem subcategorias, que serão excluídas também.</item>
+  	<item quantity="other">%1$d categorias selecionadas têm subcategorias, que serão excluídas também.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">O plano selecionado será excluído.</item>
+    <item quantity="other">%1$d planos selecionados serão excluídos.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">O modelo selecionado será excluído.</item>
+    <item quantity="other">%1$d modelos selecionados serão excluídos.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">A transação selecionada será excluída.</item>
+  	<item quantity="other">%1$d transações selecionadas serão excluídas.</item>
+  </plurals>
   <string name="warning_password_contrib">Definir uma questão de segurança permite que você desbloquear o app, no caso de você esquecer sua senha.</string>
   <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-lo. Você não será capaz de recuperá-lo, a menos que você defina uma pergunta de segurança (requer minha Contrib despesas).</string>
   <string name="warning_reset_account">Se você prosseguir, todas as transações desta conta são excluídas do banco de dados e não podem ser restauradas.</string>
@@ -363,5 +385,5 @@
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_restore">Banco de dados e preferências serão restauradas do backup. Os dados atuais serão excluídos. Você quer continuar?</string>
   <string name="warning_select_account">Por favor, selecione uma conta!</string>
-  <string name="warning_splitpartcategory_context">Transferências que fazem parte de um transação de divisão apenas podem ser editadas ou excluídas no contexto da divisão.</string>
+  <string name="warning_splitpartcategory_context">Transferências que fazem parte de um transação de divisão apenas podem ser editadas no contexto da divisão.</string>
 </resources>

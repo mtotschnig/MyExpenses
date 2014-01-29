@@ -56,7 +56,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
@@ -136,8 +135,12 @@ public class Utils {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     int fractionDigits = currency.getDefaultFractionDigits();
     nf.setCurrency(currency);
-    nf.setMinimumFractionDigits(fractionDigits);
-    nf.setMaximumFractionDigits(fractionDigits);
+    if (fractionDigits != -1) {
+      nf.setMinimumFractionDigits(fractionDigits);
+      nf.setMaximumFractionDigits(fractionDigits);
+    } else {
+      nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
+    }
     return nf.format(amount);
   }
   public static Date dateFromSQL(String dateString) {
@@ -439,11 +442,11 @@ public class Utils {
    * @param item
    * @param enabled
    */
-  public static void menuItemSetEnabled(com.actionbarsherlock.view.Menu menu, int id, boolean enabled) {
-    com.actionbarsherlock.view.MenuItem item = menu.findItem(id);
-    item.setEnabled(enabled);
-    item.getIcon().setAlpha(enabled ? 255 : 90);
-  }
+//  public static void menuItemSetEnabled(Menu menu, int id, boolean enabled) {
+//    MenuItem item = menu.findItem(id);
+//    item.setEnabled(enabled);
+//    item.getIcon().setAlpha(enabled ? 255 : 90);
+//  }
 
   public static boolean doesPackageExist(Context context,String targetPackage) {
     try {

@@ -59,4 +59,16 @@ public class MoneyTest extends TestCase {
     m.setAmountMajor(new BigDecimal("3456"));
     Assert.assertEquals(m.getAmountMinor().longValue(),(long)3456);
     }
+  /**
+   * test no Currency
+   */
+  public void testXXX() {
+    c = Currency.getInstance("XXX");
+    long minor = (long) (2345 * Math.pow(10,Money.DEFAULTFRACTIONDIGITS));
+    m = new Money(c,minor);
+    Assert.assertEquals(m.getAmountMinor().longValue(),minor);
+    Assert.assertEquals(0,m.getAmountMajor().compareTo(new BigDecimal("2345")));
+    m.setAmountMajor(new BigDecimal("3456.789"));
+    Assert.assertEquals(m.getAmountMinor().longValue(),(long) (3456.789*Math.pow(10,Money.DEFAULTFRACTIONDIGITS)));
+    }
 }

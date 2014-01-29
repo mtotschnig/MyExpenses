@@ -144,4 +144,10 @@ public class MethodEdit extends EditActivity {
     // TODO Auto-generated method stub
     return mMethod;
   }
+  @Override
+  public void onPostExecute(Object result) {
+    setResult(RESULT_OK);
+    finish();
+    //no need to call super after finish
+  }
 }

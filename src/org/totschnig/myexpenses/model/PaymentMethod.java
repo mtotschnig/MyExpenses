@@ -40,7 +40,13 @@ public class PaymentMethod extends Model {
   public static final int INCOME = 1;
   private int paymentType;
   public boolean isNumbered = false;
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_TYPE,KEY_IS_NUMBERED};
+  public static final String[] PROJECTION = new String[] {
+    KEY_ROWID,
+    KEY_LABEL,
+    KEY_TYPE,
+    KEY_IS_NUMBERED,
+    "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS mapped_transactions",
+    "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS mapped_templates"};
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable

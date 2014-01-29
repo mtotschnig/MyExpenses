@@ -24,9 +24,11 @@ import java.util.Locale;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
@@ -37,9 +39,14 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -53,33 +60,11 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
 public class CategoryList extends BudgetListFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
   private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;
-  /**
-   * create a new sub category
-   */
-  private static final int CREATE_SUB_CAT = Menu.FIRST+2;
-  /**
-   * return the main cat to the calling activity
-   */
-  private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
-  /**
-   * edit the category label
-   */
-  private static final int EDIT_CAT = Menu.FIRST+3;
-  /**
-   * delete the category after checking if
-   * there are mapped transactions or subcategories
-   */
-  private static final int DELETE_CAT = Menu.FIRST+4;
 
   private MyExpandableListAdapter mAdapter;
   private ExpandableListView mListView;
@@ -116,7 +101,7 @@ public class CategoryList extends BudgetListFragment implements
       mGroupingSecond = b.getInt("groupingSecond");
       //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
       //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
-      getSherlockActivity().supportInvalidateOptionsMenu();
+      getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
     } else {
@@ -144,83 +129,117 @@ public class CategoryList extends BudgetListFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    //requires using activity (SelectCategory) to implement OnChildClickListener
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
-      mListView.setOnChildClickListener(this);
-      mListView.setOnGroupClickListener(this);
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      registerForContextMenu(mListView);
+    } else {
+      registerForContextualActionBar(mListView);
     }
-    registerForContextMenu(mListView);
     return v;
   }
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-
-    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
-    if (ctx.helpVariant.equals(HelpVariant.distribution))
-      return;
-    // Menu entries relevant only for the group
-    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      if (ctx.helpVariant.equals(HelpVariant.select))
-        menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
-      menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
-    }
-    menu.add(0,DELETE_CAT,0,R.string.menu_delete);
-  }
 
   @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
-    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-    long cat_id = info.id;
-
-    String label =   ((TextView) info.targetView.findViewById(R.id.label)).getText().toString();
-
-    switch(item.getItemId()) {
-      case SELECT_MAIN_CAT:
-        Intent intent=new Intent();
-        intent.putExtra("cat_id", cat_id);
-        intent.putExtra("label", label);
-        ctx.setResult(ManageCategories.RESULT_OK,intent);
-        ctx.finish();
-        return true;
-      case CREATE_SUB_CAT:
-        ctx.createCat(cat_id);
-        return true;
-      case EDIT_CAT:
-        ctx.editCat(label,cat_id);
-        return true;
-      case DELETE_CAT:
+  public boolean dispatchCommandMultiple(int command,
+      SparseBooleanArray positions,Long[]itemIds) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
+      ArrayList<Long> idList = new ArrayList<Long>();
+      for (int i=0; i<positions.size(); i++) {
         Cursor c;
-        int message = 0;
-        int group = ExpandableListView.getPackedPositionGroup(info.packedPosition),
-            child = ExpandableListView.getPackedPositionChild(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-          c = (Cursor) mAdapter.getChild(group,child);
-        } else  {
-          c = mGroupCursor;
-          if (c.getInt(c.getColumnIndex("child_count")) > 0)
-            message = R.string.not_deletable_subcats_exists;
-        }
-        if (message == 0 ) {
+        if (positions.valueAt(i)) {
+          boolean deletable = true;
+          int position = positions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int type = ExpandableListView.getPackedPositionType(pos);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
+          if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            c = (Cursor) mAdapter.getChild(group,child);
+            c.moveToPosition(child);
+          } else  {
+            c = mGroupCursor;
+            c.moveToPosition(group);
+          }
           Bundle extras = ctx.getIntent().getExtras();
-          if ((extras != null && extras.getLong(KEY_ROWID) == info.id) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
-            message = R.string.not_deletable_mapped_transactions;
-          else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0)
-            message = R.string.not_deletable_mapped_templates;
+          if ((extras != null && extras.getLong(KEY_ROWID) == itemIds[i]) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0) {
+            mappedTransactionsCount++;
+            deletable = false;
+          } else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0) {
+            mappedTemplatesCount++;
+            deletable = false;
+          }
+          if (deletable) {
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex("child_count")) > 0) {
+              hasChildrenCount++;
+            }
+            idList.add(itemIds[i]);
+          }
         }
-        if (message != 0 )
-          Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
-        else
-          ctx.getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,info.id, null), "ASYNC_TASK")
-          .commit();
+      }
+      if (idList.size()>0) {
+        Long[] objectIds = idList.toArray(new Long[idList.size()]);
+        if (hasChildrenCount>0) {
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_warning_delete_main_category,
+              getResources().getQuantityString(R.plurals.warning_delete_main_category,hasChildrenCount,hasChildrenCount),
+              new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
+              null,
+              MessageDialogFragment.Button.noButton())
+            .show(ctx.getSupportFragmentManager(),"DELETE_CATEGORY");
+        } else {
+          ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
+        }
+      }
+      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
+        String message = "";
+        if (mappedTransactionsCount > 0)
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_transactions,
+              mappedTransactionsCount,
+              mappedTransactionsCount);
+        if (mappedTemplatesCount > 0)
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_templates,
+              mappedTemplatesCount,
+              mappedTemplatesCount);
+        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
+      }
+      return true;
     }
     return false;
+  }
+  @Override
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
+    int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
+    Cursor c;
+    int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
+        child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+      c = (Cursor) mAdapter.getChild(group,child);
+    } else  {
+      c = mGroupCursor;
     }
+    String label = c.getString(c.getColumnIndex(KEY_LABEL));
+    switch(command) {
+    case R.id.EDIT_COMMAND:
+      ctx.editCat(label,elcmi.id);
+      return true;
+    case R.id.SELECT_COMMAND:
+      Intent intent=new Intent();
+      intent.putExtra("cat_id", elcmi.id);
+      intent.putExtra("label", label);
+      ctx.setResult(ManageCategories.RESULT_OK,intent);
+      ctx.finish();
+      return true;
+    case R.id.CREATE_COMMAND:
+      ctx.createCat(elcmi.id);
+      return true;
+    }
+    return super.dispatchCommandSingle(command, info);
+  }
   /**
    * Mapping the categories table into the ExpandableList
    * @author Michael Totschnig
@@ -299,7 +318,7 @@ public class CategoryList extends BudgetListFragment implements
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
       }
       return new CursorLoader(
-          getSherlockActivity(),
+          getActivity(),
           builder.build(),
           null,
           buildGroupingClause(),
@@ -332,7 +351,7 @@ public class CategoryList extends BudgetListFragment implements
         projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_start",mGroupingYear,(mGroupingSecond-1)*7));
         projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_end",mGroupingYear,mGroupingSecond*7-1));
       }
-      return new CursorLoader(getSherlockActivity(),
+      return new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           projection.toArray(new String[projection.size()]),
           null,null, null);
@@ -341,6 +360,9 @@ public class CategoryList extends BudgetListFragment implements
     long parentId;
     String selection = "",accountSelector="",sortOrder=null;
     String[] selectionArgs,projection = null;
+    String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM "
+        + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES
+        + "." + KEY_ROWID + " OR " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
     if (mAccount != null) {
       if (mAccount.id < 0) {
         selection = " IN " +
@@ -356,10 +378,10 @@ public class CategoryList extends BudgetListFragment implements
       }
       //we need to include transactions mapped to children for main categories
       if (bundle == null)
-        catFilter += " AND cat_id IN (select _id FROM categories subtree where parent_id = categories._id OR _id = categories._id)";
+        catFilter += " AND " + CATTREE_WHERE_CLAUSE;
       else
         catFilter += " AND cat_id  = categories._id";
-      selection = " AND exists (select 1 " + catFilter +")";
+      selection = " AND exists (SELECT 1 " + catFilter +")";
       projection = new String[] {
           KEY_ROWID,
           KEY_LABEL,
@@ -373,8 +395,8 @@ public class CategoryList extends BudgetListFragment implements
           KEY_LABEL,
           KEY_PARENTID,
           "(select count(*) FROM categories subtree where parent_id = categories._id) as child_count",
-          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_CATID + "=" + TABLE_CATEGORIES + "." + KEY_ROWID + ") AS mapped_transactions",
-          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + KEY_CATID + "=" + TABLE_CATEGORIES + "." + KEY_ROWID + ") AS mapped_templates"
+          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS mapped_transactions",
+          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS mapped_templates"
       };
     }
     if (bundle == null) {
@@ -395,7 +417,7 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
-    SherlockFragmentActivity ctx = getSherlockActivity();
+    ActionBarActivity ctx = (ActionBarActivity) getActivity();
     ActionBar actionBar =  ctx.getSupportActionBar();
     switch(id) {
     case SUM_CURSOR:
@@ -501,7 +523,12 @@ public class CategoryList extends BudgetListFragment implements
 */
   @Override
   public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    if (super.onChildClick(parent, v, groupPosition,childPosition, id))
+      return true;
+    ManageCategories ctx = (ManageCategories) getActivity();
+    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+      return false;
+    }
     Intent intent=new Intent();
     long sub_cat = id;
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
@@ -514,7 +541,12 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public boolean onGroupClick(ExpandableListView parent, View v,
       int groupPosition, long id) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    if (super.onGroupClick(parent, v, groupPosition, id))
+      return true;
+    ManageCategories ctx = (ManageCategories) getActivity();
+    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+      return false;
+    }
     long cat_id = id;
     mGroupCursor.moveToPosition(groupPosition);
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
@@ -547,7 +579,7 @@ public class CategoryList extends BudgetListFragment implements
       mGroupingSecond = 0;
       break;
     }
-    getSherlockActivity().supportInvalidateOptionsMenu();
+    getActivity().supportInvalidateOptionsMenu();
     reset();
   }
 
@@ -584,5 +616,14 @@ public class CategoryList extends BudgetListFragment implements
       outState.putSerializable("grouping", mGrouping);
       outState.putInt("groupingYear",mGroupingYear);
       outState.putInt("groupingSecond",mGroupingSecond);
+  }
+  @Override
+  protected void configureMenu(Menu menu, int count) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1);
+    menu.findItem(R.id.DELETE_COMMAND).setVisible(!ctx.helpVariant.equals(HelpVariant.distribution));
+    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && ctx.helpVariant.equals(HelpVariant.select));
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !ctx.helpVariant.equals(HelpVariant.distribution));
   }
 }

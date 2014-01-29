@@ -26,13 +26,13 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -92,7 +92,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-      MenuInflater inflater = getSupportMenuInflater();
+      MenuInflater inflater = getMenuInflater();
       if (helpVariant.equals(HelpVariant.distribution)) {
         inflater.inflate(R.menu.distribution, menu);
       } else {
@@ -115,6 +115,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.GROUPING_COMMAND_DO:
         mListFragment.setGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
+      case R.id.DELETE_COMMAND_DO:
+        getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
+        .commit();
       }
       return super.dispatchCommand(command, tag);
      }

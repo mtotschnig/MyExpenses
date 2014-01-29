@@ -37,6 +37,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.support.v7.app.ActionBarActivity;
 /**
  * Util class with helper methods
  * @author Michael Totschnig
@@ -83,6 +84,9 @@ public class DialogUtils {
 
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
     ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
+    if (ctx instanceof ActionBarActivity) {
+      ((ActionBarActivity) ctx).getSupportActionBar().hide();
+    }
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
     Button b = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -150,6 +154,9 @@ public class DialogUtils {
           error.setText("");
           MyApplication.getInstance().isLocked = false;
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
+          if (ctx instanceof ActionBarActivity) {
+            ((ActionBarActivity) ctx).getSupportActionBar().show();
+          }
           if (isInSecurityQuestion) {
             settings.edit().putBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false).commit();
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();

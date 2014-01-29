@@ -30,7 +30,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,9 +52,9 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_REQUIRE_ACCOUNT = 5;
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;
-  public static final int TASK_DELETE_PAYMENT_METHOD = 8;
-  public static final int TASK_DELETE_PAYEE = 9;
-  public static final int TASK_DELETE_TEMPLATE = 10;
+  public static final int TASK_DELETE_PAYMENT_METHODS = 8;
+  public static final int TASK_DELETE_PAYEES = 9;
+  public static final int TASK_DELETE_TEMPLATES = 10;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
@@ -91,6 +93,17 @@ public class TaskExecutionFragment extends Fragment {
     f.setArguments(bundle);
     return f;
   }
+  public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds, Serializable extra) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    Bundle bundle = new Bundle();
+    bundle.putInt("taskId", taskId);
+    if (objectIds != null)
+      bundle.putSerializable("objectIds", objectIds);
+    if (extra != null)
+      bundle.putSerializable("extra", extra);
+    f.setArguments(bundle);
+    return f;
+  }
 
   /**
    * Hold a reference to the parent Activity so we can report the
@@ -118,7 +131,11 @@ public class TaskExecutionFragment extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     mTask = new GenericTask(args.getInt("taskId"),args.getSerializable("extra"));
-    mTask.execute(args.getLong("objectId"));
+    long objectId = args.getLong("objectId");
+    if (objectId != 0)
+      mTask.execute(args.getLong("objectId"));
+    else
+      mTask.execute((Long[]) args.getSerializable("objectIds"));
   }
 
   /**
@@ -158,38 +175,46 @@ public class TaskExecutionFragment extends Fragment {
      * in a race condition.
      */
     @Override
-    protected Object doInBackground(Long... id) {
+    protected Object doInBackground(Long... ids) {
       Transaction t;
       Long transactionId;
-      Long[] extraInfo;
+      Long[][] extraInfo2d;
       ContentResolver cr;
+      int successCount=0;
       switch (mTaskId) {
       case TASK_CLONE:
-        Transaction.getInstanceFromDb(id[0]).saveAsNew();
-        return null;
+        for (long id: ids) {
+          if (Transaction.getInstanceFromDb(id).saveAsNew() != null)
+            successCount++;
+        }
+        return successCount;
       case TASK_INSTANTIATE_TRANSACTION:
-        t = Transaction.getInstanceFromDb(id[0]);
+        t = Transaction.getInstanceFromDb(ids[0]);
         if (t instanceof SplitTransaction)
           ((SplitTransaction) t).prepareForEdit();
         return t;
       case TASK_INSTANTIATE_TEMPLATE:
-        return Template.getInstanceFromDb(id[0]);
+        return Template.getInstanceFromDb(ids[0]);
       case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
         //when we are called from a notification,
         //the template could have been deleted in the meantime 
         try {
-          return Transaction.getInstanceFromTemplate(id[0]);
+          return Transaction.getInstanceFromTemplate(ids[0]);
         } catch (DataObjectNotFoundException e1) {
           return null;
         }
       case TASK_NEW_FROM_TEMPLATE:
-        t = Transaction.getInstanceFromTemplate(id[0]);
-        if (mExtra != null) {
-          extraInfo = (Long[]) mExtra;
-          t.setDate(new Date(extraInfo[1]));
-          t.originPlanInstanceId = extraInfo[0];
+        for (int i=0; i<ids.length; i++) {
+          t = Transaction.getInstanceFromTemplate(ids[i]);
+          if (mExtra != null) {
+            extraInfo2d = (Long[][]) mExtra;
+            t.setDate(new Date(extraInfo2d[i][1]));
+            t.originPlanInstanceId = extraInfo2d[i][0];
+          }
+          if (t.save()!=null)
+            successCount++;
         }
-        return t.save();
+        return successCount;
       case TASK_REQUIRE_ACCOUNT:
         Account account;
         try {
@@ -204,25 +229,35 @@ public class TaskExecutionFragment extends Fragment {
         }
       return account;
       case TASK_DELETE_TRANSACTION:
-        Transaction.delete(id[0]);
+        for (long id: ids) {
+          Transaction.delete(id);
+        }
         return null;
       case TASK_DELETE_ACCOUNT:
-        Account.delete(id[0]);
+        Account.delete(ids[0]);
         return null;
-      case TASK_DELETE_PAYMENT_METHOD:
-        PaymentMethod.delete(id[0]);
+      case TASK_DELETE_PAYMENT_METHODS:
+        for (long id: ids) {
+          PaymentMethod.delete(id);
+        }
         return null;
-      case TASK_DELETE_PAYEE:
-        Payee.delete(id[0]);
+      case TASK_DELETE_PAYEES:
+        for (long id: ids) {
+          Payee.delete(id);
+        }
         return null;
       case TASK_DELETE_CATEGORY:
-        Category.delete(id[0]);
+        for (long id: ids) {
+          Category.delete(id);
+        }
         return null;
-      case TASK_DELETE_TEMPLATE:
-        Template.delete(id[0]);
+      case TASK_DELETE_TEMPLATES:
+        for (long id: ids) {
+          Template.delete(id);
+        }
         return null;
       case TASK_TOGGLE_CRSTATUS:
-        t = Transaction.getInstanceFromDb(id[0]);
+        t = Transaction.getInstanceFromDb(ids[0]);
         switch (t.crStatus) {
         case CLEARED:
           t.crStatus = CrStatus.RECONCILED;
@@ -237,39 +272,44 @@ public class TaskExecutionFragment extends Fragment {
         t.save();
         return null;
       case TASK_MOVE:
-        Transaction.move(id[0],(Long) mExtra);
+        Transaction.move(ids[0],(Long) mExtra);
         return null;
       case TASK_NEW_PLAN:
-        return Plan.create((Plan)mExtra);
+        Uri uri = ((Plan)mExtra).save();
+        return uri == null ? null : ContentUris.parseId(uri);
       case TASK_NEW_CALENDAR:
         return MyApplication.getInstance().createPlanner();
       case TASK_CANCEL_PLAN_INSTANCE:
         cr = MyApplication.getInstance().getContentResolver();
-        extraInfo = (Long[]) mExtra;
-        transactionId = extraInfo[1];
-        Long templateId = extraInfo[0];
-        if (transactionId != null && transactionId >0L) {
-          Transaction.delete(transactionId);
-        } else {
-          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-            KEY_INSTANCEID + " = ?",
-            new String[]{String.valueOf(id[0])});
+        for (int i=0; i<ids.length; i++) {
+          extraInfo2d = (Long[][]) mExtra;
+          transactionId = extraInfo2d[i][1];
+          Long templateId = extraInfo2d[i][0];
+          if (transactionId != null && transactionId >0L) {
+            Transaction.delete(transactionId);
+          } else {
+            cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+              KEY_INSTANCEID + " = ?",
+              new String[]{String.valueOf(ids[i])});
+          }
+          ContentValues values = new ContentValues();
+          values.putNull(KEY_TRANSACTIONID);
+          values.put(KEY_TEMPLATEID, templateId);
+          values.put(KEY_INSTANCEID, ids[i]);
+          cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
         }
-        ContentValues values = new ContentValues();
-        values.putNull(KEY_TRANSACTIONID);
-        values.put(KEY_TEMPLATEID, templateId);
-        values.put(KEY_INSTANCEID, id[0]);
-        cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
         return null;
       case TASK_RESET_PLAN_INSTANCE:
         cr = MyApplication.getInstance().getContentResolver();
-        transactionId = (Long) mExtra;
-        if (transactionId != null && transactionId >0L) {
-          Transaction.delete(transactionId);
+        for (int i=0; i<ids.length; i++) {
+          transactionId = ((Long []) mExtra)[i];
+          if (transactionId != null && transactionId >0L) {
+            Transaction.delete(transactionId);
+          }
+          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+              KEY_INSTANCEID + " = ?",
+              new String[]{String.valueOf(ids[i])});
         }
-        cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-            KEY_INSTANCEID + " = ?",
-            new String[]{String.valueOf(id[0])});
         return null;
       }
       return null;
