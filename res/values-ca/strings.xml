@@ -33,7 +33,6 @@
   <string name="description">Descripció</string>
   <string name="dialog_command_disabled_insert_transfer">Les operacions de transferència precisen un segon compte amb la mateixa moneda. Només disposeu d\'un compte i la seva moneda és %1$s.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Podeu obrir més comptes des de la llista de comptes (podeu trobar la llista de comptes amb el botó \'Puja\' a al cantó superior esquerra).</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. El voleu restaurar?</string>

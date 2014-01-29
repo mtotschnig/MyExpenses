@@ -33,7 +33,6 @@
   <string name="description">Leírás</string>
   <string name="dialog_command_disabled_insert_transfer">Számlák közötti átutaláshoz szükség van ugyanazt a pénznemet használó másik számlára. A(z) %1$s pénznemhez csak egy számla tartozik.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">További számlák hozhatók létre a bal felső sarokban látható \"Vissza\" gomb (applikáció gomb) segítségével.</string>
   <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
   <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <string name="dialog_confirm_restore_on_install">A rendszer egy korábbi biztonsági mentést talált. Szeretné visszaállítani arra?</string>

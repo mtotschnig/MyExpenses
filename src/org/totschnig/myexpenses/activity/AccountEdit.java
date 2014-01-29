@@ -87,6 +87,9 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     } else {
       setTitle(R.string.menu_create_account);
       mAccount = new Account();
+      String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
+      if (currency != null)
+        mAccount.setCurrency(currency);
     }
     
     

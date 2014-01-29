@@ -419,12 +419,13 @@ public class MyExpenses extends LaunchActivity implements
       if (transferEnabled()) {
         createRow(TYPE_TRANSFER);
       } else {
+        String currency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
         MessageDialogFragment.newInstance(
             R.string.dialog_title_menu_command_disabled,
-            getString(R.string.dialog_command_disabled_insert_transfer,Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode())
-              + " " + getString(R.string.dialog_command_disabled_insert_transfer_1),
+            getString(R.string.dialog_command_disabled_insert_transfer,currency),
+            new MessageDialogFragment.Button(R.string.menu_create_account, R.id.CREATE_ACCOUNT_COMMAND,currency),
             MessageDialogFragment.Button.okButton(),
-            null,null)
+            null)
          .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
@@ -509,6 +510,8 @@ public class MyExpenses extends LaunchActivity implements
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
       if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
         i = new Intent(this, AccountEdit.class);
+        if (tag != null)
+          i.putExtra(KEY_CURRENCY,(String)tag);
         startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
       }
       else {

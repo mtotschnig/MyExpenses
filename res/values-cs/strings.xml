@@ -33,7 +33,6 @@
   <string name="description">Popis</string>
   <string name="dialog_command_disabled_insert_transfer">Transakce převodu vyžadují druhý účet se stejnou měnou. Máte pouze jeden účet měny %1$s.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Vytvořte další účty ze seznamu účtů, přístupné prostřednictvím tlačítka \'Nahoru\' v levém horním rohu.</string>
   <string name="dialog_command_disabled_reset_account">Žádné transakce pro export.</string>
   <string name="dialog_command_disabled_distribution">Žádné transakce nebyly namapovány do kategorií v tomto účtu.</string>
   <string name="dialog_confirm_restore_on_install">Byl nalezen záložní soubor. Chcete ho obnovit?</string>

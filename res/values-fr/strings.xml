@@ -33,7 +33,6 @@
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Les opérations de transferts nécessitent un second compte de même devise. Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Créer des comptes supplémentaires à partir de la liste des comptes, accessible par le bouton \'Up\' (l\'icône de l\'app) en haut à gauche.</string>
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>

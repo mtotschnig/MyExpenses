@@ -33,7 +33,6 @@
   <string name="description">Descrição</string>
   <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta com a mesma moeda. Você tem apenas uma conta de moeda %1$s.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Crie contas adicionais da lista de conta, acessível através do botão \'Up\' (ícone de app) no canto superior esquerdo.</string>
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
   <string name="dialog_command_disabled_distribution">Nenhuma transação foram mapeadas para categorias nesta conta.</string>
   <string name="dialog_confirm_restore_on_install">Uma cópia de segurança de arquivo fora detectado. Desejas restaurá-lo?</string>
