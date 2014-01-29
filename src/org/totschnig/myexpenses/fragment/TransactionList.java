@@ -83,6 +83,11 @@ import android.widget.Toast;
 //TODO: consider moving to ListFragment
 public class TransactionList extends BudgetListFragment implements
     LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
+
+  protected int getMenuResource() {
+    return R.menu.transactionlist_context;
+  }
+
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
