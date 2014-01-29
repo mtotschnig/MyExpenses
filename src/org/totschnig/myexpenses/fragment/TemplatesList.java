@@ -47,6 +47,11 @@ import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class TemplatesList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+  protected int getMenuResource() {
+    return R.menu.templateslist_context;
+  }
+
   public static final int TEMPLATES_CURSOR=1;
   Cursor mTemplatesCursor;
   private SimpleCursorAdapter mAdapter;

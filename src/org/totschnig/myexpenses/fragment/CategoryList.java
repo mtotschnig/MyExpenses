@@ -62,6 +62,11 @@ import org.totschnig.myexpenses.util.Utils;
 
 public class CategoryList extends BudgetListFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
+
+  protected int getMenuResource() {
+    return R.menu.categorylist_context;
+  }
+
   private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;

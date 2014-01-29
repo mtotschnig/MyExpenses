@@ -63,6 +63,11 @@ import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
 
 public class PlanList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+  protected int getMenuResource() {
+    return R.menu.planlist_context;
+  }
+
   public static final int TEMPLATES_CURSOR = -1;
   public static final int PLANS_CURSOR  =-2;
   Cursor mTemplatesCursor;

@@ -1,16 +1,11 @@
 package org.totschnig.myexpenses.fragment;
 
-import java.util.Locale;
-
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -34,17 +29,9 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *  below HoneyComb a context menu is used instead
  */
 public class ContextualActionBarFragment extends Fragment implements OnGroupClickListener, OnChildClickListener {
-  protected int menuResource;
   protected ActionMode mActionMode;
   int expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
-  
-  @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    String className = this.getClass().getSimpleName().toLowerCase(Locale.US);
-    String resourceName = className+"_context";
-    menuResource = getResources().getIdentifier(resourceName, "menu", activity.getPackageName());
-  }
+
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     if (!getUserVisibleHint())
@@ -81,9 +68,13 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     //but subclasses can provide a method that handles the itemIds
     return ctx.dispatchCommand(command, positions);
   }
+  protected int getMenuResource() {
+    return 0;
+  }
   protected void inflateHelper(Menu menu) {
     MenuInflater inflater = getActivity().getMenuInflater();
     inflater.inflate(R.menu.common_context,menu);
+    int menuResource = getMenuResource();
     if (menuResource!=0)
       inflater.inflate(menuResource, menu);
   }
