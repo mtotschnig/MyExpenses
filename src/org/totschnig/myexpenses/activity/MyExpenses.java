@@ -197,18 +197,14 @@ public class MyExpenses extends LaunchActivity implements
     /** Called when a drawer has settled in a completely closed state. */
     public void onDrawerClosed(View view) {
         super.onDrawerClosed(view);
-        TransactionList tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-            mViewPagerAdapter.getFragmentName(mCurrentPosition));
-        tl.onDrawerClosed();
+        getCurrentFragment().onDrawerClosed();
         //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
     }
 
     /** Called when a drawer has settled in a completely open state. */
     public void onDrawerOpened(View drawerView) {
         super.onDrawerOpened(drawerView);
-        TransactionList tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-            mViewPagerAdapter.getFragmentName(mCurrentPosition));
-        tl.onDrawerOpened();
+        getCurrentFragment().onDrawerOpened();
         //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
     }
 };
@@ -379,8 +375,7 @@ public class MyExpenses extends LaunchActivity implements
     TransactionList tl;
     switch (command) {
     case R.id.DISTRIBUTION_COMMAND:
-      tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-          mViewPagerAdapter.getFragmentName(mCurrentPosition));
+      tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.DISTRIBUTION, null);
@@ -442,8 +437,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.RESET_COMMAND:
-      tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-          mViewPagerAdapter.getFragmentName(mCurrentPosition));
+      tl = getCurrentFragment();
       if (tl != null && tl.hasItems) {
         if (Utils.isExternalStorageAvailable()) {
           if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
@@ -804,6 +798,10 @@ public class MyExpenses extends LaunchActivity implements
         mAccountId < 0 ?
             colorAggregate :
               mAccountsCursor.getInt(columnIndexColor));
+  }
+  public TransactionList getCurrentFragment() {
+    return (TransactionList) getSupportFragmentManager().findFragmentByTag(
+        mViewPagerAdapter.getFragmentName(mCurrentPosition));
   }
   public class MyAdapter extends SimpleCursorAdapter {
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
