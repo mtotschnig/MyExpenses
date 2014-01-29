@@ -38,7 +38,6 @@
   <string name="description">Beschreibung</string>
   <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto mit derselben Währung. Sie haben nur ein Konto in %1$s angelegt.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Sie können zusätzliche Konten von der Kontenliste (erreichbar über die \'Hinauf\'-Schaltfläche in der oberen linken Ecke) aus anlegen.</string>
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>

@@ -52,7 +52,7 @@ import android.view.ContextThemeWrapper;
  * if called with KEY_ROW_ID in extras export one account, all otherwise
  *
  */
-public class Export extends ProtectedFragmentActivityNoSherlock {
+public class Export extends ProtectedFragmentActivityNoAppCompat {
   ProgressDialog mProgressDialog;
   private MyAsyncTask task=null;
   /**

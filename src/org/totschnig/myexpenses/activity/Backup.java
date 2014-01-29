@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-public class Backup extends ProtectedFragmentActivityNoSherlock {
+public class Backup extends ProtectedFragmentActivityNoAppCompat {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

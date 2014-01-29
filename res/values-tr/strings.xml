@@ -33,7 +33,6 @@
   <string name="description">Açıklama</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. %1$s para biriminin sadece bir hesabı olmalısınız.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Hesap listesinden ek hesaplar oluşturabilirsiniz (üst sol köşede \'Yukarı\' düğmesiyle erişilebilir).</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>

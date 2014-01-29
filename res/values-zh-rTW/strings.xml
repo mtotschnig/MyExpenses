@@ -33,7 +33,6 @@
   <string name="description">描述</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_insert_transfer">轉讓交易需要第二個使用相同貨幣為單位的帳戶。</string>
-  <string name="dialog_command_disabled_insert_transfer_1">從帳戶列表新增一個 (通過左上角的主頁按鈕進行)</string>
   <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
   <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
   <string name="dialog_confirm_restore_on_install">備份文件已被偵測到。你要恢復它嗎？</string>

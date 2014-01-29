@@ -33,7 +33,6 @@
   <string name="description">Descrizione</string>
   <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto con la stessa moneta. Hai solo un conto della valuta %1$s.</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-  <string name="dialog_command_disabled_insert_transfer_1">Creare altri conti dalla lista di conti, accessibile tramite il tasto \'Sopra\' (icona app) nell\'angolo in alto a sinistra.</string>
   <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
