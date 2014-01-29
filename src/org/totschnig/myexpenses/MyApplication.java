@@ -22,6 +22,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import org.acra.*;
+import org.acra.annotation.*;
+
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -58,14 +61,20 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
+@ReportsCrashes(
+    formKey = "",
+    formUri = "https://mtotschnig.cloudant.com/acra-myexpenses/_design/acra-storage/_update/report",
+    reportType = org.acra.sender.HttpSender.Type.JSON,
+    httpMethod = org.acra.sender.HttpSender.Method.PUT,
+    formUriBasicAuthLogin="thapponcedonventseliance",
+    formUriBasicAuthPassword="8xVV4Rw5SVpkhHFahqF1W3ww"
+    )
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
     public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
@@ -147,6 +156,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     @Override
     public void onCreate() {
       super.onCreate();
+      ACRA.init(this);
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
@@ -234,7 +244,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             };
             if (!bindService(new Intent("org.totschnig.myexpenses.contrib.MyService"), mConnection,
                 Context.BIND_AUTO_CREATE)) {
-              showImportantUpgradeInfo = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib");
+              //showImportantUpgradeInfo = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib");
               try {
                 //prevent ServiceConnectionLeaked warning
                 unbindService(mConnection);

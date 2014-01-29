@@ -162,4 +162,22 @@
     <Preference android:key="@string/pref_send_feedback_key"
         android:title="@string/pref_send_feedback_title"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_title_bug_reports">
+      <CheckBoxPreference android:key="acra.enable"
+			    android:title="@string/pref_enable_acra"
+			    android:summaryOn="@string/pref_acra_enabled"
+			    android:summaryOff="@string/pref_acra_disabled"
+			    android:defaultValue="true"/>
+	    <CheckBoxPreference android:key="acra.syslog.enable"
+			    android:summaryOn="@string/pref_acra_syslog_enabled"
+			    android:summaryOff="@string/pref_acra_syslog_disabled"
+			    android:title="@string/pref_acra_syslog"
+			    android:dependency="acra.enable"
+			    android:defaultValue="true"/>
+	    <EditTextPreference android:key="acra.user.email"
+          android:inputType="textUri"
+			    android:title="@string/pref_acra_user_email"
+			    android:summary="@string/pref_acra_user_email_summary"
+          android:dependency="acra.enable"/>
+    </PreferenceCategory>
 </PreferenceScreen> 

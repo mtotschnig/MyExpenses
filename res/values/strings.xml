@@ -52,6 +52,7 @@
   <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_split_transaction_label">Split transaction</string>
   <string name="contrib_key">Contrib key</string>
+  <string name="crash_reports_user_info">My Expenses will send reports about application crashes automatically to its developpers, which allows them to fix problems more quickly. You can disable this behaviour from the Settings.</string>
   <string name="currency">Currency</string>
   <string name="current_balance">Current balance</string>
   <string name="date">Date</string>
@@ -149,8 +150,6 @@
   </string-array>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
   <string name="important_upgrade_information_heading">Important information</string>
-  <string name="important_upgrade_information_1">The mechanism for validating your purchase of &app_name; Contrib has changed.
-    Please upgrade &app_name; Contrib to version 1.2 in order to unlock Premium functionality.</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
@@ -281,6 +280,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
   <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
+  <string name="pref_category_title_bug_reports">Bug reports</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Manage</string>
@@ -291,6 +291,14 @@
   <string name="pref_contrib_donate_title">Send donation</string>
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
   <string name="pref_contrib_install_title">Install Contrib app</string>
+  <string name="pref_enable_acra">Allow automatic sending of crash reports</string>
+  <string name="pref_acra_enabled">Automatic sending is enabled</string>
+  <string name="pref_acra_disabled">Automatic sending is disabled</string>
+  <string name="pref_acra_syslog">Include system logs in crash reports</string>
+  <string name="pref_acra_syslog_enabled">System logs are included</string>
+  <string name="pref_acra_syslog_disabled">System logs are not included</string>
+  <string name="pref_acra_user_email">User email to be included in crash report</string>
+  <string name="pref_acra_user_email_summary">Please enter your email address if you are willing to help debugging and allow us to contact you.</string>
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_export_format_title">Data format</string>

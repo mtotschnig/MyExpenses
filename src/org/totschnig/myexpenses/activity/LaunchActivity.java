@@ -59,6 +59,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
       }
+      if (prev_version < 117) {
+        MyApplication.getInstance().showImportantUpgradeInfo = true;
+      }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }

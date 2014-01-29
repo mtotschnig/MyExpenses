@@ -38,6 +38,8 @@
     <TextView android:text="@string/help_contextuel_help"
       android:id="@+id/help_quick_guide"
       style="@style/about_text" />
+    <TextView android:text="@string/crash_reports_user_info"
+      style="@style/about_text" />
   </LinearLayout>
   </ScrollView>
 </LinearLayout>

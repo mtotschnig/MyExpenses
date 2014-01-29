@@ -68,4 +68,6 @@
   <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
   <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
   <string name="help_ManageCategories_select_title">@string/select_category</string>
+  
+  <string name="important_upgrade_information_1">@string/crash_reports_user_info</string>
 </resources>
