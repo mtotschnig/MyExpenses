@@ -182,6 +182,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
+      <item>117</item>
       <item>116</item>
       <item>110</item>
       <item>108</item>
@@ -190,13 +191,9 @@
       <item>100</item>
       <item>95</item>
       <item>93</item>
-      <item>84</item>
-      <item>79</item>
-      <item>75</item>
-      <item>72</item>
-      <item>67</item>
     </integer-array>
     <string-array name="version_names">
+      <item>2.0</item>
       <item>1.11.5</item>
       <item>1.11.0</item>
       <item>1.10.5</item>
@@ -205,10 +202,5 @@
       <item>1.10.2</item>
       <item>1.10.1</item>
       <item>1.10.0</item>
-      <item>1.9.7</item>
-      <item>1.9.6</item>
-      <item>1.9.5</item>
-      <item>1.9.1</item>
-      <item>1.9.0</item>
     </string-array>
 </resources>
