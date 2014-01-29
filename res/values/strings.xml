@@ -30,8 +30,6 @@
   <string name="already_defined">%1$s already defined</string>
   <string name="amount">Amount</string>
   <string name="app_name">&app_name;</string>
-  <string name="app_name_contrib">&app_name; Contrib</string>
-  <string name="app_contrib_launch">Launch &app_name; Contrib</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="category">Category</string>

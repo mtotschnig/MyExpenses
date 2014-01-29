@@ -70,4 +70,8 @@
   <string name="help_ManageCategories_select_title">@string/select_category</string>
   
   <string name="important_upgrade_information_1">@string/crash_reports_user_info</string>
+
+
+  <string name="app_name_contrib">&app_name; Contrib</string>
+  <string name="app_contrib_launch">Launch &app_name; Contrib</string>
 </resources>
