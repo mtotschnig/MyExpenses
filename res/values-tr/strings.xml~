@@ -119,6 +119,7 @@
   </string-array>
   <string name="help_leading">Android için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
+  <string name="important_upgrade_information_1"></string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
   <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
@@ -196,6 +197,8 @@
   <string name="no_split_parts">Hiçbir alt muamele yok.</string>
   <string name="no_templates">Şablon yok.</string>
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
+  <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
+  <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>
   <string name="numbered">sayılı</string>
   <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
@@ -316,6 +319,7 @@
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
+  <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
@@ -349,6 +353,8 @@
   <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?;</string>
   <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devam etmek istiyor musunuz?;</string>
+  <string name="warning_delete_template">Bu şablon (ve ilişkili planlamalar) silinecektir. Devam etmek istiyor musunuz?</string>
+  <string name="warning_delete_transaction">Bu muamele silinecektir. Devam etmek istiyor musunuz?</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>

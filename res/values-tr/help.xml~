@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Menü komutları</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Muamele listesi</string>
+  <string name="help_MyExpenses_info">Bu ekran güncel hesap için tüm muameleleri listeler. Gezinti çubuğundan hesap listesine gidebilir ya da başka bir hesap seçebilirsiniz. Düzenlemek için listedeki herhangi bir unsura dokunun.</string>
+  <string name="help_MyExpenses_crStatus_info">Muamelenin durumu renkli bir dikdörtgen ile gösterilir: uzlaşmamış için gri, temiz için mavi, uzlaşmış için yeşil. Dikdörtgene tıklamak durumu değiştirir.</string>
+  <string name="menu_create_transaction_help_text">Yeni muamele oluşturmak için formu açar.</string>
+  <string name="menu_create_transfer_help_text">Hesaplar arası para aktarımı. Bu komut sadece güncel hesapla aynı dövizi kullanan başka bir hesabınız varsa etkinleştirilir.</string>
+  <string name="menu_create_split_help_text">Bölünmüş bir muamele kısmi bir miktarı farklı kategorilere atamanıza ya da farklı hesaplara transfer olarak atamanıza imkân verir.</string>
+  <string name="menu_reset_help_text">Bu komut güncel hesabın tüm muamelelerini SD kartına QIF veya CSV biçiminde bir dosyaya aktarır. Varsayılan ayarlarda muameleler telefonunuzdan silinir ancak onları dışa aktarılmış olarak işaretleyip saklamayı seçebilirsiniz. Ayarlarda gerekli yapılandırmayı yaptıysanız Harcalamalarım dosyayı dışa aktarımın ardından FTP, e-posta veya başka bir dosya paylaşım uygulaması ile paylaşabilir.</string>
+  <string name="menu_edit_account_help_text">Güncel hesabın özelliklerini ayarla (başlık, açıklama, başlangıç bakiyesi, hesap türü, döviz, renk).</string>
+  <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir.</string>
+  <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına tıklayarak belli bir grup için dağılımı inceleyebilirsiniz.</string>
+  <string name="menu_manage_plans_help_text">Güncel hesap için gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
+  <string name="menu_create_account_help_text">Yeni bir hesap oluşturma formunu açar.</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerinin tanımlanmasına imkân verir. Bir liste unsuruna tıklamak metot ve hesap türleri arasındaki ilişkiyi değiştirmenize olanak sağlar.</string>
+  <string name="menu_create_method_help_text">Yeni ödeme metodu oluşturmak için gerekli formu açar.</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan bölümleri listeler. Her unsurun bağlam menüsünü kullanarak bu listedeki öğeleri silmeniz ve düzenlemeniz mümkündür.</string>
+  <string name="menu_create_party_help_text">Yeni bir borçlu veya alacaklı isminin belirtilmesi için bir diyalog açar.</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_info">Bu ekran mevcut tüm şablonların listesini içerir.Şablonlar muamelelerin bağlam menüsünden elde edilebilir olsa da, burada sıfırdan yeni şablon oluşturabilirsiniz (muameleler ya da transferler için). Bir şablonun bağlam menüsünden şablonu örneklendirebilir ve onu ya doğrudan kaydedebilir ya da kaydetmeden önce değiştirmek için düzenleme formuna girebilirsiniz. Bağlam menüsü şablonun düzenlenmesine ve silinmesine imkân verir. &lt;h2&gt;Planlar&lt;/h2&gt; Planlar ayrı bir sekmede listelenir. Bir girdiyi genişlettiğiniz vakit planlamanın gelecek örneklemelerini görürsünüz. Bir örneklemenin meydana geldiğinde aldığınız bildirimi beklemek yerine burada gelecekteki örneklemelerini önceden uygulayıp onları bağlam menüsündeki komutları kullanarak muamele listenizde görülür hâle getirebilirsiniz. Örneklemelerin durumları şu ikonlarla gösterilir:&lt;br&gt;&lt;img src=\"ic_stat_open\" /&gt; Örnekleme henüz uygulanmamıştır.&lt;br&gt;&lt;img src=\"ic_stat_applied\" /&gt; Örnekleme uygulanmıştır. &lt;br&gt;&lt;img src=\"ic_stat_cancelled\" /&gt; Örnekleme iptal edilmiştir yani atlanması için onu işaretlemişsinizdir. Bu örnekleme için hiçbir muamele oluşturulmayacaktır. &lt;br&gt;&lt;br&gt; Bağlam menüsünden bir örneklemeyi sıfırlayabilirsiniz ki bu örnekleme uygulandıysa ilişkili muameleyi siler ya da iptal işaretini kaldırır.</string>
+  <string name="menu_create_template_for_transaction_help_text">Muamele için yeni bir şablon oluştur</string>
+  <string name="menu_create_template_for_transfer_help_text">Transfer için yeni bir şablon oluştur</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Bu ekran,herhangi bir hesaptaki tüm muameleler ya da belli bir grup için gelirleriniz ve harcamalarınızın kategori başına dağılımını gösterir.</string>
+  <string name="help_ManageCategories_select_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
+  <string name="help_ManageCategories_manage_info">Bu ekran kategorileri oluşturmaya, düzenlemeye ve silmeye imkân verir. Varsayılan değer olarak kategori listesinde ilk sıralama kriteri kategoriyi kullanma sayınızdır (ikinci kriter ise alfabetik sıradır). Bu, en sık kullandığınız kategorilere çabuk ulaşmanızı sağlar. Ayarlarda kategorilerin sadece alfabetik sıraya göre sıralanmasını seçebilirsiniz. Herhangi bir ana kategoriye tıklamanız alt kategorileri açar. Ana kategorinin bağlam menüsünden alt kategori ilâve edebilir, silebilir ya da düzenleyebilirsiniz. Silmek ve düzenlemek için alt kategorilerin de bağlam menüleri vardır.</string>
+  <string name="menu_create_main_cat_help_text">Yeni bir ana kategorinin başlığını belirtmek için diyalog açar.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Gruplama biçimini seçin ve dağılımı gün, ay, hafta ya da senelik olarak görüntüleyin.</string>
+  <string name="menu_back_help_text">Önceki gruba geç. Soldan sağa kaydırarak yapılması da mümkündür.</string>
+  <string name="menu_forward_help_text">Sonraki gruba geç. Sağdan sola kaydırarak yapılması da mümkündür.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
+  <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>
+  <string name="help_ExpenseEdit_template_title">Şema formu</string>
+  <string name="help_ExpenseEdit_split_title">Bölünmüş muamele formu</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Bölünmüş alt muamele formu (kategori)</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Bölünmüş alt muamele formu (transfer)</string>
+  <string name="help_ExpenseEdit_info">Hesap makinesini açmak için de = düğmesine tıklayabilirsiniz.</string>
+  <string name="help_ExpenseEdit_transaction_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın. Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak sadece banka hesapları ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
+  <string name="help_ExpenseEdit_transfer_info">Transfer hesabını listeden seçin.</string>
+  <string name="help_ExpenseEdit_template_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın. Şablonu benzersiz bir biçimde tanımlayacak bir başlık girin. &lt;h2&gt;Planlar&lt;/h2&gt; Bir şablon için yeni bir plan oluşturduğunuzda bu, Takvim uygulaması tarafından yönetilen özel bir takvime ilâve edilir. Planı bir kerelik bir olay olarak ya da takvimin yönetebileceği her tür tekrar eden olay olarak tanımlayabilirsiniz. Planı, plan düğmesinden oluşturabilir, değiştirebilir ve silebilirsiniz ancak bir plan ayarlandığında onu yönetmek için Takvim uygulamasını da kullanabilirsiniz. Bir plan el ile ya da otomatik olarak ayarlanabilir. Otomatik bir planın bir örneklendirmesi oluşturulduğunda muamele oluşturulacak ve size bir bildirim sunulacaktır. Plan el ile şeklinde ayarlandığında da bir bildirim sunulur ki bu size şablonu iptal etme, değiştirme ya da uygulama seçeneği sunar.</string>
+  <string name="help_ExpenseEdit_split_info">Transfer ve kategori bölünmüş muameleleri için gerektiği kadar bölümleri menü vasıtasıyla girin. Ekranın alt yarısı bölünmüş kısımların bir listesini ve herhangi bir kategoriye ya da transfere henüz atanmamış meblağı gösterir. Bölünmüş bir muameleyi ancak meblağ tam olarak atandıysa kaydedebilirsiniz.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Bölünmüş kısım için bir kategori seç.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Bölünmüş kısma bir transfer hesabı ata.</string>
+  <string name="menu_create_split_part_category_help_text">Bölünmüş muamelenin bir kısmını bir kategoriye atamak için gerekli formu açar.</string>
+  <string name="menu_create_split_part_transfer_help_text">Bölünmüş muamelenin bir kısmının başka bir hesaba transfer olarak tanımlanması için gerekli formu açar.</string>
+  <string name="menu_save_help_text">Verileri kaydet ve formu kapat.</string>
+  <string name="menu_save_and_new_help_text">Verileri kaydet ve aynı verilerle yeni bir muamele oluşturmak için formu açık bırak.</string>
+  <string name="menu_invert_transfer_help_text">Transfer yönünü \'Kimden\' ve \'Kime\' hesaplarını takas ederek ters çevirin.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Hesaplar için form</string>
+  <string name="help_AccountEdit_info">Hesaplar etiketleri ile tanımlanır, açıklamanın amacı sadece bilgilendirici olmaktır. Para birimi listeden kolayca seçilebilir. Hesabın türünü nakit, banka hesabı, aktifler, borç ve kredi kartından biri olarak seçebilirsiniz. Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Ödeme metotları için form</string>
+  <string name="help_MethodEdit_info">Bu ekranda herhangi bir ödeme metodunu hesap türleriyle ilişkilendirebilirsiniz. Bir etiket tanımlamanız da mümkündür (düzenlenmeyen ve sabit etiketi bulunan öntanımlı metotların istisnası dışında). Metodun türüyle, harcalamalar (giderler), gelirler ya da ikisi için (nötr) geçerli olmasını sağlayabilirsiniz. Bu metodu kullanan muameleler sayılı ise (mesela çek numarası), bir bayrak ayarlamanız da mümkündür.</string>
+</resources>
