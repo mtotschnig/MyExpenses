@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_117">
+    <item>Modernized UI: navigation drawer and contextual action bar</item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Improved handling of plans: Apply upcoming instances in advance</item>
     <item>New translations: Portuguese, Polish, Czech</item>
