@@ -29,6 +29,7 @@
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
+  <string name="crash_reports_user_info">Meine Ausgaben sendet Berichte über Abstürze automatisch an seine Entwickler, wodurch Probleme schneller gelöst werden können. Dieses Verhalten kann in den Einstellungen deaktiviert werden.</string>
   <string name="currency">Währung</string>
   <string name="current_balance">Aktueller Saldo</string>
   <string name="date">Datum</string>
@@ -255,6 +256,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
   <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
+  <string name="pref_category_title_crash_reports">Absturzberichte</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Verwalten</string>
@@ -265,6 +267,14 @@
   <string name="pref_contrib_donate_title">Spenden</string>
   <string name="pref_contrib_install_summary">Durch die Installation von Meine Ausgaben Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
+  <string name="pref_enable_acra">Automatischen Versand von Absturzberichten zulassen</string>
+  <string name="pref_acra_enabled">Automatischer Verand ist aktiviert</string>
+  <string name="pref_acra_disabled">Automatischer Verand ist deaktiviert</string>
+  <string name="pref_acra_syslog">System-Log-Dateien in Absturzberichte aufnehmen</string>
+  <string name="pref_acra_syslog_enabled">System-Log-Dateien werden eingefügt</string>
+  <string name="pref_acra_syslog_disabled">System-Log-Dateien werden nicht eingefügt</string>
+  <string name="pref_acra_user_email">Email-Adresse für Absturzberichte</string>
+  <string name="pref_acra_user_email_summary">Bitte geben Sie Ihre Email-Adresse an, falls Sie bereit sind beim Aufspüren der Fehler zu helfen, und erlauben, dass wir Sie kontaktieren.</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
