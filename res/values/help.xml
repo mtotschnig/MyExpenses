@@ -51,12 +51,12 @@
   <string name="menu_create_template_for_transfer_help_text">Create a new template or plan for a transfer.</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiate the template and save it immediately.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantiate the template and enter its editing form where you can modify it before saving.</string>
-  <string name="cab_ManageTemplates_delete_help_text">Delete the template and any associated plan.</string>
-  <string name="cab_ManageTemplates_edit_help_text">Edit the template and create or edit an associated plan.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Create a transaction at the time of this event instance and save it immediately.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Create a transaction at the time of this event instance and enter its editing form where you can modify it before saving.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicate that at the selected event instance, no transaction should be created.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">If a transaction has been created for this event instance, it will be deleted, if it has been flagged as cancelled, the flag is removed.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Delete the selected templates and any associated plans.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Edit the selected template and create or edit an associated plan.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Create transactions at the time of the selected event instances and save them immediately.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Create a transaction at the time of the selected event instance and enter its editing form where you can modify it before saving.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicate that at the selected event instances, no transactions should be created.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">If transactions have been created for the selected event instances, they will be deleted, if they have been flagged as cancelled, the flags are removed.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edit the transaction that has been created for the selected plan instance.</string>
   
   <!-- ManageCategories_* titles are in keys-->
