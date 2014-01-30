@@ -10,7 +10,7 @@
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView android:id="@+id/left_drawer"
         android:scrollbars="vertical"
         android:scrollbarStyle="insideOverlay"
-        android:layout_width="260dp"
+        android:layout_width="260sp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
