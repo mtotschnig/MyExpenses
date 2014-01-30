@@ -29,6 +29,7 @@
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
   <string name="contrib_key">Katkı anahtarı</string>
+  <string name="crash_reports_user_info">Harcamalarım, geliştiricilerine problemleri daha çabuk gidermelerine yardımcı olacak uygulama çökmeleri hakkında rapor gönderecektir. Bunu ayarlarda devre dışı bırakabilirsiniz.</string>
   <string name="currency">Döviz</string>
   <string name="current_balance">Güncel bakiye</string>
   <string name="date">Tarih</string>
@@ -254,6 +255,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Kullanım sayacı</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanümerik</string>
   <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
+  <string name="pref_category_title_crash_reports">Çökme raporları</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_manage">Yönet</string>
@@ -264,6 +266,14 @@
   <string name="pref_contrib_donate_title">Bağışı gönder</string>
   <string name="pref_contrib_install_summary">Harcamalarım Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
+  <string name="pref_enable_acra">Çökme raporlarının otomatik olarak gönderilmelerine izin ver</string>
+  <string name="pref_acra_enabled">Otomatik gönderim faaldir</string>
+  <string name="pref_acra_disabled">Otomatik gönderim devre dışıdır</string>
+  <string name="pref_acra_syslog">Çökme raporlarına sistem kütüklerini dahil et</string>
+  <string name="pref_acra_syslog_enabled">Sistem kütükleri raporlara dahil</string>
+  <string name="pref_acra_syslog_disabled">Sistem kütükleri raporlara dahil değil</string>
+  <string name="pref_acra_user_email">Kullanıcı e-postası çökme raporlarına dahil edilecek</string>
+  <string name="pref_acra_user_email_summary">Hata ayıklamaya yardım etmek ve sizinle irtibata geçmemize izin vermek istiyorsanız e-posta adresinizi giriniz.</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_export_format_title">Veri biçimi</string>

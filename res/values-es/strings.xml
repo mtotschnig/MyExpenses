@@ -29,6 +29,7 @@
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
   <string name="contrib_key">Clave Contrib</string>
+  <string name="crash_reports_user_info">Mis gastos enviará informes sobre bloqueos de la aplicación automáticamente a sus desarrolladores, que les permite solucionar problemas más rápidamente. Puede desactivar este comportamiento de los ajustes.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Fecha</string>
@@ -254,6 +255,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
   <string name="pref_categories_sort_by_usages_title">Criterio de ordenación (categorías, plantillas, cuentas)</string>
+  <string name="pref_category_title_crash_reports">Reportes de accidente</string>
   <string name="pref_category_title_export">Exportación</string>
   <string name="pref_category_title_import">Importación</string>
   <string name="pref_category_title_manage">Administrar</string>
@@ -264,6 +266,14 @@
   <string name="pref_contrib_donate_title">Donar</string>
   <string name="pref_contrib_install_summary">Instalando Mis gastos Contrib, usted obtiene acceso a todas las características premium.</string>
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
+  <string name="pref_enable_acra">Permite el envío automático de reportes de accidente</string>
+  <string name="pref_acra_enabled">Envío automático está activato</string>
+  <string name="pref_acra_disabled">Envío automático está desactivado</string>
+  <string name="pref_acra_syslog">Incluir los registros del sistema en informes de accidente</string>
+  <string name="pref_acra_syslog_enabled">Los registros del sistema están incluidos</string>
+  <string name="pref_acra_syslog_disabled">Los registros del sistema no están incluidos</string>
+  <string name="pref_acra_user_email">Correo electrónico del usuario para ser incluidos en el informe de accidente</string>
+  <string name="pref_acra_user_email_summary">Por favor ingrese su correo electrónico si usted está dispuesto a ayudar a depurar y permitirnos comunicarnos con usted.</string>
   <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, puede desbloquear las  características premium.</string>
   <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
   <string name="pref_export_format_title">Formato de datos</string>

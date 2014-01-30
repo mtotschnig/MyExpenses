@@ -29,6 +29,7 @@
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string name="contrib_key">Clé Contrib</string>
+  <string name="crash_reports_user_info">Mes dépenses enverra automatiquement des rapports aux développeurs si l\'application se bloque, ce qui leur permettra de résoudre les problèmes plus rapidement. Vous pouvez désactiver ce comportement dans les paramètres.</string>
   <string name="currency">Devise</string>
   <string name="current_balance">Solde courant</string>
   <string name="date">Date</string>
@@ -254,6 +255,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Fréquence d\'utilisation</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Par ordre alphabétique</string>
   <string name="pref_categories_sort_by_usages_title">Critères de tri (catégories, modèles, comptes)</string>
+  <string name="pref_category_title_crash_reports">Rapports d\'incidents</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Gestion</string>
@@ -264,6 +266,14 @@
   <string name="pref_contrib_donate_title">Envoyer un don</string>
   <string name="pref_contrib_install_summary">En installant Mes dépenses Contrib, vous aurez un accès à toutes les fonctions Premium.</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
+  <string name="pref_enable_acra">Autoriser l\'envoi automatique de rapports d\'incidents</string>
+  <string name="pref_acra_enabled">L\'envoi automatique est activé</string>
+  <string name="pref_acra_disabled">L\'envoi automatique est désactivé</string>
+  <string name="pref_acra_syslog">Inclure les journaux système lors des rapports d\'incidents</string>
+  <string name="pref_acra_syslog_enabled">Les journaux système sont inclus</string>
+  <string name="pref_acra_syslog_disabled">Les journaux système ne sont pas inclus</string>
+  <string name="pref_acra_user_email">E-mail de l\'utilisateur à inclure dans le rapport d\'incident</string>
+  <string name="pref_acra_user_email_summary">Veuillez entrer votre adresse e-mail si vous êtes prêt à nous aider à déboguer et nous permettent de vous contacter.</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_export_format_title">Format de données</string>
