@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_117">
+  <string-array name="whats_new_118">
     <item>Modernized UI: navigation drawer and contextual action bar</item>
   </string-array>
   <string-array name="whats_new_116">
@@ -52,28 +52,4 @@
 		<item>Plans for future and recurring transactions</item>
 		<item>Khmer translation</item>
 	</string-array>
-  <string-array name="whats_new_84">
-    <item>Reference number (cheque payments)</item>
-    <item>Start with account list from launcher</item>
-    <item>Swipe between periods in distribution view</item>
-    <item>Configurable date format for QIF and CSV export</item>
-    <item>UI improvements</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Flag transactions as cleared / reconciled (enabled for bank accounts and credit cards)</item>
-    <item>Parties can now be edited</item>
-    <item>Hungarian translation</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Distribution of transactions by category (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Bug fix: Issue #69</item>
-    <item>Arab translation</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Group transactions per day, week, month, year and display sums per group</item>
-    <item>Payee is displayed in transaction list</item>
-    <item>Accounts list is sorted (by frequency of usage by default)</item>
-  </string-array>
 </resources>

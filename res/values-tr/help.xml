@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="help_menu_commands">Menü komutları</string>
+  <string name="help_contextual_actions">Bağlamsal eylemler</string>
+  <string name="cab_delete_help_text">Seçilen unsurları sil.</string>
+  <string name="cab_edit_help_text">Seçilen unsuru düzenle.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Muamele listesi</string>
   <string name="help_MyExpenses_info">Bu ekran güncel hesap için tüm muameleleri listeler. Gezinti çubuğundan hesap listesine gidebilir ya da başka bir hesap seçebilirsiniz. Düzenlemek için listedeki herhangi bir unsura dokunun.</string>
@@ -14,6 +17,8 @@
   <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına tıklayarak belli bir grup için dağılımı inceleyebilirsiniz.</string>
   <string name="menu_manage_plans_help_text">Güncel hesap için gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
   <string name="menu_create_account_help_text">Yeni bir hesap oluşturma formunu açar.</string>
+  <string name="cab_create_template_from_transaction_help_text">Seçilen muameleye dayalı yeni bir şablon tanımlayın. Şablonun başlığı size sorulacaktır.</string>
+  <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve saatle klonlanacaktır.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerinin tanımlanmasına imkân verir. Bir liste unsuruna tıklamak metot ve hesap türleri arasındaki ilişkiyi değiştirmenize olanak sağlar.</string>
   <string name="menu_create_method_help_text">Yeni ödeme metodu oluşturmak için gerekli formu açar.</string>
@@ -25,6 +30,15 @@
   <string name="help_ManageTemplates_plans_info">Planlar ayrı bir sekmede listelenir. Bir girdiyi genişlettiğiniz vakit planlamanın gelecek örneklemelerini görürsünüz. Bir örneklemenin meydana geldiğinde aldığınız bildirimi beklemek yerine burada gelecekteki örneklemelerini önceden uygulayıp onları bağlam menüsündeki komutları kullanarak muamele listenizde görülür hâle getirebilirsiniz. Örneklemelerin durumları şu ikonlarla gösterilir:&lt;br&gt;&lt;img src=\"ic_stat_open\" /&gt; Örnekleme henüz uygulanmamıştır.&lt;br&gt;&lt;img src=\"ic_stat_applied\" /&gt; Örnekleme uygulanmıştır. &lt;br&gt;&lt;img src=\"ic_stat_cancelled\" /&gt; Örnekleme iptal edilmiştir yani atlanması için onu işaretlemişsinizdir. Bu örnekleme için hiçbir muamele oluşturulmayacaktır.</string>
   <string name="menu_create_template_for_transaction_help_text">Muamele için yeni bir şablon oluştur</string>
   <string name="menu_create_template_for_transfer_help_text">Transfer için yeni bir şablon oluştur</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Şablonu örneklendir ve derhal kaydet.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Şablonu örneklendir ve onu kaydetmeden önce değiştirmeye imkân veren düzenleme formuna gir.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Şablonu ve ilişkili planlamaları sil.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Şablonu düzenle ve ilişkili bir planlama oluştur ya da düzenle.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Bu olay örneklemesi tarihinde bir muamele oluştur ve onu derhal kaydet.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Bu olay örneklemesi tarihinde bir muamele oluştur ve onu kaydetmeden önce değiştirebileceğiniz düzenleme formuna gir.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Seçilen olay örneklemesinde hiçbir muamele oluşturulmayacağını göster.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Eğer bu olay örneklemesi için bir muamele oluşturulduysa bu muamele silinecek, eğer iptal edilmiş olarak işaretlendiyse bu işaret kaldırılacaktır.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Seçilen planlama örneklemesi için oluşturulan muameleyi düzenle.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Bu ekran,herhangi bir hesaptaki tüm muameleler ya da belli bir grup için gelirleriniz ve harcamalarınızın kategori başına dağılımını gösterir.</string>
   <string name="help_ManageCategories_select_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
@@ -33,6 +47,8 @@
   <string name="menu_ManageCategories_distribution_grouping_help_text">Gruplama biçimini seçin ve dağılımı gün, ay, hafta ya da senelik olarak görüntüleyin.</string>
   <string name="menu_back_help_text">Önceki gruba geç. Soldan sağa kaydırarak yapılması da mümkündür.</string>
   <string name="menu_forward_help_text">Sonraki gruba geç. Sağdan sola kaydırarak yapılması da mümkündür.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Seçilen kategorinin altındaki yeni bir kategorinin başlığını belirtmek için diyalog açar.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
   <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>
