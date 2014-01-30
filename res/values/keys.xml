@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-	<string name="pref_category_manage_key">manage</string>
+  <string name="pref_category_manage_key">manage</string>
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_perform_share_key">perform_share</string>
   <string name="pref_share_target_key">share_target</string>
@@ -44,15 +44,15 @@
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
     licensed under the Creative Commons Attribution 3.0 United States License .</string>
   <string name="help_licence_financisto">Includes CalculatorInput class from https://launchpad.net/financisto ,
-    licenced under GPL v2.0 .</string>
+    licensed under GPL v2.0 .</string>
   <string name="help_licence_sherlock">Includes ActionBarSherlock from http://actionbarsherlock.com/,
-  	licenced under Apache License, Version 2.0 .</string>
+    licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_stickylistheaders">Includes StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
-  	licenced under Apache License, Version 2.0 .</string>
+    licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_grisbi">Includes category definitions from http://www.grisbi.org,
-  	licenced under GPL v2.0 .</string>
+    licensed under GPL v2.0 .</string>
   <string name="help_licence_aosp">Includes classes EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project,
-  	licensed under Apache License, Version 2.0 .</string>
+    licensed under Apache License, Version 2.0 .</string>
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
   <string name="donate_button_bitcoin">Bitcoin</string>
