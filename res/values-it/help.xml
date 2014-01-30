@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="help_menu_commands">Comandi del menu</string>
+  <string name="help_contextual_actions">Azioni contestuali</string>
+  <string name="cab_delete_help_text">Cancellare gli elementi selezionati.</string>
+  <string name="cab_edit_help_text">Modificare l\'elemento selezionato.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Elenco delle transazioni</string>
   <string name="help_MyExpenses_info">Questa schermata elenca tutte le transazioni per il conto corrente. Dalla barra di navigazione, è possibile accedere alla lista dei conti o scegliere un conto diverso. Fare clic su una voce dell\'elenco per modificare la voce.</string>
@@ -14,6 +17,8 @@
   <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare clic su un intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>
   <string name="menu_manage_plans_help_text">Apre l\'elenco dei modelli e scadenze del conto corrente, dove è possibile applicare, modificare o cancellare, e anche definire la pianificazione dell\' operazioni futuri e ricorrenti.</string>
   <string name="menu_create_account_help_text">Apre il modulo per la creazione di un nuovo conto.</string>
+  <string name="cab_create_template_from_transaction_help_text">Definire un nuovo modello basato sulla transazione selezionata. Richiederà per il titolo del modello.</string>
+  <string name="cab_clone_transaction_help_text">Le transazioni selezionate verranno essere recopiate con la data e ora correnti.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definire nuovi. Facendo clic su una voce dell\'elenco, consente di modificare l\'associazione tra il metodo e tipi di conti.</string>
   <string name="menu_create_method_help_text">Apre il modulo per la creazione di un nuovo metodo di pagamento.</string>
@@ -25,6 +30,15 @@
   <string name="help_ManageTemplates_plans_info">Piani sono elencati in una scheda separata. Quando si espande una voce, vedrete l\'elenco delle istanze imminente di un piano. Invece di aspettare la notifica che viene visualizzato quando si verifica un\'istanza, qui si può decidere di applicare questi avvenimenti futuri in anticipo al fine di renderli visibili nella vostra lista di transazione chiamando i rispettivi comandi dal menu di scelta rapida. Lo stato di un\'istanza è indicato dalle seguenti icone: &lt;br&gt;&lt;img src=\"ic_stat_open\"/&gt;L\'istanza non è stata ancora applicata.&lt;br&gt;&lt;img src=\"ic_stat_applied\"/&gt;L\'istanza è stata applicata.&lt;br&gt;&lt;img src=\"ic_stat_cancelled\"/&gt;L\'istanza è stata annullata, cioè hai dichiarata ignorata Nessuna transazione verrà creata per questa istanza.&lt;br&gt;&lt;br&gt;</string>
   <string name="menu_create_template_for_transaction_help_text">Creare un nuovo modello per un operazione</string>
   <string name="menu_create_template_for_transfer_help_text">Creare un nuovo modello per il trasferimento</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Creare un\'istanza del modello e salvarlo immediatamente.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Creare un\'istanza del modello e inserire la sua forma modifica dove è possibile modificare prima di salvare.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Eliminare il modello e qualsiasi scadenza associata.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Modificare il modello e creare o modificare una scadenza associata.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Creare un operazione al momento di questa istanza di evento e salvarlo immediatamente.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Creare un operazione al momento di questa istanza di evento e immettere la sua forma modifica dove è possibile modificare prima di salvare.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicare che presso l\'istanza dell\'evento selezionato, nessun operazione deve essere creato.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se un operazione è stato creato per questa istanza dell\'evento, sarà eliminato, se esso è stato contrassegnato come annullato, il flag viene rimosso.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modificare l\'operazione che è stato creatoper l\'istanza del programma selezionato.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Questa schermata mostra la distribuzione delle tue spese e redditi per categorie, per tutte le operazioni in un conto, o per un gruppo specifico.</string>
   <string name="help_ManageCategories_select_info">Oltre alle azioni che è possibile eseguire durante la gestione categorie dalla schermata Preferenze (creare, modificare, eliminare), su questa schermata si mappa una transazione per una categoria selezionata. Si seleziona una sottocategoria per la transazione corrente, semplicemente cliccando. Al fine di mappare un categoria principale, si deve chiamare il suo menù contestuale.</string>
@@ -33,6 +47,8 @@
   <string name="menu_ManageCategories_distribution_grouping_help_text">Impostare il tipo di raggruppamento e di visualizzare la distribuzione per giorno, mese, settimana o anno.</string>
   <string name="menu_back_help_text">Passare al gruppo precedente. Può essere effettuata anche attraverso il gesto Swipe da sinistra a destra.</string>
   <string name="menu_forward_help_text">Passare al gruppo successivo. Può essere effettuata anche attraverso il gesto Swipe da destra a sinistra.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova sotto-categoria sotto la categoria selezionata.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Mappa categoria selezionata alla transazione e restituire la forma di transazione.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Modulo per le operazioni</string>
   <string name="help_ExpenseEdit_transfer_title">Modulo per i trasferimenti</string>
