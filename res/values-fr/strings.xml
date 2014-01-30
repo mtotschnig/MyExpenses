@@ -12,6 +12,11 @@
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte SD.</string>
   <string name="category">Catégorie</string>
+  <string name="clone_transaction_error">Impossible de  cloner l\'opération.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Opération clonée avec succès.</item>
+    <item quantity="other">%1$d opérations clonées avec succès.</item>
+  </plurals>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec &lt;i&gt;Mes dépenses&lt;/i&gt; est limité à 5.</string>
@@ -32,7 +37,6 @@
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Les opérations de transferts nécessitent un second compte de même devise. Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
-  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
@@ -75,6 +79,8 @@
   <string name="dialog_title_select_template">Sélectionner un modèle</string>
   <string name="dialog_title_template_title">Définir le titre</string>
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
+  <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>
+  <string name="dialog_title_warning_delete_plan">Effacer l\'échéance ?</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
   <string name="dialog_title_welcome">Bienvenue!</string>
@@ -127,8 +133,6 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Appliquer</string>
-  <string name="menu_create_instance_edit">Appliquer et éditer</string>
-  <string name="menu_create_instance_save">Appliquer et enregistrer</string>
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -138,6 +142,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Créer</string>
   <string name="menu_create_account">Nouveau compte</string>
+  <string name="menu_create_instance_edit">Appliquer et éditer</string>
+  <string name="menu_create_instance_save">Appliquer et enregistrer</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
   <string name="menu_create_method">Nouvelle méthode de paiement</string>
   <string name="menu_create_party">Nouveau tiers</string>
@@ -146,17 +152,20 @@
   <string name="menu_create_split_part_transfer">Nouvelle sous-opération (transfert)</string>
   <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
   <string name="menu_create_template">Nouveau modèle</string>
+  <string name="menu_create_template_from_transaction">Enregistrer comme modèle</string>
   <string name="menu_create_template_for_transaction">Nouveau modèle (opération)</string>
   <string name="menu_create_template_for_transfer">Nouveau modèle (virement)</string>
   <string name="menu_create_transaction">Nouvelle opération</string>
   <string name="menu_create_transfer">Nouveau virement</string>
   <string name="menu_delete">Effacer</string>
+  <string name="menu_delete_account">Effacer le compte</string>
   <string name="menu_distribution">Répartition</string>
   <string name="menu_edit">Éditer</string>
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_party">Éditer un tiers</string>
+  <string name="menu_edit_plan_instance">Modifier l\'occurrence d\'une échéance</string>
   <string name="menu_edit_split">Éditer l\'opération ventilée</string>
   <string name="menu_edit_split_part_category">Éditer la sous-opération (catégorie)</string>
   <string name="menu_edit_split_part_transfer">Éditer la sous-opération (transfert)</string>
@@ -196,12 +205,12 @@
   <string name="no_templates">Aucun modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
   <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">L\'objet sélectionné est associé à un modèle et ne peut pas être supprimé.</item>
-  	<item quantity="other">%1$d objects are mapped to transactions and cannot be deleted.</item>
+    <item quantity="one">L\'objet sélectionné est attribué à une opération et ne peut pas être supprimé.</item>
+    <item quantity="other">%1$d objets sélectionnés sont attribués à plusieurs opérations et ne peuvent pas être supprimés.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">L\'objet sélectionné est associé à un modèle et ne peut pas être supprimé.</item>
-    <item quantity="other">%1$d objets sélectionnés sont mappés à des modèles et ne peuvent pas être supprimés.</item>
+    <item quantity="one">L\'objet sélectionné est attribué à un modèle et ne peut pas être supprimé.</item>
+    <item quantity="other">%1$d objets sélectionnés sont attribués à plusieurs modèles et ne peuvent pas être supprimés.</item>
   </plurals>
   <string name="numbered">numérotation</string>
   <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
@@ -322,10 +331,10 @@
   <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
   <string name="save_transaction_and_new_success">Sauvegardée</string>
-  <string name="save_transaction_error">L\'opération à partir du modèle n\'a pas été enregistrée</string>
+  <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée.</string>
   <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Nouvelle opération sauvegardée à partir du modèle.</item>
-    <item quantity="other">%1$d nouvelles opérations ont été sauvegardées à partir de modèles.</item>
+    <item quantity="one">Nouvelle transaction enregistrée à partir du modèle.</item>
+    <item quantity="other">%1$d opérations enregistrées avec succès à partir des modèles.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Le modèle a été supprimé.</string>
   <string name="select">Sélectionner</string>
@@ -361,20 +370,20 @@
   <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
   <string name="warning_delete_account">Le compte \"%1$s\" sera effacé ainsi que toutes ses opérations.</string>
   <plurals name="warning_delete_main_category">
-  	<item quantity="one">La catégorie sélectionnée a sous-catégories, qui seront aussi bien supprimées.</item>
-  	<item quantity="other">%1$d catégories sélectionnées ont des sous-catégories, qui seront aussi bien supprimées.</item>
+    <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>
+    <item quantity="other">%1$d catégories sélectionnées possèdent des sous-catégories, qui seront aussi supprimées.</item>
   </plurals>
   <plurals name="warning_delete_plan">
-    <item quantity="one">Le plan sélectionné sera effacé.</item>
-    <item quantity="other">%1$d plans sélectionnés seront effacés.</item>
+    <item quantity="one">L\'échéance sélectionnée sera supprimée.</item>
+    <item quantity="other">%1$d échéances sélectionnées seront supprimées.</item>
   </plurals>
   <plurals name="warning_delete_template">
-    <item quantity="one">Le modèle sélectionné sera effacé.</item>
-    <item quantity="other">%1$d modèles sélectionnés seront effacé.</item>
+    <item quantity="one">Le modèle sélectionné sera supprimé.</item>
+    <item quantity="other">%1$d modèles sélectionnés seront supprimés.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
-    <item quantity="one">L\'opération sélectionnée sera effacé.</item>
-  	<item quantity="other">%1$d opérations sélectionnées seront effacées.</item>
+    <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
+    <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
   </plurals>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
   <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes Dépenses Contrib).</string>

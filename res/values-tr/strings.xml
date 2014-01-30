@@ -12,6 +12,11 @@
   <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
   <string name="category">Kategori</string>
+  <string name="clone_transaction_error">Muamele klonlanamadı.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Muamele başarıyla klonlandı.</item>
+    <item quantity="other">%1$d muamele başarıyla klonlandı.</item>
+  </plurals>
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="contrib_feature_accounts_unlimited_description">&lt;i&gt;Harcamalarım&lt;/i&gt; ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
@@ -32,7 +37,6 @@
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. %1$s para biriminin sadece bir hesabı olmalısınız.</string>
-  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
@@ -75,6 +79,8 @@
   <string name="dialog_title_select_template">Şablon seç</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
+  <string name="dialog_title_warning_delete_main_category">Ana kategori silinsin mi?</string>
+  <string name="dialog_title_warning_delete_plan">Plan silinsin mi?</string>
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
@@ -127,8 +133,6 @@
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Uygula</string>
-  <string name="menu_create_instance_edit">Uygula ve düzenle</string>
-  <string name="menu_create_instance_save">Uygula ve kaydet</string>
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -138,6 +142,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Oluştur</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
+  <string name="menu_create_instance_edit">Uygula ve düzenle</string>
+  <string name="menu_create_instance_save">Uygula ve kaydet</string>
   <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
   <string name="menu_create_method">Yeni ödeme metotu oluştur</string>
   <string name="menu_create_party">Yeni borçlu/alacaklı</string>
@@ -146,18 +152,21 @@
   <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
   <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
   <string name="menu_create_template">Şablon oluştur</string>
+  <string name="menu_create_template_from_transaction">Şablon olarak kaydet</string>
   <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
   <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
   <string name="menu_create_transaction">Muamele ekle</string>
   <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_delete">Sil</string>
+  <string name="menu_delete_account">Hesabı sil</string>
   <string name="menu_distribution">Dağılım</string>
   <string name="menu_edit">Düzenle</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_cat">Kategori düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
   <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
-  <string name="menu_edit_split">Yeni bölünmüş muamele</string>
+  <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
+  <string name="menu_edit_split">Bölünmeyi düzenle</string>
   <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
   <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
@@ -195,6 +204,14 @@
   <string name="no_split_parts">Hiçbir alt muamele yok.</string>
   <string name="no_templates">Şablon yok.</string>
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">Seçilen unsur bir muameleyle ilişkilidir ve silinemez.</item>
+    <item quantity="other">%1$d unsur muamelelerle ilişkilidir ve silinemez.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">Seçilen unsur bir şablonla ilişkilidir ve silinemez.</item>
+    <item quantity="other">%1$d unsur şablonlarla ilişkilidir ve silinemez.</item>
+  </plurals>
   <string name="numbered">sayılı</string>
   <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
@@ -314,7 +331,11 @@
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
-  <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
+  <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Yeni muamele şablondan başarıyla kaydedildi.</item>
+    <item quantity="other">%1$d yeni muamele şablonlardan başarıyla kaydedilmiştir.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
@@ -347,7 +368,23 @@
   <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
   <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?;</string>
   <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?;</string>
-  <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devam etmek istiyor musunuz?;</string>
+  <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
+  <plurals name="warning_delete_main_category">
+    <item quantity="one">Seçilen kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
+    <item quantity="other">Seçilen %1$d kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">Seçilen planlama silinecektir.</item>
+    <item quantity="other">Seçilen %1$d planlama silinecektir.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">Seçilen şablon silinecektir.</item>
+    <item quantity="other">Seçilen %1$d şablon silinecektir.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">Seçilen muamele silinecektir.</item>
+    <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
+  </plurals>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
@@ -355,5 +392,5 @@
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
-  <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilir ya da silinebilirler.</string>
+  <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
 </resources>
