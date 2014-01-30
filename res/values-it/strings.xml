@@ -12,6 +12,11 @@
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
   <string name="category">Categoria</string>
+  <string name="clone_transaction_error">Non è possibile ricopiare l\'operazione.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Operazione ricopiata con successo.</item>
+    <item quantity="other">%1$d operazioni sono state ricopiate con successo.</item>
+  </plurals>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
   <string name="contrib_feature_accounts_unlimited_description">Il numero dei conti che si possono creare con &lt;i&gt;Le mie spese&lt;/i&gt; è limitata a 5.</string>
@@ -32,7 +37,6 @@
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
   <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto con la stessa moneta. Hai solo un conto della valuta %1$s.</string>
-  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
@@ -75,6 +79,8 @@
   <string name="dialog_title_select_template">Scegli un modello</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
   <string name="dialog_title_warning_delete_account">Cancellare il conto ?</string>
+  <string name="dialog_title_warning_delete_main_category">Cancellare la categoria principale</string>
+  <string name="dialog_title_warning_delete_plan">Cancellare la scadenza</string>
   <string name="dialog_title_warning_delete_template">Eliminare modello ?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminare transazione ?</string>
   <string name="dialog_title_welcome">Benvenuto!</string>
@@ -127,8 +133,6 @@
   <string name="menu_aggregates">Sommato</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Applicare</string>
-  <string name="menu_create_instance_edit">Applicare e modificare</string>
-  <string name="menu_create_instance_save">Applicare e salvare</string>
   <string name="menu_back">Indietro</string>
   <string name="menu_backup">Backup</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -138,6 +142,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Creare</string>
   <string name="menu_create_account">Nuovo conto</string>
+  <string name="menu_create_instance_edit">Applicare e modificare</string>
+  <string name="menu_create_instance_save">Applicare e salvare</string>
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
   <string name="menu_create_party">Nuovo beneficiaro</string>
@@ -146,17 +152,20 @@
   <string name="menu_create_split_part_transfer">Nuova somma parziale (trasferimenti)</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
   <string name="menu_create_template">Nuovo modello</string>
+  <string name="menu_create_template_from_transaction">Salvare come modello</string>
   <string name="menu_create_template_for_transaction">Nuovo modello (operazione)</string>
   <string name="menu_create_template_for_transfer">Nuovo modello (trasferimento)</string>
   <string name="menu_create_transaction">Nuova operazione</string>
   <string name="menu_create_transfer">Nuovo trasferimento</string>
   <string name="menu_delete">Cancellare</string>
+  <string name="menu_delete_account">Cancellare il conto</string>
   <string name="menu_distribution">Distribuzione</string>
   <string name="menu_edit">Modificare</string>
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
   <string name="menu_edit_party">Modificare beneficiaro</string>
+  <string name="menu_edit_plan_instance">Modificare la scadenza</string>
   <string name="menu_edit_split">Modificare operazione suddivisa</string>
   <string name="menu_edit_split_part_category">Modificare somma parziale (categoria)</string>
   <string name="menu_edit_split_part_transfer">Modificare somma parziale (trasferimenti)</string>
@@ -197,7 +206,7 @@
   <string name="no_title_given">Non hai inserito nessun titolo.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">L\'oggetto selezionato viene mappato a una operazione e non può essere cancellato.</item>
-  	<item quantity="other">%1$d oggetti selezionati vengono mappati alle operazioni e non possono essere cancellati.</item>
+    <item quantity="other">%1$d oggetti selezionati vengono mappati alle operazioni e non possono essere cancellati.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">L\'oggetto selezionato viene mappato a un modello e non può essere cancellato.</item>
@@ -322,9 +331,9 @@
   <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.</string>
   <string name="save_transaction_and_new_success">Salvata con successo</string>
-  <string name="save_transaction_error">Non è possible salvare la nuova operazione da modello</string>
+  <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello.</string>
   <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Nuova operazione salvata con successo da modello.</item>
+    <item quantity="one">Nuova transazione salvata con successo da modello.</item>
     <item quantity="other">%1$d nuove operazioni sono state salvate con successo da modelli.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
@@ -361,8 +370,8 @@
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string>
   <string name="warning_delete_account">Questo conto \"%1$s\" sarà cancelatto con tutte le sue operazioni.</string>
   <plurals name="warning_delete_main_category">
-  	<item quantity="one">La categoria selezionata ha sottocategorie, che verrà cancellate così.</item>
-  	<item quantity="other">%1$d categorie selezionate hanno sottocategorie, che verrà cancellate così.</item>
+    <item quantity="one">La categoria selezionata ha sottocategorie, che verrà cancellate così.</item>
+    <item quantity="other">%1$d categorie selezionate hanno sottocategorie, che verrà cancellate così.</item>
   </plurals>
   <plurals name="warning_delete_plan">
     <item quantity="one">Il piano selezionato viene cancellato.</item>
@@ -374,7 +383,7 @@
   </plurals>
   <plurals name="warning_delete_transaction">
     <item quantity="one">L\'operazione selezionata verrà cancellata.</item>
-  	<item quantity="other">Saranno cancellati %1$d transazioni selezionate.</item>
+    <item quantity="other">Saranno cancellati %1$d transazioni selezionate.</item>
   </plurals>
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
   <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticare. Non sarà in grado di recuperare, a meno che impostato una domanda di sicurezza (Richiede Le mie spese Contrib).</string>

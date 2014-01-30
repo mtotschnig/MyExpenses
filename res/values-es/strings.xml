@@ -12,6 +12,11 @@
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en la tarjeta SD.</string>
   <string name="category">Categoría</string>
+  <string name="clone_transaction_error">No se podría clonar transacción.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Transacción clonado con éxito.</item>
+    <item quantity="other">Las %1$d transacciones se clonaron con éxito.</item>
+  </plurals>
   <string name="color">Color</string>
   <string name="comment">Apuntes</string>
   <string name="contrib_feature_accounts_unlimited_description">El número de cuentas que se pueden crear con &lt;i&gt;Mis gastos&lt;/i&gt;se limita a 5.</string>
@@ -32,7 +37,6 @@
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante la instalación.</string>
   <string name="description">Descripción</string>
   <string name="dialog_command_disabled_insert_transfer">Los traslados a otra cuenta requieren una segunda cuenta con la misma moneda. Usted tiene sólo una cuenta de divisas %1$s.</string>
-  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
   <string name="dialog_command_disabled_distribution">Ninguna transacción se ha asignado a las categorías en esta cuenta.</string>
   <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
@@ -75,6 +79,8 @@
   <string name="dialog_title_select_template">Escoger une plantilla</string>
   <string name="dialog_title_template_title">Establecer el título</string>
   <string name="dialog_title_warning_delete_account">Borrar la cuenta?</string>
+  <string name="dialog_title_warning_delete_main_category">¿Borrar la categoría principal?</string>
+  <string name="dialog_title_warning_delete_plan">¿Borrar el plan?</string>
   <string name="dialog_title_warning_delete_template">Borrar plantilla</string>
   <string name="dialog_title_warning_delete_transaction">Borrar asiento</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
@@ -127,8 +133,6 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
-  <string name="menu_create_instance_edit">Aplicar y modificar</string>
-  <string name="menu_create_instance_save">Aplicar y guardar</string>
   <string name="menu_back">Espalda</string>
   <string name="menu_backup">Copia de seguridad</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -138,6 +142,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Crear</string>
   <string name="menu_create_account">Nueva cuenta</string>
+  <string name="menu_create_instance_edit">Aplicar y modificar</string>
+  <string name="menu_create_instance_save">Aplicar y guardar</string>
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_method">Nuevo método de pago</string>
   <string name="menu_create_party">Nuevo partido</string>
@@ -146,17 +152,20 @@
   <string name="menu_create_split_part_transfer">Nueva división (transferencia)</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
   <string name="menu_create_template">Nueva plantilla</string>
+  <string name="menu_create_template_from_transaction">Guardar como plantilla</string>
   <string name="menu_create_template_for_transaction">Nueva plantilla (asiento)</string>
   <string name="menu_create_template_for_transfer">Nueva plantilla (traslado)</string>
   <string name="menu_create_transaction">Nuevo asiento</string>
   <string name="menu_create_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_delete">Borrar</string>
+  <string name="menu_delete_account">Borrar la cuenta</string>
   <string name="menu_distribution">Distribución</string>
   <string name="menu_edit">Modificar</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>
   <string name="menu_edit_party">Modificar el partido</string>
+  <string name="menu_edit_plan_instance">Editar ocurrencia plan único</string>
   <string name="menu_edit_split">Modificar asiento dividido</string>
   <string name="menu_edit_split_part_category">Modificar división (catégoria)</string>
   <string name="menu_edit_split_part_transfer">Modificar división (transferencia)</string>
@@ -197,11 +206,11 @@
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">El objeto seleccionado se asigna a una transacción y no se puede eliminar.</item>
-  	<item quantity="other">%1$d objetos seleccionados se asignan a las transacciones y no se pueden borrar.</item>
+    <item quantity="other">%1$d objetos seleccionados se asignan a las transacciones y no se pueden borrar.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">El objeto seleccionado se asigna a una plantilla y no se puede eliminar.</item>
-  	<item quantity="other">%1$d objetos seleccionados se asignan a las plantillas y no se pueden borrar.</item>
+    <item quantity="other">%1$d objetos seleccionados se asignan a las plantillas y no se pueden borrar.</item>
   </plurals>
   <string name="numbered">numeración</string>
   <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
@@ -322,10 +331,10 @@
   <string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
   <string name="restore_preferences_success">Las configuraciones han sidas restauradas desde la copia de seguridad.</string>
   <string name="save_transaction_and_new_success">Guardada con éxito</string>
-  <string name="save_transaction_error">No se pudo guardar nueva transacción desde plantilla</string>
+  <string name="save_transaction_error">No se pueden guardar nueva transacción de plantilla.</string>
   <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Nueva transacción desde plantilla guardada con éxito.</item>
-    <item quantity="other">%1$d transacciónes nuevas se han guardada correctamente a partir de plantillas.</item>
+    <item quantity="one">Nueva transacción guardado correctamente de plantilla.</item>
+    <item quantity="other">%1$d nuevas transacciones con éxito se salvaron de las plantillas.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Plantilla ha sido borrado</string>
   <string name="select">Escoger</string>
@@ -359,10 +368,10 @@
   <string name="unsplit_amount_greater_than_zero">Todavía hay cierta cantidad que queda non dividida.</string>
   <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta SD. ¿Quiere continuar?</string>
   <string name="warning_backup_exists">La base de datos y las configuraciones son archivadas en la tarjeta SD. Se borra la existente copia de seguridad. ¿Quiere continuar?</string>
-  <string name="warning_delete_account">Se borra cuenta \"%1$s\" con todos sus asientos.</string>
+  <string name="warning_delete_account">Cuenta \"%1$s\" se eliminarán con todas sus transacciones.</string>
   <plurals name="warning_delete_main_category">
-  	<item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
-  	<item quantity="other">%1$d categorías seleccionadas tienen subcategorías, que se eliminará también.</item>
+    <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
+    <item quantity="other">%1$d categorías seleccionadas tienen subcategorías, que se eliminará también.</item>
   </plurals>
   <plurals name="warning_delete_plan">
     <item quantity="one">Se eliminará el plan seleccionado.</item>
@@ -374,7 +383,7 @@
   </plurals>
   <plurals name="warning_delete_transaction">
     <item quantity="one">Se eliminará la transacción seleccionada.</item>
-  	<item quantity="other">Se eliminará %1$d transacciónes seleccionadas.</item>
+    <item quantity="other">Se eliminará %1$d transacciónes seleccionadas.</item>
   </plurals>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación, en caso de que olvide su contraseña.</string>
   <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad (Requiere Mis gastos Contrib).</string>
