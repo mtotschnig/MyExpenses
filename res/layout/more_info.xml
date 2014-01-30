@@ -47,6 +47,8 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_aosp"
         style="@style/about_text" />
+    <TextView android:text="@string/help_licence_acra"
+        style="@style/about_text" />
     <TextView android:text="© 2014 Michael Totschnig"
         style="@style/about_text" />
    <!--  Credits -->
