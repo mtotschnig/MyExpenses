@@ -213,16 +213,16 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   }
   @Override
   public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-      if (mActionMode != null)  {
-        if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-          int flatPosition = parent.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
-          parent.setItemChecked(
-              flatPosition,
-              !parent.isItemChecked(flatPosition));
-          return true;
-        }
+    if (mActionMode != null)  {
+      if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+        int flatPosition = parent.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
+        parent.setItemChecked(
+            flatPosition,
+            !parent.isItemChecked(flatPosition));
+        return true;
       }
-      return false;
+    }
+    return false;
   }
   @Override
   public boolean onChildClick(ExpandableListView parent, View v,
@@ -236,8 +236,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
             !parent.isItemChecked(flatPosition));
       }
       return true;
-  }
-  return false;
+    }
+    return false;
   }
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     configureMenu(menu,1);
