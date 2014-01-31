@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_119">
+    <item>Fixed crash on startup</item>
+  </string-array>
   <string-array name="whats_new_118">
     <item>Modernized UI: navigation drawer and contextual action bar</item>
   </string-array>
