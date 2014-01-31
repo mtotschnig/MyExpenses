@@ -324,6 +324,7 @@
   <string name="template_create_success">ទិន្នន័យ​គំរូ \"%1$s\" បង្កើត​បានជោគជ័យ</string>
   <string name="template_title_exists">ទិន្នន័យ​គំរូ​ជាមួយ​ចំណងជើង \"%1$s\" មានរួចហើយ</string>
   <string name="thank_you">សូមអរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!</string>
+  <string name="tell_a_friend_message">ការចំណាយរបស់ខ្ញុំ, កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ Android, http://www.myexpenses.mobi</string>
   <string name="time">ពេលវេលា</string>
   <string name="title">ចំណងជើង</string>
   <string name="transaction">ប្រតិបត្តិការ</string>

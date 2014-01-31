@@ -324,6 +324,7 @@
   <string name="sum_expenses">Kiadások</string>
   <string name="sum_income">Bevétel</string>
   <string name="sum_transfer">Átutalások</string>
+  <string name="tell_a_friend_message">Kiadásaim, A személyes pénzügyi nyilvántartás - Android, http://www.myexpenses.mobi</string>
   <string name="template">Sablon</string>
   <string name="template_create_success">\"%1$s\" nevű sablon sikeresen létrehozva</string>
   <string name="template_title_exists">\"%1$s\" nevű sablon már létezik</string>

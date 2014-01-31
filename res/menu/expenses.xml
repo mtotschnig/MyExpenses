@@ -75,6 +75,10 @@
     android:title="@string/menu_delete_account">
   </item>
   <item
+    android:id="@id/SHARE_COMMAND"
+    android:title="@string/menu_share">
+  </item>
+  <item
     android:id="@id/SETTINGS_COMMAND"
     android:icon="@android:drawable/ic_menu_preferences"
     android:title="@string/menu_settings">
