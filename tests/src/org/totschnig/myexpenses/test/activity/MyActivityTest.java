@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.test.activity;
 
-
-import org.totschnig.myexpenses.test.util.Fixture;
 import com.robotium.solo.Solo;
 
 import android.app.Activity;
@@ -20,7 +18,7 @@ import android.view.KeyEvent;
  */
 public abstract class MyActivityTest<T extends Activity>  extends ActivityInstrumentationTestCase2<T> {
 
-  private boolean clear;
+
   protected Activity mActivity;
   protected Solo mSolo;
   protected Instrumentation mInstrumentation;
@@ -29,24 +27,13 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   FragmentPagerAdapter mAdapter;
   
   public MyActivityTest(Class<T> activityClass) {
-    this(activityClass,false);
+    super(activityClass);
   }
 
-  /**
-   * @param activityClass
-   * @param clear if true, the database is cleared. This works only when the test is executed
-   * first in a test run
-   */
-  public MyActivityTest(Class<T> activityClass, boolean clear) {
-    super(activityClass);
-    this.clear = clear;
-  }
   public void setUp() throws Exception { 
     super.setUp();
     mInstrumentation = getInstrumentation();
     mContext = mInstrumentation.getTargetContext();
-    if (clear)
-      Fixture.clear(mContext);
     setActivityInitialTouchMode(false);
   }
   @Override

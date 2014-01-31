@@ -18,7 +18,7 @@ import static  org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 public class TransactionEditTest extends MyActivityTest<ExpenseEdit> {
 
   public TransactionEditTest() {
-    super(ExpenseEdit.class,false);
+    super(ExpenseEdit.class);
   }
   public void setUp() throws Exception {
     super.setUp();

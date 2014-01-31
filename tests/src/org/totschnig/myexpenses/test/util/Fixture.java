@@ -50,14 +50,7 @@ public class Fixture {
   }
   private static Account account4;
   @SuppressLint("NewApi")
-  public static void clear(Context ctx) {
-    File dir = ctx.getExternalCacheDir();
-    if (dir != null)
-      delete(dir.getParentFile());
-    dir = ctx.getCacheDir();
-    if (dir != null)
-      delete(dir.getParentFile());
-  }
+
   //If provided a file will delete it. 
   //If provided a directory will recursively delete files but preserve directories
   private static void delete(File file_or_directory) {

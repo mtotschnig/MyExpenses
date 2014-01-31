@@ -22,7 +22,7 @@ public class A_InstallTest extends MyActivityTest<MyExpenses> {
   FragmentPagerAdapter mAdapter;
   
   public A_InstallTest() {
-    super(MyExpenses.class,true);
+    super(MyExpenses.class);
   }
 
   public void setUp() throws Exception {
