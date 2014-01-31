@@ -535,6 +535,13 @@ public class MyExpenses extends LaunchActivity implements
            .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
            .commit();
         return true;
+      case R.id.SHARE_COMMAND:
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message));
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.menu_share)));
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
