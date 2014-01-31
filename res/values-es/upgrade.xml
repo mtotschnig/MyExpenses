@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_118">
-    <item>Interfaz de usuario modernizada: cajón de navegación y barra de acción contextual</item>
+    <item>Interfaz de usuario modernizada: control de navegación y barra de acción contextual</item>
   </string-array>
   <string-array name="whats_new_116">
     <item>Mejorado manejo de planes: próximas instancias se aplican por adelantado</item>
