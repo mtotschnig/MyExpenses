@@ -402,7 +402,7 @@
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions.</string>
   <plurals name="warning_delete_main_category">
-  	<item quantity="one">The selected category has subcategories, that will be deleted as well.</item>
+  	<item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
   	<item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
   </plurals>
   <plurals name="warning_delete_plan">

@@ -145,6 +145,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
     int checkedItemCount = positions.size();
+    ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
+    ArrayList<Long> objectIdsAL = new ArrayList<Long>();
     switch(command) {
     case R.id.DELETE_COMMAND:
       MessageDialogFragment.newInstance(
@@ -159,59 +161,58 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
-      ArrayList<Long> templateIdsAL = new ArrayList<Long>();
       for (int i=0; i<positions.size(); i++) {
-        //ignore instances that are not open
-        if (mInstance2TransactionMap.get(itemIds[i])!=null)
-          continue;
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
           long pos = mListView.getExpandableListPosition(position);
           int group = ExpandableListView.getPackedPositionGroup(pos),
               child = ExpandableListView.getPackedPositionChild(pos);
           Cursor c = mAdapter.getChild(group,child);
+          long itemId = c.getLong(c.getColumnIndex(KEY_ROWID));
+          //ignore instances that are not open
+          if (mInstance2TransactionMap.get(itemId)!=null)
+            continue;
           long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
           //pass event instance id and date as extra
-          extra2dAL.add(new Long[]{itemIds[i],date});
-          templateIdsAL.add(mAdapter.getGroupId(group));
+          extra2dAL.add(new Long[]{itemId,date});
+          objectIdsAL.add(mAdapter.getGroupId(group));
         }
       }
       getActivity().getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(
           TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-          templateIdsAL.toArray(new Long[templateIdsAL.size()]),
+          objectIdsAL.toArray(new Long[objectIdsAL.size()]),
           extra2dAL.toArray(new Long[extra2dAL.size()][2])),
         "ASYNC_TASK")
       .commit();
     return true;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-      Long[][] extra2d = new Long[checkedItemCount][2];
       for (int i=0; i<positions.size(); i++) {
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
           long pos = mListView.getExpandableListPosition(position);
-          int group = ExpandableListView.getPackedPositionGroup(pos);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
           //pass templateId and transactionId in extra
-          extra2d[i] = new Long[]{mAdapter.getGroupId(group),mInstance2TransactionMap.get(itemIds[i])};
+          long itemId = mAdapter.getChildId(group, child);
+          objectIdsAL.add(itemId);
+          extra2dAL.add(new Long[]{mAdapter.getGroupId(group),mInstance2TransactionMap.get(itemId)});
         }
       }
       getActivity().getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(
             TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-            itemIds,
-            extra2d),
+            objectIdsAL.toArray(new Long[objectIdsAL.size()]),
+            extra2dAL.toArray(new Long[extra2dAL.size()][2])),
           "ASYNC_TASK")
         .commit();
       return true;
     case R.id.RESET_PLAN_INSTANCE_COMMAND:
       Long[] extra = new Long[checkedItemCount];
-      for (int i=0; i<positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          //pass transactionId in extra
-          extra[i] = mInstance2TransactionMap.get(itemIds[i]);
-          mInstance2TransactionMap.remove(itemIds[i]);
-        }
+      for (int i=0; i<itemIds.length; i++) {
+        //pass transactionId in extra
+        extra[i] = mInstance2TransactionMap.get(itemIds[i]);
+        mInstance2TransactionMap.remove(itemIds[i]);
       }
       getActivity().getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(

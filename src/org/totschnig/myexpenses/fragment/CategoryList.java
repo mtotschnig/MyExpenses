@@ -166,8 +166,9 @@ public class CategoryList extends BudgetListFragment implements
             c = mGroupCursor;
             c.moveToPosition(group);
           }
+          long itemId = c.getLong(c.getColumnIndex(KEY_ROWID));
           Bundle extras = ctx.getIntent().getExtras();
-          if ((extras != null && extras.getLong(KEY_ROWID) == itemIds[i]) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0) {
+          if ((extras != null && extras.getLong(KEY_ROWID) == itemId) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0) {
             mappedTransactionsCount++;
             deletable = false;
           } else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0) {
@@ -178,7 +179,7 @@ public class CategoryList extends BudgetListFragment implements
             if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex("child_count")) > 0) {
               hasChildrenCount++;
             }
-            idList.add(itemIds[i]);
+            idList.add(itemId);
           }
         }
       }
