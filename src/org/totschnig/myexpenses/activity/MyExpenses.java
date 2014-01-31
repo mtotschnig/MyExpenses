@@ -578,9 +578,11 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onPageSelected(int position) {
     if (mCurrentPosition != -1 && Build.VERSION.SDK_INT >= 11) {
-      ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-          mViewPagerAdapter.getFragmentName(mCurrentPosition)))
-        .finishActionMode();
+      ContextualActionBarFragment f = 
+      (ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
+          mViewPagerAdapter.getFragmentName(mCurrentPosition));
+      if (f != null)
+        f.finishActionMode();
     }
     mCurrentPosition = position;
     setCurrentAccount(position);
