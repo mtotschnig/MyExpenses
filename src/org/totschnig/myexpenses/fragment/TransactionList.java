@@ -279,25 +279,7 @@ public class TransactionList extends BudgetListFragment implements
     }
     return super.dispatchCommandSingle(command, info);
   }
-/*  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    //http://stackoverflow.com/questions/9753213/wrong-fragment-in-viewpager-receives-oncontextitemselected-call
-    if (!getUserVisibleHint())
-      return false;
-    MyExpenses ctx = (MyExpenses) getActivity();
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    Bundle args;
-    FragmentManager fm = ctx.getSupportFragmentManager();
-    switch(item.getItemId()) {
-    case R.id.CLONE_TRANSACTION_COMMAND:
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "ASYNC_TASK")
-        .commit();
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
-*/
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;

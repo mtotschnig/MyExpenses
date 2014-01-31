@@ -62,6 +62,15 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     return ctx.dispatchCommand(command, info);
   }
+  /**
+   * dispatch a bulk command with the provided information about checked positions and itemIds
+   * subclasses that override this method should not assume that the count and order of positions 
+   * is in parallel with the itemIds, it should do its work either based on positions or based on itemIds
+   * @param command
+   * @param positions
+   * @param itemIds
+   * @return
+   */
   public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions,Long[]itemIds) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     //we send only the positions to the default dispatch command mechanism,
@@ -165,8 +174,9 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                 }
               }
             } else {
-              Long[] itemIdsObj = new Long[checkedItemCount];
+              Long[] itemIdsObj;
               if (lv instanceof ExpandableListView) {
+                itemIdsObj = new Long[checkedItemCount];
                 for(int i = 0; i < checkedItemCount; ++i) {
                   if (checkedItemPositions.valueAt(i)) {
                     int position = checkedItemPositions.keyAt(i);
@@ -182,7 +192,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                 }
               } else {
                 long[] itemIdsPrim = lv.getCheckedItemIds();
-                for(int i = 0; i < checkedItemCount; ++i){
+                itemIdsObj = new Long[itemIdsPrim.length];
+                for(int i = 0; i < itemIdsPrim.length; i++){
                   itemIdsObj[i] = itemIdsPrim[i];
                 }
               }
