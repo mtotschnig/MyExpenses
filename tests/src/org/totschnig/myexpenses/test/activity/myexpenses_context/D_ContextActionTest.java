@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.activity.myexpenses;
+package org.totschnig.myexpenses.test.activity.myexpenses_context;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
@@ -24,7 +24,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   private StickyListHeadersListView mList;
 
   public D_ContextActionTest() {
-    super(MyExpenses.class,true);
+    super(MyExpenses.class);
   }
   public void setUp() throws Exception { 
     super.setUp();
