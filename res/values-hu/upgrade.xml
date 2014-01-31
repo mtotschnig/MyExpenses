@@ -4,28 +4,4 @@
     <item>Tervek készítése a jövőbeli, vagy ismétlődő tranzakciók kezelésére</item>
     <item>Khmer nyelv</item>
   </string-array>
-  <string-array name="whats_new_84">
-    <item>Referencia szám (csekkes fizetéseknél)</item>
-    <item>Helyből a számlák látszanak</item>
-    <item>Ujjmozdulattal lapozható időszakok a kiadásoknál</item>
-    <item>Beállítható dátumformátum a QIF és CSV exportoknál</item>
-    <item>Felhasználói felület javítások</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál)</item>
-    <item>A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek</item>
-    <item>Magyar nyelv</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Egy adott tranzakció több kategóriában történő felosztása (Premium változat)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Bug fix: #69-es ügy</item>
-    <item>Arab nyelv</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Tranzakciók összesítése napi, heti, havi és éves viszonylatban</item>
-    <item>A kedvezményezett a tranzakciós listában megjelenik</item>
-    <item>A számlák sorrendben látszanak (alapértelmezetten a leggyakrabban használt elöl)</item>
-  </string-array>
 </resources>

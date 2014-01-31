@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_118">
+    <item>Modernleştirilmiş arayüz: tarama çekmecesi ve bağlamsal eylem çubuğu </item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Planlamaların yönetimi iyileştirilmiştir: gelecek örneklemeleri önceden uygulama</item>
     <item>Yeni tercümeler: Portekizce, Lehçe, Çekçe</item>
@@ -30,29 +33,5 @@
   <string-array name="whats_new_93">
     <item>Gelecekteki ve tekrarlanan muameleler için planlamalar</item>
     <item>Kmerce tercüme</item>
-  </string-array>
-  <string-array name="whats_new_84">
-    <item>Referans sayısı (çek ile ödemeler)</item>
-    <item>Hesap listesi ile başlangıç</item>
-    <item>Periyotlar arası kaydırarak geçiş</item>
-    <item>QIF ve CSV dışa aktarımı için ayarlanabilir tarih biçimi</item>
-    <item>Gelişmiş kullanıcı arayüzü</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Muamelelerin uzlaşmış olarak işaretlenmeleri (banka hesapları ve kredi kartları için etkinleştirilmiştir)</item>
-    <item>Borçlu/alacaklılar artık düzenlenebilir</item>
-    <item>Macarca tercüme</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Muamelelerin kategori başına dağılımı (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Hata düzeltmesi: #69</item>
-    <item>Arap Tercüme</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle</item>
-    <item>Alacaklı işlem listesinde görüntülenir</item>
-    <item>Hesap listesi sıralanır (varsayılan değer kullanım sıklığına göredir)</item>
   </string-array>
 </resources>

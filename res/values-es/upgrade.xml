@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_118">
+    <item>Interfaz de usuario modernizada: cajón de navegación y barra de acción contextual</item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Mejorado manejo de planes: próximas instancias se aplican por adelantado</item>
     <item>Nuevas traducciones: Portugués, Polaco, Checo</item>
@@ -30,29 +33,5 @@
   <string-array name="whats_new_93">
     <item>Planes par las transacciones futuras y recurrentes</item>
     <item>Khmer traducción</item>
-  </string-array>
-  <string-array name="whats_new_84">
-    <item>Número de referencia (cheques)</item>
-    <item>Comience con lista de cuentas de lanzamiento</item>
-    <item>Swipe entre los períodos de vista de distribución</item>
-    <item>Formato de fecha configurable para QIF y CSV exportación</item>
-    <item>Mejoras de interfaz de usuario</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Marcar asientos como despejado  / reconciliado (cuentas bancarias y tarjetas de crédito)</item>
-    <item>Partidos ahora se pueden editar</item>
-    <item>Traducción al húngaro</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Distribución de las transacciones por categoría (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Corrección de errores #69</item>
-    <item>Traducción árabe</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Agrupamiento por día, semana, mes, año y visualización sumas por grupo</item>
-    <item>Beneficiario se muestra en la lista de transacciones</item>
-    <item>Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)</item>
   </string-array>
 </resources>

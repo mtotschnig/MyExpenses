@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_118">
+    <item>Interface d\'utilisateur modernisée : navigation et barre d\'action contextuelle</item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Traitement des échéances amélioré : appliquez des instances à venir à l\'avance</item>
     <item>Nouvelles traductions : portugais, polonais, tchèque</item>
@@ -30,29 +33,5 @@
   <string-array name="whats_new_93">
     <item>Échéancier de transactions futures et périodiques</item>
     <item>Traduction en Khmer</item>
-  </string-array>
-  <string-array name="whats_new_84">
-    <item>Numéro de référence (paiement par chèque) </item>
-    <item>Démarrage avec la liste de comptes</item>
-    <item>Format de date configurable pour l\'exportation QIF et CSV</item>
-    <item>Glisser entre les périodes dans la fenêtre de distribution</item>
-    <item>Améliorations de l\'interface utilisateur</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Marquage des opérations comme pointées / rapprochées ( pour les comptes de banques et cartes de crédit)</item>
-    <item>Les tiers peuvent être désormais édités</item>
-    <item>Traduction en hongrois</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Répartition des transactions par catégorie (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Correction de bogue #69</item>
-    <item>Traduction en arabe</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe</item>
-    <item>Les tiers sont affichés dans la liste des opérations</item>
-    <item>La liste des comptes est triée (par défaut selon la fréquence d\'utilisation)</item>
   </string-array>
 </resources>

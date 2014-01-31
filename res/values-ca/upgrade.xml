@@ -31,28 +31,4 @@
     <item>Planificacions per operacions futures i recurrents</item>
     <item>Traducció al Khmer</item>
   </string-array>
-  <string-array name="whats_new_84">
-    <item>Número de referència (pagaments per xec)</item>
-    <item>Comenceu a la llista de comptes des del llançador</item>
-    <item>Feu lliscar el dit per canviar de període a la vista de distribució</item>
-    <item>Es pot configurar el format de la data per a exportar en formats QIF i CSV</item>
-    <item>Millores a la interfície</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Marqueu les operacions al aprovar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit)</item>
-    <item>Ara és possible editar les parts</item>
-    <item>Traducció a l\'hongarès</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Distribució d\'operacions per categoria (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Correcció: Problema #69</item>
-    <item>Traducció a l\'àrab</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup</item>
-    <item>A la llista d\'operacions es mostra el beneficiari</item>
-    <item>La llista de comptes està ordenada (per freqüència d\'ús per omissió)</item>
-  </string-array>
 </resources>
