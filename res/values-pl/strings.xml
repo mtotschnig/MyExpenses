@@ -25,6 +25,7 @@
   <string name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
   <string name="contrib_feature_split_transaction_label">Podział transakcji</string>
   <string name="contrib_key">Klucz Contrib</string>
+  <string name="crash_reports_user_info">Aplikacja Moje Wydatki będzie wysyłać raporty o awariach automatycznie do jego twórców, które pozwolą im szybciej naprawić problem. Możesz wyłączyć tą funkcję z menu Ustawień.</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
   <string name="date">Data</string>
@@ -242,6 +243,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Ilość użyć</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanumerycznie</string>
   <string name="pref_categories_sort_by_usages_title">Kolejność sortowania (kategorie, szablony, konta)</string>
+  <string name="pref_category_title_crash_reports">Raporty o awariach</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Zarządzaj</string>
@@ -252,6 +254,14 @@
   <string name="pref_contrib_donate_title">Wyślij datek</string>
   <string name="pref_contrib_install_summary">Instalując My Expenses Contrib, dostajesz dostęp do funkcji premium.</string>
   <string name="pref_contrib_install_title">Instaluj aplikację Contrib</string>
+  <string name="pref_enable_acra">Pozwól na automatyczne wysyłanie raportów o awariach.</string>
+  <string name="pref_acra_enabled">Automatyczne wysyłanie jest włączone</string>
+  <string name="pref_acra_disabled">Automatyczne wysyłanie jest wyłączone</string>
+  <string name="pref_acra_syslog">Dołącz logi systemowe do raportów o awariach</string>
+  <string name="pref_acra_syslog_enabled">Logi systemowe są dołączone</string>
+  <string name="pref_acra_syslog_disabled">Logi systemowe nie są dołączone</string>
+  <string name="pref_acra_user_email">Adres E-mail użytkownika dołączany do raportu o awarii.</string>
+  <string name="pref_acra_user_email_summary">Proszę wprowadzić swój adres E-mail jeżeli jesteś chętny w pomocy naprawienia błędu i pozwoli nam na kontakt z tobą.</string>
   <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz Contrib, otrzymasz dostęp do funkcji premium.</string>
   <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>
   <string name="pref_export_format_title">Format daty</string>
