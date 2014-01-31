@@ -32,12 +32,12 @@
   <string name="menu_create_template_for_transfer_help_text">Crée un nouveau modèle de transfert</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Créer un modèle et le sauvegarder immédiatement</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Créer un modèle et aller dans l\'édition pour le modifier avant de l\'enregistrer.</string>
-  <string name="cab_ManageTemplates_delete_help_text">Supprimer le modèle et toute échéance associée.</string>
-  <string name="cab_ManageTemplates_edit_help_text">Modifier le modèle et créer ou modifier une échéance associée.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Créer une transaction à l’échéance et l\'enregistrer immédiatement.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Créer une opération à l\'échéance et entrer dans l\'édition afin de la modifier avant enregistrement.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indique qu\'à l\'échéance de l\'événement sélectionné, aucune opération ne devra être créée.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si une opération a été créée pour cet événement, il sera supprimé, si elle a été repérée comme annulée, l\'indicateur sera retiré.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Supprimer le modèle sélectionné et toute échéance associée.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Modifier le modèle sélectionné et créer ou modifier une échéance associée.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Créer une opération à l’échéance selectionnée et l\'enregistrer immédiatement.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Créer une opération à l\'échéance sélectionnée et entrer en édition afin de la modifier avant enregistrement.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indique que pour l\'échéance sélectionnée, aucune opération ne devra être créée.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si une opération a été créée pour l\'événement sélectionné, elle sera supprimée, si elle a été signalée comme annulée, l\'indicateur sera enlevé.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modifier l\'opération qui a été créée pour l\'échéance choisie.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Cet écran affiche la répartition de vos dépenses et entrées par catégories, pour toutes les transactions d\'un compte ou d\'un groupe spécifique.</string>

@@ -32,12 +32,12 @@
   <string name="menu_create_template_for_transfer_help_text">Creare un nuovo modello per il trasferimento</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Creare un\'istanza del modello e salvarlo immediatamente.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Creare un\'istanza del modello e inserire la sua forma modifica dove è possibile modificare prima di salvare.</string>
-  <string name="cab_ManageTemplates_delete_help_text">Eliminare il modello e qualsiasi scadenza associata.</string>
-  <string name="cab_ManageTemplates_edit_help_text">Modificare il modello e creare o modificare una scadenza associata.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Creare un operazione al momento di questa istanza di evento e salvarlo immediatamente.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Creare un operazione al momento di questa istanza di evento e immettere la sua forma modifica dove è possibile modificare prima di salvare.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Eliminare il modello selezionato e qualsiasi scadenza associata.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Modificare il modello selezionato e creare o modificare una scadenza associata.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Creare un operazione al momento  di questa istanza di evento selezionato e salvarlo immediatamente.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Creare un operazione al momento di questa istanza di evento selezionato e immettere la sua forma modifica dove è possibile modificare prima di salvare.</string>
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicare che presso l\'istanza dell\'evento selezionato, nessun operazione deve essere creato.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se un operazione è stato creato per questa istanza dell\'evento, sarà eliminato, se esso è stato contrassegnato come annullato, il flag viene rimosso.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se un operazione è stato creato per l\'istanza dell\'evento selezionato, sarà eliminato, se esso è stato contrassegnato come annullato, il flag viene rimosso.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modificare l\'operazione che è stato creatoper l\'istanza del programma selezionato.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Questa schermata mostra la distribuzione delle tue spese e redditi per categorie, per tutte le operazioni in un conto, o per un gruppo specifico.</string>

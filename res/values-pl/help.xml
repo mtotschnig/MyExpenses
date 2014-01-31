@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="help_menu_commands">Polecenia menu</string>
+  <string name="cab_delete_help_text">Usuń zaznaczone elementy.</string>
+  <string name="cab_edit_help_text">Edytuj zaznaczony element.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista transakcji</string>
   <string name="help_MyExpenses_info">Ten ekran wyświetla listę wszystkich transakcji dla bieżącego konta. Z paska nawigacyjnego, możesz przejść do listy kont lub wybrać inne konto. Kliknij na pozycji listy aby edytować tą pozycję.</string>
@@ -14,6 +16,8 @@
   <string name="menu_distribution_help_text">Wyświetla dystrybucję twoich wydatków według kategorii. Możesz także kliknąć na nagłówku grupy do sprawdzenia dystrybucji dla poszczególnej grupy.</string>
   <string name="menu_manage_plans_help_text">Otwiera listę szablonów oraz planów dla bieżącego konta, gdzie możesz zastosować, edytować lub edytować je, i także określić plany na przyszłość oraz powtarzających się transakcji.</string>
   <string name="menu_create_account_help_text">Otwiera formularz tworzenia nowych kont.</string>
+  <string name="cab_create_template_from_transaction_help_text">Zdefiniuj nowy szablon bazujący na wybranej transakcji. Będzie on prosił cię o nazwę dla szablonu.</string>
+  <string name="cab_clone_transaction_help_text">Zaznaczone transakcje zostaną sklonowane z bieżącą datą i godziną.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Ten ekran wyświetla predefiniowane metody płatności (Czek, Karta Kredytowa, Depozyt, Bezpośredni debet) i pozwala Ci na definiowane nowych. Kliknięcie na pozycji listy, pozwala Ci na zmianę skojarzenia pomiędzy metodą i typem konta.</string>
   <string name="menu_create_method_help_text">Otwiera formularz tworzenia nowej metody płatności</string>
@@ -25,6 +29,9 @@
   <string name="help_ManageTemplates_plans_info">Plany są dostępne na liście na osobnej karcie. Kiedy rozwiniesz pozycję, możesz zobaczyć listę przyszłych instancji planu. Zamiast czekać na powiadomienie które dostaniesz jak wystąpi instancja, tutaj możesz zdecydować o zastosowaniu tych przyszłych zdarzeniach z góry aby zrobić je widzocznymi w twojej liście transakcji przez powołanie odpowiedniego polecenia z menu kontekstowego. Stan instancji jest oznaczony przez jedną z poniższych ikon:&lt;br&gt;&lt;img src=\"ic_stat_open\" /&gt;Instancja nie jest jeszcze zatwierdzona.&lt;br&gt;&lt;img src=\"ic_stat_applied\" /&gt; Instancja jest zatwierdzona.&lt;br&gt;&lt;img src=\"ic_stat_cancelled\" /&gt; Instancja została anulowana, tzn. oznaczyłeś ją do pominięcia. Transakcja nie zostanie stworzona dla tej instancji.</string>
   <string name="menu_create_template_for_transaction_help_text">Tworzy nowy szablon dla transakcji</string>
   <string name="menu_create_template_for_transfer_help_text">Tworzy nowy szablon dla przelewu</string>
+  <string name="cab_ManageTemplates_delete_help_text">Usuń zaznaczone szablony i wszystkie powiązane plany.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Edytuj zaznaczony szablon i utwórz lub edytuj powiązany plan.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edytuj transakcję która została utworzona dla wybranej instancji planu.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Ten ekran wyświetla dystrybucję twoich wydatków i przychodów na kategorię, dla każdej transakcji na koncie, lub dla specyficznej grupy.</string>
   <string name="help_ManageCategories_select_info">Oprócz akcji które możesz dokonać podczas zarządzania kategoriami z ekranu Preferencji (utwórz, edytuj, usuń), na tym ekranie możesz zmapować transakcję do wybranej kategorii. Możesz też wybrać podkategorię dla zmapowania bieżącej transakcji przez kliknięcie na niej. W celu zmapowania głównej kategorii, musisz wywołać jego menu kontekstowe.</string>
@@ -33,6 +40,7 @@
   <string name="menu_ManageCategories_distribution_grouping_help_text">Ustawia typ grupowania i wyświetla dystrybucję na dzień, miesiąc, tydzień lub rok.</string>
   <string name="menu_back_help_text">Przechodzi do poprzedniej grupy. To może być także dokonane przez gest przesunięcia palcem od lewej do prawej.</string>
   <string name="menu_forward_help_text">Przechodzi do następnej grupy. To może być także dokonane przez gest przesunięcia palcem od prawej do lewej.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Otwiera okno dialogowe dla określenia tytułu dla nowej podkategorii poniżej aktualnie wybranej kategorii.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formularz dla transakcji</string>
   <string name="help_ExpenseEdit_transfer_title">Formularz dla przelewów</string>

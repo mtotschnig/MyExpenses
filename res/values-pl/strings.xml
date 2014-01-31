@@ -12,18 +12,20 @@
   <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się.</string>
   <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie.</string>
   <string name="category">Kategoria</string>
+  <string name="clone_transaction_error">Nie można sklonować transakcji.</string>
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
-  <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z &lt;i&gt;Moje Wydatki&lt;/i&gt; jest ograniczona do 5.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z &lt;i&gt;My Expenses&lt;/i&gt; jest ograniczona do 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
   <string name="contrib_feature_aggregate_label">Sumy dla wszystkich kont</string>
   <string name="contrib_feature_distribution_label">Dystrybucja tranakcji na kategorię.</string>
-  <string name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z &lt;i&gt;Moje Wydatki&lt;/i&gt; jest ograniczona do 3.</string>
+  <string name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z &lt;i&gt;My Expenses&lt;/i&gt; jest ograniczona do 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Nieograniczona ilość planów</string>
   <string name="contrib_feature_reset_all_label">Resetuj wszystkie konta</string>
   <string name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
   <string name="contrib_feature_split_transaction_label">Podział transakcji</string>
   <string name="contrib_key">Klucz Contrib</string>
+  <string name="crash_reports_user_info">Aplikacja Moje Wydatki będzie wysyłać raporty o awariach automatycznie do jego twórców, które pozwolą im szybciej naprawić problem. Możesz wyłączyć tą funkcję z menu Ustawień.</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
   <string name="date">Data</string>
@@ -39,10 +41,15 @@
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując &lt;i&gt;Moje Wydatki Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
   <string name="dialog_contrib_reminder_gain_access">Dostajesz także nieograniczony dostęp do następujących funkcji:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;Moje Wydatki&lt;/i&gt; jest oferowany bez reklam i otwartoźródłowo. Proszę wspomóc nas instalując płatną wersję Contrib. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; jest oferowany bez reklam i otwartoźródłowo. Proszę wspomóc nas instalując płatną wersję Contrib. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">Zostało Ci jedno darmowe użycie.</item>
+    <item quantity="few">Posiadasz jeszcze %1$d darmowych użyć.</item>
+    <item quantity="other">Posiadasz jeszcze %1$d darmowych użyć.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Kup teraz</string>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
   <string name="dialog_export_not_yet_exported">Transakcje tylko do eksportu nie zostały jeszcze eksportowane</string>
@@ -70,6 +77,8 @@
   <string name="dialog_title_select_template">Wybierz szablon</string>
   <string name="dialog_title_template_title">Określ nazwę</string>
   <string name="dialog_title_warning_delete_account">Usunąć konto?</string>
+  <string name="dialog_title_warning_delete_main_category">Usunąć główną kategorię?</string>
+  <string name="dialog_title_warning_delete_plan">Usunąć plan?</string>
   <string name="dialog_title_warning_delete_template">Usunąć szablon?</string>
   <string name="dialog_title_warning_delete_transaction">Usunąć transakcję?</string>
   <string name="dialog_title_welcome">Witaj!</string>
@@ -122,8 +131,6 @@
   <string name="menu_aggregates">Suma</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Zastosuj</string>
-  <string name="menu_create_instance_edit">Zatwierdź i edytuj</string>
-  <string name="menu_create_instance_save">Zatwierdź i zapisz</string>
   <string name="menu_back">Wstecz</string>
   <string name="menu_backup">Kopia zapasowa</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -133,6 +140,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Utwórz</string>
   <string name="menu_create_account">Nowe konto</string>
+  <string name="menu_create_instance_edit">Zatwierdź i edytuj</string>
+  <string name="menu_create_instance_save">Zatwierdź i zapisz</string>
   <string name="menu_create_main_cat">Nowa główna kategoria</string>
   <string name="menu_create_method">Nowa metoda płatności</string>
   <string name="menu_create_party">Dodaj partię</string>
@@ -141,18 +150,21 @@
   <string name="menu_create_split_part_transfer">Nowa część przelewu podziału</string>
   <string name="menu_create_sub_cat">Nowa podkategoria</string>
   <string name="menu_create_template">Nowy szablon</string>
+  <string name="menu_create_template_from_transaction">Zapisz jako szablon</string>
   <string name="menu_create_template_for_transaction">Nowy szablon transakcji</string>
   <string name="menu_create_template_for_transfer">Nowy szablon przelewu</string>
   <string name="menu_create_transaction">Nowa Transakcja</string>
   <string name="menu_create_transfer">Nowy Przelew</string>
   <string name="menu_delete">Usuń</string>
+  <string name="menu_delete_account">Usuń konto</string>
   <string name="menu_distribution">Dystrybucja</string>
   <string name="menu_edit">Edytuj</string>
   <string name="menu_edit_account">Edytuj Konto</string>
   <string name="menu_edit_cat">Edytuj kategorię</string>
-  <string name="menu_edit_method">Edytuj Rodzaj Płatności</string>
+  <string name="menu_edit_method">Edytuj metodę płatności</string>
   <string name="menu_edit_party">Edytuj partie</string>
-  <string name="menu_edit_split">Edytuj Podział</string>
+  <string name="menu_edit_plan_instance">Edytuj występowanie pojedynczego planu</string>
+  <string name="menu_edit_split">Edytuj podział</string>
   <string name="menu_edit_split_part_category">Edytuj część kategorii podziału</string>
   <string name="menu_edit_split_part_transfer">Edytuj część przelewu podziału</string>
   <string name="menu_edit_template">Edytuj Szablon</string>
@@ -231,6 +243,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Ilość użyć</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanumerycznie</string>
   <string name="pref_categories_sort_by_usages_title">Kolejność sortowania (kategorie, szablony, konta)</string>
+  <string name="pref_category_title_crash_reports">Raporty o awariach</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Zarządzaj</string>
@@ -239,8 +252,16 @@
   <string name="pref_category_title_ui">Interfejs użytkownika</string>
   <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
   <string name="pref_contrib_donate_title">Wyślij datek</string>
-  <string name="pref_contrib_install_summary">Instalując Moje Wydatki Contrib, dostajesz dostęp do funkcji premium.</string>
+  <string name="pref_contrib_install_summary">Instalując My Expenses Contrib, dostajesz dostęp do funkcji premium.</string>
   <string name="pref_contrib_install_title">Instaluj aplikację Contrib</string>
+  <string name="pref_enable_acra">Pozwól na automatyczne wysyłanie raportów o awariach.</string>
+  <string name="pref_acra_enabled">Automatyczne wysyłanie jest włączone</string>
+  <string name="pref_acra_disabled">Automatyczne wysyłanie jest wyłączone</string>
+  <string name="pref_acra_syslog">Dołącz logi systemowe do raportów o awariach</string>
+  <string name="pref_acra_syslog_enabled">Logi systemowe są dołączone</string>
+  <string name="pref_acra_syslog_disabled">Logi systemowe nie są dołączone</string>
+  <string name="pref_acra_user_email">Adres E-mail użytkownika dołączany do raportu o awarii.</string>
+  <string name="pref_acra_user_email_summary">Proszę wprowadzić swój adres E-mail jeżeli jesteś chętny w pomocy naprawienia błędu i pozwoli nam na kontakt z tobą.</string>
   <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz Contrib, otrzymasz dostęp do funkcji premium.</string>
   <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>
   <string name="pref_export_format_title">Format daty</string>
@@ -275,7 +296,7 @@
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
   <string name="pref_restore_summary">Przywróć kopię zapasową z folderu \"myexpenses\" na karcie pamięci.</string>
   <string name="pref_restore_title">Przywróć</string>
-  <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła. Wymaga Moje Wydatki Contrib.</string>
+  <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła. Wymaga My Expenses Contrib.</string>
   <string name="pref_security_question_title">Pytanie bezpieczeństwa</string>
   <string name="pref_send_feedback_title">Wyślij opinie</string>
   <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, ...), lub podaj URL w jednym z obsługiwanym schemacie</string>
@@ -308,7 +329,7 @@
   <string name="restore_preferences_failure">Przywracanie preferencji nie powiodło się</string>
   <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>
   <string name="save_transaction_and_new_success">Zapisano pomyślnie</string>
-  <string name="save_transaction_error">Nie można zapisać nowej transakcji z szablonu</string>
+  <string name="save_transaction_error">Nie można zapisać nowej transakcji z szablonu.</string>
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
@@ -340,12 +361,13 @@
   <string name="type">Typ</string>
   <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci. Czy chcesz kontynuować?</string>
   <string name="warning_backup_exists">Baza danych oraz preferencje zostaną zapisane na karcie pamięci. Istniejąca kopia zapasowa zostanie nadpisana. Czy chcesz kontynuować?</string>
-  <string name="warning_delete_account">To konto zostanie usunięte z wszystkimi jego transakcjami. Czy chcesz kontynuować?</string>
+  <string name="warning_delete_account">Konto \"%1$s\" zostanie usunięte razem ze wszystkimi jego transakcjami.</string>
   <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
-  <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje Moje Wydatki Contrib).</string>
+  <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje My Expenses Contrib).</string>
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
+  <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
   <string name="warning_select_account">Proszę wybrać konto!</string>
-  <string name="warning_splitpartcategory_context">Przelewy które są częściami podziału mogą być tylko edytowane lub usuwane w menu kontekstowym podziału.</string>
+  <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
 </resources>

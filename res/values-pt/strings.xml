@@ -12,6 +12,11 @@
   <string name="backup_failure">Falha ao efetuar backup para o sdcard.</string>
   <string name="backup_success">Banco de dados e preferências gravados com sucesso para sdcard.</string>
   <string name="category">Categoria</string>
+  <string name="clone_transaction_error">Não foi possível clonar transação.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Operações foram clonados com sucesso.</item>
+    <item quantity="other">As operações %1$d foram clonadas com sucesso.</item>
+  </plurals>
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
   <string name="contrib_feature_accounts_unlimited_description">O número de contas, que você pode criar com &lt;i&gt;Minhas despesas&lt;/i&gt; é limitado a 5.</string>
@@ -32,7 +37,6 @@
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
   <string name="description">Descrição</string>
   <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta com a mesma moeda. Você tem apenas uma conta de moeda %1$s.</string>
-  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
   <string name="dialog_command_disabled_distribution">Nenhuma transação foram mapeadas para categorias nesta conta.</string>
   <string name="dialog_confirm_restore_on_install">Uma cópia de segurança de arquivo fora detectado. Desejas restaurá-lo?</string>
@@ -75,6 +79,8 @@
   <string name="dialog_title_select_template">Escolha um modelo</string>
   <string name="dialog_title_template_title">Defina o título</string>
   <string name="dialog_title_warning_delete_account">Excluir a conta?</string>
+  <string name="dialog_title_warning_delete_main_category">Excluir categoria principal?</string>
+  <string name="dialog_title_warning_delete_plan">Excluir projeto?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
   <string name="dialog_title_welcome">Bem vindo!</string>
@@ -127,8 +133,6 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
-  <string name="menu_create_instance_edit">Aplicar e editar</string>
-  <string name="menu_create_instance_save">Aplicar e salvar</string>
   <string name="menu_back">Voltar</string>
   <string name="menu_backup">Backup</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -138,6 +142,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Criar</string>
   <string name="menu_create_account">Nova conta</string>
+  <string name="menu_create_instance_edit">Aplicar e editar</string>
+  <string name="menu_create_instance_save">Aplicar e salvar</string>
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_method">Novo método de pagamento</string>
   <string name="menu_create_party">Novo partido</string>
@@ -146,17 +152,20 @@
   <string name="menu_create_split_part_transfer">Nova transferência dividir parte</string>
   <string name="menu_create_sub_cat">Nova subcategoria</string>
   <string name="menu_create_template">Novo modelo</string>
+  <string name="menu_create_template_from_transaction">Salvar como modelo</string>
   <string name="menu_create_template_for_transaction">Novo modelo de transação</string>
   <string name="menu_create_template_for_transfer">Novo modelo de transferência</string>
   <string name="menu_create_transaction">Nova transação</string>
   <string name="menu_create_transfer">Nova transferência</string>
   <string name="menu_delete">Excluir</string>
+  <string name="menu_delete_account">Excluir conta</string>
   <string name="menu_distribution">Distribuição</string>
   <string name="menu_edit">Editar</string>
   <string name="menu_edit_account">Editar conta</string>
   <string name="menu_edit_cat">Editar categoria</string>
-  <string name="menu_edit_method">Editar forma de pagamento</string>
+  <string name="menu_edit_method">Editar método de pagamento</string>
   <string name="menu_edit_party">Editar a festa</string>
+  <string name="menu_edit_plan_instance">Editar único plano de ocorrência</string>
   <string name="menu_edit_split">Editar divisão</string>
   <string name="menu_edit_split_part_category">Editar Categoria dividir parte</string>
   <string name="menu_edit_split_part_transfer">Editar transferência dividir parte</string>
@@ -178,7 +187,6 @@
   <string name="menu_save">Salvar</string>
   <string name="menu_save_and_new">Salvar e novo</string>
   <string name="menu_settings">Configurações</string>
-  <string name="menu_share">Indicar para amigos</string>
   <string name="method">Método</string>
   <string name="new_version">Nova versão</string>
   <string name="no_accounts">Não há contas!</string>
@@ -197,12 +205,12 @@
   <string name="no_templates">Sem modelos.</string>
   <string name="no_title_given">Você não digitou nenhum título.</string>
   <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">O objeto selecionado é mapeado para uma transação e não pode ser excluído.</item>
-  	<item quantity="other">%1$d objetos selecionados são mapeados para transações e não pode ser excluído.</item>
+    <item quantity="one">Os objetos selecionados são mapeados para as transações e não podem ser excluídos.</item>
+    <item quantity="other">Os objetos %1$d são mapeados para as transações e não podem ser excluídos.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">O objeto selecionado é mapeado para um modelo e não pode ser excluído.</item>
-    <item quantity="other">%1$d objetos selecionados são mapeados para modelos e não pode ser excluído.</item>
+    <item quantity="other">%1$d objetos são mapeados para os modelos e não podem ser excluídos.</item>
   </plurals>
   <string name="numbered">numeradas</string>
   <string name="oi_pick_colors_info">Instale OI Color Picker para mais opções</string>
@@ -269,7 +277,7 @@
   <string name="pref_manage_methods_title">Formas de pagamento</string>
   <string name="pref_manage_parties_summary">Adicionar, editar, excluir participantes (pagadores e beneficiários).</string>
   <string name="pref_manage_parties_title">Participantes</string>
-  <string name="pref_more_info_dialog_summary">Enrico Nicoletto (liverig@gmail.com), Fabiano Oliveira</string>
+  <string name="pref_more_info_dialog_summary">Enrico Nicoletto - liverig@gmail.com, 2013.</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
   <string name="pref_password_empty">A senha não pode ficar em branco</string>
@@ -326,7 +334,7 @@
   <string name="save_transaction_error">Não foi possível salvar nova transação do modelo.</string>
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">Nova transação salva com êxito do modelo.</item>
-    <item quantity="other">%1$d novas operações foram salvas com sucesso a partir de modelos.</item>
+    <item quantity="other">%1$d nova transação salva com sucesso a partir do modelo.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Modelo foi excluído</string>
   <string name="select">Selecionar</string>
@@ -344,8 +352,7 @@
   <string name="sum_expenses">Despesas</string>
   <string name="sum_income">Renda</string>
   <string name="sum_transfer">Transferências</string>
-  <string name="tell_a_friend_message">Minhas despesas, Gerenciador de finanças pessoais para o Android, http://www.myexpenses.mobi</string>
-  <string name="template">Modelo</string>
+  <string name="tell_a_friend_message">Minhas despesas, Gerenciador de finanças pessoais para o Android, http://www.myexpenses.mobi</string>  <string name="template">Modelo</string>
   <string name="template_create_success">Modelo \"%1$s\" criado com sucesso.</string>
   <string name="template_title_exists">Um modelo sob título \"%1$s\" já existe</string>
   <string name="thank_you">Obrigado pelo vosso apoio!</string>
@@ -361,22 +368,22 @@
   <string name="unsplit_amount_greater_than_zero">Ainda há alguma quantidade esquerda non divisão.</string>
   <string name="warning_backup">Banco de dados e preferências serão salvas para o sdcard. Você quer continuar?</string>
   <string name="warning_backup_exists">Banco de dados e preferências serão salvas para o sdcard. Backup existente será substituído. Você quer continuar?</string>
-  <string name="warning_delete_account">Esta conta \"%1$s\" será excluída com todas as suas transações.</string>
+  <string name="warning_delete_account">Conta \"%1$s\" será apagada com todas as transações registradas.</string>
   <plurals name="warning_delete_main_category">
-  	<item quantity="one">A categoria seleccionada tem subcategorias, que serão excluídas também.</item>
-  	<item quantity="other">%1$d categorias selecionadas têm subcategorias, que serão excluídas também.</item>
+    <item quantity="one">A categoria selecionada contém subcategorias, que também serão excluídas.</item>
+    <item quantity="other">A categoria %1$d selecionada contém subcategorias, que também serão excluídas.</item>
   </plurals>
   <plurals name="warning_delete_plan">
-    <item quantity="one">O plano selecionado será excluído.</item>
-    <item quantity="other">%1$d planos selecionados serão excluídos.</item>
+    <item quantity="one">O projeto selecionado será eliminado.</item>
+    <item quantity="other">Projeto %1$d selecionado será eliminado.</item>
   </plurals>
   <plurals name="warning_delete_template">
-    <item quantity="one">O modelo selecionado será excluído.</item>
-    <item quantity="other">%1$d modelos selecionados serão excluídos.</item>
+    <item quantity="one">O modelo selecionado será eliminado.</item>
+    <item quantity="other">Os modelos %1$d selecionado serão eliminados.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
-    <item quantity="one">A transação selecionada será excluída.</item>
-  	<item quantity="other">%1$d transações selecionadas serão excluídas.</item>
+    <item quantity="one">As transações selecionadas serão excluídas.</item>
+    <item quantity="other">Transações %1$d selecionadas serão excluídas.</item>
   </plurals>
   <string name="warning_password_contrib">Definir uma questão de segurança permite que você desbloquear o app, no caso de você esquecer sua senha.</string>
   <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-lo. Você não será capaz de recuperá-lo, a menos que você defina uma pergunta de segurança (requer minha Contrib despesas).</string>
