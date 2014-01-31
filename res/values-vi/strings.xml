@@ -277,6 +277,7 @@
   <string name="sum_income">Thu nhập</string>
   <string name="sum_expenses">Chi tiêu</string>
   <string name="sum_transfer">Truyền đổi</string>
+  <string name="tell_a_friend_message">Chi Tiêu Của Tôi, Quản lý tài chính cá nhân trên Android, http://www.myexpenses.mobi</string>
   <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
   <string name="template_title_exists">Một mẫu có tiêu đề \"%1$s\" đã tồn tại trước đó</string>
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>

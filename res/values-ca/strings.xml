@@ -332,6 +332,7 @@
   <string name="sum_income">Ingressos</string>
   <string name="sum_transfer">Transferèncias</string>
   <string name="template">Plantilla</string>
+  <string name="tell_a_friend_message">Les meves despeses, Gestor de finances personals per Android, http://www.myexpenses.mobi</string>
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>
   <string name="thank_you">Gràcies pel vostre suport!</string>

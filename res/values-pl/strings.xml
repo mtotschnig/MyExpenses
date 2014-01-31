@@ -325,6 +325,7 @@
   <string name="sum_expenses">Wydatki</string>
   <string name="sum_income">Dochód</string>
   <string name="sum_transfer">Przelewy</string>
+  <string name="tell_a_friend_message">Moje Wydatki, Personalny menadżer finansów dla systemu Android, http://www.myexpenses.mobi</string>
   <string name="template">Szablon</string>
   <string name="template_create_success">Szablon \"%1$s\" został utworzony pomyślnie</string>
   <string name="template_title_exists">Szablon z nazwą \"%1$s\" już istnieje</string>

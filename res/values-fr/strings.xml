@@ -188,6 +188,7 @@
   <string name="menu_save">Enregistrer</string>
   <string name="menu_save_and_new">Enregistrer et nouveau</string>
   <string name="menu_settings">Paramètres</string>
+  <string name="menu_share">Recommander</string>
   <string name="method">Méthode</string>
   <string name="new_version">Nouvelle version</string>
   <string name="no_accounts">Aucun compte!</string>
@@ -362,6 +363,7 @@
   <string name="sum_expenses">Dépenses</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_transfer">Transferts</string>
+  <string name="tell_a_friend_message">Essaie Mes dépenses, Gestionnaire de finances personnelles pour Android, de http://www.myexpenses.mobi</string>
   <string name="template">Modèle</string>
   <string name="template_create_success">Modèle \"%1$s\" créé avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>

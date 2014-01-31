@@ -209,6 +209,7 @@
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
   <string name="menu_settings">Settings</string>
+  <string name="menu_share">Tell a friend</string>
   <string name="method">Method</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">No Accounts!</string>
@@ -382,6 +383,7 @@
   <string name="sum_expenses">Expenses</string>
   <string name="sum_income">Income</string>
   <string name="sum_transfer">Transfers</string>
+  <string name="tell_a_friend_message">Check out My Expenses, Personal Finance Manager for Android, from http://www.myexpenses.mobi</string>
   <string name="template">Template</string>
   <string name="template_create_success">Template \"%1$s\" created successfully</string>
   <string name="template_title_exists">A template with title \"%1$s\" already exists</string>

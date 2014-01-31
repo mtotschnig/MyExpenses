@@ -188,6 +188,7 @@
   <string name="menu_save">Guardar</string>
   <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_settings">Configuraciones</string>
+  <string name="menu_share">Contarle a un amigo</string>
   <string name="method">Método</string>
   <string name="new_version">Nueva versión</string>
   <string name="no_accounts">Ningunas cuentas</string>
@@ -363,6 +364,7 @@
   <string name="sum_income">Ingresos</string>
   <string name="sum_transfer">Traslados</string>
   <string name="template">Plantilla</string>
+  <string name="tell_a_friend_message">Proba Mis Gastos, Gestión de las finanzas personales para Android, desde http://www.myexpenses.mobi</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
   <string name="thank_you">¡Gracias por su apoyo!</string>

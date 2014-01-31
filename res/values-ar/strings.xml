@@ -269,6 +269,7 @@
   <string name="sum_income">الدخل</string>
   <string name="sum_expenses">المصاريف</string>
   <string name="sum_transfer">التحويلات</string>
+  <string name="tell_a_friend_message">مصروفاتي, مدير التمويل الشخصي لالروبوت, http://www.myexpenses.mobi</string>
   <string name="template_create_success">تم انشاء النموذج \"%1$s\" بنجاح</string>
   <string name="template_title_exists">هناك نموذج بنفس العنوان \"%1$s\" موجود مسبقاً</string>
   <string name="thank_you">شكراً لدعمك!</string>

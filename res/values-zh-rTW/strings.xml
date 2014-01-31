@@ -320,6 +320,7 @@
   <string name="sum_expenses">支出</string>
   <string name="sum_income">收入</string>
   <string name="sum_transfer">轉移</string>
+  <string name="tell_a_friend_message">開支助手, 個人理財工具 Android版, http://www.myexpenses.mobi</string>
   <string name="template">範本</string>
   <string name="template_create_success">範本 \"%1$s\" 成功被建立</string>
   <string name="template_title_exists">名為 \"%1$s\" 的範本早已存在</string>
