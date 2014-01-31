@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="ចំណូលផ្សេងៗ"/>
+<Sub_category Nbc="1" Nb="3" Na="ពន្ធឥណទាន"/>
+<Sub_category Nbc="1" Nb="4" Na="ល្បែងស៊ីសង"/>
+<Sub_category Nbc="1" Nb="5" Na="ការធានារ៉ាប់រងទៅវិញទៅមក"/>
+<Sub_category Nbc="1" Nb="6" Na="សន្តិសុខសង្គម"/>
+<Category Nb="2" Na="ការចូលនិវត្តន៍"/>
+<Sub_category Nbc="2" Nb="1" Na="មូលនិធិការចូលនិវត្តន៍"/>
+<Sub_category Nbc="2" Nb="2" Na="ប្រាក់សោធននិវត្តន៍"/>
+<Sub_category Nbc="2" Nb="3" Na="ប្រាក់សោធននិវត្តន៍បន្ថែម"/>
+<Category Nb="3" Na="ប្រាក់ចំណូលលើការវិនិយោគ"/>
+<Sub_category Nbc="3" Nb="1" Na="ភាគលាភ"/>
+<Sub_category Nbc="3" Nb="2" Na="ការប្រាក់"/>
+<Sub_category Nbc="3" Nb="3" Na="ប្រាក់ចំណូល​ ឬ កំណើនទុន"/>
+<Category Nb="4" Na="ប្រាក់បៀវត្តន៍"/>
+<Sub_category Nbc="4" Nb="1" Na="បន្ថែមម៉ោង"/>
+<Sub_category Nbc="4" Nb="3" Na="ប្រាក់នៃតម្លៃទូទាត់ផ្សេងៗ"/>
+<Sub_category Nbc="4" Nb="4" Na="ថ្លៃទទួលបានភាពជោគជ័យ"/>
+<Sub_category Nbc="4" Nb="5" Na="ប្រាក់ខែសុទ្ធ"/>
+<Category Nb="5" Na="ចំណូលផ្សេងៗ"/>
+<Sub_category Nbc="5" Nb="1" Na="អំណោយ"/>
+<Sub_category Nbc="5" Nb="2" Na="ដកវិញ"/>
+<Sub_category Nbc="5" Nb="3" Na="របស់ជជុះសំរាប់លក់"/>
+<Category Nb="6" Na="ម្ហូបអាហារ"/>
+<Sub_category Nbc="6" Nb="1" Na="កន្លែងស៊ីផឹក"/>
+<Sub_category Nbc="6" Nb="2" Na="អ្នកធ្វើនំ"/>
+<Sub_category Nbc="6" Nb="3" Na="អាហារដ្ឋាន"/>
+<Sub_category Nbc="6" Nb="4" Na="បង្អែម"/>
+<Sub_category Nbc="6" Nb="5" Na="ផ្សេងៗ"/>
+<Sub_category Nbc="6" Nb="6" Na="គ្រឿងទេស"/>
+<Sub_category Nbc="6" Nb="7" Na="ភោជនីយដ្ឋាន"/>
+<Sub_category Nbc="6" Nb="8" Na="សេវាកម្មបម្រើដោយខ្លួន​ឯង"/>
+<Sub_category Nbc="6" Nb="9" Na="ផ្សារទំនើប"/>
+<Sub_category Nbc="7" Nb="1" Na="ម្ហូបអាហារ"/>
+<Sub_category Nbc="7" Nb="2" Na="ការផ្គត់ផ្គង់នានា"/>
+<Sub_category Nbc="7" Nb="4" Na="ពេទ្យវះកាត់សត្វ"/>
+<Category Nb="8" Na="ការធានារ៉ាប់រង"/>
+<Sub_category Nbc="8" Nb="1" Na="រថយន្ត"/>
+<Sub_category Nbc="8" Nb="2" Na="សុខភាព"/>
+<Sub_category Nbc="8" Nb="3" Na="គេហដ្ឋាន"/>
+<Sub_category Nbc="8" Nb="4" Na="ការទទួលខុសត្រូវស៊ីវិល"/>
+<Sub_category Nbc="8" Nb="5" Na="ជីវិត"/>
+<Category Nb="9" Na="រថយន្ត"/>
+<Sub_category Nbc="9" Nb="1" Na="ប្រងឥន្ធនៈ"/>
+<Sub_category Nbc="9" Nb="2" Na="ជួសជុល"/>
+<Sub_category Nbc="9" Nb="3" Na="ការថែទាំ"/>
+<Sub_category Nbc="9" Nb="4" Na="ចតរថយន្ត"/>
+<Sub_category Nbc="9" Nb="5" Na="ផាកពិន័យ"/>
+<Category Nb="11" Na="អំណោយ"/>
+<Category Nb="12" Na="កុមារ"/>
+<Sub_category Nbc="12" Nb="1" Na="គិលានុបដ្ឋាយិកា"/>
+<Sub_category Nbc="12" Nb="2" Na="ផ្សេងៗ"/>
+<Sub_category Nbc="12" Nb="3" Na="ការសិក្សា"/>
+<Category Nb="13" Na="ការសិក្សា"/>
+<Sub_category Nbc="13" Nb="1" Na="មេរៀន"/>
+<Sub_category Nbc="13" Nb="2" Na="ថ្លៃសាលា"/>
+<Sub_category Nbc="13" Nb="3" Na="សៀវភៅ"/>
+<Category Nb="14" Na="ផ្សេងៗ"/>
+<Sub_category Nbc="14" Nb="1" Na="អំណោយ"/>
+<Category Nb="15" Na="ចំណាយហិរញ្ញវត្ថុ"/>
+<Sub_category Nbc="15" Nb="1" Na="ផ្សេងៗ"/>
+<Sub_category Nbc="15" Nb="3" Na="ប្រាក់កម្ចី/និក្ខេប"/>
+<Sub_category Nbc="15" Nb="5" Na="ការឲ្យប្រាក់មកវិញ"/>
+<Sub_category Nbc="16" Nb="1" Na="មិនអាចដកវិញបានទេ"/>
+<Sub_category Nbc="16" Nb="2" Na="ដកវិញបាន"/>
+<Category Nb="17" Na="ពន្ធ"/>
+<Sub_category Nbc="17" Nb="1" Na="ផ្សេងៗ"/>
+<Sub_category Nbc="17" Nb="2" Na="ចំណូល"/>
+<Sub_category Nbc="17" Nb="3" Na="ដី"/>
+<Category Nb="18" Na="លំនៅដ្ឋាន"/>
+<Sub_category Nbc="18" Nb="1" Na="សណ្ឋគារ"/>
+<Sub_category Nbc="18" Nb="2" Na="ជួល"/>
+<Sub_category Nbc="18" Nb="3" Na="ទូរទស្សន៍"/>
+<Sub_category Nbc="18" Nb="4" Na="គ្រឿងសង្ហារឹម"/>
+<Sub_category Nbc="18" Nb="6" Na="កំដៅ"/>
+<Sub_category Nbc="18" Nb="7" Na="ការតុបតែងលម្អ"/>
+<Sub_category Nbc="18" Nb="8" Na="ទឹក"/>
+<Sub_category Nbc="18" Nb="9" Na="អគ្គិសនី"/>
+<Sub_category Nbc="18" Nb="11" Na="គ្រឿងបរិក្ខារ"/>
+<Sub_category Nbc="18" Nb="12" Na="ឧស្ម័ន"/>
+<Sub_category Nbc="18" Nb="13" Na="សួនច្បារ"/>
+<Sub_category Nbc="18" Nb="14" Na="អ្នកថែទាំបោសសំអាតផ្ទះ"/>
+<Sub_category Nbc="18" Nb="15" Na="ទូរស័ព្ទ"/>
+<Category Nb="19" Na="លំហែ"/>
+<Sub_category Nbc="19" Nb="2" Na="ប៊ូលីង ឬ កីឡាបោះប៊ូល"/>
+<Sub_category Nbc="19" Nb="3" Na="ភាពយន្ត"/>
+<Sub_category Nbc="19" Nb="4" Na="ក្លឹបរាត្រីកំសាន្ត"/>
+<Sub_category Nbc="19" Nb="5" Na="បច្ចេកវិទ្យា"/>
+<Sub_category Nbc="19" Nb="6" Na="ល្បែង ឬ​ ការប្រកួត"/>
+<Sub_category Nbc="19" Nb="7" Na="សៀវភៅ"/>
+<Sub_category Nbc="19" Nb="8" Na="ឧទ្យាន"/>
+<Sub_category Nbc="19" Nb="9" Na="ការប្រគុំតន្រ្តី"/>
+<Sub_category Nbc="19" Nb="10" Na="កីឡា"/>
+<Sub_category Nbc="19" Nb="12" Na="ការធ្វើដំណើរ"/>
+<Sub_category Nbc="19" Nb="13" Na="គ្រឿងបរិក្ខារ"/>
+<Sub_category Nbc="19" Nb="14" Na="សារមន្ទីរ / ការតាំងពិព័រណ៍"/>
+<Category Nb="20" Na="ប្រាក់កម្ចី/និក្ខេប"/>
+<Sub_category Nbc="20" Nb="1" Na="មូលធន"/>
+<Category Nb="21" Na="សុខភាព"/>
+<Sub_category Nbc="21" Nb="1" Na="ការធានារ៉ាប់រង"/>
+<Sub_category Nbc="21" Nb="2" Na="ពេទ្យធ្មេញ"/>
+<Sub_category Nbc="21" Nb="3" Na="មន្ទីរពេទ្យ"/>
+<Sub_category Nbc="21" Nb="5" Na="វេជ្ជបណ្ឌិត"/>
+<Sub_category Nbc="21" Nb="8" Na="អ្នកគីមី"/>
+<Sub_category Nbc="21" Nb="9" Na="សន្តិសុខសង្គម"/>
+<Category Nb="22" Na="រថយន្ត"/>
+<Sub_category Nbc="22" Nb="1" Na="ជាងកាត់សក់"/>
+<Sub_category Nbc="22" Nb="2" Na="សម្លៀកបំពាក់"/>
+<Category Nb="23" Na="ដឹកជញ្ជូន"/>
+<Sub_category Nbc="23" Nb="1" Na="រថយន្តក្រុង"/>
+<Sub_category Nbc="23" Nb="2" Na="រថភ្លើងក្រោមដី"/>
+<Sub_category Nbc="23" Nb="3" Na="ពន្ធចតឆ្លង"/>
+<Sub_category Nbc="23" Nb="4" Na="រថភ្លើង"/>
+<Sub_category Nbc="23" Nb="6" Na="ការធ្វើដំណើរ"/>
+<Sub_category Nbc="23" Nb="7" Na="ខ្យល់"/>
+<Sub_category Nbc="24" Nb="1" Na="លំនៅដ្ឋាន"/>
+<Sub_category Nbc="24" Nb="3" Na="ការធ្វើដំណើរ"/></Grisbi_categ>
