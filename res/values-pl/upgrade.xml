@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_118">
+    <item>Zmodernizowany Interfejs Użytkownika: Szuflada nawigacji i kontekstowy pasek akcji</item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Usprawniona obsługa planów: Z góry zastosowanie nadchodzących instancji</item>
     <item>Nowe tłumaczenia: Portugalski, Polski, Czeski</item>
@@ -30,29 +33,5 @@
   <string-array name="whats_new_93">
     <item>Plany na przyszłość i cykliczne transakcje</item>
     <item>Tłumaczenie w języku Khmer</item>
-  </string-array>
-  <string-array name="whats_new_84">
-    <item>Numer odniesienia (płatność czekiem)</item>
-    <item>Uruchom z launchera na listę kont</item>
-    <item>Zmień między okresami w widoku dystrybucji</item>
-    <item>Możliwość zmiany formatu daty dla eksportu QIF i CSV</item>
-    <item>Ulepszenia interfejsu użytkownika</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Oznakuj transakcje jako zrobione / uzgodnione (włączone dla kont bankowych i kart kredytowych)</item>
-    <item>Partie mogą być teraz edytowane</item>
-    <item>Tłumaczenie w języku węgierskim</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Dystrybucja transakcji według kategorii (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Poprawa błędu: Issue #69</item>
-    <item>Tłumaczenie w języku arabskim</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Grupowanie transakcji na dni, tygodnie, miesiące, lata i wyświetlanie sum dla każdej z grup</item>
-    <item>Odbiorca płatności jest wyświetlany na liście transakcji</item>
-    <item>Lista kont jest posortowana (domyślnie według częstotliwości użytkowania)</item>
   </string-array>
 </resources>

@@ -31,28 +31,4 @@
     <item>Plány pro budoucí a opakované transakce</item>
     <item>Khmerské¨ý překlad</item>
   </string-array>
-  <string-array name="whats_new_84">
-    <item>Referenční číslo (šek platby)</item>
-    <item>Začněte se seznamem účtů z výchozí obrazovky</item>
-    <item>Přejeďte mezi obdobími v zobrazení rozložení</item>
-    <item>Konfigurovatelné datum formátu QIF a CSV exportu</item>
-    <item>Vylepšení uživatelského rozhraní</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Označit transakce jako vymazané / vyřízené (povoleno pro bankovní účty a kreditní karty)</item>
-    <item>Strany lze nyní upravit</item>
-    <item>Maďarský překlad</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Rozdělení transakcí podle kategorií (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Oprava:chyba #69</item>
-    <item>Arabský překlad</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Skupina transakcí za den, týden, měsíc, rok a zobrazení součtu za skupinu</item>
-    <item>Příjemce se zobrazí v seznamu transakcí</item>
-    <item>Seznam účtů je seřazený (podle četnosti použití ve výchozím nastavení)</item>
-  </string-array>
 </resources>

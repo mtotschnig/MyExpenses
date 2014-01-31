@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_118">
+    <item>Modernisierte Benutzeroberfläche: Navigations-Schublade und kontextbezogene Aktionsleiste</item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Erweiterung der Einsatzmöglichkeit von Plänen: Zukünftige Termine können im Voraus in die Buchungsliste kopiert werden</item>
     <item>Neue Übersetzungen: Portugiesisch, Polnisch, Tschechisch</item>
@@ -45,29 +48,5 @@
   <string-array name="whats_new_93">
     <item>Pläne für zukünftige und wiederkehrende Ausgaben</item>
     <item>Khmer Übersetzung</item>
-  </string-array>
-	  <string-array name="whats_new_84">
-    <item>Referenznummer (Scheckzahlungen)</item>
-    <item>Vom Launcher aus direkt in die Kontoliste starten</item>
-    <item>Swipe zwischen den Perioden in der Verteilung</item>
-    <item>Datumsformat für QIF/CSV Export konfigurierbar</item>
-    <item>UI Verbesserungen</item>
-  </string-array>
-  <string-array name="whats_new_79">
-    <item>Buchungen (von Bankkonten und Kreditkarten) können als verrechnet / abgestimmt ausgezeichnet werden</item>
-    <item>Parteien können jetzt editiert werden</item>
-    <item>Ungarische Übersetzung</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Verteilung der Buchungen auf Kategorien (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Bug #69 behoben</item>
-    <item>Arabische Übersetzung</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen</item>
-    <item>Empfänger wird in Buchungsliste angezeigt</item>
-    <item>Kontenliste wird sortiert (standardmäßig nach Häufigkeit der Benutzung)</item>
   </string-array>
 </resources>
