@@ -140,11 +140,6 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
-    lv.setOnItemClickListener(new OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> a, View v,int position, long id) {
-      }
-    });
     return v;
   }
   @Override
