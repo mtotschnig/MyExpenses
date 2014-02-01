@@ -159,7 +159,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    */
   private static final String PAYEE_CREATE =
     "CREATE TABLE " + TABLE_PAYEES
-      + " (" + KEY_ROWID + " integer primary key autoincrement, name text unique not null);";
+      + " (" + KEY_ROWID + " integer primary key autoincrement, " + KEY_PAYEE_NAME
+          + " text unique not null);";
 
   private static final String CURRENCY_CREATE =
     "CREATE TABLE " + TABLE_CURRENCIES

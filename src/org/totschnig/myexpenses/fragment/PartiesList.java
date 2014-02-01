@@ -52,7 +52,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
       Bundle args = new Bundle();
       args.putLong("partyId", menuInfo.id);
       args.putString("dialogTitle", getString(R.string.menu_edit_party));
-      args.putString("value",((TextView) menuInfo.targetView.findViewById(android.R.id.text1)).getText().toString());
+      args.putString("value",mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)));
       EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "EDIT_PARTY");
       return true;
     }
@@ -120,7 +120,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     lv.setItemsCanFocus(false);
     //((TextView) findViewById(android.R.id.empty)).setText(R.string.no_parties);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"name"};
+    String[] from = new String[]{DatabaseConstants.KEY_PAYEE_NAME};
 
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{android.R.id.text1};
