@@ -521,14 +521,17 @@ public class MyExpenses extends LaunchActivity implements
       return true;
       case R.id.DELETE_ACCOUNT_COMMAND:
         mAccountsCursor.moveToPosition(mCurrentPosition);
-        MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_account,
-            getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
-            new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                mAccountsCursor.getLong(columnIndexRowId)), //we do not rely on mAccountId being in sync with mCurrentPosition
-            null,
-            MessageDialogFragment.Button.noButton())
-          .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        long accountId = mAccountsCursor.getLong(columnIndexRowId); //we do not rely on mAccountId being in sync with mCurrentPosition
+        if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_warning_delete_account,
+              getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
+              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+                  accountId),
+              null,
+              MessageDialogFragment.Button.noButton())
+            .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        }
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         FragmentManager fm = getSupportFragmentManager();
