@@ -72,7 +72,11 @@ public class ManageParties extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
-      Toast.makeText(ManageParties.this,getString(R.string.already_defined, mParty.name), Toast.LENGTH_LONG).show();
+      Toast.makeText(ManageParties.this,
+          getString(R.string.already_defined,
+              mParty != null ? mParty.name : ""),
+          Toast.LENGTH_LONG)
+        .show();
     }
     super.onPostExecute(result);
   }

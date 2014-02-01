@@ -173,8 +173,14 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     }
     @Override
     public void onPostExecute(Object result) {
-      if (result == null)
-        Toast.makeText(ManageCategories.this,getString(R.string.already_defined, mCategory.label), Toast.LENGTH_LONG).show();
+      if (result == null) {
+        Toast.makeText(ManageCategories.this,
+            getString(R.string.already_defined,
+                mCategory != null ? mCategory.label : ""),
+            Toast.LENGTH_LONG)
+          .show();
+      }
+      super.onPostExecute(result);
     }
     @Override
     public Model getObject() {
