@@ -391,7 +391,10 @@ public class ExpenseEdit extends AmountActivity implements
         timeRow.setVisibility(View.GONE);
     } else {
       if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-        ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(R.string.date) + " / " + getString(R.string.time));
+        TextView DateTimeLabelTv = (TextView) findViewById(R.id.DateTimeLabel);
+        if (DateTimeLabelTv != null) {
+          DateTimeLabelTv.setText(getString(R.string.date) + " / " + getString(R.string.time));
+        }
       }
       mDateButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
