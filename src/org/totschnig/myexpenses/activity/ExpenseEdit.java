@@ -71,7 +71,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -245,16 +244,15 @@ public class ExpenseEdit extends AmountActivity implements
       if (mRowId != 0) {
         taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION;
         objectId = mRowId;
-      }
-      else {
+      } else {
         objectId = mTemplateId;
         //are we editing the template or instantiating a new one
         if ((mPlanInstanceId = extras.getLong("instance_id")) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
           mPlanInstanceDate = extras.getLong("instance_date");
-        }
-        else
+        } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
+        }
       }
       FragmentManager fm = getSupportFragmentManager();
       if (fm.findFragmentByTag("ASYNC_TASK") == null) {
