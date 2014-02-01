@@ -344,17 +344,18 @@ public class MyExpenses extends LaunchActivity implements
     long accountId = 0;
     if (mAccountId < 0) {
       if (mAccountsCursor != null) {
-        mAccountsCursor.moveToFirst();
-        String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
-        while (mAccountsCursor.isAfterLast() == false) {
-          if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
-            accountId = mAccountsCursor.getLong(columnIndexRowId);
-            break;
+        Account a = Account.getInstanceFromDb(mAccountId);
+        if (a != null) {
+          mAccountsCursor.moveToFirst();
+          String currentCurrency = a.currency.getCurrencyCode();
+          while (mAccountsCursor.isAfterLast() == false) {
+            if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
+              accountId = mAccountsCursor.getLong(columnIndexRowId);
+              break;
+            }
+            mAccountsCursor.moveToNext();
           }
-          mAccountsCursor.moveToNext();
         }
-      } else {
-        accountId = 0;
       }
     } else {
       accountId = mAccountId;
