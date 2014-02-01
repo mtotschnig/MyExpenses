@@ -35,6 +35,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,11 +98,12 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     mMethodsCursor = null;
     mAdapter.swapCursor(null);
   }
-  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo info) {
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     switch(command) {
     case R.id.EDIT_COMMAND:
       Intent i = new Intent(getActivity(), MethodEdit.class);
-      i.putExtra(DatabaseConstants.KEY_ROWID, info.id);
+      i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
       startActivity(i);
       return true;
     }
