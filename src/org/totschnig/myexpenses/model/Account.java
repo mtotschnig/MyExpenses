@@ -388,7 +388,7 @@ public class Account extends Model  implements Serializable {
   }
   /**
    * @param id
-   * @return Accouht object, if id == 0, the first entry in the accounts cache will be returned or
+   * @return Account object, if id == 0, the first entry in the accounts cache will be returned or
    * if it is empty the account with the lowest id will be fetched from db,
    * if id < 0 we forward to AggregateAccount
    * @throws DataObjectNotFoundException
