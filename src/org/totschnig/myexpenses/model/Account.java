@@ -96,7 +96,7 @@ public class Account extends Model  implements Serializable {
         + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
         + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
         + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance";
-  PROJECTION_FULL = new String[baseLength+4];
+  PROJECTION_FULL = new String[baseLength+6];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
       + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income";
@@ -104,6 +104,8 @@ public class Account extends Model  implements Serializable {
       + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses";
   PROJECTION_FULL[baseLength+3] =     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
       + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer";
+  PROJECTION_FULL[baseLength+4] = KEY_USAGES;
+  PROJECTION_FULL[baseLength+5] = "0 AS is_aggregate";//this is needed in the union with the aggregates to sort real accounts first
   }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
