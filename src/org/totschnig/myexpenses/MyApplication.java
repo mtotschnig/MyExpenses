@@ -73,8 +73,8 @@ import android.widget.Toast;
     reportType = org.acra.sender.HttpSender.Type.JSON,
     httpMethod = org.acra.sender.HttpSender.Method.PUT,
     formUriBasicAuthLogin="thapponcedonventseliance",
-    formUriBasicAuthPassword="8xVV4Rw5SVpkhHFahqF1W3ww"
-    logcatArguments = { "-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S" }
+    formUriBasicAuthPassword="8xVV4Rw5SVpkhHFahqF1W3ww",
+    logcatArguments = { "-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S" },
     excludeMatchingSharedPreferencesKeys={"planner_calendar_path","password"}
     )
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
