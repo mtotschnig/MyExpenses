@@ -58,6 +58,7 @@ public class ContribFeature extends Model {
     }
     public void recordUsage() {
       if (!MyApplication.getInstance().isContribEnabled) {
+        //TODO strict mode background task
         ContentValues initialValues = new ContentValues();
         initialValues.put("feature", toString());
         cr().insert(CONTENT_URI, initialValues);
