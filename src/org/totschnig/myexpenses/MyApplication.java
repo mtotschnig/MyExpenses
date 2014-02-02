@@ -74,6 +74,8 @@ import android.widget.Toast;
     httpMethod = org.acra.sender.HttpSender.Method.PUT,
     formUriBasicAuthLogin="thapponcedonventseliance",
     formUriBasicAuthPassword="8xVV4Rw5SVpkhHFahqF1W3ww"
+    logcatArguments = { "-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S" }
+    excludeMatchingSharedPreferencesKeys={"planner_calendar_path","password"}
     )
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
     public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -157,6 +159,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onCreate() {
       super.onCreate();
       ACRA.init(this);
+      //ACRA.getErrorReporter().putCustomData("Distribution", "Google Play");
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
