@@ -24,8 +24,10 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -33,6 +35,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +49,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
   SimpleCursorAdapter mAdapter;
   private Cursor mMethodsCursor;
   
+  @SuppressLint("InlinedApi")
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.methods_list, null, false);
@@ -55,8 +59,15 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{android.R.id.text1};
     // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(getActivity(), 
-        android.R.layout.simple_list_item_1, null, from, to,0) {
+    mAdapter = new SimpleCursorAdapter(
+        getActivity(), 
+        Build.VERSION.SDK_INT >= 11 ?
+            android.R.layout.simple_list_item_activated_1 :
+            android.R.layout.simple_list_item_1,
+            null,
+            from,
+            to,
+            0) {
       @Override
       public void setViewText(TextView v, String text) {
         super.setViewText(v, PaymentMethod.getInstanceFromDb(Long.valueOf(text)).getDisplayLabel());
@@ -87,11 +98,12 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     mMethodsCursor = null;
     mAdapter.swapCursor(null);
   }
-  public boolean dispatchCommandSingle(int command, AdapterContextMenuInfo info) {
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     switch(command) {
     case R.id.EDIT_COMMAND:
       Intent i = new Intent(getActivity(), MethodEdit.class);
-      i.putExtra(DatabaseConstants.KEY_ROWID, info.id);
+      i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
       startActivity(i);
       return true;
     }

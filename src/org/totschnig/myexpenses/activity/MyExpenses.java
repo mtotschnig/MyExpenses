@@ -197,14 +197,18 @@ public class MyExpenses extends LaunchActivity implements
     /** Called when a drawer has settled in a completely closed state. */
     public void onDrawerClosed(View view) {
         super.onDrawerClosed(view);
-        getCurrentFragment().onDrawerClosed();
+        TransactionList tl = getCurrentFragment();
+        if (tl != null)
+          tl.onDrawerClosed();
         //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
     }
 
     /** Called when a drawer has settled in a completely open state. */
     public void onDrawerOpened(View drawerView) {
         super.onDrawerOpened(drawerView);
-        getCurrentFragment().onDrawerOpened();
+        TransactionList tl = getCurrentFragment();
+        if (tl != null)
+          tl.onDrawerOpened();
         //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
     }
 };
@@ -344,17 +348,18 @@ public class MyExpenses extends LaunchActivity implements
     long accountId = 0;
     if (mAccountId < 0) {
       if (mAccountsCursor != null) {
-        mAccountsCursor.moveToFirst();
-        String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
-        while (mAccountsCursor.isAfterLast() == false) {
-          if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
-            accountId = mAccountsCursor.getLong(columnIndexRowId);
-            break;
+        Account a = Account.getInstanceFromDb(mAccountId);
+        if (a != null) {
+          mAccountsCursor.moveToFirst();
+          String currentCurrency = a.currency.getCurrencyCode();
+          while (mAccountsCursor.isAfterLast() == false) {
+            if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
+              accountId = mAccountsCursor.getLong(columnIndexRowId);
+              break;
+            }
+            mAccountsCursor.moveToNext();
           }
-          mAccountsCursor.moveToNext();
         }
-      } else {
-        accountId = 0;
       }
     } else {
       accountId = mAccountId;
@@ -520,14 +525,17 @@ public class MyExpenses extends LaunchActivity implements
       return true;
       case R.id.DELETE_ACCOUNT_COMMAND:
         mAccountsCursor.moveToPosition(mCurrentPosition);
-        MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_account,
-            getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
-            new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                mAccountsCursor.getLong(columnIndexRowId)), //we do not rely on mAccountId being in sync with mCurrentPosition
-            null,
-            MessageDialogFragment.Button.noButton())
-          .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        long accountId = mAccountsCursor.getLong(columnIndexRowId); //we do not rely on mAccountId being in sync with mCurrentPosition
+        if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_warning_delete_account,
+              getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
+              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+                  accountId),
+              null,
+              MessageDialogFragment.Button.noButton())
+            .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        }
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         FragmentManager fm = getSupportFragmentManager();

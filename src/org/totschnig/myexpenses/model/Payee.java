@@ -33,7 +33,7 @@ public class Payee extends Model {
   }
   public static final String[] PROJECTION = new String[] {
     KEY_ROWID,
-    "name",
+    KEY_PAYEE_NAME,
     "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS mapped_transactions",
     "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS mapped_templates"
   };

@@ -536,7 +536,8 @@ public class TransactionProvider extends ContentProvider {
           new String[] {segment},
           null, null, null);
       c.moveToFirst();
-      String accountLabel = c.getString(0);
+      //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
+      String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
       c.close();
       ContentValues args = new ContentValues();
       args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));

@@ -93,7 +93,10 @@ public abstract class AmountActivity extends EditActivity {
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST) {
-      mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
+      try {
+        mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
+      } catch (NumberFormatException  e) {}
+        catch (IllegalArgumentException e) {}
     }
   }
 

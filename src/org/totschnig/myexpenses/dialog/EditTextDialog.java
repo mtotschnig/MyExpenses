@@ -71,15 +71,17 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
          (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN)) {
          // Return input text to activity
          EditTextDialogListener activity = (EditTextDialogListener) getActivity();
-         Bundle args = getArguments();
-         String result = mEditText.getText().toString();
-         if (result.equals(""))
-           Toast.makeText(getActivity(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
-         else {
-           args.putString("result", result);
-           activity.onFinishEditDialog(args);
-           this.dismiss();
-           return true;
+         if (activity != null) {
+           Bundle args = getArguments();
+           String result = mEditText.getText().toString();
+           if (result.equals(""))
+             Toast.makeText(getActivity(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
+           else {
+             args.putString("result", result);
+             activity.onFinishEditDialog(args);
+             this.dismiss();
+             return true;
+           }
          }
      }
      return false;
