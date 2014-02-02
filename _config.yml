@@ -66,6 +66,24 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
+    - 2.0
+    - 2014-01-31
+    -
+      en: |
+        Modernized UI: navigation drawer and contextual action bar.
+      fr: |
+        Interface d\'utilisateur modernisée : panneau de navigation et barre d\'action contextuelle.
+      de: |
+        Modernisierte Benutzeroberfläche: Navigationsleiste und kontextbezogene Aktionsleiste.
+      it: |
+        Interfaccia utente modernizzato: riquadro di navigazione e barra delle azioni contestuali.
+      es: |
+        Interfaz de usuario modernizada: control de navegación y barra de acción contextual.
+      tr: |
+        Modernleştirilmiş arayüz: tarama çekmecesi ve bağlamsal eylem çubuğu .
+      pl: |
+        Zmodernizowany Interfejs Użytkownika: Szuflada nawigacji i kontekstowy pasek akcji.
+  -
     - 1.11.5
     - 2014-01-12
     -
