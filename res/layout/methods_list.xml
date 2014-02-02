@@ -24,7 +24,9 @@
       android:layout_height="fill_parent"
       android:drawSelectorOnTop="false" />
   <TextView android:id="@+id/empty"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/no_accounts"/>
+      android:gravity="center"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:text="@string/no_methods"/>
 </LinearLayout>
