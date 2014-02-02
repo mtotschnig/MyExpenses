@@ -152,6 +152,8 @@ public class ExpenseEdit extends AmountActivity implements
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     mTypeButton = (Button) findViewById(R.id.TaType);
+    //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
+    mTypeButton.setEnabled(false);
     mCommentText = (EditText) findViewById(R.id.Comment);
     mTitleText = (EditText) findViewById(R.id.Title);
     mReferenceNumberText = (EditText) findViewById(R.id.Number);
@@ -1194,6 +1196,7 @@ public class ExpenseEdit extends AmountActivity implements
           mManager.initLoader(METHODS_CURSOR, null, this);
         }
       }
+      mTypeButton.setEnabled(true);
       configureType();
       configureStatusSpinner();
       break;
