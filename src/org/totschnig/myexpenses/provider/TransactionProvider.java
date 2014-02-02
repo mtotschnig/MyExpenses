@@ -262,10 +262,15 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
+      defaultOrderBy = (MyApplication.getInstance().getSettings()
+          .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
+              KEY_USAGES + " DESC, " : "")
+         + KEY_LABEL;
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
               "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
+        @SuppressWarnings("deprecation")
         String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
             null, null, null);
         qb.setTables("(SELECT _id,currency,opening_balance,"+
@@ -294,17 +299,20 @@ public class TransactionProvider extends ContentProvider {
             "'CASH' AS type",
             "1 AS transfer_enabled",
             "sum(current_balance) AS current_balance",
-            "sum(sum_income) AS sum_income", "sum(sum_expenses) AS sum_expenses", "0 AS sum_transfers"};
+            "sum(sum_income) AS sum_income",
+            "sum(sum_expenses) AS sum_expenses",
+            "0 AS sum_transfers",
+            "0 as usages",
+            "1 as is_aggregate"};
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
-        String sql = qb.buildUnionQuery(new String[] {accountSubquery,currencySubquery}, null, null);
+        String sql = qb.buildUnionQuery(
+            new String[] {accountSubquery,currencySubquery},
+            "is_aggregate,"+defaultOrderBy,//real accounts should come first, then aggregate accounts
+            null);
         c = db.rawQuery(sql, null);
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
       }
-      defaultOrderBy = (MyApplication.getInstance().getSettings()
-          .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
-              KEY_USAGES + " DESC, " : "")
-         + KEY_LABEL;
       if (uriMatch == ACCOUNTS_BASE || projection == null)
         projection = Account.PROJECTION_BASE;
       break;
