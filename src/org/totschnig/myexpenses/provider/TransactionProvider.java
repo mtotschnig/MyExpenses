@@ -65,6 +65,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
   public static final Uri PLAN_INSTANCE_STATUS_URI = 
       Uri.parse("content://" + AUTHORITY + "/planinstance_transaction/");
+  public static final Uri CURRENCIES_URI =
+      Uri.parse("content://" + AUTHORITY + "/currencies");
 
   
   static final String TAG = "TransactionProvider";
@@ -98,6 +100,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTIONS_SUMS = 24;
   private static final int TRANSACTION_MOVE = 25;
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
+  private static final int CURRENCY_ID = 27;
   
   @Override
   public boolean onCreate() {
@@ -416,6 +419,12 @@ public class TransactionProvider extends ContentProvider {
     case PLANINSTANCE_TRANSACTION_STATUS:
       qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
       break;
+    case CURRENCY_ID:
+      qb.setTables(TABLE_CURRENCIES);
+      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        projection = new String[]{"code"};
+      break;
+
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -824,6 +833,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
+    URI_MATCHER.addURI(AUTHORITY, "currencies/#", CURRENCY_ID);
   }
   public void resetDatabase() {
     mOpenHelper.close();

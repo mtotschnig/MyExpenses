@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,8 +28,8 @@ import org.totschnig.myexpenses.activity.Export;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -37,6 +38,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -57,6 +59,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   TextView warningTV;
   EditText dateFormatET;
   AlertDialog mDialog;
+  String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
   
   public static final ExportDialogFragment newInstance(Long accountId) {
@@ -84,9 +87,18 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     } else if (accountId < 0L) {
       allP = true;
       AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
-      if (aa == null)
-        throw new DataObjectNotFoundException(accountId);
-      warningText = getString(R.string.warning_reset_account_all," ("+aa.currency.getCurrencyCode()+")");
+      if (aa == null) {
+        //workaround, in certain circumstances, aggregate account is not in cache, we need to fetch the currency code
+        //from db
+        Cursor c = getActivity().getContentResolver().query(
+            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(String.valueOf(0-accountId)).build(),
+            null, null, null, null);
+        c.moveToFirst();
+        currency = c.getString(c.getColumnIndex("code"));
+      } else {
+        currency = aa.currency.getCurrencyCode();
+      }
+      warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
     } else {
       warningText = getString(R.string.warning_reset_account);
     }
@@ -171,14 +183,20 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
-      if (accountId == null)
+      i = new Intent(ctx, Export.class);
+      if (accountId == null) {
         Feature.RESET_ALL.recordUsage();
-      i = new Intent(ctx, Export.class)
-        .putExtra(KEY_ROWID, accountId)
-        .putExtra("format", format)
+      } else if (accountId>0) {
+        i.putExtra(KEY_ROWID, accountId);
+      } else {
+        Feature.RESET_ALL.recordUsage();
+        i.putExtra(KEY_CURRENCY, currency);
+      }
+      i.putExtra("format", format)
         .putExtra("deleteP", deleteP)
         .putExtra("notYetExportedP",notYetExportedP)
         .putExtra("dateFormat",dateFormat);
+
       ctx.startActivityForResult(i,0);
     } else {
       Toast.makeText(ctx,

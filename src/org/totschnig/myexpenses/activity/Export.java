@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,13 +88,10 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
     } else {
       String selection = null;
       String[] selectionArgs = null;
-      if (accountId < 0L) {
-        //aggregate account
-        AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
-        if (aa == null)
-          throw new DataObjectNotFoundException(accountId);
+      String currency = extras.getString(KEY_CURRENCY);
+      if (currency != null) {
         selection = DatabaseConstants.KEY_CURRENCY + " = ?";
-        selectionArgs = new String[]{aa.currency.getCurrencyCode()};
+        selectionArgs = new String[]{currency};
       }
       Cursor c = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {KEY_ROWID}, selection, selectionArgs, null);
