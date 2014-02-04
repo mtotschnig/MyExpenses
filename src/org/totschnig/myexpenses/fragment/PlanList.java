@@ -58,6 +58,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
@@ -288,6 +289,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     switch (id) {
     case TEMPLATES_CURSOR:
       long expandedId = ((ManageTemplates) getActivity()).calledFromCalendarWithId;
+      mExpandedPosition = -1;
       mTemplatesCursor = c;
       if (!indexesCalculated) {
         columnIndexRowId = c.getColumnIndex(KEY_ROWID);
@@ -327,6 +329,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             plans.add(planId);
           }
           mTemplatesCursor.moveToNext();
+        }
+        if (expandedId != 0 && mExpandedPosition == -1) {
+          Toast.makeText(getActivity(), R.string.save_transaction_template_deleted, Toast.LENGTH_LONG).show();
         }
         planBundle.putSerializable("plans", plans);
         if (mManager.getLoader(PLANS_CURSOR) != null && !mManager.getLoader(PLANS_CURSOR).isReset()) {
