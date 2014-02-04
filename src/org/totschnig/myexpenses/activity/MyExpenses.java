@@ -600,6 +600,7 @@ public class MyExpenses extends LaunchActivity implements
   public void contribFeatureCalled(Feature feature, Serializable tag) {
     switch(feature){
     case DISTRIBUTION:
+      Account a = Account.getInstanceFromDb(mAccountId);
       feature.recordUsage();
       Intent i = new Intent(this, ManageCategories.class);
       i.setAction("myexpenses.intent.distribution");
@@ -607,7 +608,7 @@ public class MyExpenses extends LaunchActivity implements
       if (tag != null) {
         int year = (int) ((Long)tag/1000);
         int groupingSecond = (int) ((Long)tag % 1000);
-        i.putExtra("grouping", Account.getInstanceFromDb(mAccountId).grouping);
+        i.putExtra("grouping", a!= null ? a.grouping : Grouping.NONE);
         i.putExtra("groupingYear",year);
         i.putExtra("groupingSecond", groupingSecond);
       } else {
