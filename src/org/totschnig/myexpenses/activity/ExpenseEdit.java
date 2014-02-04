@@ -708,6 +708,9 @@ public class ExpenseEdit extends AmountActivity implements
     String title = "";
     BigDecimal amount = validateAmountInput(true);
     Account account = mAccounts[mAccountSpinner.getSelectedItemPosition()];
+    //account cursor not yet loaded
+    if (account == null)
+      return false;
     if (amount == null) {
       //Toast is shown in validateAmountInput
       validP = false;
