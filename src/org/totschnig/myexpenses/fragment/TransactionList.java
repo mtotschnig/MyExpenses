@@ -174,6 +174,10 @@ public class TransactionList extends BudgetListFragment implements
   }
   private void restartGroupingLoader() {
     mGroupingCursor = null;
+    if (mManager == null) {
+      //can happen after an orientation change in ExportDialogFragment, when resetting multiple accounts
+      mManager = getLoaderManager();
+    }
     if (mManager.getLoader(GROUPING_CURSOR) != null && !mManager.getLoader(GROUPING_CURSOR).isReset())
       mManager.restartLoader(GROUPING_CURSOR, null, this);
     else
