@@ -100,9 +100,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
+          ContextualActionBarFragment f =
           ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-              mSectionsPagerAdapter.getFragmentName(mCurrentPosition)))
-              .finishActionMode();
+              mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
+          if (f!=null) {
+            f.finishActionMode();
+          }
           actionBar.setSelectedNavigationItem(position);
           mCurrentPosition = position;
           helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
@@ -120,7 +123,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
-      actionBar.setSelectedNavigationItem(1);
+      mViewPager.setCurrentItem(1);
     }
     helpVariant = HelpVariant.templates;
   }
