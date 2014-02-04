@@ -95,28 +95,26 @@ def main():
   toTopLeft()
   down()
   right()
-  enter()
+  enter() #plans tab
   sleep(2)
   down()
-  enter()
-  sleep(2)
-  down()#apply first instance
-  device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
-  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
-  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
-  sleep()
-  enter()
-  sleep()
-  down()#cancel second instance
+  enter() #openinstances
   down()
-  device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
-  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
-  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
+  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN) # open CAB
   sleep()
-  down()
-  down()
-  enter()
+  up()
+  up()
+  up()
+  left()
+  enter() #apply instance
   sleep()
+  for _ in range(8):
+    down()
+  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN) # open CAB
+  sleep()
+  for _ in range(8):
+    up()
+  enter() #cancel instance
   snapshot("plans")
   
   #5 ExportAndReset
@@ -153,7 +151,7 @@ def main():
   
   #8 Distribution
   back()
-  menu(3)
+  menu(1)
   right()
   enter()
   down()
@@ -166,13 +164,13 @@ def main():
   
   #9 Backup
   back()
-  menu(4)
+  menu(7)
   if lang == 'de':
-    distance = 19
-  elif lang == 'zh':
-    distance = 17
-  else:
     distance = 18
+  elif lang == 'zh':
+    distance = 16
+  else:
+    distance = 17
   for _ in range(distance):
     down()
   enter()
@@ -181,13 +179,13 @@ def main():
   #10 Password
   back()
   back()
-  menu(4)
+  menu(7)
   if lang == 'de':
-    distance = 26
-  elif lang == 'zh':
-    distance = 24
-  else:
     distance = 25
+  elif lang == 'zh':
+    distance = 23
+  else:
+    distance = 24
   for _ in range(distance):
     down()
   enter()
@@ -197,7 +195,7 @@ def main():
   #10 Light Theme
   back()
   back()
-  menu(4)
+  menu(7)
   for _ in range(5):
     down()
   enter()
@@ -207,7 +205,7 @@ def main():
   snapshot("light_theme")
   
   #11 Help
-  menu(5)
+  menu(8)
   snapshot("help")
   finalize()
 
