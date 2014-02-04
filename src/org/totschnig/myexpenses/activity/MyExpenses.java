@@ -467,9 +467,11 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.EDIT_ACCOUNT_COMMAND:
-      i = new Intent(this, AccountEdit.class);
-      i.putExtra(KEY_ROWID, mAccountId);
-      startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+      if (mAccountId >0) {
+        i = new Intent(this, AccountEdit.class);
+        i.putExtra(KEY_ROWID, mAccountId);
+        startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+      }
       return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
