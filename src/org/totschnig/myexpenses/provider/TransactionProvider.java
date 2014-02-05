@@ -43,6 +43,8 @@ public class TransactionProvider extends ContentProvider {
   //hence we access it through a different URI
   public static final Uri ACCOUNTS_BASE_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts/base");
+  public static final Uri ACCOUNTS_AGGREGATE_URI =
+      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
   public static final Uri UNCOMMITTED_URI =
@@ -79,7 +81,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNTS = 4;
   private static final int ACCOUNTS_BASE = 5;
   private static final int ACCOUNT_ID = 6;
-  //private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
   private static final int METHODS = 8;
   private static final int METHOD_ID = 9;
@@ -93,14 +94,14 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES_INCREASE_USAGE = 17;
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
-  //private static final int AGGREGATES_COUNT = 20;
+  private static final int AGGREGATE_ID = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
   private static final int ACCOUNT_INCREASE_USAGE = 23;
   private static final int TRANSACTIONS_SUMS = 24;
   private static final int TRANSACTION_MOVE = 25;
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
-  private static final int CURRENCY_ID = 27;
+  private static final int CURRENCIES = 27;
   
   @Override
   public boolean onCreate() {
@@ -319,6 +320,21 @@ public class TransactionProvider extends ContentProvider {
       if (uriMatch == ACCOUNTS_BASE || projection == null)
         projection = Account.PROJECTION_BASE;
       break;
+    case AGGREGATE_ID:
+      String currencyId = uri.getPathSegments().get(2);
+      qb.setTables(TABLE_CURRENCIES);
+      projection = new String[] {
+          "0 - _id  AS _id",//we use negative ids for aggregate accounts
+          KEY_CODE + " AS label",
+          "'' AS description",
+          "(select sum(opening_balance) from accounts where currency = code) AS opening_balance",
+          KEY_CODE + " AS currency",
+          "-1 AS color",
+          "'NONE' AS grouping",
+          "'CASH' AS type",
+          "1 AS transfer_enabled"};
+      qb.appendWhere(KEY_ROWID + "=" + currencyId);
+      break;
     case ACCOUNT_ID:
       qb.setTables(TABLE_ACCOUNTS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
@@ -419,10 +435,9 @@ public class TransactionProvider extends ContentProvider {
     case PLANINSTANCE_TRANSACTION_STATUS:
       qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
       break;
-    case CURRENCY_ID:
+    //only called from unit test
+    case CURRENCIES:
       qb.setTables(TABLE_CURRENCIES);
-      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-        projection = new String[]{"code"};
       break;
 
     default:
@@ -833,7 +848,8 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
-    URI_MATCHER.addURI(AUTHORITY, "currencies/#", CURRENCY_ID);
+    URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#",AGGREGATE_ID);
   }
   public void resetDatabase() {
     mOpenHelper.close();

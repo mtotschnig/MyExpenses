@@ -48,6 +48,7 @@ public class DatabaseConstants {
   public static final String KEY_PLAN_EXECUTION = "plan_execution";
   public static final String KEY_TEMPLATEID = "template_id";
   public static final String KEY_INSTANCEID = "instance_id";
+  public static final String KEY_CODE = "code";
   /**
    * transaction that already has been exported
    */

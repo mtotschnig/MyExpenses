@@ -164,7 +164,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String CURRENCY_CREATE =
     "CREATE TABLE " + TABLE_CURRENCIES
-      + " (" + KEY_ROWID  + " integer primary key autoincrement, code text unique not null);";
+      + " (" + KEY_ROWID  + " integer primary key autoincrement, " + KEY_CODE
+          + " text unique not null);";
 
   /**
    * in this table we store links between plan instances and transactions,

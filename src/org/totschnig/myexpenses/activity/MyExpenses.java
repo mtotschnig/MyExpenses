@@ -409,7 +409,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
-        AggregateAccount.getCachedInstance(mAccountId).persistGrouping(value);
+        AggregateAccount.getInstanceFromDB(mAccountId).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
         Account account = Account.getInstanceFromDb(mAccountId);
@@ -571,19 +571,13 @@ public class MyExpenses extends LaunchActivity implements
     public Fragment getItem(Context context, Cursor cursor) {
       Account account;
       long accountId = cursor.getLong(columnIndexRowId);
-      if (accountId < 0) {
-        account = AggregateAccount.getCachedInstance(accountId);
-        if (account == null)
-          account = new AggregateAccount(cursor);
-      } else {
       if (Account.isInstanceCached(accountId))
         account = Account.getInstanceFromDb(accountId);
-        else
-        account = new Account(cursor);
+        else {
+          account = (accountId < 0) ? new AggregateAccount(cursor) : new Account(cursor);
       }
       return TransactionList.newInstance(account);
     }
-
   }
   @Override
   public void onPageSelected(int position) {

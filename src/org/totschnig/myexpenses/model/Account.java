@@ -397,7 +397,7 @@ public class Account extends Model  implements Serializable {
    */
   public static Account getInstanceFromDb(long id) throws DataObjectNotFoundException {
     if (id < 0)
-      return AggregateAccount.getCachedInstance(id);
+      return AggregateAccount.getInstanceFromDB(id);
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
@@ -501,6 +501,7 @@ public class Account extends Model  implements Serializable {
       this.grouping = Grouping.NONE;
     }
     try {
+      //TODO ???
       this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
@@ -561,9 +562,7 @@ public class Account extends Model  implements Serializable {
     if (accountId != null) {
       if (accountId < 0L) {
         //aggregate account
-        AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
-        if (aa == null)
-          throw new DataObjectNotFoundException(accountId);
+        AggregateAccount aa = AggregateAccount.getInstanceFromDB(accountId);
         selection = KEY_ACCOUNTID +  " IN " +
             "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
         selectionArgs = new String[]{aa.currency.getCurrencyCode()};

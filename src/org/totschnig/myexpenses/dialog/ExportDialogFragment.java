@@ -86,18 +86,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       warningText = getString(R.string.warning_reset_account_all);
     } else if (accountId < 0L) {
       allP = true;
-      AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
-      if (aa == null) {
-        //workaround, in certain circumstances, aggregate account is not in cache, we need to fetch the currency code
-        //from db
-        Cursor c = getActivity().getContentResolver().query(
-            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(String.valueOf(0-accountId)).build(),
-            null, null, null, null);
-        c.moveToFirst();
-        currency = c.getString(c.getColumnIndex("code"));
-      } else {
-        currency = aa.currency.getCurrencyCode();
-      }
+      AggregateAccount aa = AggregateAccount.getInstanceFromDB(accountId);
+      currency = aa.currency.getCurrencyCode();
       warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
     } else {
       warningText = getString(R.string.warning_reset_account);
