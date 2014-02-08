@@ -250,7 +250,7 @@ public class MyExpenses extends LaunchActivity implements
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
           TransactionDetailFragment.newInstance(idFromNotification)
-              .show(getSupportFragmentManager(), "TRANSACTION_DETAIL");
+              .show(fm, "TRANSACTION_DETAIL");
           getIntent().removeExtra("transaction_id");
         }
       }

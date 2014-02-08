@@ -226,8 +226,8 @@ public class TransactionList extends BudgetListFragment implements
          DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
          if (f == null) {
            f = TransactionDetailFragment.newInstance(id);
+           f.show(fm, "TRANSACTION_DETAIL");
          }
-         f.show(fm, "TRANSACTION_DETAIL");
        }
     });
     registerForContextualActionBar(mListView.getWrappedList());
