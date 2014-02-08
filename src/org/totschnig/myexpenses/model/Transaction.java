@@ -316,6 +316,8 @@ public class Transaction extends Model {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
+      if (uri==null)
+        return null;
       id = ContentUris.parseId(uri);
       if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
         cr().update(

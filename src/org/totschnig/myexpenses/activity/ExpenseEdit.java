@@ -1049,12 +1049,16 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onPostExecute(Object result) {
     Long sequenceCount = (Long) result;
-    if (sequenceCount == -1L && mTransaction instanceof Template) {
-      //for the moment, the only case where saving will fail
-      //if the unique constraint for template titles is violated
-      //TODO: we should probably validate the title earlier
-      mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
-      mCreateNew = false;
+    if (sequenceCount == -1L) {
+      if (mTransaction instanceof Template) {
+        //for the moment, the only case where saving will fail
+        //if the unique constraint for template titles is violated
+        //TODO: we should probably validate the title earlier
+        mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
+        mCreateNew = false;
+      } else {
+        Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
+      }
     } else {
       if (mCreateNew) {
         mCreateNew = false;
