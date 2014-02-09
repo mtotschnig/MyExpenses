@@ -581,10 +581,12 @@ public class TransactionList extends BudgetListFragment implements
         colorAccount.setLayoutParams(
             new LayoutParams(4, LayoutParams.FILL_PARENT));
       }
+      TextView tv = (TextView) v.findViewById(R.id.date);
       if (mAccount.grouping.equals(Grouping.DAY)) {
-        TextView tv = (TextView) v.findViewById(R.id.date);
         TextPaint paint = tv.getPaint();
         tv.setWidth((int) paint.measureText(measureTimeString)+2);
+      } else {
+        tv.setEms(3);
       }
       v.setTag(holder);
       return v;
