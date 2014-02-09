@@ -93,6 +93,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
               null),
             "ASYNC_TASK")
           .commit();
+        return true;
       }
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
         String message = "";
@@ -108,7 +109,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
               mappedTemplatesCount);
         Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
       }
-      return true;
+      break;
     }
     return super.dispatchCommandMultiple(command, positions,itemIds);
   }

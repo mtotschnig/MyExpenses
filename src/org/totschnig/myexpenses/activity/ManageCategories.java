@@ -119,6 +119,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
         .commit();
+      case R.id.CANCEL_CALLBACK_COMMAND:
+        finishActionMode();
+        return true;
       }
       return super.dispatchCommand(command, tag);
      }
@@ -170,7 +173,13 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
         .commit();
+      finishActionMode();
     }
+    private void finishActionMode() {
+      if (mListFragment != null)
+        mListFragment.finishActionMode();
+    }
+
     @Override
     public void onPostExecute(Object result) {
       if (result == null) {

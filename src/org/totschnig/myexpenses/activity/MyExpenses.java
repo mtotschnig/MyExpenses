@@ -552,6 +552,9 @@ public class MyExpenses extends LaunchActivity implements
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.menu_share)));
         return true;
+      case R.id.CANCEL_CALLBACK_COMMAND:
+        finishActionMode();
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -581,6 +584,11 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onPageSelected(int position) {
+    finishActionMode();
+    mCurrentPosition = position;
+    setCurrentAccount(position);
+  }
+  public void finishActionMode() {
     if (mCurrentPosition != -1 && Build.VERSION.SDK_INT >= 11) {
       ContextualActionBarFragment f = 
       (ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
@@ -588,8 +596,6 @@ public class MyExpenses extends LaunchActivity implements
       if (f != null)
         f.finishActionMode();
     }
-    mCurrentPosition = position;
-    setCurrentAccount(position);
   }
   @SuppressWarnings("incomplete-switch")
   @Override
@@ -713,6 +719,7 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
     }
+    finishActionMode();
   }
   @Override
   public void onPreExecute() {

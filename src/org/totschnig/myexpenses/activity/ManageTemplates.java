@@ -100,12 +100,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-          ContextualActionBarFragment f =
-          ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-              mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
-          if (f!=null) {
-            f.finishActionMode();
-          }
+          finishActionMode();
           actionBar.setSelectedNavigationItem(position);
           mCurrentPosition = position;
           helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
@@ -160,11 +155,15 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         .commit();
       return true;
     case R.id.EDIT_COMMAND:
+      finishActionMode();
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra("template_id",((Long)tag));
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
+      return true;
+    case R.id.CANCEL_CALLBACK_COMMAND:
+      finishActionMode();
       return true;
     }
     return super.dispatchCommand(command, tag);
@@ -228,5 +227,13 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         ((PlanList) getSupportFragmentManager().findFragmentByTag(
             mSectionsPagerAdapter.getFragmentName(1)))
           .newPlanEnabled;
+  }
+  public void finishActionMode() {
+    ContextualActionBarFragment f =
+    ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
+    if (f!=null) {
+      f.finishActionMode();
+    }
   }
 }

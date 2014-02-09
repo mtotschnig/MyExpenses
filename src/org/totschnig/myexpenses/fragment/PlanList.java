@@ -127,7 +127,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       i = new Intent(getActivity(), ExpenseEdit.class);
       i.putExtra(KEY_ROWID, transactionId);
       startActivity(i);
-      return true;
+      break;
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       int group = ExpandableListView.getPackedPositionGroup(menuInfo.packedPosition),
         child = ExpandableListView.getPackedPositionChild(menuInfo.packedPosition);
@@ -138,8 +138,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       i.putExtra("instance_id", menuInfo.id);
       i.putExtra("instance_date", date);
       startActivityForResult(i,0);
-      return true;
+      break;
     }
+    //super is handling deactivation of mActionMode
     return super.dispatchCommandSingle(command, info);
   }
   @Override
@@ -158,7 +159,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
               R.id.DELETE_COMMAND_DO,
               itemIds),
           null,
-          MessageDialogFragment.Button.noButton())
+          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
@@ -186,7 +187,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           extra2dAL.toArray(new Long[extra2dAL.size()][2])),
         "ASYNC_TASK")
       .commit();
-    return true;
+    break;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
       for (int i=0; i<positions.size(); i++) {
         if (positions.valueAt(i)) {
@@ -207,7 +208,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             extra2dAL.toArray(new Long[extra2dAL.size()][2])),
           "ASYNC_TASK")
         .commit();
-      return true;
+      break;
     case R.id.RESET_PLAN_INSTANCE_COMMAND:
       Long[] extra = new Long[checkedItemCount];
       for (int i=0; i<itemIds.length; i++) {
@@ -222,9 +223,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           extra),
         "ASYNC_TASK")
       .commit();
-      return true;
+      break;
     }
-    return false;
+    return super.dispatchCommandMultiple(command, positions, itemIds);
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {

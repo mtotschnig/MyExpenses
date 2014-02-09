@@ -247,14 +247,15 @@ public class TransactionList extends BudgetListFragment implements
               R.id.DELETE_COMMAND_DO,
               itemIds),
           null,
-          MessageDialogFragment.Button.noButton())
+          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
         .show(fm,"DELETE_TRANSACTION");
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,itemIds, null), "ASYNC_TASK")
         .commit();
-      return true;
+      break;
+      //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
@@ -273,7 +274,8 @@ public class TransactionList extends BudgetListFragment implements
         i.putExtra("transferEnabled",ctx.transferEnabled());
         ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       }
-      return true;
+      //super is handling deactivation of mActionMode
+      break;
     case R.id.CREATE_TEMPLATE_COMMAND:
       Bundle args = new Bundle();
       args.putLong("transactionId", acmi.id);
