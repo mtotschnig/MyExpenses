@@ -443,17 +443,19 @@ public class TransactionList extends BudgetListFragment implements
     @SuppressWarnings("incomplete-switch")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      HeaderViewHolder holder = new HeaderViewHolder();
+      HeaderViewHolder holder;
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.header, parent, false);
+        holder = new HeaderViewHolder();
         holder.text = (TextView) convertView.findViewById(R.id.text);
         holder.sumExpense = (TextView) convertView.findViewById(R.id.sum_expense);
         holder.sumIncome = (TextView) convertView.findViewById(R.id.sum_income);
         holder.sumTransfer = (TextView) convertView.findViewById(R.id.sum_transfer);
         holder.interimBalance = (TextView) convertView.findViewById(R.id.interim_balance);
         convertView.setTag(holder);
-      } else
+      } else {
         holder = (HeaderViewHolder) convertView.getTag();
+      }
 
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -564,16 +566,27 @@ public class TransactionList extends BudgetListFragment implements
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
       View v= super.newView(context, cursor, parent);
-      if (mAccount.type.equals(Type.CASH))
-        v.findViewById(R.id.colorContainer).setVisibility(View.GONE);
-      if (mAccount.id < 0)
-        v.findViewById(R.id.colorAccount).setLayoutParams(
+      ViewHolder holder = new ViewHolder();
+      View colorContainer = v.findViewById(R.id.colorContainer);
+      View colorAccount = v.findViewById(R.id.colorAccount);
+      holder.colorContainer = colorContainer;
+      holder.colorAccount = colorAccount;
+      holder.amount = (TextView) v.findViewById(R.id.amount);
+      holder.category = (TextView) v.findViewById(R.id.category);
+      holder.color1 = v.findViewById(R.id.color1);
+      if (mAccount.type.equals(Type.CASH)) {
+        colorContainer.setVisibility(View.GONE);
+      }
+      if (mAccount.id < 0) {
+        colorAccount.setLayoutParams(
             new LayoutParams(4, LayoutParams.FILL_PARENT));
+      }
       if (mAccount.grouping.equals(Grouping.DAY)) {
         TextView tv = (TextView) v.findViewById(R.id.date);
         TextPaint paint = tv.getPaint();
         tv.setWidth((int) paint.measureText(measureTimeString)+2);
       }
+      v.setTag(holder);
       return v;
   }
     /* (non-Javadoc)
@@ -599,13 +612,13 @@ public class TransactionList extends BudgetListFragment implements
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       convertView=super.getView(position, convertView, parent);
-
-      TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
+      ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+      TextView tv1 = viewHolder.amount;
       Cursor c = getCursor();
       c.moveToPosition(position);
       if (mAccount.id <0) {
         int color = c.getInt(c.getColumnIndex("color"));
-        convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
+        viewHolder.colorAccount.setBackgroundColor(color);
       }
       long amount = c.getLong(columnIndexAmount);
       if (amount < 0) {
@@ -615,7 +628,7 @@ public class TransactionList extends BudgetListFragment implements
       else {
         tv1.setTextColor(colorIncome);
       }
-      TextView tv2 = (TextView)convertView.findViewById(R.id.category);
+      TextView tv2 = viewHolder.category;
       CharSequence catText = tv2.getText();
       if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
@@ -657,8 +670,8 @@ public class TransactionList extends BudgetListFragment implements
         } catch (IllegalArgumentException ex) {
           status = CrStatus.UNRECONCILED;
         }
-        convertView.findViewById(R.id.color1).setBackgroundColor(status.color);
-        convertView.findViewById(R.id.colorContainer).setTag(getItemId(position));
+        viewHolder.color1.setBackgroundColor(status.color);
+        viewHolder.colorContainer.setTag(getItemId(position));
       }
       return convertView;
     }
@@ -669,6 +682,13 @@ public class TransactionList extends BudgetListFragment implements
     TextView sumIncome;
     TextView sumExpense;
     TextView sumTransfer;
+  }
+  class ViewHolder {
+    TextView amount;
+    View colorAccount;
+    TextView category;
+    View color1;
+    View colorContainer;
   }
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
