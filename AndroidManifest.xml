@@ -16,8 +16,8 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="122"
-    android:versionName="2.0.0.4"
+    android:versionCode="123"
+    android:versionName="2.0.1"
     android:installLocation="auto"
 >
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18"></uses-sdk>

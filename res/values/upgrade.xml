@@ -18,17 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_122">
-    <item>Further minor improvements</item>
-  </string-array>
-  <string-array name="whats_new_121">
-    <item>Improved stability</item>
-  </string-array>
-  <string-array name="whats_new_120">
-    <item>Fixed crash on Eclair and Froyo</item>
-  </string-array>
-  <string-array name="whats_new_119">
-    <item>Fixed crash during startup on some devices</item>
+  <string-array name="whats_new_123">
+    <item>UI improvements: #115,#117,#120,#122</item>
   </string-array>
   <string-array name="whats_new_118">
     <item>Modernized UI: navigation drawer and contextual action bar</item>
