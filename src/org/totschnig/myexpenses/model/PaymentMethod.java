@@ -52,7 +52,6 @@ public class PaymentMethod extends Model {
    * array of account types for which this payment method is applicable
    */
   private ArrayList<Account.Type> accountTypes = new ArrayList<Account.Type>();
-  public PreDefined predef;
   
   public enum PreDefined {
     CHEQUE(-1,true),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);
@@ -79,11 +78,6 @@ public class PaymentMethod extends Model {
     this.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
     this.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
     c.close();
-    try {
-      predef = PreDefined.valueOf(this.label);
-    } catch (IllegalArgumentException ex) { 
-      predef = null;
-    }
     c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
         new String[] {KEY_TYPE}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
@@ -124,37 +118,24 @@ public class PaymentMethod extends Model {
     return label;
   }
   public void setLabel(String label) {
-    if (predef != null) {
-      throw new UnsupportedOperationException();
-    }
     this.label = label;
   }
   //TODO we should not need to instantiate the methods
   //to get their display label
   //move all calls from the instance method to the static metod
   public String getDisplayLabel() {
-    Context ctx = MyApplication.getInstance();
-    if (predef == null)
-      return label;
-    switch (predef) {
-    case CHEQUE: return ctx.getString(R.string.pm_cheque);
-    case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
-    case DEPOSIT: return ctx.getString(R.string.pm_deposit);
-    case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
-    }
-    return label;
+    return PaymentMethod.getDisplayLabel(label);
   }
   public static String getDisplayLabel(String label) {
     Context ctx = MyApplication.getInstance();
-    try {
-      switch (PreDefined.valueOf(label)) {
-      case CHEQUE: return ctx.getString(R.string.pm_cheque);
-      case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
-      case DEPOSIT: return ctx.getString(R.string.pm_deposit);
-      case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
-      }
-    } catch (IllegalArgumentException ex) {
-    }
+    if (label.equals("CHEQUE"))
+      return ctx.getString(R.string.pm_cheque);
+    if (label.equals("CREDITCARD"))
+      return ctx.getString(R.string.pm_creditcard);
+    if (label.equals("DEPOSIT"))
+      return ctx.getString(R.string.pm_deposit);
+    if (label.equals("DIRECTDEBIT"))
+      return ctx.getString(R.string.pm_directdebit);
     return label;
   }
   static HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
