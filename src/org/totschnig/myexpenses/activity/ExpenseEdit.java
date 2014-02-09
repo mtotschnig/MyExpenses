@@ -974,6 +974,11 @@ public class ExpenseEdit extends AmountActivity implements
       }
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
+      if (o==null) {
+        Toast.makeText(this, "Object has been deleted from db",Toast.LENGTH_LONG).show();
+        finish();
+        return;
+      }
       mTransaction = (Transaction) o;
       if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
         if (mPlanInstanceId > 0L) {

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -143,6 +144,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
               idList.toArray(new Long[idList.size()]),
               null),
             "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
           .commit();
         return true;
       }

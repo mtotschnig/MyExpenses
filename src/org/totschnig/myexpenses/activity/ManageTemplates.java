@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
@@ -152,6 +152,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
             (Long[])tag,
             null),
           "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
         .commit();
       return true;
     case R.id.EDIT_COMMAND:

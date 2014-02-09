@@ -204,13 +204,16 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_NEW_FROM_TEMPLATE:
         for (int i=0; i<ids.length; i++) {
           t = Transaction.getInstanceFromTemplate(ids[i]);
-          if (mExtra != null) {
-            extraInfo2d = (Long[][]) mExtra;
-            t.setDate(new Date(extraInfo2d[i][1]));
-            t.originPlanInstanceId = extraInfo2d[i][0];
+          if (t != null) {
+            if (mExtra != null) {
+              extraInfo2d = (Long[][]) mExtra;
+              t.setDate(new Date(extraInfo2d[i][1]));
+              t.originPlanInstanceId = extraInfo2d[i][0];
+            }
+            if (t.save()!=null) {
+              successCount++;
+            }
           }
-          if (t.save()!=null)
-            successCount++;
         }
         return successCount;
       case TASK_REQUIRE_ACCOUNT:
