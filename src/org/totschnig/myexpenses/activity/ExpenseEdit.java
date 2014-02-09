@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -108,8 +109,10 @@ public class ExpenseEdit extends AmountActivity implements
   private Long mTemplateId;
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
-  private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
-      getDateInstance(java.text.DateFormat.FULL);
+  private final java.text.DateFormat mDateFormat = DateFormat.getDateInstance(
+      DateFormat.FULL);
+  private final java.text.DateFormat mTimeFormat = DateFormat.getTimeInstance(
+      DateFormat.SHORT);
   private Long mCatId = null, mPlanId = null, mMethodId = null,
       mAccountId = null, mTransferAccountId;
   private String mLabel;
@@ -601,7 +604,7 @@ public class ExpenseEdit extends AmountActivity implements
           mTimeSetListener,
           mCalendar.get(Calendar.HOUR_OF_DAY),
           mCalendar.get(Calendar.MINUTE),
-          true
+          android.text.format.DateFormat.is24HourFormat(this)
       );
     }
     return null;
@@ -664,14 +667,14 @@ public class ExpenseEdit extends AmountActivity implements
    * sets date on date button
    */
   private void setDate() {
-    mDateButton.setText(mTitleDateFormat.format(mCalendar.getTime()));
+    mDateButton.setText(mDateFormat.format(mCalendar.getTime()));
   }
 
   /**
    * sets time on time button
    */
   private void setTime() {
-    mTimeButton.setText(pad(mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" + pad(mCalendar.get(Calendar.MINUTE)));
+    mTimeButton.setText(mTimeFormat.format(mCalendar.getTime()));
   }
   /**
    * helper for padding integer values smaller than 10 with 0

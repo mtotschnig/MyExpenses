@@ -19,12 +19,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -61,6 +61,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
@@ -74,7 +75,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -158,7 +158,8 @@ public class TransactionList extends BudgetListFragment implements
   private void setGrouping() {
     switch (mAccount.grouping) {
     case DAY:
-      itemDateFormat = new SimpleDateFormat("HH:mm");
+      itemDateFormat = DateFormat.getTimeInstance(
+          DateFormat.SHORT);
       break;
     case MONTH:
       itemDateFormat = new SimpleDateFormat("dd");
@@ -549,10 +550,16 @@ public class TransactionList extends BudgetListFragment implements
   public class MyAdapter extends SimpleCursorAdapter {
     String categorySeparator = " : ",
         commentSeparator = " / ";
+    String measureTimeString;
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.HOUR_OF_DAY, 23);
+      cal.set(Calendar.MINUTE,59);
+      measureTimeString = DateFormat.getTimeInstance(
+          DateFormat.SHORT).format(cal.getTime());
     }
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -562,6 +569,11 @@ public class TransactionList extends BudgetListFragment implements
       if (mAccount.id < 0)
         v.findViewById(R.id.colorAccount).setLayoutParams(
             new LayoutParams(4, LayoutParams.FILL_PARENT));
+      if (mAccount.grouping.equals(Grouping.DAY)) {
+        TextView tv = (TextView) v.findViewById(R.id.date);
+        TextPaint paint = tv.getPaint();
+        tv.setWidth((int) paint.measureText(measureTimeString)+2);
+      }
       return v;
   }
     /* (non-Javadoc)
