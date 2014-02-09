@@ -226,12 +226,6 @@ public class TaskExecutionFragment extends Fragment {
         }
       return account;
       case TASK_DELETE_TRANSACTION:
-        try {
-          Thread.sleep(5000);
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
         for (long id: ids) {
           Transaction.delete(id);
         }
