@@ -32,8 +32,12 @@ public class AggregateAccount extends Account {
     Cursor c = cr().query(
         TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(0-id)).build(),
         null,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException(id);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
     }
     c.moveToFirst();
     aa = new AggregateAccount(c);

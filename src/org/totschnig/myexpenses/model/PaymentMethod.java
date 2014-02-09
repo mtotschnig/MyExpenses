@@ -65,25 +65,33 @@ public class PaymentMethod extends Model {
       this(paymentType,false);
     }
   }
-  private PaymentMethod(long id) throws DataObjectNotFoundException {
-    this.id = id;
+  public static PaymentMethod getInstanceFromDb(long id) {
+    PaymentMethod method;
+    method = methods.get(id);
+    if (method != null) {
+      return method;
+    }
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException(id);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
     }
     c.moveToFirst();
-
-    this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
-    this.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
-    this.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
+    method = new PaymentMethod(id);
+    method.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
+    method.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
+    method.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
     c.close();
     c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
         new String[] {KEY_TYPE}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
-          addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
+          method.addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
         } catch (IllegalArgumentException ex) { 
           Log.w("MyExpenses","Found unknown account type in database");
         }
@@ -91,6 +99,12 @@ public class PaymentMethod extends Model {
       }
     }
     c.close();
+    methods.put(id, method);
+    return method;
+  }
+
+  private PaymentMethod(long id) {
+    this.id = id;
    }
 
   public PaymentMethod() {
@@ -140,16 +154,6 @@ public class PaymentMethod extends Model {
   }
   static HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
   
-  public static PaymentMethod getInstanceFromDb(long id) throws DataObjectNotFoundException {
-    PaymentMethod method;
-    method = methods.get(id);
-    if (method != null) {
-      return method;
-    }
-    method = new PaymentMethod(id);
-    methods.put(id, method);
-    return method;
-  }
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();

@@ -147,11 +147,15 @@ public class Template extends Transaction {
     c.close();
     return t;
   }
-  public static Template getInstanceFromDb(long id) throws DataObjectNotFoundException {
+  public static Template getInstanceFromDb(long id) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException(id);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
     }
     c.moveToFirst();
     Template t = new Template(c);
