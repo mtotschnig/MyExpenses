@@ -58,8 +58,11 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       return dispatchCommandMultiple(itemId,sba,new Long[]{id});
     }
   }
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
+    if (mActionMode != null)
+      mActionMode.finish();
     return ctx.dispatchCommand(command, info);
   }
   /**
@@ -71,10 +74,13 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
    * @param itemIds
    * @return
    */
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions,Long[]itemIds) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     //we send only the positions to the default dispatch command mechanism,
     //but subclasses can provide a method that handles the itemIds
+    if (mActionMode != null)
+      mActionMode.finish();
     return ctx.dispatchCommand(command, positions);
   }
   protected int getMenuResource() {
@@ -204,7 +210,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                   itemIdsObj);
             }
           }
-          mode.finish();
+          //mode.finish();
           return result;
         }
 

@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
+import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
@@ -68,6 +69,16 @@ public class ManageParties extends ProtectedFragmentActivity implements
     getSupportFragmentManager().beginTransaction()
     .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
     .commit();
+    finishActionMode();
+  }
+  private void finishActionMode() {
+    ContextualActionBarFragment listFragment = ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentById(R.id.parties_list));
+    if (listFragment != null)
+      listFragment.finishActionMode();
+  }
+  @Override
+  public void onCancelEditDialog() {
+    finishActionMode();
   }
   @Override
   public void onPostExecute(Object result) {

@@ -2,8 +2,10 @@ package org.totschnig.myexpenses.model;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.database.Cursor;
+import android.util.Log;
 
 public class AggregateAccount extends Account {
   final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
@@ -20,8 +22,27 @@ public class AggregateAccount extends Account {
     }
     accounts.put(id, this);
   }
-  public static AggregateAccount getCachedInstance (Long id) {
-    return (AggregateAccount) accounts.get(id);
+  public static AggregateAccount getInstanceFromDB (Long id) {
+    assert id < 0;
+    AggregateAccount aa = (AggregateAccount) accounts.get(id);
+    if (aa != null) {
+      return aa;
+    }
+    Log.w(MyApplication.TAG, "did not find Aggregate Account in cache, will construct it from DB");
+    Cursor c = cr().query(
+        TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(0-id)).build(),
+        null,null,null, null);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
+    }
+    c.moveToFirst();
+    aa = new AggregateAccount(c);
+    c.close();
+    return aa;
   }
   public void persistGrouping(Grouping value) {
     this.grouping = value;

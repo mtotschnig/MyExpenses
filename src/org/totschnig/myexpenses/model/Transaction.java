@@ -137,10 +137,9 @@ public class Transaction extends Model {
    * factory method for retrieving an instance from the db with the given id
    * @param mDbHelper
    * @param id
-   * @return instance of {@link Transaction} or {@link Transfer}
-   * @throws DataObjectNotFoundException 
+   * @return instance of {@link Transaction} or {@link Transfer} or null if not found
    */
-  public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
+  public static Transaction getInstanceFromDb(long id)  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
@@ -148,8 +147,12 @@ public class Transaction extends Model {
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException(id);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
     }
     c.moveToFirst();
     Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
@@ -187,7 +190,8 @@ public class Transaction extends Model {
     return t;
   }
   public static Transaction getInstanceFromTemplate(long id) {
-    return getInstanceFromTemplate(Template.getInstanceFromDb(id));
+    Template te = Template.getInstanceFromDb(id);
+    return te == null ? null : getInstanceFromTemplate(te);
   }
   public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
@@ -316,6 +320,8 @@ public class Transaction extends Model {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
+      if (uri==null)
+        return null;
       id = ContentUris.parseId(uri);
       if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
         cr().update(

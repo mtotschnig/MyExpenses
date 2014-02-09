@@ -19,12 +19,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -61,6 +61,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
@@ -74,7 +75,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -106,7 +106,7 @@ public class TransactionList extends BudgetListFragment implements
   private SparseBooleanArray mCheckedListItems;
 
   private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay, columnIndexTransferPeer,
-    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
+    columnIndexAmount, columnIndexLabelSub, columnIndexLabelMain, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories, columIndexGroupSumInterim,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
@@ -158,7 +158,8 @@ public class TransactionList extends BudgetListFragment implements
   private void setGrouping() {
     switch (mAccount.grouping) {
     case DAY:
-      itemDateFormat = new SimpleDateFormat("HH:mm");
+      itemDateFormat = DateFormat.getTimeInstance(
+          DateFormat.SHORT);
       break;
     case MONTH:
       itemDateFormat = new SimpleDateFormat("dd");
@@ -174,6 +175,10 @@ public class TransactionList extends BudgetListFragment implements
   }
   private void restartGroupingLoader() {
     mGroupingCursor = null;
+    if (mManager == null) {
+      //can happen after an orientation change in ExportDialogFragment, when resetting multiple accounts
+      mManager = getLoaderManager();
+    }
     if (mManager.getLoader(GROUPING_CURSOR) != null && !mManager.getLoader(GROUPING_CURSOR).isReset())
       mManager.restartLoader(GROUPING_CURSOR, null, this);
     else
@@ -222,8 +227,8 @@ public class TransactionList extends BudgetListFragment implements
          DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
          if (f == null) {
            f = TransactionDetailFragment.newInstance(id);
+           f.show(fm, "TRANSACTION_DETAIL");
          }
-         f.show(fm, "TRANSACTION_DETAIL");
        }
     });
     registerForContextualActionBar(mListView.getWrappedList());
@@ -243,14 +248,15 @@ public class TransactionList extends BudgetListFragment implements
               R.id.DELETE_COMMAND_DO,
               itemIds),
           null,
-          MessageDialogFragment.Button.noButton())
+          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
         .show(fm,"DELETE_TRANSACTION");
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,itemIds, null), "ASYNC_TASK")
         .commit();
-      return true;
+      break;
+      //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
@@ -269,11 +275,19 @@ public class TransactionList extends BudgetListFragment implements
         i.putExtra("transferEnabled",ctx.transferEnabled());
         ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       }
-      return true;
+      //super is handling deactivation of mActionMode
+      break;
     case R.id.CREATE_TEMPLATE_COMMAND:
+      mTransactionsCursor.moveToPosition(acmi.position);
+      String label = mTransactionsCursor.getString(columnIndexPayee);
+      if (TextUtils.isEmpty(label))
+        label = mTransactionsCursor.getString(columnIndexLabelSub);
+      if (TextUtils.isEmpty(label))
+        label = mTransactionsCursor.getString(columnIndexLabelMain);
       Bundle args = new Bundle();
       args.putLong("transactionId", acmi.id);
       args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
+      args.putString("value",label);
       EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }
@@ -341,6 +355,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexDay  = c.getColumnIndex("day");
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
+        columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
@@ -428,17 +443,19 @@ public class TransactionList extends BudgetListFragment implements
     @SuppressWarnings("incomplete-switch")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      HeaderViewHolder holder = new HeaderViewHolder();
+      HeaderViewHolder holder;
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.header, parent, false);
+        holder = new HeaderViewHolder();
         holder.text = (TextView) convertView.findViewById(R.id.text);
         holder.sumExpense = (TextView) convertView.findViewById(R.id.sum_expense);
         holder.sumIncome = (TextView) convertView.findViewById(R.id.sum_income);
         holder.sumTransfer = (TextView) convertView.findViewById(R.id.sum_transfer);
         holder.interimBalance = (TextView) convertView.findViewById(R.id.interim_balance);
         convertView.setTag(holder);
-      } else
+      } else {
         holder = (HeaderViewHolder) convertView.getTag();
+      }
 
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -535,19 +552,43 @@ public class TransactionList extends BudgetListFragment implements
   public class MyAdapter extends SimpleCursorAdapter {
     String categorySeparator = " : ",
         commentSeparator = " / ";
+    String measureTimeString;
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.HOUR_OF_DAY, 23);
+      cal.set(Calendar.MINUTE,59);
+      measureTimeString = DateFormat.getTimeInstance(
+          DateFormat.SHORT).format(cal.getTime());
     }
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
       View v= super.newView(context, cursor, parent);
-      if (mAccount.type.equals(Type.CASH))
-        v.findViewById(R.id.colorContainer).setVisibility(View.GONE);
-      if (mAccount.id < 0)
-        v.findViewById(R.id.colorAccount).setLayoutParams(
+      ViewHolder holder = new ViewHolder();
+      View colorContainer = v.findViewById(R.id.colorContainer);
+      View colorAccount = v.findViewById(R.id.colorAccount);
+      holder.colorContainer = colorContainer;
+      holder.colorAccount = colorAccount;
+      holder.amount = (TextView) v.findViewById(R.id.amount);
+      holder.category = (TextView) v.findViewById(R.id.category);
+      holder.color1 = v.findViewById(R.id.color1);
+      if (mAccount.type.equals(Type.CASH)) {
+        colorContainer.setVisibility(View.GONE);
+      }
+      if (mAccount.id < 0) {
+        colorAccount.setLayoutParams(
             new LayoutParams(4, LayoutParams.FILL_PARENT));
+      }
+      TextView tv = (TextView) v.findViewById(R.id.date);
+      if (mAccount.grouping.equals(Grouping.DAY)) {
+        TextPaint paint = tv.getPaint();
+        tv.setWidth((int) paint.measureText(measureTimeString)+2);
+      } else {
+        tv.setEms(3);
+      }
+      v.setTag(holder);
       return v;
   }
     /* (non-Javadoc)
@@ -573,13 +614,13 @@ public class TransactionList extends BudgetListFragment implements
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       convertView=super.getView(position, convertView, parent);
-
-      TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
+      ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+      TextView tv1 = viewHolder.amount;
       Cursor c = getCursor();
       c.moveToPosition(position);
       if (mAccount.id <0) {
         int color = c.getInt(c.getColumnIndex("color"));
-        convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
+        viewHolder.colorAccount.setBackgroundColor(color);
       }
       long amount = c.getLong(columnIndexAmount);
       if (amount < 0) {
@@ -589,7 +630,7 @@ public class TransactionList extends BudgetListFragment implements
       else {
         tv1.setTextColor(colorIncome);
       }
-      TextView tv2 = (TextView)convertView.findViewById(R.id.category);
+      TextView tv2 = viewHolder.category;
       CharSequence catText = tv2.getText();
       if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
@@ -631,8 +672,8 @@ public class TransactionList extends BudgetListFragment implements
         } catch (IllegalArgumentException ex) {
           status = CrStatus.UNRECONCILED;
         }
-        convertView.findViewById(R.id.color1).setBackgroundColor(status.color);
-        convertView.findViewById(R.id.colorContainer).setTag(getItemId(position));
+        viewHolder.color1.setBackgroundColor(status.color);
+        viewHolder.colorContainer.setTag(getItemId(position));
       }
       return convertView;
     }
@@ -643,6 +684,13 @@ public class TransactionList extends BudgetListFragment implements
     TextView sumIncome;
     TextView sumExpense;
     TextView sumTransfer;
+  }
+  class ViewHolder {
+    TextView amount;
+    View colorAccount;
+    TextView category;
+    View color1;
+    View colorContainer;
   }
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,

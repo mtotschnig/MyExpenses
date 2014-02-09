@@ -103,14 +103,14 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
               R.id.DELETE_COMMAND_DO,
               itemIds),
           null,
-          MessageDialogFragment.Button.noButton())
+          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
       getActivity().getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,itemIds, null), "ASYNC_TASK")
         .commit();
-      return true;
+      break;
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
@@ -123,7 +123,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       intent.putExtra("template_id", menuInfo.id);
       intent.putExtra("instance_id", -1L);
       startActivity(intent);
-      return true;
+      break;
     case R.id.EDIT_COMMAND:
       return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
     }

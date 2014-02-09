@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -108,8 +109,10 @@ public class ExpenseEdit extends AmountActivity implements
   private Long mTemplateId;
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
-  private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
-      getDateInstance(java.text.DateFormat.FULL);
+  private final java.text.DateFormat mDateFormat = DateFormat.getDateInstance(
+      DateFormat.FULL);
+  private final java.text.DateFormat mTimeFormat = DateFormat.getTimeInstance(
+      DateFormat.SHORT);
   private Long mCatId = null, mPlanId = null, mMethodId = null,
       mAccountId = null, mTransferAccountId;
   private String mLabel;
@@ -601,7 +604,7 @@ public class ExpenseEdit extends AmountActivity implements
           mTimeSetListener,
           mCalendar.get(Calendar.HOUR_OF_DAY),
           mCalendar.get(Calendar.MINUTE),
-          true
+          android.text.format.DateFormat.is24HourFormat(this)
       );
     }
     return null;
@@ -664,14 +667,14 @@ public class ExpenseEdit extends AmountActivity implements
    * sets date on date button
    */
   private void setDate() {
-    mDateButton.setText(mTitleDateFormat.format(mCalendar.getTime()));
+    mDateButton.setText(mDateFormat.format(mCalendar.getTime()));
   }
 
   /**
    * sets time on time button
    */
   private void setTime() {
-    mTimeButton.setText(pad(mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" + pad(mCalendar.get(Calendar.MINUTE)));
+    mTimeButton.setText(mTimeFormat.format(mCalendar.getTime()));
   }
   /**
    * helper for padding integer values smaller than 10 with 0
@@ -706,8 +709,12 @@ public class ExpenseEdit extends AmountActivity implements
   protected boolean syncStateAndValidate() {
     boolean validP = true;
     String title = "";
-    BigDecimal amount = validateAmountInput(true);
+    //account cursor not yet loaded
+    if (mAccounts == null)
+      return false;
     Account account = mAccounts[mAccountSpinner.getSelectedItemPosition()];
+    BigDecimal amount = validateAmountInput(true);
+
     if (amount == null) {
       //Toast is shown in validateAmountInput
       validP = false;
@@ -967,6 +974,11 @@ public class ExpenseEdit extends AmountActivity implements
       }
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
+      if (o==null) {
+        Toast.makeText(this, "Object has been deleted from db",Toast.LENGTH_LONG).show();
+        finish();
+        return;
+      }
       mTransaction = (Transaction) o;
       if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
         if (mPlanInstanceId > 0L) {
@@ -1045,12 +1057,16 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onPostExecute(Object result) {
     Long sequenceCount = (Long) result;
-    if (sequenceCount == -1L && mTransaction instanceof Template) {
-      //for the moment, the only case where saving will fail
-      //if the unique constraint for template titles is violated
-      //TODO: we should probably validate the title earlier
-      mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
-      mCreateNew = false;
+    if (sequenceCount == -1L) {
+      if (mTransaction instanceof Template) {
+        //for the moment, the only case where saving will fail
+        //if the unique constraint for template titles is violated
+        //TODO: we should probably validate the title earlier
+        mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
+        mCreateNew = false;
+      } else {
+        Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
+      }
     } else {
       if (mCreateNew) {
         mCreateNew = false;

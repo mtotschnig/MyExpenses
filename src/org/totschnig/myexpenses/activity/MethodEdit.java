@@ -82,10 +82,6 @@ public class MethodEdit extends EditActivity {
       mPaymentType = mMethod.getPaymentType();
       mIsNumberedCheckBox.setChecked(mMethod.isNumbered);
       mPaymentTypeSpinner.setSelection(mPaymentType+1);
-      if (mMethod.predef != null) {
-        mLabelText.setFocusable(false);
-        mLabelText.setEnabled(false);
-      }
     } else {
       mMethod = new PaymentMethod();
       setTitle(R.string.menu_create_method);
@@ -118,12 +114,14 @@ public class MethodEdit extends EditActivity {
   }
 
   protected void saveState() {
-    if (mMethod.predef == null) {
-      String label = mLabelText.getText().toString();
-      if (label.equals("")) {
-        mLabelText.setError(getString(R.string.no_title_given));
-        return;
-      }
+    String label = mLabelText.getText().toString();
+    if (label.equals("")) {
+      mLabelText.setError(getString(R.string.no_title_given));
+      return;
+    }
+    //when the label has not been changed from its localized form
+    //we keep the predefined KEYS to preserve localizability
+    if (!mMethod.getDisplayLabel().equals(label)) {
       mMethod.setLabel(label);
     }
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);

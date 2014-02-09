@@ -66,4 +66,5 @@
   <item type="id" name="DELETE_ACCOUNT_COMMAND_DO" />
   <item type="id" name="SELECT_COMMAND" />
   <item type="id" name="SHARE_COMMAND" />
+  <item type="id" name="CANCEL_CALLBACK_COMMAND" />
 </resources>

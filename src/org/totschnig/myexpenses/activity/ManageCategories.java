@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
@@ -117,8 +118,13 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         return true;
       case R.id.DELETE_COMMAND_DO:
         getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
-        .commit();
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+          .commit();
+        return true;
+      case R.id.CANCEL_CALLBACK_COMMAND:
+        finishActionMode();
+        return true;
       }
       return super.dispatchCommand(command, tag);
      }
@@ -170,7 +176,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
         .commit();
+      finishActionMode();
     }
+    @Override
+    public void onCancelEditDialog() {
+      finishActionMode();
+    }
+    private void finishActionMode() {
+      if (mListFragment != null)
+        mListFragment.finishActionMode();
+    }
+
     @Override
     public void onPostExecute(Object result) {
       if (result == null) {

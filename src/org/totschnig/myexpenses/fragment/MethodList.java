@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -105,7 +106,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
       Intent i = new Intent(getActivity(), MethodEdit.class);
       i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
       startActivity(i);
-      return true;
+      break;
     }
     return super.dispatchCommandSingle(command, info);
   }
@@ -143,7 +144,9 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
               idList.toArray(new Long[idList.size()]),
               null),
             "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
           .commit();
+        return true;
       }
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
         String message = "";
@@ -159,7 +162,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
               mappedTemplatesCount);
         Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
       }
-      return true;
+      break;
     }
     return super.dispatchCommandMultiple(command, positions,itemIds);
   }

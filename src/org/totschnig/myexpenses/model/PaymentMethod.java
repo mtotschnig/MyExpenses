@@ -52,7 +52,6 @@ public class PaymentMethod extends Model {
    * array of account types for which this payment method is applicable
    */
   private ArrayList<Account.Type> accountTypes = new ArrayList<Account.Type>();
-  public PreDefined predef;
   
   public enum PreDefined {
     CHEQUE(-1,true),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);
@@ -66,30 +65,33 @@ public class PaymentMethod extends Model {
       this(paymentType,false);
     }
   }
-  private PaymentMethod(long id) throws DataObjectNotFoundException {
-    this.id = id;
+  public static PaymentMethod getInstanceFromDb(long id) {
+    PaymentMethod method;
+    method = methods.get(id);
+    if (method != null) {
+      return method;
+    }
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException(id);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
     }
     c.moveToFirst();
-
-    this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
-    this.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
-    this.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
+    method = new PaymentMethod(id);
+    method.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
+    method.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
+    method.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
     c.close();
-    try {
-      predef = PreDefined.valueOf(this.label);
-    } catch (IllegalArgumentException ex) { 
-      predef = null;
-    }
     c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
         new String[] {KEY_TYPE}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
-          addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
+          method.addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
         } catch (IllegalArgumentException ex) { 
           Log.w("MyExpenses","Found unknown account type in database");
         }
@@ -97,6 +99,12 @@ public class PaymentMethod extends Model {
       }
     }
     c.close();
+    methods.put(id, method);
+    return method;
+  }
+
+  private PaymentMethod(long id) {
+    this.id = id;
    }
 
   public PaymentMethod() {
@@ -124,51 +132,28 @@ public class PaymentMethod extends Model {
     return label;
   }
   public void setLabel(String label) {
-    if (predef != null) {
-      throw new UnsupportedOperationException();
-    }
     this.label = label;
   }
   //TODO we should not need to instantiate the methods
   //to get their display label
   //move all calls from the instance method to the static metod
   public String getDisplayLabel() {
-    Context ctx = MyApplication.getInstance();
-    if (predef == null)
-      return label;
-    switch (predef) {
-    case CHEQUE: return ctx.getString(R.string.pm_cheque);
-    case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
-    case DEPOSIT: return ctx.getString(R.string.pm_deposit);
-    case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
-    }
-    return label;
+    return PaymentMethod.getDisplayLabel(label);
   }
   public static String getDisplayLabel(String label) {
     Context ctx = MyApplication.getInstance();
-    try {
-      switch (PreDefined.valueOf(label)) {
-      case CHEQUE: return ctx.getString(R.string.pm_cheque);
-      case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
-      case DEPOSIT: return ctx.getString(R.string.pm_deposit);
-      case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
-      }
-    } catch (IllegalArgumentException ex) {
-    }
+    if (label.equals("CHEQUE"))
+      return ctx.getString(R.string.pm_cheque);
+    if (label.equals("CREDITCARD"))
+      return ctx.getString(R.string.pm_creditcard);
+    if (label.equals("DEPOSIT"))
+      return ctx.getString(R.string.pm_deposit);
+    if (label.equals("DIRECTDEBIT"))
+      return ctx.getString(R.string.pm_directdebit);
     return label;
   }
   static HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
   
-  public static PaymentMethod getInstanceFromDb(long id) throws DataObjectNotFoundException {
-    PaymentMethod method;
-    method = methods.get(id);
-    if (method != null) {
-      return method;
-    }
-    method = new PaymentMethod(id);
-    methods.put(id, method);
-    return method;
-  }
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();

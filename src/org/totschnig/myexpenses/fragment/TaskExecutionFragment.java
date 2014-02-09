@@ -184,13 +184,14 @@ public class TaskExecutionFragment extends Fragment {
       switch (mTaskId) {
       case TASK_CLONE:
         for (long id: ids) {
-          if (Transaction.getInstanceFromDb(id).saveAsNew() != null)
+          t = Transaction.getInstanceFromDb(id);
+          if (t != null && t.saveAsNew() != null)
             successCount++;
         }
         return successCount;
       case TASK_INSTANTIATE_TRANSACTION:
         t = Transaction.getInstanceFromDb(ids[0]);
-        if (t instanceof SplitTransaction)
+        if (t != null && t instanceof SplitTransaction)
           ((SplitTransaction) t).prepareForEdit();
         return t;
       case TASK_INSTANTIATE_TEMPLATE:
@@ -198,28 +199,27 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
         //when we are called from a notification,
         //the template could have been deleted in the meantime 
-        try {
-          return Transaction.getInstanceFromTemplate(ids[0]);
-        } catch (DataObjectNotFoundException e1) {
-          return null;
-        }
+        //getInstanceFromTemplate should return null in that case
+        return Transaction.getInstanceFromTemplate(ids[0]);
       case TASK_NEW_FROM_TEMPLATE:
         for (int i=0; i<ids.length; i++) {
           t = Transaction.getInstanceFromTemplate(ids[i]);
-          if (mExtra != null) {
-            extraInfo2d = (Long[][]) mExtra;
-            t.setDate(new Date(extraInfo2d[i][1]));
-            t.originPlanInstanceId = extraInfo2d[i][0];
+          if (t != null) {
+            if (mExtra != null) {
+              extraInfo2d = (Long[][]) mExtra;
+              t.setDate(new Date(extraInfo2d[i][1]));
+              t.originPlanInstanceId = extraInfo2d[i][0];
+            }
+            if (t.save()!=null) {
+              successCount++;
+            }
           }
-          if (t.save()!=null)
-            successCount++;
         }
         return successCount;
       case TASK_REQUIRE_ACCOUNT:
         Account account;
-        try {
-          account = Account.getInstanceFromDb(0);
-        } catch (DataObjectNotFoundException e) {
+        account = Account.getInstanceFromDb(0);
+        if (account == null) {
           account = new Account(
               getString(R.string.app_name),
               0,
@@ -258,18 +258,20 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_TOGGLE_CRSTATUS:
         t = Transaction.getInstanceFromDb(ids[0]);
-        switch (t.crStatus) {
-        case CLEARED:
-          t.crStatus = CrStatus.RECONCILED;
-          break;
-        case RECONCILED:
-          t.crStatus = CrStatus.UNRECONCILED;
-          break;
-        case UNRECONCILED:
-          t.crStatus = CrStatus.CLEARED;
-          break;
+        if (t != null) {
+          switch (t.crStatus) {
+          case CLEARED:
+            t.crStatus = CrStatus.RECONCILED;
+            break;
+          case RECONCILED:
+            t.crStatus = CrStatus.UNRECONCILED;
+            break;
+          case UNRECONCILED:
+            t.crStatus = CrStatus.CLEARED;
+            break;
+          }
+          t.save();
         }
-        t.save();
         return null;
       case TASK_MOVE:
         Transaction.move(ids[0],(Long) mExtra);

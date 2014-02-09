@@ -17,9 +17,11 @@ package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.database.Cursor;
@@ -142,5 +144,22 @@ public class AccountTest extends ModelTest  {
     } catch (DataObjectNotFoundException e) {
       fail("getInstanceFromDb(0) should return an account");
     }
+  }
+  public void testGetAggregateAccountFromDb () {
+    insertData();
+    Account.clear();
+    String currency = Account.getLocaleCurrency().getCurrencyCode();
+    Cursor c = getMockContentResolver().query(
+        TransactionProvider.CURRENCIES_URI,
+        new String[]{DatabaseConstants.KEY_ROWID},
+        DatabaseConstants.KEY_CODE + " = ?",
+        new String[]{currency},
+        null);
+    c.moveToFirst();
+    long id = 0 - c.getLong(0);
+    c.close();
+    AggregateAccount aa =  (AggregateAccount) Account.getInstanceFromDb(id);
+    assertEquals(currency,aa.currency.getCurrencyCode());
+    assertEquals(openingBalance.longValue()*2,aa.openingBalance.getAmountMinor().longValue());
   }
 }

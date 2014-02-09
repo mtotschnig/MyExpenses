@@ -352,6 +352,7 @@
   <string name="pref_visit_website_title">Visit Website</string>
   <string name="progress_dialog_create_calendar">Creating local calendar &#8230;</string>
   <string name="progress_dialog_create_plan">Creating new plan &#8230;</string>
+  <string name="progress_dialog_deleting">Deleting &#8230;</string>
   <string name="progress_dialog_loading">Loading object from database &#8230;</string>
   <string name="progress_dialog_setup">Database is initialized &#8230;</string>
   <string name="reference_number">Reference Number</string>

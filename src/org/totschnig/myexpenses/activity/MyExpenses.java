@@ -250,7 +250,7 @@ public class MyExpenses extends LaunchActivity implements
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
           TransactionDetailFragment.newInstance(idFromNotification)
-              .show(getSupportFragmentManager(), "TRANSACTION_DETAIL");
+              .show(fm, "TRANSACTION_DETAIL");
           getIntent().removeExtra("transaction_id");
         }
       }
@@ -409,7 +409,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
-        AggregateAccount.getCachedInstance(mAccountId).persistGrouping(value);
+        AggregateAccount.getInstanceFromDB(mAccountId).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
         Account account = Account.getInstanceFromDb(mAccountId);
@@ -467,9 +467,11 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.EDIT_ACCOUNT_COMMAND:
-      i = new Intent(this, AccountEdit.class);
-      i.putExtra(KEY_ROWID, mAccountId);
-      startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+      if (mAccountId >0) {
+        i = new Intent(this, AccountEdit.class);
+        i.putExtra(KEY_ROWID, mAccountId);
+        startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+      }
       return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
@@ -509,6 +511,7 @@ public class MyExpenses extends LaunchActivity implements
             TaskExecutionFragment.TASK_DELETE_TRANSACTION,
             (Long[])tag, null),
           "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
         .commit();
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
@@ -550,6 +553,9 @@ public class MyExpenses extends LaunchActivity implements
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.menu_share)));
         return true;
+      case R.id.CANCEL_CALLBACK_COMMAND:
+        finishActionMode();
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -569,22 +575,21 @@ public class MyExpenses extends LaunchActivity implements
     public Fragment getItem(Context context, Cursor cursor) {
       Account account;
       long accountId = cursor.getLong(columnIndexRowId);
-      if (accountId < 0) {
-        account = AggregateAccount.getCachedInstance(accountId);
-        if (account == null)
-          account = new AggregateAccount(cursor);
-      } else {
       if (Account.isInstanceCached(accountId))
         account = Account.getInstanceFromDb(accountId);
-        else
-        account = new Account(cursor);
+        else {
+          account = (accountId < 0) ? new AggregateAccount(cursor) : new Account(cursor);
       }
       return TransactionList.newInstance(account);
     }
-
   }
   @Override
   public void onPageSelected(int position) {
+    finishActionMode();
+    mCurrentPosition = position;
+    setCurrentAccount(position);
+  }
+  public void finishActionMode() {
     if (mCurrentPosition != -1 && Build.VERSION.SDK_INT >= 11) {
       ContextualActionBarFragment f = 
       (ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
@@ -592,14 +597,13 @@ public class MyExpenses extends LaunchActivity implements
       if (f != null)
         f.finishActionMode();
     }
-    mCurrentPosition = position;
-    setCurrentAccount(position);
   }
   @SuppressWarnings("incomplete-switch")
   @Override
   public void contribFeatureCalled(Feature feature, Serializable tag) {
     switch(feature){
     case DISTRIBUTION:
+      Account a = Account.getInstanceFromDb(mAccountId);
       feature.recordUsage();
       Intent i = new Intent(this, ManageCategories.class);
       i.setAction("myexpenses.intent.distribution");
@@ -607,7 +611,7 @@ public class MyExpenses extends LaunchActivity implements
       if (tag != null) {
         int year = (int) ((Long)tag/1000);
         int groupingSecond = (int) ((Long)tag % 1000);
-        i.putExtra("grouping", Account.getInstanceFromDb(mAccountId).grouping);
+        i.putExtra("grouping", a!= null ? a.grouping : Grouping.NONE);
         i.putExtra("groupingYear",year);
         i.putExtra("groupingSecond", groupingSecond);
       } else {
@@ -716,6 +720,11 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
     }
+    finishActionMode();
+  }
+  @Override
+  public void onCancelEditDialog() {
+    finishActionMode();
   }
   @Override
   public void onPreExecute() {

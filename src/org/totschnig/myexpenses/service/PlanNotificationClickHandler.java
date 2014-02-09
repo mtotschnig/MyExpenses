@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.service;
 import java.util.Date;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Transaction;
 
 import android.app.IntentService;
@@ -28,16 +27,16 @@ public class PlanNotificationClickHandler extends IntentService {
     String title = extras.getString("title");
     if (intent.getAction().equals("Apply")) {
       Long templateId = extras.getLong("template_id");
-      try {
-        Transaction t = Transaction.getInstanceFromTemplate(templateId);
+      Transaction t = Transaction.getInstanceFromTemplate(templateId);
+      if (t==null) {
+        message = getString(R.string.save_transaction_template_deleted);
+      } else {
         t.setDate(new Date(extras.getLong("instance_date")));
         if (t.save() == null)
           message = getString(R.string.save_transaction_error);
         else
           message = getResources().getQuantityString(
             R.plurals.save_transaction_from_template_success,1);
-      } catch (DataObjectNotFoundException e) {
-        message = getString(R.string.save_transaction_template_deleted);
       }
     } else {
       message = getString(R.string.plan_execution_canceled);

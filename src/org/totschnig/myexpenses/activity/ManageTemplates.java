@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
@@ -100,9 +100,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-          ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-              mSectionsPagerAdapter.getFragmentName(mCurrentPosition)))
-              .finishActionMode();
+          finishActionMode();
           actionBar.setSelectedNavigationItem(position);
           mCurrentPosition = position;
           helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
@@ -120,7 +118,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
-      actionBar.setSelectedNavigationItem(1);
+      mViewPager.setCurrentItem(1);
     }
     helpVariant = HelpVariant.templates;
   }
@@ -154,14 +152,19 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
             (Long[])tag,
             null),
           "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
         .commit();
       return true;
     case R.id.EDIT_COMMAND:
+      finishActionMode();
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra("template_id",((Long)tag));
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
+      return true;
+    case R.id.CANCEL_CALLBACK_COMMAND:
+      finishActionMode();
       return true;
     }
     return super.dispatchCommand(command, tag);
@@ -225,5 +228,13 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         ((PlanList) getSupportFragmentManager().findFragmentByTag(
             mSectionsPagerAdapter.getFragmentName(1)))
           .newPlanEnabled;
+  }
+  public void finishActionMode() {
+    ContextualActionBarFragment f =
+    ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
+    if (f!=null) {
+      f.finishActionMode();
+    }
   }
 }
