@@ -106,7 +106,7 @@ public class TransactionList extends BudgetListFragment implements
   private SparseBooleanArray mCheckedListItems;
 
   private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay, columnIndexTransferPeer,
-    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
+    columnIndexAmount, columnIndexLabelSub, columnIndexLabelMain, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories, columIndexGroupSumInterim,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
@@ -277,9 +277,16 @@ public class TransactionList extends BudgetListFragment implements
       //super is handling deactivation of mActionMode
       break;
     case R.id.CREATE_TEMPLATE_COMMAND:
+      mTransactionsCursor.moveToPosition(acmi.position);
+      String label = mTransactionsCursor.getString(columnIndexPayee);
+      if (TextUtils.isEmpty(label))
+        label = mTransactionsCursor.getString(columnIndexLabelSub);
+      if (TextUtils.isEmpty(label))
+        label = mTransactionsCursor.getString(columnIndexLabelMain);
       Bundle args = new Bundle();
       args.putLong("transactionId", acmi.id);
       args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
+      args.putString("value",label);
       EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }
@@ -347,6 +354,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexDay  = c.getColumnIndex("day");
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
+        columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
