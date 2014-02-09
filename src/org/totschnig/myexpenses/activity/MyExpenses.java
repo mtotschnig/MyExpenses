@@ -511,6 +511,7 @@ public class MyExpenses extends LaunchActivity implements
             TaskExecutionFragment.TASK_DELETE_TRANSACTION,
             (Long[])tag, null),
           "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
         .commit();
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
