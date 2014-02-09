@@ -722,6 +722,10 @@ public class MyExpenses extends LaunchActivity implements
     finishActionMode();
   }
   @Override
+  public void onCancelEditDialog() {
+    finishActionMode();
+  }
+  @Override
   public void onPreExecute() {
     // TODO Auto-generated method stub
     

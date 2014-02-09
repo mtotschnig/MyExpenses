@@ -175,6 +175,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         .commit();
       finishActionMode();
     }
+    @Override
+    public void onCancelEditDialog() {
+      finishActionMode();
+    }
     private void finishActionMode() {
       if (mListFragment != null)
         mListFragment.finishActionMode();

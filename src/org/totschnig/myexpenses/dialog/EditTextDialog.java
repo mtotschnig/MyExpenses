@@ -17,6 +17,8 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.InputType;
@@ -35,6 +37,7 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
 
  public interface EditTextDialogListener {
      void onFinishEditDialog(Bundle args);
+     void onCancelEditDialog();
  }
 
  private EditText mEditText;
@@ -63,6 +66,10 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
      mEditText.setText(args.getString("value"));
      //input.setSingleLine();
      return mEditText;
+ }
+ @Override
+ public void onCancel (DialogInterface dialog) {
+   ((EditTextDialogListener) getActivity()).onCancelEditDialog();
  }
 
  @Override
