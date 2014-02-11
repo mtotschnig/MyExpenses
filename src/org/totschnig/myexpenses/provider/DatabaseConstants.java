@@ -16,7 +16,7 @@
 package org.totschnig.myexpenses.provider;
 
 public class DatabaseConstants {
-  public static final String KEY_DATE = "date_unixepoch";
+  public static final String KEY_DATE = "date";
   public static final String KEY_AMOUNT = "amount";
   public static final String KEY_COMMENT = "comment";
   public static final String KEY_ROWID = "_id";
@@ -139,17 +139,17 @@ public class DatabaseConstants {
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
   //if we do not cast the result to integer, we would need to do the conversion in Java
-  public static final String YEAR  = "CAST(strftime('%Y',date_unixepoch,'unixepoch','localtime') AS integer)";
-  public static final String YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date_unixepoch,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String MONTH = "CAST(strftime('%m',date_unixepoch,'unixepoch','localtime') AS integer)";
-  public static final String WEEK  = "CAST(strftime('%W',date_unixepoch,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String DAY   = "CAST(strftime('%j',date_unixepoch,'unixepoch','localtime') AS integer)";
+  public static final String YEAR  = "CAST(strftime('%Y',date,'unixepoch','localtime') AS integer)";
+  public static final String YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
+  public static final String MONTH = "CAST(strftime('%m',date,'unixepoch','localtime') AS integer)";
+  public static final String WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
+  public static final String DAY   = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
   public static final String THIS_YEAR  = "CAST(strftime('%Y','now','localtime') AS integer)";
   public static final String THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','localtime','weekday 0', '-6 day') AS integer)";
   public static final String THIS_MONTH = "CAST(strftime('%m','now','localtime') AS integer)";
   public static final String THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String WEEK_START = "date(date_unixepoch,'unixepoch','localtime', 'weekday 0', '-6 day')";
-  public static final String WEEK_END = "date(date_unixepoch,'unixepoch','localtime', 'weekday 0')";
+  public static final String WEEK_START = "date(date,'unixepoch','localtime', 'weekday 0', '-6 day')";
+  public static final String WEEK_END = "date(date,'unixepoch','localtime', 'weekday 0')";
   //public static final String WEEK_RANGE ="strftime('%m/%d', date(date, 'weekday 0', '-6 day'))||'-'|| strftime('%m/%d', date(date, 'weekday 0'))";
   public static final String THIS_DAY   = "CAST(strftime('%j','now','localtime') AS integer)";
   //exclude split_catid
