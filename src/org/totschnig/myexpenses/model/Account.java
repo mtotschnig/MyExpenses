@@ -628,7 +628,7 @@ public class Account extends Model  implements Serializable {
    * @throws IOException
    */
   public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat) throws IOException {
-    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+    SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
     DecimalFormat nfFormat = new DecimalFormat();

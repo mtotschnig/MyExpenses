@@ -88,7 +88,6 @@
   <string name="donate_dialog_text">S\'il vous plaît, faites un don au moyen de PayPal, Flattr ou Bitcoin, et ensuite demander une clé Contrib à partir des paramètres.</string>
   <string name="expense">Dépense</string>
   <string name="export_expenses">Export des dépenses</string>
-  <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une minute avant de réessayer.</string>
   <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
   <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas disponible</string>

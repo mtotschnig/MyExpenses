@@ -88,7 +88,6 @@
   <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave de contrib a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
-  <string name="export_expenses_outputfile_exists">Arquivo de saída já existe. Por favor, espere um minuto e tente novamente.</string>
   <string name="export_expenses_sdcard_failure">Falha na exportação de despesas para scard</string>
   <string name="export_expenses_sdcard_success">Despesas exportadas para o arquivo %1$s</string>
   <string name="external_storage_unavailable">Armazenamento externo (sdcard) não disponível</string>

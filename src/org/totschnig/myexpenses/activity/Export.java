@@ -235,7 +235,7 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
         return(null);
       }
       if (accountIds.length > 1) {
-        String now = new SimpleDateFormat("ddMM-HHmm",Locale.US).format(new Date());
+        String now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US).format(new Date());
         destDir = new File(appDir,"export-" + now);
         if (destDir.exists()) {
           publishProgress(String.format(activity.getString(R.string.export_expenses_outputfile_exists), destDir.getAbsolutePath()));
