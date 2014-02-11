@@ -163,25 +163,15 @@ public class Utils {
     else
       return format.format(date);
   }
-  public static Date dateTimeFromSQL(String dateString) {
-    try {
-      return TransactionDatabase.dateTimeFormat.parse(dateString);
-    } catch (ParseException e) {
-      return null;
-    }
-  }
 
   /**
    * utility method that calls formatters for date
-   * @param text
+   * @param text unixEpochAsString
    * @return formated string
    */
   public static String convDateTime(String text, DateFormat format) {
-    Date date = dateTimeFromSQL(text);
-    if (date == null)
-      return text;
-    else
-      return format.format(date);
+    Date date = new Date(Long.valueOf(text)*1000);
+    return format.format(date);
   }
   /**
    * utility method that calls formatters for amount

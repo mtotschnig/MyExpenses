@@ -32,7 +32,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 41;
+  public static final int DATABASE_VERSION = 42;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -554,6 +554,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "instance_id integer, " +
           "transaction_id integer references transactions(_id), " +
           "primary key (instance_id,transaction_id));");
+    }
+    if (oldVersion < 42) {
+      db.execSQL("alter table transactions add column date_unixepoch datetime");
+      db.execSQL("update transactions set date_unixepoch=strftime('%s',date,'localtime')");
     }
   }
 }

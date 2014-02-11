@@ -42,7 +42,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class Transaction extends Model {
   public Long id = 0L;
   public String comment="",label="",payee = "",referenceNumber="";
-  private Date date;
+  protected Date date;
   public Money amount;
   public Long catId;
   //stores a short label of the category or the account the transaction is linked to
@@ -101,10 +101,6 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED[baseLength+1] = TRANSFER_PEER_PARENT +" AS transfer_peer_parent";
   }
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
-  /**
-   * we store the date directly from UI to DB without creating a Date object
-   */
-  protected String dateAsString;
 
   public enum CrStatus {
     UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
@@ -181,8 +177,8 @@ public class Transaction extends Model {
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.id = id;
-    t.setDate(c.getString(
-        c.getColumnIndexOrThrow(KEY_DATE)));
+    t.setDate(c.getLong(
+        c.getColumnIndexOrThrow(KEY_DATE))*1000);
     t.comment = DbUtils.getString(c,KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
@@ -271,21 +267,11 @@ public class Transaction extends Model {
     this.accountId = accountId;
     this.amount = amount;
   }
-  /**
-   * we store the date string and create a date object from it
-   * this is only used with String stored in the database, where we are sure that they are correctly formated
-   * @param strDate format accepted by {@link TransactionDatabase#dateTimeFormat}
-   */
-  private void setDate(String strDate) {
-    dateAsString = strDate;
-    date = Utils.dateTimeFromSQL(strDate);
-  }
   public void setDate(Date date){
     this.date = date;
-    dateAsString = TransactionDatabase.dateTimeFormat.format(date);
   }
-  public String getDateAsString() {
-    return dateAsString;
+  private void setDate(Long unixEpoch) {
+    this.date = new Date(unixEpoch);
   }
   public Date getDate() {
     return date;
@@ -309,7 +295,10 @@ public class Transaction extends Model {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
-    initialValues.put(KEY_DATE, dateAsString);
+    //store in UTC
+    initialValues.put(KEY_DATE, date.getTime()/1000);
+    //temporary
+    initialValues.put("date",0);
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);
     initialValues.put(KEY_PAYEEID, payee_id);
@@ -440,16 +429,10 @@ public class Transaction extends Model {
         return false;
     } else if (!comment.equals(other.comment))
       return false;
-    //we only compare dateAsString, since dates might have different millisecond values
-/*    if (date == null) {
+    if (date == null) {
       if (other.date != null)
         return false;
     } else if (!date.equals(other.date))
-      return false;*/
-    if (dateAsString == null) {
-      if (other.dateAsString != null)
-        return false;
-    } else if (!dateAsString.equals(other.dateAsString))
       return false;
     if (id == null) {
       if (other.id != null)
