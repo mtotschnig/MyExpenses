@@ -53,7 +53,7 @@
           android:layout_height="wrap_content" />
     </LinearLayout>
     <CheckBox android:id="@+id/export_delete"
-        android:checked="true"
+        android:checked="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_export_delete"/>
@@ -65,6 +65,7 @@
         android:text="@string/dialog_export_not_yet_exported"/>
     <TextView
         style="@style/dialog_text_bold"
+        android:visibility="gone"
         android:layout_margin="@dimen/general_padding"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
