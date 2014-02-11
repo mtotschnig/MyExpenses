@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentUris;
@@ -47,7 +48,7 @@ public class Transfer extends Transaction {
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
-    initialValues.put(KEY_DATE, dateAsString);
+    initialValues.put(KEY_DATE, date.getTime()/1000);
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     initialValues.put(KEY_CR_STATUS,crStatus.name());

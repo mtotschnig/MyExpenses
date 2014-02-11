@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.totschnig.myexpenses.R;
@@ -204,9 +205,9 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       }
     }
     ((TextView) view.findViewById(R.id.Date)).setText(
-        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.getDate())
+        DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate())
         + " "
-        + new SimpleDateFormat("HH:mm").format(mTransaction.getDate()));
+        + DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate()));
     ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
         new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
     if (!mTransaction.comment.equals(""))

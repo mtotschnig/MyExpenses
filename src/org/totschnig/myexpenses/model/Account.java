@@ -95,7 +95,7 @@ public class Account extends Model  implements Serializable {
       KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
         + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
         + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-        + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance";
+        + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) as current_balance";
   PROJECTION_FULL = new String[baseLength+6];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
@@ -696,8 +696,8 @@ public class Account extends Model  implements Serializable {
         }
       }
       String payee = DbUtils.getString(c, KEY_PAYEE_NAME);
-      String dateStr = formatter.format(Utils.dateTimeFromSQL(c.getString(
-          c.getColumnIndexOrThrow(KEY_DATE))));
+      String dateStr = formatter.format(new Date(c.getLong(
+          c.getColumnIndexOrThrow(KEY_DATE))*1000));
       long amount = c.getLong(
           c.getColumnIndexOrThrow(KEY_AMOUNT));
       BigDecimal bdAmount = new Money(currency,amount).getAmountMajor();

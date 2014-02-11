@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.model;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -68,7 +69,7 @@ public class SplitTransaction extends Transaction {
     initialValues.clear();
     //make sure that parts have the same date as their parent,
     //otherwise they might be incorrectly counted in groups
-    initialValues.put(KEY_DATE, dateAsString);
+    initialValues.put(KEY_DATE, date.getTime()/1000);
     cr().update(CONTENT_URI,initialValues,KEY_PARENTID + " = ?",
         new String[] {idStr});
     inEditState = false;
