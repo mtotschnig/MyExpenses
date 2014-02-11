@@ -121,7 +121,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
           .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
           .commit();
-        return true;
+        //fall through to next command since we are finishing action mode here as well
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
