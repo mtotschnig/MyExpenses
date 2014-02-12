@@ -745,6 +745,12 @@ public class TransactionProvider extends ContentProvider {
       }
       Cursor c = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
       if (c.getCount() != 0) {
+        c.moveToFirst();
+        if (c.getLong(0) == Long.valueOf(segment)) {
+          //silently do nothing if we try to update with the same value
+          c.close();
+          return 0;
+        }
         c.close();
         throw new SQLiteConstraintException();
       }
