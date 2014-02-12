@@ -28,6 +28,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -731,8 +732,17 @@ public class TransactionProvider extends ContentProvider {
       segment = uri.getPathSegments().get(1);
       //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
       String label = values.getAsString(KEY_LABEL);
-      String selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
-      String[] selectionArgs = new String[]{label,segment};
+
+      String selection;
+      String[] selectionArgs;
+      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+        selection = "label = ? and ((parent_id is null and (select parent_id from categories where _id = ?) is null) or parent_id = (select parent_id from categories where _id = ?))";
+        selectionArgs= new String[]{label,segment,segment};
+      } else {
+        //this syntax crashes on 2.1, maybe 2.2
+        selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
+        selectionArgs= new String[]{label,segment};
+      }
       Cursor c = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
       if (c.getCount() != 0) {
         c.close();
