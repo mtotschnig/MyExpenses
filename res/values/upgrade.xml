@@ -18,8 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_123">
-    <item>UI improvements: #115,#117,#120,#122</item>
+  <string-array name="whats_new_124">
+    <item>UI improvements: #115,#117,#120,#122,#124</item>
+    <item>Made transaction dates timezone aware</item>
   </string-array>
   <string-array name="whats_new_118">
     <item>Modernized UI: navigation drawer and contextual action bar</item>

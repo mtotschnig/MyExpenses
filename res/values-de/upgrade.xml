@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_124">
+    <item>UI Verbesserungen: #115,#117,#120,#122,#124</item>
+    <item>Buchungsdaten berücksichtigen Zeitzone</item>
+  </string-array>
   <string-array name="whats_new_118">
     <item>Modernisierte Benutzeroberfläche: Navigationsleiste und kontextbezogene Aktionsleiste</item>
   </string-array>
