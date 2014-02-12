@@ -200,8 +200,9 @@
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
   <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
+  <string name="no_methods">Keine Zahlungsweisen.</string>
   <string name="no_parties">Keine Parteien.</string>
-  <string name="no_plans">Keine Pläne</string>
+  <string name="no_plans">Keine Pläne.</string>
   <string name="no_split_parts">Keine Split-Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
@@ -321,6 +322,7 @@
   <string name="pref_visit_website_title">Website besuchen</string>
   <string name="progress_dialog_create_calendar">Lokaler Kalender wird angelegt …</string>
   <string name="progress_dialog_create_plan">Neuer Plan wird angelegt …</string>
+  <string name="progress_dialog_deleting">Objekte werden gelöscht &#8230;</string>
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen …</string>
   <string name="progress_dialog_setup">Datenbank wird initialisiert …</string>
   <string name="reference_number">Referenznummer</string>

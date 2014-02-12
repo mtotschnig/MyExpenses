@@ -199,7 +199,8 @@
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportadas.</string>
   <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
-  <string name="no_parties">Ningunos partidos</string>
+  <string name="no_methods">No hay métodos.</string>
+  <string name="no_parties">Ningunos partidos.</string>
   <string name="no_plans">No hay planes.</string>
   <string name="no_split_parts">Ningunas divisiones.</string>
   <string name="no_templates">Ningunas plantillas</string>
@@ -318,8 +319,9 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Registro de cambios y preguntas frecuentes</string>
   <string name="pref_visit_website_title">Visite el sitio web</string>
-  <string name="progress_dialog_create_calendar">Creación de calendario local ...</string>
-  <string name="progress_dialog_create_plan">Crear nuevo plan ...</string>
+  <string name="progress_dialog_create_calendar">Creación de calendario local &#8230;</string>
+  <string name="progress_dialog_create_plan">Crear nuevo plan &#8230;</string>
+  <string name="progress_dialog_deleting">Eliminación de objetos &#8230;</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos …</string>
   <string name="progress_dialog_setup">Base de datos se inicializa …</string>
   <string name="reference_number">Número de referencia</string>

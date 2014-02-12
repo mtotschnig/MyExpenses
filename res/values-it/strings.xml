@@ -199,6 +199,7 @@
   <string name="no_expenses">Non ci sono spese.</string>
   <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora stati esportati.</string>
   <string name="no_mapped_transactions">Nessuna transazione è stata assegnata a categorie in questo periodo.</string>
+  <string name="no_methods">Non ci sono modi.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_plans">Nessun piano.</string>
   <string name="no_split_parts">Nessuna somma parziale.</string>
@@ -320,7 +321,8 @@
   <string name="pref_visit_website_title">Visita il sito web</string>
   <string name="progress_dialog_create_calendar">Creazione calendario locale …</string>
   <string name="progress_dialog_create_plan">Creazione di una nuova scadenza …</string>
-  <string name="progress_dialog_loading">Caricamento di oggetti dal database …</string>
+  <string name="progress_dialog_deleting">Cancellazione degli oggetti &#8230;</string>
+  <string name="progress_dialog_loading">Caricamento degli oggetti dal database …</string>
   <string name="progress_dialog_setup">Il database è inizializzato …</string>
   <string name="reference_number">Numero di riferimento</string>
   <string name="request_licence_mail_description">Si prega di descrivere (in inglese, francese o tedesco) il vostro contributo a Le mie spese (es.: donazione tramite Paypal, bug report, analisi, traduzione).</string>

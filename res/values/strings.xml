@@ -221,7 +221,7 @@
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
   <string name="no_mapped_transactions">No transactions have been mapped to categories during this period.</string>
-  <string name="no_methods">No payment methods</string>
+  <string name="no_methods">No payment methods.</string>
   <string name="no_parties">No parties.</string>
   <string name="no_plans">No plans.</string>
   <string name="no_split_parts">No split parts.</string>
@@ -342,7 +342,7 @@
   <string name="pref_visit_website_title">Visit Website</string>
   <string name="progress_dialog_create_calendar">Creating local calendar &#8230;</string>
   <string name="progress_dialog_create_plan">Creating new plan &#8230;</string>
-  <string name="progress_dialog_deleting">Deleting &#8230;</string>
+  <string name="progress_dialog_deleting">Deleting objects &#8230;</string>
   <string name="progress_dialog_loading">Loading object from database &#8230;</string>
   <string name="progress_dialog_setup">Database is initialized &#8230;</string>
   <string name="reference_number">Reference Number</string>
