@@ -16,7 +16,7 @@
 package org.totschnig.myexpenses.provider;
 
 public class DatabaseConstants {
-  public static final String KEY_DATE = "date_unixepoch";
+  public static final String KEY_DATE = "date";
   public static final String KEY_AMOUNT = "amount";
   public static final String KEY_COMMENT = "comment";
   public static final String KEY_ROWID = "_id";
@@ -139,7 +139,6 @@ public class DatabaseConstants {
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
   //if we do not cast the result to integer, we would need to do the conversion in Java
-
   public static final String YEAR  = "CAST(strftime('%Y',date,'unixepoch','localtime') AS integer)";
   public static final String YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
   public static final String MONTH = "CAST(strftime('%m',date,'unixepoch','localtime') AS integer)";
