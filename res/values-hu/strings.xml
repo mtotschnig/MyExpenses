@@ -81,7 +81,6 @@
   <string name="donate_dialog_text">Támogatását PayPal, Bitcoin vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses">Kiadások exportálása</string>
-  <string name="export_expenses_outputfile_exists">A kimeneti fájl már létezik. Kérem várjon egy percet és próbálja meg újra.</string>
   <string name="export_expenses_sdcard_failure">Kiadások SD-kártyára exportálása sikertelen</string>
   <string name="export_expenses_sdcard_success">Kiadások sikeresen a(z) %1$s fájlba exportálva</string>
   <string name="external_storage_unavailable">Külső tárhely (SD-kártya) nem elérhető</string>

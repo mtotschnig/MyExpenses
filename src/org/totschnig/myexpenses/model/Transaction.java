@@ -178,7 +178,7 @@ public class Transaction extends Model {
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.id = id;
     t.setDate(c.getLong(
-        c.getColumnIndexOrThrow(KEY_DATE))*1000);
+        c.getColumnIndexOrThrow(KEY_DATE))*1000L);
     t.comment = DbUtils.getString(c,KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
@@ -297,8 +297,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
     //store in UTC
     initialValues.put(KEY_DATE, date.getTime()/1000);
-    //temporary
-    initialValues.put("date",0);
+
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);
     initialValues.put(KEY_PAYEEID, payee_id);

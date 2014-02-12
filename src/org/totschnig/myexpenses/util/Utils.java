@@ -170,7 +170,7 @@ public class Utils {
    * @return formated string
    */
   public static String convDateTime(String text, DateFormat format) {
-    Date date = new Date(Long.valueOf(text)*1000);
+    Date date = new Date(Long.valueOf(text)*1000L);
     return format.format(date);
   }
   /**

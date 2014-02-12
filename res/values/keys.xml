@@ -61,6 +61,8 @@
   <!-- User retrieving MyExpenses from a repository should not hit this message,
    so we leave it without localization -->
   <string name="error_accessing_market">No market application found</string>
+  <!-- only shown in theoretically possible edge case, hence no need for localization -->
+  <string name="export_expenses_outputfile_exists">Output file already exists.</string>
   <string name="website">http://www.myexpenses.mobi</string>
   
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>

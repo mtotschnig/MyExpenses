@@ -82,7 +82,6 @@
   <string name="donate_dialog_text">Si us plau, feu una donació amb PayPal, Flattr o Bitcoin i, a continuació, demaneu una clau de contribuïdor a la pantalla de preferències.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exporteu les despeses</string>
-  <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu un minut i torneu-ho a intentar.</string>
   <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a la tarja SD.</string>
   <string name="export_expenses_sdcard_success">Les despses s\'han exportat al fitxer %1$s</string>
   <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>

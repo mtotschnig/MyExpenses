@@ -556,8 +556,41 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "primary key (instance_id,transaction_id));");
     }
     if (oldVersion < 42) {
-      db.execSQL("alter table transactions add column date_unixepoch datetime");
-      db.execSQL("update transactions set date_unixepoch=strftime('%s',date,'localtime')");
+      //migrate date field to unix time stamp (UTC)
+      db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
+      db.execSQL("CREATE TABLE transactions (" +
+          " _id integer primary key autoincrement," +
+          " comment text, date DATETIME not null," +
+          " amount integer not null," +
+          " cat_id integer references categories(_id)," +
+          " account_id integer not null references accounts(_id)," +
+          " payee_id integer references payee(_id)," +
+          " transfer_peer integer references transactions(_id)," +
+          " transfer_account integer references accounts(_id)," +
+          " method_id integer references paymentmethods(_id)," +
+          " parent_id integer references transactions(_id)," +
+          " status integer default 0," +
+          " cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'RECONCILED'," +
+          " number text)");
+      db.execSQL("INSERT INTO transactions " +
+              "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number) " +
+              "SELECT " +
+                "_id, " +
+                "comment, " +
+                "strftime('%s',date,'utc'), " +
+                "amount, "+
+                "cat_id, " +
+                "account_id, " +
+                "payee_id, " +
+                "transfer_peer, " +
+                "transfer_account, " +
+                "method_id," +
+                "parent_id," +
+                "status," +
+                "cr_status, " +
+                "number " +
+              "FROM transactions_old");
+          db.execSQL("DROP TABLE transactions_old");
     }
   }
 }

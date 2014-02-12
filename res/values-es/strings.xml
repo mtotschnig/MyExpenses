@@ -89,7 +89,6 @@
   <string name="donate_dialog_text">Por favor,  donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportación de los gastos</string>
-  <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere un minuto antes de intentarlo de nuevo.</string>
   <string name="export_expenses_sdcard_failure">Exportación de los gastos a la tarjeta SD ha fallado.</string>
   <string name="export_expenses_sdcard_success">Gastos han sido exportados al archivo %1$s</string>
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es disponible.</string>

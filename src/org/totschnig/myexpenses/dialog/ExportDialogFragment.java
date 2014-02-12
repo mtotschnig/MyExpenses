@@ -128,21 +128,14 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     formatRB = (RadioButton) view.findViewById(R.id.csv);
     String format = MyApplication.getInstance().getSettings()
         .getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
-    boolean deleteP = true;
     if (format.equals("CSV"))
       (formatRB).setChecked(true);
     deleteCB.setOnClickListener(this);
     if (Account.getHasExported(accountId)) {
-      deleteP = false;
-      deleteCB.setChecked(false);
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
     }
     warningTV.setText(warningText);
-    if (deleteP)
-      warningTV.setVisibility(View.VISIBLE);
-    else
-      warningTV.setVisibility(View.GONE);
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
@@ -196,6 +189,11 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     }
   }
 
+  @Override
+  public void onClick(View view) {
+   configure(((CheckBox) view).isChecked());
+  }
+
   /* 
    * if we are in the situation, where there are already exported transactions
    * we suggest to the user the default of again exporting without deleting
@@ -203,16 +201,21 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
    * since a partial deletion of only transactions not yet exported would
    * lead to an inconsistent state
    */
+  private void configure(boolean delete) {
+    if (delete) {
+      notYetExportedCB.setEnabled(false);
+      notYetExportedCB.setChecked(false);
+      warningTV.setVisibility(View.VISIBLE);
+    } else {
+      notYetExportedCB.setEnabled(true);
+      notYetExportedCB.setChecked(true);
+      warningTV.setVisibility(View.GONE);
+    }
+  }
+
   @Override
-  public void onClick(View view) {
-   if (((CheckBox) view).isChecked()) {
-     notYetExportedCB.setEnabled(false);
-     notYetExportedCB.setChecked(false);
-     warningTV.setVisibility(View.VISIBLE);
-   } else {
-     notYetExportedCB.setEnabled(true);
-     notYetExportedCB.setChecked(true);
-     warningTV.setVisibility(View.GONE);
-   }
+  public void onStart() {
+    super.onStart();
+    configure(deleteCB.isChecked());
   }
 }

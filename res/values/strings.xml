@@ -110,7 +110,6 @@
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
   <string name="expense">Expense</string>
   <string name="export_expenses">Expenses export</string>
-  <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one minute, and try again.</string>
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
   <string name="external_storage_unavailable">External storage (sdcard) not available</string>

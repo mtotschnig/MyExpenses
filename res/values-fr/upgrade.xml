@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_124">
+    <item>Améliorations de l\'interface utilisateur: #115,#117,#120,#122,#124</item>
+    <item>Les dates des transactions prennent en considération le fuseau horaire</item>
+  </string-array>
   <string-array name="whats_new_118">
     <item>Interface d\'utilisateur modernisée : panneau de navigation et barre d\'action contextuelle</item>
   </string-array>

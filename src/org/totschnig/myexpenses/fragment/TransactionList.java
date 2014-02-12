@@ -96,7 +96,7 @@ public class TransactionList extends BudgetListFragment implements
   private Account mAccount;
   public boolean hasItems, mappedCategories;
   private Cursor mTransactionsCursor, mGroupingCursor;
-  private DateFormat itemDateFormat;
+  private DateFormat itemDateFormat, localizedTimeFormat;
   private StickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
@@ -136,6 +136,7 @@ public class TransactionList extends BudgetListFragment implements
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
     aObserver = new AccountObserver(new Handler());
     ContentResolver cr= getActivity().getContentResolver();
+    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
     //when account has changed, we might have
     //1) to refresh the list (currency has changed),
     //2) update current balance(opening balance has changed),
@@ -158,8 +159,7 @@ public class TransactionList extends BudgetListFragment implements
   private void setGrouping() {
     switch (mAccount.grouping) {
     case DAY:
-      itemDateFormat = DateFormat.getTimeInstance(
-          DateFormat.SHORT);
+      itemDateFormat = localizedTimeFormat;
       break;
     case MONTH:
       itemDateFormat = new SimpleDateFormat("dd");
@@ -552,16 +552,12 @@ public class TransactionList extends BudgetListFragment implements
   public class MyAdapter extends SimpleCursorAdapter {
     String categorySeparator = " : ",
         commentSeparator = " / ";
-    String measureTimeString;
+    private int dateEms;
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
-      Calendar cal = Calendar.getInstance();
-      cal.set(Calendar.HOUR_OF_DAY, 23);
-      cal.set(Calendar.MINUTE,59);
-      measureTimeString = DateFormat.getTimeInstance(
-          DateFormat.SHORT).format(cal.getTime());
+      dateEms = android.text.format.DateFormat.is24HourFormat(context) ? 3 : 4;
     }
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -582,12 +578,7 @@ public class TransactionList extends BudgetListFragment implements
             new LayoutParams(4, LayoutParams.FILL_PARENT));
       }
       TextView tv = (TextView) v.findViewById(R.id.date);
-      if (mAccount.grouping.equals(Grouping.DAY)) {
-        TextPaint paint = tv.getPaint();
-        tv.setWidth((int) paint.measureText(measureTimeString)+2);
-      } else {
-        tv.setEms(3);
-      }
+      tv.setEms(dateEms);
       v.setTag(holder);
       return v;
   }

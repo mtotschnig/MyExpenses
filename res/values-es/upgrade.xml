@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_124">
+    <item>Mejoras de interfaz de usuario: #115,#117,#120,#122,#124</item>
+    <item>Fechas de transacción son ahora conscientes de zona horaria</item>
+  </string-array>
   <string-array name="whats_new_118">
     <item>Interfaz de usuario modernizada: control de navegación y barra de acción contextual</item>
   </string-array>

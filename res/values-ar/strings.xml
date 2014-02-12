@@ -78,7 +78,6 @@
   <string name="donate">تبرع</string>
   <string name="donate_dialog_text">يمكنك المساهمة عن طريق PayPal أو Flattr أو Bitcoin, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
   <string name="expense">الصرف</string>
-  <string name="export_expenses_outputfile_exists">ملف الاخراج موجود مسبقا. الرجاء حاول مرة أخرى بعد دقيقة.</string>
   <string name="export_expenses">تصدير المصروفات</string>
   <string name="export_expenses_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة</string>
   <string name="export_expenses_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
