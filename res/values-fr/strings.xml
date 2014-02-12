@@ -200,6 +200,7 @@
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Aucune opération exportable.</string>
   <string name="no_mapped_transactions">Aucune opération n\'a été attribuée à aucune catégorie au cours de cette période.</string>
+  <string name="no_methods">Aucune méthode.</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_plans">Aucune échéance.</string>
   <string name="no_split_parts">Aucune sous-opération.</string>
@@ -330,6 +331,7 @@
   <string name="pref_visit_website_title">Visiter le site Web</string>
   <string name="progress_dialog_create_calendar">Création d\'un calendrier local …</string>
   <string name="progress_dialog_create_plan">Création d\'une nouvelle échéance …</string>
+  <string name="progress_dialog_deleting">Les objets sont effaçés &#8230;</string>
   <string name="progress_dialog_loading">Chargement …</string>
   <string name="progress_dialog_setup">Initialisation de la base de données …</string>
   <string name="reference_number">Numéro de référence</string>
