@@ -829,6 +829,8 @@ public class MyExpenses extends LaunchActivity implements
               mAccountsCursor.getInt(columnIndexColor));
   }
   public TransactionList getCurrentFragment() {
+    if (mViewPagerAdapter == null)
+      return null;
     return (TransactionList) getSupportFragmentManager().findFragmentByTag(
         mViewPagerAdapter.getFragmentName(mCurrentPosition));
   }
