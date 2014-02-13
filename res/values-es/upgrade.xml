@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_124">
+  <string-array name="whats_new_125">
     <item>Mejoras de interfaz de usuario: #115,#117,#120,#122,#124</item>
     <item>Fechas de transacción son ahora conscientes de zona horaria</item>
   </string-array>
