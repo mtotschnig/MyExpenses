@@ -431,7 +431,7 @@ public class Transaction extends Model {
     if (date == null) {
       if (other.date != null)
         return false;
-    } else if (!date.equals(other.date))
+    } else if (Math.abs(date.getTime()-other.date.getTime())>30000) //30 seconds tolerance
       return false;
     if (id == null) {
       if (other.id != null)
