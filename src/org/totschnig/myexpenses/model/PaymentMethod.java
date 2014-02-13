@@ -109,6 +109,7 @@ public class PaymentMethod extends Model {
 
   public PaymentMethod() {
     this.paymentType = NEUTRAL;
+    this.label = "";
   }
   public int getPaymentType() {
     return paymentType;

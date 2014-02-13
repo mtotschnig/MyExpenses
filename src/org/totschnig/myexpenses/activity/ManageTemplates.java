@@ -145,6 +145,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
+      finishActionMode();
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(

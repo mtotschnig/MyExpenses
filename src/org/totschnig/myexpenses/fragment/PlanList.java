@@ -344,6 +344,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         mPlanTimeInfo = new HashMap<Long, String>();
         mAdapter.setGroupCursor(mTemplatesCursor);
       }
+      invalidateCAB();
       break;
     case PLANS_CURSOR:
       mPlanTimeInfo = new HashMap<Long, String>();
