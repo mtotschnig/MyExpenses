@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.test.model;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -67,11 +66,7 @@ public class AccountTest extends ModelTest  {
     assertEquals("EUR", account.currency.getCurrencyCode());
     account.save();
     assertTrue(account.id > 0);
-    try {
-      restored = Account.getInstanceFromDb(account.id);
-    } catch (DataObjectNotFoundException e) {
-      fail("Account saved, but could not be retrieved");
-    }
+    restored = Account.getInstanceFromDb(account.id);
     assertEquals(account,restored);
     Long trAmount = (long) 100;
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account.id);
@@ -80,18 +75,8 @@ public class AccountTest extends ModelTest  {
     op1.save();
     assertEquals(account.getCurrentBalance().getAmountMinor().longValue(),openingBalance+trAmount);
     Account.delete(account.id);
-    try {
-      Account.getInstanceFromDb(account.id);
-      fail("Account deleted, but can still be retrieved");
-    } catch (DataObjectNotFoundException e) {
-      //succeed
-    }
-    try {
-      Transaction.getInstanceFromDb(op1.id);
-      fail("Account delete should delete transaction, but operation can still be retrieved");
-    } catch (DataObjectNotFoundException e) {
-      //succeed
-    }
+    assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.id));
+    assertNull("Account delete should delete transaction, but operation can still be retrieved",Transaction.getInstanceFromDb(op1.id));
   }
   /**
    * we test if the db calculates the aggregate sums correctly
@@ -139,11 +124,7 @@ public class AccountTest extends ModelTest  {
   public void testGetInstanceZeroReturnsAccount () {
     //even without inserting, there should be always an account in the database
     //insertData();
-    try {
-      assertNotNull(Account.getInstanceFromDb(0));
-    } catch (DataObjectNotFoundException e) {
-      fail("getInstanceFromDb(0) should return an account");
-    }
+    assertNotNull("getInstanceFromDb(0) should return an account",Account.getInstanceFromDb(0));
   }
   public void testGetAggregateAccountFromDb () {
     insertData();

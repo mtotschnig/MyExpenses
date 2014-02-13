@@ -19,7 +19,6 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
@@ -56,19 +55,11 @@ public class TransactionTest extends ModelTest  {
     op2.save();
     assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+2*amount);
     Transaction restored;
-    try {
-      restored = Transaction.getInstanceFromDb(op2.id);
-      assertEquals(op2,restored);
-    } catch (DataObjectNotFoundException e) {
-       fail("Could not restore transaction");
-    }
+    restored = Transaction.getInstanceFromDb(op2.id);
+    assertEquals(op2,restored);
+
     Template.delete(t.id);
-    try {
-      Template.getInstanceFromDb(t.id);
-      fail("Template deleted, but can still be retrieved");
-    } catch (DataObjectNotFoundException e) {
-      //succeed
-    }
+    assertNull("Template deleted, but can still be retrieved",Template.getInstanceFromDb(t.id));
   }
   public void testTransaction() {
     String payee = "N.N";
@@ -82,22 +73,14 @@ public class TransactionTest extends ModelTest  {
     assertEquals(1L, Transaction.getSequenceCount().longValue());
     //save creates a payee as side effect
     assertEquals(1,countPayee(payee));
-    try {
-      Transaction restored = Transaction.getInstanceFromDb(op1.id);
-      assertEquals(op1,restored);
-    } catch (DataObjectNotFoundException e) {
-      fail("Could not restore transaction");
-    }
+    Transaction restored = Transaction.getInstanceFromDb(op1.id);
+    assertEquals(op1,restored);
+
     Long id = op1.id;
     Transaction.delete(id);
     //Transaction sequence should report on the number of transactions that have been created
     assertEquals(1L, Transaction.getSequenceCount().longValue());
-    try {
-      Transaction.getInstanceFromDb(id);
-      fail("Transaction deleted, but can still be retrieved");
-    } catch (DataObjectNotFoundException e) {
-      //succeed
-    }
+    assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(id));
     op1.saveAsNew();
     assertTrue(op1.id != id);
     //the payee is still the same, so there should still be only one
@@ -112,27 +95,13 @@ public class TransactionTest extends ModelTest  {
     op.comment = "test transfer";
     op.save();
     assertTrue(op.id > 0);
-    try {
-      peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
-      assertEquals(peer.id,op.transfer_peer);
-      assertEquals(op.id, peer.transfer_peer);
-      assertEquals(op.transfer_account, peer.accountId);
-      Transaction.delete(op.id);
-      try {
-        Transaction.getInstanceFromDb(op.id);
-        fail("Transaction deleted, but can still be retrieved");
-      } catch (DataObjectNotFoundException e) {
-        //succeed
-      }
-      try {
-        Transaction.getInstanceFromDb(peer.id);
-        fail("Transfer delete should delete peer, but peer can still be retrieved");
-      } catch (DataObjectNotFoundException e) {
-        //succeed
-      }
-    } catch (DataObjectNotFoundException e) {
-      fail("Could not restore peer for transfer");
-    }
+    peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
+    assertEquals(peer.id,op.transfer_peer);
+    assertEquals(op.id, peer.transfer_peer);
+    assertEquals(op.transfer_account, peer.accountId);
+    Transaction.delete(op.id);
+    assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op.id));
+    assertNull("Transfer delete should delete peer, but peer can still be retrieved",Transaction.getInstanceFromDb(peer.id));
   }
   /**
    * we test if split parts get the date of their parent
@@ -158,17 +127,13 @@ public class TransactionTest extends ModelTest  {
     op1.save();
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.id);
-    assertTrue(restored.getDateAsString().equals(Transaction.getInstanceFromDb(split1.id).getDateAsString()));
-    assertTrue(restored.getDateAsString().equals(Transaction.getInstanceFromDb(split2.id).getDateAsString()));
+    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.id).getDate()));
+    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.id).getDate()));
     restored.crStatus = CrStatus.CLEARED;
     restored.save();
-    try {
       //splits should not be touched by simply saving the parent
-      Transaction.getInstanceFromDb(split1.id);
-      Transaction.getInstanceFromDb(split2.id);
-    } catch (DataObjectNotFoundException e) {
-      fail("Split parts deleted after saving parent");
-    }
+    assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split1.id));
+    assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split2.id));
   }
   public int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI,new String[] {"count(*)"},
