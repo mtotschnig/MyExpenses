@@ -15,8 +15,6 @@ import org.totschnig.myexpenses.test.util.Fixture;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import android.content.Intent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 
 import com.robotium.solo.Solo;
 
@@ -60,13 +58,15 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     invokeContextAction("EDIT");
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
   }
+
   public void testC_CreateTemplate() {
     String templateTitle = "Robotium Template Test";
     setSelection();
     invokeContextAction("CREATE_TEMPLATE");
     assertTrue("Edit Title dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_template_title)));
     mSolo.enterText(0, templateTitle);
-    ((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
+    mSolo.sendKey(Solo.ENTER);
+    //((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
     clickOnActionBarItem("MANAGE_PLANS");
     assertTrue(mSolo.waitForActivity(ManageTemplates.class.getSimpleName()));
     assertTrue(mSolo.searchText(templateTitle));
