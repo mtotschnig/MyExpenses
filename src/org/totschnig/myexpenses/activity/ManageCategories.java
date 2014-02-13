@@ -117,11 +117,12 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         mListFragment.setGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
       case R.id.DELETE_COMMAND_DO:
+        finishActionMode();
         getSupportFragmentManager().beginTransaction()
           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
           .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
           .commit();
-        //fall through to next command since we are finishing action mode here as well
+        return true;
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;

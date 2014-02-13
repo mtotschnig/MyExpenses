@@ -158,6 +158,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
+      invalidateCAB();
       break;
     }
   }

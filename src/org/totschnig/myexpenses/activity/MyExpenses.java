@@ -69,9 +69,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;  
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -506,6 +505,7 @@ public class MyExpenses extends LaunchActivity implements
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
+      finishActionMode();
       getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(
             TaskExecutionFragment.TASK_DELETE_TRANSACTION,
