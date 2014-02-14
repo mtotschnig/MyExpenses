@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_127">
+    <item>Corrected erroneous display of current balance for aggregate accounts</item>
+ </string-array>
   <string-array name="whats_new_126">
     <item>Bug fixes</item>
  </string-array>
