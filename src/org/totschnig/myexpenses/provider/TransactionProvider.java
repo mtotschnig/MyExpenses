@@ -282,7 +282,7 @@ public class TransactionProvider extends ContentProvider {
             "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
                 + VIEW_COMMITTED
                 + " WHERE account_id = accounts._id AND (cat_id is null OR cat_id != "
-                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) AS current_balance, " +
+                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS current_balance, " +
             "(SELECT coalesce(sum(amount),0) FROM "
                 + VIEW_COMMITTED
                 + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") AS sum_expenses," +
@@ -315,6 +315,9 @@ public class TransactionProvider extends ContentProvider {
             "is_aggregate,"+defaultOrderBy,//real accounts should come first, then aggregate accounts
             null);
         c = db.rawQuery(sql, null);
+        if (MyApplication.debug) {
+          Log.d(TAG, "Query : " + sql);
+        }
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
       }
