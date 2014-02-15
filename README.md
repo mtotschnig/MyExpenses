@@ -55,9 +55,7 @@ git submodule init
 git submodule update
 echo "sdk.dir={sdk-dir}">local.properties
 cp -rp {sdk-dir}/extras/android/support/v7/appcompat .
-cd appcompat
-android update lib-project --path .
-cd ..
+android update lib-project --path ./appcompat
 ant clean
 ant release
 ```
