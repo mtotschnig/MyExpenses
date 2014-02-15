@@ -155,7 +155,7 @@
      </PreferenceCategory>
      <PreferenceCategory android:title="@string/feedback">
     <Preference android:key="@string/pref_rate_key"
-        android:title="@string/help_button_rate">>
+        android:title="@string/help_button_rate">
     </Preference>
     <Preference android:key="@string/pref_send_feedback_key"
         android:title="@string/pref_send_feedback_title"/>
