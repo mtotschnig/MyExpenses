@@ -21,17 +21,20 @@ Features
 - Password protection, recoverable with security question in Contrib version
 - Integrated Help
 - Data backup and restore
-- Aggregate financial situation (Contrib version)
+- Aggregate financial situation over all accounts with same currency
 - Two themes: light and dark
+
+Dependencies
+=====
+*My Expenses* depends on:
+- Emil Sjölander's <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
+
 
 Build
 =====
-*My Expenses* depends on two libraries:
-- Jake Wharton's <a href="http://actionbarsherlock.com">ActionBarSherlock</a>
-- Emil Sjölander's <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
 
 ```
-git clone https://github.com/mtotschnig/MyExpenses.git
+git clone --depth 1 https://github.com/mtotschnig/MyExpenses.git
 ```
 
 Gradle
