@@ -86,3 +86,5 @@ en:
     Reading and writing the calendar: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
   permissions-external-storage: |
     Writing USB storage: Storage of QIF and CSV exports and backup files
+  permissions-internet: |
+    Network communication: Crash reports are automatically sent to developers unless deactivated by user in app preferences.

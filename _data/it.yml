@@ -85,3 +85,5 @@ it:
     Lettura e scrittura del calendario: scadenze per le futuri e ricorrenti operazioni sono memorizzate sia in un apposito calendario locale o in qualsiasi altro calendario si assegna.
   permissions-external-storage: |
     Scrittura USB: Stoccaggio di QIF e CSV esportazioni e file di backup
+  permissions-internet: |
+    Comunicazione di rete: Crash report vengono inviati automaticamente a sviluppatori se non disattivata dall'utente nelle preferenze di app.

@@ -77,3 +77,5 @@ de:
     Kalenderdaten lesen und schreiben: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
   permissions-external-storage: |
     USB Speicher schreiben: Speichern von QIF und CSV-Export und Backup-Dateien.
+  permissions-internet: |
+    Netzwerk-Kommunikation: Berichte über Abstürze werden automatisch an Entwickler gesendet, sofern dieses Verhalten in den Einstellungen nicht deaktiviert wurde.

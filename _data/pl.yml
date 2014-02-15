@@ -17,9 +17,11 @@ pl:
     sourcecode: Kod źródłowy
     links: Linki
   features:
+    manage_accounts: Do pięciu kont z przelewami
     plans: Definiuj szablony i plany dla przyszłych i powtarzalnych transakcji
     grouped_list: Grupuj transakcje na dni, tygodnie, miesiące, lata i wyświetl kwoty dla każdej z grup
     distribution: Dwa poziomy kategorii (import z Grisbi XML)
+    split: Podziela transakcje (wersja Contrib)
     calculator: Kalkulator
     export: Eksport do QIF i CSV (Microsoft Excel), może być automatycznie udostępniany (przez E-mail, FTP, Dropbox, ...)
     password: Zabezpieczenie hasłem
@@ -36,7 +38,6 @@ pl:
       split_transaction: Podział transakcji
       security_question: Pytanie bezpieczeństwa
       reset_all: Resetuj wszystkie konta
-      aggregate: Sumy dla wszystkich kont
     licence-howto-buy:
       intro: |
         Masz następujące opcje dla nabycia licencji Contrib:
@@ -81,3 +82,5 @@ pl:
     Moje Wydatki potrzebują następujących uprawnień
   permissions-calendar: |
     Czytanie i zapisywanie kalendarza: Plany na przyszłość i powtarzalne transakcje są przechowywane albo w specjalnym lokalnym kalendarza albo w każdym innym kalendarzu jaki wybierzesz.
+  permissions-internet: |
+    Komunikacja w sieci: Raporty o awariach są automatycznie wysyłane do twórców chyba że są wyłączone przez użytkownika w preferencjach aplikacji.

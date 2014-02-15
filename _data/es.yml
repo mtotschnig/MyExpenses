@@ -81,3 +81,6 @@ es:
     Leer y escribir el calendario: Los planes para las transacciones futuras y recurrentes se almacenan en un calendario local especial o en cualquier otro calendario que asigne.
   permissions-external-storage: |
     Writing USB storage: Almacenamiento de las exportaciones QIF y CSV y archivos de copia de seguridad
+  permissions-internet: |
+    Comunicación de la red: accidente de informes se envían automáticamente a desarrolladores a menos desactivada por el usuario en las preferencias de la aplicación.
+

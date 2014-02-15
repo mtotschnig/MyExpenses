@@ -86,3 +86,5 @@ tr:
     Takvimin okunması ve yazılması: gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
   permissions-external-storage: |
     Writing USB storage: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması
+  permissions-internet: |
+    Ağ iletişimi: kullanıcı tarafından uygulama tercihlerinde devre dışı bırakılmadıysa, çökme raporları otomatik olarak geliştiricilere gönderilir.

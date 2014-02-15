@@ -67,10 +67,10 @@ fr:
       suggestions. Si vous rencontrez un problème ou imaginez une amélioration, ajoutez une
       <a href="https://github.com/mtotschnig/MyExpenses/issues/new">entrée</a> dans le Issue Tracker de Github.
     test: |
-      Si vous êtes intéressé à aider à tester les versions à venir, rejoignez le Google groupe
+      Si vous êtes intéressé à tester les versions futures, rejoignez le Google groupe
       <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
     translate: |
-      Vous pouvez aider à <a class="intern" href="#translate">traduire</a> <span class="application">My Expenses</span> dans d'autres langues.
+      Vous pouvez aussi aider à <a class="intern" href="#translate">traduire</a> <span class="application">My Expenses</span> dans d'autres langues.
     premium: |
       S'il vous plaît envisager l'achat d'une <a class="intern" href="#premium">licence Contrib</a> pour un accès illimité à toutes les fonctions Premium.
   google-play:
@@ -81,4 +81,7 @@ fr:
     Mes Dépenses demande les permissions suivantes :
   permissions-calendar: |
     Lire et écrire dans le calendrier : les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
-  permissions-external-storage: "Writing USB storage: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.    \n"
+  permissions-external-storage: |
+    Écriture mémoire USB : enregistrement des fichiers de sauvegarde et exportation QIF et CSV
+  permissions-internet: |
+    Communication réseau : les rapports d'incidents sont automatiquement envoyés aux développeurs, sauf si l'option est désactivée dans les préférences de l'application.
