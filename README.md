@@ -50,14 +50,12 @@ gradle build
 Ant
 ---
 ```
-echo "sdk.dir={sdk-dir}">local.properties
-mkdir MyExpenses/libs
-cp {sdk-dir}/extras/android/support/v4/android-support-v4.jar MyExpenses/libs
-git clone https://github.com/emilsjolander/StickyListHeaders.git
-git clone https://github.com/JakeWharton/ActionBarSherlock.git
-cd ActionBarSherlock/actionbarsherlock
-android update lib-project --path .
-cp {sdk-dir}/extras/android/support/v4/android-support-v4.jar libs
-cd ../..
 cd MyExpenses
+git submodule init
+git submodule update
+echo "sdk.dir={sdk-dir}">local.properties
+cp -rp {sdk-dir}/extras/android/support/v7/appcompat .
+android update lib-project --path ./appcompat
+ant clean
 ant release
+```
