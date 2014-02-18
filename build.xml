@@ -31,7 +31,6 @@
 
          -->
     <property file="ant.properties" />
-    <property name="contrib.secret" value="RANDOM_SECRET"/>
     <property name="rev" value="4"/>
     <!-- The project.properties file is created and updated by the 'android'
          tool, as well as ADT.
@@ -97,7 +96,6 @@
         overwrite="true" encoding="utf-8">
       <filterset>
         <filter token="build.date" value="${DSTAMP}-${TSTAMP}"/>
-        <filter token="contrib.secret" value="${contrib.secret}"/>
       </filterset>
     </copy>
   </target>

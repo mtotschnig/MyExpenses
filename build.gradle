@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     repositories {
         mavenCentral()
@@ -35,4 +37,13 @@ android {
     abortOnError false
   }
 }
-
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd-HHmm')
+    return formattedDate
+}
+task copyTask(type: Copy) {
+    from 'template/app.properties'
+    into 'res/raw'
+    filter(ReplaceTokens, tokens: ["build.date": getDate()])
+}

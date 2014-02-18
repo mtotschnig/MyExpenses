@@ -41,8 +41,6 @@ Gradle
 ------
 ```
 cd MyExpenses
-#need to figure out how to migrate this from Ant to Gradle
-cp template/app.properties res/raw/
 export ANDROID_HOME={sdk-dir}
 gradle build
 ```
