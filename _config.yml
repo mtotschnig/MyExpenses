@@ -66,6 +66,38 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
+    - 2.0.1.3
+    - 2014-02-18
+    -
+      en: |
+        Fixed gradle build (F-Droid only).
+  -
+    - 2.0.1.2
+    - 2014-02-14
+    -
+      en: |
+        Corrected erroneous display of current balance for aggregate accounts.
+  -
+    - 2.0.1.1
+    - 2014-02-13
+    -
+      en: |
+        Bug fixes
+  -
+    - 2.0.1
+    - 2014-02-12
+    -
+      en: |
+        UI improvements: #115,#117,#120,#122,#124. Made transaction dates timezone aware.
+      fr: |
+        Améliorations de l\'interface utilisateur: #115,#117,#120,#122,#124. Les dates des transactions prennent en considération le fuseau horaire.
+      de: |
+        UI Verbesserungen: #115,#117,#120,#122,#124. Buchungsdaten berücksichtigen Zeitzone.
+      it: |
+        Miglioramenti dell\'UI: #115,#117,#120,#122,#124. Date transazioni tengono conto del fusorario.
+      es: |
+        Mejoras de interfaz de usuario: #115,#117,#120,#122,#124. Fechas de transacción son ahora conscientes de zona horaria.
+  -
     - 2.0
     - 2014-01-31
     -
