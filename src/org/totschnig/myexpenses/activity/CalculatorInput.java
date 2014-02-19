@@ -26,6 +26,8 @@ import org.totschnig.myexpenses.R;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Stack;
 
 public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implements OnClickListener {
@@ -264,15 +266,18 @@ public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implem
       super.onSaveInstanceState(outState);
       outState.putString("result", result);
       outState.putChar("lastOp", lastOp);
-      outState.putSerializable("stack", stack);
+      outState.putBoolean("isInEquals", isInEquals);
+      outState.putSerializable("stack", stack.toArray(new String[stack.size()]));
     }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
       super.onRestoreInstanceState(savedInstanceState);
       result = savedInstanceState.getString("result");
       lastOp = savedInstanceState.getChar("lastOp");
-      stack = (Stack<String>) savedInstanceState.getSerializable("stack");
-      if (lastOp != '\0')
+      isInEquals = savedInstanceState.getBoolean("isInEquals");
+      stack = new Stack<String>();
+      stack.addAll(Arrays.asList((String[])savedInstanceState.getSerializable("stack")));
+      if (lastOp != '\0' && !isInEquals)
         tvOp.setText(String.valueOf(lastOp));
       tvResult.setText(result);
     }
