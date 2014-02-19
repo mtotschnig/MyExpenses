@@ -47,3 +47,7 @@ task copyTask(type: Copy) {
     into 'res/raw'
     filter(ReplaceTokens, tokens: ["build.date": getDate()])
 }
+project.afterEvaluate{
+    compileReleaseJava.dependsOn("copyTask")
+}
+
