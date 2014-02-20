@@ -366,6 +366,7 @@ public class MyExpenses extends LaunchActivity implements
     //since splits are immediately persisted they will not work without an account set
     if (accountId == 0 && type == TYPE_SPLIT)
       return;
+    //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
@@ -541,6 +542,8 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
+        //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
+        mAccountId = 0;
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
            .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
