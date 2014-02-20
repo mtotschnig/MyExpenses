@@ -719,9 +719,9 @@ public class TransactionList extends BudgetListFragment implements
   }
   private void configureMenuInternal(Menu menu, int position) {
     if (mTransactionsCursor != null) {
-      mTransactionsCursor.moveToPosition(position);
       //templates for splits is not yet implemented
-      if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
+      if (mTransactionsCursor.moveToPosition(position) &&
+          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
         menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
     }
   }
