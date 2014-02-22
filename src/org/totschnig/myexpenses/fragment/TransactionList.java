@@ -19,7 +19,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -61,7 +60,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.SpannableStringBuilder;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
@@ -116,10 +114,10 @@ public class TransactionList extends BudgetListFragment implements
   private String mCurrency;
   private Long mOpeningBalance;
 
-  public static Fragment newInstance(Account account) {
+  public static Fragment newInstance(long accountId) {
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
-    bundle.putSerializable("account", account);
+    bundle.putSerializable(KEY_ACCOUNTID, accountId);
     pageFragment.setArguments(bundle);
     return pageFragment;
   }
@@ -127,9 +125,8 @@ public class TransactionList extends BudgetListFragment implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-
     mappedCategoriesPerGroup = new SparseBooleanArray();
-    mAccount = (Account) getArguments().getSerializable("account");
+    mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
     mGrouping = mAccount.grouping;
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
@@ -427,7 +424,7 @@ public class TransactionList extends BudgetListFragment implements
         mType = mAccount.type;
         mCurrency = mAccount.currency.getCurrencyCode();
       }
-      if (mAccount.openingBalance.getAmountMinor() != mOpeningBalance) {
+      if (!mAccount.openingBalance.getAmountMinor().equals(mOpeningBalance)) {
         restartGroupingLoader();
         mOpeningBalance = mAccount.openingBalance.getAmountMinor();
       }

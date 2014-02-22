@@ -576,14 +576,17 @@ public class MyExpenses extends LaunchActivity implements
 
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
-      Account account;
       long accountId = cursor.getLong(columnIndexRowId);
-      if (Account.isInstanceCached(accountId))
-        account = Account.getInstanceFromDb(accountId);
-        else {
-          account = (accountId < 0) ? new AggregateAccount(cursor) : new Account(cursor);
+      if (!Account.isInstanceCached(accountId)) {
+        //calling the constructors, puts the objects into the cache from where the fragment can
+        //retrieve it, without needing to create a new cursor
+        if (accountId < 0)  {
+          new AggregateAccount(cursor);
+        } else {
+          new Account(cursor);
+        }
       }
-      return TransactionList.newInstance(account);
+      return TransactionList.newInstance(accountId);
     }
   }
   @Override
