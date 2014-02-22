@@ -703,8 +703,6 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
-      //update aggregate cursor
-      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
@@ -831,8 +829,9 @@ public class TransactionProvider extends ContentProvider {
         //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE &&
         uriMatch != CATEGORY_INCREASE_USAGE &&
-        uriMatch != ACCOUNT_INCREASE_USAGE)
+        uriMatch != ACCOUNT_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(uri, null);
+    }
     return count;
   }
   static {
