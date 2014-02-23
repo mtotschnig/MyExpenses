@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_130">
+    <item>Traduzione greca</item>
+    <item>Inizio settimana subordinata locale (ad es Domenica per gli USA)</item>
+ </string-array>
   <string-array name="whats_new_125">
     <item>Miglioramenti dell\'UI: #115,#117,#120,#122,#124</item>
     <item>Date transazioni tengono conto del fusorario</item>

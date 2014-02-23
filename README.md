@@ -41,8 +41,6 @@ Gradle
 ------
 ```
 cd MyExpenses
-#need to figure out how to migrate this from Ant to Gradle
-cp template/app.properties res/raw/
 export ANDROID_HOME={sdk-dir}
 gradle build
 ```
@@ -54,8 +52,9 @@ cd MyExpenses
 git submodule init
 git submodule update
 echo "sdk.dir={sdk-dir}">local.properties
-cp -rp {sdk-dir}/extras/android/support/v7/appcompat .
+cp -R {sdk-dir}/extras/android/support/v7/appcompat .
 android update lib-project --path ./appcompat
+android update lib-project --path ./StickyListHeaders/library/
 ant clean
 ant release
 ```

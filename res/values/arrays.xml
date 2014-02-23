@@ -38,6 +38,7 @@
       <item>čeština</item>
       <item>Deutsch</item>
       <item>English</item>
+      <item>Ελληνικά</item>
       <item>español</item>
       <item>français</item>
       <item>magyar</item>
@@ -56,6 +57,7 @@
       <item>cs-CZ</item>
       <item>de-DE</item>
       <item>en-US</item>
+      <item>el-GR</item>
       <item>es-ES</item>
       <item>fr-FR</item>
       <item>hu-HU</item>
@@ -182,8 +184,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>127</item>
-      <item>126</item>
+      <item>130</item>
       <item>125</item>
       <item>118</item>
       <item>116</item>
@@ -196,8 +197,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
-      <item>2.0.1.2</item>
-      <item>2.0.1.1</item>
+      <item>2.0.2</item>
       <item>2.0.1</item>
       <item>2.0</item>
       <item>1.11.5</item>

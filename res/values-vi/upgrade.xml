@@ -15,20 +15,4 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string-array name="whats_new_79">
-    <item>Cờ đánh dấu giao dịch là đã dọn dẹp / đã hòa hợp (áp dụng cho tài khoản tại ngân hàng và tài khoản tín dụng)</item>
-    <item>Các hội có thể được chỉnh sửa</item>
-  </string-array>
-  <string-array name="whats_new_75">
-    <item>Phân phối các giao dịch cho mỗi phân loại (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_72">
-    <item>Sửa lỗi: Vấn đề lỗi #69</item>
-    <item>Phần dịch tiếng Arab</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm</item>
-    <item>Người nhận sẽ được hiển thị trên danh sách giao dịch</item>
-    <item>Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)</item>
-  </string-array>
 </resources>

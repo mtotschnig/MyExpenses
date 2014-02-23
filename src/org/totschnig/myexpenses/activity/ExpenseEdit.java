@@ -538,12 +538,17 @@ public class ExpenseEdit extends AmountActivity implements
     return super.dispatchCommand(command, tag);
   }
   private void createRow(int type) {
+    int accountPosition = mAccountSpinner.getSelectedItemPosition();
+    if (accountPosition == AdapterView.INVALID_POSITION) {
+      //silently do nothing if accounts are not yet loaded
+      return;
+    }
     if (type == MyExpenses.TYPE_TRANSFER &&
-        !mAccounts[mAccountSpinner.getSelectedItemPosition()].transferEnabled) {
+        !mAccounts[accountPosition].transferEnabled) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_menu_command_disabled,
           getString(R.string.dialog_command_disabled_insert_transfer,
-              mAccounts[mAccountSpinner.getSelectedItemPosition()].currency.getCurrencyCode()),
+              mAccounts[accountPosition].currency.getCurrencyCode()),
           MessageDialogFragment.Button.okButton(),
           null,null)
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");

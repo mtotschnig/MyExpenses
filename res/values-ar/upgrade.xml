@@ -1,12 +1,3 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_72">
-    <item>اصلاح : خطأ #69</item>
-    <item>دعم اللغة العربية</item>
-  </string-array>
-  <string-array name="whats_new_67">
-    <item>تجميع العمليات حسب اليوم أو الاسبوع أو الشهر أو السنة ، وعرض الاجمالي لكل تجميع</item>
-    <item>عرض المستفيد في قائمة العمليات</item>
-    <item>عرض الحسابات مرتبة (افتراضيا حسب تكرار الاستخدام)</item>
-  </string-array>
 </resources>

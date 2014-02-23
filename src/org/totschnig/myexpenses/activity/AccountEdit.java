@@ -226,7 +226,11 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
-    mColorSpinner.setOnItemSelectedListener(this);
+    mColorSpinner.post(new Runnable() {
+      public void run() {
+        mColorSpinner.setOnItemSelectedListener(AccountEdit.this);
+      }
+    });
   }
 
   /**

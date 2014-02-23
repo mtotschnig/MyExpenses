@@ -366,6 +366,7 @@ public class MyExpenses extends LaunchActivity implements
     //since splits are immediately persisted they will not work without an account set
     if (accountId == 0 && type == TYPE_SPLIT)
       return;
+    //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
@@ -541,6 +542,8 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
+        //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
+        mAccountId = 0;
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
            .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
@@ -573,14 +576,17 @@ public class MyExpenses extends LaunchActivity implements
 
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
-      Account account;
       long accountId = cursor.getLong(columnIndexRowId);
-      if (Account.isInstanceCached(accountId))
-        account = Account.getInstanceFromDb(accountId);
-        else {
-          account = (accountId < 0) ? new AggregateAccount(cursor) : new Account(cursor);
+      if (!Account.isInstanceCached(accountId)) {
+        //calling the constructors, puts the objects into the cache from where the fragment can
+        //retrieve it, without needing to create a new cursor
+        if (accountId < 0)  {
+          new AggregateAccount(cursor);
+        } else {
+          new Account(cursor);
+        }
       }
-      return TransactionList.newInstance(account);
+      return TransactionList.newInstance(accountId);
     }
   }
   @Override
