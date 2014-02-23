@@ -276,7 +276,7 @@
   <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
   <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
   <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
-  <string name="pref_request_licence_summary">Pokud jste přispěli jinými prostředky, požádejte o klíč pro Contrib verzi e-mailem.</string>
+  <string name="pref_request_licence_summary">Pokud jste přispěli, požádejte o klíč pro Contrib verzi e-mailem.</string>
   <string name="pref_request_licence_title">Zažádejte klíč pro Contrib verzi programu</string>
   <string name="pref_restore_summary">Obnovení zálohy ze složky \"myexpenses\" na paměťové kartě.</string>
   <string name="pref_restore_title">Obnovit</string>

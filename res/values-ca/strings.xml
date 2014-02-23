@@ -276,7 +276,7 @@
   <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
   <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-  <string name="pref_request_licence_summary">Si heu contribuït per altres mitjans, demaneu una clau de Contribuïdor per correu electrònic.</string>
+  <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau de Contribuïdor per correu electrònic.</string>
   <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
   <string name="pref_restore_summary">Restaureu la còpia de seguretat de la carpeta \"myexpenses\" a la tarja SD.</string>
   <string name="pref_restore_title">Restauració</string>
