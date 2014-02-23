@@ -276,7 +276,7 @@
   <string name="pref_manage_categories_title">Categorie</string>
   <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
   <string name="pref_manage_methods_title">Modi di pagamento</string>
-  <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella beneficiari</string>
+  <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet e Silvia Delpero</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
