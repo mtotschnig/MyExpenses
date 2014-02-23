@@ -97,6 +97,9 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ((ContribIFace)getActivity()).contribFeatureNotCalled();
+    ContribIFace ctx = (ContribIFace)getActivity();
+    if (ctx!=null) {
+      ctx.contribFeatureNotCalled();
+    }
   }
 }
