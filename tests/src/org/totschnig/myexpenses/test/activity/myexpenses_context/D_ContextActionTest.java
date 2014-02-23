@@ -55,6 +55,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   }
   public void testB_Edit() {
     setSelection();
+    mInstrumentation.waitForIdleSync();
     invokeContextAction("EDIT");
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
   }
@@ -62,6 +63,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   public void testC_CreateTemplate() {
     String templateTitle = "Robotium Template Test";
     setSelection();
+    mInstrumentation.waitForIdleSync();
     invokeContextAction("CREATE_TEMPLATE");
     assertTrue("Edit Title dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_template_title)));
     mSolo.enterText(0, templateTitle);
@@ -74,6 +76,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   public void testD_Delete() {
     int itemsInList = mList.getAdapter().getCount();
     setSelection();
+    mInstrumentation.waitForIdleSync();
     invokeContextAction("DELETE");
     assertTrue("Delete confirmation not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_warning_delete_transaction)));
     mSolo.clickOnButton(mContext.getString(R.string.menu_delete));
