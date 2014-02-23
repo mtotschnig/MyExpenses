@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_130">
+    <item>Griechische Übersetzung</item>
+    <item>Wochenstart abhängig von Lokale (z.B. Sonntag für USA)</item>
+ </string-array>
   <string-array name="whats_new_125">
     <item>UI Verbesserungen: #115,#117,#120,#122,#124</item>
     <item>Buchungsdaten berücksichtigen Zeitzone</item>

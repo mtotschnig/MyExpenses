@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_130">
+    <item>Traducción griega </item>
+    <item>Inicio de semana hizo dependiente de la configuración regional (por ejemplo, el domingo para EE.UU.)</item>
+ </string-array>
   <string-array name="whats_new_125">
     <item>Mejoras de interfaz de usuario: #115,#117,#120,#122,#124</item>
     <item>Fechas de transacción son ahora conscientes de zona horaria</item>

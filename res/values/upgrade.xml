@@ -18,11 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_127">
-    <item>Corrected erroneous display of current balance for aggregate accounts</item>
- </string-array>
-  <string-array name="whats_new_126">
-    <item>Bug fixes</item>
+  <string-array name="whats_new_130">
+    <item>Greek translation</item>
+    <item>Week start made dependent on locale (e.g. Sunday for US)</item>
  </string-array>
  <string-array name="whats_new_125">
     <item>UI improvements: #115,#117,#120,#122,#124</item>
