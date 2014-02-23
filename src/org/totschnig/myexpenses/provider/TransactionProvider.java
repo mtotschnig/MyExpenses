@@ -117,8 +117,9 @@ public class TransactionProvider extends ContentProvider {
     SQLiteDatabase db = mOpenHelper.getReadableDatabase();
     Cursor c;
 
-    if (MyApplication.debug)
+    if (MyApplication.debug) {
       Log.d(TAG, "Query for URL: " + uri);
+    }
     String defaultOrderBy = null;
     String groupBy = null;
     String having = null;
