@@ -27,7 +27,7 @@
   <string name="contrib_feature_plans_unlimited_label">Numero illimitato di scadenze</string>
   <string name="contrib_feature_reset_all_label">Resetta tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
-  <string name="contrib_feature_split_transaction_label">Operazione suddivisa</string>
+  <string name="contrib_feature_split_transaction_label">Operazione frazionata</string>
   <string name="contrib_key">Chiave Contrib</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Saldo corrente</string>
@@ -146,9 +146,9 @@
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
   <string name="menu_create_party">Nuovo beneficiaro</string>
-  <string name="menu_create_split">Nuova operazione suddivisa</string>
-  <string name="menu_create_split_part_category">Nuova somma parziale (categoria)</string>
-  <string name="menu_create_split_part_transfer">Nuova somma parziale (trasferimenti)</string>
+  <string name="menu_create_split">Nuova operazione frazionata</string>
+  <string name="menu_create_split_part_category">Nuova categoria (frazionamento)</string>
+  <string name="menu_create_split_part_transfer">Nuovo trasferimento (frazionamento)</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
   <string name="menu_create_template">Nuovo modello</string>
   <string name="menu_create_template_from_transaction">Salvare come modello</string>
@@ -160,14 +160,14 @@
   <string name="menu_delete_account">Cancellare il conto</string>
   <string name="menu_distribution">Distribuzione</string>
   <string name="menu_edit">Modificare</string>
-  <string name="menu_edit_account">Modificare il conto</string>
-  <string name="menu_edit_cat">Modificare la categoria</string>
-  <string name="menu_edit_method">Modificare modo di pagamento</string>
-  <string name="menu_edit_party">Modificare beneficiaro</string>
-  <string name="menu_edit_plan_instance">Modificare la scadenza</string>
-  <string name="menu_edit_split">Modificare operazione suddivisa</string>
-  <string name="menu_edit_split_part_category">Modificare somma parziale (categoria)</string>
-  <string name="menu_edit_split_part_transfer">Modificare somma parziale (trasferimenti)</string>
+  <string name="menu_edit_account">Modifica il conto</string>
+  <string name="menu_edit_cat">Modifica la categoria</string>
+  <string name="menu_edit_method">Modifica modo di pagamento</string>
+  <string name="menu_edit_party">Modifica beneficiaro</string>
+  <string name="menu_edit_plan_instance">Modifica la scadenza</string>
+  <string name="menu_edit_split">Modifica operazione frazionata</string>
+  <string name="menu_edit_split_part_category">Modifica categoria (frazionamento)</string>
+  <string name="menu_edit_split_part_transfer">Modifica trasferimento (frazionamento)</string>
   <string name="menu_edit_template">Modifica modello</string>
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
@@ -202,7 +202,7 @@
   <string name="no_methods">Non ci sono modi.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_plans">Nessun piano.</string>
-  <string name="no_split_parts">Nessuna somma parziale.</string>
+  <string name="no_split_parts">Nessun frazionamento.</string>
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_title_given">Non hai inserito nessun titolo.</string>
   <plurals name="not_deletable_mapped_transactions">
@@ -276,7 +276,7 @@
   <string name="pref_manage_categories_title">Categorie</string>
   <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
   <string name="pref_manage_methods_title">Modi di pagamento</string>
-  <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
+  <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella beneficiari</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet e Silvia Delpero</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
@@ -321,8 +321,8 @@
   <string name="pref_visit_website_title">Visita il sito web</string>
   <string name="progress_dialog_create_calendar">Creazione calendario locale …</string>
   <string name="progress_dialog_create_plan">Creazione di una nuova scadenza …</string>
-  <string name="progress_dialog_deleting">Cancellazione degli oggetti &#8230;</string>
-  <string name="progress_dialog_loading">Caricamento degli oggetti dal database …</string>
+  <string name="progress_dialog_deleting">Cancellazione di oggetti &#8230;</string>
+  <string name="progress_dialog_loading">>Caricamento di oggetti dal database …</string>
   <string name="progress_dialog_setup">Il database è inizializzato …</string>
   <string name="reference_number">Numero di riferimento</string>
   <string name="request_licence_mail_description">Si prega di descrivere (in inglese, francese o tedesco) il vostro contributo a Le mie spese (es.: donazione tramite Paypal, bug report, analisi, traduzione).</string>
@@ -344,8 +344,8 @@
   <string name="menu_select_category">Selezionare questa categoria</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="share_sending">Invia file export</string>
-  <string name="split_parts_heading">Somme parziali</string>
-  <string name="split_transaction">Operazione suddivisa</string>
+  <string name="split_parts_heading">Frazionamenti</string>
+  <string name="split_transaction">Operazione frazionata</string>
   <string name="status">Stato</string>
   <string name="status_cleared">liquidato</string>
   <string name="status_reconciled">riconciliato</string>
@@ -367,8 +367,8 @@
   <string name="transfer_to_account">A</string>
   <string name="tutorial">Manuale</string>
   <string name="type">Tipo</string>
-  <string name="unsplit_amount">Importo non diviso</string>
-  <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non diviso.</string>
+  <string name="unsplit_amount">Importo non frazionato</string>
+  <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
   <string name="warning_backup">Il database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string>
   <string name="warning_delete_account">Questo conto \"%1$s\" sarà cancelatto con tutte le sue operazioni.</string>
@@ -395,5 +395,5 @@
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti gli conti%1$s vengono eliminati dal database e non possono essere ripristinati.</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati attuali verranno cancellati. Vuoi continuare?</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>
-  <string name="warning_splitpartcategory_context">Trasferimenti che sono parte di una operazione suddivisa possono essere modificati solo nel contesto della operazione suddivisa.</string>
+  <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
 </resources>
