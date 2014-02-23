@@ -29,6 +29,7 @@
   <string name="contrib_feature_security_question_label">Ερώτηση ασφαλείας</string>
   <string name="contrib_feature_split_transaction_label">Διαιρεμένη συναλλαγή</string>
   <string name="contrib_key">Contrib κλειδί</string>
+  <string name="crash_reports_user_info">\"Τα \'Εξοδά μου\"  θα διαβιβάζουν εκθέσεις σχετικά με τα λάθη εφαρμογής αυτόματα στους προγραμματιστές, που τους επιτρέπει να διορθώσουν προβλήματα πιο γρήγορα. Μπορείτε να απενεργοποιήσετε αυτή τη λειτουργία από τις ρυθμίσεις.</string>
   <string name="currency">Νόμισμα</string>
   <string name="current_balance">Τρέχον υπόλοιπο</string>
   <string name="date">Ημερομηνία</string>
@@ -253,6 +254,7 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Άθροισμα χρήσεων</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Αλφαριθμητικό</string>
   <string name="pref_categories_sort_by_usages_title">Σειρά ταξινόμησης (κατηγορίες, πρότυπα, λογαριασμοί) </string>
+  <string name="pref_category_title_crash_reports">Αναφορές σφαλμάτων</string>
   <string name="pref_category_title_export">Εξαγωγή</string>
   <string name="pref_category_title_import">Εισαγωγή</string>
   <string name="pref_category_title_manage">Διαχείριση</string>
@@ -263,6 +265,14 @@
   <string name="pref_contrib_donate_title">Στείλτε δωρεά</string>
   <string name="pref_contrib_install_summary">Με την εγκατάσταση Έξοδά μου Contrib, μπορείτε να αποκτήσετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
   <string name="pref_contrib_install_title">Εγκαταστήσετε Contrib app</string>
+  <string name="pref_enable_acra">Επιτρέπεται η αυτόματη αποστολή των αναφορές σφαλμάτων</string>
+  <string name="pref_acra_enabled">Είναι ενεργοποιημένη η αυτόματη αποστολή</string>
+  <string name="pref_acra_disabled">Απενεργοποιείται η αυτόματη αποστολή</string>
+  <string name="pref_acra_syslog">Περιλαμβάνουν τα αρχεία καταγραφής συστήματος σε αναφορές σφαλμάτων.</string>
+  <string name="pref_acra_syslog_enabled">Αρχεία καταγραφής συστήματος περιλαμβάνονται</string>
+  <string name="pref_acra_syslog_disabled">Αρχεία καταγραφής συστήματος δεν συμπεριλαμβάνονται</string>
+  <string name="pref_acra_user_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου του χρήστη πρέπει να περιλαμβάνεται στην έκθεση σφάλματος.</string>
+  <string name="pref_acra_user_email_summary">Παρακαλούμε εισάγετε τη Διεύθυνση ηλεκτρονικού ταχυδρομείου σας, αν είστε πρόθυμοι να βοηθήσετε στον εντοπισμό σφαλμάτων και να μας επιτρέψετε να επικοινωνήσουμε μαζί σας.</string>
   <string name="pref_enter_licence_summary">Εάν λάβατε ένα κλειδί Contrib, έχετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
   <string name="pref_enter_licence_title">Εισάγετε το κλειδί Contrib</string>
   <string name="pref_export_format_title"> Μορφή δεδομένων</string>
