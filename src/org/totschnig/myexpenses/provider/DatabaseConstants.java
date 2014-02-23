@@ -15,7 +15,37 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.util.GregorianCalendar;
+
 public class DatabaseConstants {
+  public static String YEAR_OF_WEEK_START, WEEK, THIS_YEAR_OF_WEEK_START, THIS_WEEK, WEEK_START, WEEK_END;
+  static {
+    buildLocalized();
+  }
+
+  public static void buildLocalized() {
+    int weekStartsOn = new GregorianCalendar().getFirstDayOfWeek();
+    int nextWeekEnd;
+    if(weekStartsOn==1) {
+      nextWeekEnd = 6;
+    } else  {
+      nextWeekEnd = weekStartsOn -2;
+    }
+    YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEnd + "', '-6 day') AS integer)";
+    WEEK_START = "date(date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "', '-6 day')";
+    THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','unixepoch','localtime','weekday " + nextWeekEnd + "', '-6 day') AS integer)";
+    WEEK_END = "date(date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "')";
+    WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEnd
+        + "') AS integer)";
+    THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEnd + "') AS integer)";
+  }
+  //if we do not cast the result to integer, we would need to do the conversion in Java
+  public static final String YEAR  = "CAST(strftime('%Y',date,'unixepoch','localtime') AS integer)";
+  public static final String THIS_DAY   = "CAST(strftime('%j','now','localtime') AS integer)";
+  public static final String MONTH = "CAST(strftime('%m',date,'unixepoch','localtime') AS integer)";
+  public static final String DAY   = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
+  public static final String THIS_YEAR  = "CAST(strftime('%Y','now','localtime') AS integer)";
+  public static final String THIS_MONTH = "CAST(strftime('%m','now','localtime') AS integer)";
   public static final String KEY_DATE = "date";
   public static final String KEY_AMOUNT = "amount";
   public static final String KEY_COMMENT = "comment";
@@ -138,22 +168,8 @@ public class DatabaseConstants {
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
-  //if we do not cast the result to integer, we would need to do the conversion in Java
-  public static final String YEAR  = "CAST(strftime('%Y',date,'unixepoch','localtime') AS integer)";
-  public static final String YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String MONTH = "CAST(strftime('%m',date,'unixepoch','localtime') AS integer)";
-  public static final String WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String DAY   = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
-  public static final String THIS_YEAR  = "CAST(strftime('%Y','now','localtime') AS integer)";
-  public static final String THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String THIS_MONTH = "CAST(strftime('%m','now','localtime') AS integer)";
-  public static final String THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday 0', '-6 day') AS integer)";
-  public static final String WEEK_START = "date(date,'unixepoch','localtime', 'weekday 0', '-6 day')";
-  public static final String WEEK_END = "date(date,'unixepoch','localtime', 'weekday 0')";
-  //public static final String WEEK_RANGE ="strftime('%m/%d', date(date, 'weekday 0', '-6 day'))||'-'|| strftime('%m/%d', date(date, 'weekday 0'))";
-  public static final String THIS_DAY   = "CAST(strftime('%j','now','localtime') AS integer)";
+  
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
       "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as mapped_categories";
-  
 }

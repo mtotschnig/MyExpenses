@@ -266,6 +266,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         config.fontScale = getResources().getConfiguration().fontScale;
         getResources().updateConfiguration(config,
             getResources().getDisplayMetrics());
+        //in order to the following statement to be effective the cursor loader would need to be restarted
+        //DatabaseConstants.buildLocalized();
       }
     }
     public static File getBackupDbFile() {
