@@ -36,6 +36,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 /**
  * This Fragment manages a single background task and retains
@@ -130,7 +131,9 @@ public class TaskExecutionFragment extends Fragment {
 
     // Create and execute the background task.
     Bundle args = getArguments();
-    mTask = new GenericTask(args.getInt("taskId"),args.getSerializable("extra"));
+    int taskId = args.getInt("taskId");
+    Log.i(MyApplication.TAG,"TaskExecutionFragment created for task "+taskId);
+    mTask = new GenericTask(taskId,args.getSerializable("extra"));
     long objectId = args.getLong("objectId");
     if (objectId != 0)
       mTask.execute(args.getLong("objectId"));
