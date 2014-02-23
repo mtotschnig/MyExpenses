@@ -87,6 +87,11 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
+    if (mTransaction == null) {
+      return new AlertDialog.Builder(wrappedCtx)
+        .setMessage("Transaction has been deleted")
+        .create();
+    }
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.transaction_detail, null);
     int title;

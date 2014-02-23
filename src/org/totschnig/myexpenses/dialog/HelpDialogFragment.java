@@ -157,7 +157,6 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
       Log.w(MyApplication.TAG, e.getMessage());
       return new AlertDialog.Builder(wrappedCtx)
           .setMessage("Error generating Help dialog")
-          .setIcon(android.R.drawable.ic_dialog_alert)
           .create();
     }
     return new AlertDialog.Builder(wrappedCtx)
