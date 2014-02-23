@@ -66,24 +66,20 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
-    - 2.0.1.3
-    - 2014-02-18
+    - 2.0.2
+    - 2014-02-23
     -
       en: |
-        Fixed gradle build (F-Droid only).
-  -
-    - 2.0.1.2
-    - 2014-02-14
-    -
-      en: |
-        Corrected erroneous display of current balance for aggregate accounts.
-  -
-    - 2.0.1.1
-    - 2014-02-13
-    -
-      en: |
-        Bug fixes
-  -
+        Greek translation. Week start made dependent on locale (e.g. Sunday for US).
+      fr: |
+        Traduction grecque. Le début de semaine dépend des paramètres régionaux (par exemple, dimanche aux USA).
+      de: |
+        Griechische Übersetzung. Wochenstart abhängig von Lokale (z.B. Sonntag für USA).
+      it: |
+        Traduzione greca. Inizio settimana subordinata locale (ad es Domenica per gli USA).
+      es: |
+        Traducción griega . Inicio de semana hizo dependiente de la configuración regional (por ejemplo, el domingo para EE.UU.).
+
     - 2.0.1
     - 2014-02-12
     -
