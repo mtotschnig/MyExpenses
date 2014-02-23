@@ -295,7 +295,7 @@
   <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea protegida por contraseña.</string>
   <string name="pref_protection_delay_seconds_title">Demoa hasta la protección por contraseña</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
-  <string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave Contrib por correo electrónico.</string>
+  <string name="pref_request_licence_summary">Si usted ha contribuido, pida una clave Contrib por correo electrónico.</string>
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
   <string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
   <string name="pref_restore_title">Restaurar</string>

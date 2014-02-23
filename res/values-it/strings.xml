@@ -295,7 +295,7 @@
   <string name="pref_protection_delay_seconds_summary">Secondi di inattività prima che l\'app sia bloccata con password.</string>
   <string name="pref_protection_delay_seconds_title">Ritardo prima della protezione</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
-  <string name="pref_request_licence_summary">Se lei ha contribuito in altri modi, richieda la sua chiave Contrib via e-mail.</string>
+  <string name="pref_request_licence_summary">Se lei ha contribuito, richieda la sua chiave Contrib via e-mail.</string>
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
   <string name="pref_restore_summary">Ripristinare il backup dalla cartella \"myexpenses\" sulla scheda SD</string>
   <string name="pref_restore_title">Ripristina</string>

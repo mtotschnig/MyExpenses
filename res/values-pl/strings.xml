@@ -281,7 +281,7 @@
   <string name="pref_protection_delay_seconds_summary">Ilość sekund przed zablokowaniem aplikacji przez hasło.</string>
   <string name="pref_protection_delay_seconds_title">Okres przed zabezpieczeniem</string>
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
-  <string name="pref_request_licence_summary">Jeżeli wspierałeś tą aplikację innymi sposobami, poproś o klucz Contrib przez e-mail.</string>
+  <string name="pref_request_licence_summary">Jeżeli wspierałeś tą aplikację, poproś o klucz Contrib przez e-mail.</string>
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
   <string name="pref_restore_summary">Przywróć kopię zapasową z folderu \"myexpenses\" na karcie pamięci.</string>
   <string name="pref_restore_title">Przywróć</string>

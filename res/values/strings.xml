@@ -316,7 +316,7 @@
   <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
   <string name="pref_protection_delay_seconds_title">Delay until protection</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding</string>
-  <string name="pref_request_licence_summary">If you have contributed by other means, ask for a Contrib key by email.</string>
+  <string name="pref_request_licence_summary">If you have contributed, ask for a Contrib key by email.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>
   <string name="pref_restore_summary">Restore the backup from folder \"myexpenses\" on the sdcard.</string>
   <string name="pref_restore_title">Restore</string>

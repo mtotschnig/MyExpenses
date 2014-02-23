@@ -293,7 +293,7 @@
   <string name="pref_protection_delay_seconds_summary">Idle segundos antes de app será bloqueado por senha.</string>
   <string name="pref_protection_delay_seconds_title">Adiar até proteção</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
-  <string name="pref_request_licence_summary">Se você tiver contribuído por outros meios, solicitar a chave do Contrib por e-mail.</string>
+  <string name="pref_request_licence_summary">Se você tiver contribuído, solicitar a chave do Contrib por e-mail.</string>
   <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>
   <string name="pref_restore_summary">Restaure cópia de segurança a partir da pasta \"myExpenses\" no sdcard.</string>
   <string name="pref_restore_title">Restaurar</string>

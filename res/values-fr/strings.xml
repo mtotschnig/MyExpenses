@@ -295,7 +295,7 @@
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
-  <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par e-mail.</string>
+  <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé contrib par e-mail.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
   <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
   <string name="pref_restore_title">Restauration</string>

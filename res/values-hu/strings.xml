@@ -269,7 +269,7 @@
   <string name="pref_protection_delay_seconds_summary">Várakozási idő (másodperc) a jelszóval feloldható zárolás előtt.</string>
   <string name="pref_protection_delay_seconds_title">Késleltetés a védelemig</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kódolás</string>
-  <string name="pref_request_licence_summary">Ha egyéb módon hozzájárult, kérjen Contrib kulcsot emailben.</string>
+  <string name="pref_request_licence_summary">Ha hozzájárult, kérjen Contrib kulcsot emailben.</string>
   <string name="pref_request_licence_title">Kérjen Contrib kulcsot</string>
   <string name="pref_restore_summary">A biztonsági mentés visszaállítása az SD-kártya \"myexpenses\" könyvtárából.</string>
   <string name="pref_restore_title">Visszaállítás</string>

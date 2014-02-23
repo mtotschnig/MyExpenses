@@ -296,7 +296,7 @@
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-  <string name="pref_request_licence_summary">Wenn Sie anderweitig einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string>
+  <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
   <string name="pref_restore_summary">Die Sicherheitskopie aus dem Ordner \"myexpenses\" der SD-Karte wiederherstellen.</string>
   <string name="pref_restore_title">Wiederherstellung</string>
