@@ -10,8 +10,7 @@
       android:paddingRight="10dp"
       android:stretchColumns="0"
       android:shrinkColumns="1">
-  <TableRow
-    android:paddingTop="10dp">
+  <TableRow>
     <TextView android:text="LABEL" android:id="@+id/label"
     style="@style/headingStyle"
     android:layout_span="2"/>
