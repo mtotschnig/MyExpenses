@@ -127,6 +127,8 @@ public class TransactionList extends BudgetListFragment implements
     setHasOptionsMenu(true);
     mappedCategoriesPerGroup = new SparseBooleanArray();
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
+    if (mAccount == null)
+      return;
     mGrouping = mAccount.grouping;
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
@@ -185,6 +187,8 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public void onDestroy() {
     super.onDestroy();
+    if (aObserver==null)
+      return;
     try {
       ContentResolver cr = getActivity().getContentResolver();
       cr.unregisterContentObserver(aObserver);
@@ -196,6 +200,11 @@ public class TransactionList extends BudgetListFragment implements
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
+    if (mAccount==null) {
+      TextView tv = new TextView(ctx);
+      tv.setText("Error loading transaction list for account "+getArguments().getLong(KEY_ACCOUNTID));
+      return  tv;
+    }
     mManager = getLoaderManager();
     setGrouping();
     setColors();
