@@ -189,8 +189,7 @@
             </ul>
           </li>
         </ul>
-        <h3 class="text-muted"><img
-        src="/visuals/icon_{% if pagelang == "vi" %}VN{% elsif pagelang == "tr" %}TR{% elsif pagelang == "de" or pagelang == "fr" or pagelang == "ca" or pagelang == "it" %}EU{% else %}US{% endif %}.png" id="app-icon"> {{site.title[pagelang]}}</h3>
+        <h3 class="text-muted">{{site.title[pagelang]}}</h3>
       </div>
       <div class="jumbotron">
         <p>{% if msg.hero_main %}{{msg.hero_main}}{% else %}{{site.data.en.en.hero_main}}{% endif %}</p>
@@ -349,22 +348,6 @@
           });
         }, 0);
       });
-      {% if pagelang == "en" or pagelang == "fr" or pagelang == "es" %}
-      function whichIcon(address) {
-        switch(address.country_code) {
-        case "IN":
-        case "GB":
-        return address.country_code;
-        }
-        return address.continent_code == 'EU' ? 'EU' : 'US';
-      }
-      function setIcon(icon) {
-        document.getElementById("app-icon").src="/visuals/icon_"+icon+".png";
-      }
-      $.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
-        setIcon(whichIcon(data.address));
-      });
-      {% endif %}
       $('.track').on('click', function() {
         ga('send', 'event', 'track', 'click',$(this).attr('id'));
       });
