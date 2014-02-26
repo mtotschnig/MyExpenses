@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_131">
+    <item>Fixed problem of recurring transactions being ignored</item>
+ </string-array>
   <string-array name="whats_new_130">
     <item>Greek translation</item>
     <item>Week start made dependent on locale (e.g. Sunday for US)</item>
