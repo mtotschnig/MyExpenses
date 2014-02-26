@@ -12,6 +12,7 @@
   <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a la tarja SD.</string>
   <string name="backup_success">La base de dades i les preferències s\'han desat a la tarja SD.</string>
   <string name="category">Categoria</string>
+  <string name="clone_transaction_error">No ha estat possible clonar l\'operació.</string>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
   <string name="contrib_feature_accounts_unlimited_description">El nombre de comptes que podeu obrir amb &lt;i&gt;Les meves despeses&lt;/i&gt; es limita a 5.</string>
@@ -32,7 +33,6 @@
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
   <string name="dialog_command_disabled_insert_transfer">Les operacions de transferència precisen un segon compte amb la mateixa moneda. Només disposeu d\'un compte i la seva moneda és %1$s.</string>
-  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. El voleu restaurar?</string>
@@ -75,6 +75,8 @@
   <string name="dialog_title_select_template">Tria una plantilla</string>
   <string name="dialog_title_template_title">Trieu el títol</string>
   <string name="dialog_title_warning_delete_account">Voleu suprimir el compte?</string>
+  <string name="dialog_title_warning_delete_main_category">Voleu suprimir la cateoria principal?</string>
+  <string name="dialog_title_warning_delete_plan">Voleu suprimir la planificació?</string>
   <string name="dialog_title_warning_delete_template">Voleu suprimir la plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">Voleu suprimir l\'operació?</string>
   <string name="dialog_title_welcome">Benvingut!</string>
@@ -126,8 +128,6 @@
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplica</string>
-  <string name="menu_create_instance_edit">Aplica i modifica</string>
-  <string name="menu_create_instance_save">Aplica i desa</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -137,6 +137,8 @@
   <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Nou</string>
   <string name="menu_create_account">Nou compte</string>
+  <string name="menu_create_instance_edit">Aplica i modifica</string>
+  <string name="menu_create_instance_save">Aplica i desa</string>
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_method">Nova forma de pagament</string>
   <string name="menu_create_party">Nou tercer</string>
@@ -145,17 +147,20 @@
   <string name="menu_create_split_part_transfer">Nova partició de la transferència</string>
   <string name="menu_create_sub_cat">Nova sub-categoria</string>
   <string name="menu_create_template">Nova plantilla</string>
+  <string name="menu_create_template_from_transaction">Anomena i desa la plantilla</string>
   <string name="menu_create_template_for_transaction">Nova plantilla d\'operació</string>
   <string name="menu_create_template_for_transfer">Nova plantilla de transferència</string>
   <string name="menu_create_transaction">Nova operació</string>
   <string name="menu_create_transfer">Nova transferència</string>
   <string name="menu_delete">Suprimeix</string>
+  <string name="menu_delete_account">Suprimeix el compte</string>
   <string name="menu_distribution">Per categories</string>
   <string name="menu_edit">Modifica</string>
   <string name="menu_edit_account">Modifica el compte</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
-  <string name="menu_edit_method">Modifica la forma de pagament</string>
+  <string name="menu_edit_method">Edita la forma de pagament</string>
   <string name="menu_edit_party">Modifica el tercer</string>
+  <string name="menu_edit_plan_instance">Edita aquest element de la planificació</string>
   <string name="menu_edit_split">Edita el repartiment</string>
   <string name="menu_edit_split_part_category">Edita la partició de la categoria</string>
   <string name="menu_edit_split_part_transfer">Modifica la partició de la transferència</string>
@@ -276,7 +281,6 @@
   <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
   <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-  <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau de Contribuïdor per correu electrònic.</string>
   <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
   <string name="pref_restore_summary">Restaureu la còpia de seguretat de la carpeta \"myexpenses\" a la tarja SD.</string>
   <string name="pref_restore_title">Restauració</string>
@@ -313,7 +317,6 @@
   <string name="restore_preferences_failure">No ha estat possible restaurar les Preferències</string>
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
   <string name="save_transaction_and_new_success">S\'ha desat correctament</string>
-  <string name="save_transaction_error">No ha estat possible desar la nova operació de la plantilla</string>
   <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
   <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
@@ -331,7 +334,6 @@
   <string name="sum_income">Ingressos</string>
   <string name="sum_transfer">Transferèncias</string>
   <string name="template">Plantilla</string>
-  <string name="tell_a_friend_message">Les meves despeses, Gestor de finances personals per Android, http://www.myexpenses.mobi</string>
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>
   <string name="thank_you">Gràcies pel vostre suport!</string>
@@ -347,7 +349,6 @@
   <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
   <string name="warning_backup">La base de dades i les preferències es desaran a la tarja SD. Voleu continuar?</string>
   <string name="warning_backup_exists">La base de dades i les preferències es desaran a la tarja SD. La còpia de seguretat actual es suprimirà. Voleu continuar?</string>
-  <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves operacions. Voleu continuar?</string>
   <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
   <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat (Requereix Les meves despeses Contrib).</string>
   <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
@@ -355,5 +356,4 @@
   <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
   <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat. S\'esborraran les dades actuals. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
-  <string name="warning_splitpartcategory_context">Les transferències que formen part d\'una operació repartida només es poden editar en el context del seu repartiment</string>
 </resources>
