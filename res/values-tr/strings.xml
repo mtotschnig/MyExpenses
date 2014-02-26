@@ -186,6 +186,7 @@
   <string name="menu_save">Kaydet</string>
   <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
   <string name="menu_settings">Ayarlar</string>
+  <string name="menu_share">Bir arkadaşa bahset</string>
   <string name="method">Metot</string>
   <string name="new_version">Yeni sürüm</string>
   <string name="no_accounts">Hesap yok!</string>
@@ -198,6 +199,7 @@
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
   <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
+  <string name="no_methods">Hiçbir ödeme metodu yok.</string>
   <string name="no_parties">Bölüm yok.</string>
   <string name="no_plans">Plan yok.</string>
   <string name="no_split_parts">Hiçbir alt muamele yok.</string>
@@ -293,7 +295,7 @@
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-  <string name="pref_request_licence_summary">Başka bir şekilde katkıda bulunduysanız katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
+  <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_restore_summary">Yedeklemeyi SD kartındaki \"myexpenses\" klasöründen yükle.</string>
   <string name="pref_restore_title">Geri al</string>
@@ -319,6 +321,7 @@
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="progress_dialog_create_calendar">Yerel takvim oluşturuluyor…</string>
   <string name="progress_dialog_create_plan">Yeni planlama oluşturuluyor…</string>
+  <string name="progress_dialog_deleting">Nesneler siliniyor…</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
   <string name="reference_number">Referans sayısı</string>
@@ -351,7 +354,7 @@
   <string name="sum_expenses">Harcamalar</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_transfer">Transferler</string>
-  <string name="tell_a_friend_message">Harcamalarım, Android için kişisel finans yöneticisi, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Android için kişisel finans yöneticisi olan Harcamalarıma http://www.myexpenses.mobi adresinde göz atın</string>
   <string name="template">Şablon</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
   <string name="template_title_exists">\"%1$s\" başlıklı bir şablon zaten mevcut</string>
@@ -370,7 +373,7 @@
   <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
   <plurals name="warning_delete_main_category">
-    <item quantity="one">Seçilen kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
+    <item quantity="one">Seçili kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
     <item quantity="other">Seçilen %1$d kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
   </plurals>
   <plurals name="warning_delete_plan">

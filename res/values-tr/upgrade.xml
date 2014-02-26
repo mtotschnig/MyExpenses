@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_130">
+    <item>Yunanca tercüme</item>
+    <item>Hafta başı yerel ayarlara bağlı hale getirildi (mesela ABD için pazar günü)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Arayüz iyileştirmeleri: #115,#117,#120,#122,#124</item>
+    <item>Muamele tarihleri zaman dilimlerini dikkate alacak</item>
+  </string-array>
   <string-array name="whats_new_118">
     <item>Modernleştirilmiş arayüz: tarama çekmecesi ve bağlamsal eylem çubuğu </item>
   </string-array>
