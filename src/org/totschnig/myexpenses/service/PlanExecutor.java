@@ -161,10 +161,10 @@ public class PlanExecutor extends IntentService {
           }
         }
         cursor.close();
-        SharedPreferencesCompat.apply(settings.edit()
-            .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
       }
     }
+    SharedPreferencesCompat.apply(settings.edit()
+        .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
     manager.set(AlarmManager.RTC, now + INTERVAL, 
