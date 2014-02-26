@@ -170,7 +170,18 @@ public class Utils {
    * @return formated string
    */
   public static String convDateTime(String text, DateFormat format) {
-    Date date = new Date(Long.valueOf(text)*1000L);
+    Date date;
+    try {
+      date = new Date(Long.valueOf(text)*1000L);
+    } catch (NumberFormatException e) {
+      //legacy, the migration from date string to unix timestamp might have gone wrong
+      //for some users
+      try {
+        date = TransactionDatabase.dateTimeFormat.parse(text);
+      } catch (ParseException e1) {
+        date = new Date();
+      }
+    }
     return format.format(date);
   }
   /**
