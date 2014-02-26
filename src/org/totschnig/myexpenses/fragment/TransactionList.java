@@ -128,7 +128,7 @@ public class TransactionList extends BudgetListFragment implements
     mappedCategoriesPerGroup = new SparseBooleanArray();
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
     if (mAccount == null) {
-      ACRA.getErrorReporter().handleSilentException(
+      org.acra.ACRA.getErrorReporter().handleSilentException(
           new Exception("Error loading transaction list: Account not found"));
       return;
     }
