@@ -127,8 +127,11 @@ public class TransactionList extends BudgetListFragment implements
     setHasOptionsMenu(true);
     mappedCategoriesPerGroup = new SparseBooleanArray();
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
-    if (mAccount == null)
+    if (mAccount == null) {
+      ACRA.getErrorReporter().handleSilentException(
+          new Exception("Error loading transaction list: Account not found"));
       return;
+    }
     mGrouping = mAccount.grouping;
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();

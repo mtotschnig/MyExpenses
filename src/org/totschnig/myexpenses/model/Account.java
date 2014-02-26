@@ -436,6 +436,8 @@ public class Account extends Model {
   }
   public static boolean delete(long id) {
     Account account = getInstanceFromDb(id);
+    if (account == null)
+      return false;
     account.deleteAllTransactions();
     account.deleteAllTemplates();
     accounts.remove(id);
