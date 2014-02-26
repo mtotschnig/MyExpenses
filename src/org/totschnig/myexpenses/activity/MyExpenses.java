@@ -142,6 +142,7 @@ public class MyExpenses extends LaunchActivity implements
   
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription, columnIndexLabel;
   boolean indexesCalculated = false;
+  private long idFromNotification = 0;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -244,8 +245,9 @@ public class MyExpenses extends LaunchActivity implements
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ROWID,0);
-      long idFromNotification = extras.getLong("transaction_id",0);
-      if (idFromNotification != 0) {
+      idFromNotification = extras.getLong("transaction_id",0);
+      //detail fragment from notification should only be shown upon first instantiation from notification
+      if (idFromNotification != 0 && savedInstanceState == null) {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
           TransactionDetailFragment.newInstance(idFromNotification)
@@ -284,6 +286,7 @@ public class MyExpenses extends LaunchActivity implements
     mManager= getSupportLoaderManager();
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
+
   private void moveToPosition(int position) {
     if (myPager.getCurrentItem()==position)
       setCurrentAccount(position);
@@ -890,5 +893,11 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       return c.getLong(columnIndexRowId)>0 ? 0 : 1;
     }
+  }
+  protected void onSaveInstanceState (Bundle outState) {
+    super.onSaveInstanceState(outState);
+    //detail fragment from notification should only be shown once
+    if (idFromNotification !=0)
+      outState.putLong("idFromNotification",0);
   }
 }
