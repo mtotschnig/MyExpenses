@@ -387,6 +387,10 @@ public class Account extends Model {
   public static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
   }
+  public static void reportNull() {
+    org.acra.ACRA.getErrorReporter().handleSilentException(
+        new Exception("Error instantiating account"));
+  }
   /**
    * @param id
    * @return Account object, if id == 0, the first entry in the accounts cache will be returned or
@@ -417,10 +421,12 @@ public class Account extends Model {
     Cursor c = cr().query(
         CONTENT_URI, null,selection,null, null);
     if (c == null) {
+      reportNull();
       return null;
     }
     if (c.getCount() == 0) {
       c.close();
+      reportNull();
       return null;
     }
     c.moveToFirst();

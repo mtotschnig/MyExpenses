@@ -35,6 +35,10 @@ public class SplitTransaction extends Transaction {
     super(accountId,amount);
     catId = DatabaseConstants.SPLIT_CATID;
   }
+  public SplitTransaction(Account account, long amount) {
+    super(account,amount);
+    catId = DatabaseConstants.SPLIT_CATID;
+  }
   @Override
   public Uri save() {
     Uri uri = super.save();

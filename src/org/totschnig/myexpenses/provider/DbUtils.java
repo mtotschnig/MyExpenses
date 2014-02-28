@@ -27,8 +27,6 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.android.calendar.CalendarContractCompat.Events;
-
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import android.content.ContentProviderClient;

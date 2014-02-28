@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -221,13 +220,17 @@ public class Transaction extends Model {
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
   public static Transaction getTypedNewInstance(int operationType, long accountId, Long parentId) {
+    Account account = Account.getInstanceFromDb(accountId);
+    if (account == null) {
+      return null;
+    }
     switch (operationType) {
     case MyExpenses.TYPE_TRANSACTION:
-      return parentId != 0L ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0L);
+      return parentId != 0L ? new SplitPartCategory(account,0L,parentId) :  new Transaction(account,0L);
     case MyExpenses.TYPE_TRANSFER:
-      return parentId != 0L ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0L);
+      return parentId != 0L ? new SplitPartTransfer(account,0L,parentId) : new Transfer(account,0L);
     case MyExpenses.TYPE_SPLIT:
-      SplitTransaction t = new SplitTransaction(accountId,0L);
+      SplitTransaction t = new SplitTransaction(account,0L);
         t.status = STATUS_UNCOMMITTED;
         //TODO: Strict mode
         t.persistForEdit();
@@ -256,16 +259,16 @@ public class Transaction extends Model {
    * @param mDbHelper
    */
   public Transaction(long accountId,Long amount) {
-    this();
-    Account account = Account.getInstanceFromDb(accountId);
-
-    this.accountId = accountId;
-    this.amount = new Money(account.currency,amount);
+    this(Account.getInstanceFromDb(accountId),amount);
   }
   public Transaction(long accountId,Money amount) {
     this();
     this.accountId = accountId;
     this.amount = amount;
+  }
+  public Transaction(Account account, long amount) {
+    this.accountId = account.id;
+    this.amount = new Money(account.currency,amount);
   }
   public void setDate(Date date){
     this.date = date;

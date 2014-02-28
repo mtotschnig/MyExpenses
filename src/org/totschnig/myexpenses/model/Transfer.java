@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentUris;
@@ -38,6 +37,9 @@ public class Transfer extends Transaction {
     super(accountId,amount);
   }
 
+  public Transfer(Account account, long amount) {
+    super(account,amount);
+  }
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()
    */
