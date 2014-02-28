@@ -274,6 +274,11 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       else
         mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
+      if (mTransaction == null) {
+        Toast.makeText(this,"Error instantiating transaction for account "+accountId,Toast.LENGTH_SHORT).show();
+        finish();
+        return;
+      }
       //Split transactions are returned persisted to db and already have an id
       mRowId = mTransaction.id;
       setup();

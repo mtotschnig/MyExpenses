@@ -16,8 +16,13 @@
 package org.totschnig.myexpenses.model;
 
 public class SplitPartTransfer extends Transfer {
-  public SplitPartTransfer(long accountId, Long amount,long transactionId) {
+  public SplitPartTransfer(long accountId, Long amount,long parentId) {
     super(accountId,amount);
-    this.parentId = transactionId;
+    this.parentId = parentId;
+  }
+
+  public SplitPartTransfer(Account account, long amount, Long parentId) {
+    super(account,amount);
+    this.parentId = parentId;
   }
 }

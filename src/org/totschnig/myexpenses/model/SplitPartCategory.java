@@ -17,8 +17,13 @@ package org.totschnig.myexpenses.model;
 
 public class SplitPartCategory extends Transaction {
 
-  public SplitPartCategory(long accountId, Long amount,long transactionId) {
+  public SplitPartCategory(long accountId, Long amount,long parentId) {
     super(accountId,amount);
-    this.parentId = transactionId;
+    this.parentId = parentId;
+  }
+
+  public SplitPartCategory(Account account, long amount, Long parentId) {
+    super(account,amount);
+    this.parentId = parentId;
   }
 }

@@ -118,8 +118,16 @@ public class Template extends Transaction {
     super(accountId,amount);
     title = "";
   }
+  public Template(Account account, long amount) {
+    super(account,amount);
+    title = "";
+  }
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
-    Template t = new Template(accountId,0L);
+    Account account = Account.getInstanceFromDb(accountId);
+    if (account == null) {
+      return null;
+    }
+    Template t = new Template(account,0L);
     t.isTransfer = mOperationType == MyExpenses.TYPE_TRANSFER;
     return t;
   }
