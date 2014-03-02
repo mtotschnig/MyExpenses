@@ -267,6 +267,7 @@ public class Transaction extends Model {
     this.amount = amount;
   }
   public Transaction(Account account, long amount) {
+    this();
     this.accountId = account.id;
     this.amount = new Money(account.currency,amount);
   }
