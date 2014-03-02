@@ -543,6 +543,8 @@ public class TransactionProvider extends ContentProvider {
     if (uriMatch == TRANSACTIONS) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
+    } else if (uriMatch == ACCOUNTS) {
+      getContext().getContentResolver().notifyChange(ACCOUNTS_BASE_URI, null);
     }
     return id >0 ? Uri.parse(newUri) : null;
   }
@@ -665,8 +667,12 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
-    } else
+    } else {
+      if (uriMatch == ACCOUNTS) {
+        getContext().getContentResolver().notifyChange(ACCOUNTS_BASE_URI, null);
+      }
       getContext().getContentResolver().notifyChange(uri, null);
+    }
     return count;
   }
 
