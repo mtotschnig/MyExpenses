@@ -777,7 +777,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   public boolean transferEnabled() {
     //in case we are called before the accounts cursor is loaded, we return false
-    if (mAccountsCursor == null)
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
       return false;
     mAccountsCursor.moveToPosition(mCurrentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
@@ -788,7 +788,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   public boolean transferEnabledGlobal() {
     //in case we are called before the accounts cursor is loaded, we return false
-    if (mAccountsCursor == null)
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
       return false;
     //we move to the last position in account cursor, and we check if it is an aggregate account
     //which means that there is at least one currency having multiple accounts
