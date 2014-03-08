@@ -46,6 +46,7 @@ import android.util.Log;
  * 
  */
 public class TaskExecutionFragment extends Fragment {
+  private static final String KEY_RUNNING = "running";
   public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
@@ -117,6 +118,11 @@ public class TaskExecutionFragment extends Fragment {
     super.onAttach(activity);
     mCallbacks = (TaskCallbacks) activity;
   }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+      super.onSaveInstanceState(outState);
+      outState.putBoolean(KEY_RUNNING,true);
+  }
 
   /**
    * This method will only be called once when the retained
@@ -125,7 +131,13 @@ public class TaskExecutionFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    if (savedInstanceState!=null && savedInstanceState.getBoolean(KEY_RUNNING, true)) {
+      //if we are recreated, prevent the task from being executed twice
+      if (mCallbacks != null) {
+        mCallbacks.onCancelled();
+      }
+      return;
+    }
     // Retain this fragment across configuration changes.
     setRetainInstance(true);
 
@@ -137,8 +149,15 @@ public class TaskExecutionFragment extends Fragment {
     long objectId = args.getLong("objectId");
     if (objectId != 0)
       mTask.execute(args.getLong("objectId"));
-    else
-      mTask.execute((Long[]) args.getSerializable("objectIds"));
+    else {
+      try {
+        mTask.execute((Long[]) args.getSerializable("objectIds"));
+      } catch (ClassCastException e) {
+        //the cast could fail, if Fragment is recreated,
+        //but we are cancelling above in that case
+        mCallbacks.onCancelled();
+      }
+    }
   }
 
   /**

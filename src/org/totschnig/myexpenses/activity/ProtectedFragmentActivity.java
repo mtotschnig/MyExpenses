@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -143,11 +142,14 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public void onCancelled() {
-    // TODO Auto-generated method stub
-    
+    removeAsyncTaskFragment();
   }
+
   @Override
   public void onPostExecute(int taskId, Object o) {
+    removeAsyncTaskFragment();
+  }
+  private void removeAsyncTaskFragment() {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));

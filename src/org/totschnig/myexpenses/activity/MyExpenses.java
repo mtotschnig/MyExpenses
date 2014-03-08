@@ -736,21 +736,6 @@ public class MyExpenses extends LaunchActivity implements
     finishActionMode();
   }
   @Override
-  public void onPreExecute() {
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void onProgressUpdate(int percent) {
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void onCancelled() {
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
