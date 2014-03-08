@@ -346,7 +346,11 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
-      setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
+      setTitle(
+          getString(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
+          + " ("
+          + getString(mOperationType ==  MyExpenses.TYPE_TRANSFER ? R.string.transfer : R.string.transaction)
+          + ")");
       helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
       setTitle(mNewInstance ? R.string.menu_create_split : R.string.menu_edit_split);
