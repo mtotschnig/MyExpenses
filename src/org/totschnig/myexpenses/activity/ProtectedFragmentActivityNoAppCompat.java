@@ -25,7 +25,7 @@ import android.support.v4.app.FragmentActivity;
 /**
  * This is the parent class for activities that use
  * the translucent Translucent.NoTitleBar theme that is not available
- * through Sherlock and hence need to inherit from the Base Fragment Activity
+ * through AppCompat and hence need to inherit from the Base Fragment Activity
  *
  */
 public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity implements

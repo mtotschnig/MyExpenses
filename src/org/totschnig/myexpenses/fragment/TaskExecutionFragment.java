@@ -20,23 +20,38 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.GrisbiImport;
+import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.CategoryTree;
+import org.totschnig.myexpenses.util.GrisbiHandler;
+import org.totschnig.myexpenses.util.Result;
+import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Xml;
 
 /**
  * This Fragment manages a single background task and retains
@@ -65,6 +80,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_NEW_CALENDAR = 16;
   public static final int TASK_CANCEL_PLAN_INSTANCE = 17;
   public static final int TASK_RESET_PLAN_INSTANCE = 18;
+  public static final int TASK_GRISBI_IMPORT = 19;
 
   /**
    * Callback interface through which the fragment will report the
@@ -83,7 +99,7 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   private TaskCallbacks mCallbacks;
-  private GenericTask mTask;
+  private AsyncTask mTask;
 
   public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds, Serializable extra) {
     TaskExecutionFragment f = new TaskExecutionFragment();
@@ -135,18 +151,15 @@ public class TaskExecutionFragment extends Fragment {
     Bundle args = getArguments();
     int taskId = args.getInt("taskId");
     Log.i(MyApplication.TAG,"TaskExecutionFragment created for task "+taskId);
-    mTask = new GenericTask(taskId,args.getSerializable("extra"));
-    long objectId = args.getLong("objectId");
-    if (objectId != 0)
-      mTask.execute(args.getLong("objectId"));
-    else {
-      try {
-        mTask.execute((Long[]) args.getSerializable("objectIds"));
-      } catch (ClassCastException e) {
-        //the cast could fail, if Fragment is recreated,
-        //but we are cancelling above in that case
-        mCallbacks.onCancelled();
-      }
+    mTask = taskId == TASK_GRISBI_IMPORT ? 
+      new GrisbiImportTask((Boolean) args.getSerializable("extra")) :
+      new GenericTask(taskId,args.getSerializable("extra"));
+    try {
+      mTask.execute((Long[]) args.getSerializable("objectIds"));
+    } catch (ClassCastException e) {
+      //the cast could fail, if Fragment is recreated,
+      //but we are cancelling above in that case
+      mCallbacks.onCancelled();
     }
   }
 
@@ -346,6 +359,203 @@ public class TaskExecutionFragment extends Fragment {
       if (mCallbacks != null) {
         mCallbacks.onPostExecute(mTaskId,result);
       }
+    }
+  }
+  
+  private class GrisbiImportTask extends AsyncTask<Long, Integer, Result> {
+    
+    public GrisbiImportTask(boolean withPartiesP) {
+      this.withPartiesP = withPartiesP;
+    }
+    String title;
+    private int max;
+    /**
+     * should we handle parties as well?
+     */
+    boolean withPartiesP;
+    /**
+     * this is set when we finish one phase (parsing, importing categories, importing parties)
+     * so that we can adapt progress dialog in onProgressUpdate
+     */
+    boolean phaseChangedP = false;
+    private CategoryTree catTree;
+    private ArrayList<String> partiesList;
+
+    public void setTitle(String title) {
+      this.title = title;
+    }
+    public String getTitle() {
+      return title;
+    }
+    private Result analyzeGrisbiFileWithSAX(InputStream is) {
+      GrisbiHandler handler = new GrisbiHandler();
+      try {
+          Xml.parse(is, Xml.Encoding.UTF_8, handler);
+      }  catch (IOException e) {
+        return new Result(false,R.string.parse_error_other_exception,e.getMessage());
+      } catch (GrisbiHandler.FileVersionNotSupportedException e) {
+        return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
+      } catch (SAXException e) {
+        return new Result(false,R.string.parse_error_parse_exception);
+      }
+      return handler.getResult();
+    }
+    /**
+     * return false upon problem (and sets a result object) or true
+     * @param source2 
+     */
+    protected Result parseXML(int source) {
+      InputStream catXML = null;
+      String sourceStr = GrisbiSourcesDialogFragment.IMPORT_SOURCES[source];
+      Result result;
+      //the last entry in the array is the custom import from sdcard
+
+      try {
+        if (source == 1) {
+            catXML = new FileInputStream(sourceStr);
+        } else {
+          try {
+            catXML = getResources().openRawResource(GrisbiSourcesDialogFragment.defaultSourceResId);
+          } catch (NotFoundException e) {
+            catXML = getResources().openRawResource(R.raw.cat_en);
+          }
+        }
+        result = analyzeGrisbiFileWithSAX(catXML);
+        if (result.success) {
+          catTree = (CategoryTree) result.extra[0];
+          partiesList = (ArrayList<String>) result.extra[1];
+        }
+      } catch (FileNotFoundException e) {
+        result = new Result(false,R.string.parse_error_file_not_found,sourceStr);
+      } finally {
+        if (catXML!=null) {
+          try {
+            catXML.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      return result;
+    }
+
+    /* (non-Javadoc)
+     * updates the progress dialog
+     * @see android.os.AsyncTask#onProgressUpdate(Progress[])
+     */
+    protected void onProgressUpdate(Integer... values) {
+      if (mCallbacks!=null) {
+        if (phaseChangedP) {
+          ((GrisbiImport) mCallbacks).setProgressMax(getMax());
+          ((GrisbiImport) mCallbacks).setProgressTitle(getTitle());
+          phaseChangedP = false;
+        }
+        mCallbacks.onProgressUpdate(values[0]);
+      }
+    }
+    /* (non-Javadoc)
+     * reports on success (with total number of imported categories) or failure
+     * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+     */
+    @Override
+    protected void onPostExecute(Result result) {
+      if (mCallbacks != null) {
+        mCallbacks.onPostExecute(TASK_GRISBI_IMPORT,result);
+      }
+    }
+
+    /* (non-Javadoc)
+     * this is where the bulk of the work is done via calls to {@link #importCatsMain()}
+     * and {@link #importCatsSub()}
+     * sets up {@link #categories} and {@link #sub_categories}
+     * @see android.os.AsyncTask#doInBackground(Params[])
+     */
+    @Override
+    protected Result doInBackground(Long... sources) {
+      int source = sources[0].intValue();
+      String sourceStr = GrisbiSourcesDialogFragment.IMPORT_SOURCES[source];
+      Result r = parseXML(source);
+      if (!r.success) {
+        return r;
+      }
+      setTitle(getString(R.string.grisbi_import_categories_loading,sourceStr));
+      phaseChangedP = true;
+      setMax(catTree.getTotal());
+      publishProgress(0);
+
+      int totalImportedCat = importCats(catTree);
+      if (withPartiesP) {
+        setTitle(getString(R.string.grisbi_import_parties_loading,sourceStr));
+        phaseChangedP = true;
+        setMax(partiesList.size());
+        publishProgress(0);
+
+        int totalImportedParty = importParties(partiesList);
+        return new Result(true,
+            R.string.grisbi_import_categories_and_parties_success,
+            String.valueOf(totalImportedCat),
+            String.valueOf(totalImportedParty));
+      } else {
+        return new Result(true,
+            R.string.grisbi_import_categories_success,
+            String.valueOf(totalImportedCat));
+      }
+    }
+
+    int getMax() {
+      return max;
+    }
+    void setMax(int max) {
+      this.max = max;
+    }
+    public int importParties(ArrayList<String> partiesList) {
+      int total = 0;
+      for (int i=0;i<partiesList.size();i++){
+        if (Payee.maybeWrite(partiesList.get(i)) != -1) {
+          total++;
+        }
+        if (i % 10 == 0) {
+          publishProgress(i);
+        }
+      }
+      return total;
+    }
+    public int importCats(CategoryTree catTree) {
+      int count = 0, total = 0;
+      String label;
+      long main_id, sub_id;
+
+      for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
+        CategoryTree mainCat = main.getValue();
+        label = mainCat.getLabel();
+        count++;
+        main_id = Category.find(label, null);
+        if (main_id != -1) {
+          Log.i("MyExpenses","category with label" + label + " already defined");
+        } else {
+          main_id = Category.write(0L,label,null);
+          if (main_id != -1) {
+            total++;
+            publishProgress(count);
+          } else {
+            //this should not happen
+            Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+            continue;
+          }
+        }
+        for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
+          label = sub.getValue().getLabel();
+          count++;
+          sub_id = Category.write(0L,label,main_id);
+          if (sub_id != -1) {
+            total++;
+          } else {
+            Log.i("MyExpenses","could not store sub category " + label);
+          }
+          publishProgress(count);
+        }
+      }
+      return total;
     }
   }
 }

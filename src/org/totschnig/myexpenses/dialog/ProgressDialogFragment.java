@@ -18,47 +18,52 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
 import android.os.Bundle;
-import android.view.KeyEvent;
 
 public class ProgressDialogFragment extends DialogFragment {
-  
+  private static final String KEY_PROGRESS_STYLE = "progressStyle";
+  private static final String KEY_MESSAGE = "message";
+  private ProgressDialog dialog;
+
   public static ProgressDialogFragment newInstance(int message) {
+    return newInstance(message,0);
+  }
+  public static ProgressDialogFragment newInstance(int message,int progressStyle) {
     ProgressDialogFragment f = new ProgressDialogFragment ();
     Bundle bundle = new Bundle();
-    bundle.putInt("message", message);
+    bundle.putInt(KEY_MESSAGE, message);
+    bundle.putInt(KEY_PROGRESS_STYLE, progressStyle);
     f.setArguments(bundle);
-    f.setCancelable(false);
+    //f.setCancelable(false);
     return f;
   }
  
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) { 
-    final ProgressDialog dialog = new ProgressDialog(getActivity());
-    int message = getArguments().getInt("message");
-    if (message != 0)
+    dialog = new ProgressDialog(getActivity());
+    int message = getArguments().getInt(KEY_MESSAGE);
+    int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
+    if (message != 0) {
       dialog.setMessage(getString(message));
-    else
-      dialog.setMessage("…");
-    dialog.setIndeterminate(true);
-    dialog.setCancelable(false);
-     
-    // Disable the back button
-    OnKeyListener keyListener = new OnKeyListener() {
-     
-      @Override
-      public boolean onKey(DialogInterface dialog, int keyCode,
-      KeyEvent event) {
-        if( keyCode == KeyEvent.KEYCODE_BACK){  
-        return true;
-      }
-        return false;
-      }
-       
-    };
-    dialog.setOnKeyListener(keyListener);
+    } else {
+      //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
+      dialog.setTitle("...");
+    }
+    if (progressStyle != 0) {
+      dialog.setProgressStyle(progressStyle);
+    } else {
+      dialog.setIndeterminate(true);
+    }
+    dialog.setProgress(0);
     return dialog;
+  }
+  public void setProgress(int progress) {
+   dialog.setProgress(progress);
+  }
+  public void setMax(int max) {
+   dialog.setMax(max);
+  }
+  public void setTitle(String title) {
+   dialog.setTitle(title);
   }
 }
