@@ -831,11 +831,13 @@ public class ExpenseEdit extends AmountActivity implements
     mPlanButton.setEnabled(true);
   }
   private void configureStatusSpinner() {
+    Account a = getCurrentAccount();
     mStatusSpinner.setVisibility((
         mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer ||
-        getCurrentAccount().type.equals(Type.CASH)) ?
+        a == null ||
+        a.type.equals(Type.CASH)) ?
       View.GONE : View.VISIBLE);
   }
   /**
@@ -893,9 +895,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
   public Money getAmount() {
-    if (getCurrentAccount() == null)
+    Account a = getCurrentAccount();
+    if (a == null)
       return null;
-    Money result = new Money(getCurrentAccount().currency,0L);
+    Money result = new Money(a.currency,0L);
     BigDecimal amount = validateAmountInput(false);
     if (amount == null) {
       return result;
@@ -1029,7 +1032,8 @@ public class ExpenseEdit extends AmountActivity implements
         return null;
     }
     int selected = mAccountSpinner.getSelectedItemPosition();
-    if (selected == android.widget.AdapterView.INVALID_POSITION) {
+    if (selected == android.widget.AdapterView.INVALID_POSITION ||
+        selected >= mAccounts.length) {
       return null;
     }
     return mAccounts[selected];
@@ -1121,11 +1125,14 @@ public class ExpenseEdit extends AmountActivity implements
     case PAYEES_CURSOR:
       return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, null, null, null);
     case METHODS_CURSOR:
+      Account a = getCurrentAccount();
+      if (a == null)
+        return null;
       return new CursorLoader(this,
           TransactionProvider.METHODS_URI.buildUpon()
           .appendPath("typeFilter")
           .appendPath(mType == INCOME ? "1" : "-1")
-          .appendPath(getCurrentAccount().type.name())
+          .appendPath(a.type.name())
           .build(), null, null, null, null);
     case ACCOUNTS_CURSOR:
         String selection = (mOperationType == MyExpenses.TYPE_TRANSFER) ? 
