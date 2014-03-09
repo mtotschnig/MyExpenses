@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -35,6 +37,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -172,5 +175,33 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag("SAVE_TASK"));
     t.commitAllowingStateLoss();
+  }
+  
+  /**
+   * starts the given task, only if no task is currently executed,
+   * informs user through toast in that case
+   * @param taskId
+   * @param objectIds
+   * @param extra
+   * @param progressMessage if 0 no progress dialog will be shown
+   */
+  public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
+    FragmentManager fm = getSupportFragmentManager();
+    if (fm.findFragmentByTag("ASYNC_TASK") != null) {
+      Toast.makeText(getBaseContext(),
+          "Previous task still executing, please try again later",
+          Toast.LENGTH_LONG)
+          .show();
+    } else {
+      FragmentTransaction ft = fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            taskId,
+            objectIds, null),
+          "ASYNC_TASK");
+      if (progressMessage != 0) {
+        ft.add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS");
+      }
+      ft.commit();
+    }
   }
 }

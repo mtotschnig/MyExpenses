@@ -84,17 +84,7 @@ public class TaskExecutionFragment extends Fragment {
 
   private TaskCallbacks mCallbacks;
   private GenericTask mTask;
-  public static TaskExecutionFragment newInstance(int taskId, Long objectId, Serializable extra) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
-    Bundle bundle = new Bundle();
-    bundle.putInt("taskId", taskId);
-    if (objectId != null)
-      bundle.putLong("objectId", objectId);
-    if (extra != null)
-      bundle.putSerializable("extra", extra);
-    f.setArguments(bundle);
-    return f;
-  }
+
   public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds, Serializable extra) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();

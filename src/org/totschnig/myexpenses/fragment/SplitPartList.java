@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -187,9 +188,11 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      getActivity().getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "ASYNC_TASK")
-      .commit();
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+          new Long[] {info.id},
+          null,
+          0);
       return true;
     }
     return super.onContextItemSelected(item);

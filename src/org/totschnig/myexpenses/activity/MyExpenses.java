@@ -265,7 +265,7 @@ public class MyExpenses extends LaunchActivity implements
     if (fm.findFragmentByTag("ASYNC_TASK") == null) {
       fm.beginTransaction()
         .add(WelcomeDialogFragment.newInstance(),"WELCOME")
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,0L, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,new Long[]{0L}, null), "ASYNC_TASK")
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
         .commit();
     }
@@ -510,13 +510,11 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.DELETE_COMMAND_DO:
       finishActionMode();
-      getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-            (Long[])tag, null),
-          "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
-        .commit();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+          (Long[])tag,
+          null,
+          R.string.progress_dialog_deleting);
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
@@ -547,10 +545,11 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
         mAccountId = 0;
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
-           .commit();
+        startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_ACCOUNT,
+            new Long[] { (Long) tag },
+            null,
+            0);
         return true;
       case R.id.SHARE_COMMAND:
         Intent sendIntent = new Intent();
@@ -752,9 +751,11 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
   public void toggleCrStatus (View v) {
-    getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "ASYNC_TASK")
-      .commit();
+    startTaskExecution(
+        TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+        new Long[] {(Long) v.getTag()},
+        null,
+        0);
   }
   /**
    * @return true if for the current Account there is a second account

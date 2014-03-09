@@ -261,10 +261,11 @@ public class ExpenseEdit extends AmountActivity implements
       }
       FragmentManager fm = getSupportFragmentManager();
       if (fm.findFragmentByTag("ASYNC_TASK") == null) {
-        fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
-          .commit();
+        startTaskExecution(
+            taskId,
+            new Long[] {objectId},
+            null,
+            R.string.progress_dialog_loading);
       }
     } else {
       mOperationType = extras.getInt("operationType");
@@ -535,10 +536,11 @@ public class ExpenseEdit extends AmountActivity implements
       return true;
     case R.id.CREATE_COMMAND:
       //create calendar
-      getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,0L,null), "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_calendar),"PROGRESS")
-      .commit();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_NEW_CALENDAR,
+          new Long[]{0L},
+          null,
+          R.string.progress_dialog_create_calendar);
       return true;
     case R.id.INVERT_TRANSFER_COMMAND:
       mType = ! mType;
@@ -1330,19 +1332,16 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private void launchNewPlan() {
     String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
-    getSupportFragmentManager().beginTransaction()
-    .add(TaskExecutionFragment.newInstance(
+    startTaskExecution(
         TaskExecutionFragment.TASK_NEW_PLAN,
-        0L,
+        new Long[] {0L} ,
         new Plan(
             0,
             System.currentTimeMillis(),
             "",
             ((Template) mTransaction).title,
-            description)),
-        "ASYNC_TASK")
-    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
-    .commit();
+            description),
+        R.string.progress_dialog_create_plan);
   }
   public void disableAccountSpinner() {
     mAccountSpinner.setEnabled(false);

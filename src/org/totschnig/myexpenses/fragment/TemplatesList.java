@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -107,9 +108,11 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,itemIds, null), "ASYNC_TASK")
-        .commit();
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+          itemIds,
+          null,
+          0);
       break;
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);

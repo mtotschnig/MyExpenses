@@ -118,10 +118,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         return true;
       case R.id.DELETE_COMMAND_DO:
         finishActionMode();
-        getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
-          .commit();
+        startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_CATEGORY,
+            (Long[])tag,
+            null,
+            R.string.progress_dialog_deleting);
         return true;
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();

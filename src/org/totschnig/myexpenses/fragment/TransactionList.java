@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -259,9 +260,11 @@ public class TransactionList extends BudgetListFragment implements
         .show(fm,"DELETE_TRANSACTION");
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,itemIds, null), "ASYNC_TASK")
-        .commit();
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          TaskExecutionFragment.TASK_CLONE,
+          itemIds,
+          null,
+          0);
       break;
       //super is handling deactivation of mActionMode
     }

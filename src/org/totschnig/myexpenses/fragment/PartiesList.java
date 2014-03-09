@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.fragment;
 import java.util.ArrayList;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -87,14 +88,11 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
         }
       }
       if (idList.size()>0) {
-        getActivity().getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(
-              TaskExecutionFragment.TASK_DELETE_PAYEES,
-              idList.toArray(new Long[idList.size()]),
-              null),
-            "ASYNC_TASK")
-            .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
-          .commit();
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_PAYEES,
+            idList.toArray(new Long[idList.size()]),
+            null,
+            R.string.progress_dialog_deleting);
         return true;
       }
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
