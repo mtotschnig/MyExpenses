@@ -387,9 +387,10 @@ public class Account extends Model {
   public static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
   }
-  public static void reportNull() {
+  public static void reportNull(long id) {
+    throw new RuntimeException("Error instantiating account "+id);
     /*org.acra.ACRA.getErrorReporter().handleSilentException(
-        new Exception("Error instantiating account"));*/
+        new Exception("Error instantiating account "+id));*/
   }
   /**
    * @param id
@@ -421,12 +422,12 @@ public class Account extends Model {
     Cursor c = cr().query(
         CONTENT_URI, null,selection,null, null);
     if (c == null) {
-      reportNull();
+      reportNull(id);
       return null;
     }
     if (c.getCount() == 0) {
       c.close();
-      reportNull();
+      reportNull(id);
       return null;
     }
     c.moveToFirst();

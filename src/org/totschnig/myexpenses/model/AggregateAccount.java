@@ -33,12 +33,12 @@ public class AggregateAccount extends Account {
         TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(0-id)).build(),
         null,null,null, null);
     if (c == null) {
-      reportNull();
+      reportNull(id);
       return null;
     }
     if (c.getCount() == 0) {
       c.close();
-      reportNull();
+      reportNull(id);
       return null;
     }
     c.moveToFirst();
