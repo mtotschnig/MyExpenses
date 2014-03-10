@@ -196,7 +196,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       FragmentTransaction ft = fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(
             taskId,
-            objectIds, null),
+            objectIds, extra),
           "ASYNC_TASK");
       if (progressMessage != 0) {
         ft.add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS");
