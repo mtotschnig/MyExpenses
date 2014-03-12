@@ -388,7 +388,9 @@ public class Account extends Model {
     return accounts.containsKey(id);
   }
   public static void reportNull(long id) {
-    throw new RuntimeException("Error instantiating account "+id);
+    if (MyApplication.debug) {
+      throw new RuntimeException("Error instantiating account "+id);
+    }
     /*org.acra.ACRA.getErrorReporter().handleSilentException(
         new Exception("Error instantiating account "+id));*/
   }
