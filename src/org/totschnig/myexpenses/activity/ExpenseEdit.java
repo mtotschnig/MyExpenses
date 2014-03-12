@@ -566,7 +566,7 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       Intent i = new Intent(this, ExpenseEdit.class);
       i.putExtra("operationType", type);
-      i.putExtra(KEY_ACCOUNTID,mAccountSpinner.getSelectedItemId());
+      i.putExtra(KEY_ACCOUNTID,mAccounts[accountPosition].id);
       i.putExtra(KEY_PARENTID,mTransaction.id);
       startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
