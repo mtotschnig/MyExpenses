@@ -100,6 +100,11 @@ public class CategoryList extends BudgetListFragment implements
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       viewResource = R.layout.distribution_list;
       mAccount = Account.getInstanceFromDb(extras.getLong(KEY_ACCOUNTID));
+      if (mAccount == null) {
+        TextView tv = new TextView(ctx);
+        tv.setText("Error loading distribution for account "+extras.getLong(KEY_ACCOUNTID));
+        return  tv;
+      }
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
       mGrouping = (Grouping) b.getSerializable("grouping");
       mGroupingYear = b.getInt("groupingYear");
