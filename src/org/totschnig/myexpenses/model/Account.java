@@ -174,8 +174,8 @@ public class Account extends Model {
         return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
       case WEEK:
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
-        String weekRange = " (" + Utils.convDate(c.getString(c.getColumnIndex("week_start")),dateformat)
-            + " - " + Utils.convDate(c.getString(c.getColumnIndex("week_end")),dateformat)  + " )";
+        String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex("week_start")),dateformat)
+            + " - " + Utils.convDateTime(c.getString(c.getColumnIndex("week_end")),dateformat)  + " )";
         String yearPrefix;
         if (groupYear == this_year_of_week_start) {
           if (groupSecond == this_week)

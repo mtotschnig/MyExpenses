@@ -32,9 +32,9 @@ public class DatabaseConstants {
       nextWeekEnd = weekStartsOn -2;
     }
     YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEnd + "', '-6 day') AS integer)";
-    WEEK_START = "date(date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "', '-6 day')";
+    WEEK_START = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "', '-6 day')";
     THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEnd + "', '-6 day') AS integer)";
-    WEEK_END = "date(date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "')";
+    WEEK_END = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "')";
     WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEnd
         + "') AS integer)";
     THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEnd + "') AS integer)";
