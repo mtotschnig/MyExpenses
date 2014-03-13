@@ -55,12 +55,13 @@ import android.widget.Toast;
 
 public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, android.view.View.OnClickListener {
   CheckBox notYetExportedCB,deleteCB;
-  RadioButton formatRB;
+  RadioButton formatRB, separatorRB;
   TextView warningTV;
   EditText dateFormatET;
   AlertDialog mDialog;
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
+  static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
   
   public static final ExportDialogFragment newInstance(Long accountId) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -94,6 +95,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     }
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
+
     dateFormatET = (EditText) view.findViewById(R.id.date_format);
     String dateFormatDefault =
         ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
@@ -122,19 +124,32 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
     });
+
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
     deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
     warningTV = (TextView) view.findViewById(R.id.warning_reset);
+
     formatRB = (RadioButton) view.findViewById(R.id.csv);
     String format = MyApplication.getInstance().getSettings()
         .getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
-    if (format.equals("CSV"))
-      (formatRB).setChecked(true);
+    if (format.equals("CSV")) {
+      formatRB.setChecked(true);
+    }
+
+    separatorRB = (RadioButton) view.findViewById(R.id.comma);
+    char separator = (char) MyApplication.getInstance().getSettings()
+        .getInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
+    if (separator==',') {
+      separatorRB.setChecked(true);
+    }
+      
+
     deleteCB.setOnClickListener(this);
     if (Account.getHasExported(accountId)) {
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
     }
+
     warningTV.setText(warningText);
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
@@ -159,9 +174,12 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
         "CSV" : "QIF";
     String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
+    char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
+        '.' : ',';
     MyApplication.getInstance().getSettings().edit()
       .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format)
       .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
+      .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator)
       .commit();
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
@@ -178,7 +196,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       i.putExtra("format", format)
         .putExtra("deleteP", deleteP)
         .putExtra("notYetExportedP",notYetExportedP)
-        .putExtra("dateFormat",dateFormat);
+        .putExtra("dateFormat",dateFormat)
+        .putExtra("decimalSeparator",decimalSeparator);
 
       ctx.startActivityForResult(i,0);
     } else {

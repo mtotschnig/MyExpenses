@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
@@ -626,7 +627,7 @@ public class Account extends Model {
    * @throws IOException
    */
   public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy");
+    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.');
   }
   /**
    * writes transactions to export file
@@ -634,14 +635,17 @@ public class Account extends Model {
    * @param format QIF or CSV
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
+   * @param decimalSeparator 
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
-    DecimalFormat nfFormat = new DecimalFormat();
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(decimalSeparator);
+    DecimalFormat nfFormat =  new DecimalFormat("#0.###",symbols);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
     String selection = KEY_ACCOUNTID + " = " + id + " AND " + KEY_PARENTID + " is null";
@@ -711,7 +715,7 @@ public class Account extends Model {
       long amount = c.getLong(
           c.getColumnIndexOrThrow(KEY_AMOUNT));
       BigDecimal bdAmount = new Money(currency,amount).getAmountMajor();
-      String amountQIF = bdAmount.toPlainString();
+      String amountQIF = nfFormat.format(bdAmount);
       String amountAbsCSV = nfFormat.format(bdAmount.abs());
       try {
         status = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
@@ -798,8 +802,8 @@ public class Account extends Model {
           amount = splits.getLong(
               splits.getColumnIndexOrThrow(KEY_AMOUNT));
           bdAmount = new Money(currency,amount).getAmountMajor();
-          amountQIF = bdAmount.toPlainString();
-          amountAbsCSV = nfFormat.format(bdAmount.abs().longValue());
+          amountQIF = nfFormat.format(bdAmount);
+          amountAbsCSV = nfFormat.format(bdAmount.abs());
           sb.clear();
           switch (format) {
           case CSV:

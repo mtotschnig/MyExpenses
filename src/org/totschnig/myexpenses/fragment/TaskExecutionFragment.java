@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.GrisbiHandler;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
@@ -387,19 +388,7 @@ public class TaskExecutionFragment extends Fragment {
     public String getTitle() {
       return title;
     }
-    private Result analyzeGrisbiFileWithSAX(InputStream is) {
-      GrisbiHandler handler = new GrisbiHandler();
-      try {
-          Xml.parse(is, Xml.Encoding.UTF_8, handler);
-      }  catch (IOException e) {
-        return new Result(false,R.string.parse_error_other_exception,e.getMessage());
-      } catch (GrisbiHandler.FileVersionNotSupportedException e) {
-        return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
-      } catch (SAXException e) {
-        return new Result(false,R.string.parse_error_parse_exception);
-      }
-      return handler.getResult();
-    }
+
     /**
      * return false upon problem (and sets a result object) or true
      * @param source2 
@@ -420,7 +409,7 @@ public class TaskExecutionFragment extends Fragment {
             catXML = getResources().openRawResource(R.raw.cat_en);
           }
         }
-        result = analyzeGrisbiFileWithSAX(catXML);
+        result = Utils.analyzeGrisbiFileWithSAX(catXML);
         if (result.success) {
           catTree = (CategoryTree) result.extra[0];
           partiesList = (ArrayList<String>) result.extra[1];

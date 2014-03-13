@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -46,6 +47,7 @@ import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
+import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -60,6 +62,7 @@ import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.widget.Toast;
 
@@ -463,5 +466,19 @@ public class Utils {
     String yearlessPattern = ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
         .toPattern().replaceAll("\\W?[Yy]+\\W?", "");
     return new SimpleDateFormat(yearlessPattern, l);
+  }
+
+  public static Result analyzeGrisbiFileWithSAX(InputStream is) {
+    GrisbiHandler handler = new GrisbiHandler();
+    try {
+        Xml.parse(is, Xml.Encoding.UTF_8, handler);
+    }  catch (IOException e) {
+      return new Result(false,R.string.parse_error_other_exception,e.getMessage());
+    } catch (GrisbiHandler.FileVersionNotSupportedException e) {
+      return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
+    } catch (SAXException e) {
+      return new Result(false,R.string.parse_error_parse_exception);
+    }
+    return handler.getResult();
   }
 }

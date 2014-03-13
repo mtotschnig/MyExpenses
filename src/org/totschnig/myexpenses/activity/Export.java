@@ -63,6 +63,7 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
   private boolean deleteP;
   private boolean notYetExportedP;
   private String dateFormat;
+  private char decimalSeparator;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
     deleteP = extras.getBoolean("deleteP");
     notYetExportedP = extras.getBoolean("notYetExportedP");
     dateFormat = extras.getString("dateFormat");
+    decimalSeparator = extras.getChar("decimalSeparator");
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");
@@ -249,7 +251,7 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
         account = Account.getInstanceFromDb(id);
         publishProgress(account.label + " ...");
         try {
-          Result result = account.exportAll(destDir,activity.format,activity.notYetExportedP,activity.dateFormat);
+          Result result = account.exportAll(destDir,activity.format,activity.notYetExportedP,activity.dateFormat,activity.decimalSeparator);
           File output = null;
           String progressMsg;
           if (result.extra != null) {

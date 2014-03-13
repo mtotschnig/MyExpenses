@@ -55,6 +55,7 @@
   <string name="date">Date</string>
   <string name="date_format">Date format</string>
   <string name="date_format_illegal">Illegal date format</string>
+  <string name="decimal_separator">Decimal separator</string>
   <string name="default_account_description">This account was set up automatically during installation</string>
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. You have only one account of currency %1$s.</string>

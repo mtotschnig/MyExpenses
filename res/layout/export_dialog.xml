@@ -52,6 +52,33 @@
           android:layout_weight="1"
           android:layout_height="wrap_content" />
     </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+      <RadioGroup android:id="@+id/separator"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal">
+      <TextView android:text="@string/decimal_separator"
+          style="@style/dialog_text"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+	      <RadioButton android:id="@+id/dot"
+	          android:layout_width="0dp"
+	          android:layout_weight="1"
+		        android:layout_height="wrap_content"
+		        android:checked="true"
+		        android:text="."/>
+	      <RadioButton android:id="@+id/comma"
+	          android:layout_width="0dp"
+	          android:layout_weight="1"
+		        android:layout_height="wrap_content"
+		        android:text=","/>
+      </RadioGroup>
+    </LinearLayout>
     <CheckBox android:id="@+id/export_delete"
         android:checked="false"
         android:layout_width="wrap_content"
