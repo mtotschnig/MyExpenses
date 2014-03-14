@@ -116,32 +116,32 @@ public class ExportTest extends ModelTest  {
     String[] linesQIF = new String[] {
       "!Type:Bank",
       "D" + date,
-      "T-0.1",
+      "T-0.10",
       "C*",
       "N1",
       "^",
       "D" + date,
-      "T-0.2",
+      "T-0.20",
       "LMain",
       "PN.N.",
       "N2",
       "^",
       "D" + date,
-      "T0.3",
+      "T0.30",
       "LMain:Sub",
       "^",
       "D" + date,
-      "T0.4",
+      "T0.40",
       "MNote for myself with \"quote\"",
       "LMain:Sub",
       "^",
       "D" + date,
-      "T0.5",
+      "T0.50",
       "L[Account 2]",
       "CX",
       "^",
       "D" + date,
-      "T-0.6",
+      "T-0.60",
       "L[Account 2]",
       "^"
     };
@@ -158,15 +158,15 @@ public class ExportTest extends ModelTest  {
   public void testExportCSV() {
     String[] linesCSV = new String[] {
         csvHeader(),
-        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+        "\"\";\"" + date + "\";\"\";0;0.10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
             + "\";\"*\";\"1\";",
-        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+        "\"\";\"" + date + "\";\"N.N.\";0;0.20;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
             + "\";\"\";\"2\";",
-        "\"\";\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";",
-        "\"\";\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";",
-        "\"\";\"" + date + "\";\"\";0.5;0;\"" + getContext().getString(R.string.transfer)
+        "\"\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.50;0;\"" + getContext().getString(R.string.transfer)
             + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
-        "\"\";\"" + date + "\";\"\";0;0.6;\"" + getContext().getString(R.string.transfer)
+        "\"\";\"" + date + "\";\"\";0;0.60;\"" + getContext().getString(R.string.transfer)
             + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
     };
     try {
@@ -179,12 +179,36 @@ public class ExportTest extends ModelTest  {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
   }
+  public void testExportCSVCustomFormat() {
+    String[] linesCSV = new String[] {
+        csvHeader(),
+        "\"\";\"" + date + "\";\"\";0;0,10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+        + "\";\"*\";\"1\";",
+        "\"\";\"" + date + "\";\"N.N.\";0;0,20;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+            + "\";\"\";\"2\";",
+        "\"\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0,40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0,50;0;\"" + getContext().getString(R.string.transfer)
+            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
+        "\"\";\"" + date + "\";\"\";0;0,60;\"" + getContext().getString(R.string.transfer)
+            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
+    };
+    try {
+      insertData1();
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "dd/MM/yyyy",',');
+      assertTrue(result.success);
+      export = (File) result.extra[0];
+      compare(export,linesCSV);
+    } catch (IOException e) {
+      fail("Could not export expenses. Error: " + e.getMessage());
+    }
+  }
   public void testExportNotYetExported() {
     String[] linesCSV = new String[] {
         csvHeader(),
-        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\""
+        "\"\";\"" + date + "\";\"\";0;1.00;\"\";\"\";\"Expense inserted after first export\";\""
             + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\";",
-        "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";"
+        "\"\";\"" + date + "\";\"N.N.\";1.00;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";"
     };
     try {
       insertData1();
