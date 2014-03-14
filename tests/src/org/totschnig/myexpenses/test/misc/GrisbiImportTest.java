@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.test.InstrumentationTestCase;
 
@@ -32,7 +33,7 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     return analyzeSAX(id);
   }
   private Result analyzeSAX(int id) {
-    return GrisbiImport.analyzeGrisbiFileWithSAX(
+    return Utils.analyzeGrisbiFileWithSAX(
         getInstrumentation().getContext().getResources().openRawResource(id)
     );
   }

@@ -363,7 +363,7 @@ public class TaskExecutionFragment extends Fragment {
     }
   }
   
-  private class GrisbiImportTask extends AsyncTask<Long, Integer, Result> {
+  public class GrisbiImportTask extends AsyncTask<Long, Integer, Result> {
     
     public GrisbiImportTask(boolean withPartiesP) {
       this.withPartiesP = withPartiesP;
@@ -428,6 +428,15 @@ public class TaskExecutionFragment extends Fragment {
       return result;
     }
 
+    /**
+     * made public to allow passing task to  {@link Utils#importCats(CategoryTree, GrisbiImportTask)}
+     * and {@link Utils#importParties(ArrayList, GrisbiImportTask)}
+     * @param i
+     */
+    public void publishProgress(Integer i) {
+      super.publishProgress(i);
+    }
+
     /* (non-Javadoc)
      * updates the progress dialog
      * @see android.os.AsyncTask#onProgressUpdate(Progress[])
@@ -472,14 +481,14 @@ public class TaskExecutionFragment extends Fragment {
       setMax(catTree.getTotal());
       publishProgress(0);
 
-      int totalImportedCat = importCats(catTree);
+      int totalImportedCat = Utils.importCats(catTree,this);
       if (withPartiesP) {
         setTitle(getString(R.string.grisbi_import_parties_loading,sourceStr));
         phaseChangedP = true;
         setMax(partiesList.size());
         publishProgress(0);
 
-        int totalImportedParty = importParties(partiesList);
+        int totalImportedParty = Utils.importParties(partiesList,this);
         return new Result(true,
             R.string.grisbi_import_categories_and_parties_success,
             String.valueOf(totalImportedCat),
@@ -496,55 +505,6 @@ public class TaskExecutionFragment extends Fragment {
     }
     void setMax(int max) {
       this.max = max;
-    }
-    public int importParties(ArrayList<String> partiesList) {
-      int total = 0;
-      for (int i=0;i<partiesList.size();i++){
-        if (Payee.maybeWrite(partiesList.get(i)) != -1) {
-          total++;
-        }
-        if (i % 10 == 0) {
-          publishProgress(i);
-        }
-      }
-      return total;
-    }
-    public int importCats(CategoryTree catTree) {
-      int count = 0, total = 0;
-      String label;
-      long main_id, sub_id;
-
-      for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
-        CategoryTree mainCat = main.getValue();
-        label = mainCat.getLabel();
-        count++;
-        main_id = Category.find(label, null);
-        if (main_id != -1) {
-          Log.i("MyExpenses","category with label" + label + " already defined");
-        } else {
-          main_id = Category.write(0L,label,null);
-          if (main_id != -1) {
-            total++;
-            publishProgress(count);
-          } else {
-            //this should not happen
-            Log.w("MyExpenses","could neither retrieve nor store main category " + label);
-            continue;
-          }
-        }
-        for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
-          label = sub.getValue().getLabel();
-          count++;
-          sub_id = Category.write(0L,label,main_id);
-          if (sub_id != -1) {
-            total++;
-          } else {
-            Log.i("MyExpenses","could not store sub category " + label);
-          }
-          publishProgress(count);
-        }
-      }
-      return total;
     }
   }
 }

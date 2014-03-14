@@ -40,12 +40,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.EnumSet;
 import java.util.Locale;
+import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.xml.sax.SAXException;
 
@@ -501,5 +505,59 @@ public class Utils {
       return new Result(false,R.string.parse_error_parse_exception);
     }
     return handler.getResult();
+  }
+
+  public static int importParties(ArrayList<String> partiesList,TaskExecutionFragment.GrisbiImportTask task) {
+    int total = 0;
+    for (int i=0;i<partiesList.size();i++){
+      if (Payee.maybeWrite(partiesList.get(i)) != -1) {
+        total++;
+      }
+      if (task != null && i % 10 == 0) {
+        task.publishProgress(i);
+      }
+    }
+    return total;
+  }
+  public static int importCats(CategoryTree catTree,TaskExecutionFragment.GrisbiImportTask task) {
+    int count = 0, total = 0;
+    String label;
+    long main_id, sub_id;
+
+    for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
+      CategoryTree mainCat = main.getValue();
+      label = mainCat.getLabel();
+      count++;
+      main_id = Category.find(label, null);
+      if (main_id != -1) {
+        Log.i("MyExpenses","category with label" + label + " already defined");
+      } else {
+        main_id = Category.write(0L,label,null);
+        if (main_id != -1) {
+          total++;
+          if (task != null && count % 10 == 0) {
+            task.publishProgress(count);
+          }
+        } else {
+          //this should not happen
+          Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+          continue;
+        }
+      }
+      for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
+        label = sub.getValue().getLabel();
+        count++;
+        sub_id = Category.write(0L,label,main_id);
+        if (sub_id != -1) {
+          total++;
+        } else {
+          Log.i("MyExpenses","could not store sub category " + label);
+        }
+        if (task != null && count % 10 == 0) {
+          task.publishProgress(count);
+        }
+      }
+    }
+    return total;
   }
 }
