@@ -153,6 +153,27 @@ public class Utils {
       return null;
     }
   }
+  /**
+   * @param currency
+   * @param separator
+   * @return a Decimalformat with the number of fraction digits appropriate for
+   * currency, and with the given separator, but without the currency symbol
+   * appropriate for CSV and QIF export
+   */
+  public static DecimalFormat getDecimalFormat(Currency currency,char separator) {
+    DecimalFormat nf = new DecimalFormat();
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(separator);
+    nf.setDecimalFormatSymbols(symbols);
+    int fractionDigits = currency.getDefaultFractionDigits();
+    if (fractionDigits != -1) {
+      nf.setMinimumFractionDigits(fractionDigits);
+      nf.setMaximumFractionDigits(fractionDigits);
+    } else {
+      nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
+    }
+    return nf;
+  }
 
   /**
    * utility method that calls formatters for date

@@ -643,9 +643,7 @@ public class Account extends Model {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-    symbols.setDecimalSeparator(decimalSeparator);
-    DecimalFormat nfFormat =  new DecimalFormat("#0.###",symbols);
+    DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
     String selection = KEY_ACCOUNTID + " = " + id + " AND " + KEY_PARENTID + " is null";
