@@ -677,7 +677,11 @@ public class Account extends Model {
       break;
     //QIF
     default:
-      sb.append("!Type:")
+      sb.append("!Account\nN")
+        .append(label)
+        .append("\nT")
+        .append(type.getQifName())
+        .append("\n^\n!Type:")
         .append(type.getQifName());
     }
     //Write header

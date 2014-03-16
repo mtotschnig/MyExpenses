@@ -39,12 +39,6 @@ import android.util.Log;
 
 
 public class ExportTest extends ModelTest  {
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    //we use the english decimal separator in the test
-    MyApplication.getInstance().setLanguage(new Locale("en","US"));
-  }
   Account account1, account2;
   Long openingBalance = 100L,
       expense1 = 10L, //status cleared
@@ -114,6 +108,10 @@ public class ExportTest extends ModelTest  {
   }
   public void testExportQIF() {
     String[] linesQIF = new String[] {
+      "!Account",
+      "NAccount 1",
+      "TBank",
+      "^",
       "!Type:Bank",
       "D" + date,
       "T-0.10",
