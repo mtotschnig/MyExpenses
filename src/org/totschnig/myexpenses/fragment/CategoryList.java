@@ -631,6 +631,9 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   protected void configureMenu(Menu menu, int count) {
     ManageCategories ctx = (ManageCategories) getActivity();
+    if (ctx == null) {
+      return;
+    }
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!ctx.helpVariant.equals(HelpVariant.distribution));
