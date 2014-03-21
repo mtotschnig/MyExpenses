@@ -549,24 +549,22 @@ public class ExpenseEdit extends AmountActivity implements
     return super.dispatchCommand(command, tag);
   }
   private void createRow(int type) {
-    int accountPosition = mAccountSpinner.getSelectedItemPosition();
-    if (accountPosition == AdapterView.INVALID_POSITION) {
-      //silently do nothing if accounts are not yet loaded
+    Account account = getCurrentAccount();
+    if (account == null)
       return;
-    }
     if (type == MyExpenses.TYPE_TRANSFER &&
-        !mAccounts[accountPosition].transferEnabled) {
+        !account.transferEnabled) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_menu_command_disabled,
           getString(R.string.dialog_command_disabled_insert_transfer,
-              mAccounts[accountPosition].currency.getCurrencyCode()),
+              account.currency.getCurrencyCode()),
           MessageDialogFragment.Button.okButton(),
           null,null)
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
     } else {
       Intent i = new Intent(this, ExpenseEdit.class);
       i.putExtra("operationType", type);
-      i.putExtra(KEY_ACCOUNTID,mAccounts[accountPosition].id);
+      i.putExtra(KEY_ACCOUNTID,account.id);
       i.putExtra(KEY_PARENTID,mTransaction.id);
       startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
@@ -725,10 +723,10 @@ public class ExpenseEdit extends AmountActivity implements
   protected boolean syncStateAndValidate() {
     boolean validP = true;
     String title = "";
-    //account cursor not yet loaded
-    if (mAccounts == null)
+
+    Account account = getCurrentAccount();
+    if (account == null)
       return false;
-    Account account = mAccounts[mAccountSpinner.getSelectedItemPosition()];
     BigDecimal amount = validateAmountInput(true);
 
     if (amount == null) {
