@@ -92,6 +92,7 @@ public abstract class AmountActivity extends EditActivity {
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST) {
       try {
         mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
+        mAmountText.setError(null);
       } catch (NumberFormatException  e) {}
         catch (IllegalArgumentException e) {}
     }
