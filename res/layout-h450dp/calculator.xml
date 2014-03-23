@@ -115,5 +115,8 @@
 			android:text="=" android:id="@+id/bResult" android:textColor="#39b54a"
 			android:textStyle="bold" android:layout_margin="3dp" />
 	</LinearLayout>
+	<LinearLayout
+  android:layout_height="wrap_content" android:layout_width="fill_parent">
 	<include layout="@layout/ok_cancel_buttons" />
+	</LinearLayout>
 </LinearLayout>
