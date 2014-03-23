@@ -665,10 +665,18 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    mAccountCount = 0;
-    mAccountsCursor = cursor;
     switch(loader.getId()) {
     case ACCOUNTS_CURSOR:
+      mAccountCount = 0;
+      mAccountsCursor = cursor;
+      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
+      //swaping the cursor is altering the accountId, if the
+      //sort order has changed, but we want to move to the same account as before
+      long cacheAccountId = mAccountId;
+      mViewPagerAdapter.swapCursor(cursor);
+      mAccountId = cacheAccountId;
+      if (mAccountsCursor == null)
+        return;
       if (!indexesCalculated) {
         columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
         columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);
@@ -677,12 +685,6 @@ public class MyExpenses extends LaunchActivity implements
         columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
         indexesCalculated = true;
       }
-      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
-      //swaping the cursor is altering the accountId, if the
-      //sort order has changed, but we want to move to the same account as before
-      long cacheAccountId = mAccountId;
-      mViewPagerAdapter.swapCursor(cursor);
-      mAccountId = cacheAccountId;
       if (mAccountsCursor.moveToFirst()) {
         int position = 0;
         while (mAccountsCursor.isAfterLast() == false) {
@@ -706,6 +708,7 @@ public class MyExpenses extends LaunchActivity implements
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (arg0.getId() == ACCOUNTS_CURSOR) {
       mViewPagerAdapter.swapCursor(null);
+      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(null);
       mCurrentPosition = -1;
       mAccountsCursor = null;
     }
