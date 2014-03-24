@@ -25,14 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.util.Result;
 
 import android.util.Log;
@@ -48,7 +43,11 @@ public class ExportTest extends ModelTest  {
       transferP = 50L, //status reconciled
       transferN = 60L,
       expense3 = 100L,
-      income3 = 100L;
+      income3 = 100L,
+      split1 = 70L,
+      part1 = 40L,
+      part2 = 30L;
+      
   Long cat1Id, cat2Id;
   String date = new SimpleDateFormat("dd/MM/yyyy",Locale.US).format(new Date());
   File export;
@@ -64,13 +63,13 @@ public class ExportTest extends ModelTest  {
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op.amount = new Money(account1.currency,-expense1);
     op.methodId = PaymentMethod.find("CHEQUE");
-    op.crStatus = CrStatus.CLEARED;
+    op.crStatus = Transaction.CrStatus.CLEARED;
     op.referenceNumber = "1";
     op.save();
     op.amount = new Money(account1.currency,-expense2);
     op.catId = cat1Id;
     op.payee = "N.N.";
-    op.crStatus = CrStatus.UNRECONCILED;
+    op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.referenceNumber = "2";
     op.saveAsNew();
     op.amount = new Money(account1.currency,income1);
@@ -85,11 +84,22 @@ public class ExportTest extends ModelTest  {
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
     op.transfer_account = account2.id;
     op.amount = new Money(account1.currency,transferP);
-    op.crStatus = CrStatus.RECONCILED;
+    op.crStatus = Transaction.CrStatus.RECONCILED;
     op.save();
-    op.crStatus = CrStatus.UNRECONCILED;
+    op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.amount = new Money(account1.currency,-transferN);
     op.saveAsNew();
+    SplitTransaction split = (SplitTransaction) Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT, account1.id);
+    split.amount = new Money(account1.currency,split1);
+    Transaction part = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id,split.id);
+    part.amount =  new Money(account1.currency,part1);
+    part.catId = cat1Id;
+    part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+    part.save();
+    part.amount =  new Money(account1.currency,part2);
+    part.catId = cat2Id;
+    part.saveAsNew();
+    split.save();
   }
   private void insertData2() {
     Transaction op;
@@ -141,6 +151,14 @@ public class ExportTest extends ModelTest  {
       "D" + date,
       "T-0.60",
       "L[Account 2]",
+      "^",
+      "D" + date,
+      "T0.70",
+      "L" + getContext().getString(R.string.split_transaction),
+      "SMain",
+      "$0.40",
+      "SMain:Sub",
+      "$0.30",
       "^"
     };
     try {
@@ -153,6 +171,7 @@ public class ExportTest extends ModelTest  {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
   }
+  //TODO: add split lines
   public void testExportCSV() {
     String[] linesCSV = new String[] {
         csvHeader(),

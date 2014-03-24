@@ -755,8 +755,8 @@ public class Account extends Model {
       default:
         sb.append( "\nD" )
           .append( dateStr )
-          .append( "\nT" );
-        sb.append( amountQIF );
+          .append( "\nT" )
+          .append( amountQIF );
         if (comment.length() > 0) {
           sb.append( "\nM" )
           .append( comment );
@@ -837,10 +837,8 @@ public class Account extends Model {
               sb.append( "\nE" )
               .append( comment );
             }
-            sb.append( "\n$" );
-            if (amount<0)
-              sb.append( "-");
-            sb.append( amountQIF );
+            sb.append( "\n$" )
+              .append( amountQIF );
           }
           out.write(sb.toString());
           splits.moveToNext();
