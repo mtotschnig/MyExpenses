@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -38,7 +37,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;

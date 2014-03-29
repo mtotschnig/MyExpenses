@@ -17,7 +17,7 @@ import android.support.v4.app.DialogFragment;
 public class GrisbiSourcesDialogFragment extends DialogFragment implements
 DialogInterface.OnClickListener {
   public int sourceIndex = -1;
-  AlertDialog dialog;
+  AlertDialog mDialog;
   public final static String[] IMPORT_SOURCES = new String[] {
     MyApplication.getInstance().getString(R.string.grisbi_import_default_source),
     Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml"
@@ -34,21 +34,21 @@ DialogInterface.OnClickListener {
   @Override
   public void onStart(){
     super.onStart();
-    sourceIndex = dialog.getListView().getCheckedItemPosition();
-    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(sourceIndex!=-1);
-    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(sourceIndex == 1);
+    sourceIndex = mDialog.getListView().getCheckedItemPosition();
+    mDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(sourceIndex!=-1);
+    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(sourceIndex == 1);
 }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
-    dialog = new AlertDialog.Builder(wrappedCtx)
+    mDialog = new AlertDialog.Builder(wrappedCtx)
       .setTitle(R.string.dialog_title_select_import_source)
       .setSingleChoiceItems(IMPORT_SOURCES, -1, this)
       .setNegativeButton(android.R.string.no, this)
       .setNeutralButton(R.string.grisbi_import_button_categories_only,this)
       .setPositiveButton(R.string.grisbi_import_button_categories_and_parties, this)
       .create();
-    return dialog;
+    return mDialog;
   }
   @Override
   public void onCancel (DialogInterface dialog) {
