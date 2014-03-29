@@ -198,6 +198,7 @@
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Aucune opération exportable.</string>
+  <string name="no_filemanager_installed">Aucun gestionnaire de fichiers installé</string>
   <string name="no_mapped_transactions">Aucune opération n\'a été attribuée à aucune catégorie au cours de cette période.</string>
   <string name="no_methods">Aucune méthode.</string>
   <string name="no_parties">Aucun tiers.</string>

@@ -194,6 +194,7 @@
   <string name="no_details">Brak detali.</string>
   <string name="no_expenses">Brak wydatków!</string>
   <string name="no_exportable_expenses">Nie ma transakcji które nie zostały jeszcze wyeksportowane.</string>
+  <string name="no_filemanager_installed">Nie zainstalowano menedżera plików</string>
   <string name="no_mapped_transactions">Żadne z transakcji nie zostały zmapowane do kategorii podczas tego okresu.</string>
   <string name="no_parties">Brak partii.</string>
   <string name="no_plans">Brak planów.</string>

@@ -53,7 +53,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
   public void setProgressTitle(String title) {
     FragmentManager fm = getSupportFragmentManager();
     ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (fm != null) {
+    if (f != null) {
       f.setTitle(title);
     }
   }
@@ -74,14 +74,12 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
   public void cancelDialog() {
     finish();
   }
-  public void onSourceSelected(int sourceIndex, boolean withParties) {
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction ft = fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_GRISBI_IMPORT,
-            new Long[]{(long) sourceIndex}, withParties),
-          "ASYNC_TASK");
-    ft.add(ProgressDialogFragment.newInstance(0,ProgressDialog.STYLE_HORIZONTAL),"PROGRESS");
-    ft.commit();
+  public void onSourceSelected(boolean external, boolean withParties) {
+    getSupportFragmentManager()
+      .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceGrisbiImport(external, withParties),
+            "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(0,ProgressDialog.STYLE_HORIZONTAL),"PROGRESS")
+        .commit();
   }
 }

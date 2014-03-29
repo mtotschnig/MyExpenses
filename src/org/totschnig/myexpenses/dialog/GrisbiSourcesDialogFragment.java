@@ -18,9 +18,13 @@ public class GrisbiSourcesDialogFragment extends DialogFragment implements
 DialogInterface.OnClickListener {
   public int sourceIndex = -1;
   AlertDialog mDialog;
+  public final static String IMPORT_SOURCE_INTERNAL =
+      MyApplication.getInstance().getString(R.string.grisbi_import_default_source);
+  public final static String IMPORT_SOURCE_EXTERNAL =
+      Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml";
   public final static String[] IMPORT_SOURCES = new String[] {
-    MyApplication.getInstance().getString(R.string.grisbi_import_default_source),
-    Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml"
+    IMPORT_SOURCE_INTERNAL,
+    IMPORT_SOURCE_EXTERNAL
   };
   public final static int defaultSourceResId = 
       MyApplication.getInstance().getResources().getIdentifier(
@@ -58,10 +62,10 @@ DialogInterface.OnClickListener {
   public void onClick(DialogInterface dialog, int id) {
     switch (id) {
     case AlertDialog.BUTTON_POSITIVE:
-      ((GrisbiImport) getActivity()).onSourceSelected(sourceIndex,true);
+      ((GrisbiImport) getActivity()).onSourceSelected(sourceIndex==1,true);
       break;
     case AlertDialog.BUTTON_NEUTRAL:
-      ((GrisbiImport) getActivity()).onSourceSelected(sourceIndex,false);
+      ((GrisbiImport) getActivity()).onSourceSelected(sourceIndex==1,false);
       break;
     case AlertDialog.BUTTON_NEGATIVE:
       onCancel(dialog);
@@ -69,7 +73,7 @@ DialogInterface.OnClickListener {
     default:
       sourceIndex = id;
       //we enable import of categories only for any source
-      //categories and parties only for the last custom file
+      //categories and parties only for the external custom file
       ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(true);
       ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
           id == 1);  

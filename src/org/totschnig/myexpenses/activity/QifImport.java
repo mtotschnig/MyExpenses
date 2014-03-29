@@ -22,17 +22,18 @@ import org.totschnig.myexpenses.util.Result;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
     TaskExecutionFragment.TaskCallbacks {
- 
+
+  public static final int IMPORT_FILENAME_REQUESTCODE = 1;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
-      QifImportDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");
+      QifImportDialogFragment.newInstance().show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
     }
   }
   @Override
@@ -59,8 +60,8 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
   }
   @Override
   public void onPostExecute(int taskId,Object result) {
-    String msg;
-    msg = getString(((Result) result).message,((Result) result).extra);
+    String msg = "STUB";
+    //msg = getString(((Result) result).message,((Result) result).extra);
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     finish();
   }
@@ -74,14 +75,14 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
   public void cancelDialog() {
     finish();
   }
-  public void onSourceSelected(int sourceIndex, boolean withParties) {
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction ft = fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_GRISBI_IMPORT,
-            new Long[]{(long) sourceIndex}, withParties),
-          "ASYNC_TASK");
-    ft.add(ProgressDialogFragment.newInstance(0,ProgressDialog.STYLE_HORIZONTAL),"PROGRESS");
-    ft.commit();
+
+  public void onSourceSelected(String filePath, int dateFormat,
+      long accountId) {
+    getSupportFragmentManager()
+      .beginTransaction()
+      .add(TaskExecutionFragment.newInstanceQifImport(filePath, dateFormat, accountId),
+          "ASYNC_TASK")
+      .add(ProgressDialogFragment.newInstance(0,ProgressDialog.STYLE_HORIZONTAL),"PROGRESS")
+      .commit();
   }
 }

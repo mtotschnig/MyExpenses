@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+	  <string-array name="qif_date_format_values">
+        <item>EU (dd/MM/yyyy, dd.MM.yy, &#8230;)</item>
+        <item>US (MM/dd/yyyy, MM.dd.yy, &#8230;)</item>
+	  </string-array>
     <string-array name="pref_export_format">
         <item>QIF</item>
         <item>CSV</item>

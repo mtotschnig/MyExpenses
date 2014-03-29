@@ -193,6 +193,7 @@
   <string name="no_details">No hi ha cap detall.</string>
   <string name="no_expenses">Encara no hi ha cap despesa!</string>
   <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
+  <string name="no_filemanager_installed">No hi ha instal·lat cap administrador d\'arxius</string>
   <string name="no_mapped_transactions">No s\'ha assignat cap operació a cap categoria durant aquest període.</string>
   <string name="no_parties">No hi ha cap tercer</string>
   <string name="no_plans">Cap planificació</string>

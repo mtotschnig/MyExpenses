@@ -198,6 +198,7 @@
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportadas.</string>
+  <string name="no_filemanager_installed">No hay instalado ningún administrador de archivos</string>
   <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
   <string name="no_methods">No hay métodos.</string>
   <string name="no_parties">Ningunos partidos.</string>

@@ -21,31 +21,32 @@
   <LinearLayout
       android:paddingLeft="@dimen/general_padding"
       android:paddingRight="@dimen/general_padding"
-		  android:orientation="vertical"
-		  android:layout_width="fill_parent"
-		  android:layout_height="wrap_content">
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
     <include layout="@layout/filename"/>
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
       <TableRow
           android:gravity="center_vertical">
-	      <TextView
-	      	  android:text="@string/date_format"
-	          style="@style/dialog_text"/>
-	      <Spinner
-	      	  android:id="@+id/date_format"
-	          android:layout_weight="1" />
-	    </TableRow>
-	    <TableRow
-	        android:gravity="center_vertical">
-	      <TextView
-	      	  android:text="@string/account"
-	          style="@style/dialog_text"/>
-	      <Spinner
-	      	  android:id="@+id/account"
-	          android:layout_weight="1" />
-	    </TableRow>
+        <TextView
+            android:text="@string/date_format"
+            style="@style/dialog_text"/>
+        <Spinner
+             android:entries="@array/qif_date_format_values"
+            android:id="@+id/DateFormat"
+            android:layout_weight="1" />
+      </TableRow>
+      <TableRow
+          android:gravity="center_vertical">
+        <TextView
+            android:text="@string/account"
+            style="@style/dialog_text"/>
+        <Spinner
+            android:id="@+id/Account"
+            android:layout_weight="1" />
+      </TableRow>
     </TableLayout>
   </LinearLayout>
 </ScrollView>

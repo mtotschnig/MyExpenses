@@ -11,18 +11,26 @@
 <!--     <TextView android:layout_height="wrap_content"
               android:layout_width="fill_parent" android:layout_marginLeft="3dp"
               android:text="@string/file_name"/> -->
-    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                  android:layout_height="wrap_content">
-        <EditText android:layout_weight="1" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/edFilename" android:singleLine="true">
-            <requestFocus/>
-       </EditText>
-        <ImageButton android:layout_width="wrap_content" android:layout_gravity="center_vertical"
-                     android:src="@drawable/ic_action_content" android:id="@+id/btn_browse"
-                     android:background="?android:attr/selectableItemBackground"
-                     android:layout_height="wrap_content"/>
-    </LinearLayout>
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+    <EditText
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Filename"
+        android:singleLine="true">
+      <requestFocus/>
+    </EditText>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_action_browse_dark"
+        android:id="@+id/btn_browse"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="wrap_content"/>
+  </LinearLayout>
 <!--     <TextView android:layout_height="wrap_content"
               android:layout_width="fill_parent" android:layout_marginLeft="3dp"
               android:text="@string/file_import_utf8_warning" android:textColor="@color/negative_amount"/> -->

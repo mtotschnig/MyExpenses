@@ -179,6 +179,7 @@
   <string name="no_details">沒有詳細說明。</string>
   <string name="no_expenses">未有開支!</string>
   <string name="no_exportable_expenses">沒有交易未被匯出</string>
+  <string name="no_filemanager_installed">未安裝檔案管理程式</string>
   <string name="no_mapped_transactions">在此期間，任何交易已被對應到類別中。</string>
   <string name="no_parties">沒有貿易夥伴。</string>
   <string name="no_split_parts">沒有分裂部分。</string>

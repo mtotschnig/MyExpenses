@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -98,8 +99,7 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
     }
     //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(this, MyApplication.getThemeId()) : this;
+    Context wrappedCtx = DialogUtils.wrapContext2(this);
     mProgressDialog = new ScrollableProgressDialog(wrappedCtx);
     mProgressDialog.setTitle(R.string.pref_category_title_export);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

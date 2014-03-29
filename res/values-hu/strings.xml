@@ -183,6 +183,7 @@
   <string name="no_details">Nincsenek részletek.</string>
   <string name="no_expenses">Még nincsenek kiadások!</string>
   <string name="no_exportable_expenses">Nincs olyan tranzakció, amely ne került volna exportálásra.</string>
+  <string name="no_filemanager_installed">Nincs fájlkezelő telepítve</string>
   <string name="no_mapped_transactions">A megadott időszakban nincs ehhez a kategóriához rendelt tranzakció.</string>
   <string name="no_parties">Nincsenek résztvevők.</string>
   <string name="no_split_parts">Nincsenek részletösszegek.</string>

@@ -189,6 +189,7 @@
   <string name="no_details">Žádné podrobnosti.</string>
   <string name="no_expenses">Doposud žádné výdaje!</string>
   <string name="no_exportable_expenses">Neexistují žádné transakce, které ještě nebyly exportovány.</string>
+  <string name="no_filemanager_installed">Není nainstalován žádný souborový manažer</string>
   <string name="no_mapped_transactions">Během tohoto období nebyly namapovány žádné transakce do kategorií.</string>
   <string name="no_parties">Žádné oddíly.</string>
   <string name="no_plans">Žádné plány.</string>

@@ -197,6 +197,7 @@
   <string name="no_details">Sem detalhes.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Não há nenhuma transação que ainda não foram exportadas.</string>
+  <string name="no_filemanager_installed">Nenhum gerenciador de arquivos instalado</string>
   <string name="no_mapped_transactions">Nenhuma transação foram mapeadas para categorias durante este período.</string>
   <string name="no_parties">Sem participantes.</string>
   <string name="no_plans">Não tenho planos.</string>

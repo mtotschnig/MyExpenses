@@ -53,6 +53,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.Xml;
+import android.widget.Toast;
 
 /**
  * This Fragment manages a single background task and retains
@@ -82,6 +83,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_CANCEL_PLAN_INSTANCE = 17;
   public static final int TASK_RESET_PLAN_INSTANCE = 18;
   public static final int TASK_GRISBI_IMPORT = 19;
+  public static final int TASK_QIF_IMPORT = 20;
 
   /**
    * Callback interface through which the fragment will report the
@@ -100,7 +102,6 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   private TaskCallbacks mCallbacks;
-  private AsyncTask mTask;
 
   public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds, Serializable extra) {
     TaskExecutionFragment f = new TaskExecutionFragment();
@@ -110,6 +111,26 @@ public class TaskExecutionFragment extends Fragment {
       bundle.putSerializable("objectIds", objectIds);
     if (extra != null)
       bundle.putSerializable("extra", extra);
+    f.setArguments(bundle);
+    return f;
+  }
+  public static TaskExecutionFragment newInstanceGrisbiImport(boolean external, boolean withParties) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    Bundle bundle = new Bundle();
+    bundle.putInt("taskId", TASK_GRISBI_IMPORT);
+    bundle.putBoolean("external", external);
+    bundle.putBoolean("withParties", withParties);
+    f.setArguments(bundle);
+    return f;
+  }
+  public static TaskExecutionFragment newInstanceQifImport(String filePath, int dateFormat,
+      long accountId) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    Bundle bundle = new Bundle();
+    bundle.putInt("taskId", TASK_QIF_IMPORT);
+    bundle.putString("filePath", filePath);
+    bundle.putInt("dateFormat", dateFormat);
+    bundle.putLong("accountId", accountId);
     f.setArguments(bundle);
     return f;
   }
@@ -152,11 +173,20 @@ public class TaskExecutionFragment extends Fragment {
     Bundle args = getArguments();
     int taskId = args.getInt("taskId");
     Log.i(MyApplication.TAG,"TaskExecutionFragment created for task "+taskId);
-    mTask = taskId == TASK_GRISBI_IMPORT ? 
-      new GrisbiImportTask((Boolean) args.getSerializable("extra")) :
-      new GenericTask(taskId,args.getSerializable("extra"));
     try {
-      mTask.execute((Long[]) args.getSerializable("objectIds"));
+      switch(taskId) {
+      case TASK_GRISBI_IMPORT:
+        new GrisbiImportTask(args.getBoolean("withParties"))
+          .execute(args.getBoolean("external"));
+        break;
+      case TASK_QIF_IMPORT:
+        new QifImportTask(args.getInt("dateFormat"),args.getLong("accountId"))
+          .execute(args.getString("filePath"));
+        break;
+      default:
+        new GenericTask(taskId,args.getSerializable("extra"))
+          .execute((Long[]) args.getSerializable("objectIds"));
+      }
     } catch (ClassCastException e) {
       //the cast could fail, if Fragment is recreated,
       //but we are cancelling above in that case
@@ -363,7 +393,7 @@ public class TaskExecutionFragment extends Fragment {
     }
   }
   
-  public class GrisbiImportTask extends AsyncTask<Long, Integer, Result> {
+  public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
     
     public GrisbiImportTask(boolean withPartiesP) {
       this.withPartiesP = withPartiesP;
@@ -393,21 +423,19 @@ public class TaskExecutionFragment extends Fragment {
      * return false upon problem (and sets a result object) or true
      * @param source2 
      */
-    protected Result parseXML(int source) {
+    protected Result parseXML(String sourceStr) {
       InputStream catXML = null;
-      String sourceStr = GrisbiSourcesDialogFragment.IMPORT_SOURCES[source];
       Result result;
-      //the last entry in the array is the custom import from sdcard
 
       try {
-        if (source == 1) {
-            catXML = new FileInputStream(sourceStr);
-        } else {
+        if (sourceStr.equals(GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL)) {
           try {
             catXML = getResources().openRawResource(GrisbiSourcesDialogFragment.defaultSourceResId);
           } catch (NotFoundException e) {
             catXML = getResources().openRawResource(R.raw.cat_en);
           }
+        } else {
+          catXML = new FileInputStream(sourceStr);
         }
         result = Utils.analyzeGrisbiFileWithSAX(catXML);
         if (result.success) {
@@ -469,10 +497,11 @@ public class TaskExecutionFragment extends Fragment {
      * @see android.os.AsyncTask#doInBackground(Params[])
      */
     @Override
-    protected Result doInBackground(Long... sources) {
-      int source = sources[0].intValue();
-      String sourceStr = GrisbiSourcesDialogFragment.IMPORT_SOURCES[source];
-      Result r = parseXML(source);
+    protected Result doInBackground(Boolean... external) {
+      String sourceStr = external[0] ?
+          GrisbiSourcesDialogFragment.IMPORT_SOURCE_EXTERNAL :
+          GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL;
+      Result r = parseXML(sourceStr);
       if (!r.success) {
         return r;
       }
@@ -505,6 +534,32 @@ public class TaskExecutionFragment extends Fragment {
     }
     void setMax(int max) {
       this.max = max;
+    }
+  }
+
+  public class QifImportTask extends AsyncTask<String, Integer, Result> {
+    private int dateFormat;
+    private long accountId;
+
+    public QifImportTask(int dateFormat, long accountId) {
+      this.dateFormat = dateFormat;
+      this.accountId = accountId;
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (mCallbacks != null) {
+        mCallbacks.onPostExecute(TASK_QIF_IMPORT,result);
+      }
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+    }
+
+    @Override
+    protected Result doInBackground(String... params) {
+      return null;
     }
   }
 }
