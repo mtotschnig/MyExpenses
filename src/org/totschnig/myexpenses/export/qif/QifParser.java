@@ -41,14 +41,26 @@ public class QifParser {
     public void parse() throws IOException {
         String peek;
         while ((peek = r.peekLine()) != null) {
-            if (peek.startsWith("!Account")) {
+            if (peek.startsWith("!Option:AutoSwitch")) {
+              while (true) {
+                String line = r.readLine();
+                if (line == null) {
+                  return;
+                }
+                if (line.equals("!Clear:AutoSwitch")) {
+                  break;
+                }
+              }
+            } else if (peek.startsWith("!Account")) {
                 r.readLine();
                 parseAccount();
             } else if (peek.startsWith("!Type:Cat")) {
                 r.readLine();
                 parseCategories();
-            } else if (peek.startsWith("!Type")) {
+            } else if (peek.startsWith("!Type") && !peek.startsWith("!Type:Class")) {
               parseAccount(new QifAccount());
+            } else {
+              r.readLine();
             }
         }
         categories.addAll(categoriesFromTransactions);
