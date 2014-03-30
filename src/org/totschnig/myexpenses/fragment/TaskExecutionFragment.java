@@ -30,7 +30,10 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -47,7 +50,9 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.xml.sax.SAXException;
 
+import org.totschnig.myexpenses.export.qif.QifAccount;
 import org.totschnig.myexpenses.export.qif.QifBufferedReader;
+import org.totschnig.myexpenses.export.qif.QifCategory;
 import org.totschnig.myexpenses.export.qif.QifParser;
 
 import android.app.Activity;
@@ -548,6 +553,8 @@ public class TaskExecutionFragment extends Fragment {
   public class QifImportTask extends AsyncTask<String, Integer, Result> {
     private QifDateFormat dateFormat;
     private long accountId;
+    private final Map<String, Long> payeeToId = new HashMap<String, Long>();
+    private final Map<String, Long> categoryToId = new HashMap<String, Long>();
 
     public QifImportTask(QifDateFormat qifDateFormat, long accountId) {
       this.dateFormat = qifDateFormat;
@@ -587,15 +594,108 @@ public class TaskExecutionFragment extends Fragment {
       }
       long t1 = System.currentTimeMillis();
       Log.i(MyApplication.TAG, "QIF Import: Parsing done in "+ TimeUnit.MILLISECONDS.toSeconds(t1-t0)+"s");
+      if (parser.accounts.size()>1 && accountId != 0) {
+        return new Result(
+            false,
+            R.string.qif_parse_failure_found_multiple_accounts);
+      }
+      doImport(parser);
+      long t2 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Importing done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
       return new Result(
           true,
           R.string.qif_parse_result,
           String.valueOf(parser.accounts.size()),
           String.valueOf(parser.categories.size()),
           String.valueOf(parser.payees.size()));
-      //doImport(parser);
-/*      long t2 = System.currentTimeMillis();
-      Log.i("Financisto", "QIF Import: Importing done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");*/
     }
+    private void doImport(QifParser parser) {
+      long t0 = System.currentTimeMillis();
+      insertPayees(parser.payees);
+      long t1 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Inserting payees done in " + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+/*      insertProjects(parser.classes);
+      long t2 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Inserting projects done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");*/
+      insertCategories(parser.categories);
+      long t3 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Inserting categories done in "+ TimeUnit.MILLISECONDS.toSeconds(t3-t1)+"s");
+      insertAccounts(parser.accounts);
+      long t4 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Inserting accounts done in "+ TimeUnit.MILLISECONDS.toSeconds(t4-t3)+"s");
+      insertTransactions(parser.accounts);
+      long t5 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Inserting transactions done in "+ TimeUnit.MILLISECONDS.toSeconds(t5-t4)+"s");
+    }
+    private void insertPayees(Set<String> payees) {
+      for (String payee : payees) {
+        Long id = Payee.maybeWrite(payee);
+        if (id != null) {
+          payeeToId.put(payee, id);
+        }
+      }
+    }
+    private void insertCategories(Set<QifCategory> categories) {
+      for (QifCategory category: categories) {
+        String name = extractCategoryName(category.name);
+        insertCategory(name);
+      }
+    }
+    private String extractCategoryName(String name) {
+      int i = name.indexOf('/');
+      if (i != -1) {
+          name = name.substring(0, i);
+      }
+      return name;
+    }
+    private void insertCategory(String name) {
+      if (isChildCategory(name)) {
+          insertChildCategory(name);
+      } else {
+          insertRootCategory(name);
+      }
+    }
+
+    private boolean isChildCategory(String name) {
+        return name.contains(":");
+    }
+
+    private Long insertRootCategory(String name) {
+      Long id = categoryToId.get(name);
+      if (id == null) {
+        id = Category.find(name, null);
+        if (id == -1) {
+          id = Category.write(0L, name, null);
+        }
+        categoryToId.put(name, id);
+      }
+      return id;
+    }
+
+    private Long insertChildCategory(String name) {
+      Long id = categoryToId.get(name);
+      if (id == null) {
+        int i = name.lastIndexOf(':');
+        String parentCategoryName = name.substring(0, i);
+        String childCategoryName = name.substring(i+1);
+        Long main = insertRootCategory(parentCategoryName);
+        id = Category.find(childCategoryName, main);
+        if (id == -1) {
+          id = Category.write(0L, childCategoryName, main);
+        }
+      }
+      return id;
+    }
+
+    private void insertTransactions(List<QifAccount> accounts) {
+      // TODO Auto-generated method stub
+      
+    }
+
+    private void insertAccounts(List<QifAccount> accounts) {
+      // TODO Auto-generated method stub
+      
+    }
+
   }
 }
