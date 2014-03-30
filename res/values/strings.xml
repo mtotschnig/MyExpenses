@@ -349,6 +349,7 @@
   <string name="progress_dialog_deleting">Deleting objects &#8230;</string>
   <string name="progress_dialog_loading">Loading object from database &#8230;</string>
   <string name="progress_dialog_setup">Database is initialized &#8230;</string>
+  <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
   <string name="reference_number">Reference Number</string>
   <string name="request_licence_mail_description">Please describe (in English, German or French) your contribution to &app_name; (e.g.: donation via Paypal, bug report, testing, translation).</string>
   <string name="request_licence_mail_head">Please send me a Contrib key for Android-Id %1$s.</string>

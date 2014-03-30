@@ -20,19 +20,24 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -41,6 +46,9 @@ import org.totschnig.myexpenses.util.GrisbiHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.xml.sax.SAXException;
+
+import org.totschnig.myexpenses.export.qif.QifBufferedReader;
+import org.totschnig.myexpenses.export.qif.QifParser;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -123,13 +131,13 @@ public class TaskExecutionFragment extends Fragment {
     f.setArguments(bundle);
     return f;
   }
-  public static TaskExecutionFragment newInstanceQifImport(String filePath, int dateFormat,
+  public static TaskExecutionFragment newInstanceQifImport(String filePath, QifDateFormat qifDateFormat,
       long accountId) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", TASK_QIF_IMPORT);
     bundle.putString("filePath", filePath);
-    bundle.putInt("dateFormat", dateFormat);
+    bundle.putSerializable("dateFormat", qifDateFormat);
     bundle.putLong("accountId", accountId);
     f.setArguments(bundle);
     return f;
@@ -180,7 +188,7 @@ public class TaskExecutionFragment extends Fragment {
           .execute(args.getBoolean("external"));
         break;
       case TASK_QIF_IMPORT:
-        new QifImportTask(args.getInt("dateFormat"),args.getLong("accountId"))
+        new QifImportTask((QifDateFormat) args.getSerializable("dateFormat"),args.getLong("accountId"))
           .execute(args.getString("filePath"));
         break;
       default:
@@ -538,11 +546,11 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   public class QifImportTask extends AsyncTask<String, Integer, Result> {
-    private int dateFormat;
+    private QifDateFormat dateFormat;
     private long accountId;
 
-    public QifImportTask(int dateFormat, long accountId) {
-      this.dateFormat = dateFormat;
+    public QifImportTask(QifDateFormat qifDateFormat, long accountId) {
+      this.dateFormat = qifDateFormat;
       this.accountId = accountId;
     }
 
@@ -559,7 +567,35 @@ public class TaskExecutionFragment extends Fragment {
 
     @Override
     protected Result doInBackground(String... params) {
-      return null;
+      long t0 = System.currentTimeMillis();
+      QifBufferedReader r;
+      try {
+        r = new QifBufferedReader(
+            new BufferedReader(
+                new InputStreamReader(
+                    new FileInputStream(params[0]), "UTF-8")));
+      } catch (UnsupportedEncodingException e) {
+        return null;
+      } catch (FileNotFoundException e) {
+        return null;
+      }
+      QifParser parser = new QifParser(r, dateFormat);
+      try {
+        parser.parse();
+      } catch (IOException e) {
+         return null;
+      }
+      long t1 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Parsing done in "+ TimeUnit.MILLISECONDS.toSeconds(t1-t0)+"s");
+      return new Result(
+          true,
+          R.string.qif_parse_result,
+          String.valueOf(parser.accounts.size()),
+          String.valueOf(parser.categories.size()),
+          String.valueOf(parser.payees.size()));
+      //doImport(parser);
+/*      long t2 = System.currentTimeMillis();
+      Log.i("Financisto", "QIF Import: Importing done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");*/
     }
   }
 }

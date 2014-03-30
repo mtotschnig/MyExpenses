@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import android.app.ProgressDialog;
@@ -58,13 +59,14 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
       f.setTitle(title);
     }
   }
+
   @Override
   public void onPostExecute(int taskId,Object result) {
-    String msg = "STUB";
-    //msg = getString(((Result) result).message,((Result) result).extra);
+    String msg = getString(((Result) result).message,((Result) result).extra);
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     finish();
   }
+
   @Override
   public void onPreExecute() {
   }
@@ -76,11 +78,11 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
     finish();
   }
 
-  public void onSourceSelected(String filePath, int dateFormat,
+  public void onSourceSelected(String filePath, QifDateFormat qifDateFormat,
       long accountId) {
     getSupportFragmentManager()
       .beginTransaction()
-      .add(TaskExecutionFragment.newInstanceQifImport(filePath, dateFormat, accountId),
+      .add(TaskExecutionFragment.newInstanceQifImport(filePath, qifDateFormat, accountId),
           "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(0,ProgressDialog.STYLE_HORIZONTAL),"PROGRESS")
       .commit();

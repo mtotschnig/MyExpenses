@@ -34,7 +34,6 @@
             android:text="@string/date_format"
             style="@style/dialog_text"/>
         <Spinner
-             android:entries="@array/qif_date_format_values"
             android:id="@+id/DateFormat"
             android:layout_weight="1" />
       </TableRow>

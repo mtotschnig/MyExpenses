@@ -15,5 +15,16 @@ package org.totschnig.myexpenses.export.qif;
  * Date: 11/12/11 1:57 AM
  */
 public enum QifDateFormat {
-    US_FORMAT, EU_FORMAT
+    US_FORMAT("US (MM/dd/yyyy, MM.dd.yy, …)"),
+    EU_FORMAT("EU (dd/MM/yyyy, dd.MM.yy, …)");
+
+    private String displayLabel;
+
+    private QifDateFormat(String displayLabel){
+        this.displayLabel = displayLabel;
+    }
+
+    @Override public String toString(){
+        return displayLabel;
+    }
 }

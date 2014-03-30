@@ -10,6 +10,7 @@ import java.util.Locale;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.activity.QifImport;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -36,6 +37,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -66,6 +68,11 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
     });
     mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
     mDateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
+    ArrayAdapter<QifDateFormat> dateFormatAdapter =
+        new ArrayAdapter<QifDateFormat>(
+            getActivity(), android.R.layout.simple_spinner_item, QifDateFormat.values());
+    dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mDateFormatSpinner.setAdapter(dateFormatAdapter);
     mAccountsAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -99,7 +106,7 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
     case AlertDialog.BUTTON_POSITIVE:
       ((QifImport) getActivity()).onSourceSelected(
           mFilename.getText().toString(),
-          mDateFormatSpinner.getSelectedItemPosition(),
+          (QifDateFormat) mDateFormatSpinner.getSelectedItem(),
           mAccountSpinner.getSelectedItemId()
           );
       break;
