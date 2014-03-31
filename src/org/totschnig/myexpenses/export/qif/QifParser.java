@@ -42,23 +42,37 @@ public class QifParser {
         String peek;
         while ((peek = r.peekLine()) != null) {
             if (peek.startsWith("!Option:AutoSwitch")) {
+              String line = r.readLine();
+              outer:
               while (true) {
-                String line = r.readLine();
+                line = r.readLine();
                 if (line == null) {
                   return;
                 }
-                if (line.equals("!Clear:AutoSwitch")) {
-                  break;
+                if (line.equals("!Account")) {
+                  inner:
+                  while (true) {
+                    peek = r.peekLine();
+                    if (peek == null) {
+                      return;
+                    }
+                    if (peek.equals("!Clear:AutoSwitch")) {
+                      r.readLine();
+                      break outer;
+                    }
+                    QifAccount a = parseAccount();
+                    accounts.add(a);
+                  }
                 }
               }
             } else if (peek.startsWith("!Account")) {
                 r.readLine();
-                parseAccount();
+                parseTransactions(parseAccount());
             } else if (peek.startsWith("!Type:Cat")) {
                 r.readLine();
                 parseCategories();
             } else if (peek.startsWith("!Type") && !peek.startsWith("!Type:Class")) {
-              parseAccount(new QifAccount());
+              parseTransactions(new QifAccount());
             } else {
               r.readLine();
             }
@@ -76,7 +90,7 @@ public class QifParser {
             }
         }
     }
-    private void parseAccount(QifAccount account) throws IOException {
+    private void parseTransactions(QifAccount account) throws IOException {
       accounts.add(account);
       String peek = r.peekLine();
       if (peek != null) {
@@ -96,10 +110,10 @@ public class QifParser {
           }
       }
     }
-    private void parseAccount() throws IOException {
+    private QifAccount parseAccount() throws IOException {
         QifAccount account = new QifAccount();
         account.readFrom(r);
-        parseAccount(account);
+        return account;
     }
 
     private void applyAccountType(QifAccount account, String peek) {

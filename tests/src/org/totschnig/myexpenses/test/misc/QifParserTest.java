@@ -62,6 +62,26 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals("My Bank Account", p.accounts.get(1).memo);
         assertEquals("Bank", p.accounts.get(1).type);
     }
+ 
+    public void test_should_parse_account_list() throws IOException {
+      parseQif(
+         "!Option:AutoSwitch\n" +
+         "!Account\n" +
+         "NBankkonto\n" +
+         "TBank\n" +
+         "DKontonr. 111111111\n" +
+         "^\n" +
+         "NGeldtasche\n" +
+         "TCash\n" +
+         "^\n" +
+         "!Clear:AutoSwitch\n");
+      assertEquals(2, p.accounts.size());
+      assertEquals("Bankkonto", p.accounts.get(0).memo);
+      assertEquals("Bank", p.accounts.get(0).type);
+      assertEquals("Kontonr. 111111111",p.accounts.get(0).desc);
+      assertEquals("Geldtasche", p.accounts.get(1).memo);
+      assertEquals("Cash", p.accounts.get(1).type);
+  }
 
     public void test_should_parse_with_missing_account_header() throws IOException {
       parseQif(

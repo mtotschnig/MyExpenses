@@ -22,6 +22,7 @@ public class QifAccount {
 
     public String type = "";
     public String memo = "";
+    public String desc = "";
 
     public Account dbAccount;
     public final List<QifTransaction> transactions = new ArrayList<QifTransaction>();
@@ -30,6 +31,7 @@ public class QifAccount {
         QifAccount qifAccount = new QifAccount();
         qifAccount.type = account.type.getQifName();
         qifAccount.memo = account.label;
+        qifAccount.desc = account.description;
         return qifAccount;
     }
 
@@ -38,6 +40,7 @@ public class QifAccount {
         a.currency = currency;
         a.label = memo;
         a.type = Account.Type.valueOf(type);
+        a.description = desc;
         return a;
     }
 
@@ -58,6 +61,8 @@ public class QifAccount {
                 this.memo = trimFirstChar(line);
             } else if (line.startsWith("T")) {
                 this.type = trimFirstChar(line);
+            } else if (line.startsWith("D")) {
+              this.desc = trimFirstChar(line);
             }
         }
     }
