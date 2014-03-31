@@ -62,7 +62,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
 
   @Override
   public void onPostExecute(int taskId,Object result) {
-    String msg = getString(((Result) result).message,((Result) result).extra);
+    String msg = ((Result) result).print(this);
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     finish();
   }

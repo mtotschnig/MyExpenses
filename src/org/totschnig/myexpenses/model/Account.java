@@ -127,7 +127,7 @@ public class Account extends Model {
       }
       return "";
     }
-    public String getQifName() {
+    public String toQifName() {
       switch (this) {
       case CASH: return "Cash";
       case BANK: return "Bank";
@@ -136,6 +136,19 @@ public class Account extends Model {
       case LIABILITY: return "Oth L";
       }
       return "";
+    }
+    public static Type fromQifName (String qifName) {
+      if (qifName.equals("Oth L")) {
+        return LIABILITY;
+      } else if (qifName.equals("Oth A")) {
+        return ASSET;
+      } else if (qifName.equals("CCard")) {
+        return CCARD;
+      } else  if (qifName.equals("Cash")) {
+        return CASH;
+      } else {
+        return BANK;
+      }
     }
     static {
       JOIN = Utils.joinEnum(Type.class);
@@ -680,9 +693,9 @@ public class Account extends Model {
       sb.append("!Account\nN")
         .append(label)
         .append("\nT")
-        .append(type.getQifName())
+        .append(type.toQifName())
         .append("\n^\n!Type:")
-        .append(type.getQifName());
+        .append(type.toQifName());
     }
     //Write header
     out.write(sb.toString());

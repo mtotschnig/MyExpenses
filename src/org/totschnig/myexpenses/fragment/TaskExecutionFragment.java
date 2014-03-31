@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 //based on http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
 
 package org.totschnig.myexpenses.fragment;
@@ -29,8 +29,10 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,15 +47,10 @@ import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CategoryTree;
-import org.totschnig.myexpenses.util.GrisbiHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-import org.xml.sax.SAXException;
 
-import org.totschnig.myexpenses.export.qif.QifAccount;
-import org.totschnig.myexpenses.export.qif.QifBufferedReader;
-import org.totschnig.myexpenses.export.qif.QifCategory;
-import org.totschnig.myexpenses.export.qif.QifParser;
+import org.totschnig.myexpenses.export.qif.*;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -64,14 +61,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
-import android.util.Xml;
-import android.widget.Toast;
 
 /**
- * This Fragment manages a single background task and retains
- * itself across configuration changes.
- * It handles several task that each operate on a single
+ * This Fragment manages a single background task and retains itself across
+ * configuration changes. It handles several task that each operate on a single
  * db object identified by its row id
  * 
  */
@@ -99,24 +95,30 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_QIF_IMPORT = 20;
 
   /**
-   * Callback interface through which the fragment will report the
-   * task's progress and results back to the Activity.
+   * Callback interface through which the fragment will report the task's
+   * progress and results back to the Activity.
    */
   public static interface TaskCallbacks {
     void onPreExecute();
+
     void onProgressUpdate(int percent);
+
     void onCancelled();
+
     /**
-     * @param taskId with which TaskExecutionFragment was created
-     * @param an object that the activity expects from the task, for example an instantiated
-     * DAO
+     * @param taskId
+     *          with which TaskExecutionFragment was created
+     * @param an
+     *          object that the activity expects from the task, for example an
+     *          instantiated DAO
      */
-    void onPostExecute(int taskId,Object o);
+    void onPostExecute(int taskId, Object o);
   }
 
   private TaskCallbacks mCallbacks;
 
-  public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds, Serializable extra) {
+  public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds,
+      Serializable extra) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", taskId);
@@ -127,7 +129,9 @@ public class TaskExecutionFragment extends Fragment {
     f.setArguments(bundle);
     return f;
   }
-  public static TaskExecutionFragment newInstanceGrisbiImport(boolean external, boolean withParties) {
+
+  public static TaskExecutionFragment newInstanceGrisbiImport(boolean external,
+      boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", TASK_GRISBI_IMPORT);
@@ -136,8 +140,9 @@ public class TaskExecutionFragment extends Fragment {
     f.setArguments(bundle);
     return f;
   }
-  public static TaskExecutionFragment newInstanceQifImport(String filePath, QifDateFormat qifDateFormat,
-      long accountId) {
+
+  public static TaskExecutionFragment newInstanceQifImport(String filePath,
+      QifDateFormat qifDateFormat, long accountId) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", TASK_QIF_IMPORT);
@@ -149,31 +154,32 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   /**
-   * Hold a reference to the parent Activity so we can report the
-   * task's current progress and results. The Android framework
-   * will pass us a reference to the newly created Activity after
-   * each configuration change.
+   * Hold a reference to the parent Activity so we can report the task's current
+   * progress and results. The Android framework will pass us a reference to the
+   * newly created Activity after each configuration change.
    */
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     mCallbacks = (TaskCallbacks) activity;
   }
+
   @Override
   public void onSaveInstanceState(Bundle outState) {
-      super.onSaveInstanceState(outState);
-      outState.putBoolean(KEY_RUNNING,true);
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_RUNNING, true);
   }
 
   /**
-   * This method will only be called once when the retained
-   * Fragment is first created.
+   * This method will only be called once when the retained Fragment is first
+   * created.
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (savedInstanceState!=null && savedInstanceState.getBoolean(KEY_RUNNING, true)) {
-      //if we are recreated, prevent the task from being executed twice
+    if (savedInstanceState != null
+        && savedInstanceState.getBoolean(KEY_RUNNING, true)) {
+      // if we are recreated, prevent the task from being executed twice
       if (mCallbacks != null) {
         mCallbacks.onCancelled();
       }
@@ -185,31 +191,31 @@ public class TaskExecutionFragment extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     int taskId = args.getInt("taskId");
-    Log.i(MyApplication.TAG,"TaskExecutionFragment created for task "+taskId);
+    Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId);
     try {
-      switch(taskId) {
+      switch (taskId) {
       case TASK_GRISBI_IMPORT:
-        new GrisbiImportTask(args.getBoolean("withParties"))
-          .execute(args.getBoolean("external"));
+        new GrisbiImportTask(args.getBoolean("withParties")).execute(args
+            .getBoolean("external"));
         break;
       case TASK_QIF_IMPORT:
-        new QifImportTask((QifDateFormat) args.getSerializable("dateFormat"),args.getLong("accountId"))
-          .execute(args.getString("filePath"));
+        new QifImportTask((QifDateFormat) args.getSerializable("dateFormat"),
+            args.getLong("accountId")).execute(args.getString("filePath"));
         break;
       default:
-        new GenericTask(taskId,args.getSerializable("extra"))
-          .execute((Long[]) args.getSerializable("objectIds"));
+        new GenericTask(taskId, args.getSerializable("extra"))
+            .execute((Long[]) args.getSerializable("objectIds"));
       }
     } catch (ClassCastException e) {
-      //the cast could fail, if Fragment is recreated,
-      //but we are cancelling above in that case
+      // the cast could fail, if Fragment is recreated,
+      // but we are cancelling above in that case
       mCallbacks.onCancelled();
     }
   }
 
   /**
-   * Set the callback to null so we don't accidentally leak the
-   * Activity instance.
+   * Set the callback to null so we don't accidentally leak the Activity
+   * instance.
    */
   @Override
   public void onDetach() {
@@ -218,15 +224,16 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   /**
-   *
-   * Note that we need to check if the callbacks are null in each
-   * method in case they are invoked after the Activity's and
-   * Fragment's onDestroy() method have been called.
+   * 
+   * Note that we need to check if the callbacks are null in each method in case
+   * they are invoked after the Activity's and Fragment's onDestroy() method
+   * have been called.
    */
   private class GenericTask extends AsyncTask<Long, Void, Object> {
     private int mTaskId;
     private Serializable mExtra;
-    public GenericTask(int taskId,Serializable extra) {
+
+    public GenericTask(int taskId, Serializable extra) {
       mTaskId = taskId;
       mExtra = extra;
     }
@@ -239,9 +246,8 @@ public class TaskExecutionFragment extends Fragment {
     }
 
     /**
-     * Note that we do NOT call the callback object's methods
-     * directly from the background thread, as this could result
-     * in a race condition.
+     * Note that we do NOT call the callback object's methods directly from the
+     * background thread, as this could result in a race condition.
      */
     @Override
     protected Object doInBackground(Long... ids) {
@@ -249,10 +255,10 @@ public class TaskExecutionFragment extends Fragment {
       Long transactionId;
       Long[][] extraInfo2d;
       ContentResolver cr;
-      int successCount=0;
+      int successCount = 0;
       switch (mTaskId) {
       case TASK_CLONE:
-        for (long id: ids) {
+        for (long id : ids) {
           t = Transaction.getInstanceFromDb(id);
           if (t != null && t.saveAsNew() != null)
             successCount++;
@@ -266,12 +272,12 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_INSTANTIATE_TEMPLATE:
         return Template.getInstanceFromDb(ids[0]);
       case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
-        //when we are called from a notification,
-        //the template could have been deleted in the meantime 
-        //getInstanceFromTemplate should return null in that case
+        // when we are called from a notification,
+        // the template could have been deleted in the meantime
+        // getInstanceFromTemplate should return null in that case
         return Transaction.getInstanceFromTemplate(ids[0]);
       case TASK_NEW_FROM_TEMPLATE:
-        for (int i=0; i<ids.length; i++) {
+        for (int i = 0; i < ids.length; i++) {
           t = Transaction.getInstanceFromTemplate(ids[i]);
           if (t != null) {
             if (mExtra != null) {
@@ -279,7 +285,7 @@ public class TaskExecutionFragment extends Fragment {
               t.setDate(new Date(extraInfo2d[i][1]));
               t.originPlanInstanceId = extraInfo2d[i][0];
             }
-            if (t.save()!=null) {
+            if (t.save() != null) {
               successCount++;
             }
           }
@@ -289,16 +295,13 @@ public class TaskExecutionFragment extends Fragment {
         Account account;
         account = Account.getInstanceFromDb(0);
         if (account == null) {
-          account = new Account(
-              getString(R.string.app_name),
-              0,
-              getString(R.string.default_account_description)
-          );
+          account = new Account(getString(R.string.app_name), 0,
+              getString(R.string.default_account_description));
           account.save();
         }
-      return account;
+        return account;
       case TASK_DELETE_TRANSACTION:
-        for (long id: ids) {
+        for (long id : ids) {
           Transaction.delete(id);
         }
         return null;
@@ -306,22 +309,22 @@ public class TaskExecutionFragment extends Fragment {
         Account.delete(ids[0]);
         return null;
       case TASK_DELETE_PAYMENT_METHODS:
-        for (long id: ids) {
+        for (long id : ids) {
           PaymentMethod.delete(id);
         }
         return null;
       case TASK_DELETE_PAYEES:
-        for (long id: ids) {
+        for (long id : ids) {
           Payee.delete(id);
         }
         return null;
       case TASK_DELETE_CATEGORY:
-        for (long id: ids) {
+        for (long id : ids) {
           Category.delete(id);
         }
         return null;
       case TASK_DELETE_TEMPLATES:
-        for (long id: ids) {
+        for (long id : ids) {
           Template.delete(id);
         }
         return null;
@@ -343,25 +346,25 @@ public class TaskExecutionFragment extends Fragment {
         }
         return null;
       case TASK_MOVE:
-        Transaction.move(ids[0],(Long) mExtra);
+        Transaction.move(ids[0], (Long) mExtra);
         return null;
       case TASK_NEW_PLAN:
-        Uri uri = ((Plan)mExtra).save();
+        Uri uri = ((Plan) mExtra).save();
         return uri == null ? null : ContentUris.parseId(uri);
       case TASK_NEW_CALENDAR:
         return MyApplication.getInstance().createPlanner();
       case TASK_CANCEL_PLAN_INSTANCE:
         cr = MyApplication.getInstance().getContentResolver();
-        for (int i=0; i<ids.length; i++) {
+        for (int i = 0; i < ids.length; i++) {
           extraInfo2d = (Long[][]) mExtra;
           transactionId = extraInfo2d[i][1];
           Long templateId = extraInfo2d[i][0];
-          if (transactionId != null && transactionId >0L) {
+          if (transactionId != null && transactionId > 0L) {
             Transaction.delete(transactionId);
           } else {
             cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-              KEY_INSTANCEID + " = ?",
-              new String[]{String.valueOf(ids[i])});
+                KEY_INSTANCEID + " = ?",
+                new String[] { String.valueOf(ids[i]) });
           }
           ContentValues values = new ContentValues();
           values.putNull(KEY_TRANSACTIONID);
@@ -372,24 +375,24 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_RESET_PLAN_INSTANCE:
         cr = MyApplication.getInstance().getContentResolver();
-        for (int i=0; i<ids.length; i++) {
-          transactionId = ((Long []) mExtra)[i];
-          if (transactionId != null && transactionId >0L) {
+        for (int i = 0; i < ids.length; i++) {
+          transactionId = ((Long[]) mExtra)[i];
+          if (transactionId != null && transactionId > 0L) {
             Transaction.delete(transactionId);
           }
           cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-              KEY_INSTANCEID + " = ?",
-              new String[]{String.valueOf(ids[i])});
+              KEY_INSTANCEID + " = ?", new String[] { String.valueOf(ids[i]) });
         }
         return null;
       }
       return null;
     }
+
     @Override
     protected void onProgressUpdate(Void... ignore) {
-/*      if (mCallbacks != null) {
-        mCallbacks.onProgressUpdate(ignore[0]);
-      }*/
+      /*
+       * if (mCallbacks != null) { mCallbacks.onProgressUpdate(ignore[0]); }
+       */
     }
 
     @Override
@@ -398,19 +401,21 @@ public class TaskExecutionFragment extends Fragment {
         mCallbacks.onCancelled();
       }
     }
+
     @Override
     protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
-        mCallbacks.onPostExecute(mTaskId,result);
+        mCallbacks.onPostExecute(mTaskId, result);
       }
     }
   }
-  
+
   public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
-    
+
     public GrisbiImportTask(boolean withPartiesP) {
       this.withPartiesP = withPartiesP;
     }
+
     String title;
     private int max;
     /**
@@ -418,8 +423,9 @@ public class TaskExecutionFragment extends Fragment {
      */
     boolean withPartiesP;
     /**
-     * this is set when we finish one phase (parsing, importing categories, importing parties)
-     * so that we can adapt progress dialog in onProgressUpdate
+     * this is set when we finish one phase (parsing, importing categories,
+     * importing parties) so that we can adapt progress dialog in
+     * onProgressUpdate
      */
     boolean phaseChangedP = false;
     private CategoryTree catTree;
@@ -428,22 +434,26 @@ public class TaskExecutionFragment extends Fragment {
     public void setTitle(String title) {
       this.title = title;
     }
+
     public String getTitle() {
       return title;
     }
 
     /**
      * return false upon problem (and sets a result object) or true
-     * @param source2 
+     * 
+     * @param source2
      */
     protected Result parseXML(String sourceStr) {
       InputStream catXML = null;
       Result result;
 
       try {
-        if (sourceStr.equals(GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL)) {
+        if (sourceStr
+            .equals(GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL)) {
           try {
-            catXML = getResources().openRawResource(GrisbiSourcesDialogFragment.defaultSourceResId);
+            catXML = getResources().openRawResource(
+                GrisbiSourcesDialogFragment.defaultSourceResId);
           } catch (NotFoundException e) {
             catXML = getResources().openRawResource(R.raw.cat_en);
           }
@@ -456,9 +466,10 @@ public class TaskExecutionFragment extends Fragment {
           partiesList = (ArrayList<String>) result.extra[1];
         }
       } catch (FileNotFoundException e) {
-        result = new Result(false,R.string.parse_error_file_not_found,sourceStr);
+        result = new Result(false, R.string.parse_error_file_not_found,
+            sourceStr);
       } finally {
-        if (catXML!=null) {
+        if (catXML != null) {
           try {
             catXML.close();
           } catch (IOException e) {
@@ -470,20 +481,23 @@ public class TaskExecutionFragment extends Fragment {
     }
 
     /**
-     * made public to allow passing task to  {@link Utils#importCats(CategoryTree, GrisbiImportTask)}
-     * and {@link Utils#importParties(ArrayList, GrisbiImportTask)}
+     * made public to allow passing task to
+     * {@link Utils#importCats(CategoryTree, GrisbiImportTask)} and
+     * {@link Utils#importParties(ArrayList, GrisbiImportTask)}
+     * 
      * @param i
      */
     public void publishProgress(Integer i) {
       super.publishProgress(i);
     }
 
-    /* (non-Javadoc)
-     * updates the progress dialog
+    /*
+     * (non-Javadoc) updates the progress dialog
+     * 
      * @see android.os.AsyncTask#onProgressUpdate(Progress[])
      */
     protected void onProgressUpdate(Integer... values) {
-      if (mCallbacks!=null) {
+      if (mCallbacks != null) {
         if (phaseChangedP) {
           ((GrisbiImport) mCallbacks).setProgressMax(getMax());
           ((GrisbiImport) mCallbacks).setProgressTitle(getTitle());
@@ -492,52 +506,54 @@ public class TaskExecutionFragment extends Fragment {
         mCallbacks.onProgressUpdate(values[0]);
       }
     }
-    /* (non-Javadoc)
-     * reports on success (with total number of imported categories) or failure
+
+    /*
+     * (non-Javadoc) reports on success (with total number of imported
+     * categories) or failure
+     * 
      * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
      */
     @Override
     protected void onPostExecute(Result result) {
       if (mCallbacks != null) {
-        mCallbacks.onPostExecute(TASK_GRISBI_IMPORT,result);
+        mCallbacks.onPostExecute(TASK_GRISBI_IMPORT, result);
       }
     }
 
-    /* (non-Javadoc)
-     * this is where the bulk of the work is done via calls to {@link #importCatsMain()}
-     * and {@link #importCatsSub()}
-     * sets up {@link #categories} and {@link #sub_categories}
+    /*
+     * (non-Javadoc) this is where the bulk of the work is done via calls to
+     * {@link #importCatsMain()} and {@link #importCatsSub()} sets up {@link
+     * #categories} and {@link #sub_categories}
+     * 
      * @see android.os.AsyncTask#doInBackground(Params[])
      */
     @Override
     protected Result doInBackground(Boolean... external) {
-      String sourceStr = external[0] ?
-          GrisbiSourcesDialogFragment.IMPORT_SOURCE_EXTERNAL :
-          GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL;
+      String sourceStr = external[0] ? GrisbiSourcesDialogFragment.IMPORT_SOURCE_EXTERNAL
+          : GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL;
       Result r = parseXML(sourceStr);
       if (!r.success) {
         return r;
       }
-      setTitle(getString(R.string.grisbi_import_categories_loading,sourceStr));
+      setTitle(getString(R.string.grisbi_import_categories_loading, sourceStr));
       phaseChangedP = true;
       setMax(catTree.getTotal());
       publishProgress(0);
 
-      int totalImportedCat = Utils.importCats(catTree,this);
+      int totalImportedCat = Utils.importCats(catTree, this);
       if (withPartiesP) {
-        setTitle(getString(R.string.grisbi_import_parties_loading,sourceStr));
+        setTitle(getString(R.string.grisbi_import_parties_loading, sourceStr));
         phaseChangedP = true;
         setMax(partiesList.size());
         publishProgress(0);
 
-        int totalImportedParty = Utils.importParties(partiesList,this);
+        int totalImportedParty = Utils.importParties(partiesList, this);
         return new Result(true,
             R.string.grisbi_import_categories_and_parties_success,
             String.valueOf(totalImportedCat),
             String.valueOf(totalImportedParty));
       } else {
-        return new Result(true,
-            R.string.grisbi_import_categories_success,
+        return new Result(true, R.string.grisbi_import_categories_success,
             String.valueOf(totalImportedCat));
       }
     }
@@ -545,6 +561,7 @@ public class TaskExecutionFragment extends Fragment {
     int getMax() {
       return max;
     }
+
     void setMax(int max) {
       this.max = max;
     }
@@ -555,6 +572,7 @@ public class TaskExecutionFragment extends Fragment {
     private long accountId;
     private final Map<String, Long> payeeToId = new HashMap<String, Long>();
     private final Map<String, Long> categoryToId = new HashMap<String, Long>();
+    private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
 
     public QifImportTask(QifDateFormat qifDateFormat, long accountId) {
       this.dateFormat = qifDateFormat;
@@ -564,7 +582,7 @@ public class TaskExecutionFragment extends Fragment {
     @Override
     protected void onPostExecute(Result result) {
       if (mCallbacks != null) {
-        mCallbacks.onPostExecute(TASK_QIF_IMPORT,result);
+        mCallbacks.onPostExecute(TASK_QIF_IMPORT, result);
       }
     }
 
@@ -577,10 +595,8 @@ public class TaskExecutionFragment extends Fragment {
       long t0 = System.currentTimeMillis();
       QifBufferedReader r;
       try {
-        r = new QifBufferedReader(
-            new BufferedReader(
-                new InputStreamReader(
-                    new FileInputStream(params[0]), "UTF-8")));
+        r = new QifBufferedReader(new BufferedReader(new InputStreamReader(
+            new FileInputStream(params[0]), "UTF-8")));
       } catch (UnsupportedEncodingException e) {
         return null;
       } catch (FileNotFoundException e) {
@@ -590,43 +606,66 @@ public class TaskExecutionFragment extends Fragment {
       try {
         parser.parse();
       } catch (IOException e) {
-         return null;
+        return null;
       }
       long t1 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Parsing done in "+ TimeUnit.MILLISECONDS.toSeconds(t1-t0)+"s");
-      if (parser.accounts.size()>1 && accountId != 0) {
+      Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+      if (parser.accounts.size() > 1 && accountId != 0) {
         return new Result(
             false,
-            R.string.qif_parse_failure_found_multiple_accounts);
+            getString(R.string.qif_parse_failure_found_multiple_accounts)
+                + " "
+                + getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
+      }
+      if (accountId == 0 && !MyApplication.getInstance().isContribEnabled
+          && parser.accounts.size() + Account.count(null, null) > 5) {
+        return new Result(
+            false,
+            getString(R.string.qif_parse_failure_found_multiple_accounts)
+                + " "
+                + Html
+                    .fromHtml(getString(R.string.contrib_feature_accounts_unlimited_description)
+                        + " "
+                        + getString(R.string.dialog_contrib_reminder_remove_limitation)));
       }
       doImport(parser);
       long t2 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Importing done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
-      return new Result(
-          true,
-          R.string.qif_parse_result,
+      Log.i(MyApplication.TAG, "QIF Import: Importing done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
+      return new Result(true, R.string.qif_parse_result,
           String.valueOf(parser.accounts.size()),
           String.valueOf(parser.categories.size()),
           String.valueOf(parser.payees.size()));
     }
+
     private void doImport(QifParser parser) {
       long t0 = System.currentTimeMillis();
       insertPayees(parser.payees);
       long t1 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting payees done in " + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
-/*      insertProjects(parser.classes);
-      long t2 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting projects done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");*/
+      Log.i(MyApplication.TAG, "QIF Import: Inserting payees done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+      /*
+       * insertProjects(parser.classes); long t2 = System.currentTimeMillis();
+       * Log.i(MyApplication.TAG, "QIF Import: Inserting projects done in "+
+       * TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
+       */
       insertCategories(parser.categories);
       long t3 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting categories done in "+ TimeUnit.MILLISECONDS.toSeconds(t3-t1)+"s");
-      insertAccounts(parser.accounts);
+      Log.i(MyApplication.TAG, "QIF Import: Inserting categories done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t3 - t1) + "s");
+      if (accountId == 0) {
+        insertAccounts(parser.accounts);
+      }
       long t4 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting accounts done in "+ TimeUnit.MILLISECONDS.toSeconds(t4-t3)+"s");
+      Log.i(MyApplication.TAG, "QIF Import: Inserting accounts done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
       insertTransactions(parser.accounts);
       long t5 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting transactions done in "+ TimeUnit.MILLISECONDS.toSeconds(t5-t4)+"s");
+      Log.i(MyApplication.TAG, "QIF Import: Inserting transactions done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t5 - t4) + "s");
     }
+
     private void insertPayees(Set<String> payees) {
       for (String payee : payees) {
         Long id = Payee.maybeWrite(payee);
@@ -635,29 +674,32 @@ public class TaskExecutionFragment extends Fragment {
         }
       }
     }
+
     private void insertCategories(Set<QifCategory> categories) {
-      for (QifCategory category: categories) {
+      for (QifCategory category : categories) {
         String name = extractCategoryName(category.name);
         insertCategory(name);
       }
     }
+
     private String extractCategoryName(String name) {
       int i = name.indexOf('/');
       if (i != -1) {
-          name = name.substring(0, i);
+        name = name.substring(0, i);
       }
       return name;
     }
+
     private void insertCategory(String name) {
       if (isChildCategory(name)) {
-          insertChildCategory(name);
+        insertChildCategory(name);
       } else {
-          insertRootCategory(name);
+        insertRootCategory(name);
       }
     }
 
     private boolean isChildCategory(String name) {
-        return name.contains(":");
+      return name.contains(":");
     }
 
     private Long insertRootCategory(String name) {
@@ -677,7 +719,7 @@ public class TaskExecutionFragment extends Fragment {
       if (id == null) {
         int i = name.lastIndexOf(':');
         String parentCategoryName = name.substring(0, i);
-        String childCategoryName = name.substring(i+1);
+        String childCategoryName = name.substring(i + 1);
         Long main = insertRootCategory(parentCategoryName);
         id = Category.find(childCategoryName, main);
         if (id == -1) {
@@ -687,15 +729,172 @@ public class TaskExecutionFragment extends Fragment {
       return id;
     }
 
-    private void insertTransactions(List<QifAccount> accounts) {
-      // TODO Auto-generated method stub
-      
-    }
-
     private void insertAccounts(List<QifAccount> accounts) {
-      // TODO Auto-generated method stub
-      
+      for (QifAccount account : accounts) {
+        Account a = account.toAccount(Currency.getInstance("EUR"));
+        a.save();
+        account.dbAccount = a;
+        accountTitleToAccount.put(account.memo, account);
+      }
     }
 
+    private void insertTransactions(List<QifAccount> accounts) {
+      long t0 = System.currentTimeMillis();
+      reduceTransfers(accounts);
+      long t1 = System.currentTimeMillis();
+      Log.i("Financisto", "QIF Import: Reducing transfers done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+      convertUnknownTransfers(accounts);
+      long t2 = System.currentTimeMillis();
+      Log.i("Financisto", "QIF Import: Converting transfers done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
+      int count = accounts.size();
+      for (int i = 0; i < count; i++) {
+        long t3 = System.currentTimeMillis();
+        QifAccount account = accounts.get(i);
+        Account a = account.dbAccount;
+        insertTransactions(a, account.transactions);
+        // this might help GC
+        account.transactions.clear();
+        long t4 = System.currentTimeMillis();
+        Log.i("Financisto",
+            "QIF Import: Inserting transactions for account " + i + "/" + count
+                + " done in " + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
+      }
+    }
+
+    private void reduceTransfers(List<QifAccount> accounts) {
+      for (QifAccount fromAccount : accounts) {
+        List<QifTransaction> transactions = fromAccount.transactions;
+        reduceTransfers(fromAccount, transactions);
+      }
+    }
+
+    private void reduceTransfers(QifAccount fromAccount,
+        List<QifTransaction> transactions) {
+      for (QifTransaction fromTransaction : transactions) {
+        if (fromTransaction.isTransfer() && fromTransaction.amount < 0) {
+          boolean found = false;
+          QifAccount toAccount = accountTitleToAccount
+              .get(fromTransaction.toAccount);
+          if (toAccount != null) {
+            Iterator<QifTransaction> iterator = toAccount.transactions
+                .iterator();
+            while (iterator.hasNext()) {
+              QifTransaction toTransaction = iterator.next();
+              if (twoSidesOfTheSameTransfer(fromAccount, fromTransaction,
+                  toAccount, toTransaction)) {
+                iterator.remove();
+                found = true;
+                break;
+              }
+            }
+          }
+          if (!found) {
+            convertIntoRegularTransaction(fromTransaction);
+          }
+        }
+        if (fromTransaction.splits != null) {
+          reduceTransfers(fromAccount, fromTransaction.splits);
+        }
+      }
+    }
+
+    private void convertUnknownTransfers(List<QifAccount> accounts) {
+      for (QifAccount fromAccount : accounts) {
+        List<QifTransaction> transactions = fromAccount.transactions;
+        convertUnknownTransfers(fromAccount, transactions);
+      }
+    }
+
+    private void convertUnknownTransfers(QifAccount fromAccount/*
+                                                                * to keep
+                                                                * compiler happy
+                                                                */,
+        List<QifTransaction> transactions) {
+      for (QifTransaction transaction : transactions) {
+        if (transaction.isTransfer() && transaction.amount >= 0) {
+          convertIntoRegularTransaction(transaction);
+        }
+        if (transaction.splits != null) {
+          convertUnknownTransfers(fromAccount, transaction.splits);
+        }
+      }
+    }
+
+    private String prependMemo(String prefix, QifTransaction fromTransaction) {
+      if (TextUtils.isEmpty(fromTransaction.memo)) {
+        return prefix;
+      } else {
+        return prefix + " | " + fromTransaction.memo;
+      }
+    }
+
+    private void convertIntoRegularTransaction(QifTransaction fromTransaction) {
+      fromTransaction.memo = prependMemo("Transfer: "
+          + fromTransaction.toAccount, fromTransaction);
+      fromTransaction.toAccount = null;
+    }
+
+    private boolean twoSidesOfTheSameTransfer(QifAccount fromAccount,
+        QifTransaction fromTransaction, QifAccount toAccount,
+        QifTransaction toTransaction) {
+      return toTransaction.isTransfer()
+          && toTransaction.toAccount.equals(fromAccount.memo)
+          && fromTransaction.toAccount.equals(toAccount.memo)
+          && fromTransaction.date.equals(toTransaction.date)
+          && fromTransaction.amount == -toTransaction.amount;
+    }
+
+    private void insertTransactions(Account a, List<QifTransaction> transactions) {
+      for (QifTransaction transaction : transactions) {
+        Transaction t = transaction.toTransaction();
+        t.payeeId = findPayee(transaction.payee);
+        // t.projectId = findProject(transaction.categoryClass);
+        t.accountId = a.id;
+        findToAccount(transaction, t);
+        findCategory(transaction, t);
+/*        if (transaction.splits != null) {
+          List<Transaction> splits = new ArrayList<Transaction>(
+              transaction.splits.size());
+          for (QifTransaction split : transaction.splits) {
+            Transaction s = split.toTransaction();
+            findToAccount(split, s);
+            findCategory(split, s);
+            splits.add(s);
+          }
+          t.splits = splits;
+        }*/
+        t.save();
+      }
+    }
+
+    private void findToAccount(QifTransaction transaction, Transaction t) {
+      if (transaction.isTransfer()) {
+        Account toAccount = findAccount(transaction.toAccount);
+        if (toAccount != null) {
+          t.transfer_account = toAccount.id;
+        }
+      }
+    }
+
+    private Account findAccount(String account) {
+      QifAccount a = accountTitleToAccount.get(account);
+      return a != null ? a.dbAccount : null;
+    }
+
+    public long findPayee(String payee) {
+      return findIdInAMap(payee, payeeToId);
+    }
+
+    private long findIdInAMap(String project, Map<String, Long> map) {
+      if (map.containsKey(project)) {
+        return map.get(project);
+      }
+      return 0;
+    }
+    private void findCategory(QifTransaction transaction, Transaction t) {
+      t.catId = categoryToId.get(transaction.category);
+    }
   }
 }

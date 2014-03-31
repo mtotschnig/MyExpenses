@@ -256,9 +256,9 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
           String progressMsg;
           if (result.extra != null) {
             output = (File) result.extra[0];
-            progressMsg = activity.getString(result.message, output.getAbsolutePath());
+            progressMsg = activity.getString(result.getMessage(), output.getAbsolutePath());
           } else {
-            progressMsg = activity.getString(result.message);
+            progressMsg = activity.getString(result.getMessage());
           }
           publishProgress("... " + progressMsg);
           if (result.success) {

@@ -29,7 +29,7 @@ public class QifAccount {
 
     public static QifAccount fromAccount(Account account) {
         QifAccount qifAccount = new QifAccount();
-        qifAccount.type = account.type.getQifName();
+        qifAccount.type = account.type.toQifName();
         qifAccount.memo = account.label;
         qifAccount.desc = account.description;
         return qifAccount;
@@ -39,7 +39,7 @@ public class QifAccount {
         Account a = new Account();
         a.currency = currency;
         a.label = memo;
-        a.type = Account.Type.valueOf(type);
+        a.type = Account.Type.fromQifName(type);
         a.description = desc;
         return a;
     }

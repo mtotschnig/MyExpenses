@@ -60,7 +60,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
   @Override
   public void onPostExecute(int taskId,Object result) {
     String msg;
-    msg = getString(((Result) result).message,((Result) result).extra);
+    msg = ((Result) result).print(this);
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     finish();
   }

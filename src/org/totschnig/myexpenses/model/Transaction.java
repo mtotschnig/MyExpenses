@@ -127,6 +127,7 @@ public class Transaction extends Model {
     }
   }
   public CrStatus crStatus;
+  public long payeeId = 0;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -294,8 +295,10 @@ public class Transaction extends Model {
    */
   public Uri save() {
     Uri uri;
-    Long payee_id = (payee != null && !payee.equals("")) ?
-      Payee.require(payee) : null;
+    Long payeeStore = payeeId > 0 ? 
+        payeeId :
+          (payee != null && !payee.equals("")) ?
+              Payee.require(payee) : null;
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
@@ -304,7 +307,7 @@ public class Transaction extends Model {
 
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);
-    initialValues.put(KEY_PAYEEID, payee_id);
+    initialValues.put(KEY_PAYEEID, payeeStore);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);

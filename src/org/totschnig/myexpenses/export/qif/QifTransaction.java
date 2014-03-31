@@ -7,6 +7,7 @@ package org.totschnig.myexpenses.export.qif;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -130,7 +131,7 @@ public class QifTransaction {
 //    }
 
     public Transaction toTransaction() {
-        Transaction t = new Transaction();
+        Transaction t = isTransfer() ? new Transaction() : new Transfer();
         t.setDate(date);
         t.amount.setAmountMinor(amount);
         t.comment = memo;
