@@ -25,9 +25,9 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -21,9 +21,9 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -54,7 +54,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (MyApplication.debug) {
-      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+/*      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
       .detectDiskReads()
       .detectDiskWrites()
       .detectNetwork()   // or .detectAll() for all detectable problems
@@ -65,7 +65,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       //.detectLeakedClosableObjects()
       .penaltyLog()
       .penaltyDeath()
-      .build());
+      .build());*/
     }
 
     super.onCreate(savedInstanceState);

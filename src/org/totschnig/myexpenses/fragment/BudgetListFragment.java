@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.fragment;
 import org.totschnig.myexpenses.R;
 
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 
 /**

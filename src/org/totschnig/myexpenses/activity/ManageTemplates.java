@@ -22,8 +22,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import com.android.calendar.CalendarContractCompat.Events;
 

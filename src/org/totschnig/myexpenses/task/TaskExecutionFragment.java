@@ -14,29 +14,19 @@
  */
 //based on http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
 
-package org.totschnig.myexpenses.fragment;
+package org.totschnig.myexpenses.task;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -61,8 +51,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -115,7 +103,7 @@ public class TaskExecutionFragment extends Fragment {
     void onPostExecute(int taskId, Object o);
   }
 
-  private TaskCallbacks mCallbacks;
+  TaskCallbacks mCallbacks;
 
   public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds,
       Serializable extra) {
@@ -199,7 +187,7 @@ public class TaskExecutionFragment extends Fragment {
             .getBoolean("external"));
         break;
       case TASK_QIF_IMPORT:
-        new QifImportTask((QifDateFormat) args.getSerializable("dateFormat"),
+        new QifImportTask(this, (QifDateFormat) args.getSerializable("dateFormat"),
             args.getLong("accountId")).execute(args.getString("filePath"));
         break;
       default:
@@ -564,337 +552,6 @@ public class TaskExecutionFragment extends Fragment {
 
     void setMax(int max) {
       this.max = max;
-    }
-  }
-
-  public class QifImportTask extends AsyncTask<String, Integer, Result> {
-    private QifDateFormat dateFormat;
-    private long accountId;
-    private final Map<String, Long> payeeToId = new HashMap<String, Long>();
-    private final Map<String, Long> categoryToId = new HashMap<String, Long>();
-    private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
-
-    public QifImportTask(QifDateFormat qifDateFormat, long accountId) {
-      this.dateFormat = qifDateFormat;
-      this.accountId = accountId;
-    }
-
-    @Override
-    protected void onPostExecute(Result result) {
-      if (mCallbacks != null) {
-        mCallbacks.onPostExecute(TASK_QIF_IMPORT, result);
-      }
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-    }
-
-    @Override
-    protected Result doInBackground(String... params) {
-      long t0 = System.currentTimeMillis();
-      QifBufferedReader r;
-      try {
-        r = new QifBufferedReader(new BufferedReader(new InputStreamReader(
-            new FileInputStream(params[0]), "UTF-8")));
-      } catch (UnsupportedEncodingException e) {
-        return null;
-      } catch (FileNotFoundException e) {
-        return null;
-      }
-      QifParser parser = new QifParser(r, dateFormat);
-      try {
-        parser.parse();
-      } catch (IOException e) {
-        return null;
-      }
-      long t1 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
-      if (parser.accounts.size() > 1 && accountId != 0) {
-        return new Result(
-            false,
-            getString(R.string.qif_parse_failure_found_multiple_accounts)
-                + " "
-                + getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
-      }
-      if (accountId == 0 && !MyApplication.getInstance().isContribEnabled
-          && parser.accounts.size() + Account.count(null, null) > 5) {
-        return new Result(
-            false,
-            getString(R.string.qif_parse_failure_found_multiple_accounts)
-                + " "
-                + Html
-                    .fromHtml(getString(R.string.contrib_feature_accounts_unlimited_description)
-                        + " "
-                        + getString(R.string.dialog_contrib_reminder_remove_limitation)));
-      }
-      doImport(parser);
-      long t2 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Importing done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
-      return new Result(true, R.string.qif_parse_result,
-          String.valueOf(parser.accounts.size()),
-          String.valueOf(parser.categories.size()),
-          String.valueOf(parser.payees.size()));
-    }
-
-    private void doImport(QifParser parser) {
-      long t0 = System.currentTimeMillis();
-      insertPayees(parser.payees);
-      long t1 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting payees done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
-      /*
-       * insertProjects(parser.classes); long t2 = System.currentTimeMillis();
-       * Log.i(MyApplication.TAG, "QIF Import: Inserting projects done in "+
-       * TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
-       */
-      insertCategories(parser.categories);
-      long t3 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting categories done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t3 - t1) + "s");
-      if (accountId == 0) {
-        insertAccounts(parser.accounts);
-      }
-      long t4 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting accounts done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
-      insertTransactions(parser.accounts);
-      long t5 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Inserting transactions done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t5 - t4) + "s");
-    }
-
-    private void insertPayees(Set<String> payees) {
-      for (String payee : payees) {
-        Long id = Payee.maybeWrite(payee);
-        if (id != null) {
-          payeeToId.put(payee, id);
-        }
-      }
-    }
-
-    private void insertCategories(Set<QifCategory> categories) {
-      for (QifCategory category : categories) {
-        String name = extractCategoryName(category.name);
-        insertCategory(name);
-      }
-    }
-
-    private String extractCategoryName(String name) {
-      int i = name.indexOf('/');
-      if (i != -1) {
-        name = name.substring(0, i);
-      }
-      return name;
-    }
-
-    private void insertCategory(String name) {
-      if (isChildCategory(name)) {
-        insertChildCategory(name);
-      } else {
-        insertRootCategory(name);
-      }
-    }
-
-    private boolean isChildCategory(String name) {
-      return name.contains(":");
-    }
-
-    private Long insertRootCategory(String name) {
-      Long id = categoryToId.get(name);
-      if (id == null) {
-        id = Category.find(name, null);
-        if (id == -1) {
-          id = Category.write(0L, name, null);
-        }
-        categoryToId.put(name, id);
-      }
-      return id;
-    }
-
-    private Long insertChildCategory(String name) {
-      Long id = categoryToId.get(name);
-      if (id == null) {
-        int i = name.lastIndexOf(':');
-        String parentCategoryName = name.substring(0, i);
-        String childCategoryName = name.substring(i + 1);
-        Long main = insertRootCategory(parentCategoryName);
-        id = Category.find(childCategoryName, main);
-        if (id == -1) {
-          id = Category.write(0L, childCategoryName, main);
-        }
-      }
-      return id;
-    }
-
-    private void insertAccounts(List<QifAccount> accounts) {
-      for (QifAccount account : accounts) {
-        Account a = account.toAccount(Currency.getInstance("EUR"));
-        a.save();
-        account.dbAccount = a;
-        accountTitleToAccount.put(account.memo, account);
-      }
-    }
-
-    private void insertTransactions(List<QifAccount> accounts) {
-      long t0 = System.currentTimeMillis();
-      reduceTransfers(accounts);
-      long t1 = System.currentTimeMillis();
-      Log.i("Financisto", "QIF Import: Reducing transfers done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
-      convertUnknownTransfers(accounts);
-      long t2 = System.currentTimeMillis();
-      Log.i("Financisto", "QIF Import: Converting transfers done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
-      int count = accounts.size();
-      for (int i = 0; i < count; i++) {
-        long t3 = System.currentTimeMillis();
-        QifAccount account = accounts.get(i);
-        Account a = account.dbAccount;
-        insertTransactions(a, account.transactions);
-        // this might help GC
-        account.transactions.clear();
-        long t4 = System.currentTimeMillis();
-        Log.i("Financisto",
-            "QIF Import: Inserting transactions for account " + i + "/" + count
-                + " done in " + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
-      }
-    }
-
-    private void reduceTransfers(List<QifAccount> accounts) {
-      for (QifAccount fromAccount : accounts) {
-        List<QifTransaction> transactions = fromAccount.transactions;
-        reduceTransfers(fromAccount, transactions);
-      }
-    }
-
-    private void reduceTransfers(QifAccount fromAccount,
-        List<QifTransaction> transactions) {
-      for (QifTransaction fromTransaction : transactions) {
-        if (fromTransaction.isTransfer() && fromTransaction.amount < 0) {
-          boolean found = false;
-          QifAccount toAccount = accountTitleToAccount
-              .get(fromTransaction.toAccount);
-          if (toAccount != null) {
-            Iterator<QifTransaction> iterator = toAccount.transactions
-                .iterator();
-            while (iterator.hasNext()) {
-              QifTransaction toTransaction = iterator.next();
-              if (twoSidesOfTheSameTransfer(fromAccount, fromTransaction,
-                  toAccount, toTransaction)) {
-                iterator.remove();
-                found = true;
-                break;
-              }
-            }
-          }
-          if (!found) {
-            convertIntoRegularTransaction(fromTransaction);
-          }
-        }
-        if (fromTransaction.splits != null) {
-          reduceTransfers(fromAccount, fromTransaction.splits);
-        }
-      }
-    }
-
-    private void convertUnknownTransfers(List<QifAccount> accounts) {
-      for (QifAccount fromAccount : accounts) {
-        List<QifTransaction> transactions = fromAccount.transactions;
-        convertUnknownTransfers(fromAccount, transactions);
-      }
-    }
-
-    private void convertUnknownTransfers(QifAccount fromAccount/*
-                                                                * to keep
-                                                                * compiler happy
-                                                                */,
-        List<QifTransaction> transactions) {
-      for (QifTransaction transaction : transactions) {
-        if (transaction.isTransfer() && transaction.amount >= 0) {
-          convertIntoRegularTransaction(transaction);
-        }
-        if (transaction.splits != null) {
-          convertUnknownTransfers(fromAccount, transaction.splits);
-        }
-      }
-    }
-
-    private String prependMemo(String prefix, QifTransaction fromTransaction) {
-      if (TextUtils.isEmpty(fromTransaction.memo)) {
-        return prefix;
-      } else {
-        return prefix + " | " + fromTransaction.memo;
-      }
-    }
-
-    private void convertIntoRegularTransaction(QifTransaction fromTransaction) {
-      fromTransaction.memo = prependMemo("Transfer: "
-          + fromTransaction.toAccount, fromTransaction);
-      fromTransaction.toAccount = null;
-    }
-
-    private boolean twoSidesOfTheSameTransfer(QifAccount fromAccount,
-        QifTransaction fromTransaction, QifAccount toAccount,
-        QifTransaction toTransaction) {
-      return toTransaction.isTransfer()
-          && toTransaction.toAccount.equals(fromAccount.memo)
-          && fromTransaction.toAccount.equals(toAccount.memo)
-          && fromTransaction.date.equals(toTransaction.date)
-          && fromTransaction.amount == -toTransaction.amount;
-    }
-
-    private void insertTransactions(Account a, List<QifTransaction> transactions) {
-      for (QifTransaction transaction : transactions) {
-        Transaction t = transaction.toTransaction();
-        t.payeeId = findPayee(transaction.payee);
-        // t.projectId = findProject(transaction.categoryClass);
-        t.accountId = a.id;
-        findToAccount(transaction, t);
-        findCategory(transaction, t);
-/*        if (transaction.splits != null) {
-          List<Transaction> splits = new ArrayList<Transaction>(
-              transaction.splits.size());
-          for (QifTransaction split : transaction.splits) {
-            Transaction s = split.toTransaction();
-            findToAccount(split, s);
-            findCategory(split, s);
-            splits.add(s);
-          }
-          t.splits = splits;
-        }*/
-        t.save();
-      }
-    }
-
-    private void findToAccount(QifTransaction transaction, Transaction t) {
-      if (transaction.isTransfer()) {
-        Account toAccount = findAccount(transaction.toAccount);
-        if (toAccount != null) {
-          t.transfer_account = toAccount.id;
-        }
-      }
-    }
-
-    private Account findAccount(String account) {
-      QifAccount a = accountTitleToAccount.get(account);
-      return a != null ? a.dbAccount : null;
-    }
-
-    public long findPayee(String payee) {
-      return findIdInAMap(payee, payeeToId);
-    }
-
-    private long findIdInAMap(String project, Map<String, Long> map) {
-      if (map.containsKey(project)) {
-        return map.get(project);
-      }
-      return 0;
-    }
-    private void findCategory(QifTransaction transaction, Transaction t) {
-      t.catId = categoryToId.get(transaction.category);
     }
   }
 }

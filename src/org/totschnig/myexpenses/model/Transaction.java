@@ -251,13 +251,12 @@ public class Transaction extends Model {
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
-  public Transaction() {
+  protected Transaction() {
     setDate(new Date());
     this.crStatus = CrStatus.UNRECONCILED;
   }
   /**
    * new empty transaction
-   * @param mDbHelper
    */
   public Transaction(long accountId,Long amount) {
     this(Account.getInstanceFromDb(accountId),amount);
@@ -281,6 +280,7 @@ public class Transaction extends Model {
   public Date getDate() {
     return date;
   }
+
   /**
    * 
    * @param payee
@@ -295,10 +295,15 @@ public class Transaction extends Model {
    */
   public Uri save() {
     Uri uri;
-    Long payeeStore = payeeId > 0 ? 
-        payeeId :
-          (payee != null && !payee.equals("")) ?
-              Payee.require(payee) : null;
+    Long payeeStore;
+    if (payeeId > 0) {
+      payeeStore = payeeId;
+    } else {
+      payeeStore = 
+        (payee != null && !payee.equals("")) ?
+        Payee.require(payee) :
+        null;
+    }
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);

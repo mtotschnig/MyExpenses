@@ -130,10 +130,11 @@ public class QifTransaction {
 //        return qifTransaction;
 //    }
 
-    public Transaction toTransaction() {
-        Transaction t = isTransfer() ? new Transaction() : new Transfer();
+    public Transaction toTransaction(long accountId) {
+        Transaction t = isTransfer() ?
+            new Transfer(accountId,amount) :
+            new Transaction(accountId,amount);
         t.setDate(date);
-        t.amount.setAmountMinor(amount);
         t.comment = memo;
         return t;
     }

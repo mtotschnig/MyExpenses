@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import android.app.ProgressDialog;
 import android.os.Bundle;
