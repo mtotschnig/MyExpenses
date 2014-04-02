@@ -525,8 +525,10 @@ public class ExpenseEdit extends AmountActivity implements
       //handled in super
       break;
     case R.id.SAVE_AND_NEW_COMMAND:
-      mCreateNew = true;
-      saveState();
+      if (!mIsSaving) {
+        mCreateNew = true;
+        saveState();
+      }
       return true;
     case R.id.CREATE_TRANSACTION_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
@@ -690,24 +692,13 @@ public class ExpenseEdit extends AmountActivity implements
   private void setTime() {
     mTimeButton.setText(mTimeFormat.format(mCalendar.getTime()));
   }
-  /**
-   * helper for padding integer values smaller than 10 with 0
-   * @param c
-   * @return
-   */
-  private static String pad(int c) {
-    if (c >= 10)
-      return String.valueOf(c);
-    else
-      return "0" + String.valueOf(c);
-  }
-
   protected void saveState() {
     if (syncStateAndValidate()) {
       //we are not interested in receiving onLoadFinished about
       //the updated plan, it will cause problems if we are in SAVE_AND_NEW
       //since we reset the plan to null in that case
       mManager.destroyLoader(EVENT_CURSOR);
+      mIsSaving = true;
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
         .commit();
