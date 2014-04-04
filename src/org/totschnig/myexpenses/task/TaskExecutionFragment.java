@@ -89,7 +89,7 @@ public class TaskExecutionFragment extends Fragment {
   public static interface TaskCallbacks {
     void onPreExecute();
 
-    void onProgressUpdate(int percent);
+    void onProgressUpdate(Object progress);
 
     void onCancelled();
 

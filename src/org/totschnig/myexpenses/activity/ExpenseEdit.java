@@ -900,18 +900,12 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   public void onPreExecute() {
-    // TODO Auto-generated method stub
-
   }
   @Override
-  public void onProgressUpdate(int percent) {
-    // TODO Auto-generated method stub
-
+  public void onProgressUpdate(Object progress) {
   }
   @Override
   public void onCancelled() {
-    // TODO Auto-generated method stub
-
   }
   /*
    * callback of TaskExecutionFragment

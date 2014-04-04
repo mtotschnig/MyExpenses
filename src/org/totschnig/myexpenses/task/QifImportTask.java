@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.export.qif.QifAccount;
 import org.totschnig.myexpenses.export.qif.QifBufferedReader;
 import org.totschnig.myexpenses.export.qif.QifCategory;
@@ -51,7 +52,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class QifImportTask extends AsyncTask<String, Integer, Result> {
+public class QifImportTask extends AsyncTask<String, String, Void> {
   /**
      * 
      */
@@ -70,19 +71,24 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
   }
 
   @Override
-  protected void onPostExecute(Result result) {
+  protected void onPostExecute(Void result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
-          TaskExecutionFragment.TASK_QIF_IMPORT, result);
+          TaskExecutionFragment.TASK_QIF_IMPORT, null);
     }
   }
 
   @Override
-  protected void onProgressUpdate(Integer... values) {
+  protected void onProgressUpdate(String... values) {
+    if (this.taskExecutionFragment.mCallbacks != null) {
+      for (String progress: values) {
+        this.taskExecutionFragment.mCallbacks.onProgressUpdate(progress);
+      }
+    }
   }
 
   @Override
-  protected Result doInBackground(String... params) {
+  protected Void doInBackground(String... params) {
     long t0 = System.currentTimeMillis();
     QifBufferedReader r;
     try {
@@ -103,18 +109,17 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
     Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
         + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
     if (parser.accounts.size() > 1 && accountId != 0) {
-      return new Result(
-          false,
+      publishProgress(
           this.taskExecutionFragment
               .getString(R.string.qif_parse_failure_found_multiple_accounts)
               + " "
               + this.taskExecutionFragment
                   .getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
+      return(null);
     }
     if (accountId == 0 && !MyApplication.getInstance().isContribEnabled
         && parser.accounts.size() + Account.count(null, null) > 5) {
-      return new Result(
-          false,
+      publishProgress(
           this.taskExecutionFragment
               .getString(R.string.qif_parse_failure_found_multiple_accounts)
               + " "
@@ -123,42 +128,37 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
                   + " "
                   + this.taskExecutionFragment
                       .getString(R.string.dialog_contrib_reminder_remove_limitation)));
+      return(null);
     }
     doImport(parser);
     long t2 = System.currentTimeMillis();
     Log.i(MyApplication.TAG, "QIF Import: Importing done in "
         + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
-    return new Result(true, R.string.qif_parse_result,
-        String.valueOf(parser.accounts.size()),
-        String.valueOf(parser.categories.size()), String.valueOf(parser.payees
-            .size()));
+    publishProgress(this.taskExecutionFragment
+        .getString(
+            R.string.qif_parse_result,
+            String.valueOf(parser.accounts.size()),
+            String.valueOf(parser.categories.size()),
+            String.valueOf(parser.payees.size())));
+    return(null);
   }
 
   private void doImport(QifParser parser) {
-    long t0 = System.currentTimeMillis();
     insertPayees(parser.payees);
-    long t1 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Inserting payees done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+    publishProgress("Inserting payees done");
     /*
      * insertProjects(parser.classes); long t2 = System.currentTimeMillis();
      * Log.i(MyApplication.TAG, "QIF Import: Inserting projects done in "+
      * TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
      */
     insertCategories(parser.categories);
-    long t3 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Inserting categories done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t3 - t1) + "s");
+    publishProgress("Inserting categories done");
     if (accountId == 0) {
       insertAccounts(parser.accounts);
+      publishProgress("Inserting accounts done");
     }
-    long t4 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Inserting accounts done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
     insertTransactions(parser.accounts);
-    long t5 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Inserting transactions done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t5 - t4) + "s");
+    publishProgress("Inserting transactions done");
   }
 
   private void insertPayees(Set<String> payees) {

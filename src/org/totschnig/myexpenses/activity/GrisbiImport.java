@@ -36,11 +36,11 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
     }
   }
   @Override
-  public void onProgressUpdate(int progress) {
+  public void onProgressUpdate(Object progress) {
     FragmentManager fm = getSupportFragmentManager();
     ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
     if (fm != null) {
-      f.setProgress(progress);
+      f.setProgress((Integer) progress);
     }
   }
   public void setProgressMax(int max) {

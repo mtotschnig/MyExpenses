@@ -171,7 +171,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public boolean refreshContribEnabled() {
-      isContribEnabled = Utils.verifyLicenceKey(mSettings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
+      isContribEnabled = debug ? true : Utils.verifyLicenceKey(mSettings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       return isContribEnabled;
     }
     public static MyApplication getInstance() {

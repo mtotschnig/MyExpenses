@@ -135,13 +135,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public void onPreExecute() {
-    // TODO Auto-generated method stub
-    
   }
   @Override
-  public void onProgressUpdate(int percent) {
-    // TODO Auto-generated method stub
-    
+  public void onProgressUpdate(Object progress) {
   }
   @Override
   public void onCancelled() {

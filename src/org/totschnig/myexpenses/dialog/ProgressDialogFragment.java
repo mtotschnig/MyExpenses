@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 public class ProgressDialogFragment extends DialogFragment {
@@ -65,5 +66,12 @@ public class ProgressDialogFragment extends DialogFragment {
   }
   public void setTitle(String title) {
    dialog.setTitle(title);
+  }
+  public void setMessage(String progress) {
+    dialog.setMessage(progress);
+  }
+  public void onTaskCompleted() {
+    dialog.setIndeterminateDrawable(null);
+    //dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
   }
 }

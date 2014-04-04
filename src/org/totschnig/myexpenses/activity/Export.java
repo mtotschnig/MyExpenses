@@ -43,10 +43,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 
 /**
  * if called with KEY_ROW_ID in extras export one account, all otherwise
@@ -172,7 +170,6 @@ public class Export extends ProtectedFragmentActivityNoAppCompat {
    */
   static class MyAsyncTask extends AsyncTask<Long, String, Void> {
     private Export activity;
-    private int max;
     //we store the label of the account as progress
     private String progress ="";
     private final ArrayList<File> result = new ArrayList<File>();
