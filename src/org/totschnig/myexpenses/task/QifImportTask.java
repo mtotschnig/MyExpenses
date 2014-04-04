@@ -220,6 +220,7 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
       if (id == -1) {
         id = Category.write(0L, childCategoryName, main);
       }
+      categoryToId.put(name, id);
     }
     return id;
   }
