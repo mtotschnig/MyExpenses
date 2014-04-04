@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,6 +42,7 @@ import org.totschnig.myexpenses.export.qif.QifTransaction;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Result;
 
@@ -235,11 +237,11 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
     long t0 = System.currentTimeMillis();
     reduceTransfers(accounts);
     long t1 = System.currentTimeMillis();
-    Log.i("Financisto", "QIF Import: Reducing transfers done in "
+    Log.i(MyApplication.TAG, "QIF Import: Reducing transfers done in "
         + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
     convertUnknownTransfers(accounts);
     long t2 = System.currentTimeMillis();
-    Log.i("Financisto", "QIF Import: Converting transfers done in "
+    Log.i(MyApplication.TAG, "QIF Import: Converting transfers done in "
         + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
     int count = accounts.size();
     for (int i = 0; i < count; i++) {
@@ -250,7 +252,7 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
       // this might help GC
       account.transactions.clear();
       long t4 = System.currentTimeMillis();
-      Log.i("Financisto",
+      Log.i(MyApplication.TAG,
           "QIF Import: Inserting transactions for account " + i + "/" + count
               + " done in " + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
     }
@@ -302,10 +304,7 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
     }
   }
 
-  private void convertUnknownTransfers(QifAccount fromAccount/*
-                                                              * to keep compiler
-                                                              * happy
-                                                              */,
+  private void convertUnknownTransfers(QifAccount fromAccount,
       List<QifTransaction> transactions) {
     for (QifTransaction transaction : transactions) {
       if (transaction.isTransfer() && transaction.amount >= 0) {
@@ -347,15 +346,21 @@ public class QifImportTask extends AsyncTask<String, Integer, Result> {
       t.payeeId = findPayee(transaction.payee);
       // t.projectId = findProject(transaction.categoryClass);
       findToAccount(transaction, t);
-      findCategory(transaction, t);
-      /*
-       * if (transaction.splits != null) { List<Transaction> splits = new
-       * ArrayList<Transaction>( transaction.splits.size()); for (QifTransaction
-       * split : transaction.splits) { Transaction s = split.toTransaction();
-       * findToAccount(split, s); findCategory(split, s); splits.add(s); }
-       * t.splits = splits; }
-       */
-      t.save();
+
+       if (transaction.splits != null) {
+         ((SplitTransaction) t).persistForEdit();
+         for (QifTransaction split : transaction.splits) {
+           Transaction s = split.toTransaction(a.id);
+           s.parentId = t.id;
+           s.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+           findToAccount(split, s);
+           findCategory(split, s);
+           s.save();
+         }
+       } else {
+         findCategory(transaction, t);
+       }
+       t.save();
     }
   }
 

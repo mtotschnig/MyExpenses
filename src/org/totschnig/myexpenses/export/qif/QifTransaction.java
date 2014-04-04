@@ -6,6 +6,7 @@ package org.totschnig.myexpenses.export.qif;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 
@@ -34,11 +35,10 @@ public class QifTransaction {
     public String toAccount;
     public String project;
 
-    public boolean isSplit = false;
     public List<QifTransaction> splits;
 
     public boolean isSplit() {
-        return isSplit;
+        return splits != null;
     }
 
     public void setSplits(List<QifTransaction> splits) {
@@ -131,16 +131,20 @@ public class QifTransaction {
 //    }
 
     public Transaction toTransaction(long accountId) {
-        Transaction t = isTransfer() ?
-            new Transfer(accountId,amount) :
-            new Transaction(accountId,amount);
-        t.setDate(date);
-        t.comment = memo;
-        return t;
+      Transaction t;
+      if (isSplit()) {
+        t = new SplitTransaction(accountId,amount);
+      } else if(isTransfer()) {
+        t = new Transfer(accountId,amount);
+      } else {
+        t = new Transaction(accountId,amount);
+      }
+      t.setDate(date);
+      t.comment = memo;
+      return t;
     }
 
     public boolean isTransfer() {
         return toAccount != null;
     }
-
 }
