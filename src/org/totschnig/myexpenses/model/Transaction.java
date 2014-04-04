@@ -125,7 +125,20 @@ public class Transaction extends Model {
     static {
       JOIN = Utils.joinEnum(CrStatus.class);
     }
+
+    public static CrStatus fromQifName (String qifName) {
+      if (qifName == null)
+        return UNRECONCILED;
+      if (qifName.equals("*")) {
+        return CLEARED;
+      } else if (qifName.equals("X")) {
+        return RECONCILED;
+      } else {
+        return UNRECONCILED;
+      }
+    }
   }
+
   public CrStatus crStatus;
   public long payeeId = 0;
 
