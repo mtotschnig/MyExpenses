@@ -203,6 +203,7 @@ public class TransactionProvider extends ContentProvider {
       } else {
         String subGroupBy = "year,second";
         String secondDef ="";
+
         switch(group) {
         case DAY:
           secondDef = DAY;
@@ -310,6 +311,7 @@ public class TransactionProvider extends ContentProvider {
             "0 AS sum_transfers",
             "0 as usages",
             "1 as is_aggregate"};
+        @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
@@ -456,6 +458,7 @@ public class TransactionProvider extends ContentProvider {
     }
 
     if (MyApplication.debug) {
+      @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
