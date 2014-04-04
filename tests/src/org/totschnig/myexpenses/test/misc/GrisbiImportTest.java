@@ -67,24 +67,24 @@ public class GrisbiImportTest extends InstrumentationTestCase {
   public void testGrisbiParseError() {
     Result result = analyze(R.raw.grisbi_error);
     Assert.assertEquals(false, result.success);
-    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_parse_exception, result.message);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_parse_exception, result.getMessage());
   }
   public void testGrisbi7() {
     Result result = analyze(R.raw.grisbi_070);
     Assert.assertEquals(false, result.success);
-    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.message);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.getMessage());
     Assert.assertEquals("0.7.0", (String) result.extra[0]);
   }
   public void testGrisbi4() {
     Result result = analyze(R.raw.grisbi_040);
     Assert.assertEquals(false, result.success);
-    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.message);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.getMessage());
     Assert.assertEquals("0.4.0", (String) result.extra[0]);
   }
   public void testGrisbiEmpty() {
     Result result = analyze(R.raw.grisbi_empty);
     Assert.assertEquals(false, result.success);
-    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_no_data_found, result.message);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_no_data_found, result.getMessage());
   }
   /*
   *these tests are commented out since the large XML files are not added to git

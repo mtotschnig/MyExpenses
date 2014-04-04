@@ -230,13 +230,13 @@ public class ExportTest extends ModelTest  {
     try {
       insertData1();
       Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
-      assertTrue("Export failed with message: " + getContext().getString(result.message),result.success);
+      assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       account1.markAsExported();
       export = (File) result.extra[0];
       export.delete();
       insertData2();
       result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, true);
-      assertTrue("Export failed with message: " + getContext().getString(result.message),result.success);
+      assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       export = (File) result.extra[0];
       compare(export,linesCSV);
     } catch (IOException e) {
