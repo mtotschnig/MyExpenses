@@ -50,7 +50,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
@@ -507,7 +507,7 @@ public class Utils {
     return handler.getResult();
   }
 
-  public static int importParties(ArrayList<String> partiesList,TaskExecutionFragment.GrisbiImportTask task) {
+  public static int importParties(ArrayList<String> partiesList,GrisbiImportTask task) {
     int total = 0;
     for (int i=0;i<partiesList.size();i++){
       if (Payee.maybeWrite(partiesList.get(i)) != -1) {
@@ -519,7 +519,7 @@ public class Utils {
     }
     return total;
   }
-  public static int importCats(CategoryTree catTree,TaskExecutionFragment.GrisbiImportTask task) {
+  public static int importCats(CategoryTree catTree,GrisbiImportTask task) {
     int count = 0, total = 0;
     String label;
     long main_id, sub_id;
