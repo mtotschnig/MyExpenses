@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.export.qif.QifAccount;
 import org.totschnig.myexpenses.export.qif.QifBufferedReader;
 import org.totschnig.myexpenses.export.qif.QifCategory;
@@ -45,7 +43,6 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.util.Result;
 
 import android.os.AsyncTask;
 import android.text.Html;
@@ -53,9 +50,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class QifImportTask extends AsyncTask<String, String, Void> {
-  /**
-     * 
-     */
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
   private long accountId;

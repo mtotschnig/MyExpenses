@@ -25,6 +25,7 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.Export;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -34,6 +35,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -166,7 +168,6 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   public void onClick(DialogInterface dialog, int which) {
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
-    Intent i;
     Activity ctx = getActivity();
     AlertDialog dlg = (AlertDialog) dialog;
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
@@ -182,22 +183,27 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
-      i = new Intent(ctx, Export.class);
+      Bundle b = new Bundle();
       if (accountId == null) {
         Feature.RESET_ALL.recordUsage();
       } else if (accountId>0) {
-        i.putExtra(KEY_ROWID, accountId);
+        b.putLong(KEY_ROWID, accountId);
       } else {
         Feature.RESET_ALL.recordUsage();
-        i.putExtra(KEY_CURRENCY, currency);
+        b.putString(KEY_CURRENCY, currency);
       }
-      i.putExtra("format", format)
-        .putExtra("deleteP", deleteP)
-        .putExtra("notYetExportedP",notYetExportedP)
-        .putExtra("dateFormat",dateFormat)
-        .putExtra("decimalSeparator",decimalSeparator);
-
-      ctx.startActivityForResult(i,0);
+      b.putString("format", format);
+      b.putBoolean("deleteP", deleteP);
+      b.putBoolean("notYetExportedP",notYetExportedP);
+      b.putString("dateFormat",dateFormat);
+      b.putChar("decimalSeparator",decimalSeparator);
+      getFragmentManager()
+      .beginTransaction()
+      .add(TaskExecutionFragment.newInstanceExport(b),
+          "ASYNC_TASK")
+      .add(ProgressDialogFragment.newInstance(
+          R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
+      .commit();
     } else {
       Toast.makeText(ctx,
           ctx.getString(R.string.external_storage_unavailable),
