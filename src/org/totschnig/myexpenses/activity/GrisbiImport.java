@@ -39,14 +39,14 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
   public void onProgressUpdate(Object progress) {
     FragmentManager fm = getSupportFragmentManager();
     ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (fm != null) {
+    if (f != null) {
       f.setProgress((Integer) progress);
     }
   }
   public void setProgressMax(int max) {
     FragmentManager fm = getSupportFragmentManager();
     ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (fm != null) {
+    if (f != null) {
       f.setMax(max);
     }
   }
@@ -59,6 +59,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
   }
   @Override
   public void onPostExecute(int taskId,Object result) {
+    super.onPostExecute(taskId,result);
     String msg;
     msg = ((Result) result).print(this);
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -71,9 +72,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
   @Override
   public void onCancelled() {
   }
-  public void cancelDialog() {
-    finish();
-  }
+
   public void onSourceSelected(boolean external, boolean withParties) {
     getSupportFragmentManager()
       .beginTransaction()
