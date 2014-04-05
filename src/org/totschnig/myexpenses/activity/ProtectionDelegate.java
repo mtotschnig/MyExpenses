@@ -18,9 +18,11 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -31,6 +33,7 @@ import android.support.v4.app.FragmentTransaction;
  */
 public class ProtectionDelegate {
   Activity ctx;
+  private String progress = "";
   public ProtectionDelegate(Activity ctx) {
     this.ctx = ctx;
   }
@@ -54,12 +57,41 @@ public class ProtectionDelegate {
     }
     return pwDialog;
   }
-  public void removeAsyncTaskFragment(FragmentManager m) {
+
+  public void removeAsyncTaskFragment(boolean keepProgress) {
+    FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
-    if (f!=null)
-      t.remove(f);
+    if (f!=null) {
+      if (keepProgress) {
+        f.onTaskCompleted();
+      } else {
+        t.remove(f);
+      }
+    }
     t.remove(m.findFragmentByTag("ASYNC_TASK"));
     t.commitAllowingStateLoss();
+  }
+  public void removeAsyncTaskFragment(int taskId) {
+    removeAsyncTaskFragment(taskId == TaskExecutionFragment.TASK_QIF_IMPORT ||
+        taskId == TaskExecutionFragment.TASK_EXPORT);
+  }
+  public void updateProgressDialog(Object progress) {
+    FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+    if (f!=null) {
+      if (progress instanceof Integer) {
+        f.setProgress((Integer) progress);
+      } else if (progress instanceof String) {
+        appendToProgress((String) progress);
+        f.setMessage(getProgress());
+      }
+    }
+  }
+  void appendToProgress(String progress) {
+    this.progress += "\n" + progress;
+  }
+  String getProgress() {
+    return progress;
   }
 }

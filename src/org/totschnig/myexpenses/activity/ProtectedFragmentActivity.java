@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
-    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks{
+    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
   public static final int EDIT_TRANSACTION_REQUEST=1;
   public static final int EDIT_ACCOUNT_REQUEST=2;
   public static final int PREFERENCES_REQUEST=3;
@@ -112,7 +112,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     }
   }
 
-  public void cancelDialog() {
+  public void onMessageDialogDismissOrCancel() {
     // TODO Auto-generated method stub
   }
   @Override
@@ -138,15 +138,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public void onProgressUpdate(Object progress) {
+    protection.updateProgressDialog(progress);
   }
   @Override
   public void onCancelled() {
-    protection.removeAsyncTaskFragment(getSupportFragmentManager());
+    protection.removeAsyncTaskFragment(false);
   }
-
   @Override
   public void onPostExecute(int taskId, Object o) {
-    protection.removeAsyncTaskFragment(getSupportFragmentManager());
+    protection.removeAsyncTaskFragment(taskId);
   }
 
   protected void setLanguage() {

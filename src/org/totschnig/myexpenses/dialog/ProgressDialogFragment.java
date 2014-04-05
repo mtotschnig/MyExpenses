@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
 import android.widget.Button;
@@ -89,7 +91,7 @@ public class ProgressDialogFragment extends DialogFragment {
           new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              getActivity().finish();
+              ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
             }
       });
     }
@@ -112,5 +114,10 @@ public class ProgressDialogFragment extends DialogFragment {
     mTaskCompleted = true;
     mDialog.setIndeterminateDrawable(null);
     mDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
+    setCancelable(true);
+  }
+  @Override
+  public void onCancel (DialogInterface dialog) {
+      ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
 }

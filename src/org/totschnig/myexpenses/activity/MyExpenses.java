@@ -48,6 +48,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -888,5 +889,13 @@ public class MyExpenses extends LaunchActivity implements
     //detail fragment from notification should only be shown once
     if (idFromNotification !=0)
       outState.putLong("idFromNotification",0);
+  }
+  public void onStartExport(Bundle b) {
+    getSupportFragmentManager().beginTransaction()
+    .add(TaskExecutionFragment.newInstanceExport(b),
+        "ASYNC_TASK")
+    .add(ProgressDialogFragment.newInstance(
+        R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
+    .commit();
   }
 }

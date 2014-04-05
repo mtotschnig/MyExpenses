@@ -22,25 +22,15 @@ import org.totschnig.myexpenses.util.Result;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
-public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implements
-    TaskExecutionFragment.TaskCallbacks {
+public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       GrisbiSourcesDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");
-    }
-  }
-  @Override
-  public void onProgressUpdate(Object progress) {
-    FragmentManager fm = getSupportFragmentManager();
-    ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (f != null) {
-      f.setProgress((Integer) progress);
     }
   }
   public void setProgressMax(int max) {
@@ -65,13 +55,6 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     finish();
   }
-  @Override
-  public void onPreExecute() {
-  }
-
-  @Override
-  public void onCancelled() {
-  }
 
   public void onSourceSelected(boolean external, boolean withParties) {
     getSupportFragmentManager()
@@ -82,4 +65,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat implement
             0,0,ProgressDialog.STYLE_HORIZONTAL, false),"PROGRESS")
         .commit();
   }
+  public void onMessageDialogDismissOrCancel() {
+    finish();
+   }
 }

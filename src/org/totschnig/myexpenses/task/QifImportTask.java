@@ -104,27 +104,27 @@ public class QifImportTask extends AsyncTask<String, String, Void> {
         + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
     if (parser.accounts.size() > 1 && accountId != 0) {
       publishProgress(
-          this.taskExecutionFragment
+          MyApplication.getInstance()
               .getString(R.string.qif_parse_failure_found_multiple_accounts)
               + " "
-              + this.taskExecutionFragment
+              + MyApplication.getInstance()
                   .getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
       return(null);
     }
     if (accountId == 0 && !MyApplication.getInstance().isContribEnabled
         && parser.accounts.size() + Account.count(null, null) > 5) {
       publishProgress(
-          this.taskExecutionFragment
+          MyApplication.getInstance()
               .getString(R.string.qif_parse_failure_found_multiple_accounts)
               + " "
-              + Html.fromHtml(this.taskExecutionFragment
+              + Html.fromHtml(MyApplication.getInstance()
                   .getString(R.string.contrib_feature_accounts_unlimited_description)
                   + " "
-                  + this.taskExecutionFragment
+                  + MyApplication.getInstance()
                       .getString(R.string.dialog_contrib_reminder_remove_limitation)));
       return(null);
     }
-    publishProgress(this.taskExecutionFragment
+    publishProgress(MyApplication.getInstance()
         .getString(
             R.string.qif_parse_result,
             String.valueOf(parser.accounts.size()),

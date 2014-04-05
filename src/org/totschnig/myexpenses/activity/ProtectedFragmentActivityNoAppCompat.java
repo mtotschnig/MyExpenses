@@ -55,7 +55,7 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
     super.onResume();
     pwDialog = protection.hanldeOnResume(pwDialog);
   }
-  public void cancelDialog() {
+  public void onMessageDialogDismissOrCancel() {
     // TODO Auto-generated method stub
   }
   @Override
@@ -69,17 +69,17 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   }
   @Override
   public void onCancelled() {
-    protection.removeAsyncTaskFragment(getSupportFragmentManager());
+    protection.removeAsyncTaskFragment(false);
   }
-
   @Override
   public void onPostExecute(int taskId, Object o) {
-    protection.removeAsyncTaskFragment(getSupportFragmentManager());
+    protection.removeAsyncTaskFragment(taskId);
   }
   @Override
   public void onPreExecute() {
   }
   @Override
   public void onProgressUpdate(Object progress) {
+    protection.updateProgressDialog(progress);
   }
 }

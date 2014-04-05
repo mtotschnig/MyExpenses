@@ -56,7 +56,7 @@ DialogInterface.OnClickListener {
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ((GrisbiImport) getActivity()).cancelDialog();
+    ((GrisbiImport) getActivity()).onMessageDialogDismissOrCancel();
   }
   @Override
   public void onClick(DialogInterface dialog, int id) {

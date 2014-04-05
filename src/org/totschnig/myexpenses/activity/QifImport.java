@@ -23,15 +23,10 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
-    TaskExecutionFragment.TaskCallbacks {
+public class QifImport extends ProtectedFragmentActivityNoAppCompat {
 
   public static final int IMPORT_FILENAME_REQUESTCODE = 1;
-  
-  private String progress = "";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -39,35 +34,6 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
     if (savedInstanceState == null) {
       QifImportDialogFragment.newInstance().show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
     }
-  }
-  @Override
-  public void onProgressUpdate(Object progress) {
-    FragmentManager fm = getSupportFragmentManager();
-    ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (f != null) {
-      appendToProgress((String) progress);
-      f.setMessage(getProgress());
-    }
-  }
-
-  @Override
-  public void onPostExecute(int taskId,Object result) {
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction t = fm.beginTransaction();
-    t.remove(fm.findFragmentByTag("ASYNC_TASK"));
-    t.commitAllowingStateLoss();
-    ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (fm != null) {
-      f.onTaskCompleted();
-    }
-  }
-
-  @Override
-  public void onPreExecute() {
-  }
-
-  @Override
-  public void onCancelled() {
   }
 
   public void onSourceSelected(String filePath, QifDateFormat qifDateFormat,
@@ -80,11 +46,9 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
           R.string.pref_import_qif_title,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
       .commit();
   }
+  @Override
 
-  void appendToProgress(String progress) {
-    this.progress += "\n" + progress;
-  }
-  String getProgress() {
-    return progress;
+  public void onMessageDialogDismissOrCancel() {
+   finish();
   }
 }

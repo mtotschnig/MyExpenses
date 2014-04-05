@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.Export;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;

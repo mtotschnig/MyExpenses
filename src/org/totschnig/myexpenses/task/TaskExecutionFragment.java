@@ -177,6 +177,7 @@ public class TaskExecutionFragment extends Fragment {
         break;
       case TASK_EXPORT:
         new ExportTask(this,args).execute();
+        break;
       default:
         new GenericTask(this, taskId, args.getSerializable("extra"))
             .execute((Long[]) args.getSerializable("objectIds"));

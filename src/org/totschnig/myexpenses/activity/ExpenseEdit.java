@@ -898,15 +898,6 @@ public class ExpenseEdit extends AmountActivity implements
     result.setAmountMajor(amount);
     return result;
   }
-  @Override
-  public void onPreExecute() {
-  }
-  @Override
-  public void onProgressUpdate(Object progress) {
-  }
-  @Override
-  public void onCancelled() {
-  }
   /*
    * callback of TaskExecutionFragment
    */

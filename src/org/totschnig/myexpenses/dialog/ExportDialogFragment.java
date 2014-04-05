@@ -24,9 +24,9 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.Export;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -38,7 +38,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -197,13 +196,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       b.putBoolean("notYetExportedP",notYetExportedP);
       b.putString("dateFormat",dateFormat);
       b.putChar("decimalSeparator",decimalSeparator);
-      getFragmentManager()
-      .beginTransaction()
-      .add(TaskExecutionFragment.newInstanceExport(b),
-          "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(
-          R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
-      .commit();
+      ((MyExpenses) getActivity()).onStartExport(b);
     } else {
       Toast.makeText(ctx,
           ctx.getString(R.string.external_storage_unavailable),
