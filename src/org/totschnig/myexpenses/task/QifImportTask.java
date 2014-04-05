@@ -130,16 +130,13 @@ public class QifImportTask extends AsyncTask<String, String, Void> {
                       .getString(R.string.dialog_contrib_reminder_remove_limitation)));
       return(null);
     }
-    doImport(parser);
-    long t2 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Importing done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
     publishProgress(this.taskExecutionFragment
         .getString(
             R.string.qif_parse_result,
             String.valueOf(parser.accounts.size()),
             String.valueOf(parser.categories.size()),
             String.valueOf(parser.payees.size())));
+    doImport(parser);
     return(null);
   }
 

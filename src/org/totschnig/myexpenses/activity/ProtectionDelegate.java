@@ -17,10 +17,18 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
+/**
+ * methods both needed by {@link ProtectedFragmentActivity} and {@link ProtectedFragmentActivityNoAppCompat}
+ * @author Michael Totschnig
+ *
+ */
 public class ProtectionDelegate {
   Activity ctx;
   public ProtectionDelegate(Activity ctx) {
@@ -45,5 +53,13 @@ public class ProtectionDelegate {
       DialogUtils.showPasswordDialog(ctx,pwDialog);
     }
     return pwDialog;
+  }
+  public void removeAsyncTaskFragment(FragmentManager m) {
+    FragmentTransaction t = m.beginTransaction();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+    if (f!=null)
+      t.remove(f);
+    t.remove(m.findFragmentByTag("ASYNC_TASK"));
+    t.commitAllowingStateLoss();
   }
 }

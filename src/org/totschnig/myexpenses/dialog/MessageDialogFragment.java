@@ -89,6 +89,7 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
       builder.setNegativeButton(negative.label, this);
     return builder.create();
   }
+  @Override
   public void onCancel (DialogInterface dialog) {
       ((MessageDialogListener) getActivity()).cancelDialog();
   }

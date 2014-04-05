@@ -141,21 +141,12 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public void onCancelled() {
-    removeAsyncTaskFragment();
+    protection.removeAsyncTaskFragment(getSupportFragmentManager());
   }
 
   @Override
   public void onPostExecute(int taskId, Object o) {
-    removeAsyncTaskFragment();
-  }
-  private void removeAsyncTaskFragment() {
-    FragmentManager m = getSupportFragmentManager();
-    FragmentTransaction t = m.beginTransaction();
-    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
-    if (f!=null)
-      t.remove(f);
-    t.remove(m.findFragmentByTag("ASYNC_TASK"));
-    t.commitAllowingStateLoss();
+    protection.removeAsyncTaskFragment(getSupportFragmentManager());
   }
 
   protected void setLanguage() {

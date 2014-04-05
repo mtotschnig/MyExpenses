@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import android.support.v4.app.FragmentActivity;
  *
  */
 public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity implements
-    MessageDialogListener  {
+    MessageDialogListener,TaskExecutionFragment.TaskCallbacks  {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   
@@ -56,7 +57,8 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   }
   public void cancelDialog() {
     // TODO Auto-generated method stub
-  }  @Override
+  }
+  @Override
   public boolean dispatchCommand(int command, Object tag) {
     if (CommonCommands.dispatchCommand(this, command))
       return true;
@@ -64,5 +66,20 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   }
   protected void setLanguage() {
     MyApplication.getInstance().setLanguage();
+  }
+  @Override
+  public void onCancelled() {
+    protection.removeAsyncTaskFragment(getSupportFragmentManager());
+  }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    protection.removeAsyncTaskFragment(getSupportFragmentManager());
+  }
+  @Override
+  public void onPreExecute() {
+  }
+  @Override
+  public void onProgressUpdate(Object progress) {
   }
 }

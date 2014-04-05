@@ -15,14 +15,16 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.Result;
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.widget.Toast;
+import android.support.v4.app.FragmentTransaction;
 
 public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
     TaskExecutionFragment.TaskCallbacks {
@@ -42,22 +44,18 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
   public void onProgressUpdate(Object progress) {
     FragmentManager fm = getSupportFragmentManager();
     ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (fm != null) {
+    if (f != null) {
       appendToProgress((String) progress);
       f.setMessage(getProgress());
-    }
-  }
-  public void setProgressTitle(String title) {
-    FragmentManager fm = getSupportFragmentManager();
-    ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (fm != null) {
-      f.setTitle(title);
     }
   }
 
   @Override
   public void onPostExecute(int taskId,Object result) {
     FragmentManager fm = getSupportFragmentManager();
+    FragmentTransaction t = fm.beginTransaction();
+    t.remove(fm.findFragmentByTag("ASYNC_TASK"));
+    t.commitAllowingStateLoss();
     ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
     if (fm != null) {
       f.onTaskCompleted();
@@ -71,9 +69,6 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
   @Override
   public void onCancelled() {
   }
-  public void cancelDialog() {
-    finish();
-  }
 
   public void onSourceSelected(String filePath, QifDateFormat qifDateFormat,
       long accountId) {
@@ -81,7 +76,8 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat implements
       .beginTransaction()
       .add(TaskExecutionFragment.newInstanceQifImport(filePath, qifDateFormat, accountId),
           "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
+      .add(ProgressDialogFragment.newInstance(
+          R.string.pref_import_qif_title,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
       .commit();
   }
 

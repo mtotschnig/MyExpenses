@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
+import android.widget.Button;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -24,54 +25,92 @@ import android.os.Bundle;
 public class ProgressDialogFragment extends DialogFragment {
   private static final String KEY_PROGRESS_STYLE = "progressStyle";
   private static final String KEY_MESSAGE = "message";
-  private ProgressDialog dialog;
+  private static final String KEY_WITH_BUTTON = "withButton";
+  private static final String KEY_TITLE = "title";
+  private ProgressDialog mDialog;
+  boolean mTaskCompleted = false;
 
+  /**
+   * @param message if different from 0 a resource string identifier displayed as the dialogs's message
+   * @return the dialog fragment
+   */
   public static ProgressDialogFragment newInstance(int message) {
-    return newInstance(message,0);
+    return newInstance(0,message,0, false);
   }
-  public static ProgressDialogFragment newInstance(int message,int progressStyle) {
+  /**
+   * @param message if different from 0 a resource string identifier displayed as the dialogs's message
+   * @param progressStyle {@link ProgressDialog#STYLE_SPINNER} or {@link ProgressDialog#STYLE_HORIZONTAL}
+   * @param withButton if true dialog is rendered with an OK button that is initially disabled  
+   * @return the dialog fragment
+   */
+  public static ProgressDialogFragment newInstance(int title, int message,int progressStyle, boolean withButton) {
     ProgressDialogFragment f = new ProgressDialogFragment ();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_MESSAGE, message);
+    bundle.putInt(KEY_TITLE, title);
     bundle.putInt(KEY_PROGRESS_STYLE, progressStyle);
+    bundle.putBoolean(KEY_WITH_BUTTON, withButton);
     f.setArguments(bundle);
-    //f.setCancelable(false);
+    f.setCancelable(false);
     return f;
   }
- 
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (!mTaskCompleted) {
+      Button b =  mDialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+      if (b != null) {
+       b.setEnabled(false); 
+      }
+    }
+  }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) { 
-    dialog = new ProgressDialog(getActivity());
+    mDialog = new ProgressDialog(getActivity());
     int message = getArguments().getInt(KEY_MESSAGE);
+    int title = getArguments().getInt(KEY_TITLE);
     int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
+    boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
     if (message != 0) {
-      dialog.setMessage(getString(message));
+      mDialog.setMessage(getString(message));
+    } else if (title != 0)  {
+      mDialog.setTitle(title);
     } else {
       //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
-      dialog.setTitle("...");
+      mDialog.setTitle("...");
     }
-    if (progressStyle != 0) {
-      dialog.setProgressStyle(progressStyle);
+    if (progressStyle != ProgressDialog.STYLE_SPINNER) {
+      mDialog.setProgressStyle(progressStyle);
     } else {
-      dialog.setIndeterminate(true);
+      mDialog.setIndeterminate(true);
     }
-    dialog.setProgress(0);
-    return dialog;
+    if (withButton) {
+      mDialog.setButton(DialogInterface.BUTTON_NEUTRAL,getString(android.R.string.ok),
+          new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              getActivity().finish();
+            }
+      });
+    }
+    mDialog.setProgress(0);
+    return mDialog;
   }
   public void setProgress(int progress) {
-   dialog.setProgress(progress);
+   mDialog.setProgress(progress);
   }
   public void setMax(int max) {
-   dialog.setMax(max);
+   mDialog.setMax(max);
   }
   public void setTitle(String title) {
-   dialog.setTitle(title);
+   mDialog.setTitle(title);
   }
   public void setMessage(String progress) {
-    dialog.setMessage(progress);
+    mDialog.setMessage(progress);
   }
   public void onTaskCompleted() {
-    dialog.setIndeterminateDrawable(null);
-    //dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
+    mTaskCompleted = true;
+    mDialog.setIndeterminateDrawable(null);
+    mDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
   }
 }
