@@ -16,11 +16,12 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.support.v4.app.DialogFragment;
 import android.widget.Button;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -67,11 +68,13 @@ public class ProgressDialogFragment extends DialogFragment {
     }
   }
   @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) { 
-    mDialog = new ProgressDialog(getActivity());
-    int message = getArguments().getInt(KEY_MESSAGE);
-    int title = getArguments().getInt(KEY_TITLE);
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
     int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
+    int message = getArguments().getInt(KEY_MESSAGE);
+    mDialog = (progressStyle == ScrollableProgressDialog.STYLE_SPINNER) ?
+        new ScrollableProgressDialog(getActivity()) :
+        new ProgressDialog(getActivity());
+    int title = getArguments().getInt(KEY_TITLE);
     boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
     if (message != 0) {
       mDialog.setMessage(getString(message));
@@ -81,7 +84,7 @@ public class ProgressDialogFragment extends DialogFragment {
       //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
       mDialog.setTitle("...");
     }
-    if (progressStyle != ProgressDialog.STYLE_SPINNER) {
+    if (progressStyle != ScrollableProgressDialog.STYLE_SPINNER) {
       mDialog.setProgressStyle(progressStyle);
     } else {
       mDialog.setIndeterminate(true);
