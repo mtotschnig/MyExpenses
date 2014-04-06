@@ -84,7 +84,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
   protected void onPostExecute(ArrayList<File>  result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
-          TaskExecutionFragment.TASK_QIF_IMPORT, result);
+          TaskExecutionFragment.TASK_EXPORT, result);
     }
   }
 
