@@ -15,8 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -144,6 +147,7 @@ public class MyExpenses extends LaunchActivity implements
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription, columnIndexLabel;
   boolean indexesCalculated = false;
   private long idFromNotification = 0;
+  private String mExportFormat = null;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -242,6 +246,9 @@ public class MyExpenses extends LaunchActivity implements
         initialSetup();
       }
       return;
+    }
+    if (savedInstanceState != null) {
+      mExportFormat = savedInstanceState.getString("exportFormat");
     }
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
@@ -753,6 +760,13 @@ public class MyExpenses extends LaunchActivity implements
       getSupportActionBar().show();
       setup();
       break;
+    case TaskExecutionFragment.TASK_EXPORT:
+      ArrayList<File> files = (ArrayList<File>) o;
+      if (files != null && files.size() >0)
+        Utils.share(this,files,
+            MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+            "text/" + mExportFormat.toLowerCase(Locale.US));
+      break;
     }
   }
   public void toggleCrStatus (View v) {
@@ -895,15 +909,18 @@ public class MyExpenses extends LaunchActivity implements
   protected void onSaveInstanceState (Bundle outState) {
     super.onSaveInstanceState(outState);
     //detail fragment from notification should only be shown once
-    if (idFromNotification !=0)
+    if (idFromNotification !=0) {
       outState.putLong("idFromNotification",0);
+    }
+    outState.putString("exportFormat", mExportFormat);
   }
   public void onStartExport(Bundle b) {
+    mExportFormat = b.getString("format");
     getSupportFragmentManager().beginTransaction()
-    .add(TaskExecutionFragment.newInstanceExport(b),
-        "ASYNC_TASK")
-    .add(ProgressDialogFragment.newInstance(
-        R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
-    .commit();
+      .add(TaskExecutionFragment.newInstanceExport(b),
+          "ASYNC_TASK")
+      .add(ProgressDialogFragment.newInstance(
+          R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
+      .commit();
   }
 }
