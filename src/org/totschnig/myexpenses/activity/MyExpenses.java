@@ -223,7 +223,7 @@ public class MyExpenses extends LaunchActivity implements
 
     if (prev_version == -1) {
       getSupportActionBar().hide();
-      if (MyApplication.backupExists()) {
+      /*if (MyApplication.backupExists()) {
         if (!mSettings.getBoolean("restoreOnInstallAsked", false)) {
           DialogFragment df = MessageDialogFragment.newInstance(
               R.string.dialog_title_restore_on_install,
@@ -242,9 +242,9 @@ public class MyExpenses extends LaunchActivity implements
           SharedPreferencesCompat.apply(
               mSettings.edit().putBoolean("restoreOnInstallAsked", true));
         }
-      } else {
+      } else {*/
         initialSetup();
-      }
+     /* }*/
       return;
     }
     if (savedInstanceState != null) {
@@ -280,7 +280,7 @@ public class MyExpenses extends LaunchActivity implements
   }
   private void setup() {
     newVersionCheck();
-    SharedPreferencesCompat.apply(mSettings.edit().remove("restoreOnInstallAsked"));
+    //SharedPreferencesCompat.apply(mSettings.edit().remove("restoreOnInstallAsked"));
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin,margin, true);
@@ -488,7 +488,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;
-    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
+/*    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {
           //if we have successfully restored, we relaunch in order to force password check if needed
@@ -500,7 +500,7 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
       initialSetup();
-      return true;
+      return true;*/
     case R.id.REMIND_NO_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminder" + (String) tag,-1));
       return true;

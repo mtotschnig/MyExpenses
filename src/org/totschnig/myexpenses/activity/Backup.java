@@ -20,8 +20,12 @@ import java.io.File;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
@@ -77,11 +81,7 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
     switch(command) {
     case R.id.BACKUP_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
-        if (MyApplication.getInstance().backup()) {
-          Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
-        } else {
-          Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
-        }
+        startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null, R.string.menu_backup);
       } else {
         Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
       }
@@ -89,9 +89,7 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
       break;
     case R.id.RESTORE_COMMAND:
       if (MyApplication.backupExists()) {
-        MyApplication.backupRestore();
-        setResult(RESULT_FIRST_USER);
-        finish();
+        startTaskExecution(TaskExecutionFragment.TASK_RESTORE, null, null, R.string.pref_restore_title);
       } else {
         Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
         setResult(RESULT_CANCELED);
@@ -105,5 +103,25 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
     //super.onMessageDialogDismissOrCancel();
     setResult(RESULT_CANCELED);
     finish();
+  }
+  @Override
+  public void onPostExecute(int taskId,Object result) {
+    super.onPostExecute(taskId,result);
+    switch(taskId) {
+    case TaskExecutionFragment.TASK_BACKUP:
+      String msg = ((Result) result).print(this);
+      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+      break;
+    case TaskExecutionFragment.TASK_RESTORE:
+      if ((Boolean) result) {
+        setResult(RESULT_FIRST_USER);
+      }
+      break;
+    }
+    finish();
+  }
+  @Override
+  public void onProgressUpdate(Object progress) {
+    Toast.makeText(getBaseContext(),getString((Integer) progress), Toast.LENGTH_LONG).show();
   }
 }

@@ -59,6 +59,9 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_GRISBI_IMPORT = 19;
   public static final int TASK_QIF_IMPORT = 20;
   public static final int TASK_EXPORT = 21;
+  public static final int TASK_BACKUP = 22;
+  public static final int TASK_RESTORE = 23;
+  
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -126,6 +129,14 @@ public class TaskExecutionFragment extends Fragment {
     return f;
   }
 
+  public static TaskExecutionFragment newInstanceRestore() {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    Bundle b = new Bundle();
+    b.putInt("taskId", TASK_RESTORE);
+    f.setArguments(b);
+    return f;
+  }
+
   /**
    * Hold a reference to the parent Activity so we can report the task's current
    * progress and results. The Android framework will pass us a reference to the
@@ -177,6 +188,9 @@ public class TaskExecutionFragment extends Fragment {
         break;
       case TASK_EXPORT:
         new ExportTask(this,args).execute();
+        break;
+      case TASK_RESTORE:
+        new RestoreTask(this).execute();
         break;
       default:
         new GenericTask(this, taskId, args.getSerializable("extra"))

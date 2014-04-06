@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -81,5 +83,16 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   @Override
   public void onProgressUpdate(Object progress) {
     protection.updateProgressDialog(progress);
+  }
+  /**
+   * starts the given task, only if no task is currently executed,
+   * informs user through toast in that case
+   * @param taskId
+   * @param objectIds
+   * @param extra
+   * @param progressMessage if 0 no progress dialog will be shown
+   */
+  public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
+    protection.startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
 }

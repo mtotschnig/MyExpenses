@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Result;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -33,9 +34,6 @@ import android.os.AsyncTask;
  * have been called.
  */
 public class GenericTask extends AsyncTask<Long, Void, Object> {
-  /**
-   * 
-   */
   private final TaskExecutionFragment taskExecutionFragment;
   private int mTaskId;
   private Serializable mExtra;
@@ -192,6 +190,12 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
             KEY_INSTANCEID + " = ?", new String[] { String.valueOf(ids[i]) });
       }
       return null;
+    case TaskExecutionFragment.TASK_BACKUP:
+      if (MyApplication.getInstance().backup()) {
+        return new Result(true,R.string.backup_success);
+      } else {
+        return new Result(false,R.string.backup_failure);
+      }
     }
     return null;
   }

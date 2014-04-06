@@ -292,82 +292,16 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           return false;
         return backupDb.exists();
     }
-    /**
-     * as restores database and preferences, as a side effect calls shouldLock to set password protection
-     * if necessary
-     * @return true if backup successful
-     */
-    public static boolean backupRestore() {
-      if (DbUtils.restore()) {
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
-        //if we found a database to restore, we also try to import corresponding preferences
-        File backupPrefFile = getBackupPrefFile();
-        if (backupPrefFile != null && backupPrefFile.exists()) {
-          //since we already started reading settings, we can not just copy the file
-          //unless I found a way
-          //either to close the shared preferences and read it again
-          //or to find out if we are on a new install without reading preferences
-          //
-          //we open the backup file and read every entry
-          //getSharedPreferences does not allow to access file if it not in private data directory
-          //hence we copy it there first
-          File sharedPrefsDir = new File("/data/data/" + mSelf.getPackageName()
-              + "/shared_prefs/");
-          //upon application install does not exist yet
-          sharedPrefsDir.mkdir();
-          File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
-          if (Utils.copy(backupPrefFile,tempPrefFile)) {
-            SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
-            Editor edit = mSelf.mSettings.edit().clear();
-            String key;
-            Object val;
-            for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
-              key = entry.getKey();
-              val = entry.getValue();
-              if (val.getClass() == Long.class) {
-                edit.putLong(key,backupPref.getLong(key,0));
-              } else if (val.getClass() == Integer.class) {
-                edit.putInt(key,backupPref.getInt(key,0));
-              } else if (val.getClass() == String.class) {
-                edit.putString(key, backupPref.getString(key,""));
-              } else if (val.getClass() == Boolean.class) {
-                edit.putBoolean(key,backupPref.getBoolean(key,false));
-              } else {
-                Log.i(TAG,"Found: "+key+ " of type "+val.getClass().getName());
-              }
-            }
-            SharedPreferencesCompat.apply(edit);
-            backupPref = null;
-            tempPrefFile.delete();
-            mSelf.refreshContribEnabled();
-            Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
-            //if the backup is password protected, we want to force the password check
-            //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
-            //hence we need to set isLocked if necessary
-            mSelf.mLastPause = 0;
-            mSelf.shouldLock();
-            return true;
-          }
-          else {
-            Log.w(TAG,"Could not copy backup to private data directory");
-          }
-        } else {
-          Log.w(TAG,"Did not find backup for preferences");
-        }
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_failure), Toast.LENGTH_LONG).show();
-      }
-      else {
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_failure), Toast.LENGTH_LONG).show();
-      }
-      return false;
-    }
 
-    public long getmLastPause() {
+    public long getLastPause() {
       return mLastPause;
     }
-    public void setmLastPause() {
+    public void setLastPause() {
       if (!isLocked)
         this.mLastPause = System.nanoTime();
+    }
+    public void resetLastPause() {
+      this.mLastPause = 0;
     }
     /**
      * @return true if password protection is set, and
@@ -375,7 +309,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * sets isLocked as a side effect
      */
     public boolean shouldLock() {
-      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > passwordCheckDelayNanoSeconds) {
+      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds) {
         isLocked = true;
         return true;
       }
@@ -517,10 +451,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
+      //TODO: move to TaskExecutionFragment
       if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
         String oldValue = mPlannerCalendarId;
         boolean safeToMovePlans = true;
         String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+        if (oldValue.equals(newValue)) {
+          return;
+        }
         mPlannerCalendarId = newValue;
         if (!newValue.equals("-1")) {
           //if we cannot verify that the oldValue has the correct path

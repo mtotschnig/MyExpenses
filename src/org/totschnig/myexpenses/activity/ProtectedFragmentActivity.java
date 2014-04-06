@@ -173,22 +173,6 @@ public class ProtectedFragmentActivity extends ActionBarActivity
    * @param progressMessage if 0 no progress dialog will be shown
    */
   public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
-    FragmentManager fm = getSupportFragmentManager();
-    if (fm.findFragmentByTag("ASYNC_TASK") != null) {
-      Toast.makeText(getBaseContext(),
-          "Previous task still executing, please try again later",
-          Toast.LENGTH_LONG)
-          .show();
-    } else {
-      FragmentTransaction ft = fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            taskId,
-            objectIds, extra),
-          "ASYNC_TASK");
-      if (progressMessage != 0) {
-        ft.add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS");
-      }
-      ft.commit();
-    }
+    protection.startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
 }

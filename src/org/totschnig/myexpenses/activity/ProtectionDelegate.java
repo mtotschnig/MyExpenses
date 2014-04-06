@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -25,6 +27,7 @@ import android.app.AlertDialog;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 /**
  * methods both needed by {@link ProtectedFragmentActivity} and {@link ProtectedFragmentActivityNoAppCompat}
@@ -42,11 +45,11 @@ public class ProtectionDelegate {
     if (app.isLocked && pwDialog != null)
       pwDialog.dismiss();
     else {
-      app.setmLastPause();
+      app.setLastPause();
     }
   }
   protected void handleOnDestroy() {
-    MyApplication.getInstance().setmLastPause();
+    MyApplication.getInstance().setLastPause();
   }
   protected AlertDialog hanldeOnResume(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
@@ -96,5 +99,25 @@ public class ProtectionDelegate {
   }
   void clearProgress() {
     progress ="";
+  }
+  public void startTaskExecution(int taskId, Long[] objectIds,
+      Serializable extra, int progressMessage) {
+    FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
+    if (m.findFragmentByTag("ASYNC_TASK") != null) {
+      Toast.makeText(ctx.getBaseContext(),
+          "Previous task still executing, please try again later",
+          Toast.LENGTH_LONG)
+          .show();
+    } else {
+      FragmentTransaction ft = m.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            taskId,
+            objectIds, extra),
+          "ASYNC_TASK");
+      if (progressMessage != 0) {
+        ft.add(ProgressDialogFragment.newInstance(progressMessage),"PROGRESS");
+      }
+      ft.commit();
+    }
   }
 }
