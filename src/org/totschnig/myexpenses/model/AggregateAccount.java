@@ -22,7 +22,7 @@ public class AggregateAccount extends Account {
     }
     accounts.put(id, this);
   }
-  public static AggregateAccount getInstanceFromDB (Long id) {
+  public static AggregateAccount getInstanceFromDb (long id) {
     assert id < 0;
     AggregateAccount aa = (AggregateAccount) accounts.get(id);
     if (aa != null) {

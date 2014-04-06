@@ -102,6 +102,7 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
   }
   @Override
   public void onMessageDialogDismissOrCancel() {
+    //super.onMessageDialogDismissOrCancel();
     setResult(RESULT_CANCELED);
     finish();
   }

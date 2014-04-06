@@ -49,6 +49,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
   @Override
 
   public void onMessageDialogDismissOrCancel() {
-   finish();
+    super.onMessageDialogDismissOrCancel();
+    finish();
   }
 }

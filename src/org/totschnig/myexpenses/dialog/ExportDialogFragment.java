@@ -75,23 +75,29 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx  = (Activity) getActivity();
+    MyExpenses ctx  = (MyExpenses) getActivity();
     Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
-    boolean allP = false;
+    boolean allP = false, hasExported;
     String warningText;
     if (accountId == null) {
       allP = true;
       warningText = getString(R.string.warning_reset_account_all);
-    } else if (accountId < 0L) {
-      allP = true;
-      AggregateAccount aa = AggregateAccount.getInstanceFromDB(accountId);
-      currency = aa.currency.getCurrencyCode();
-      warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
+      //potential Strict mode violation (currently exporting all accounts with different currencies is not active in the UI)
+      hasExported = Account.getHasExported(null);
     } else {
-      warningText = getString(R.string.warning_reset_account);
+      Account a = Account.getInstanceFromDb(accountId);
+      hasExported = ctx.hasExported();
+      if (accountId < 0L) {
+        allP = true;
+        currency = a.currency.getCurrencyCode();
+        warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
+      } else {
+        warningText = getString(R.string.warning_reset_account);
+      }
     }
+
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
 
@@ -144,7 +150,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       
 
     deleteCB.setOnClickListener(this);
-    if (Account.getHasExported(accountId)) {
+    if (hasExported) {
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
     }

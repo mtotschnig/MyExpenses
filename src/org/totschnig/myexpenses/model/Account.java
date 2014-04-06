@@ -66,11 +66,6 @@ public class Account extends Model {
   public String description;
 
   public int color;
-  
-  /**
-   * is there at least one other account with the same currency
-   */
-  public boolean transferEnabled;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
 
@@ -84,9 +79,10 @@ public class Account extends Model {
     KEY_COLOR,
     KEY_GROUPING,
     KEY_TYPE,
-    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
+    "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS transfer_enabled"
+        +      "AS transfer_enabled",
+    HAS_EXPORTED
   };
   int baseLength = PROJECTION_BASE.length;
   PROJECTION_EXTENDED = new String[baseLength+1];
@@ -417,7 +413,7 @@ public class Account extends Model {
    */
   public static Account getInstanceFromDb(long id) {
     if (id < 0)
-      return AggregateAccount.getInstanceFromDB(id);
+      return AggregateAccount.getInstanceFromDb(id);
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
@@ -534,7 +530,6 @@ public class Account extends Model {
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
     }
-    this.transferEnabled = c.getInt(c.getColumnIndexOrThrow("transfer_enabled")) > 0;
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
@@ -578,7 +573,7 @@ public class Account extends Model {
     args.put(KEY_STATUS, STATUS_EXPORTED);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args, "account_id = ? and parent_id is null", new String[] { String.valueOf(id) });
   }
-  
+
   /**
    * @param accountId
    * @return true if the account with id accountId has transactions marked as exported
@@ -590,7 +585,7 @@ public class Account extends Model {
     if (accountId != null) {
       if (accountId < 0L) {
         //aggregate account
-        AggregateAccount aa = AggregateAccount.getInstanceFromDB(accountId);
+        AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);
         selection = KEY_ACCOUNTID +  " IN " +
             "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
         selectionArgs = new String[]{aa.currency.getCurrencyCode()};
@@ -606,6 +601,7 @@ public class Account extends Model {
     c.close();
     return result == 1;
   }
+
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction

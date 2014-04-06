@@ -56,7 +56,7 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
     pwDialog = protection.hanldeOnResume(pwDialog);
   }
   public void onMessageDialogDismissOrCancel() {
-    // TODO Auto-generated method stub
+    protection.clearProgress();
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {

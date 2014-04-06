@@ -372,6 +372,7 @@ public class MyExpenses extends LaunchActivity implements
       return;
     //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
+    i.putExtra("transferEnabled",transferEnabled());
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
   /**
@@ -413,7 +414,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
-        AggregateAccount.getInstanceFromDB(mAccountId).persistGrouping(value);
+        AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
         Account account = Account.getInstanceFromDb(mAccountId);
@@ -784,6 +785,13 @@ public class MyExpenses extends LaunchActivity implements
     //which means that there is at least one currency having multiple accounts
     mAccountsCursor.moveToLast();
     return mAccountsCursor.getLong(columnIndexRowId) < 0;
+  }
+  public boolean hasExported() {
+  //in case we are called before the accounts cursor is loaded, we return false
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
+      return false;
+    mAccountsCursor.moveToPosition(mCurrentPosition);
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("has_exported")) > 0;
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {

@@ -54,7 +54,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (MyApplication.debug) {
-/*      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
       .detectDiskReads()
       .detectDiskWrites()
       .detectNetwork()   // or .detectAll() for all detectable problems
@@ -65,7 +65,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       //.detectLeakedClosableObjects()
       .penaltyLog()
       .penaltyDeath()
-      .build());*/
+      .build());
     }
 
     super.onCreate(savedInstanceState);
@@ -113,7 +113,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
 
   public void onMessageDialogDismissOrCancel() {
-    // TODO Auto-generated method stub
+    protection.clearProgress();
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

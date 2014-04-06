@@ -142,7 +142,7 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int SUM_CURSOR = 6;
   private LoaderManager mManager;
 
-  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false;
+  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false, mTransferEnabled;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -181,6 +181,7 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingRight());
 
     Bundle extras = getIntent().getExtras();
+    mTransferEnabled = extras.getBoolean("transferEnabled", false);
     mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     if (mRowId != 0L) {
       mNewInstance = false;
@@ -555,7 +556,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (account == null)
       return;
     if (type == MyExpenses.TYPE_TRANSFER &&
-        !account.transferEnabled) {
+        !mTransferEnabled) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_menu_command_disabled,
           getString(R.string.dialog_command_disabled_insert_transfer,

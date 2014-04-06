@@ -66,6 +66,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
         .commit();
   }
   public void onMessageDialogDismissOrCancel() {
+    //super.onMessageDialogDismissOrCancel();
     finish();
    }
 }

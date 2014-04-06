@@ -94,4 +94,7 @@ public class ProtectionDelegate {
   String getProgress() {
     return progress;
   }
+  void clearProgress() {
+    progress ="";
+  }
 }

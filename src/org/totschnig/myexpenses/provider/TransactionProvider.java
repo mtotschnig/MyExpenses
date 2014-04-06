@@ -290,8 +290,9 @@ public class TransactionProvider extends ContentProvider {
                 + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") AS sum_expenses," +
             "(SELECT coalesce(sum(amount),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income " +
-            "FROM " + TABLE_ACCOUNTS + ") as t");
+              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income, " +
+              HAS_EXPORTED +
+            " FROM " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
@@ -305,6 +306,7 @@ public class TransactionProvider extends ContentProvider {
             "'NONE' AS grouping",
             "'CASH' AS type",
             "1 AS transfer_enabled",
+            "max(has_exported) AS has_exported",
             "sum(current_balance) AS current_balance",
             "sum(sum_income) AS sum_income",
             "sum(sum_expenses) AS sum_expenses",

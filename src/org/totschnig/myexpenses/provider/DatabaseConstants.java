@@ -15,6 +15,13 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+
 import java.util.GregorianCalendar;
 
 public class DatabaseConstants {
@@ -168,6 +175,9 @@ public class DatabaseConstants {
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
+  public static final String HAS_EXPORTED = 
+      "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
+          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS has_exported";
   
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
