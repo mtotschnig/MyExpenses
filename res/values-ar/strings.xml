@@ -42,7 +42,6 @@
   <string name="date">التاريخ</string>
   <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
-  <string name="dialog_confirm_restore_on_install">تم اكتشاف نسخة احتياطية. هل تريد استعادتها؟</string>
   <plurals name="dialog_contrib_usage_count">
   	<item quantity="other">لديك %1$d استعمالات مجانية متبقية</item>
   </plurals>
@@ -67,7 +66,6 @@
   <string name="dialog_security_question">السؤال</string>
   <string name="dialog_security_answer">الإجابة</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
-  <string name="dialog_title_restore_on_install">تم اكتشاف نسخة احتياطية</string>
   <string name="dialog_title_select_account">اختر حساب</string>
   <string name="dialog_title_select_import_source">اختر مصدر للاستيراد</string>
   <string name="dialog_title_select_grouping">اختر تجميع</string>
@@ -252,7 +250,6 @@
   <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
-  <string name="restore_no_backup_found">لم يتم العثور على ملف BACKUP داخل مجلد \"myexpenses\" في الذاكرة.</string>
   <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
   <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
   <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج</string>

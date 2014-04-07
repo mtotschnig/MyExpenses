@@ -39,7 +39,6 @@
   <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta com a mesma moeda. Você tem apenas uma conta de moeda %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
   <string name="dialog_command_disabled_distribution">Nenhuma transação foram mapeadas para categorias nesta conta.</string>
-  <string name="dialog_confirm_restore_on_install">Uma cópia de segurança de arquivo fora detectado. Desejas restaurá-lo?</string>
   <string name="dialog_contrib_no">Ainda não.</string>
   <string name="dialog_contrib_no_usages_left">Sem usos livre à esquerda.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -72,7 +71,6 @@
   <string name="dialog_title_contrib_feature">Característica Premium</string>
   <string name="dialog_title_menu_command_disabled">Comando de menu desativado</string>
   <string name="dialog_title_planner_setup_info">Configuração de calendário necessária</string>
-  <string name="dialog_title_restore_on_install">Backup detectado</string>
   <string name="dialog_title_select_account">Escolha uma conta</string>
   <string name="dialog_title_select_grouping">Escolher um agrupamento</string>
   <string name="dialog_title_select_import_source">Escolha uma fonte para importar</string>
@@ -327,7 +325,7 @@
   <string name="request_licence_mail_head">Por favor me envie uma chave de Contrib para Android-Id %1$s.</string>
   <string name="restore_db_failure">A restauração do banco de dados falhou.</string>
   <string name="restore_db_success">O banco de dados foi restaurado a partir do backup.</string>
-  <string name="restore_no_backup_found">Não fora encontrado cópia de segurança de arquivo na pasta \"myexpenses\" no sdcard.</string>
+  <string name="restore_no_backup_found">Não fora encontrado cópia de segurança de arquivo.</string>
   <string name="restore_preferences_failure">A restauração de Preferências falhou</string>
   <string name="restore_preferences_success">As preferências foram restauradas a partir do backup.</string>
   <string name="save_transaction_and_new_success">Salvo com sucesso</string>

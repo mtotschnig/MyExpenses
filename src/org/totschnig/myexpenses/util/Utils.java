@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.xml.sax.SAXException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +63,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
@@ -243,13 +245,17 @@ public class Utils {
   /**
    * @return directory for storing backups and exports, null if external storage is not available
    */
+  @SuppressLint("NewApi")
   public static File requireAppDir() {
     if (!isExternalStorageAvailable())
       return null;
-    File sd = Environment.getExternalStorageDirectory();
-    File appDir = new File(sd, "myexpenses");
-    appDir.mkdir();
-    return appDir;
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+      File sd = Environment.getExternalStorageDirectory();
+      File appDir = new File(sd, "myexpenses");
+      appDir.mkdir();
+      return appDir;
+    }
+    return  MyApplication.getInstance().getExternalFilesDir(null);
   }
   /**
    * @param parentDir

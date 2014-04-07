@@ -39,7 +39,6 @@
   <string name="dialog_command_disabled_insert_transfer">Los traslados a otra cuenta requieren una segunda cuenta con la misma moneda. Usted tiene sólo una cuenta de divisas %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
   <string name="dialog_command_disabled_distribution">Ninguna transacción se ha asignado a las categorías en esta cuenta.</string>
-  <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
   <string name="dialog_contrib_no">Todavía no</string>
   <string name="dialog_contrib_no_usages_left">No hay más uso libre.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -72,7 +71,6 @@
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_menu_command_disabled">Comando de menú desactivado</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendar requerido</string>
-  <string name="dialog_title_restore_on_install">Copia de seguridad detectada</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
@@ -330,7 +328,7 @@
   <string name="request_licence_mail_head">Por favor, envíeme una clave Contrib para Android-Id %1$s.</string>
   <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
-  <string name="restore_no_backup_found">No hay ningún archivo BACKUP en la carpeta \"myexpenses\" en la tarjeta SD.</string>
+  <string name="restore_no_backup_found">No hay ningúna copia de seguridad.</string>
   <string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
   <string name="restore_preferences_success">Las configuraciones han sidas restauradas desde la copia de seguridad.</string>
   <string name="save_transaction_and_new_success">Guardada con éxito</string>

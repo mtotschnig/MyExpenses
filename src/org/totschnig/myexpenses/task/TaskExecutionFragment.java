@@ -20,6 +20,7 @@ package org.totschnig.myexpenses.task;
 import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.*;
 
@@ -38,6 +39,7 @@ import android.util.Log;
  */
 public class TaskExecutionFragment extends Fragment {
   private static final String KEY_RUNNING = "running";
+  private static final String KEY_TASKID = "taskId";
   public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
@@ -90,7 +92,7 @@ public class TaskExecutionFragment extends Fragment {
       Serializable extra) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
-    bundle.putInt("taskId", taskId);
+    bundle.putInt(KEY_TASKID, taskId);
     if (objectIds != null)
       bundle.putSerializable("objectIds", objectIds);
     if (extra != null)
@@ -103,7 +105,7 @@ public class TaskExecutionFragment extends Fragment {
       boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
-    bundle.putInt("taskId", TASK_GRISBI_IMPORT);
+    bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);
     bundle.putBoolean("external", external);
     bundle.putBoolean("withParties", withParties);
     f.setArguments(bundle);
@@ -114,7 +116,7 @@ public class TaskExecutionFragment extends Fragment {
       QifDateFormat qifDateFormat, long accountId) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
-    bundle.putInt("taskId", TASK_QIF_IMPORT);
+    bundle.putInt(KEY_TASKID, TASK_QIF_IMPORT);
     bundle.putString("filePath", filePath);
     bundle.putSerializable("dateFormat", qifDateFormat);
     bundle.putLong("accountId", accountId);
@@ -124,7 +126,7 @@ public class TaskExecutionFragment extends Fragment {
 
   public static TaskExecutionFragment newInstanceExport(Bundle b) {
     TaskExecutionFragment f = new TaskExecutionFragment();
-    b.putInt("taskId", TASK_EXPORT);
+    b.putInt(KEY_TASKID, TASK_EXPORT);
     f.setArguments(b);
     return f;
   }
@@ -132,8 +134,8 @@ public class TaskExecutionFragment extends Fragment {
   public static TaskExecutionFragment newInstanceRestore(String fileName) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle b = new Bundle();
-    b.putInt("taskId", TASK_RESTORE);
-    b.putString("fileName", fileName);
+    b.putInt(KEY_TASKID, TASK_RESTORE);
+    b.putString(BackupRestoreActivity.KEY_FILENAME, fileName);
     f.setArguments(b);
     return f;
   }
@@ -175,7 +177,7 @@ public class TaskExecutionFragment extends Fragment {
 
     // Create and execute the background task.
     Bundle args = getArguments();
-    int taskId = args.getInt("taskId");
+    int taskId = args.getInt(KEY_TASKID);
     Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId);
     try {
       switch (taskId) {
@@ -191,7 +193,7 @@ public class TaskExecutionFragment extends Fragment {
         new ExportTask(this,args).execute();
         break;
       case TASK_RESTORE:
-        new RestoreTask(this).execute(args.getString("fileName"));
+        new RestoreTask(this).execute(args.getString(BackupRestoreActivity.KEY_FILENAME));
         break;
       default:
         new GenericTask(this, taskId, args.getSerializable("extra"))

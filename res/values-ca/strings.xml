@@ -35,7 +35,6 @@
   <string name="dialog_command_disabled_insert_transfer">Les operacions de transferència precisen un segon compte amb la mateixa moneda. Només disposeu d\'un compte i la seva moneda és %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
-  <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. El voleu restaurar?</string>
   <string name="dialog_contrib_no">Encara no</string>
   <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -68,7 +67,6 @@
   <string name="dialog_title_contrib_feature">Característica premium</string>
   <string name="dialog_title_menu_command_disabled">S\'ha desactivat el menú d\'ordres</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
-  <string name="dialog_title_restore_on_install">S\'ha trobat una còpia de seguretat</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
   <string name="dialog_title_select_grouping">Trieu una agrupació</string>
   <string name="dialog_title_select_import_source">Trieu la font per la importació</string>
@@ -314,7 +312,7 @@
   <string name="request_licence_mail_head">Si us plau, envieu-me una clau Contrib per l\'identificador d\'Android %1$s.</string>
   <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
-  <string name="restore_no_backup_found">No s\'ha trobat el fitxer BACKUP a la carpeta \"myexpenses\" de la tarja SD.</string>
+  <string name="restore_no_backup_found">No s\'ha trobat la còpia de seguretat.</string>
   <string name="restore_preferences_failure">No ha estat possible restaurar les Preferències</string>
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
   <string name="save_transaction_and_new_success">S\'ha desat correctament</string>

@@ -4,6 +4,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -191,10 +192,11 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return null;
     case TaskExecutionFragment.TASK_BACKUP:
-      if (MyApplication.getInstance().backup()) {
-        return new Result(true,R.string.backup_success);
+      File backupDir = (File) mExtra;
+      if (MyApplication.getInstance().backup(backupDir)) {
+        return new Result(true,R.string.backup_success,backupDir.getPath());
       } else {
-        return new Result(false,R.string.backup_failure);
+        return new Result(false,R.string.backup_failure,backupDir.getPath());
       }
     }
     return null;

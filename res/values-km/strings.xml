@@ -38,7 +38,6 @@
   <string name="dialog_command_disabled_insert_transfer">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។ អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
-  <string name="dialog_confirm_restore_on_install">ឯកសារព័ត៌មានបម្រុងមួយត្រូវបានគេរកឃើញ។ តើអ្នកចង់ restore វា ឬទេ?</string>
   <string name="dialog_contrib_no">នៅទេ</string>
   <string name="dialog_contrib_no_usages_left">គ្មាន​ការ​ប្រើប្រាស់​ដោយអត់​បង់ថ្លៃ​នៅសល់​ទេ។</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -70,7 +69,6 @@
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
   <string name="dialog_title_menu_command_disabled">បានបិទ​ពាក្យ​បញ្ជា​ម៉ឺនុយ</string>
   <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
-  <string name="dialog_title_restore_on_install">ការបម្រុងទុកដែលបានរកឃើញ</string>
   <string name="dialog_title_select_account">ជ្រើសយកគណនីមួយ</string>
   <string name="dialog_title_select_grouping">ជ្រើសយក​ក្រុមមួយ</string>
   <string name="dialog_title_select_import_source">ជ្រើសយកប្រភពសម្រាប់នាំចូលមួយ</string>
@@ -317,7 +315,6 @@
   <string name="request_licence_mail_head">សូម​ផ្ញើ Contrib key មួយ​សំរាប់​ Android-Id %1$s មកខ្ញុំ។</string>
   <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
   <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
-  <string name="restore_no_backup_found">មិនមានឯកសារពត៌មានបម្រុងទុកណាមួយដែលត្រូវបានរកឃើញនៅក្នុងថត \"myexpenses\" នៅលើ​ sdcard</string>
   <string name="restore_preferences_failure">ការស្តារចំណង់ចំណូលចិត្តបានបរាជ័យ</string>
   <string name="restore_preferences_success">ចំណង់ចំណូលចិត្តត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
   <string name="save_transaction_and_new_success">រក្សាទុក​ដោយជោគជ័យ</string>

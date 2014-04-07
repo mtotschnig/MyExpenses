@@ -40,7 +40,6 @@
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
-  <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
   <string name="dialog_contrib_no">Noch nicht</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -73,7 +72,6 @@
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_menu_command_disabled">Menübefehl deaktiviert</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
-  <string name="dialog_title_restore_on_install">Backup vorhanden</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
@@ -331,7 +329,7 @@
   <string name="request_licence_mail_head">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s.</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
-  <string name="restore_no_backup_found">Keine Datei BACKUP im Ordner \"myexpenses\" der SD-Karte vorhanden.</string>
+  <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>

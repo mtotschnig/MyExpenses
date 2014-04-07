@@ -39,7 +39,6 @@
   <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. %1$s para biriminin sadece bir hesabı olmalısınız.</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
-  <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
   <string name="dialog_contrib_no">Henüz değil</string>
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -72,7 +71,6 @@
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
-  <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_grouping">Bir grup seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
@@ -329,7 +327,6 @@
   <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
-  <string name="restore_no_backup_found">SD kartının \"myexpenses\" klasöründe BACKUP dosyası bulunamadı.</string>
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>

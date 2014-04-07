@@ -187,11 +187,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void setSettings(SharedPreferences s) {
         mSettings = s;
     }
-    public boolean backup() {
-      File backupDir, backupPrefFile, sharedPrefFile;
-      backupDir = requireBackupDir();
-      if (backupDir == null)
-         return false;
+    public boolean backup(File backupDir) {
+      File backupPrefFile, sharedPrefFile;
       if (DbUtils.backup(backupDir)) {
         backupPrefFile = new File(backupDir, BACKUP_PREF_FILE_NAME);
         //Samsung has special path on some devices

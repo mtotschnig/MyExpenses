@@ -39,7 +39,6 @@
   <string name="dialog_command_disabled_insert_transfer">Μεταφορά συναλλαγών απαιτεί ένα δεύτερο λογαριασμό με το ίδιο νόμισμα. Έχετε μόνο ένα λογαριασμό του νομίσματος %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
   <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
-  <string name="dialog_confirm_restore_on_install">Έχει εντοπιστεί ένα αρχείο αντιγράφου ασφαλείας. Θέλετε να το επαναφέρετε;</string>
   <string name="dialog_contrib_no">Όχι ακόμα</string>
   <string name="dialog_contrib_no_usages_left">Δεν έχετε πια δωρεάν χρήσεις.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -72,7 +71,6 @@
   <string name="dialog_title_contrib_feature">Χαρακτηριστικό ασφαλίστρου, τιμής</string>
   <string name="dialog_title_menu_command_disabled">Εντολή μενού απενεργοποιημένη</string>
   <string name="dialog_title_planner_setup_info">απαιτείται οργάνωση ημερολογίου</string>
-  <string name="dialog_title_restore_on_install">Δημιουργία αντιγράφων ασφαλείας εντοπίστηκε</string>
   <string name="dialog_title_select_account">Επιλέξτε ένα λογαριασμό</string>
   <string name="dialog_title_select_grouping">Επιλέξετε μια ομαδοποίηση</string>
   <string name="dialog_title_select_import_source">Διαλέξτε μια πηγή για την εισαγωγή</string>
@@ -325,7 +323,6 @@
   <string name="request_licence_mail_head">Παρακαλώ στείλτε μου ένα κλειδί Contrib για Android-Id %1$s.</string>
   <string name="restore_db_failure">Απέτυχε η επαναφορά της βάσης δεδομένων.</string>
   <string name="restore_db_success">Η βάση δεδομένων έχει αποκατασταθεί από την δημιουργία αντιγράφων.</string>
-  <string name="restore_no_backup_found">Δεν υπάρχει αρχείο BACKUP που βρέθηκε στο φάκελο \"myexpenses\" στο sdcard.</string>
   <string name="restore_preferences_failure">Επαναφορά προτιμήσεων απέτυχε</string>
   <string name="restore_preferences_success">Προτιμήσεις έχουν αποκατασταθεί από τη δημιουργία αντιγράφων.</string>
   <string name="save_transaction_and_new_success">Αποθήκευση με επιτυχία</string>

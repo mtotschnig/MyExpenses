@@ -30,8 +30,8 @@
   <string name="already_defined">%1$s already defined</string>
   <string name="amount">Amount</string>
   <string name="app_name">&app_name;</string>
-  <string name="backup_failure">Backup to sdcard failed.</string>
-  <string name="backup_success">Database and preferences successfully written to sdcard.</string>
+  <string name="backup_failure">Backup to %1$s failed.</string>
+  <string name="backup_success">Database and preferences successfully written to %1$s.</string>
   <string name="category">Category</string>
   <string name="clone_transaction_error">Could not clone transaction.</string>
   <plurals name="clone_transaction_success">
@@ -61,7 +61,6 @@
   <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. You have only one account of currency %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
   <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
-  <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_contrib_no_usages_left">No free usages left.</string>
   <!-- Placeholder: 1 is name of the feature -->
@@ -94,7 +93,6 @@
   <string name="dialog_title_contrib_feature">Premium feature</string>
   <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
   <string name="dialog_title_planner_setup_info">Calendar setup required</string>
-  <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_grouping">Pick a grouping</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
@@ -110,8 +108,8 @@
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
   <string name="expense">Expense</string>
   <string name="export_expenses">Expenses export</string>
-  <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
-  <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
+  <string name="export_expenses_sdcard_failure">Expenses export to \"%1$s\" failed</string>
+  <string name="export_expenses_sdcard_success">Expenses exported to file \"%1$s\"</string>
   <string name="external_storage_unavailable">External storage (sdcard) not available</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
@@ -275,7 +273,7 @@
   <string name="pm_type_credit">Credit</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
+  <string name="pref_backup_summary">Create a backup of database and preferences.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
   <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
@@ -322,7 +320,7 @@
   <string name="pref_qif_export_file_encoding_title">Character encoding</string>
   <string name="pref_request_licence_summary">If you have contributed, ask for a Contrib key by email.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>
-  <string name="pref_restore_summary">Restore the backup from folder \"myexpenses\" on the sdcard.</string>
+  <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
   <string name="pref_restore_title">Restore</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_security_question_title">Security question</string>
@@ -357,7 +355,7 @@
   <string name="request_licence_mail_head">Please send me a Contrib key for Android-Id %1$s.</string>
   <string name="restore_db_failure">Database restore failed.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
-  <string name="restore_no_backup_found">Please select a file named BACKUP.</string>
+  <string name="restore_no_backup_found">No backup found.</string>
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_file_not_found">No file BACKUP_PREF found in folder \"%1$s\"</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
@@ -398,7 +396,7 @@
   <string name="type">Type</string>
   <string name="unsplit_amount">Unsplit amount</string>
   <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
-  <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
+  <string name="warning_backup">Database and preferences will be saved to \"%1$s\". &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions.</string>
   <plurals name="warning_delete_main_category">
   	<item quantity="one">One selected category has subcategories, that will be deleted as well.</item>

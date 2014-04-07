@@ -42,7 +42,6 @@
   <string name="date">Ngày tháng</string>
   <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
   <string name="description">Mô tả</string>
-  <string name="dialog_confirm_restore_on_install">Một tập tin sao lưu đã được phát hiện. Bạn có muốn phục hồi tập tin này không?</string>
   <plurals name="dialog_contrib_usage_count">
   	<item quantity="other">Bạn còn %1$d phần sử dụng miễn phí còn lại.</item>
   </plurals>
@@ -68,7 +67,6 @@
   <string name="dialog_security_question">Câu hỏi</string>
   <string name="dialog_security_answer">Trả lời</string>
   <string name="dialog_title_contrib_feature">Tính năng nâng cao</string>
-  <string name="dialog_title_restore_on_install">Phát hiện phần sao lưu</string>
   <string name="dialog_title_select_account">Chọn một tài khoản</string>
   <string name="dialog_title_select_import_source">Chọn một nguồn để nhập dữ liệu</string>
   <string name="dialog_title_select_grouping">Chọn một nhóm</string>
@@ -256,7 +254,6 @@
   <string name="request_licence_mail_description">Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho Chi Tiêu Của Tôi (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình).</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
-  <string name="restore_no_backup_found">Không có tập tin SAO LƯU nào được tìm thấy trong thư mục \"myexpenses\" trên thẻ nhớ.</string>
   <string name="restore_preferences_failure">Xảy ra lỗi khi khôi phục phần tùy biến</string>
   <string name="restore_preferences_success">Tùy biến đã được phục hồi từ phần sao lưu.</string>
   <string name="save_transaction_error">Không thể lưu giao dịch mới từ mẫu</string>

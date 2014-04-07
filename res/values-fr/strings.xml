@@ -39,7 +39,6 @@
   <string name="dialog_command_disabled_insert_transfer">Les opérations de transferts nécessitent un second compte de même devise. Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
-  <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -72,7 +71,6 @@
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_menu_command_disabled">Commande désactivée</string>
   <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
-  <string name="dialog_title_restore_on_install">Sauvegarde détectée</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_grouping">Sélectionner un regroupement</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
@@ -330,7 +328,7 @@
   <string name="request_licence_mail_head">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s.</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
   <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
-  <string name="restore_no_backup_found">Il n\'y a pas de fichier BACKUP dans le dossier \"myexpenses\" de la carte SD.</string>
+  <string name="restore_no_backup_found">Il n\'y a pas de fichier de sauvegarde.</string>
   <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
   <string name="save_transaction_and_new_success">Sauvegardée</string>

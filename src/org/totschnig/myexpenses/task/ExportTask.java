@@ -149,8 +149,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
           successfullyExported.add(account);
         }
       } catch (IOException e) {
-        Log.e("MyExpenses",e.getMessage());
-        publishProgress("... " + MyApplication.getInstance().getString(R.string.export_expenses_sdcard_failure));
+        publishProgress("... " + MyApplication.getInstance().getString(R.string.export_expenses_sdcard_failure,appDir.getAbsolutePath()));
       }
     }
     for (Account a : successfullyExported) {
