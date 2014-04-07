@@ -57,7 +57,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
     private SharedPreferences mSettings;
     private static MyApplication mSelf;
-    public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
+    public static final String BACKUP_DB_FILE_NAME = "BACKUP";
+    public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
     //the following keys are stored as string resources, so that
     //they can be referenced from preferences.xml, and thus we
     //can guarantee the referential integrity
@@ -88,7 +89,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
     public static String PREFKEY_RATE;
     public static String PREFKEY_UI_LANGUAGE;
-    public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
     public static String MARKET_PREFIX = "market://details?id=";
@@ -188,12 +188,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         mSettings = s;
     }
     public boolean backup() {
-      File appDir, backupPrefFile, sharedPrefFile;
-      appDir = Utils.requireAppDir();
-      if (appDir == null)
+      File backupDir, backupPrefFile, sharedPrefFile;
+      backupDir = requireBackupDir();
+      if (backupDir == null)
          return false;
-      if (DbUtils.backup()) {
-        backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
+      if (DbUtils.backup(backupDir)) {
+        backupPrefFile = new File(backupDir, BACKUP_PREF_FILE_NAME);
         //Samsung has special path on some devices
         //http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         String sharedPrefFileCommon = getPackageName() 
@@ -270,27 +270,21 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //DatabaseConstants.buildLocalized();
       }
     }
-    public static File getBackupDbFile() {
+    public static File requireBackupDir() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)
         return null;
-      return new File(appDir, BACKUP_DB_PATH);
-    }
-    public static File getBackupPrefFile() {
-      File appDir = Utils.requireAppDir();
-      if (appDir == null)
+      File dir = Utils.timeStampedFile(appDir,"backup");
+      if (dir.exists())
         return null;
-      return new File(appDir, BACKUP_PREF_PATH);
+      dir.mkdir();
+      return dir;
     }
-    /**
-     * is a backup avaiblable ?
-     * @return
-     */
-    public static boolean backupExists() {
-        File backupDb = getBackupDbFile();
-        if (backupDb == null)
-          return false;
-        return backupDb.exists();
+    public static File getBackupDbFile(File backupDir) {
+      return new File(backupDir, BACKUP_DB_FILE_NAME);
+    }
+    public static File getBackupPrefFile(File backupDir) {
+      return new File(backupDir, BACKUP_PREF_FILE_NAME);
     }
 
     public long getLastPause() {

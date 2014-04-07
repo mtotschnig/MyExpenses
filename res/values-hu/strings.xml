@@ -340,7 +340,6 @@
   <string name="unsplit_amount">Felosztatlan összeg</string>
   <string name="unsplit_amount_greater_than_zero">Még továbbra is maradt felosztatlan összeg.</string>
   <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára. Folytatja?</string>
-  <string name="warning_backup_exists">Adatbázis és beállítások mentése az SD-kártyára. A korábbi mentés felülírásra kerül. Folytatja?</string>
   <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt. Folytatja?</string>
   <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
   <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy azt ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik, és kizárólag a Kiadásaim Contrib verzióban!</string>

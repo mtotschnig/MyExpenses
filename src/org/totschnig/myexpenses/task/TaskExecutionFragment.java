@@ -129,10 +129,11 @@ public class TaskExecutionFragment extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceRestore() {
+  public static TaskExecutionFragment newInstanceRestore(String fileName) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle b = new Bundle();
     b.putInt("taskId", TASK_RESTORE);
+    b.putString("fileName", fileName);
     f.setArguments(b);
     return f;
   }
@@ -190,7 +191,7 @@ public class TaskExecutionFragment extends Fragment {
         new ExportTask(this,args).execute();
         break;
       case TASK_RESTORE:
-        new RestoreTask(this).execute();
+        new RestoreTask(this).execute(args.getString("fileName"));
         break;
       default:
         new GenericTask(this, taskId, args.getSerializable("extra"))

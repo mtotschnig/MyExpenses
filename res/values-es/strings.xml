@@ -371,7 +371,6 @@
   <string name="unsplit_amount">Importe non dividido</string>
   <string name="unsplit_amount_greater_than_zero">Todavía hay cierta cantidad que queda non dividida.</string>
   <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta SD. ¿Quiere continuar?</string>
-  <string name="warning_backup_exists">La base de datos y las configuraciones son archivadas en la tarjeta SD. Se borra la existente copia de seguridad. ¿Quiere continuar?</string>
   <string name="warning_delete_account">Cuenta \"%1$s\" se eliminarán con todas sus transacciones.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>

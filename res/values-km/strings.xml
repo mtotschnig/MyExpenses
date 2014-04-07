@@ -356,7 +356,6 @@
   <string name="unsplit_amount">មិនបំបែក​ចំនួន​ទឹក​ប្រាក់</string>
   <string name="unsplit_amount_greater_than_zero">នៅ​មាន​ចំនួន​​ទឹក​ប្រាក់​​ខ្លះ​​ស្ថិត​នៅ​ភាព​​មិនបំបែក</string>
   <string name="warning_backup">មូលដ្ឋានទិន្នន័យនិងចំណង់ចំណូលចិត្តនឹងត្រូវបានរក្សាទុកទៅ sdកាត ។ តើអ្នកចង់បន្តឬ?</string>
-  <string name="warning_backup_exists">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានរក្សាទុកទៅ sdcard ។ ការបម្រុងទុក ដែលមានស្រាប់ នឹងត្រូវបាន សរសេរ ជាន់ ពីលើ។ តើអ្នកចង់បន្តឬទេ?</string>
   <plurals name="warning_delete_template">
     <item quantity="other">%1$d ធាតុ​នេះ​នឹង​ត្រូវ​លុបចេញ។</item>
   </plurals>

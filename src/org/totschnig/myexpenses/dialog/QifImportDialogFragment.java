@@ -123,8 +123,7 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     File file = new File(filePath);
-    intent.setData(Uri.fromFile(file));
-    intent.setType("*/*");
+    intent.setDataAndType(Uri.fromFile(file),"*/*");
 
     try {
         startActivityForResult(intent, QifImport.IMPORT_FILENAME_REQUESTCODE);

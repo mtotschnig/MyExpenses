@@ -372,7 +372,6 @@
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Möchten Sie fortfahren?</string>
-  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>

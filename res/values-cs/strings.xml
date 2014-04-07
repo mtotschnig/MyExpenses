@@ -347,7 +347,6 @@
   <string name="unsplit_amount">Nerozdělená částka</string>
   <string name="unsplit_amount_greater_than_zero">Zůstala nějaká nerozdělená částka.</string>
   <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu. Přejete si pokračovat?</string>
-  <string name="warning_backup_exists">Databáze a preference bude uloženy na paměťovou kartu. Bude přepsána existující zálohu. Přejete si pokračovat?</string>
   <string name="warning_delete_account">Tento účet bude smazán i s jeho transakcemi. Přejete si pokračovat?</string>
   <string name="warning_password_contrib">Nastavení bezpečnostní otázky umožňuje odemknout aplikaci i v případě, že zapomenete heslo.</string>
   <string name="warning_password_no_contrib">Pokud nastavíte heslo, dávejte pozor, abyste na to nezapoměli. Pokud nenastavíte bezpečnostní otázku (vyžaduje Moje výdaje Contrib) nebude možné heslo obnovit.</string>

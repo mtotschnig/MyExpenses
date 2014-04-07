@@ -371,7 +371,6 @@
   <string name="unsplit_amount">Importo non frazionato</string>
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
   <string name="warning_backup">Il database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
-  <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string>
   <string name="warning_delete_account">Questo conto \"%1$s\" sarà cancelatto con tutte le sue operazioni.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La categoria selezionata ha sottocategorie, che verrà cancellate così.</item>

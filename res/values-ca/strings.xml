@@ -349,7 +349,6 @@
   <string name="unsplit_amount">Import abans de repartir</string>
   <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
   <string name="warning_backup">La base de dades i les preferències es desaran a la tarja SD. Voleu continuar?</string>
-  <string name="warning_backup_exists">La base de dades i les preferències es desaran a la tarja SD. La còpia de seguretat actual es suprimirà. Voleu continuar?</string>
   <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
   <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat (Requereix Les meves despeses Contrib).</string>
   <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>

@@ -370,7 +370,6 @@
   <string name="unsplit_amount">Atanmamış meblağ</string>
   <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
   <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?;</string>
-  <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Seçili kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>

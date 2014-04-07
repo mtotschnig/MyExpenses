@@ -365,7 +365,6 @@
   <string name="unsplit_amount">Μη διαχωρισμένο ποσό</string>
   <string name="unsplit_amount_greater_than_zero">Εξακολουθεί να υπάρχει κάποιο ποσό που δεν είναι διαχωρισμένο.</string>
   <string name="warning_backup">Βάση δεδομένων και προτιμήσεις σας θα αποθηκευτούν στο sdcard. Θέλετε να συνεχίσετε;</string>
-  <string name="warning_backup_exists">Η Βάση δεδομένων και οι προτιμήσεις σας θα αποθηκευτούν στο sdcard. Υπάρχον αντίγραφο ασφαλείας θα αντικατασταθεί. Θέλετε να συνεχίσετε;</string>
   <string name="warning_delete_account">Ο Λογαριασμός \"%1$s\" θα διαγραφεί με όλες τις συναλλαγές του.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Η επιλεγμένη κατηγορία έχει υποκατηγορίες, που θα διαγραφούν επίσης.</item>

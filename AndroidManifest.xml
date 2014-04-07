@@ -53,7 +53,7 @@
               <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
-        <activity android:name=".activity.Backup"
+        <activity android:name=".activity.BackupRestoreActivity"
             android:theme="@style/Translucent.NoTitleBar">
           <intent-filter>
               <action android:name="myexpenses.intent.backup"/>  
@@ -79,8 +79,6 @@
           </intent-filter>
         </activity>
         <activity android:name=".activity.MyPreferenceActivity"/>
-        <activity android:name=".activity.Export"
-            android:theme="@style/Translucent.NoTitleBar"/>
         <activity android:name=".activity.Help"
             android:theme="@style/Translucent.NoTitleBar"/>
         <activity android:name=".activity.ManageParties">

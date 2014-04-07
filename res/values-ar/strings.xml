@@ -281,7 +281,6 @@
   <string name="unsplit_amount">توحيد قيمة</string>
   <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
   <string name="warning_backup">سيتم حفظ قاعدة البينات والتفضيلات في الذاكرة. استمرار؟</string>
-  <string name="warning_backup_exists">سيتم حفظ قاعدة البيانات والتفضيلات في الذاكرة. سوف تتم الكتابة على النسخة الاحتياطية الحالية. هل تريد الاستمرار؟</string>
   <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به. هل تريد الاستمرار؟</string>
   <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا عن طريق سؤال الأمان (يتطلب مصروفاتي Contrib).</string>
   <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>

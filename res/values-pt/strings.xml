@@ -367,7 +367,6 @@
   <string name="unsplit_amount">Quantidade non divisão</string>
   <string name="unsplit_amount_greater_than_zero">Ainda há alguma quantidade esquerda non divisão.</string>
   <string name="warning_backup">Banco de dados e preferências serão salvas para o sdcard. Você quer continuar?</string>
-  <string name="warning_backup_exists">Banco de dados e preferências serão salvas para o sdcard. Backup existente será substituído. Você quer continuar?</string>
   <string name="warning_delete_account">Conta \"%1$s\" será apagada com todas as transações registradas.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">A categoria selecionada contém subcategorias, que também serão excluídas.</item>

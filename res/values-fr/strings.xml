@@ -371,7 +371,6 @@
   <string name="unsplit_amount">Montant non attribué</string>
   <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
   <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la carte SD. Voulez-vous continuer?</string>
-  <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
   <string name="warning_delete_account">Le compte \"%1$s\" sera effacé ainsi que toutes ses opérations.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>

@@ -16,21 +16,23 @@
 package org.totschnig.myexpenses.activity;
 
 import java.io.File;
-
-import org.totschnig.myexpenses.MyApplication;
+import java.io.FilenameFilter;
+import java.util.Arrays;
+import java.util.Comparator;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-public class Backup extends ProtectedFragmentActivityNoAppCompat {
+public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat {
+  private String fileName;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -38,24 +40,16 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
     if (savedInstanceState == null) {
       if (Utils.isExternalStorageAvailable()) {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
-          File backupDb = MyApplication.getBackupDbFile();
-          int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
           MessageDialogFragment.newInstance(
               R.string.menu_backup,
-              message,
+              R.string.warning_backup,
               new MessageDialogFragment.Button(android.R.string.yes, R.id.BACKUP_COMMAND, null),
               null,
               MessageDialogFragment.Button.noButton())
             .show(getSupportFragmentManager(),"BACKUP");
         } else {
-          //restore
-          if (MyApplication.backupExists()) {
-            showRestoreDialog();
-          } else {
-            Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
-            setResult(RESULT_CANCELED);
-            finish();
-          }
+          openBrowse();
+          //Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
         }
       }
       else {
@@ -68,7 +62,7 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
   private void showRestoreDialog() {
     MessageDialogFragment.newInstance(
         R.string.pref_restore_title,
-        R.string.warning_restore,
+        getString(R.string.warning_restore,fileName),
         new MessageDialogFragment.Button(android.R.string.yes, R.id.RESTORE_COMMAND, null),
         null,
         MessageDialogFragment.Button.noButton())
@@ -84,17 +78,16 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
         startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null, R.string.menu_backup);
       } else {
         Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+        finish();
       }
-      finish();
       break;
     case R.id.RESTORE_COMMAND:
-      if (MyApplication.backupExists()) {
-        startTaskExecution(TaskExecutionFragment.TASK_RESTORE, null, null, R.string.pref_restore_title);
-      } else {
-        Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
-        setResult(RESULT_CANCELED);
-        finish();
-      }      
+      getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstanceRestore(fileName),
+            "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(
+            R.string.pref_restore_title),"PROGRESS")
+        .commit();
   }
   return true;
   }
@@ -107,21 +100,48 @@ public class Backup extends ProtectedFragmentActivityNoAppCompat {
   @Override
   public void onPostExecute(int taskId,Object result) {
     super.onPostExecute(taskId,result);
-    switch(taskId) {
-    case TaskExecutionFragment.TASK_BACKUP:
-      String msg = ((Result) result).print(this);
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-      break;
-    case TaskExecutionFragment.TASK_RESTORE:
-      if ((Boolean) result) {
-        setResult(RESULT_FIRST_USER);
-      }
-      break;
+    String msg = ((Result) result).print(this);
+    Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+    if (taskId == TaskExecutionFragment.TASK_RESTORE &&
+        ((Result) result).success) {
+      setResult(RESULT_FIRST_USER);
     }
     finish();
   }
   @Override
   public void onProgressUpdate(Object progress) {
     Toast.makeText(getBaseContext(),getString((Integer) progress), Toast.LENGTH_LONG).show();
+  }
+
+  public void openBrowse() {
+    BackupListDialogFragment.newInstance()
+      .show(getSupportFragmentManager(),"BACKUP_LIST");
+  }
+  
+  //inspired by Financisto
+  public static String[] listBackups(
+      BackupListDialogFragment backupListDialogFragment) {
+    File appDir = Utils.requireAppDir();
+    String[] files = appDir.list(new FilenameFilter(){
+      @Override
+      public boolean accept(File dir, String filename) {
+        return filename.matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d");
+      }
+    });
+    if (files != null) {
+      Arrays.sort(files, new Comparator<String>(){
+        @Override
+        public int compare(String s1, String s2) {
+          return s2.compareTo(s1);
+        }
+      });
+      return files;
+    } else {
+      return new String[0];
+    }
+  }
+  public void onSourceSelected(String string) {
+    fileName = string;
+    showRestoreDialog();
   }
 }

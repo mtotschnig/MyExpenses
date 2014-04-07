@@ -336,7 +336,6 @@
   <string name="unsplit_amount">未分割數量</string>
   <string name="unsplit_amount_greater_than_zero">還有一些金額未分割。</string>
   <string name="warning_backup">數據庫和喜好設定將被儲存到SD卡。你要繼續嗎？</string>
-  <string name="warning_backup_exists">數據庫和喜好設定將被保存到SD卡。現有備份將被覆蓋掉。你要繼續嗎？</string>
   <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除。你要繼續嗎？</string>
   <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
   <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題 (貢獻後可用) 。</string>

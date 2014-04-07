@@ -69,17 +69,15 @@ public class DbUtils {
     }
     c.close();
   }
-  public static boolean backup() {
-    File backupDb = MyApplication.getBackupDbFile();
-    if (backupDb == null)
-      return false;
+  public static boolean backup(File dir) {
+    File backupDb = new File(dir,MyApplication.BACKUP_DB_FILE_NAME);
     File currentDb = new File(TransactionProvider.mOpenHelper.getReadableDatabase().getPath());
     if (currentDb.exists()) {
       return Utils.copy(currentDb, backupDb);
     }
     return false;
   }
-  public static boolean restore() {
+  public static boolean restore(File backupFile) {
     boolean result = false;
     try {
       MyApplication app = MyApplication.getInstance();
@@ -87,15 +85,13 @@ public class DbUtils {
       PaymentMethod.clear();
       File dataDir = new File("/data/data/"+ app.getPackageName()+ "/databases/");
       dataDir.mkdir();
-      File backupDb = MyApplication.getBackupDbFile();
-      if (backupDb == null)
-        return false;
+
       //line below gives app_databases instead of databases ???
       //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
       File currentDb = new File(dataDir,TransactionDatabase.DATABASE_NAME);
 
-      if (backupDb.exists()) {
-        result = Utils.copy(backupDb,currentDb);
+      if (backupFile.exists()) {
+        result = Utils.copy(backupFile,currentDb);
         ContentResolver resolver = app.getContentResolver();
         ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
         TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();

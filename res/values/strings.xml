@@ -357,8 +357,9 @@
   <string name="request_licence_mail_head">Please send me a Contrib key for Android-Id %1$s.</string>
   <string name="restore_db_failure">Database restore failed.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
-  <string name="restore_no_backup_found">No file BACKUP found in folder \"myexpenses\" on sdcard.</string>
+  <string name="restore_no_backup_found">Please select a file named BACKUP.</string>
   <string name="restore_preferences_failure">Preferences restore failed</string>
+  <string name="restore_preferences_file_not_found">No file BACKUP_PREF found in folder \"%1$s\"</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_and_new_success">Successfully saved</string>
   <string name="save_transaction_error">Could not save new transaction from template.</string>
@@ -398,7 +399,6 @@
   <string name="unsplit_amount">Unsplit amount</string>
   <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
-  <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions.</string>
   <plurals name="warning_delete_main_category">
   	<item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
@@ -421,7 +421,7 @@
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
   <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
   <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
-  <string name="warning_restore">Database and preferences will be restored from the backup. The current data will be deleted. &continue;</string>
+  <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
   <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
 </resources>

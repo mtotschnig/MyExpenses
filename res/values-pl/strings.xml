@@ -350,7 +350,6 @@
   <string name="tutorial">Podręcznik użytkownika</string>
   <string name="type">Typ</string>
   <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci. Czy chcesz kontynuować?</string>
-  <string name="warning_backup_exists">Baza danych oraz preferencje zostaną zapisane na karcie pamięci. Istniejąca kopia zapasowa zostanie nadpisana. Czy chcesz kontynuować?</string>
   <string name="warning_delete_account">Konto \"%1$s\" zostanie usunięte razem ze wszystkimi jego transakcjami.</string>
   <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
   <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje My Expenses Contrib).</string>

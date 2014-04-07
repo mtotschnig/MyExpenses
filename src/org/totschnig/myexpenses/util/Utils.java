@@ -252,6 +252,15 @@ public class Utils {
     return appDir;
   }
   /**
+   * @param parentDir
+   * @param prefix
+   * @return creates a file object in parentDir, with a timestamp appended to prefix as name
+   */
+  public static File timeStampedFile(File parentDir, String prefix) {
+    String now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US).format(new Date());
+    return new File(parentDir,prefix+"-" + now);
+  }
+  /**
    * Helper Method to Test if external Storage is Available
    * from http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
    */
