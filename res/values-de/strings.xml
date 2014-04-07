@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s existiert bereits</string>
   <string name="amount">Betrag</string>
   <string name="app_name">Meine Ausgaben</string>
-  <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
-  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
+  <string name="backup_failure">Das Backup nach \"%1$s\" ist gescheitert.</string>
+  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach \"%1$s\" gesichert.</string>
   <string name="category">Kategorie</string>
   <string name="clone_transaction_error">Buchung konnte nicht geklont werden.</string>
   <plurals name="clone_transaction_success">
@@ -87,8 +87,8 @@
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
-  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
-  <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
+  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach \"%1$s\"</string>
+  <string name="export_expenses_sdcard_success">Ausgaben in Datei \"%1$s\" exportiert</string>
   <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
@@ -251,7 +251,7 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="pm_type_debit">Ausgaben</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der SD-Karte.</string>
+  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
   <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
@@ -297,7 +297,7 @@
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
   <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
-  <string name="pref_restore_summary">Die Sicherheitskopie aus dem Ordner \"myexpenses\" der SD-Karte wiederherstellen.</string>
+  <string name="pref_restore_summary">Wählen Sie die Sicherheitskopie aus, die wiederhergestellt werden soll.</string>
   <string name="pref_restore_title">Wiederherstellung</string>
   <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen. Benötigt Meine Ausgaben Contrib.</string>
   <string name="pref_security_question_title">Sicherheitsfrage</string>
@@ -369,7 +369,7 @@
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
-  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Möchten Sie fortfahren?</string>
+  <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert. Möchten Sie fortfahren?</string>
   <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>

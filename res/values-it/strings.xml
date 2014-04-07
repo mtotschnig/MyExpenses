@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s è già definita</string>
   <string name="amount">Somma</string>
   <string name="app_name">Le mie spese</string>
-  <string name="backup_failure">Backup su SD card non è riuscito.</string>
-  <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
+  <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
+  <string name="backup_success">Il database e le impostazioni sono state salvate su \"%1$s\".</string>
   <string name="category">Categoria</string>
   <string name="clone_transaction_error">Non è possibile ricopiare l\'operazione.</string>
   <plurals name="clone_transaction_success">
@@ -86,8 +86,8 @@
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
   <string name="expense">Spesa</string>
   <string name="export_expenses">Esportazione delle spese</string>
-  <string name="export_expenses_sdcard_failure">Esportazione delle spese nella scheda SD fallito</string>
-  <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
+  <string name="export_expenses_sdcard_failure">Esportazione delle spese nel file \"%1$s\" fallito</string>
+  <string name="export_expenses_sdcard_success">Le spese sono esportate nel file \"%1$s\"</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Invia il tuo commento, in inglese, francese o tedesco, per favore!</string>
@@ -296,7 +296,7 @@
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_request_licence_summary">Se lei ha contribuito, richieda la sua chiave Contrib via e-mail.</string>
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
-  <string name="pref_restore_summary">Ripristinare il backup dalla cartella \"myexpenses\" sulla scheda SD</string>
+  <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
   <string name="pref_restore_title">Ripristina</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se avete dimenticato la password. Richiede Le mie spese Contrib.</string>
   <string name="pref_security_question_title">Domanda di sicurezza</string>
@@ -367,7 +367,7 @@
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importo non frazionato</string>
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
-  <string name="warning_backup">Il database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
+  <string name="warning_backup">Il database e le preferenze verranno salvate su \"%1$s\". Vuoi continuare?</string>
   <string name="warning_delete_account">Questo conto \"%1$s\" sarà cancelatto con tutte le sue operazioni.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La categoria selezionata ha sottocategorie, che verrà cancellate così.</item>

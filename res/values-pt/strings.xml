@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s já definido</string>
   <string name="amount">Valor</string>
   <string name="app_name">Minhas despesas</string>
-  <string name="backup_failure">Falha ao efetuar backup para o sdcard.</string>
-  <string name="backup_success">Banco de dados e preferências gravados com sucesso para sdcard.</string>
+  <string name="backup_failure">Falha ao efetuar backup para \"%1$s\".</string>
+  <string name="backup_success">Banco de dados e preferências gravados com sucesso para \"%1$s\".</string>
   <string name="category">Categoria</string>
   <string name="clone_transaction_error">Não foi possível clonar transação.</string>
   <plurals name="clone_transaction_success">
@@ -86,8 +86,8 @@
   <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave de contrib a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
-  <string name="export_expenses_sdcard_failure">Falha na exportação de despesas para scard</string>
-  <string name="export_expenses_sdcard_success">Despesas exportadas para o arquivo %1$s</string>
+  <string name="export_expenses_sdcard_failure">Falha na exportação de despesas para \"%1$s\"</string>
+  <string name="export_expenses_sdcard_success">Despesas exportadas para o arquivo \"%1$s\"</string>
   <string name="external_storage_unavailable">Armazenamento externo (sdcard) não disponível</string>
   <string name="feedback">Comentar</string>
   <string name="feedback_email_message">Envie seus comentários, em inglês, francês ou alemão, por favor!</string>
@@ -248,7 +248,7 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutro/indefinido</string>
-  <string name="pref_backup_summary">Crie um backup do banco de dados e preferências sobre o sdcard.</string>
+  <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Contagem de usos</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanumérico</string>
   <string name="pref_categories_sort_by_usages_title">Classificar ordem (categorias, modelos, contas)</string>
@@ -364,7 +364,7 @@
   <string name="type">Digitar</string>
   <string name="unsplit_amount">Quantidade non divisão</string>
   <string name="unsplit_amount_greater_than_zero">Ainda há alguma quantidade esquerda non divisão.</string>
-  <string name="warning_backup">Banco de dados e preferências serão salvas para o sdcard. Você quer continuar?</string>
+  <string name="warning_backup">Banco de dados e preferências serão salvas para \"%1$s\". Você quer continuar?</string>
   <string name="warning_delete_account">Conta \"%1$s\" será apagada com todas as transações registradas.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">A categoria selecionada contém subcategorias, que também serão excluídas.</item>

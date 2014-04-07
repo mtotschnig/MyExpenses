@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s ya existe.</string>
   <string name="amount">Importe</string>
   <string name="app_name">Mis gastos</string>
-  <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
-  <string name="backup_success">La base de datos y las configuraciones han sido archivados en la tarjeta SD.</string>
+  <string name="backup_failure">La copia de seguridad en \"%1$s\" ha fallado.</string>
+  <string name="backup_success">La base de datos y las configuraciones han sido archivados en \"%1$s\".</string>
   <string name="category">Categoría</string>
   <string name="clone_transaction_error">No se podría clonar transacción.</string>
   <plurals name="clone_transaction_success">
@@ -86,7 +86,7 @@
   <string name="donate_dialog_text">Por favor,  donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportación de los gastos</string>
-  <string name="export_expenses_sdcard_failure">Exportación de los gastos a la tarjeta SD ha fallado.</string>
+  <string name="export_expenses_sdcard_failure">Exportación de los gastos al archivo %1$s ha fallado.</string>
   <string name="export_expenses_sdcard_success">Gastos han sido exportados al archivo %1$s</string>
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es disponible.</string>
   <string name="feedback">Feedback</string>
@@ -250,7 +250,7 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones en la tarjeta SD.</string>
+  <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
   <string name="pref_categories_sort_by_usages_title">Criterio de ordenación (categorías, plantillas, cuentas)</string>
@@ -296,7 +296,7 @@
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_request_licence_summary">Si usted ha contribuido, pida una clave Contrib por correo electrónico.</string>
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
-  <string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
+  <string name="pref_restore_summary">Seleccione una copia de seguridad para restaurar la base de datos y preferencias.</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña. Requiere Mis gastos Contrib.</string>
   <string name="pref_security_question_title">Pregunta de seguridad</string>

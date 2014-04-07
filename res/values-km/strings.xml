@@ -284,7 +284,6 @@
   <string name="pref_qif_export_file_encoding_title">ការអ៊ិនកូដតួអក្សរ</string>
   <string name="pref_request_licence_summary">ប្រសិនបើអ្នកបាន​ចូលរួម​ចំណែក​ដោយ​មធ្យោបាយ​ផ្សេង​ទៀត​ សូម​សួររក Contrib key តាមអ៊ីមែល។</string>
   <string name="pref_request_licence_title">ស្នើសុំកូនសោរ Contrib មួយ</string>
-  <string name="pref_restore_summary">Restore ពត៌មានបម្រុងទុកពីថត \"myexpenses\" នៅលើ sdcard​។</string>
   <string name="pref_restore_title">ស្តារ</string>
   <string name="pref_security_question_summary">អនុញ្ញាតឲ្យអ្នកដោះសោរកម្មវិធីនេះ ប្រសិនបើអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក ។ តម្រូវឲ្យមាន ការចំណាយរបស់ខ្ញុំ</string>
   <string name="pref_security_question_title">សំនួរសន្តិសុខ</string>

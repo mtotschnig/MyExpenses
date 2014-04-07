@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s existe</string>
   <string name="amount">Montant</string>
   <string name="app_name">Mes dépenses</string>
-  <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
-  <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte SD.</string>
+  <string name="backup_failure">La sauvegarde sur \"%1$s\" a échoué.</string>
+  <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur \"%1$s\".</string>
   <string name="category">Catégorie</string>
   <string name="clone_transaction_error">Impossible de  cloner l\'opération.</string>
   <plurals name="clone_transaction_success">
@@ -86,8 +86,8 @@
   <string name="donate_dialog_text">S\'il vous plaît, faites un don au moyen de PayPal, Flattr ou Bitcoin, et ensuite demander une clé Contrib à partir des paramètres.</string>
   <string name="expense">Dépense</string>
   <string name="export_expenses">Export des dépenses</string>
-  <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
-  <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
+  <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers \"%1$s\".</string>
+  <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers \"%1$s\".</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas disponible</string>
   <string name="feedback">Réactions</string>
   <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
@@ -250,7 +250,7 @@
   <string name="pm_type_credit">Crédit</string>
   <string name="pm_type_debit">Débit</string>
   <string name="pm_type_neutral">Neutre</string>
-  <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences sur la carte SD.</string>
+  <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Fréquence d\'utilisation</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Par ordre alphabétique</string>
   <string name="pref_categories_sort_by_usages_title">Critères de tri (catégories, modèles, comptes)</string>
@@ -296,7 +296,7 @@
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé contrib par e-mail.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
-  <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
+  <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite Mes dépenses Contrib.</string>
   <string name="pref_security_question_title">Question de sécurité</string>
@@ -368,7 +368,7 @@
   <string name="type">Type</string>
   <string name="unsplit_amount">Montant non attribué</string>
   <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
-  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la carte SD. Voulez-vous continuer?</string>
+  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur \"%1$s\". Voulez-vous continuer?</string>
   <string name="warning_delete_account">Le compte \"%1$s\" sera effacé ainsi que toutes ses opérations.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>

@@ -233,7 +233,6 @@
   <string name="pref_request_licence_title">طلب مفتاح مساهمة</string>
   <string name="pref_request_licence_summary">اذا كنت قد ساهمت بأي وسيلة، اطلب مفتاح المساهمة عن طريق البريد الالكتروني.</string>
   <string name="pref_restore_title">استعادة</string>
-  <string name="pref_restore_summary">استعادة النسخة الاحتياطية من مجلد \"myexpenses\" في الذاكرة.</string>
   <string name="pref_share_target_title">رابط الرفع</string>
   <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، ...) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
   <string name="pref_security_question_title">السؤال السري</string>

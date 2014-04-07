@@ -295,7 +295,6 @@
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
-  <string name="pref_restore_summary">Yedeklemeyi SD kartındaki \"myexpenses\" klasöründen yükle.</string>
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın katkı sürümünü gerektirir.</string>
   <string name="pref_security_question_title">Güvenlik sorusu</string>

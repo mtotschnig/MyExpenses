@@ -237,7 +237,6 @@
   <string name="pref_request_licence_title">Gửi yêu cầu nhận mã cống hiến</string>
   <string name="pref_request_licence_summary">Nếu bạn đã từng cống hiến cho việc xây dựng chương trình bằng cách này hay cách khác, bạn có thể gửi email để lấy một khóa.</string>
   <string name="pref_restore_title">Khôi phục</string>
-  <string name="pref_restore_summary">Khôi phục phần sao lưu từ thư mục \"myexpenses\" trên thẻ nhớ.</string>
   <string name="pref_share_target_title">Đường dẫn tải lên</string>
   <string name="pref_share_target_summary">Để trống nếu bạn muốn chọn giữa các ứng dụng thích hợp (Email, Dropbox, Google Docs, …), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
   <string name="pref_security_question_title">Câu hỏi an ninh</string>

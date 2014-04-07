@@ -30,8 +30,8 @@
   <string name="already_defined">%1$s already defined</string>
   <string name="amount">Amount</string>
   <string name="app_name">&app_name;</string>
-  <string name="backup_failure">Backup to %1$s failed.</string>
-  <string name="backup_success">Database and preferences successfully written to %1$s.</string>
+  <string name="backup_failure">Backup to \"%1$s\" failed.</string>
+  <string name="backup_success">Database and preferences successfully written to \"%1$s\".</string>
   <string name="category">Category</string>
   <string name="clone_transaction_error">Could not clone transaction.</string>
   <plurals name="clone_transaction_success">

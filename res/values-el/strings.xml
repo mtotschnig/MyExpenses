@@ -292,7 +292,6 @@
   <string name="pref_qif_export_file_encoding_title">Κωδικοποίηση χαρακτήρων</string>
   <string name="pref_request_licence_summary">Αν έχετε συνεισφέρει με άλλα μέσα, ζητήστε ένα κλειδί Contrib μέσω ηλεκτρονικού ταχυδρομείου.</string>
   <string name="pref_request_licence_title">Ζητήστε ένα κλειδί Contrib</string>
-  <string name="pref_restore_summary">Επαναφέρετε το αντίγραφο ασφαλείας από το φάκελο \"myexpenses\" για την sdcard.</string>
   <string name="pref_restore_title">Επαναφορά</string>
   <string name="pref_security_question_summary">Σας επιτρέπει να ξεκλειδώσετε το app, αν έχετε ξεχάσει τον κωδικό πρόσβασής σας. Απαιτεί το Έξοδά μου Contrib.</string>
   <string name="pref_security_question_title">Ερώτηση για ασφάλεια</string>

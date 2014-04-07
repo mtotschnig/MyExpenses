@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s ja existeix.</string>
   <string name="amount">Import</string>
   <string name="app_name">Les meves despeses</string>
-  <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a la tarja SD.</string>
-  <string name="backup_success">La base de dades i les preferències s\'han desat a la tarja SD.</string>
+  <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a \"%1$s\".</string>
+  <string name="backup_success">La base de dades i les preferències s\'han desat a \"%1$s\".</string>
   <string name="category">Categoria</string>
   <string name="clone_transaction_error">No ha estat possible clonar l\'operació.</string>
   <string name="color">Color</string>
@@ -82,8 +82,8 @@
   <string name="donate_dialog_text">Si us plau, feu una donació amb PayPal, Flattr o Bitcoin i, a continuació, demaneu una clau de contribuïdor a la pantalla de preferències.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exporteu les despeses</string>
-  <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a la tarja SD.</string>
-  <string name="export_expenses_sdcard_success">Les despses s\'han exportat al fitxer %1$s</string>
+  <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a \"%1$s\".</string>
+  <string name="export_expenses_sdcard_success">Les despses s\'han exportat al fitxer %1$s.</string>
   <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>
   <string name="feedback">Comentaris</string>
   <string name="feedback_email_message">Envieu-nos la seva opinió, en anglès, francès o alemany, per favor!</string>
@@ -236,7 +236,7 @@
   <string name="pm_type_credit">Crèdit</string>
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_backup_summary">Feu una còpia de seguretat de la base de dades i de les preferències a la tarja SD.</string>
+  <string name="pref_backup_summary">Feu una còpia de seguretat de la base de dades i de les preferències a \"%1$s\".</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Freqüència d\'ús</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Ordre alfanumèric</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació (categories, plantilles, comptes)</string>
@@ -281,7 +281,7 @@
   <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
   <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
-  <string name="pref_restore_summary">Restaureu la còpia de seguretat de la carpeta \"myexpenses\" a la tarja SD.</string>
+  <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
   <string name="pref_restore_title">Restauració</string>
   <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya. Requereix Les meves despeses Contrib.</string>
   <string name="pref_security_question_title">Pregunta de seguretat</string>
@@ -346,7 +346,7 @@
   <string name="type">Tipus</string>
   <string name="unsplit_amount">Import abans de repartir</string>
   <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
-  <string name="warning_backup">La base de dades i les preferències es desaran a la tarja SD. Voleu continuar?</string>
+  <string name="warning_backup">La base de dades i les preferències es desaran a \"%1$s\". Voleu continuar?</string>
   <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
   <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat (Requereix Les meves despeses Contrib).</string>
   <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
