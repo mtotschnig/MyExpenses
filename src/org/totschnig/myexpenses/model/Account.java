@@ -22,7 +22,6 @@ import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
@@ -696,28 +695,32 @@ public class Account extends Model {
     //Write header
     out.write(sb.toString());
     while( c.getPosition() < c.getCount() ) {
-      Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
       String comment = DbUtils.getString(c, KEY_COMMENT);
       String full_label="",label_sub = "",label_main;
       CrStatus status;
       Long catId =  DbUtils.getLongOrNull(c,KEY_CATID);
+      Cursor splits = null, readCat;
       if (SPLIT_CATID.equals(catId)) {
-        full_label = ctx.getString(R.string.split_transaction);
-        label_main = full_label;
-        label_sub = "";
+        //split transactions take their full_label from the first split part
+        splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+            KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
+        splits.moveToFirst();
+        readCat = splits;
       } else {
-        label_main =  DbUtils.getString(c, KEY_LABEL_MAIN);
-        if (label_main.length() > 0) {
-          if (transfer_peer != null) {
-            full_label = "[" + label_main + "]";
-            label_main = ctx.getString(R.string.transfer);
-            label_sub = full_label;
-          } else {
-            full_label = label_main;
-            label_sub =  DbUtils.getString(c, KEY_LABEL_SUB);
-            if (label_sub.length() > 0)
-              full_label += ":" + label_sub;
-          }
+        readCat = c;
+      }
+      Long transfer_peer = DbUtils.getLongOrNull(readCat, KEY_TRANSFER_PEER);
+      label_main =  DbUtils.getString(readCat, KEY_LABEL_MAIN);
+      if (label_main.length() > 0) {
+        if (transfer_peer != null) {
+          full_label = "[" + label_main + "]";
+          label_main = ctx.getString(R.string.transfer);
+          label_sub = full_label;
+        } else {
+          full_label = label_main;
+          label_sub =  DbUtils.getString(readCat, KEY_LABEL_SUB);
+          if (label_sub.length() > 0)
+            full_label += ":" + label_sub;
         }
       }
       String payee = DbUtils.getString(c, KEY_PAYEE_NAME);
@@ -788,9 +791,6 @@ public class Account extends Model {
       }
       out.write(sb.toString());
       if (SPLIT_CATID.equals(catId)) {
-        Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
-            KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        splits.moveToFirst();
         while( splits.getPosition() < splits.getCount() ) {
           transfer_peer = DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER);
           comment = DbUtils.getString(splits, KEY_COMMENT);
@@ -852,6 +852,7 @@ public class Account extends Model {
           out.write(sb.toString());
           splits.moveToNext();
         }
+        splits.close();
       }
       if (format.equals(ExportFormat.QIF)) {
         out.write( "\n^" );
