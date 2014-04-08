@@ -154,7 +154,7 @@ public class ExportTest extends ModelTest  {
       "^",
       "D" + date,
       "T0.70",
-      "L" + getContext().getString(R.string.split_transaction),
+      "LMain",
       "SMain",
       "$0.40",
       "SMain:Sub",
@@ -184,7 +184,10 @@ public class ExportTest extends ModelTest  {
         "\"\";\"" + date + "\";\"\";0.50;0;\"" + getContext().getString(R.string.transfer)
             + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
         "\"\";\"" + date + "\";\"\";0;0.60;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
+            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";",
+        "\"B\";\"" + date + "\";\"\";0.40;0;\"Main\";\"\";\"\";\"\";",
+        "\"B\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";"
     };
     try {
       insertData1();
