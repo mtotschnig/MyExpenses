@@ -200,6 +200,7 @@ public class ExportTest extends ModelTest  {
     }
   }
   public void testExportCSVCustomFormat() {
+    String date = new SimpleDateFormat("M/d/yyyy",Locale.US).format(new Date());
     String[] linesCSV = new String[] {
         csvHeader(),
         "\"\";\"" + date + "\";\"\";0;0,10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
@@ -211,11 +212,14 @@ public class ExportTest extends ModelTest  {
         "\"\";\"" + date + "\";\"\";0,50;0;\"" + getContext().getString(R.string.transfer)
             + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
         "\"\";\"" + date + "\";\"\";0;0,60;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
+            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";",
+            "\"\";\"" + date + "\";\"\";0,70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";",
+            "\"B\";\"" + date + "\";\"\";0,40;0;\"Main\";\"\";\"\";\"\";",
+            "\"B\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";"
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "dd/MM/yyyy",',');
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',');
       assertTrue(result.success);
       export = (File) result.extra[0];
       compare(export,linesCSV);
