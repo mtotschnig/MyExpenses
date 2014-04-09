@@ -17,8 +17,12 @@ package org.totschnig.myexpenses.provider;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import android.util.Log;
 
 public class DatabaseConstants {
+  public static int weekStartsOn;
   public static String YEAR_OF_WEEK_START;
   public static String WEEK;
   public static String THIS_YEAR_OF_WEEK_START;
@@ -33,18 +37,19 @@ public class DatabaseConstants {
    */
   public static String COUNT_FROM_WEEK_START_ZERO;
   static {
-    buildLocalized();
+    buildLocalized(Locale.getDefault());
   }
 
-  public static void buildLocalized() {
-    int weekStartsOnJava = new GregorianCalendar().getFirstDayOfWeek(); //JAVA starts with Sunday = 1
-    int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOnJava -1; //Sqlite starts with Sunday = 0
-    if(weekStartsOnJava==Calendar.SUNDAY) {
+  public static void buildLocalized(Locale locale) {
+    weekStartsOn = new GregorianCalendar(locale).getFirstDayOfWeek(); //JAVA starts with Sunday = 1
+    Log.i("DEBUG",weekStartsOn+" ");
+    int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0
+    if(weekStartsOn==Calendar.SUNDAY) {
       //weekStartsOn Sunday
       nextWeekEndSqlite = 6;
     } else  {
       //weekStartsOn Monday or Saturday
-      nextWeekEndSqlite = weekStartsOnJava -2;
+      nextWeekEndSqlite = weekStartsOn -2;
     }
     YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
     WEEK_START = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEndSqlite + "', '-6 day')";
