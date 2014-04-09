@@ -357,8 +357,8 @@ public class CategoryList extends BudgetListFragment implements
         //we want to find out the week range when we are given a week number
         //we find out the first Monday in the year, which is the beginning of week 1 and than
         //add (weekNumber-1)*7 days to get at the beginning of the week
-        projection.add(String.format(Locale.US, "strftime('%%s','%d-01-01','weekday 1','+%d day') AS week_start",mGroupingYear,(mGroupingSecond-1)*7));
-        projection.add(String.format(Locale.US, "strftime('%%s','%d-01-01','weekday 1','+%d day') AS week_end",mGroupingYear,mGroupingSecond*7-1));
+        projection.add(String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",mGroupingYear,mGroupingSecond*7));
+        projection.add(String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_end",mGroupingYear,mGroupingSecond*7+6));
       }
       return new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
