@@ -16,6 +16,8 @@
 
 package org.totschnig.myexpenses.test.provider;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.COUNT_FROM_WEEK_START_ZERO;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -23,13 +25,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
+import android.util.Log;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 /*
  */
@@ -478,5 +485,53 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Asserts that only one row was updated. The selection criteria evaluated to
         // "title = Note1", and the test data should only contain one row that matches that.
         assertEquals(1, rowsUpdated);
+    }
+
+    /**
+     * TODO: insert series of test dates on year's edges for 10 consecutive years
+     * TODO: test for different locales
+     */
+    public void testDateCalculationsForWeekGroups() {
+      DateFormat dateformat = Utils.localizedYearlessDateFormat();
+      String TABLE = "test_dates";
+      String KEY_DATE = "date";
+      mDb.execSQL("CREATE TABLE " + TABLE + " (" + KEY_DATE + " DATETIME not null)");
+      ContentValues v = new ContentValues();
+      v.put(KEY_DATE, new Date().getTime()/1000);
+      mDb.insertOrThrow(TABLE,null,v);
+      Cursor c = mDb.query(
+          TABLE,
+          new String[] {
+              DatabaseConstants.YEAR_OF_WEEK_START + " AS year",
+              DatabaseConstants.WEEK + " AS week",
+              DatabaseConstants.WEEK_START + " AS week_start",
+              DatabaseConstants.WEEK_END + " AS week_end",},
+          null, null, null, null, null);
+      c.moveToFirst();
+      while (c.isAfterLast() == false) {
+        int year = c.getInt(0);
+        int week = c.getInt(1);
+        Cursor check = mDb.query(
+            TABLE,
+            new String[]{
+                DbUtils.weekStartFromGroupSqlExpression(year,week),
+                DbUtils.weekEndFromGroupSqlExpression(year,week)
+            },
+            null, null, null, null, null);
+        check.moveToFirst();
+        Log.i("DEBUG","week start from db:" + c.getString(2));
+        Log.i("DEBUG","week end from db:" + c.getString(3));
+        Log.i("DEBUG","week start from group:" + check.getString(0));
+        Log.i("DEBUG","week end from db:" + check.getString(1));
+        assertEquals(
+            Utils.convDateTime(c.getString(2),dateformat),
+            Utils.convDateTime(check.getString(0),dateformat));
+        assertEquals(
+            Utils.convDateTime(c.getString(3),dateformat),
+            Utils.convDateTime(check.getString(1),dateformat));
+        check.close();
+        c.moveToNext();
+      }
+      c.close();
     }
 }

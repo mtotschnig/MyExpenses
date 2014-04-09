@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
@@ -165,5 +166,11 @@ public class DbUtils {
   }
   public static boolean hasParent(Long id) {
     return Transaction.getInstanceFromDb(id).parentId != null;
+  }
+  public static String weekStartFromGroupSqlExpression(int year, int week) {
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7);
+  }
+  public static String weekEndFromGroupSqlExpression(int year, int week) {
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7+6);
   }
 }
