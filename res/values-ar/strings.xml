@@ -29,7 +29,7 @@
   <string name="category">التصنيف</string>
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
-  <string name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ &lt;i&gt;مصروفاتي&lt;/i&gt;</string>
+  <string name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
   <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
   <string name="contrib_feature_aggregate_label">إجمالي الحسابات المتعددة</string>
   <string name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
@@ -47,12 +47,12 @@
   </plurals>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت &lt;i&gt;مصروفاتي Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت <i>مصروفاتي Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;مصروفاتي&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية:</string>
+  <string name="dialog_contrib_text"><i>مصروفاتي</i> تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية:</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>

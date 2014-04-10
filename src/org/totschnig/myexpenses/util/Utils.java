@@ -67,6 +67,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
@@ -419,15 +421,16 @@ public class Utils {
    * @param other if not null, all features except the one provided will be returned
    * @return construct a list of all contrib features to be included into a TextView
    */
-  public static String getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
-    String result ="";
+  public static CharSequence getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
+    CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
     while (iterator.hasNext()) {
       Feature f = iterator.next();
       if (!f.equals(other)) {
-        result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + f.toString() + "_label", "string", ctx.getPackageName()));
+        result = TextUtils.concat(result,
+            ctx.getText(ctx.getResources().getIdentifier("contrib_feature_" + f.toString() + "_label", "string", ctx.getPackageName())));
         if (iterator.hasNext())
-          result += "<br>";
+          result = TextUtils.concat(result,linefeed);
       }
     }
     return result;

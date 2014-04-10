@@ -58,8 +58,8 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
     Activity ctx  = getActivity();
     Resources res = getResources();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    String featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
-    String featureDescription;
+    CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
+    CharSequence featureDescription;
     if (feature.hasTrial)
       featureDescription = getString(R.string.dialog_contrib_premium_feature,
               "<i>"+getString(res.getIdentifier(
@@ -68,13 +68,15 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
                   res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
                   getString(R.string.dialog_contrib_no_usages_left));
     else
-      featureDescription = getString(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
-    CharSequence message = Html.fromHtml((String) TextUtils.concat(
+      featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
+    CharSequence
+      linefeed = Html.fromHtml("<br><br>"),
+      message = TextUtils.concat(
         featureDescription," ",
-        getString(R.string.dialog_contrib_reminder_remove_limitation)," ",
+        getText(R.string.dialog_contrib_reminder_remove_limitation)," ",
         getString(R.string.dialog_contrib_reminder_gain_access),
-        "<br>",
-        featureList));
+        linefeed,
+        featureList);
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(R.string.dialog_title_contrib_feature)
       .setMessage(message)
