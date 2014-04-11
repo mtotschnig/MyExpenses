@@ -24,16 +24,16 @@
       android:orientation="vertical"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content">
-    <include layout="@layout/filename"/>
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
+        <include layout="@layout/filename"/>
       <TableRow
           android:gravity="center_vertical">
         <TextView
             android:text="@string/date_format"
             style="@style/dialog_text"/>
-        <Spinner
+        <Spinner android:layout_span="2"
             android:id="@+id/DateFormat"
             android:layout_weight="1" />
       </TableRow>
@@ -42,7 +42,7 @@
         <TextView
             android:text="@string/account"
             style="@style/dialog_text"/>
-        <Spinner
+        <Spinner android:layout_span="2"
             android:id="@+id/Account"
             android:layout_weight="1" />
       </TableRow>

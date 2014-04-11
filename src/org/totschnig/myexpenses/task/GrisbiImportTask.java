@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
 
@@ -23,9 +24,9 @@ public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
    */
   private final TaskExecutionFragment taskExecutionFragment;
 
-  public GrisbiImportTask(TaskExecutionFragment taskExecutionFragment, boolean withPartiesP) {
+  public GrisbiImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
-    this.withPartiesP = withPartiesP;
+    this.withPartiesP = b.getBoolean("withParties");
   }
 
   String title;
