@@ -236,7 +236,7 @@
     <string name="pref_enter_licence_title">輸入貢獻密鑰</string>
     <string name="pref_export_format_title">日期格式</string>
     <string name="pref_follow_gplus_title">跟隨在 Google+ 的 開支助手</string>
-    <string name="pref_import_from_grisbi_summary">由默認的Grisbi定義路徑匯入類別 (和貿易夥伴)。你的檔案需被儲存成 grisbi.xml，放置在你的SD卡路徑  \"myexpenses\" 資料夾之中。</string>
+    <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>
     <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>
     <string name="pref_manage_accounts_title">賬戶</string>
     <string name="pref_manage_categories_summary">新增，編輯，移除類別。</string>

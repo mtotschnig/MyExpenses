@@ -252,7 +252,7 @@
     <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>
     <string name="pref_export_format_title">Format daty</string>
     <string name="pref_follow_gplus_title">Śledź Moje Wydatki na Google+</string>
-    <string name="pref_import_from_grisbi_summary">Kategorie importu (oraz partii) z domyślnych definicji Grisbi wewnętrznych dla aplikacji, lub twój własny plik przechowywany jako grisbi.xml w folderze \"myexpenses\" w folderze głównym na twojej karcie pamięci.</string>
+    <string name="pref_import_from_grisbi_summary">Kategorie importu oraz partii Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Import z Grisbi</string>
     <string name="pref_manage_accounts_title">Konta</string>
     <string name="pref_manage_categories_summary">Utwórz, edytuj, usuń kategorie.</string>

@@ -263,7 +263,7 @@
     <string name="pref_enter_licence_title">Εισάγετε το κλειδί Contrib</string>
     <string name="pref_export_format_title"> Μορφή δεδομένων</string>
     <string name="pref_follow_gplus_title">Παρακολουθήστε τα \"Έξοδά μου\" στο Google +</string>
-    <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών (και μερών) από προεπιλεγμένους ορισμούς Grisbi εσωτερικά στο app, ή το δικό σας αρχείο αποθηκευμένο ως grisbi.xml σε ένα φάκελο \"myexpenses\" ή στη βάση του sdcard σας.</string>
+    <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Εισαγωγή από Grisbi</string>
     <string name="pref_manage_accounts_title">Λογαριασμοί</string>
     <string name="pref_manage_categories_summary">Προσθέσετε, επεξεργαστείτε, διαγράψατε κατηγορίες.</string>

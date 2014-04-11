@@ -240,7 +240,7 @@
     <string name="pref_enter_licence_title">Contrib kulcs megadása</string>
     <string name="pref_export_format_title">Adat formátum</string>
     <string name="pref_follow_gplus_title">A Kiadásaim (My Expenses) követése a Google+ oldalain</string>
-    <string name="pref_import_from_grisbi_summary">Kategóriák (és résztvevők) beolvasása az alap Grisbi meghatározások, vagy a saját SD-kártya root könyvtárában található \"myexpenses\" könyvtár grisbi.xml alapján.</string>
+    <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>
     <string name="pref_manage_accounts_title">Számlák</string>
     <string name="pref_manage_categories_summary">Kategóriák hozzáadása, szerkesztése, törlése.</string>

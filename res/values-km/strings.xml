@@ -254,7 +254,6 @@
     <string name="pref_enter_licence_title">បញ្ចូលគន្លឹះ Contrib</string>
     <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
     <string name="pref_follow_gplus_title">ជួប My Expenses នៅ Google+</string>
-    <string name="pref_import_from_grisbi_summary">នាំចូល​ចំណាត់ថ្នាក់ (និង​ភាគី) ពី​ទិន្នន័យ​ដើម​របស់ Grisbi ខាងក្នុង​ចូល​ក្នុង​កម្មវិធី ឬ​ដាក់​ឯកសារ​ជា grisbi.xml ក្នុងថត \"myexpenses\" នៃថត​ដើម​បំផុត​​របស់ sdcard អ្នក</string>
     <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
     <string name="pref_manage_accounts_title">គណនី</string>
     <string name="pref_manage_categories_summary">បញ្ចូល កែ លុប​ចំណាត់ថ្នាក់។</string>

@@ -265,7 +265,7 @@
     <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
     <string name="pref_export_format_title">Veri biçimi</string>
     <string name="pref_follow_gplus_title">Harcamalarımı Google+\'da takip edin</string>
-    <string name="pref_import_from_grisbi_summary">Uygulamaya dahili olan ve varsayılan Grisbi tanımlamalarından ya da SD kartının kökünde \"myexpenses\" klasöründe grisbi.xml dosyası olarak saklanmış kendi dosyanızdan kategori (ve bölüm) içeri aktar.</string>
+    <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
     <string name="pref_manage_accounts_title">Hesaplar</string>
     <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>

@@ -266,7 +266,7 @@
     <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
     <string name="pref_export_format_title">Formato de datos</string>
     <string name="pref_follow_gplus_title">Siga Mis Gastos en Google+</string>
-    <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde las incluidas definiciones estándar de Grisbi o de su propio archivo. Usted tiene que archivar este último bajo el nombre grisbi.xml en la carpeta myexpenses en el directorio raíz de la tarjeta SD.</string>
+    <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
     <string name="pref_manage_accounts_title">Cuentas</string>
     <string name="pref_manage_categories_summary">Añadir, modificar y borrar categorías.</string>

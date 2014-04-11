@@ -264,7 +264,7 @@
     <string name="pref_enter_licence_title">Digitar licença do Contrib</string>
     <string name="pref_export_format_title">Formato dos dados</string>
     <string name="pref_follow_gplus_title">Siga as Minhas Despesas no Google +</string>
-    <string name="pref_import_from_grisbi_summary">Importa categorias (e participantes) das definições padrão Grisbi internas do aplicativo ou seu próprio arquivo armazenado como grisbi.xml em uma pasta \"myexpenses\"\" na raiz do seu sdcard.</string>
+    <string name="pref_import_from_grisbi_summary">Importa categorias e participantes Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Importação de Grisbi</string>
     <string name="pref_manage_accounts_title">Contas</string>
     <string name="pref_manage_categories_summary">Adicionar, editar e/ou deletar categorias.</string>

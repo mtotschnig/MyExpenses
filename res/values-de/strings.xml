@@ -267,7 +267,7 @@
     <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
     <string name="pref_export_format_title">Datenformat</string>
     <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
-    <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen grisbi.xml in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte speichern</string>
+    <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
     <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
     <string name="pref_manage_accounts_title">Konten</string>
     <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>

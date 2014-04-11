@@ -248,7 +248,7 @@
     <string name="pref_enter_licence_title">Vložte klíč pro Contrib verzi programu</string>
     <string name="pref_export_format_title">Formát dat</string>
     <string name="pref_follow_gplus_title">Sledujte Moje výdaje na Google +</string>
-    <string name="pref_import_from_grisbi_summary">Import kategorií (a stran) ze souboru Grisbi do aplikace, nebo vlastního souboru uloženého jako grisbi.xml ve složce \"myexpenses\" \"v kořenovém adresáři vaší paměťové karty.</string>
+    <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importovat z Grisbi</string>
     <string name="pref_manage_accounts_title">Účty</string>
     <string name="pref_manage_categories_summary">Přidání, úprava a odstranění kategorií.</string>
