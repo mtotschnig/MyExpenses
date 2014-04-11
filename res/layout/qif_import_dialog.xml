@@ -18,12 +18,6 @@
     android:layout_width="fill_parent"
     android:layout_height="0dp"
     android:layout_weight="1">
-  <LinearLayout
-      android:paddingLeft="@dimen/general_padding"
-      android:paddingRight="@dimen/general_padding"
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
@@ -46,6 +40,6 @@
             android:id="@+id/Account"
             android:layout_weight="1" />
       </TableRow>
+      <include layout="@layout/import_select_types"/>
     </TableLayout>
-  </LinearLayout>
 </ScrollView>

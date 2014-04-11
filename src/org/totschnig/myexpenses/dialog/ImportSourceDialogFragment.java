@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivityNoAppCompat;
@@ -20,15 +21,21 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public abstract class ImportSourceDialogFragment extends DialogFragment
-    implements OnClickListener, DialogInterface.OnClickListener  {
+    implements OnClickListener, DialogInterface.OnClickListener, OnCheckedChangeListener  {
 
   public static final int IMPORT_FILENAME_REQUESTCODE = 1;
   protected EditText mFilename;
   protected AlertDialog mDialog;
+  protected CheckBox mImportCategories;
+  protected CheckBox mImportParties;
+  protected CheckBox mImportTransactions;
 
   public ImportSourceDialogFragment() {
     super();
@@ -59,13 +66,18 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     mFilename = (EditText) view.findViewById(R.id.Filename);
     mFilename.addTextChangedListener(new TextWatcher(){
       public void afterTextChanged(Editable s) {
-        mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
-            !TextUtils.isEmpty(s.toString()));
+        setButtonState();
       }
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
     });
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
+    mImportCategories = (CheckBox) view.findViewById(R.id.import_select_categories);
+    mImportCategories.setOnCheckedChangeListener(this);
+    mImportParties = (CheckBox) view.findViewById(R.id.import_select_parties);
+    mImportParties.setOnCheckedChangeListener(this);
+    mImportTransactions = (CheckBox) view.findViewById(R.id.import_select_transactions);
+    mImportTransactions.setOnCheckedChangeListener(this);
   }
 
   public void openBrowse() {
@@ -100,7 +112,10 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
       }
     }
   }
-
+  @Override
+  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    setButtonState();
+  }
   @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_NEGATIVE) {
@@ -110,12 +125,19 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   @Override
   public void onStart(){
     super.onStart();
-    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
-        !TextUtils.isEmpty(mFilename.getText().toString()));
+    setButtonState();
   }
   @Override
   public void onClick(View v) {
    openBrowse();
   }
-
+  private void setButtonState() {
+    boolean isReady = false;
+    if (!TextUtils.isEmpty(mFilename.getText().toString())) {
+      isReady = (mImportCategories.getVisibility() == View.VISIBLE && mImportCategories.isChecked()) ||
+          (mImportParties.getVisibility() == View.VISIBLE && mImportParties.isChecked()) ||
+          (mImportTransactions.getVisibility() == View.VISIBLE && mImportTransactions.isChecked());
+    }
+    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady);
+  }
 }

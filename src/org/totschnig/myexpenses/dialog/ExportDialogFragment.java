@@ -24,18 +24,15 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -46,13 +43,15 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, android.view.View.OnClickListener {
+public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
   CheckBox notYetExportedCB,deleteCB;
   RadioButton formatRB, separatorRB;
   TextView warningTV;
@@ -149,7 +148,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     }
       
 
-    deleteCB.setOnClickListener(this);
+    deleteCB.setOnCheckedChangeListener(this);
     if (hasExported) {
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
@@ -212,8 +211,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   }
 
   @Override
-  public void onClick(View view) {
-   configure(((CheckBox) view).isChecked());
+  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+   configure(isChecked);
   }
 
   /* 

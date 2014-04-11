@@ -9,8 +9,6 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -20,13 +18,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 public class QifImportDialogFragment extends ImportSourceDialogFragment implements
@@ -42,41 +35,6 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   }
   protected int getLayoutTitle() {
     return R.string.pref_import_qif_title;
-  }
-  @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
-    View view = li.inflate(R.layout.qif_import_dialog, null);
-    mFilename = (EditText) view.findViewById(R.id.Filename);
-    mFilename.addTextChangedListener(new TextWatcher(){
-      public void afterTextChanged(Editable s) {
-        mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
-            !TextUtils.isEmpty(s.toString()));
-      }
-      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-      public void onTextChanged(CharSequence s, int start, int before, int count){}
-    });
-    mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
-    mDateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
-    ArrayAdapter<QifDateFormat> dateFormatAdapter =
-        new ArrayAdapter<QifDateFormat>(
-            getActivity(), android.R.layout.simple_spinner_item, QifDateFormat.values());
-    dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mDateFormatSpinner.setAdapter(dateFormatAdapter);
-    mAccountsAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mAccountSpinner.setAdapter(mAccountsAdapter);
-    view.findViewById(R.id.btn_browse).setOnClickListener(this);
-    getLoaderManager().initLoader(0, null, this);
-    mDialog = new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.pref_import_qif_title)
-      .setView(view)
-      .setPositiveButton(android.R.string.ok,this)
-      .setNegativeButton(android.R.string.cancel,this)
-      .create();
-    return mDialog;
   }
 
   @Override

@@ -4,6 +4,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.View;
 
 public class GrisbiSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
@@ -27,5 +28,10 @@ DialogInterface.OnClickListener {
     } else {
       super.onClick(dialog, id);
     }
+  }
+  @Override
+  protected void setupDialogView(View view) {
+    super.setupDialogView(view);
+    mImportTransactions.setVisibility(View.GONE);
   }
 }

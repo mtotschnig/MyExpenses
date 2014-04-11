@@ -9,19 +9,13 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="0dp"
+	android:layout_width="fill_parent"
+	android:layout_height="0dp"
 	android:layout_weight="1">
-		<TableLayout android:layout_width="fill_parent"
+		<TableLayout
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
       <include layout="@layout/filename"/>
-			<TableRow android:gravity="center_vertical">
-				<TextView android:text="Import" style="@style/dialog_text" />
-				<LinearLayout android:orientation="vertical">
-					<CheckBox android:checked="false" android:layout_width="wrap_content"
-						android:layout_height="wrap_content" android:text="Kategorien" />
-					<CheckBox android:checked="false" android:layout_width="wrap_content"
-						android:layout_height="wrap_content" android:text="Parteien" />
-				</LinearLayout>
-			</TableRow>
+      <include layout="@layout/import_select_types"/>
 		</TableLayout>
 </ScrollView>
