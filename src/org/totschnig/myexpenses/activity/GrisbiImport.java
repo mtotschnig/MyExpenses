@@ -56,10 +56,10 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
     finish();
   }
 
-  public void onSourceSelected(boolean external, boolean withParties) {
+  public void onSourceSelected(String filePath) {
     getSupportFragmentManager()
       .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceGrisbiImport(external, withParties),
+        .add(TaskExecutionFragment.newInstanceGrisbiImport(true, filePath, boolean withParties, boolean withCategories),
             "ASYNC_TASK")
         .add(ProgressDialogFragment.newInstance(
             0,0,ProgressDialog.STYLE_HORIZONTAL, false),"PROGRESS")

@@ -102,12 +102,14 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceGrisbiImport(boolean external,
-      boolean withParties) {
+      String filePath, boolean withParties, boolean withCategories) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);
     bundle.putBoolean("external", external);
+    bundle.putString("filePath", filePath);
     bundle.putBoolean("withParties", withParties);
+    bundle.putBoolean("withCategories", withCategories);
     f.setArguments(bundle);
     return f;
   }
@@ -182,8 +184,7 @@ public class TaskExecutionFragment extends Fragment {
     try {
       switch (taskId) {
       case TASK_GRISBI_IMPORT:
-        new GrisbiImportTask(this, args.getBoolean("withParties")).execute(args
-            .getBoolean("external"));
+        new GrisbiImportTask(this, args).execute();
         break;
       case TASK_QIF_IMPORT:
         new QifImportTask(this, (QifDateFormat) args.getSerializable("dateFormat"),

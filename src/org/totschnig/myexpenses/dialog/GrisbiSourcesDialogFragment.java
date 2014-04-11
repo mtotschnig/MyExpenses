@@ -5,6 +5,8 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
+import org.totschnig.myexpenses.activity.QifImport;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,47 +15,51 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 public class GrisbiSourcesDialogFragment extends DialogFragment implements
 DialogInterface.OnClickListener {
-  public int sourceIndex = -1;
-  AlertDialog mDialog;
-  public final static String IMPORT_SOURCE_INTERNAL =
-      MyApplication.getInstance().getString(R.string.grisbi_import_default_source);
-  public final static String IMPORT_SOURCE_EXTERNAL =
-      Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml";
-  public final static String[] IMPORT_SOURCES = new String[] {
-    IMPORT_SOURCE_INTERNAL,
-    IMPORT_SOURCE_EXTERNAL
-  };
-  public final static int defaultSourceResId = 
-      MyApplication.getInstance().getResources().getIdentifier(
-          "cat_"+ Locale.getDefault().getLanguage(),
-          "raw",
-          MyApplication.getInstance().getPackageName());
+  private EditText mFilename;
+  private AlertDialog mDialog;
   
   public static final GrisbiSourcesDialogFragment newInstance() {
     return new GrisbiSourcesDialogFragment();
   }
   @Override
-  public void onStart(){
-    super.onStart();
-    sourceIndex = mDialog.getListView().getCheckedItemPosition();
-    mDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(sourceIndex!=-1);
-    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(sourceIndex == 1);
-}
-  @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
+    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    View view = li.inflate(R.layout.grisbi_import_dialog, null);
+    mFilename = (EditText) view.findViewById(R.id.Filename);
+    mFilename.addTextChangedListener(new TextWatcher(){
+      public void afterTextChanged(Editable s) {
+        mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+            !TextUtils.isEmpty(s.toString()));
+      }
+      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+      public void onTextChanged(CharSequence s, int start, int before, int count){}
+    });
     mDialog = new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.dialog_title_select_import_source)
-      .setSingleChoiceItems(IMPORT_SOURCES, -1, this)
-      .setNegativeButton(android.R.string.no, this)
-      .setNeutralButton(R.string.grisbi_import_button_categories_only,this)
-      .setPositiveButton(R.string.grisbi_import_button_categories_and_parties, this)
+      .setTitle(R.string.pref_import_from_grisbi_title)
+      .setView(view)
+      .setPositiveButton(android.R.string.ok,this)
+      .setNegativeButton(android.R.string.cancel, this)
       .create();
     return mDialog;
   }
+
+  @Override
+  public void onStart(){
+    super.onStart();
+    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+        !TextUtils.isEmpty(mFilename.getText().toString()));
+  }
+
   @Override
   public void onCancel (DialogInterface dialog) {
     ((GrisbiImport) getActivity()).onMessageDialogDismissOrCancel();
@@ -62,21 +68,12 @@ DialogInterface.OnClickListener {
   public void onClick(DialogInterface dialog, int id) {
     switch (id) {
     case AlertDialog.BUTTON_POSITIVE:
-      ((GrisbiImport) getActivity()).onSourceSelected(sourceIndex==1,true);
-      break;
-    case AlertDialog.BUTTON_NEUTRAL:
-      ((GrisbiImport) getActivity()).onSourceSelected(sourceIndex==1,false);
-      break;
+      ((GrisbiImport) getActivity()).onSourceSelected(
+          mFilename.getText().toString()
+          );
     case AlertDialog.BUTTON_NEGATIVE:
       onCancel(dialog);
       break;
-    default:
-      sourceIndex = id;
-      //we enable import of categories only for any source
-      //categories and parties only for the external custom file
-      ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(true);
-      ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
-          id == 1);  
     }
   }
 }

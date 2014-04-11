@@ -4,14 +4,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
@@ -80,7 +75,7 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     getLoaderManager().initLoader(0, null, this);
     mDialog = new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.dialog_title_select_import_source)
+      .setTitle(R.string.pref_import_qif_title)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,this)
