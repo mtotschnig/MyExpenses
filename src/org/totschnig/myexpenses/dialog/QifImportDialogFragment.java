@@ -3,25 +3,19 @@ package org.totschnig.myexpenses.dialog;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-import java.io.File;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -31,22 +25,24 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-public class QifImportDialogFragment extends DialogFragment implements
-DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
-  private EditText mFilename;
-  private Spinner mAccountSpinner, mDateFormatSpinner;
+public class QifImportDialogFragment extends ImportSourceDialogFragment implements
+    LoaderManager.LoaderCallbacks<Cursor> {
+  Spinner mAccountSpinner;
+  Spinner mDateFormatSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
-  private AlertDialog mDialog;
   public static final QifImportDialogFragment newInstance() {
     return new QifImportDialogFragment();
   }
-
+  protected int getLayoutId() {
+    return R.layout.qif_import_dialog;
+  }
+  protected int getLayoutTitle() {
+    return R.string.pref_import_qif_title;
+  }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
@@ -84,71 +80,17 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
   }
 
   @Override
-  public void onStart(){
-    super.onStart();
-    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
-        !TextUtils.isEmpty(mFilename.getText().toString()));
-  }
-
-  @Override
-  public void onCancel (DialogInterface dialog) {
-    getActivity().finish();
-  }
-
-  @Override
   public void onClick(DialogInterface dialog, int id) {
-    switch (id) {
-    case AlertDialog.BUTTON_POSITIVE:
+    if (id == AlertDialog.BUTTON_POSITIVE) {
       ((QifImport) getActivity()).onSourceSelected(
           mFilename.getText().toString(),
           (QifDateFormat) mDateFormatSpinner.getSelectedItem(),
           mAccountSpinner.getSelectedItemId()
           );
-      break;
-    case AlertDialog.BUTTON_NEGATIVE:
-      onCancel(dialog);
-      break;
-    default:
+    } else {
+      super.onClick(dialog, id);
     }
   }
-  public void openBrowse() {
-    String filePath = mFilename.getText().toString();
-
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-    intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-    File file = new File(filePath);
-    intent.setDataAndType(Uri.fromFile(file),"*/*");
-
-    try {
-        startActivityForResult(intent, QifImport.IMPORT_FILENAME_REQUESTCODE);
-    } catch (ActivityNotFoundException e) {
-        // No compatible file manager was found.
-        Toast.makeText(getActivity(), R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
-    }
-  }
-  @Override
-  public void onActivityResult(int requestCode, int resultCode,
-      Intent data) {
-    if (requestCode == QifImport.IMPORT_FILENAME_REQUESTCODE) {
-      if (resultCode == Activity.RESULT_OK && data != null) {
-          Uri fileUri = data.getData();
-          if (fileUri != null) {
-              String filePath = fileUri.getPath();
-              if (filePath != null) {
-                  mFilename.setText(filePath);
-                  //savePreferences();
-              }
-          }
-      }
-    }
-  }
-
-  @Override
-  public void onClick(View v) {
-   openBrowse();
-  }
-
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     CursorLoader cursorLoader = new CursorLoader(
@@ -157,7 +99,6 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
         new String[] {KEY_ROWID,KEY_LABEL},
         null,null, null);
     return cursorLoader;
-
   }
 
   @Override
@@ -170,5 +111,22 @@ DialogInterface.OnClickListener, OnClickListener, LoaderManager.LoaderCallbacks<
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
     mAccountsAdapter.swapCursor(null);
+  }
+
+  @Override
+  protected void setupDialogView(View view) {
+    super.setupDialogView(view);
+    mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
+    mDateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
+    ArrayAdapter<QifDateFormat> dateFormatAdapter =
+        new ArrayAdapter<QifDateFormat>(
+            getActivity(), android.R.layout.simple_spinner_item, QifDateFormat.values());
+    dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mDateFormatSpinner.setAdapter(dateFormatAdapter);
+    mAccountsAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null,
+        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountSpinner.setAdapter(mAccountsAdapter);
+    getLoaderManager().initLoader(0, null, this);
   }
 }

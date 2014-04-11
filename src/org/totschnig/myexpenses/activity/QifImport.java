@@ -26,8 +26,6 @@ import android.os.Bundle;
 
 public class QifImport extends ProtectedFragmentActivityNoAppCompat {
 
-  public static final int IMPORT_FILENAME_REQUESTCODE = 1;
-
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
