@@ -115,7 +115,6 @@
     </string-array>
     <string name="help_leading">Dziękujemy za zainstalowanie <i>Moje Wydatki</i> dla systemu Android.</string>
     <string name="important_upgrade_information_heading">Ważna informacja</string>
-    <string name="import_categories">Importuj kategorie</string>
     <string name="income">Dochód</string>
     <string name="invalid_number_format">Format dziesiętny nie jest rozpoznawalny przez twoją lokalizację. Proszę użyć %1$s</string>
     <string name="label">Etykieta</string>

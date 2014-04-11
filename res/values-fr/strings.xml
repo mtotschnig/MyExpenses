@@ -118,7 +118,6 @@
     </string-array>
     <string name="help_leading">Merci d\'essayer <i>Mes dépenses</i> pour Android.</string>
     <string name="important_upgrade_information_heading">Information importante</string>
-    <string name="import_categories">Importer les catégories</string>
     <string name="income">Revenu</string>
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>

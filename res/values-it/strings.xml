@@ -118,7 +118,6 @@
     </string-array>
     <string name="help_leading">Grazie di probare <i>Le mie spese</i> por Android.</string>
     <string name="important_upgrade_information_heading">Informazioni importanti</string>
-    <string name="import_categories">Importare le categorie</string>
     <string name="income">Entrate</string>
     <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
     <string name="label">Etichetta</string>

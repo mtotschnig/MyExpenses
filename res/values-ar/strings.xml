@@ -107,7 +107,6 @@
         <item>تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.</item>
     </string-array>
     <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i> للاندرويد.</string>
-    <string name="import_categories">استيراد تصنيفات</string>
     <string name="income">الدخل</string>
     <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>
     <string name="label">عبارة توضيحية</string>

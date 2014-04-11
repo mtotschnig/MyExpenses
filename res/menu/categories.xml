@@ -20,6 +20,9 @@
     android:id="@id/CREATE_COMMAND"
     android:icon="@drawable/create_main_cat_icon"
     app:showAsAction="always"
-    android:title="@string/menu_create_main_cat">
-  </item>
+    android:title="@string/menu_create_main_cat"/>
+    <item
+    android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
+    app:showAsAction="never"
+    android:title="@string/categories_setup_default"/>
 </menu>

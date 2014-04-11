@@ -118,7 +118,6 @@
     </string-array>
     <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para Android.</string>
     <string name="important_upgrade_information_heading">Informações importantes</string>
-    <string name="import_categories">Importar categorias</string>
     <string name="income">Renda</string>
     <string name="invalid_number_format">Formato decimal não regognized pela sua localidade. Por favor, use %1$s</string>
     <string name="label">Rótulo</string>

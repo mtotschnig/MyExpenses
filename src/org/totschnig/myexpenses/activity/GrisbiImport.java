@@ -33,20 +33,6 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
       GrisbiSourcesDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");
     }
   }
-  public void setProgressMax(int max) {
-    FragmentManager fm = getSupportFragmentManager();
-    ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (f != null) {
-      f.setMax(max);
-    }
-  }
-  public void setProgressTitle(String title) {
-    FragmentManager fm = getSupportFragmentManager();
-    ProgressDialogFragment f = (ProgressDialogFragment) fm.findFragmentByTag("PROGRESS");
-    if (f != null) {
-      f.setTitle(title);
-    }
-  }
   @Override
   public void onPostExecute(int taskId,Object result) {
     super.onPostExecute(taskId,result);

@@ -116,7 +116,6 @@
     </string-array>
     <string name="help_leading">អរគុណ​ចំពោះការបញ្ចូល <i>My Expenses</i> លើ​ Android។</string>
     <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
-    <string name="import_categories">នាំចូល​ចំណាត់ថ្នាក់</string>
     <string name="income">ចំណូល</string>
     <string name="invalid_number_format">ទម្រង់​ទសភាគ អត់​ស្គាល់តាមការកំណត់ភាសា​របស់​អ្នកទេ។ សូម​ប្រើ %1$s</string>
     <string name="label">ស្លាក</string>

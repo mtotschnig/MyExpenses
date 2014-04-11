@@ -113,7 +113,6 @@
     </string-array>
     <string name="help_leading">Děkujeme za instalaci <i>My výdaje</i> pro Android.</string>
     <string name="important_upgrade_information_heading">Důležité informace</string>
-    <string name="import_categories">Import kategorií</string>
     <string name="income">Příjem</string>
     <string name="invalid_number_format">Desítkový formát není rozpoznatelný vaším místním. Použijte %1$s</string>
     <string name="label">Popisek</string>

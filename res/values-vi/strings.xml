@@ -108,7 +108,6 @@
         <item>Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</item>
     </string-array>
     <string name="help_leading">Cảm ơn bạn đã cài đặt <i>Chi Tiêu Của Tôi</i> dành cho Android.</string>
-    <string name="import_categories">Nhập dữ liệu về phân loại</string>
     <string name="important_upgrade_information_heading">Thông tin quan trọng</string>
     <string name="income">Thu nhập</string>
     <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>

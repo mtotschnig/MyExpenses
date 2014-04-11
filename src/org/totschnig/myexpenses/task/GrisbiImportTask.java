@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
-import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
@@ -123,8 +124,12 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
   protected void onProgressUpdate(Integer... values) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       if (phaseChangedP) {
-        ((GrisbiImport) this.taskExecutionFragment.mCallbacks).setProgressMax(getMax());
-        ((GrisbiImport) this.taskExecutionFragment.mCallbacks).setProgressTitle(getTitle());
+        ProgressDialogFragment f = (ProgressDialogFragment) ((FragmentActivity) this.taskExecutionFragment.mCallbacks)
+        .getSupportFragmentManager().findFragmentByTag("PROGRESS");
+        if (f!=null) {
+          f.setMax(getMax());
+          f.setTitle(getTitle());
+        }
         phaseChangedP = false;
       }
       this.taskExecutionFragment.mCallbacks.onProgressUpdate(values[0]);

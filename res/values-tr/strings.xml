@@ -118,7 +118,6 @@
     </string-array>
     <string name="help_leading">Android için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
     <string name="important_upgrade_information_heading">Önemli bilgi</string>
-    <string name="import_categories">Kategorileri içe aktar</string>
     <string name="income">gelirler</string>
     <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
     <string name="label">Etiket</string>
