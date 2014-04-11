@@ -91,7 +91,6 @@
     <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">Kategorie %1$s i partie %2$s zostały zaimportowane pomyślnie</string>
     <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>
-    <string name="grisbi_import_categories_success">Importowanie kategorii %1$s zakończono pomyślnie</string>
     <string name="grisbi_import_default_source">Domyślne polskie kategorie</string>
     <string name="grisbi_import_parsing">Analizowanie %1$s</string>
     <string name="grisbi_import_parties_loading">Wczytywanie partii z %1$s</string>

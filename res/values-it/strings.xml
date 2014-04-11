@@ -94,7 +94,6 @@
     <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s categorie e %2$s beneficiari state importati</string>
     <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
-    <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
     <string name="grisbi_import_default_source">Categorie standard in italiano</string>
     <string name="grisbi_import_parsing">Analisi di %1$s</string>
     <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>

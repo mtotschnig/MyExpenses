@@ -92,7 +92,6 @@
     <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s ចំណាត់ថ្នាក់ និង %2$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>
-    <string name="grisbi_import_categories_success">%1$s ចំណាត់ថ្នាក់នាំចូលដោយជោគជ័យ</string>
     <string name="grisbi_import_default_source">ចំណាត់ថ្នាក់​លំនាំដើមជាភាសាអង់គ្លេស</string>
     <string name="grisbi_import_parsing">ញែក %1$s</string>
     <string name="grisbi_import_parties_loading">ផ្ទុកទិន្នន័យ​ភាគី​ពី %1$s បាន</string>

@@ -94,7 +94,6 @@
     <string name="ftp_uri_malformed">URI inválida %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s categorias e %2$s participantes importados com sucesso</string>
     <string name="grisbi_import_categories_loading">Carregando categorias de %1$s</string>
-    <string name="grisbi_import_categories_success">%1$s categorias importadas com sucesso</string>
     <string name="grisbi_import_default_source">Categorias padrão portugueses</string>
     <string name="grisbi_import_parsing">Analisando %1$s</string>
     <string name="grisbi_import_parties_loading">Carregando participantes de %1$s</string>

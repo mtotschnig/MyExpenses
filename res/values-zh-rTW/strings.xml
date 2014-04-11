@@ -87,7 +87,6 @@
     <string name="ftp_uri_malformed">異常URI %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s 類別和 %2$s 貿易夥伴被匯入成功</string>
     <string name="grisbi_import_categories_loading">從 %1$s 載入類別</string>
-    <string name="grisbi_import_categories_success">%1$s 類別成功被匯入</string>
     <string name="grisbi_import_default_source">建議類別 (中文)</string>
     <string name="grisbi_import_parsing">分析 %1$s</string>
     <string name="grisbi_import_parties_loading">由 %1$s 載入部分</string>

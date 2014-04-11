@@ -95,7 +95,6 @@
     <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien erfolgreich importiert</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
-    <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
     <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
     <string name="grisbi_import_parsing">Analyse von %1$s</string>
     <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>

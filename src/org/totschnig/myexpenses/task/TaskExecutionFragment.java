@@ -110,7 +110,7 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceGrisbiImport(boolean external,
-      String filePath, boolean withParties, boolean withCategories) {
+      String filePath, boolean withCategories, boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);

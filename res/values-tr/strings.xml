@@ -94,7 +94,6 @@
     <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s kategori ve %2$s bölüm başarıyla içe aktarıldı</string>
     <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
-    <string name="grisbi_import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
     <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
     <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
     <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>

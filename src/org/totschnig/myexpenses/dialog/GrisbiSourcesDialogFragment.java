@@ -23,7 +23,9 @@ DialogInterface.OnClickListener {
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       ((GrisbiImport) getActivity()).onSourceSelected(
-          mFilename.getText().toString()
+          mFilename.getText().toString(),
+          mImportCategories.isChecked(),
+          mImportParties.isChecked()
           );
     } else {
       super.onClick(dialog, id);
