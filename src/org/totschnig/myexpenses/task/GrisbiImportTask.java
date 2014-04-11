@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
@@ -17,7 +18,7 @@ import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
+public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
   /**
    * 
@@ -26,15 +27,22 @@ public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
 
   public GrisbiImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
-    this.withPartiesP = b.getBoolean("withParties");
+    this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
+    this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
+    this.filePath = b.getString(TaskExecutionFragment.KEY_FILE_PATH);
+    this.externalP = b.getBoolean(TaskExecutionFragment.KEY_EXTERNAL);
+    this.sourceStr = externalP ? filePath :
+      this.taskExecutionFragment.getString(R.string.grisbi_import_default_source);
   }
 
   String title;
   private int max;
+  String filePath, sourceStr;
+  boolean externalP;
   /**
-   * should we handle parties as well?
+   * should we handle parties/categories?
    */
-  boolean withPartiesP;
+  boolean withPartiesP, withCategoriesP;
   /**
    * this is set when we finish one phase (parsing, importing categories,
    * importing parties) so that we can adapt progress dialog in
@@ -57,22 +65,25 @@ public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
    * 
    * @param source2
    */
-  protected Result parseXML(String sourceStr) {
+  protected Result parseXML() {
     InputStream catXML = null;
     Result result;
 
     try {
-      if (sourceStr
-          .equals(GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL)) {
+      if (externalP) {
+        catXML = new FileInputStream(filePath);
+      } else {
+        int defaultSourceResId = this.taskExecutionFragment.getResources().getIdentifier(
+            "cat_"+ Locale.getDefault().getLanguage(),
+            "raw",
+            this.taskExecutionFragment.getActivity().getPackageName());
         try {
-          catXML = this.taskExecutionFragment.getResources().openRawResource(
-              GrisbiSourcesDialogFragment.defaultSourceResId);
+          catXML = this.taskExecutionFragment.getResources()
+              .openRawResource(defaultSourceResId);
         } catch (NotFoundException e) {
           catXML = this.taskExecutionFragment.getResources().openRawResource(R.raw.cat_en);
         }
-      } else {
-        catXML = new FileInputStream(sourceStr);
-      }
+      } 
       result = Utils.analyzeGrisbiFileWithSAX(catXML);
       if (result.success) {
         catTree = (CategoryTree) result.extra[0];
@@ -141,10 +152,8 @@ public class GrisbiImportTask extends AsyncTask<Boolean, Integer, Result> {
    * @see android.os.AsyncTask#doInBackground(Params[])
    */
   @Override
-  protected Result doInBackground(Boolean... external) {
-    String sourceStr = external[0] ? GrisbiSourcesDialogFragment.IMPORT_SOURCE_EXTERNAL
-        : GrisbiSourcesDialogFragment.IMPORT_SOURCE_INTERNAL;
-    Result r = parseXML(sourceStr);
+  protected Result doInBackground(Void... ignored) {
+    Result r = parseXML();
     if (!r.success) {
       return r;
     }

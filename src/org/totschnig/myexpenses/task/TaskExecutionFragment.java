@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import org.totschnig.myexpenses.export.qif.*;
 
@@ -40,6 +41,13 @@ import android.util.Log;
 public class TaskExecutionFragment extends Fragment {
   private static final String KEY_RUNNING = "running";
   private static final String KEY_TASKID = "taskId";
+  public static final String KEY_WITH_PARTIES = "withParties";
+  public static final String KEY_WITH_CATEGORIES = "withCategories";
+  public static final String KEY_WITH_TRANSACTIONS = "withTransactions";
+  public static final String KEY_FILE_PATH = "filePath";
+  public static final String KEY_EXTERNAL = "external";
+  public static final String KEY_DATE_FORMAT = "dateFormat";
+
   public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
@@ -106,10 +114,10 @@ public class TaskExecutionFragment extends Fragment {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);
-    bundle.putBoolean("external", external);
-    bundle.putString("filePath", filePath);
-    bundle.putBoolean("withParties", withParties);
-    bundle.putBoolean("withCategories", withCategories);
+    bundle.putBoolean(KEY_EXTERNAL, external);
+    bundle.putString(KEY_FILE_PATH, filePath);
+    bundle.putBoolean(KEY_WITH_PARTIES, withParties);
+    bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
     f.setArguments(bundle);
     return f;
   }
@@ -119,9 +127,9 @@ public class TaskExecutionFragment extends Fragment {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_QIF_IMPORT);
-    bundle.putString("filePath", filePath);
-    bundle.putSerializable("dateFormat", qifDateFormat);
-    bundle.putLong("accountId", accountId);
+    bundle.putString(KEY_FILE_PATH, filePath);
+    bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
+    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
     f.setArguments(bundle);
     return f;
   }
@@ -187,8 +195,7 @@ public class TaskExecutionFragment extends Fragment {
         new GrisbiImportTask(this, args).execute();
         break;
       case TASK_QIF_IMPORT:
-        new QifImportTask(this, (QifDateFormat) args.getSerializable("dateFormat"),
-            args.getLong("accountId")).execute(args.getString("filePath"));
+        new QifImportTask(this, args).execute();
         break;
       case TASK_EXPORT:
         new ExportTask(this,args).execute();

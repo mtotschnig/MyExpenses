@@ -43,25 +43,28 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class QifImportTask extends AsyncTask<String, String, Void> {
+public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
   private long accountId;
   private final Map<String, Long> payeeToId = new HashMap<String, Long>();
   private final Map<String, Long> categoryToId = new HashMap<String, Long>();
   private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
+  String filePath;
 
-  public QifImportTask(TaskExecutionFragment taskExecutionFragment,
-      QifDateFormat qifDateFormat, long accountId) {
+  public QifImportTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
-    this.dateFormat = qifDateFormat;
-    this.accountId = accountId;
+    this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
+    this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
+    this.filePath = b.getString(TaskExecutionFragment.KEY_FILE_PATH);
   }
 
   @Override
@@ -82,12 +85,12 @@ public class QifImportTask extends AsyncTask<String, String, Void> {
   }
 
   @Override
-  protected Void doInBackground(String... params) {
+  protected Void doInBackground(Void... params) {
     long t0 = System.currentTimeMillis();
     QifBufferedReader r;
     try {
       r = new QifBufferedReader(new BufferedReader(new InputStreamReader(
-          new FileInputStream(params[0]), "UTF-8")));
+          new FileInputStream(filePath), "UTF-8")));
     } catch (UnsupportedEncodingException e) {
       return null;
     } catch (FileNotFoundException e) {
@@ -115,13 +118,13 @@ public class QifImportTask extends AsyncTask<String, String, Void> {
         && parser.accounts.size() + Account.count(null, null) > 5) {
       publishProgress(
           MyApplication.getInstance()
-              .getString(R.string.qif_parse_failure_found_multiple_accounts)
-              + " "
-              + Html.fromHtml(MyApplication.getInstance()
-                  .getString(R.string.contrib_feature_accounts_unlimited_description)
-                  + " "
-                  + MyApplication.getInstance()
-                      .getString(R.string.dialog_contrib_reminder_remove_limitation)));
+            .getString(R.string.qif_parse_failure_found_multiple_accounts)
+          + " "
+          + MyApplication.getInstance()
+            .getText(R.string.contrib_feature_accounts_unlimited_description)
+          + " "
+          + MyApplication.getInstance()
+            .getText(R.string.dialog_contrib_reminder_remove_limitation));
       return(null);
     }
     publishProgress(MyApplication.getInstance()
