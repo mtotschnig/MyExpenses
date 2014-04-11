@@ -83,7 +83,7 @@
   <string name="feedback">التقييم</string>
   <string name="feedback_email_message">من فضلك! ارسل ملاحظاتك، بحروف انجليزية، فرنسية أو ألمانية.</string>
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
-  <string name="grisbi_import_default_source">التصنيفات الافتراضية الانجليزية</string>
+  <string name="grisbi_import_default_source">التصنيفات الافتراضية العربية</string>
   <string name="grisbi_import_button_categories_only">التصنيفات</string>
   <string name="grisbi_import_button_categories_and_parties">التصنيفات والأطراف</string>
   <string name="grisbi_import_categories_and_parties_success">تم استيراد %1$s تصنيفات و %2$s أطراف بنجاح</string>

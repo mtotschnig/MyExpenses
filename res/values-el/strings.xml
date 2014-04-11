@@ -95,7 +95,7 @@
     <string name="grisbi_import_categories_and_parties_success">%1$s κατηγορίες και %2$s μέρη που εισάγονται με επιτυχία</string>
     <string name="grisbi_import_categories_loading">Φόρτωση κατηγορίες από %1$s</string>
     <string name="grisbi_import_categories_success">%1$s κατηγορίες εισάγονται με επιτυχία</string>
-    <string name="grisbi_import_default_source">Αγγλικά προεπιλεγμένες κατηγορίες</string>
+    <string name="grisbi_import_default_source">Ελληνική προεπιλεγμένες κατηγορίες</string>
     <string name="grisbi_import_parsing">Ανάλυση %1$s</string>
     <string name="grisbi_import_parties_loading">Φόρτωση μέρη από %1$s</string>
     <string name="grouping_day">Ημέρα</string>

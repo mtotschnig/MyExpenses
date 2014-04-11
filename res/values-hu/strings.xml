@@ -88,7 +88,7 @@
     <string name="grisbi_import_categories_and_parties_success">%1$s kategóriák és %2$s résztvevők sikeresen beolvasva</string>
     <string name="grisbi_import_categories_loading">Kategóriák betöltése innen: %1$s</string>
     <string name="grisbi_import_categories_success">%1$s kategóriák sikeresen importálva</string>
-    <string name="grisbi_import_default_source">Angol alapértelmezett kategóriák</string>
+    <string name="grisbi_import_default_source">Magyar  alapértelmezett kategóriák</string>
     <string name="grisbi_import_parsing">%1$s beolvasása</string>
     <string name="grisbi_import_parties_loading">Résztvevők betöltése innen: %1$s</string>
     <string name="grouping_day">Nap</string>
