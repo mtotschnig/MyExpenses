@@ -413,9 +413,13 @@
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
     <string name="warning_select_account">Please select an account!</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
-    <string name="import_categories_success">%1$s categories imported successfully</string>
-    <string name="import_parties_success">%1$s parties imported successfully</string>
+    <string name="import_categories_success">%1$s categories successfully imported</string>
+    <string name="import_parties_success">%1$s parties successfully imported</string>
+    <string name="import_accounts_success">%1$s accounts successfully imported</string>
+    <string name="import_transactions_success">%1$s transactions successfully imported into account %2$s</string>
+    <string name="import_accounts_none">No accounts imported</string>
     <string name="import_categories_none">No categories imported</string>
     <string name="import_parties_none">No parties imported</string>
+    <string name="import_transactions_none">No transactions imported into account %1$s</string>
     <string name="menu_categories_setup_default">Setup default categories</string>
 </resources>

@@ -47,7 +47,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -55,6 +54,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
   private long accountId;
+  private int totalCategories=0;
   private final Map<String, Long> payeeToId = new HashMap<String, Long>();
   private final Map<String, Long> categoryToId = new HashMap<String, Long>();
   private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
@@ -124,8 +124,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   private void doImport(QifParser parser) {
     if (withPartiesP) {
-      insertPayees(parser.payees);
-      publishProgress("Inserting payees done");
+      int totalParties = insertPayees(parser.payees);
+      publishProgress(totalParties == 0 ? 
+          MyApplication.getInstance().getString(R.string.import_parties_none):
+          MyApplication.getInstance().getString(R.string.import_parties_success,totalParties));
     }
     /*
      * insertProjects(parser.classes); long t2 = System.currentTimeMillis();
@@ -134,7 +136,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
      */
     if (withCategoriesP) {
       insertCategories(parser.categories);
-      publishProgress("Inserting categories done");
+      publishProgress(totalCategories == 0 ? 
+        MyApplication.getInstance().getString(R.string.import_categories_none):
+        MyApplication.getInstance().getString(R.string.import_categories_success,totalCategories));
     }
     if (withTransactionsP) {
       if (accountId == 0) {
@@ -151,8 +155,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                 .getText(R.string.dialog_contrib_reminder_remove_limitation));
           return;
         }
-        insertAccounts(parser.accounts);
-        publishProgress("Inserting accounts done");
+        int totalAccounts = insertAccounts(parser.accounts);
+        publishProgress(totalAccounts == 0 ? 
+          MyApplication.getInstance().getString(R.string.import_accounts_none):
+          MyApplication.getInstance().getString(R.string.import_accounts_success,totalAccounts));
       } else {
         if (parser.accounts.size() > 1) {
           publishProgress(
@@ -165,17 +171,26 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         }
       }
       insertTransactions(parser.accounts);
-      publishProgress("Inserting transactions done");
     }
   }
 
-  private void insertPayees(Set<String> payees) {
+  private int insertPayees(Set<String> payees) {
+    int count = 0;
     for (String payee : payees) {
-      Long id = Payee.maybeWrite(payee);
-      if (id != null) {
-        payeeToId.put(payee, id);
+      Long id = payeeToId.get(payee);
+      if (id == null) {
+        id = Payee.find(payee);
+        if (id == -1) {
+          id = Payee.maybeWrite(payee);
+          if (id != -1)
+            count++;
+        }
+        if (id != -1) {
+          payeeToId.put(payee, id);
+        }
       }
     }
+    return count;
   }
 
   private void insertCategories(Set<QifCategory> categories) {
@@ -208,11 +223,18 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private Long insertRootCategory(String name) {
     Long id = categoryToId.get(name);
     if (id == null) {
-      id = Category.find(name, null);
-      if (id == -1) {
-        id = Category.write(0L, name, null);
-      }
-      categoryToId.put(name, id);
+      id = maybeWriteCategory(name,null);
+      if (id != -1)
+        categoryToId.put(name, id);
+    }
+    return id;
+  }
+  private Long maybeWriteCategory(String name,Long parentId) {
+    Long id = Category.find(name, null);
+    if (id == -1) {
+      id = Category.write(0L, name, null);
+      if (id != -1)
+        totalCategories++;
     }
     return id;
   }
@@ -224,22 +246,25 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       String parentCategoryName = name.substring(0, i);
       String childCategoryName = name.substring(i + 1);
       Long main = insertRootCategory(parentCategoryName);
-      id = Category.find(childCategoryName, main);
-      if (id == -1) {
-        id = Category.write(0L, childCategoryName, main);
+      if (main != -1) {
+        id = maybeWriteCategory(childCategoryName, main);
+        if (id != -1)
+          categoryToId.put(name, id);
       }
-      categoryToId.put(name, id);
     }
     return id;
   }
 
-  private void insertAccounts(List<QifAccount> accounts) {
+  private int insertAccounts(List<QifAccount> accounts) {
+    int count = 0;
     for (QifAccount account : accounts) {
       Account a = account.toAccount(Currency.getInstance("EUR"));
-      a.save();
+      if (a.save() != null)
+        count++;
       account.dbAccount = a;
       accountTitleToAccount.put(account.memo, account);
     }
+    return count;
   }
 
   private void insertTransactions(List<QifAccount> accounts) {
@@ -257,7 +282,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       long t3 = System.currentTimeMillis();
       QifAccount account = accounts.get(i);
       Account a = account.dbAccount;
-      insertTransactions(a, account.transactions);
+      int countTransactions = insertTransactions(a, account.transactions);
+      publishProgress(countTransactions == 0 ? 
+          MyApplication.getInstance().getString(R.string.import_transactions_none,account.memo):
+          MyApplication.getInstance().getString(R.string.import_transactions_success,countTransactions,account.memo));
       // this might help GC
       account.transactions.clear();
       long t4 = System.currentTimeMillis();
@@ -349,7 +377,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         && fromTransaction.amount == -toTransaction.amount;
   }
 
-  private void insertTransactions(Account a, List<QifTransaction> transactions) {
+  private int insertTransactions(Account a, List<QifTransaction> transactions) {
+    int count = 0;
     for (QifTransaction transaction : transactions) {
       Transaction t = transaction.toTransaction(a.id);
       t.payeeId = findPayee(transaction.payee);
@@ -369,8 +398,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
        } else {
          findCategory(transaction, t);
        }
-       t.save();
+       if (t.save() != null)
+         count++;
     }
+    return count;
   }
 
   private void findToAccount(QifTransaction transaction, Transaction t) {
