@@ -92,7 +92,6 @@
     <string name="feedback">Feedback</string>
     <string name="feedback_email_message">¡Envíenos su opinión, en inglés, francés o alemán, por favor!</string>
     <string name="ftp_uri_malformed">URI %1$s inválido</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s categorías y %2$s partidos han sido importados con éxito.</string>
     <string name="grisbi_import_categories_loading">Las categorías se cargan desde %1$s</string>
     <string name="grisbi_import_default_source">Categorías españoles estándar</string>
     <string name="grisbi_import_parsing">Análisis de %1$s</string>
@@ -390,4 +389,6 @@
     <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
     <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
     <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
+    <string name="import_categories_success">%1$s categorías han sido importados con éxito.</string>
+    <string name="import_parties_success">%1$s partidos han sido importados con éxito.</string>
 </resources>

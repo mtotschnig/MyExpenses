@@ -92,7 +92,6 @@
     <string name="feedback">Geri bildirim</string>
     <string name="feedback_email_message">Lütfen geri bildirimi İngilizce, Fransızca ya da Almanca olarak gönderin!</string>
     <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s kategori ve %2$s bölüm başarıyla içe aktarıldı</string>
     <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
     <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
     <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
@@ -387,4 +386,6 @@
     <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
     <string name="warning_select_account">Lütfen bir hesap seçin!</string>
     <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
+    <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
+    <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
 </resources>

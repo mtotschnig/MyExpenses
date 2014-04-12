@@ -92,7 +92,6 @@
     <string name="feedback">Réactions</string>
     <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
     <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s catégories et %2$s tiers ont été importés</string>
     <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
     <string name="grisbi_import_default_source">Catégories standard françaises</string>
     <string name="grisbi_import_parsing">Analyse de %1$s</string>
@@ -390,4 +389,6 @@
     <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde. Les données actuelles seront supprimées. Voulez-vous continuer?</string>
     <string name="warning_select_account">Vous devez sélectionner un compte!</string>
     <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
+    <string name="import_categories_success">%1$s catégories ont été importés</string>
+    <string name="import_parties_success">%1$s tiers ont été importés</string>
 </resources>

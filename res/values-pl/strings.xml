@@ -89,7 +89,6 @@
     <string name="feedback">Opinie</string>
     <string name="feedback_email_message">Wyślij swoje opinie, w języku Angielskim, Francuskim lub Niemieckim.</string>
     <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">Kategorie %1$s i partie %2$s zostały zaimportowane pomyślnie</string>
     <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>
     <string name="grisbi_import_default_source">Domyślne polskie kategorie</string>
     <string name="grisbi_import_parsing">Analizowanie %1$s</string>
@@ -351,4 +350,6 @@
     <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
     <string name="warning_select_account">Proszę wybrać konto!</string>
     <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
+    <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
+    <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
 </resources>

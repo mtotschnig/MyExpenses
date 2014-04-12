@@ -92,7 +92,6 @@
     <string name="feedback">Feedback</string>
     <string name="feedback_email_message">Invia il tuo commento, in inglese, francese o tedesco, per favore!</string>
     <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s categorie e %2$s beneficiari state importati</string>
     <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
     <string name="grisbi_import_default_source">Categorie standard in italiano</string>
     <string name="grisbi_import_parsing">Analisi di %1$s</string>
@@ -389,4 +388,6 @@
     <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati attuali verranno cancellati. Vuoi continuare?</string>
     <string name="warning_select_account">Si deve selezionare un conto !</string>
     <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
+    <string name="import_categories_success">%1$s categorie state importati</string>
+    <string name="import_parties_success">%1$s beneficiari state importati</string>
 </resources>

@@ -88,7 +88,6 @@
     <string name="feedback">Comentaris</string>
     <string name="feedback_email_message">Envieu-nos la seva opinió, en anglès, francès o alemany, per favor!</string>
     <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s categories i %2$s tercers s\'han importat correctament.</string>
     <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
     <string name="grisbi_import_default_source">Categories predeterminades en català</string>
     <string name="grisbi_import_parsing">Análisi de %1$s</string>
@@ -350,4 +349,6 @@
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat. S\'esborraran les dades actuals. Voleu continuar?</string>
     <string name="warning_select_account">Si us plau, trieu un compte!</string>
+    <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
+    <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
 </resources>

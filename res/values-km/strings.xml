@@ -90,7 +90,6 @@
     <string name="feedback">ផ្តល់មតិ</string>
     <string name="feedback_email_message">សូមមេត្តាបញ្ចេញមតិ​របស់​អ្នកជាភាសា​អង់គ្លេស បារាំង ឬអាឡឺម៉ង់!</string>
     <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s ចំណាត់ថ្នាក់ និង %2$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>
     <string name="grisbi_import_default_source">ចំណាត់ថ្នាក់​លំនាំដើមជាភាសាអង់គ្លេស</string>
     <string name="grisbi_import_parsing">ញែក %1$s</string>
@@ -360,4 +359,6 @@
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។ តើអ្នកចង់បន្តឬ?</string>
     <string name="warning_select_account">សូមជ្រើសរើស​គណនី​មួយ!</string>
+    <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
+    <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
 </resources>

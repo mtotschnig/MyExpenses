@@ -93,7 +93,6 @@
     <string name="feedback">Feedback</string>
     <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
     <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien erfolgreich importiert</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
     <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
     <string name="grisbi_import_parsing">Analyse von %1$s</string>
@@ -391,4 +390,6 @@
     <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
     <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
     <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
+    <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
+    <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
 </resources>

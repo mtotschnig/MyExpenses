@@ -84,7 +84,6 @@
     <string name="feedback_email_message">Gửi phản hồi của bạn, bằng tiếng Anh, Pháp hoặc tiếng Đức!</string>
     <string name="ftp_uri_malformed">URI lỗi %1$s</string>
     <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Việt</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s phân loại và %2$s nhóm đã được nhập dữ liệu thành công</string>
     <string name="grisbi_import_categories_loading">Đang tải phân loại từ %1$s</string>
     <string name="grisbi_import_parsing">Đang phân tích %1$s</string>
     <string name="grisbi_import_parties_loading">Đang tải các nhóm từ %1$s</string>
@@ -288,4 +287,6 @@
     <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ. Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
     <string name="warning_select_account">Vui lòng chọn một tài khoản!</string>
     <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
+    <string name="import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
+    <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>
 </resources>

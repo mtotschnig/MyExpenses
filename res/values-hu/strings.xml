@@ -85,7 +85,6 @@
     <string name="feedback">Visszajelzés</string>
     <string name="feedback_email_message">Kérjük visszajelzését angolul, franciául, vagy németül írja meg számunkra!</string>
     <string name="ftp_uri_malformed">Helytelen URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s kategóriák és %2$s résztvevők sikeresen beolvasva</string>
     <string name="grisbi_import_categories_loading">Kategóriák betöltése innen: %1$s</string>
     <string name="grisbi_import_default_source">Magyar  alapértelmezett kategóriák</string>
     <string name="grisbi_import_parsing">%1$s beolvasása</string>
@@ -340,4 +339,5 @@
     <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből. A jelenlegi adatok törlésre kerülnek. Folytatja?</string>
     <string name="warning_select_account">Kérem válasszon egy számlát!</string>
     <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
-</resources>
+    <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
+    <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string></resources>

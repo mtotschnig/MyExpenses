@@ -85,7 +85,6 @@
     <string name="feedback">意見反饋</string>
     <string name="feedback_email_message">以英語、法語或德語反饋意見，感謝！</string>
     <string name="ftp_uri_malformed">異常URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s 類別和 %2$s 貿易夥伴被匯入成功</string>
     <string name="grisbi_import_categories_loading">從 %1$s 載入類別</string>
     <string name="grisbi_import_default_source">建議類別 (中文)</string>
     <string name="grisbi_import_parsing">分析 %1$s</string>
@@ -338,4 +337,6 @@
     <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來。當前的數據會被刪除。你要繼續嗎？</string>
     <string name="warning_select_account">請選擇一個帳戶！</string>
     <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>
+    <string name="import_categories_success">%1$s 類別  被匯入成功</string>
+    <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
 </resources>

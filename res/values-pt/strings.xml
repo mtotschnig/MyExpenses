@@ -92,7 +92,6 @@
     <string name="feedback">Comentar</string>
     <string name="feedback_email_message">Envie seus comentários, em inglês, francês ou alemão, por favor!</string>
     <string name="ftp_uri_malformed">URI inválida %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s categorias e %2$s participantes importados com sucesso</string>
     <string name="grisbi_import_categories_loading">Carregando categorias de %1$s</string>
     <string name="grisbi_import_default_source">Categorias padrão portugueses</string>
     <string name="grisbi_import_parsing">Analisando %1$s</string>
@@ -387,4 +386,6 @@
     <string name="warning_restore">Banco de dados e preferências serão restauradas do backup. Os dados atuais serão excluídos. Você quer continuar?</string>
     <string name="warning_select_account">Por favor, selecione uma conta!</string>
     <string name="warning_splitpartcategory_context">Transferências que fazem parte de um transação de divisão apenas podem ser editadas no contexto da divisão.</string>
+    <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
+    <string name="import_parties_success">%1$s participantes importados com sucesso</string>
 </resources>

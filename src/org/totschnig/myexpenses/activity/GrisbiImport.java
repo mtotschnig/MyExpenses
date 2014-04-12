@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -36,9 +37,27 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
   @Override
   public void onPostExecute(int taskId,Object result) {
     super.onPostExecute(taskId,result);
+    Result r = (Result) result;
     String msg;
-    msg = ((Result) result).print(this);
-    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    if (r.success) {
+      int imported = (int) r.extra[0];
+      if (imported>-1) {
+        msg = imported == 0 ?
+            getString(R.string.import_categories_none) :
+            getString(R.string.import_categories_success,imported);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+      }
+      imported = (int) r.extra[1];
+      if (imported>-1) {
+        msg = imported == 0 ?
+            getString(R.string.import_parties_none) :
+            getString(R.string.import_parties_success,imported);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+      }
+    } else {
+      msg = r.print(this);
+      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
     finish();
   }
 

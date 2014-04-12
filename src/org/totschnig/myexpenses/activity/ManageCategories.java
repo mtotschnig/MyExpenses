@@ -219,10 +219,21 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     @Override
     public void onPostExecute(int taskId,Object result) {
       super.onPostExecute(taskId,result);
-      String msg;
-      msg = ((Result) result).print(this);
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-      finish();
+      if (taskId == TaskExecutionFragment.TASK_GRISBI_IMPORT) {
+        Result r = (Result) result;
+        String msg;
+        if (r.success) {
+          int imported = (int) r.extra[0];
+          if (imported>0) {
+            msg = getString(R.string.import_categories_success,imported);
+          } else {
+            msg = getString(R.string.import_categories_none);
+          }
+        } else {
+          msg = r.print(this);
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+      }
     }
     @Override
     public Model getObject() {

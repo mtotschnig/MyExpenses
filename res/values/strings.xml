@@ -107,7 +107,6 @@
     <string name="feedback">Feedback</string>
     <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
     <string name="ftp_uri_malformed">Malformed URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties imported successfully</string>
     <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
     <string name="grisbi_import_default_source">English default categories</string>
     <string name="grisbi_import_parsing">Parsing %1$s</string>
@@ -414,5 +413,9 @@
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
     <string name="warning_select_account">Please select an account!</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
-    <string name="categories_setup_default">Setup default categories</string>
+    <string name="import_categories_success">%1$s categories imported successfully</string>
+    <string name="import_parties_success">%1$s parties imported successfully</string>
+    <string name="import_categories_none">No categories imported</string>
+    <string name="import_parties_none">No parties imported</string>
+    <string name="menu_categories_setup_default">Setup default categories</string>
 </resources>

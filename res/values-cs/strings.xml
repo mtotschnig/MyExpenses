@@ -87,7 +87,6 @@
     <string name="feedback">Zpětná vazba</string>
     <string name="feedback_email_message">Pošlete váš názor v angličtině, francouzštině nebo němčině, prosím!</string>
     <string name="ftp_uri_malformed">Chybné URI %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s kategorie a %2$s strany byly úspěšně naimportovány.</string>
     <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
     <string name="grisbi_import_default_source">České výchozí kategorie</string>
     <string name="grisbi_import_parsing">Načítání %1$s</string>
@@ -348,4 +347,6 @@
     <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy. Aktuální data budou odstraněna. Přejete si pokračovat?</string>
     <string name="warning_select_account">Nejprve vyberte účet!</string>
     <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
+    <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
+    <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
 </resources>
