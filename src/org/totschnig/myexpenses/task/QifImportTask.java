@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.mozilla.universalchardet.UniversalDetector;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.qif.QifAccount;
@@ -95,31 +96,76 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   protected Void doInBackground(Void... params) {
     long t0 = System.currentTimeMillis();
     QifBufferedReader r;
+    QifParser parser;
     try {
+      String encoding = detectEncoding(filePath);
+      Log.i("DEBUG","Encoding : " + encoding);
       r = new QifBufferedReader(new BufferedReader(new InputStreamReader(
-          new FileInputStream(filePath), "UTF-8")));
-    } catch (UnsupportedEncodingException e) {
-      return null;
+          new FileInputStream(filePath), encoding != null ? encoding : "UTF-8")));
     } catch (FileNotFoundException e) {
+      publishProgress(MyApplication.getInstance()
+          .getString(R.string.parse_error_file_not_found,filePath));
+      return null;
+    } catch (IOException e) {
+      publishProgress(MyApplication.getInstance()
+          .getString(R.string.parse_error_other_exception,e.getMessage()));
       return null;
     }
-    QifParser parser = new QifParser(r, dateFormat);
+    parser = new QifParser(r, dateFormat);
     try {
       parser.parse();
+      long t1 = System.currentTimeMillis();
+      Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
+          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+      publishProgress(MyApplication.getInstance()
+          .getString(
+              R.string.qif_parse_result,
+              String.valueOf(parser.accounts.size()),
+              String.valueOf(parser.categories.size()),
+              String.valueOf(parser.payees.size())));
+      doImport(parser);
+      return(null);
     } catch (IOException e) {
+      publishProgress(MyApplication.getInstance()
+          .getString(R.string.parse_error_other_exception,e.getMessage()));
       return null;
+    } finally {
+      try {
+        r.close();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
-    long t1 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
-    publishProgress(MyApplication.getInstance()
-        .getString(
-            R.string.qif_parse_result,
-            String.valueOf(parser.accounts.size()),
-            String.valueOf(parser.categories.size()),
-            String.valueOf(parser.payees.size())));
-    doImport(parser);
-    return(null);
+  }
+
+  private String detectEncoding(String filePath) throws IOException {
+    byte[] buf = new byte[4096];
+    java.io.FileInputStream fis = new java.io.FileInputStream(filePath);
+
+    // (1)
+    UniversalDetector detector = new UniversalDetector(null);
+
+    // (2)
+    int nread;
+    while ((nread = fis.read(buf)) > 0 && !detector.isDone()) {
+      detector.handleData(buf, 0, nread);
+    }
+    // (3)
+    detector.dataEnd();
+
+    // (4)
+    String encoding = detector.getDetectedCharset();
+    if (encoding != null) {
+      System.out.println("Detected encoding = " + encoding);
+    } else {
+      System.out.println("No encoding detected.");
+    }
+
+    // (5)
+    detector.reset();
+    fis.close();
+    return encoding;
   }
 
   private void doImport(QifParser parser) {

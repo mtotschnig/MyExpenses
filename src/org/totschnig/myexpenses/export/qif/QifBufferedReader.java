@@ -44,5 +44,7 @@ public class QifBufferedReader {
         r.reset();
         return peek;
     }
-
+    public void close() throws IOException {
+      r.close();
+    }
 }
