@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {

@@ -19,7 +19,9 @@
     <item name="android:windowBackground">@android:color/transparent</item>
     <item name="android:windowNoTitle">true</item>
   </style>
-	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar"/>
+	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar">
+    <item name="browseIcon">@drawable/ic_action_browse_light</item>
+  </style>
 	<style name="BaseDark" parent="@style/Theme.AppCompat">
     <item name="actionBarStyle">@style/ActionBarDark</item>
   </style>

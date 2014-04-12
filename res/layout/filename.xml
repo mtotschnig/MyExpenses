@@ -1,38 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-  ~ Copyright (c) 2011 Denis Solonenko.
-  ~ All rights reserved. This program and the accompanying materials
-  ~ are made available under the terms of the GNU Public License v2.0
-  ~ which accompanies this distribution, and is available at
-  ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-  -->
+<!-- ~ Copyright (c) 2011 Denis Solonenko. ~ All rights reserved. This program 
+	and the accompanying materials ~ are made available under the terms of the 
+	GNU Public License v2.0 ~ which accompanies this distribution, and is available 
+	at ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-<!--     <TextView android:layout_height="wrap_content"
-              android:layout_width="fill_parent" android:layout_marginLeft="3dp"
-              android:text="@string/file_name"/> -->
-              
-      <TableRow
-          android:gravity="center_vertical">
-        <TextView
-            android:text="File"
-            style="@style/dialog_text"/>
-    <EditText
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Filename"
-        android:singleLine="true">
-      <requestFocus/>
-    </EditText>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_action_browse_dark"
-        android:id="@+id/btn_browse"
-        android:layout_height="wrap_content"/>
-<!--     <TextView android:layout_height="wrap_content"
-              android:layout_width="fill_parent" android:layout_marginLeft="3dp"
-              android:text="@string/file_import_utf8_warning" android:textColor="@color/negative_amount"/> -->
-      </TableRow>
+	<TableRow android:gravity="center_vertical">
+		<TextView android:text="File" style="@style/dialog_text" />
+		<EditText android:layout_weight="1" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/Filename"
+			android:singleLine="true">
+			<requestFocus />
+		</EditText>
+		<ImageButton android:layout_width="wrap_content"
+			android:layout_gravity="center_vertical" android:src="?attr/browseIcon"
+			android:id="@+id/btn_browse" android:layout_height="wrap_content" />
+	</TableRow>
 </merge>

@@ -34,6 +34,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   protected CheckBox mImportCategories;
   protected CheckBox mImportParties;
   protected CheckBox mImportTransactions;
+  protected Context wrappedCtx;
 
   public ImportSourceDialogFragment() {
     super();
@@ -47,7 +48,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
+    wrappedCtx = DialogUtils.wrapContext2(getActivity());
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(getLayoutId(), null);
     setupDialogView(view);

@@ -95,7 +95,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
     mDateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
         new ArrayAdapter<QifDateFormat>(
-            getActivity(), android.R.layout.simple_spinner_item, QifDateFormat.values());
+            wrappedCtx, android.R.layout.simple_spinner_item, QifDateFormat.values());
     dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mDateFormatSpinner.setAdapter(dateFormatAdapter);
     mDateFormatSpinner.setSelection(
@@ -104,7 +104,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
             .getString(PREFKEY_IMPORT_QIF_DATE_FORMAT, "EU")
             == "EU" ? "EU" : "US")
         .ordinal());
-    mAccountsAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null,
+    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
