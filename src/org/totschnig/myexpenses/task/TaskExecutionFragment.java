@@ -123,13 +123,17 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceQifImport(String filePath,
-      QifDateFormat qifDateFormat, long accountId) {
+      QifDateFormat qifDateFormat, long accountId,
+      boolean withTransactions, boolean withCategories, boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_QIF_IMPORT);
     bundle.putString(KEY_FILE_PATH, filePath);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    bundle.putBoolean(KEY_WITH_TRANSACTIONS, withTransactions);
+    bundle.putBoolean(KEY_WITH_PARTIES, withParties);
+    bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
     f.setArguments(bundle);
     return f;
   }

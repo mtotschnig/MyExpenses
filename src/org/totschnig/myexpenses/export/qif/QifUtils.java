@@ -60,7 +60,7 @@ public class QifUtils {
 
         String[] chunks = DATE_DELIMITER_PATTERN.split(sDate);
 
-        if (format == US_FORMAT) {
+        if (format == US) {
             try {
                 month = Integer.parseInt(chunks[0].trim());
                 day = Integer.parseInt(chunks[1].trim());
@@ -69,7 +69,7 @@ public class QifUtils {
                 //eat it
                 Log.e("QifUtils", "Unable to parse US date", e);
             }
-        } else if (format == EU_FORMAT) {
+        } else if (format == EU) {
             try {
                 day = Integer.parseInt(chunks[0].trim());
                 month = Integer.parseInt(chunks[1].trim());

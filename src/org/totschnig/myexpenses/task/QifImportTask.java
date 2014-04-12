@@ -59,12 +59,19 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final Map<String, Long> categoryToId = new HashMap<String, Long>();
   private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
   String filePath;
+  /**
+   * should we handle parties/categories?
+   */
+  boolean withPartiesP, withCategoriesP, withTransactionsP;
 
   public QifImportTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
     this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
     this.filePath = b.getString(TaskExecutionFragment.KEY_FILE_PATH);
+    this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
+    this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
+    this.withTransactionsP = b.getBoolean(TaskExecutionFragment.KEY_WITH_TRANSACTIONS);
   }
 
   @Override
@@ -105,28 +112,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     long t1 = System.currentTimeMillis();
     Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
         + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
-    if (parser.accounts.size() > 1 && accountId != 0) {
-      publishProgress(
-          MyApplication.getInstance()
-              .getString(R.string.qif_parse_failure_found_multiple_accounts)
-              + " "
-              + MyApplication.getInstance()
-                  .getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
-      return(null);
-    }
-    if (accountId == 0 && !MyApplication.getInstance().isContribEnabled
-        && parser.accounts.size() + Account.count(null, null) > 5) {
-      publishProgress(
-          MyApplication.getInstance()
-            .getString(R.string.qif_parse_failure_found_multiple_accounts)
-          + " "
-          + MyApplication.getInstance()
-            .getText(R.string.contrib_feature_accounts_unlimited_description)
-          + " "
-          + MyApplication.getInstance()
-            .getText(R.string.dialog_contrib_reminder_remove_limitation));
-      return(null);
-    }
     publishProgress(MyApplication.getInstance()
         .getString(
             R.string.qif_parse_result,
@@ -138,21 +123,50 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   }
 
   private void doImport(QifParser parser) {
-    insertPayees(parser.payees);
-    publishProgress("Inserting payees done");
+    if (withPartiesP) {
+      insertPayees(parser.payees);
+      publishProgress("Inserting payees done");
+    }
     /*
      * insertProjects(parser.classes); long t2 = System.currentTimeMillis();
      * Log.i(MyApplication.TAG, "QIF Import: Inserting projects done in "+
      * TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
      */
-    insertCategories(parser.categories);
-    publishProgress("Inserting categories done");
-    if (accountId == 0) {
-      insertAccounts(parser.accounts);
-      publishProgress("Inserting accounts done");
+    if (withCategoriesP) {
+      insertCategories(parser.categories);
+      publishProgress("Inserting categories done");
     }
-    insertTransactions(parser.accounts);
-    publishProgress("Inserting transactions done");
+    if (withTransactionsP) {
+      if (accountId == 0) {
+        if (!MyApplication.getInstance().isContribEnabled
+            && parser.accounts.size() + Account.count(null, null) > 5) {
+          publishProgress(
+              MyApplication.getInstance()
+                .getString(R.string.qif_parse_failure_found_multiple_accounts)
+              + " "
+              + MyApplication.getInstance()
+                .getText(R.string.contrib_feature_accounts_unlimited_description)
+              + " "
+              + MyApplication.getInstance()
+                .getText(R.string.dialog_contrib_reminder_remove_limitation));
+          return;
+        }
+        insertAccounts(parser.accounts);
+        publishProgress("Inserting accounts done");
+      } else {
+        if (parser.accounts.size() > 1) {
+          publishProgress(
+              MyApplication.getInstance()
+                  .getString(R.string.qif_parse_failure_found_multiple_accounts)
+                  + " "
+                  + MyApplication.getInstance()
+                      .getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
+          return;
+        }
+      }
+      insertTransactions(parser.accounts);
+      publishProgress("Inserting transactions done");
+    }
   }
 
   private void insertPayees(Set<String> payees) {

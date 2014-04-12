@@ -34,11 +34,22 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
     }
   }
 
-  public void onSourceSelected(String filePath, QifDateFormat qifDateFormat,
-      long accountId) {
+  public void onSourceSelected(
+      String filePath,
+      QifDateFormat qifDateFormat,
+      long accountId,
+      boolean withTransactions,
+      boolean withCategories,
+      boolean withParties) {
     getSupportFragmentManager()
       .beginTransaction()
-      .add(TaskExecutionFragment.newInstanceQifImport(filePath, qifDateFormat, accountId),
+      .add(TaskExecutionFragment.newInstanceQifImport(
+          filePath,
+          qifDateFormat,
+          accountId,
+          withTransactions,
+          withCategories,
+          withParties),
           "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(
           R.string.pref_import_qif_title,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")

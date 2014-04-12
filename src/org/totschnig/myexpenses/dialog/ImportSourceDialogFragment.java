@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.dialog;
 
 import java.io.File;
-import java.util.ArrayList;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivityNoAppCompat;
 import android.app.Activity;

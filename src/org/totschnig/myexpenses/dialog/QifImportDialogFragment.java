@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.dialog;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -18,6 +19,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -27,12 +29,18 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   Spinner mAccountSpinner;
   Spinner mDateFormatSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
+
+  static final String PREFKEY_IMPORT_QIF_DATE_FORMAT = "import_qif_date_format";
+  static final String PREFKEY_IMPORT_QIF_FILE_PATH = "import_qif_file_path";
+
   public static final QifImportDialogFragment newInstance() {
     return new QifImportDialogFragment();
   }
+  @Override
   protected int getLayoutId() {
     return R.layout.qif_import_dialog;
   }
+  @Override
   protected int getLayoutTitle() {
     return R.string.pref_import_qif_title;
   }
@@ -40,10 +48,19 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
+      String fileName = mFilename.getText().toString();
+      QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
+      MyApplication.getInstance().getSettings().edit()
+        .putString(PREFKEY_IMPORT_QIF_FILE_PATH, fileName)
+        .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString())
+        .commit();
       ((QifImport) getActivity()).onSourceSelected(
-          mFilename.getText().toString(),
-          (QifDateFormat) mDateFormatSpinner.getSelectedItem(),
-          mAccountSpinner.getSelectedItemId()
+          fileName,
+          format,
+          mAccountSpinner.getSelectedItemId(),
+          mImportTransactions.isChecked(),
+          mImportCategories.isChecked(),
+          mImportParties.isChecked()
           );
     } else {
       super.onClick(dialog, id);
@@ -81,10 +98,24 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
             getActivity(), android.R.layout.simple_spinner_item, QifDateFormat.values());
     dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mDateFormatSpinner.setAdapter(dateFormatAdapter);
+    mDateFormatSpinner.setSelection(
+        QifDateFormat.valueOf(
+            MyApplication.getInstance().getSettings()
+            .getString(PREFKEY_IMPORT_QIF_DATE_FORMAT, "EU")
+            == "EU" ? "EU" : "US")
+        .ordinal());
     mAccountsAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     getLoaderManager().initLoader(0, null, this);
+  }
+  @Override
+  public void onStart() {
+    super.onStart();
+    if (TextUtils.isEmpty(mFilename.getText().toString())) {
+      mFilename.setText(MyApplication.getInstance().getSettings()
+          .getString(PREFKEY_IMPORT_QIF_FILE_PATH, ""));
+    }
   }
 }
