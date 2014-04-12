@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.support.v4.app.DialogFragment;
-import android.widget.Button;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -32,6 +31,9 @@ public class ProgressDialogFragment extends DialogFragment {
   private static final String KEY_TITLE = "title";
   private ProgressDialog mDialog;
   boolean mTaskCompleted = false;
+  int progress = 0, max;
+  String title, message;
+ 
 
   /**
    * @param message if different from 0 a resource string identifier displayed as the dialogs's message
@@ -57,33 +59,53 @@ public class ProgressDialogFragment extends DialogFragment {
     f.setCancelable(false);
     return f;
   }
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setRetainInstance(true);
+  }
   @Override
   public void onResume() {
     super.onResume();
-    if (!mTaskCompleted) {
-      Button b =  mDialog.getButton(DialogInterface.BUTTON_NEUTRAL);
-      if (b != null) {
-       b.setEnabled(false); 
-      }
-    }
+    mDialog.setProgress(progress);
+    mDialog.setMax(max);
+    mDialog.setTitle(title);
+    mDialog.setMessage(message);
+    if (mTaskCompleted)
+      mDialog.setIndeterminateDrawable(null);
+  }
+  //http://stackoverflow.com/a/12434038/1199911
+  @Override
+  public void onDestroyView() {
+      if (getDialog() != null && getRetainInstance())
+          getDialog().setDismissMessage(null);
+          super.onDestroyView();
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
-    int message = getArguments().getInt(KEY_MESSAGE);
+    int messageResId = getArguments().getInt(KEY_MESSAGE);
     mDialog = (progressStyle == ScrollableProgressDialog.STYLE_SPINNER) ?
         new ScrollableProgressDialog(getActivity()) :
         new ProgressDialog(getActivity());
-    int title = getArguments().getInt(KEY_TITLE);
     boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
-    if (message != 0) {
-      mDialog.setMessage(getString(message));
-    } else if (title != 0)  {
-      mDialog.setTitle(title);
-    } else {
-      //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
-      mDialog.setTitle("...");
-    }
+      int titleResId = getArguments().getInt(KEY_TITLE);
+      if (messageResId != 0) {
+        //message might have been set through setmessage
+        if (message == null) {
+          message = getString(messageResId);
+          mDialog.setMessage(message);
+        }
+      } else {
+        if (titleResId != 0)  {
+          if (title == null)
+            title = getString(titleResId);
+        } else {
+          //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
+          if (title == null)
+            title = "...";
+        }
+        mDialog.setTitle(title);
+      }
     if (progressStyle != ScrollableProgressDialog.STYLE_SPINNER) {
       mDialog.setProgressStyle(progressStyle);
     } else {
@@ -98,26 +120,28 @@ public class ProgressDialogFragment extends DialogFragment {
             }
       });
     }
-    mDialog.setProgress(0);
     return mDialog;
   }
   public void setProgress(int progress) {
-   mDialog.setProgress(progress);
+    this.progress = progress;
+    mDialog.setProgress(progress);
   }
   public void setMax(int max) {
-   mDialog.setMax(max);
+    this.max = max;
+    mDialog.setMax(max);
   }
   public void setTitle(String title) {
-   mDialog.setTitle(title);
+    this.title = title;
+    mDialog.setTitle(title);
   }
-  public void setMessage(String progress) {
-    mDialog.setMessage(progress);
+  public void setMessage(String message) {
+    this.message = message;
+    mDialog.setMessage(message);
   }
   public void onTaskCompleted() {
     mTaskCompleted = true;
     mDialog.setIndeterminateDrawable(null);
     mDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
-    setCancelable(true);
   }
   @Override
   public void onCancel (DialogInterface dialog) {
