@@ -6,6 +6,8 @@ package org.totschnig.myexpenses.export.qif;
 
 import org.totschnig.myexpenses.model.Account;
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -38,7 +40,7 @@ public class QifAccount {
     public Account toAccount(Currency currency) {
         Account a = new Account();
         a.currency = currency;
-        a.label = memo;
+        a.label = TextUtils.isEmpty(memo) ? "QIF Import" : memo;
         a.type = Account.Type.fromQifName(type);
         a.description = desc;
         return a;
