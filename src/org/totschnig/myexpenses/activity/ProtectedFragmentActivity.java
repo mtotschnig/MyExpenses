@@ -113,7 +113,6 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
 
   public void onMessageDialogDismissOrCancel() {
-    protection.clearProgress();
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

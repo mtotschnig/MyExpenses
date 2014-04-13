@@ -36,7 +36,6 @@ import android.widget.Toast;
  */
 public class ProtectionDelegate {
   Activity ctx;
-  private String progress = "";
   public ProtectionDelegate(Activity ctx) {
     this.ctx = ctx;
   }
@@ -86,19 +85,9 @@ public class ProtectionDelegate {
       if (progress instanceof Integer) {
         f.setProgress((Integer) progress);
       } else if (progress instanceof String) {
-        appendToProgress((String) progress);
-        f.setMessage(getProgress());
+        f.appendToMessage((String) progress);
       }
     }
-  }
-  void appendToProgress(String progress) {
-    this.progress += "\n" + progress;
-  }
-  String getProgress() {
-    return progress;
-  }
-  void clearProgress() {
-    progress ="";
   }
   public void startTaskExecution(int taskId, Long[] objectIds,
       Serializable extra, int progressMessage) {

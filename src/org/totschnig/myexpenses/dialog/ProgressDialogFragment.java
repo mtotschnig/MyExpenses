@@ -21,6 +21,9 @@ import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Button;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -69,9 +72,18 @@ public class ProgressDialogFragment extends DialogFragment {
     mDialog.setProgress(progress);
     mDialog.setMax(max);
     mDialog.setTitle(title);
-    mDialog.setMessage(message);
-    if (mTaskCompleted)
+    if (!TextUtils.isEmpty(message)) {
+      mDialog.setMessage(message);
+    }
+    if (mTaskCompleted) {
       mDialog.setIndeterminateDrawable(null);
+    }
+    else {
+      Button b =  mDialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+      if (b != null) {
+        b.setEnabled(false); 
+      }
+    }
   }
   //http://stackoverflow.com/a/12434038/1199911
   @Override
@@ -134,9 +146,15 @@ public class ProgressDialogFragment extends DialogFragment {
     this.title = title;
     mDialog.setTitle(title);
   }
-  public void setMessage(String message) {
-    this.message = message;
-    mDialog.setMessage(message);
+  public void appendToMessage(String newMessage) {
+    if (TextUtils.isEmpty(this.message)) {
+      Log.i("DEBUG", "setting message to " + newMessage);
+      this.message = newMessage;
+    } else {
+      Log.i("DEBUG", "appending message " + newMessage + " to " + this.message);
+      this.message += "\n" + newMessage;
+    }
+    mDialog.setMessage(this.message);
   }
   public void onTaskCompleted() {
     mTaskCompleted = true;
