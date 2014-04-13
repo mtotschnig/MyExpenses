@@ -5,13 +5,14 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
 public class GrisbiSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
   
-  static final String PREFKEY_IMPORT_GRISBI_FILE_PATH = "import_grisbi_file_path";
+  static final String PREFKEY_IMPORT_GRISBI_FILE_URI = "import_grisbi_file_uri";
   
   public static final GrisbiSourcesDialogFragment newInstance() {
     return new GrisbiSourcesDialogFragment();
@@ -28,9 +29,8 @@ DialogInterface.OnClickListener {
   @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
-      String fileName = mFilename.getText().toString();
       MyApplication.getInstance().getSettings().edit()
-      .putString(PREFKEY_IMPORT_GRISBI_FILE_PATH, fileName)
+      .putString(PREFKEY_IMPORT_GRISBI_FILE_URI, mUri.toString())
       .commit();
       ((GrisbiImport) getActivity()).onSourceSelected(
           mUri,
@@ -49,9 +49,13 @@ DialogInterface.OnClickListener {
   @Override
   public void onStart() {
     super.onStart();
-    if (TextUtils.isEmpty(mFilename.getText().toString())) {
-      mFilename.setText(MyApplication.getInstance().getSettings()
-          .getString(PREFKEY_IMPORT_GRISBI_FILE_PATH, ""));
+    if (mUri==null) {
+      String storedUri = MyApplication.getInstance().getSettings()
+          .getString(PREFKEY_IMPORT_GRISBI_FILE_URI, "");
+      if (!storedUri.equals("")) {
+        mUri = Uri.parse(storedUri);
+        mFilename.setText(getDisplayName(mUri));
+      }
     }
   }
 }

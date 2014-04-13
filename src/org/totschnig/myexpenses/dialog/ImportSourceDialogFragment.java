@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.dialog;
 
-import java.io.File;
 import java.util.List;
 
 import org.totschnig.myexpenses.R;
@@ -13,9 +12,11 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +41,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   protected CheckBox mImportTransactions;
   protected Context wrappedCtx;
   final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+  final boolean isJellyBean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 
   public ImportSourceDialogFragment() {
     super();
@@ -70,11 +72,16 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     mFilename = (EditText) view.findViewById(R.id.Filename);
     mFilename.addTextChangedListener(new TextWatcher(){
       public void afterTextChanged(Editable s) {
+        mFilename.setError(null);
         setButtonState();
       }
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
     });
+    if (isKitKat) {
+      //on Kitkat user needs to allow us explicitly to open a file through selecting it
+      mFilename.setEnabled(false);
+    }
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     mImportCategories = (CheckBox) view.findViewById(R.id.import_select_categories);
     mImportCategories.setOnCheckedChangeListener(this);
@@ -86,13 +93,11 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
 
   @SuppressLint("InlinedApi")
   public void openBrowse() {
-    String filePath = mFilename.getText().toString();
   
     Intent intent = new Intent(isKitKat ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
-    File file = new File(filePath);
-    intent.setDataAndType(Uri.fromFile(file),"*/*");
+    intent.setDataAndType(mUri,"*/*");
   
     try {
         startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
@@ -102,23 +107,60 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     }
   }
 
+  @SuppressLint("NewApi")
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
         mUri = data.getData();
         if (mUri != null) {
-          List<String> filePathSegments = mUri.getPathSegments();
-          if (filePathSegments.size()>0) {
-            String fileName = filePathSegments.get(filePathSegments.size()-1);
-            mFilename.setText(fileName);
-          } else {
+          String[] typeParts = getActivity().getContentResolver().getType(mUri).split("/");
+          mFilename.setText(getDisplayName(mUri));
+          if (typeParts.length==0 ||
+              !(
+                  typeParts[0].equals("*") || 
+                  typeParts[0].equals("text") || 
+                  typeParts[0].equals("application")
+              )) {
             mUri = null;
+            mFilename.setError("Please provide a file of type X");
           }
         }
       }
     }
   }
+  //https://developer.android.com/guide/topics/providers/document-provider.html
+  @SuppressLint("NewApi")
+  protected String getDisplayName(Uri uri) {
+
+    if (isJellyBean) {
+      // The query, since it only applies to a single document, will only return
+      // one row. There's no need to filter, sort, or select fields, since we want
+      // all fields for one document.
+      Cursor cursor = getActivity().getContentResolver()
+              .query(uri, null, null, null, null, null);
+  
+      try {
+      // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
+      // "if there's anything to look at, look at it" conditionals.
+          if (cursor != null && cursor.moveToFirst()) {
+              // Note it's called "Display Name".  This is
+              // provider-specific, and might not necessarily be the file name.
+              return cursor.getString(
+                      cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+          }
+      } finally {
+          cursor.close();
+      }
+    }
+    List<String> filePathSegments = uri.getPathSegments();
+    if (filePathSegments.size()>0) {
+      return filePathSegments.get(filePathSegments.size()-1);
+    } else {
+      return "UNKNOWN";
+    }
+  }
+
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
     setButtonState();

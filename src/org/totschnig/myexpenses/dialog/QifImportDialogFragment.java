@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -34,7 +35,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   private SimpleCursorAdapter mAccountsAdapter;
 
   static final String PREFKEY_IMPORT_QIF_DATE_FORMAT = "import_qif_date_format";
-  static final String PREFKEY_IMPORT_QIF_FILE_PATH = "import_qif_file_path";
+  static final String PREFKEY_IMPORT_QIF_FILE_URI = "import_qif_file_uri";
   private MergeCursor mAccountsCursor;
 
   public static final QifImportDialogFragment newInstance() {
@@ -53,10 +54,10 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
-//      MyApplication.getInstance().getSettings().edit()
-//        .putString(PREFKEY_IMPORT_QIF_FILE_PATH, fileName)
-//        .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString())
-//        .commit();
+      MyApplication.getInstance().getSettings().edit()
+        .putString(PREFKEY_IMPORT_QIF_FILE_URI, mUri.toString())
+        .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString())
+        .commit();
       ((QifImport) getActivity()).onSourceSelected(
           mUri,
           format,
@@ -140,9 +141,13 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   @Override
   public void onStart() {
     super.onStart();
-    if (TextUtils.isEmpty(mFilename.getText().toString())) {
-      mFilename.setText(MyApplication.getInstance().getSettings()
-          .getString(PREFKEY_IMPORT_QIF_FILE_PATH, ""));
+    if (mUri==null) {
+      String storedUri = MyApplication.getInstance().getSettings()
+          .getString(PREFKEY_IMPORT_QIF_FILE_URI, "");
+      if (!storedUri.equals("")) {
+        mUri = Uri.parse(storedUri);
+        mFilename.setText(getDisplayName(mUri));
+      }
     }
   }
   @Override
