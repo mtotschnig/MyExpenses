@@ -40,14 +40,14 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
     Result r = (Result) result;
     String msg;
     if (r.success) {
-      int imported = (int) r.extra[0];
+      Integer imported = (Integer) r.extra[0];
       if (imported>-1) {
         msg = imported == 0 ?
             getString(R.string.import_categories_none) :
             getString(R.string.import_categories_success,imported);
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
-      imported = (int) r.extra[1];
+      imported = (Integer) r.extra[1];
       if (imported>-1) {
         msg = imported == 0 ?
             getString(R.string.import_parties_none) :

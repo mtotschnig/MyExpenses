@@ -223,7 +223,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         Result r = (Result) result;
         String msg;
         if (r.success) {
-          int imported = (int) r.extra[0];
+          Integer imported = (Integer) r.extra[0];
           if (imported>0) {
             msg = getString(R.string.import_categories_success,imported);
           } else {

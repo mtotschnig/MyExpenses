@@ -185,8 +185,8 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     }
     return new Result(true,
         0,
-        totalImportedCat,
-        totalImportedParty);
+        Integer.valueOf(totalImportedCat),
+        Integer.valueOf(totalImportedParty));
   }
 
   int getMax() {
