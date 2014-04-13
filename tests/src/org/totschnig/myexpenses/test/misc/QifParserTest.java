@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import static org.totschnig.myexpenses.export.qif.QifDateFormat.EU_FORMAT;
-import static org.totschnig.myexpenses.export.qif.QifDateFormat.US_FORMAT;
+import static org.totschnig.myexpenses.export.qif.QifDateFormat.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -198,7 +197,7 @@ public class QifParserTest extends AndroidTestCase {
                         "LP1:c1\n" +
                         "PPayee 1\n" +
                         "MSome note here...\n" +
-                        "^\n", US_FORMAT);
+                        "^\n", US);
 
         assertEquals(1, p.accounts.size());
 
@@ -572,7 +571,7 @@ public class QifParserTest extends AndroidTestCase {
     }
 
     public void parseQif(String fileContent) throws IOException {
-        parseQif(fileContent, EU_FORMAT);
+        parseQif(fileContent, EU);
     }
 
     public void parseQif(String fileContent, QifDateFormat dateFormat) throws IOException {
