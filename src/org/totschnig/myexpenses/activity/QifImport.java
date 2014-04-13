@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.Account.CurrencyEnum;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.ProgressDialog;
@@ -38,6 +39,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
       String filePath,
       QifDateFormat qifDateFormat,
       long accountId,
+      String currency,
       boolean withTransactions,
       boolean withCategories,
       boolean withParties) {
@@ -47,6 +49,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
           filePath,
           qifDateFormat,
           accountId,
+          currency,
           withTransactions,
           withCategories,
           withParties),

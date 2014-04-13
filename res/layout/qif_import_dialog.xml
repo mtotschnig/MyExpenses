@@ -38,8 +38,11 @@
         <TextView
             android:text="@string/account"
             style="@style/dialog_text"/>
-        <Spinner android:layout_span="2"
+        <Spinner
             android:id="@+id/Account"
+            android:layout_weight="1" />
+        <Spinner
+            android:id="@+id/Currency"
             android:layout_weight="1" />
       </TableRow>
       <include layout="@layout/import_select_types"/>

@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,6 +63,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
    * should we handle parties/categories?
    */
   boolean withPartiesP, withCategoriesP, withTransactionsP;
+  
+  private Currency mCurrency;
 
   public QifImportTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -73,6 +74,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.withTransactionsP = b.getBoolean(TaskExecutionFragment.KEY_WITH_TRANSACTIONS);
+    this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
   }
 
   @Override
@@ -215,6 +217,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                       .getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
           return;
         }
+        if (parser.accounts.size() == 0) {
+          return;
+        }
+        parser.accounts.get(0).dbAccount = Account.getInstanceFromDb(accountId);
       }
       insertTransactions(parser.accounts);
     }
@@ -304,7 +310,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private int insertAccounts(List<QifAccount> accounts) {
     int count = 0;
     for (QifAccount account : accounts) {
-      Account a = account.toAccount(Currency.getInstance("EUR"));
+      Account a = account.toAccount(mCurrency);
       if (a.save() != null)
         count++;
       account.dbAccount = a;
@@ -330,8 +336,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       Account a = account.dbAccount;
       int countTransactions = insertTransactions(a, account.transactions);
       publishProgress(countTransactions == 0 ? 
-          MyApplication.getInstance().getString(R.string.import_transactions_none,account.memo):
-          MyApplication.getInstance().getString(R.string.import_transactions_success,countTransactions,account.memo));
+          MyApplication.getInstance().getString(R.string.import_transactions_none,a.label):
+          MyApplication.getInstance().getString(R.string.import_transactions_success,countTransactions,a.label));
       // this might help GC
       account.transactions.clear();
       long t4 = System.currentTimeMillis();

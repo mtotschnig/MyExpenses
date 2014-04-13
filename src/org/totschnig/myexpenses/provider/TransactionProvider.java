@@ -326,7 +326,7 @@ public class TransactionProvider extends ContentProvider {
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
       }
-      if (uriMatch == ACCOUNTS_BASE || projection == null)
+      if (projection == null)
         projection = Account.PROJECTION_BASE;
       break;
     case AGGREGATE_ID:
