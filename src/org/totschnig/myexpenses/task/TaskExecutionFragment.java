@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.export.qif.*;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -111,25 +112,25 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceGrisbiImport(boolean external,
-      String filePath, boolean withCategories, boolean withParties) {
+      Uri mUri, boolean withCategories, boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);
     bundle.putBoolean(KEY_EXTERNAL, external);
-    bundle.putString(KEY_FILE_PATH, filePath);
+    bundle.putParcelable(KEY_FILE_PATH, mUri);
     bundle.putBoolean(KEY_WITH_PARTIES, withParties);
     bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
     f.setArguments(bundle);
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceQifImport(String filePath,
+  public static TaskExecutionFragment newInstanceQifImport(Uri mUri,
       QifDateFormat qifDateFormat, long accountId,
       String currency, boolean withTransactions, boolean withCategories, boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_QIF_IMPORT);
-    bundle.putString(KEY_FILE_PATH, filePath);
+    bundle.putParcelable(KEY_FILE_PATH, mUri);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
     bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);

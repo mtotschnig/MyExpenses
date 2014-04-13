@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.Account.CurrencyEnum;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.Bundle;
 
 public class QifImport extends ProtectedFragmentActivityNoAppCompat {
@@ -36,7 +37,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
   }
 
   public void onSourceSelected(
-      String filePath,
+      Uri mUri,
       QifDateFormat qifDateFormat,
       long accountId,
       String currency,
@@ -46,7 +47,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
     getSupportFragmentManager()
       .beginTransaction()
       .add(TaskExecutionFragment.newInstanceQifImport(
-          filePath,
+          mUri,
           qifDateFormat,
           accountId,
           currency,

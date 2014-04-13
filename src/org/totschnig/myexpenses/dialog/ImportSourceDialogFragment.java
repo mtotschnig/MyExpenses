@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.dialog;
 
 import java.io.File;
+import java.util.List;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivityNoAppCompat;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,10 +14,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,11 +33,13 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
 
   public static final int IMPORT_FILENAME_REQUESTCODE = 1;
   protected EditText mFilename;
+  protected Uri mUri;
   protected AlertDialog mDialog;
   protected CheckBox mImportCategories;
   protected CheckBox mImportParties;
   protected CheckBox mImportTransactions;
   protected Context wrappedCtx;
+  final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
   public ImportSourceDialogFragment() {
     super();
@@ -79,10 +84,11 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     mImportTransactions.setOnCheckedChangeListener(this);
   }
 
+  @SuppressLint("InlinedApi")
   public void openBrowse() {
     String filePath = mFilename.getText().toString();
   
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+    Intent intent = new Intent(isKitKat ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
     File file = new File(filePath);
@@ -100,14 +106,16 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-          Uri fileUri = data.getData();
-          if (fileUri != null) {
-              String filePath = fileUri.getPath();
-              if (filePath != null) {
-                  mFilename.setText(filePath);
-                  //savePreferences();
-              }
+        mUri = data.getData();
+        if (mUri != null) {
+          List<String> filePathSegments = mUri.getPathSegments();
+          if (filePathSegments.size()>0) {
+            String fileName = filePathSegments.get(filePathSegments.size()-1);
+            mFilename.setText(fileName);
+          } else {
+            mUri = null;
           }
+        }
       }
     }
   }
@@ -132,7 +140,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   }
   private void setButtonState() {
     boolean isReady = false;
-    if (!TextUtils.isEmpty(mFilename.getText().toString())) {
+    if (mUri != null) {
       isReady = (mImportCategories.getVisibility() == View.VISIBLE && mImportCategories.isChecked()) ||
           (mImportParties.getVisibility() == View.VISIBLE && mImportParties.isChecked()) ||
           (mImportTransactions.getVisibility() == View.VISIBLE && mImportTransactions.isChecked());

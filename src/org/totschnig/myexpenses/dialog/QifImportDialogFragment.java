@@ -52,14 +52,13 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
-      String fileName = mFilename.getText().toString();
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
-      MyApplication.getInstance().getSettings().edit()
-        .putString(PREFKEY_IMPORT_QIF_FILE_PATH, fileName)
-        .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString())
-        .commit();
+//      MyApplication.getInstance().getSettings().edit()
+//        .putString(PREFKEY_IMPORT_QIF_FILE_PATH, fileName)
+//        .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString())
+//        .commit();
       ((QifImport) getActivity()).onSourceSelected(
-          fileName,
+          mUri,
           format,
           mAccountSpinner.getSelectedItemId(),
           ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name(),

@@ -1,20 +1,20 @@
 package org.totschnig.myexpenses.task;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.res.Resources.NotFoundException;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -30,15 +30,16 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     this.taskExecutionFragment = taskExecutionFragment;
     this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
-    this.filePath = b.getString(TaskExecutionFragment.KEY_FILE_PATH);
+    this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     this.externalP = b.getBoolean(TaskExecutionFragment.KEY_EXTERNAL);
-    this.sourceStr = externalP ? filePath :
+    this.sourceStr = externalP ? fileUri.getPath() :
       this.taskExecutionFragment.getString(R.string.grisbi_import_default_source);
   }
 
   String title;
   private int max;
-  String filePath, sourceStr;
+  Uri fileUri;
+  String sourceStr;
   boolean externalP;
   /**
    * should we handle parties/categories?
@@ -72,7 +73,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
     try {
       if (externalP) {
-        catXML = new FileInputStream(filePath);
+        catXML = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
       } else {
         int defaultSourceResId = this.taskExecutionFragment.getResources().getIdentifier(
             "cat_"+ Locale.getDefault().getLanguage(),

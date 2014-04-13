@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -60,10 +61,10 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
     finish();
   }
 
-  public void onSourceSelected(String filePath, boolean withCategories, boolean withParties) {
+  public void onSourceSelected(Uri mUri, boolean withCategories, boolean withParties) {
     getSupportFragmentManager()
       .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceGrisbiImport(true, filePath, withCategories, withParties),
+        .add(TaskExecutionFragment.newInstanceGrisbiImport(true, mUri, withCategories, withParties),
             "ASYNC_TASK")
         .add(ProgressDialogFragment.newInstance(
             0,0,ProgressDialog.STYLE_HORIZONTAL, false),"PROGRESS")

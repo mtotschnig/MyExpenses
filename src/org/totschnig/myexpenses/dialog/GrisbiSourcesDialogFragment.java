@@ -33,7 +33,7 @@ DialogInterface.OnClickListener {
       .putString(PREFKEY_IMPORT_GRISBI_FILE_PATH, fileName)
       .commit();
       ((GrisbiImport) getActivity()).onSourceSelected(
-         fileName,
+          mUri,
           mImportCategories.isChecked(),
           mImportParties.isChecked()
           );

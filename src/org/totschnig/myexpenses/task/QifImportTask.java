@@ -17,9 +17,9 @@
 package org.totschnig.myexpenses.task;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Currency;
 import java.util.HashMap;
@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -58,7 +59,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final Map<String, Long> payeeToId = new HashMap<String, Long>();
   private final Map<String, Long> categoryToId = new HashMap<String, Long>();
   private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
-  String filePath;
+  Uri fileUri;
   /**
    * should we handle parties/categories?
    */
@@ -70,7 +71,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     this.taskExecutionFragment = taskExecutionFragment;
     this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
     this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
-    this.filePath = b.getString(TaskExecutionFragment.KEY_FILE_PATH);
+    this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.withTransactionsP = b.getBoolean(TaskExecutionFragment.KEY_WITH_TRANSACTIONS);
@@ -100,12 +101,13 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     QifBufferedReader r;
     QifParser parser;
     try {
-      String encoding = detectEncoding(filePath);
-      r = new QifBufferedReader(new BufferedReader(new InputStreamReader(
-          new FileInputStream(filePath), encoding != null ? encoding : "UTF-8")));
+      InputStream inputStream = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
+      //String encoding = detectEncoding(inputStream);
+      //passing an encoding to InputStreamReader together with the InputStream retrieved through the content resolver does not work
+      r = new QifBufferedReader(new BufferedReader(new InputStreamReader(inputStream)));
     } catch (FileNotFoundException e) {
       publishProgress(MyApplication.getInstance()
-          .getString(R.string.parse_error_file_not_found,filePath));
+          .getString(R.string.parse_error_file_not_found,fileUri));
       return null;
     } catch (IOException e) {
       publishProgress(MyApplication.getInstance()
@@ -140,16 +142,15 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
   }
 
-  private String detectEncoding(String filePath) throws IOException {
+  private String detectEncoding(InputStream inputStream) throws IOException {
     byte[] buf = new byte[4096];
-    java.io.FileInputStream fis = new java.io.FileInputStream(filePath);
 
     // (1)
     UniversalDetector detector = new UniversalDetector(null);
 
     // (2)
     int nread;
-    while ((nread = fis.read(buf)) > 0 && !detector.isDone()) {
+    while ((nread = inputStream.read(buf)) > 0 && !detector.isDone()) {
       detector.handleData(buf, 0, nread);
     }
     // (3)
@@ -165,7 +166,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
     // (5)
     detector.reset();
-    fis.close();
     return encoding;
   }
 
