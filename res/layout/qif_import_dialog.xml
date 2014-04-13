@@ -21,6 +21,8 @@
     <TableLayout
         android:paddingLeft="@dimen/general_padding"
         android:paddingRight="@dimen/general_padding"
+        android:stretchColumns="1"
+        android:shrinkColumns="1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
         <include layout="@layout/filename"/>
@@ -29,7 +31,7 @@
         <TextView
             android:text="@string/date_format"
             style="@style/dialog_text"/>
-        <Spinner android:layout_span="2"
+        <Spinner
             android:id="@+id/DateFormat"
             android:layout_weight="1" />
       </TableRow>
@@ -38,12 +40,18 @@
         <TextView
             android:text="@string/account"
             style="@style/dialog_text"/>
+        <LinearLayout android:orientation="horizontal">
         <Spinner
             android:id="@+id/Account"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
         <Spinner
             android:id="@+id/Currency"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        </LinearLayout>
       </TableRow>
       <include layout="@layout/import_select_types"/>
     </TableLayout>

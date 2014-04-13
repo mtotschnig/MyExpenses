@@ -18,8 +18,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 	<TableRow android:gravity="center_vertical">
 		<TextView android:text="File" style="@style/dialog_text" />
-		<LinearLayout android:orientation="horizontal"
-			android:layout_span="2">
+		<LinearLayout android:orientation="horizontal">
 			<EditText android:layout_weight="1" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/Filename"
 				android:singleLine="true">
