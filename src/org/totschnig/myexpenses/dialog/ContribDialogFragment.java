@@ -61,12 +61,14 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
     CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
     CharSequence featureDescription;
     if (feature.hasTrial)
-      featureDescription = getString(R.string.dialog_contrib_premium_feature,
-              "<i>"+getString(res.getIdentifier(
+      featureDescription = Html.fromHtml(
+          getString(
+              R.string.dialog_contrib_premium_feature,
+              "<i>" + getString(res.getIdentifier(
                   "contrib_feature_" + feature + "_label", "string", ctx.getPackageName()))+"</i>") +
-              (usagesLeft > 0 ?
-                  res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
-                  getString(R.string.dialog_contrib_no_usages_left));
+          (usagesLeft > 0 ?
+              res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
+              getString(R.string.dialog_contrib_no_usages_left)));
     else
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     CharSequence
