@@ -101,7 +101,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     QifParser parser;
     try {
       String encoding = detectEncoding(filePath);
-      Log.i("DEBUG","Encoding : " + encoding);
       r = new QifBufferedReader(new BufferedReader(new InputStreamReader(
           new FileInputStream(filePath), encoding != null ? encoding : "UTF-8")));
     } catch (FileNotFoundException e) {

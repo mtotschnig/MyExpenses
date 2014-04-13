@@ -19,8 +19,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import android.util.Log;
-
 public class DatabaseConstants {
   public static int weekStartsOn;
   public static String YEAR_OF_WEEK_START;
@@ -42,7 +40,6 @@ public class DatabaseConstants {
 
   public static void buildLocalized(Locale locale) {
     weekStartsOn = new GregorianCalendar(locale).getFirstDayOfWeek(); //JAVA starts with Sunday = 1
-    Log.i("DEBUG",weekStartsOn+" ");
     int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0
     if(weekStartsOn==Calendar.SUNDAY) {
       //weekStartsOn Sunday

@@ -22,7 +22,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -150,7 +149,6 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    Log.i("DEBUG","selected position = " + position);
     if (mAccountsCursor != null) {
       mAccountsCursor.moveToPosition(position);
       mCurrencySpinner.setSelection(
