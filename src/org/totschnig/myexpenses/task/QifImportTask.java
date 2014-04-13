@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.mozilla.universalchardet.UniversalDetector;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.qif.QifAccount;
@@ -142,7 +141,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
   }
 
-  private String detectEncoding(InputStream inputStream) throws IOException {
+/*  private String detectEncoding(InputStream inputStream) throws IOException {
     byte[] buf = new byte[4096];
 
     // (1)
@@ -167,7 +166,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     // (5)
     detector.reset();
     return encoding;
-  }
+  }*/
 
   private void doImport(QifParser parser) {
     if (withPartiesP) {
