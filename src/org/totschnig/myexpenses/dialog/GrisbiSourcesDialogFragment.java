@@ -27,6 +27,11 @@ DialogInterface.OnClickListener {
   }
 
   @Override
+  String getTypeName() {
+    return "Grisbi XML";
+  }
+
+  @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       MyApplication.getInstance().getSettings().edit()

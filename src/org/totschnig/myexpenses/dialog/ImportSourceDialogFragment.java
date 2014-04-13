@@ -18,8 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +46,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   }
   abstract int getLayoutId();
   abstract int getLayoutTitle();
+  abstract String getTypeName();
 
   @Override
   public void onCancel (DialogInterface dialog) {
@@ -70,18 +69,8 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
 
   protected void setupDialogView(View view) {
     mFilename = (EditText) view.findViewById(R.id.Filename);
-    mFilename.addTextChangedListener(new TextWatcher(){
-      public void afterTextChanged(Editable s) {
-        mFilename.setError(null);
-        setButtonState();
-      }
-      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-      public void onTextChanged(CharSequence s, int start, int before, int count){}
-    });
-    if (isKitKat) {
-      //on Kitkat user needs to allow us explicitly to open a file through selecting it
-      mFilename.setEnabled(false);
-    }
+    mFilename.setEnabled(false);
+
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     mImportCategories = (CheckBox) view.findViewById(R.id.import_select_categories);
     mImportCategories.setOnCheckedChangeListener(this);
@@ -113,6 +102,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
         mUri = data.getData();
+        //Log.i("DEBUG",mUri.toString());
         if (mUri != null) {
           String[] typeParts = getActivity().getContentResolver().getType(mUri).split("/");
           mFilename.setText(getDisplayName(mUri));
@@ -123,9 +113,12 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
                   typeParts[0].equals("application")
               )) {
             mUri = null;
-            mFilename.setError("Please provide a file of type X");
+            mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
+          } else {
+            mFilename.setError(null);
           }
         }
+        setButtonState();
       }
     }
   }

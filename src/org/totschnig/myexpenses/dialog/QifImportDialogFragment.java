@@ -51,6 +51,11 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   }
 
   @Override
+  String getTypeName() {
+    return "QIF";
+  }
+
+  @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
