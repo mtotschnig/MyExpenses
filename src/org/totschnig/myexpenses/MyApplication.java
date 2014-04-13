@@ -272,9 +272,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       if (appDir == null)
         return null;
       File dir = Utils.timeStampedFile(appDir,"backup");
-      if (dir.exists())
-        return null;
-      dir.mkdir();
       return dir;
     }
     public static File getBackupDbFile(File backupDir) {
