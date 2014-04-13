@@ -281,9 +281,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     return id;
   }
   private Long maybeWriteCategory(String name,Long parentId) {
-    Long id = Category.find(name, null);
+    Long id = Category.find(name, parentId);
     if (id == -1) {
-      id = Category.write(0L, name, null);
+      id = Category.write(0L, name, parentId);
       if (id != -1)
         totalCategories++;
     }
