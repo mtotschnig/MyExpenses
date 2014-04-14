@@ -165,12 +165,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } catch (IOException e) {
         Log.w(TAG,"Failed to open property file");
       }
-      refreshContribEnabled();
+      initContribEnabled();
       mPlannerCalendarId = mSettings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
       initPlanner();
     }
 
-    public boolean refreshContribEnabled() {
+    public boolean initContribEnabled() {
       isContribEnabled = debug ? true : Utils.verifyLicenceKey(mSettings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       return isContribEnabled;
     }
