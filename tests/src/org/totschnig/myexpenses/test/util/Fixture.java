@@ -124,7 +124,7 @@ public class Fixture {
     }
 
     Result result = Utils.analyzeGrisbiFileWithSAX(catXML);
-    //GrisbiImport.importCats((CategoryTree) result.extra[0], null);
+    Utils.importCats((CategoryTree) result.extra[0], null);
     //set up transactions
     long now = System.currentTimeMillis();
     //are used twice
