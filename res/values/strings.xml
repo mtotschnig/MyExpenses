@@ -132,7 +132,7 @@
     </string-array>
     <string name="help_leading">Thanks for installing <i>My Expenses</i> for Android.</string>
     <string name="important_upgrade_information_heading">Important information</string>
-    <string name="important_upgrade_information_1"/>
+    <string name="important_upgrade_information_1">Backups and Exports are now stored under Android/data/org.totschnig.myexpenses . ATTENTION: This directory is deleted, when you uninstall My Expenses.</string>
     <string name="import_select_transactions">Transactions</string>
     <string name="income">Income</string>
     <string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
