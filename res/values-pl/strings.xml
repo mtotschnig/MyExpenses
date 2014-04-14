@@ -352,4 +352,7 @@
     <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
     <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
     <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
+    <string name="menu_share">Poleć znajomemu</string>
+    <string name="no_methods">Brak metod płatności.</string>
+    <string name="progress_dialog_deleting">Usuwanie obiektów...</string>
 </resources>

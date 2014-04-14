@@ -38,15 +38,15 @@
     <string name="description">Descrição</string>
     <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta com a mesma moeda. Você tem apenas uma conta de moeda %1$s.</string>
     <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
-    <string name="dialog_command_disabled_distribution">Nenhuma transação foram mapeadas para categorias nesta conta.</string>
+    <string name="dialog_command_disabled_distribution">Nenhuma transação foi mapeada para categorias nesta conta.</string>
     <string name="dialog_contrib_no">Ainda não.</string>
     <string name="dialog_contrib_no_usages_left">Sem usos livre à esquerda.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s é uma característica premium.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação instalando <i>Minhas despesas Contrib</i>.</string>
-    <string name="dialog_contrib_reminder_gain_access">Você também ganha acesso irrestrito para os seguintes recursos:</string>
+    <string name="dialog_contrib_reminder_gain_access">Você também ganha acesso ilimitado para os seguintes recursos:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Minhas despesas</i> é oferecido sem anúncios e open source. Por favor, contribua, instalando a versão paga do Contrib. Você terá acesso irrestrito para os seguintes recursos premium:</string>
+    <string name="dialog_contrib_text"><i>Minhas despesas</i> é oferecido sem anúncios e open source. Por favor, contribua, instalando a versão paga do Contrib. Você terá acesso ilimitado para os seguintes recursos premium:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Você tem un livre usos esquerda.</item>
     <item quantity="other">Você tem %1$d livre usos esquerda.</item>
@@ -60,7 +60,7 @@
     <string name="dialog_password_new_password_confirmation">Nova senha (confirmação)</string>
     <string name="dialog_remind_later">Depois</string>
     <string name="dialog_remind_no">Não, obrigado</string>
-    <string name="dialog_remind_rate">Por favor, tome um momento para avaliar e revisar minhas despesas. Seus comentários me permitam adicionar continuamente melhorias e aprimoramentos.</string>
+    <string name="dialog_remind_rate">Por favor, tome um momento para avaliar e revisar minhas despesas. Seus comentários me permitam adicionar continuamente melhorias e aperfeiçoamentos.</string>
     <string name="dialog_remind_rate_yes">Avaliar agora</string>
     <string name="dialog_security_answer">Responder</string>
     <string name="dialog_security_question">Pergunta</string>
@@ -118,10 +118,10 @@
     <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para Android.</string>
     <string name="important_upgrade_information_heading">Informações importantes</string>
     <string name="income">Renda</string>
-    <string name="invalid_number_format">Formato decimal não regognized pela sua localidade. Por favor, use %1$s</string>
+    <string name="invalid_number_format">Formato decimal não reconhecido pela sua localidade. Por favor, use %1$s</string>
     <string name="label">Rótulo</string>
     <string name="licence_validation_failure">Não é possível validar chave de licença.</string>
-    <string name="licence_validation_success">Chave de Licença validado com sucesso: recursos Premium fora desbloqueado.</string>
+    <string name="licence_validation_success">Chave de Licença validado com sucesso: recursos Premium foram desbloqueados.</string>
     <string name="menu_aggregates">Total</string>
     <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
     <string name="menu_apply_template">Aplicar</string>
@@ -189,9 +189,9 @@
     <string name="no_category_assigned">Sem categoria atribuída</string>
     <string name="no_details">Sem detalhes.</string>
     <string name="no_expenses">Sem despesas ainda!</string>
-    <string name="no_exportable_expenses">Não há nenhuma transação que ainda não foram exportadas.</string>
+    <string name="no_exportable_expenses">Ainda não foi exportada nenhuma transação.</string>
     <string name="no_filemanager_installed">Nenhum gerenciador de arquivos instalado</string>
-    <string name="no_mapped_transactions">Nenhuma transação foram mapeadas para categorias durante este período.</string>
+    <string name="no_mapped_transactions">Nenhuma transação foi mapeada para categorias durante este período.</string>
     <string name="no_parties">Sem participantes.</string>
     <string name="no_plans">Não tenho planos.</string>
     <string name="no_split_parts">Não há dividir partes.</string>
@@ -291,10 +291,10 @@
     <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>
     <string name="pref_restore_summary">Restaure cópia de segurança a partir da pasta \"myExpenses\" no sdcard.</string>
     <string name="pref_restore_title">Restaurar</string>
-    <string name="pref_security_question_summary">Permite que você desbloquear o app, se você esqueceu sua senha. Necessita de minhas contribuições de despesas</string>
+    <string name="pref_security_question_summary">Permite que você desbloquea o app, se você esqueceu sua senha. Necessita de minhas contribuições de despesas</string>
     <string name="pref_security_question_title">Pergunta de segurança</string>
     <string name="pref_send_feedback_title">Enviar feedback</string>
-    <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL em um dos esquemas suportados</string>
+    <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL num dos esquemas suportados</string>
     <string name="pref_share_target_title">Enviar URL</string>
     <string name="pref_shortcut_account_list_title">Atalho \'Lista de conta\'</string>
     <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
@@ -378,14 +378,14 @@
     <item quantity="one">As transações selecionadas serão excluídas.</item>
     <item quantity="other">Transações %1$d selecionadas serão excluídas.</item>
   </plurals>
-    <string name="warning_password_contrib">Definir uma questão de segurança permite que você desbloquear o app, no caso de você esquecer sua senha.</string>
-    <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-lo. Você não será capaz de recuperá-lo, a menos que você defina uma pergunta de segurança (requer minha Contrib despesas).</string>
+    <string name="warning_password_contrib">Definir uma questão de segurança permite que você desbloquea o app, no caso de você esquecer sua senha.</string>
+    <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-la. Você não será capaz de recuperá-la, a menos que você defina uma pergunta de segurança (requer minha Contrib despesas).</string>
     <string name="warning_reset_account">Se você prosseguir, todas as transações desta conta são excluídas do banco de dados e não podem ser restauradas.</string>
     <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
     <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>
     <string name="warning_restore">Banco de dados e preferências serão restauradas do backup. Os dados atuais serão excluídos. Você quer continuar?</string>
     <string name="warning_select_account">Por favor, selecione uma conta!</string>
-    <string name="warning_splitpartcategory_context">Transferências que fazem parte de um transação de divisão apenas podem ser editadas no contexto da divisão.</string>
+    <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação de divisão apenas podem ser editadas no contexto da divisão.</string>
     <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
     <string name="import_parties_success">%1$s participantes importados com sucesso</string>
 </resources>
