@@ -202,7 +202,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initPlanner();
     }
 
-<<<<<<< HEAD
     public boolean initContribEnabled() {
       //TODO profile time taken in this function
       int contribStatusInfo = Distrib.getContribStatusInfo(this);
@@ -368,89 +367,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static File getBackupDbFile(File backupDir) {
       return new File(backupDir, BACKUP_DB_FILE_NAME);
     }
-<<<<<<< HEAD
-    /**
-     * is a backup avaiblable ?
-     * @return
-     */
-    public static boolean backupExists() {
-        File backupDb = getBackupDbFile();
-        if (backupDb == null)
-          return false;
-        return backupDb.exists();
-    }
-    /**
-     * as restores database and preferences, as a side effect calls shouldLock to set password protection
-     * if necessary
-     * @return true if backup successful
-     */
-    public static boolean backupRestore() {
-      if (DbUtils.restore()) {
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
-        //if we found a database to restore, we also try to import corresponding preferences
-        File backupPrefFile = getBackupPrefFile();
-        if (backupPrefFile != null && backupPrefFile.exists()) {
-          //since we already started reading settings, we can not just copy the file
-          //unless I found a way
-          //either to close the shared preferences and read it again
-          //or to find out if we are on a new install without reading preferences
-          //
-          //we open the backup file and read every entry
-          //getSharedPreferences does not allow to access file if it not in private data directory
-          //hence we copy it there first
-          File sharedPrefsDir = new File("/data/data/" + mSelf.getPackageName()
-              + "/shared_prefs/");
-          //upon application install does not exist yet
-          sharedPrefsDir.mkdir();
-          File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
-          if (Utils.copy(backupPrefFile,tempPrefFile)) {
-            SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
-            Editor edit = mSelf.mSettings.edit().clear();
-            String key;
-            Object val;
-            for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
-              key = entry.getKey();
-              val = entry.getValue();
-              if (val.getClass() == Long.class) {
-                edit.putLong(key,backupPref.getLong(key,0));
-              } else if (val.getClass() == Integer.class) {
-                edit.putInt(key,backupPref.getInt(key,0));
-              } else if (val.getClass() == String.class) {
-                edit.putString(key, backupPref.getString(key,""));
-              } else if (val.getClass() == Boolean.class) {
-                edit.putBoolean(key,backupPref.getBoolean(key,false));
-              } else {
-                Log.i(TAG,"Found: "+key+ " of type "+val.getClass().getName());
-              }
-            }
-            SharedPreferencesCompat.apply(edit);
-            backupPref = null;
-            tempPrefFile.delete();
-            mSelf.initContribEnabled();
-            Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
-            //if the backup is password protected, we want to force the password check
-            //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
-            //hence we need to set isLocked if necessary
-            mSelf.mLastPause = 0;
-            mSelf.shouldLock();
-            return true;
-          }
-          else {
-            Log.w(TAG,"Could not copy backup to private data directory");
-          }
-        } else {
-          Log.w(TAG,"Did not find backup for preferences");
-        }
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_failure), Toast.LENGTH_LONG).show();
-      }
-      else {
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_failure), Toast.LENGTH_LONG).show();
-      }
-      return false;
-=======
     public static File getBackupPrefFile(File backupDir) {
       return new File(backupDir, BACKUP_PREF_FILE_NAME);
->>>>>>> master
     }
 
     public long getLastPause() {
