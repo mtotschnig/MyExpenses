@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_130">
+    <item>Tłumaczenie w języku greckim</item>
+    <item>Początek tygodnia zależny od lokalizacji (np. Niedziela dla Stanów Zjednoczonych)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Ulepszenia interfejsu użytkownika: #115,#117,#120,#122,#124</item>
+    <item>Daty transakcji świadome strefy czasowej</item>
+  </string-array>
   <string-array name="whats_new_118">
     <item>Zmodernizowany Interfejs Użytkownika: Szuflada nawigacji i kontekstowy pasek akcji</item>
   </string-array>

@@ -361,4 +361,8 @@
     <string name="warning_select_account">សូមជ្រើសរើស​គណនី​មួយ!</string>
     <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
+    <string name="menu_edit_split">កែការញែក</string>
+    <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
+    <string name="no_methods">គ្មានវិធីសាស្ត្រទូទាត់​ប្រាក់</string>
+    <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ ...</string>
 </resources>
