@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="crash_reports_user_info">My Expenses will send reports about application crashes automatically to its developpers, which allows them to fix problems more quickly. You can disable this behaviour from the Settings.</string>
+  <string name="pref_category_title_crash_reports">Crash reports</string>
+  <string name="pref_enable_acra">Allow automatic sending of crash reports</string>
+  <string name="pref_acra_enabled">Automatic sending is enabled</string>
+  <string name="pref_acra_disabled">Automatic sending is disabled</string>
+  <string name="pref_acra_syslog">Include system logs in crash reports</string>
+  <string name="pref_acra_syslog_enabled">System logs are included</string>
+  <string name="pref_acra_syslog_disabled">System logs are not included</string>
+  <string name="pref_acra_user_email">User email to be included in crash report</string>
+  <string name="pref_acra_user_email_summary">Please enter your email address if you are willing to help debugging and allow us to contact you.</string>
+</resources>

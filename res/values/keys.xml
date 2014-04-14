@@ -43,15 +43,13 @@
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
     licensed under the Creative Commons Attribution 3.0 United States License .</string>
-  <string name="help_licence_financisto">Includes CalculatorInput class from https://launchpad.net/financisto ,
+  <string name="help_licence_financisto">CalculatorInput and QifParser from https://launchpad.net/financisto ,
     licensed under GPL v2.0 .</string>
-  <string name="help_licence_sherlock">Includes ActionBarSherlock from http://actionbarsherlock.com/,
+  <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
     licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_stickylistheaders">Includes StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
-    licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_grisbi">Includes category definitions from http://www.grisbi.org,
+  <string name="help_licence_grisbi">Category definitions from http://www.grisbi.org,
     licensed under GPL v2.0 .</string>
-  <string name="help_licence_aosp">Includes classes EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project,
+  <string name="help_licence_aosp">EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project,
     licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_acra">Includes Acra from http://acra.ch/, licensed under Apache License, Version 2.0 .</string>
 

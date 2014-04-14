@@ -109,14 +109,16 @@ public class PlanExecutor extends IntentService {
               if (template.planExecutionAutomatic) {
                 Transaction t = Transaction.getInstanceFromTemplate(template);
                 t.setDate(new Date(date));
-                Uri uri = t.save();
-                long id = ContentUris.parseId(uri);
-                Intent displayIntent = new Intent(this, MyExpenses.class)
-                  .putExtra(DatabaseConstants.KEY_ROWID, template.accountId)
-                  .putExtra("transaction_id", id);
-                resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-                builder.setContentIntent(resultIntent);
+                if (t.save() != null) {
+                  Intent displayIntent = new Intent(this, MyExpenses.class)
+                    .putExtra(DatabaseConstants.KEY_ROWID, template.accountId)
+                    .putExtra("transaction_id", t.id);
+                  resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
+                      PendingIntent.FLAG_UPDATE_CURRENT);
+                  builder.setContentIntent(resultIntent);
+                } else {
+                  builder.setContentText(getString(R.string.save_transaction_error));
+                }
                 builder.setAutoCancel(true);
                 notification = builder.build();
               } else {

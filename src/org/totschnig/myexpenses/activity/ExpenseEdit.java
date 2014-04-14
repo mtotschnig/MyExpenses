@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -43,7 +44,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
@@ -142,7 +142,7 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int SUM_CURSOR = 6;
   private LoaderManager mManager;
 
-  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false;
+  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false, mTransferEnabled;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -181,6 +181,7 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingRight());
 
     Bundle extras = getIntent().getExtras();
+    mTransferEnabled = extras.getBoolean("transferEnabled", false);
     mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     if (mRowId != 0L) {
       mNewInstance = false;
@@ -261,10 +262,11 @@ public class ExpenseEdit extends AmountActivity implements
       }
       FragmentManager fm = getSupportFragmentManager();
       if (fm.findFragmentByTag("ASYNC_TASK") == null) {
-        fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
-          .commit();
+        startTaskExecution(
+            taskId,
+            new Long[] {objectId},
+            null,
+            R.string.progress_dialog_loading);
       }
     } else {
       mOperationType = extras.getInt("operationType");
@@ -346,7 +348,11 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
-      setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
+      setTitle(
+          getString(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
+          + " ("
+          + getString(mOperationType ==  MyExpenses.TYPE_TRANSFER ? R.string.transfer : R.string.transaction)
+          + ")");
       helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
       setTitle(mNewInstance ? R.string.menu_create_split : R.string.menu_edit_split);
@@ -520,8 +526,10 @@ public class ExpenseEdit extends AmountActivity implements
       //handled in super
       break;
     case R.id.SAVE_AND_NEW_COMMAND:
-      mCreateNew = true;
-      saveState();
+      if (!mIsSaving) {
+        mCreateNew = true;
+        saveState();
+      }
       return true;
     case R.id.CREATE_TRANSACTION_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
@@ -531,10 +539,11 @@ public class ExpenseEdit extends AmountActivity implements
       return true;
     case R.id.CREATE_COMMAND:
       //create calendar
-      getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,0L,null), "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_calendar),"PROGRESS")
-      .commit();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_NEW_CALENDAR,
+          new Long[]{0L},
+          null,
+          R.string.progress_dialog_create_calendar);
       return true;
     case R.id.INVERT_TRANSFER_COMMAND:
       mType = ! mType;
@@ -543,24 +552,22 @@ public class ExpenseEdit extends AmountActivity implements
     return super.dispatchCommand(command, tag);
   }
   private void createRow(int type) {
-    int accountPosition = mAccountSpinner.getSelectedItemPosition();
-    if (accountPosition == AdapterView.INVALID_POSITION) {
-      //silently do nothing if accounts are not yet loaded
+    Account account = getCurrentAccount();
+    if (account == null)
       return;
-    }
     if (type == MyExpenses.TYPE_TRANSFER &&
-        !mAccounts[accountPosition].transferEnabled) {
+        !mTransferEnabled) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_menu_command_disabled,
           getString(R.string.dialog_command_disabled_insert_transfer,
-              mAccounts[accountPosition].currency.getCurrencyCode()),
+              account.currency.getCurrencyCode()),
           MessageDialogFragment.Button.okButton(),
           null,null)
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
     } else {
       Intent i = new Intent(this, ExpenseEdit.class);
       i.putExtra("operationType", type);
-      i.putExtra(KEY_ACCOUNTID,mAccountSpinner.getSelectedItemId());
+      i.putExtra(KEY_ACCOUNTID,account.id);
       i.putExtra(KEY_PARENTID,mTransaction.id);
       startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
@@ -686,24 +693,13 @@ public class ExpenseEdit extends AmountActivity implements
   private void setTime() {
     mTimeButton.setText(mTimeFormat.format(mCalendar.getTime()));
   }
-  /**
-   * helper for padding integer values smaller than 10 with 0
-   * @param c
-   * @return
-   */
-  private static String pad(int c) {
-    if (c >= 10)
-      return String.valueOf(c);
-    else
-      return "0" + String.valueOf(c);
-  }
-
   protected void saveState() {
     if (syncStateAndValidate()) {
       //we are not interested in receiving onLoadFinished about
       //the updated plan, it will cause problems if we are in SAVE_AND_NEW
       //since we reset the plan to null in that case
       mManager.destroyLoader(EVENT_CURSOR);
+      mIsSaving = true;
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
         .commit();
@@ -719,10 +715,10 @@ public class ExpenseEdit extends AmountActivity implements
   protected boolean syncStateAndValidate() {
     boolean validP = true;
     String title = "";
-    //account cursor not yet loaded
-    if (mAccounts == null)
+
+    Account account = getCurrentAccount();
+    if (account == null)
       return false;
-    Account account = mAccounts[mAccountSpinner.getSelectedItemPosition()];
     BigDecimal amount = validateAmountInput(true);
 
     if (amount == null) {
@@ -825,11 +821,13 @@ public class ExpenseEdit extends AmountActivity implements
     mPlanButton.setEnabled(true);
   }
   private void configureStatusSpinner() {
+    Account a = getCurrentAccount();
     mStatusSpinner.setVisibility((
         mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer ||
-        getCurrentAccount().type.equals(Type.CASH)) ?
+        a == null ||
+        a.type.equals(Type.CASH)) ?
       View.GONE : View.VISIBLE);
   }
   /**
@@ -887,9 +885,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
   public Money getAmount() {
-    if (getCurrentAccount() == null)
+    Account a = getCurrentAccount();
+    if (a == null)
       return null;
-    Money result = new Money(getCurrentAccount().currency,0L);
+    Money result = new Money(a.currency,0L);
     BigDecimal amount = validateAmountInput(false);
     if (amount == null) {
       return result;
@@ -899,21 +898,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     result.setAmountMajor(amount);
     return result;
-  }
-  @Override
-  public void onPreExecute() {
-    // TODO Auto-generated method stub
-
-  }
-  @Override
-  public void onProgressUpdate(int percent) {
-    // TODO Auto-generated method stub
-
-  }
-  @Override
-  public void onCancelled() {
-    // TODO Auto-generated method stub
-
   }
   /*
    * callback of TaskExecutionFragment
@@ -1023,7 +1007,8 @@ public class ExpenseEdit extends AmountActivity implements
         return null;
     }
     int selected = mAccountSpinner.getSelectedItemPosition();
-    if (selected == android.widget.AdapterView.INVALID_POSITION) {
+    if (selected == android.widget.AdapterView.INVALID_POSITION ||
+        selected >= mAccounts.length) {
       return null;
     }
     return mAccounts[selected];
@@ -1115,11 +1100,14 @@ public class ExpenseEdit extends AmountActivity implements
     case PAYEES_CURSOR:
       return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, null, null, null);
     case METHODS_CURSOR:
+      Account a = getCurrentAccount();
+      if (a == null)
+        return null;
       return new CursorLoader(this,
           TransactionProvider.METHODS_URI.buildUpon()
           .appendPath("typeFilter")
           .appendPath(mType == INCOME ? "1" : "-1")
-          .appendPath(getCurrentAccount().type.name())
+          .appendPath(a.type.name())
           .build(), null, null, null, null);
     case ACCOUNTS_CURSOR:
         String selection = (mOperationType == MyExpenses.TYPE_TRANSFER) ? 
@@ -1187,6 +1175,11 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case ACCOUNTS_CURSOR:
+      if (data.getCount()==0) {
+        Toast.makeText(this,"Error loading accounts list ",Toast.LENGTH_SHORT).show();
+        finish();
+        return;
+      }
       mAccountsAdapter.swapCursor(data);
       mAccounts = new Account[data.getCount()];
       if (mSavedInstance) {
@@ -1321,19 +1314,16 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private void launchNewPlan() {
     String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
-    getSupportFragmentManager().beginTransaction()
-    .add(TaskExecutionFragment.newInstance(
+    startTaskExecution(
         TaskExecutionFragment.TASK_NEW_PLAN,
-        0L,
+        new Long[] {0L} ,
         new Plan(
             0,
             System.currentTimeMillis(),
             "",
             ((Template) mTransaction).title,
-            description)),
-        "ASYNC_TASK")
-    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
-    .commit();
+            description),
+        R.string.progress_dialog_create_plan);
   }
   public void disableAccountSpinner() {
     mAccountSpinner.setEnabled(false);

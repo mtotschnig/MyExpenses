@@ -23,6 +23,7 @@
     <attr name="drawerShadow" format="reference" />
     <attr name="drawerImage" format="reference" />
     <attr name="calcIcon" format="integer" />
+    <attr name="browseIcon" format="integer" />
     <declare-styleable name="SeekBarPreference">
       <attr name="max_value" format="integer"></attr>
       <attr name="min_value" format="integer"></attr>

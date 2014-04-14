@@ -25,10 +25,12 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -118,14 +120,19 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         return true;
       case R.id.DELETE_COMMAND_DO:
         finishActionMode();
-        getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long[])tag, null), "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
-          .commit();
+        startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_CATEGORY,
+            (Long[])tag,
+            null,
+            R.string.progress_dialog_deleting);
         return true;
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
+      case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
+        importCats();
+        return true;
+        
       }
       return super.dispatchCommand(command, tag);
      }
@@ -164,8 +171,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
      * @param v
      */
     public void importCats(View v) {
-      Intent i = new Intent(this, GrisbiImport.class);
-      startActivity(i);
+      importCats();
+    }
+    private void importCats() {
+      getSupportFragmentManager()
+      .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceGrisbiImport(false, null, true, false),
+            "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(
+            0,0,ProgressDialog.STYLE_HORIZONTAL, false),"PROGRESS")
+        .commit();
+      
     }
 
     @Override
@@ -198,6 +214,26 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           .show();
       }
       super.onPostExecute(result);
+    }
+    //callback from grisbi import task
+    @Override
+    public void onPostExecute(int taskId,Object result) {
+      super.onPostExecute(taskId,result);
+      if (taskId == TaskExecutionFragment.TASK_GRISBI_IMPORT) {
+        Result r = (Result) result;
+        String msg;
+        if (r.success) {
+          Integer imported = (Integer) r.extra[0];
+          if (imported>0) {
+            msg = getString(R.string.import_categories_success,imported);
+          } else {
+            msg = getString(R.string.import_categories_none);
+          }
+        } else {
+          msg = r.print(this);
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+      }
     }
     @Override
     public Model getObject() {

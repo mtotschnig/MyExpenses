@@ -25,10 +25,12 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -180,14 +182,12 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           objectIdsAL.add(mAdapter.getGroupId(group));
         }
       }
-      getActivity().getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
           TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
           objectIdsAL.toArray(new Long[objectIdsAL.size()]),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2])),
-        "ASYNC_TASK")
-      .commit();
-    break;
+          extra2dAL.toArray(new Long[extra2dAL.size()][2]),
+          0);
+      break;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
       for (int i=0; i<positions.size(); i++) {
         if (positions.valueAt(i)) {
@@ -201,13 +201,11 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           extra2dAL.add(new Long[]{mAdapter.getGroupId(group),mInstance2TransactionMap.get(itemId)});
         }
       }
-      getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-            objectIdsAL.toArray(new Long[objectIdsAL.size()]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2])),
-          "ASYNC_TASK")
-        .commit();
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
+          objectIdsAL.toArray(new Long[objectIdsAL.size()]),
+          extra2dAL.toArray(new Long[extra2dAL.size()][2]),
+          0);
       break;
     case R.id.RESET_PLAN_INSTANCE_COMMAND:
       Long[] extra = new Long[checkedItemCount];
@@ -216,13 +214,11 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         extra[i] = mInstance2TransactionMap.get(itemIds[i]);
         mInstance2TransactionMap.remove(itemIds[i]);
       }
-      getActivity().getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
           TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
           itemIds,
-          extra),
-        "ASYNC_TASK")
-      .commit();
+          extra,
+          0);
       break;
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
@@ -286,6 +282,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   @SuppressLint("NewApi")
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+    if (getActivity()==null)
+      return;
     int id = loader.getId();
     switch (id) {
     case TEMPLATES_CURSOR:

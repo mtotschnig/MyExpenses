@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="crash_reports_user_info">Le mie spese invierà rapporti sull\'applicazione si blocca automaticamente ai suoi sviluppatori, che permette loro di risolvere i problemi più rapidamente. È possibile disattivare questo comportamento dalle impostazioni.</string>
+  <string name="pref_category_title_crash_reports">Segnalazioni di crash</string>
+  <string name="pref_enable_acra">Consentire l\'invio automatico di segnalazioni di crash</string>
+  <string name="pref_acra_enabled">Invio automatico è attivato</string>
+  <string name="pref_acra_disabled">Invio automatico non è attivato</string>
+  <string name="pref_acra_syslog">Includono i log di sistema in incidente report</string>
+  <string name="pref_acra_syslog_enabled">I log di sistema sono inclusi</string>
+  <string name="pref_acra_syslog_disabled">Non sono inclusi i log di sistema</string>
+  <string name="pref_acra_user_email">Email utente per essere inclusi nel rapporto di incidente</string>
+  <string name="pref_acra_user_email_summary">Inserisci il tuo indirizzo email se siete disposti ad aiutare il debug e permetterci di contattarti.</string>
+</resources>

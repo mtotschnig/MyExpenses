@@ -125,8 +125,22 @@ public class Transaction extends Model {
     static {
       JOIN = Utils.joinEnum(CrStatus.class);
     }
+
+    public static CrStatus fromQifName (String qifName) {
+      if (qifName == null)
+        return UNRECONCILED;
+      if (qifName.equals("*")) {
+        return CLEARED;
+      } else if (qifName.equals("X")) {
+        return RECONCILED;
+      } else {
+        return UNRECONCILED;
+      }
+    }
   }
+
   public CrStatus crStatus;
+  public long payeeId = 0;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -250,13 +264,12 @@ public class Transaction extends Model {
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
-  public Transaction() {
+  protected Transaction() {
     setDate(new Date());
     this.crStatus = CrStatus.UNRECONCILED;
   }
   /**
    * new empty transaction
-   * @param mDbHelper
    */
   public Transaction(long accountId,Long amount) {
     this(Account.getInstanceFromDb(accountId),amount);
@@ -267,6 +280,7 @@ public class Transaction extends Model {
     this.amount = amount;
   }
   public Transaction(Account account, long amount) {
+    this();
     this.accountId = account.id;
     this.amount = new Money(account.currency,amount);
   }
@@ -279,6 +293,7 @@ public class Transaction extends Model {
   public Date getDate() {
     return date;
   }
+
   /**
    * 
    * @param payee
@@ -293,8 +308,15 @@ public class Transaction extends Model {
    */
   public Uri save() {
     Uri uri;
-    Long payee_id = (payee != null && !payee.equals("")) ?
-      Payee.require(payee) : null;
+    Long payeeStore;
+    if (payeeId > 0) {
+      payeeStore = payeeId;
+    } else {
+      payeeStore = 
+        (payee != null && !payee.equals("")) ?
+        Payee.require(payee) :
+        null;
+    }
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
@@ -303,7 +325,7 @@ public class Transaction extends Model {
 
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);
-    initialValues.put(KEY_PAYEEID, payee_id);
+    initialValues.put(KEY_PAYEEID, payeeStore);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);

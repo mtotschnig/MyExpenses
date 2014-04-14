@@ -15,13 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -31,15 +33,15 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
-    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks{
+    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
   public static final int EDIT_TRANSACTION_REQUEST=1;
   public static final int EDIT_ACCOUNT_REQUEST=2;
   public static final int PREFERENCES_REQUEST=3;
@@ -110,8 +112,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     }
   }
 
-  public void cancelDialog() {
-    // TODO Auto-generated method stub
+  public void onMessageDialogDismissOrCancel() {
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,28 +134,18 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public void onPreExecute() {
-    // TODO Auto-generated method stub
-    
   }
   @Override
-  public void onProgressUpdate(int percent) {
-    // TODO Auto-generated method stub
-    
+  public void onProgressUpdate(Object progress) {
+    protection.updateProgressDialog(progress);
   }
   @Override
   public void onCancelled() {
-    // TODO Auto-generated method stub
-    
+    protection.removeAsyncTaskFragment(false);
   }
   @Override
   public void onPostExecute(int taskId, Object o) {
-    FragmentManager m = getSupportFragmentManager();
-    FragmentTransaction t = m.beginTransaction();
-    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
-    if (f!=null)
-      t.remove(f);
-    t.remove(m.findFragmentByTag("ASYNC_TASK"));
-    t.commitAllowingStateLoss();
+    protection.removeAsyncTaskFragment(taskId);
   }
 
   protected void setLanguage() {
@@ -170,5 +161,17 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag("SAVE_TASK"));
     t.commitAllowingStateLoss();
+  }
+  
+  /**
+   * starts the given task, only if no task is currently executed,
+   * informs user through toast in that case
+   * @param taskId
+   * @param objectIds
+   * @param extra
+   * @param progressMessage if 0 no progress dialog will be shown
+   */
+  public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
+    protection.startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
 }

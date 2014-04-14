@@ -15,29 +15,48 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DatabaseConstants {
-  public static String YEAR_OF_WEEK_START, WEEK, THIS_YEAR_OF_WEEK_START, THIS_WEEK, WEEK_START, WEEK_END;
+  public static int weekStartsOn;
+  public static String YEAR_OF_WEEK_START;
+  public static String WEEK;
+  public static String THIS_YEAR_OF_WEEK_START;
+  public static String THIS_WEEK;
+  public static String WEEK_START;
+  public static String WEEK_END;
+  /**
+   * we want to find out the week range when we are given a week number
+   * we find out the first day in the year, that is the firstdayofweek of the locale and is
+   * one week behind the first day with week number 1
+   * add (weekNumber-1)*7 days to get at the beginning of the week
+   */
+  public static String COUNT_FROM_WEEK_START_ZERO;
   static {
-    buildLocalized();
+    buildLocalized(Locale.getDefault());
   }
 
-  public static void buildLocalized() {
-    int weekStartsOn = new GregorianCalendar().getFirstDayOfWeek();
-    int nextWeekEnd;
-    if(weekStartsOn==1) {
-      nextWeekEnd = 6;
+  public static void buildLocalized(Locale locale) {
+    weekStartsOn = new GregorianCalendar(locale).getFirstDayOfWeek(); //JAVA starts with Sunday = 1
+    int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0
+    if(weekStartsOn==Calendar.SUNDAY) {
+      //weekStartsOn Sunday
+      nextWeekEndSqlite = 6;
     } else  {
-      nextWeekEnd = weekStartsOn -2;
+      //weekStartsOn Monday or Saturday
+      nextWeekEndSqlite = weekStartsOn -2;
     }
-    YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEnd + "', '-6 day') AS integer)";
-    WEEK_START = "date(date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "', '-6 day')";
-    THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEnd + "', '-6 day') AS integer)";
-    WEEK_END = "date(date,'unixepoch','localtime', 'weekday " + nextWeekEnd + "')";
-    WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEnd
-        + "') AS integer)";
-    THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEnd + "') AS integer)";
+    YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    WEEK_START = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEndSqlite + "', '-6 day')";
+    THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    WEEK_END = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEndSqlite + "')";
+    WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; //calculated for the beginning of the week
+    THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; 
+    COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1', 'weekday " + nextWeekStartsSqlite + "', '" +
+        "-7 day" + 
+        "' ,'+%d day')";
   }
   //if we do not cast the result to integer, we would need to do the conversion in Java
   public static final String YEAR  = "CAST(strftime('%Y',date,'unixepoch','localtime') AS integer)";
@@ -168,6 +187,9 @@ public class DatabaseConstants {
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
+  public static final String HAS_EXPORTED = 
+      "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
+          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS has_exported";
   
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =

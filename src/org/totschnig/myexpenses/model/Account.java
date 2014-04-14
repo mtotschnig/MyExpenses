@@ -65,11 +65,6 @@ public class Account extends Model {
   public String description;
 
   public int color;
-  
-  /**
-   * is there at least one other account with the same currency
-   */
-  public boolean transferEnabled;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
 
@@ -83,9 +78,10 @@ public class Account extends Model {
     KEY_COLOR,
     KEY_GROUPING,
     KEY_TYPE,
-    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
+    "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS transfer_enabled"
+        +      "AS transfer_enabled",
+    HAS_EXPORTED
   };
   int baseLength = PROJECTION_BASE.length;
   PROJECTION_EXTENDED = new String[baseLength+1];
@@ -126,7 +122,7 @@ public class Account extends Model {
       }
       return "";
     }
-    public String getQifName() {
+    public String toQifName() {
       switch (this) {
       case CASH: return "Cash";
       case BANK: return "Bank";
@@ -135,6 +131,19 @@ public class Account extends Model {
       case LIABILITY: return "Oth L";
       }
       return "";
+    }
+    public static Type fromQifName (String qifName) {
+      if (qifName.equals("Oth L")) {
+        return LIABILITY;
+      } else if (qifName.equals("Oth A")) {
+        return ASSET;
+      } else if (qifName.equals("CCard")) {
+        return CCARD;
+      } else  if (qifName.equals("Cash")) {
+        return CASH;
+      } else {
+        return BANK;
+      }
     }
     static {
       JOIN = Utils.joinEnum(Type.class);
@@ -173,8 +182,8 @@ public class Account extends Model {
         return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
       case WEEK:
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
-        String weekRange = " (" + Utils.convDate(c.getString(c.getColumnIndex("week_start")),dateformat)
-            + " - " + Utils.convDate(c.getString(c.getColumnIndex("week_end")),dateformat)  + " )";
+        String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex("week_start")),dateformat)
+            + " - " + Utils.convDateTime(c.getString(c.getColumnIndex("week_end")),dateformat)  + " )";
         String yearPrefix;
         if (groupYear == this_year_of_week_start) {
           if (groupSecond == this_week)
@@ -387,9 +396,12 @@ public class Account extends Model {
   public static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
   }
-  public static void reportNull() {
+  public static void reportNull(long id) {
+/*    if (MyApplication.debug) {
+      throw new RuntimeException("Error instantiating account "+id);
+    }*/
     org.acra.ACRA.getErrorReporter().handleSilentException(
-        new Exception("Error instantiating account"));
+        new Exception("Error instantiating account "+id));
   }
   /**
    * @param id
@@ -400,7 +412,7 @@ public class Account extends Model {
    */
   public static Account getInstanceFromDb(long id) {
     if (id < 0)
-      return AggregateAccount.getInstanceFromDB(id);
+      return AggregateAccount.getInstanceFromDb(id);
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
@@ -421,12 +433,12 @@ public class Account extends Model {
     Cursor c = cr().query(
         CONTENT_URI, null,selection,null, null);
     if (c == null) {
-      reportNull();
+      reportNull(id);
       return null;
     }
     if (c.getCount() == 0) {
       c.close();
-      reportNull();
+      reportNull(id);
       return null;
     }
     c.moveToFirst();
@@ -517,7 +529,6 @@ public class Account extends Model {
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
     }
-    this.transferEnabled = c.getInt(c.getColumnIndexOrThrow("transfer_enabled")) > 0;
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
@@ -561,7 +572,7 @@ public class Account extends Model {
     args.put(KEY_STATUS, STATUS_EXPORTED);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args, "account_id = ? and parent_id is null", new String[] { String.valueOf(id) });
   }
-  
+
   /**
    * @param accountId
    * @return true if the account with id accountId has transactions marked as exported
@@ -573,7 +584,7 @@ public class Account extends Model {
     if (accountId != null) {
       if (accountId < 0L) {
         //aggregate account
-        AggregateAccount aa = AggregateAccount.getInstanceFromDB(accountId);
+        AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);
         selection = KEY_ACCOUNTID +  " IN " +
             "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
         selectionArgs = new String[]{aa.currency.getCurrencyCode()};
@@ -589,6 +600,7 @@ public class Account extends Model {
     c.close();
     return result == 1;
   }
+
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction
@@ -623,7 +635,7 @@ public class Account extends Model {
    * @throws IOException
    */
   public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy");
+    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.');
   }
   /**
    * writes transactions to export file
@@ -631,14 +643,15 @@ public class Account extends Model {
    * @param format QIF or CSV
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
+   * @param decimalSeparator 
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
-    DecimalFormat nfFormat = new DecimalFormat();
+    DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
     String selection = KEY_ACCOUNTID + " = " + id + " AND " + KEY_PARENTID + " is null";
@@ -672,34 +685,42 @@ public class Account extends Model {
       break;
     //QIF
     default:
-      sb.append("!Type:")
-        .append(type.getQifName());
+      sb.append("!Account\nN")
+        .append(label)
+        .append("\nT")
+        .append(type.toQifName())
+        .append("\n^\n!Type:")
+        .append(type.toQifName());
     }
     //Write header
     out.write(sb.toString());
     while( c.getPosition() < c.getCount() ) {
-      Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
       String comment = DbUtils.getString(c, KEY_COMMENT);
       String full_label="",label_sub = "",label_main;
       CrStatus status;
       Long catId =  DbUtils.getLongOrNull(c,KEY_CATID);
+      Cursor splits = null, readCat;
       if (SPLIT_CATID.equals(catId)) {
-        full_label = ctx.getString(R.string.split_transaction);
-        label_main = full_label;
-        label_sub = "";
+        //split transactions take their full_label from the first split part
+        splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+            KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
+        splits.moveToFirst();
+        readCat = splits;
       } else {
-        label_main =  DbUtils.getString(c, KEY_LABEL_MAIN);
-        if (label_main.length() > 0) {
-          if (transfer_peer != null) {
-            full_label = "[" + label_main + "]";
-            label_main = ctx.getString(R.string.transfer);
-            label_sub = full_label;
-          } else {
-            full_label = label_main;
-            label_sub =  DbUtils.getString(c, KEY_LABEL_SUB);
-            if (label_sub.length() > 0)
-              full_label += ":" + label_sub;
-          }
+        readCat = c;
+      }
+      Long transfer_peer = DbUtils.getLongOrNull(readCat, KEY_TRANSFER_PEER);
+      label_main =  DbUtils.getString(readCat, KEY_LABEL_MAIN);
+      if (label_main.length() > 0) {
+        if (transfer_peer != null) {
+          full_label = "[" + label_main + "]";
+          label_main = ctx.getString(R.string.transfer);
+          label_sub = full_label;
+        } else {
+          full_label = label_main;
+          label_sub =  DbUtils.getString(readCat, KEY_LABEL_SUB);
+          if (label_sub.length() > 0)
+            full_label += ":" + label_sub;
         }
       }
       String payee = DbUtils.getString(c, KEY_PAYEE_NAME);
@@ -708,7 +729,7 @@ public class Account extends Model {
       long amount = c.getLong(
           c.getColumnIndexOrThrow(KEY_AMOUNT));
       BigDecimal bdAmount = new Money(currency,amount).getAmountMajor();
-      String amountQIF = bdAmount.toPlainString();
+      String amountQIF = nfFormat.format(bdAmount);
       String amountAbsCSV = nfFormat.format(bdAmount.abs());
       try {
         status = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
@@ -746,8 +767,8 @@ public class Account extends Model {
       default:
         sb.append( "\nD" )
           .append( dateStr )
-          .append( "\nT" );
-        sb.append( amountQIF );
+          .append( "\nT" )
+          .append( amountQIF );
         if (comment.length() > 0) {
           sb.append( "\nM" )
           .append( comment );
@@ -770,9 +791,6 @@ public class Account extends Model {
       }
       out.write(sb.toString());
       if (SPLIT_CATID.equals(catId)) {
-        Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
-            KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        splits.moveToFirst();
         while( splits.getPosition() < splits.getCount() ) {
           transfer_peer = DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER);
           comment = DbUtils.getString(splits, KEY_COMMENT);
@@ -795,8 +813,8 @@ public class Account extends Model {
           amount = splits.getLong(
               splits.getColumnIndexOrThrow(KEY_AMOUNT));
           bdAmount = new Money(currency,amount).getAmountMajor();
-          amountQIF = bdAmount.toPlainString();
-          amountAbsCSV = nfFormat.format(bdAmount.abs().longValue());
+          amountQIF = nfFormat.format(bdAmount);
+          amountAbsCSV = nfFormat.format(bdAmount.abs());
           sb.clear();
           switch (format) {
           case CSV:
@@ -828,14 +846,13 @@ public class Account extends Model {
               sb.append( "\nE" )
               .append( comment );
             }
-            sb.append( "\n$" );
-            if (amount<0)
-              sb.append( "-");
-            sb.append( amountQIF );
+            sb.append( "\n$" )
+              .append( amountQIF );
           }
           out.write(sb.toString());
           splits.moveToNext();
         }
+        splits.close();
       }
       if (format.equals(ExportFormat.QIF)) {
         out.write( "\n^" );

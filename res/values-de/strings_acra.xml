@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="crash_reports_user_info">Meine Ausgaben sendet Berichte über Abstürze automatisch an seine Entwickler, wodurch Probleme schneller gelöst werden können. Dieses Verhalten kann in den Einstellungen deaktiviert werden.</string>
+  <string name="pref_category_title_crash_reports">Absturzberichte</string>
+  <string name="pref_enable_acra">Automatischen Versand von Absturzberichten zulassen</string>
+  <string name="pref_acra_enabled">Automatischer Verand ist aktiviert</string>
+  <string name="pref_acra_disabled">Automatischer Verand ist deaktiviert</string>
+  <string name="pref_acra_syslog">System-Log-Dateien in Absturzberichte aufnehmen</string>
+  <string name="pref_acra_syslog_enabled">System-Log-Dateien werden eingefügt</string>
+  <string name="pref_acra_syslog_disabled">System-Log-Dateien werden nicht eingefügt</string>
+  <string name="pref_acra_user_email">Email-Adresse für Absturzberichte</string>
+  <string name="pref_acra_user_email_summary">Bitte geben Sie Ihre Email-Adresse an, falls Sie bereit sind beim Aufspüren der Fehler zu helfen, und erlauben, dass wir Sie kontaktieren.</string>
+</resources>

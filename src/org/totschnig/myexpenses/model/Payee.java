@@ -17,12 +17,14 @@ package org.totschnig.myexpenses.model;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
+import android.util.Log;
 
 public class Payee extends Model {
   public long id;
@@ -45,11 +47,20 @@ public class Payee extends Model {
    * @param name
    * @return id of the existing or the new party
    */
-  public static long require(String name) {
+  public static Long require(String name) {
     long id = find(name);
-    return id == -1 ?
-        Long.valueOf(new Payee(0,name).save().getLastPathSegment()) :
-        id;
+    if (id == -1) {
+      Uri uri = new Payee(0,name).save();
+      if (uri == null) {
+        //TODO report to ACRA
+        Log.w(MyApplication.TAG,"unable to save party "+name);
+        return null;
+      } else {
+        return Long.valueOf(uri.getLastPathSegment());
+      }
+    } else {
+      return id;
+    }
   }
   /**
    * Looks for a party with name

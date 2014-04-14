@@ -82,7 +82,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
     private SharedPreferences mSettings;
     private static MyApplication mSelf;
-    public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
+    public static final String BACKUP_DB_FILE_NAME = "BACKUP";
+    public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
     //the following keys are stored as string resources, so that
     //they can be referenced from preferences.xml, and thus we
     //can guarantee the referential integrity
@@ -115,7 +116,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
     public static String PREFKEY_RATE;
     public static String PREFKEY_UI_LANGUAGE;
-    public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "onqn1bKZzM";
     public static String MARKET_PREFIX = "market://details?id=";
@@ -202,6 +202,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initPlanner();
     }
 
+<<<<<<< HEAD
     public boolean initContribEnabled() {
       //TODO profile time taken in this function
       int contribStatusInfo = Distrib.getContribStatusInfo(this);
@@ -277,13 +278,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void setSettings(SharedPreferences s) {
         mSettings = s;
     }
-    public boolean backup() {
-      File appDir, backupPrefFile, sharedPrefFile;
-      appDir = Utils.requireAppDir();
-      if (appDir == null)
-         return false;
-      if (DbUtils.backup()) {
-        backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
+    public boolean backup(File backupDir) {
+      File backupPrefFile, sharedPrefFile;
+      if (DbUtils.backup(backupDir)) {
+        backupPrefFile = new File(backupDir, BACKUP_PREF_FILE_NAME);
         //Samsung has special path on some devices
         //http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         String sharedPrefFileCommon = getPackageName() 
@@ -360,18 +358,17 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //DatabaseConstants.buildLocalized();
       }
     }
-    public static File getBackupDbFile() {
+    public static File requireBackupDir() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)
         return null;
-      return new File(appDir, BACKUP_DB_PATH);
+      File dir = Utils.timeStampedFile(appDir,"backup");
+      return dir;
     }
-    public static File getBackupPrefFile() {
-      File appDir = Utils.requireAppDir();
-      if (appDir == null)
-        return null;
-      return new File(appDir, BACKUP_PREF_PATH);
+    public static File getBackupDbFile(File backupDir) {
+      return new File(backupDir, BACKUP_DB_FILE_NAME);
     }
+<<<<<<< HEAD
     /**
      * is a backup avaiblable ?
      * @return
@@ -450,14 +447,21 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_failure), Toast.LENGTH_LONG).show();
       }
       return false;
+=======
+    public static File getBackupPrefFile(File backupDir) {
+      return new File(backupDir, BACKUP_PREF_FILE_NAME);
+>>>>>>> master
     }
 
-    public long getmLastPause() {
+    public long getLastPause() {
       return mLastPause;
     }
-    public void setmLastPause() {
+    public void setLastPause() {
       if (!isLocked)
         this.mLastPause = System.nanoTime();
+    }
+    public void resetLastPause() {
+      this.mLastPause = 0;
     }
     /**
      * @return true if password protection is set, and
@@ -465,7 +469,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * sets isLocked as a side effect
      */
     public boolean shouldLock() {
-      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > passwordCheckDelayNanoSeconds) {
+      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds) {
         isLocked = true;
         return true;
       }
@@ -607,10 +611,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
+      //TODO: move to TaskExecutionFragment
       if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
         String oldValue = mPlannerCalendarId;
         boolean safeToMovePlans = true;
         String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+        if (oldValue.equals(newValue)) {
+          return;
+        }
         mPlannerCalendarId = newValue;
         if (!newValue.equals("-1")) {
           //if we cannot verify that the oldValue has the correct path

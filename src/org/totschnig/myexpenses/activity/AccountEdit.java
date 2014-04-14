@@ -81,6 +81,11 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
           : 0;
     if (rowId != 0) {
       mAccount = Account.getInstanceFromDb(rowId);
+      if (mAccount == null) {
+        Toast.makeText(this,"Error instantiating account "+rowId,Toast.LENGTH_SHORT).show();
+        finish();
+        return;
+      }
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);

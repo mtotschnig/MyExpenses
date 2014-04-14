@@ -72,6 +72,11 @@
         android:summary="@string/pref_import_from_grisbi_summary">
         <intent android:action="myexpenses.intent.import_from_grisbi"/>
     </org.totschnig.myexpenses.preference.LongSummaryPreference>
+    <org.totschnig.myexpenses.preference.LongSummaryPreference android:key="import_qif"
+        android:title="@string/pref_import_qif_title"
+        android:summary="@string/pref_import_qif_summary">
+        <intent android:action="myexpenses.intent.import_qif"/>
+    </org.totschnig.myexpenses.preference.LongSummaryPreference>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_export">

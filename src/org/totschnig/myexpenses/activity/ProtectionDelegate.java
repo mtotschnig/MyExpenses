@@ -15,12 +15,25 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
+/**
+ * methods both needed by {@link ProtectedFragmentActivity} and {@link ProtectedFragmentActivityNoAppCompat}
+ * @author Michael Totschnig
+ *
+ */
 public class ProtectionDelegate {
   Activity ctx;
   public ProtectionDelegate(Activity ctx) {
@@ -31,11 +44,11 @@ public class ProtectionDelegate {
     if (app.isLocked && pwDialog != null)
       pwDialog.dismiss();
     else {
-      app.setmLastPause();
+      app.setLastPause();
     }
   }
   protected void handleOnDestroy() {
-    MyApplication.getInstance().setmLastPause();
+    MyApplication.getInstance().setLastPause();
   }
   protected AlertDialog hanldeOnResume(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
@@ -45,5 +58,55 @@ public class ProtectionDelegate {
       DialogUtils.showPasswordDialog(ctx,pwDialog);
     }
     return pwDialog;
+  }
+
+  public void removeAsyncTaskFragment(boolean keepProgress) {
+    FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
+    FragmentTransaction t = m.beginTransaction();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+    if (f!=null) {
+      if (keepProgress) {
+        f.onTaskCompleted();
+      } else {
+        t.remove(f);
+      }
+    }
+    t.remove(m.findFragmentByTag("ASYNC_TASK"));
+    t.commitAllowingStateLoss();
+  }
+  public void removeAsyncTaskFragment(int taskId) {
+    removeAsyncTaskFragment(taskId == TaskExecutionFragment.TASK_QIF_IMPORT ||
+        taskId == TaskExecutionFragment.TASK_EXPORT);
+  }
+  public void updateProgressDialog(Object progress) {
+    FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+    if (f!=null) {
+      if (progress instanceof Integer) {
+        f.setProgress((Integer) progress);
+      } else if (progress instanceof String) {
+        f.appendToMessage((String) progress);
+      }
+    }
+  }
+  public void startTaskExecution(int taskId, Long[] objectIds,
+      Serializable extra, int progressMessage) {
+    FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
+    if (m.findFragmentByTag("ASYNC_TASK") != null) {
+      Toast.makeText(ctx.getBaseContext(),
+          "Previous task still executing, please try again later",
+          Toast.LENGTH_LONG)
+          .show();
+    } else {
+      FragmentTransaction ft = m.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            taskId,
+            objectIds, extra),
+          "ASYNC_TASK");
+      if (progressMessage != 0) {
+        ft.add(ProgressDialogFragment.newInstance(progressMessage),"PROGRESS");
+      }
+      ft.commit();
+    }
   }
 }

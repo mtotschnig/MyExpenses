@@ -178,15 +178,16 @@ public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implem
         if (c == '.' && s.indexOf('.') != -1 && !isRestart) {
             return;
         }
-        if ("0".equals(s)) {
-            s = String.valueOf(c);
-        } else {
-            s += c;
-        }
-        setDisplay(s);
         if (isRestart) {
-            setDisplay(String.valueOf(c));
+            setDisplay(c == '.' ? "0." : String.valueOf(c));
             isRestart = false;
+        } else {
+          if ("0".equals(s) && c != '.') {
+            s = String.valueOf(c);
+          } else {
+            s += c;
+          }
+          setDisplay(s);
         }
     }
 

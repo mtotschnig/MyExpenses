@@ -15,8 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -29,7 +32,6 @@ import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -41,6 +43,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -48,6 +51,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -143,6 +147,7 @@ public class MyExpenses extends LaunchActivity implements
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription, columnIndexLabel;
   boolean indexesCalculated = false;
   private long idFromNotification = 0;
+  private String mExportFormat = null;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -218,7 +223,7 @@ public class MyExpenses extends LaunchActivity implements
 
     if (prev_version == -1) {
       getSupportActionBar().hide();
-      if (MyApplication.backupExists()) {
+      /*if (MyApplication.backupExists()) {
         if (!mSettings.getBoolean("restoreOnInstallAsked", false)) {
           DialogFragment df = MessageDialogFragment.newInstance(
               R.string.dialog_title_restore_on_install,
@@ -237,10 +242,13 @@ public class MyExpenses extends LaunchActivity implements
           SharedPreferencesCompat.apply(
               mSettings.edit().putBoolean("restoreOnInstallAsked", true));
         }
-      } else {
+      } else {*/
         initialSetup();
-      }
+     /* }*/
       return;
+    }
+    if (savedInstanceState != null) {
+      mExportFormat = savedInstanceState.getString("exportFormat");
     }
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
@@ -265,14 +273,14 @@ public class MyExpenses extends LaunchActivity implements
     if (fm.findFragmentByTag("ASYNC_TASK") == null) {
       fm.beginTransaction()
         .add(WelcomeDialogFragment.newInstance(),"WELCOME")
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,0L, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,new Long[]{0L}, null), "ASYNC_TASK")
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
         .commit();
     }
   }
   private void setup() {
     newVersionCheck();
-    SharedPreferencesCompat.apply(mSettings.edit().remove("restoreOnInstallAsked"));
+    //SharedPreferencesCompat.apply(mSettings.edit().remove("restoreOnInstallAsked"));
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin,margin, true);
@@ -371,6 +379,7 @@ public class MyExpenses extends LaunchActivity implements
       return;
     //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
+    i.putExtra("transferEnabled",transferEnabled());
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
   /**
@@ -412,7 +421,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
-        AggregateAccount.getInstanceFromDB(mAccountId).persistGrouping(value);
+        AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
         Account account = Account.getInstanceFromDb(mAccountId);
@@ -479,7 +488,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;
-    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
+/*    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {
           //if we have successfully restored, we relaunch in order to force password check if needed
@@ -491,7 +500,7 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
       initialSetup();
-      return true;
+      return true;*/
     case R.id.REMIND_NO_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminder" + (String) tag,-1));
       return true;
@@ -510,13 +519,11 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.DELETE_COMMAND_DO:
       finishActionMode();
-      getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-            (Long[])tag, null),
-          "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
-        .commit();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+          (Long[])tag,
+          null,
+          R.string.progress_dialog_deleting);
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
@@ -547,10 +554,11 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
         mAccountId = 0;
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
-           .commit();
+        startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_ACCOUNT,
+            new Long[] { (Long) tag },
+            null,
+            0);
         return true;
       case R.id.SHARE_COMMAND:
         Intent sendIntent = new Intent();
@@ -666,10 +674,18 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    mAccountCount = 0;
-    mAccountsCursor = cursor;
     switch(loader.getId()) {
     case ACCOUNTS_CURSOR:
+      mAccountCount = 0;
+      mAccountsCursor = cursor;
+      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
+      //swaping the cursor is altering the accountId, if the
+      //sort order has changed, but we want to move to the same account as before
+      long cacheAccountId = mAccountId;
+      mViewPagerAdapter.swapCursor(cursor);
+      mAccountId = cacheAccountId;
+      if (mAccountsCursor == null)
+        return;
       if (!indexesCalculated) {
         columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
         columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);
@@ -678,12 +694,6 @@ public class MyExpenses extends LaunchActivity implements
         columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
         indexesCalculated = true;
       }
-      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
-      //swaping the cursor is altering the accountId, if the
-      //sort order has changed, but we want to move to the same account as before
-      long cacheAccountId = mAccountId;
-      mViewPagerAdapter.swapCursor(cursor);
-      mAccountId = cacheAccountId;
       if (mAccountsCursor.moveToFirst()) {
         int position = 0;
         while (mAccountsCursor.isAfterLast() == false) {
@@ -707,6 +717,7 @@ public class MyExpenses extends LaunchActivity implements
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (arg0.getId() == ACCOUNTS_CURSOR) {
       mViewPagerAdapter.swapCursor(null);
+      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(null);
       mCurrentPosition = -1;
       mAccountsCursor = null;
     }
@@ -736,21 +747,6 @@ public class MyExpenses extends LaunchActivity implements
     finishActionMode();
   }
   @Override
-  public void onPreExecute() {
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void onProgressUpdate(int percent) {
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
-  public void onCancelled() {
-    // TODO Auto-generated method stub
-    
-  }
-  @Override
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
@@ -764,12 +760,21 @@ public class MyExpenses extends LaunchActivity implements
       getSupportActionBar().show();
       setup();
       break;
+    case TaskExecutionFragment.TASK_EXPORT:
+      ArrayList<File> files = (ArrayList<File>) o;
+      if (files != null && files.size() >0)
+        Utils.share(this,files,
+            MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+            "text/" + mExportFormat.toLowerCase(Locale.US));
+      break;
     }
   }
   public void toggleCrStatus (View v) {
-    getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "ASYNC_TASK")
-      .commit();
+    startTaskExecution(
+        TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+        new Long[] {(Long) v.getTag()},
+        null,
+        0);
   }
   /**
    * @return true if for the current Account there is a second account
@@ -777,7 +782,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   public boolean transferEnabled() {
     //in case we are called before the accounts cursor is loaded, we return false
-    if (mAccountsCursor == null)
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
       return false;
     mAccountsCursor.moveToPosition(mCurrentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
@@ -788,12 +793,19 @@ public class MyExpenses extends LaunchActivity implements
    */
   public boolean transferEnabledGlobal() {
     //in case we are called before the accounts cursor is loaded, we return false
-    if (mAccountsCursor == null)
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
       return false;
     //we move to the last position in account cursor, and we check if it is an aggregate account
     //which means that there is at least one currency having multiple accounts
     mAccountsCursor.moveToLast();
     return mAccountsCursor.getLong(columnIndexRowId) < 0;
+  }
+  public boolean hasExported() {
+  //in case we are called before the accounts cursor is loaded, we return false
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
+      return false;
+    mAccountsCursor.moveToPosition(mCurrentPosition);
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("has_exported")) > 0;
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {
@@ -897,7 +909,18 @@ public class MyExpenses extends LaunchActivity implements
   protected void onSaveInstanceState (Bundle outState) {
     super.onSaveInstanceState(outState);
     //detail fragment from notification should only be shown once
-    if (idFromNotification !=0)
+    if (idFromNotification !=0) {
       outState.putLong("idFromNotification",0);
+    }
+    outState.putString("exportFormat", mExportFormat);
+  }
+  public void onStartExport(Bundle b) {
+    mExportFormat = b.getString("format");
+    getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstanceExport(b),
+          "ASYNC_TASK")
+      .add(ProgressDialogFragment.newInstance(
+          R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
+      .commit();
   }
 }

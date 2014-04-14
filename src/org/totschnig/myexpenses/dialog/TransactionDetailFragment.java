@@ -269,8 +269,8 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (which == AlertDialog.BUTTON_POSITIVE) {
-      MyExpenses ctx = (MyExpenses) getActivity();
+    MyExpenses ctx = (MyExpenses) getActivity();
+    if (ctx != null && which == AlertDialog.BUTTON_POSITIVE) {
       if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
         Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
         return;

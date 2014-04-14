@@ -105,12 +105,7 @@
 	</LinearLayout>
 	<LinearLayout android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:layout_gravity="right">
-		<Button android:layout_weight="1" android:id="@+id/bOK" android:text="ok"
-      android:textSize="18sp"
-      android:layout_height="wrap_content" android:layout_width="0dp"/>
-    <Button android:layout_height="wrap_content" android:layout_weight="1"
-      android:textSize="18sp"
-      android:id="@+id/bCancel" android:text="cancel" android:layout_width="0dp"/>
+		<include layout="@layout/ok_cancel_buttons" />
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_small"
 			android:textSize="18sp"

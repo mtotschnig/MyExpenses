@@ -15,12 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.totschnig.myexpenses" 
-    android:versionCode="131"
-    android:versionName="2.0.2.1"
+    package="org.totschnig.myexpenses"
+    android:versionCode="132"
+    android:versionName="2.1.0"
     android:installLocation="auto"
 >
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18"></uses-sdk>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
     <supports-screens
       android:smallScreens="true"
       android:normalScreens="true"
@@ -29,7 +29,8 @@
     <permission
       android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM"
       android:protectionLevel="signature" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+      android:maxSdkVersion="18" />
     <uses-permission android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -58,7 +59,7 @@
               <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
-        <activity android:name=".activity.Backup"
+        <activity android:name=".activity.BackupRestoreActivity"
             android:theme="@style/Translucent.NoTitleBar">
           <intent-filter>
               <action android:name="myexpenses.intent.backup"/>  
@@ -76,9 +77,14 @@
             <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
+        <activity android:name=".activity.QifImport"
+            android:theme="@style/Translucent.NoTitleBar">
+          <intent-filter>
+            <action android:name="myexpenses.intent.import_qif"/>
+            <category android:name="android.intent.category.DEFAULT" />
+          </intent-filter>
+        </activity>
         <activity android:name=".activity.MyPreferenceActivity"/>
-        <activity android:name=".activity.Export"
-            android:theme="@style/Translucent.NoTitleBar"/>
         <activity android:name=".activity.Help"
             android:theme="@style/Translucent.NoTitleBar"/>
         <activity android:name=".activity.ManageParties">

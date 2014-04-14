@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
@@ -69,17 +70,15 @@ public class DbUtils {
     }
     c.close();
   }
-  public static boolean backup() {
-    File backupDb = MyApplication.getBackupDbFile();
-    if (backupDb == null)
-      return false;
+  public static boolean backup(File dir) {
+    File backupDb = new File(dir,MyApplication.BACKUP_DB_FILE_NAME);
     File currentDb = new File(TransactionProvider.mOpenHelper.getReadableDatabase().getPath());
     if (currentDb.exists()) {
       return Utils.copy(currentDb, backupDb);
     }
     return false;
   }
-  public static boolean restore() {
+  public static boolean restore(File backupFile) {
     boolean result = false;
     try {
       MyApplication app = MyApplication.getInstance();
@@ -87,15 +86,13 @@ public class DbUtils {
       PaymentMethod.clear();
       File dataDir = new File("/data/data/"+ app.getPackageName()+ "/databases/");
       dataDir.mkdir();
-      File backupDb = MyApplication.getBackupDbFile();
-      if (backupDb == null)
-        return false;
+
       //line below gives app_databases instead of databases ???
       //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
       File currentDb = new File(dataDir,TransactionDatabase.DATABASE_NAME);
 
-      if (backupDb.exists()) {
-        result = Utils.copy(backupDb,currentDb);
+      if (backupFile.exists()) {
+        result = Utils.copy(backupFile,currentDb);
         ContentResolver resolver = app.getContentResolver();
         ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
         TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
@@ -169,5 +166,11 @@ public class DbUtils {
   }
   public static boolean hasParent(Long id) {
     return Transaction.getInstanceFromDb(id).parentId != null;
+  }
+  public static String weekStartFromGroupSqlExpression(int year, int week) {
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7);
+  }
+  public static String weekEndFromGroupSqlExpression(int year, int week) {
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7+6);
   }
 }

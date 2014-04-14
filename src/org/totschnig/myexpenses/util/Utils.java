@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,14 +40,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.EnumSet;
 import java.util.Locale;
+import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
+import org.totschnig.myexpenses.task.GrisbiImportTask;
+import org.xml.sax.SAXException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -56,10 +63,14 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.widget.Toast;
 
@@ -150,6 +161,27 @@ public class Utils {
       return null;
     }
   }
+  /**
+   * @param currency
+   * @param separator
+   * @return a Decimalformat with the number of fraction digits appropriate for
+   * currency, and with the given separator, but without the currency symbol
+   * appropriate for CSV and QIF export
+   */
+  public static DecimalFormat getDecimalFormat(Currency currency,char separator) {
+    DecimalFormat nf = new DecimalFormat();
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(separator);
+    nf.setDecimalFormatSymbols(symbols);
+    int fractionDigits = currency.getDefaultFractionDigits();
+    if (fractionDigits != -1) {
+      nf.setMinimumFractionDigits(fractionDigits);
+      nf.setMaximumFractionDigits(fractionDigits);
+    } else {
+      nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
+    }
+    return nf;
+  }
 
   /**
    * utility method that calls formatters for date
@@ -215,13 +247,26 @@ public class Utils {
   /**
    * @return directory for storing backups and exports, null if external storage is not available
    */
+  @SuppressLint("NewApi")
   public static File requireAppDir() {
     if (!isExternalStorageAvailable())
       return null;
-    File sd = Environment.getExternalStorageDirectory();
-    File appDir = new File(sd, "myexpenses");
-    appDir.mkdir();
-    return appDir;
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+      File sd = Environment.getExternalStorageDirectory();
+      File appDir = new File(sd, "myexpenses");
+      appDir.mkdir();
+      return appDir;
+    }
+    return  MyApplication.getInstance().getExternalFilesDir(null);
+  }
+  /**
+   * @param parentDir
+   * @param prefix
+   * @return creates a file object in parentDir, with a timestamp appended to prefix as name
+   */
+  public static File timeStampedFile(File parentDir, String prefix) {
+    String now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US).format(new Date());
+    return new File(parentDir,prefix+"-" + now);
   }
   /**
    * Helper Method to Test if external Storage is Available
@@ -376,15 +421,16 @@ public class Utils {
    * @param other if not null, all features except the one provided will be returned
    * @return construct a list of all contrib features to be included into a TextView
    */
-  public static String getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
-    String result ="";
+  public static CharSequence getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
+    CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
     while (iterator.hasNext()) {
       Feature f = iterator.next();
       if (!f.equals(other)) {
-        result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + f.toString() + "_label", "string", ctx.getPackageName()));
+        result = TextUtils.concat(result,
+            ctx.getText(ctx.getResources().getIdentifier("contrib_feature_" + f.toString() + "_label", "string", ctx.getPackageName())));
         if (iterator.hasNext())
-          result += "<br>";
+          result = TextUtils.concat(result,linefeed);
       }
     }
     return result;
@@ -463,5 +509,73 @@ public class Utils {
     String yearlessPattern = ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
         .toPattern().replaceAll("\\W?[Yy]+\\W?", "");
     return new SimpleDateFormat(yearlessPattern, l);
+  }
+
+  public static Result analyzeGrisbiFileWithSAX(InputStream is) {
+    GrisbiHandler handler = new GrisbiHandler();
+    try {
+        Xml.parse(is, Xml.Encoding.UTF_8, handler);
+    }  catch (IOException e) {
+      return new Result(false,R.string.parse_error_other_exception,e.getMessage());
+    } catch (GrisbiHandler.FileVersionNotSupportedException e) {
+      return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
+    } catch (SAXException e) {
+      return new Result(false,R.string.parse_error_parse_exception);
+    }
+    return handler.getResult();
+  }
+
+  public static int importParties(ArrayList<String> partiesList,GrisbiImportTask task) {
+    int total = 0;
+    for (int i=0;i<partiesList.size();i++){
+      if (Payee.maybeWrite(partiesList.get(i)) != -1) {
+        total++;
+      }
+      if (task != null && i % 10 == 0) {
+        task.publishProgress(i);
+      }
+    }
+    return total;
+  }
+  public static int importCats(CategoryTree catTree,GrisbiImportTask task) {
+    int count = 0, total = 0;
+    String label;
+    long main_id, sub_id;
+
+    for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
+      CategoryTree mainCat = main.getValue();
+      label = mainCat.getLabel();
+      count++;
+      main_id = Category.find(label, null);
+      if (main_id != -1) {
+        Log.i("MyExpenses","category with label" + label + " already defined");
+      } else {
+        main_id = Category.write(0L,label,null);
+        if (main_id != -1) {
+          total++;
+          if (task != null && count % 10 == 0) {
+            task.publishProgress(count);
+          }
+        } else {
+          //this should not happen
+          Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+          continue;
+        }
+      }
+      for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
+        label = sub.getValue().getLabel();
+        count++;
+        sub_id = Category.write(0L,label,main_id);
+        if (sub_id != -1) {
+          total++;
+        } else {
+          Log.i("MyExpenses","could not store sub category " + label);
+        }
+        if (task != null && count % 10 == 0) {
+          task.publishProgress(count);
+        }
+      }
+    }
+    return total;
   }
 }

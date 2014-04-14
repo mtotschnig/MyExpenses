@@ -148,7 +148,11 @@ public class Template extends Transaction {
             + KEY_INSTANCEID + " = ?)",
         new String[] {String.valueOf(planId),String.valueOf(instanceId)},
         null);
-    if (c == null || c.getCount() == 0) {
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
       return null;
     }
     c.moveToFirst();

@@ -203,6 +203,7 @@ public class TransactionProvider extends ContentProvider {
       } else {
         String subGroupBy = "year,second";
         String secondDef ="";
+
         switch(group) {
         case DAY:
           secondDef = DAY;
@@ -289,8 +290,9 @@ public class TransactionProvider extends ContentProvider {
                 + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") AS sum_expenses," +
             "(SELECT coalesce(sum(amount),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income " +
-            "FROM " + TABLE_ACCOUNTS + ") as t");
+              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income, " +
+              HAS_EXPORTED +
+            " FROM " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
@@ -304,12 +306,14 @@ public class TransactionProvider extends ContentProvider {
             "'NONE' AS grouping",
             "'CASH' AS type",
             "1 AS transfer_enabled",
+            "max(has_exported) AS has_exported",
             "sum(current_balance) AS current_balance",
             "sum(sum_income) AS sum_income",
             "sum(sum_expenses) AS sum_expenses",
             "0 AS sum_transfers",
             "0 as usages",
             "1 as is_aggregate"};
+        @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
@@ -322,7 +326,7 @@ public class TransactionProvider extends ContentProvider {
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
       }
-      if (uriMatch == ACCOUNTS_BASE || projection == null)
+      if (projection == null)
         projection = Account.PROJECTION_BASE;
       break;
     case AGGREGATE_ID:
@@ -456,6 +460,7 @@ public class TransactionProvider extends ContentProvider {
     }
 
     if (MyApplication.debug) {
+      @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
@@ -543,6 +548,8 @@ public class TransactionProvider extends ContentProvider {
     if (uriMatch == TRANSACTIONS) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
+    } else if (uriMatch == ACCOUNTS) {
+      getContext().getContentResolver().notifyChange(ACCOUNTS_BASE_URI, null);
     }
     return id >0 ? Uri.parse(newUri) : null;
   }
@@ -665,8 +672,12 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
-    } else
+    } else {
+      if (uriMatch == ACCOUNTS) {
+        getContext().getContentResolver().notifyChange(ACCOUNTS_BASE_URI, null);
+      }
       getContext().getContentResolver().notifyChange(uri, null);
+    }
     return count;
   }
 

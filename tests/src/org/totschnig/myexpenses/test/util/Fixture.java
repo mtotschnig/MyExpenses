@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
@@ -122,8 +123,8 @@ public class Fixture {
       catXML = appContext.getResources().openRawResource(org.totschnig.myexpenses.R.raw.cat_en);
     }
 
-    Result result = GrisbiImport.analyzeGrisbiFileWithSAX(catXML);
-    GrisbiImport.importCats((CategoryTree) result.extra[0], null);
+    Result result = Utils.analyzeGrisbiFileWithSAX(catXML);
+    Utils.importCats((CategoryTree) result.extra[0], null);
     //set up transactions
     long now = System.currentTimeMillis();
     //are used twice

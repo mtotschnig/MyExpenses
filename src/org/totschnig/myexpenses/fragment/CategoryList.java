@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
@@ -49,7 +49,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -100,6 +99,11 @@ public class CategoryList extends BudgetListFragment implements
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       viewResource = R.layout.distribution_list;
       mAccount = Account.getInstanceFromDb(extras.getLong(KEY_ACCOUNTID));
+      if (mAccount == null) {
+        TextView tv = new TextView(ctx);
+        tv.setText("Error loading distribution for account "+extras.getLong(KEY_ACCOUNTID));
+        return  tv;
+      }
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
       mGrouping = (Grouping) b.getSerializable("grouping");
       mGroupingYear = b.getInt("groupingYear");
@@ -332,34 +336,34 @@ public class CategoryList extends BudgetListFragment implements
           null);
     }
     if (id == DATEINFO_CURSOR) {
-      ArrayList<String> projection = new ArrayList<String>(Arrays.asList(
+      ArrayList<String> projectionList = new ArrayList<String>(Arrays.asList(
           new String[] { THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
               THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"}));
       //if we are at the beginning of the year we are interested in the max of the previous year
       int yearToLookUp = mGroupingSecond ==1 ? mGroupingYear -1 : mGroupingYear;
       switch (mGrouping) {
       case DAY:
-        projection.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS max_value",yearToLookUp));
+        projectionList.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS max_value",yearToLookUp));
         break;
       case WEEK:
-        projection.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
+        projectionList.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
         break;
       case MONTH:
-        projection.add("12 as max_value");
+        projectionList.add("12 as max_value");
         break;
       default:
-        projection.add("0 as max_value");
+        projectionList.add("0 as max_value");
       }
       if (mGrouping.equals(Grouping.WEEK)) {
         //we want to find out the week range when we are given a week number
         //we find out the first Monday in the year, which is the beginning of week 1 and than
         //add (weekNumber-1)*7 days to get at the beginning of the week
-        projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_start",mGroupingYear,(mGroupingSecond-1)*7));
-        projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_end",mGroupingYear,mGroupingSecond*7-1));
+        projectionList.add(DbUtils.weekStartFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
+        projectionList.add(DbUtils.weekEndFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
       }
       return new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
-          projection.toArray(new String[projection.size()]),
+          projectionList.toArray(new String[projectionList.size()]),
           null,null, null);
     }
     //CATEGORY_CURSOR
@@ -626,6 +630,9 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   protected void configureMenu(Menu menu, int count) {
     ManageCategories ctx = (ManageCategories) getActivity();
+    if (ctx == null) {
+      return;
+    }
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!ctx.helpVariant.equals(HelpVariant.distribution));

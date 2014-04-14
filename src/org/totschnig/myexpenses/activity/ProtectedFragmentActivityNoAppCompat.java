@@ -15,8 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -25,11 +28,11 @@ import android.support.v4.app.FragmentActivity;
 /**
  * This is the parent class for activities that use
  * the translucent Translucent.NoTitleBar theme that is not available
- * through Sherlock and hence need to inherit from the Base Fragment Activity
+ * through AppCompat and hence need to inherit from the Base Fragment Activity
  *
  */
 public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity implements
-    MessageDialogListener  {
+    MessageDialogListener,TaskExecutionFragment.TaskCallbacks  {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   
@@ -54,9 +57,9 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
     super.onResume();
     pwDialog = protection.hanldeOnResume(pwDialog);
   }
-  public void cancelDialog() {
-    // TODO Auto-generated method stub
-  }  @Override
+  public void onMessageDialogDismissOrCancel() {
+  }
+  @Override
   public boolean dispatchCommand(int command, Object tag) {
     if (CommonCommands.dispatchCommand(this, command))
       return true;
@@ -64,5 +67,31 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   }
   protected void setLanguage() {
     MyApplication.getInstance().setLanguage();
+  }
+  @Override
+  public void onCancelled() {
+    protection.removeAsyncTaskFragment(false);
+  }
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    protection.removeAsyncTaskFragment(taskId);
+  }
+  @Override
+  public void onPreExecute() {
+  }
+  @Override
+  public void onProgressUpdate(Object progress) {
+    protection.updateProgressDialog(progress);
+  }
+  /**
+   * starts the given task, only if no task is currently executed,
+   * informs user through toast in that case
+   * @param taskId
+   * @param objectIds
+   * @param extra
+   * @param progressMessage if 0 no progress dialog will be shown
+   */
+  public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
+    protection.startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
 }

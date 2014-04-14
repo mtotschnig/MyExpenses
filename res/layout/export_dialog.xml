@@ -14,44 +14,63 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="0dp"
     android:layout_weight="1">
-<LinearLayout
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content">
-  <RadioGroup android:id="@+id/format"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <RadioButton android:id="@+id/qif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="QIF"/>
-    <RadioButton android:id="@+id/csv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CSV"/>
-    </RadioGroup>
-    <LinearLayout
-        android:orientation="horizontal"
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+    <TableLayout
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingRight="@dimen/general_padding"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-      <TextView android:text="@string/date_format"
-          style="@style/dialog_text"
-          android:paddingLeft="5dp"
-          android:paddingRight="5dp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
-      <EditText android:id="@+id/date_format"
-          android:layout_marginRight="5dp"
-          android:layout_width="0dp"
-          android:layout_weight="1"
-          android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:stretchColumns="1"
+        android:layout_height="wrap_content">
+      <TableRow
+          android:gravity="center_vertical">
+        <TextView
+            android:gravity="center_vertical"
+             android:text="@string/pref_export_format_title"
+            style="@style/dialog_text"/>
+        <RadioGroup android:id="@+id/format"
+            android:orientation="horizontal">
+          <RadioButton android:id="@+id/qif"
+              android:checked="true"
+              android:layout_weight="1"
+              android:text="QIF"/>
+          <RadioButton android:id="@+id/csv"
+              android:layout_weight="1"
+              android:text="CSV"/>
+        </RadioGroup>
+      </TableRow>
+      <TableRow
+          android:gravity="center_vertical">
+        <TextView
+            android:text="@string/date_format"
+            android:gravity="center_vertical"
+            style="@style/dialog_text"/>
+        <EditText android:id="@+id/date_format" />
+      </TableRow>
+      <TableRow
+          android:gravity="center_vertical">
+        <TextView
+            android:text="@string/decimal_separator"
+            android:gravity="center_vertical"
+            style="@style/dialog_text"/>
+        <RadioGroup android:id="@+id/separator"
+            android:orientation="horizontal">
+          <RadioButton android:id="@+id/dot"
+              android:layout_weight="1"
+              android:checked="true"
+              android:text="."/>
+          <RadioButton android:id="@+id/comma"
+              android:layout_weight="1"
+              android:text=","/>
+        </RadioGroup>
+      </TableRow>
+    </TableLayout>
     <CheckBox android:id="@+id/export_delete"
         android:checked="false"
         android:layout_width="wrap_content"
@@ -71,5 +90,5 @@
         android:layout_width="fill_parent"
         android:id="@+id/warning_reset"
         android:text="@string/warning_reset_account" />
-</LinearLayout>
+  </LinearLayout>
 </ScrollView>

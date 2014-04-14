@@ -40,6 +40,9 @@ public class Transfer extends Transaction {
   public Transfer(Account account, long amount) {
     super(account,amount);
   }
+  public Transfer() {
+   super();
+  }
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()
    */

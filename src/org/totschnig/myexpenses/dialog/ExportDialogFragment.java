@@ -24,12 +24,10 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.Export;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -37,8 +35,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -47,20 +43,23 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, android.view.View.OnClickListener {
+public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
   CheckBox notYetExportedCB,deleteCB;
-  RadioButton formatRB;
+  RadioButton formatRB, separatorRB;
   TextView warningTV;
   EditText dateFormatET;
   AlertDialog mDialog;
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
+  static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
   
   public static final ExportDialogFragment newInstance(Long accountId) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -75,25 +74,32 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx  = (Activity) getActivity();
+    MyExpenses ctx  = (MyExpenses) getActivity();
     Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
-    boolean allP = false;
+    boolean allP = false, hasExported;
     String warningText;
     if (accountId == null) {
       allP = true;
       warningText = getString(R.string.warning_reset_account_all);
-    } else if (accountId < 0L) {
-      allP = true;
-      AggregateAccount aa = AggregateAccount.getInstanceFromDB(accountId);
-      currency = aa.currency.getCurrencyCode();
-      warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
+      //potential Strict mode violation (currently exporting all accounts with different currencies is not active in the UI)
+      hasExported = Account.getHasExported(null);
     } else {
-      warningText = getString(R.string.warning_reset_account);
+      Account a = Account.getInstanceFromDb(accountId);
+      hasExported = ctx.hasExported();
+      if (accountId < 0L) {
+        allP = true;
+        currency = a.currency.getCurrencyCode();
+        warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
+      } else {
+        warningText = getString(R.string.warning_reset_account);
+      }
     }
+
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
+
     dateFormatET = (EditText) view.findViewById(R.id.date_format);
     String dateFormatDefault =
         ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
@@ -122,19 +128,32 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
     });
+
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
     deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
     warningTV = (TextView) view.findViewById(R.id.warning_reset);
+
     formatRB = (RadioButton) view.findViewById(R.id.csv);
     String format = MyApplication.getInstance().getSettings()
         .getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
-    if (format.equals("CSV"))
-      (formatRB).setChecked(true);
-    deleteCB.setOnClickListener(this);
-    if (Account.getHasExported(accountId)) {
+    if (format.equals("CSV")) {
+      formatRB.setChecked(true);
+    }
+
+    separatorRB = (RadioButton) view.findViewById(R.id.comma);
+    char separator = (char) MyApplication.getInstance().getSettings()
+        .getInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
+    if (separator==',') {
+      separatorRB.setChecked(true);
+    }
+      
+
+    deleteCB.setOnCheckedChangeListener(this);
+    if (hasExported) {
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
     }
+
     warningTV.setText(warningText);
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
@@ -153,34 +172,36 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   public void onClick(DialogInterface dialog, int which) {
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
-    Intent i;
     Activity ctx = getActivity();
     AlertDialog dlg = (AlertDialog) dialog;
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
         "CSV" : "QIF";
     String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
+    char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
+        '.' : ',';
     MyApplication.getInstance().getSettings().edit()
       .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format)
       .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
+      .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator)
       .commit();
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
-      i = new Intent(ctx, Export.class);
+      Bundle b = new Bundle();
       if (accountId == null) {
         Feature.RESET_ALL.recordUsage();
       } else if (accountId>0) {
-        i.putExtra(KEY_ROWID, accountId);
+        b.putLong(KEY_ROWID, accountId);
       } else {
         Feature.RESET_ALL.recordUsage();
-        i.putExtra(KEY_CURRENCY, currency);
+        b.putString(KEY_CURRENCY, currency);
       }
-      i.putExtra("format", format)
-        .putExtra("deleteP", deleteP)
-        .putExtra("notYetExportedP",notYetExportedP)
-        .putExtra("dateFormat",dateFormat);
-
-      ctx.startActivityForResult(i,0);
+      b.putString("format", format);
+      b.putBoolean("deleteP", deleteP);
+      b.putBoolean("notYetExportedP",notYetExportedP);
+      b.putString("dateFormat",dateFormat);
+      b.putChar("decimalSeparator",decimalSeparator);
+      ((MyExpenses) getActivity()).onStartExport(b);
     } else {
       Toast.makeText(ctx,
           ctx.getString(R.string.external_storage_unavailable),
@@ -190,8 +211,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   }
 
   @Override
-  public void onClick(View view) {
-   configure(((CheckBox) view).isChecked());
+  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+   configure(isChecked);
   }
 
   /* 

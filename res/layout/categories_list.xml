@@ -44,6 +44,6 @@
           android:layout_marginTop="15dp"
           android:layout_below="@id/noCategories"
           android:drawableTop="@drawable/squiggle"
-          android:text="@string/import_categories" />
+          android:text="@string/menu_categories_setup_default" />
     </RelativeLayout>
 </LinearLayout>

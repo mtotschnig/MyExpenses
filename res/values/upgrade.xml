@@ -18,8 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_131">
-    <item>Fixed problem of recurring transactions being ignored</item>
+  <string-array name="whats_new_132">
+    <item>Multiple independent backups</item>
+    <item>QIF import</item>
  </string-array>
   <string-array name="whats_new_130">
     <item>Greek translation</item>

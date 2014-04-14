@@ -19,18 +19,17 @@ import java.util.ArrayList;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MethodEdit;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -44,7 +43,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class MethodList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
@@ -138,14 +136,11 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
         }
       }
       if (idList.size()>0) {
-        getActivity().getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(
-              TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
-              idList.toArray(new Long[idList.size()]),
-              null),
-            "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
-          .commit();
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
+            idList.toArray(new Long[idList.size()]),
+            null,
+            R.string.progress_dialog_deleting);
         return true;
       }
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {

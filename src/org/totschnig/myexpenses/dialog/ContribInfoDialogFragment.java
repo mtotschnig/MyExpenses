@@ -43,12 +43,14 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    CharSequence message = Html.fromHtml((String) TextUtils.concat(
-        getString(R.string.dialog_contrib_text),
-        "<br>",
+    CharSequence
+      linefeed = Html.fromHtml("<br><br>"),
+      message = TextUtils.concat(
+        getText(R.string.dialog_contrib_text),
+        linefeed,
         Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null),
-        "<br>",
-        getString(R.string.thank_you)));
+        linefeed,
+        getString(R.string.thank_you));
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);

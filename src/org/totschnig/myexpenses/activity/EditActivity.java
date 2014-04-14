@@ -32,6 +32,8 @@ import android.widget.EditText;
 public abstract class EditActivity extends ProtectedFragmentActivity implements
     DbWriteFragment.TaskCallbacks {
 
+  protected boolean mIsSaving;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -49,12 +51,15 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case R.id.Confirm:
-      saveState();
+      if (!mIsSaving) {
+        saveState();
+      }
       return true;
     }
     return super.dispatchCommand(command, tag);
   }
   protected void saveState() {
+    mIsSaving = true;
     getSupportFragmentManager().beginTransaction()
     .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
     .commit();
@@ -76,5 +81,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
         }
       }
     }
+  }
+  @Override
+  public void onPostExecute(Object result) {
+    mIsSaving = false;
+    super.onPostExecute(result);
   }
 }
