@@ -47,8 +47,11 @@ public class RestoreTask extends AsyncTask<String, Integer, Result> {
     File backupDir = new File(Utils.requireAppDir(),params[0]);
     File backupFile = MyApplication.getBackupDbFile(backupDir);
     File backupPrefFile = MyApplication.getBackupPrefFile(backupDir);
+    if (backupFile == null || !backupFile.exists()) {
+      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_DB_FILE_NAME,backupDir);
+    }
     if (backupPrefFile == null || !backupPrefFile.exists()) {
-      return new Result(false,R.string.restore_preferences_file_not_found,backupDir);
+      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,backupDir);
     }
     if (DbUtils.restore(backupFile)) {
       publishProgress(R.string.restore_db_success);
