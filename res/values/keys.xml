@@ -71,8 +71,6 @@
   <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
   <string name="help_ManageCategories_select_title">@string/select_category</string>
 
-  <string name="important_upgrade_information_1">@string/crash_reports_user_info</string>
-
   <string name="app_name_contrib">My Expenses Contrib</string>
   <string name="app_contrib_launch">Launch My Expenses Contrib</string>
 </resources>
