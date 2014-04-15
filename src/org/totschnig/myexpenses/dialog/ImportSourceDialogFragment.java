@@ -104,18 +104,20 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
         mUri = data.getData();
         //Log.i("DEBUG",mUri.toString());
         if (mUri != null) {
-          String[] typeParts = getActivity().getContentResolver().getType(mUri).split("/");
+          mFilename.setError(null);
           mFilename.setText(getDisplayName(mUri));
-          if (typeParts.length==0 ||
-              !(
-                  typeParts[0].equals("*") || 
-                  typeParts[0].equals("text") || 
-                  typeParts[0].equals("application")
-              )) {
-            mUri = null;
-            mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
-          } else {
-            mFilename.setError(null);
+          String type = getActivity().getContentResolver().getType(mUri);
+          if (type != null) {
+            String[] typeParts = type.split("/");
+            if (typeParts.length==0 ||
+                !(
+                    typeParts[0].equals("*") || 
+                    typeParts[0].equals("text") || 
+                    typeParts[0].equals("application")
+                )) {
+              mUri = null;
+              mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
+            }
           }
         }
         setButtonState();
