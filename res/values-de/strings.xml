@@ -392,4 +392,21 @@
     <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
     <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
     <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
+    <string name="decimal_separator">Dezimaltrennzeichen</string>
+    <string name="important_upgrade_information_1">Sicherheitskopien und Exportdateien werden jetzt unter Android/data/org.totschnig.myexpenses gespeichert. ACHTUNG: Dieser Ordner wird gelöscht, wenn Sie Meine Ausgaben deinstallieren.</string>
+    <string name="import_accounts_none">Keine Konten importiert</string>
+    <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
+    <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
+    <string name="import_categories_none">Keine Kategorien importiert</string>
+    <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
+    <string name="import_transactions_success">%1$s Buchungen erfolgreich in das Konto %2$s importiert</string>
+    <string name="import_parties_none">Keine Parteien importiert</string>
+    <string name="pref_import_qif_summary">Buchungen, Kategorien und Parteien aus QIF Datei importieren</string>
+    <string name="import_select_transactions">Buchungen</string>
+    <string name="pref_import_qif_title">QIF Import</string>
+    <string name="qif_parse_result">Gefunden: %1$ Konten, %2$s Kategorien und %3$s parteien.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
+    <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
+    <string name="restore_backup_file_not_found">Keine Datei %1$s im Ordner \"%2$s\" gefunden.</string>
 </resources>

@@ -1051,6 +1051,10 @@ public class ExpenseEdit extends AmountActivity implements
    */
   @Override
   public void onPostExecute(Object result) {
+    if (result == null) {
+      Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
+      return;
+    }
     Long sequenceCount = (Long) result;
     if (sequenceCount == -1L) {
       if (mTransaction instanceof Template) {

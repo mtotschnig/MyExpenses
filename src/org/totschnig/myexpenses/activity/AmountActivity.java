@@ -119,7 +119,13 @@ public abstract class AmountActivity extends EditActivity {
   }
   public void showCalculator(View view) {
     Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
-    intent.putExtra(KEY_AMOUNT,mAmountText.getText().toString());
+    String amount;
+    if (validateAmountInput(false)!=null) {
+      amount = mAmountText.getText().toString();
+    } else {
+      amount ="";
+    }
+    intent.putExtra(KEY_AMOUNT,amount);
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
 }

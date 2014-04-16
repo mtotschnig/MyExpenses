@@ -31,10 +31,15 @@
       <TableRow
           android:gravity="center_vertical">
         <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
             android:gravity="center_vertical"
-             android:text="@string/pref_export_format_title"
+            android:text="@string/pref_export_format_title"
             style="@style/dialog_text"/>
-        <RadioGroup android:id="@+id/format"
+        <RadioGroup
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:id="@+id/format"
             android:orientation="horizontal">
           <RadioButton android:id="@+id/qif"
               android:checked="true"
@@ -48,35 +53,49 @@
       <TableRow
           android:gravity="center_vertical">
         <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
             android:text="@string/date_format"
             android:gravity="center_vertical"
             style="@style/dialog_text"/>
-        <EditText android:id="@+id/date_format" />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:id="@+id/date_format" />
       </TableRow>
       <TableRow
           android:gravity="center_vertical">
         <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
             android:text="@string/decimal_separator"
             android:gravity="center_vertical"
             style="@style/dialog_text"/>
-        <RadioGroup android:id="@+id/separator"
+        <RadioGroup
+            android:layout_width="0dip"
+            android:layout_weight="1" 
+            android:id="@+id/separator"
             android:orientation="horizontal">
-          <RadioButton android:id="@+id/dot"
+          <RadioButton
+              android:id="@+id/dot"
               android:layout_weight="1"
               android:checked="true"
               android:text="."/>
-          <RadioButton android:id="@+id/comma"
+          <RadioButton
+              android:id="@+id/comma"
               android:layout_weight="1"
               android:text=","/>
         </RadioGroup>
       </TableRow>
     </TableLayout>
-    <CheckBox android:id="@+id/export_delete"
+    <CheckBox
+        android:id="@+id/export_delete"
         android:checked="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_export_delete"/>
-    <CheckBox android:id="@+id/export_not_yet_exported"
+    <CheckBox
+        android:id="@+id/export_not_yet_exported"
         android:visibility="gone"
         android:checked="false"
         android:layout_width="wrap_content"

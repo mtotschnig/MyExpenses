@@ -1,18 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_133">
+    <item>Backup indipendenti multiple</item>
+    <item>Importazione QIF</item>
+  </string-array>
   <string-array name="whats_new_130">
     <item>Traduzione greca</item>
-    <item>Inizio settimana subordinata locale (ad es Domenica per gli USA)</item>
- </string-array>
+    <item>Inizio settimana dipendente dal paese (ad es. domenica per gli USA)</item>
+  </string-array>
   <string-array name="whats_new_125">
     <item>Miglioramenti dell\'UI: #115,#117,#120,#122,#124</item>
-    <item>Date transazioni tengono conto del fusorario</item>
+    <item>Le date delle transazioni avvenute tengono conto del fuso orario</item>
   </string-array>
   <string-array name="whats_new_118">
-    <item>Interfaccia utente modernizzato: riquadro di navigazione e barra delle azioni contestuali</item>
+    <item>Interfaccia utente modernizzata: riquadro di navigazione e barra delle azioni contestuali</item>
   </string-array>
   <string-array name="whats_new_116">
-    <item>Gestione migliorata dei piani: applicare istanze imminente in anticipo</item>
+    <item>Gestione dei piani migliorata: applicare in anticipo istanze prossime</item>
     <item>Nuove traduzioni: portoghese, polacco, ceco</item>
   </string-array>
   <string-array name="whats_new_110">
@@ -20,18 +24,18 @@
   </string-array>
   <string-array name="whats_new_108">
     <item>Traduzione Cinese (tradizionale) </item>
-    <item>Consenti selezionando conto nell\'edizione dell\'operazione </item>
+    <item>Consentire la selezione del conto nel formato per la modifica della transazione </item>
     <item>Interfaccia più chiara per i trasferimenti </item>
   </string-array>
   <string-array name="whats_new_104">
     <item>Miglioramenti dell\'UI (#94) e correzione di errori (#95,#96)</item>
   </string-array>
   <string-array name="whats_new_102">
-    <item>Saldo corrente viene visualizzata in maniera più evidente di nuovo e mostrare i tasti principali, in fondo, quando l\'orientamento del dispositivo è verticale</item>
+    <item>Il saldo corrente viene visualizzato di nuovo in maniera più evidente e mostrare i tasti principali in fondo, quando l\'orientamento del dispositivo è verticale</item>
     <item>Correzione di errori #71,#91,#92,#93</item>
   </string-array>
   <string-array name="whats_new_100">
-    <item>Quando la lista delle transazioni è raggruppato, mostra equilibrio intermedio per ciascun periodo in un\'intestazione di gruppo</item>
+    <item>Quando la lista delle transazioni è raggruppata, mostrare il bilancio intermedio per ciascun periodo nell\'intestazione del gruppo</item>
     <item>Correzione di errori #90</item>
   </string-array>
   <string-array name="whats_new_95">
@@ -39,7 +43,7 @@
     <item>Dimensione dei caratteri configurabile</item>
   </string-array>
   <string-array name="whats_new_93">
-    <item>Scadenze per il futuro e operazioni ricorrenti</item>
+    <item>Piani per il futuro e operazioni ricorrenti</item>
     <item>Traduzione Khmer </item>
   </string-array>
 </resources>

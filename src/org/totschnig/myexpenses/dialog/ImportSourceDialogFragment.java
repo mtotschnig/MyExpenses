@@ -104,18 +104,20 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
         mUri = data.getData();
         //Log.i("DEBUG",mUri.toString());
         if (mUri != null) {
-          String[] typeParts = getActivity().getContentResolver().getType(mUri).split("/");
+          mFilename.setError(null);
           mFilename.setText(getDisplayName(mUri));
-          if (typeParts.length==0 ||
-              !(
-                  typeParts[0].equals("*") || 
-                  typeParts[0].equals("text") || 
-                  typeParts[0].equals("application")
-              )) {
-            mUri = null;
-            mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
-          } else {
-            mFilename.setError(null);
+          String type = getActivity().getContentResolver().getType(mUri);
+          if (type != null) {
+            String[] typeParts = type.split("/");
+            if (typeParts.length==0 ||
+                !(
+                    typeParts[0].equals("*") || 
+                    typeParts[0].equals("text") || 
+                    typeParts[0].equals("application")
+                )) {
+              mUri = null;
+              mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
+            }
           }
         }
         setButtonState();
@@ -132,18 +134,18 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
       // all fields for one document.
       Cursor cursor = getActivity().getContentResolver()
               .query(uri, null, null, null, null, null);
-  
-      try {
-      // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
-      // "if there's anything to look at, look at it" conditionals.
-          if (cursor != null && cursor.moveToFirst()) {
-              // Note it's called "Display Name".  This is
-              // provider-specific, and might not necessarily be the file name.
-              return cursor.getString(
-                      cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-          }
-      } finally {
+
+      if (cursor != null) {
+        try {
+          if (cursor.moveToFirst()) {
+            // Note it's called "Display Name".  This is
+            // provider-specific, and might not necessarily be the file name.
+            return cursor.getString(
+                cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        } finally {
           cursor.close();
+        }
       }
     }
     List<String> filePathSegments = uri.getPathSegments();
