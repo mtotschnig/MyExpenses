@@ -1,9 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_133">
+    <item>Plusieurs sauvegardes indépendantes</item>
+    <item>Importation QIF</item>
+  </string-array>
   <string-array name="whats_new_130">
     <item>Traduction grecque</item>
     <item>Le début de semaine dépend des paramètres régionaux (par exemple, dimanche aux USA)</item>
- </string-array>
+  </string-array>
   <string-array name="whats_new_125">
     <item>Améliorations de l\'interface utilisateur: #115,#117,#120,#122,#124</item>
     <item>Les dates des transactions prennent en considération le fuseau horaire</item>
