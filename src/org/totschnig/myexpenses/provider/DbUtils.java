@@ -171,6 +171,6 @@ public class DbUtils {
     return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7);
   }
   public static String weekEndFromGroupSqlExpression(int year, int week) {
-    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7+6);
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_end",year,week*7+6);
   }
 }
