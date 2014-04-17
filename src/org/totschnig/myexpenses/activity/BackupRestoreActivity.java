@@ -129,6 +129,13 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat 
     Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     if (taskId == TaskExecutionFragment.TASK_RESTORE &&
         ((Result) result).success) {
+      MyApplication.getInstance().initContribEnabled();
+      //if the backup is password protected, we want to force the password check
+      //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
+      //hence we need to set isLocked if necessary
+      MyApplication.getInstance().resetLastPause();
+      MyApplication.getInstance().shouldLock();
+
       setResult(RESULT_FIRST_USER);
     }
     finish();

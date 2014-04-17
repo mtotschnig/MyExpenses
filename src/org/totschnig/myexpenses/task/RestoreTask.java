@@ -92,12 +92,6 @@ public class RestoreTask extends AsyncTask<String, Integer, Result> {
         SharedPreferencesCompat.apply(edit);
         backupPref = null;
         tempPrefFile.delete();
-        MyApplication.getInstance().initContribEnabled();
-        //if the backup is password protected, we want to force the password check
-        //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
-        //hence we need to set isLocked if necessary
-        MyApplication.getInstance().resetLastPause();
-        MyApplication.getInstance().shouldLock();
         return new Result(true,R.string.restore_preferences_success);
       } else {
         return new Result(false,R.string.restore_preferences_failure);
