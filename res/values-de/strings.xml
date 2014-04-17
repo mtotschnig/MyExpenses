@@ -404,7 +404,7 @@
     <string name="pref_import_qif_summary">Buchungen, Kategorien und Parteien aus QIF Datei importieren</string>
     <string name="import_select_transactions">Buchungen</string>
     <string name="pref_import_qif_title">QIF Import</string>
-    <string name="qif_parse_result">Gefunden: %1$ Konten, %2$s Kategorien und %3$s parteien.</string>
+    <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
     <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
     <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
