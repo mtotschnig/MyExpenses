@@ -390,6 +390,7 @@ public class MyExpenses extends LaunchActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     TransactionList tl;
+    Account a;
     switch (command) {
     case R.id.DISTRIBUTION_COMMAND:
       tl = getCurrentFragment();
@@ -410,7 +411,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.GROUPING_COMMAND:
-      Account a = Account.getInstanceFromDb(mAccountId);
+      a = Account.getInstanceFromDb(mAccountId);
       if (a != null) {
         SelectGroupingDialogFragment.newInstance(
             R.id.GROUPING_COMMAND_DO,
@@ -424,9 +425,9 @@ public class MyExpenses extends LaunchActivity implements
         AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
-        Account account = Account.getInstanceFromDb(mAccountId);
-        account.grouping=value;
-        account.save();
+        a = Account.getInstanceFromDb(mAccountId);
+        a.grouping=value;
+        a.save();
       }
       return true;
     case R.id.CREATE_TRANSACTION_COMMAND:
@@ -436,14 +437,17 @@ public class MyExpenses extends LaunchActivity implements
       if (transferEnabled()) {
         createRow(TYPE_TRANSFER);
       } else {
-        String currency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
-        MessageDialogFragment.newInstance(
-            R.string.dialog_title_menu_command_disabled,
-            getString(R.string.dialog_command_disabled_insert_transfer,currency),
-            new MessageDialogFragment.Button(R.string.menu_create_account, R.id.CREATE_ACCOUNT_COMMAND,currency),
-            MessageDialogFragment.Button.okButton(),
-            null)
-         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+        a = Account.getInstanceFromDb(mAccountId);
+        if (a != null) {
+          String currency = a.currency.getCurrencyCode();
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_menu_command_disabled,
+              getString(R.string.dialog_command_disabled_insert_transfer,currency),
+              new MessageDialogFragment.Button(R.string.menu_create_account, R.id.CREATE_ACCOUNT_COMMAND,currency),
+              MessageDialogFragment.Button.okButton(),
+              null)
+           .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+        }
       }
       return true;
     case R.id.CREATE_SPLIT_COMMAND:
