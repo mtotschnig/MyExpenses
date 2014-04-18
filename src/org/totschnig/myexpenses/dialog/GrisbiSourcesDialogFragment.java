@@ -58,7 +58,12 @@ DialogInterface.OnClickListener {
           .getString(PREFKEY_IMPORT_GRISBI_FILE_URI, "");
       if (!storedUri.equals("")) {
         mUri = Uri.parse(storedUri);
-        mFilename.setText(getDisplayName(mUri));
+        try {
+          mFilename.setText(getDisplayName(mUri));
+        } catch (SecurityException e) {
+          // on Kitkat getDisplayname might fail if app is restarted after reboot
+          mUri = null;
+        }
       }
     }
     super.onStart();
