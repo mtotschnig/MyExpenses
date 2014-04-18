@@ -32,9 +32,12 @@ public class ProgressDialogFragment extends DialogFragment {
   private static final String KEY_MESSAGE = "message";
   private static final String KEY_WITH_BUTTON = "withButton";
   private static final String KEY_TITLE = "title";
+  private static final String KEY_TASK_COMPLETED = "taskCompleted";
+  private static final String KEY_PROGRESS = "progress";
+  private static final String KEY_MAX = "max";
   private ProgressDialog mDialog;
   boolean mTaskCompleted = false;
-  int progress = 0, max;
+  int progress = 0, max = 0;
   String title, message;
  
 
@@ -64,6 +67,13 @@ public class ProgressDialogFragment extends DialogFragment {
   }
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (savedInstanceState != null) {
+      mTaskCompleted = savedInstanceState.getBoolean(KEY_TASK_COMPLETED,false);
+      message = savedInstanceState.getString(KEY_MESSAGE);
+      title = savedInstanceState.getString(KEY_TITLE);
+      progress = savedInstanceState.getInt(KEY_PROGRESS);
+      max = savedInstanceState.getInt(KEY_MAX);
+    }
     setRetainInstance(true);
   }
   @Override
@@ -164,5 +174,15 @@ public class ProgressDialogFragment extends DialogFragment {
   @Override
   public void onCancel (DialogInterface dialog) {
       ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+  }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    // TODO Auto-generated method stub
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_TASK_COMPLETED, mTaskCompleted);
+    outState.putString(KEY_TITLE, title);
+    outState.putString(KEY_MESSAGE, message);
+    outState.putInt(KEY_PROGRESS, progress);
+    outState.putInt(KEY_MAX, max);
   }
 }
