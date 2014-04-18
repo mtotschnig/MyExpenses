@@ -145,7 +145,6 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   }
   @Override
   public void onStart() {
-    super.onStart();
     if (mUri==null) {
       String storedUri = MyApplication.getInstance().getSettings()
           .getString(PREFKEY_IMPORT_QIF_FILE_URI, "");
@@ -153,6 +152,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
         mUri = Uri.parse(storedUri);
         mFilename.setText(getDisplayName(mUri));
       }
+      super.onStart();
     }
   }
   @Override

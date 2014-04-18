@@ -53,7 +53,6 @@ DialogInterface.OnClickListener {
   }
   @Override
   public void onStart() {
-    super.onStart();
     if (mUri==null) {
       String storedUri = MyApplication.getInstance().getSettings()
           .getString(PREFKEY_IMPORT_GRISBI_FILE_URI, "");
@@ -62,5 +61,6 @@ DialogInterface.OnClickListener {
         mFilename.setText(getDisplayName(mUri));
       }
     }
+    super.onStart();
   }
 }
