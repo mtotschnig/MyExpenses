@@ -2,11 +2,11 @@ package org.totschnig.myexpenses.test.activity.myexpenses;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
+import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.R;
 
 import com.robotium.solo.Solo;
 
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 
@@ -19,7 +19,6 @@ import android.support.v4.view.ViewPager;
 public class A_InstallTest extends MyActivityTest<MyExpenses> {
 
   ViewPager mPager;
-  FragmentPagerAdapter mAdapter;
   
   public A_InstallTest() {
     super(MyExpenses.class);
