@@ -426,6 +426,8 @@ public class CategoryList extends BudgetListFragment implements
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+    if (getActivity()==null)
+      return;
     int id = loader.getId();
     ActionBarActivity ctx = (ActionBarActivity) getActivity();
     ActionBar actionBar =  ctx.getSupportActionBar();
