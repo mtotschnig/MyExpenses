@@ -408,12 +408,12 @@ public class Utils {
    if (Utils.isIntentAvailable(ctx,i)) {
      ctx.startActivity(i);
    } else {
-      if (ctx instanceof FragmentActivity)
-        DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
-      else {
-        //We are called from MyPreferenceActivity where support fragmentmanager is not available
-        ctx.showDialog(R.id.DONATE_DIALOG);
-      }
+     Toast.makeText(
+         ctx,
+         R.string.error_accessing_market,
+         Toast.LENGTH_LONG)
+       .show();
+
    }
   }
   /**
