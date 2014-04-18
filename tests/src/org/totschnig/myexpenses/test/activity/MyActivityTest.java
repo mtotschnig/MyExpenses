@@ -1,12 +1,13 @@
 package org.totschnig.myexpenses.test.activity;
 
+import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+
 import com.robotium.solo.Solo;
 
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
@@ -24,7 +25,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   protected Instrumentation mInstrumentation;
   protected Context mContext;
   ViewPager mPager;
-  FragmentPagerAdapter mAdapter;
+  protected FragmentPagerAdapter mAdapter;
   
   public MyActivityTest(Class<T> activityClass) {
     super(activityClass);

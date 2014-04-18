@@ -30,6 +30,7 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
     protected boolean mDataValid;
     protected Cursor mCursor;
     protected Context mContext;
+    //TODO replace by storage class that handles longs instead of ints
     protected SparseIntArray mItemPositions;
     protected HashMap<Object, Integer> mObjectMap;
     protected int mRowIDColumn;

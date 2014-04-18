@@ -10,20 +10,10 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.util.Fixture;
-import org.totschnig.myexpenses.R;
-
 import com.robotium.solo.Solo;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.KeyEvent;
 
 
 /**
