@@ -20,7 +20,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseIntArray;
 import android.view.ViewGroup;
 
@@ -90,9 +89,13 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+        boolean stillValid = getItemPosition(object) != POSITION_NONE;
         mObjectMap.remove(object);
-
-        super.destroyItem(container, position, object);
+        if (stillValid) {
+          detachItem(container, position, object);
+        } else {
+          super.destroyItem(container, position, object);
+        }
     }
 
     @Override
