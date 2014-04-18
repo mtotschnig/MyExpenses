@@ -34,6 +34,7 @@
   <string name="date">Tarih</string>
   <string name="date_format">Tarih biçimi</string>
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
+  <string name="decimal_separator">Ondalık ayırıcı</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. %1$s para biriminin sadece bir hesabı olmalısınız.</string>
@@ -117,6 +118,8 @@
   </string-array>
   <string name="help_leading">Android için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
+  <string name="important_upgrade_information_1">Yedeklemeler ve dışa aktarmalar bundan böyle Android/data/org.totschnig.myexpenses konumunda saklanır. DİKKATİNİZE: Harcamalarım kaldırıldığında bu klasör silinir.</string>
+  <string name="import_select_transactions">Muameleler</string>
   <string name="income">gelirler</string>
   <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
   <string name="label">Etiket</string>
@@ -191,6 +194,7 @@
   <string name="no_details">Ayrıntı yok.</string>
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
+  <string name="no_filemanager_installed">Hiçbir dosya yöneticisi kurulu değil</string>
   <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
   <string name="no_methods">Hiçbir ödeme metodu yok.</string>
   <string name="no_parties">Bölüm yok.</string>
@@ -264,6 +268,7 @@
   <string name="pref_follow_gplus_title">Harcamalarımı Google+\'da takip edin</string>
   <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
+  <string name="pref_import_qif_summary">Muameleleri, kategorileri ve kişileri QIF dosyasından içe aktar</string>
   <string name="pref_import_qif_title">QIF içe aktar</string>
   <string name="pref_manage_accounts_title">Hesaplar</string>
   <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
@@ -291,6 +296,7 @@
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
+  <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın katkı sürümünü gerektirir.</string>
   <string name="pref_security_question_title">Güvenlik sorusu</string>
@@ -317,6 +323,9 @@
   <string name="progress_dialog_deleting">Nesneler siliniyor…</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
+  <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
+  <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
+  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
   <string name="reference_number">Referans sayısı</string>
   <string name="request_licence_mail_description">Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız.</string>
   <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.</string>
@@ -324,6 +333,7 @@
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
   <string name="restore_no_backup_found">Yedek bulunamadı.</string>
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
+  <string name="restore_backup_file_not_found">\"%2$s\" klasöründe %1$s dosyası bulunamadı</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
@@ -390,7 +400,12 @@
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
+  <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
+  <string name="import_transactions_success">%1$s muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
   <string name="import_accounts_none">İçe aktarılan hesap yok</string>
   <string name="import_categories_none">İçe aktarılan kategori yok</string>
   <string name="import_parties_none">İçe aktarılan bölüm yok</string>
+  <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
+  <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
+  <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
 </resources>
