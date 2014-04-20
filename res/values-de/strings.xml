@@ -409,4 +409,5 @@
     <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
     <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
     <string name="restore_backup_file_not_found">Keine Datei %1$s im Ordner \"%2$s\" gefunden.</string>
+    <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
 </resources>

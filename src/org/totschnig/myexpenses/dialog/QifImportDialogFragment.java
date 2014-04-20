@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.AlertDialog;
@@ -59,10 +60,10 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
-      MyApplication.getInstance().getSettings().edit()
-        .putString(PREFKEY_IMPORT_QIF_FILE_URI, mUri.toString())
-        .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString())
-        .commit();
+      SharedPreferencesCompat.apply(
+        MyApplication.getInstance().getSettings().edit()
+          .putString(PREFKEY_IMPORT_QIF_FILE_URI, mUri.toString())
+          .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString()));
       ((QifImport) getActivity()).onSourceSelected(
           mUri,
           format,

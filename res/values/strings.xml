@@ -262,6 +262,7 @@
     <string name="pm_type_credit">Credit</string>
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
+    <string name="pref_app_dir_title">Folder for backups and exports</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
     <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>

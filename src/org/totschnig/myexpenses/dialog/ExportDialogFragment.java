@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -179,11 +180,11 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
     char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
         '.' : ',';
-    MyApplication.getInstance().getSettings().edit()
-      .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format)
-      .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
-      .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator)
-      .commit();
+    SharedPreferencesCompat.apply(
+      MyApplication.getInstance().getSettings().edit()
+        .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format)
+        .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
+        .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {

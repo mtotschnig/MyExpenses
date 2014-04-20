@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string name="pref_category_manage_key">manage</string>
+  <string name="pref_category_export_key">category_export</string>
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_perform_share_key">perform_share</string>
   <string name="pref_share_target_key">share_target</string>
@@ -39,6 +39,7 @@
   <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
   <string name="pref_rate_key">rate</string>
   <string name="pref_ui_language_key">ui_language</string>
+  <string name="pref_app_dir_key">app_dir</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 

@@ -17,7 +17,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
   <PreferenceCategory
-  	  android:key="@string/pref_category_manage_key"
       android:title="@string/pref_category_title_manage">
     <PreferenceScreen
         android:title="@string/pref_manage_categories_title"
@@ -78,8 +77,11 @@
         <intent android:action="myexpenses.intent.import_qif"/>
     </org.totschnig.myexpenses.preference.LongSummaryPreference>
   </PreferenceCategory>
-  <PreferenceCategory 
+  <PreferenceCategory
+      android:key="@string/pref_category_export_key"
       android:title="@string/pref_category_title_export">
+    <Preference android:key="@string/pref_app_dir_key"
+        android:title="@string/pref_app_dir_title" />
     <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_qif_export_file_encoding_key"
         android:defaultValue="UTF-8"
         android:title="@string/pref_qif_export_file_encoding_title"
