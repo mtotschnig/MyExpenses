@@ -66,6 +66,22 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
+    - 2.1.0
+    - 2014-04-16
+    -
+      en: |
+        Multiple independent backups. QIF import.
+      fr: |
+        Plusieurs sauvegardes indépendantes. Importation QIF.
+      de: |
+        Mehrere unabhängige Sicherungen. QIF import.
+      it: |
+        Backup indipendenti multiple. Importazione QIF.
+      es: |
+        Múltiples copias de seguridad independientes. Importación QIF.
+      tr: |
+        Birden fazla bağımsız yedeklemeler. QIF içe aktarımı.
+  -
     - 2.0.2
     - 2014-02-23
     -
