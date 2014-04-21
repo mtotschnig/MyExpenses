@@ -70,21 +70,26 @@ public class ProtectedFragmentActivity extends ActionBarActivity
 
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    protection = new ProtectionDelegate(this);
     setLanguage();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
   }
+  private ProtectionDelegate getProtection() {
+    if (protection == null) {
+      protection = new ProtectionDelegate(this);
+    }
+    return protection;
+  }
   @Override
   protected void onPause() {
     super.onPause();
-    protection.handleOnPause(pwDialog);
+    getProtection().handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    protection.handleOnDestroy();
+    getProtection().handleOnDestroy();
   }
   @Override
   protected void onResume() {
@@ -99,7 +104,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
         startActivity(intent);
       }
     } else {
-      pwDialog = protection.hanldeOnResume(pwDialog);
+      pwDialog = getProtection().hanldeOnResume(pwDialog);
     }
   }
   @Override
@@ -137,15 +142,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public void onProgressUpdate(Object progress) {
-    protection.updateProgressDialog(progress);
+    getProtection().updateProgressDialog(progress);
   }
   @Override
   public void onCancelled() {
-    protection.removeAsyncTaskFragment(false);
+    getProtection().removeAsyncTaskFragment(false);
   }
   @Override
   public void onPostExecute(int taskId, Object o) {
-    protection.removeAsyncTaskFragment(taskId);
+    getProtection().removeAsyncTaskFragment(taskId);
   }
 
   protected void setLanguage() {
@@ -172,6 +177,6 @@ public class ProtectedFragmentActivity extends ActionBarActivity
    * @param progressMessage if 0 no progress dialog will be shown
    */
   public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
-    protection.startTaskExecution(taskId,objectIds,extra,progressMessage);
+    getProtection().startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
 }
