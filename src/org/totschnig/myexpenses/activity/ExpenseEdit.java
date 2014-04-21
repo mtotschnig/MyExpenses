@@ -458,6 +458,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (mPlanId == null) {
           if (getIntent().getExtras().getBoolean("newPlanEnabled")) {
             if (syncStateAndValidate()) {
+              mPlanButton.setEnabled(false);
               launchNewPlan();
             }
           } else {
@@ -935,6 +936,7 @@ public class ExpenseEdit extends AmountActivity implements
             createNewButton,
             MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
+        mPlanButton.setEnabled(true);
       } else if (mPlanId == 0L) {
         mPlanId = null;
         Toast.makeText(
