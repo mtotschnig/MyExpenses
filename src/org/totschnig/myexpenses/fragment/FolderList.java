@@ -5,6 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
+//adapted to My Expenses by Michael Totschnig
 
 package org.totschnig.myexpenses.fragment;
 
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
@@ -25,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.FolderBrowser;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,29 +52,39 @@ public class FolderList extends ListFragment {
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflator) {
       inflator.inflate(R.menu.folder, menu);
     }
+    
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+      boolean isWritable = selectedFolder.canWrite();
+      menu.findItem(R.id.CREATE_COMMAND).setVisible(isWritable);
+      menu.findItem(R.id.SELECT_COMMAND).setVisible(isWritable);
+      File parent = selectedFolder.getParentFile();
+      menu.findItem(R.id.UP_COMMAND).setVisible(parent!=null);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+      FolderBrowser ctx = (FolderBrowser) getActivity();
+      switch (item.getItemId()) {
+      case R.id.SELECT_COMMAND:
+        Intent result = new Intent();
+        result.putExtra(PATH, selectedFolder.getAbsolutePath());
+        ctx.setResult(FolderBrowser.RESULT_OK, result);
+        ctx.finish();
+        break;
+      case R.id.CREATE_COMMAND:
+        createNewFolder();
+        break;
+      case R.id.UP_COMMAND:
+        browseTo(selectedFolder.getParentFile());
+        break;
+      }
+      return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
       super.onActivityCreated(savedInstanceState);
-//        selectButton = (Button)findViewById(R.id.selectButton);
-//        selectButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent result = new Intent();
-//                result.putExtra(PATH, selectedFolder.getAbsolutePath());
-//                setResult(RESULT_OK, result);
-//                finish();
-//            }
-//        });
-//
-//        createButton = (Button)findViewById(R.id.createButton);
-//        createButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                createNewFolder();
-//            }
-//        });
-        
         if (!browseToCurrentFolder()) {
             browseToRoot();
         }
@@ -119,7 +132,7 @@ public class FolderList extends ListFragment {
             result = false;
         } finally {
             if (!result) {
-                Toast.makeText(getActivity(), "create_new_folder_fail", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "create_new_folder_fail", Toast.LENGTH_LONG).show();
             }
             browseTo(selectedFolder);
         }
@@ -131,25 +144,15 @@ public class FolderList extends ListFragment {
 
     private void browseTo(File current) {
         files.clear();
-        upOneLevel(current);
         browse(current);
         setAdapter();
         selectCurrentFolder(current);
     }
 
     private void selectCurrentFolder(File current) {
-        boolean isWritable = current.canWrite();
-        //selectButton.setEnabled(isWritable);
-        //createButton.setEnabled(isWritable);
-        selectedFolder = isWritable ? current : null;
+        selectedFolder = current;
         getActivity().setTitle(current.getAbsolutePath());
-    }
-
-    private void upOneLevel(File current) {
-        File parent = current.getParentFile();
-        if (parent != null) {
-            files.add(new OnLevelUp(parent));
-        }
+        getActivity().supportInvalidateOptionsMenu();
     }
 
     private void browse(File current) {
@@ -190,17 +193,5 @@ public class FolderList extends ListFragment {
             return file.getName();
         }
 
-    }
-
-    private static class OnLevelUp extends FileItem {
-
-        private OnLevelUp(File file) {
-            super(file);
-        }
-
-        @Override
-        public String toString() {
-            return "..";
-        }
     }
 }
