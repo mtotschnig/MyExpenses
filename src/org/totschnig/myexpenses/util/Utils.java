@@ -247,17 +247,28 @@ public class Utils {
   /**
    * @return directory for storing backups and exports, null if external storage is not available
    */
-  @SuppressLint("NewApi")
   public static File requireAppDir() {
     if (!isExternalStorageAvailable())
       return null;
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-      File sd = Environment.getExternalStorageDirectory();
-      File appDir = new File(sd, "myexpenses");
-      appDir.mkdir();
-      return appDir;
+    else {
+      File result = getAppDir();
+      result.mkdir();
+      return result;
     }
-    return  MyApplication.getInstance().getExternalFilesDir(null);
+  }
+  @SuppressLint("NewApi")
+  public static File getAppDir() {
+    String pref = MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_APP_DIR, null);
+    if (pref == null) {
+      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+        File sd = Environment.getExternalStorageDirectory();
+        File appDir = new File(sd, "myexpenses");
+        return appDir;
+      }
+      return  MyApplication.getInstance().getExternalFilesDir(null);
+    } else {
+      return new File(pref);
+    }
   }
   /**
    * @param parentDir

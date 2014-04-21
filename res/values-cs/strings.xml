@@ -349,4 +349,5 @@
     <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
     <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
     <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
+    <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
 </resources>

@@ -17,12 +17,12 @@ package org.totschnig.myexpenses.activity;
 
 
 import java.net.URI;
-import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -36,9 +36,11 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
+import android.provider.DocumentsContract;
 import android.provider.Settings.Secure;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     OnPreferenceClickListener {
   
   private static final int RESTORE_REQUEST = 1;
+  private static final int PICK_FOLDER_REQUEST = 1;
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
       .setOnPreferenceChangeListener(this);
+    
+    findPreference(MyApplication.PREFKEY_APP_DIR)
+    .setOnPreferenceClickListener(this);
+    setAppDirSummary();
   }
+
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
     findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
@@ -218,6 +226,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }
+    if (preference.getKey().equals(MyApplication.PREFKEY_APP_DIR)) {
+      Intent intent = new Intent(this, FolderBrowser.class);
+      intent.putExtra(FolderBrowser.PATH, Utils.requireAppDir().getPath());
+      startActivityForResult(intent,PICK_FOLDER_REQUEST);
+      return true;
+    }
 /*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
       addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
       Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
@@ -231,7 +245,16 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
       setResult(resultCode);
       finish();
+    } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
+      String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit()
+          .putString(MyApplication.PREFKEY_APP_DIR, databaseBackupFolder));
+      setAppDirSummary();
     }
+  }
+  private void setAppDirSummary() {
+    findPreference(MyApplication.PREFKEY_APP_DIR).setSummary(Utils.requireAppDir().getPath());
   }
 
   // credits Financisto
@@ -253,5 +276,13 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcon);
     intent.setAction(action);
     return intent;
+  }
+  private Intent findDirPicker() {
+    Intent intent = new Intent("com.estrongs.action.PICK_DIRECTORY ");
+    intent.putExtra("com.estrongs.intent.extra.TITLE", "Select Directory");
+    if (Utils.isIntentAvailable(this, intent)) {
+      return intent;
+    }
+    return null;
   }
 }

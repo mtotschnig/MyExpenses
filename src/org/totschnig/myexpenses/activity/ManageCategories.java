@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -66,7 +67,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       String action = intent.getAction();
       if (action != null && action.equals("myexpenses.intent.manage.categories")) {
         helpVariant = HelpVariant.manage;
-        setTitle(R.string.pref_manage_categories_title);
+        getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
       } else if (action != null && action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
         //title is set in categories list
@@ -87,7 +88,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         });
       } else {
         helpVariant = HelpVariant.select;
-        setTitle(R.string.select_category);
+        getSupportActionBar().setTitle(R.string.select_category);
       }
       setContentView(R.layout.select_category);
       mListFragment = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
@@ -145,11 +146,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       Bundle args = new Bundle();
       int dialogTitle;
       if (parentId != null) {
-        args.putLong("parentId", parentId);
+        args.putLong(DatabaseConstants.KEY_PARENTID, parentId);
         dialogTitle = R.string.menu_create_sub_cat;
       } else
         dialogTitle = R.string.menu_create_main_cat;
-      args.putString("dialogTitle", getString(dialogTitle));
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(dialogTitle));
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_CATEGORY");
     }
     /**
@@ -160,9 +161,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
      */
     public void editCat(String label, Long catId) {
       Bundle args = new Bundle();
-      args.putLong("catId", catId);
-      args.putString("dialogTitle", getString(R.string.menu_edit_cat));
-      args.putString("value",label);
+      args.putLong(DatabaseConstants.KEY_ROWID, catId);
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_edit_cat));
+      args.putString(EditTextDialog.KEY_VALUE,label);
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "EDIT_CATEGORY");
     }
 
@@ -187,9 +188,12 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     @Override
     public void onFinishEditDialog(Bundle args) {
       Long parentId;
-      if ((parentId = args.getLong("parentId")) == 0L)
+      if ((parentId = args.getLong(DatabaseConstants.KEY_PARENTID)) == 0L)
         parentId = null;
-      mCategory = new Category(args.getLong("catId"), args.getString("result"), parentId);
+      mCategory = new Category(
+          args.getLong(DatabaseConstants.KEY_ROWID),
+          args.getString(EditTextDialog.KEY_RESULT),
+          parentId);
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
         .commit();

@@ -16,8 +16,8 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="135"
-    android:versionName="2.1.0.2"
+    android:versionCode="136"
+    android:versionName="2.1.1"
     android:installLocation="auto"
 >
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
@@ -29,8 +29,7 @@
     <permission
       android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM"
       android:protectionLevel="signature" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-      android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -49,6 +48,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+			        android:name="android.support.UI_OPTIONS"
+			        android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity android:name=".activity.ExpenseEdit"/>
         <activity android:name=".activity.AccountEdit"/>
@@ -106,6 +108,12 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
+        <activity android:name=".activity.FolderBrowser"
+          android:uiOptions="splitActionBarWhenNarrow">
+            <meta-data
+              android:name="android.support.UI_OPTIONS"
+              android:value="splitActionBarWhenNarrow" />
+        </activity>
         <activity android:name=".activity.CalculatorInput" android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -129,4 +137,7 @@
 				  </intent-filter>
         </receiver>
     </application>
+    <meta-data
+    android:name="android.support.UI_OPTIONS"
+    android:value="splitActionBarWhenNarrow" />
 </manifest>

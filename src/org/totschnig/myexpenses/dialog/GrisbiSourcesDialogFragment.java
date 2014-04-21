@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -34,9 +36,9 @@ DialogInterface.OnClickListener {
   @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
-      MyApplication.getInstance().getSettings().edit()
-      .putString(PREFKEY_IMPORT_GRISBI_FILE_URI, mUri.toString())
-      .commit();
+      SharedPreferencesCompat.apply(
+        MyApplication.getInstance().getSettings().edit()
+        .putString(PREFKEY_IMPORT_GRISBI_FILE_URI, mUri.toString()));
       ((GrisbiImport) getActivity()).onSourceSelected(
           mUri,
           mImportCategories.isChecked(),
@@ -53,14 +55,19 @@ DialogInterface.OnClickListener {
   }
   @Override
   public void onStart() {
-    super.onStart();
     if (mUri==null) {
       String storedUri = MyApplication.getInstance().getSettings()
           .getString(PREFKEY_IMPORT_GRISBI_FILE_URI, "");
       if (!storedUri.equals("")) {
         mUri = Uri.parse(storedUri);
-        mFilename.setText(getDisplayName(mUri));
+        try {
+          mFilename.setText(getDisplayName(mUri));
+        } catch (SecurityException e) {
+          // on Kitkat getDisplayname might fail if app is restarted after reboot
+          mUri = null;
+        }
       }
     }
+    super.onStart();
   }
 }

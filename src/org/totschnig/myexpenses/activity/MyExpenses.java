@@ -24,6 +24,7 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
@@ -737,8 +738,8 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onFinishEditDialog(Bundle args) {
-    String title = args.getString("result");
-    if ((new Template(Transaction.getInstanceFromDb(args.getLong("transactionId")),title)).save() == null) {
+    String title = args.getString(EditTextDialog.KEY_RESULT);
+    if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)),title)).save() == null) {
       Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
     } else {
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
