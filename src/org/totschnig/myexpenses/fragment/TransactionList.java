@@ -296,9 +296,9 @@ public class TransactionList extends BudgetListFragment implements
       if (TextUtils.isEmpty(label))
         label = mTransactionsCursor.getString(columnIndexLabelMain);
       Bundle args = new Bundle();
-      args.putLong("transactionId", acmi.id);
-      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
-      args.putString("value",label);
+      args.putLong(KEY_ROWID, acmi.id);
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_template_title));
+      args.putString(EditTextDialog.KEY_VALUE,label);
       EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }

@@ -106,7 +106,7 @@ public class FolderList extends ListFragment {
 
     private void createNewFolder() {
       Bundle args = new Bundle();
-      args.putString("dialogTitle", "create_new_folder_title");
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, "create_new_folder_title");
       EditTextDialog.newInstance(args).show(getFragmentManager(), "CREATE_FOLDER");
     }
     

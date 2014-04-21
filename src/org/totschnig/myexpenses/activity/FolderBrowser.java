@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.fragment.FolderList;
 
@@ -35,7 +36,8 @@ public class FolderBrowser extends ActionBarActivity implements
 
     @Override
     public void onFinishEditDialog(Bundle args) {
-      ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list)).createNewFolder(args.getString("result"));
+      ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
+        .createNewFolder(args.getString(EditTextDialog.KEY_RESULT));
       
     }
 

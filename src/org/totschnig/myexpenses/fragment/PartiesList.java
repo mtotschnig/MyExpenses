@@ -49,9 +49,9 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     switch(command) {
     case R.id.EDIT_COMMAND:
       Bundle args = new Bundle();
-      args.putLong("partyId", menuInfo.id);
-      args.putString("dialogTitle", getString(R.string.menu_edit_party));
-      args.putString("value",mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)));
+      args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_edit_party));
+      args.putString(EditTextDialog.KEY_VALUE,mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)));
       EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "EDIT_PARTY");
       return true;
     }

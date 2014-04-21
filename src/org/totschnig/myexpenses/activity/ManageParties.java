@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     if (command == R.id.CREATE_COMMAND) {
       Bundle args = new Bundle();
-      args.putString("dialogTitle", getString(R.string.menu_create_party));
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_create_party));
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_PARTY");
       return true;
     }
@@ -65,7 +66,9 @@ public class ManageParties extends ProtectedFragmentActivity implements
    }
   @Override
   public void onFinishEditDialog(Bundle args) {
-    mParty = new Payee(args.getLong("partyId"),args.getString("result"));
+    mParty = new Payee(
+        args.getLong(DatabaseConstants.KEY_ROWID),
+        args.getString(EditTextDialog.KEY_RESULT));
     getSupportFragmentManager().beginTransaction()
     .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
     .commit();
