@@ -43,6 +43,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+			        android:name="android.support.UI_OPTIONS"
+			        android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity android:name=".activity.ExpenseEdit"/>
         <activity android:name=".activity.AccountEdit"/>
@@ -101,7 +104,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.FolderBrowser"
-          android:uiOptions="splitActionBarWhenNarrow"/>
+          android:uiOptions="splitActionBarWhenNarrow">
+            <meta-data
+              android:name="android.support.UI_OPTIONS"
+              android:value="splitActionBarWhenNarrow" />
+        </activity>
         <activity android:name=".activity.CalculatorInput" android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -119,4 +126,7 @@
 				  </intent-filter>
         </receiver>
     </application>
+    <meta-data
+    android:name="android.support.UI_OPTIONS"
+    android:value="splitActionBarWhenNarrow" />
 </manifest> 

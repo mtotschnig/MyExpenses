@@ -66,7 +66,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       String action = intent.getAction();
       if (action != null && action.equals("myexpenses.intent.manage.categories")) {
         helpVariant = HelpVariant.manage;
-        setTitle(R.string.pref_manage_categories_title);
+        getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
       } else if (action != null && action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
         //title is set in categories list
@@ -87,7 +87,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         });
       } else {
         helpVariant = HelpVariant.select;
-        setTitle(R.string.select_category);
+        getSupportActionBar().setTitle(R.string.select_category);
       }
       setContentView(R.layout.select_category);
       mListFragment = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));

@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
 
 /**
  * Created by IntelliJ IDEA.
@@ -55,11 +57,11 @@ public class FolderList extends ListFragment {
     
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-      boolean isWritable = selectedFolder.canWrite();
+      boolean isWritable = selectedFolder != null && selectedFolder.canWrite();
+      boolean hasParent = selectedFolder != null && selectedFolder.getParentFile() != null;
       menu.findItem(R.id.CREATE_COMMAND).setVisible(isWritable);
       menu.findItem(R.id.SELECT_COMMAND).setVisible(isWritable);
-      File parent = selectedFolder.getParentFile();
-      menu.findItem(R.id.UP_COMMAND).setVisible(parent!=null);
+      menu.findItem(R.id.UP_COMMAND).setVisible(hasParent);
     }
     
     @Override
@@ -103,38 +105,25 @@ public class FolderList extends ListFragment {
     }
 
     private void createNewFolder() {
-        final EditText editText = new EditText(getActivity());
-        Dialog d = new AlertDialog.Builder(getActivity())
-                .setTitle("create_new_folder_title")
-                .setView(editText)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        createNewFolder(editText.getText().toString());
-                        dialogInterface.dismiss();
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .create();
-        d.show();
+      Bundle args = new Bundle();
+      args.putString("dialogTitle", "create_new_folder_title");
+      EditTextDialog.newInstance(args).show(getFragmentManager(), "CREATE_FOLDER");
     }
     
-    private void createNewFolder(String name) {
+    public void createNewFolder(String name) {
         boolean result = false;
+        File newFolder = null;
         try {
-            result = new File(selectedFolder, name).mkdirs();
+            newFolder = new File(selectedFolder, name);
+            result = newFolder.mkdirs();
         } catch (Exception e) {
             result = false;
         } finally {
             if (!result) {
                 Toast.makeText(getActivity(), "create_new_folder_fail", Toast.LENGTH_LONG).show();
+            } else if (newFolder.isDirectory()) {
+              browseTo(newFolder);
             }
-            browseTo(selectedFolder);
         }
     }
 
@@ -151,7 +140,7 @@ public class FolderList extends ListFragment {
 
     private void selectCurrentFolder(File current) {
         selectedFolder = current;
-        getActivity().setTitle(current.getAbsolutePath());
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(current.getAbsolutePath());
         getActivity().supportInvalidateOptionsMenu();
     }
 
