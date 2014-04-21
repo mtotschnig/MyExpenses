@@ -38,7 +38,6 @@ public class FolderBrowser extends ActionBarActivity implements
     public void onFinishEditDialog(Bundle args) {
       ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
         .createNewFolder(args.getString(EditTextDialog.KEY_RESULT));
-      
     }
 
     @Override
