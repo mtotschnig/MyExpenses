@@ -339,4 +339,5 @@
     <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>
     <string name="import_categories_success">%1$s 類別  被匯入成功</string>
     <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
+    <string name="create_new_folder_fail">目錄建立失敗</string>
 </resources>

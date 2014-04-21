@@ -409,4 +409,7 @@
     <string name="import_source_select_error">Si prega di fornire un file di tipo %1$s</string>
     <string name="menu_categories_setup_default">Installazione categorie standard</string>
     <string name="pref_app_dir_title">Cartella per backup et esportazioni</string>
+    <string name="menu_create_folder">Nuova cartella</string>
+    <string name="menu_up">In alto</string>
+    <string name="create_new_folder_fail">Impossibile creare la cartella</string>
 </resources>

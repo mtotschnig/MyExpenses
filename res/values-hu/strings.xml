@@ -340,4 +340,6 @@
     <string name="warning_select_account">Kérem válasszon egy számlát!</string>
     <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
     <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
-    <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string></resources>
+    <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>
+    <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
+</resources>

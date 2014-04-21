@@ -409,4 +409,7 @@
     <string name="import_source_select_error">Veuillez fournir un fichier de type %1$s</string>
     <string name="menu_categories_setup_default">Charger les catégories par défaut</string>
     <string name="pref_app_dir_title">Dossier pour sauvegardes et exports</string>
+    <string name="menu_create_folder">Nouveau dossier</string>
+    <string name="menu_up">Plus haut</string>
+    <string name="create_new_folder_fail">Échec à créer le dossier</string>
 </resources>

@@ -409,4 +409,7 @@
     <string name="import_source_select_error">Por favor, forneça um arquivo do tipo %1$s</string>
     <string name="menu_categories_setup_default">Configurar categorias padrão</string>
     <string name="pref_app_dir_title">Pasta para backups e exportações</string>
+    <string name="menu_create_folder">Nova pasta</string>
+    <string name="menu_up">Para cima</string>
+    <string name="create_new_folder_fail">Falha ao criar a pasta</string>
 </resources>

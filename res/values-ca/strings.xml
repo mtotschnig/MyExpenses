@@ -351,4 +351,5 @@
     <string name="warning_select_account">Si us plau, trieu un compte!</string>
     <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
     <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
+    <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
 </resources>

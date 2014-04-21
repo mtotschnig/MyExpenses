@@ -99,7 +99,7 @@ public class FolderList extends ListFragment {
 
   private void createNewFolder() {
     Bundle args = new Bundle();
-    args.putString(EditTextDialog.KEY_DIALOG_TITLE, "create_new_folder_title");
+    args.putString(EditTextDialog.KEY_DIALOG_TITLE,getString(R.string.menu_create_folder));
     EditTextDialog.newInstance(args)
         .show(getFragmentManager(), "CREATE_FOLDER");
   }
@@ -114,7 +114,7 @@ public class FolderList extends ListFragment {
       result = false;
     } finally {
       if (!result) {
-        Toast.makeText(getActivity(), "create_new_folder_fail",
+        Toast.makeText(getActivity(), R.string.create_new_folder_fail,
             Toast.LENGTH_LONG).show();
       } else if (newFolder.isDirectory()) {
         browseTo(newFolder);

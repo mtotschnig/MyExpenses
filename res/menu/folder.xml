@@ -20,18 +20,18 @@
 	    android:id="@id/CREATE_COMMAND"
 	    android:icon="@android:drawable/ic_menu_add"
 	    app:showAsAction="always"
-	    android:title="Newwwww"/>
+	    android:title="@string/menu_create_folder"/>
 	  
 	  <item
 	    android:id="@id/SELECT_COMMAND"
 	    android:icon="@drawable/ic_menu_goto"
 	    app:showAsAction="always"
-	    android:title="Select"/>
+	    android:title="@string/select"/>
 
 	  <item
 	  	android:id="@id/UP_COMMAND"
       android:icon="@drawable/ic_action_up"
 	    app:showAsAction="always"
-	    android:title="Up"/>
+	    android:title="@string/menu_up"/>
 	  	
 </menu>
