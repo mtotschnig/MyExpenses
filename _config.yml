@@ -66,6 +66,22 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
+    - 2.1.1
+    - 2014-04-21
+    -
+      en: |
+        Folder location for backups and exports is now configurable.
+      fr: |
+        L'emplacement du dossier pour les sauvegardes et les exportations est maintenant configurable.
+      de: |
+        Ordner für Backups und Exports ist jetzt konfigurierbar.
+      it: |
+        Il percorso della cartella per i backup e le esportazioni è ora configurabile.
+      es: |
+        La ubicación de la carpeta para copias de seguridad y las exportaciones ahora es configurable.
+      pt: |
+        A localização da pasta para backups e exportações é agora configurável.
+  -
     - 2.1.0
     - 2014-04-16
     -
