@@ -248,6 +248,7 @@
   <string name="pm_type_credit">Gelir</string>
   <string name="pm_type_debit">Gider</string>
   <string name="pm_type_neutral">Nötr</string>
+  <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Kullanım sayacı</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanümerik</string>
@@ -408,4 +409,7 @@
   <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
   <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
   <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
+  <string name="menu_create_folder">Yeni klasör</string>
+  <string name="menu_up">Yukarı</string>
+  <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
 </resources>

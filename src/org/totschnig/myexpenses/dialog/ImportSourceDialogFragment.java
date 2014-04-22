@@ -119,7 +119,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
               mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
             }
           }
-          if (mUri != null) {
+          if (isKitKat && mUri != null) {
             final int takeFlags = data.getFlags()
                 & Intent.FLAG_GRANT_READ_URI_PERMISSION;
             getActivity().getContentResolver().takePersistableUriPermission(mUri, takeFlags);

@@ -158,8 +158,8 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
           mUri = null;
         }
       }
-      super.onStart();
     }
+    super.onStart();
   }
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,

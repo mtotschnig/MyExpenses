@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 
+import java.io.File;
 import java.net.URI;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -36,11 +37,9 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
-import android.provider.DocumentsContract;
 import android.provider.Settings.Secure;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -227,9 +226,16 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_APP_DIR)) {
-      Intent intent = new Intent(this, FolderBrowser.class);
-      intent.putExtra(FolderBrowser.PATH, Utils.requireAppDir().getPath());
-      startActivityForResult(intent,PICK_FOLDER_REQUEST);
+      File appDir = Utils.requireAppDir();
+      Preference pref = findPreference(MyApplication.PREFKEY_APP_DIR);
+      if (appDir == null) {
+        pref.setSummary(R.string.external_storage_unavailable);
+        pref.setEnabled(false);
+      } else {
+        Intent intent = new Intent(this, FolderBrowser.class);
+        intent.putExtra(FolderBrowser.PATH, appDir.getPath());
+        startActivityForResult(intent,PICK_FOLDER_REQUEST);
+      }
       return true;
     }
 /*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
@@ -245,16 +251,25 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
       setResult(resultCode);
       finish();
-    } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
-      String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit()
-          .putString(MyApplication.PREFKEY_APP_DIR, databaseBackupFolder));
+    } else if (requestCode == PICK_FOLDER_REQUEST) {
+      if (resultCode == RESULT_OK) {
+        String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
+        SharedPreferencesCompat.apply(
+            MyApplication.getInstance().getSettings().edit()
+            .putString(MyApplication.PREFKEY_APP_DIR, databaseBackupFolder));
+      }
       setAppDirSummary();
     }
   }
   private void setAppDirSummary() {
-    findPreference(MyApplication.PREFKEY_APP_DIR).setSummary(Utils.requireAppDir().getPath());
+    File appDir = Utils.requireAppDir();
+    Preference pref = findPreference(MyApplication.PREFKEY_APP_DIR);
+    if (appDir == null) {
+      pref.setSummary(R.string.external_storage_unavailable);
+      pref.setEnabled(false);
+    } else {
+      pref.setSummary(appDir.getPath());
+    }
   }
 
   // credits Financisto

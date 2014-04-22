@@ -155,7 +155,7 @@
         android:title="@string/pref_follow_gplus_title">
         <intent
         android:action="android.intent.action.VIEW"
-        android:data="https://plus.google.com/116736113799210525299"
+        android:data="https://google.com/+MyexpensesMobi"
         />
     </Preference>
     <Preference android:key="@string/pref_more_info_dialog_key"

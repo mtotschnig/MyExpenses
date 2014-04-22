@@ -9,6 +9,7 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -29,8 +30,6 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 
 public class FolderList extends ListFragment {
-
-  public static final String PATH = "PATH";
 
   private final List<FileItem> files = new ArrayList<FileItem>();
 
@@ -63,7 +62,7 @@ public class FolderList extends ListFragment {
     switch (item.getItemId()) {
     case R.id.SELECT_COMMAND:
       Intent result = new Intent();
-      result.putExtra(PATH, selectedFolder.getAbsolutePath());
+      result.putExtra(FolderBrowser.PATH, selectedFolder.getAbsolutePath());
       ctx.setResult(FolderBrowser.RESULT_OK, result);
       ctx.finish();
       break;
@@ -80,21 +79,29 @@ public class FolderList extends ListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    if (!browseToCurrentFolder()) {
+    String path = null;
+    if (savedInstanceState != null) {
+      path = savedInstanceState.getString(FolderBrowser.PATH);
+    }
+    if (path == null) {
+      Intent intent = getActivity().getIntent();
+      if (intent != null) {
+        path = intent.getStringExtra(FolderBrowser.PATH);
+      }
+    }
+    if (path != null) {
+      browseTo(new File(path));
+    } else {
       browseToRoot();
     }
   }
 
-  private boolean browseToCurrentFolder() {
-    Intent intent = getActivity().getIntent();
-    if (intent != null) {
-      String path = intent.getStringExtra(PATH);
-      if (path != null) {
-        browseTo(new File(path));
-        return true;
-      }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    if (selectedFolder != null) {
+      outState.putString(FolderBrowser.PATH, selectedFolder.getAbsolutePath());
     }
-    return false;
   }
 
   private void createNewFolder() {
@@ -142,6 +149,13 @@ public class FolderList extends ListFragment {
 
   private void browse(File current) {
     File[] files = current.listFiles();
+    if (files == null) {
+      FolderBrowser ctx = (FolderBrowser) getActivity();
+      Toast.makeText(ctx,getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+      ctx.setResult(Activity.RESULT_CANCELED);
+      ctx.finish();
+      return;
+    }
     Arrays.sort(files);
     for (File file : files) {
       if (isWritableDirectory(file)) {
