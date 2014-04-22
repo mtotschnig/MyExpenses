@@ -79,21 +79,29 @@ public class FolderList extends ListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    if (!browseToCurrentFolder()) {
+    String path = null;
+    if (savedInstanceState != null) {
+      path = savedInstanceState.getString(FolderBrowser.PATH);
+    }
+    if (path == null) {
+      Intent intent = getActivity().getIntent();
+      if (intent != null) {
+        path = intent.getStringExtra(FolderBrowser.PATH);
+      }
+    }
+    if (path != null) {
+      browseTo(new File(path));
+    } else {
       browseToRoot();
     }
   }
 
-  private boolean browseToCurrentFolder() {
-    Intent intent = getActivity().getIntent();
-    if (intent != null) {
-      String path = intent.getStringExtra(FolderBrowser.PATH);
-      if (path != null) {
-        browseTo(new File(path));
-        return true;
-      }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    if (selectedFolder != null) {
+      outState.putString(FolderBrowser.PATH, selectedFolder.getAbsolutePath());
     }
-    return false;
   }
 
   private void createNewFolder() {
