@@ -132,3 +132,14 @@ Back to top button
 	  margin-left: -75px;
   }
 }
+.application {
+  font-style: italic;
+}
+.guimenuitem, .guilabel {
+        font-weight: bold;
+}
+.guibutton, .guimenu {
+        background-color: #FFFFFF;
+        padding: 2px;
+}
+
