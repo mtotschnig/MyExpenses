@@ -21,10 +21,11 @@ fr:
     manage_accounts: Jusqu'à cinq comptes avec virements
     plans: Définir des modèles et un échéancier pour les opérations futures et périodiques
     grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
-    distribution: Deux niveaux de catégories (importation de Grisbi XML)
+    distribution: Deux niveaux de catégories (importation de Grisbi XML et QIF)
     split: Opérations ventilées
     calculator: Calculatrice
     export: Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...)
+    import: Importation de QIF
     password: Protection par mot de passe
     help: Aide integrée
     backup: Sauvegarde et restauration de données
@@ -44,10 +45,10 @@ fr:
         Vous avez les options suivantes pour l'achat de la licence de Contrib :
       gplay: |
         Si vous avez installé Mes Dépenses depuis Google Play, installez
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mes Dépenses Contrib</a>.
+        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mes Dépenses Contrib</a>.
       amazon: |
         Si vous avez installé Mes Dépenses depuis Amazon App Store, installez
-        <a href="http://www.amazon.fr/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mes Dépenses Contrib</a>.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.fr/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mes Dépenses Contrib</a>.
       other: |
         Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Androidpit ou Github, envoyez un don par l'une des opérations suivantes :
       transfer: |

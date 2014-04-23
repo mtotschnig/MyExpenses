@@ -21,10 +21,11 @@ en:
     manage_accounts: Up to five accounts with transfers
     plans: Define templates and plans for future and recurrent transactions
     grouped_list: Group transactions per day, week, month, year and display sums per group
-    distribution: Two levels of categories (import from Grisbi XML)
+    distribution: Two levels of categories (import from Grisbi XML and QIF)
     split: Split transactions (Contrib version)
     calculator: Calculator
     export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...)
+    import: Import QIF data
     password: Password protection
     help: Integrated Help
     backup: Data backup and restore
@@ -44,10 +45,10 @@ en:
         You have the following options for purchasing the Contrib licence:
       gplay: |
         If you have installed My Expenses from Google Play, install
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
+        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
       amazon: |
         If you have installed My Expenses from Amazon App Store, install
-        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
       other: |
         If you have downloaded My Expenses from F-Droid, Androidpit or Github,
         send a donation via one of the following:

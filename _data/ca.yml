@@ -44,10 +44,10 @@ ca:
         Teniu les següents opcions per adquirir una llicència Contrib:
       gplay: |
         Si heu instal·lat Les meves despeses a Play Store, instal·leu
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Les meves despeses Contrib</a>.
+        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Les meves despeses Contrib</a>.
       amazon: |+
         Si heu instal·lat Les meves despeses a Amazon App Store, instal·leu
-        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Les meves despeses Contrib</a>.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Les meves despeses Contrib</a>.
 
       other: |
         Si heu baixat Les meves despeses de F-Droid, Androidpit o Github,

@@ -43,10 +43,10 @@ pl:
         Masz następujące opcje dla nabycia licencji Contrib:
       gplay: |
         Jeżeli zainstalowałeś Moje Wydatki z Google Play, Zainstaluj
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
+        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
       amazon: |
         Jeżeli zainstalowałeś Moje Wydatki z Amazon App Store, Zainstaluj
-        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
       other: |
         Jeżeli pobrałeś Moje Wydatki z F-Droid, AndroidPit lub Github,
         wyślij datek przez jedno z poniższych:

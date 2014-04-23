@@ -21,10 +21,11 @@ es:
     manage_accounts: Hasta cinco cuentas con transferencias
     plans: Plantillas y planes para las transacciones futuras y recurrentes
     grouped_list: Agrupamiento por día, semana, mes, año y visualización sumas por grupo
-    distribution: Dos niveles de categorías (de importación de Grisbi XML)
+    distribution: Dos niveles de categorías (de importación de Grisbi XML y QIF)
     split: Asientos divididos (versión Contrib)
     calculator: Calculadora
     export: 'Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo electrónico, Dropbox, ...)'
+    import: Importación de QIF
     password: Protección por contraseña
     help: Ayuda integrada
     backup: Backup y Restauración
@@ -44,10 +45,10 @@ es:
         Usted tiene las siguientes opciones para adquirir la licencia de Contrib:
       gplay: |
         Si ha instalado Mis Gastos de Google Play, instalar
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mis gastos Contrib</a>.
+        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mis gastos Contrib</a>.
       amazon: |
         Si ha instalado Mis Gastos de Amazon App Store, instalar
-        <a href="http://www.amazon.es/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mis Gastos Contrib</a>.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.es/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mis Gastos Contrib</a>.
       other: |
         Si ha descargado Mis Gastos de F-Droid, Androidpit o Github, enviar una donación a través de uno de los siguientes:
       transfer: |

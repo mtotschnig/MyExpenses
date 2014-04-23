@@ -28,7 +28,6 @@ cs:
     password: Ochrana heslem
     help: Integrovaná nápověda
     backup: Obnovení a zálohování dat
-    aggregate_dialog: Celková finanční situace (Contrib verze)
     light_theme: "Dvě témata: světlé a tmavé"
   contrib:
     feature-list-title: |
@@ -40,15 +39,14 @@ cs:
       split_transaction: Rozdělení transakcí
       security_question: Bezpečnostní otázka
       reset_all: Obnovit všechny účty
-      aggregate: Sdružení přes více účtů
     licence-howto-buy:
       intro: |+
         Máte následující možnosti pro nákup Contrib licence:
 
       gplay: |
-        Pokud jste nainstalovali Moje výdaje ze služby Google Play, nainstalujte si <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib"> My Expenses Contrib </a>.
+        Pokud jste nainstalovali Moje výdaje ze služby Google Play, nainstalujte si <a  class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib"> My Expenses Contrib </a>.
       amazon: |
-        Pokud jste nainstalovali Moje výdaje z Amazon App Store, nainstalujte si<a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib"> Moje výdaje Contrib </a>.
+        Pokud jste nainstalovali Moje výdaje z Amazon App Store, nainstalujte si<a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib"> Moje výdaje Contrib </a>.
       other: |
         Pokud jste si stáhli Moje výdaje z F-Droid, Androidpit nebo Github, pošlete svůj dar pomocí jedné z následujících cest:
       transfer: |

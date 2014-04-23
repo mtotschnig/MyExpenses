@@ -45,10 +45,10 @@ tr:
         Katkı lisansını satın almak için şu seçenekler mevcuttur:
       gplay: |
         Eğer Harcamalarımı Google Play'den indirdiyseniz,
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Harcamalarım Katkı sürümünü</a> kurunuz.
+        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Harcamalarım Katkı sürümünü</a> kurunuz.
       amazon: |
         Eğer Harcamalarımı Amazon App Store'dan indirdiyseniz,
-        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Harcamalarım Katkı sürümünü</a> kurunuz.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Harcamalarım Katkı sürümünü</a> kurunuz.
       other: |
         Eğer Harcamalarımı F-Droid, Androidpit ya da Github'dan indirdiyseniz,
         aşağıdaki seçeneklerden biriyle bağış gönderiniz:

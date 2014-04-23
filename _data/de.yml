@@ -21,10 +21,11 @@ de:
     manage_accounts: Bis zu fünf Konten mit Umbuchungen
     plans: Vorlagen und Pläne für zukünftige und wiederkehrende Ausgaben
     grouped_list: Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen
-    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei
+    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML und QIF
     split: Splitbuchungen (nur in Contrib Version)
     calculator: Taschenrechner
     export: 'Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ..., Export aller Konten in einem in Contrib Version'
+    import: QIF Dateien importieren
     password: Passwortschutz
     help: Integrierte Hilfe
     backup: Daten Backup und Wiederherstellung
@@ -43,9 +44,9 @@ de:
       intro: |
         Die Contrib Lizenz kann auf folgenden Wegen erworben werden:
       gplay: |
-        Wenn Sie Meine Ausgaben von Google Play installiert haben, installieren Sie auch <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Meine Ausgaben Contrib</a>.
+        Wenn Sie Meine Ausgaben von Google Play installiert haben, installieren Sie auch <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Meine Ausgaben Contrib</a>.
       amazon: |
-        Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a href="http://www.amazon.de/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Meine Ausgaben Contrib</a>.
+        Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://www.amazon.de/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Meine Ausgaben Contrib</a>.
       other: |
         Wenn Sie meine Ausgaben von F-Droid, Androidpit oder Github bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
       transfer: |

@@ -21,10 +21,11 @@ it:
     manage_accounts: Fino a cinque conti con trasferimenti
     plans: Modelli e scadenze per le transazioni future e ripetute
     grouped_list: Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo
-    distribution: Due livelli di categorie (importazione da Grisbi XML)
+    distribution: Due livelli di categorie (importazione da Grisbi XML e QIF)
     split: Operazioni suddivise (versione Contrib)
     calculator: Calcolatrice
     export: 'Formati di esportazione: QIF e CSV (MS Excel), caricare file export via FTP, e-mail o Dropbox, ...'
+    import: Importatzione da QIF
     password: Protezione con password
     help: Aiuto integrato
     backup: Backup e ripristino di dati
@@ -45,11 +46,10 @@ it:
         Opzioni per attivare la licenza Contrib:
       gplay: |+
         Se avete installato Le Mie Spese da Google Play, installate
-        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Le Mie Spese Contrib</a>.
-
+        <a  class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Le Mie Spese Contrib</a>.
       amazon: |
         Se avete installato Le Mie Spese da Amazon App Store, installate
-        <a href="http://www.amazon.it/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Le Mie Spese Contrib</a>.
+        <a class="track" id="amazon-contrib" href="http://www.amazon.it/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Le Mie Spese Contrib</a>.
       other: |
         Se avete scaricato Le Mie Spese da F-Droid, Androidpit o Github,
         inviate una donazione tramite uno dei seguenti:
