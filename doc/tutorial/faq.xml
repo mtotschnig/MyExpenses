@@ -220,15 +220,18 @@
           <para>
            Métodos de pago están asignados a los tipos de cuenta. Inicialmente métodos de pago sólo
            están definidos para cuentas bancarias, no para cuentas de efectivo. Cambie el tipo de
-           cuenta en <guimenuitem role="menu_edit_account"/>, o defina un nuevo método de pago, como se explica en el manual
-           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel
-            role="pref_manage_methods_title"/></ulink>).
+           cuenta en <guimenuitem role="menu_edit_account"/>, o defina un nuevo método de pago (<menuchoice>
+              <guimenuitem role="menu_settings"/>
+              <guimenuitem role="pref_category_title_manage"/>
+              <guimenuitem role="pref_manage_methods_title"/>
+              <guimenuitem role="menu_create_method"/>
+           </menuchoice>).
           </para>
         </answer>
       </qandaentry>
       <!-- END FAQ 2 -->
 
-      <!-- BEGIN FAQ 3 -->
+      <!-- BEGIN FAQ 3 
       <qandaentry id="faq-backup-en" lang="en">
         <question id="faq-backup-q-en">
           <para>
@@ -321,7 +324,7 @@
         </para>
         </answer>
       </qandaentry>
-      <!-- END FAQ 3 -->
+      END FAQ 3 -->
 
       <!-- BEGIN FAQ 4 
       <qandaentry id="faq-contrib-en" lang="en">
