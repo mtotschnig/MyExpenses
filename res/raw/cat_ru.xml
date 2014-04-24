@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Прочие поступления"/>
+<Sub_category Nbc="1" Nb="1" Na="Пособие по безработице"/>
+<Sub_category Nbc="1" Nb="2" Na="Семейное пособие"/>
+<Sub_category Nbc="1" Nb="3" Na="Налоговый кредит"/>
+<Sub_category Nbc="1" Nb="4" Na="Азартные игры"/>
+<Sub_category Nbc="1" Nb="5" Na="Взаимное страхование"/>
+<Sub_category Nbc="1" Nb="6" Na="Социальное обеспечение"/>
+<Category Nb="2" Na="Выход на пенсию"/>
+<Sub_category Nbc="2" Nb="1" Na="Пенсионный фонд"/>
+<Sub_category Nbc="2" Nb="2" Na="Пенсия"/>
+<Sub_category Nbc="2" Nb="3" Na="Дополнительная пенсия"/>
+<Category Nb="3" Na="Инвестиционный доход"/>
+<Sub_category Nbc="3" Nb="1" Na="Дивиденд"/>
+<Sub_category Nbc="3" Nb="2" Na="Доля"/>
+<Sub_category Nbc="3" Nb="3" Na="Прирост капитала"/>
+<Category Nb="4" Na="Зарплата"/>
+<Sub_category Nbc="4" Nb="1" Na="Сверхурочные"/>
+<Sub_category Nbc="4" Nb="2" Na="Оставить пособие"/>
+<Sub_category Nbc="4" Nb="3" Na="Прочие премии"/>
+<Sub_category Nbc="4" Nb="4" Na="Гонорар за успех"/>
+<Sub_category Nbc="4" Nb="5" Na="Чистый оклад"/>
+<Category Nb="5" Na="Прочий доход"/>
+<Sub_category Nbc="5" Nb="1" Na="Подарки"/>
+<Sub_category Nbc="5" Nb="2" Na="Возвраты"/>
+<Sub_category Nbc="5" Nb="3" Na="Продажа секонд хенда"/>
+<Category Nb="6" Na="Еда"/>
+<Sub_category Nbc="6" Nb="1" Na="Бар"/>
+<Sub_category Nbc="6" Nb="2" Na="Пекарня"/>
+<Sub_category Nbc="6" Nb="3" Na="Столовая"/>
+<Sub_category Nbc="6" Nb="4" Na="Конфеты"/>
+<Sub_category Nbc="6" Nb="5" Na="Прочее"/>
+<Sub_category Nbc="6" Nb="6" Na="Бакалея"/>
+<Sub_category Nbc="6" Nb="7" Na="Ресторан"/>
+<Sub_category Nbc="6" Nb="8" Na="Самообслуживание"/>
+<Sub_category Nbc="6" Nb="9" Na="Супермаркет"/>
+<Category Nb="7" Na="Домашние животные"/>
+<Sub_category Nbc="7" Nb="1" Na="Еда"/>
+<Sub_category Nbc="7" Nb="2" Na="Различные принадлежности"/>
+<Sub_category Nbc="7" Nb="3" Na="Ухаживание"/>
+<Sub_category Nbc="7" Nb="4" Na="Ветеринарный врач"/>
+<Category Nb="8" Na="Страхование"/>
+<Sub_category Nbc="8" Nb="1" Na="Автомобиль"/>
+<Sub_category Nbc="8" Nb="2" Na="Здравоохранение"/>
+<Sub_category Nbc="8" Nb="3" Na="Дом"/>
+<Sub_category Nbc="8" Nb="4" Na="Гражданская ответственность"/>
+<Sub_category Nbc="8" Nb="5" Na="Жизнь"/>
+<Category Nb="9" Na="Автомобиль"/>
+<Sub_category Nbc="9" Nb="1" Na="Топливо"/>
+<Sub_category Nbc="9" Nb="2" Na="Ремонт"/>
+<Sub_category Nbc="9" Nb="3" Na="Обслуживание"/>
+<Sub_category Nbc="9" Nb="4" Na="Парковка"/>
+<Sub_category Nbc="9" Nb="5" Na="Штрафы"/>
+<Category Nb="11" Na="Подарки"/>
+<Category Nb="12" Na="Дети"/>
+<Sub_category Nbc="12" Nb="1" Na="Медсестра"/>
+<Sub_category Nbc="12" Nb="2" Na="Прочее"/>
+<Sub_category Nbc="12" Nb="3" Na="Исследования"/>
+<Category Nb="13" Na="Исследования"/>
+<Sub_category Nbc="13" Nb="1" Na="Уроки"/>
+<Sub_category Nbc="13" Nb="2" Na="Школьное обучение"/>
+<Sub_category Nbc="13" Nb="3" Na="Книги"/>
+<Category Nb="14" Na="Прочее"/>
+<Sub_category Nbc="14" Nb="1" Na="Подарки"/>
+<Category Nb="15" Na="Финансовые расходы"/>
+<Sub_category Nbc="15" Nb="1" Na="Прочее"/>
+<Sub_category Nbc="15" Nb="2" Na="Банковские сборы"/>
+<Sub_category Nbc="15" Nb="3" Na="Ипотечный кредит"/>
+<Sub_category Nbc="15" Nb="4" Na="Сборы"/>
+<Sub_category Nbc="15" Nb="5" Na="Возврат"/>
+<Category Nb="16" Na="Расходы на профессиональные услуги"/>
+<Sub_category Nbc="16" Nb="1" Na="Не возвращаемое"/>
+<Sub_category Nbc="16" Nb="2" Na="Возвращаемое"/>
+<Category Nb="17" Na="Налоги"/>
+<Sub_category Nbc="17" Nb="1" Na="Прочее"/>
+<Sub_category Nbc="17" Nb="2" Na="Прибыль"/>
+<Sub_category Nbc="17" Nb="3" Na="Земельный участок"/>
+<Category Nb="18" Na="Жильё"/>
+<Sub_category Nbc="18" Nb="1" Na="Отель"/>
+<Sub_category Nbc="18" Nb="2" Na="Аренда"/>
+<Sub_category Nbc="18" Nb="3" Na="ТВ"/>
+<Sub_category Nbc="18" Nb="4" Na="Мебель"/>
+<Sub_category Nbc="18" Nb="5" Na="Сборы"/>
+<Sub_category Nbc="18" Nb="6" Na="Отопление"/>
+<Sub_category Nbc="18" Nb="7" Na="Украшения"/>
+<Sub_category Nbc="18" Nb="8" Na="Водоснабжение"/>
+<Sub_category Nbc="18" Nb="9" Na="Электричество"/>
+<Sub_category Nbc="18" Nb="10" Na="Кухонная техника"/>
+<Sub_category Nbc="18" Nb="11" Na="Оборудование"/>
+<Sub_category Nbc="18" Nb="12" Na="Газоснабжение"/>
+<Sub_category Nbc="18" Nb="13" Na="Сад"/>
+<Sub_category Nbc="18" Nb="14" Na="Домработник"/>
+<Sub_category Nbc="18" Nb="15" Na="Телефон"/>
+<Sub_category Nbc="18" Nb="16" Na="Мобильный телефон"/>
+<Category Nb="19" Na="Досуг"/>
+<Sub_category Nbc="19" Nb="1" Na="Бильярд"/>
+<Sub_category Nbc="19" Nb="2" Na="Боулинг"/>
+<Sub_category Nbc="19" Nb="3" Na="Кинотеатр"/>
+<Sub_category Nbc="19" Nb="4" Na="Ночной клуб"/>
+<Sub_category Nbc="19" Nb="5" Na="ИТ"/>
+<Sub_category Nbc="19" Nb="6" Na="Игры"/>
+<Sub_category Nbc="19" Nb="7" Na="Книги"/>
+<Sub_category Nbc="19" Nb="8" Na="Парки отдыха"/>
+<Sub_category Nbc="19" Nb="9" Na="Концерты"/>
+<Sub_category Nbc="19" Nb="10" Na="Спортивные игры"/>
+<Sub_category Nbc="19" Nb="11" Na="Видео"/>
+<Sub_category Nbc="19" Nb="12" Na="Путешествия"/>
+<Sub_category Nbc="19" Nb="13" Na="Оборудование"/>
+<Sub_category Nbc="19" Nb="14" Na="Музеи/выставки"/>
+<Category Nb="20" Na="Ипотечный кредит"/>
+<Sub_category Nbc="20" Nb="1" Na="Капитал"/>
+<Category Nb="21" Na="Здравоохранение"/>
+<Sub_category Nbc="21" Nb="1" Na="Страхование"/>
+<Sub_category Nbc="21" Nb="2" Na="Стоматолог"/>
+<Sub_category Nbc="21" Nb="3" Na="Больница"/>
+<Sub_category Nbc="21" Nb="4" Na="Кинезитерапевт"/>
+<Sub_category Nbc="21" Nb="5" Na="Доктор"/>
+<Sub_category Nbc="21" Nb="6" Na="Офтальмолог"/>
+<Sub_category Nbc="21" Nb="7" Na="Остеопат"/>
+<Sub_category Nbc="21" Nb="8" Na="Химик"/>
+<Sub_category Nbc="21" Nb="9" Na="Социальное обеспечение"/>
+<Category Nb="22" Na="Уход за кем-либо"/>
+<Sub_category Nbc="22" Nb="1" Na="Парикмахер"/>
+<Sub_category Nbc="22" Nb="2" Na="Одежда"/>
+<Category Nb="23" Na="Транспорт"/>
+<Sub_category Nbc="23" Nb="1" Na="Автобус"/>
+<Sub_category Nbc="23" Nb="2" Na="Метро"/>
+<Sub_category Nbc="23" Nb="3" Na="Пошлина"/>
+<Sub_category Nbc="23" Nb="4" Na="Поезд"/>
+<Sub_category Nbc="23" Nb="5" Na="Трамвай"/>
+<Sub_category Nbc="23" Nb="6" Na="Путешествия"/>
+<Sub_category Nbc="23" Nb="7" Na="Самолёт"/>
+<Category Nb="24" Na="Праздники"/>
+<Sub_category Nbc="24" Nb="1" Na="Жильё"/>
+<Sub_category Nbc="24" Nb="2" Na="Посещения"/>
+<Sub_category Nbc="24" Nb="3" Na="Путешествия"/></Grisbi_categ>

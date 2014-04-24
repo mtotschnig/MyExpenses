@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_136">
+    <item>Расположение папки для резервного копирования и экспорта теперь настраивается</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>Несколько независимых резервных копий</item>
+    <item>Импорт QIF</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>Греческий перевод</item>
+    <item>Начало недели зависит от языковых стандартов (например, воскресенье для США)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Улучшения пользовательского интерфейса: #115, #117, #120, #122, #124</item>
+    <item>Дата транзакции зависит от часового пояса</item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>Модернизация UI: секция навигации и панель контекстных действий</item>
+  </string-array>
+  <string-array name="whats_new_116">
+    <item>Улучшена обработка планов: примение предстоящих планов заранее</item>
+    <item>Новые переводы: Португальский, польский, чешский</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Отображение списка транзакций и статистическое распределение для объединения нескольких счетов</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>Перевод на китайский язык (традиционный)</item>
+    <item>Разрешить выбор счета в форме редактирования транзакции</item>
+    <item>Яснее пользовательский интерфейс для переводов</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>Усовершенствования пользовательского интерфейса (#94) и исправления (#95, #96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>Текущий баланс отображается снова на более видном месте, показ основных кнопок в нижней части, когда устройство в портретной ориентации</item>
+    <item>Исправления ошибок: вопросы #71, #91, #92, #93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>При группировке списка транзакций показывать промежуточный баланс для каждого периода в верхнем колонтитуле группы</item>
+    <item>Багфикс: проблема #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Настраиваемый язык пользовательского интерфейса</item>
+    <item>Настраиваемый размер шрифта</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Планы на будущее и повторяющиеся транзакции</item>
+    <item>Кхмерский перевод</item>
+  </string-array>
+</resources>
