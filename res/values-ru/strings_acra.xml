@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="crash_reports_user_info">My Expenses будет отправлять сообщения о сбоях приложения автоматически разработчикам, что позволяет им быстрее исправить проблемы. Вы можете отключить это поведение в настройках.</string>
+  <string name="pref_category_title_crash_reports">Отчёты о сбоях</string>
+  <string name="pref_enable_acra">Разрешить автоматическую отправку отчётов о сбоях</string>
+  <string name="pref_acra_enabled">Автоматическая отправка разрешена</string>
+  <string name="pref_acra_disabled">Автоматическая отправка отключена</string>
+  <string name="pref_acra_syslog">Включать системные журналы в отчёты о сбоях</string>
+  <string name="pref_acra_syslog_enabled">Системные журналы включены</string>
+  <string name="pref_acra_syslog_disabled">Системные журналы не включены</string>
+  <string name="pref_acra_user_email">Пользовательский email, включеный в отчёт о сбое</string>
+  <string name="pref_acra_user_email_summary">Пожалуйста введите ваш адрес электронной почты, если вы готовы помочь отладке и позволите нам связаться с вами.</string>
+</resources>
