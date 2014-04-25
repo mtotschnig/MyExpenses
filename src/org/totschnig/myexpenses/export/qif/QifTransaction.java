@@ -142,7 +142,9 @@ public class QifTransaction {
     } else {
       t = new Transaction(accountId, amount);
     }
-    t.setDate(date);
+    if (date!=null) {
+      t.setDate(date);
+    }
     t.comment = memo;
     t.crStatus = Transaction.CrStatus.fromQifName(status);
     t.referenceNumber = number;

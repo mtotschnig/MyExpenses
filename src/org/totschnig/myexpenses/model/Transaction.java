@@ -285,6 +285,9 @@ public class Transaction extends Model {
     this.amount = new Money(account.currency,amount);
   }
   public void setDate(Date date){
+    if (date==null) {
+      throw new RuntimeException("Transaction date cannot be set to null");
+    }
     this.date = date;
   }
   private void setDate(Long unixEpoch) {
