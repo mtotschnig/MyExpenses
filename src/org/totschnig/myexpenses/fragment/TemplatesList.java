@@ -151,7 +151,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     switch (loader.getId()) {
     case TEMPLATES_CURSOR:
       mTemplatesCursor = c;
-      if (!indexesCalculated) {
+      if (c!= null && !indexesCalculated) {
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
