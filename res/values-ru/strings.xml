@@ -9,26 +9,26 @@
   <string name="already_defined">%1$s уже определен</string>
   <string name="amount">Сумма</string>
   <string name="app_name">Мои расходы</string>
-  <string name="backup_failure">Рез. копия в \"%1$s\" не удалась.</string>
+  <string name="backup_failure">Резервная копия в \"%1$s\" не удалась.</string>
   <string name="backup_success">БД и настройки успешно сохранены в \"%1$s\".</string>
   <string name="category">Категория</string>
-  <string name="clone_transaction_error">Не удалось клонировать транзакцию.</string>
+  <string name="clone_transaction_error">Не удалось клонировать операцию.</string>
   <plurals name="clone_transaction_success">
-    <item quantity="one">Транзакция успешно склонирована.</item>
-    <item quantity="few">%1$d транзакций успешо склонированы.</item>
-    <item quantity="other">%1$d транзакций успешо склонированы.</item>
+    <item quantity="one">Операция успешно склонирована.</item>
+    <item quantity="few">%1$d операций успешо склонированы.</item>
+    <item quantity="other">%1$d операций успешо склонированы.</item>
   </plurals>
   <string name="color">Цвет</string>
   <string name="comment">Заметки</string>
-  <string name="contrib_feature_accounts_unlimited_description">Количество счетов, которые можно создать с <i>My Expenses</i> ограничено 5.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Количество счетов, которые можно создать с <i>Мои расходы</i> ограничено 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Неограниченное количество счетов</string>
   <string name="contrib_feature_aggregate_label">Объединить несколько счетов</string>
-  <string name="contrib_feature_distribution_label">Распределение транзакций по категориям</string>
-  <string name="contrib_feature_plans_unlimited_description">Количество планов, которые можно создать с <i>My Exprenses</i> ограниченно 3.</string>
+  <string name="contrib_feature_distribution_label">Распределение операций по категориям</string>
+  <string name="contrib_feature_plans_unlimited_description">Количество планов, которые можно создать с <i>Мои расходы</i> ограниченно 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Неограниченное количество планов</string>
-  <string name="contrib_feature_reset_all_label">Сбросить все счета</string>
+  <string name="contrib_feature_reset_all_label">Сброс всех счетов</string>
   <string name="contrib_feature_security_question_label">Секретный вопрос</string>
-  <string name="contrib_feature_split_transaction_label">Разделить транзакцию</string>
+  <string name="contrib_feature_split_transaction_label">Разделить операцию</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="currency">Валюта</string>
   <string name="current_balance">Текущий баланс</string>
@@ -36,34 +36,34 @@
   <string name="date_format">Формат даты</string>
   <string name="date_format_illegal">Неправильный формат даты</string>
   <string name="decimal_separator">Десятичный разделитель</string>
-  <string name="default_account_description">Этот аккаунт установлен автоматически во время установки.</string>
+  <string name="default_account_description">Этот счёт установлен автоматически при установке.</string>
   <string name="description">Описание</string>
-  <string name="dialog_command_disabled_insert_transfer">Транзакции перевода требуют второй счёт в той же валюте. У вас есть только один счет с валютой %1$s.</string>
-  <string name="dialog_command_disabled_reset_account">Нет транзакций для экспорта.</string>
-  <string name="dialog_command_disabled_distribution">Нет транзакций, сопоставленных с категориями в этом счёте.</string>
+  <string name="dialog_command_disabled_insert_transfer">Для операции перевода требуется второй счёт в той же валюте. У вас есть только один счет с валютой %1$s.</string>
+  <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
+  <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
   <string name="dialog_contrib_no">Не сейчас</string>
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Снять это ограничение, установив <i>My Expenses Contrib</i>.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Снять это ограничение, установив <i>Мои расходы Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Вы получите неограниченный доступ к следующим функциям:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>My Expenses</i> выпускается бесплатно и с открытым исходным кодом. Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум-функциям:</string>
+  <string name="dialog_contrib_text"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом. Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум-функциям:</string>
   <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">У вас осталось одно бесплатное использование.</item>
-    <item quantity="few">У вас осталось %1$d бесплатных использований.</item>
-    <item quantity="other">У вас осталось %1$d бесплатных использований.</item>
+    <item quantity="one"> У вас осталось одно бесплатное использование.</item>
+    <item quantity="few"> У вас осталось %1$d бесплатных использований.</item>
+    <item quantity="other"> У вас осталось %1$d бесплатных использований.</item>
   </plurals>
   <string name="dialog_contrib_yes">Купить сейчас</string>
-  <string name="dialog_export_delete">Удалить экспортированные транзакции</string>
-  <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные транзакции</string>
+  <string name="dialog_export_delete">Удалить экспортированные операции</string>
+  <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные операции</string>
   <string name="dialog_password_activate_protection">Включить защиту паролем</string>
   <string name="dialog_password_change_password">Сменить пароль</string>
   <string name="dialog_password_new_password">Новый пароль</string>
   <string name="dialog_password_new_password_confirmation">Новый пароль (подтверждение)</string>
   <string name="dialog_remind_later">Позже</string>
   <string name="dialog_remind_no">Нет, спасибо</string>
-  <string name="dialog_remind_rate">Пожалуйста, найдите минутку, чтобы оценить и написать обзор My Expenses. Ваши комментарии позволяют мне постоянно улучшать и совершенствовать программу.</string>
+  <string name="dialog_remind_rate">Пожалуйста, найдите минутку, чтобы оценить и написать обзор на Мои расходы. Ваши комментарии позволяют мне постоянно улучшать и совершенствовать программу.</string>
   <string name="dialog_remind_rate_yes">Оценить сейчас</string>
   <string name="dialog_security_answer">Ответ</string>
   <string name="dialog_security_question">Вопрос</string>
@@ -83,7 +83,7 @@
   <string name="dialog_title_warning_delete_main_category">Удалить основную категорию?</string>
   <string name="dialog_title_warning_delete_plan">Удалить план?</string>
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
-  <string name="dialog_title_warning_delete_transaction">Удалить транзакцию?</string>
+  <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
   <string name="dialog_title_welcome">Добро пожаловать!</string>
   <string name="donate">Пожертвовать</string>
   <string name="donate_dialog_text">Пожертвовать через PayPal, Flattr или Bitcoin, а затем запросить contrib-ключ в настройках.</string>
@@ -109,8 +109,8 @@
   <string name="grouping_year">Год</string>
   <string name="grouping_yesterday">Вчера</string>
   <string name="help_button_rate">Оставить отзыв</string>
-  <string name="help_contextuel_help">Вы можете найти дополнительные сведения о доступном функционале через пункт меню Справка.</string>
-  <string name="help_heading_credits">Кредиты</string>
+  <string name="help_contextuel_help">Вы можете найти дополнительные сведения о доступных возможностях через пункт меню Справка.</string>
+  <string name="help_heading_credits">Создатели</string>
   <string name="help_heading_license">Лицензия</string>
   <string name="help_heading_whats_new">Что нового</string>
   <string-array name="help_intro">
@@ -118,10 +118,10 @@
     <item>Управляйте ими непосредственно на вашем смартфоне.</item>
     <item>Экспортируйте их в финансовые программы, такие как Grisbi, GnuCash, Quicken или MS Money.</item>
   </string-array>
-  <string name="help_leading">Спасибо за установку <i>My Expenses</i> для Android.</string>
+  <string name="help_leading">Спасибо за установку <i>Мои расходы</i> для Android.</string>
   <string name="important_upgrade_information_heading">Важная информация</string>
-  <string name="important_upgrade_information_1">Резервное копирование и экспортированные данные теперь хранятся в Android/data/org.totschnig.myexpenses. ВНИМАНИЕ: Этот каталог будет удален при удалении My Expenses.</string>
-  <string name="import_select_transactions">Транзакции</string>
+  <string name="important_upgrade_information_1">Резервное копирование и экспортированные данные теперь хранятся в Android/data/org.totschnig.myexpenses. ВНИМАНИЕ: Этот каталог будет удален при удалении приложения Мои расходы.</string>
+  <string name="import_select_transactions">Операция</string>
   <string name="income">Прибыль</string>
   <string name="invalid_number_format">Десятичный формат не опознан в вашей локали. Пожалуйста, используйте %1$s</string>
   <string name="label">Метка</string>
@@ -131,7 +131,7 @@
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Применить</string>
   <string name="menu_back">Назад</string>
-  <string name="menu_backup">Рез.копия</string>
+  <string name="menu_backup">Резервная копия</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Отмена</string>
   <string name="menu_clone_transaction">Дублировать</string>
@@ -143,19 +143,19 @@
   <string name="menu_create_instance_save">Применить и сохранить</string>
   <string name="menu_create_main_cat">Новая основная категория</string>
   <string name="menu_create_method">Новый способ оплаты</string>
-  <string name="menu_create_party">Новая сторона</string>
+  <string name="menu_create_party">Новый участник</string>
   <string name="menu_create_split">Новое разделение</string>
   <string name="menu_create_split_part_category">Новая категория разделённой части</string>
   <string name="menu_create_split_part_transfer">Новый перевод разделённой части</string>
   <string name="menu_create_sub_cat">Новая подкатегория</string>
   <string name="menu_create_template">Новый шаблон</string>
   <string name="menu_create_template_from_transaction">Сохранить как шаблон</string>
-  <string name="menu_create_template_for_transaction">Новый шаблон транзакции</string>
+  <string name="menu_create_template_for_transaction">Новый шаблон операции</string>
   <string name="menu_create_template_for_transfer">Новый шаблон перевода</string>
-  <string name="menu_create_transaction">Новая транзакция</string>
+  <string name="menu_create_transaction">Новая операция</string>
   <string name="menu_create_transfer">Новый перевод</string>
   <string name="menu_delete">Удалить</string>
-  <string name="menu_delete_account">Удалить счёт.</string>
+  <string name="menu_delete_account">Удалить счёт</string>
   <string name="menu_distribution">Распределение</string>
   <string name="menu_edit">Правка</string>
   <string name="menu_edit_account">Правка счёта</string>
@@ -167,7 +167,7 @@
   <string name="menu_edit_split_part_category">Правка категории разделённой части</string>
   <string name="menu_edit_split_part_transfer">Правка перевода разделённой части</string>
   <string name="menu_edit_template">Редактировать шаблон</string>
-  <string name="menu_edit_transaction">Правка транзакции</string>
+  <string name="menu_edit_transaction">Правка операции</string>
   <string name="menu_edit_transfer">Правка перевода</string>
   <string name="menu_forward">Вперёд</string>
   <string name="menu_grouping">Группировка</string>
@@ -195,9 +195,9 @@
   <string name="no_category_assigned">Нет назначенной категории</string>
   <string name="no_details">Нет деталей.</string>
   <string name="no_expenses">Ещё нет расходов!</string>
-  <string name="no_exportable_expenses">Нет транзакций, которые еще не были экспортированы.</string>
+  <string name="no_exportable_expenses">Нет операций, которые еще не были экспортированы.</string>
   <string name="no_filemanager_installed">Нет установленного файл-менеджера</string>
-  <string name="no_mapped_transactions">Нет транзакций  с сопоставленными категориями в этот период.</string>
+  <string name="no_mapped_transactions">Нет операций с сопоставленными категориями в этот период.</string>
   <string name="no_methods">Нет методов оплаты.</string>
   <string name="no_parties">Нет участников.</string>
   <string name="no_plans">Нет планов.</string>
@@ -205,16 +205,16 @@
   <string name="no_templates">Нет шаблонов.</string>
   <string name="no_title_given">Вы не ввели какое-либо название.</string>
   <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">Выбранный объект связан с транзакцией и не может быть удален.</item>
-    <item quantity="few">%1$d объекты связаны с транзакциями и не могут быть удалены.</item>
-    <item quantity="other">%1$d объекты связаны с транзакциями и не могут быть удалены.</item>
+    <item quantity="one">Выбранный объект связан с операцией и не может быть удален.</item>
+    <item quantity="few">%1$d объектов связаны с операциями и не могут быть удалены.</item>
+    <item quantity="other">%1$d объектов связаны с операциями и не могут быть удалены.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">Выбранный объект связан с шаблоном и не может быть удален.</item>
     <item quantity="few">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
     <item quantity="other">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
   </plurals>
-  <string name="numbered">пронумерован</string>
+  <string name="numbered">пронумерованный</string>
   <string name="oi_pick_colors_info">Установите OI Color Picker для большего выбора</string>
   <string name="opening_balance">Открытый баланс</string>
   <string name="parse_error_file_not_found">Не найден файл %1$s</string>
@@ -229,7 +229,7 @@
   <string name="password_security_answer_not_valid">Не верный ответ. Повторите!</string>
   <string name="payee">Получатель платежа</string>
   <string name="payer">Плательщик</string>
-  <string name="peer_transaction_deleted">Данная транзакция ссылается на исправительную запись (счёт %1$s) которая была удалена</string>
+  <string name="peer_transaction_deleted">Данная операция ссылается на исправительную запись (счёт %1$s) которая была удалена</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">План</string>
   <string name="plan_automatic">автоматически</string>
@@ -255,7 +255,7 @@
   <string name="pref_app_dir_title">Каталог для бэкапов и экспортируемых данных</string>
   <string name="pref_backup_summary">Создать резервную копию базы данных и настроек.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Количество использований</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Буквенно-цифровые</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">Буквенно-цифровой</string>
   <string name="pref_categories_sort_by_usages_title">Порядок сортировки (категории, шаблоны, счета)</string>
   <string name="pref_category_title_export">Экспорт</string>
   <string name="pref_category_title_import">Импорт</string>
@@ -265,22 +265,22 @@
   <string name="pref_category_title_ui">Пользовательский интерфейс</string>
   <string name="pref_contrib_donate_summary">Пожертвовать через PayPal, Flattr или Bitcoin и получить доступ к премиум функциям.</string>
   <string name="pref_contrib_donate_title">Отправить пожертвование</string>
-  <string name="pref_contrib_install_summary">Установив My Expenses Contrib, вы получаете доступ к премиум функциям.</string>
+  <string name="pref_contrib_install_summary">Установив Мои расходы Contrib, вы получаете доступ к премиум функциям.</string>
   <string name="pref_contrib_install_title">Установить Contrib-приложение</string>
   <string name="pref_enter_licence_summary">Если вы получили ключ Contrib, получите доступ к премиум функциям.</string>
   <string name="pref_enter_licence_title">Ввести Contrib-ключ</string>
   <string name="pref_export_format_title">Формат даты</string>
-  <string name="pref_follow_gplus_title">Следить за My Expenses в Google+</string>
+  <string name="pref_follow_gplus_title">Следить за Мои расходы в Google+</string>
   <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML-файла</string>
   <string name="pref_import_from_grisbi_title">Ипортировать из Grisbi</string>
-  <string name="pref_import_qif_summary">Импорт транзакций, категории и участников из QIF файла</string>
+  <string name="pref_import_qif_summary">Импорт операций, категорий и участников из QIF файла</string>
   <string name="pref_import_qif_title">Импорт QIF</string>
   <string name="pref_manage_accounts_title">Счета</string>
-  <string name="pref_manage_categories_summary">Добавить, редактировать, удалить категории.</string>
+  <string name="pref_manage_categories_summary">Добавление, редактирование, удаление категорий.</string>
   <string name="pref_manage_categories_title">Категории</string>
-  <string name="pref_manage_methods_summary">Создание и редактирование метод оплаты и связывание с типами счетов.</string>
+  <string name="pref_manage_methods_summary">Создание и редактирование методов оплаты и связывание с типами счетов.</string>
   <string name="pref_manage_methods_title">Способы оплаты</string>
-  <string name="pref_manage_parties_summary">Добавить, редактировать, удалить участников (плательщиков и получателей).</string>
+  <string name="pref_manage_parties_summary">Добавление, редактирование, удаление участников (плательщиков и получателей).</string>
   <string name="pref_manage_parties_title">Участники</string>
   <string name="pref_more_info_dialog_summary">\n\nПеревод на русский язык: Дмитрий Куренков</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
@@ -294,7 +294,7 @@
   <string name="pref_perform_share_summaryOn">У файла будет совместный доступ после каждого экспорта.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Создать новый локальный календарь планов</string>
-  <string name="pref_planning_calendar_summary">Выберите календарь где хранятся планы на будущее и повторяющиеся транзакции</string>
+  <string name="pref_planning_calendar_summary">Выберите календарь где хранятся планы на будущее и повторяющиеся операции</string>
   <string name="pref_planning_calendar_title">Календарь планов</string>
   <string name="pref_protection_delay_seconds_summary">Секунд простоя, прежде чем приложение будет заблокировано паролем.</string>
   <string name="pref_protection_delay_seconds_title">Задержка до защиты</string>
@@ -303,9 +303,9 @@
   <string name="pref_request_licence_title">Запросить Contrib-ключ</string>
   <string name="pref_restore_summary">Выберите резервную копию для восстановления базы данных и настроек.</string>
   <string name="pref_restore_title">Восстановить</string>
-  <string name="pref_security_question_summary">Позволяет разблокировать приложение, если вы забыли свой пароль. Требуется My Expenses Contrib.</string>
+  <string name="pref_security_question_summary">Позволяет разблокировать приложение, если вы забыли свой пароль. Требуется Мои расходы Contrib.</string>
   <string name="pref_security_question_title">Секретный вопрос</string>
-  <string name="pref_send_feedback_title">Отправить отзыв</string>
+  <string name="pref_send_feedback_title">Написать отзыв</string>
   <string name="pref_share_target_summary">Оставьте пустым, если вы хотите выбрать соответствующие приложения (электронная почта, Dropbox и Google Docs,...), или предоставить URL-адрес в одной из поддерживаемых схем</string>
   <string name="pref_share_target_title">URL для загрузки</string>
   <string name="pref_shortcut_account_list_title">Ярлык \'Список счетов\'</string>
@@ -332,7 +332,7 @@
   <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в QIF-файле.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не удается объединить в существующий счёт.</string>
   <string name="reference_number">Номер ссылки</string>
-  <string name="request_licence_mail_description">Просьба описать (на английском, немецком или французском) ваш вклад в My Expenses (например: пожертвование через Paypal, отчет об ошибке, тестирование, перевод).</string>
+  <string name="request_licence_mail_description">Просьба описать (на английском, немецком или французском) ваш вклад в Мои расходы (например: пожертвование через Paypal, отчет об ошибке, тестирование, перевод).</string>
   <string name="request_licence_mail_head">Пожалуйста, пришлите мне Contrib-ключ для Android-Id %1$s.</string>
   <string name="restore_db_failure">Восстановление БД не удалось.</string>
   <string name="restore_db_success">БД была восстановлена из рез.копии.</string>
@@ -341,11 +341,11 @@
   <string name="restore_backup_file_not_found">Нет файла %1$s, найденного в каталоге \"%2$s\"</string>
   <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>
   <string name="save_transaction_and_new_success">Успешно сохранено</string>
-  <string name="save_transaction_error">Невозможно сохранить новую транзакцию из шаблона</string>
+  <string name="save_transaction_error">Невозможно сохранить новую операцию из шаблона</string>
   <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Новая транзакция успешно сохранена из шаблона.</item>
-    <item quantity="few">%1$d новых транзакций успешно сохранены из шаблонов.</item>
-    <item quantity="other">%1$d новых транзакций успешно сохранены из шаблонов.</item>
+    <item quantity="one">Новая операция успешно сохранена из шаблона.</item>
+    <item quantity="few">%1$d новых операций успешно сохранены из шаблонов.</item>
+    <item quantity="other">%1$d новых операций успешно сохранены из шаблонов.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Шаблон удалён</string>
   <string name="select">Выбрать</string>
@@ -354,7 +354,7 @@
   <string name="share_scheme_not_supported">Схема %1$s не поддерживается</string>
   <string name="share_sending">Отправить экспортированный файл</string>
   <string name="split_parts_heading">Разделённые части</string>
-  <string name="split_transaction">Разделённая транзакция</string>
+  <string name="split_transaction">Разделённая операция</string>
   <string name="status">Статус</string>
   <string name="status_cleared">очистить</string>
   <string name="status_reconciled">согласовать</string>
@@ -363,14 +363,14 @@
   <string name="sum_expenses">Расходы</string>
   <string name="sum_income">Прибыль</string>
   <string name="sum_transfer">Переводы</string>
-  <string name="tell_a_friend_message">Проверьте My Expenses, персональный финансовый менеджер для Android, на http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Просмотрите Мои расходы, персональный финансовый менеджер для Android, на http://www.myexpenses.mobi</string>
   <string name="template">Шаблон</string>
   <string name="template_create_success">Шаблон \"%1$s\" успешно создан</string>
   <string name="template_title_exists">Шаблон с заголовком \"%1$s\" уже существует</string>
   <string name="thank_you">Спасибо вам за вашу поддержку!</string>
   <string name="time">Время</string>
   <string name="title">Название</string>
-  <string name="transaction">Транзакция</string>
+  <string name="transaction">Операция</string>
   <string name="transfer">Перевод</string>
   <string name="transfer_from_account">От</string>
   <string name="transfer_to_account">Кому</string>
@@ -379,7 +379,7 @@
   <string name="unsplit_amount">Неразделённая сумма</string>
   <string name="unsplit_amount_greater_than_zero">Ещё есть оставшиеся неразделённая сумма</string>
   <string name="warning_backup">БД и настройки будут сохранены в \"%1$s\". Вы хотите продолжить?</string>
-  <string name="warning_delete_account">Счет \"%1$s\" будет удален со всеми транзакциями.</string>
+  <string name="warning_delete_account">Счет \"%1$s\" будет удален со всеми операциями.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">В одной из выбранной категории есть подкатегории, которые также будут удалены.</item>
     <item quantity="few"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
@@ -396,26 +396,26 @@
     <item quantity="other">%1$d выбранных шаблонов будут удалены.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
-    <item quantity="one">Выбранная транзакция будет удалена.</item>
-    <item quantity="few">%1$d выбранных транзакций будут удалены.</item>
-    <item quantity="other">%1$d выбранных транзакций будут удалены.</item>
+    <item quantity="one">Выбранная операций будет удалена.</item>
+    <item quantity="few">%1$d выбранных операций будут удалены.</item>
+    <item quantity="other">%1$d выбранных операций будут удалены.</item>
   </plurals>
   <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
-  <string name="warning_password_no_contrib">Если вы установили пароль, будьте осторожны чтобы не забыть его. У вас не будет возможности восстановить его, если не задан секретный вопрос (требуется My Expenses Contrib).</string>
-  <string name="warning_reset_account">Если продолжить, все транзакции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
+  <string name="warning_password_no_contrib">После установки пароля не забудьте его. У вас не будет возможности восстановить пароль, если не был задан секретный вопрос (требуется Мои расходы Contrib).</string>
+  <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s транзакции будут удалены из базы данных и не могут быть восстановлены.</string>
+  <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
   <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены. Вы хотите продолжить?</string>
   <string name="warning_select_account">Пожалуйста выберите счёт!</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
-  <string name="import_categories_success">%1$s категории успешно импортированы</string>
+  <string name="import_categories_success">%1$s категорий успешно импортированы</string>
   <string name="import_parties_success">%1$s участников успешно импортированы</string>
   <string name="import_accounts_success">%1$s счета успешно импортированы</string>
-  <string name="import_transactions_success">%1$s транзакций успешно импортированы в счёт %2$s</string>
+  <string name="import_transactions_success">%1$s операций успешно импортированы в счёт %2$s</string>
   <string name="import_accounts_none">Нет импортированных счетов</string>
   <string name="import_categories_none">Категории не импортированы</string>
   <string name="import_parties_none">Ни один участник не импортирован</string>
-  <string name="import_transactions_none">Транзакции не импортированы в счёт %1$s</string>
+  <string name="import_transactions_none">Операции не импортированы в счёт %1$s</string>
   <string name="import_source_select_error">Пожалуйста заполните тип файла %1$s</string>
   <string name="menu_categories_setup_default">Установить категории по умолчанию</string>
   <string name="menu_create_folder">Новый каталог</string>

@@ -2,7 +2,7 @@
 <Grisbi_categ>
 <Category Nb="1" Na="Прочие поступления"/>
 <Sub_category Nbc="1" Nb="1" Na="Пособие по безработице"/>
-<Sub_category Nbc="1" Nb="2" Na="Семейное пособие"/>
+<Sub_category Nbc="1" Nb="2" Na="Детское пособие"/>
 <Sub_category Nbc="1" Nb="3" Na="Налоговый кредит"/>
 <Sub_category Nbc="1" Nb="4" Na="Азартные игры"/>
 <Sub_category Nbc="1" Nb="5" Na="Взаимное страхование"/>
@@ -56,8 +56,8 @@
 <Category Nb="12" Na="Дети"/>
 <Sub_category Nbc="12" Nb="1" Na="Медсестра"/>
 <Sub_category Nbc="12" Nb="2" Na="Прочее"/>
-<Sub_category Nbc="12" Nb="3" Na="Исследования"/>
-<Category Nb="13" Na="Исследования"/>
+<Sub_category Nbc="12" Nb="3" Na="Обучение"/>
+<Category Nb="13" Na="Обучение"/>
 <Sub_category Nbc="13" Nb="1" Na="Уроки"/>
 <Sub_category Nbc="13" Nb="2" Na="Школьное обучение"/>
 <Sub_category Nbc="13" Nb="3" Na="Книги"/>
@@ -120,7 +120,7 @@
 <Sub_category Nbc="21" Nb="7" Na="Остеопат"/>
 <Sub_category Nbc="21" Nb="8" Na="Химик"/>
 <Sub_category Nbc="21" Nb="9" Na="Социальное обеспечение"/>
-<Category Nb="22" Na="Уход за кем-либо"/>
+<Category Nb="22" Na="Уход за чем-либо"/>
 <Sub_category Nbc="22" Nb="1" Na="Парикмахер"/>
 <Sub_category Nbc="22" Nb="2" Na="Одежда"/>
 <Category Nb="23" Na="Транспорт"/>
@@ -132,6 +132,6 @@
 <Sub_category Nbc="23" Nb="6" Na="Путешествия"/>
 <Sub_category Nbc="23" Nb="7" Na="Самолёт"/>
 <Category Nb="24" Na="Праздники"/>
-<Sub_category Nbc="24" Nb="1" Na="Жильё"/>
+<Sub_category Nbc="24" Nb="1" Na="Размещение в жилье"/>
 <Sub_category Nbc="24" Nb="2" Na="Посещения"/>
 <Sub_category Nbc="24" Nb="3" Na="Путешествия"/></Grisbi_categ>
