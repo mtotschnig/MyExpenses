@@ -397,11 +397,10 @@ public class Account extends Model {
     return accounts.containsKey(id);
   }
   public static void reportNull(long id) {
-/*    if (MyApplication.debug) {
-      throw new RuntimeException("Error instantiating account "+id);
-    }*/
-    org.acra.ACRA.getErrorReporter().handleSilentException(
-        new Exception("Error instantiating account "+id));
+    //This can happen if user deletes account, and changes
+    //device orientation before the accounts cursor in MyExpenses is switched
+    /*org.acra.ACRA.getErrorReporter().handleSilentException(
+        new Exception("Error instantiating account "+id));*/
   }
   /**
    * @param id
@@ -433,12 +432,12 @@ public class Account extends Model {
     Cursor c = cr().query(
         CONTENT_URI, null,selection,null, null);
     if (c == null) {
-      reportNull(id);
+      //reportNull(id);
       return null;
     }
     if (c.getCount() == 0) {
       c.close();
-      reportNull(id);
+      //reportNull(id);
       return null;
     }
     c.moveToFirst();

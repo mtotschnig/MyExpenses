@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_138">
+    <item>Traduzione russa</item>
+  </string-array>
   <string-array name="whats_new_136">
     <item>Il percorso della cartella per i backup e le esportazioni è ora configurabile</item>
   </string-array>

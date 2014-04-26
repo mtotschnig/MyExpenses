@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_138">
+    <item>Tradução para o russo</item>
+  </string-array>
   <string-array name="whats_new_136">
     <item>A localização da pasta para backups e exportações é agora configurável</item>
   </string-array>

@@ -28,7 +28,7 @@
   <string name="contrib_feature_plans_unlimited_label">Неограниченное количество планов</string>
   <string name="contrib_feature_reset_all_label">Сброс всех счетов</string>
   <string name="contrib_feature_security_question_label">Секретный вопрос</string>
-  <string name="contrib_feature_split_transaction_label">Разделить операцию</string>
+  <string name="contrib_feature_split_transaction_label">Разделение операции</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="currency">Валюта</string>
   <string name="current_balance">Текущий баланс</string>
@@ -45,10 +45,10 @@
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Снять это ограничение, установив <i>Мои расходы Contrib</i>.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, установив <i>Мои расходы Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Вы получите неограниченный доступ к следующим функциям:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом. Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум-функциям:</string>
+  <string name="dialog_contrib_text"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом. Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум функциям:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one"> У вас осталось одно бесплатное использование.</item>
     <item quantity="few"> У вас осталось %1$d бесплатных использований.</item>
@@ -71,7 +71,7 @@
   <string name="dialog_setup_planner_button_create_new">Создать новый</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Выбрать существующий</string>
-  <string name="dialog_title_contrib_feature">Премиум-функция</string>
+  <string name="dialog_title_contrib_feature">Премиум функция</string>
   <string name="dialog_title_menu_command_disabled">Команда меню отключена</string>
   <string name="dialog_title_planner_setup_info">Требуется настройка календаря</string>
   <string name="dialog_title_select_account">Выбрать счёт</string>
@@ -126,7 +126,7 @@
   <string name="invalid_number_format">Десятичный формат не опознан в вашей локали. Пожалуйста, используйте %1$s</string>
   <string name="label">Метка</string>
   <string name="licence_validation_failure">Не удалось проверить лицензионный ключ.</string>
-  <string name="licence_validation_success">Лицензионный ключ успешно проверен: премиум-функции были разблокированы.</string>
+  <string name="licence_validation_success">Лицензионный ключ успешно проверен: премиум функции были разблокированы.</string>
   <string name="menu_aggregates">Итого</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Применить</string>
@@ -271,7 +271,7 @@
   <string name="pref_enter_licence_title">Ввести Contrib-ключ</string>
   <string name="pref_export_format_title">Формат даты</string>
   <string name="pref_follow_gplus_title">Следить за Мои расходы в Google+</string>
-  <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML-файла</string>
+  <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>
   <string name="pref_import_from_grisbi_title">Ипортировать из Grisbi</string>
   <string name="pref_import_qif_summary">Импорт операций, категорий и участников из QIF файла</string>
   <string name="pref_import_qif_title">Импорт QIF</string>

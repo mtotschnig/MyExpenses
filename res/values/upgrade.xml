@@ -18,8 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_137">
-    <item>Bug fixes</item>
+  <string-array name="whats_new_138">
+    <item>Russian translation</item>
   </string-array>
   <string-array name="whats_new_136">
     <item>Folder location for backups and exports is now configurable</item>
