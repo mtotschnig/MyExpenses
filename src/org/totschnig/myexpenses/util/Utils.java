@@ -224,7 +224,13 @@ public class Utils {
    * @return formated string
    */
   public static String convAmount(String text, Currency currency) {
-    return convAmount(Long.valueOf(text), currency);
+    Long amount;
+    try {
+      amount = Long.valueOf(text);
+    } catch (NumberFormatException e) {
+      amount = 0L;
+    }
+    return convAmount(amount, currency);
   }
   public static Currency getSaveInstance(String strCurrency) {
     try {
