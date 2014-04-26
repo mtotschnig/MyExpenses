@@ -252,7 +252,9 @@ public class Utils {
       return null;
     else {
       File result = getAppDir();
-      result.mkdir();
+      if (result != null) {
+        result.mkdir();
+      }
       return result;
     }
   }
