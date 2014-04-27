@@ -65,24 +65,27 @@ public abstract class AmountActivity extends EditActivity {
     //the soft keyboard if it occupies full screen in horizontal orientation does not display
     //the , as comma separator
     mAmountText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-    mAmountText.setFilters(new InputFilter[] { new InputFilter() {
-      public CharSequence filter(CharSequence source, int start, int end,
-          Spanned dest, int dstart, int dend) {
-        boolean separatorPresent = dest.toString().indexOf(decimalSeparator) > -1;
-        for (int i = start; i < end; i++) {
-          if (source.charAt(i) == otherSeparator || source.charAt(i) == decimalSeparator) {
-            char[] v = new char[end - start];
-            TextUtils.getChars(source, start, end, v, 0);
-            String s = new String(v).replace(otherSeparator,decimalSeparator);
-            if (separatorPresent)
-              return s.replace(String.valueOf(decimalSeparator),"");
-            else
-              return s;
-            }
+    mAmountText.setFilters(new InputFilter[] { 
+        new InputFilter() {
+          public CharSequence filter(CharSequence source, int start, int end,
+              Spanned dest, int dstart, int dend) {
+            boolean separatorPresent = dest.toString().indexOf(decimalSeparator) > -1;
+            for (int i = start; i < end; i++) {
+              if (source.charAt(i) == otherSeparator || source.charAt(i) == decimalSeparator) {
+                char[] v = new char[end - start];
+                TextUtils.getChars(source, start, end, v, 0);
+                String s = new String(v).replace(otherSeparator,decimalSeparator);
+                if (separatorPresent)
+                  return s.replace(String.valueOf(decimalSeparator),"");
+                else
+                  return s;
+                }
+              }
+            return null; // keep original
           }
-        return null; // keep original
-      }
-    }});
+        },
+        new InputFilter.LengthFilter(16)
+    });
     nfDLocal.setGroupingUsed(false);
   }
   @Override
