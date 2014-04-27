@@ -1,6 +1,0 @@
----
-layout: neu
-lang: pl
----
-{% include faq_en.html %}
-{% include imprint_en.html %}
