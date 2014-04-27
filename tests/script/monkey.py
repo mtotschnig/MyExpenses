@@ -165,12 +165,10 @@ def main():
   #9 Backup
   back()
   menu(7)
-  if lang == 'de':
-    distance = 18
-  elif lang == 'zh':
-    distance = 16
-  else:
+  if lang == 'zh':
     distance = 17
+  else:
+    distance = 19
   for _ in range(distance):
     down()
   enter()
@@ -180,12 +178,10 @@ def main():
   back()
   back()
   menu(7)
-  if lang == 'de':
-    distance = 25
-  elif lang == 'zh':
-    distance = 23
-  else:
+  if lang == 'zh':
     distance = 24
+  else:
+    distance = 26
   for _ in range(distance):
     down()
   enter()
