@@ -42,21 +42,23 @@ title:
   pt: Minhas despesas
   pl: Moje Wydatki
   cs: Moje výdaje
+  ru: Мои расходы
 langs:
   it: Italiano
   de: Deutsch
-  fr: Français
   en: English
   es: Español
-  tr: Türkçe
+  fr: Français
+  pl: Polski
+  pt: Português
   vi: Tiếng Việt
-  ca: Català
+  tr: Türkçe
+  cs: Čeština
   ar: العربية
   hu: Magyar
   zh-tw: 中文 (繁體)
-  pt: Português
-  pl: Polski
-  cs: Čeština
+  ru: русский
+  ca: Català
 support-email: "support@myexpenses.mobi"
 amazon:
   de: "www.amazon.de"
@@ -64,7 +66,26 @@ amazon:
   es: "www.amazon.es"
   it: "www.amazon.it"
   en: "www.amazon.com"
+  pt: "www.amazon.com.br"
 versions:
+  -
+    - 2.1.2
+    - 2014-04-26
+    -
+      en: |
+        Russian translation.
+      fr: |
+        Traduction russe.
+      de: |
+        Russische Übersetzung.
+      it: |
+        Traduzione russa.
+      es: |
+        Traducción al Ruso.
+      pt: |
+        Tradução para o russo.
+      ru: |
+        Перевод на русский язык.
   -
     - 2.1.1
     - 2014-04-21
@@ -81,6 +102,10 @@ versions:
         La ubicación de la carpeta para copias de seguridad y las exportaciones ahora es configurable.
       pt: |
         A localização da pasta para backups e exportações é agora configurável.
+      tr: |
+        Yedekleme ve dışa aktarmalar için klasör konumu artık ayarlanabilir.
+      ru: |
+        Расположение папки для резервного копирования и экспорта теперь настраивается.
   -
     - 2.1.0
     - 2014-04-16
@@ -97,6 +122,8 @@ versions:
         Múltiples copias de seguridad independientes. Importación QIF.
       tr: |
         Birden fazla bağımsız yedeklemeler. QIF içe aktarımı.
+      ru: |
+        Несколько независимых резервных копий. Импорт QIF.
   -
     - 2.0.2
     - 2014-02-23
@@ -111,6 +138,12 @@ versions:
         Traduzione greca. Inizio settimana subordinata locale (ad es Domenica per gli USA).
       es: |
         Traducción griega . Inicio de semana hizo dependiente de la configuración regional (por ejemplo, el domingo para EE.UU.).
+      tr: |
+        Yunanca tercüme. Hafta başı yerel ayarlara bağlı hale getirildi (mesela ABD için pazar günü).
+      pl: |
+        Tłumaczenie w języku greckim. Początek tygodnia zależny od lokalizacji (np. Niedziela dla Stanów Zjednoczonych).
+      ru: |
+        Греческий перевод. Начало недели зависит от языковых стандартов (например, воскресенье для США).
   -
     - 2.0.1
     - 2014-02-12
@@ -125,6 +158,12 @@ versions:
         Miglioramenti dell\'UI: #115,#117,#120,#122,#124. Date transazioni tengono conto del fusorario.
       es: |
         Mejoras de interfaz de usuario: #115,#117,#120,#122,#124. Fechas de transacción son ahora conscientes de zona horaria.
+      tr: |
+        Arayüz iyileştirmeleri: #115,#117,#120,#122,#124. Muamele tarihleri zaman dilimlerini dikkate alacak.
+      pl: |
+        Ulepszenia interfejsu użytkownika: #115,#117,#120,#122,#124. Daty transakcji świadome strefy czasowej.
+      ru: |
+        Улучшения пользовательского интерфейса: #115, #117, #120, #122, #124. Дата транзакции зависит от часового пояса.
   -
     - 2.0
     - 2014-01-31
@@ -143,6 +182,8 @@ versions:
         Modernleştirilmiş arayüz: tarama çekmecesi ve bağlamsal eylem çubuğu .
       pl: |
         Zmodernizowany Interfejs Użytkownika: Szuflada nawigacji i kontekstowy pasek akcji.
+      ru: |
+        Модернизация UI: секция навигации и панель контекстных действий.
   -
     - 1.11.5
     - 2014-01-12
@@ -165,7 +206,8 @@ versions:
         Lepší zpracování plánů: možnost plánovat události do budoucna. Nové překlady: portugalština, polština, čestina.
       pl: |
         Usprawniona obsługa planów: Z góry zastosowanie nadchodzących instancji. Nowe tłumaczenia: Portugalski, Polski, Czeski.
-
+      ru: |
+        Улучшена обработка планов: примение предстоящих планов заранее. Новые переводы: Португальский, польский, чешский.
   -
     - 1.11.0
     - 2013-12-31
@@ -186,6 +228,8 @@ versions:
         Zobrazit seznam transakcí a statistické rozdělení pro seskupení více účtů.
       pl: |
         Wyświetlanie listy transakcji i statystyczną dystrybucję dla sum wielu kont.
+      ru: |
+        Отображение списка транзакций и статистическое распределение для объединения нескольких счетов.
   -
     - 1.10.5
     - 2013-12-24
@@ -208,6 +252,8 @@ versions:
         Překlad čínština (tradiční). Povolit výběr účtu ve formuláři úprav transakcí. Jasnější uživatelské rozhraní pro převody.
       pl: |
         Tłumaczenie w języku tradycyjnym chińskim. Możliwość wyboru konta w formularzu edytowania transakcji. Bardziej przejrzysty interfejs użytkownika dla przelewów.
+      ru: |
+        Перевод на китайский язык (традиционный). Разрешить выбор счета в форме редактирования транзакции. Яснее пользовательский интерфейс для переводов.
   -
     - 1.10.4
     - 2013-12-16
@@ -230,6 +276,8 @@ versions:
         Vylepšení uživatelského rozhraní (#94) a opravy chyb (#95, #96).
       pl: |
         Ulepszenia interfejsu użytkownika (#94) i poprawki błędów (#95,#96).
+      ru: |
+        Усовершенствования пользовательского интерфейса (#94) и исправления (#95, #96).
   -
     - 1.10.3
     - 2013-12-14
@@ -252,6 +300,8 @@ versions:
         Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.. Opravy chyb: otázky #71, #91, #92, #93.
       pl: |
         Bieżący balans jest wyświetlany bardziej widoczny ponownie i wyświetla główne przyciski na dole, kiedy orientacja urządzenia jest ustawiona pionowo. Poprawki błędów: Issues #71,#91,#92,#93.
+      ru: |
+        Текущий баланс отображается снова на более видном месте, показ основных кнопок в нижней части, когда устройство в портретной ориентации. Исправления ошибок: вопросы #71, #91, #92, #93.
   -
     - 1.10.2
     - 2013-12-12
@@ -274,6 +324,8 @@ versions:
         Když je seznam transakcí seskupen zobrazit průběžnou bilanci za každé období v záhlaví skupiny. Oprava: chyb #90.
       pl: |
         Kiedy lista transakcji jest pogroupowana, wyświetla pośredni balans dla każdego z okresu w nagłówku grupy. Poprawa błędu: Issue #90.
+      ru: |
+        При группировке списка транзакций показывать промежуточный баланс для каждого периода в верхнем колонтитуле группы. Багфикс: проблема #90.
   -
     - 1.10.1
     - 2013-12-06
@@ -296,6 +348,8 @@ versions:
         Jazyk uživatelského rozhraní lze konfigurovat. Konfigurovatelná velikost písma.
       pl: |
         Możliwość zmiany języka interfejsu użytkownika. Możliwość zmiany rozmiaru czcionki.
+      ru: |
+        Настраиваемый язык пользовательского интерфейса. Настраиваемый размер шрифта.
   -
     - 1.10.0
     - 2013-12-01
@@ -320,6 +374,8 @@ versions:
         Plány pro budoucí a opakované transakce. Khmerské¨ý překlad.
       pl: |
         Plany na przyszłość i cykliczne transakcje. Tłumaczenie w języku Khmer.
+      ru: |
+        Планы на будущее и повторяющиеся транзакции. Кхмерский перевод.
   -
     - 1.9.7
     - 2013-11-07

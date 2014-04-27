@@ -1,0 +1,81 @@
+ru:
+  imprint: Отпечаток
+  hero_main: "Менеджер личных финансов для Android"
+  hero_sub:
+    use: "Простой в использовании"
+    functionality: "Богатые функциональные возможности"
+    source: "С открытым исходным кодом"
+  menu_title:
+    more_information: Дополнительная информация
+  sections:
+    features: Особенности
+    premium: Перейти на премиум
+    participate: Участие
+    faq: ЧаВО
+    versionlist: Список изменений
+    credits: Кредиты
+    licence: Лицензия
+    sourcecode: Исходный код
+    links: Ссылки
+  features:
+    manage_accounts: До пяти счетов с переводами
+    plans: Задавайте шаблоны и планы для будущих и текущих операций
+    grouped_list: Группа операций в день, неделю, месяц, год и отображение суммы каждой группы
+    distribution: Два уровня категорий (импорт из Grisbi XML)
+    split: Разделённые операции (Contrib-версия)
+    calculator: Калькулятор
+    export: Экспорт в CSV (MS Excel) и QIF, можно автоматически делиться (по электронной почте, FTP, Dropbox,...)
+    password: Защита паролем
+    help: Встроенная справка
+    backup: Резервные копии и восстановление данных
+    light_theme: "Две темы: светлая и тёмная"
+  contrib:
+    feature-list-title: |
+      Следующие премиум функции могут быть разблокированы путем приобретения Contrib лицензии:
+    feature:
+      accounts_unlimited: Неограниченное количество счетов
+      plans_unlimited: Неограниченное количество планов
+      distribution: Распределение операций по категориям
+      split_transaction: Разделённая операция
+      security_question: Секретный вопрос
+      reset_all: Сброс всех счетов
+    licence-howto-buy:
+      intro: |
+        У вас есть следующие варианты для покупки Contrib-лицензии:
+      gplay: |
+        Если у вас установлено Мои расходы из Google Play, установите <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib"> Мои расходы Contrib</a>.
+      amazon: |
+        Если у вас установлено Мои расходы от Amazon App Store, установите <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib"> Мои расходы Contrib</a>.
+      other: |
+        Если вы загрузили Мои расходы из F-Droid, Androidpit или Github, отправьте пожертвование одним из следующих действий:
+      transfer: |
+        Кроме того переведите деньги по следующей информации о счёте:
+      key: |
+        и затем запросите ключ лицензии с экрана настроек.
+        После того, как вы получите его по электронной почте, введите его также с экрана настроек.
+      outro: |
+        Google и Amazon взимают 30% от суммы сделки, Flattr 10%, Paypal примерно 0,45€.
+        Так что если это удобно для вас, советую вам установить Мои расходы из F-Droid, Androidpit или Github и отправить ваши пожертвования денежным переводом, Paypal или Flattr.
+  participate:
+    intro: "С вашей поддержкой <span class=\"application\"> Мои расходы</span> продолжает расти в функциональности, будучи распределенным \nбез рекламы и с открытым исходным кодом.\n"
+    submit_issue: |
+      <span class="application"> Мои расходы</span> развивается через ваши сообщения и предложения.
+      Если вы обнаружите проблему или думайте об улучшении, создайте <a href="https://github.com/mtotschnig/MyExpenses/issues/new"> New issue</a>, в Github Issue Tracker.
+    test: |
+      Если вы заинтересованы в оказании помощи для тестирования будущих версий, пожалуйста, присоединитесь к группе <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">Мои расходы - тестирование</a> Google.
+    translate: |
+      Вы также можете помочь <a class="intern" href="#translate"> перевести</a> <span class="application"> Мои расходы</span> на новые языки.
+    premium: |
+      Просьба рассмотреть вопрос о приобретении <a class="intern" href="#premium"> Contrib-лицензии</a> для неограниченного доступа ко всем премиум функциям.
+  google-play:
+  - Следите за своими расходами и доходами.
+  - Управляйте ими непосредственно на вашем смартфоне.
+  - Экспортируйте их в финансовые программы, такие как Grisbi, GnuCash, Quicken или MS Money.
+  permissions-heading: |
+    Мои расходы необходимы следующие разрешения:
+  permissions-calendar: |
+    Чтение и запись календаря: планы на будущее и периодические операции хранятся в специальных локальных календарях или в любом другом календаре, который вы назначите.
+  permissions-external-storage: |
+    Запись на USB-хранилище: хранение QIF и CSV экспорты и резервное копирование файлов
+  permissions-internet: |
+    Связь с сетью: Отчеты об ошибках автоматически отправляются разработчикам, если это не отключено пользователем в настройках приложения.

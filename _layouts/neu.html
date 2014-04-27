@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
 {% assign msg = site.data[pagelang][pagelang]  %}
+{% capture amazon %}{% if site.amazon[pagelang]%}{{site.amazon[pagelang]}}{% else %}{{site.amazon.en}}{% endif %}{% endcapture %}
 <html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">
@@ -213,7 +214,7 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-ms-6 col-sm-6">
-            <a id="amazon" class="track" href="http://{{site.amazon[pagelang]}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
+            <a id="amazon" class="track" href="http://{{amazon}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
               <img alt="Get it on Amazon" src="/visuals/amazon-apps-store-{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "en" or pagelang == "it" %}{{pagelang}}{% else %}en{% endif %}-black.png" />
             </a>
           </div>
