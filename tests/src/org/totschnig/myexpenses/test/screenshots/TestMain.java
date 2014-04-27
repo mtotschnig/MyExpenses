@@ -99,6 +99,10 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     defaultCurrency = Currency.getInstance("CZK");
     helperTestLang("cs","CZ");
   }
+  public void testLang_ru() {
+    defaultCurrency = Currency.getInstance("RUB");
+    helperTestLang("ru","RU");
+  }
 	private void helperTestLang(String lang, String country) {
 	  this.locale = new Locale(lang,country);
 	  Locale.setDefault(locale); 
