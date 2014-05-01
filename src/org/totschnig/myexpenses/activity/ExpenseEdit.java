@@ -1301,6 +1301,7 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case EVENT_CURSOR:
       mPlan = null;
+      mPlanId = null;
       break;
     }
   }
