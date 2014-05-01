@@ -19,6 +19,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+/**
+ * @author Michael Totschnig
+ *
+ */
 public class DatabaseConstants {
   public static int weekStartsOn;
   public static String YEAR_OF_WEEK_START;
@@ -98,6 +102,33 @@ public class DatabaseConstants {
   public static final String KEY_TEMPLATEID = "template_id";
   public static final String KEY_INSTANCEID = "instance_id";
   public static final String KEY_CODE = "code";
+  public static final String KEY_WEEK_START = "week_start";
+  public static final String KEY_WEEK_END = "week_end";
+  public static final String KEY_DAY = "day";
+  public static final String KEY_WEEK = "week";
+  public static final String KEY_MONTH = "month";
+  public static final String KEY_YEAR = "year";
+  public static final String KEY_YEAR_OF_WEEK_START = "year_of_week_start";
+  public static final String KEY_THIS_DAY = "this_day";
+  public static final String KEY_THIS_WEEK = "this_week";
+  public static final String KEY_THIS_MONTH = "this_month";
+  public static final String KEY_THIS_YEAR = "this_year";
+  public static final String KEY_THIS_YEAR_OF_WEEK_START = "this_year_of_week_start";
+  public static final String KEY_MAX_VALUE = "max_value";
+  public static final String KEY_CURRENT_BALANCE = "current_balance";
+  public static final String KEY_SUM_EXPENSES = "sum_expenses";
+  public static final String KEY_SUM_INCOME = "sum_income";
+  public static final String KEY_SUM_TRANSFERS = "sum_transfers";
+  public static final String KEY_INTERIM_BALANCE = "interim_balance";
+  public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
+  public static final String KEY_HAS_EXPORTED = "has_exported";
+  public static final String KEY_IS_AGGREGATE = "is_aggregate";
+  public static final String KEY_TRANSFER_ENABLED = "transfer_enabled";
+  /**
+   * column alias for the second group (month or week)
+   */
+  public static final String KEY_SECOND_GROUP = "second";
+
   /**
    * transaction that already has been exported
    */
@@ -176,22 +207,22 @@ public class DatabaseConstants {
   public static final String WHERE_NOT_SPLIT =
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_TRANSACTION =
-      WHERE_NOT_SPLIT + " AND transfer_peer is null";
-  public static final String WHERE_INCOME = "amount>0 AND " + WHERE_TRANSACTION;
-  public static final String WHERE_EXPENSE = "amount<0 AND " + WHERE_TRANSACTION;
+      WHERE_NOT_SPLIT + " AND " + KEY_TRANSFER_PEER + " is null";
+  public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;
+  public static final String WHERE_EXPENSE = KEY_AMOUNT + "<0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_TRANSFER =
-      WHERE_NOT_SPLIT+ " AND transfer_peer is not null";
+      WHERE_NOT_SPLIT+ " AND " + KEY_TRANSFER_PEER + " is not null";
   public static final String INCOME_SUM = 
-    "sum(CASE WHEN " + WHERE_INCOME + " THEN amount ELSE 0 END) AS sum_income";
+    "sum(CASE WHEN " + WHERE_INCOME + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   public static final String EXPENSE_SUM = 
-      "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
+      "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
   public static final String TRANSFER_SUM = 
-      "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
+      "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_TRANSFERS;
   public static final String HAS_EXPORTED = 
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
-          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS has_exported";
+          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;
   
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
-      "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as mapped_categories";
+      "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
 }

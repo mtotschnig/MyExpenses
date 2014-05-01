@@ -80,7 +80,7 @@ public class Account extends Model {
     KEY_TYPE,
     "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS transfer_enabled",
+        +      "AS " + KEY_TRANSFER_ENABLED,
     HAS_EXPORTED
   };
   int baseLength = PROJECTION_BASE.length;
@@ -90,17 +90,17 @@ public class Account extends Model {
       KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
         + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
         + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-        + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) as current_balance";
+        + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) as " + KEY_CURRENT_BALANCE;
   PROJECTION_FULL = new String[baseLength+6];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income";
+      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
   PROJECTION_FULL[baseLength+2] = "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses";
+      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS " + KEY_SUM_EXPENSES;
   PROJECTION_FULL[baseLength+3] =     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer";
+      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS;
   PROJECTION_FULL[baseLength+4] = KEY_USAGES;
-  PROJECTION_FULL[baseLength+5] = "0 AS is_aggregate";//this is needed in the union with the aggregates to sort real accounts first
+  PROJECTION_FULL[baseLength+5] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
   }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
@@ -161,10 +161,10 @@ public class Account extends Model {
      * @return a human readable String representing the group as header or activity title
      */
     public String getDisplayTitle(Context ctx, int groupYear, int groupSecond,Cursor c) {
-      int this_year_of_week_start = c.getInt(c.getColumnIndex("this_year_of_week_start"));
-      int this_week = c.getInt(c.getColumnIndex("this_week"));
-      int this_day = c.getInt(c.getColumnIndex("this_day"));
-      int this_year = c.getInt(c.getColumnIndex("this_year"));
+      int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
+      int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
+      int this_day = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
+      int this_year = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
       Calendar cal;
       switch (this) {
       case NONE:
@@ -182,8 +182,8 @@ public class Account extends Model {
         return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
       case WEEK:
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
-        String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex("week_start")),dateformat)
-            + " - " + Utils.convDateTime(c.getString(c.getColumnIndex("week_end")),dateformat)  + " )";
+        String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_START)),dateformat)
+            + " - " + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_END)),dateformat)  + " )";
         String yearPrefix;
         if (groupYear == this_year_of_week_start) {
           if (groupSecond == this_week)

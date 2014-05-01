@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
@@ -179,9 +180,25 @@ public class MyExpenses extends LaunchActivity implements
     // set a custom shadow that overlays the main content when the drawer opens
     theme.resolveAttribute(R.attr.drawerShadow, value, true);
     mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
-    String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
+    String[] from = new String[]{
+        KEY_DESCRIPTION,
+        KEY_LABEL,
+        KEY_OPENING_BALANCE,
+        KEY_SUM_INCOME,
+        KEY_SUM_EXPENSES,
+        KEY_SUM_TRANSFERS,
+        KEY_CURRENT_BALANCE
+    };
     // and an array of the fields we want to bind those fields to
-    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.sum_transfer,R.id.current_balance};
+    int[] to = new int[]{
+        R.id.description,
+        R.id.label,
+        R.id.opening_balance,
+        R.id.sum_income,
+        R.id.sum_expenses,
+        R.id.sum_transfer,
+        R.id.current_balance
+    };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
@@ -382,7 +399,7 @@ public class MyExpenses extends LaunchActivity implements
       return;
     //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
-    i.putExtra(MyApplication.KEY_TRANSFER_ENABLED,transferEnabled());
+    i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,transferEnabled());
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
   /**
@@ -521,7 +538,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
-      i.putExtra(MyApplication.KEY_TRANSFER_ENABLED,transferEnabledGlobal());
+      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,transferEnabledGlobal());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -789,7 +806,7 @@ public class MyExpenses extends LaunchActivity implements
     if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
       return false;
     mAccountsCursor.moveToPosition(mCurrentPosition);
-    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_TRANSFER_ENABLED)) > 0;
   }
   /**
    * @return true if for any Account there is a second account
@@ -809,7 +826,7 @@ public class MyExpenses extends LaunchActivity implements
     if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
       return false;
     mAccountsCursor.moveToPosition(mCurrentPosition);
-    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("has_exported")) > 0;
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_EXPORTED)) > 0;
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {
@@ -847,7 +864,7 @@ public class MyExpenses extends LaunchActivity implements
     ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
         new Money(
             Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency)),
-            mAccountsCursor.getLong(mAccountsCursor.getColumnIndex("current_balance")))));
+            mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE)))));
     titleBar.findViewById(R.id.color1).setBackgroundColor(
         mAccountId < 0 ?
             colorAggregate :

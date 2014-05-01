@@ -184,24 +184,24 @@ public class TransactionProvider extends ContentProvider {
         group = Grouping.NONE;
       }
       String yearExpression = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR);
-      String secondColumnAlias = " AS second";
+      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
       if (group.equals(Grouping.NONE)) {
         qb.setTables(VIEW_COMMITTED);
         selection = accountSelection;
         //the second accountId is used in openingBalanceSubquery
         selectionArgs = new String[]{accountSelector,accountSelector};
         projection = new String[] {
-            "1 AS year",
+            "1 AS " + KEY_YEAR,
             "1"+secondColumnAlias,
             INCOME_SUM,
             EXPENSE_SUM,
             TRANSFER_SUM,
             MAPPED_CATEGORIES,
             openingBalanceSubQuery
-                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN amount ELSE 0 END),0) AS interim_balance"
+                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN " + KEY_AMOUNT + " ELSE 0 END),0) AS " + KEY_INTERIM_BALANCE
         };
       } else {
-        String subGroupBy = "year,second";
+        String subGroupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
         String secondDef ="";
 
         switch(group) {
@@ -216,11 +216,11 @@ public class TransactionProvider extends ContentProvider {
           break;
         case YEAR:
           secondDef = "1";
-          subGroupBy = "year";
+          subGroupBy = KEY_YEAR;
           break;
         }
         qb.setTables("(SELECT "
-            + yearExpression + " AS year,"
+            + yearExpression + " AS " + KEY_YEAR + ","
             + secondDef + secondColumnAlias + ","
             + INCOME_SUM + ","
             + EXPENSE_SUM + ","
@@ -230,19 +230,19 @@ public class TransactionProvider extends ContentProvider {
             + " WHERE " + accountSelection
             + " GROUP BY " + subGroupBy + ") AS t");
         projection = new String[] {
-            "year",
-            "second",
-            "sum_income",
-            "sum_expense",
-            "sum_transfer",
-            "mapped_categories",
+            KEY_YEAR,
+            KEY_SECOND_GROUP,
+            KEY_SUM_INCOME,
+            KEY_SUM_EXPENSES,
+            KEY_SUM_TRANSFERS,
+            KEY_MAPPED_CATEGORIES,
             openingBalanceSubQuery +
                 " + (SELECT sum(amount) FROM "
                     + VIEW_COMMITTED
                     + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
-                    + " AND (" + yearExpression + " < year OR "
-                    + "(" + yearExpression + " = year AND "
-                    + secondDef + " <= second))) AS interim_balance"
+                    + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
+                    + "(" + yearExpression + " = " + KEY_YEAR + " AND "
+                    + secondDef + " <= " + KEY_SECOND_GROUP + "))) AS " + KEY_INTERIM_BALANCE
             };
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the column subquery
@@ -280,44 +280,45 @@ public class TransactionProvider extends ContentProvider {
         @SuppressWarnings("deprecation")
         String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
             null, null, null);
-        qb.setTables("(SELECT _id,currency,opening_balance,"+
-            "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
-                + VIEW_COMMITTED
-                + " WHERE account_id = accounts._id AND (cat_id is null OR cat_id != "
-                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS current_balance, " +
-            "(SELECT coalesce(sum(amount),0) FROM "
-                + VIEW_COMMITTED
-                + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") AS sum_expenses," +
-            "(SELECT coalesce(sum(amount),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income, " +
+        String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
+            + VIEW_COMMITTED
+            + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " ";
+        qb.setTables("(SELECT " + 
+            KEY_ROWID + "," + 
+            KEY_CURRENCY + "," + 
+            KEY_OPENING_BALANCE + "," +
+            KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + 
+              " AND (cat_id is null OR cat_id != " + SPLIT_CATID + ") + " +
+              " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE + ", " +
+            "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
+            "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
               HAS_EXPORTED +
             " FROM " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
-            "0 - (SELECT _id FROM " + TABLE_CURRENCIES
-                + " WHERE code = currency)  AS _id",//we use negative ids for aggregate accounts
-            "currency AS label",
-            "'' AS description",
-            "sum(opening_balance) AS opening_balance",
-            "currency",
-            "-1 AS color",
-            "'NONE' AS grouping",
-            "'CASH' AS type",
-            "1 AS transfer_enabled",
-            "max(has_exported) AS has_exported",
-            "sum(current_balance) AS current_balance",
-            "sum(sum_income) AS sum_income",
-            "sum(sum_expenses) AS sum_expenses",
-            "0 AS sum_transfers",
-            "0 as usages",
-            "1 as is_aggregate"};
+            "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
+                + " WHERE code = currency)  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+            KEY_CURRENCY + " AS " + KEY_LABEL,
+            "'' AS " + KEY_DESCRIPTION,
+            "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
+            KEY_CURRENCY,
+            "-1 AS " + KEY_COLOR,
+            "'NONE' AS " + KEY_GROUPING,
+            "'CASH' AS " + KEY_TYPE,
+            "1 AS " + KEY_TRANSFER_ENABLED,
+            "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
+            "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
+            "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
+            "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
+            "0 AS " + KEY_SUM_TRANSFERS,
+            "0 as " + KEY_USAGES,
+            "1 as " + KEY_IS_AGGREGATE};
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
-            "is_aggregate,"+defaultOrderBy,//real accounts should come first, then aggregate accounts
+            KEY_IS_AGGREGATE + ","+defaultOrderBy,//real accounts should come first, then aggregate accounts
             null);
         c = db.rawQuery(sql, null);
         if (MyApplication.debug) {
@@ -333,15 +334,16 @@ public class TransactionProvider extends ContentProvider {
       String currencyId = uri.getPathSegments().get(2);
       qb.setTables(TABLE_CURRENCIES);
       projection = new String[] {
-          "0 - _id  AS _id",//we use negative ids for aggregate accounts
-          KEY_CODE + " AS label",
-          "'' AS description",
-          "(select sum(opening_balance) from accounts where currency = code) AS opening_balance",
-          KEY_CODE + " AS currency",
-          "-1 AS color",
-          "'NONE' AS grouping",
-          "'CASH' AS type",
-          "1 AS transfer_enabled"};
+          "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+          KEY_CODE + " AS " + KEY_LABEL,
+          "'' AS " + KEY_DESCRIPTION,
+          "(select sum(" + KEY_OPENING_BALANCE
+              + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
+          KEY_CODE + " AS " + KEY_CURRENCY,
+          "-1 AS " + KEY_COLOR,
+          "'NONE' AS " + KEY_GROUPING,
+          "'CASH' AS " + KEY_TYPE,
+          "1 AS " + KEY_TRANSFER_ENABLED};
       qb.appendWhere(KEY_ROWID + "=" + currencyId);
       break;
     case ACCOUNT_ID:

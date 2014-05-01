@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -75,7 +76,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     Bundle extras = getIntent().getExtras();
-    mTransferEnabled = extras.getBoolean(MyApplication.KEY_TRANSFER_ENABLED,false);
+    mTransferEnabled = extras.getBoolean(DatabaseConstants.KEY_TRANSFER_ENABLED,false);
 
     setContentView(R.layout.viewpager);
     setTitle(R.string.menu_manage_plans);

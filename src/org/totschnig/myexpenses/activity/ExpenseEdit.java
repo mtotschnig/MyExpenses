@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
@@ -178,7 +179,7 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingLeft()
         + mPlanToggleButton.getPaddingRight());
 
-    mTransferEnabled = getIntent().getBooleanExtra(MyApplication.KEY_TRANSFER_ENABLED, false);
+    mTransferEnabled = getIntent().getBooleanExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, false);
     mRowId = getIntent().getLongExtra(KEY_ROWID,0);
     if (mRowId != 0L) {
       mNewInstance = false;

@@ -91,7 +91,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_RATE;
     public static String PREFKEY_UI_LANGUAGE;
 
-    public static final String KEY_TRANSFER_ENABLED = "transferEnabled";
     public static final String KEY_NOTIFICATION_ID = "notification_id";
     public static final String KEY_OPERATION_TYPE = "operationType";
 
