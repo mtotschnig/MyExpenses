@@ -283,7 +283,7 @@ public class TransactionList extends BudgetListFragment implements
       } else {
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, acmi.id);
-        i.putExtra("transferEnabled",ctx.transferEnabled());
+        i.putExtra(MyApplication.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
         ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       }
       //super is handling deactivation of mActionMode

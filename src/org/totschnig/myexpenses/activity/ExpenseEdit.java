@@ -15,12 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -34,7 +29,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
@@ -93,6 +87,10 @@ import android.widget.ToggleButton;
 public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,ContribIFace {
 
+  public static final String KEY_NEW_TEMPLATE = "newTemplate";
+  public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
+  private static final String KEY_PLAN = "plan";
+  private static final String KEY_CALENDAR = "calendar";
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
@@ -139,6 +137,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final int EVENT_CURSOR = 4;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
+  
   private LoaderManager mManager;
 
   private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false, mTransferEnabled;
@@ -179,40 +178,39 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingLeft()
         + mPlanToggleButton.getPaddingRight());
 
-    Bundle extras = getIntent().getExtras();
-    mTransferEnabled = extras.getBoolean("transferEnabled", false);
-    mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
+    mTransferEnabled = getIntent().getBooleanExtra(MyApplication.KEY_TRANSFER_ENABLED, false);
+    mRowId = getIntent().getLongExtra(KEY_ROWID,0);
     if (mRowId != 0L) {
       mNewInstance = false;
     }
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
       mSavedInstance = true;
-      mRowId = savedInstanceState.getLong("rowId");
+      mRowId = savedInstanceState.getLong(KEY_ROWID);
 
-      mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
-      mPlan = (Plan) savedInstanceState.getSerializable("plan");
+      mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
+      mPlan = (Plan) savedInstanceState.getSerializable(KEY_PLAN);
       if (mPlan != null) {
         mPlanId = mPlan.id;
         configurePlan();
       }
-      mLabel = savedInstanceState.getString("label");
-      if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
+      mLabel = savedInstanceState.getString(KEY_LABEL);
+      if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L)
         mCatId = null;
       setDate();
       setTime();
-      if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
+      if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L)
         mMethodId = null;
-      if ((mAccountId = savedInstanceState.getLong("accountId")) == 0L)
+      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L)
         mAccountId = null;
-      if ((mTransferAccountId = savedInstanceState.getLong("transferAccountId")) == 0L)
+      if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
         mTransferAccountId = null;
-      mType = savedInstanceState.getBoolean("type");
+      mType = savedInstanceState.getBoolean(KEY_TYPE);
       configureType();
     }
-    mTemplateId = extras.getLong("template_id",0);
+    mTemplateId = getIntent().getLongExtra(KEY_TEMPLATEID,0);
     //were we called from a notification
-    int notificationId = extras.getInt("notification_id", 0);
+    int notificationId = getIntent().getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0);
     if (notificationId > 0) {
       ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notificationId);
     }
@@ -252,9 +250,9 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         objectId = mTemplateId;
         //are we editing the template or instantiating a new one
-        if ((mPlanInstanceId = extras.getLong("instance_id")) != 0L) {
+        if ((mPlanInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
-          mPlanInstanceDate = extras.getLong("instance_date");
+          mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE,0);
         } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
@@ -268,10 +266,10 @@ public class ExpenseEdit extends AmountActivity implements
             R.string.progress_dialog_loading);
       }
     } else {
-      mOperationType = extras.getInt("operationType");
-      Long accountId = extras.getLong(KEY_ACCOUNTID);
-      Long parentId = extras.getLong(KEY_PARENTID);
-      if (extras.getBoolean("newTemplate",false))
+      mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
+      Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID,0);
+      Long parentId = getIntent().getLongExtra(KEY_PARENTID,0);
+      if (getIntent().getBooleanExtra(KEY_NEW_TEMPLATE,false))
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       else
         mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
@@ -455,7 +453,7 @@ public class ExpenseEdit extends AmountActivity implements
     mPlanButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         if (mPlanId == null) {
-          if (getIntent().getExtras().getBoolean("newPlanEnabled")) {
+          if (getIntent().getExtras().getBoolean(KEY_NEW_PLAN_ENABLED)) {
             if (syncStateAndValidate()) {
               mPlanButton.setEnabled(false);
               launchNewPlan();
@@ -566,7 +564,7 @@ public class ExpenseEdit extends AmountActivity implements
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
     } else {
       Intent i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("operationType", type);
+      i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
       i.putExtra(KEY_ACCOUNTID,account.id);
       i.putExtra(KEY_PARENTID,mTransaction.id);
       startActivityForResult(i, EDIT_SPLIT_REQUEST);
@@ -580,7 +578,7 @@ public class ExpenseEdit extends AmountActivity implements
     //we pass the currently selected category in to prevent
     //it from being deleted, which can theoretically lead
     //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
-    i.putExtra(DatabaseConstants.KEY_ROWID, mCatId);
+    i.putExtra(KEY_ROWID, mCatId);
     startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
   /**
@@ -841,22 +839,22 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putBoolean("type", mType);
-    outState.putSerializable("calendar", mCalendar);
+    outState.putBoolean(KEY_TYPE, mType);
+    outState.putSerializable(KEY_CALENDAR, mCalendar);
     //restored in onCreate
     if (mRowId != 0)
-      outState.putLong("rowId", mRowId);
+      outState.putLong(KEY_ROWID, mRowId);
     if (mCatId != null)
-      outState.putLong("catId", mCatId);
-    outState.putString("label", mLabel);
+      outState.putLong(KEY_CATID, mCatId);
+    outState.putString(KEY_LABEL, mLabel);
     if (mPlan != null)
-      outState.putSerializable("plan",mPlan);
+      outState.putSerializable(KEY_PLAN,mPlan);
     long methodId = mMethodSpinner.getSelectedItemId();
     if (methodId != android.widget.AdapterView.INVALID_POSITION)
-      outState.putLong("methodId", methodId);
-    outState.putLong("accountId", mAccountSpinner.getSelectedItemId());
+      outState.putLong(KEY_METHODID, methodId);
+    outState.putLong(KEY_ACCOUNTID, mAccountSpinner.getSelectedItemId());
     if (mOperationType == MyExpenses.TYPE_TRANSFER)
-      outState.putLong("transferAccountId", mTransferAccountSpinner.getSelectedItemId());
+      outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
   }
 
   private void switchAccountViews() {

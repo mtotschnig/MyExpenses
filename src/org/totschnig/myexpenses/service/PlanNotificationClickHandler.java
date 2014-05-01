@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.service;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Transaction;
@@ -31,14 +32,14 @@ public class PlanNotificationClickHandler extends IntentService {
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
     .setSmallIcon(R.drawable.ic_stat_planner)
     .setContentTitle(title);
-    int notificationId = extras.getInt("notification_id");
+    int notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID);
     if (intent.getAction().equals("Apply")) {
       Long templateId = extras.getLong("template_id");
       Transaction t = Transaction.getInstanceFromTemplate(templateId);
       if (t==null) {
         message = getString(R.string.save_transaction_template_deleted);
       } else {
-        t.setDate(new Date(extras.getLong("instance_date")));
+        t.setDate(new Date(extras.getLong(DatabaseConstants.KEY_DATE)));
         if (t.save() == null)
           message = getString(R.string.save_transaction_error);
         else {

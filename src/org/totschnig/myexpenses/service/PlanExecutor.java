@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -111,7 +111,7 @@ public class PlanExecutor extends IntentService {
                 t.setDate(new Date(date));
                 if (t.save() != null) {
                   Intent displayIntent = new Intent(this, MyExpenses.class)
-                    .putExtra(DatabaseConstants.KEY_ROWID, template.accountId)
+                    .putExtra(KEY_ROWID, template.accountId)
                     .putExtra("transaction_id", t.id);
                   resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
                       PendingIntent.FLAG_UPDATE_CURRENT);
@@ -124,7 +124,7 @@ public class PlanExecutor extends IntentService {
               } else {
                 Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class)
                   .setAction("Cancel")
-                  .putExtra("notification_id", notificationId)
+                  .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   //we also put the title in the intent, because we need it while we update the notification
                   .putExtra("title", title);
                 builder.addAction(
@@ -132,10 +132,10 @@ public class PlanExecutor extends IntentService {
                     getString(android.R.string.cancel),
                     PendingIntent.getService(this, notificationId, cancelIntent, 0));
                 Intent editIntent = new Intent(this,ExpenseEdit.class)
-                  .putExtra("notification_id", notificationId)
+                  .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra("template_id", template.id)
                   .putExtra("instance_id", -1L)
-                  .putExtra("instance_date", date);
+                  .putExtra(KEY_DATE, date);
                 resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
                 builder.addAction(
                     android.R.drawable.ic_menu_edit,
@@ -143,10 +143,10 @@ public class PlanExecutor extends IntentService {
                     resultIntent);
                 Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
                 applyIntent.setAction("Apply")
-                  .putExtra("notification_id", notificationId)
+                  .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra("title", title)
                   .putExtra("template_id", template.id)
-                  .putExtra("instance_date", date);
+                  .putExtra(KEY_DATE, date);
                 builder.addAction(
                     android.R.drawable.ic_menu_save,
                     getString(R.string.menu_apply_template),

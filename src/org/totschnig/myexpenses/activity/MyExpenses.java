@@ -355,7 +355,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("operationType", type);
+    i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
     //if we are called from an aggregate cursor, we look for the first account
     //with the same currency
     long accountId = 0;
@@ -382,7 +382,7 @@ public class MyExpenses extends LaunchActivity implements
       return;
     //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
-    i.putExtra("transferEnabled",transferEnabled());
+    i.putExtra(MyApplication.KEY_TRANSFER_ENABLED,transferEnabled());
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
   /**
@@ -521,7 +521,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
-      i.putExtra("transferEnabled",transferEnabledGlobal());
+      i.putExtra(MyApplication.KEY_TRANSFER_ENABLED,transferEnabledGlobal());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:

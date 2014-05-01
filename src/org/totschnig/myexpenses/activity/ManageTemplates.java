@@ -75,7 +75,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     Bundle extras = getIntent().getExtras();
-    mTransferEnabled = extras.getBoolean("transferEnabled",false);
+    mTransferEnabled = extras.getBoolean(MyApplication.KEY_TRANSFER_ENABLED,false);
 
     setContentView(R.layout.viewpager);
     setTitle(R.string.menu_manage_plans);
@@ -138,10 +138,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     case R.id.CREATE_TRANSACTION_COMMAND:
     case R.id.CREATE_TRANSFER_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("operationType",
+      i.putExtra(MyApplication.KEY_OPERATION_TYPE,
           command == R.id.CREATE_TRANSACTION_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
-      i.putExtra("newTemplate", true);
-      i.putExtra("newPlanEnabled", getNewPlanEnabled());
+      i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
+      i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -156,7 +156,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       finishActionMode();
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra("template_id",((Long)tag));
-      i.putExtra("newPlanEnabled", getNewPlanEnabled());
+      i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
       return true;

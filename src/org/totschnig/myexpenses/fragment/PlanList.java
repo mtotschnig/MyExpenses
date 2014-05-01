@@ -138,7 +138,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       i = new Intent(getActivity(), ExpenseEdit.class);
       i.putExtra("template_id", mAdapter.getGroupId(group));
       i.putExtra("instance_id", menuInfo.id);
-      i.putExtra("instance_date", date);
+      i.putExtra(KEY_DATE, date);
       startActivityForResult(i,0);
       break;
     }
