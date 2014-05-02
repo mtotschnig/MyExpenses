@@ -117,6 +117,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_APP_DIR;
     public static String PREFKEY_RATE;
     public static String PREFKEY_UI_LANGUAGE;
+
+    public static final String KEY_NOTIFICATION_ID = "notification_id";
+    public static final String KEY_OPERATION_TYPE = "operationType";
+
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "onqn1bKZzM";
     public static String MARKET_PREFIX = "market://details?id=";
@@ -155,6 +159,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * after having tried a different locale;
      */
     private Locale systemLocale = Locale.getDefault();
+
 
     @Override
     public void onCreate() {

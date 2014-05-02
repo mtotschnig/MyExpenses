@@ -163,7 +163,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     if (!r.success) {
       return r;
     }
-    setTitle(this.taskExecutionFragment.getString(R.string.grisbi_import_categories_loading, sourceStr));
+    setTitle(MyApplication.getInstance().getString(R.string.grisbi_import_categories_loading, sourceStr));
     phaseChangedP = true;
     setMax(catTree.getTotal());
     publishProgress(0);
@@ -175,7 +175,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
       totalImportedCat = -1;
     }
     if (withPartiesP) {
-      setTitle(this.taskExecutionFragment.getString(R.string.grisbi_import_parties_loading, sourceStr));
+      setTitle(MyApplication.getInstance().getString(R.string.grisbi_import_parties_loading, sourceStr));
       phaseChangedP = true;
       setMax(partiesList.size());
       publishProgress(0);

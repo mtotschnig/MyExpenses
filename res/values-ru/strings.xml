@@ -282,7 +282,7 @@
   <string name="pref_manage_methods_title">Способы оплаты</string>
   <string name="pref_manage_parties_summary">Добавление, редактирование, удаление участников (плательщиков и получателей).</string>
   <string name="pref_manage_parties_title">Участники</string>
-  <string name="pref_more_info_dialog_summary">\n\nПеревод на русский язык: Дмитрий Куренков</string>
+  <string name="pref_more_info_dialog_summary">Перевод на русский язык: Дмитрий Куренков</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лицензия и создатели</string>
   <string name="pref_password_empty">Пароль не должен быть пустым</string>

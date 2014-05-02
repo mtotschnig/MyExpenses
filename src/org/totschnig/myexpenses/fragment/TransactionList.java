@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -283,7 +284,7 @@ public class TransactionList extends BudgetListFragment implements
       } else {
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, acmi.id);
-        i.putExtra("transferEnabled",ctx.transferEnabled());
+        i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
         ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       }
       //super is handling deactivation of mActionMode
@@ -359,11 +360,11 @@ public class TransactionList extends BudgetListFragment implements
       mTransactionsCursor = c;
       hasItems = c.getCount()>0;
       if (!indexesCalculated) {
-        columnIndexYear = c.getColumnIndex("year");
-        columnIndexYearOfWeekStart = c.getColumnIndex("year_of_week_start");
-        columnIndexMonth = c.getColumnIndex("month");
-        columnIndexWeek = c.getColumnIndex("week");
-        columnIndexDay  = c.getColumnIndex("day");
+        columnIndexYear = c.getColumnIndex(KEY_YEAR);
+        columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
+        columnIndexMonth = c.getColumnIndex(KEY_MONTH);
+        columnIndexWeek = c.getColumnIndex(KEY_WEEK);
+        columnIndexDay  = c.getColumnIndex(KEY_DAY);
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
@@ -379,20 +380,20 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       c.moveToFirst();
-      mappedCategories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
+      mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) >0;
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;
       //if the transactionscursor has been loaded before the grouping cursor, we need to refresh
       //in order to have accurate grouping values
       if (!indexesGroupingCalculated) {
-        columnIndexGroupYear = c.getColumnIndex("year");
-        columnIndexGroupSecond = c.getColumnIndex("second");
-        columnIndexGroupSumIncome = c.getColumnIndex("sum_income");
-        columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
-        columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
-        columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
-        columIndexGroupSumInterim = c.getColumnIndex("interim_balance");
+        columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
+        columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
+        columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
+        columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
+        columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
+        columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
+        columIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)

@@ -128,21 +128,21 @@ public class Fixture {
     //set up transactions
     long now = System.currentTimeMillis();
     //are used twice
-    long mainCat1 = Category.find(testContext.getString(R.string.testData_transaction1MainCat), null);
-    long mainCat2 = Category.find(testContext.getString(R.string.testData_transaction2MainCat), null);
-    long mainCat6 = Category.find(testContext.getString(R.string.testData_transaction6MainCat), null);
+    long mainCat1 = findCat(testContext.getString(R.string.testData_transaction1MainCat), null);
+    long mainCat2 = findCat(testContext.getString(R.string.testData_transaction2MainCat), null);
+    long mainCat6 = findCat(testContext.getString(R.string.testData_transaction6MainCat), null);
 
     //Transaction 1
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
     op1.amount = new Money(defaultCurrency,-1200L);
-    op1.catId = Category.find(testContext.getString(R.string.testData_transaction1SubCat), mainCat1);
+    op1.catId = findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1);
     op1.setDate(new Date( now - 300000 ));
     op1.save();
 
     //Transaction 2
     Transaction op2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
     op2.amount = new Money(defaultCurrency,-2200L);
-    op2.catId = Category.find(testContext.getString(R.string.testData_transaction2SubCat), mainCat2);
+    op2.catId = findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2);
     op2.comment = testContext.getString(R.string.testData_transaction2Comment);
     op2.setDate(new Date( now - 7200000 ));
     op2.save();
@@ -150,8 +150,8 @@ public class Fixture {
 
     //Transaction 3 Cleared
     op3.amount = new Money(defaultCurrency,-2500L);
-    op3.catId = Category.find(testContext.getString(R.string.testData_transaction3SubCat),
-        Category.find(testContext.getString(R.string.testData_transaction3MainCat), null));
+    op3.catId = findCat(testContext.getString(R.string.testData_transaction3SubCat),
+        findCat(testContext.getString(R.string.testData_transaction3MainCat), null));
     op3.setDate(new Date( now - 72230000 ));
     op3.crStatus = CrStatus.CLEARED;
     op3.save();
@@ -159,8 +159,8 @@ public class Fixture {
     //Transaction 4 Cleared
     Transaction op4 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
     op4.amount = new Money(defaultCurrency,-5000L);
-    op4.catId = Category.find(testContext.getString(R.string.testData_transaction4SubCat),
-        Category.find(testContext.getString(R.string.testData_transaction4MainCat), null));
+    op4.catId = findCat(testContext.getString(R.string.testData_transaction4SubCat),
+        findCat(testContext.getString(R.string.testData_transaction4MainCat), null));
     op4.payee = testContext.getString(R.string.testData_transaction4Payee);
     op4.setDate(new Date( now - 98030000 ));
     op4.crStatus = CrStatus.CLEARED;
@@ -213,10 +213,8 @@ public class Fixture {
     Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id);
     template.amount = new Money(defaultCurrency,-90000L);
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
-    template.catId = Category.find(templateSubCat,
-        Category.find(testContext.getString(R.string.testData_templateMainCat), null));
-    if (template.catId == -1)
-      throw new RuntimeException("Could not find category");
+    template.catId = findCat(templateSubCat,
+        findCat(testContext.getString(R.string.testData_templateMainCat), null));
     template.title = templateSubCat;
     template.payee = testContext.getString(R.string.testData_templatePayee);
     Uri planUri = new Plan(
@@ -230,5 +228,12 @@ public class Fixture {
     Uri templateuri = template.save();
     if (templateuri == null)
       throw new RuntimeException("Could not save template");
+  }
+  public static long findCat(String label, Long parent) {
+   Long result = Category.find(label,parent);
+   if (result == -1) {
+     throw new RuntimeException("Could not find category");
+   }
+   return result;
   }
 }

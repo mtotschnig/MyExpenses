@@ -168,9 +168,9 @@ public class DbUtils {
     return Transaction.getInstanceFromDb(id).parentId != null;
   }
   public static String weekStartFromGroupSqlExpression(int year, int week) {
-    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_start",year,week*7);
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS " + KEY_WEEK_START,year,week*7);
   }
   public static String weekEndFromGroupSqlExpression(int year, int week) {
-    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS week_end",year,week*7+6);
+    return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS " + KEY_WEEK_END,year,week*7+6);
   }
 }

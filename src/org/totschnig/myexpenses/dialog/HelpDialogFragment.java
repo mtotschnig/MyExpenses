@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,7 +35,6 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -63,7 +63,8 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final Resources res = getResources();
     final String pack = ctx.getPackageName();
-    String title,screenInfo="";
+    String title;
+    String screenInfo="";
     Bundle args = getArguments();
     String activityName = args.getString("activityName");
     String variant = args.getString("variant");
@@ -78,18 +79,16 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
       else if (variant == null)
         throw new NotFoundException("help_" +activityName + "_info");
       if (variant != null)
-        screenInfo = (String) TextUtils.concat(
-            screenInfo,
-            "\n",
-            getString(
-                res.getIdentifier(
-                    "help_" +activityName + "_" + variant + "_info", "string", pack)));
-      ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo,this,null));
+        screenInfo += "<br>";
+        screenInfo +=  getString(
+            res.getIdentifier(
+                "help_" +activityName + "_" + variant + "_info", "string", pack));
+      ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo, this, null));
       resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
       ArrayList<String> menuItems= new ArrayList<String>();
       if (resId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      if (variant != null &&
+      if (variant != null &&  
             (resId = res.getIdentifier(activityName + "_" + variant +"_menuitems", "array", pack)) != 0)
           menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
       if (menuItems.size() == 0)
@@ -154,7 +153,7 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
       }
       title = getString(resId);
     } catch (NotFoundException e) {
-      Log.w(MyApplication.TAG, e.getMessage());
+      Utils.reportToAcra(e);
       return new AlertDialog.Builder(wrappedCtx)
           .setMessage("Error generating Help dialog")
           .create();

@@ -79,17 +79,17 @@ public class Transaction extends Model {
         KEY_METHODID,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
-        YEAR + " AS year",
-        YEAR_OF_WEEK_START + " AS year_of_week_start",
-        MONTH + " AS month",
-        WEEK + " AS week",
-        DAY + " AS day",
-        THIS_YEAR + " AS this_year",
-        THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
-        THIS_WEEK + " AS this_week",
-        THIS_DAY + " AS this_day",
-        WEEK_START+ " AS week_start",
-        WEEK_END +" AS week_end"
+        YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
+        YEAR + " AS " + KEY_YEAR,
+        MONTH + " AS " + KEY_MONTH,
+        WEEK + " AS " + KEY_WEEK,
+        DAY + " AS " + KEY_DAY,
+        THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+        THIS_YEAR + " AS " + KEY_THIS_YEAR,
+        THIS_WEEK + " AS " + KEY_THIS_WEEK,
+        THIS_DAY + " AS " + KEY_THIS_DAY,
+        WEEK_START+ " AS " + KEY_WEEK_START,
+        WEEK_END +" AS " + KEY_WEEK_END
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength+2];

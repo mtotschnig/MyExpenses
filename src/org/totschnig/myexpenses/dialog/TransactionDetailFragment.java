@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -277,7 +278,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(KEY_ROWID, mTransaction.id);
-      i.putExtra("transferEnabled",ctx.transferEnabled());
+      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
     } else {

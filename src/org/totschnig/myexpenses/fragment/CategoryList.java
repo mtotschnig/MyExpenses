@@ -337,22 +337,28 @@ public class CategoryList extends BudgetListFragment implements
     }
     if (id == DATEINFO_CURSOR) {
       ArrayList<String> projectionList = new ArrayList<String>(Arrays.asList(
-          new String[] { THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
-              THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"}));
+          new String[] {
+              THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+              THIS_YEAR + " AS " + KEY_THIS_YEAR,
+              THIS_MONTH + " AS " + KEY_THIS_MONTH,
+              THIS_WEEK + " AS " + KEY_THIS_WEEK,
+              THIS_DAY + " AS " + KEY_THIS_DAY
+          }
+      ));
       //if we are at the beginning of the year we are interested in the max of the previous year
       int yearToLookUp = mGroupingSecond ==1 ? mGroupingYear -1 : mGroupingYear;
       switch (mGrouping) {
       case DAY:
-        projectionList.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS max_value",yearToLookUp));
+        projectionList.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE,yearToLookUp));
         break;
       case WEEK:
-        projectionList.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
+        projectionList.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE,yearToLookUp));
         break;
       case MONTH:
-        projectionList.add("12 as max_value");
+        projectionList.add("12 as " + KEY_MAX_VALUE);
         break;
       default:
-        projectionList.add("0 as max_value");
+        projectionList.add("0 as " + KEY_MAX_VALUE);
       }
       if (mGrouping.equals(Grouping.WEEK)) {
         //we want to find out the week range when we are given a week number
@@ -451,11 +457,11 @@ public class CategoryList extends BudgetListFragment implements
       c.moveToFirst();
       actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
           mGroupingYear, mGroupingSecond,c));
-      thisYear = c.getInt(c.getColumnIndex("this_year"));
-      thisMonth = c.getInt(c.getColumnIndex("this_month"));
-      thisWeek = c.getInt(c.getColumnIndex("this_week"));
-      thisDay = c.getInt(c.getColumnIndex("this_day"));
-      maxValue = c.getInt(c.getColumnIndex("max_value"));
+      thisYear = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
+      thisMonth = c.getInt(c.getColumnIndex(KEY_THIS_MONTH));
+      thisWeek = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
+      thisDay = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
+      maxValue = c.getInt(c.getColumnIndex(KEY_MAX_VALUE));
       break;
     case CATEGORY_CURSOR:
       mGroupCursor=c;
