@@ -285,7 +285,7 @@ public class TransactionProvider extends ContentProvider {
             KEY_CURRENCY + "," + 
             KEY_OPENING_BALANCE + "," +
             KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + 
-              " AND (cat_id is null OR cat_id != " + SPLIT_CATID + ") + " +
+              " AND (cat_id is null OR cat_id != " + SPLIT_CATID + ")" +
               " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE + ", " +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
