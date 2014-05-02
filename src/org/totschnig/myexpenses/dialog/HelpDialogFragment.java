@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -154,7 +155,7 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
       }
       title = getString(resId);
     } catch (NotFoundException e) {
-      Log.w(MyApplication.TAG, e.getMessage());
+      Utils.reportToAcra(e);
       return new AlertDialog.Builder(wrappedCtx)
           .setMessage("Error generating Help dialog")
           .create();
