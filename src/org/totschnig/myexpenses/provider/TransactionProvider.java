@@ -280,9 +280,6 @@ public class TransactionProvider extends ContentProvider {
         @SuppressWarnings("deprecation")
         String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
             null, null, null);
-        String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
-            + VIEW_COMMITTED
-            + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " ";
         qb.setTables("(SELECT " + 
             KEY_ROWID + "," + 
             KEY_CURRENCY + "," + 

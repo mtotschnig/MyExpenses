@@ -221,7 +221,9 @@ public class DatabaseConstants {
   public static final String HAS_EXPORTED = 
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;
-  
+  public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
+      + VIEW_COMMITTED
+      + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " ";
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
       "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
