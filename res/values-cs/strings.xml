@@ -39,10 +39,10 @@
     <string name="dialog_contrib_no_usages_left">Nezbývá žádné použití zdarma.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Odstraňte toto omezení instalací <i>Moje výdaje Contrib</i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Odstraňte toto omezení instalací <i>Moje výdaje Klíč Contrib</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">Můžete také získat neomezený přístup k následujícím funkcím:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj. Prosím přispějte instalací placené verze Contrib. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
+    <string name="dialog_contrib_text"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj. Prosím přispějte instalací <i>Moje výdaje Klíč Contrib</i>. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Máte jedno použití zdarma.</item>
     <item quantity="few">Máte %1$d použití zdarma.</item>
@@ -239,7 +239,7 @@
     <string name="pref_category_title_ui">Uživatelské rozhraní</string>
     <string name="pref_contrib_donate_summary">Darujte přes PayPal, Flattr nebo Bitcoin a získat přístup k nadstandardním funkcím.</string>
     <string name="pref_contrib_donate_title">Odeslat příspěvek</string>
-    <string name="pref_contrib_install_summary">Instalací Moje výdaje Contrib, získáte přístup k nadstandardním funkcím.</string>
+    <string name="pref_contrib_install_summary">Instalací Moje výdaje Klíč Contrib, získáte přístup k nadstandardním funkcím.</string>
     <string name="pref_contrib_install_title">Nainstalovat Contrib aplikaci </string>
     <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč pro Contrib verzi programu, získejte přístup k nadstandardním funkcím.</string>
     <string name="pref_enter_licence_title">Vložte klíč pro Contrib verzi programu</string>

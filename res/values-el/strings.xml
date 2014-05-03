@@ -43,10 +43,10 @@
     <string name="dialog_contrib_no_usages_left">Δεν έχετε πια δωρεάν χρήσεις.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s είναι ένα στοιχείο του ασφαλίστρου.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Καταργήστε αυτόν τον περιορισμό με την <i>Έξοδα μου Contrib</i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Καταργήστε αυτόν τον περιορισμό με την <i>Έξοδα μου Contrib κλειδί</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">Μπορείτε επίσης να αποκτήσετε απεριόριστη πρόσβαση σε τις ακόλουθες δυνατότητες:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Έξοδα μου</i> προσφέρεται δωρεάν και μέσω ανοικτού κώδικα. Παρακαλούμε για τη συνεισφορά σας  με την εγκατάσταση της πληρωμένης έκδοσης Contrib. Μπορείτε να αποκτήσετε απεριόριστη πρόσβαση για τα ακόλουθα χαρακτηριστικά ασφαλίστρου:</string>
+    <string name="dialog_contrib_text"><i>Έξοδα μου</i> προσφέρεται δωρεάν και μέσω ανοικτού κώδικα. Παρακαλούμε για τη συνεισφορά σας  με την εγκατάσταση <i>Έξοδα μου Contrib κλειδί</i>. Μπορείτε να αποκτήσετε απεριόριστη πρόσβαση για τα ακόλουθα χαρακτηριστικά ασφαλίστρου:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Έχετε μία δωρεάν χρήση ακόμη.</item>
     <item quantity="other">Έχετε ακόμη %1$d δωρεάν χρήσεις.</item>
@@ -254,7 +254,7 @@
     <string name="pref_category_title_ui">Σύνδεση, διεπαφή με τον χρήστη</string>
     <string name="pref_contrib_donate_summary">Κάνετε δωρεά μέσω PayPal, Flattr ή Bitcoin και αποκτήστε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
     <string name="pref_contrib_donate_title">Στείλτε δωρεά</string>
-    <string name="pref_contrib_install_summary">Με την εγκατάσταση Έξοδά μου Contrib, μπορείτε να αποκτήσετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
+    <string name="pref_contrib_install_summary">Με την εγκατάσταση Έξοδα μου Contrib κλειδί, μπορείτε να αποκτήσετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
     <string name="pref_contrib_install_title">Εγκαταστήσετε Contrib app</string>
     <string name="pref_enter_licence_summary">Εάν λάβατε ένα κλειδί Contrib, έχετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
     <string name="pref_enter_licence_title">Εισάγετε το κλειδί Contrib</string>

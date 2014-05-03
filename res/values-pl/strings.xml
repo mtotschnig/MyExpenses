@@ -39,10 +39,10 @@
     <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując <i>Moje Wydatki Contrib</i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując <i>Moje Wydatki Klucz Contrib</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">Dostajesz także nieograniczony dostęp do następujących funkcji:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Moje Wydatki</i> jest oferowany bez reklam i otwartoźródłowo. Proszę wspomóc nas instalując płatną wersję Contrib. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
+    <string name="dialog_contrib_text"><i>Moje Wydatki</i> jest oferowany bez reklam i otwartoźródłowo. Proszę wspomóc nas instalując <i>Moje Wydatki Klucz Contrib</i>. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Zostało Ci jedno darmowe użycie.</item>
     <item quantity="few">Posiadasz jeszcze %1$d darmowych użyć.</item>
@@ -243,7 +243,7 @@
     <string name="pref_category_title_ui">Interfejs użytkownika</string>
     <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
     <string name="pref_contrib_donate_title">Wyślij datek</string>
-    <string name="pref_contrib_install_summary">Instalując My Expenses Contrib, dostajesz dostęp do funkcji premium.</string>
+    <string name="pref_contrib_install_summary">Instalując My Expenses Klucz Contrib, dostajesz dostęp do funkcji premium.</string>
     <string name="pref_contrib_install_title">Instaluj aplikację Contrib</string>
     <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz Contrib, otrzymasz dostęp do funkcji premium.</string>
     <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>

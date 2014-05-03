@@ -44,10 +44,10 @@
     <string name="dialog_contrib_no_usages_left">Sem usos livre à esquerda.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s é uma característica premium.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação instalando <i>Minhas despesas Contrib</i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação comprando <i>Minhas despesas Chave Contrib</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">Você também ganha acesso ilimitado para os seguintes recursos:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Minhas despesas</i> é oferecido sem anúncios e open source. Por favor, contribua, instalando a versão paga do Contrib. Você terá acesso ilimitado para os seguintes recursos premium:</string>
+    <string name="dialog_contrib_text"><i>Minhas despesas</i> é oferecido sem anúncios e open source. Por favor, contribua, comprando <i>Minhas despesas Chave Contrib</i>. Você terá acesso ilimitado para os seguintes recursos premium:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Você tem un livre usos esquerda.</item>
     <item quantity="other">Você tem %1$d livre usos esquerda.</item>
@@ -260,7 +260,7 @@
     <string name="pref_category_title_ui">Interface gráfica</string>
     <string name="pref_contrib_donate_summary">Doar via PayPal, Flattr ou Bitcoin e obter acesso a recursos.</string>
     <string name="pref_contrib_donate_title">Enviar doação</string>
-    <string name="pref_contrib_install_summary">Ao instalar My Expenses Contrib, você ganha acesso a recursos premium.</string>
+    <string name="pref_contrib_install_summary">Ao instalar Minhas despesas Chave Contrib, você ganha acesso a recursos premium.</string>
     <string name="pref_contrib_install_title">Instalar aplicativo Contrib</string>
     <string name="pref_enter_licence_summary">Se você tiver recebido uma licença do Contrib, obtenha acesso aos recursos Premium.</string>
     <string name="pref_enter_licence_title">Digitar licença do Contrib</string>

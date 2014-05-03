@@ -39,10 +39,10 @@
     <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s és una característica premium.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la instal·lació de <i>Les meves despeses Contrib</i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la instal·lació de <i>Les meves despeses Clau Contrib</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu instal·lant la versió Contrib de pagament. Obtindreu accés il·limitat a les següents característiques premium:</string>
+    <string name="dialog_contrib_text"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu instal·lant <i>Les meves despeses Clau Contrib</i>. Obtindreu accés il·limitat a les següents característiques premium:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Us queden encara 1 us disponible.</item>
     <item quantity="other">Us queden encara %1$d usos disponibles.</item>
@@ -243,7 +243,7 @@
     <string name="pref_category_title_ui">Interfície d\'usuari</string>
     <string name="pref_contrib_donate_summary">Accediu a les característiques premium fent  una donació amb Paypal, Flattr o Bitcoin.</string>
     <string name="pref_contrib_donate_title">Envieu una donació</string>
-    <string name="pref_contrib_install_summary">Instal·lant Les meves despeses Contrib, tindreu accés a funcions avançades.</string>
+    <string name="pref_contrib_install_summary">Instal·lant Les meves despeses Clau Contrib, tindreu accés a funcions avançades.</string>
     <string name="pref_contrib_install_title">Instal·la l\'aplicació Contrib</string>
     <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>
     <string name="pref_enter_licence_title">Entreu la clau del Contribuïdor</string>

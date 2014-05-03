@@ -44,10 +44,10 @@
     <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch die Installation von <i>Meine Ausgaben Contrib</i> aufheben.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i> aufheben.</string>
     <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
+    <string name="dialog_contrib_text"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i>. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Diese Funktion kann nur noch ein mal verwendet werden.</item>
     <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
@@ -258,7 +258,7 @@
     <string name="pref_category_title_ui">Benutzerschnittstelle</string>
     <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
     <string name="pref_contrib_donate_title">Spenden</string>
-    <string name="pref_contrib_install_summary">Durch die Installation von Meine Ausgaben Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
+    <string name="pref_contrib_install_summary">Durch die Installation von Meine Ausgaben Contrib-Schlüssel erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
     <string name="pref_contrib_install_title">Contrib App installieren</string>
     <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
     <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>

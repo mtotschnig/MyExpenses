@@ -47,12 +47,12 @@
     <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s thuộc về tính năng nâng cao.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ giới hạn này bằng cách cài đặt <i>Chi Tiêu Của Tôi</i></string>
+    <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ giới hạn này bằng cách cài đặt <i>Chi Tiêu Của Tôi Khóa cống hiến</i></string>
     <string name="dialog_contrib_reminder_gain_access">Bạn có thể tăng quyền hạn truy cập bằng những tiện ích sau:</string>
     <string name="dialog_contrib_yes">Mua ngay</string>
     <string name="dialog_contrib_no">Vẫn chưa</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text"><i>Chi Tiêu Của Tôi</i> là một chương trình miễn phí và mã nguồn mở. Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí Contrib version. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:</string>
+    <string name="dialog_contrib_text"><i>Chi Tiêu Của Tôi</i> là một chương trình miễn phí và mã nguồn mở. Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí <i>Chi Tiêu Của Tôi Khóa cống hiến</i>. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:</string>
     <string name="dialog_export_delete">Xóa các giao dịch được xuất dữ liệu</string>
     <string name="dialog_export_not_yet_exported">Xuất dữ liệu về các giao dịch chưa được xuất</string>
     <string name="dialog_password_activate_protection">Bật tính năng bảo vệ mật khẩu</string>
