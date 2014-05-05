@@ -702,8 +702,11 @@ public class Account extends Model {
         //split transactions take their full_label from the first split part
         splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
             KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        splits.moveToFirst();
-        readCat = splits;
+        if (splits.moveToFirst()) {
+          readCat = splits;
+        } else {
+          readCat = c;
+        }
       } else {
         readCat = c;
       }
