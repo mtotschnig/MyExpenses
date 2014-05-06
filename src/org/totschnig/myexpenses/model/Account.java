@@ -620,6 +620,14 @@ public class Account extends Model {
   }
   public void deleteAllTemplates() {
     String[] selectArgs = new String[] { String.valueOf(id) };
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
+        selectArgs);
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_TRANSFER_ACCOUNT + " = ?)",
+        selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
   }
