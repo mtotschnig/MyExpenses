@@ -81,6 +81,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
+    public static String PREFKEY_CATEGORY_CONTRIB;
     //public static String PREFKEY_SHORTCUT_ACCOUNT_LIST;
     public static String PREFKEY_PLANNER_CALENDAR_ID;
     private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
@@ -161,6 +162,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_RATE = getString(R.string.pref_rate_key);
       PREFKEY_UI_LANGUAGE = getString(R.string.pref_ui_language_key);
       PREFKEY_APP_DIR = getString(R.string.pref_app_dir_key);
+      PREFKEY_CATEGORY_CONTRIB = getString(R.string.pref_category_contrib_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);

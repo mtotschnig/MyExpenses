@@ -39,6 +39,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.view.LayoutInflater;
@@ -70,10 +71,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
     pref.setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_CONTRIB_DONATE)
-       .setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
-      .setOnPreferenceClickListener(this);
+    configureContribPrefs();
     findPreference(MyApplication.PREFKEY_SEND_FEEDBACK)
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
@@ -94,7 +92,19 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     .setOnPreferenceClickListener(this);
     setAppDirSummary();
   }
-
+  private void configureContribPrefs() {
+    Preference pref1 = findPreference(MyApplication.PREFKEY_REQUEST_LICENCE),
+        pref2 = findPreference(MyApplication.PREFKEY_CONTRIB_DONATE);
+    if (MyApplication.getInstance().isContribEnabled) {
+      ((PreferenceCategory) findPreference(MyApplication.PREFKEY_CATEGORY_CONTRIB)).removePreference(pref1);
+      pref2.setSummary(getString(R.string.thank_you)+" "+getString(R.string.pref_contrib_donate_summary_already_contrib));
+    } else {
+      pref1.setOnPreferenceClickListener(this);
+      pref1.setSummary(getString(R.string.pref_request_licence_summary,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
+      pref2.setSummary(R.string.pref_contrib_donate_summary);
+    }
+    pref2.setOnPreferenceClickListener(this);
+  }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
     findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
@@ -146,6 +156,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = false;
      }
+     configureContribPrefs();
     }
     return true;
   }

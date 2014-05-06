@@ -111,14 +111,13 @@
         <intent android:action="myexpenses.intent.restore"/>
     </Preference>
   </PreferenceCategory>
-  <PreferenceCategory 
+  <PreferenceCategory
+      android:key="@string/pref_category_contrib_key"
       android:title="@string/menu_contrib">
       <Preference android:key="@string/pref_contrib_donate_key"
-        android:title="@string/pref_contrib_donate_title"
-        android:summary="@string/pref_contrib_donate_summary"/>
+        android:title="@string/pref_contrib_donate_title"/>
       <Preference android:key="@string/pref_request_licence_key"
-        android:title="@string/pref_request_licence_title"
-        android:summary="@string/pref_request_licence_summary"/>
+        android:title="@string/pref_request_licence_title" />
       <EditTextPreference android:key="@string/pref_enter_licence_key"
         android:inputType="number"
         android:title="@string/pref_enter_licence_title"
