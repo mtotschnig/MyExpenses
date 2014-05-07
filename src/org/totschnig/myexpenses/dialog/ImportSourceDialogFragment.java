@@ -145,10 +145,13 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
           if (cursor.moveToFirst()) {
             // Note it's called "Display Name".  This is
             // provider-specific, and might not necessarily be the file name.
-            return cursor.getString(
-                cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            if (columnIndex != -1) {
+              return cursor.getString(columnIndex);
             }
-        } finally {
+          }
+        } catch (Exception e) {}
+          finally {
           cursor.close();
         }
       }
