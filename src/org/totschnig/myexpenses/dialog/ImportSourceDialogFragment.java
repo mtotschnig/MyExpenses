@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.dialog;
 
 import java.util.List;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivityNoAppCompat;
 import android.annotation.SuppressLint;
@@ -47,6 +48,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   abstract int getLayoutId();
   abstract int getLayoutTitle();
   abstract String getTypeName();
+  abstract String getPrefKey();
 
   @Override
   public void onCancel (DialogInterface dialog) {
@@ -125,7 +127,6 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
             getActivity().getContentResolver().takePersistableUriPermission(mUri, takeFlags);
           }
         }
-        setButtonState();
       }
     }
   }
@@ -175,8 +176,21 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     }
   }
   @Override
-  public void onStart(){
+  public void onStart() {
     super.onStart();
+    if (mUri==null) {
+      String storedUri = MyApplication.getInstance().getSettings()
+          .getString(getPrefKey(), "");
+      if (!storedUri.equals("")) {
+        mUri = Uri.parse(storedUri);
+        try {
+          mFilename.setText(getDisplayName(mUri));
+        } catch (SecurityException e) {
+          // on Kitkat getDisplayname might fail if app is restarted after reboot
+          mUri = null;
+        }
+      }
+    }
     setButtonState();
   }
   @Override
@@ -191,5 +205,23 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
           (mImportTransactions.getVisibility() == View.VISIBLE && mImportTransactions.isChecked());
     }
     mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady);
+  }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    if (mUri != null) {
+      outState.putString(getPrefKey(), mUri.toString());
+    }
+  }
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    if (savedInstanceState != null) {
+      String restoredUri = savedInstanceState.getString(getPrefKey());
+      if (restoredUri != null) {
+        mUri = Uri.parse(restoredUri);
+        mFilename.setText(getDisplayName(mUri));
+      }
+    }
   }
 }
