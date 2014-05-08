@@ -104,7 +104,6 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
         mUri = data.getData();
-        //Log.i("DEBUG",mUri.toString());
         if (mUri != null) {
           mFilename.setError(null);
           mFilename.setText(getDisplayName(mUri));
@@ -176,8 +175,8 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     }
   }
   @Override
-  public void onStart() {
-    super.onStart();
+  public void onResume() {
+    super.onResume();
     if (mUri==null) {
       String storedUri = MyApplication.getInstance().getSettings()
           .getString(getPrefKey(), "");
