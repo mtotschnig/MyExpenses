@@ -44,9 +44,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat 
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     if (savedInstanceState == null) {
-      if (Utils.isExternalStorageAvailable()) {
+      backupDir = MyApplication.requireBackupDir();
+      if (backupDir != null) {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
-          backupDir = MyApplication.requireBackupDir();
           if (backupDir.exists()) {
             Toast.makeText(getBaseContext(),"Backup folder "+backupDir.getPath() + "already exists.", Toast.LENGTH_LONG).show();
             finish();
@@ -61,8 +61,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat 
         } else {
           openBrowse();
         }
-      }
-      else {
+      } else {
         Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
         setResult(RESULT_CANCELED);
         finish();
