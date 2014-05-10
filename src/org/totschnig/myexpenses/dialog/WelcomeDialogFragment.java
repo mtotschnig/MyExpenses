@@ -16,28 +16,53 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class WelcomeDialogFragment extends DialogFragment {
+  private static final String KEY_SETUP_COMPLETED = "taskCompleted";
+  private AlertDialog mDialog;
+  private ProgressBar mProgress;
+  boolean mSetupCompleted = false;
   
   public static final WelcomeDialogFragment newInstance() {
-    return new WelcomeDialogFragment();
+    WelcomeDialogFragment f = new WelcomeDialogFragment();
+    f.setCancelable(false);
+    return f;
+  }
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (savedInstanceState != null) {
+      mSetupCompleted = savedInstanceState.getBoolean(KEY_SETUP_COMPLETED,false);
+    }
+    setRetainInstance(true);
+  }
+
+  //http://stackoverflow.com/a/12434038/1199911
+  @Override
+  public void onDestroyView() {
+    if (getDialog() != null && getRetainInstance())
+        getDialog().setDismissMessage(null);
+        super.onDestroyView();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (mSetupCompleted) {
+      mProgress.setVisibility(View.GONE);
+    }
   }
   
   @Override
@@ -45,13 +70,29 @@ public class WelcomeDialogFragment extends DialogFragment {
     Activity ctx  = (Activity) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.welcome_dialog, null);
+    mProgress = (ProgressBar) view.findViewById(R.id.progress);
     ((TextView) view.findViewById(R.id.help_intro))
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
-    return new AlertDialog.Builder(ctx)
+    mDialog = new AlertDialog.Builder(ctx)
       .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.dialog_title_welcome))
       .setIcon(R.drawable.myexpenses)
       .setView(view)
       .setPositiveButton(android.R.string.ok,null)
       .create();
+    return mDialog;
+  }
+  public void setSetupComplete() {
+    mSetupCompleted = true;
+    Button b =  mDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+    if (b != null) {
+      b.setEnabled(true); 
+    }
+    mProgress.setVisibility(View.GONE);
+  }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    // TODO Auto-generated method stub
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_SETUP_COMPLETED, mSetupCompleted);
   }
 }

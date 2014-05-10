@@ -294,7 +294,6 @@ public class MyExpenses extends LaunchActivity implements
       fm.beginTransaction()
         .add(WelcomeDialogFragment.newInstance(),"WELCOME")
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,new Long[]{0L}, null), "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
         .commit();
     }
   }
@@ -780,6 +779,7 @@ public class MyExpenses extends LaunchActivity implements
     case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
       getSupportActionBar().show();
       setup();
+      ((WelcomeDialogFragment) getSupportFragmentManager().findFragmentByTag("WELCOME")).setSetupComplete();
       break;
     case TaskExecutionFragment.TASK_EXPORT:
       ArrayList<File> files = (ArrayList<File>) o;
