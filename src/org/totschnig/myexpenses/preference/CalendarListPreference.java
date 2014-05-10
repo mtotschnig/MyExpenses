@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.preference;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -106,6 +107,11 @@ public class CalendarListPreference extends ListPreference {
   }
   @Override
   protected void onDialogClosed(boolean positiveResult) {
-    //nothing to do, value already stored
+    if (positiveResult)
+      ((MyPreferenceActivity) getContext()).onCalendarListPreferenceSet();
+  }
+  public void show()
+  {
+      showDialog(null);
   }
 }
