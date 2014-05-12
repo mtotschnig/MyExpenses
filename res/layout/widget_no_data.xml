@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
+              android:orientation="horizontal">
+<TextView
+	android:id="@+id/line1" android:layout_width="wrap_content"
+	android:layout_height="wrap_content" android:layout_toRightOf="@id/account_icon"
+	android:singleLine="true" android:text="No data"
+	android:layout_alignParentRight="true" android:layout_alignParentTop="true"
+	android:textColor="#ffffff" android:textStyle="bold" android:ellipsize="end"
+	android:textSize="11sp" android:layout_alignParentBottom="true"
+	android:gravity="center_vertical|center_horizontal" />
+</LinearLayout>
