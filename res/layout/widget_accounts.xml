@@ -1,44 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2012 Denis Solonenko.
-  ~ All rights reserved. This program and the accompanying materials
-  ~ are made available under the terms of the GNU Public License v2.0
-  ~ which accompanies this distribution, and is available at
-  ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
-              android:orientation="horizontal">
+<!-- This file is part of My Expenses. My Expenses is free software: you 
+	can redistribute it and/or modify it under the terms of the GNU General Public 
+	License as published by the Free Software Foundation, either version 3 of 
+	the License, or (at your option) any later version. My Expenses is distributed 
+	in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+	the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+	See the GNU General Public License for more details. You should have received 
+	a copy of the GNU General Public License along with My Expenses. If not, 
+	see <http://www.gnu.org/licenses/>. -->
+<!-- inspired by Financisto -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:layout_weight="1" android:background="@drawable/widget_background_gray"
+	android:id="@+id/layout">
+  <LinearLayout
+  	android:layout_marginLeft="5dp"
+  	android:layout_width="wrap_content" android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:id="@+id/navigation"
+    android:layout_alignParentLeft="true">
+	<ImageView android:id="@+id/up_icon"
+		android:layout_weight="1"
+		android:layout_width="wrap_content" android:layout_height="0dp"
+		android:src="@android:drawable/arrow_up_float"  />
+	 <ImageView android:id="@+id/down_icon"
+    android:layout_weight="1"
+    android:layout_alignParentLeft="true"
+    android:layout_width="wrap_content" android:layout_height="0dp"
+    android:src="@android:drawable/arrow_down_float" android:layout_marginRight="3dp" />
+  </LinearLayout>
+  <ImageView android:id="@+id/divider3" android:layout_width="1dp"
+    android:layout_marginRight="10dp"    android:layout_marginLeft="10dp"  
+    android:layout_height="match_parent" android:background="@drawable/widget_divider"
+    android:contentDescription="@null" android:layout_toRightOf="@+id/navigation" />
+  <LinearLayout
+    android:layout_toRightOf="@+id/divider3"
+    android:layout_centerInParent="true"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:orientation="vertical">
+	<TextView android:id="@+id/line1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:singleLine="true"
+		android:textColor="#ffffff"
+		android:textStyle="bold" android:ellipsize="end"
+		android:textSize="14sp" android:layout_marginTop="3dp"/>
 
-    <RelativeLayout
-                    android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_weight="1"
-                    android:background="@drawable/widget_background_gray" android:id="@+id/layout">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/note" android:textSize="12sp" />
+	</LinearLayout>
+  <ImageView android:id="@+id/divider2" android:layout_width="1dp"
+    android:layout_marginRight="10dp"    android:layout_marginLeft="10dp"  
+    android:layout_height="match_parent" android:background="@drawable/widget_divider"
+    android:contentDescription="@null" android:layout_toLeftOf="@+id/add_transaction" />
+	<ImageView android:id="@+id/add_transaction"
+		android:layout_width="wrap_content" android:layout_height="fill_parent"
+		android:src="@drawable/create_transaction_icon"
+    android:layout_toLeftOf="@+id/divider1" />
+	<ImageView android:id="@+id/divider1" android:layout_width="1dp"
+		android:layout_marginRight="10dp"    android:layout_marginLeft="10dp"  
+		android:layout_height="match_parent" android:background="@drawable/widget_divider"
+		android:contentDescription="@null" android:layout_toLeftOf="@+id/add_transfer" />
 
-        <ImageView android:id="@+id/account_icon"
-                   android:layout_width="wrap_content" android:layout_height="fill_parent"
-                   android:src="@drawable/myexpenses" android:layout_marginRight="3dp"
-                   android:layout_toRightOf="@+id/financisto_icon"/>
-
-        <TextView android:id="@+id/line1" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" android:singleLine="true" android:layout_alignParentTop="true"
-                  android:textColor="#ffffff" android:textStyle="bold"
-                  android:ellipsize="end" android:gravity="right" android:textSize="14sp" android:layout_marginTop="3dp"
-                  android:layout_toRightOf="@+id/account_icon" android:layout_alignParentRight="true"/>
-
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" android:id="@+id/note"
-                  android:layout_toRightOf="@+id/account_icon" android:layout_alignParentBottom="true"
-                  android:gravity="right"
-                  android:layout_below="@id/line1" android:textSize="12sp" android:layout_alignParentRight="true"/>
-
-    </RelativeLayout>
-    <ImageView android:id="@+id/add_transaction"
-               android:layout_width="wrap_content" android:layout_height="fill_parent"
-               android:src="@drawable/create_transaction_icon"
-               android:layout_marginRight="3dp" android:layout_toLeftOf="@+id/add_transfer"/>
-
-    <ImageView android:id="@+id/add_transfer"
-               android:layout_width="wrap_content" android:layout_height="fill_parent"
-               android:src="@drawable/create_transfer_icon"
-               android:layout_marginRight="3dp" android:layout_alignParentRight="true"/>
-</LinearLayout>
+	<ImageView android:id="@+id/add_transfer"
+		android:layout_width="wrap_content" android:layout_height="fill_parent"
+		android:src="@drawable/create_transfer_icon"
+		android:layout_marginRight="5dp" android:layout_alignParentRight="true" />
+</RelativeLayout>

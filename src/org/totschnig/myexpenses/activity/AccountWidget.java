@@ -1,13 +1,19 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+/*   This file is part of My Expenses.
+ *   My Expenses is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
+ *   My Expenses is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// based on Financisto
+
 package org.totschnig.myexpenses.activity;
 
 import android.app.PendingIntent;
@@ -19,23 +25,22 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 
 public class AccountWidget extends AppWidgetProvider {
 
     private static final Uri CONTENT_URI = Uri.parse("content://org.totschnig.myexpenses/accountwidget");
 
-    private static final String WIDGET_UPDATE_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET";
+    private static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
+    private static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
     private static final String PREFS_NAME = "org.totschnig.myexpenses.activity.AccountWidget";
     private static final String PREF_PREFIX_KEY = "prefix_";
 
@@ -45,18 +50,18 @@ public class AccountWidget extends AppWidgetProvider {
       AppWidgetManager manager = AppWidgetManager.getInstance(context);
       ComponentName thisWidget = new ComponentName(context, AccountWidget.class);
       int[] widgetIds = manager.getAppWidgetIds(thisWidget);
-      updateWidgets(context, manager, widgetIds, false);
+      updateWidgets(context, manager, widgetIds, null);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("MyExpensesWidget", "onReceive intent "+intent);
         String action = intent.getAction();
-        if (WIDGET_UPDATE_ACTION.equals(action)) {
+        if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
             int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
             if (widgetId != INVALID_APPWIDGET_ID) {
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                updateWidgets(context, manager, new int[]{widgetId}, true);
+                updateWidgets(context, manager, new int[]{widgetId}, action);
             }
         } else {
             super.onReceive(context, intent);
@@ -65,11 +70,11 @@ public class AccountWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
-        updateWidgets(context, manager, appWidgetIds, false);
+        updateWidgets(context, manager, appWidgetIds, null);
     }
 
-    private static void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds, boolean nextAccount) {
-        Log.d("MyExpensesWidget", "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + nextAccount);
+    private static void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds, String action) {
+        Log.d("MyExpensesWidget", "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
         for (int id : appWidgetIds) {
             AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
             if (appWidgetInfo != null) {
@@ -77,8 +82,8 @@ public class AccountWidget extends AppWidgetProvider {
                     long accountId = loadAccountForWidget(context, id);
                     Class providerClass = getProviderClass(appWidgetInfo);
                     Log.d("MyExpensesWidget", "using provider " + providerClass);
-                    RemoteViews remoteViews = nextAccount || accountId == -1
-                            ? buildUpdateForNextAccount(context, id, layoutId, accountId)
+                    RemoteViews remoteViews = action != null || accountId == -1
+                            ? buildUpdateForOtherAccount(context, id, layoutId, accountId,action)
                             : buildUpdateForCurrentAccount(context, id, layoutId, accountId);
                     manager.updateAppWidget(id, remoteViews);
             }
@@ -118,16 +123,25 @@ public class AccountWidget extends AppWidgetProvider {
         addTapOnClick(context, updateViews);
         addButtonsClick(context, updateViews);
         saveAccountForWidget(context, widgetId, a.id);
+        if (Account.count(null, null) < 2) {
+          updateViews.setViewVisibility(R.id.navigation, View.GONE);
+          updateViews.setViewVisibility(R.id.divider3, View.GONE);
+        }
         return updateViews;
     }
 
     private static void addScrollOnClick(Context context, RemoteViews updateViews, int widgetId) {
         Uri widgetUri = ContentUris.withAppendedId(CONTENT_URI, widgetId);
-        Intent intent = new Intent(WIDGET_UPDATE_ACTION, widgetUri, context, AccountWidget.class);
+        Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context, AccountWidget.class);
         intent.putExtra(WIDGET_ID, widgetId);
         intent.putExtra("ts", System.currentTimeMillis());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        updateViews.setOnClickPendingIntent(R.id.account_icon, pendingIntent);
+        updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
+        intent = new Intent(WIDGET_PREVIOUS_ACTION, widgetUri, context, AccountWidget.class);
+        intent.putExtra(WIDGET_ID, widgetId);
+        intent.putExtra("ts", System.currentTimeMillis());
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
     }
 
     private static void addTapOnClick(Context context, RemoteViews updateViews) {
@@ -152,11 +166,11 @@ public class AccountWidget extends AppWidgetProvider {
                 return updateWidgetFromAccount(context, widgetId, layoutId, a);
             } else {
                 Log.d("MyExpensesWidget", "buildUpdateForCurrentAccount not found "+widgetId+" -> "+accountId);
-                return buildUpdateForNextAccount(context, widgetId, layoutId, -1);
+                return buildUpdateForOtherAccount(context, widgetId, layoutId, -1,null);
             }
     }
 
-    private static RemoteViews buildUpdateForNextAccount(Context context, int widgetId, int layoutId, long accountId) {
+    private static RemoteViews buildUpdateForOtherAccount(Context context, int widgetId, int layoutId, long accountId, String action) {
             Cursor c = context.getContentResolver().query(TransactionProvider.ACCOUNTS_URI, null, null, null, null);
             try {
                 int count = c.getCount();
@@ -174,6 +188,13 @@ public class AccountWidget extends AppWidgetProvider {
                             if (a.id == accountId) {
                                 found = true;
                                 Log.d("MyExpensesWidget", "buildUpdateForNextAccount found -> "+accountId);
+                                if (action == WIDGET_PREVIOUS_ACTION) {
+                                  if (!c.moveToPrevious()) {
+                                    c.moveToLast();
+                                  }
+                                  a = new Account(c);
+                                  return updateWidgetFromAccount(context, widgetId, layoutId, a);
+                                }
                             } else {
                                 if (found) {
                                     Log.d("MyExpensesWidget", "buildUpdateForNextAccount building update for -> "+a.id);
