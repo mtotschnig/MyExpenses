@@ -16,6 +16,7 @@
       android:paddingLeft="@dimen/general_padding"
       android:paddingRight="@dimen/general_padding"
       android:stretchColumns="1"
+      android:shrinkColumns="1"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
       <include layout="@layout/filename"/>
