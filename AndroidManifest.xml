@@ -1,132 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+<!-- This file is part of My Expenses. My Expenses is free software: you 
+	can redistribute it and/or modify it under the terms of the GNU General Public 
+	License as published by the Free Software Foundation, either version 3 of 
+	the License, or (at your option) any later version. My Expenses is distributed 
+	in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+	the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+	See the GNU General Public License for more details. You should have received 
+	a copy of the GNU General Public License along with My Expenses. If not, 
+	see <http://www.gnu.org/licenses/>. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.totschnig.myexpenses" 
-    android:versionCode="138"
-    android:versionName="2.1.2"
-    android:installLocation="auto"
->
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
-    <supports-screens
-      android:smallScreens="true"
-      android:normalScreens="true"
-      android:largeScreens="true"
-      android:xlargeScreens="true" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <application
-      android:name="org.totschnig.myexpenses.MyApplication"
-      android:icon="@drawable/myexpenses"
-      android:label="@string/app_name"
-      android:theme="@style/Launch">
-        <activity android:name=".activity.MyExpenses" android:label="@string/app_name"
-        	android:uiOptions="splitActionBarWhenNarrow">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-			        android:name="android.support.UI_OPTIONS"
-			        android:value="splitActionBarWhenNarrow" />
-        </activity>
-        <activity android:name=".activity.ExpenseEdit"/>
-        <activity android:name=".activity.AccountEdit"/>
-        <activity android:name=".activity.MethodEdit"/>
-        <activity android:name=".activity.ManageCategories">
-          <intent-filter>  
-              <action android:name="myexpenses.intent.manage.categories"/>  
-              <category android:name="android.intent.category.DEFAULT" />
-          </intent-filter>
-        </activity>
-        <activity android:name=".activity.BackupRestoreActivity"
-            android:theme="@style/Translucent.NoTitleBar">
-          <intent-filter>
-              <action android:name="myexpenses.intent.backup"/>  
-              <category android:name="android.intent.category.DEFAULT" />  
-            </intent-filter>
-          <intent-filter>
-              <action android:name="myexpenses.intent.restore"/>
-              <category android:name="android.intent.category.DEFAULT" />
-          </intent-filter>
-        </activity>
-        <activity android:name=".activity.GrisbiImport"
-            android:theme="@style/Translucent.NoTitleBar">
-          <intent-filter>
-            <action android:name="myexpenses.intent.import_from_grisbi"/>
-            <category android:name="android.intent.category.DEFAULT" />
-          </intent-filter>
-        </activity>
-        <activity android:name=".activity.QifImport"
-            android:theme="@style/Translucent.NoTitleBar">
-          <intent-filter>
-            <action android:name="myexpenses.intent.import_qif"/>
-            <category android:name="android.intent.category.DEFAULT" />
-          </intent-filter>
-        </activity>
-        <activity android:name=".activity.MyPreferenceActivity"/>
-        <activity android:name=".activity.Help"
-            android:theme="@style/Translucent.NoTitleBar"/>
-        <activity android:name=".activity.ManageParties">
-             <intent-filter>  
-              <action android:name="myexpenses.intent.manage.parties"/>
-              <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.ManageTemplates">
-        <intent-filter>
-            <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <data android:mimeType="vnd.android.cursor.item/event" />
-         </intent-filter>
-        </activity>
-        <activity android:name=".activity.ManageMethods">
-             <intent-filter>  
-              <action android:name="myexpenses.intent.manage.methods"/>  
-              <category android:name="android.intent.category.DEFAULT" />  
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.FolderBrowser"
-          android:uiOptions="splitActionBarWhenNarrow">
-            <meta-data
-              android:name="android.support.UI_OPTIONS"
-              android:value="splitActionBarWhenNarrow" />
-        </activity>
-        <activity android:name=".activity.CalculatorInput" android:theme="@android:style/Theme.Dialog">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <provider
-           android:exported="false"
-           android:name=".provider.TransactionProvider"
-           android:authorities="org.totschnig.myexpenses" />
-        <service android:name=".service.PlanExecutor" />
-        <service android:name=".service.PlanNotificationClickHandler" />
-        <receiver android:name=".service.MyBootReceiver">
-				  <intent-filter>
-				    <action android:name="android.intent.action.BOOT_COMPLETED" />
-				  </intent-filter>
-        </receiver>
-    </application>
-    <meta-data
-    android:name="android.support.UI_OPTIONS"
-    android:value="splitActionBarWhenNarrow" />
+	package="org.totschnig.myexpenses" android:versionCode="138"
+	android:versionName="2.1.2" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
+	<supports-screens android:smallScreens="true"
+		android:normalScreens="true" android:largeScreens="true"
+		android:xlargeScreens="true" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
+	<uses-permission android:name="android.permission.READ_CALENDAR" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+	<application android:name="org.totschnig.myexpenses.MyApplication"
+		android:icon="@drawable/myexpenses" android:label="@string/app_name"
+		android:theme="@style/Launch">
+		<activity android:name=".activity.MyExpenses" android:label="@string/app_name"
+			android:uiOptions="splitActionBarWhenNarrow">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<meta-data android:name="android.support.UI_OPTIONS"
+				android:value="splitActionBarWhenNarrow" />
+		</activity>
+		<activity android:name=".activity.ExpenseEdit" />
+		<activity android:name=".activity.AccountEdit" />
+		<activity android:name=".activity.MethodEdit" />
+		<activity android:name=".activity.ManageCategories">
+			<intent-filter>
+				<action android:name="myexpenses.intent.manage.categories" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.BackupRestoreActivity"
+			android:theme="@style/Translucent.NoTitleBar">
+			<intent-filter>
+				<action android:name="myexpenses.intent.backup" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="myexpenses.intent.restore" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.GrisbiImport"
+			android:theme="@style/Translucent.NoTitleBar">
+			<intent-filter>
+				<action android:name="myexpenses.intent.import_from_grisbi" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.QifImport" android:theme="@style/Translucent.NoTitleBar">
+			<intent-filter>
+				<action android:name="myexpenses.intent.import_qif" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.MyPreferenceActivity" />
+		<activity android:name=".activity.Help" android:theme="@style/Translucent.NoTitleBar" />
+		<activity android:name=".activity.ManageParties">
+			<intent-filter>
+				<action android:name="myexpenses.intent.manage.parties" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.ManageTemplates">
+			<intent-filter>
+				<action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="vnd.android.cursor.item/event" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.ManageMethods">
+			<intent-filter>
+				<action android:name="myexpenses.intent.manage.methods" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.FolderBrowser"
+			android:uiOptions="splitActionBarWhenNarrow">
+			<meta-data android:name="android.support.UI_OPTIONS"
+				android:value="splitActionBarWhenNarrow" />
+		</activity>
+		<activity android:name=".activity.CalculatorInput"
+			android:theme="@android:style/Theme.Dialog">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		<provider android:exported="false" android:name=".provider.TransactionProvider"
+			android:authorities="org.totschnig.myexpenses" />
+		<service android:name=".service.PlanExecutor" />
+		<service android:name=".service.PlanNotificationClickHandler" />
+		<receiver android:name=".service.MyBootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+
+		<receiver android:name=".activity.AccountWidget" android:label="@string/pref_manage_accounts_title" >
+      <intent-filter>
+	       <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+	       <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info_accounts" />
+    </receiver>
+	</application>
+	<meta-data android:name="android.support.UI_OPTIONS"
+		android:value="splitActionBarWhenNarrow" />
 </manifest> 
