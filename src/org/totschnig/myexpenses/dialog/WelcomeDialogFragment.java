@@ -63,6 +63,12 @@ public class WelcomeDialogFragment extends DialogFragment {
     if (mSetupCompleted) {
       mProgress.setVisibility(View.GONE);
     }
+    else {
+      Button b =  mDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+      if (b != null) {
+        b.setEnabled(false); 
+      }
+    }
   }
   
   @Override
