@@ -151,7 +151,7 @@ public class AccountWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, MyExpenses.class);
         intent.putExtra(DatabaseConstants.KEY_ROWID, accountId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        updateViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
+        updateViews.setOnClickPendingIntent(R.id.account_info, pendingIntent);
     }
 
     private static void addButtonsClick(Context context, RemoteViews updateViews, long accountId) {
