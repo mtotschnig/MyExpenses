@@ -27,8 +27,11 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -120,8 +123,8 @@ public class AccountWidget extends AppWidgetProvider {
         //int amountColor = u.getAmountColor(amount);
         //updateViews.setTextColor(R.id.note, amountColor);
         addScrollOnClick(context, updateViews, widgetId);
-        addTapOnClick(context, updateViews);
-        addButtonsClick(context, updateViews);
+        addTapOnClick(context, updateViews,a.id);
+        addButtonsClick(context, updateViews,a.id);
         saveAccountForWidget(context, widgetId, a.id);
         if (Account.count(null, null) < 2) {
           updateViews.setViewVisibility(R.id.navigation, View.GONE);
@@ -144,18 +147,22 @@ public class AccountWidget extends AppWidgetProvider {
         updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
     }
 
-    private static void addTapOnClick(Context context, RemoteViews updateViews) {
+    private static void addTapOnClick(Context context, RemoteViews updateViews, long accountId) {
         Intent intent = new Intent(context, MyExpenses.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.putExtra(DatabaseConstants.KEY_ROWID, accountId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         updateViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
     }
 
-    private static void addButtonsClick(Context context, RemoteViews updateViews) {
+    private static void addButtonsClick(Context context, RemoteViews updateViews, long accountId) {
         Intent intent = new Intent(context, ExpenseEdit.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         updateViews.setOnClickPendingIntent(R.id.add_transaction, pendingIntent);
         intent = new Intent(context, ExpenseEdit.class);
-        pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
+        intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+        pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         updateViews.setOnClickPendingIntent(R.id.add_transfer, pendingIntent);
     }
 
