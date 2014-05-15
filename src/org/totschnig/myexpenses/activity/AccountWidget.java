@@ -110,6 +110,7 @@ public class AccountWidget extends AppWidgetProvider {
     }
 
     private static RemoteViews updateWidgetFromAccount(Context context, int widgetId, int layoutId, Account a) {
+      Log.d("MyExpensesWidget", "updating account " + a.id);
         RemoteViews updateViews = new RemoteViews(context.getPackageName(), layoutId);
         updateViews.setTextViewText(R.id.line1, a.label);
         Account.Type type = a.type;
@@ -126,10 +127,11 @@ public class AccountWidget extends AppWidgetProvider {
         addTapOnClick(context, updateViews,a.id);
         addButtonsClick(context, updateViews,a.id);
         saveAccountForWidget(context, widgetId, a.id);
-        if (Account.count(null, null) < 2) {
-          updateViews.setViewVisibility(R.id.navigation, View.GONE);
-          updateViews.setViewVisibility(R.id.divider3, View.GONE);
-        }
+        int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE : View.VISIBLE;
+          updateViews.setViewVisibility(R.id.navigation, multipleAccountsVisible);
+          updateViews.setViewVisibility(R.id.divider3, multipleAccountsVisible);
+          updateViews.setViewVisibility(R.id.divider1, multipleAccountsVisible);
+          updateViews.setViewVisibility(R.id.add_transfer, multipleAccountsVisible);
         return updateViews;
     }
 
