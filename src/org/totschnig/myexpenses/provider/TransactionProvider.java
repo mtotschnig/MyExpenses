@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.AccountWidget;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 
@@ -485,10 +486,12 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
+      AccountWidget.updateWidgets(getContext());
       break;
     case ACCOUNTS:
       id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
       newUri = ACCOUNTS_URI + "/" + id;
+      AccountWidget.updateWidgets(getContext());
       break;
     case METHODS:
       id = db.insertOrThrow(TABLE_METHODS, null, values);
@@ -565,6 +568,7 @@ public class TransactionProvider extends ContentProvider {
     switch (uriMatch) {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+      AccountWidget.updateWidgets(getContext());
       break;
     case TRANSACTION_ID:
       //maybe TODO ?: where and whereArgs are ignored
@@ -596,6 +600,7 @@ public class TransactionProvider extends ContentProvider {
               + KEY_ROWID + " IN "
               + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
          new String[] {segment,segment,segment,segment});
+      AccountWidget.updateWidgets(getContext());
       break;
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
@@ -615,6 +620,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case ACCOUNTS:
       count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
+      AccountWidget.updateWidgets(getContext());
       break;
     case ACCOUNT_ID:
       segment = uri.getPathSegments().get(1);
@@ -625,6 +631,7 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
+      AccountWidget.updateWidgets(getContext());
       //update aggregate cursor
       //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
@@ -691,6 +698,7 @@ public class TransactionProvider extends ContentProvider {
     switch (uriMatch) {
     case TRANSACTIONS:
       count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
+      AccountWidget.updateWidgets(getContext());
       break;
     case TRANSACTION_ID:
       segment = uri.getPathSegments().get(1); 
@@ -701,9 +709,11 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
           whereArgs);
+      AccountWidget.updateWidgets(getContext());
       break;
     case ACCOUNTS:
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
+      AccountWidget.updateWidgets(getContext());
       break;
     case ACCOUNT_ID:
       segment = uri.getPathSegments().get(1); 
@@ -714,6 +724,7 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
+      AccountWidget.updateWidgets(getContext());
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
@@ -825,6 +836,7 @@ public class TransactionProvider extends ContentProvider {
             " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
           new String[]{target,target,segment,target});
       count=1;
+      AccountWidget.updateWidgets(getContext());
       break;
     case PLANINSTANCE_TRANSACTION_STATUS:
       count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
