@@ -775,6 +775,10 @@ public class ExpenseEdit extends AmountActivity implements
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
     }
+    if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_OK) {
+      //returned from setting up calendar
+      launchNewPlan();
+    }
   }
   @Override
   public void onBackPressed() {
@@ -903,6 +907,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   @Override
   public void onPostExecute(int taskId,Object o) {
+    super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
@@ -930,7 +935,7 @@ public class ExpenseEdit extends AmountActivity implements
             new MessageDialogFragment.Button(
                 selectButtonLabel,
                 R.id.SETTINGS_COMMAND,
-                null),
+                MyApplication.PREFKEY_PLANNER_CALENDAR_ID),
             createNewButton,
             MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
@@ -1000,7 +1005,6 @@ public class ExpenseEdit extends AmountActivity implements
       supportInvalidateOptionsMenu();
       break;
     }
-    super.onPostExecute(taskId, o);
   }
   public Account getCurrentAccount() {
     if (mAccounts == null) {

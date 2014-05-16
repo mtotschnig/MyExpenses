@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -39,8 +40,10 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -58,6 +61,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 1;
+  public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
        .setOnPreferenceClickListener(this);
     //findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
     //  .setOnPreferenceClickListener(this);
+    configureContribPrefs();
     findPreference(MyApplication.PREFKEY_SEND_FEEDBACK)
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
@@ -93,8 +98,19 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_APP_DIR)
     .setOnPreferenceClickListener(this);
     setAppDirSummary();
+    if (savedInstanceState == null &&
+        TextUtils.equals(
+            getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
+            MyApplication.PREFKEY_PLANNER_CALENDAR_ID)) {
+      ((CalendarListPreference) findPreference(MyApplication.PREFKEY_PLANNER_CALENDAR_ID)).show();
+    }
   }
-
+  private void configureContribPrefs() {
+    Preference pref1 = findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL);
+    if (MyApplication.getInstance().isContribEnabled) {
+      ((PreferenceCategory) findPreference(MyApplication.PREFKEY_CATEGORY_CONTRIB)).removePreference(pref1);
+    }
+  }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
     findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
@@ -146,6 +162,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = false;
      }
+     configureContribPrefs();
     }
     return true;
   }
@@ -210,11 +227,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SEND_FEEDBACK)) {
-      CommonCommands.dispatchCommand(this, R.id.FEEDBACK_COMMAND);
+      CommonCommands.dispatchCommand(this, R.id.FEEDBACK_COMMAND, null);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_RATE)) {
-      CommonCommands.dispatchCommand(this, R.id.RATE_COMMAND);
+      CommonCommands.dispatchCommand(this, R.id.RATE_COMMAND, null);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_MORE_INFO_DIALOG)) {
@@ -299,5 +316,13 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return intent;
     }
     return null;
+  }
+  public void onCalendarListPreferenceSet() {
+    if (TextUtils.equals(
+        getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
+        MyApplication.PREFKEY_PLANNER_CALENDAR_ID)) {
+      setResult(RESULT_OK);
+      finish();
+    }
   }
 }

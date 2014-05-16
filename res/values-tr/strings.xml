@@ -44,7 +44,7 @@
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için <i>Harcamalarım Katkı Sürümünü</i> kurabilirsiniz.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için <i>Harcamalarım Katkı Anahtarı</i> kurabilirsiniz.</string>
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
@@ -261,7 +261,7 @@
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
   <string name="pref_contrib_donate_title">Bağışı gönder</string>
-  <string name="pref_contrib_install_summary">Harcamalarım Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
+  <string name="pref_contrib_install_summary">Harcamalarım Katkı Anahtarı uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
@@ -299,7 +299,7 @@
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
   <string name="pref_restore_title">Geri al</string>
-  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın katkı sürümünü gerektirir.</string>
+  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın Katkı Anahtarı gerektirir.</string>
   <string name="pref_security_question_title">Güvenlik sorusu</string>
   <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
@@ -392,7 +392,7 @@
     <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
   </plurals>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
-  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
+  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın Katkı Anahtarı kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>

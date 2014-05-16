@@ -18,7 +18,7 @@
     <string name="contrib_feature_accounts_unlimited_label">帳戶數量不限</string>
     <string name="contrib_feature_aggregate_label">綜合了多個帳戶</string>
     <string name="contrib_feature_distribution_label">每個類別的交易分佈</string>
-    <string name="contrib_feature_plans_unlimited_description">你可以在 &amp;lt;i&amp;gt;開支助手&amp;lt;/i&amp;gt; 中創建計劃的數目僅限3個。</string>
+    <string name="contrib_feature_plans_unlimited_description">你可以在 <i>開支助手</i> 中創建計劃的數目僅限3個。</string>
     <string name="contrib_feature_plans_unlimited_label">計劃數量不限</string>
     <string name="contrib_feature_reset_all_label">重設全部帳戶</string>
     <string name="contrib_feature_security_question_label">安全問題</string>
@@ -39,10 +39,10 @@
     <string name="dialog_contrib_no_usages_left">沒有剩下的免費使用額</string>
     <!--Placeholder: 1 is name of the feature-->
     <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能。</string>
-    <string name="dialog_contrib_reminder_remove_limitation">安裝 &amp;lt;i&amp;gt; 開支助手 貢獻補丁 &amp;lt;/i&amp;gt; 來去除所有限制。</string>
+    <string name="dialog_contrib_reminder_remove_limitation">安裝 <i>開支助手 貢獻補丁</i> 來去除所有限制。</string>
     <string name="dialog_contrib_reminder_gain_access">你也可以無限制地的使用以下特點：</string>
     <!--Placeholders: 1 is feature list-->
-    <string name="dialog_contrib_text">&amp;lt;i&amp;gt;開支助手&amp;lt;/i&amp;gt; 是無廣告和開放源碼的。請通過安裝貢獻補丁來為此軟件作出貢獻。你將可以無限制地使用以下高級功能：</string>
+    <string name="dialog_contrib_text"><i>開支助手</i> 是無廣告和開放源碼的。請通過安裝貢獻補丁來為此軟件作出貢獻。你將可以無限制地使用以下高級功能：</string>
     <plurals name="dialog_contrib_usage_count">
   	<item quantity="other">現在你擁有 %1$d 免費使用額</item>
   </plurals>

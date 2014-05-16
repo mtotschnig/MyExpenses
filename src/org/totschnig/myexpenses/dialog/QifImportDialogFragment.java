@@ -36,7 +36,6 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   private SimpleCursorAdapter mAccountsAdapter;
 
   static final String PREFKEY_IMPORT_QIF_DATE_FORMAT = "import_qif_date_format";
-  static final String PREFKEY_IMPORT_QIF_FILE_URI = "import_qif_file_uri";
   private MergeCursor mAccountsCursor;
 
   public static final QifImportDialogFragment newInstance() {
@@ -57,12 +56,16 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   }
 
   @Override
+  String getPrefKey() {
+    return "import_qif_file_uri";
+  }
+  @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
-          .putString(PREFKEY_IMPORT_QIF_FILE_URI, mUri.toString())
+          .putString(getPrefKey(), mUri.toString())
           .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString()));
       ((QifImport) getActivity()).onSourceSelected(
           mUri,
@@ -144,23 +147,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
 //        .valueOf(Account.getLocaleCurrency().getCurrencyCode())
 //        .ordinal());
   }
-  @Override
-  public void onStart() {
-    if (mUri==null) {
-      String storedUri = MyApplication.getInstance().getSettings()
-          .getString(PREFKEY_IMPORT_QIF_FILE_URI, "");
-      if (!storedUri.equals("")) {
-        mUri = Uri.parse(storedUri);
-        try {
-          mFilename.setText(getDisplayName(mUri));
-        } catch (SecurityException e) {
-          // on Kitkat getDisplayname might fail if app is restarted after reboot
-          mUri = null;
-        }
-      }
-    }
-    super.onStart();
-  }
+
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {

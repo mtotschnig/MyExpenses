@@ -73,6 +73,8 @@ public class ProtectionDelegate {
     }
     t.remove(m.findFragmentByTag("ASYNC_TASK"));
     t.commitAllowingStateLoss();
+    //we might want to call a new task immediately after executing the last one
+    m.executePendingTransactions();
   }
   public void removeAsyncTaskFragment(int taskId) {
     removeAsyncTaskFragment(taskId == TaskExecutionFragment.TASK_QIF_IMPORT ||

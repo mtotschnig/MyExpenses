@@ -1,46 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-  <ScrollView android:id="@+id/aboutscrollview"
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-    <TextView android:text="@string/help_leading"
-        style="@style/headingStyle" />
-    <TextView android:id="@+id/help_intro"
-        style="@style/about_text" />
-     <!-- Quick Guide -->
-    <TextView android:text="@string/menu_help"
-        style="@style/headingStyle" />
-    <TextView android:text="@string/help_contextuel_help"
-      android:id="@+id/help_quick_guide"
-      style="@style/about_text" />
-    <TextView android:text="@string/crash_reports_user_info"
-      style="@style/about_text" />
-  </LinearLayout>
-  </ScrollView>
-</LinearLayout>
+<!-- This file is part of My Expenses. My Expenses is free software: you 
+	can redistribute it and/or modify it under the terms of the GNU General Public 
+	License as published by the Free Software Foundation, either version 3 of 
+	the License, or (at your option) any later version. My Expenses is distributed 
+	in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+	the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+	See the GNU General Public License for more details. You should have received 
+	a copy of the GNU General Public License along with My Expenses. If not, 
+	see <http://www.gnu.org/licenses/>. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/aboutscrollview" android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="0dp"
+	android:layout_weight="1">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+		<LinearLayout android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:orientation="horizontal">
+			<TextView android:text="@string/help_leading" style="@style/headingStyle"
+				android:layout_height="wrap_content" android:layout_width="0dp"
+				android:layout_weight="1" />
+			<ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyle"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical|center_horizontal" />
+		</LinearLayout>
+		<TextView android:id="@+id/help_intro" style="@style/about_text" />
+		<!-- Quick Guide -->
+		<TextView android:text="@string/menu_help" style="@style/headingStyle" />
+		<TextView android:text="@string/help_contextuel_help"
+			android:id="@+id/help_quick_guide" style="@style/about_text" />
+		<TextView android:text="@string/crash_reports_user_info"
+			style="@style/about_text" />
+	</LinearLayout>
+</ScrollView>
 

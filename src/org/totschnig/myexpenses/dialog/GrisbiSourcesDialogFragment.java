@@ -14,8 +14,6 @@ import android.view.View;
 public class GrisbiSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
   
-  static final String PREFKEY_IMPORT_GRISBI_FILE_URI = "import_grisbi_file_uri";
-  
   public static final GrisbiSourcesDialogFragment newInstance() {
     return new GrisbiSourcesDialogFragment();
   }
@@ -32,13 +30,17 @@ DialogInterface.OnClickListener {
   String getTypeName() {
     return "Grisbi XML";
   }
+  @Override
+  String getPrefKey() {
+    return "import_grisbi_file_uri";
+  }
 
   @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_POSITIVE) {
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
-        .putString(PREFKEY_IMPORT_GRISBI_FILE_URI, mUri.toString()));
+        .putString(getPrefKey(), mUri.toString()));
       ((GrisbiImport) getActivity()).onSourceSelected(
           mUri,
           mImportCategories.isChecked(),
@@ -52,22 +54,5 @@ DialogInterface.OnClickListener {
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
     mImportTransactions.setVisibility(View.GONE);
-  }
-  @Override
-  public void onStart() {
-    if (mUri==null) {
-      String storedUri = MyApplication.getInstance().getSettings()
-          .getString(PREFKEY_IMPORT_GRISBI_FILE_URI, "");
-      if (!storedUri.equals("")) {
-        mUri = Uri.parse(storedUri);
-        try {
-          mFilename.setText(getDisplayName(mUri));
-        } catch (SecurityException e) {
-          // on Kitkat getDisplayname might fail if app is restarted after reboot
-          mUri = null;
-        }
-      }
-    }
-    super.onStart();
   }
 }

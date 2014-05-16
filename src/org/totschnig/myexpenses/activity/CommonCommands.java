@@ -34,7 +34,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class CommonCommands {
-  static boolean dispatchCommand(Activity ctx,int command) {
+  static boolean dispatchCommand(Activity ctx,int command, Object tag) {
     Intent i;
     switch(command) {
     case R.id.RATE_COMMAND:
@@ -55,6 +55,9 @@ public class CommonCommands {
     case R.id.SETTINGS_COMMAND:
       i = new Intent(ctx, MyPreferenceActivity.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      if (tag != null) {
+        i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY,(String) tag);
+      }
       ctx.startActivityForResult(i,ProtectedFragmentActivity.PREFERENCES_REQUEST);
       return true;
     case R.id.FEEDBACK_COMMAND:

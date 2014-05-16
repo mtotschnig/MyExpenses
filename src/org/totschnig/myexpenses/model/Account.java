@@ -620,6 +620,14 @@ public class Account extends Model {
   }
   public void deleteAllTemplates() {
     String[] selectArgs = new String[] { String.valueOf(id) };
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
+        selectArgs);
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_TRANSFER_ACCOUNT + " = ?)",
+        selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
   }
@@ -702,8 +710,11 @@ public class Account extends Model {
         //split transactions take their full_label from the first split part
         splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
             KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        splits.moveToFirst();
-        readCat = splits;
+        if (splits.moveToFirst()) {
+          readCat = splits;
+        } else {
+          readCat = c;
+        }
       } else {
         readCat = c;
       }

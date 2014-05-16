@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.util.Utils;
@@ -57,7 +58,9 @@ public class DonateDialogFragment extends DialogFragment {
     return new AlertDialog.Builder(ctx)
       .setTitle(R.string.donate)
       .setMessage(
-        ctx.getString(R.string.donate_dialog_text)
+        ctx.getString(MyApplication.getInstance().isContribEnabled ?
+            R.string.pref_contrib_donate_summary_already_contrib :
+            R.string.donate_dialog_text)
         +"\n\n"+
         ctx.getString(R.string.thank_you))
       .setNegativeButton(R.string.donate_button_flattr, listener)

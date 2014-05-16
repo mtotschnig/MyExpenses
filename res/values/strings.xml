@@ -58,10 +58,10 @@
     <string name="dialog_contrib_no_usages_left">No free usages left.</string>
     <!-- Placeholder: 1 is name of the feature -->
     <string name="dialog_contrib_premium_feature">%1$s is a premium feature.</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by installing <i>My Expenses Contrib</i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by purchasing <i>My Expenses Contrib Key</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
     <!-- Placeholders: 1 is feature list -->
-    <string name="dialog_contrib_text"><i>My Expenses</i> is offered ad free and open source. Please contribute by installing the paid Contrib version. You gain unrestricted access to the following premium features:</string>
+    <string name="dialog_contrib_text"><i>My Expenses</i> is offered ad free and open source. Please contribute by purchasing <i>My Expenses Contrib Key</i>. You gain unrestricted access to the following premium features:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">You have one free usage left.</item>
     <item quantity="other">You have %1$d free usages left.</item>
@@ -274,8 +274,9 @@
     <string name="pref_category_title_security">Security</string>
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_contrib_donate_summary">Donate via PayPal, Flattr or Bitcoin and gain access to premium features.</string>
+    <string name="pref_contrib_donate_summary_already_contrib">If you\'d like to make an additional contribution, you can flattr My Expenses, make a donation through Paypal or send Bitcoins.</string>
     <string name="pref_contrib_donate_title">Send donation</string>
-    <string name="pref_contrib_install_summary">By installing My Expenses Contrib, you gain access to premium features.</string>
+    <string name="pref_contrib_install_summary">By installing My Expenses Contrib Key, you gain access to premium features.</string>
     <string name="pref_contrib_install_title">Install Contrib app</string>
     <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
     <string name="pref_enter_licence_title">Enter Contrib key</string>
@@ -310,7 +311,7 @@
     <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
     <string name="pref_protection_delay_seconds_title">Delay until protection</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
-    <string name="pref_request_licence_summary">If you have contributed, ask for a Contrib key by email.</string>
+    <string name="pref_request_licence_summary">If you have contributed, request a Contrib key for Android-Id %1$s by email.</string>
     <string name="pref_request_licence_title">Request a Contrib key</string>
     <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
     <string name="pref_restore_title">Restore</string>

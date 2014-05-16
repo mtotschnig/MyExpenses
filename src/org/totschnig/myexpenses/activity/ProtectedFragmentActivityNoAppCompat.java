@@ -61,7 +61,7 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
-    if (CommonCommands.dispatchCommand(this, command))
+    if (CommonCommands.dispatchCommand(this, command, tag))
       return true;
     return false;
   }
