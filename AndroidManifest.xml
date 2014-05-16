@@ -108,7 +108,7 @@
 			</intent-filter>
 		</receiver>
 
-		<receiver android:name=".activity.AccountWidget" android:label="@string/pref_manage_accounts_title" >
+		<receiver android:name="org.totschnig.myexpenses.widget.AccountWidget" android:label="@string/pref_manage_accounts_title" >
       <intent-filter>
 	       <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 	       <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />

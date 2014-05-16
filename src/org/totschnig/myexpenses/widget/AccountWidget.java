@@ -14,7 +14,7 @@
 */
 // based on Financisto
 
-package org.totschnig.myexpenses.activity;
+package org.totschnig.myexpenses.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -30,6 +30,8 @@ import android.widget.RemoteViews;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;

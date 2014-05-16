@@ -17,9 +17,9 @@ package org.totschnig.myexpenses.provider;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AccountWidget;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.widget.AccountWidget;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
