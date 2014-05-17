@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.net.Uri;
 
 public abstract class Model {
+  public long id;
   private static ContentResolver cr;
 
   public static ContentResolver cr() {

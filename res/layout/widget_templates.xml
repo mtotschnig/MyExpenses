@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of My Expenses. My Expenses is free software: you 
+	can redistribute it and/or modify it under the terms of the GNU General Public 
+	License as published by the Free Software Foundation, either version 3 of 
+	the License, or (at your option) any later version. My Expenses is distributed 
+	in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+	the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+	See the GNU General Public License for more details. You should have received 
+	a copy of the GNU General Public License along with My Expenses. If not, 
+	see <http://www.gnu.org/licenses/>. -->
+<!-- inspired by Financisto -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:layout_weight="1" android:background="@drawable/widget_background_gray"
+	android:id="@+id/layout" android:orientation="horizontal">
+
+	<LinearLayout android:layout_marginLeft="5dp"
+		android:layout_width="wrap_content" android:layout_height="fill_parent"
+		android:orientation="vertical" android:id="@+id/navigation">
+		<ImageView android:id="@+id/up_icon" android:layout_weight="1"
+			android:padding="8dp" android:layout_width="wrap_content"
+			android:layout_height="0dp" android:src="@android:drawable/arrow_up_float" />
+		<ImageView android:id="@+id/down_icon"
+			android:layout_weight="1" android:padding="8dp"
+			android:layout_alignParentLeft="true" android:layout_width="wrap_content"
+			android:layout_height="0dp" android:src="@android:drawable/arrow_down_float"
+			android:layout_marginRight="3dp" />
+	</LinearLayout>
+
+	<ImageView android:id="@+id/divider3" android:layout_width="1dp"
+		android:layout_height="match_parent" android:background="@drawable/widget_divider"
+		android:contentDescription="@null" />
+
+	<LinearLayout android:id="@+id/account_info"
+		android:paddingRight="8dp" android:paddingLeft="8dp"
+		android:layout_weight="1" android:layout_centerVertical="true"
+		android:layout_width="0dp" android:layout_height="wrap_content"
+		android:orientation="vertical">
+		<TextView android:id="@+id/line1" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:singleLine="true"
+			android:textColor="#ffffff" android:textStyle="bold" android:text="Template Title"
+			android:ellipsize="end" android:textSize="14sp"
+			android:layout_marginTop="3dp" />
+		<TextView android:layout_width="fill_parent" android:text="Template Note"
+			android:layout_height="wrap_content" android:id="@+id/note"
+			android:textSize="12sp" />
+	</LinearLayout>
+
+	<ImageView android:id="@+id/divider2" android:layout_width="1dp"
+		android:layout_height="match_parent" android:background="@drawable/widget_divider"
+		android:contentDescription="@null" />
+
+	<ImageView android:id="@+id/add_transaction"
+		android:layout_width="wrap_content" android:layout_height="match_parent"
+		android:src="@drawable/create_instance_save_icon"
+		android:layout_centerVertical="true" android:padding="8dp" />
+
+	<ImageView android:id="@+id/divider1" android:layout_width="1dp"
+		android:layout_height="match_parent" android:background="@drawable/widget_divider"
+		android:contentDescription="@null" />
+
+	<ImageView android:id="@+id/add_transfer"
+		android:layout_width="wrap_content" android:layout_height="match_parent"
+		android:src="@drawable/create_instance_edit_icon"
+		android:layout_centerVertical="true" android:padding="8dp" />
+
+</LinearLayout>

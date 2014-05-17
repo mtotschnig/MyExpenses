@@ -21,72 +21,38 @@ import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
 
-
-public class AccountWidget extends AbstractWidget<Account> {
+public class TemplateWidget extends AbstractWidget<Template> {
 
   private static final Uri CONTENT_URI = Uri
-      .parse("content://org.totschnig.myexpenses/accountwidget");
+      .parse("content://org.totschnig.myexpenses/templatewidget");
 
   @Override
   String getPrefName() {
-    // TODO Auto-generated method stub
-    return"org.totschnig.myexpenses.activity.AccountWidget";
-  }
-
-  RemoteViews updateWidgetFrom(Context context,
-      int widgetId, int layoutId, Account a) {
-    Log.d("MyExpensesWidget", "updating account " + a.id);
-    RemoteViews updateViews = new RemoteViews(context.getPackageName(),
-        layoutId);
-    updateViews.setTextViewText(R.id.line1, a.label);
-    Account.Type type = a.type;
-    // if (type.isCard && a.cardIssuer != null) {
-    // CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
-    // updateViews.setImageViewResource(R.id.account_icon, cardIssuer.iconId);
-    // } else {
-    // updateViews.setImageViewResource(R.id.account_icon, type.iconId);
-    // }
-    updateViews.setTextViewText(R.id.note,
-        Utils.formatCurrency(a.getCurrentBalance()));
-    // int amountColor = u.getAmountColor(amount);
-    // updateViews.setTextColor(R.id.note, amountColor);
-    addScrollOnClick(context, updateViews, widgetId);
-    addTapOnClick(context, updateViews, a.id);
-    addButtonsClick(context, updateViews, a.id);
-    saveForWidget(context, widgetId, a.id);
-    int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
-        : View.VISIBLE;
-    updateViews.setViewVisibility(R.id.navigation, multipleAccountsVisible);
-    updateViews.setViewVisibility(R.id.divider3, multipleAccountsVisible);
-    updateViews.setViewVisibility(R.id.divider1, multipleAccountsVisible);
-    updateViews.setViewVisibility(R.id.add_transfer, multipleAccountsVisible);
-    return updateViews;
+    return "org.totschnig.myexpenses.activity.TemplateWidget";
   }
 
   private static void addScrollOnClick(Context context,
       RemoteViews updateViews, int widgetId) {
     Uri widgetUri = ContentUris.withAppendedId(CONTENT_URI, widgetId);
     Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context,
-        AccountWidget.class);
+        TemplateWidget.class);
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
         intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
     intent = new Intent(WIDGET_PREVIOUS_ACTION, widgetUri, context,
-        AccountWidget.class);
+        TemplateWidget.class);
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());
     pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
@@ -119,18 +85,27 @@ public class AccountWidget extends AbstractWidget<Account> {
   }
 
   @Override
-  Account getObject(long objectId) {
-    return Account.getInstanceFromDb(objectId);
+  Template getObject(long objectId) {
+    return Template.getInstanceFromDb(objectId);
   }
+
   @Override
-  Account getObject(Cursor c) {
-    return new Account(c);
+  Template getObject(Cursor c) {
+    return new Template(c);
   }
 
   @Override
   Cursor getCursor(Context c) {
-    // TODO Auto-generated method stub
     return c.getContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI, null, null, null, null);
+        TransactionProvider.TEMPLATES_URI, null, null, null, null);
+  }
+
+  @Override
+  RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
+      Template t) {
+    Log.d("MyExpensesWidget", "updating template " + t.id);
+    RemoteViews updateViews = new RemoteViews(context.getPackageName(),
+        layoutId);
+    return updateViews;
   }
 }
