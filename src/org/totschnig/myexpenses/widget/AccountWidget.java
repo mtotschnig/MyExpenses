@@ -35,10 +35,13 @@ import org.totschnig.myexpenses.util.Utils;
 
 
 public class AccountWidget extends AbstractWidget<Account> {
-
-  private static final Uri CONTENT_URI = Uri
-      .parse("content://org.totschnig.myexpenses/accountwidget");
-
+  
+  @Override
+  Uri getContentUri() {
+    return Uri
+        .parse("content://org.totschnig.myexpenses/accountwidget");
+  }
+  
   @Override
   String getPrefName() {
     // TODO Auto-generated method stub
@@ -75,26 +78,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     return updateViews;
   }
 
-  private static void addScrollOnClick(Context context,
-      RemoteViews updateViews, int widgetId) {
-    Uri widgetUri = ContentUris.withAppendedId(CONTENT_URI, widgetId);
-    Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context,
-        AccountWidget.class);
-    intent.putExtra(WIDGET_ID, widgetId);
-    intent.putExtra("ts", System.currentTimeMillis());
-    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
-        intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
-    intent = new Intent(WIDGET_PREVIOUS_ACTION, widgetUri, context,
-        AccountWidget.class);
-    intent.putExtra(WIDGET_ID, widgetId);
-    intent.putExtra("ts", System.currentTimeMillis());
-    pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
-  }
-
-  private static void addTapOnClick(Context context, RemoteViews updateViews,
+  private void addTapOnClick(Context context, RemoteViews updateViews,
       long accountId) {
     Intent intent = new Intent(context, MyExpenses.class);
     intent.putExtra(DatabaseConstants.KEY_ROWID, accountId);
@@ -103,7 +87,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     updateViews.setOnClickPendingIntent(R.id.account_info, pendingIntent);
   }
 
-  private static void addButtonsClick(Context context, RemoteViews updateViews,
+  private void addButtonsClick(Context context, RemoteViews updateViews,
       long accountId) {
     Intent intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);

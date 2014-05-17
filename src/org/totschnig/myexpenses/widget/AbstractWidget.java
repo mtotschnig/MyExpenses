@@ -7,15 +7,18 @@ import java.util.Arrays;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Model;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -26,6 +29,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   
   abstract String getPrefName();
+  abstract Uri getContentUri();
   abstract T getObject(long objectId);
   abstract T getObject(Cursor c);
   abstract Cursor getCursor(Context c);
@@ -63,10 +67,10 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
               AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
               if (appWidgetInfo != null) {
                   int layoutId = appWidgetInfo.initialLayout;
-                      long accountId = loadForWidget(context, id);
-                      RemoteViews remoteViews = action != null || accountId == -1
-                              ? buildUpdateForOther(context, id, layoutId, accountId, action)
-                              : buildUpdateForCurrent(context, id, layoutId, accountId);
+                      long objectId = loadForWidget(context, id);
+                      RemoteViews remoteViews = action != null || objectId == -1
+                              ? buildUpdateForOther(context, id, layoutId, objectId, action)
+                              : buildUpdateForCurrent(context, id, layoutId, objectId);
                       manager.updateAppWidget(id, remoteViews);
               }
           }
@@ -165,5 +169,23 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
     } finally {
       c.close();
     }
+  }
+  protected  void addScrollOnClick(Context context,
+      RemoteViews updateViews, int widgetId) {
+    Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
+    Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context,
+        TemplateWidget.class);
+    intent.putExtra(WIDGET_ID, widgetId);
+    intent.putExtra("ts", System.currentTimeMillis());
+    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
+    intent = new Intent(WIDGET_PREVIOUS_ACTION, widgetUri, context,
+        TemplateWidget.class);
+    intent.putExtra(WIDGET_ID, widgetId);
+    intent.putExtra("ts", System.currentTimeMillis());
+    pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
+        PendingIntent.FLAG_UPDATE_CURRENT);
+    updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
   }
 }

@@ -136,8 +136,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       Cursor c = mAdapter.getChild(group,child);
       long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
       i = new Intent(getActivity(), ExpenseEdit.class);
-      i.putExtra("template_id", mAdapter.getGroupId(group));
-      i.putExtra("instance_id", menuInfo.id);
+      i.putExtra(KEY_TEMPLATEID, mAdapter.getGroupId(group));
+      i.putExtra(KEY_INSTANCEID, menuInfo.id);
       i.putExtra(KEY_DATE, date);
       startActivityForResult(i,0);
       break;
@@ -274,7 +274,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
               KEY_TRANSACTIONID
             },
             KEY_TEMPLATEID + " = ?",
-            new String[]{String.valueOf(bundle.getLong("template_id"))},
+            new String[]{String.valueOf(bundle.getLong(KEY_TEMPLATEID))},
             null);
       }
     }
@@ -316,7 +316,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             mExpandedPosition = mTemplatesCursor.getPosition();
           }
           Bundle instanceBundle = new Bundle();
-          instanceBundle.putLong("template_id", templateId);
+          instanceBundle.putLong(KEY_TEMPLATEID, templateId);
           //loader for instance2transactionmap
           int loaderId = mTemplatesCursor.getPosition()*2+1;
           if (mManager.getLoader(loaderId) != null && !mManager.getLoader(loaderId).isReset()) {

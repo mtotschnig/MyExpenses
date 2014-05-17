@@ -156,7 +156,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     case R.id.EDIT_COMMAND:
       finishActionMode();
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("template_id",((Long)tag));
+      i.putExtra(DatabaseConstants.KEY_TEMPLATEID,((Long)tag));
       i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);

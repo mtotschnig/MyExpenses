@@ -16,72 +16,58 @@
 
 package org.totschnig.myexpenses.widget;
 
+import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+
+import java.util.Date;
+
 import android.app.PendingIntent;
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 public class TemplateWidget extends AbstractWidget<Template> {
+  
+  private static final String WIDGET_INSTANCE_SAVE_ACTION = "org.totschnig.myexpenses.INSTANCE_SAVE";
 
-  private static final Uri CONTENT_URI = Uri
-      .parse("content://org.totschnig.myexpenses/templatewidget");
+  @Override
+  Uri getContentUri() {
+    return Uri
+        .parse("content://org.totschnig.myexpenses/templatewidget");
+  }
 
   @Override
   String getPrefName() {
     return "org.totschnig.myexpenses.activity.TemplateWidget";
   }
 
-  private static void addScrollOnClick(Context context,
-      RemoteViews updateViews, int widgetId) {
-    Uri widgetUri = ContentUris.withAppendedId(CONTENT_URI, widgetId);
-    Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context,
+  private void addButtonsClick(Context context, RemoteViews updateViews,
+      int widgetId, long templateId) {
+    Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
+    Intent intent = new Intent(WIDGET_INSTANCE_SAVE_ACTION, widgetUri, context,
         TemplateWidget.class);
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
         intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
-    intent = new Intent(WIDGET_PREVIOUS_ACTION, widgetUri, context,
-        TemplateWidget.class);
-    intent.putExtra(WIDGET_ID, widgetId);
-    intent.putExtra("ts", System.currentTimeMillis());
-    pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
-  }
-
-  private static void addTapOnClick(Context context, RemoteViews updateViews,
-      long accountId) {
-    Intent intent = new Intent(context, MyExpenses.class);
-    intent.putExtra(DatabaseConstants.KEY_ROWID, accountId);
-    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.account_info, pendingIntent);
-  }
-
-  private static void addButtonsClick(Context context, RemoteViews updateViews,
-      long accountId) {
-    Intent intent = new Intent(context, ExpenseEdit.class);
-    intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.add_transaction, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.instance_save, pendingIntent);
     intent = new Intent(context, ExpenseEdit.class);
-    intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-    intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
+    intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
     pendingIntent = PendingIntent.getActivity(context, 1, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.add_transfer, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.instance_edit, pendingIntent);
   }
 
   @Override
@@ -97,7 +83,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   Cursor getCursor(Context c) {
     return c.getContentResolver().query(
-        TransactionProvider.TEMPLATES_URI, null, null, null, null);
+        TransactionProvider.TEMPLATES_URI, null, KEY_PLANID + " is null", null, null);
   }
 
   @Override
@@ -106,6 +92,46 @@ public class TemplateWidget extends AbstractWidget<Template> {
     Log.d("MyExpensesWidget", "updating template " + t.id);
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
+    updateViews.setTextViewText(R.id.line1, t.title);
+    // if (type.isCard && a.cardIssuer != null) {
+    // CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
+    // updateViews.setImageViewResource(R.id.account_icon, cardIssuer.iconId);
+    // } else {
+    // updateViews.setImageViewResource(R.id.account_icon, type.iconId);
+    // }
+    updateViews.setTextViewText(R.id.note,
+        t.label);
+    // int amountColor = u.getAmountColor(amount);
+    // updateViews.setTextColor(R.id.note, amountColor);
+    addScrollOnClick(context, updateViews, widgetId);
+    addButtonsClick(context, updateViews, widgetId, t.id);
+    saveForWidget(context, widgetId, t.id);
+    int multipleTemplatesVisible = 
+        Transaction.count(Template.CONTENT_URI, KEY_PLANID + " is null", null) < 2 ?
+            View.GONE : 
+            View.VISIBLE;
+    updateViews.setViewVisibility(R.id.navigation, multipleTemplatesVisible);
+    updateViews.setViewVisibility(R.id.divider3, multipleTemplatesVisible);
     return updateViews;
+  }
+  @Override
+  public void onReceive(Context context, Intent intent) {
+    String action = intent.getAction();
+    if (WIDGET_INSTANCE_SAVE_ACTION.equals(action)) {
+      int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
+      if (widgetId != INVALID_APPWIDGET_ID) {
+        long objectId = loadForWidget(context, widgetId);
+        Transaction t = Transaction.getInstanceFromTemplate(objectId);
+        if (t != null) {
+          if (t.save() != null) {
+            Toast.makeText(context,
+                context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
+                Toast.LENGTH_LONG);
+          }
+        }
+      }
+    } else {
+      super.onReceive(context, intent);
+    }
   }
 }

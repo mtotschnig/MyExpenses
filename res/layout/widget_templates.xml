@@ -50,7 +50,7 @@
 		android:layout_height="match_parent" android:background="@drawable/widget_divider"
 		android:contentDescription="@null" />
 
-	<ImageView android:id="@+id/add_transaction"
+	<ImageView android:id="@+id/instance_save"
 		android:layout_width="wrap_content" android:layout_height="match_parent"
 		android:src="@drawable/create_instance_save_icon"
 		android:layout_centerVertical="true" android:padding="8dp" />
@@ -59,7 +59,7 @@
 		android:layout_height="match_parent" android:background="@drawable/widget_divider"
 		android:contentDescription="@null" />
 
-	<ImageView android:id="@+id/add_transfer"
+	<ImageView android:id="@+id/instance_edit"
 		android:layout_width="wrap_content" android:layout_height="match_parent"
 		android:src="@drawable/create_instance_edit_icon"
 		android:layout_centerVertical="true" android:padding="8dp" />

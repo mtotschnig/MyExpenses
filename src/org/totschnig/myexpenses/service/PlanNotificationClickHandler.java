@@ -34,7 +34,7 @@ public class PlanNotificationClickHandler extends IntentService {
     .setContentTitle(title);
     int notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID);
     if (intent.getAction().equals("Apply")) {
-      Long templateId = extras.getLong("template_id");
+      Long templateId = extras.getLong(DatabaseConstants.KEY_TEMPLATEID);
       Transaction t = Transaction.getInstanceFromTemplate(templateId);
       if (t==null) {
         message = getString(R.string.save_transaction_template_deleted);
@@ -47,7 +47,7 @@ public class PlanNotificationClickHandler extends IntentService {
             R.plurals.save_transaction_from_template_success,1);
           Intent displayIntent = new Intent(this, MyExpenses.class)
           .putExtra(DatabaseConstants.KEY_ROWID, t.accountId)
-          .putExtra("transaction_id", t.id);
+          .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.id);
           PendingIntent resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(resultIntent);
