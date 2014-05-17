@@ -26,7 +26,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
 public class Category extends Model {
-  public long id;
   public String label;
   public Long parentId;
 
@@ -39,7 +38,7 @@ public class Category extends Model {
    * @param label
    * @param parentId
    */
-  public Category(long id, String label,Long parentId) {
+  public Category(Long id, String label,Long parentId) {
     this.id = id;
     this.label = label;
     this.parentId = parentId;

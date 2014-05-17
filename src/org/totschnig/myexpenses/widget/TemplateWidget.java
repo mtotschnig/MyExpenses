@@ -59,13 +59,16 @@ public class TemplateWidget extends AbstractWidget<Template> {
         TemplateWidget.class);
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());
-    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
-        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.instance_save, pendingIntent);
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
-    pendingIntent = PendingIntent.getActivity(context, 1, intent,
+    pendingIntent = PendingIntent.getActivity(
+        context,
+        REQUEST_CODE_INSTANCE_EDIT,
+        intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.instance_edit, pendingIntent);
   }
@@ -116,6 +119,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
   @Override
   public void onReceive(Context context, Intent intent) {
+    Log.d("TemplateWidget", "onReceive intent "+intent);
     String action = intent.getAction();
     if (WIDGET_INSTANCE_SAVE_ACTION.equals(action)) {
       int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
@@ -126,7 +130,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
           if (t.save() != null) {
             Toast.makeText(context,
                 context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
-                Toast.LENGTH_LONG);
+                Toast.LENGTH_LONG).show();
           }
         }
       }

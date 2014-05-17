@@ -91,13 +91,19 @@ public class AccountWidget extends AbstractWidget<Account> {
       long accountId) {
     Intent intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+    PendingIntent pendingIntent = PendingIntent.getActivity(
+        context,
+        REQUEST_CODE_ADD_TRANSACTION,
+        intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.add_transaction, pendingIntent);
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    pendingIntent = PendingIntent.getActivity(context, 1, intent,
+    pendingIntent = PendingIntent.getActivity(
+        context,
+        REQUEST_CODE_ADD_TRANSFER,
+        intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.add_transfer, pendingIntent);
   }
@@ -116,5 +122,10 @@ public class AccountWidget extends AbstractWidget<Account> {
     // TODO Auto-generated method stub
     return c.getContentResolver().query(
         TransactionProvider.ACCOUNTS_URI, null, null, null, null);
+  }
+  @Override
+  public void onReceive(Context context, Intent intent) {
+    Log.d("AccountWidget", "onReceive intent "+intent);
+    super.onReceive(context, intent);
   }
 }

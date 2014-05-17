@@ -1327,7 +1327,7 @@ public class ExpenseEdit extends AmountActivity implements
         TaskExecutionFragment.TASK_NEW_PLAN,
         new Long[] {0L} ,
         new Plan(
-            0,
+            0L,
             System.currentTimeMillis(),
             "",
             ((Template) mTransaction).title,

@@ -27,9 +27,8 @@ import android.net.Uri;
 import android.util.Log;
 
 public class Payee extends Model {
-  public long id;
   public String name;
-  public Payee(long id, String name) {
+  public Payee(Long id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -50,7 +49,7 @@ public class Payee extends Model {
   public static Long require(String name) {
     long id = find(name);
     if (id == -1) {
-      Uri uri = new Payee(0,name).save();
+      Uri uri = new Payee(0L,name).save();
       if (uri == null) {
         //TODO report to ACRA
         Log.w(MyApplication.TAG,"unable to save party "+name);
@@ -87,7 +86,7 @@ public class Payee extends Model {
    * @return id of new record, or -1, if it already exists
    */
   public static long maybeWrite(String name) {
-    Uri uri = new Payee(0,name).save();
+    Uri uri = new Payee(0L,name).save();
     return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
   }
   public static boolean delete(long id) {

@@ -33,7 +33,6 @@ import android.net.Uri;
 import android.util.Log;
 
 public class PaymentMethod extends Model {
-  public long id;
   private String label;
   public static final int EXPENSE =  -1;
   public static final int NEUTRAL = 0;
@@ -103,7 +102,7 @@ public class PaymentMethod extends Model {
     return method;
   }
 
-  private PaymentMethod(long id) {
+  private PaymentMethod(Long id) {
     this.id = id;
    }
 
@@ -163,7 +162,7 @@ public class PaymentMethod extends Model {
     initialValues.put(KEY_IS_NUMBERED,isNumbered);
     if (id == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
-      id = Integer.valueOf(uri.getLastPathSegment());
+      id = Long.valueOf(uri.getLastPathSegment());
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       cr().update(uri,initialValues,null,null);
