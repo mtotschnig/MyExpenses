@@ -30,8 +30,8 @@
   </style>
   <style name="ThemeDark" parent="BaseDark">
     <item name="dropdownListPreferredItemHeight">48sp</item>
-    <item name="colorIncome">#00D000</item>
-    <item name="colorExpense">#FF0000</item>
+    <item name="colorIncome">@color/colorIncomeDark</item>
+    <item name="colorExpense">@color/colorExpenseDark</item>
     <item name="colorAggregate">#FFFFFF</item>
     <item name="drawerBackground">#222</item>
     <item name="pageMargin">@drawable/pagermargin_white</item>
@@ -44,8 +44,8 @@
     <item name="dropdownListPreferredItemHeight">48sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="colorIncome">#008000</item>
-    <item name="colorExpense">#800000</item>
+    <item name="colorIncome">@color/colorIncomeLight</item>
+    <item name="colorExpense">@color/colorExpenseLight</item>
     <item name="colorAggregate">#000000</item>
     <item name="drawerBackground">#ddd</item>
     <item name="pageMargin">@drawable/pagermargin_black</item>

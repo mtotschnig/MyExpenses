@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -61,10 +62,12 @@ public class AccountWidget extends AbstractWidget<Account> {
     // } else {
     // updateViews.setImageViewResource(R.id.account_icon, type.iconId);
     // }
+    Money balance = a.getCurrentBalance();
     updateViews.setTextViewText(R.id.note,
-        Utils.formatCurrency(a.getCurrentBalance()));
+        Utils.formatCurrency(balance));
     // int amountColor = u.getAmountColor(amount);
-    // updateViews.setTextColor(R.id.note, amountColor);
+    updateViews.setTextColor(R.id.note, context.getResources().getColor(
+        balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews, a.id);
     addButtonsClick(context, updateViews, a.id);

@@ -18,4 +18,8 @@
 	<color name="appDefault">#ffbb33</color>
 	<color name="accountDefault">#99CC00</color>
 	<color name="emphasis">#31b6e7</color>
+	<color name="colorExpenseDark">#FF0000</color>
+  <color name="colorExpenseLight">#800000</color>
+  <color name="colorIncomeDark">#00D000</color>
+  <color name="colorIncomeLight">#008000</color>
 </resources>
