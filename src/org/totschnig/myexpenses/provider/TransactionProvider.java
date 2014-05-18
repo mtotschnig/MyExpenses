@@ -19,8 +19,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.widget.AbstractWidget;
-import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.*;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -506,6 +505,7 @@ public class TransactionProvider extends ContentProvider {
     case TEMPLATES:
       id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
       newUri = TEMPLATES_URI + "/" + id;
+      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case CATEGORIES:
       //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
@@ -605,6 +605,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
+      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1);
@@ -615,6 +616,7 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.delete(TABLE_TEMPLATES, "_id=" + segment + whereString,
           whereArgs);
+      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case ACCOUNTTYPES_METHODS:
       count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
@@ -736,6 +738,7 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
             whereArgs);
+      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case PAYEES_ID:
       segment = uri.getPathSegments().get(1);
