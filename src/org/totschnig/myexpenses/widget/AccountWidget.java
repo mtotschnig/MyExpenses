@@ -71,10 +71,12 @@ public class AccountWidget extends AbstractWidget<Account> {
     saveForWidget(context, widgetId, a.id);
     int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
         : View.VISIBLE;
+    int transferEnabledVisible = Account.getTransferEnabledGlobal() ? View.VISIBLE
+        : View.GONE;
     updateViews.setViewVisibility(R.id.navigation, multipleAccountsVisible);
     updateViews.setViewVisibility(R.id.divider3, multipleAccountsVisible);
-    updateViews.setViewVisibility(R.id.divider1, multipleAccountsVisible);
-    updateViews.setViewVisibility(R.id.add_transfer, multipleAccountsVisible);
+    updateViews.setViewVisibility(R.id.divider1, transferEnabledVisible);
+    updateViews.setViewVisibility(R.id.command2, transferEnabledVisible);
     return updateViews;
   }
 
@@ -84,7 +86,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     intent.putExtra(DatabaseConstants.KEY_ROWID, accountId);
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.account_info, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.object_info, pendingIntent);
   }
 
   private void addButtonsClick(Context context, RemoteViews updateViews,
@@ -96,7 +98,8 @@ public class AccountWidget extends AbstractWidget<Account> {
         REQUEST_CODE_ADD_TRANSACTION,
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.add_transaction, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
+    updateViews.setImageViewResource(R.id.command1, R.drawable.create_transaction_icon);
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
@@ -105,7 +108,8 @@ public class AccountWidget extends AbstractWidget<Account> {
         REQUEST_CODE_ADD_TRANSFER,
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.add_transfer, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
+    updateViews.setImageViewResource(R.id.command2, R.drawable.create_transfer_icon);
   }
 
   @Override

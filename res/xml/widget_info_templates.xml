@@ -13,6 +13,6 @@
     android:minWidth="250dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/widget_templates"
+    android:initialLayout="@layout/widget_generic"
     />
 

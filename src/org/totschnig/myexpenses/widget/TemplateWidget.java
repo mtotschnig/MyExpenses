@@ -61,7 +61,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent.putExtra("ts", System.currentTimeMillis());
     PendingIntent pendingIntent = PendingIntent.getBroadcast(
         context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.instance_save, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
+    updateViews.setImageViewResource(R.id.command1, R.drawable.create_instance_save_icon);
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
@@ -70,7 +71,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
         REQUEST_CODE_INSTANCE_EDIT,
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.instance_edit, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
+    updateViews.setImageViewResource(R.id.command2, R.drawable.create_instance_edit_icon);
   }
 
   private void addTapOnClick(Context context, RemoteViews updateViews) {
@@ -78,7 +80,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, Account.getTransferEnabledGlobal());
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
-    updateViews.setOnClickPendingIntent(R.id.template_info, pendingIntent);
+    updateViews.setOnClickPendingIntent(R.id.object_info, pendingIntent);
   }
 
   @Override
@@ -146,5 +148,12 @@ public class TemplateWidget extends AbstractWidget<Template> {
     } else {
       super.onReceive(context, intent);
     }
+  }
+  @Override
+  protected RemoteViews noDataUpdate(Context context) {
+    RemoteViews updateViews = super.noDataUpdate(context);
+    updateViews.setTextViewText(R.id.object_info, context.getString(R.string.no_templates));
+    addTapOnClick(context, updateViews);
+    return updateViews;
   }
 }

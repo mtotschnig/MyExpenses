@@ -31,7 +31,7 @@
 		android:layout_height="match_parent" android:background="@drawable/widget_divider"
 		android:contentDescription="@null" />
 
-	<LinearLayout android:id="@+id/template_info"
+	<LinearLayout android:id="@+id/object_info"
 		android:paddingRight="8dp" android:paddingLeft="8dp"
 		android:layout_weight="1" android:layout_gravity="center_vertical"
 		android:layout_width="0dp" android:layout_height="wrap_content"
@@ -50,18 +50,16 @@
 		android:layout_height="match_parent" android:background="@drawable/widget_divider"
 		android:contentDescription="@null" />
 
-	<ImageView android:id="@+id/instance_save"
+	<ImageView android:id="@+id/command1"
 		android:layout_width="wrap_content" android:layout_height="match_parent"
-		android:src="@drawable/create_instance_save_icon"
 		android:layout_centerVertical="true" android:padding="8dp" />
 
 	<ImageView android:id="@+id/divider1" android:layout_width="1dp"
 		android:layout_height="match_parent" android:background="@drawable/widget_divider"
 		android:contentDescription="@null" />
 
-	<ImageView android:id="@+id/instance_edit"
+	<ImageView android:id="@+id/command2"
 		android:layout_width="wrap_content" android:layout_height="match_parent"
-		android:src="@drawable/create_instance_edit_icon"
 		android:layout_centerVertical="true" android:padding="8dp" />
 
 </LinearLayout>
