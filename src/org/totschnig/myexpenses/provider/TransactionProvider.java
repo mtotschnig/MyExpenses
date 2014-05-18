@@ -55,8 +55,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
-//  public static final Uri AGGREGATES_URI =
-//      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
+  public static final Uri AGGREGATES_COUNT_URI =
+      Uri.parse("content://" + AUTHORITY + "/accounts/aggregatesCount");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
   public static final Uri METHODS_URI =
@@ -104,6 +104,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTION_MOVE = 25;
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
   private static final int CURRENCIES = 27;
+  private static final int AGGREGATES_COUNT = 28;
   
   @Override
   public boolean onCreate() {
@@ -371,12 +372,12 @@ public class TransactionProvider extends ContentProvider {
 //          "sum(sum_expenses) as sum_expenses",
 //          "sum(current_balance) as current_balance"};
 //      break;
-//    case AGGREGATES_COUNT:
-//      qb.setTables(TABLE_ACCOUNTS);
-//      groupBy = "currency";
-//      having = "count(*) > 1";
-//      projection = new String[] {"count(*)"};
-//      break;
+    case AGGREGATES_COUNT:
+      qb.setTables(TABLE_ACCOUNTS);
+      groupBy = "currency";
+      having = "count(*) > 1";
+      projection = new String[] {"count(*)"};
+      break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
       defaultOrderBy = "name";
@@ -885,7 +886,7 @@ public class TransactionProvider extends ContentProvider {
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
 //  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
-//  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/count", AGGREGATES_COUNT);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);

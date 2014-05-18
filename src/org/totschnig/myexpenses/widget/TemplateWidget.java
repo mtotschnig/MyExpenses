@@ -19,8 +19,6 @@ package org.totschnig.myexpenses.widget;
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 
-import java.util.Date;
-
 import android.app.PendingIntent;
 import android.content.*;
 import android.database.Cursor;
@@ -32,6 +30,8 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -73,6 +73,14 @@ public class TemplateWidget extends AbstractWidget<Template> {
     updateViews.setOnClickPendingIntent(R.id.instance_edit, pendingIntent);
   }
 
+  private void addTapOnClick(Context context, RemoteViews updateViews) {
+    Intent intent = new Intent(context, ManageTemplates.class);
+    intent.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, Account.getTransferEnabledGlobal());
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+        PendingIntent.FLAG_UPDATE_CURRENT);
+    updateViews.setOnClickPendingIntent(R.id.template_info, pendingIntent);
+  }
+
   @Override
   Template getObject(long objectId) {
     return Template.getInstanceFromDb(objectId);
@@ -107,6 +115,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     // int amountColor = u.getAmountColor(amount);
     // updateViews.setTextColor(R.id.note, amountColor);
     addScrollOnClick(context, updateViews, widgetId);
+    addTapOnClick(context, updateViews);
     addButtonsClick(context, updateViews, widgetId, t.id);
     saveForWidget(context, widgetId, t.id);
     int multipleTemplatesVisible = 

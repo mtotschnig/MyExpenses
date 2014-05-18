@@ -75,8 +75,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    Bundle extras = getIntent().getExtras();
-    mTransferEnabled = extras.getBoolean(DatabaseConstants.KEY_TRANSFER_ENABLED,false);
+    mTransferEnabled = getIntent().getBooleanExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,false);
 
     setContentView(R.layout.viewpager);
     setTitle(R.string.menu_manage_plans);
@@ -115,7 +114,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         .setText(R.string.menu_manage_plans_tab_plans)
         .setTabListener(this));
 
-    String uriString = extras.getString(Events.CUSTOM_APP_URI);
+    String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       calledFromCalendarWithId = Long.parseLong(uriPath.get(2));

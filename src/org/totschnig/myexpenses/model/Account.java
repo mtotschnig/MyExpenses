@@ -597,6 +597,15 @@ public class Account extends Model {
     c.close();
     return result == 1;
   }
+  
+  public static boolean getTransferEnabledGlobal() {
+    Cursor cursor = cr().query(
+        TransactionProvider.AGGREGATES_COUNT_URI,
+        null,null, null, null);
+    boolean result = cursor.getCount() > 0;
+    cursor.close();
+    return result;
+  }
 
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
