@@ -209,6 +209,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
           }
         }
       }
+      //TODO: simplify confer TemplateWidget
       SpannableStringBuilder ssb;
       String comment = c.getString(columnIndexComment);
       if (comment != null && comment.length() > 0) {

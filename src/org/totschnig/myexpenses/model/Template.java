@@ -292,7 +292,7 @@ public class Template extends Transaction {
       sb.append(comment);
       sb.append("\n");
     }
-    //comment
+    //payee
     if (!payee.equals("")) {
       sb.append(ctx.getString(
           amount.getAmountMajor().signum() == 1 ? R.string.payer : R.string.payee));

@@ -23,6 +23,11 @@ import android.app.PendingIntent;
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -36,6 +41,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 public class TemplateWidget extends AbstractWidget<Template> {
   
@@ -105,9 +111,32 @@ public class TemplateWidget extends AbstractWidget<Template> {
     Log.d("MyExpensesWidget", "updating template " + t.id);
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
-    updateViews.setTextViewText(R.id.line1, t.title);
+    updateViews.setTextViewText(R.id.line1,
+        t.title + " : "+Utils.formatCurrency(t.amount));
+    String commentSeparator = " / ";
+    SpannableStringBuilder description = new SpannableStringBuilder(t.isTransfer ?
+        ((t.amount.getAmountMinor() < 0) ? "=> " : "<= ") + t.label :
+         t.label);
+    if (!TextUtils.isEmpty(t.comment)) {
+      if (description.length() != 0) {
+        description.append(commentSeparator);
+      }
+      description.append(t.comment);
+      int before = description.length();
+      description.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), before, description.length(),
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+    if (!TextUtils.isEmpty(t.payee)) {
+      if (description.length() != 0) {
+        description.append(commentSeparator);
+      }
+      description.append(t.payee);
+      int before = description.length();
+      description.setSpan(new UnderlineSpan(), before, description.length(),
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
     updateViews.setTextViewText(R.id.note,
-        t.label);
+        description);
     updateViews.setInt(R.id.divider3,"setBackgroundColor",Account.getInstanceFromDb(t.accountId).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);
