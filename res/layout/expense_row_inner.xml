@@ -34,7 +34,7 @@
 <TextView
     android:text="CATEGORY"
     android:id="@+id/category"
-      android:layout_centerVertical="true"
+    android:layout_centerVertical="true"
     android:paddingLeft="5dp"
     android:paddingRight="5dip"
     android:layout_width="wrap_content"
