@@ -27,9 +27,8 @@
 			android:layout_marginRight="3dp" />
 	</LinearLayout>
 
-	<ImageView android:id="@+id/divider3" android:layout_width="1dp"
-		android:layout_height="match_parent" android:background="@drawable/widget_divider"
-		android:contentDescription="@null" />
+	<ImageView android:id="@+id/divider3" android:layout_width="4dp"
+		android:layout_height="match_parent" />
 
 	<LinearLayout android:id="@+id/object_info"
 		android:paddingRight="8dp" android:paddingLeft="8dp"

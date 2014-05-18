@@ -106,16 +106,9 @@ public class TemplateWidget extends AbstractWidget<Template> {
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1, t.title);
-    // if (type.isCard && a.cardIssuer != null) {
-    // CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
-    // updateViews.setImageViewResource(R.id.account_icon, cardIssuer.iconId);
-    // } else {
-    // updateViews.setImageViewResource(R.id.account_icon, type.iconId);
-    // }
     updateViews.setTextViewText(R.id.note,
         t.label);
-    // int amountColor = u.getAmountColor(amount);
-    // updateViews.setTextColor(R.id.note, amountColor);
+    updateViews.setInt(R.id.divider3,"setBackgroundColor",Account.getInstanceFromDb(t.accountId).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);
     addButtonsClick(context, updateViews, widgetId, t.id);
@@ -125,7 +118,6 @@ public class TemplateWidget extends AbstractWidget<Template> {
             View.GONE : 
             View.VISIBLE;
     updateViews.setViewVisibility(R.id.navigation, multipleTemplatesVisible);
-    updateViews.setViewVisibility(R.id.divider3, multipleTemplatesVisible);
     return updateViews;
   }
   @Override

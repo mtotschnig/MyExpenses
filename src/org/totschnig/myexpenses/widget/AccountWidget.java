@@ -55,7 +55,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1, a.label);
-    Account.Type type = a.type;
+    //Account.Type type = a.type;
     // if (type.isCard && a.cardIssuer != null) {
     // CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
     // updateViews.setImageViewResource(R.id.account_icon, cardIssuer.iconId);
@@ -68,6 +68,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     // int amountColor = u.getAmountColor(amount);
     updateViews.setTextColor(R.id.note, context.getResources().getColor(
         balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
+    updateViews.setInt(R.id.divider3,"setBackgroundColor",a.color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews, a.id);
     addButtonsClick(context, updateViews, a.id);
@@ -77,7 +78,6 @@ public class AccountWidget extends AbstractWidget<Account> {
     int transferEnabledVisible = Account.getTransferEnabledGlobal() ? View.VISIBLE
         : View.GONE;
     updateViews.setViewVisibility(R.id.navigation, multipleAccountsVisible);
-    updateViews.setViewVisibility(R.id.divider3, multipleAccountsVisible);
     updateViews.setViewVisibility(R.id.divider1, transferEnabledVisible);
     updateViews.setViewVisibility(R.id.command2, transferEnabledVisible);
     return updateViews;
