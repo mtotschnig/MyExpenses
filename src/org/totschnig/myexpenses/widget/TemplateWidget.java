@@ -33,10 +33,12 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -176,5 +178,22 @@ public class TemplateWidget extends AbstractWidget<Template> {
     updateViews.setTextViewText(R.id.object_info, context.getString(R.string.no_templates));
     addTapOnClick(context, updateViews);
     return updateViews;
+  }
+  @Override
+  public void onEnabled(Context context) {
+    Log.d("TemplateWidget", "onEnabled");
+    if (!MyApplication.getInstance().isContribEnabled) {
+      Log.d("TemplateWidget", "not contrib enabled");
+      int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
+      if (usagesLeft > 0) {
+        Log.d("TemplateWidget", "usages left "+ usagesLeft);
+        String message =
+            context.getString(R.string.dialog_contrib_premium_feature,
+                context.getString(R.string.contrib_feature_template_widget_label)) +
+            context.getResources().getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft);
+        Toast.makeText(context,message,Toast.LENGTH_LONG).show();
+      }
+    }
+    super.onEnabled(context);
   }
 }
