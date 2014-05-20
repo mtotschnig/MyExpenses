@@ -20,8 +20,11 @@ import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.*;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -203,5 +206,31 @@ public class TemplateWidget extends AbstractWidget<Template> {
           usagesLeft,
           usagesLeft);
     Toast.makeText(context, message,Toast.LENGTH_LONG).show();
+    if (usagesLeft == 0) {
+      updateWidgets(context, TemplateWidget.class);
+    }
+  }
+  @Override
+  protected void updateWidgets(Context context, AppWidgetManager manager,
+      int[] appWidgetIds, String action) {
+    if (!MyApplication.getInstance().isContribEnabled) {
+      Log.d("TemplateWidget", "not contrib enabled");
+      int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
+      if (usagesLeft < 1) {
+        Log.d("TemplateWidget", "no usages left");
+        for (int id : appWidgetIds) {
+          AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
+          if (appWidgetInfo != null) {
+            String message = context.getString(
+                R.string.dialog_contrib_premium_feature,
+                context.getString(R.string.contrib_feature_template_widget_label)) +
+                context.getString(R.string.dialog_contrib_no_usages_left);
+            manager.updateAppWidget(id, errorUpdate(context,message));
+          }
+        }
+        return;
+      }
+    }
+    super.updateWidgets(context, manager, appWidgetIds, action);
   }
 }

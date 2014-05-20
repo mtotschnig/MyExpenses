@@ -44,7 +44,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   protected static final int REQUEST_CODE_ADD_TRANSFER = 1;
   protected static final int REQUEST_CODE_INSTANCE_EDIT = 2;
 
-  public static void updateWidgets(Context context,Class provider) {
+  public static void updateWidgets(Context context,Class<? extends AbstractWidget<?>> provider) {
     Intent i = new Intent(context, provider);
     i.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
     int[] widgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, provider));
@@ -63,19 +63,19 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
     prefs.commit();
   }
 
-  private void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
+  protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
       String action) {
           Log.d("AbstractWidget", "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
           for (int id : appWidgetIds) {
               AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
               if (appWidgetInfo != null) {
                   int layoutId = appWidgetInfo.initialLayout;
-                      long objectId = loadForWidget(context, id);
-                      Log.d("AbstractWidget", "loaded object id " + objectId);
-                      RemoteViews remoteViews = action != null || objectId == -1
-                              ? buildUpdateForOther(context, id, layoutId, objectId, action)
-                              : buildUpdateForCurrent(context, id, layoutId, objectId);
-                      manager.updateAppWidget(id, remoteViews);
+                  long objectId = loadForWidget(context, id);
+                  Log.d("AbstractWidget", "loaded object id " + objectId);
+                  RemoteViews remoteViews = action != null || objectId == -1
+                          ? buildUpdateForOther(context, id, layoutId, objectId, action)
+                          : buildUpdateForCurrent(context, id, layoutId, objectId);
+                  manager.updateAppWidget(id, remoteViews);
               }
           }
       }
@@ -100,10 +100,10 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
       updateWidgets(context, manager, appWidgetIds, null);
   }
 
-  private RemoteViews errorUpdate(Context context) {
+  protected RemoteViews errorUpdate(Context context, String message) {
       RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
-      updateViews.setTextViewText(R.id.line1, "Error!");
-      updateViews.setTextColor(R.id.line1, Color.RED);
+      updateViews.setTextViewText(R.id.object_info, message);
+      updateViews.setTextColor(R.id.object_info, Color.RED);
       return updateViews;
   }
 
