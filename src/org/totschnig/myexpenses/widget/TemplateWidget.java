@@ -74,6 +74,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
+    intent.putExtra(ExpenseEdit.EXTRA_RECORD_TEMPLATE_WIDGET, !MyApplication.getInstance().isContribEnabled);
     pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_INSTANCE_EDIT,
@@ -165,6 +166,10 @@ public class TemplateWidget extends AbstractWidget<Template> {
             Toast.makeText(context,
                 context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
                 Toast.LENGTH_LONG).show();
+            if (!MyApplication.getInstance().isContribEnabled) {
+              ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
+              showContribMessage(context);
+            }
           }
         }
       }
@@ -184,16 +189,19 @@ public class TemplateWidget extends AbstractWidget<Template> {
     Log.d("TemplateWidget", "onEnabled");
     if (!MyApplication.getInstance().isContribEnabled) {
       Log.d("TemplateWidget", "not contrib enabled");
-      int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
-      if (usagesLeft > 0) {
-        Log.d("TemplateWidget", "usages left "+ usagesLeft);
-        String message =
-            context.getString(R.string.dialog_contrib_premium_feature,
-                context.getString(R.string.contrib_feature_template_widget_label)) +
-            context.getResources().getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft);
-        Toast.makeText(context,message,Toast.LENGTH_LONG).show();
-      }
+      showContribMessage(context);
     }
     super.onEnabled(context);
+  }
+  public static void showContribMessage(Context context) {
+    int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
+    String message = context.getString(
+        R.string.dialog_contrib_premium_feature,
+        context.getString(R.string.contrib_feature_template_widget_label)) +
+      context.getResources().getQuantityString(
+          R.plurals.dialog_contrib_usage_count,
+          usagesLeft,
+          usagesLeft);
+    Toast.makeText(context, message,Toast.LENGTH_LONG).show();
   }
 }
