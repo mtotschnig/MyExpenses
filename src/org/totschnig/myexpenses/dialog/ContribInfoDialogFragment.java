@@ -62,9 +62,18 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
           .setNeutralButton(R.string.dialog_remind_later,this)
           .setNegativeButton(R.string.dialog_remind_no,this);
       } else {
-        builder.setNegativeButton(R.string.dialog_contrib_no,null);
+        builder.setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            onCancel(dialog);
+          }
+        });
       }
     return builder.create();
+  }
+  @Override
+  public void onCancel (DialogInterface dialog) {
+      ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {

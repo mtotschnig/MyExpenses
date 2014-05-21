@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.DialogActivity;
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Account;
@@ -227,7 +227,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
                 context.getString(R.string.contrib_feature_template_widget_label)) +
                 context.getString(R.string.dialog_contrib_no_usages_left);
             RemoteViews updateViews = errorUpdate(context,message);
-            Intent intent = new Intent(context, DialogActivity.class);
+            Intent intent = new Intent(context, ContribInfoDialogActivity.class);
             updateViews.setOnClickPendingIntent(R.id.object_info,
                 PendingIntent.getActivity(context, 0, intent, 0));
             manager.updateAppWidget(id, updateViews);

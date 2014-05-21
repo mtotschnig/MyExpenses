@@ -117,4 +117,12 @@
 	<style name="ActionBarDark" parent="@style/Widget.AppCompat.ActionBar">
     <item name="icon">@drawable/ic_home_dark</item>
   </style>
+  <style name="ThemeDark.TranslucentNoTitleBar">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:colorBackgroundCacheHint">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <!-- Note that we use the base animation style here (that is no animations) because we really have no idea how this kind of activity will be used. -->
+    <item name="android:windowAnimationStyle">@android:style/Animation</item>
+  </style>
 </resources>
