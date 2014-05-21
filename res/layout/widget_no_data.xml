@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
-              android:orientation="horizontal">
-<TextView
-	android:background="@drawable/widget_background_gray"
-	android:id="@+id/object_info" android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:singleLine="true" android:text="No data"
-	android:textColor="#ffffff" android:textStyle="bold" android:ellipsize="end"
-	android:textSize="12sp"
-	android:gravity="center_vertical|center_horizontal" />
+  android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
+  android:orientation="horizontal">
+	<TextView
+		android:background="@drawable/widget_background_gray"
+		android:id="@+id/object_info" android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:singleLine="true" android:text="No data"
+		android:textColor="#ffffff" android:textStyle="bold" android:ellipsize="end"
+		android:textSize="12sp"
+		android:gravity="center_vertical|center_horizontal" />
 </LinearLayout>

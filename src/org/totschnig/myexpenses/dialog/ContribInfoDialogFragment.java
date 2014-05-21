@@ -30,6 +30,7 @@ import android.text.TextUtils;
 
 public class ContribInfoDialogFragment  extends DialogFragment implements OnClickListener {
 
+  private static final String KEY_REMINDER_P = "reminderP";
   /**
    * @param reminderP yes if we are called from a reminder
    * @return
@@ -37,7 +38,7 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
   public static final ContribInfoDialogFragment newInstance(boolean reminderP) {
     ContribInfoDialogFragment dialogFragment = new ContribInfoDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putBoolean("reminderP", reminderP);
+    bundle.putBoolean(KEY_REMINDER_P, reminderP);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -56,7 +57,7 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
       .setTitle(R.string.menu_contrib);
       builder.setMessage(message)
         .setPositiveButton(R.string.dialog_contrib_yes, this);
-      if (getArguments().getBoolean("reminderP")) {
+      if (getArguments().getBoolean(KEY_REMINDER_P)) {
         builder.setCancelable(false)
           .setNeutralButton(R.string.dialog_remind_later,this)
           .setNegativeButton(R.string.dialog_remind_no,this);

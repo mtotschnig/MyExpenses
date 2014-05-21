@@ -98,6 +98,7 @@
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".activity.DialogActivity" />
 		<provider android:exported="false" android:name=".provider.TransactionProvider"
 			android:authorities="org.totschnig.myexpenses" />
 		<service android:name=".service.PlanExecutor" />
