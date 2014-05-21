@@ -124,8 +124,8 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     switch(command) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-      intent.putExtra("template_id", menuInfo.id);
-      intent.putExtra("instance_id", -1L);
+      intent.putExtra(KEY_TEMPLATEID, menuInfo.id);
+      intent.putExtra(KEY_INSTANCEID, -1L);
       startActivity(intent);
       break;
     case R.id.EDIT_COMMAND:
@@ -209,6 +209,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
           }
         }
       }
+      //TODO: simplify confer TemplateWidget
       SpannableStringBuilder ssb;
       String comment = c.getString(columnIndexComment);
       if (comment != null && comment.length() > 0) {

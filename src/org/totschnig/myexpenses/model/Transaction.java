@@ -39,7 +39,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Transaction extends Model {
-  public Long id = 0L;
   public String comment="",label="",payee = "",referenceNumber="";
   protected Date date;
   public Money amount;

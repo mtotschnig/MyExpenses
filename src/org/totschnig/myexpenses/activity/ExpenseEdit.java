@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.TemplateWidget;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
@@ -92,6 +93,7 @@ public class ExpenseEdit extends AmountActivity implements
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
+  public static final String EXTRA_RECORD_TEMPLATE_WIDGET = "recordTemplateWidget";
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
@@ -141,7 +143,8 @@ public class ExpenseEdit extends AmountActivity implements
   
   private LoaderManager mManager;
 
-  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false, mTransferEnabled;
+  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false,
+      mSavedInstance = false, mTransferEnabled, mRecordTemplateWidget = false;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -254,6 +257,7 @@ public class ExpenseEdit extends AmountActivity implements
         if ((mPlanInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
           mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE,0);
+          mRecordTemplateWidget = getIntent().getBooleanExtra(EXTRA_RECORD_TEMPLATE_WIDGET, false);
         } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
@@ -1071,6 +1075,10 @@ public class ExpenseEdit extends AmountActivity implements
         Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
       }
     } else {
+      if (mRecordTemplateWidget) {
+        ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
+        TemplateWidget.showContribMessage(this);
+      }
       if (mCreateNew) {
         mCreateNew = false;
         mTransaction.id = 0L;
@@ -1327,7 +1335,7 @@ public class ExpenseEdit extends AmountActivity implements
         TaskExecutionFragment.TASK_NEW_PLAN,
         new Long[] {0L} ,
         new Plan(
-            0,
+            0L,
             System.currentTimeMillis(),
             "",
             ((Template) mTransaction).title,

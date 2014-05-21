@@ -273,14 +273,14 @@ public class MyExpenses extends LaunchActivity implements
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ROWID,0);
-      idFromNotification = extras.getLong("transaction_id",0);
+      idFromNotification = extras.getLong(KEY_TRANSACTIONID,0);
       //detail fragment from notification should only be shown upon first instantiation from notification
       if (idFromNotification != 0 && savedInstanceState == null) {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
           TransactionDetailFragment.newInstance(idFromNotification)
               .show(fm, "TRANSACTION_DETAIL");
-          getIntent().removeExtra("transaction_id");
+          getIntent().removeExtra(KEY_TRANSACTIONID);
         }
       }
     }

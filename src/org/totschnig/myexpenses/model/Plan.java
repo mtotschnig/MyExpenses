@@ -24,12 +24,11 @@ import android.util.Log;
  * holds information about an event in the calendar
  */
 public class Plan extends Model implements Serializable {
-  public long id;
   public long dtstart;
   public String rrule;
   public String title;
   public String description;
-  public Plan(long id, long dtstart, String rrule, String title, String description) {
+  public Plan(Long id, long dtstart, String rrule, String title, String description) {
     super();
     this.id = id;
     this.dtstart = dtstart;

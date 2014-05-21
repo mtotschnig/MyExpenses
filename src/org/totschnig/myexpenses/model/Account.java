@@ -54,8 +54,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Account extends Model {
 
-  public long id = 0;
-
   public String label;
 
   public Money openingBalance;
@@ -506,6 +504,7 @@ public class Account extends Model {
    */
   protected void extract(Cursor c) {
     this.id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
+    Log.d("DEBUG","extracting account from cursor with id "+ id);
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
@@ -597,6 +596,15 @@ public class Account extends Model {
     long result = c.getLong(0);
     c.close();
     return result == 1;
+  }
+  
+  public static boolean getTransferEnabledGlobal() {
+    Cursor cursor = cr().query(
+        TransactionProvider.AGGREGATES_COUNT_URI,
+        null,null, null, null);
+    boolean result = cursor.getCount() > 0;
+    cursor.close();
+    return result;
   }
 
   /**
@@ -890,7 +898,7 @@ public class Account extends Model {
     
     if (id == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
-      id = Integer.valueOf(uri.getLastPathSegment());
+      id = Long.valueOf(uri.getLastPathSegment());
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       cr().update(uri,initialValues,null,null);

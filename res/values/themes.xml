@@ -30,8 +30,8 @@
   </style>
   <style name="ThemeDark" parent="BaseDark">
     <item name="dropdownListPreferredItemHeight">48sp</item>
-    <item name="colorIncome">#00D000</item>
-    <item name="colorExpense">#FF0000</item>
+    <item name="colorIncome">@color/colorIncomeDark</item>
+    <item name="colorExpense">@color/colorExpenseDark</item>
     <item name="colorAggregate">#FFFFFF</item>
     <item name="drawerBackground">#222</item>
     <item name="pageMargin">@drawable/pagermargin_white</item>
@@ -44,8 +44,8 @@
     <item name="dropdownListPreferredItemHeight">48sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="colorIncome">#008000</item>
-    <item name="colorExpense">#800000</item>
+    <item name="colorIncome">@color/colorIncomeLight</item>
+    <item name="colorExpense">@color/colorExpenseLight</item>
     <item name="colorAggregate">#000000</item>
     <item name="drawerBackground">#ddd</item>
     <item name="pageMargin">@drawable/pagermargin_black</item>
@@ -116,5 +116,13 @@
 	</style>
 	<style name="ActionBarDark" parent="@style/Widget.AppCompat.ActionBar">
     <item name="icon">@drawable/ic_home_dark</item>
+  </style>
+  <style name="ThemeDark.TranslucentNoTitleBar">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:colorBackgroundCacheHint">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <!-- Note that we use the base animation style here (that is no animations) because we really have no idea how this kind of activity will be used. -->
+    <item name="android:windowAnimationStyle">@android:style/Animation</item>
   </style>
 </resources>

@@ -102,12 +102,16 @@
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".activity.ContribInfoDialogActivity"
+			android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
+
 		<service android:name=".service.MyService"
 			android:permission="org.totschnig.myexpenses.UNLOCK_PREMIUM">
 			<intent-filter>
 				<action android:name="org.totschnig.myexpenses.service.MyService" />
 			</intent-filter>
 		</service>
+
 		<provider android:exported="false" android:name=".provider.TransactionProvider"
 			android:authorities="org.totschnig.myexpenses" />
 		<service android:name=".service.PlanExecutor" />
@@ -117,16 +121,28 @@
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
-		<receiver android:name=".activity.AccountWidget"
-			android:label="@string/pref_manage_accounts_title">
-			<intent-filter>
-				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-				<action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
-			</intent-filter>
-			<meta-data android:name="android.appwidget.provider"
-				android:resource="@xml/widget_info_accounts" />
-		</receiver>
-	</application>
+
+		<receiver android:name="org.totschnig.myexpenses.widget.AccountWidget"
+			android:label="@string/widget_title_accounts" >
+      <intent-filter>
+	       <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+	       <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider"
+      	android:resource="@xml/widget_info_accounts" />
+    </receiver>
+	
+	   <receiver android:name="org.totschnig.myexpenses.widget.TemplateWidget"
+	   	android:label="@string/widget_title_templates" >
+      <intent-filter>
+         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+         <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider"
+      	android:resource="@xml/widget_info_templates" />
+    </receiver>
+
+  </application>
 	<meta-data android:name="android.support.UI_OPTIONS"
 		android:value="splitActionBarWhenNarrow" />
 </manifest>

@@ -112,7 +112,7 @@ public class PlanExecutor extends IntentService {
                 if (t.save() != null) {
                   Intent displayIntent = new Intent(this, MyExpenses.class)
                     .putExtra(KEY_ROWID, template.accountId)
-                    .putExtra("transaction_id", t.id);
+                    .putExtra(KEY_TRANSACTIONID, t.id);
                   resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
                       PendingIntent.FLAG_UPDATE_CURRENT);
                   builder.setContentIntent(resultIntent);
@@ -133,8 +133,8 @@ public class PlanExecutor extends IntentService {
                     PendingIntent.getService(this, notificationId, cancelIntent, 0));
                 Intent editIntent = new Intent(this,ExpenseEdit.class)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                  .putExtra("template_id", template.id)
-                  .putExtra("instance_id", -1L)
+                  .putExtra(KEY_TEMPLATEID, template.id)
+                  .putExtra(KEY_INSTANCEID, -1L)
                   .putExtra(KEY_DATE, date);
                 resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
                 builder.addAction(
@@ -145,7 +145,7 @@ public class PlanExecutor extends IntentService {
                 applyIntent.setAction("Apply")
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra("title", title)
-                  .putExtra("template_id", template.id)
+                  .putExtra(KEY_TEMPLATEID, template.id)
                   .putExtra(KEY_DATE, date);
                 builder.addAction(
                     android.R.drawable.ic_menu_save,
