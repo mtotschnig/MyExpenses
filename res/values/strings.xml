@@ -429,4 +429,6 @@
     <string name="menu_create_folder">New folder</string>
     <string name="menu_up">Up</string>
     <string name="create_new_folder_fail">Failed to create the folder</string>
+    <string name="widget_title_accounts">My accounts</string>
+    <string name="widget_title_templates">My templates</string>
 </resources>

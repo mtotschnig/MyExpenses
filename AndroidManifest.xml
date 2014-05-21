@@ -98,7 +98,8 @@
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".activity.ContribInfoDialogActivity" android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
+		<activity android:name=".activity.ContribInfoDialogActivity"
+			android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
 
 		<provider android:exported="false" android:name=".provider.TransactionProvider"
 			android:authorities="org.totschnig.myexpenses" />
@@ -110,20 +111,24 @@
 			</intent-filter>
 		</receiver>
 
-		<receiver android:name="org.totschnig.myexpenses.widget.AccountWidget" android:label="@string/pref_manage_accounts_title" >
+		<receiver android:name="org.totschnig.myexpenses.widget.AccountWidget"
+			android:label="@string/widget_title_accounts" >
       <intent-filter>
 	       <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 	       <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info_accounts" />
+      <meta-data android:name="android.appwidget.provider"
+      	android:resource="@xml/widget_info_accounts" />
     </receiver>
 	
-	   <receiver android:name="org.totschnig.myexpenses.widget.TemplateWidget" android:label="@string/menu_manage_plans_tab_templates" >
+	   <receiver android:name="org.totschnig.myexpenses.widget.TemplateWidget"
+	   	android:label="@string/widget_title_templates" >
       <intent-filter>
          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
          <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info_templates" />
+      <meta-data android:name="android.appwidget.provider"
+      	android:resource="@xml/widget_info_templates" />
     </receiver>
 
   </application>
