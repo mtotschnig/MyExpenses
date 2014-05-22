@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -34,6 +35,10 @@ import android.support.v4.app.FragmentActivity;
 
     @Override
     public void contribFeatureNotCalled() {
+      finish();
+    }
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
       finish();
     }
 }

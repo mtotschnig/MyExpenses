@@ -18,8 +18,10 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.text.ClipboardManager;
@@ -54,7 +56,7 @@ public class DonateDialogFragment extends DialogFragment {
    * @return
    */
   public static AlertDialog buildDialog(Context ctx) {
-    DonationUriVisitor listener = new DonationUriVisitor(ctx);
+    DonationUriVisitor listener = new DonationUriVisitor((Activity) ctx);
     return new AlertDialog.Builder(ctx)
       .setTitle(R.string.donate)
       .setMessage(
@@ -69,9 +71,9 @@ public class DonateDialogFragment extends DialogFragment {
       .create();
   }
   public static class DonationUriVisitor implements OnClickListener {
-    Context ctx;
+    Activity ctx;
 
-    public DonationUriVisitor(Context ctx) {
+    public DonationUriVisitor(Activity ctx) {
       super();
       this.ctx = ctx;
     }
@@ -79,11 +81,12 @@ public class DonateDialogFragment extends DialogFragment {
     @Override
     public void onClick(DialogInterface dialog, int which) {
       String bitcoinAddress = "1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn";
+      Intent intent;
       if (which == AlertDialog.BUTTON_NEUTRAL) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("bitcoin:" + bitcoinAddress));
         if (Utils.isIntentAvailable(ctx,intent)) {
-          ctx.startActivity(intent);
+          ctx.startActivityForResult(intent, 0);
         } else {
           ClipboardManager clipboard = (ClipboardManager)
               ctx.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -91,14 +94,17 @@ public class DonateDialogFragment extends DialogFragment {
           Toast.makeText(ctx,
               "My Expenses Bitcoin Donation address " + bitcoinAddress + " copied to clipboard",
               Toast.LENGTH_LONG).show();
+          if (ctx instanceof MessageDialogListener) {
+            ((MessageDialogListener) ctx).onMessageDialogDismissOrCancel();
+          }
         }
       } else {
         String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
             "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6" :
             "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(uri));
-        ctx.startActivity(i);
+        intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(uri));
+        ctx.startActivityForResult(intent, 0);
       }
     }
   }
