@@ -41,6 +41,7 @@
   <string name="pref_rate_key">rate</string>
   <string name="pref_ui_language_key">ui_language</string>
   <string name="pref_app_dir_key">app_dir</string>
+  <string name="pref_protection_data_entry_from_widget_key">require_password_for_data_entry_from_widget</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 

@@ -38,6 +38,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   
   protected static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
   protected static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
+  public static final String EXTRA_START_FROM_WIDGET = "startFromWidget"; 
   protected static final String WIDGET_ID = "widgetId";
   protected static final String PREF_PREFIX_KEY = "prefix_";
   protected static final int REQUEST_CODE_ADD_TRANSACTION = 0;

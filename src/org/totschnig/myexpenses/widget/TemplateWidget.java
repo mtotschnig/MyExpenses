@@ -77,7 +77,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
-    intent.putExtra(ExpenseEdit.EXTRA_RECORD_TEMPLATE_WIDGET, !MyApplication.getInstance().isContribEnabled);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_INSTANCE_EDIT,

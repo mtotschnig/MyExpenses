@@ -96,6 +96,7 @@ public class AccountWidget extends AbstractWidget<Account> {
       long accountId) {
     Intent intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     PendingIntent pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_ADD_TRANSACTION,
@@ -106,6 +107,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_ADD_TRANSFER,

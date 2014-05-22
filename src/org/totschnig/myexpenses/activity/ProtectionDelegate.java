@@ -44,15 +44,15 @@ public class ProtectionDelegate {
     if (app.isLocked && pwDialog != null)
       pwDialog.dismiss();
     else {
-      app.setLastPause();
+      app.setLastPause(ctx);
     }
   }
   protected void handleOnDestroy() {
-    MyApplication.getInstance().setLastPause();
+    MyApplication.getInstance().setLastPause(ctx);
   }
   protected AlertDialog hanldeOnResume(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
-    if (app.shouldLock()) {
+    if (app.shouldLock(ctx)) {
       if (pwDialog == null)
         pwDialog = DialogUtils.passwordDialog(ctx);
       DialogUtils.showPasswordDialog(ctx,pwDialog);

@@ -138,6 +138,11 @@
         android:key="@string/pref_security_question_key"
         android:title="@string/pref_security_question_title"
         android:summary="@string/pref_security_question_summary"/>
+     <CheckBoxPreference android:key="@string/pref_protection_data_entry_from_widget_key"
+        android:defaultValue="true"
+        android:title="@string/pref_protection_data_entry_from_widget_title"
+        android:summaryOn="@string/pref_protection_data_entry_from_widget_summary_on"
+        android:summaryOff="@string/pref_protection_data_entry_from_widget_summary_off" />
    </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_more_information">
      <Preference

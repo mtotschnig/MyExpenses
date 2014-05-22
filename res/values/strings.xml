@@ -311,6 +311,9 @@
     <string name="pref_planning_calendar_title">Planning calendar</string>
     <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
     <string name="pref_protection_delay_seconds_title">Delay until protection</string>
+    <string name="pref_protection_data_entry_from_widget_title">Data entry from widgets</string>
+    <string name="pref_protection_data_entry_from_widget_summary_on">Password is required.</string>
+    <string name="pref_protection_data_entry_from_widget_summary_off">Allowed without password.</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
     <string name="pref_request_licence_summary">If you have contributed, request a Contrib key for Android-Id %1$s by email.</string>
     <string name="pref_request_licence_title">Request a Contrib key</string>

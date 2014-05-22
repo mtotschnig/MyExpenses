@@ -133,7 +133,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat 
       //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
       //hence we need to set isLocked if necessary
       MyApplication.getInstance().resetLastPause();
-      MyApplication.getInstance().shouldLock();
+      MyApplication.getInstance().shouldLock(this);
 
       setResult(RESULT_FIRST_USER);
     }

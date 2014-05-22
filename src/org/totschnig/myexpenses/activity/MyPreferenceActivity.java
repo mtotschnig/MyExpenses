@@ -118,6 +118,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
     findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
     findPreference(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
+    findPreference(MyApplication.PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
   }
 
   @Override

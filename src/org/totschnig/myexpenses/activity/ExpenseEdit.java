@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -94,7 +95,6 @@ public class ExpenseEdit extends AmountActivity implements
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
-  public static final String EXTRA_RECORD_TEMPLATE_WIDGET = "recordTemplateWidget";
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
@@ -258,7 +258,9 @@ public class ExpenseEdit extends AmountActivity implements
         if ((mPlanInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
           mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE,0);
-          mRecordTemplateWidget = getIntent().getBooleanExtra(EXTRA_RECORD_TEMPLATE_WIDGET, false);
+          mRecordTemplateWidget =
+              getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
+              !MyApplication.getInstance().isContribEnabled;
         } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
