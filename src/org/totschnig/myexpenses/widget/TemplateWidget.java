@@ -24,7 +24,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.*;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;

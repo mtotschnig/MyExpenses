@@ -35,6 +35,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
@@ -162,6 +163,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       return true;
     case R.id.CANCEL_CALLBACK_COMMAND:
       finishActionMode();
+      return true;
+    case android.R.id.home:
+      NavUtils.navigateUpFromSameTask(this);
       return true;
     }
     return super.dispatchCommand(command, tag);

@@ -33,7 +33,11 @@
 			<meta-data android:name="android.support.UI_OPTIONS"
 				android:value="splitActionBarWhenNarrow" />
 		</activity>
-		<activity android:name=".activity.ExpenseEdit" />
+		<activity android:name=".activity.ExpenseEdit" android:parentActivityName=".activity.MyExpenses">
+			 <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".activity.MyExpenses" />
+			</activity>
 		<activity android:name=".activity.AccountEdit" />
 		<activity android:name=".activity.MethodEdit" />
 		<activity android:name=".activity.ManageCategories">
@@ -74,12 +78,15 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".activity.ManageTemplates">
+		<activity android:name=".activity.ManageTemplates" android:parentActivityName=".activity.MyExpenses">
 			<intent-filter>
 				<action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="vnd.android.cursor.item/event" />
 			</intent-filter>
+       <meta-data
+         android:name="android.support.PARENT_ACTIVITY"
+         android:value=".activity.MyExpenses" />
 		</activity>
 		<activity android:name=".activity.ManageMethods">
 			<intent-filter>

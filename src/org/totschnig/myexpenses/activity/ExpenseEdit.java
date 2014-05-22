@@ -57,6 +57,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
@@ -518,8 +519,8 @@ public class ExpenseEdit extends AmountActivity implements
       } else if (mTransaction instanceof Template) {
         deleteUnusedPlan();
       }
-      //handled in super
-      break;
+      NavUtils.navigateUpFromSameTask(this);
+      return true;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction &&
         !((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete()) {
