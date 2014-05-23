@@ -39,23 +39,28 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    protection = new ProtectionDelegate(this);
     setLanguage();
+  }
+  private ProtectionDelegate getProtection() {
+    if (protection == null) {
+      protection = new ProtectionDelegate(this);
+    }
+    return protection;
   }
   @Override
   protected void onPause() {
     super.onPause();
-    protection.handleOnPause(pwDialog);
+    getProtection().handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    protection.handleOnDestroy();
+    getProtection().handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    pwDialog = protection.hanldeOnResume(pwDialog);
+    pwDialog = getProtection().hanldeOnResume(pwDialog);
   }
   public void onMessageDialogDismissOrCancel() {
   }
@@ -70,18 +75,18 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
   }
   @Override
   public void onCancelled() {
-    protection.removeAsyncTaskFragment(false);
+    getProtection().removeAsyncTaskFragment(false);
   }
   @Override
   public void onPostExecute(int taskId, Object o) {
-    protection.removeAsyncTaskFragment(taskId);
+    getProtection().removeAsyncTaskFragment(taskId);
   }
   @Override
   public void onPreExecute() {
   }
   @Override
   public void onProgressUpdate(Object progress) {
-    protection.updateProgressDialog(progress);
+    getProtection().updateProgressDialog(progress);
   }
   /**
    * starts the given task, only if no task is currently executed,
@@ -92,6 +97,6 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
    * @param progressMessage if 0 no progress dialog will be shown
    */
   public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
-    protection.startTaskExecution(taskId,objectIds,extra,progressMessage);
+    getProtection().startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
 }

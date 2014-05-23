@@ -34,27 +34,32 @@ public class ProtectedPreferenceActivity extends PreferenceActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    protection = new ProtectionDelegate(this);
     MyApplication.getInstance().setLanguage();
     if (Build.VERSION.SDK_INT > 10) {
       getActionBar().setDisplayHomeAsUpEnabled(true);
       getActionBar().setDisplayShowHomeEnabled(true);
     }
   }
+  private ProtectionDelegate getProtection() {
+    if (protection == null) {
+      protection = new ProtectionDelegate(this);
+    }
+    return protection;
+  }
   @Override
   protected void onPause() {
     super.onPause();
-    protection.handleOnPause(pwDialog);
+    getProtection().handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    protection.handleOnDestroy();
+    getProtection().handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    pwDialog = protection.hanldeOnResume(pwDialog);
+    pwDialog = getProtection().hanldeOnResume(pwDialog);
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
