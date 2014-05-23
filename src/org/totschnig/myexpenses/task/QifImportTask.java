@@ -108,10 +108,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       publishProgress(MyApplication.getInstance()
           .getString(R.string.parse_error_file_not_found,fileUri));
       return null;
-    } catch (IOException e) {
-      publishProgress(MyApplication.getInstance()
-          .getString(R.string.parse_error_other_exception,e.getMessage()));
-      return null;
     }
     parser = new QifParser(r, dateFormat);
     try {
