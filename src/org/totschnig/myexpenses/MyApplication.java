@@ -312,16 +312,24 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       this.mLastPause = 0;
     }
     /**
-     * @param ctx 
+     * @param ctx Activity that should be password protected, can be null if called from widget provider
      * @return true if password protection is set, and
      * we have paused for at least {@link #passwordCheckDelayNanoSeconds} seconds
+     * unless we are called from widget or from an activity called from widget and passwordless data entry from widget is allowed
      * sets isLocked as a side effect
      */
     public boolean shouldLock(Activity ctx) {
-      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) &&
+      boolean startFromWidget =
+          ctx == null ||
+          ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
+      if (
+          mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) &&
           System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds &&
-          (mSettings.getBoolean(PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET, true) ||
-          !ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false))) {
+          (
+              mSettings.getBoolean(PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET, true) ||
+              !startFromWidget
+          )
+      ) {
         isLocked = true;
         return true;
       }

@@ -311,7 +311,7 @@
     <string name="pref_planning_calendar_title">Planning calendar</string>
     <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
     <string name="pref_protection_delay_seconds_title">Delay until protection</string>
-    <string name="pref_protection_data_entry_from_widget_title">Data entry from widgets</string>
+    <string name="pref_protection_data_entry_from_widget_title">Protect data entry from widgets</string>
     <string name="pref_protection_data_entry_from_widget_summary_on">Password is required.</string>
     <string name="pref_protection_data_entry_from_widget_summary_off">Allowed without password.</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
@@ -411,6 +411,7 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
+    <string name="warning_instantiate_template_from_widget_password_protected">Quick instantiation of templates from this widget only works if you allow data entry from widgets without password in the app settings.</string>
     <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
     <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires My Expenses Contrib).</string>
     <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
