@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 
 import org.acra.*;
@@ -33,11 +32,13 @@ import org.totschnig.myexpenses.service.UnlockHandler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.*;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -56,16 +57,14 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-//import android.view.KeyEvent;
-import android.widget.Toast;
 
 @ReportsCrashes(
     formKey = "",
@@ -103,6 +102,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_SECURITY_ANSWER;
     public static String PREFKEY_SECURITY_QUESTION;
     public static String PREFKEY_PROTECTION_DELAY_SECONDS;
+    public static String PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET;
+    public static String PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
+    public static String PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
@@ -146,8 +148,17 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       MyApplication.passwordCheckDelayNanoSeconds = mSelf.mSettings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
     }
 
-    public boolean isLocked;
+    private boolean isLocked;
+    public boolean isLocked() {
+      return isLocked;
+    }
+
+    public void setLocked(boolean isLocked) {
+      this.isLocked = isLocked;
+    }
+
     protected Messenger mService;
+
     public static final String FEEDBACK_EMAIL = "support@myexpenses.mobi";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     
@@ -161,6 +172,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      */
     private Locale systemLocale = Locale.getDefault();
 
+    private WidgetObserver mTemplateObserver,mAccountObserver;
 
     @Override
     public void onCreate() {
@@ -186,6 +198,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
       PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
       PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
+      PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET = getString(R.string.pref_protection_enable_account_widget_key);
+      PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET = getString(R.string.pref_protection_enable_template_widget_key);
+      PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET = getString(R.string.pref_protection_enable_data_entry_from_widget_key);
       PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
       PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
@@ -209,6 +224,19 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initContribEnabled();
       mPlannerCalendarId = mSettings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
       initPlanner();
+      registerWidgetObservers();
+    }
+
+    private void registerWidgetObservers() {
+      final ContentResolver r = getContentResolver();
+      mTemplateObserver = new WidgetObserver(TemplateWidget.class);
+      for (Uri uri: TemplateWidget.OBSERVED_URIS) {
+        r.registerContentObserver(uri, true, mTemplateObserver);
+      }
+      mAccountObserver = new WidgetObserver(AccountWidget.class);
+      for (Uri uri: AccountWidget.OBSERVED_URIS) {
+        r.registerContentObserver(uri, true, mAccountObserver);
+      }
     }
 
     public boolean initContribEnabled() {
@@ -383,24 +411,46 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public long getLastPause() {
       return mLastPause;
     }
-    public void setLastPause() {
-      if (!isLocked)
-        this.mLastPause = System.nanoTime();
+    public void setLastPause(Activity ctx) {
+      if (!isLocked()) {
+        //if we are dealing with an activity called from widget that allows to 
+        //bypass password protection, we do not reset last pause
+        //otherwise user could gain unprotected access to the app
+        boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
+        boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+        if (!isDataEntryEnabled || !isStartFromWidget) {
+          this.mLastPause = System.nanoTime();
+        }
+      }
     }
     public void resetLastPause() {
       this.mLastPause = 0;
     }
     /**
+     * @param ctx Activity that should be password protected, can be null if called from widget provider
      * @return true if password protection is set, and
      * we have paused for at least {@link #passwordCheckDelayNanoSeconds} seconds
+     * unless we are called from widget or from an activity called from widget and passwordless data entry from widget is allowed
      * sets isLocked as a side effect
      */
-    public boolean shouldLock() {
-      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds) {
-        isLocked = true;
+    public boolean shouldLock(Activity ctx) {
+      boolean isStartFromWidget =
+          ctx == null ||
+          ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+      boolean isProtected = isProtected();
+      long lastPause = getLastPause();
+      boolean isPostDelay = System.nanoTime() - lastPause > passwordCheckDelayNanoSeconds;
+      boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
+      if (
+          isProtected && isPostDelay && (!isDataEntryEnabled || !isStartFromWidget)
+      ) {
+        setLocked(true);
         return true;
       }
       return false;
+    }
+    public boolean isProtected() {
+      return mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false);
     }
     /**
      * @param calendarId
@@ -634,6 +684,23 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           SharedPreferencesCompat.apply(
               sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH));
         }
+      }
+    }
+    class WidgetObserver extends ContentObserver {
+      /**
+       * 
+       */
+      private Class<? extends AbstractWidget<?>> mProvider;
+
+      WidgetObserver(Class<? extends AbstractWidget<?>> provider) {
+          super(null);
+          mProvider = provider;
+      }
+
+      @Override
+      public void onChange(boolean selfChange) {
+          super.onChange(selfChange);
+          AbstractWidget.updateWidgets(mSelf,mProvider);
       }
     }
 }

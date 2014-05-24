@@ -9,8 +9,6 @@
 
 package org.totschnig.myexpenses.export;
 
-import org.totschnig.myexpenses.model.Category;
-
 /**
  * Created by IntelliJ IDEA.
  * User: denis.solonenko

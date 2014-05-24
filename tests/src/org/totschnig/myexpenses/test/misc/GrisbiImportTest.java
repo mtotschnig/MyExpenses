@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.test.misc;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;

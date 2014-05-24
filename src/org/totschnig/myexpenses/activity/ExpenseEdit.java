@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -57,6 +58,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
@@ -93,7 +96,6 @@ public class ExpenseEdit extends AmountActivity implements
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
-  public static final String EXTRA_RECORD_TEMPLATE_WIDGET = "recordTemplateWidget";
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
@@ -257,7 +259,9 @@ public class ExpenseEdit extends AmountActivity implements
         if ((mPlanInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
           mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE,0);
-          mRecordTemplateWidget = getIntent().getBooleanExtra(EXTRA_RECORD_TEMPLATE_WIDGET, false);
+          mRecordTemplateWidget =
+              getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
+              !MyApplication.getInstance().isContribEnabled;
         } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
@@ -518,8 +522,21 @@ public class ExpenseEdit extends AmountActivity implements
       } else if (mTransaction instanceof Template) {
         deleteUnusedPlan();
       }
-      //handled in super
-      break;
+      Intent upIntent = NavUtils.getParentActivityIntent(this);
+      if (shouldUpRecreateTask(this)) {
+          // This activity is NOT part of this app's task, so create a new task
+          // when navigating up, with a synthesized back stack.
+          TaskStackBuilder.create(this)
+                  // Add all of this activity's parents to the back stack
+                  .addNextIntentWithParentStack(upIntent)
+                  // Navigate up to the closest parent
+                  .startActivities();
+      } else {
+          // This activity is part of this app's task, so simply
+          // navigate up to the logical parent activity.
+          NavUtils.navigateUpTo(this, upIntent);
+      }
+      return true;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction &&
         !((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete()) {

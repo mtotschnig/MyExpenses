@@ -9,7 +9,6 @@ import java.util.Locale;
 import junit.framework.Assert;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
@@ -33,6 +32,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 
+@SuppressLint("InlinedApi")
 public class Fixture {
   private static Account account1;
   private static Account account2;
@@ -218,7 +218,7 @@ public class Fixture {
     template.title = templateSubCat;
     template.payee = testContext.getString(R.string.testData_templatePayee);
     Uri planUri = new Plan(
-        0,
+        0L,
         System.currentTimeMillis(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
         template.title,

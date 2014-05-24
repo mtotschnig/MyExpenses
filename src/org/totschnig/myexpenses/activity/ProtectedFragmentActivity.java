@@ -19,12 +19,13 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.widget.AbstractWidget;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,12 +34,17 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+/**
+ * @author Michael Totschnig
+ *
+ */
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
@@ -89,10 +95,10 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   protected void onDestroy() {
     super.onDestroy();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    getProtection().handleOnDestroy();
   }
   @Override
   protected void onResume() {
+    Log.d("DEBUG","ProtectedFragmentActivity onResume");
     super.onResume();
     if(scheduledRestart) {
       scheduledRestart = false;
@@ -178,5 +184,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
    */
   public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
     getProtection().startTaskExecution(taskId,objectIds,extra,progressMessage);
+  }
+  
+  /**
+   * Workaround for broken {@link NavUtils#shouldUpRecreateTask(android.app.Activity, Intent)}
+   * @see <a href="http://stackoverflow.com/a/20643984/1199911">http://stackoverflow.com/a/20643984/1199911</a>
+   * @param from
+   * @return
+   */
+  protected final boolean shouldUpRecreateTask(Activity from){
+    return from.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
   }
 }

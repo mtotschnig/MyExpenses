@@ -17,6 +17,8 @@
 package org.totschnig.myexpenses.widget;
 
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
@@ -46,8 +48,24 @@ public class AccountWidget extends AbstractWidget<Account> {
   @Override
   String getPrefName() {
     // TODO Auto-generated method stub
-    return"org.totschnig.myexpenses.activity.AccountWidget";
+    return "org.totschnig.myexpenses.activity.AccountWidget";
   }
+  @Override
+  String getProtectionKey() {
+    return MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET;
+  }
+
+  public static final Uri[] OBSERVED_URIS = new Uri[] {
+        TransactionProvider.ACCOUNTS_URI,
+        TransactionProvider.TRANSACTIONS_URI
+  };
+
+  @Override
+  protected void updateWidgets(Context context, AppWidgetManager manager,
+      int[] appWidgetIds, String action) {
+    Log.d("DEBUG", "updating AccountWidget");
+    super.updateWidgets(context, manager, appWidgetIds, action);
+  };
 
   RemoteViews updateWidgetFrom(Context context,
       int widgetId, int layoutId, Account a) {
@@ -96,6 +114,8 @@ public class AccountWidget extends AbstractWidget<Account> {
       long accountId) {
     Intent intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     PendingIntent pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_ADD_TRANSACTION,
@@ -106,6 +126,8 @@ public class AccountWidget extends AbstractWidget<Account> {
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_ADD_TRANSFER,

@@ -128,7 +128,7 @@
         android:summary="@string/pref_enter_licence_summary" />
       -->
    </PreferenceCategory>
-   <PreferenceCategory android:title="@string/pref_category_title_security">
+   <PreferenceScreen android:title="@string/pref_category_title_security">
      <org.totschnig.myexpenses.preference.PasswordPreference
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"
@@ -143,7 +143,24 @@
         android:key="@string/pref_security_question_key"
         android:title="@string/pref_security_question_title"
         android:summary="@string/pref_security_question_summary"/>
-   </PreferenceCategory>
+     <PreferenceCategory android:title="Widgets">
+     	 <CheckBoxPreference android:key="@string/pref_protection_enable_account_widget_key"
+          android:defaultValue="false"
+          android:title="@string/widget_title_accounts"
+          android:summaryOn="@string/pref_checkbox_enabled"
+          android:summaryOff="@string/pref_checkbox_disabled" />
+       <CheckBoxPreference android:key="@string/pref_protection_enable_template_widget_key"
+          android:defaultValue="false"
+          android:title="@string/widget_title_templates"
+          android:summaryOn="@string/pref_checkbox_enabled"
+          android:summaryOff="@string/pref_checkbox_disabled" />
+	     <CheckBoxPreference android:key="@string/pref_protection_enable_data_entry_from_widget_key"
+	        android:defaultValue="false"
+	        android:title="@string/pref_protection_enable_data_entry_from_widget_title"
+	        android:summaryOn="@string/pref_protection_enable_data_entry_from_widget_summary_on"
+	        android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off" />
+	     </PreferenceCategory>
+   </PreferenceScreen>
    <PreferenceCategory android:title="@string/pref_category_title_more_information">
      <Preference
         android:title="@string/pref_visit_website_title"

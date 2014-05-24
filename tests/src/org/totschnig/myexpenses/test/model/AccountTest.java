@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.database.Cursor;
@@ -107,10 +107,10 @@ public class AccountTest extends ModelTest  {
     assertTrue(cursor.moveToFirst());
 
     // Since no projection was used, get the column indexes of the returned columns
-    int incomeIndex = cursor.getColumnIndex("sum_income");
-    int expensesIndex = cursor.getColumnIndex("sum_expenses");
-    int transferIndex = cursor.getColumnIndex("sum_transfer");
-    int balanceIndex = cursor.getColumnIndex("current_balance");
+    int incomeIndex = cursor.getColumnIndex(KEY_SUM_INCOME);
+    int expensesIndex = cursor.getColumnIndex(KEY_SUM_EXPENSES);
+    int transferIndex = cursor.getColumnIndex(KEY_SUM_TRANSFERS);
+    int balanceIndex = cursor.getColumnIndex(KEY_CURRENT_BALANCE);
     assertEquals(income1+income2, cursor.getLong(incomeIndex));
     assertEquals(-expense1-expense2, cursor.getLong(expensesIndex));
     assertEquals(transferP-transferN, cursor.getLong(transferIndex));
@@ -132,8 +132,8 @@ public class AccountTest extends ModelTest  {
     String currency = Account.getLocaleCurrency().getCurrencyCode();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
-        new String[]{DatabaseConstants.KEY_ROWID},
-        DatabaseConstants.KEY_CODE + " = ?",
+        new String[]{KEY_ROWID},
+        KEY_CODE + " = ?",
         new String[]{currency},
         null);
     c.moveToFirst();

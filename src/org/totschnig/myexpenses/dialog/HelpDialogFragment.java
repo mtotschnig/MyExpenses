@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.dialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -34,7 +33,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.Html.ImageGetter;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -78,11 +76,12 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
         screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
       else if (variant == null)
         throw new NotFoundException("help_" +activityName + "_info");
-      if (variant != null)
+      if (variant != null) {
         screenInfo += "<br>";
         screenInfo +=  getString(
             res.getIdentifier(
                 "help_" +activityName + "_" + variant + "_info", "string", pack));
+      }
       ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo, this, null));
       resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
       ArrayList<String> menuItems= new ArrayList<String>();

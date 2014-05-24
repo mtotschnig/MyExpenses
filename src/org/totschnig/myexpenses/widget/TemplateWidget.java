@@ -24,7 +24,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.*;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -64,6 +63,15 @@ public class TemplateWidget extends AbstractWidget<Template> {
     return "org.totschnig.myexpenses.activity.TemplateWidget";
   }
 
+  @Override
+  String getProtectionKey() {
+    return MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
+  }
+
+  public static final Uri[] OBSERVED_URIS = new Uri[] {
+        TransactionProvider.TEMPLATES_URI
+  };
+
   private void addButtonsClick(Context context, RemoteViews updateViews,
       int widgetId, long templateId) {
     Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
@@ -78,7 +86,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
-    intent.putExtra(ExpenseEdit.EXTRA_RECORD_TEMPLATE_WIDGET, !MyApplication.getInstance().isContribEnabled);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_INSTANCE_EDIT,
@@ -90,6 +99,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   private void addTapOnClick(Context context, RemoteViews updateViews) {
     Intent intent = new Intent(context, ManageTemplates.class);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, Account.getTransferEnabledGlobal());
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
@@ -161,18 +171,24 @@ public class TemplateWidget extends AbstractWidget<Template> {
     Log.d("TemplateWidget", "onReceive intent "+intent);
     String action = intent.getAction();
     if (WIDGET_INSTANCE_SAVE_ACTION.equals(action)) {
-      int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
-      if (widgetId != INVALID_APPWIDGET_ID) {
-        long objectId = loadForWidget(context, widgetId);
-        Transaction t = Transaction.getInstanceFromTemplate(objectId);
-        if (t != null) {
-          if (t.save() != null) {
-            Toast.makeText(context,
-                context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
-                Toast.LENGTH_LONG).show();
-            if (!MyApplication.getInstance().isContribEnabled) {
-              ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
-              showContribMessage(context);
+      if (MyApplication.getInstance().shouldLock(null)) {
+        Toast.makeText(context,
+            context.getString(R.string.warning_instantiate_template_from_widget_password_protected),
+            Toast.LENGTH_LONG).show();
+      } else {
+        int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
+        if (widgetId != INVALID_APPWIDGET_ID) {
+          long objectId = loadForWidget(context, widgetId);
+          Transaction t = Transaction.getInstanceFromTemplate(objectId);
+          if (t != null) {
+            if (t.save() != null) {
+              Toast.makeText(context,
+                  context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
+                  Toast.LENGTH_LONG).show();
+              if (!MyApplication.getInstance().isContribEnabled) {
+                ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
+                showContribMessage(context);
+              }
             }
           }
         }
@@ -214,7 +230,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   protected void updateWidgets(Context context, AppWidgetManager manager,
       int[] appWidgetIds, String action) {
-    if (!MyApplication.getInstance().isContribEnabled) {
+    Log.d("DEBUG", "updating TemplateWidget");
+    if (!isProtected() && !MyApplication.getInstance().isContribEnabled) {
       Log.d("TemplateWidget", "not contrib enabled");
       int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
       if (usagesLeft < 1) {

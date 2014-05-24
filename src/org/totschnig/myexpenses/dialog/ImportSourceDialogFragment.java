@@ -106,18 +106,23 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
         mUri = data.getData();
         if (mUri != null) {
           mFilename.setError(null);
-          mFilename.setText(getDisplayName(mUri));
-          String type = getActivity().getContentResolver().getType(mUri);
-          if (type != null) {
-            String[] typeParts = type.split("/");
-            if (typeParts.length==0 ||
-                !(
-                    typeParts[0].equals("*") || 
-                    typeParts[0].equals("text") || 
-                    typeParts[0].equals("application")
-                )) {
-              mUri = null;
-              mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
+          mFilename.setText(getDisplayName());
+          if (mUri == null) {
+            //SecurityException raised during getDisplayName
+            mFilename.setError("Error while retrieving document");
+          } else {
+            String type = getActivity().getContentResolver().getType(mUri);
+            if (type != null) {
+              String[] typeParts = type.split("/");
+              if (typeParts.length==0 ||
+                  !(
+                      typeParts[0].equals("*") || 
+                      typeParts[0].equals("text") || 
+                      typeParts[0].equals("application")
+                  )) {
+                mUri = null;
+                mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
+              }
             }
           }
           if (isKitKat && mUri != null) {
@@ -130,33 +135,42 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     }
   }
   //https://developer.android.com/guide/topics/providers/document-provider.html
+  /**
+   * @return display name for document stored at mUri.
+   * Returns null if accessing mUri raises {@link SecurityException}
+   */
   @SuppressLint("NewApi")
-  protected String getDisplayName(Uri uri) {
+  protected String getDisplayName() {
 
     if (isJellyBean) {
       // The query, since it only applies to a single document, will only return
       // one row. There's no need to filter, sort, or select fields, since we want
       // all fields for one document.
-      Cursor cursor = getActivity().getContentResolver()
-              .query(uri, null, null, null, null, null);
-
-      if (cursor != null) {
-        try {
-          if (cursor.moveToFirst()) {
-            // Note it's called "Display Name".  This is
-            // provider-specific, and might not necessarily be the file name.
-            int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            if (columnIndex != -1) {
-              return cursor.getString(columnIndex);
+      try {
+        Cursor cursor = getActivity().getContentResolver()
+                .query(mUri, null, null, null, null, null);
+  
+        if (cursor != null) {
+          try {
+            if (cursor.moveToFirst()) {
+              // Note it's called "Display Name".  This is
+              // provider-specific, and might not necessarily be the file name.
+              int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+              if (columnIndex != -1) {
+                return cursor.getString(columnIndex);
+              }
             }
+          } catch (Exception e) {}
+            finally {
+            cursor.close();
           }
-        } catch (Exception e) {}
-          finally {
-          cursor.close();
         }
+      } catch (SecurityException e) {
+        mUri = null;
+        return null;
       }
     }
-    List<String> filePathSegments = uri.getPathSegments();
+    List<String> filePathSegments = mUri.getPathSegments();
     if (filePathSegments.size()>0) {
       return filePathSegments.get(filePathSegments.size()-1);
     } else {
@@ -182,12 +196,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
           .getString(getPrefKey(), "");
       if (!storedUri.equals("")) {
         mUri = Uri.parse(storedUri);
-        try {
-          mFilename.setText(getDisplayName(mUri));
-        } catch (SecurityException e) {
-          // on Kitkat getDisplayname might fail if app is restarted after reboot
-          mUri = null;
-        }
+        mFilename.setText(getDisplayName());
       }
     }
     setButtonState();
@@ -219,7 +228,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
       String restoredUri = savedInstanceState.getString(getPrefKey());
       if (restoredUri != null) {
         mUri = Uri.parse(restoredUri);
-        mFilename.setText(getDisplayName(mUri));
+        mFilename.setText(getDisplayName());
       }
     }
   }

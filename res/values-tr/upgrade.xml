@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_141">
+    <item>Çabuk veri girişi için ana ekran widget\'leri</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>Rusça tercüme</item>
+  </string-array>
   <string-array name="whats_new_136">
     <item>Yedekleme ve dışa aktarmalar için klasör konumu artık ayarlanabilir</item>
   </string-array>

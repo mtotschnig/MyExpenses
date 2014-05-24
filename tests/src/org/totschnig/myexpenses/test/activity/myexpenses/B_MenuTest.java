@@ -10,9 +10,6 @@ import org.totschnig.myexpenses.R;
 
 import com.robotium.solo.Solo;
 
-import android.os.Build;
-import android.view.KeyEvent;
-
 
 /**
  * @author Michael Totschnig

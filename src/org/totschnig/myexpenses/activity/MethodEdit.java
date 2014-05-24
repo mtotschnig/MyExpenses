@@ -16,21 +16,13 @@
 package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;

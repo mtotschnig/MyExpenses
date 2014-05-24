@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
@@ -86,7 +85,6 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 

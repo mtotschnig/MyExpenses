@@ -263,7 +263,7 @@
   <string name="pref_manage_methods_title">Metody płatności</string>
   <string name="pref_manage_parties_summary">Dodaj, edytuj, usuń partie (płatnicy i odbiorcy płatności).</string>
   <string name="pref_manage_parties_title">Partie</string>
-  <string name="pref_more_info_dialog_summary">Tłumaczenie: Marcin Kralka (marcink96@gmail.com), 2014</string>
+  <string name="pref_more_info_dialog_summary">Tłumaczenie: Marcin Kralka (marcink96@gmail.com) i visualfanatic, 2014</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licencja &amp; O programie</string>
   <string name="pref_password_empty">Hasło nie może być puste</string>
