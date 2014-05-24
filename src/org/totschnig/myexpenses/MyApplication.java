@@ -74,7 +74,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_SECURITY_ANSWER;
     public static String PREFKEY_SECURITY_QUESTION;
     public static String PREFKEY_PROTECTION_DELAY_SECONDS;
-    public static String PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET;
+    public static String PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET;
+    public static String PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
+    public static String PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
@@ -114,7 +116,15 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       MyApplication.passwordCheckDelayNanoSeconds = mSelf.mSettings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
     }
 
-    public boolean isLocked;
+    private boolean isLocked;
+    public boolean isLocked() {
+      return isLocked;
+    }
+
+    public void setLocked(boolean isLocked) {
+      this.isLocked = isLocked;
+    }
+
     public static final String FEEDBACK_EMAIL = "support@myexpenses.mobi";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     
@@ -151,7 +161,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
       PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
       PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
-      PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET = getString(R.string.pref_protection_data_entry_from_widget_key);
+      PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET = getString(R.string.pref_protection_enable_account_widget_key);
+      PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET = getString(R.string.pref_protection_enable_template_widget_key);
+      PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET = getString(R.string.pref_protection_enable_data_entry_from_widget_key);
       PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
       PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
@@ -292,11 +304,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return mLastPause;
     }
     public void setLastPause(Activity ctx) {
-      if (!isLocked) {
+      if (!isLocked()) {
         //if we are dealing with an activity called from widget that allows to 
         //bypass password protection, we do not reset last pause
         //otherwise user could gain unprotected access to the app
-        if (mSettings.getBoolean(PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET, true) ||
+        if (mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, true) ||
             !ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
           this.mLastPause = System.nanoTime();
         }
@@ -317,17 +329,20 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           ctx == null ||
           ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
       if (
-          mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) &&
+          isProtected() &&
           System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds &&
           (
-              mSettings.getBoolean(PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET, true) ||
+              mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, true) ||
               !startFromWidget
           )
       ) {
-        isLocked = true;
+        setLocked(true);
         return true;
       }
       return false;
+    }
+    public boolean isProtected() {
+      return mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false);
     }
     /**
      * @param calendarId

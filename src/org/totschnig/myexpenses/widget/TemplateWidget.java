@@ -65,17 +65,21 @@ public class TemplateWidget extends AbstractWidget<Template> {
     return "org.totschnig.myexpenses.activity.TemplateWidget";
   }
 
-  Uri[] getObservedUris() {
-    return new Uri[] {
-        TransactionProvider.TEMPLATES_URI
-    };
+  @Override
+  String getProtectionKey() {
+    return MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
   }
+
+  private static final Uri[] OBSERVED_URIS = new Uri[] {
+        TransactionProvider.TEMPLATES_URI
+  };
+
   @Override
   void startContentObserver(Context context) {
     if (sDataObserver == null) {
       final ContentResolver r = context.getContentResolver();
         sDataObserver = new DataProviderObserver(context, sWorkerQueue,TemplateWidget.class);
-        for (Uri uri: getObservedUris()) {
+        for (Uri uri: OBSERVED_URIS) {
           r.registerContentObserver(uri, true, sDataObserver);
         }
     }
@@ -237,7 +241,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   protected void updateWidgets(Context context, AppWidgetManager manager,
       int[] appWidgetIds, String action) {
-    if (!MyApplication.getInstance().isContribEnabled) {
+    Log.d("DEBUG", "updating TemplateWidget");
+    if (!isProtected() && !MyApplication.getInstance().isContribEnabled) {
       Log.d("TemplateWidget", "not contrib enabled");
       int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
       if (usagesLeft < 1) {

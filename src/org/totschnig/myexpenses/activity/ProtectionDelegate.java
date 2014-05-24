@@ -41,7 +41,7 @@ public class ProtectionDelegate {
   }
   protected void handleOnPause(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
-    if (app.isLocked && pwDialog != null)
+    if (app.isLocked() && pwDialog != null)
       pwDialog.dismiss();
     else {
       app.setLastPause(ctx);

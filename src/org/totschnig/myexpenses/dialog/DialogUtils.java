@@ -153,7 +153,7 @@ public class DialogUtils {
             isInSecurityQuestion ? MyApplication.PREFKEY_SECURITY_ANSWER : MyApplication.PREFKEY_SET_PASSWORD,""))) {
           input.setText("");
           error.setText("");
-          MyApplication.getInstance().isLocked = false;
+          MyApplication.getInstance().setLocked(false);
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
           if (ctx instanceof ActionBarActivity) {
             ((ActionBarActivity) ctx).getSupportActionBar().show();

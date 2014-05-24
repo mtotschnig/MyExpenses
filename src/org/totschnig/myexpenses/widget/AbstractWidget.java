@@ -4,6 +4,7 @@ import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 
 import java.util.Arrays;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Model;
 
@@ -32,6 +33,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   
   abstract String getPrefName();
+  abstract String getProtectionKey();
   abstract Uri getContentUri();
   abstract T getObject(long objectId);
   abstract T getObject(Cursor c);
@@ -70,23 +72,33 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
     prefs.putLong(PREF_PREFIX_KEY + widgetId, objectId);
     prefs.commit();
   }
+  protected boolean isProtected() {
+    return MyApplication.getInstance().isProtected() &&
+        !MyApplication.getInstance().getSettings().getBoolean(getProtectionKey(), false);
+  }
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
       String action) {
-          Log.d("AbstractWidget", "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
-          for (int id : appWidgetIds) {
-              AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
-              if (appWidgetInfo != null) {
-                  int layoutId = appWidgetInfo.initialLayout;
-                  long objectId = loadForWidget(context, id);
-                  Log.d("AbstractWidget", "loaded object id " + objectId);
-                  RemoteViews remoteViews = action != null || objectId == -1
-                          ? buildUpdateForOther(context, id, layoutId, objectId, action)
-                          : buildUpdateForCurrent(context, id, layoutId, objectId);
-                  manager.updateAppWidget(id, remoteViews);
-              }
+    Log.d("DEBUG", "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
+    boolean isProtected = isProtected();
+    for (int id : appWidgetIds) {
+        AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
+        if (appWidgetInfo != null) {
+          RemoteViews remoteViews;
+          if (isProtected) {
+            remoteViews = protectedUpdate(context);
+          } else {
+            int layoutId = appWidgetInfo.initialLayout;
+            long objectId = loadForWidget(context, id);
+            Log.d("DEBUG", "loaded object id " + objectId);
+            remoteViews = action != null || objectId == -1
+                  ? buildUpdateForOther(context, id, layoutId, objectId, action)
+                  : buildUpdateForCurrent(context, id, layoutId, objectId);
           }
+          manager.updateAppWidget(id, remoteViews);
       }
+    }
+  }
 
   @Override
   public void onReceive(Context context, Intent intent) {
@@ -115,6 +127,12 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
       updateViews.setTextViewText(R.id.object_info, message);
       updateViews.setTextColor(R.id.object_info, Color.RED);
       return updateViews;
+  }
+  
+  protected RemoteViews protectedUpdate(Context context) {
+    String message = context.getString(R.string.warning_password_protected) + " " +
+        context.getString(R.string.warning_widget_disabled);
+    return errorUpdate(context,message);
   }
 
   protected  RemoteViews noDataUpdate(Context context) {

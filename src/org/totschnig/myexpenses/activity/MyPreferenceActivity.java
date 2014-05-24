@@ -26,6 +26,9 @@ import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -44,6 +47,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -91,6 +95,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
       .setOnPreferenceChangeListener(this);
     
+    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET)
+    .setOnPreferenceChangeListener(this);
+    
+    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET)
+    .setOnPreferenceChangeListener(this);
+    
     findPreference(MyApplication.PREFKEY_APP_DIR)
     .setOnPreferenceClickListener(this);
     setAppDirSummary();
@@ -118,7 +128,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
     findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
     findPreference(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
-    findPreference(MyApplication.PREFKEY_PROTECTION_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
+    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
+    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
+    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
   }
 
   @Override
@@ -205,6 +217,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         key.equals(MyApplication.PREFKEY_UI_LANGUAGE) ||
         key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       restart();
+    } else if (key.equals(MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET)) {
+      Log.d("DEBUG","shared preference changed: Account Widget");
+      AbstractWidget.updateWidgets(this, AccountWidget.class);
+    } else if (key.equals(MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET)) {
+      Log.d("DEBUG","shared preference changed: Template Widget");
+      AbstractWidget.updateWidgets(this, TemplateWidget.class);
     }
   }
   @Override

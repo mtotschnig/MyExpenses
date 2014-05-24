@@ -274,6 +274,8 @@
     <string name="pref_category_title_more_information">More information</string>
     <string name="pref_category_title_security">Security</string>
     <string name="pref_category_title_ui">User interface</string>
+    <string name="pref_checkbox_enabled">Enabled</string>
+    <string name="pref_checkbox_disabled">Disabled</string>
     <string name="pref_contrib_donate_summary">Donate via PayPal, Flattr or Bitcoin and gain access to premium features.</string>
     <string name="pref_contrib_donate_summary_already_contrib">If you\'d like to make an additional contribution, you can flattr My Expenses, make a donation through Paypal or send Bitcoins.</string>
     <string name="pref_contrib_donate_title">Send donation</string>
@@ -312,8 +314,8 @@
     <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
     <string name="pref_protection_delay_seconds_title">Delay until protection</string>
     <string name="pref_protection_data_entry_from_widget_title">Protect data entry from widgets</string>
-    <string name="pref_protection_data_entry_from_widget_summary_on">Password is required.</string>
-    <string name="pref_protection_data_entry_from_widget_summary_off">Allowed without password.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Allowed without password.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password is required.</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
     <string name="pref_request_licence_summary">If you have contributed, request a Contrib key for Android-Id %1$s by email.</string>
     <string name="pref_request_licence_title">Request a Contrib key</string>
@@ -411,7 +413,9 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
-    <string name="warning_instantiate_template_from_widget_password_protected">Quick instantiation of templates from this widget only works if you allow data entry from widgets without password in the app settings.</string>
+    <string name="warning_password_protected">App is password protected.</string>
+    <string name="warning_widget_disabled"> You need to enable this widget in the app settings.</string>
+    <string name="warning_widget_data_entry_disabled">You need to allow data entry from widgets without password in the app settings.</string>
     <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
     <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires My Expenses Contrib).</string>
     <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
