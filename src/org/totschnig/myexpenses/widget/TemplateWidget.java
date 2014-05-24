@@ -51,6 +51,8 @@ import org.totschnig.myexpenses.util.Utils;
 public class TemplateWidget extends AbstractWidget<Template> {
   
   private static final String WIDGET_INSTANCE_SAVE_ACTION = "org.totschnig.myexpenses.INSTANCE_SAVE";
+  
+  private static DataProviderObserver sDataObserver;
 
   @Override
   Uri getContentUri() {
@@ -61,6 +63,22 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   String getPrefName() {
     return "org.totschnig.myexpenses.activity.TemplateWidget";
+  }
+
+  Uri[] getObservedUris() {
+    return new Uri[] {
+        TransactionProvider.TEMPLATES_URI
+    };
+  }
+  @Override
+  void startContentObserver(Context context) {
+    if (sDataObserver == null) {
+      final ContentResolver r = context.getContentResolver();
+        sDataObserver = new DataProviderObserver(context, sWorkerQueue,TemplateWidget.class);
+        for (Uri uri: getObservedUris()) {
+          r.registerContentObserver(uri, true, sDataObserver);
+        }
+    }
   }
 
   private void addButtonsClick(Context context, RemoteViews updateViews,

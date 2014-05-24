@@ -36,6 +36,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 
 public class AccountWidget extends AbstractWidget<Account> {
+
+  private static DataProviderObserver sDataObserver;
   
   @Override
   Uri getContentUri() {
@@ -47,6 +49,23 @@ public class AccountWidget extends AbstractWidget<Account> {
   String getPrefName() {
     // TODO Auto-generated method stub
     return"org.totschnig.myexpenses.activity.AccountWidget";
+  }
+
+  Uri[] getObservedUris() {
+    return new Uri[] {
+        TransactionProvider.ACCOUNTS_URI,
+        TransactionProvider.TRANSACTIONS_URI
+    };
+  }
+  @Override
+  void startContentObserver(Context context) {
+    if (sDataObserver == null) {
+      final ContentResolver r = context.getContentResolver();
+        sDataObserver = new DataProviderObserver(context, sWorkerQueue,AccountWidget.class);
+        for (Uri uri: getObservedUris()) {
+          r.registerContentObserver(uri, true, sDataObserver);
+        }
+    }
   }
 
   RemoteViews updateWidgetFrom(Context context,

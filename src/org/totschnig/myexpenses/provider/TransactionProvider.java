@@ -487,12 +487,10 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case ACCOUNTS:
       id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
       newUri = ACCOUNTS_URI + "/" + id;
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case METHODS:
       id = db.insertOrThrow(TABLE_METHODS, null, values);
@@ -506,7 +504,6 @@ public class TransactionProvider extends ContentProvider {
     case TEMPLATES:
       id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
       newUri = TEMPLATES_URI + "/" + id;
-      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case CATEGORIES:
       //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
@@ -570,7 +567,6 @@ public class TransactionProvider extends ContentProvider {
     switch (uriMatch) {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case TRANSACTION_ID:
       //maybe TODO ?: where and whereArgs are ignored
@@ -602,11 +598,9 @@ public class TransactionProvider extends ContentProvider {
               + KEY_ROWID + " IN "
               + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
          new String[] {segment,segment,segment,segment});
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
-      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1);
@@ -617,14 +611,12 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.delete(TABLE_TEMPLATES, "_id=" + segment + whereString,
           whereArgs);
-      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case ACCOUNTTYPES_METHODS:
       count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
       break;
     case ACCOUNTS:
       count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case ACCOUNT_ID:
       segment = uri.getPathSegments().get(1);
@@ -635,7 +627,6 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       //update aggregate cursor
       //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
@@ -702,7 +693,6 @@ public class TransactionProvider extends ContentProvider {
     switch (uriMatch) {
     case TRANSACTIONS:
       count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case TRANSACTION_ID:
       segment = uri.getPathSegments().get(1); 
@@ -713,11 +703,9 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
           whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case ACCOUNTS:
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case ACCOUNT_ID:
       segment = uri.getPathSegments().get(1); 
@@ -728,7 +716,6 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
@@ -739,7 +726,6 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
             whereArgs);
-      AbstractWidget.updateWidgets(getContext(),TemplateWidget.class);
       break;
     case PAYEES_ID:
       segment = uri.getPathSegments().get(1);
@@ -841,7 +827,6 @@ public class TransactionProvider extends ContentProvider {
             " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
           new String[]{target,target,segment,target});
       count=1;
-      AbstractWidget.updateWidgets(getContext(),AccountWidget.class);
       break;
     case PLANINSTANCE_TRANSACTION_STATUS:
       count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);

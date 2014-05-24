@@ -12,6 +12,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -35,6 +38,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   abstract Cursor getCursor(Context c);
   abstract RemoteViews updateWidgetFrom(Context context,
       int widgetId, int layoutId, T o);
+  abstract void startContentObserver(Context context);
   
   protected static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
   protected static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
@@ -44,6 +48,9 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   protected static final int REQUEST_CODE_ADD_TRANSACTION = 0;
   protected static final int REQUEST_CODE_ADD_TRANSFER = 1;
   protected static final int REQUEST_CODE_INSTANCE_EDIT = 2;
+  
+  protected static HandlerThread sWorkerThread;
+  protected static Handler sWorkerQueue;
 
   public static void updateWidgets(Context context,Class<? extends AbstractWidget<?>> provider) {
     Intent i = new Intent(context, provider);
@@ -83,7 +90,8 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   @Override
   public void onReceive(Context context, Intent intent) {
-      Log.d("AbstractWidget", "onReceive intent "+intent);
+      Log.d("DEBUG", "onReceive intent "+intent);
+      startContentObserver(context);
       String action = intent.getAction();
       if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
           int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
@@ -100,6 +108,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
       updateWidgets(context, manager, appWidgetIds, null);
   }
+
 
   protected RemoteViews errorUpdate(Context context, String message) {
       RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
