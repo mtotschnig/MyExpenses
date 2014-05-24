@@ -296,9 +296,9 @@
   <string name="pref_planning_calendar_title">Calendário de planejamento</string>
   <string name="pref_protection_delay_seconds_summary">Idle segundos antes de app será bloqueado por senha.</string>
   <string name="pref_protection_delay_seconds_title">Adiar até proteção</string>
-  <string name="pref_protection_data_entry_from_widget_title">Proteger a entrada de dados de widgets</string>
-  <string name="pref_protection_data_entry_from_widget_summary_on">Senha é necessária.</string>
-  <string name="pref_protection_data_entry_from_widget_summary_off">Permitido sem senha.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Proteger a entrada de dados de widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Senha é necessária.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem senha.</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
   <string name="pref_request_licence_summary">Se você tiver contribuído, solicitar a chave do Contrib para Android-Id %1$s por e-mail.</string>
   <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>

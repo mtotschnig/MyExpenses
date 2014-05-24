@@ -151,7 +151,7 @@
           android:summaryOff="@string/pref_checkbox_disabled" />
 	     <CheckBoxPreference android:key="@string/pref_protection_enable_data_entry_from_widget_key"
 	        android:defaultValue="false"
-	        android:title="@string/pref_protection_data_entry_from_widget_title"
+	        android:title="@string/pref_protection_enable_data_entry_from_widget_title"
 	        android:summaryOn="@string/pref_protection_enable_data_entry_from_widget_summary_on"
 	        android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off" />
 	     </PreferenceCategory>

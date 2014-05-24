@@ -296,9 +296,9 @@
   <string name="pref_planning_calendar_title">Calendrier de l\'échéancier</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
-  <string name="pref_protection_data_entry_from_widget_title">Protéger la saisie des données par widgets</string>
-  <string name="pref_protection_data_entry_from_widget_summary_on">Mot de passe est requis.</string>
-  <string name="pref_protection_data_entry_from_widget_summary_off">Autorisée sans mot de passe.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Protéger la saisie des données par widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Mot de passe est requis.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autorisée sans mot de passe.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>

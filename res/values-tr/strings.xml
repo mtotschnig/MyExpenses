@@ -28,6 +28,7 @@
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
+  <string name="contrib_feature_template_widget_label">Şablon widget\'i</string>
   <string name="contrib_key">Katkı anahtarı</string>
   <string name="currency">Döviz</string>
   <string name="current_balance">Güncel bakiye</string>
@@ -260,6 +261,7 @@
   <string name="pref_category_title_security">Güvenlik</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
+  <string name="pref_contrib_donate_summary_already_contrib">İlâve bir katkıda bulunmak istiyorsanız, Harcamalarımı flattr\'layabilir, PayPal vasıtasıyla bağışta bulunabilir ya da Bitcoin yollayabilirsiniz.</string>
   <string name="pref_contrib_donate_title">Bağışı gönder</string>
   <string name="pref_contrib_install_summary">Harcamalarım Katkı Anahtarı uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
@@ -294,6 +296,9 @@
   <string name="pref_planning_calendar_title">Planlama takvimi</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Widget\'lerden veri girişini koru</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
@@ -391,6 +396,7 @@
     <item quantity="one">Seçilen muamele silinecektir.</item>
     <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
   </plurals>
+  <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın Katkı Anahtarı kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
@@ -412,4 +418,6 @@
   <string name="menu_create_folder">Yeni klasör</string>
   <string name="menu_up">Yukarı</string>
   <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
+  <string name="widget_title_accounts">Hesaplarım</string>
+  <string name="widget_title_templates">Şablonlarım</string>
 </resources>

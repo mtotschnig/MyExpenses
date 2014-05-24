@@ -296,9 +296,9 @@
   <string name="pref_planning_calendar_title">Calendario di pianificazione</string>
   <string name="pref_protection_delay_seconds_summary">Secondi di inattività prima che l\'app sia bloccata con password.</string>
   <string name="pref_protection_delay_seconds_title">Ritardo prima della protezione</string>
-  <string name="pref_protection_data_entry_from_widget_title">Proteggere l\'immissione di dati da widget</string>
-  <string name="pref_protection_data_entry_from_widget_summary_on">Viene richiesta la password.</string>
-  <string name="pref_protection_data_entry_from_widget_summary_off">Ammessi senza password.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Proteggere l\'immissione di dati da widget</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Viene richiesta la password.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ammessi senza password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_request_licence_summary">Se ha contribuito, richiedere una chiave Contrib per Android-Id %1$s via email.</string>
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
