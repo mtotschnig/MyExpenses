@@ -28,6 +28,7 @@
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
+  <string name="contrib_feature_template_widget_label">Widget de plantillas</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
@@ -295,6 +296,9 @@
   <string name="pref_planning_calendar_title">Calendario de planificación</string>
   <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea protegida por contraseña.</string>
   <string name="pref_protection_delay_seconds_title">Demoa hasta la protección por contraseña</string>
+  <string name="pref_protection_data_entry_from_widget_title">Proteger la entrada de datos de widgets</string>
+  <string name="pref_protection_data_entry_from_widget_summary_on">Se requiere una contraseña.</string>
+  <string name="pref_protection_data_entry_from_widget_summary_off">Permitido sin contraseña.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_request_licence_summary">Si ha contribuido, pida una clave Contrib para Android-Id %1$s por correo electrónico.</string>
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
@@ -392,6 +396,7 @@
     <item quantity="one">Se eliminará la transacción seleccionada.</item>
     <item quantity="other">Se eliminará %1$d transacciónes seleccionadas.</item>
   </plurals>
+  <string name="warning_instantiate_template_from_widget_password_protected">Rápida creación de instancias de las plantillas de este widget funciona sólo si permite la entrada de datos de widgets sin contraseña en la configuración de la app.</string>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación, en caso de que olvide su contraseña.</string>
   <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad (Requiere Mis gastos Clave Contrib).</string>
   <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan de la base de datos y no se pueden restaurar.</string>
@@ -413,4 +418,6 @@
   <string name="menu_create_folder">Nueva carpeta</string>
   <string name="menu_up">Arriba</string>
   <string name="create_new_folder_fail">No se pudo crear la carpeta</string>
+  <string name="widget_title_accounts">Mis cuentas</string>
+  <string name="widget_title_templates">Mis plantillas</string>
 </resources>

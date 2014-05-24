@@ -296,6 +296,9 @@
   <string name="pref_planning_calendar_title">Planer</string>
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
+  <string name="pref_protection_data_entry_from_widget_title">Dateneingabe über Widgets schützen</string>
+  <string name="pref_protection_data_entry_from_widget_summary_on">Passwort wird benötigt.</string>
+  <string name="pref_protection_data_entry_from_widget_summary_off">Ohne Passwort erlaubt.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
   <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel für Android-Id  %1$s per E-Mail.</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
@@ -393,6 +396,7 @@
     <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
   </plurals>
+  <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
   <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt Meine Ausgaben Contrib).</string>
   <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.\tDies kann nicht rückgängig gemacht werden.</string>

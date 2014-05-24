@@ -28,6 +28,7 @@
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
+  <string name="contrib_feature_template_widget_label">Widget de modèles</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="currency">Devise</string>
   <string name="current_balance">Solde courant</string>
@@ -295,6 +296,9 @@
   <string name="pref_planning_calendar_title">Calendrier de l\'échéancier</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
+  <string name="pref_protection_data_entry_from_widget_title">Protéger la saisie des données par widgets</string>
+  <string name="pref_protection_data_entry_from_widget_summary_on">Mot de passe est requis.</string>
+  <string name="pref_protection_data_entry_from_widget_summary_off">Autorisée sans mot de passe.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
@@ -392,6 +396,7 @@
     <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
     <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
   </plurals>
+  <string name="warning_instantiate_template_from_widget_password_protected">Instanciation rapide de modèles à partir de ce widget ne fonctionne que si vous autorisez la saisie des données par widgets sans mot de passe dans les paramètres de l\'app.</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
   <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes Dépenses Contrib).</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
@@ -413,4 +418,6 @@
   <string name="menu_create_folder">Nouveau dossier</string>
   <string name="menu_up">Plus haut</string>
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
+  <string name="widget_title_accounts">Mes comptes</string>
+  <string name="widget_title_templates">Mes modèles</string>
 </resources>

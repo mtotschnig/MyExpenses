@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_139">
+    <item>Widgets de la pantalla de inicio para entrada de datos rápida</item>
+  </string-array>
   <string-array name="whats_new_138">
-    <item>Traducción al Ruso</item>
+    <item>Traducción al ruso</item>
   </string-array>
   <string-array name="whats_new_136">
     <item>La ubicación de la carpeta para copias de seguridad y las exportaciones ahora es configurable</item>
