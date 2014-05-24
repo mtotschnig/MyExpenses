@@ -51,8 +51,6 @@ import org.totschnig.myexpenses.util.Utils;
 public class TemplateWidget extends AbstractWidget<Template> {
   
   private static final String WIDGET_INSTANCE_SAVE_ACTION = "org.totschnig.myexpenses.INSTANCE_SAVE";
-  
-  private static DataProviderObserver sDataObserver;
 
   @Override
   Uri getContentUri() {

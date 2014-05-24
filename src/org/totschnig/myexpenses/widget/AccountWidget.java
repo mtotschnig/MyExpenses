@@ -38,8 +38,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 
 public class AccountWidget extends AbstractWidget<Account> {
-
-  private static DataProviderObserver sDataObserver;
   
   @Override
   Uri getContentUri() {
