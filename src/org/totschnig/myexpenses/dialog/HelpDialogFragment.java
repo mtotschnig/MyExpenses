@@ -76,11 +76,12 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
         screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
       else if (variant == null)
         throw new NotFoundException("help_" +activityName + "_info");
-      if (variant != null)
+      if (variant != null) {
         screenInfo += "<br>";
         screenInfo +=  getString(
             res.getIdentifier(
                 "help_" +activityName + "_" + variant + "_info", "string", pack));
+      }
       ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo, this, null));
       resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
       ArrayList<String> menuItems= new ArrayList<String>();
