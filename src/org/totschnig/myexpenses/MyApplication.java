@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.*;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -43,6 +43,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -138,6 +139,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      */
     private Locale systemLocale = Locale.getDefault();
 
+    private WidgetObserver mTemplateObserver,mAccountObserver;
 
     @Override
     public void onCreate() {
@@ -187,6 +189,19 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initContribEnabled();
       mPlannerCalendarId = mSettings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
       initPlanner();
+      registerWidgetObservers();
+    }
+
+    private void registerWidgetObservers() {
+      final ContentResolver r = getContentResolver();
+      mTemplateObserver = new WidgetObserver(TemplateWidget.class);
+      for (Uri uri: TemplateWidget.OBSERVED_URIS) {
+        r.registerContentObserver(uri, true, mTemplateObserver);
+      }
+      mAccountObserver = new WidgetObserver(AccountWidget.class);
+      for (Uri uri: AccountWidget.OBSERVED_URIS) {
+        r.registerContentObserver(uri, true, mAccountObserver);
+      }
     }
 
     public boolean initContribEnabled() {
@@ -576,6 +591,23 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           SharedPreferencesCompat.apply(
               sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH));
         }
+      }
+    }
+    class WidgetObserver extends ContentObserver {
+      /**
+       * 
+       */
+      private Class<? extends AbstractWidget<?>> mProvider;
+
+      WidgetObserver(Class<? extends AbstractWidget<?>> provider) {
+          super(null);
+          mProvider = provider;
+      }
+
+      @Override
+      public void onChange(boolean selfChange) {
+          super.onChange(selfChange);
+          AbstractWidget.updateWidgets(mSelf,mProvider);
       }
     }
 }

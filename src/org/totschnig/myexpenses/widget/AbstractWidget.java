@@ -13,7 +13,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +39,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   abstract Cursor getCursor(Context c);
   abstract RemoteViews updateWidgetFrom(Context context,
       int widgetId, int layoutId, T o);
-  abstract void startContentObserver(Context context);
   
   protected static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
   protected static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
@@ -104,7 +102,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   @Override
   public void onReceive(Context context, Intent intent) {
       Log.d("DEBUG", "onReceive intent "+intent);
-      startContentObserver(context);
       String action = intent.getAction();
       if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
           int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);

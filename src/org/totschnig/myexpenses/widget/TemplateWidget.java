@@ -70,20 +70,9 @@ public class TemplateWidget extends AbstractWidget<Template> {
     return MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
   }
 
-  private static final Uri[] OBSERVED_URIS = new Uri[] {
+  public static final Uri[] OBSERVED_URIS = new Uri[] {
         TransactionProvider.TEMPLATES_URI
   };
-
-  @Override
-  void startContentObserver(Context context) {
-    if (sDataObserver == null) {
-      final ContentResolver r = context.getContentResolver();
-        sDataObserver = new DataProviderObserver(context, sWorkerQueue,TemplateWidget.class);
-        for (Uri uri: OBSERVED_URIS) {
-          r.registerContentObserver(uri, true, sDataObserver);
-        }
-    }
-  }
 
   private void addButtonsClick(Context context, RemoteViews updateViews,
       int widgetId, long templateId) {

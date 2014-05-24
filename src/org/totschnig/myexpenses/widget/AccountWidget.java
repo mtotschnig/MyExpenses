@@ -57,21 +57,11 @@ public class AccountWidget extends AbstractWidget<Account> {
     return MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET;
   }
 
-  private static final Uri[] OBSERVED_URIS = new Uri[] {
+  public static final Uri[] OBSERVED_URIS = new Uri[] {
         TransactionProvider.ACCOUNTS_URI,
         TransactionProvider.TRANSACTIONS_URI
   };
 
-  @Override
-  void startContentObserver(Context context) {
-    if (sDataObserver == null) {
-      final ContentResolver r = context.getContentResolver();
-        sDataObserver = new DataProviderObserver(context, sWorkerQueue,AccountWidget.class);
-        for (Uri uri: OBSERVED_URIS) {
-          r.registerContentObserver(uri, true, sDataObserver);
-        }
-    }
-  }
   @Override
   protected void updateWidgets(Context context, AppWidgetManager manager,
       int[] appWidgetIds, String action) {
