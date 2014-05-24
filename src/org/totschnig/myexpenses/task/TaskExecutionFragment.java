@@ -22,11 +22,7 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.*;
-import org.totschnig.myexpenses.model.Account.CurrencyEnum;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-
-import org.totschnig.myexpenses.export.qif.*;
 
 import android.app.Activity;
 import android.net.Uri;

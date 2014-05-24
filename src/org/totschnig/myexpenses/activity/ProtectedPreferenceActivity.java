@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;

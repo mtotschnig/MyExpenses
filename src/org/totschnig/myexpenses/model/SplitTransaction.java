@@ -18,8 +18,6 @@ package org.totschnig.myexpenses.model;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;

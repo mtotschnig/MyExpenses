@@ -5,11 +5,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -24,7 +20,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
   private final TaskExecutionFragment taskExecutionFragment;

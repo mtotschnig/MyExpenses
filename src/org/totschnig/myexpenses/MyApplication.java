@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 
 import org.totschnig.myexpenses.model.Template;
@@ -41,18 +40,13 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
-//import android.view.KeyEvent;
-import android.widget.Toast;
 
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
     public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";

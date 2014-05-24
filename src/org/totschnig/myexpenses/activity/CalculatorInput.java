@@ -27,7 +27,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Stack;
 
 public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implements OnClickListener {

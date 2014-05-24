@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.dialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -34,7 +33,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.Html.ImageGetter;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;

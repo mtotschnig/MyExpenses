@@ -10,7 +10,6 @@ import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendarcommon2.EventRecurrence;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -28,6 +27,7 @@ public class Plan extends Model implements Serializable {
   public String rrule;
   public String title;
   public String description;
+
   public Plan(Long id, long dtstart, String rrule, String title, String description) {
     super();
     this.id = id;

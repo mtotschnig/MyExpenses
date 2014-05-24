@@ -19,7 +19,6 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
@@ -37,7 +36,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,

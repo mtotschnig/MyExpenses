@@ -5,8 +5,6 @@
 package org.totschnig.myexpenses.export.qif;
 
 import org.totschnig.myexpenses.export.CategoryInfo;
-import org.totschnig.myexpenses.model.Category;
-
 import java.io.IOException;
 
 import static org.totschnig.myexpenses.export.qif.QifUtils.trimFirstChar;

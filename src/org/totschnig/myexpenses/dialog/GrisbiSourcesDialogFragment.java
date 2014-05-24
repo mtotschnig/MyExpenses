@@ -7,8 +7,6 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
-import android.text.TextUtils;
 import android.view.View;
 
 public class GrisbiSourcesDialogFragment extends ImportSourceDialogFragment implements

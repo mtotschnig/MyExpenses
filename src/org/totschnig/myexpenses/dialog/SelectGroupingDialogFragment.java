@@ -17,16 +17,12 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Grouping;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 /**
  * uses {@link MessageDialogFragment.MessageDialogListener} to dispatch result back to activity
