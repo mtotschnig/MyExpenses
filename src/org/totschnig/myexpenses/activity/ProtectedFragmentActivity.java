@@ -36,6 +36,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,10 +95,10 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   protected void onDestroy() {
     super.onDestroy();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    getProtection().handleOnDestroy();
   }
   @Override
   protected void onResume() {
+    Log.d("DEBUG","ProtectedFragmentActivity onResume");
     super.onResume();
     if(scheduledRestart) {
       scheduledRestart = false;

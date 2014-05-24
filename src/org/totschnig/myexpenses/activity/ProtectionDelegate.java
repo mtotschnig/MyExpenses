@@ -47,9 +47,6 @@ public class ProtectionDelegate {
       app.setLastPause(ctx);
     }
   }
-  protected void handleOnDestroy() {
-    MyApplication.getInstance().setLastPause(ctx);
-  }
   protected AlertDialog hanldeOnResume(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
     if (app.shouldLock(ctx)) {

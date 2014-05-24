@@ -51,11 +51,6 @@ public class ProtectedPreferenceActivity extends PreferenceActivity {
     getProtection().handleOnPause(pwDialog);
   }
   @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    getProtection().handleOnDestroy();
-  }
-  @Override
   protected void onResume() {
     super.onResume();
     pwDialog = getProtection().hanldeOnResume(pwDialog);
