@@ -100,6 +100,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     pendingIntent = PendingIntent.getActivity(
         context,
         REQUEST_CODE_INSTANCE_EDIT,
@@ -111,6 +112,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   private void addTapOnClick(Context context, RemoteViews updateViews) {
     Intent intent = new Intent(context, ManageTemplates.class);
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, Account.getTransferEnabledGlobal());
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);

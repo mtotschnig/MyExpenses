@@ -59,6 +59,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
@@ -521,7 +522,20 @@ public class ExpenseEdit extends AmountActivity implements
       } else if (mTransaction instanceof Template) {
         deleteUnusedPlan();
       }
-      NavUtils.navigateUpFromSameTask(this);
+      Intent upIntent = NavUtils.getParentActivityIntent(this);
+      if (shouldUpRecreateTask(this)) {
+          // This activity is NOT part of this app's task, so create a new task
+          // when navigating up, with a synthesized back stack.
+          TaskStackBuilder.create(this)
+                  // Add all of this activity's parents to the back stack
+                  .addNextIntentWithParentStack(upIntent)
+                  // Navigate up to the closest parent
+                  .startActivities();
+      } else {
+          // This activity is part of this app's task, so simply
+          // navigate up to the logical parent activity.
+          NavUtils.navigateUpTo(this, upIntent);
+      }
       return true;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction &&

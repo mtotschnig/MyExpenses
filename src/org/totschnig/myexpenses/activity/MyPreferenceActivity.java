@@ -211,6 +211,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       String key) {
     if (key.equals(MyApplication.PREFKEY_PERFORM_PROTECTION)) {
       setProtectionDependentsState();
+      AbstractWidget.updateWidgets(this, AccountWidget.class);
+      AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
     } else if (key.equals(MyApplication.PREFKEY_UI_FONTSIZE) ||

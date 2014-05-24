@@ -308,8 +308,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //if we are dealing with an activity called from widget that allows to 
         //bypass password protection, we do not reset last pause
         //otherwise user could gain unprotected access to the app
-        if (mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, true) ||
-            !ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
+        if (!mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false) ||
+            !ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false)) {
           this.mLastPause = System.nanoTime();
         }
       }
@@ -325,16 +325,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * sets isLocked as a side effect
      */
     public boolean shouldLock(Activity ctx) {
-      boolean startFromWidget =
+      boolean isStartFromWidget =
           ctx == null ||
-          ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
+          ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+      boolean isProtected = isProtected();
+      boolean isPostDelay = System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds;
+      boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
       if (
-          isProtected() &&
-          System.nanoTime() - getLastPause() > passwordCheckDelayNanoSeconds &&
-          (
-              mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, true) ||
-              !startFromWidget
-          )
+          isProtected && isPostDelay && (!isDataEntryEnabled || !isStartFromWidget)
       ) {
         setLocked(true);
         return true;
