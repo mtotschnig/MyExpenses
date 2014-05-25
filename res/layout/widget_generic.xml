@@ -40,7 +40,7 @@
 			android:textColor="#ffffff" android:textStyle="bold"
 			android:ellipsize="end" android:textSize="14sp"
 			android:layout_marginTop="3dp" />
-		<TextView android:layout_width="fill_parent"
+		<TextView android:layout_width="fill_parent" android:textColor="#ffffff"
 			android:layout_height="wrap_content" android:id="@+id/note"
 			android:textSize="12sp" />
 	</LinearLayout>
