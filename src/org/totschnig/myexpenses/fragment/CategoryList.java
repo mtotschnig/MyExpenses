@@ -294,10 +294,7 @@ public class CategoryList extends BudgetListFragment implements
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
       case R.id.amount:
-        if (Long.valueOf(text) > 0)
-          v.setTextColor(colorIncome);
-        else
-          v.setTextColor(colorExpense);
+        setColor(v,Long.valueOf(text) < 0);
         text = Utils.convAmount(text,mAccount.currency);
       }
       super.setViewText(v, text);

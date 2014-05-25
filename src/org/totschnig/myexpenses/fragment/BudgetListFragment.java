@@ -15,10 +15,12 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 import android.content.res.Resources;
 import android.util.TypedValue;
+import android.widget.TextView;
 
 /**
  * Helper that factors out common properties
@@ -28,12 +30,14 @@ public class BudgetListFragment extends ContextualActionBarFragment {
 
   protected int colorExpense;
   protected int colorIncome;
+  //private MyApplication.ThemeType themeType;
 
   public BudgetListFragment() {
     super();
   }
 
   protected void setColors() {
+    //themeType = MyApplication.getThemeType();
     Resources.Theme theme = getActivity().getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -41,5 +45,21 @@ public class BudgetListFragment extends ContextualActionBarFragment {
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
   }
-
+  protected void setColor(TextView tv,boolean isExpense) {
+//    if (themeType == MyApplication.ThemeType.LIGHT) {
+    if (isExpense) {
+      tv.setTextColor(colorExpense);
+    } else {
+      tv.setTextColor(colorIncome);
+    }
+//    }
+//    else {
+//      tv.setTextColor(Color.BLACK);
+//      if (isExpense) {
+//        tv.setBackgroundColor(colorExpense);
+//      } else {
+//        tv.setBackgroundColor(colorIncome);
+//      }
+//    }
+  }
 }
