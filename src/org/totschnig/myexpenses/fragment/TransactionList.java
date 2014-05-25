@@ -626,13 +626,7 @@ public class TransactionList extends BudgetListFragment implements
         viewHolder.colorAccount.setBackgroundColor(color);
       }
       long amount = c.getLong(columnIndexAmount);
-      if (amount < 0) {
-        tv1.setTextColor(colorExpense);
-        // Set the background color of the text.
-      }
-      else {
-        tv1.setTextColor(colorIncome);
-      }
+      setColor(tv1,amount < 0);
       TextView tv2 = viewHolder.category;
       CharSequence catText = tv2.getText();
       if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {

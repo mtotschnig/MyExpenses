@@ -244,6 +244,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static int getThemeId() {
       return getThemeId(false);
     }
+    public enum ThemeType {
+      DARK,
+      LIGHT
+    }
+    public static ThemeType getThemeType() {
+      return mSelf.mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
+          ThemeType.LIGHT : ThemeType.DARK;
+    }
     public static int getThemeId(boolean legacyPreferenceActivity) {
       int fontScale;
       try {
@@ -256,7 +264,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       int resId;
       String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
-      if (mSelf.mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
+      if (getThemeType() == ThemeType.LIGHT) {
         if (fontScale < 1 || fontScale > 3)
           return legacyPreferenceActivity ? R.style.ThemeLight_LegacyPreferenceActivity : R.style.ThemeLight;
         else

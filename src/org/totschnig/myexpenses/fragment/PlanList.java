@@ -450,13 +450,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       c.moveToPosition(groupPosition);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
-      if (amount < 0) {
-        tv1.setTextColor(colorExpense);
-        // Set the background color of the text.
-      }
-      else {
-        tv1.setTextColor(colorIncome);
-      }
+      setColor(tv1,amount < 0);
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       Long planId = c.getLong(columnIndexPlanId);
       String planInfo = mPlanTimeInfo.get(planId);

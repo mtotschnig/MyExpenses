@@ -184,13 +184,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       c.moveToPosition(position);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
-      if (amount < 0) {
-        tv1.setTextColor(colorExpense);
-        // Set the background color of the text.
-      }
-      else {
-        tv1.setTextColor(colorIncome);
-      }
+      setColor(tv1,amount < 0);
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
