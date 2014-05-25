@@ -85,7 +85,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         Utils.formatCurrency(balance));
 //    updateViews.setTextColor(R.id.note, context.getResources().getColor(
 //        balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
-    updateViews.setInt(R.id.divider3,"setBackgroundColor",a.color);
+    setBackgroundColorSave(updateViews,R.id.divider3,a.color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews, a.id);
     addButtonsClick(context, updateViews, a.id);
