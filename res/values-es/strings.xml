@@ -260,6 +260,8 @@
   <string name="pref_category_title_more_information">Más información</string>
   <string name="pref_category_title_security">Seguridad</string>
   <string name="pref_category_title_ui">Interfaz de usuario</string>
+  <string name="pref_checkbox_enabled">Habilitado</string>
+  <string name="pref_checkbox_disabled">Inhabilitado</string>
   <string name="pref_contrib_donate_summary">Donar a través de PayPal, Flattr o Bitcoin y obtiene acceso a todas las características premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Si desea hacer una contribución adicional, puedesdar un flattr a Mis gastos, hará una donación a través de Paypal o enviar Bitcoins.</string>
   <string name="pref_contrib_donate_title">Donar</string>
@@ -297,8 +299,8 @@
   <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea protegida por contraseña.</string>
   <string name="pref_protection_delay_seconds_title">Demoa hasta la protección por contraseña</string>
   <string name="pref_protection_enable_data_entry_from_widget_title">Proteger la entrada de datos de widgets</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Se requiere una contraseña.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sin contraseña.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Se requiere una contraseña.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_request_licence_summary">Si ha contribuido, pida una clave Contrib para Android-Id %1$s por correo electrónico.</string>
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
@@ -396,6 +398,8 @@
     <item quantity="one">Se eliminará la transacción seleccionada.</item>
     <item quantity="other">Se eliminará %1$d transacciónes seleccionadas.</item>
   </plurals>
+  <string name="warning_password_protected">La aplicación está protegido con contraseña.</string>
+  <string name="warning_widget_disabled">Necesitas habilitar este widget en la configuración de la aplicación.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Rápida creación de instancias de las plantillas de este widget funciona sólo si permite la entrada de datos de widgets sin contraseña en la configuración de la app.</string>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación, en caso de que olvide su contraseña.</string>
   <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad (Requiere Mis gastos Clave Contrib).</string>
