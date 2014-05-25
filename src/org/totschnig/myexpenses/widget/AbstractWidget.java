@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -220,5 +221,11 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
     pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
+  }
+
+  protected void setBackgroundColorSave(RemoteViews updateViews, int res, int color) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+      updateViews.setInt(res,"setBackgroundColor",color);
+    }
   }
 }

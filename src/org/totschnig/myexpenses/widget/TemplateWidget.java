@@ -69,7 +69,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   public static final Uri[] OBSERVED_URIS = new Uri[] {
-        TransactionProvider.TEMPLATES_URI
+        TransactionProvider.TEMPLATES_URI,
+        TransactionProvider.ACCOUNTS_URI //if color changes
   };
 
   private void addButtonsClick(Context context, RemoteViews updateViews,
@@ -154,7 +155,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     }
     updateViews.setTextViewText(R.id.note,
         description);
-    updateViews.setInt(R.id.divider3,"setBackgroundColor",Account.getInstanceFromDb(t.accountId).color);
+    setBackgroundColorSave(updateViews, R.id.divider3, Account.getInstanceFromDb(t.accountId).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);
     addButtonsClick(context, updateViews, widgetId, t.id);
