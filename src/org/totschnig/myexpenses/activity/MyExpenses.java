@@ -347,7 +347,8 @@ public class MyExpenses extends LaunchActivity implements
       sequenceCount = intent.getLongExtra("sequence_count", 0);
       nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       if (nextReminder != -1 && sequenceCount >= nextReminder) {
-        new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
+        new org.totschnig.myexpenses.dialog.RemindRateDialogFragment()
+          .show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }
       if (!MyApplication.getInstance().isContribEnabled) {
