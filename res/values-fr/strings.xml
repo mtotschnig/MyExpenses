@@ -261,7 +261,7 @@
   <string name="pref_category_title_security">Sécurité</string>
   <string name="pref_category_title_ui">Interface utilisateur</string>
   <string name="pref_checkbox_enabled">Activé</string>
-  <string name="pref_checkbox_disabled">Desactivé</string>
+  <string name="pref_checkbox_disabled">Désactivé</string>
   <string name="pref_contrib_donate_summary">Faites un don avec Paypal, Flattr or Bitcoin et accédez aux fonctions Premium</string>
   <string name="pref_contrib_donate_summary_already_contrib">Si vous souhaitez apporter une contribution supplémentaire, vous pouvez donner un Flattr à Mes dépenses, faire un don par Paypal ou envoyer des Bitcoins</string>
   <string name="pref_contrib_donate_title">Envoyer un don</string>
@@ -298,9 +298,9 @@
   <string name="pref_planning_calendar_title">Calendrier de l\'échéancier</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Protéger la saisie des données par widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Protéger la saisie des données pour les widgets</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autorisée sans mot de passe.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Mot de passe est requis.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Le mot de passe est requis.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
@@ -398,9 +398,9 @@
     <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
     <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
   </plurals>
-  <string name="warning_password_protected">L\'app est protégé par mot de passe.</string>
-  <string name="warning_widget_disabled">Vous devez activer ce widget dans les paramètres de l\'app.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">Instanciation rapide de modèles à partir de ce widget ne fonctionne que si vous autorisez la saisie des données par widgets sans mot de passe dans les paramètres de l\'app.</string>
+  <string name="warning_password_protected">L\'application est protégée par mot de passe.</string>
+  <string name="warning_widget_disabled">Vous devez activer ce widget dans les paramètres de l\'application.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">La création rapide de modèles à partir du widget ne fonctionne que si vous autorisez la saisie des données à partir du widget sans mot de passe dans les paramètres de l\'application.</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
   <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes Dépenses Contrib).</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
