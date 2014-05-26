@@ -69,6 +69,25 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.1.3
+    - 2014-05-25
+    -
+      en: |
+        Home screen widgets for quick data entry.
+      fr: |
+        Widgets d'accueil pour l'entrée rapide de données.
+      de: |
+        Widgets für den Startbildschirm zur schnellen Dateneingabe.
+      it: |
+        Widget di schermo di casa per inserimento dati veloce.
+      es: |
+        Widgets de la pantalla de inicio para entrada de datos rápida.
+      pt: |
+        Widgets para entrada de dados rápida.
+      tr: |
+        Çabuk veri girişi için ana ekran widget'leri.
+    
+  -
     - 2.1.2
     - 2014-04-26
     -
