@@ -24,6 +24,7 @@
   <string name="contrib_feature_reset_all_label">Reinicieu tots els comptes</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguretat</string>
   <string name="contrib_feature_split_transaction_label">Operació repartida</string>
+  <string name="contrib_feature_template_widget_label">Widget de plantilla</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
@@ -38,9 +39,11 @@
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_contrib_no">Encara no</string>
   <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
+  <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la compra de <i>Les meves despeses Clau Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
+  <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu mitjançant la compra de <i>Les meves despeses Clau Contrib</i>. Obtindreu accés il·limitat a les següents característiques premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Us queden encara 1 us disponible.</item>
@@ -277,7 +280,7 @@
   <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
   <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-  <string name="pref_request_licence_summary">Si heu contribuït per altres mitjans, demaneu una clau Contrib per correu electrònic.</string>
+  <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau Contrib per correu electrònic.</string>
   <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
   <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
   <string name="pref_restore_title">Restauració</string>

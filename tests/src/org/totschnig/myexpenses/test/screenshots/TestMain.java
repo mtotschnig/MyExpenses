@@ -29,7 +29,7 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	private Currency defaultCurrency;
 	
 	public TestMain() {
-		super("org.totschnig.myexpenses",MyExpenses.class);
+		super(MyExpenses.class);
 	}
 	
 	@Override

@@ -24,6 +24,7 @@
   <string name="contrib_feature_reset_all_label">Resetuj wszystkie konta</string>
   <string name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
   <string name="contrib_feature_split_transaction_label">Podział transakcji</string>
+  <string name="contrib_feature_template_widget_label">Szablon widget</string>
   <string name="contrib_key">Klucz Contrib</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
