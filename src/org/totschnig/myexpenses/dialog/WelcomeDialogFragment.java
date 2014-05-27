@@ -16,6 +16,8 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -60,6 +62,9 @@ public class WelcomeDialogFragment extends DialogFragment {
   @Override
   public void onResume() {
     super.onResume();
+    if (!mSetupCompleted && ((MyExpenses) getActivity()).setupComplete) {
+      mSetupCompleted = true;
+    }
     if (mSetupCompleted) {
       mProgress.setVisibility(View.GONE);
     }
