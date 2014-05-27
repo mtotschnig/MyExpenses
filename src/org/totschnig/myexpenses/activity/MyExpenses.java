@@ -150,6 +150,7 @@ public class MyExpenses extends LaunchActivity implements
   boolean indexesCalculated = false;
   private long idFromNotification = 0;
   private String mExportFormat = null;
+  public boolean setupComplete;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -293,6 +294,7 @@ public class MyExpenses extends LaunchActivity implements
         .add(WelcomeDialogFragment.newInstance(),"WELCOME")
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,new Long[]{0L}, null), "ASYNC_TASK")
         .commit();
+      setupComplete = false;
     }
   }
   private void setup() {
@@ -776,9 +778,15 @@ public class MyExpenses extends LaunchActivity implements
       Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
       break;
     case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
+      setupComplete = true;
       getSupportActionBar().show();
+      FragmentManager fm = getSupportFragmentManager();
       setup();
-      ((WelcomeDialogFragment) getSupportFragmentManager().findFragmentByTag("WELCOME")).setSetupComplete();
+      WelcomeDialogFragment f =
+          ((WelcomeDialogFragment) fm.findFragmentByTag("WELCOME"));
+      if (f!=null) {
+        f.setSetupComplete();
+      }
       break;
     case TaskExecutionFragment.TASK_EXPORT:
       ArrayList<File> files = (ArrayList<File>) o;
