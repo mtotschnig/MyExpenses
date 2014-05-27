@@ -110,6 +110,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
             MyApplication.PREFKEY_PLANNER_CALENDAR_ID)) {
       ((CalendarListPreference) findPreference(MyApplication.PREFKEY_PLANNER_CALENDAR_ID)).show();
     }
+    
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSACTION).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER).setOnPreferenceClickListener(this);
   }
   private void configureContribPrefs() {
     Preference pref1 = findPreference(MyApplication.PREFKEY_REQUEST_LICENCE),
@@ -279,11 +282,23 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       }
       return true;
     }
-/*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
-      addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSACTION)) {
+      Bundle extras = new Bundle();
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+      addShortcut(".activity.ExpenseEdit",R.string.menu_create_transaction, R.drawable.create_transaction_icon,extras);
       Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       return true;
-    }*/
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER)) {
+      Bundle extras = new Bundle();
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+      extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
+      addShortcut(".activity.ExpenseEdit",R.string.menu_create_transfer, R.drawable.create_transfer_icon,extras);
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+      return true;
+    }
     return false;
   }
   @Override
@@ -315,23 +330,25 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
   // credits Financisto
   // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-  private void addShortcut(String activity, int nameId, int iconId) {
-    Intent intent = createShortcutIntent(activity, getString(nameId), Intent.ShortcutIconResource.fromContext(this, iconId), 
-        "com.android.launcher.action.INSTALL_SHORTCUT");
+  private void addShortcut(String activity, int nameId, int iconId,Bundle extra) {
+    Intent shortcutIntent = createShortcutIntent(activity);
+    if (extra != null) {
+      shortcutIntent.putExtras(extra);
+    }
+    Intent intent = new Intent();
+    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, iconId));
+    intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
     sendBroadcast(intent);
 }
 
-  private Intent createShortcutIntent(String activity, String shortcutName, ShortcutIconResource shortcutIcon, String action) {
+  private Intent createShortcutIntent(String activity) {
     Intent shortcutIntent = new Intent();
     shortcutIntent.setComponent(new ComponentName(this.getPackageName(), activity));
     shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    Intent intent = new Intent();
-    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
-    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcon);
-    intent.setAction(action);
-    return intent;
+    return shortcutIntent;
   }
   private Intent findDirPicker() {
     Intent intent = new Intent("com.estrongs.action.PICK_DIRECTORY ");

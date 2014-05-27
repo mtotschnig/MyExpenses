@@ -288,7 +288,6 @@
   <string name="pref_send_feedback_title">Wyślij opinie</string>
   <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, ...), lub podaj URL w jednym z obsługiwanym schemacie</string>
   <string name="pref_share_target_title">Wyślij URL</string>
-  <string name="pref_shortcut_account_list_title">Skrót \'Lista kont\'</string>
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
   <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

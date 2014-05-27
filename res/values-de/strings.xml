@@ -298,7 +298,7 @@
   <string name="pref_planning_calendar_title">Planer</string>
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets schützen</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
@@ -311,7 +311,6 @@
   <string name="pref_send_feedback_title">Feedback senden</string>
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
   <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_shortcut_account_list_title">\'Kontenliste\' Verknüpfung</string>
   <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

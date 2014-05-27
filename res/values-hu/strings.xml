@@ -269,7 +269,6 @@
   <string name="pref_send_feedback_title">Visszajelzés küldése</string>
   <string name="pref_share_target_summary">Hagyja üresen, ha választani akar az alkalmazások közül (Email, Dropbox, Google Docs, stb.), vagy adjon meg egy URL-t valamely támogatott formában</string>
   <string name="pref_share_target_title">URL feltöltés</string>
-  <string name="pref_shortcut_account_list_title">\'Számlák listája\' parancsikon</string>
   <string name="pref_shortcut_added">Parancsikon hozzáadva a Kezdőképernyőhöz</string>
   <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

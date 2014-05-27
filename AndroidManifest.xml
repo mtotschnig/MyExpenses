@@ -34,6 +34,10 @@
 				android:value="splitActionBarWhenNarrow" />
 		</activity>
 		<activity android:name=".activity.ExpenseEdit" android:parentActivityName=".activity.MyExpenses">
+			<intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
 			 <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activity.MyExpenses" />

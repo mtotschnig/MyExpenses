@@ -290,7 +290,6 @@
   <string name="pref_send_feedback_title">ផ្ញើមតិយោបល់អ្នកប្រើ</string>
   <string name="pref_share_target_summary">ទុកឱ្យទទេ ប្រសិនបើអ្នកចង់ជ្រើស រវាងកម្មវិធី ដែលសមស្រប (Email, Dropbox, Google Docs, …)​ ឬផ្តល់នូវ URL មួយ​ដែល​មាន​ក្នុងគម្រោងគាំទ្រ</string>
   <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
-  <string name="pref_shortcut_account_list_title">\'បញ្ជីគណនី\' shortcut</string>
   <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
   <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

@@ -293,7 +293,6 @@
     <string name="pref_send_feedback_title">Αποστολή σχολίων</string>
     <string name="pref_share_target_summary">Αφήστε κενό εάν θέλετε να επιλέξετε μεταξύ κατάλληλων apps (Email, Dropbox, Google Docs,...), ή της παροχής URL σε ένα από τα υποστηριζόμενα συστήματα.</string>
     <string name="pref_share_target_title">Ανεβάσετε URL</string>
-    <string name="pref_shortcut_account_list_title">συντόμευση «Κατάλογος λογαριασμών» </string>
     <string name="pref_shortcut_added">Έχει προστεθεί συντόμευση στην αρχική οθόνη</string>
     <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη</string>
     <!--This preference presents a slider where the user selects a value from 0 to 4-->

@@ -298,7 +298,7 @@
   <string name="pref_planning_calendar_title">Calendario de planificación</string>
   <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea protegida por contraseña.</string>
   <string name="pref_protection_delay_seconds_title">Demoa hasta la protección por contraseña</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Proteger la entrada de datos de widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de datos de widgets</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sin contraseña.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Se requiere una contraseña.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
@@ -311,7 +311,6 @@
   <string name="pref_send_feedback_title">Envíe sus observaciones</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, …), o indicar una URL en uno de los esquemas apoyados</string>
   <string name="pref_share_target_title">Subir URL de exportación</string>
-  <string name="pref_shortcut_account_list_title">Acceso directo de \'lista de cuentas\'</string>
   <string name="pref_shortcut_added">Acceso directo se ha añadido a la pantalla de inicio</string>
   <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

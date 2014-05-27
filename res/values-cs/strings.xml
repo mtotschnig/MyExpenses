@@ -278,7 +278,6 @@
   <string name="pref_send_feedback_title">Odeslat názor</string>
   <string name="pref_share_target_summary">Ponechte prázdné, pokud si chcete vybrat mezi vhodnými aplikacemi (E-mail, Dropbox, Google Docs,...), nebo poskytněte URL v jednom z podporovaných schémat</string>
   <string name="pref_share_target_title">Odeslat URL</string>
-  <string name="pref_shortcut_account_list_title">Zástupce \"Přehled účtů\"</string>
   <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
   <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

@@ -298,7 +298,7 @@
   <string name="pref_planning_calendar_title">Calendário de planejamento</string>
   <string name="pref_protection_delay_seconds_summary">Idle segundos antes de app será bloqueado por senha.</string>
   <string name="pref_protection_delay_seconds_title">Adiar até proteção</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Proteger a entrada de dados de widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dados de widgets</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem senha.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Senha é necessária.</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
@@ -311,8 +311,6 @@
   <string name="pref_send_feedback_title">Enviar feedback</string>
   <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">Enviar URL</string>
-  <string name="pref_shortcut_account_list_title">Atalho \'Lista de conta\'</string>
-  <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
   <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>

@@ -309,7 +309,6 @@
   <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
-  <string name="pref_shortcut_account_list_title">\'Hesap listesi\' kısayolu</string>
   <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
   <string name="pref_shortcut_summary">Ana ekrana kısayol ekle</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

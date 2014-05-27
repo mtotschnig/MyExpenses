@@ -313,7 +313,7 @@
     <string name="pref_planning_calendar_title">Planning calendar</string>
     <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
     <string name="pref_protection_delay_seconds_title">Delay until protection</string>
-    <string name="pref_protection_enable_data_entry_from_widget_title">Protect data entry from widgets</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Data entry from widgets</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Allowed without password.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password is required.</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
@@ -326,12 +326,12 @@
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, …), or provide URL in one of the supported schemes</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
     <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
     <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
     <string name="pref_ui_fontsize_title">Increase font size</string>
+    <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <string name="pref_ui_language_default">System default</string>
     <string name="pref_ui_language_summary">Set language of user interface</string>
     <!-- Title of the preference for selecting the UI language -->

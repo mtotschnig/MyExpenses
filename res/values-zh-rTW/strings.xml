@@ -269,7 +269,6 @@
     <string name="pref_send_feedback_title">反饋意見</string>
     <string name="pref_share_target_summary">必需留空，若果你想選擇合適應用程式 (電郵、Dropbox、Google Docs......)，或者提供一個支援上載的URL地址。</string>
     <string name="pref_share_target_title">上載 URL</string>
-    <string name="pref_shortcut_account_list_title">「帳戶列表」捷徑</string>
     <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
     <string name="pref_shortcut_summary">新增捷徑到主畫面</string>
     <!--This preference presents a slider where the user selects a value from 0 to 4-->

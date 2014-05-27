@@ -298,7 +298,7 @@
   <string name="pref_planning_calendar_title">Calendrier de l\'échéancier</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Protéger la saisie des données pour les widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Saisie des données par les widgets</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autorisée sans mot de passe.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Le mot de passe est requis.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
@@ -311,7 +311,6 @@
   <string name="pref_send_feedback_title">Envoyer vos réactions</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, …), sinon spécifiez une URL dans l\'une des formes supportées</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
-  <string name="pref_shortcut_account_list_title">Raccourci \'Liste des comptes\'</string>
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

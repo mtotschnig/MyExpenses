@@ -57,12 +57,18 @@
         android:title="@string/pref_categories_sort_by_usages_title"
         android:summaryOff="@string/pref_categories_sort_by_usages_summaryOff"
         android:summaryOn="@string/pref_categories_sort_by_usages_summaryOn" />
-<!--     <Preference android:title="@string/pref_shortcut_account_list_title"
-        android:key="@string/pref_shortcut_account_list_key" android:summary="@string/pref_shortcut_summary"/> -->
     <ListPreference android:key="@string/pref_ui_language_key"
     	android:title="@string/pref_ui_language_title"
     	android:summary="@string/pref_ui_language_summary"
     	android:entries="@array/pref_ui_language_entries" android:entryValues="@array/pref_ui_language_values"/>
+    <PreferenceScreen android:title="@string/pref_ui_home_screen_shortcuts">
+	    <Preference android:title="@string/menu_create_transaction"
+	       android:key="@string/pref_shortcut_create_transaction_key"
+	       android:summary="@string/pref_shortcut_summary"/>
+	    <Preference android:title="@string/menu_create_transfer"
+	       android:key="@string/pref_shortcut_create_transfer_key"
+	       android:summary="@string/pref_shortcut_summary"/>
+    </PreferenceScreen>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">
@@ -123,7 +129,8 @@
         android:title="@string/pref_enter_licence_title"
         android:summary="@string/pref_enter_licence_summary" />
    </PreferenceCategory>
-   <PreferenceScreen android:title="@string/pref_category_title_security">
+   <PreferenceScreen android:title="@string/pref_category_title_security"
+   	    android:summary="@string/pref_perform_protection_title">
      <org.totschnig.myexpenses.preference.PasswordPreference
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"

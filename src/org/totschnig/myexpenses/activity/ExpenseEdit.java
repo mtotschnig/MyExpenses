@@ -1209,7 +1209,7 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case ACCOUNTS_CURSOR:
       if (data.getCount()==0) {
-        Toast.makeText(this,"Error loading accounts list ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,R.string.dialog_command_disabled_insert_transfer,Toast.LENGTH_SHORT).show();
         finish();
         return;
       }
