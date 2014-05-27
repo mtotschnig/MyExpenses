@@ -691,6 +691,7 @@ public class MyExpenses extends LaunchActivity implements
     mAccountId = newAccountId;
     setCustomTitle();
     mDrawerList.setItemChecked(position, true);
+    supportInvalidateOptionsMenu();
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
