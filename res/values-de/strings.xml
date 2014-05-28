@@ -38,7 +38,8 @@
   <string name="decimal_separator">Dezimaltrennzeichen</string>
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>
   <string name="description">Beschreibung</string>
-  <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto mit derselben Währung. Sie haben nur ein Konto in %1$s angelegt.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Umbuchungen benötigen ein zweites Konto mit derselben Währung.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Sie haben nur ein Konto in %1$s angelegt.</string>
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_contrib_no">Noch nicht</string>

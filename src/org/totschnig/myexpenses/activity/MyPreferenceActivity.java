@@ -287,7 +287,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       addShortcut(".activity.ExpenseEdit",R.string.menu_create_transaction, R.drawable.create_transaction_icon,extras);
-      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER)) {
@@ -296,7 +295,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
       addShortcut(".activity.ExpenseEdit",R.string.menu_create_transfer, R.drawable.create_transfer_icon,extras);
-      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       return true;
     }
     return false;
@@ -340,7 +338,13 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
     intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, iconId));
     intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-    sendBroadcast(intent);
+
+    if (Utils.isIntentReceiverAvailable(this, intent)) {
+      sendBroadcast(intent);
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+    } else {
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
+    }
 }
 
   private Intent createShortcutIntent(String activity) {

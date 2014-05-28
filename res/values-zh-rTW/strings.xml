@@ -32,7 +32,6 @@
     <string name="default_account_description">此帳戶是在安裝過程中被自動設定的</string>
     <string name="description">描述</string>
     <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-    <string name="dialog_command_disabled_insert_transfer">轉讓交易需要第二個使用相同貨幣為單位的帳戶。</string>
     <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
     <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
     <string name="dialog_contrib_no">現在不要</string>

@@ -408,6 +408,12 @@ public class Utils {
                       PackageManager.MATCH_DEFAULT_ONLY);
       return list.size() > 0;
   }
+  public static boolean isIntentReceiverAvailable(Context context, Intent intent) {
+    final PackageManager packageManager = context.getPackageManager();
+    List<ResolveInfo> list =
+            packageManager.queryBroadcastReceivers(intent,0);
+    return list.size() > 0;
+}
 
   public static int getTextColorForBackground(int color) {
     int greyLevel = (int) (0.299 * Color.red(color)

@@ -36,7 +36,8 @@
     <string name="date_format_illegal">Μορφή ημερομηνίας παράνομη</string>
     <string name="default_account_description">Αυτός ο λογαριασμός έχει οριστεί αυτόματα κατά την εγκατάσταση</string>
     <string name="description">περιγραφή</string>
-    <string name="dialog_command_disabled_insert_transfer">Μεταφορά συναλλαγών απαιτεί ένα δεύτερο λογαριασμό με το ίδιο νόμισμα. Έχετε μόνο ένα λογαριασμό του νομίσματος %1$s.</string>
+    <string name="dialog_command_disabled_insert_transfer_1">Μεταφορά συναλλαγών απαιτεί ένα δεύτερο λογαριασμό με το ίδιο νόμισμα.</string>
+    <string name="dialog_command_disabled_insert_transfer_2">Έχετε μόνο ένα λογαριασμό του νομίσματος %1$s.</string>
     <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
     <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
     <string name="dialog_contrib_no">Όχι ακόμα</string>

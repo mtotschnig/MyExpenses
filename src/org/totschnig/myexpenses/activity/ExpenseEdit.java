@@ -579,8 +579,10 @@ public class ExpenseEdit extends AmountActivity implements
         !mTransferEnabled) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_menu_command_disabled,
-          getString(R.string.dialog_command_disabled_insert_transfer,
-              account.currency.getCurrencyCode()),
+          getString(R.string.dialog_command_disabled_insert_transfer_1) +
+            " " +
+            getString(R.string.dialog_command_disabled_insert_transfer_2,
+                account.currency.getCurrencyCode()),
           MessageDialogFragment.Button.okButton(),
           null,null)
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
@@ -1209,7 +1211,7 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case ACCOUNTS_CURSOR:
       if (data.getCount()==0) {
-        Toast.makeText(this,R.string.dialog_command_disabled_insert_transfer,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,R.string.dialog_command_disabled_insert_transfer_1,Toast.LENGTH_SHORT).show();
         finish();
         return;
       }

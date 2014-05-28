@@ -38,7 +38,8 @@
   <string name="decimal_separator">Десятичный разделитель</string>
   <string name="default_account_description">Этот счёт установлен автоматически при установке.</string>
   <string name="description">Описание</string>
-  <string name="dialog_command_disabled_insert_transfer">Для операции перевода требуется второй счёт в той же валюте. У вас есть только один счет с валютой %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Для операции перевода требуется второй счёт в той же валюте.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">У вас есть только один счет с валютой %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
   <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
   <string name="dialog_contrib_no">Не сейчас</string>

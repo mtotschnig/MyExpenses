@@ -38,7 +38,8 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
   <string name="description">Descrição</string>
-  <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta com a mesma moeda. Você tem apenas uma conta de moeda %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">As transações de transferência exigem uma segunda conta com a mesma moeda.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Você tem apenas uma conta de moeda %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
   <string name="dialog_command_disabled_distribution">Nenhuma transação foi mapeada para categorias nesta conta.</string>
   <string name="dialog_contrib_no">Ainda não.</string>

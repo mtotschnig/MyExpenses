@@ -34,7 +34,8 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
-  <string name="dialog_command_disabled_insert_transfer">Les operacions de transferència precisen un segon compte amb la mateixa moneda. Només disposeu d\'un compte i la seva moneda és %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Les operacions de transferència precisen un segon compte amb la mateixa moneda.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Només disposeu d\'un compte i la seva moneda és %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_contrib_no">Encara no</string>

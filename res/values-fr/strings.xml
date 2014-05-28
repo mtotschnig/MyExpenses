@@ -38,7 +38,8 @@
   <string name="decimal_separator">Séparateur décimal</string>
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
-  <string name="dialog_command_disabled_insert_transfer">Les opérations de transferts nécessitent un second compte de même devise. Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Les opérations de transferts nécessitent un second compte de même devise.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
