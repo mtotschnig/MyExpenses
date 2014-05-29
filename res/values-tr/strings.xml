@@ -262,6 +262,8 @@
   <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="pref_category_title_security">Güvenlik</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
+  <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
+  <string name="pref_checkbox_disabled">Devre dışı</string>
   <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
   <string name="pref_contrib_donate_summary_already_contrib">İlâve bir katkıda bulunmak istiyorsanız, Harcamalarımı flattr\'layabilir, PayPal vasıtasıyla bağışta bulunabilir ya da Bitcoin yollayabilirsiniz.</string>
   <string name="pref_contrib_donate_title">Bağışı gönder</string>
@@ -299,8 +301,8 @@
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_protection_enable_data_entry_from_widget_title">Widget\'lerden veri girişini koru</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
@@ -312,10 +314,12 @@
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
+  <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
   <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Her adım yazı boyutunu 2sp arttırır</string>
   <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
+  <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
   <string name="pref_ui_language_default">Sistem varsayılanı</string>
   <string name="pref_ui_language_summary">Kullanıcı arayüzü dili ayarla</string>
   <!--Title of the preference for selecting the UI language-->
@@ -397,6 +401,8 @@
     <item quantity="one">Seçilen muamele silinecektir.</item>
     <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
   </plurals>
+  <string name="warning_password_protected">Uygulama parola ile koruludur.</string>
+  <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın Katkı Anahtarı kurmaktır.</string>
