@@ -10,6 +10,8 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
@@ -22,7 +24,7 @@ import org.totschnig.myexpenses.fragment.FolderList;
  * Date: 12/23/11 12:53 AM
  *
  */
-public class FolderBrowser extends ActionBarActivity implements
+public class FolderBrowser extends ProtectedFragmentActivity implements
     EditTextDialogListener {
 
     public static final String PATH = "PATH";
@@ -33,7 +35,11 @@ public class FolderBrowser extends ActionBarActivity implements
       super.onCreate(savedInstanceState);
       setContentView(R.layout.folder_browser);
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    // TODO overriden because help menu is not defined
+    return true;
+    }
     @Override
     public void onFinishEditDialog(Bundle args) {
       ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
