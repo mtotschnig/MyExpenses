@@ -71,7 +71,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
     super.onCreate(savedInstanceState);
-    setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
+    setTitle(Utils.concatResStrings(this,R.string.app_name,R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
     Preference pref = findPreference(MyApplication.PREFKEY_SHARE_TARGET);
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
@@ -113,19 +113,25 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSACTION).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setSummary(
+        Utils.concatResStrings(this, R.string.pref_security_question_summary,R.string.contrib_key_requires));
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setSummary(
+        Utils.concatResStrings(this, R.string.pref_shortcut_summary,R.string.contrib_key_requires));
   }
   private void configureContribPrefs() {
     Preference pref1 = findPreference(MyApplication.PREFKEY_REQUEST_LICENCE),
         pref2 = findPreference(MyApplication.PREFKEY_CONTRIB_DONATE);
     if (MyApplication.getInstance().isContribEnabled) {
       ((PreferenceCategory) findPreference(MyApplication.PREFKEY_CATEGORY_CONTRIB)).removePreference(pref1);
-      pref2.setSummary(getString(R.string.thank_you)+" "+getString(R.string.pref_contrib_donate_summary_already_contrib));
+      pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
     } else {
       pref1.setOnPreferenceClickListener(this);
       pref1.setSummary(getString(R.string.pref_request_licence_summary,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
       pref2.setSummary(R.string.pref_contrib_donate_summary);
     }
     pref2.setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setEnabled(MyApplication.getInstance().isContribEnabled);
   }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
@@ -295,6 +301,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
       addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.create_transfer_icon,extras);
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT)) {
+      Bundle extras = new Bundle();
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+      extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
+      addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.create_split_icon,extras);
       return true;
     }
     return false;

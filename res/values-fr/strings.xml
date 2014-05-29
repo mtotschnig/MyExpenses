@@ -30,6 +30,7 @@
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string name="contrib_feature_template_widget_label">Widget de modèles</string>
   <string name="contrib_key">Clé Contrib</string>
+  <string name="contrib_key_requires">Nécessite Mes dépenses Clé Contrib.</string>
   <string name="currency">Devise</string>
   <string name="current_balance">Solde courant</string>
   <string name="date">Date</string>
@@ -307,13 +308,13 @@
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
-  <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite Mes dépenses Contrib.</string>
+  <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe.</string>
   <string name="pref_security_question_title">Question de sécurité</string>
   <string name="pref_send_feedback_title">Envoyer vos réactions</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, …), sinon spécifiez une URL dans l\'une des formes supportées</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
-  <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil</string>
+  <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
   <string name="pref_ui_fontsize_title">Augmenter la taille du texte</string>
@@ -402,7 +403,7 @@
   <string name="warning_widget_disabled">Vous devez activer ce widget dans les paramètres de l\'application.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">La création rapide de modèles à partir du widget ne fonctionne que si vous autorisez la saisie des données à partir du widget sans mot de passe dans les paramètres de l\'application.</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
-  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes Dépenses Contrib).</string>
+  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité.</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>

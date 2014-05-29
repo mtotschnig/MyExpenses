@@ -30,6 +30,7 @@
   <string name="contrib_feature_split_transaction_label">Operazione frazionata</string>
   <string name="contrib_feature_template_widget_label">Widget modelli</string>
   <string name="contrib_key">Chiave Contrib</string>
+  <string name="contrib_key_requires">Richiede Le mie spese Contrib.</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>
@@ -307,13 +308,13 @@
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
   <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
   <string name="pref_restore_title">Ripristina</string>
-  <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se avete dimenticato la password. Richiede Le mie spese Contrib.</string>
+  <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se avete dimenticato la password.</string>
   <string name="pref_security_question_title">Domanda di sicurezza</string>
   <string name="pref_send_feedback_title">Invia commenti</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni appropriate (e-mail, Dropbox, Google Docs, …), o fornire l\'URL in uno dei sistemi sostenuti</string>
   <string name="pref_share_target_title">Carica URL Export</string>
   <string name="pref_shortcut_added">Collegamento è stato aggiunto alla schermata Home</string>
-  <string name="pref_shortcut_summary">Aggiungere il collegamento a Home</string>
+  <string name="pref_shortcut_summary">Aggiungere il collegamento a Home.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Ogni passo aumenta la dimensione del font di base da 2sp</string>
   <string name="pref_ui_fontsize_title">Aumenta la dimensione del carattere</string>
@@ -402,7 +403,7 @@
   <string name="warning_widget_disabled">È necessario abilitare questo widget nelle impostazioni app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Creazione rapida di modelli da questo widget funziona solo se si consente l\'immissione di dati da widget senza password nelle impostazioni app.</string>
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
-  <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticare. Non sarà in grado di recuperare, a meno che impostato una domanda di sicurezza (Richiede Le mie spese Contrib).</string>
+  <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticare. Non sarà in grado di recuperare, a meno che impostato una domanda di sicurezza.</string>
   <string name="warning_reset_account">Se si continua, tutte le operazioni di questo conto vengono eliminati dal database e non possono essere ripristinati.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti gli conti%1$s vengono eliminati dal database e non possono essere ripristinati.</string>

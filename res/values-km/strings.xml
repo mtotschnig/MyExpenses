@@ -28,6 +28,7 @@
   <string name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
   <string name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
   <string name="contrib_key">Contrib key</string>
+  <string name="contrib_key_requires">ត្រូវការកម្មវិធី My Expenses Contrib Key</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
   <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
   <string name="date">កាលបរិច្ឆេទ</string>

@@ -68,6 +68,8 @@
 	    <Preference android:title="@string/menu_create_transfer"
 	       android:key="@string/pref_shortcut_create_transfer_key"
 	       android:summary="@string/pref_shortcut_summary"/>
+      <Preference android:title="@string/menu_create_split"
+         android:key="@string/pref_shortcut_create_split_key"/>
     </PreferenceScreen>
   </PreferenceCategory>
   <PreferenceCategory 
@@ -143,8 +145,7 @@
         my:unit_symbol=" &#8243;"/>
      <org.totschnig.myexpenses.preference.SecurityQuestion
         android:key="@string/pref_security_question_key"
-        android:title="@string/pref_security_question_title"
-        android:summary="@string/pref_security_question_summary"/>
+        android:title="@string/pref_security_question_title" />
      <PreferenceCategory android:title="Widgets">
      	 <CheckBoxPreference android:key="@string/pref_protection_enable_account_widget_key"
           android:defaultValue="false"

@@ -30,6 +30,7 @@
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
   <string name="contrib_feature_template_widget_label">Şablon widget\'i</string>
   <string name="contrib_key">Katkı anahtarı</string>
+  <string name="contrib_key_requires">Harcamalarımın Katkı Anahtarı gerektirir.</string>
   <string name="currency">Döviz</string>
   <string name="current_balance">Güncel bakiye</string>
   <string name="date">Tarih</string>
@@ -305,13 +306,13 @@
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
   <string name="pref_restore_title">Geri al</string>
-  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın Katkı Anahtarı gerektirir.</string>
+  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
   <string name="pref_security_question_title">Güvenlik sorusu</string>
   <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
-  <string name="pref_shortcut_summary">Ana ekrana kısayol ekle</string>
+  <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Her adım yazı boyutunu 2sp arttırır</string>
   <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>

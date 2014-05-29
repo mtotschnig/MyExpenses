@@ -101,6 +101,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET = "transactionLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
+  private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
@@ -306,6 +307,10 @@ public class ExpenseEdit extends AmountActivity implements
           mTransaction = Transfer.getNewInstance(accountId, parentId,transfer_account);
           break;
         case MyExpenses.TYPE_SPLIT:
+          if (accountId == 0L) {
+            accountId = MyApplication.getInstance().getSettings()
+                .getLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET,0L);
+          }
           mTransaction = SplitTransaction.getNewInstance(accountId, parentId);
           //Split transactions are returned persisted to db and already have an id
           mRowId = mTransaction.id;
@@ -763,6 +768,8 @@ public class ExpenseEdit extends AmountActivity implements
           e.putLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
           e.putLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.transfer_account);
           break;
+        case MyExpenses.TYPE_SPLIT:
+          e.putLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
         }
         SharedPreferencesCompat.apply(e);
       }

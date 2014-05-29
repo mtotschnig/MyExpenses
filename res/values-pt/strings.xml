@@ -30,6 +30,7 @@
   <string name="contrib_feature_split_transaction_label">Transação de divisão</string>
   <string name="contrib_feature_template_widget_label">Widget de modelos</string>
   <string name="contrib_key">Chave Contrib</string>
+  <string name="contrib_key_requires">Necessita Minhas despesas Chave Contrib</string>
   <string name="currency">Moeda</string>
   <string name="current_balance">Balanço atual</string>
   <string name="date">Data</string>
@@ -307,12 +308,12 @@
   <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>
   <string name="pref_restore_summary">Restaure cópia de segurança a partir da pasta \"myExpenses\" no sdcard.</string>
   <string name="pref_restore_title">Restaurar</string>
-  <string name="pref_security_question_summary">Permite que você desbloquea o app, se você esqueceu sua senha. Necessita de minhas contribuições de despesas</string>
+  <string name="pref_security_question_summary">Permite que você desbloquea o app, se você esqueceu sua senha.</string>
   <string name="pref_security_question_title">Pergunta de segurança</string>
   <string name="pref_send_feedback_title">Enviar feedback</string>
   <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">Enviar URL</string>
-  <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial</string>
+  <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar tamanho da fonte</string>
@@ -401,7 +402,7 @@
   <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Instanciação rápida de modelos deste widget funciona somente se você permitir a entrada de dados de widgets sem senha nas configurações do app.</string>
   <string name="warning_password_contrib">Definir uma questão de segurança permite que você desbloquea o app, no caso de você esquecer sua senha.</string>
-  <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-la. Você não será capaz de recuperá-la, a menos que você defina uma pergunta de segurança (requer minha Contrib despesas).</string>
+  <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-la. Você não será capaz de recuperá-la, a menos que você defina uma pergunta de segurança.</string>
   <string name="warning_reset_account">Se você prosseguir, todas as transações desta conta são excluídas do banco de dados e não podem ser restauradas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>

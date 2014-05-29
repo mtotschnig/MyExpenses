@@ -84,6 +84,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_CATEGORY_CONTRIB;
     public static String PREFKEY_SHORTCUT_CREATE_TRANSACTION;
     public static String PREFKEY_SHORTCUT_CREATE_TRANSFER;
+    public static String PREFKEY_SHORTCUT_CREATE_SPLIT;
     public static String PREFKEY_PLANNER_CALENDAR_ID;
     private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
@@ -172,6 +173,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
       PREFKEY_SHORTCUT_CREATE_TRANSACTION = getString(R.string.pref_shortcut_create_transaction_key);
       PREFKEY_SHORTCUT_CREATE_TRANSFER = getString(R.string.pref_shortcut_create_transfer_key);
+      PREFKEY_SHORTCUT_CREATE_SPLIT = getString(R.string.pref_shortcut_create_split_key);
       PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
       PREFKEY_RATE = getString(R.string.pref_rate_key);
       PREFKEY_UI_LANGUAGE = getString(R.string.pref_ui_language_key);

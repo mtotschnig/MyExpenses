@@ -30,6 +30,7 @@
   <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
   <string name="contrib_feature_template_widget_label">Widget de plantillas</string>
   <string name="contrib_key">Clave Contrib</string>
+  <string name="contrib_key_requires">Requiere Mis gastos Clave Contrib.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Fecha</string>
@@ -307,13 +308,13 @@
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
   <string name="pref_restore_summary">Seleccione una copia de seguridad para restaurar la base de datos y preferencias.</string>
   <string name="pref_restore_title">Restaurar</string>
-  <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña. Requiere Mis gastos Clave Contrib.</string>
+  <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña</string>
   <string name="pref_security_question_title">Pregunta de seguridad</string>
   <string name="pref_send_feedback_title">Envíe sus observaciones</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, …), o indicar una URL en uno de los esquemas apoyados</string>
   <string name="pref_share_target_title">Subir URL de exportación</string>
   <string name="pref_shortcut_added">Acceso directo se ha añadido a la pantalla de inicio</string>
-  <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio</string>
+  <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada paso aumenta el tamaño de fuente por 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar el tamaño de la fuente</string>
@@ -402,7 +403,7 @@
   <string name="warning_widget_disabled">Necesitas habilitar este widget en la configuración de la aplicación.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Rápida creación de instancias de las plantillas de este widget funciona sólo si permite la entrada de datos de widgets sin contraseña en la configuración de la app.</string>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación, en caso de que olvide su contraseña.</string>
-  <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad (Requiere Mis gastos Clave Contrib).</string>
+  <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad.</string>
   <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan de la base de datos y no se pueden restaurar.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>

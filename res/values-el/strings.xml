@@ -29,6 +29,7 @@
     <string name="contrib_feature_security_question_label">Ερώτηση ασφαλείας</string>
     <string name="contrib_feature_split_transaction_label">Διαιρεμένη συναλλαγή</string>
     <string name="contrib_key">Contrib κλειδί</string>
+    <string name="contrib_key_requires">Απαιτεί το Έξοδά μου Contrib κλειδί.</string>
     <string name="currency">Νόμισμα</string>
     <string name="current_balance">Τρέχον υπόλοιπο</string>
     <string name="date">Ημερομηνία</string>
@@ -289,13 +290,13 @@
     <string name="pref_request_licence_summary">Αν έχετε συνεισφέρει με άλλα μέσα, ζητήστε ένα κλειδί Contrib μέσω ηλεκτρονικού ταχυδρομείου.</string>
     <string name="pref_request_licence_title">Ζητήστε ένα κλειδί Contrib</string>
     <string name="pref_restore_title">Επαναφορά</string>
-    <string name="pref_security_question_summary">Σας επιτρέπει να ξεκλειδώσετε το app, αν έχετε ξεχάσει τον κωδικό πρόσβασής σας. Απαιτεί το Έξοδά μου Contrib.</string>
+    <string name="pref_security_question_summary">Σας επιτρέπει να ξεκλειδώσετε το app, αν έχετε ξεχάσει τον κωδικό πρόσβασής σας.</string>
     <string name="pref_security_question_title">Ερώτηση για ασφάλεια</string>
     <string name="pref_send_feedback_title">Αποστολή σχολίων</string>
     <string name="pref_share_target_summary">Αφήστε κενό εάν θέλετε να επιλέξετε μεταξύ κατάλληλων apps (Email, Dropbox, Google Docs,...), ή της παροχής URL σε ένα από τα υποστηριζόμενα συστήματα.</string>
     <string name="pref_share_target_title">Ανεβάσετε URL</string>
     <string name="pref_shortcut_added">Έχει προστεθεί συντόμευση στην αρχική οθόνη</string>
-    <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη</string>
+    <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη.</string>
     <!--This preference presents a slider where the user selects a value from 0 to 4-->
     <string name="pref_ui_fontsize_summary">Κάθε βήμα αυξάνει το μέγεθος της βασικής γραμματοσειράς κατά 2sp</string>
     <string name="pref_ui_fontsize_title">Αύξηση μεγέθους γραμματοσειράς</string>
@@ -374,7 +375,7 @@
     <item quantity="other">%1$d επιλεγμένες συναλλαγές θα διαγραφούν.</item>
   </plurals>
     <string name="warning_password_contrib">Προσθέτοντας ρύθμιση με μια ερώτηση ασφαλείας, σας επιτρέπει να ξεκλειδώσετε το app, σε περίπτωση που ξεχάσετε τον κωδικό πρόσβασής σας.</string>
-    <string name="warning_password_no_contrib">Εάν ορίσετε έναν κωδικό πρόσβασης, προσέξτε να μην τον ξεχνάτε. Δεν θα είστε σε θέση να τον ανακτήσετε, αν δεν ορίσετε μια ερώτηση ασφαλείας (απαιτεί το Έξοδά μου Contrib).</string>
+    <string name="warning_password_no_contrib">Εάν ορίσετε έναν κωδικό πρόσβασης, προσέξτε να μην τον ξεχνάτε. Δεν θα είστε σε θέση να τον ανακτήσετε, αν δεν ορίσετε μια ερώτηση ασφαλείας.</string>
     <string name="warning_reset_account">Εάν συνεχίσετε, όλες οι συναλλαγές του λογαριασμού αυτού διαγράφονται από τη βάση δεδομένων και δεν μπορούν να αποκατασταθούν.</string>
     <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
     <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>

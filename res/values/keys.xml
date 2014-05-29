@@ -38,6 +38,7 @@
   <string name="pref_more_info_dialog_key">more_info_dialog</string>
   <string name="pref_shortcut_create_transaction_key">shortcut_create_transaction</string>
   <string name="pref_shortcut_create_transfer_key">shortcut_create_transfer</string>
+  <string name="pref_shortcut_create_split_key">shortcut_create_split</string>
   <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
   <string name="pref_rate_key">rate</string>
   <string name="pref_ui_language_key">ui_language</string>
