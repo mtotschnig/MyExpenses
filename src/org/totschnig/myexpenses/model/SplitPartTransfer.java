@@ -21,8 +21,8 @@ public class SplitPartTransfer extends Transfer {
     this.parentId = parentId;
   }
 
-  public SplitPartTransfer(Account account, long amount, Long parentId) {
-    super(account,amount);
+  public SplitPartTransfer(Account account, long amount, Long parentId, Long transfer_account) {
+    super(account,amount, transfer_account);
     this.parentId = parentId;
   }
 }

@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -36,6 +37,17 @@ public class SplitTransaction extends Transaction {
   public SplitTransaction(Account account, long amount) {
     super(account,amount);
     catId = DatabaseConstants.SPLIT_CATID;
+  }
+  public static SplitTransaction getNewInstance(long accountId, Long parentId) {
+    Account account = Account.getInstanceFromDb(accountId);
+    if (account == null) {
+      return null;
+    }
+    SplitTransaction t = new SplitTransaction(account,0L);
+    t.status = STATUS_UNCOMMITTED;
+    //TODO: Strict mode
+    t.persistForEdit();
+    return t;
   }
   @Override
   public Uri save() {
