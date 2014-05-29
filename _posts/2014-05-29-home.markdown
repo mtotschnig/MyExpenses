@@ -38,5 +38,5 @@ Both widgets and shortcuts have been designed to work nicely with password prote
 </div>
 
 If you have a suggestion or a comment on these new features, please leave a comment
-on the Google Plus [item]("https://plus.google.com/116736113799210525299/posts/b7erFV4DMm4) linked to this post.
+on the Google Plus [item](https://plus.google.com/116736113799210525299/posts/b7erFV4DMm4) linked to this post.
 
