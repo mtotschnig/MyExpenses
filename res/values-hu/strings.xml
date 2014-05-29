@@ -25,6 +25,7 @@
   <string name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
   <string name="contrib_feature_template_widget_label">Sablon widget</string>
   <string name="contrib_key">Contrib kulcs</string>
+  <string name="contrib_key_requires">Ehhez a Kiadásaim Contrib verziójának használata szükséges.</string>
   <string name="currency">Pénznem</string>
   <string name="current_balance">Aktuális egyenleg</string>
   <string name="date">Dátum</string>
@@ -32,7 +33,8 @@
   <string name="date_format_illegal">Helytelen dátum formátum</string>
   <string name="default_account_description">Ez a számla automatikusan került beállításra a telepítés során</string>
   <string name="description">Leírás</string>
-  <string name="dialog_command_disabled_insert_transfer">Számlák közötti átutaláshoz szükség van ugyanazt a pénznemet használó másik számlára. A(z) %1$s pénznemhez csak egy számla tartozik.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Számlák közötti átutaláshoz szükség van ugyanazt a pénznemet használó másik számlára.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">A(z) %1$s pénznemhez csak egy számla tartozik.</string>
   <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
   <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <string name="dialog_contrib_no">Nem most</string>
@@ -264,14 +266,13 @@
   <string name="pref_qif_export_file_encoding_title">Karakter kódolás</string>
   <string name="pref_request_licence_title">Kérjen Contrib kulcsot</string>
   <string name="pref_restore_title">Visszaállítás</string>
-  <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elvesztette a jelszót. Ehhez a Kiadásaim Contrib verziójának használata szükséges.</string>
+  <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elvesztette a jelszót.</string>
   <string name="pref_security_question_title">Biztonsági kérdés</string>
   <string name="pref_send_feedback_title">Visszajelzés küldése</string>
   <string name="pref_share_target_summary">Hagyja üresen, ha választani akar az alkalmazások közül (Email, Dropbox, Google Docs, stb.), vagy adjon meg egy URL-t valamely támogatott formában</string>
   <string name="pref_share_target_title">URL feltöltés</string>
-  <string name="pref_shortcut_account_list_title">\'Számlák listája\' parancsikon</string>
   <string name="pref_shortcut_added">Parancsikon hozzáadva a Kezdőképernyőhöz</string>
-  <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz</string>
+  <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Lépésenként 2 ponttal növeli a betűméretet</string>
   <string name="pref_ui_fontsize_title">Betűméret nagyítása</string>
@@ -331,7 +332,7 @@
   <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára. Folytatja?</string>
   <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt. Folytatja?</string>
   <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
-  <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy azt ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik, és kizárólag a Kiadásaim Contrib verzióban!</string>
+  <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy azt ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik!</string>
   <string name="warning_reset_account">Ha folytatja minden ehhez a számlához tartozó tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>

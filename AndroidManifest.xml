@@ -9,8 +9,8 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.totschnig.myexpenses" android:versionCode="142"
-	android:versionName="2.1.3" android:installLocation="auto">
+	package="org.totschnig.myexpenses" android:versionCode="143"
+	android:versionName="2.1.4" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
 	<supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"
@@ -38,6 +38,10 @@
 				android:value="splitActionBarWhenNarrow" />
 		</activity>
 		<activity android:name=".activity.ExpenseEdit" android:parentActivityName=".activity.MyExpenses">
+			<intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
 			 <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activity.MyExpenses" />

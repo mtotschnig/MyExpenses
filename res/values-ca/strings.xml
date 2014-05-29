@@ -26,6 +26,7 @@
   <string name="contrib_feature_split_transaction_label">Operació repartida</string>
   <string name="contrib_feature_template_widget_label">Widget de plantilla</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
+  <string name="contrib_key_requires">Requereix Les meves despeses Contrib</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
@@ -34,7 +35,8 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
-  <string name="dialog_command_disabled_insert_transfer">Les operacions de transferència precisen un segon compte amb la mateixa moneda. Només disposeu d\'un compte i la seva moneda és %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Les operacions de transferència precisen un segon compte amb la mateixa moneda.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Només disposeu d\'un compte i la seva moneda és %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_contrib_no">Encara no</string>
@@ -284,14 +286,13 @@
   <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
   <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
   <string name="pref_restore_title">Restauració</string>
-  <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya. Requereix Les meves despeses Contrib.</string>
+  <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya.</string>
   <string name="pref_security_question_title">Pregunta de seguretat</string>
   <string name="pref_send_feedback_title">Envieu comentaris</string>
   <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les aplicacions adequades (correu electrònic, Dropbox, Google Docs, …), o indicar una URL en un dels esquemes permesos</string>
   <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
-  <string name="pref_shortcut_account_list_title">Drecera de la \'Llista de comptes\'</string>
   <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
-  <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial</string>
+  <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada pas augmenta 2sp la mida de la lletra</string>
   <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
@@ -351,7 +352,7 @@
   <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
   <string name="warning_backup">La base de dades i les preferències es desaran a \"%1$s\". Voleu continuar?</string>
   <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
-  <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat (Requereix Les meves despeses Contrib).</string>
+  <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat.</string>
   <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>

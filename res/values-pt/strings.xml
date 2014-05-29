@@ -30,6 +30,7 @@
   <string name="contrib_feature_split_transaction_label">Transação de divisão</string>
   <string name="contrib_feature_template_widget_label">Widget de modelos</string>
   <string name="contrib_key">Chave Contrib</string>
+  <string name="contrib_key_requires">Necessita Minhas despesas Chave Contrib</string>
   <string name="currency">Moeda</string>
   <string name="current_balance">Balanço atual</string>
   <string name="date">Data</string>
@@ -38,7 +39,8 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
   <string name="description">Descrição</string>
-  <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta com a mesma moeda. Você tem apenas uma conta de moeda %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">As transações de transferência exigem uma segunda conta com a mesma moeda.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Você tem apenas uma conta de moeda %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
   <string name="dialog_command_disabled_distribution">Nenhuma transação foi mapeada para categorias nesta conta.</string>
   <string name="dialog_contrib_no">Ainda não.</string>
@@ -298,7 +300,7 @@
   <string name="pref_planning_calendar_title">Calendário de planejamento</string>
   <string name="pref_protection_delay_seconds_summary">Idle segundos antes de app será bloqueado por senha.</string>
   <string name="pref_protection_delay_seconds_title">Adiar até proteção</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Proteger a entrada de dados de widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dados de widgets</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem senha.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Senha é necessária.</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
@@ -306,17 +308,18 @@
   <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>
   <string name="pref_restore_summary">Restaure cópia de segurança a partir da pasta \"myExpenses\" no sdcard.</string>
   <string name="pref_restore_title">Restaurar</string>
-  <string name="pref_security_question_summary">Permite que você desbloquea o app, se você esqueceu sua senha. Necessita de minhas contribuições de despesas</string>
+  <string name="pref_security_question_summary">Permite que você desbloquea o app, se você esqueceu sua senha.</string>
   <string name="pref_security_question_title">Pergunta de segurança</string>
   <string name="pref_send_feedback_title">Enviar feedback</string>
   <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">Enviar URL</string>
-  <string name="pref_shortcut_account_list_title">Atalho \'Lista de conta\'</string>
   <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
-  <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial</string>
+  <string name="pref_shortcut_not_added">Nenhuma tela inicial disponível que aceita atalhos.</string>
+  <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar tamanho da fonte</string>
+  <string name="pref_ui_home_screen_shortcuts">Atalhos da tela inicial</string>
   <string name="pref_ui_language_default">Padrão do sistema</string>
   <string name="pref_ui_language_summary">Defina o idioma da interface gráfica</string>
   <!--Title of the preference for selecting the UI language-->
@@ -402,7 +405,7 @@
   <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Instanciação rápida de modelos deste widget funciona somente se você permitir a entrada de dados de widgets sem senha nas configurações do app.</string>
   <string name="warning_password_contrib">Definir uma questão de segurança permite que você desbloquea o app, no caso de você esquecer sua senha.</string>
-  <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-la. Você não será capaz de recuperá-la, a menos que você defina uma pergunta de segurança (requer minha Contrib despesas).</string>
+  <string name="warning_password_no_contrib">Se você definir uma senha, tome cuidado para não esquecê-la. Você não será capaz de recuperá-la, a menos que você defina uma pergunta de segurança.</string>
   <string name="warning_reset_account">Se você prosseguir, todas as transações desta conta são excluídas do banco de dados e não podem ser restauradas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>

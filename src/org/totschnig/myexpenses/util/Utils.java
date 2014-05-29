@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
@@ -408,6 +409,12 @@ public class Utils {
                       PackageManager.MATCH_DEFAULT_ONLY);
       return list.size() > 0;
   }
+  public static boolean isIntentReceiverAvailable(Context context, Intent intent) {
+    final PackageManager packageManager = context.getPackageManager();
+    List<ResolveInfo> list =
+            packageManager.queryBroadcastReceivers(intent,0);
+    return list.size() > 0;
+}
 
   public static int getTextColorForBackground(int color) {
     int greyLevel = (int) (0.299 * Color.red(color)
@@ -607,5 +614,16 @@ public class Utils {
   }
   public static void reportToAcra(Exception e) {
     org.acra.ACRA.getErrorReporter().handleSilentException(e);
+  }
+  public static String concatResStrings(Context ctx, Integer... resIds) {
+    String result = "";
+    Iterator<Integer> itemIterator = Arrays.asList(resIds).iterator();
+    if (itemIterator.hasNext()) {
+      result+=ctx.getString(itemIterator.next());
+      while (itemIterator.hasNext()) {
+        result+=" "+ctx.getString(itemIterator.next());
+      }
+    }
+    return result;
   }
 }

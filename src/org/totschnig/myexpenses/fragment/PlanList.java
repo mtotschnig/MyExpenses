@@ -282,7 +282,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   @SuppressLint("NewApi")
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
-    if (getActivity()==null)
+    if (getActivity()==null || c == null)
       return;
     int id = loader.getId();
     switch (id) {

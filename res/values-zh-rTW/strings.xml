@@ -24,6 +24,7 @@
     <string name="contrib_feature_security_question_label">安全問題</string>
     <string name="contrib_feature_split_transaction_label">分割交易</string>
     <string name="contrib_key">貢獻密鑰</string>
+    <string name="contrib_key_requires">貢獻後可用</string>
     <string name="currency">貨幣</string>
     <string name="current_balance">當前餘額</string>
     <string name="date">日期</string>
@@ -32,7 +33,6 @@
     <string name="default_account_description">此帳戶是在安裝過程中被自動設定的</string>
     <string name="description">描述</string>
     <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
-    <string name="dialog_command_disabled_insert_transfer">轉讓交易需要第二個使用相同貨幣為單位的帳戶。</string>
     <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
     <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
     <string name="dialog_contrib_no">現在不要</string>
@@ -269,9 +269,8 @@
     <string name="pref_send_feedback_title">反饋意見</string>
     <string name="pref_share_target_summary">必需留空，若果你想選擇合適應用程式 (電郵、Dropbox、Google Docs......)，或者提供一個支援上載的URL地址。</string>
     <string name="pref_share_target_title">上載 URL</string>
-    <string name="pref_shortcut_account_list_title">「帳戶列表」捷徑</string>
     <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
-    <string name="pref_shortcut_summary">新增捷徑到主畫面</string>
+    <string name="pref_shortcut_summary">新增捷徑到主畫面。</string>
     <!--This preference presents a slider where the user selects a value from 0 to 4-->
     <string name="pref_ui_fontsize_summary">每次增減字體大小 2sp</string>
     <string name="pref_ui_fontsize_title">介面字體大小</string>
@@ -331,7 +330,7 @@
     <string name="warning_backup">數據庫和喜好設定將被儲存到SD卡。你要繼續嗎？</string>
     <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除。你要繼續嗎？</string>
     <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
-    <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題 (貢獻後可用) 。</string>
+    <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題。</string>
     <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
     <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
     <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來。當前的數據會被刪除。你要繼續嗎？</string>

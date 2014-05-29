@@ -26,6 +26,7 @@
   <string name="contrib_feature_split_transaction_label">Podział transakcji</string>
   <string name="contrib_feature_template_widget_label">Szablon widget</string>
   <string name="contrib_key">Klucz Contrib</string>
+  <string name="contrib_key_requires">Wymaga Moje Wydatki Klucz Contrib.</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
   <string name="date">Data</string>
@@ -33,7 +34,8 @@
   <string name="date_format_illegal">Nieprawidłowy format daty</string>
   <string name="default_account_description">To konto zostało utworzone automatycznie podczas instalacji</string>
   <string name="description">Opis</string>
-  <string name="dialog_command_disabled_insert_transfer">Do przeniesienia transakcji, potrzeba drugiego konta z tą samą walutą. Posiadasz tylko jedno konto z walutą %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Do przeniesienia transakcji, potrzeba drugiego konta z tą samą walutą.</string>
+  <string name="dialog_command_disabled_insert_transfer_2">Posiadasz tylko jedno konto z walutą %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
   <string name="dialog_contrib_no">Nie teraz</string>
@@ -283,14 +285,13 @@
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
   <string name="pref_restore_title">Przywróć</string>
-  <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła. Wymaga Moje Wydatki Klucz Contrib.</string>
+  <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>
   <string name="pref_security_question_title">Pytanie bezpieczeństwa</string>
   <string name="pref_send_feedback_title">Wyślij opinie</string>
   <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, ...), lub podaj URL w jednym z obsługiwanym schemacie</string>
   <string name="pref_share_target_title">Wyślij URL</string>
-  <string name="pref_shortcut_account_list_title">Skrót \'Lista kont\'</string>
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
-  <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny</string>
+  <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Każdy stopień powiększa rozmiar czcionki bazowanej o 2sp</string>
   <string name="pref_ui_fontsize_title">Powiększ rozmiar czcionki</string>
@@ -353,7 +354,7 @@
   <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci. Czy chcesz kontynuować?</string>
   <string name="warning_delete_account">Konto \"%1$s\" zostanie usunięte razem ze wszystkimi jego transakcjami.</string>
   <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
-  <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje Moje Wydatki Klucz Contrib).</string>
+  <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa.</string>
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>

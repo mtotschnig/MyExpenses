@@ -44,6 +44,7 @@
     <string name="contrib_feature_split_transaction_label">Split transaction</string>
     <string name="contrib_feature_template_widget_label">Template widget</string>
     <string name="contrib_key">Contrib key</string>
+    <string name="contrib_key_requires">Requires My Expenses Contrib Key.</string>
     <string name="currency">Currency</string>
     <string name="current_balance">Current balance</string>
     <string name="date">Date</string>
@@ -52,7 +53,8 @@
     <string name="decimal_separator">Decimal separator</string>
     <string name="default_account_description">This account was set up automatically during installation</string>
     <string name="description">Description</string>
-    <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. You have only one account of currency %1$s.</string>
+    <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
+    <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
     <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
     <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
     <string name="dialog_contrib_no">Not yet</string>
@@ -313,7 +315,7 @@
     <string name="pref_planning_calendar_title">Planning calendar</string>
     <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
     <string name="pref_protection_delay_seconds_title">Delay until protection</string>
-    <string name="pref_protection_enable_data_entry_from_widget_title">Protect data entry from widgets</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Data entry from widgets</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Allowed without password.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password is required.</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
@@ -321,17 +323,18 @@
     <string name="pref_request_licence_title">Request a Contrib key</string>
     <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
     <string name="pref_restore_title">Restore</string>
-    <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires My Expenses Contrib.</string>
+    <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password.</string>
     <string name="pref_security_question_title">Security question</string>
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, …), or provide URL in one of the supported schemes</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
-    <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
+    <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
+    <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
     <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
     <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
     <string name="pref_ui_fontsize_title">Increase font size</string>
+    <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <string name="pref_ui_language_default">System default</string>
     <string name="pref_ui_language_summary">Set language of user interface</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -417,7 +420,7 @@
     <string name="warning_widget_disabled">You need to enable this widget in the app settings.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Quick instantiation of templates from this widget only works if you allow data entry from widgets without password in the app settings.</string>
     <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
-    <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires My Expenses Contrib).</string>
+    <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question.</string>
     <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
     <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>

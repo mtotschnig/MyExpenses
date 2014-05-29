@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_143">
+    <item>Home screen shortcuts for adding transactions and transfers</item>
+  </string-array>
   <string-array name="whats_new_142">
     <item>Home screen widgets for quick data entry</item>
   </string-array>

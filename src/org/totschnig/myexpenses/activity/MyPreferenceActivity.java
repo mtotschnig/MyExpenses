@@ -71,7 +71,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
     super.onCreate(savedInstanceState);
-    setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
+    setTitle(Utils.concatResStrings(this,R.string.app_name,R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
     Preference pref = findPreference(MyApplication.PREFKEY_SHARE_TARGET);
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
@@ -114,6 +114,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
             MyApplication.PREFKEY_PLANNER_CALENDAR_ID)) {
       ((CalendarListPreference) findPreference(MyApplication.PREFKEY_PLANNER_CALENDAR_ID)).show();
     }
+    
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSACTION).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setSummary(
+        Utils.concatResStrings(this, R.string.pref_security_question_summary,R.string.contrib_key_requires));
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setSummary(
+        Utils.concatResStrings(this, R.string.pref_shortcut_summary,R.string.contrib_key_requires));
   }
   private void configureContribPrefs() {
     Preference pref1 = findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL);
@@ -121,6 +129,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       pref1.setTitle(R.string.pref_contrib_donate_title);
       pref1.setSummary(getString(R.string.thank_you)+" "+getString(R.string.pref_contrib_donate_summary_already_contrib));
     }
+    findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setEnabled(MyApplication.getInstance().isContribEnabled);
   }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
@@ -277,11 +286,29 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       }
       return true;
     }
-/*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
-      addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
-      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSACTION)) {
+      Bundle extras = new Bundle();
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+      addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.create_transaction_icon,extras);
       return true;
-    }*/
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER)) {
+      Bundle extras = new Bundle();
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+      extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
+      addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.create_transfer_icon,extras);
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT)) {
+      Bundle extras = new Bundle();
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+      extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+      extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
+      addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.create_split_icon,extras);
+      return true;
+    }
     return false;
   }
   @Override
@@ -313,23 +340,31 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
   // credits Financisto
   // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-  private void addShortcut(String activity, int nameId, int iconId) {
-    Intent intent = createShortcutIntent(activity, getString(nameId), Intent.ShortcutIconResource.fromContext(this, iconId), 
-        "com.android.launcher.action.INSTALL_SHORTCUT");
-    sendBroadcast(intent);
+  private void addShortcut(String activity, int nameId, int iconId, Bundle extra) {
+    Intent shortcutIntent = createShortcutIntent(activity);
+    if (extra != null) {
+      shortcutIntent.putExtras(extra);
+    }
+    Intent intent = new Intent();
+    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, iconId));
+    intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+
+    if (Utils.isIntentReceiverAvailable(this, intent)) {
+      sendBroadcast(intent);
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+    } else {
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
+    }
 }
 
-  private Intent createShortcutIntent(String activity, String shortcutName, ShortcutIconResource shortcutIcon, String action) {
+  private Intent createShortcutIntent(String activity) {
     Intent shortcutIntent = new Intent();
     shortcutIntent.setComponent(new ComponentName(this.getPackageName(), activity));
     shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    Intent intent = new Intent();
-    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
-    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcon);
-    intent.setAction(action);
-    return intent;
+    return shortcutIntent;
   }
   private Intent findDirPicker() {
     Intent intent = new Intent("com.estrongs.action.PICK_DIRECTORY ");

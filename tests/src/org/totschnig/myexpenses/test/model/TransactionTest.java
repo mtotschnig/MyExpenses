@@ -20,6 +20,7 @@ import java.util.Date;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.SplitPartCategory;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -44,7 +45,7 @@ public class TransactionTest extends ModelTest  {
   public void testTemplate() {
     Long start = mAccount1.getCurrentBalance().getAmountMinor();
     Long amount = (long) 100;
-    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
+    Transaction op1 = Transaction.getNewInstance(mAccount1.id);
     op1.amount = new Money(mAccount1.currency,amount);
     op1.comment = "test transaction";
     op1.save();
@@ -64,7 +65,7 @@ public class TransactionTest extends ModelTest  {
   public void testTransaction() {
     String payee = "N.N";
     assertEquals(0L, Transaction.getSequenceCount().longValue());
-    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
+    Transaction op1 = Transaction.getNewInstance(mAccount1.id);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.payee = payee;
@@ -88,9 +89,8 @@ public class TransactionTest extends ModelTest  {
   }
   
   public void testTransfer() {
-    Transfer op = (Transfer) Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,mAccount1.id);
+    Transfer op = Transfer.getNewInstance(mAccount1.id,mAccount2.id);
     Transfer peer;
-    op.transfer_account = mAccount2.id;
     op.amount = new Money(mAccount1.currency,(long) 100);
     op.comment = "test transfer";
     op.save();
@@ -107,18 +107,18 @@ public class TransactionTest extends ModelTest  {
    * we test if split parts get the date of their parent
    */
   public void testSplit() {
-    SplitTransaction op1 = (SplitTransaction) Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT,mAccount1.id);
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.id);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
     assertTrue(op1.id > 0);
-    Transaction split1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id,op1.id);
+    Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.id,op1.id);
     split1.amount = new Money(mAccount1.currency,50L);
     assertTrue(split1.parentId == op1.id);
     split1.status =org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     split1.save();
     assertTrue(split1.id > 0);
-    Transaction split2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id,op1.id);
+    Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.id,op1.id);
     split2.amount = new Money(mAccount1.currency,50L);
     assertTrue(split2.parentId == op1.id);
     split2.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;

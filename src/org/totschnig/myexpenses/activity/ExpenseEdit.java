@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -51,6 +52,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -96,6 +98,10 @@ public class ExpenseEdit extends AmountActivity implements
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
+  private static final String PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET = "transactionLastAccountFromWidget";
+  private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
+  private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
+  private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
@@ -145,8 +151,9 @@ public class ExpenseEdit extends AmountActivity implements
   
   private LoaderManager mManager;
 
-  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false,
-      mSavedInstance = false, mTransferEnabled, mRecordTemplateWidget = false;
+  private boolean mNewInstance = true,
+      mCreateNew, mLaunchPlanView,
+      mSavedInstance, mTransferEnabled, mRecordTemplateWidget;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -278,17 +285,47 @@ public class ExpenseEdit extends AmountActivity implements
       mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
       Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID,0);
       Long parentId = getIntent().getLongExtra(KEY_PARENTID,0);
-      if (getIntent().getBooleanExtra(KEY_NEW_TEMPLATE,false))
+      if (getIntent().getBooleanExtra(KEY_NEW_TEMPLATE,false)) {
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
-      else
-        mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
+      } else {
+        switch (mOperationType) {
+        case MyExpenses.TYPE_TRANSACTION:
+          if (accountId == 0L) {
+            accountId = MyApplication.getInstance().getSettings()
+                .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,0L);
+          }
+          mTransaction = parentId == 0L ?
+              Transaction.getNewInstance(accountId) :
+              SplitPartCategory.getNewInstance(accountId, parentId);
+          break;
+        case MyExpenses.TYPE_TRANSFER:
+          Long transfer_account = 0L;
+          if (accountId == 0L) {
+            accountId = MyApplication.getInstance().getSettings()
+                .getLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET,0L);
+            transfer_account = MyApplication.getInstance().getSettings()
+                .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,0L);
+          }
+          mTransaction = parentId == 0L ?
+              Transfer.getNewInstance(accountId,transfer_account) :
+              SplitPartTransfer.getNewInstance(accountId, parentId, transfer_account);
+          break;
+        case MyExpenses.TYPE_SPLIT:
+          if (accountId == 0L) {
+            accountId = MyApplication.getInstance().getSettings()
+                .getLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET,0L);
+          }
+          mTransaction = SplitTransaction.getNewInstance(accountId);
+          //Split transactions are returned persisted to db and already have an id
+          mRowId = mTransaction.id;
+          break;
+        }
+      }
       if (mTransaction == null) {
         Toast.makeText(this,"Error instantiating transaction for account "+accountId,Toast.LENGTH_SHORT).show();
         finish();
         return;
       }
-      //Split transactions are returned persisted to db and already have an id
-      mRowId = mTransaction.id;
       setup();
     }
   }
@@ -501,7 +538,7 @@ public class ExpenseEdit extends AmountActivity implements
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
             .setIcon(R.drawable.save_and_new_icon),
-          Build.VERSION.SDK_INT < 11 ?
+          Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ?
               MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT :
               MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
@@ -579,8 +616,10 @@ public class ExpenseEdit extends AmountActivity implements
         !mTransferEnabled) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_menu_command_disabled,
-          getString(R.string.dialog_command_disabled_insert_transfer,
-              account.currency.getCurrencyCode()),
+          getString(R.string.dialog_command_disabled_insert_transfer_1) +
+            " " +
+            getString(R.string.dialog_command_disabled_insert_transfer_2,
+                account.currency.getCurrencyCode()),
           MessageDialogFragment.Button.okButton(),
           null,null)
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
@@ -723,6 +762,21 @@ public class ExpenseEdit extends AmountActivity implements
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
         .commit();
+      if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
+        SharedPreferences.Editor e = MyApplication.getInstance().getSettings().edit();
+        switch (mOperationType) {
+        case MyExpenses.TYPE_TRANSACTION:
+          e.putLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
+          break;
+        case MyExpenses.TYPE_TRANSFER:
+          e.putLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
+          e.putLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.transfer_account);
+          break;
+        case MyExpenses.TYPE_SPLIT:
+          e.putLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
+        }
+        SharedPreferencesCompat.apply(e);
+      }
     } else {
       //prevent this flag from being sticky if form was not valid
       mCreateNew = false;
@@ -1209,7 +1263,7 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case ACCOUNTS_CURSOR:
       if (data.getCount()==0) {
-        Toast.makeText(this,"Error loading accounts list ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,R.string.dialog_command_disabled_insert_transfer_1,Toast.LENGTH_SHORT).show();
         finish();
         return;
       }

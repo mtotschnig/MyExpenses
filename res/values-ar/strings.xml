@@ -36,6 +36,7 @@
     <string name="contrib_feature_security_question_label">السؤال السري</string>
     <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
     <string name="contrib_key">مفتاح المساهمة</string>
+    <string name="contrib_key_requires">يتطلب مصروفاتي مفتاح المساهمة.</string>
     <string name="currency">العملة</string>
     <string name="current_balance">الرصيد الحالي</string>
     <string name="date">التاريخ</string>
@@ -230,7 +231,7 @@
     <string name="pref_share_target_title">رابط الرفع</string>
     <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، ...) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
     <string name="pref_security_question_title">السؤال السري</string>
-    <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور. يتطلب مصروفاتي Contrib.</string>
+    <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
     <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
     <string name="pref_ui_theme_title">المظهر</string>
     <string name="pref_ui_theme_dark">غامق</string>
@@ -272,7 +273,7 @@
     <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
     <string name="warning_backup">سيتم حفظ قاعدة البينات والتفضيلات في الذاكرة. استمرار؟</string>
     <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به. هل تريد الاستمرار؟</string>
-    <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا عن طريق سؤال الأمان (يتطلب مصروفاتي Contrib).</string>
+    <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا عن طريق سؤال الأمان.</string>
     <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
     <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
     <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>

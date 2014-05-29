@@ -28,6 +28,7 @@
   <string name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
   <string name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
   <string name="contrib_key">Contrib key</string>
+  <string name="contrib_key_requires">ត្រូវការកម្មវិធី My Expenses Contrib Key</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
   <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
   <string name="date">កាលបរិច្ឆេទ</string>
@@ -36,7 +37,8 @@
   <string name="decimal_separator">កាត់ខ្ទង់ទសភាគ</string>
   <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
-  <string name="dialog_command_disabled_insert_transfer">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។ អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
+  <string name="dialog_command_disabled_insert_transfer_1">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។</string>
+  <string name="dialog_command_disabled_insert_transfer_2">អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <string name="dialog_contrib_no">នៅទេ</string>
@@ -290,7 +292,6 @@
   <string name="pref_send_feedback_title">ផ្ញើមតិយោបល់អ្នកប្រើ</string>
   <string name="pref_share_target_summary">ទុកឱ្យទទេ ប្រសិនបើអ្នកចង់ជ្រើស រវាងកម្មវិធី ដែលសមស្រប (Email, Dropbox, Google Docs, …)​ ឬផ្តល់នូវ URL មួយ​ដែល​មាន​ក្នុងគម្រោងគាំទ្រ</string>
   <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
-  <string name="pref_shortcut_account_list_title">\'បញ្ជីគណនី\' shortcut</string>
   <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
   <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->

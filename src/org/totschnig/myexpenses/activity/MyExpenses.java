@@ -462,7 +462,10 @@ public class MyExpenses extends LaunchActivity implements
           String currency = a.currency.getCurrencyCode();
           MessageDialogFragment.newInstance(
               R.string.dialog_title_menu_command_disabled,
-              getString(R.string.dialog_command_disabled_insert_transfer,currency),
+              getString(R.string.dialog_command_disabled_insert_transfer_1) +
+              " " +
+              getString(R.string.dialog_command_disabled_insert_transfer_2,
+                  currency),
               new MessageDialogFragment.Button(R.string.menu_create_account, R.id.CREATE_ACCOUNT_COMMAND,currency),
               MessageDialogFragment.Button.okButton(),
               null)
@@ -692,6 +695,7 @@ public class MyExpenses extends LaunchActivity implements
     mAccountId = newAccountId;
     setCustomTitle();
     mDrawerList.setItemChecked(position, true);
+    supportInvalidateOptionsMenu();
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {

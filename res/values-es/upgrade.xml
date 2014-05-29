@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_143">
+    <item>Atajos de pantalla de Inicio para crear las transacciones y transferencias</item>
+  </string-array>
   <string-array name="whats_new_142">
     <item>Widgets de la pantalla de inicio para entrada de datos rápida</item>
   </string-array>
