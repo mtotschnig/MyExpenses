@@ -44,17 +44,16 @@ public class ContribFeature extends Model {
       return name().toLowerCase(Locale.US);
     }
     public int countUsages() {
+      int result = 0;
       Cursor mCursor = cr().query(CONTENT_URI,new String[] {"count(*)"},
           "feature = ?", new String[] {toString()}, null);
-      if (mCursor.getCount() == 0) {
+      if (mCursor != null) {
+        if (mCursor.moveToFirst()) {
+          result = mCursor.getInt(0);
+        }
         mCursor.close();
-        return 0;
-      } else {
-        mCursor.moveToFirst();
-        int result = mCursor.getInt(0);
-        mCursor.close();
-        return result;
       }
+      return result;
     }
     public void recordUsage() {
       if (!MyApplication.getInstance().isContribEnabled) {
