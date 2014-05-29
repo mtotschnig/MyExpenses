@@ -25,4 +25,12 @@ public class SplitPartTransfer extends Transfer {
     super(account,amount, transfer_account);
     this.parentId = parentId;
   }
+
+  public static SplitPartTransfer getNewInstance(long accountId, Long parentId, Long transfer_account) {
+    Account account = Account.getInstanceFromDb(accountId);
+    if (account == null) {
+      return null;
+    }
+    return new SplitPartTransfer(account,0L,parentId,transfer_account);
+  }
 }

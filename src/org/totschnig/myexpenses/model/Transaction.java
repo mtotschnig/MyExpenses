@@ -229,12 +229,12 @@ public class Transaction extends Model {
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
-  public static Transaction getNewInstance(long accountId, Long parentId) {
+  public static Transaction getNewInstance(long accountId) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       return null;
     }
-    return parentId != 0L ? new SplitPartCategory(account,0L,parentId) :  new Transaction(account,0L);
+    return new Transaction(account,0L);
   }
   
   public static void delete(long id) {

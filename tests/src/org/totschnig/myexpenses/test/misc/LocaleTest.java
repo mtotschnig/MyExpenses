@@ -50,7 +50,7 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
         continue;
       Log.i("TEST",loc.getDisplayLanguage(Locale.US));
       Log.i("TEST",code);
-      Transaction op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount.id);
+      Transaction op = Transaction.getNewInstance(mAccount.id);
       op.comment = code + " " + lang;
       op.save();
       Assert.assertTrue("Failed to create transaction in Locale " + lang,op.id > 0);

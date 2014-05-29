@@ -45,12 +45,12 @@ public class Transfer extends Transaction {
   public Transfer() {
    super();
   }
-  public static Transfer getNewInstance(long accountId, Long parentId, Long transfer_account) {
+  public static Transfer getNewInstance(long accountId, Long transfer_account) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       return null;
     }
-    return parentId != 0L ? new SplitPartTransfer(account,0L,parentId,transfer_account) : new Transfer(account,0L,transfer_account);
+    return new Transfer(account,0L,transfer_account);
   }
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()

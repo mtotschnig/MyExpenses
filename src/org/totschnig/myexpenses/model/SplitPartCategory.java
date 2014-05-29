@@ -26,4 +26,12 @@ public class SplitPartCategory extends Transaction {
     super(account,amount);
     this.parentId = parentId;
   }
+
+  public static SplitPartCategory getNewInstance(long accountId, Long parentId) {
+    Account account = Account.getInstanceFromDb(accountId);
+    if (account == null) {
+      return null;
+    }
+    return new SplitPartCategory(account,0L,parentId);
+  }
 }

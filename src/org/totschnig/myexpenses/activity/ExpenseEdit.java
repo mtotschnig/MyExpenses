@@ -294,7 +294,9 @@ public class ExpenseEdit extends AmountActivity implements
             accountId = MyApplication.getInstance().getSettings()
                 .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,0L);
           }
-          mTransaction = Transaction.getNewInstance(accountId, parentId);
+          mTransaction = parentId == 0L ?
+              Transaction.getNewInstance(accountId) :
+              SplitPartCategory.getNewInstance(accountId, parentId);
           break;
         case MyExpenses.TYPE_TRANSFER:
           Long transfer_account = 0L;
@@ -304,14 +306,16 @@ public class ExpenseEdit extends AmountActivity implements
             transfer_account = MyApplication.getInstance().getSettings()
                 .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,0L);
           }
-          mTransaction = Transfer.getNewInstance(accountId, parentId,transfer_account);
+          mTransaction = parentId == 0L ?
+              Transfer.getNewInstance(accountId,transfer_account) :
+              SplitPartTransfer.getNewInstance(accountId, parentId, transfer_account);
           break;
         case MyExpenses.TYPE_SPLIT:
           if (accountId == 0L) {
             accountId = MyApplication.getInstance().getSettings()
                 .getLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET,0L);
           }
-          mTransaction = SplitTransaction.getNewInstance(accountId, parentId);
+          mTransaction = SplitTransaction.getNewInstance(accountId);
           //Split transactions are returned persisted to db and already have an id
           mRowId = mTransaction.id;
           break;

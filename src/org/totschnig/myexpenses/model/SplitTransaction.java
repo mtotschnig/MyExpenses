@@ -38,7 +38,7 @@ public class SplitTransaction extends Transaction {
     super(account,amount);
     catId = DatabaseConstants.SPLIT_CATID;
   }
-  public static SplitTransaction getNewInstance(long accountId, Long parentId) {
+  public static SplitTransaction getNewInstance(long accountId) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       return null;

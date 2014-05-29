@@ -20,6 +20,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -40,7 +42,7 @@ public class AccountTest extends ModelTest  {
     account1.save();
     account2 = new Account("Account 2",openingBalance,"Account 2");
     account2.save();
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    op = Transaction.getNewInstance(account1.id);
     op.amount = new Money(account1.currency,-expense1);
     op.save();
     op.amount = new Money(account1.currency,-expense2);
@@ -49,8 +51,7 @@ public class AccountTest extends ModelTest  {
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
     op.saveAsNew();
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
-    op.transfer_account = account2.id;
+    op = Transfer.getNewInstance(account1.id,account2.id);
     op.amount = new Money(account1.currency,transferP);
     op.save();
     op.amount = new Money(account1.currency,-transferN);
@@ -69,7 +70,7 @@ public class AccountTest extends ModelTest  {
     restored = Account.getInstanceFromDb(account.id);
     assertEquals(account,restored);
     Long trAmount = (long) 100;
-    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account.id);
+    Transaction op1 = Transaction.getNewInstance(account.id);
     op1.amount = new Money(account.currency,trAmount);
     op1.comment = "test transaction";
     op1.save();

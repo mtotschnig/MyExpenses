@@ -60,7 +60,7 @@ public class ExportTest extends ModelTest  {
     account2.save();
     cat1Id = Category.write(0,"Main",null);
     cat2Id = Category.write(0,"Sub", cat1Id);
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    op = Transaction.getNewInstance(account1.id);
     op.amount = new Money(account1.currency,-expense1);
     op.methodId = PaymentMethod.find("CHEQUE");
     op.crStatus = Transaction.CrStatus.CLEARED;
@@ -81,17 +81,16 @@ public class ExportTest extends ModelTest  {
     op.amount = new Money(account1.currency,income2);
     op.comment = "Note for myself with \"quote\"";
     op.saveAsNew();
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
-    op.transfer_account = account2.id;
+    op = Transfer.getNewInstance(account1.id,account2.id);
     op.amount = new Money(account1.currency,transferP);
     op.crStatus = Transaction.CrStatus.RECONCILED;
     op.save();
     op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.amount = new Money(account1.currency,-transferN);
     op.saveAsNew();
-    SplitTransaction split = (SplitTransaction) Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT, account1.id);
+    SplitTransaction split = SplitTransaction.getNewInstance(account1.id);
     split.amount = new Money(account1.currency,split1);
-    Transaction part = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id,split.id);
+    Transaction part = SplitPartCategory.getNewInstance(account1.id,split.id);
     part.amount =  new Money(account1.currency,part1);
     part.catId = cat1Id;
     part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
@@ -103,7 +102,7 @@ public class ExportTest extends ModelTest  {
   }
   private void insertData2() {
     Transaction op;
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    op = Transaction.getNewInstance(account1.id);
     op.amount = new Money(account1.currency,-expense3);
     op.methodId = PaymentMethod.find("CHEQUE");
     op.comment = "Expense inserted after first export";
