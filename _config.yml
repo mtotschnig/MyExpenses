@@ -69,6 +69,24 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.1.4
+    - 2014-05-29
+    -
+      en: |
+        Home screen shortcuts for adding transactions and transfers.
+      fr: |
+        Raccourcis d'écran d'accueil permettant d'ajouter des transactions et des transferts.
+      de: |
+        Verknüpfungen für den Start-Bildschirm für das Hinzufügen von Buchungen und Umbuchungen.
+      it: |
+        Collegamenti di schermata Home per l'aggiunta di transazioni e trasferimenti.
+      es: |
+        Atajos de pantalla de Inicio para crear las transacciones y transferencias.
+      pt: |
+        Atalhos de tela inicial para criar transacções e transferências.
+      tr: |
+        Virman ve muamele eklemek için ana ekran kısayolları.
+  -
     - 2.1.3
     - 2014-05-25
     -
@@ -86,7 +104,6 @@ versions:
         Widgets para entrada de dados rápida.
       tr: |
         Çabuk veri girişi için ana ekran widget'leri.
-    
   -
     - 2.1.2
     - 2014-04-26
