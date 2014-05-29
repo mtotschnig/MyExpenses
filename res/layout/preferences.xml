@@ -129,8 +129,8 @@
         android:title="@string/pref_enter_licence_title"
         android:summary="@string/pref_enter_licence_summary" />
    </PreferenceCategory>
-   <PreferenceScreen android:title="@string/pref_category_title_security"
-   	    android:summary="@string/pref_perform_protection_title">
+   <PreferenceCategory android:title="@string/pref_category_title_security">
+    <PreferenceScreen android:title="@string/pref_perform_protection_title">
      <org.totschnig.myexpenses.preference.PasswordPreference
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"
@@ -163,6 +163,7 @@
 	        android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off" />
 	     </PreferenceCategory>
    </PreferenceScreen>
+  </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_more_information">
      <Preference
         android:title="@string/pref_visit_website_title"
