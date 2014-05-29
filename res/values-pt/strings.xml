@@ -313,10 +313,13 @@
   <string name="pref_send_feedback_title">Enviar feedback</string>
   <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">Enviar URL</string>
+  <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
+  <string name="pref_shortcut_not_added">Nenhuma tela inicial disponível que aceita atalhos.</string>
   <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar tamanho da fonte</string>
+  <string name="pref_ui_home_screen_shortcuts">Atalhos da tela inicial</string>
   <string name="pref_ui_language_default">Padrão do sistema</string>
   <string name="pref_ui_language_summary">Defina o idioma da interface gráfica</string>
   <!--Title of the preference for selecting the UI language-->

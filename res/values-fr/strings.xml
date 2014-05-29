@@ -314,10 +314,12 @@
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, …), sinon spécifiez une URL dans l\'une des formes supportées</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
+  <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
   <string name="pref_ui_fontsize_title">Augmenter la taille du texte</string>
+  <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
   <string name="pref_ui_language_default">Défaut du système</string>
   <string name="pref_ui_language_summary">Définir la langue de l\'interface</string>
   <!--Title of the preference for selecting the UI language-->

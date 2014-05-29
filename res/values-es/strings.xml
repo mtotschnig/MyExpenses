@@ -314,10 +314,12 @@
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, …), o indicar una URL en uno de los esquemas apoyados</string>
   <string name="pref_share_target_title">Subir URL de exportación</string>
   <string name="pref_shortcut_added">Acceso directo se ha añadido a la pantalla de inicio</string>
+  <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepta atajos.</string>
   <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada paso aumenta el tamaño de fuente por 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar el tamaño de la fuente</string>
+  <string name="pref_ui_home_screen_shortcuts">Atajos de la pantalla de inicio</string>
   <string name="pref_ui_language_default">Estándar del sistema</string>
   <string name="pref_ui_language_summary">Definir el lenguaje de la interfaz de usuario</string>
   <!--Title of the preference for selecting the UI language-->

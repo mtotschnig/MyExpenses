@@ -301,8 +301,8 @@
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
   <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
   <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel für Android-Id  %1$s per E-Mail.</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
@@ -314,10 +314,12 @@
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
+  <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Jeder Schritt vergrößert die Schrift um 2sp</string>
   <string name="pref_ui_fontsize_title">Schrift vergrößern</string>
+  <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
   <string name="pref_ui_language_default">System-Standard</string>
   <string name="pref_ui_language_summary">Sprache der Bedienoberfläche festlegen </string>
   <!--Title of the preference for selecting the UI language-->

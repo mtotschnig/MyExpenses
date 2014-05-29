@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_143">
+    <item>Collegamenti di schermata Home per l\'aggiunta di transazioni e trasferimenti</item>
+  </string-array>
   <string-array name="whats_new_142">
     <item>Widget di schermo di casa per inserimento dati veloce</item>
   </string-array>
