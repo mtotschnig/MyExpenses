@@ -534,7 +534,7 @@ public class ExpenseEdit extends AmountActivity implements
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
             .setIcon(R.drawable.save_and_new_icon),
-          Build.VERSION.SDK_INT < 11 ?
+          Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ?
               MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT :
               MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
