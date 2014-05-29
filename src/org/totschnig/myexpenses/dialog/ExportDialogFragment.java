@@ -18,6 +18,9 @@ package org.totschnig.myexpenses.dialog;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -30,6 +33,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -188,26 +192,44 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
-      Bundle b = new Bundle();
-      if (accountId == null) {
-        Feature.RESET_ALL.recordUsage();
-      } else if (accountId>0) {
-        b.putLong(KEY_ROWID, accountId);
+      if (checkAppFolderWarning()) {
+        Bundle b = new Bundle();
+        if (accountId == null) {
+          Feature.RESET_ALL.recordUsage();
+        } else if (accountId>0) {
+          b.putLong(KEY_ROWID, accountId);
+        } else {
+          Feature.RESET_ALL.recordUsage();
+          b.putString(KEY_CURRENCY, currency);
+        }
+        b.putString("format", format);
+        b.putBoolean("deleteP", deleteP);
+        b.putBoolean("notYetExportedP",notYetExportedP);
+        b.putString("dateFormat",dateFormat);
+        b.putChar("decimalSeparator",decimalSeparator);
+        ((MyExpenses) getActivity()).onStartExport(b);
       } else {
-        Feature.RESET_ALL.recordUsage();
-        b.putString(KEY_CURRENCY, currency);
+        Toast.makeText(ctx, R.string.warning_app_folder_will_be_deleted_upon_uninstall, Toast.LENGTH_LONG).show();
       }
-      b.putString("format", format);
-      b.putBoolean("deleteP", deleteP);
-      b.putBoolean("notYetExportedP",notYetExportedP);
-      b.putString("dateFormat",dateFormat);
-      b.putChar("decimalSeparator",decimalSeparator);
-      ((MyExpenses) getActivity()).onStartExport(b);
     } else {
       Toast.makeText(ctx,
           ctx.getString(R.string.external_storage_unavailable),
           Toast.LENGTH_LONG)
           .show();
+    }
+  }
+
+  @SuppressLint("NewApi")
+  private boolean checkAppFolderWarning() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+      return true;
+    }
+    try {
+      URI configuredDir = Utils.getAppDir().getCanonicalFile().toURI();
+      URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null).getParentFile().getCanonicalFile().toURI();
+      return defaultDir.relativize(configuredDir).isAbsolute();
+    } catch (IOException e) {
+      return false;
     }
   }
 

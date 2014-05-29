@@ -426,6 +426,7 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
     <string name="warning_select_account">Please select an account!</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
