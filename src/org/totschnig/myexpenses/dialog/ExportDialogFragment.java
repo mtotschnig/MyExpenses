@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.Button;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
@@ -192,24 +193,33 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
+      Bundle b = new Bundle();
+      if (accountId == null) {
+        Feature.RESET_ALL.recordUsage();
+      } else if (accountId>0) {
+        b.putLong(KEY_ROWID, accountId);
+      } else {
+        Feature.RESET_ALL.recordUsage();
+        b.putString(KEY_CURRENCY, currency);
+      }
+      b.putString("format", format);
+      b.putBoolean("deleteP", deleteP);
+      b.putBoolean("notYetExportedP",notYetExportedP);
+      b.putString("dateFormat",dateFormat);
+      b.putChar("decimalSeparator",decimalSeparator);
       if (checkAppFolderWarning()) {
-        Bundle b = new Bundle();
-        if (accountId == null) {
-          Feature.RESET_ALL.recordUsage();
-        } else if (accountId>0) {
-          b.putLong(KEY_ROWID, accountId);
-        } else {
-          Feature.RESET_ALL.recordUsage();
-          b.putString(KEY_CURRENCY, currency);
-        }
-        b.putString("format", format);
-        b.putBoolean("deleteP", deleteP);
-        b.putBoolean("notYetExportedP",notYetExportedP);
-        b.putString("dateFormat",dateFormat);
-        b.putChar("decimalSeparator",decimalSeparator);
         ((MyExpenses) getActivity()).onStartExport(b);
       } else {
-        Toast.makeText(ctx, R.string.warning_app_folder_will_be_deleted_upon_uninstall, Toast.LENGTH_LONG).show();
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_attention,
+            R.string.warning_app_folder_will_be_deleted_upon_uninstall,
+            new MessageDialogFragment.Button(
+                android.R.string.ok,
+                R.id.START_EXPORT_COMMAND,
+                b);
+            MessageDialogFragment.Button.noButton(),
+            null)
+         .show(getFragmentManager(),"APP_FOLDER_WARNING");
       }
     } else {
       Toast.makeText(ctx,

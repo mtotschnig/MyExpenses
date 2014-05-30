@@ -68,4 +68,5 @@
   <item type="id" name="CANCEL_CALLBACK_COMMAND" />
   <item type="id" name="SETUP_CATEGORIES_DEFAULT_COMMAND" />
   <item type="id" name="UP_COMMAND"/>
+  <item type="id" name="START_EXPORT_COMMAND" />
 </resources>

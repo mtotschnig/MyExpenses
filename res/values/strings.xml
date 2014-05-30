@@ -86,6 +86,7 @@
     <string name="dialog_setup_planner_button_create_new">Create new</string>
     <!-- Label for button that opens preferences for selecting an existing calendar -->
     <string name="dialog_setup_planner_button_select_existing">Select existing</string>
+    <string name="dialog_title_attention">Attention</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
