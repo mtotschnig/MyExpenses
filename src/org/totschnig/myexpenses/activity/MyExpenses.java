@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -99,7 +100,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    EditTextDialogListener,
+    EditTextDialogListener, ConfirmationDialogListener,
     ContribIFace {
 
   private static final int VIEWPAGER = R.id.viewpager;
@@ -945,13 +946,18 @@ public class MyExpenses extends LaunchActivity implements
     }
     outState.putString("exportFormat", mExportFormat);
   }
-  public void onStartExport(Bundle b) {
-    mExportFormat = b.getString("format");
-    getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstanceExport(b),
-          "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(
-          R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
-      .commit();
+  @Override
+  public boolean dispatchCommand(int command, Bundle args) {
+   switch (command) {
+   case R.id.START_EXPORT_COMMAND:
+     mExportFormat = args.getString("format");
+     getSupportFragmentManager().beginTransaction()
+       .add(TaskExecutionFragment.newInstanceExport(args),
+           "ASYNC_TASK")
+       .add(ProgressDialogFragment.newInstance(
+           R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
+       .commit();
+   }
+   return false;
   }
 }

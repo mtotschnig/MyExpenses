@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.Button;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -208,17 +209,14 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       b.putString("dateFormat",dateFormat);
       b.putChar("decimalSeparator",decimalSeparator);
       if (checkAppFolderWarning()) {
-        ((MyExpenses) getActivity()).onStartExport(b);
+        ((ConfirmationDialogListener) getActivity())
+        .dispatchCommand(R.id.START_EXPORT_COMMAND, b);
       } else {
-        MessageDialogFragment.newInstance(
+        ConfirmationDialogFragment.newInstance(
             R.string.dialog_title_attention,
             R.string.warning_app_folder_will_be_deleted_upon_uninstall,
-            new MessageDialogFragment.Button(
-                android.R.string.ok,
-                R.id.START_EXPORT_COMMAND,
-                b);
-            MessageDialogFragment.Button.noButton(),
-            null)
+            R.id.START_EXPORT_COMMAND,
+            b, MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN)
          .show(getFragmentManager(),"APP_FOLDER_WARNING");
       }
     } else {
@@ -232,6 +230,10 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   @SuppressLint("NewApi")
   private boolean checkAppFolderWarning() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+      return true;
+    }
+    if (MyApplication.getInstance().getSettings()
+        .getBoolean(MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN, false)) {
       return true;
     }
     try {
