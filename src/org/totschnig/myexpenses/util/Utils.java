@@ -279,14 +279,21 @@ public class Utils {
       return new File(pref);
     }
   }
+  @SuppressLint("NewApi")
+  public static File getCacheDir() {
+    return Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO ?
+        MyApplication.getInstance().getCacheDir() :
+        MyApplication.getInstance().getExternalCacheDir();
+  }
   /**
    * @param parentDir
    * @param prefix
    * @return creates a file object in parentDir, with a timestamp appended to prefix as name
    */
-  public static File timeStampedFile(File parentDir, String prefix) {
+  public static File timeStampedFile(File parentDir, String prefix, String extension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US).format(new Date());
-    return new File(parentDir,prefix+"-" + now);
+    extension = TextUtils.isEmpty(extension) ? "" : "." + extension;
+    return new File(parentDir,prefix+"-" + now + extension);
   }
   /**
    * Helper Method to Test if external Storage is Available

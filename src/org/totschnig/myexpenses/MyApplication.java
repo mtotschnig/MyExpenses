@@ -314,11 +314,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //DatabaseConstants.buildLocalized();
       }
     }
-    public static File requireBackupDir() {
+    public static File requireBackupFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)
         return null;
-      File dir = Utils.timeStampedFile(appDir,"backup");
+      File dir = Utils.timeStampedFile(appDir,"backup","zip");
       return dir;
     }
     public static File getBackupDbFile(File backupDir) {

@@ -40,25 +40,25 @@ import android.widget.Toast;
 public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   implements ConfirmationDialogListener {
   private String fileName;
-  private File backupDir;
+  private File backupFile;
   
   public static String KEY_FILENAME = "fileName";
-  public static String KEY_BACKUPDIR = "backupDir";
+  public static String KEY_BACKUPFILE = "backupFile";
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     if (savedInstanceState == null) {
-      backupDir = MyApplication.requireBackupDir();
-      if (backupDir != null) {
+      backupFile = MyApplication.requireBackupFile();
+      if (backupFile != null) {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
-          if (backupDir.exists()) {
-            Toast.makeText(getBaseContext(),"Backup folder "+backupDir.getPath() + "already exists.", Toast.LENGTH_LONG).show();
+          if (backupFile.exists()) {
+            Toast.makeText(getBaseContext(),"Backup folder "+backupFile.getPath() + "already exists.", Toast.LENGTH_LONG).show();
             finish();
           }
           MessageDialogFragment.newInstance(
               R.string.menu_backup,
-              getString(R.string.warning_backup,backupDir.getAbsolutePath()),
+              getString(R.string.warning_backup,backupFile.getAbsolutePath()),
               new MessageDialogFragment.Button(android.R.string.yes, R.id.BACKUP_COMMAND, null),
               null,
               MessageDialogFragment.Button.noButton())
@@ -72,7 +72,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
         finish();
       }
     } else {
-      backupDir = (File) savedInstanceState.getSerializable(KEY_BACKUPDIR);
+      backupFile = (File) savedInstanceState.getSerializable(KEY_BACKUPFILE);
       fileName = savedInstanceState.getString(KEY_FILENAME);
     }
   }
@@ -81,7 +81,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putString(KEY_FILENAME, fileName);
-    outState.putSerializable(KEY_BACKUPDIR, backupDir);
+    outState.putSerializable(KEY_BACKUPFILE, backupFile);
   };
 
   private void showRestoreDialog() {
@@ -113,8 +113,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       break;
     case R.id.BACKUP_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
-        backupDir.mkdir();
-        startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, backupDir, R.string.menu_backup);
+        startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, backupFile, R.string.menu_backup);
       } else {
         Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
         finish();
@@ -141,9 +140,10 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   @Override
   public void onPostExecute(int taskId,Object result) {
     super.onPostExecute(taskId,result);
+    Result r = (Result) result;
     switch(taskId) {
     case TaskExecutionFragment.TASK_RESTORE:
-      String msg = ((Result) result).print(this);
+      String msg = r.print(this);
       Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
       if (((Result) result).success) {
         MyApplication.getInstance().initContribEnabled();
@@ -157,14 +157,14 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       }
       break;
     case TaskExecutionFragment.TASK_BACKUP:
-      if (MyApplication.getInstance().getSettings()
+      Toast.makeText(getBaseContext(), getString(r.getMessage(),backupFile.getPath()), Toast.LENGTH_LONG).show();
+      if (((Result) result).success && MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
         ArrayList<File> files = new ArrayList<File>();
-        files.add(new File(backupDir,MyApplication.BACKUP_DB_FILE_NAME));
-        files.add(new File(backupDir,MyApplication.BACKUP_PREF_FILE_NAME));
+        files.add((File) backupFile);
           Utils.share(this,files,
               MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
-              "application/octet-stream");
+              "application/zip");
       }
     }
     finish();
