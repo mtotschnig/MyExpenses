@@ -23,6 +23,8 @@ import java.util.Comparator;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -33,7 +35,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat {
+public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
+  implements ConfirmationDialogListener {
   private String fileName;
   private File backupDir;
   
@@ -95,6 +98,18 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat 
       return true;
     switch(command) {
     case R.id.BACKUP_COMMAND:
+      if (Utils.checkAppFolderWarning()) {
+        dispatchCommand(R.id.BACKUP_COMMAND_DO,null);
+      } else {
+        ConfirmationDialogFragment.newInstance(
+            R.string.dialog_title_attention,
+            R.string.warning_app_folder_will_be_deleted_upon_uninstall,
+            R.id.BACKUP_COMMAND_DO,
+            null, MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN)
+         .show(getSupportFragmentManager(),"APP_FOLDER_WARNING");
+      }
+      break;
+    case R.id.BACKUP_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         backupDir.mkdir();
         startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, backupDir, R.string.menu_backup);
@@ -181,5 +196,10 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat 
   public void onSourceSelected(String string) {
     fileName = string;
     showRestoreDialog();
+  }
+
+  @Override
+  public boolean dispatchCommand(int command, Bundle args) {
+    return dispatchCommand(command, (Object) null);
   }
 }

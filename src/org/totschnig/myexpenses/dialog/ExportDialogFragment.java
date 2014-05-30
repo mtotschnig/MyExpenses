@@ -208,7 +208,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       b.putBoolean("notYetExportedP",notYetExportedP);
       b.putString("dateFormat",dateFormat);
       b.putChar("decimalSeparator",decimalSeparator);
-      if (checkAppFolderWarning()) {
+      if (Utils.checkAppFolderWarning()) {
         ((ConfirmationDialogListener) getActivity())
         .dispatchCommand(R.id.START_EXPORT_COMMAND, b);
       } else {
@@ -224,24 +224,6 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
           ctx.getString(R.string.external_storage_unavailable),
           Toast.LENGTH_LONG)
           .show();
-    }
-  }
-
-  @SuppressLint("NewApi")
-  private boolean checkAppFolderWarning() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-      return true;
-    }
-    if (MyApplication.getInstance().getSettings()
-        .getBoolean(MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN, false)) {
-      return true;
-    }
-    try {
-      URI configuredDir = Utils.getAppDir().getCanonicalFile().toURI();
-      URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null).getParentFile().getCanonicalFile().toURI();
-      return defaultDir.relativize(configuredDir).isAbsolute();
-    } catch (IOException e) {
-      return false;
     }
   }
 

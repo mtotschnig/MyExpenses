@@ -604,10 +604,12 @@ public class Utils {
     }
     return total;
   }
+
   public static void reportToAcra(Exception e) {
     Log.w(MyApplication.TAG, e.getMessage());
     /*org.acra.ACRA.getErrorReporter().handleSilentException(e);*/
   }
+
   public static String concatResStrings(Context ctx, Integer... resIds) {
     String result = "";
     Iterator<Integer> itemIterator = Arrays.asList(resIds).iterator();
@@ -619,4 +621,23 @@ public class Utils {
     }
     return result;
   }
+
+  @SuppressLint("NewApi")
+  public static boolean checkAppFolderWarning() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+      return true;
+    }
+    if (MyApplication.getInstance().getSettings()
+        .getBoolean(MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN, false)) {
+      return true;
+    }
+    try {
+      URI configuredDir = Utils.getAppDir().getCanonicalFile().toURI();
+      URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null).getParentFile().getCanonicalFile().toURI();
+      return defaultDir.relativize(configuredDir).isAbsolute();
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
 }
