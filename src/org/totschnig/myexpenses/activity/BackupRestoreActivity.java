@@ -17,8 +17,10 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -139,18 +141,31 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   @Override
   public void onPostExecute(int taskId,Object result) {
     super.onPostExecute(taskId,result);
-    String msg = ((Result) result).print(this);
-    Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-    if (taskId == TaskExecutionFragment.TASK_RESTORE &&
-        ((Result) result).success) {
-      MyApplication.getInstance().initContribEnabled();
-      //if the backup is password protected, we want to force the password check
-      //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
-      //hence we need to set isLocked if necessary
-      MyApplication.getInstance().resetLastPause();
-      MyApplication.getInstance().shouldLock(this);
-
-      setResult(RESULT_FIRST_USER);
+    switch(taskId) {
+    case TaskExecutionFragment.TASK_RESTORE:
+      String msg = ((Result) result).print(this);
+      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+      if (((Result) result).success) {
+        MyApplication.getInstance().initContribEnabled();
+        //if the backup is password protected, we want to force the password check
+        //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
+        //hence we need to set isLocked if necessary
+        MyApplication.getInstance().resetLastPause();
+        MyApplication.getInstance().shouldLock(this);
+  
+        setResult(RESULT_FIRST_USER);
+      }
+      break;
+    case TaskExecutionFragment.TASK_BACKUP:
+      if (MyApplication.getInstance().getSettings()
+          .getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+        ArrayList<File> files = new ArrayList<File>();
+        files.add(new File(backupDir,MyApplication.BACKUP_DB_FILE_NAME));
+        files.add(new File(backupDir,MyApplication.BACKUP_PREF_FILE_NAME));
+          Utils.share(this,files,
+              MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+              "application/octet-stream");
+      }
     }
     finish();
   }

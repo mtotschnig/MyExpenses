@@ -308,9 +308,9 @@
     <string name="pref_password_not_equal">Passwords do not match</string>
     <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
     <string name="pref_perform_protection_title">Password protection</string>
-    <string name="pref_perform_share_title">Share export file</string>
-    <string name="pref_perform_share_summaryOff">The file will not be shared after each export.</string>
-    <string name="pref_perform_share_summaryOn">The file will be shared after each export.</string>
+    <string name="pref_perform_share_title">Share exports and backups</string>
+    <string name="pref_perform_share_summaryOff">The files will not be shared.</string>
+    <string name="pref_perform_share_summaryOn">The files will be shared.</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Create new local planning calendar</string>
     <string name="pref_planning_calendar_summary">Select the calendar where plans for future and recurring transactions are stored</string>
