@@ -35,7 +35,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   abstract String getPrefName();
   abstract String getProtectionKey();
   abstract Uri getContentUri();
-  abstract T getObject(long objectId);
   abstract T getObject(Cursor c);
   abstract Cursor getCursor(Context c);
   abstract RemoteViews updateWidgetFrom(Context context,
@@ -91,9 +90,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
             int layoutId = appWidgetInfo.initialLayout;
             long objectId = loadForWidget(context, id);
             Log.d("DEBUG", "loaded object id " + objectId);
-            remoteViews = action != null || objectId == -1
-                  ? buildUpdateForOther(context, id, layoutId, objectId, action)
-                  : buildUpdateForCurrent(context, id, layoutId, objectId);
+            remoteViews = buildUpdate(context, id, layoutId, objectId, action);
           }
           manager.updateAppWidget(id, remoteViews);
       }
@@ -117,7 +114,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   @Override
   public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
-      updateWidgets(context, manager, appWidgetIds, null);
+      updateWidgets(context, manager, appWidgetIds, AppWidgetManager.ACTION_APPWIDGET_UPDATE);
   }
 
 
@@ -137,21 +134,8 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   protected  RemoteViews noDataUpdate(Context context) {
       return new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
   }
-  RemoteViews buildUpdateForCurrent(Context context,
-      int widgetId, int layoutId, long objectId) {
-    T o = getObject(objectId);
-    if (o != null) {
-      Log.d("AbstractWidget",
-          "buildUpdateForCurrentAccount building update for " + widgetId
-              + " -> " + objectId);
-      return updateWidgetFrom(context, widgetId, layoutId, o);
-    } else {
-      Log.d("AbstractWidget", "buildUpdateForCurrentAccount not found "
-          + widgetId + " -> " + objectId);
-      return buildUpdateForOther(context, widgetId, layoutId, -1, null);
-    }
-  }
-  RemoteViews buildUpdateForOther(Context context,
+
+  RemoteViews buildUpdate(Context context,
       int widgetId, int layoutId, long objectId, String action) {
     Cursor c = getCursor(context);
     T o;
@@ -176,13 +160,16 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
               found = true;
               Log.d("AbstractWidget", "buildUpdateForOther found -> "
                   + objectId);
+              if (action == WIDGET_NEXT_ACTION) {
+                continue;
+              }
               if (action == WIDGET_PREVIOUS_ACTION) {
                 if (!c.moveToPrevious()) {
                   c.moveToLast();
                 }
-                o = getObject(c);
-                return updateWidgetFrom(context, widgetId, layoutId, o);
               }
+              o = getObject(c);
+              return updateWidgetFrom(context, widgetId, layoutId, o);
             } else {
               if (found) {
                 Log.d("AbstractWidget",
