@@ -83,8 +83,15 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
       .setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_RESTORE)
-      .setOnPreferenceClickListener(this);
+
+    pref = findPreference(MyApplication.PREFKEY_RESTORE);
+    pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
+    pref.setOnPreferenceClickListener(this);
+
+    pref = findPreference(MyApplication.PREFKEY_RESTORE_LEGACY);
+    pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_legacy_data) + ")");
+    pref.setOnPreferenceClickListener(this);
+
     findPreference(MyApplication.PREFKEY_RATE)
     .setOnPreferenceClickListener(this);
 
@@ -271,7 +278,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       showDialog(R.id.MORE_INFO_DIALOG);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PREFKEY_RESTORE)) {
+    if (preference.getKey().equals(MyApplication.PREFKEY_RESTORE) ||
+        preference.getKey().equals(MyApplication.PREFKEY_RESTORE_LEGACY)) {
       startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }

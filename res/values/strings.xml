@@ -323,6 +323,7 @@
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
     <string name="pref_request_licence_summary">If you have contributed, request a Contrib key for Android-Id %1$s by email.</string>
     <string name="pref_request_licence_title">Request a Contrib key</string>
+    <string name="pref_restore_legacy_data">Legacy data</string>
     <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
     <string name="pref_restore_title">Restore</string>
     <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password.</string>

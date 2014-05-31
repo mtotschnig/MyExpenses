@@ -25,6 +25,7 @@
   <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
   <string name="pref_backup_key">backup</string>
   <string name="pref_restore_key">restore</string>
+  <string name="pref_restore_legacy_key">restore_legacy</string>
   <string name="pref_contrib_donate_key">contrib_donate</string>
   <string name="pref_request_licence_key">request_licence</string>
   <string name="pref_enter_licence_key">pref_enter_licence_key</string>
