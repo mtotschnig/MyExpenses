@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.task;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -9,16 +10,21 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ZipUtils;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
-public class RestoreTask extends AsyncTask<String, Integer, Result> {
+public class RestoreTask extends AsyncTask<Void, Integer, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
-  public RestoreTask(TaskExecutionFragment taskExecutionFragment) {
+  Uri fileUri;
+  public RestoreTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
+    this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
   }
   /*
    * (non-Javadoc) shows toast about success or failure
@@ -43,15 +49,22 @@ public class RestoreTask extends AsyncTask<String, Integer, Result> {
     }
   }
   @Override
-  protected Result doInBackground(String... params) {
-    File backupDir = new File(Utils.requireAppDir(),params[0]);
-    File backupFile = MyApplication.getBackupDbFile(backupDir);
-    File backupPrefFile = MyApplication.getBackupPrefFile(backupDir);
+  protected Result doInBackground(Void... ignored) {
+    File cacheDir = Utils.getCacheDir();
+    try {
+      if (!ZipUtils.unzip(MyApplication.getInstance().getContentResolver().openInputStream(fileUri), cacheDir)) {
+        return new Result(false,R.string.restore_backup_archive_not_valid,fileUri.getPath());
+      }
+    } catch (FileNotFoundException e) {
+      return new Result(false,R.string.restore_backup_archive_not_valid,fileUri.getPath());
+    }
+    File backupFile = MyApplication.getBackupDbFile(cacheDir);
+    File backupPrefFile = MyApplication.getBackupPrefFile(cacheDir);
     if (backupFile == null || !backupFile.exists()) {
-      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_DB_FILE_NAME,backupDir);
+      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_DB_FILE_NAME,cacheDir);
     }
     if (backupPrefFile == null || !backupPrefFile.exists()) {
-      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,backupDir);
+      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,cacheDir);
     }
     if (DbUtils.restore(backupFile)) {
       publishProgress(R.string.restore_db_success);
@@ -92,6 +105,8 @@ public class RestoreTask extends AsyncTask<String, Integer, Result> {
         SharedPreferencesCompat.apply(edit);
         backupPref = null;
         tempPrefFile.delete();
+        backupFile.delete();
+        backupPrefFile.delete();
         return new Result(true,R.string.restore_preferences_success);
       } else {
         return new Result(false,R.string.restore_preferences_failure);

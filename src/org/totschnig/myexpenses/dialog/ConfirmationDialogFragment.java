@@ -31,22 +31,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
-public class ConfirmationDialogFragment extends DialogFragment {
+public class ConfirmationDialogFragment extends DialogFragment implements OnClickListener {
   
-  public static final ConfirmationDialogFragment newInstance(
-      int title, int message,int command, Bundle commandArgs, String prefKey) {
-    return newInstance(title, MyApplication.getInstance().getString(message),command,commandArgs,prefKey);
-  }
-  public static final ConfirmationDialogFragment newInstance(
-      int title, CharSequence message, int command, Bundle commandArgs, String prefKey) {
-    Bundle bundle = new Bundle();
-    bundle.putInt("title", title);
-    bundle.putCharSequence("message", message);
-    bundle.putInt("command",command);
-    bundle.putParcelable("commandArgs", commandArgs);
-    bundle.putString("prefKey", prefKey);
+  CheckBox dontShowAgain;
+  
+  public static String KEY_TITLE = "title";
+  public static String KEY_MESSAGE = "message";
+  public static String KEY_COMMAND = "command";
+  public static String KEY_PREFKEY = "prefKey";
+  
+  public static final ConfirmationDialogFragment newInstance(Bundle args) {
     ConfirmationDialogFragment dialogFragment = new ConfirmationDialogFragment();
-    dialogFragment.setArguments(bundle);
+    dialogFragment.setArguments(args);
     return dialogFragment;
   }
   
@@ -55,38 +51,43 @@ public class ConfirmationDialogFragment extends DialogFragment {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    View cb = LayoutInflater.from(wrappedCtx).inflate(R.layout.checkbox, null);
-    final CheckBox dontShowAgain = (CheckBox) cb.findViewById(R.id.skip);
-    dontShowAgain.setText(R.string.confirmation_dialog_dont_show_again);
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
-        .setTitle(bundle.getInt("title"))
-        .setView(cb)
-        .setMessage(bundle.getCharSequence("message"));
-    builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-      
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        if (dontShowAgain.isChecked()) {
-          SharedPreferencesCompat.apply(
-            MyApplication.getInstance().getSettings().edit()
-            .putBoolean(bundle.getString("prefKey"), true));
-        }
-        ((ConfirmationDialogListener) getActivity())
-        .dispatchCommand(bundle.getInt("command"), (Bundle) bundle.getParcelable("commandArgs"));
-      }
-    });
-    builder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-      
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        onCancel(dialog);
-      }
-    });
+      .setTitle(bundle.getInt(KEY_TITLE))
+      .setMessage(bundle.getCharSequence(KEY_MESSAGE));
+    if (bundle.getString(KEY_PREFKEY) != null) {
+      View cb = LayoutInflater.from(wrappedCtx).inflate(R.layout.checkbox, null);
+      dontShowAgain = (CheckBox) cb.findViewById(R.id.skip);
+      dontShowAgain.setText(R.string.confirmation_dialog_dont_show_again);
+      builder.setView(cb);
+    }
+    builder.setPositiveButton(android.R.string.ok, this);
+    builder.setNegativeButton(android.R.string.cancel, this);
     return builder.create();
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-      ((ConfirmationDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+    ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
+    if (ctx != null) {
+      ctx.onMessageDialogDismissOrCancel();
+    }
+  }
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
+    if (ctx == null)  {
+      return;
+    }
+    Bundle bundle = getArguments();
+    if (which == AlertDialog.BUTTON_POSITIVE) {
+      if (dontShowAgain != null && dontShowAgain.isChecked()) {
+        SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit()
+          .putBoolean(bundle.getString(KEY_PREFKEY), true));
+      }
+      ctx.dispatchCommand(bundle.getInt(KEY_COMMAND), bundle);
+    } else {
+      onCancel(dialog);
+    }
   }
   public interface ConfirmationDialogListener {
     boolean dispatchCommand(int command, Bundle args);

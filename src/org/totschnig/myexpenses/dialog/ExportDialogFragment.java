@@ -212,12 +212,16 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
         ((ConfirmationDialogListener) getActivity())
         .dispatchCommand(R.id.START_EXPORT_COMMAND, b);
       } else {
-        ConfirmationDialogFragment.newInstance(
-            R.string.dialog_title_attention,
-            R.string.warning_app_folder_will_be_deleted_upon_uninstall,
-            R.id.START_EXPORT_COMMAND,
-            b, MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN)
-         .show(getFragmentManager(),"APP_FOLDER_WARNING");
+        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+            R.string.dialog_title_attention);
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+            R.id.START_EXPORT_COMMAND);
+        b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+            MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN);
+        ConfirmationDialogFragment.newInstance(b)
+          .show(getFragmentManager(),"APP_FOLDER_WARNING");
       }
     } else {
       Toast.makeText(ctx,
