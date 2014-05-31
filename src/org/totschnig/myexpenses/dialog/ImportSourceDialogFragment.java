@@ -49,6 +49,14 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   abstract int getLayoutTitle();
   abstract String getTypeName();
   abstract String getPrefKey();
+  protected String getMimeType() {
+    return "*/*";
+  }
+  protected boolean checkTypeParts(String[] typeParts) {
+    return typeParts[0].equals("*") || 
+    typeParts[0].equals("text") || 
+    typeParts[0].equals("application");
+  }
 
   @Override
   public void onCancel (DialogInterface dialog) {
@@ -75,11 +83,13 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
 
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     mImportCategories = (CheckBox) view.findViewById(R.id.import_select_categories);
-    mImportCategories.setOnCheckedChangeListener(this);
-    mImportParties = (CheckBox) view.findViewById(R.id.import_select_parties);
-    mImportParties.setOnCheckedChangeListener(this);
-    mImportTransactions = (CheckBox) view.findViewById(R.id.import_select_transactions);
-    mImportTransactions.setOnCheckedChangeListener(this);
+    if (mImportCategories != null) {
+      mImportCategories.setOnCheckedChangeListener(this);
+      mImportParties = (CheckBox) view.findViewById(R.id.import_select_parties);
+      mImportParties.setOnCheckedChangeListener(this);
+      mImportTransactions = (CheckBox) view.findViewById(R.id.import_select_transactions);
+      mImportTransactions.setOnCheckedChangeListener(this);
+    }
   }
 
   @SuppressLint("InlinedApi")
@@ -88,7 +98,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     Intent intent = new Intent(isKitKat ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
-    intent.setDataAndType(mUri,"*/*");
+    intent.setDataAndType(mUri,getMimeType());
   
     try {
         startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
@@ -115,11 +125,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
             if (type != null) {
               String[] typeParts = type.split("/");
               if (typeParts.length==0 ||
-                  !(
-                      typeParts[0].equals("*") || 
-                      typeParts[0].equals("text") || 
-                      typeParts[0].equals("application")
-                  )) {
+                  !checkTypeParts(typeParts)) {
                 mUri = null;
                 mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
               }
@@ -208,9 +214,13 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   private void setButtonState() {
     boolean isReady = false;
     if (mUri != null) {
-      isReady = (mImportCategories.getVisibility() == View.VISIBLE && mImportCategories.isChecked()) ||
-          (mImportParties.getVisibility() == View.VISIBLE && mImportParties.isChecked()) ||
-          (mImportTransactions.getVisibility() == View.VISIBLE && mImportTransactions.isChecked());
+      if (mImportCategories != null) {
+        isReady = (mImportCategories.getVisibility() == View.VISIBLE && mImportCategories.isChecked()) ||
+            (mImportParties.getVisibility() == View.VISIBLE && mImportParties.isChecked()) ||
+            (mImportTransactions.getVisibility() == View.VISIBLE && mImportTransactions.isChecked());
+      } else {
+        isReady = true;
+      }
     }
     mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady);
   }

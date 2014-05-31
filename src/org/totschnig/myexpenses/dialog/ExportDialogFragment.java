@@ -18,6 +18,9 @@ package org.totschnig.myexpenses.dialog;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -26,10 +29,13 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.Button;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -202,7 +208,21 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       b.putBoolean("notYetExportedP",notYetExportedP);
       b.putString("dateFormat",dateFormat);
       b.putChar("decimalSeparator",decimalSeparator);
-      ((MyExpenses) getActivity()).onStartExport(b);
+      if (Utils.checkAppFolderWarning()) {
+        ((ConfirmationDialogListener) getActivity())
+        .dispatchCommand(R.id.START_EXPORT_COMMAND, b);
+      } else {
+        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+            R.string.dialog_title_attention);
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+            R.id.START_EXPORT_COMMAND);
+        b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+            MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN);
+        ConfirmationDialogFragment.newInstance(b)
+          .show(getFragmentManager(),"APP_FOLDER_WARNING");
+      }
     } else {
       Toast.makeText(ctx,
           ctx.getString(R.string.external_storage_unavailable),

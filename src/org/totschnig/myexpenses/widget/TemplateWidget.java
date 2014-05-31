@@ -108,11 +108,6 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   @Override
-  Template getObject(long objectId) {
-    return Template.getInstanceFromDb(objectId);
-  }
-
-  @Override
   Template getObject(Cursor c) {
     return new Template(c);
   }

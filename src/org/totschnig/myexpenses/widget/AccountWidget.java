@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.widget;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -59,13 +60,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         TransactionProvider.ACCOUNTS_URI,
         TransactionProvider.TRANSACTIONS_URI
   };
-
-  @Override
-  protected void updateWidgets(Context context, AppWidgetManager manager,
-      int[] appWidgetIds, String action) {
-    Log.d("DEBUG", "updating AccountWidget");
-    super.updateWidgets(context, manager, appWidgetIds, action);
-  };
+  private Money mCurrentBalance;
 
   RemoteViews updateWidgetFrom(Context context,
       int widgetId, int layoutId, Account a) {
@@ -73,16 +68,8 @@ public class AccountWidget extends AbstractWidget<Account> {
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1, a.label);
-    //Account.Type type = a.type;
-    // if (type.isCard && a.cardIssuer != null) {
-    // CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
-    // updateViews.setImageViewResource(R.id.account_icon, cardIssuer.iconId);
-    // } else {
-    // updateViews.setImageViewResource(R.id.account_icon, type.iconId);
-    // }
-    Money balance = a.getCurrentBalance();
     updateViews.setTextViewText(R.id.note,
-        Utils.formatCurrency(balance));
+        Utils.formatCurrency(mCurrentBalance));
 //    updateViews.setTextColor(R.id.note, context.getResources().getColor(
 //        balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
     setBackgroundColorSave(updateViews,R.id.divider3,a.color);
@@ -137,19 +124,18 @@ public class AccountWidget extends AbstractWidget<Account> {
   }
 
   @Override
-  Account getObject(long objectId) {
-    return Account.getInstanceFromDb(objectId);
-  }
-  @Override
   Account getObject(Cursor c) {
-    return new Account(c);
+    Account a = new Account(c);
+    mCurrentBalance =new Money(a.currency,
+        c.getLong(c.getColumnIndexOrThrow(KEY_CURRENT_BALANCE)));
+    return a;
   }
 
   @Override
   Cursor getCursor(Context c) {
     // TODO Auto-generated method stub
     return c.getContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI, null, null, null, null);
+        TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_EXTENDED, null, null, null);
   }
   @Override
   public void onReceive(Context context, Intent intent) {

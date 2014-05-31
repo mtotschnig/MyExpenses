@@ -113,7 +113,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       return(null);
     }
     if (accountIds.length > 1) {
-      destDir = Utils.timeStampedFile(appDir,"export");
+      destDir = Utils.timeStampedFile(appDir,"export","");
       if (destDir.exists()) {
         publishProgress(String.format(MyApplication.getInstance().getString(R.string.export_expenses_outputfile_exists), destDir.getAbsolutePath()));
         return(null);

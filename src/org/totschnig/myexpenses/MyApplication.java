@@ -119,6 +119,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
+    public static final String PREFKEY_APP_FOLDER_WARNING_SHOWN = "app_folder_warning_shown";
     public static String PREFKEY_APP_DIR;
     public static String PREFKEY_RATE;
     public static String PREFKEY_UI_LANGUAGE;
@@ -406,11 +407,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //DatabaseConstants.buildLocalized();
       }
     }
-    public static File requireBackupDir() {
+    public static File requireBackupFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)
         return null;
-      File dir = Utils.timeStampedFile(appDir,"backup");
+      File dir = Utils.timeStampedFile(appDir,"backup","zip");
       return dir;
     }
     public static File getBackupDbFile(File backupDir) {

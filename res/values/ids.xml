@@ -16,6 +16,7 @@
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
   <item type="id" name="BACKUP_COMMAND"/>
+  <item type="id" name="BACKUP_COMMAND_DO"/>
   <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
   <item type="id" name="CONTRIB_APP_COMMAND"/>
   <item type="id" name="CONTRIB_INFO_COMMAND"/>
@@ -69,4 +70,5 @@
   <item type="id" name="CANCEL_CALLBACK_COMMAND" />
   <item type="id" name="SETUP_CATEGORIES_DEFAULT_COMMAND" />
   <item type="id" name="UP_COMMAND"/>
+  <item type="id" name="START_EXPORT_COMMAND" />
 </resources>

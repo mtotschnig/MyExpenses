@@ -20,7 +20,9 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -192,12 +194,15 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return null;
     case TaskExecutionFragment.TASK_BACKUP:
-      File backupDir = (File) mExtra;
-      if (MyApplication.getInstance().backup(backupDir)) {
-        return new Result(true,R.string.backup_success,backupDir.getPath());
-      } else {
-        return new Result(false,R.string.backup_failure,backupDir.getPath());
+      boolean result = false;
+      File backupFile = (File) mExtra;
+      File cacheDir = Utils.getCacheDir();
+      if (MyApplication.getInstance().backup(cacheDir)) {
+        result = ZipUtils.zip(cacheDir.listFiles(),backupFile);
+        MyApplication.getBackupDbFile(cacheDir).delete();
+        MyApplication.getBackupPrefFile(cacheDir).delete();
       }
+      return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
     }
     return null;
   }

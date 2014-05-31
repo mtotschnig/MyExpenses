@@ -28,11 +28,12 @@
     <string name="category">Category</string>
     <string name="clone_transaction_error">Could not clone transaction.</string>
     <plurals name="clone_transaction_success">
-    <item quantity="one">Transaction successfully cloned.</item>
-    <item quantity="other">%1$d transactions were successfully cloned.</item>
-  </plurals>
+	    <item quantity="one">Transaction successfully cloned.</item>
+	    <item quantity="other">%1$d transactions were successfully cloned.</item>
+    </plurals>
     <string name="color">Color</string>
     <string name="comment">Notes</string>
+    <string name="confirmation_dialog_dont_show_again">Do not show again</string>
     <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
     <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
     <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
@@ -86,6 +87,7 @@
     <string name="dialog_setup_planner_button_create_new">Create new</string>
     <!-- Label for button that opens preferences for selecting an existing calendar -->
     <string name="dialog_setup_planner_button_select_existing">Select existing</string>
+    <string name="dialog_title_attention">Attention</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
@@ -306,9 +308,9 @@
     <string name="pref_password_not_equal">Passwords do not match</string>
     <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
     <string name="pref_perform_protection_title">Password protection</string>
-    <string name="pref_perform_share_title">Share export file</string>
-    <string name="pref_perform_share_summaryOff">The file will not be shared after each export.</string>
-    <string name="pref_perform_share_summaryOn">The file will be shared after each export.</string>
+    <string name="pref_perform_share_title">Share exports and backups</string>
+    <string name="pref_perform_share_summaryOff">The files will not be shared.</string>
+    <string name="pref_perform_share_summaryOn">The files will be shared.</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Create new local planning calendar</string>
     <string name="pref_planning_calendar_summary">Select the calendar where plans for future and recurring transactions are stored</string>
@@ -359,7 +361,8 @@
     <string name="restore_db_success">Database has been restored from backup.</string>
     <string name="restore_no_backup_found">No backup found.</string>
     <string name="restore_preferences_failure">Preferences restore failed</string>
-    <string name="restore_backup_file_not_found">No file %1$s found in folder \"%2$s\"</string>
+    <string name="restore_backup_archive_not_valid">Archive %1$s is not valid</string>
+    <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
     <string name="restore_preferences_success">Preferences have been restored from backup.</string>
     <string name="save_transaction_and_new_success">Successfully saved</string>
     <string name="save_transaction_error">Could not save new transaction from template.</string>
@@ -426,6 +429,7 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
     <string name="warning_select_account">Please select an account!</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>

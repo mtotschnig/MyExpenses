@@ -308,7 +308,7 @@
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
-  <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe.</string>
+  <string name="pref_security_question_summary">Vous permet de débloquer l\'application, si vous avez oublié votre mot de passe.</string>
   <string name="pref_security_question_title">Question de sécurité</string>
   <string name="pref_send_feedback_title">Envoyer vos réactions</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, …), sinon spécifiez une URL dans l\'une des formes supportées</string>
