@@ -19,6 +19,7 @@
   </plurals>
   <string name="color">Color</string>
   <string name="comment">Apuntes</string>
+  <string name="confirmation_dialog_dont_show_again">No mostrar de nuevo</string>
   <string name="contrib_feature_accounts_unlimited_description">El número de cuentas que se pueden crear con <i>Mis gastos</i> se limita a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Cuentas sin limite</string>
   <string name="contrib_feature_aggregate_label">Agregados de varias cuentas</string>
@@ -72,6 +73,7 @@
   <string name="dialog_setup_planner_button_create_new">Crear nuevo</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Seleccione existente</string>
+  <string name="dialog_title_attention">Atención</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_menu_command_disabled">Comando de menú desactivado</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendar requerido</string>
@@ -291,9 +293,9 @@
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_protection_summary">¿Se deben proteger el inicio y la reanudación de la aplicación?</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
-  <string name="pref_perform_share_title">Enviar la exportación</string>
-  <string name="pref_perform_share_summaryOff">El archivo no se envia después de cada exportación.</string>
-  <string name="pref_perform_share_summaryOn">El archivo se envia después de cada exportación.</string>
+  <string name="pref_perform_share_title">Enviar las exportaciónes y las copias de seguridad</string>
+  <string name="pref_perform_share_summaryOff">Los archivos no serán compartidos.</string>
+  <string name="pref_perform_share_summaryOn">Los archivos serán compartidos.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Crear nuevo calendario de planificación local</string>
   <string name="pref_planning_calendar_summary">Seleccione el calendario que se almacenan los planes para las transacciones futuras y recurrentes</string>
@@ -306,6 +308,7 @@
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_request_licence_summary">Si ha contribuido, pida una clave Contrib para Android-Id %1$s por correo electrónico.</string>
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
+  <string name="pref_restore_legacy_data">Datos de herencia</string>
   <string name="pref_restore_summary">Seleccione una copia de seguridad para restaurar la base de datos y preferencias.</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña</string>
@@ -344,7 +347,8 @@
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
   <string name="restore_no_backup_found">No hay ningúna copia de seguridad.</string>
   <string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
-  <string name="restore_backup_file_not_found">El archivo %1$s no se encuentra en la carpeta \"%2$s\"</string>
+  <string name="restore_backup_archive_not_valid">Archivo %1$s no es válido</string>
+  <string name="restore_backup_file_not_found">El archivo %1$s no se encuentra en  el archivo \"%2$s\"</string>
   <string name="restore_preferences_success">Las configuraciones han sidas restauradas desde la copia de seguridad.</string>
   <string name="save_transaction_and_new_success">Guardada con éxito</string>
   <string name="save_transaction_error">No se pueden guardar nueva transacción de plantilla.</string>
@@ -411,6 +415,7 @@
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada para copias de seguridad y las exportaciones se eliminará automáticamente por Android si desinstalas Mis Gastos. Puede evitar que esto suceda al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
   <string name="import_categories_success">%1$s categorías han sido importados con éxito.</string>
   <string name="import_parties_success">%1$s partidos han sido importados con éxito.</string>
@@ -427,4 +432,6 @@
   <string name="create_new_folder_fail">No se pudo crear la carpeta</string>
   <string name="widget_title_accounts">Mis cuentas</string>
   <string name="widget_title_templates">Mis plantillas</string>
+  <string name="app_dir_does_not_exist">No existe la carpeta seleccionada para copias de seguridad y las exportaciones (%1$s).</string>
+  <string name="app_dir_read_only">La carpeta seleccionada para copias de seguridad y las exportaciones (%1$s) es de sólo lectura.</string>
 </resources>

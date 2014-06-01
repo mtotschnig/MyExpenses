@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_145">
+    <item>Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir.</item>
+  </string-array>
   <string-array name="whats_new_143">
     <item>Virman ve muamele eklemek için ana ekran kısayolları</item>
   </string-array>

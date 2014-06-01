@@ -19,6 +19,7 @@
   </plurals>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
+  <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
   <string name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
   <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
@@ -72,6 +73,7 @@
   <string name="dialog_setup_planner_button_create_new">Neu anlegen</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Bestehenden auswählen</string>
+  <string name="dialog_title_attention">Achtung</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_menu_command_disabled">Menübefehl deaktiviert</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
@@ -291,9 +293,9 @@
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
   <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
   <string name="pref_perform_protection_title">Passwortschutz</string>
-  <string name="pref_perform_share_title">Export versenden</string>
-  <string name="pref_perform_share_summaryOff">Die Datei wird nicht nach jedem Export versendet?</string>
-  <string name="pref_perform_share_summaryOn">Die Datei wird nach jedem Export versendet?</string>
+  <string name="pref_perform_share_title">Export und Sicherheitskopie versenden</string>
+  <string name="pref_perform_share_summaryOff">Die Dateien werden nicht nach jedem Export versendet.</string>
+  <string name="pref_perform_share_summaryOn">Die Dateien werden nach jedem Export versendet.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
   <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen.</string>
@@ -306,6 +308,7 @@
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
   <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel für Android-Id  %1$s per E-Mail.</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
+  <string name="pref_restore_legacy_data">Altdaten</string>
   <string name="pref_restore_summary">Wählen Sie die Sicherheitskopie aus, die wiederhergestellt werden soll.</string>
   <string name="pref_restore_title">Wiederherstellung</string>
   <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen.</string>
@@ -313,9 +316,9 @@
   <string name="pref_send_feedback_title">Feedback senden</string>
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
   <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_shortcut_added">Verknüpfung dem Start-Bildschirm hinzugefügt</string>
+  <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
-  <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
+  <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Jeder Schritt vergrößert die Schrift um 2sp</string>
   <string name="pref_ui_fontsize_title">Schrift vergrößern</string>
@@ -344,7 +347,8 @@
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
-  <string name="restore_backup_file_not_found">Keine Datei %1$s im Ordner \"%2$s\" gefunden.</string>
+  <string name="restore_backup_archive_not_valid">Archiv %1$s ist nicht gültig</string>
+  <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv \"%2$s\" gefunden.</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
   <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
@@ -411,6 +415,7 @@
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten%1$s von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
   <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
@@ -427,4 +432,6 @@
   <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
   <string name="widget_title_accounts">Meine Konten</string>
   <string name="widget_title_templates">Meine Vorlagen</string>
+  <string name="app_dir_does_not_exist">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte (%1$s) ist nicht vorhanden.</string>
+  <string name="app_dir_read_only">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte (%1$s) ist nur lesbar.</string>
 </resources>

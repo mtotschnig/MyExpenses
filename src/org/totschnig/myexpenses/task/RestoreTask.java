@@ -20,11 +20,16 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class RestoreTask extends AsyncTask<Void, Integer, Result> {
+  public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
   private final TaskExecutionFragment taskExecutionFragment;
   Uri fileUri;
+  String dirNameLegacy;
   public RestoreTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
+    if (fileUri == null) {
+      this.dirNameLegacy = b.getString(KEY_DIR_NAME_LEGACY);
+    }
   }
   /*
    * (non-Javadoc) shows toast about success or failure
@@ -50,21 +55,26 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
   }
   @Override
   protected Result doInBackground(Void... ignored) {
-    File cacheDir = Utils.getCacheDir();
-    try {
-      if (!ZipUtils.unzip(MyApplication.getInstance().getContentResolver().openInputStream(fileUri), cacheDir)) {
+    File workingDir;
+    if (fileUri != null) {
+      workingDir = Utils.getCacheDir();
+      try {
+        if (!ZipUtils.unzip(MyApplication.getInstance().getContentResolver().openInputStream(fileUri), workingDir)) {
+          return new Result(false,R.string.restore_backup_archive_not_valid,fileUri.getPath());
+        }
+      } catch (FileNotFoundException e) {
         return new Result(false,R.string.restore_backup_archive_not_valid,fileUri.getPath());
       }
-    } catch (FileNotFoundException e) {
-      return new Result(false,R.string.restore_backup_archive_not_valid,fileUri.getPath());
+    } else {
+      workingDir = new File(Utils.requireAppDir(),dirNameLegacy);
     }
-    File backupFile = MyApplication.getBackupDbFile(cacheDir);
-    File backupPrefFile = MyApplication.getBackupPrefFile(cacheDir);
+    File backupFile = MyApplication.getBackupDbFile(workingDir);
+    File backupPrefFile = MyApplication.getBackupPrefFile(workingDir);
     if (backupFile == null || !backupFile.exists()) {
-      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_DB_FILE_NAME,cacheDir);
+      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_DB_FILE_NAME,workingDir);
     }
     if (backupPrefFile == null || !backupPrefFile.exists()) {
-      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,cacheDir);
+      return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,workingDir);
     }
     if (DbUtils.restore(backupFile)) {
       publishProgress(R.string.restore_db_success);
@@ -105,8 +115,10 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
         SharedPreferencesCompat.apply(edit);
         backupPref = null;
         tempPrefFile.delete();
-        backupFile.delete();
-        backupPrefFile.delete();
+        if (fileUri != null) {
+          backupFile.delete();
+          backupPrefFile.delete();
+        }
         return new Result(true,R.string.restore_preferences_success);
       } else {
         return new Result(false,R.string.restore_preferences_failure);

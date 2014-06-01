@@ -114,9 +114,14 @@
         <intent android:action="myexpenses.intent.backup"/>
     </Preference>
     <Preference android:key="@string/pref_restore_key"
-        android:title="@string/pref_restore_title"
         android:summary="@string/pref_restore_summary">
         <intent android:action="myexpenses.intent.restore"/>
+    </Preference>
+    <Preference android:key="@string/pref_restore_legacy_key"
+        android:summary="@string/pref_restore_summary">
+        <intent android:action="myexpenses.intent.restore">
+        	<extra android:name="legacy" android:value="true"/>
+        </intent>
     </Preference>
   </PreferenceCategory>
   <PreferenceCategory

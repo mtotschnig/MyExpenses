@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -485,7 +486,8 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.RESET_COMMAND:
       tl = getCurrentFragment();
       if (tl != null && tl.hasItems) {
-        if (Utils.isExternalStorageAvailable()) {
+        Result appDirStatus = Utils.checkAppDir();
+        if (appDirStatus.success) {
           if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
             contribFeatureCalled(Feature.RESET_ALL, null);
           } else {
@@ -493,7 +495,7 @@ public class MyExpenses extends LaunchActivity implements
           }
         } else {
           Toast.makeText(getBaseContext(),
-              getString(R.string.external_storage_unavailable),
+              appDirStatus.print(this),
               Toast.LENGTH_LONG)
               .show();
         }

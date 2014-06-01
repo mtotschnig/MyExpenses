@@ -19,6 +19,7 @@
   </plurals>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
+  <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
   <string name="contrib_feature_accounts_unlimited_description">Il numero dei conti che si possono creare con <i>Le mie spese</i> è limitata a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Numero illimitato di conti</string>
   <string name="contrib_feature_aggregate_label">Somma piu conti</string>
@@ -72,6 +73,7 @@
   <string name="dialog_setup_planner_button_create_new">Crea nuovo</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Seleziona esistente</string>
+  <string name="dialog_title_attention">Attenzione</string>
   <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
   <string name="dialog_title_menu_command_disabled">Comando di menu disattivato</string>
   <string name="dialog_title_planner_setup_info">Configurazione di calendario richiesta</string>
@@ -291,9 +293,9 @@
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_summary">L\'avvio e la ripresa dell\'app devono essere protette?</string>
   <string name="pref_perform_protection_title">Protezione con password</string>
-  <string name="pref_perform_share_title">Condividi Export</string>
-  <string name="pref_perform_share_summaryOff">Il file non sarà condiviso dopo ogni esportazione.</string>
-  <string name="pref_perform_share_summaryOn">Il file sarà condiviso dopo ogni esportazione.</string>
+  <string name="pref_perform_share_title"> Condivisione di esportazioni e backups</string>
+  <string name="pref_perform_share_summaryOff">I file non saranno condivisi.</string>
+  <string name="pref_perform_share_summaryOn">I file saranno condivisi.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Creare un nuovo calendario locale di scadenze</string>
   <string name="pref_planning_calendar_summary">Selezionare il calendario in cui sono memorizzati le scadenze per le transazioni future e ripetute</string>
@@ -306,6 +308,7 @@
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_request_licence_summary">Se ha contribuito, richiedere una chiave Contrib per Android-Id %1$s via email.</string>
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
+  <string name="pref_restore_legacy_data">Dati legacy</string>
   <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
   <string name="pref_restore_title">Ripristina</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se avete dimenticato la password.</string>
@@ -344,7 +347,8 @@
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
   <string name="restore_no_backup_found">Backup non trovato.</string>
   <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
-  <string name="restore_backup_file_not_found">Nessun file %1$s trovato nella cartella \"%2$s\"</string>
+  <string name="restore_backup_archive_not_valid">Archivio %1$s non è valido</string>
+  <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.</string>
   <string name="save_transaction_and_new_success">Salvata con successo</string>
   <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello.</string>
@@ -411,6 +415,7 @@
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti gli conti%1$s vengono eliminati dal database e non possono essere ripristinati.</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati attuali verranno cancellati. Vuoi continuare?</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla My spese. È possibile impedire questo accadere selezionando una cartella diversa dalla schermata impostazioni.</string>
   <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
   <string name="import_categories_success">%1$s categorie state importati</string>
   <string name="import_parties_success">%1$s beneficiari state importati</string>
@@ -427,4 +432,6 @@
   <string name="create_new_folder_fail">Impossibile creare la cartella</string>
   <string name="widget_title_accounts">I miei conti</string>
   <string name="widget_title_templates">I miei modelli</string>
+  <string name="app_dir_does_not_exist">Non esiste la cartella correntemente selezionata per i backup e le esportazioni (%1$s).</string>
+  <string name="app_dir_read_only">La cartella correntemente selezionata per i backup e le esportazioni (%1$s) è di sola lettura.</string>
 </resources>
