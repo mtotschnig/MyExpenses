@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_144">
-    <item>Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,...) e restaurado a partir de fontes externas</item>
+  <string-array name="whats_new_145">
+    <item>Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,&#8230;) e restaurado a partir de fontes externas</item>
   </string-array>
   <string-array name="whats_new_143">
     <item>Atalhos de tela inicial para criar transacções e transferências</item>
