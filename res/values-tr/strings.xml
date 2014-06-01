@@ -19,6 +19,7 @@
   </plurals>
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
+  <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
@@ -72,6 +73,7 @@
   <string name="dialog_setup_planner_button_create_new">Yenisini oluştur</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
+  <string name="dialog_title_attention">Dikkat</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
@@ -291,9 +293,9 @@
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
-  <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
-  <string name="pref_perform_share_summaryOff">Dışa aktarımlardan sonra dosya paylaşılmayacaktır.</string>
-  <string name="pref_perform_share_summaryOn">Her dışa aktarımdan sonra dosya paylaşılacaktır.</string>
+  <string name="pref_perform_share_title">Dışa aktarmaları ve yedeklemeleri paylaş</string>
+  <string name="pref_perform_share_summaryOff">Dosyalar paylaşılmayacak.</string>
+  <string name="pref_perform_share_summaryOn">Dosyalar paylaşılacak.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
   <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
@@ -344,7 +346,8 @@
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
   <string name="restore_no_backup_found">Yedek bulunamadı.</string>
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
-  <string name="restore_backup_file_not_found">\"%2$s\" klasöründe %1$s dosyası bulunamadı</string>
+  <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
+  <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
@@ -411,6 +414,7 @@
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarımı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
