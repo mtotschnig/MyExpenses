@@ -69,6 +69,24 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.1.5
+    - 2014-06-02
+    -
+      en: |
+        Backups are now stored in ZIP archives that can be shared (E-Mail, Drive, Dropbox, …) and restored from external sources.
+      fr: |
+        Maintenant, les sauvegardes sont stockées dans des archives ZIP qui peuvent être partagées (E-Mail, Drive, Dropbox,…) et restaurées à partir de sources externes.
+      de: |
+        Sicherungskopien werden jetzt in ZIP Archiven gespeichert; diese können geteilt (E-Mail, Drive, Dropbox,…) und aus externen Quellen wiederhergestellt werden.
+      it: |
+        i backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,…) e restaurata da fonti esterne.
+      es: |
+        Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,…) y restaurados a partir de fuentes externas.
+      pt: |
+        Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,…) e restaurado a partir de fontes externas.
+      tr: |
+        Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir.
+  -
     - 2.1.4
     - 2014-05-29
     -
