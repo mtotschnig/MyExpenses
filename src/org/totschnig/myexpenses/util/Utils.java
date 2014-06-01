@@ -204,6 +204,9 @@ public class Utils {
    * @return formated string
    */
   public static String convDateTime(String text, DateFormat format) {
+    if (text== null) {
+      return "???";
+    }
     Date date;
     try {
       date = new Date(Long.valueOf(text)*1000L);
