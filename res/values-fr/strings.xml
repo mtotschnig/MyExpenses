@@ -19,6 +19,7 @@
   </plurals>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
+  <string name="confirmation_dialog_dont_show_again">Ne pas le remontrer</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec <i>Mes dépenses</i> est limité à 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
@@ -72,6 +73,7 @@
   <string name="dialog_setup_planner_button_create_new">Créer nouveau</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Sélectionner existant</string>
+  <string name="dialog_title_attention">Attention</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_menu_command_disabled">Commande désactivée</string>
   <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
@@ -291,9 +293,9 @@
   <string name="pref_password_not_equal">Les mots de passe sont différents</string>
   <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app</string>
   <string name="pref_perform_protection_title">Protection par mot de passe</string>
-  <string name="pref_perform_share_title">Envoyer le fichier d\'export</string>
-  <string name="pref_perform_share_summaryOff">Le fichier ne sera pas envoyé après chaque export</string>
-  <string name="pref_perform_share_summaryOn">Le fichier sera envoyé après chaque export</string>
+  <string name="pref_perform_share_title">Partage des exportations et des sauvegardes</string>
+  <string name="pref_perform_share_summaryOff">Les fichiers ne seront pas partagés.</string>
+  <string name="pref_perform_share_summaryOn">Les fichiers seront partagés.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier local</string>
   <string name="pref_planning_calendar_summary">Sélectionnez le calendrier dans lequel les échéances futures et périodiques seront stockées</string>
@@ -306,6 +308,7 @@
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
+  <string name="pref_restore_legacy_data">Données héritées</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'application, si vous avez oublié votre mot de passe.</string>
@@ -344,7 +347,8 @@
   <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
   <string name="restore_no_backup_found">Aucun fichier de sauvegarde.</string>
   <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
-  <string name="restore_backup_file_not_found">Aucun fichier %1$s trouvé dans le dossier \"%2$s\"</string>
+  <string name="restore_backup_archive_not_valid">Archive %1$s invalide</string>
+  <string name="restore_backup_file_not_found">Aucun fichier %1$s trouvé dans l\'archive \"%2$s\"</string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
   <string name="save_transaction_and_new_success">Sauvegardée</string>
   <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée.</string>
@@ -411,6 +415,7 @@
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées. Voulez-vous continuer?</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez Mes dépenses. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
   <string name="import_categories_success">%1$s catégories ont été importés</string>
   <string name="import_parties_success">%1$s tiers ont été importés</string>
