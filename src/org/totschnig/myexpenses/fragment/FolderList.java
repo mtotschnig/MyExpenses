@@ -90,10 +90,13 @@ public class FolderList extends ListFragment {
       }
     }
     if (path != null) {
-      browseTo(new File(path));
-    } else {
-      browseToRoot();
+      File current = new File(path);
+      if (current.isDirectory()) {
+        browseTo(new File(path));
+        return;
+      }
     }
+    browseToRoot();
   }
 
   @Override
@@ -158,14 +161,14 @@ public class FolderList extends ListFragment {
     }
     Arrays.sort(files);
     for (File file : files) {
-      if (isWritableDirectory(file)) {
+      if (isReadableDirectory(file)) {
         this.files.add(new FileItem(file));
       }
     }
   }
 
-  private boolean isWritableDirectory(File file) {
-    return file.isDirectory() && file.canRead() && file.canWrite();
+  private boolean isReadableDirectory(File file) {
+    return file.isDirectory() && file.canRead();
   }
 
   private void setAdapter() {
