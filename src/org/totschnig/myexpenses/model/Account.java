@@ -536,7 +536,7 @@ public class Account extends Model {
   /**
    * @return the sum of opening balance and all transactions for the account
    */
-  public Money getCurrentBalance() { 
+  public Money getTotalBalance() {
     return new Money(currency,
         openingBalance.getAmountMinor() + getTransactionSum()
     );
@@ -556,7 +556,7 @@ public class Account extends Model {
    * deletes all expenses and set the new opening balance to the current balance
    */
   public void reset() {
-    long currentBalance = getCurrentBalance().getAmountMinor();
+    long currentBalance = getTotalBalance().getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
     args.put(KEY_OPENING_BALANCE,currentBalance);
