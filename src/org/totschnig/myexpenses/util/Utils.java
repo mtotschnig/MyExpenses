@@ -81,6 +81,7 @@ import android.widget.Toast;
  *
  */
 public class Utils {
+  public final static int DIR_STATUS_OK = 0;
 
   public static char getDefaultDecimalSeparator() {
     char sep = '.';
@@ -306,6 +307,17 @@ public class Utils {
           state = true;
       }
       return state;
+  }
+  
+  public static Result checkAppDir() {
+    if (!isExternalStorageAvailable())
+      return new Result(false,R.string.external_storage_unavailable);
+    File appdir = getAppDir();
+    if (!appdir.exists())
+      return new Result(false,R.string.app_dir_does_not_exist,appdir.getAbsolutePath());
+    if (!appdir.canWrite())
+      return new Result(false,R.string.app_dir_read_only,appdir.getAbsolutePath());
+    return new Result(true);
   }
   
   public static boolean copy(File src, File dst) {

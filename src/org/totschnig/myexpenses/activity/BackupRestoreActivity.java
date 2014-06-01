@@ -49,12 +49,22 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     if (savedInstanceState == null) {
-      backupFile = MyApplication.requireBackupFile();
-      if (backupFile != null) {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
+          Result appDirStatus = Utils.checkAppDir();
+          if (appDirStatus.success) {
+            backupFile = MyApplication.requireBackupFile();
+            if (backupFile == null) {
+              //normally should not happen since we have just checked status
+              abort(getString(R.string.external_storage_unavailable));
+              return;
+            }
+          } else {
+            abort(appDirStatus.print(this));
+            return;
+          }
           if (backupFile.exists()) {
-            Toast.makeText(getBaseContext(),"Backup folder "+backupFile.getPath() + "already exists.", Toast.LENGTH_LONG).show();
-            finish();
+            abort("Backup folder "+backupFile.getPath() + "already exists.");
+            return;
           }
           MessageDialogFragment.newInstance(
               R.string.menu_backup,
@@ -65,19 +75,25 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
             .show(getSupportFragmentManager(),"BACKUP");
         } else {
           if ( getIntent().getBooleanExtra("legacy", false) ) {
-            openBrowse();
+            Result appDirStatus = Utils.checkAppDir();
+            if (appDirStatus.success) {
+              openBrowse();
+            } else {
+              abort(appDirStatus.print(this));
+            }
           } else {
             BackupSourcesDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");
           }
-        }
-      } else {
-        Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-        setResult(RESULT_CANCELED);
-        finish();
       }
     } else {
       backupFile = (File) savedInstanceState.getSerializable(KEY_BACKUPFILE);
     }
+  }
+  
+  private void abort(String message) {
+    Toast.makeText(getBaseContext(),message, Toast.LENGTH_LONG).show();
+    setResult(RESULT_CANCELED);
+    finish();
   }
 
   @Override
@@ -85,6 +101,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_BACKUPFILE, backupFile);
   };
+  
 
   private void showRestoreDialog(Uri fileUri) {
     Bundle b = new Bundle();
@@ -144,10 +161,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   }
 
   protected void doBackup() {
-    if (Utils.isExternalStorageAvailable()) {
+    Result appDirStatus = Utils.checkAppDir();
+    if (appDirStatus.success) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, backupFile, R.string.menu_backup);
     } else {
-      Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+      Toast.makeText(getBaseContext(),appDirStatus.print(this), Toast.LENGTH_LONG).show();
       finish();
     }
   }

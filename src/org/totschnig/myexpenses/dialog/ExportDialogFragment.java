@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -193,7 +194,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
         .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
-    if (Utils.isExternalStorageAvailable()) {
+    Result appDirStatus = Utils.checkAppDir();
+    if (appDirStatus.success) {
       Bundle b = new Bundle();
       if (accountId == null) {
         Feature.RESET_ALL.recordUsage();
@@ -225,7 +227,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       }
     } else {
       Toast.makeText(ctx,
-          ctx.getString(R.string.external_storage_unavailable),
+          appDirStatus.print(ctx),
           Toast.LENGTH_LONG)
           .show();
     }

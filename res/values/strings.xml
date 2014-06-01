@@ -447,4 +447,6 @@
     <string name="create_new_folder_fail">Failed to create the folder</string>
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>
+    <string name="app_dir_does_not_exist">The currently selected folder for backups and exports (%1$s) does not exist.</string>
+    <string name="app_dir_read_only">The currently selected folder for backups and exports (%1$s) is read only.</string>
 </resources>
