@@ -432,4 +432,6 @@
   <string name="create_new_folder_fail">Impossibile creare la cartella</string>
   <string name="widget_title_accounts">I miei conti</string>
   <string name="widget_title_templates">I miei modelli</string>
+  <string name="app_dir_does_not_exist">Non esiste la cartella correntemente selezionata per i backup e le esportazioni (%1$s).</string>
+  <string name="app_dir_read_only">La cartella correntemente selezionata per i backup e le esportazioni (%1$s) è di sola lettura.</string>
 </resources>

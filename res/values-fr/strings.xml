@@ -432,4 +432,6 @@
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
+  <string name="app_dir_does_not_exist">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'existe pas.</string>
+  <string name="app_dir_read_only">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) est en lecture seule.</string>
 </resources>
