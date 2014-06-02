@@ -19,6 +19,9 @@ public class BackupListDialogFragment extends DialogFragment {
         .setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
+            if (getActivity()==null) {
+              return;
+            }
             ((BackupRestoreActivity) getActivity()).onSourceSelected(backupFiles[which]);
           }
         })
@@ -34,6 +37,9 @@ public class BackupListDialogFragment extends DialogFragment {
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-      ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+    if (getActivity()==null) {
+      return;
+    }
+    ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivityNoAppCompat;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -60,7 +62,11 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
 
   @Override
   public void onCancel (DialogInterface dialog) {
-    ((ProtectedFragmentActivityNoAppCompat) getActivity()).onMessageDialogDismissOrCancel();
+    if (getActivity()==null) {
+      return;
+    }
+    //TODO: we should not depend on 
+    ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {

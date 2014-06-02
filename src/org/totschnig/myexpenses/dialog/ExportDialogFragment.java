@@ -178,9 +178,12 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
+    Activity ctx = getActivity();
+    if (ctx==null) {
+      return;
+    }
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
-    Activity ctx = getActivity();
     AlertDialog dlg = (AlertDialog) dialog;
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
         "CSV" : "QIF";

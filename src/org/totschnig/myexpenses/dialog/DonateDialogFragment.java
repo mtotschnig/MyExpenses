@@ -110,6 +110,9 @@ public class DonateDialogFragment extends DialogFragment {
   }
   @Override
   public void onCancel (DialogInterface dialog) {
+    if (getActivity()==null) {
+      return;
+    }
     ((ContribIFace)getActivity()).contribFeatureNotCalled();
   }
 }

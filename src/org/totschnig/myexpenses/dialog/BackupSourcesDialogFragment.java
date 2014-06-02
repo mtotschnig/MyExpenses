@@ -45,6 +45,9 @@ DialogInterface.OnClickListener {
 
   @Override
   public void onClick(DialogInterface dialog, int id) {
+    if (getActivity()==null) {
+      return;
+    }
     if (id == AlertDialog.BUTTON_POSITIVE) {
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()

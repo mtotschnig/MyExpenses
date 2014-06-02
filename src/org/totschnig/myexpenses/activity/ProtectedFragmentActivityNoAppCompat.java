@@ -57,6 +57,7 @@ public class ProtectedFragmentActivityNoAppCompat extends FragmentActivity imple
     super.onResume();
     pwDialog = getProtection().hanldeOnResume(pwDialog);
   }
+  @Override
   public void onMessageDialogDismissOrCancel() {
   }
   @Override

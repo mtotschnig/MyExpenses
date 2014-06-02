@@ -59,6 +59,9 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   }
   @Override
   public void onClick(DialogInterface dialog, int id) {
+    if (getActivity()==null) {
+      return;
+    }
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
       SharedPreferencesCompat.apply(
@@ -80,6 +83,9 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    if (getActivity()==null) {
+      return null;
+    }
     CursorLoader cursorLoader = new CursorLoader(
         getActivity(),
         TransactionProvider.ACCOUNTS_BASE_URI,

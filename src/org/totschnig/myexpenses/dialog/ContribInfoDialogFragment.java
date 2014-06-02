@@ -73,10 +73,16 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-      ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+    if (getActivity()==null) {
+      return;
+    }
+    ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
+    if (getActivity()==null) {
+      return;
+    }
     if (which == AlertDialog.BUTTON_POSITIVE)
       ((MessageDialogListener) getActivity())
         .dispatchCommand(R.id.CONTRIB_BUY_COMMAND,null);

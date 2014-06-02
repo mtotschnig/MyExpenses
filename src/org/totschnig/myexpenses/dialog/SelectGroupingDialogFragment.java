@@ -53,6 +53,9 @@ public class SelectGroupingDialogFragment extends DialogFragment implements OnCl
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
+    if (getActivity()==null) {
+      return;
+    }
     Bundle bundle = getArguments();
     ((MessageDialogListener) getActivity())
     .dispatchCommand(bundle.getInt("command_id"), which);
