@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ImportSourceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -108,7 +109,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     b.putInt(ConfirmationDialogFragment.KEY_TITLE,
         R.string.pref_restore_title);
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-        getString(R.string.warning_restore,fileUri.getPath()));
+        getString(R.string.warning_restore,ImportSourceDialogFragment.getDisplayName(fileUri)));
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
         R.id.RESTORE_COMMAND);
     b.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri);

@@ -42,7 +42,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
   protected CheckBox mImportTransactions;
   protected Context wrappedCtx;
   final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-  final boolean isJellyBean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+  final static boolean isJellyBean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 
   public ImportSourceDialogFragment() {
     super();
@@ -122,8 +122,10 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
         mUri = data.getData();
         if (mUri != null) {
           mFilename.setError(null);
-          mFilename.setText(getDisplayName());
-          if (mUri == null) {
+          String displayName = getDisplayName(mUri);
+          mFilename.setText(displayName);
+          if (displayName == null) {
+            mUri = null;
             //SecurityException raised during getDisplayName
             mFilename.setError("Error while retrieving document");
           } else {
@@ -152,15 +154,15 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
    * Returns null if accessing mUri raises {@link SecurityException}
    */
   @SuppressLint("NewApi")
-  protected String getDisplayName() {
+  public static String getDisplayName(Uri uri) {
 
     if (isJellyBean) {
       // The query, since it only applies to a single document, will only return
       // one row. There's no need to filter, sort, or select fields, since we want
       // all fields for one document.
       try {
-        Cursor cursor = getActivity().getContentResolver()
-                .query(mUri, null, null, null, null, null);
+        Cursor cursor = MyApplication.getInstance().getContentResolver()
+                .query(uri, null, null, null, null, null);
   
         if (cursor != null) {
           try {
@@ -178,11 +180,10 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
           }
         }
       } catch (SecurityException e) {
-        mUri = null;
         return null;
       }
     }
-    List<String> filePathSegments = mUri.getPathSegments();
+    List<String> filePathSegments = uri.getPathSegments();
     if (filePathSegments.size()>0) {
       return filePathSegments.get(filePathSegments.size()-1);
     } else {
@@ -208,7 +209,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
           .getString(getPrefKey(), "");
       if (!storedUri.equals("")) {
         mUri = Uri.parse(storedUri);
-        mFilename.setText(getDisplayName());
+        mFilename.setText(getDisplayName(mUri));
       }
     }
     setButtonState();
@@ -244,7 +245,7 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
       String restoredUri = savedInstanceState.getString(getPrefKey());
       if (restoredUri != null) {
         mUri = Uri.parse(restoredUri);
-        mFilename.setText(getDisplayName());
+        mFilename.setText(getDisplayName(mUri));
       }
     }
   }
