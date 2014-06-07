@@ -164,6 +164,9 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
       .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
+          if (getActivity()==null) {
+            return;
+          }
           getActivity().finish();
         }
       })

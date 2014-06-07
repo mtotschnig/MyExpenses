@@ -72,6 +72,9 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
 
   @Override
   public void onCancel (DialogInterface dialog) {
+    if (getActivity()==null) {
+      return;
+    }
     ((EditTextDialogListener) getActivity()).onCancelEditDialog();
   }
 

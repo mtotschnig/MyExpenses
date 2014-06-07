@@ -138,6 +138,9 @@ public class ProgressDialogFragment extends DialogFragment {
           new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+              if (getActivity()==null) {
+                return;
+              }
               ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
             }
       });
@@ -173,7 +176,10 @@ public class ProgressDialogFragment extends DialogFragment {
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-      ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+    if (getActivity()==null) {
+      return;
+    }
+    ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
   @Override
   public void onSaveInstanceState(Bundle outState) {

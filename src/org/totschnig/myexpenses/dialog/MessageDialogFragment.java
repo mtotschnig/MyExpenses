@@ -88,10 +88,16 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-      ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+    if (getActivity()==null) {
+      return;
+    }
+    ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
+    if (getActivity()==null) {
+      return;
+    }
     Bundle bundle = getArguments();
     Button clicked = null;
     switch(which) {

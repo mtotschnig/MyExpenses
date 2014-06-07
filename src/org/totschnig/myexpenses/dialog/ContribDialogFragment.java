@@ -89,6 +89,9 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   @Override
   public void onClick(DialogInterface dialog, int which) {
     Context ctx = getActivity();
+    if (ctx==null) {
+      return;
+    }
     if (which == AlertDialog.BUTTON_POSITIVE) {
       ((MessageDialogListener) ctx).dispatchCommand(R.id.CONTRIB_BUY_COMMAND,null);
     } else {

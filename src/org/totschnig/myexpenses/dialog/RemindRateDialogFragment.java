@@ -41,8 +41,9 @@ public class RemindRateDialogFragment  extends DialogFragment implements OnClick
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null)
+    if (getActivity()==null) {
       return;
+    }
     if (which == AlertDialog.BUTTON_POSITIVE)
       ((MessageDialogListener) getActivity())
         .dispatchCommand(R.id.RATE_COMMAND,null);

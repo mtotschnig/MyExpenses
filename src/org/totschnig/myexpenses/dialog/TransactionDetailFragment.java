@@ -247,6 +247,9 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+    if (getActivity()==null) {
+      return null;
+    }
     switch(id) {
       case MyExpenses.SPLIT_PART_CURSOR:
       CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
