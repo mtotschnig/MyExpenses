@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -68,22 +69,23 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
    * @param source2
    */
   protected Result parseXML() {
+    Context app = MyApplication.getInstance();
     InputStream catXML = null;
     Result result;
 
     try {
       if (externalP) {
-        catXML = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
+        catXML = app.getContentResolver().openInputStream(fileUri);
       } else {
-        int defaultSourceResId = this.taskExecutionFragment.getResources().getIdentifier(
+        int defaultSourceResId = app.getResources().getIdentifier(
             "cat_"+ Locale.getDefault().getLanguage(),
             "raw",
-            this.taskExecutionFragment.getActivity().getPackageName());
+            app.getPackageName());
         try {
-          catXML = this.taskExecutionFragment.getResources()
+          catXML = app.getResources()
               .openRawResource(defaultSourceResId);
         } catch (NotFoundException e) {
-          catXML = this.taskExecutionFragment.getResources().openRawResource(R.raw.cat_en);
+          catXML = app.getResources().openRawResource(R.raw.cat_en);
         }
       } 
       result = Utils.analyzeGrisbiFileWithSAX(catXML);
