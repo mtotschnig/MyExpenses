@@ -40,5 +40,5 @@ Prior to version 2.1.5, backups have not been packaged into ZIP archives, but st
 
 Be aware that restoring a backup will delete the data currently held by the application.
 
-As always, comments and suggestions are welcome through MyExpenses' Google+ [page](https://plus.google.com/116736113799210525299/).
+As always, comments and suggestions are welcome through MyExpenses' Google+ [page](https://plus.google.com/116736113799210525299/posts/JTqv1CwHG3C).
 
