@@ -58,6 +58,7 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -236,8 +237,9 @@ public class TransactionList extends BudgetListFragment implements
          FragmentManager fm = ctx.getSupportFragmentManager();
          DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
          if (f == null) {
-           f = TransactionDetailFragment.newInstance(id);
-           f.show(fm, "TRANSACTION_DETAIL");
+           FragmentTransaction ft = getFragmentManager().beginTransaction();
+           ft.add(TransactionDetailFragment.newInstance(id),"TRANSACTION_DETAIL");
+           ft.commitAllowingStateLoss();
          }
        }
     });
