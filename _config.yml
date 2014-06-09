@@ -1,3 +1,4 @@
+markdown: kramdown
 sections:
   - features
   - premium
