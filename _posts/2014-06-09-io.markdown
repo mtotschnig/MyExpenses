@@ -24,7 +24,7 @@ Import functionality is available from the Settings screen. My Expenses mainly s
 <img src="/visuals/screenshots/blog/2014-06-09/qif-import.png" alt="Import from QIF dialog" title="Import from QIF dialog">
 </div>
 
-* Should the dates in the file be interpreted according to the convention mainly used in the US (MM/dd/yyyy) or in Europe (dd/MM/yyyy).
+* Should the dates in the file be interpreted according to the convention mainly used in the US (MM/dd/yyyy) or in Europe (dd/MM/yyyy). Please pay attention to selecting the correct format here, since otherwise the imported transactions will have corrupted dates.
 * Should the data be imported into a new account or into an existing one. If you go for the new account, you also need to select a currency.
 * You can also decice to not import all information, but only categories, parties or transactions.
 
