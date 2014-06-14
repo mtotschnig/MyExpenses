@@ -252,6 +252,6 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   public boolean splitComplete() {
-    return unsplitAmount.getAmountMinor() == 0L;
+    return unsplitAmount != null && unsplitAmount.getAmountMinor() == 0L;
   }
 }
