@@ -483,6 +483,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
           return false;
         }
+        if (uri == null) {
+          Log.w(TAG,"Inserting planner calendar failed, uri is null");
+          return false;
+        }
         plannerCalendarId = uri.getLastPathSegment();
         if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
           Log.w(TAG,"Inserting planner calendar failed, last path segment is null or 0");
