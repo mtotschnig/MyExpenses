@@ -92,12 +92,13 @@ public abstract class AmountActivity extends EditActivity {
   protected void onActivityResult(int requestCode, int resultCode,
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST) {
+    if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
         mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
         mAmountText.setError(null);
-      } catch (NumberFormatException  e) {}
-        catch (IllegalArgumentException e) {}
+      } catch (Exception  e) {
+        Utils.reportToAcra(e);
+      }
     }
   }
 
