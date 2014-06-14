@@ -445,7 +445,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             Calendars.NAME +  " = ?",
           new String[]{PLANNER_CALENDAR_NAME}, null);
       if (c == null) {
-        Log.w(TAG,"Searching for planner calendar failed, Calendar app not installed?");
+        Utils.reportToAcra(new Exception("Searching for planner calendar failed, Calendar app not installed?"));
         return false;
       }
       if (c.moveToFirst()) {
@@ -480,16 +480,16 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         try {
           uri = getContentResolver().insert(calendarUri, values);
         } catch (IllegalArgumentException e) {
-          Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
+          Utils.reportToAcra(e);
           return false;
         }
         if (uri == null) {
-          Log.w(TAG,"Inserting planner calendar failed, uri is null");
+          Utils.reportToAcra(new Exception("Inserting planner calendar failed, uri is null"));
           return false;
         }
         plannerCalendarId = uri.getLastPathSegment();
         if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
-          Log.w(TAG,"Inserting planner calendar failed, last path segment is null or 0");
+          Utils.reportToAcra(new Exception("Inserting planner calendar failed, last path segment is null or 0"));
           return false;
         }
         Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
