@@ -8,6 +8,8 @@ GPL licenced Android Expense Tracking App.
   finance tool, like <a href="http://www.grisbi.org">Grisbi</a> (Open Source), <a
   href="http://www.gnucash.org">Gnucash</a> (Open Source), MS Money, Quicken or Wiso Mein Geld.<br />
   Requires Android 2.1 and above.
+  
+  [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=267118)](https://www.bountysource.com/trackers/267118-myexpenses?utm_source=267118&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
 Features
 ========
