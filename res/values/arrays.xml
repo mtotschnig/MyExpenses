@@ -43,10 +43,11 @@
       <item>français</item>
       <item>magyar</item>
       <item>italiano</item>
-      <item>Khmer</item>
+      <item>ខ្មែរ (Khmer)</item>
       <item>polski</item>
       <item>português</item>
       <item>русский</item>
+      <item>සිංහල (Sinhala)</item>
       <item>Türkçe</item>
       <item>Tiếng Việt</item>
       <item>中文 (繁體)</item>
@@ -67,6 +68,7 @@
       <item>pl-PL</item>
       <item>pt-BR</item>
       <item>ru-RU</item>
+      <item>si-LK</item>
       <item>tr-TR</item>
       <item>vi-VN</item>
       <item>zh-TW</item>

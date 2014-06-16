@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_144">
+    <item>ZIP ලේඛනාගාරයෙහි උපස්ථ ගබඩා කර ඇති අතර එය දැන් බෙදා හැරිය හැක.(විද්‍යුත්-තැපෑල , ඩ්‍රයිව්, ඩ්‍රොප් බොක්ස්, ...) සහ මෙය බාහිර ප්‍රභවයන්හි නැවත ගබඩා කල හැක</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>ගණුදෙනු එකතුකිරීම් සහ මාරුකිරීම් සඳහා හෝම් තිරයේ කෙටි ක්‍රම</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>ඉක්මන් දත්ත ඇතුලත් කිරිම සඳහා හෝම් තිරයේ මෙවලම්</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>රුසියානු පරිවර්තනය</item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>උපස්ථ සහ නිර්යාත සඳහා වන ෆෝල්ඩරය තිබෙන ස්ථානය දැන් සකස් කල හැකිය</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>විවිධ ස්වාධීන උපස්ථ</item>
+    <item>QIF ආයාතය</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>ග්‍රීක පරිවර්තන</item>
+    <item>සතිය පටන් ගැන්ම රඳාපවතින්නේ ලොකාලේ මතය (උදාහරණ: ඉරිදා දිනය යූඑස් සඳහාය)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>යූඅයි වැඩිදියුණු කිරීම්: #115,#117,#120,#122,#124</item>
+    <item>ගණුදෙනු කල දිනයන්හි කලාපවේලාව  දැනසිටින්න</item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>නවීකරණය කරන ලද යූඅයි : නැවිගේෂණ අදිනය සහ පද සම්බන්දතා ක්‍රියාකාරී බාරය</item>
+  </string-array>
+  <string-array name="whats_new_116">
+    <item>වැඩිදියුණු කරන ලද පරිහරණ සැලසුම්: ඉදිරියට පැමිණෙන උදාහරණ කලින් යොදන්න</item>
+    <item>නවතම පරිවර්තන: පෘතුග්‍රීසි, පොලිෂ්, චෙකොස්ලොවැකියානු</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>විවිධ ගිණුම් වල ගනුදෙනු ලැයිස්තුව සහ සන්ඛයාන දායකත්වය පෙන්වන්න</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>(පරණ) චීන පරිවර්තන</item>
+    <item>ගනුදෙනු සංස්කරණය කරන ගිණුම් තෝරාගැනීමට ඉඩදෙන්න</item>
+    <item>මාරුකිරීම් සඳහා වඩා නිදහස් යූඅයි</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>යූඅයි දියුණු කිරීම් (#94) සහ දෝෂ නිවැරදි කිරීම් (#95,#96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>උපකරණ පෙළගැස්ම පිලිබිගු වී ඇති විට, ජංගම ශේෂය වඩා ප්‍රමුකව නැවත පෙන්වනු ලබන අතර ප්‍රධාන බොත්තම් පහළින් දැක්වේ</item>
+    <item>දෝෂ නිවැරදි කිරීම්: ප්‍රශ්න #71,#91,#92,#93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>ගණුදෙනු ලැයිස්තුව සමූහික වී ඇති විට, සෑම කාලසීමාවක් සඳහාම අතරමැදි ශේෂය කණ්ඩායම් ශීර්ෂකය තුල පෙන්වන්න</item>
+    <item> දෝෂ නිවැරදි කිරීම්: ප්‍රශ්නය #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>යූඅයි භාෂාව සකස් කල හැකිය</item>
+    <item>මුද්‍රණ අකුරු ප්‍රමාණය සකස් කල හැකිය</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>අනාගත සැලසුම් සහ සමාවර්ත ගණුදෙනු</item>
+    <item>ඛ්මෙර් පරිවර්තන</item>
+  </string-array>
+</resources>
