@@ -300,7 +300,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       Bundle extras = new Bundle();
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-      addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.create_transaction_icon,extras);
+      addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.shortcut_create_transaction_icon,extras);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER)) {
@@ -308,7 +308,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-      addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.create_transfer_icon,extras);
+      addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.shortcut_create_transfer_icon,extras);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT)) {
@@ -316,7 +316,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
-      addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.create_split_icon,extras);
+      addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.shortcut_create_split_icon,extras);
       return true;
     }
     return false;
