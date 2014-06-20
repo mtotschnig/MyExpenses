@@ -4,6 +4,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -16,7 +17,6 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
 import android.preference.ListPreference;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
