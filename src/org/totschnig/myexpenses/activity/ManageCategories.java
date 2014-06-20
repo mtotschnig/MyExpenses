@@ -194,9 +194,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           args.getLong(DatabaseConstants.KEY_ROWID),
           args.getString(EditTextDialog.KEY_RESULT),
           parentId);
-      getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
-        .commit();
+      startDbWriteTask(false);
       finishActionMode();
     }
     @Override

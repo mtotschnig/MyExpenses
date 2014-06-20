@@ -69,9 +69,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
     mParty = new Payee(
         args.getLong(DatabaseConstants.KEY_ROWID),
         args.getString(EditTextDialog.KEY_RESULT));
-    getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
-    .commit();
+    startDbWriteTask(false);
     finishActionMode();
   }
   private void finishActionMode() {

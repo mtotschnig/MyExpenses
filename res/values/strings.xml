@@ -351,6 +351,7 @@
     <string name="progress_dialog_create_plan">Creating new plan …</string>
     <string name="progress_dialog_deleting">Deleting objects …</string>
     <string name="progress_dialog_loading">Loading object from database …</string>
+    <string name="progress_dialog_saving">Saving object to database …</string>
     <string name="progress_dialog_setup">Database is initialized …</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>

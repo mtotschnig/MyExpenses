@@ -60,9 +60,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   }
   protected void saveState() {
     mIsSaving = true;
-    getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
-    .commit();
+    startDbWriteTask(false);
   }
 
   protected void changeEditTextBackground(ViewGroup root) {

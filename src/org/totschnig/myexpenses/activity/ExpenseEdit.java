@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 
@@ -759,9 +760,7 @@ public class ExpenseEdit extends AmountActivity implements
       //since we reset the plan to null in that case
       mManager.destroyLoader(EVENT_CURSOR);
       mIsSaving = true;
-      getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
-        .commit();
+      startDbWriteTask(true);
       if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
         SharedPreferences.Editor e = MyApplication.getInstance().getSettings().edit();
         switch (mOperationType) {
