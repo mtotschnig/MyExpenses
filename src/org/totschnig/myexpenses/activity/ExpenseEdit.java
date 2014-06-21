@@ -986,7 +986,7 @@ public class ExpenseEdit extends AmountActivity implements
       //unable to create new plan, inform user
       if (mPlanId == null) {
         MessageDialogFragment.Button createNewButton;
-        int message;
+        String message;
         int selectButtonLabel;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
           createNewButton =
@@ -994,11 +994,11 @@ public class ExpenseEdit extends AmountActivity implements
                     R.string.dialog_setup_planner_button_create_new,
                     R.id.CREATE_COMMAND,
                     null);
-          message = R.string.planner_setup_info_jb;
+          message = Utils.concatResStrings(this, R.string.planner_setup_info_jb,R.string.planner_setup_info_create_new_warning);
           selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
         } else {
           createNewButton = null;
-          message = R.string.planner_setup_info;
+          message = getString(R.string.planner_setup_info);
           selectButtonLabel = android.R.string.yes;
         }
         MessageDialogFragment.newInstance(

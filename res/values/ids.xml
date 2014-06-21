@@ -70,4 +70,5 @@
   <item type="id" name="SETUP_CATEGORIES_DEFAULT_COMMAND" />
   <item type="id" name="UP_COMMAND"/>
   <item type="id" name="START_EXPORT_COMMAND" />
+  <item type="id" name="PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG" />
 </resources>

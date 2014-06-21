@@ -258,6 +258,7 @@
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
     <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
     <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
+    <string name="planner_setup_info_create_new_warning">Attention: Local calendars have been reported to not work reliably on some devices. If your plans do not work with a dedicated local calendar, please rather select a calendar that you have set up in your Calendar App.</string>
     <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
     <!-- payment methods -->
     <string name="pm_cheque">Cheque</string>

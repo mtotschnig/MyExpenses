@@ -34,6 +34,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
@@ -219,6 +220,22 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         .setView(view)
         .setPositiveButton(android.R.string.ok,null)
         .create();
+    case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
+      return new AlertDialog.Builder(this)
+      .setTitle(R.string.dialog_title_attention)
+      .setMessage(R.string.planner_setup_info_create_new_warning)
+      .setNegativeButton(android.R.string.cancel, null)
+      .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+        //TODO: use Async Task Strict Mode violation
+        boolean success = MyApplication.getInstance().createPlanner();
+        Toast.makeText(
+            MyPreferenceActivity.this,
+            success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+            Toast.LENGTH_LONG).show();
+          }
+       })
+      .create();
     }
     return null;
   }
