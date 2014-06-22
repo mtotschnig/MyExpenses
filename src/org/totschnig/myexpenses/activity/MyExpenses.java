@@ -907,8 +907,29 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
+      long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
+      boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
+      boolean is_aggregate = c.getLong(columnIndexRowId)<0;
+      boolean hide_cr;
+      if (is_aggregate) {
+        hide_cr = true;
+      } else {
+      Type type;
+        try {
+          type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+        } catch (IllegalArgumentException ex) {
+          type = Type.CASH;
+        }
+        hide_cr = type.equals(Type.CASH);
+      }
       row.findViewById(R.id.TransferRow).setVisibility(
-          c.getLong(columnIndexRowId)<0 ? View.GONE : View.VISIBLE);
+          sum_transfer==0 ? View.GONE : View.VISIBLE);
+      row.findViewById(R.id.TotalRow).setVisibility(
+          has_future ? View.VISIBLE : View.GONE);
+      row.findViewById(R.id.ClearedRow).setVisibility(
+          hide_cr ? View.GONE : View.VISIBLE);
+      row.findViewById(R.id.ReconciledRow).setVisibility(
+          hide_cr ? View.GONE : View.VISIBLE);
       if (c.getLong(columnIndexRowId)>0) {
         setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
       }

@@ -396,6 +396,8 @@
     <string name="thank_you">Thank you for your support!</string>
     <string name="time">Time</string>
     <string name="title">Title</string>
+    <string name="total_cleared">Cleared total</string>
+    <string name="total_reconciled">Reconciled total</string>
     <string name="transaction">Transaction</string>
     <string name="transfer">Transfer</string>
     <string name="transfer_from_account">From</string>

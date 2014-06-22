@@ -87,7 +87,7 @@ public class Account extends Model {
   PROJECTION_EXTENDED[baseLength] =
       KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT
       + " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE;
-  PROJECTION_FULL = new String[baseLength+9];
+  PROJECTION_FULL = new String[baseLength+10];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
       " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
@@ -108,6 +108,7 @@ public class Account extends Model {
       " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'  ) AS " + KEY_RECONCILED_TOTAL;
   PROJECTION_FULL[baseLength+7] = KEY_USAGES;
   PROJECTION_FULL[baseLength+8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
+  PROJECTION_FULL[baseLength+9] = HAS_FUTURE;
   }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 

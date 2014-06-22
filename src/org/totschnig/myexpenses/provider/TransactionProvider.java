@@ -293,7 +293,8 @@ public class TransactionProvider extends ContentProvider {
               " AND " + WHERE_NOT_SPLIT + " ) AS " + KEY_TOTAL + ", " +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
-              HAS_EXPORTED +
+              HAS_EXPORTED + ", " +
+              HAS_FUTURE +
             " FROM " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";
@@ -317,7 +318,8 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
             "0 AS " + KEY_RECONCILED_TOTAL,
             "0 as " + KEY_USAGES,
-            "1 as " + KEY_IS_AGGREGATE};
+            "1 as " + KEY_IS_AGGREGATE,
+            "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE};
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(

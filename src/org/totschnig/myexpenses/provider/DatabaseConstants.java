@@ -126,6 +126,7 @@ public class DatabaseConstants {
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
   public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
+  public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
   public static final String KEY_TRANSFER_ENABLED = "transfer_enabled";
   /**
    * column alias for the second group (month or week)
@@ -224,6 +225,9 @@ public class DatabaseConstants {
   public static final String HAS_EXPORTED = 
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;
+  public static final String HAS_FUTURE = 
+      "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
+          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND date(" + KEY_DATE + ",'unixepoch') > date('now')  LIMIT 1)) AS " + KEY_HAS_FUTURE;
   public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
       + VIEW_COMMITTED
       + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " ";
