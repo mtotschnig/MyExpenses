@@ -116,6 +116,9 @@ public class DatabaseConstants {
   public static final String KEY_THIS_YEAR_OF_WEEK_START = "this_year_of_week_start";
   public static final String KEY_MAX_VALUE = "max_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
+  public static final String KEY_TOTAL = "total";
+  public static final String KEY_CLEARED_TOTAL = "cleared_total";
+  public static final String KEY_RECONCILED_TOTAL = "reconciled_total";
   public static final String KEY_SUM_EXPENSES = "sum_expenses";
   public static final String KEY_SUM_INCOME = "sum_income";
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";

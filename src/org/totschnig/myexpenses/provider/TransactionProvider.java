@@ -286,9 +286,11 @@ public class TransactionProvider extends ContentProvider {
             KEY_ROWID + "," + 
             KEY_CURRENCY + "," + 
             KEY_OPENING_BALANCE + "," +
-            KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + 
-              " AND (cat_id is null OR cat_id != " + SPLIT_CATID + ")" +
+            KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
+              " AND " + WHERE_NOT_SPLIT +
               " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE + ", " +
+            KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
+              " AND " + WHERE_NOT_SPLIT + " ) AS " + KEY_TOTAL + ", " +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
               HAS_EXPORTED +
@@ -311,6 +313,9 @@ public class TransactionProvider extends ContentProvider {
             "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
             "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
             "0 AS " + KEY_SUM_TRANSFERS,
+            "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
+            "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
+            "0 AS " + KEY_RECONCILED_TOTAL,
             "0 as " + KEY_USAGES,
             "1 as " + KEY_IS_AGGREGATE};
         @SuppressWarnings("deprecation")

@@ -108,7 +108,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         "ifnull(" + Calendars.NAME + ",'') AS path";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
-    public static final boolean debug = false;
+    public static final boolean debug = true;
     public boolean isContribEnabled,
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;

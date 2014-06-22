@@ -188,7 +188,10 @@ public class MyExpenses extends LaunchActivity implements
         KEY_SUM_INCOME,
         KEY_SUM_EXPENSES,
         KEY_SUM_TRANSFERS,
-        KEY_CURRENT_BALANCE
+        KEY_CURRENT_BALANCE,
+        KEY_TOTAL,
+        KEY_CLEARED_TOTAL,
+        KEY_RECONCILED_TOTAL
     };
     // and an array of the fields we want to bind those fields to
     int[] to = new int[]{
@@ -198,7 +201,10 @@ public class MyExpenses extends LaunchActivity implements
         R.id.sum_income,
         R.id.sum_expenses,
         R.id.sum_transfer,
-        R.id.current_balance
+        R.id.current_balance,
+        R.id.total,
+        R.id.cleared_total,
+        R.id.reconciled_total
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
     mDrawerList.setAdapter(mDrawerListAdapter);
@@ -911,6 +917,9 @@ public class MyExpenses extends LaunchActivity implements
       setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
       setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
       setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.total), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.reconciled_total), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.cleared_total), currency);
       String description = c.getString(columnIndexDescription);
       if (description.equals(""))
         row.findViewById(R.id.description).setVisibility(View.GONE);

@@ -85,19 +85,29 @@ public class Account extends Model {
   PROJECTION_EXTENDED = new String[baseLength+1];
   System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
   PROJECTION_EXTENDED[baseLength] =
-      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM
-        + " AND (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-        + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) as " + KEY_CURRENT_BALANCE;
-  PROJECTION_FULL = new String[baseLength+6];
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT
+      + " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE;
+  PROJECTION_FULL = new String[baseLength+9];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
-  PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM
-      + " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
-  PROJECTION_FULL[baseLength+2] = "(" + SELECT_AMOUNT_SUM
-      + " AND " + WHERE_EXPENSE  + ") AS " + KEY_SUM_EXPENSES;
-  PROJECTION_FULL[baseLength+3] = "(" + SELECT_AMOUNT_SUM
-      + " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS;
-  PROJECTION_FULL[baseLength+4] = KEY_USAGES;
-  PROJECTION_FULL[baseLength+5] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
+  PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
+      " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
+  PROJECTION_FULL[baseLength+2] = "(" + SELECT_AMOUNT_SUM +
+      " AND " + WHERE_EXPENSE  + ") AS " + KEY_SUM_EXPENSES;
+  PROJECTION_FULL[baseLength+3] = "(" + SELECT_AMOUNT_SUM +
+      " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS;
+  PROJECTION_FULL[baseLength+4] =
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT +
+      " ) AS " + KEY_TOTAL;
+  PROJECTION_FULL[baseLength+5] =
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT +
+      " AND " + KEY_CR_STATUS + " IN " +
+          "('" + CrStatus.RECONCILED.name() + "','" + CrStatus.CLEARED.name() + "')" +
+      " ) AS " + KEY_CLEARED_TOTAL;
+  PROJECTION_FULL[baseLength+6] =
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT +
+      " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'  ) AS " + KEY_RECONCILED_TOTAL;
+  PROJECTION_FULL[baseLength+7] = KEY_USAGES;
+  PROJECTION_FULL[baseLength+8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
   }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
