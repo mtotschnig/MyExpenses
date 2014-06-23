@@ -54,6 +54,7 @@
     <string name="decimal_separator">Decimal separator</string>
     <string name="default_account_description">This account was set up automatically during installation</string>
     <string name="description">Description</string>
+    <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
     <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
     <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
@@ -149,6 +150,8 @@
     <string name="menu_apply_template">Apply</string>
     <string name="menu_back">Back</string>
     <string name="menu_backup">Backup</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">Balance account</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Cancel</string>
     <string name="menu_clone_transaction">Clone</string>

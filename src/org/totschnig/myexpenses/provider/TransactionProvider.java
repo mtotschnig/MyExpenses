@@ -317,9 +317,10 @@ public class TransactionProvider extends ContentProvider {
             "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
             "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
             "0 AS " + KEY_RECONCILED_TOTAL,
-            "0 as " + KEY_USAGES,
-            "1 as " + KEY_IS_AGGREGATE,
-            "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE};
+            "0 AS " + KEY_USAGES,
+            "1 AS " + KEY_IS_AGGREGATE,
+            "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
+            "0 AS " + KEY_HAS_CLEARED}; //ignored
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(

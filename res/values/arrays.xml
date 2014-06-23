@@ -95,6 +95,7 @@
       <item>grouping</item>
       <item>distribution</item>
       <item>manage_plans</item>
+      <item>balance</item>
     </string-array>
     <string-array name="MyExpenses_cabitems">
     	<item>edit</item>

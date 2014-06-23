@@ -331,6 +331,7 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
+    menu.findItem(R.id.BALANCE_COMMAND).setVisible(mAccountId > 0);
     menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
         mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
@@ -486,6 +487,22 @@ public class MyExpenses extends LaunchActivity implements
       }
       else {
         CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
+      }
+      return true;
+    case R.id.BALANCE_COMMAND:
+      tl = getCurrentFragment();
+      if (tl != null && hasCleared()) {
+        Toast.makeText(getBaseContext(),
+            "TODO: show reconciliaton dialog",
+            Toast.LENGTH_LONG)
+            .show();
+      } else {
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            R.string.dialog_command_disabled_balance,
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
     case R.id.RESET_COMMAND:
@@ -849,6 +866,13 @@ public class MyExpenses extends LaunchActivity implements
       return false;
     mAccountsCursor.moveToPosition(mCurrentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_EXPORTED)) > 0;
+  }
+  private boolean hasCleared() {
+    //in case we are called before the accounts cursor is loaded, we return false
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
+      return false;
+    mAccountsCursor.moveToPosition(mCurrentPosition);
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {

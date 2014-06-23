@@ -19,6 +19,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
+
 /**
  * @author Michael Totschnig
  *
@@ -124,6 +126,7 @@ public class DatabaseConstants {
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";
   public static final String KEY_INTERIM_BALANCE = "interim_balance";
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
+  public static final String KEY_HAS_CLEARED = "has_cleared";
   public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
   public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
@@ -222,6 +225,9 @@ public class DatabaseConstants {
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_TRANSFERS;
+  public static final String HAS_CLEARED = 
+      "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
+          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "' LIMIT 1)) AS " + KEY_HAS_CLEARED;
   public static final String HAS_EXPORTED = 
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;

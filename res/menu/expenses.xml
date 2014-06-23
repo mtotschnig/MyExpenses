@@ -53,6 +53,12 @@
     android:title="@string/menu_distribution">
   </item>
   <item
+    android:id="@id/BALANCE_COMMAND"
+    app:showAsAction="ifRoom"
+    android:icon="@drawable/distribution_icon"
+    android:title="@string/menu_balance">
+  </item>
+  <item
     android:id="@id/GROUPING_COMMAND"
     android:icon="@drawable/grouping_icon"
     android:title="@string/menu_grouping">
