@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -242,11 +243,18 @@ public class ExpenseEdit extends AmountActivity implements
       public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View row = super.getDropDownView(position, convertView, parent);
         setColor(position,row);
+        row.findViewById(android.R.id.text1).setEnabled(isEnabled(position));
         return row;
       }
       private void setColor(int position, View row) {
         View color = row.findViewById(R.id.color1);
         color.setBackgroundColor(getItem(position).color);
+      }
+      @Override
+      public boolean isEnabled(int position) {
+        //if the transaction is reconciled, the status can not be changed
+        //otherwise only unreconciled and cleared can be set
+        return mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
       }
     };
     sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);

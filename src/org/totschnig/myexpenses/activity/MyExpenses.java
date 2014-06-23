@@ -810,11 +810,14 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
   public void toggleCrStatus (View v) {
-    startTaskExecution(
-        TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-        new Long[] {(Long) v.getTag()},
-        null,
-        0);
+    Long id = (Long) v.getTag();
+    if (id != -1) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+          new Long[] {id},
+          null,
+          0);
+    }
   }
   /**
    * @return true if for the current Account there is a second account

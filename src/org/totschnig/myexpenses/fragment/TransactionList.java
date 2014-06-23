@@ -672,7 +672,7 @@ public class TransactionList extends BudgetListFragment implements
           status = CrStatus.UNRECONCILED;
         }
         viewHolder.color1.setBackgroundColor(status.color);
-        viewHolder.colorContainer.setTag(getItemId(position));
+        viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
       }
       return convertView;
     }

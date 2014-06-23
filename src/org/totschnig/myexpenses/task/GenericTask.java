@@ -142,13 +142,13 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       if (t != null) {
         switch (t.crStatus) {
         case CLEARED:
-          t.crStatus = CrStatus.RECONCILED;
-          break;
-        case RECONCILED:
           t.crStatus = CrStatus.UNRECONCILED;
           break;
         case UNRECONCILED:
           t.crStatus = CrStatus.CLEARED;
+          break;
+        default:
+          //we are only called to toggle between cleared and unreconciled
           break;
         }
         t.save();
