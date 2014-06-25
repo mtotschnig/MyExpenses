@@ -54,6 +54,7 @@
     <string name="decimal_separator">Decimal separator</string>
     <string name="default_account_description">This account was set up automatically during installation</string>
     <string name="description">Description</string>
+    <string name="dialog_balance_delete">Delete reconciled transactions</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
     <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
@@ -89,6 +90,8 @@
     <!-- Label for button that opens preferences for selecting an existing calendar -->
     <string name="dialog_setup_planner_button_select_existing">Select existing</string>
     <string name="dialog_title_attention">Attention</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
@@ -427,6 +430,7 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
+    <string name="warning_balance_account">Please compare the cleared total with the ending balance in your bank statement. If you proceed, cleared transactions will be marked as reconciled.</string>
     <string name="warning_password_protected">App is password protected.</string>
     <string name="warning_widget_disabled">You need to enable this widget in the app settings.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Quick instantiation of templates from this widget only works if you allow data entry from widgets without password in the app settings.</string>

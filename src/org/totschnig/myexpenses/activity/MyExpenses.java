@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
@@ -492,10 +493,17 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.BALANCE_COMMAND:
       tl = getCurrentFragment();
       if (tl != null && hasCleared()) {
-        Toast.makeText(getBaseContext(),
-            "TODO: show reconciliaton dialog",
-            Toast.LENGTH_LONG)
-            .show();
+        mAccountsCursor.moveToPosition(mCurrentPosition);
+        Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
+        BalanceDialogFragment.newInstance(
+            mAccountsCursor.getString(columnIndexLabel),
+            Utils.formatCurrency(
+                new Money(currency,
+                    mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_RECONCILED_TOTAL)))),
+            Utils.formatCurrency(
+                new Money(currency,
+                    mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CLEARED_TOTAL)))))
+            .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
       } else {
         MessageDialogFragment.newInstance(
             R.string.dialog_title_menu_command_disabled,
