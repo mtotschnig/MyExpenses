@@ -73,7 +73,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
     Bundle bundle = new Bundle();
-    bundle.putSerializable("id", id);
+    bundle.putLong(KEY_ROWID, id);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -82,7 +82,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     super.onCreate(savedInstanceState);
     final Bundle bundle = getArguments();
     //TODO strict mode violation
-    mTransaction = Transaction.getInstanceFromDb(bundle.getLong("id"));
+    mTransaction = Transaction.getInstanceFromDb(bundle.getLong(KEY_ROWID));
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
