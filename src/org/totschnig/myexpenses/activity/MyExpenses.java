@@ -331,8 +331,18 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
+    boolean showBalanceCommand = false;
+    if (mAccountId >0) {
+      mAccountsCursor.moveToPosition(mCurrentPosition);
+      try {
+        if (Type.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
+            != Type.CASH) {
+          showBalanceCommand = true;
+        }
+      } catch (IllegalArgumentException ex) {}
+    }
     menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
-    menu.findItem(R.id.BALANCE_COMMAND).setVisible(mAccountId > 0);
+    menu.findItem(R.id.BALANCE_COMMAND).setVisible(showBalanceCommand);
     menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
         mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
