@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -252,9 +253,27 @@ public class TransactionList extends BudgetListFragment implements
     FragmentManager fm = getActivity().getSupportFragmentManager();
     switch(command) {
     case R.id.DELETE_COMMAND:
+      boolean hasReconciled = false;
+      if (mAccount.type != Type.CASH) {
+        for (int i=0; i<positions.size(); i++) {
+          mTransactionsCursor.moveToPosition(i);
+          try {
+            if (CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus))==CrStatus.RECONCILED) {
+              hasReconciled = true;
+              break;
+            }
+          } catch (IllegalArgumentException ex) {
+            continue;
+          }
+        }
+      }
+      String message = getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length);
+      if (hasReconciled) {
+        message += " " + getString(R.string.warning_delete_reconciled);
+      }
       MessageDialogFragment.newInstance(
           R.string.dialog_title_warning_delete_transaction,
-          getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length),
+          message,
           new MessageDialogFragment.Button(
               R.string.menu_delete,
               R.id.DELETE_COMMAND_DO,

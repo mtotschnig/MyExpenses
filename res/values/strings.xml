@@ -430,6 +430,7 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
+  <string name="warning_delete_reconciled">Deleting reconciled transactions will cause your records to differ from the bank statement.</string>
     <string name="warning_balance_account">Please compare the cleared total with the ending balance in your bank statement. If you proceed, cleared transactions will be marked as reconciled.</string>
     <string name="warning_password_protected">App is password protected.</string>
     <string name="warning_widget_disabled">You need to enable this widget in the app settings.</string>
