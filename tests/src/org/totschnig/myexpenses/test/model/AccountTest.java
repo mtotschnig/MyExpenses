@@ -74,7 +74,7 @@ public class AccountTest extends ModelTest  {
     op1.amount = new Money(account.currency,trAmount);
     op1.comment = "test transaction";
     op1.save();
-    assertEquals(account.getTotalBalance().getAmountMinor().longValue(),openingBalance+trAmount);
+    assertEquals(account.getTotalBalance(false).getAmountMinor().longValue(),openingBalance+trAmount);
     Account.delete(account.id);
     assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.id));
     assertNull("Account delete should delete transaction, but operation can still be retrieved",Transaction.getInstanceFromDb(op1.id));
