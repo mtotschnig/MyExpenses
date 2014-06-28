@@ -464,7 +464,7 @@ public class Account extends Model {
     Account account = getInstanceFromDb(id);
     if (account == null)
       return false;
-    account.deleteAllTransactions();
+    account.deleteAllTransactions(false);
     account.deleteAllTemplates();
     accounts.remove(id);
     return cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
@@ -557,9 +557,13 @@ public class Account extends Model {
    * @return sum of all transcations
    */
   public long getTransactionSum(boolean reconciled) {
+    String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
+    if (reconciled) {
+      selection += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    }
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"},
-        KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART,
+        selection,
         new String[] { String.valueOf(id) },
         null);
     c.moveToFirst();
@@ -578,7 +582,7 @@ public class Account extends Model {
     args.put(KEY_OPENING_BALANCE,currentBalance);
     cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
         null, null);
-    deleteAllTransactions();
+    deleteAllTransactions(reconciled);
   }
   public void markAsExported() {
     ContentValues args = new ContentValues();
@@ -628,20 +632,29 @@ public class Account extends Model {
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction
+   * @param reconciled 
    */
-  public void deleteAllTransactions() {
+  public void deleteAllTransactions(boolean reconciled) {
+    String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
+    if (reconciled) {
+      rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    }
     String[] selectArgs = new String[] { String.valueOf(id) };
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
+        KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
+        selectArgs);
     cr().delete(
         TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-        KEY_TRANSACTIONID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?)",
+        KEY_TRANSACTIONID + " IN (" + rowSelect + ")",
         selectArgs);
-    cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+    cr().delete(
+        TransactionProvider.TRANSACTIONS_URI,
+        KEY_ROWID + " IN (" + rowSelect + ")",
+        selectArgs);
   }
   public void deleteAllTemplates() {
     String[] selectArgs = new String[] { String.valueOf(id) };
@@ -984,8 +997,10 @@ public class Account extends Model {
     args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
-            KEY_CR_STATUS + " = " + CrStatus.CLEARED.name(),
+            KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
         new String[] { String.valueOf(id) });
-    
+    if (resetP) {
+      reset(true);
+    }
   }
 }

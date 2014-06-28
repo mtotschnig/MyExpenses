@@ -217,7 +217,11 @@ public class Transaction extends Model {
     tr.label = te.label;
     tr.originTemplateId = te.id;
     cr().update(
-        TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(te.id)).appendPath("increaseUsage").build(),
+        TransactionProvider.TEMPLATES_URI
+          .buildUpon()
+          .appendPath(String.valueOf(te.id))
+          .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+          .build(),
         null, null, null);
     return tr;
   }
@@ -322,11 +326,19 @@ public class Transaction extends Model {
       id = ContentUris.parseId(uri);
       if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
         cr().update(
-            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
+            TransactionProvider.CATEGORIES_URI
+              .buildUpon()
+              .appendPath(String.valueOf(catId))
+              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+              .build(),
             null, null, null);
       if (parentId == null)
         cr().update(
-            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
+            TransactionProvider.ACCOUNTS_URI
+              .buildUpon()
+              .appendPath(String.valueOf(accountId))
+              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+              .build(),
             null, null, null);
       if (originPlanInstanceId != null) {
         ContentValues values = new ContentValues();
@@ -356,7 +368,9 @@ public class Transaction extends Model {
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
-    cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId + "/move/" + whereAccountId), null,null,null);
+    cr().update(Uri.parse(
+        CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
+        null,null,null);
   }
   public static int count(Uri uri,String selection,String[] selectionArgs) {
     Cursor cursor = cr().query(uri,new String[] {"count(*)"},

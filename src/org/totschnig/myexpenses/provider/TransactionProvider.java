@@ -71,6 +71,11 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/planinstance_transaction/");
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
+  public static final Uri TRANSACTIONS_SUM_URI =
+      Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccountsGroupedByType");
+  public static final String URI_SEGMENT_MOVE = "move";
+  public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
+  public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
 
   
   static final String TAG = "TransactionProvider";
@@ -105,6 +110,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
   private static final int CURRENCIES = 27;
   private static final int AGGREGATES_COUNT = 28;
+  private static final int TRANSACTION_TOGGLE_CRSTATUS = 29;
   
   @Override
   public boolean onCreate() {
@@ -839,10 +845,26 @@ public class TransactionProvider extends ContentProvider {
     case PLANINSTANCE_TRANSACTION_STATUS:
       count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
       break;
+    case TRANSACTION_TOGGLE_CRSTATUS:
+      segment = uri.getPathSegments().get(1);
+      db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
+          " SET " + KEY_CR_STATUS +
+          " = CASE " + KEY_CR_STATUS +
+              " WHEN '" + "CLEARED" + "'" +
+              " THEN '" + "UNRECONCILED" + "'" +
+              " WHEN '" + "UNRECONCILED" + "'" +
+              " THEN '" + "CLEARED" + "'" +
+              " ELSE "  + KEY_CR_STATUS +
+            " END" +
+          " WHERE " + KEY_ROWID  + " = ? ",
+          new String[]{segment});
+      count = 1;
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
-    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
+        uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS) {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
@@ -862,14 +884,15 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/#/move/#", TRANSACTION_MOVE);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
-    URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORY_INCREASE_USAGE);
+    URI_MATCHER.addURI(AUTHORITY, "categories/#/" + URI_SEGMENT_INCREASE_USAGE, CATEGORY_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/increaseUsage", ACCOUNT_INCREASE_USAGE);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#/" + URI_SEGMENT_INCREASE_USAGE, ACCOUNT_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
@@ -883,7 +906,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
-    URI_MATCHER.addURI(AUTHORITY, "templates/#/increaseUsage", TEMPLATES_INCREASE_USAGE);
+    URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);

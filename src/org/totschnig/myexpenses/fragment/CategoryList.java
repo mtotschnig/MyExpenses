@@ -318,7 +318,7 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     if (id == SUM_CURSOR) {
-      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("sumsForAccountsGroupedByType");
+      Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
       if (mAccount.id < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
       } else {

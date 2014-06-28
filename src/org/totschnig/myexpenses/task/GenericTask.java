@@ -138,21 +138,14 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return null;
     case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
-      t = Transaction.getInstanceFromDb(ids[0]);
-      if (t != null) {
-        switch (t.crStatus) {
-        case CLEARED:
-          t.crStatus = CrStatus.UNRECONCILED;
-          break;
-        case UNRECONCILED:
-          t.crStatus = CrStatus.CLEARED;
-          break;
-        default:
-          //we are only called to toggle between cleared and unreconciled
-          break;
-        }
-        t.save();
-      }
+      cr = MyApplication.getInstance().getContentResolver();
+      cr.update(
+          TransactionProvider.TRANSACTIONS_URI
+            .buildUpon()
+            .appendPath(String.valueOf(ids[0]))
+            .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+            .build(),
+          null, null, null);
       return null;
     case TaskExecutionFragment.TASK_MOVE:
       Transaction.move(ids[0], (Long) mExtra);
