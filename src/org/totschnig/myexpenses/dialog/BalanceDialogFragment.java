@@ -44,7 +44,7 @@ public class BalanceDialogFragment extends DialogFragment implements OnClickList
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
+    Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.balance, null);
     ((TextView) view.findViewById(R.id.TotalReconciled)).setText(getArguments().getString(KEY_RECONCILED_TOTAL));
