@@ -9,8 +9,8 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.totschnig.myexpenses" android:versionCode="145"
-	android:versionName="2.1.5" android:installLocation="auto">
+	package="org.totschnig.myexpenses" android:versionCode="148"
+	android:versionName="2.1.6" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
 	<supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"
@@ -145,7 +145,7 @@
 
   <meta-data android:name="com.samsung.android.sdk.multiwindow.enable" android:value="true"/>
   <meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
-  <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/> 
+ <!-- <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/> -->
 <!--   <uses-library android:name="com.sec.android.app.multiwindow" android:required="false" /> -->
   </application>
 	<meta-data android:name="android.support.UI_OPTIONS"
