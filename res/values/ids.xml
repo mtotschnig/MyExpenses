@@ -72,4 +72,5 @@
   <item type="id" name="START_EXPORT_COMMAND" />
   <item type="id" name="PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG" />
   <item type="id" name="BALANCE_COMMAND" />
+  <item type="id" name="BALANCE_COMMAND_DO" />
 </resources>

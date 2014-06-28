@@ -131,6 +131,7 @@ public class DatabaseConstants {
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
   public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
   public static final String KEY_TRANSFER_ENABLED = "transfer_enabled";
+  public static final String KEY_SUM = "sum";
   /**
    * column alias for the second group (month or week)
    */
@@ -213,6 +214,8 @@ public class DatabaseConstants {
   
   public static final String WHERE_NOT_SPLIT =
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
+  public static final String WHERE_NOT_SPLIT_PART =
+      KEY_PARENTID + " IS null";
   public static final String WHERE_TRANSACTION =
       WHERE_NOT_SPLIT + " AND " + KEY_TRANSFER_PEER + " is null";
   public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;

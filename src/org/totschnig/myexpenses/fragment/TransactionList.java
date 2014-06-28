@@ -315,7 +315,7 @@ public class TransactionList extends BudgetListFragment implements
     String[] selectionArgs;
     if (mAccount.id < 0) {
       selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       selectionArgs = new String[] {mAccount.currency.getCurrencyCode()};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
@@ -325,7 +325,7 @@ public class TransactionList extends BudgetListFragment implements
     case TRANSACTION_CURSOR:
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
-          uri, null, selection + " AND parent_id is null",
+          uri, null, selection + " AND " + KEY_PARENTID + " is null",
           selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
@@ -333,7 +333,7 @@ public class TransactionList extends BudgetListFragment implements
       cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES},
-          selection + " AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ")",
+          selection + " AND " + WHERE_NOT_SPLIT,
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:

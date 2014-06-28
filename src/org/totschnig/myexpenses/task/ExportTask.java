@@ -149,10 +149,12 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       }
     }
     for (Account a : successfullyExported) {
-      if (deleteP)
-        a.reset();
-      else
+      if (deleteP) {
+        a.reset(false);
+      }
+      else {
         a.markAsExported();
+      }
     }
     return getResult();
   }

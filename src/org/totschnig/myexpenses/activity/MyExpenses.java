@@ -495,14 +495,19 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && hasCleared()) {
         mAccountsCursor.moveToPosition(mCurrentPosition);
         Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
-        BalanceDialogFragment.newInstance(
-            mAccountsCursor.getString(columnIndexLabel),
+        Bundle bundle = new Bundle();
+        bundle.putLong(KEY_ROWID,
+            mAccountsCursor.getLong(columnIndexRowId));
+        bundle.putString(KEY_LABEL,
+            mAccountsCursor.getString(columnIndexLabel));
+        bundle.putString(KEY_RECONCILED_TOTAL,
             Utils.formatCurrency(
                 new Money(currency,
-                    mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_RECONCILED_TOTAL)))),
-            Utils.formatCurrency(
-                new Money(currency,
-                    mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CLEARED_TOTAL)))))
+                    mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_RECONCILED_TOTAL)))));
+        bundle.putString(KEY_CLEARED_TOTAL, Utils.formatCurrency(
+            new Money(currency,
+                mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CLEARED_TOTAL)))));
+        BalanceDialogFragment.newInstance(bundle)
             .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
       } else {
         MessageDialogFragment.newInstance(
@@ -1024,6 +1029,11 @@ public class MyExpenses extends LaunchActivity implements
        .add(ProgressDialogFragment.newInstance(
            R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
        .commit();
+     break;
+   case R.id.BALANCE_COMMAND_DO:
+     startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
+         new Long[]{args.getLong(KEY_ROWID)},
+         args.getBoolean("deleteP"), 0);
    }
    return false;
   }

@@ -203,6 +203,9 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }
       return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
+    case TaskExecutionFragment.TASK_BALANCE:
+      Account.getInstanceFromDb(ids[0]).balance((Boolean)mExtra);
+      return null;
     }
     return null;
   }

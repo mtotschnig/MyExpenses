@@ -157,8 +157,8 @@ public class TransactionProvider extends ContentProvider {
         accountSelectionQuery = " = ?";
       }
       qb.setTables(VIEW_COMMITTED);
-      projection = new String[] {"amount>0 as type","abs(sum(amount)) as  sum"};
-      groupBy = "type";
+      projection = new String[] {"amount>0 as type","abs(sum(amount)) as  " + KEY_SUM};
+      groupBy = KEY_TYPE;
       qb.appendWhere(WHERE_TRANSACTION);
       qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
       selectionArgs = new String[]{accountSelector};
