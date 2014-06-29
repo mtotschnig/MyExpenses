@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.provider;
 
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.content.ContentValues;
@@ -40,6 +41,7 @@ class TransactionInfo {
         v.put(DatabaseConstants.KEY_AMOUNT, amount);
         v.put(DatabaseConstants.KEY_PAYEEID, payeeId);
         v.put(DatabaseConstants.KEY_ACCOUNTID, accountId);
+        v.put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
         return v;
     }
 }

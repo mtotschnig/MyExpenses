@@ -144,4 +144,36 @@ public class AccountTest extends ModelTest  {
     assertEquals(currency,aa.currency.getCurrencyCode());
     assertEquals(openingBalance.longValue()*2,aa.openingBalance.getAmountMinor().longValue());
   }
+  public void testBalanceWithoutReset() {
+    
+  }
+
+  public void testBalanceWithReset() {
+    
+  }
+  public void testReset() {
+    insertData();
+    Money initialtotalBalance = account1.getTotalBalance(false);
+    Cursor c = getMockContentResolver().query(
+        TransactionProvider.TRANSACTIONS_URI, 
+        new String[] {"count(*)"},
+        KEY_ACCOUNTID + " = ?",  
+        new String[]{String.valueOf(account1.id)},   
+        null
+    );
+    c.moveToFirst();
+    assertEquals(6,c.getInt(0));
+    account1.reset(false);
+    Account.clear();c = getMockContentResolver().query(
+        TransactionProvider.TRANSACTIONS_URI, 
+        new String[] {"count(*)"}, 
+        KEY_ACCOUNTID + " = ?", 
+        new String[]{String.valueOf(account1.id)},  
+        null
+    );
+    c.moveToFirst();
+    assertEquals(0,c.getInt(0));
+    Account resetAccount = Account.getInstanceFromDb(account1.id);
+    assertEquals(initialtotalBalance,resetAccount.getTotalBalance(false));
+  }
 }
