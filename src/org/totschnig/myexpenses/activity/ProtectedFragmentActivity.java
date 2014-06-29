@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import android.app.Activity;
@@ -134,8 +135,19 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-      if (dispatchCommand(item.getItemId(),null))
-        return true;
+    boolean result;
+    try {
+      result = dispatchCommand(item.getItemId(),null);
+    } catch (IllegalStateException e) {
+      //on some occasions, upon showing a DialogFragment we run into
+      //"java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState"
+      //we catch this here, and ignore silently, which hopefully should be save, since activity is being paused
+      Utils.reportToAcra(e);
+      result = true;
+    }
+    if (result) {
+      return true;
+    }
       return super.onOptionsItemSelected(item);
   }
   @Override
