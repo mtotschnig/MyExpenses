@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -133,7 +134,10 @@ public class DbWriteFragment extends Fragment {
         Log.w(MyApplication.TAG, "DbWriteFragment called from an activity that did not provide an object");
         return null;
       }
-      Uri uri = object[0].save();
+      Uri uri = null;
+      try {
+        uri = object[0].save();
+      } catch (SQLiteConstraintException e) {}
       if (returnSequenceCount && object[0] instanceof Transaction)
         return uri == null ? -1 : Transaction.getSequenceCount();
       else
