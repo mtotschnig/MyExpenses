@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="crash_reports_user_info">මයි එක්ස්පෙන්සෙස් භාවිතයේ බිඳවැටීම් පිළිබදව එහි වැඩි දියුණු කරන්නන්ට ස්වයංක්‍රීයව වාර්තා යවාවි, ඒවා  ප්‍රශ්න ඉතා ඉක්මනින් යථා තත්වයට පත් කිරීමට ඔවුන්ට උදව් කරනවා. මෙම ක්‍රියාව කට්ටල අංග වෙතින් අක්‍රිය කිරීමට ඔබට පුලුවන්.</string>
+  <string name="pref_category_title_crash_reports">බිඳවැටීම් වාර්තා</string>
+  <string name="pref_enable_acra">ස්වයංක්‍රීය  බිඳවැටීම් වාර්තා යැවීමට අවසර  දෙන්න</string>
+  <string name="pref_acra_enabled">ස්වයංක්‍රීය යැවීම ක්‍රියාත්මක කර තිබේ</string>
+  <string name="pref_acra_disabled">ස්වයංක්‍රීය යැවීම අක්‍රිය කර තිබේ</string>
+  <string name="pref_acra_syslog"> බිඳවැටීම් වාර්තා තුල පද්ධති සටහන් ඇතුළත් කරන්න</string>
+  <string name="pref_acra_syslog_enabled">පද්ධති සටහන් ඇතුලත් කර තිබේ</string>
+  <string name="pref_acra_syslog_disabled">පද්ධති සටහන් ඇතුලත් කර නොතිබේ</string>
+  <string name="pref_acra_user_email">පාවිච්චි කරන්නාගේ විද්‍යුත් තැපැල් ලිපිනය බිඳවැටීම් වාර්තා තුල ඇතුළත් කිරීමට වේ</string>
+  <string name="pref_acra_user_email_summary">අනවශ්‍ය දේවල් ඉවත් කීරීමට ඔබ බලාපොරොත්තු  වන්නේ නම් කරුණාකර ඔබගේ විද්‍යුත් තැපැල් ලිපිනය ඇතුළත් කර ඔබව සම්බන්ධ කරගැනීමට අපිට ඉඩදෙන්න</string>
+</resources>
