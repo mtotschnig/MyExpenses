@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * MT: adapted to MyExpenses TransactionProvider from Android Notes Tutorial
  */
 
 package org.totschnig.myexpenses.test.provider;
@@ -25,18 +26,11 @@ import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 import java.util.Date;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-/*
- */
-/**
- * This class tests the content provider for the Note Pad sample application.
- *
- * To learn how to run an entire test package or one of its classes, please see
- * "Testing in Eclipse, with ADT" or "Testing in Other IDEs" in the Developer Guide.
- */
 public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
 
     // Contains a reference to the mocked content resolver for the provider under test.
@@ -45,7 +39,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     // Contains an SQLite database, used as test data
     private SQLiteDatabase mDb;
 
-    // Contains the test data, as an array of NoteInfo instances.
+    // Contains the test data, as an array of TransactionInfo instances.
     private TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
     long testAccountId;
 
@@ -165,7 +159,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // as the projection, with the same names, in the same order.
         Cursor projectionCursor = mMockResolver.query(
             TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
-              TEST_PROJECTION,            // get the title, note, and mod date columns
+              TEST_PROJECTION,            // get the comment, date and payee_id
               null,                       // no selection columns, get all the records
               null,                       // no selection criteria
               null                        // use default the sort order
@@ -185,9 +179,9 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // criteria. Use a projection so that it's easy to get the data in a particular column.
         projectionCursor = mMockResolver.query(
             TransactionProvider.TRANSACTIONS_URI, // the URI for the main data table
-            TEST_PROJECTION,           // get the title, note, and mod date columns
+            TEST_PROJECTION,           //  get the comment, date and payee_id
             SELECTION_COLUMNS,         // select on the title column
-            SELECTION_ARGS,            // select titles "Note0", "Note1", or "Note5"
+            SELECTION_ARGS,            // select titles "Transaction 0", "Transaction 1", or "Transaction 2"
             SORT_ORDER                 // sort ascending on the title column
         );
 
@@ -211,7 +205,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     }
 
     /*
-     * Tests queries against the provider, using the note id URI. This URI encodes a single
+     * Tests queries against the provider, using the transaction id URI. This URI encodes a single
      * record ID. The provider should only return 0 or 1 record.
      */
     public void testQueriesOnTransactionIdUri() {
@@ -222,21 +216,19 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
       // Defines the argument for the selection column.
       final String[] SELECTION_ARGS = { "Transaction 0" };
 
-      // Creates a projection includes the note id column, so that note id can be retrieved.
+      // Creates a projection includes the transaction id column, so that transaction id can be retrieved.
       final String[] TRANSACTION_ID_PROJECTION = {
-          DatabaseConstants.KEY_ROWID,                 // The Notes class extends BaseColumns,
-                                              // which includes _ID as the column name for the
-                                              // record's id in the data model
-          DatabaseConstants.KEY_COMMENT};  // The note's title
+          DatabaseConstants.KEY_ROWID,
+          DatabaseConstants.KEY_COMMENT};
 
       // Query subtest 1.
       // Tests that a query against an empty table returns null.
 
-      // Constructs a URI that matches the provider's notes id URI pattern, using an arbitrary
-      // value of 1 as the note ID.
+      // Constructs a URI that matches the provider's transaction id URI pattern, using an arbitrary
+      // value of 1 as the transaction ID.
       Uri transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, 1);
 
-      // Queries the table with the notes ID URI. This should return an empty cursor.
+      // Queries the table with the transaction's ID URI. This should return an empty cursor.
       Cursor cursor = mMockResolver.query(
           transactionIdUri, // URI pointing to a single record
           null,      // no projection, get all the columns for each record
@@ -260,7 +252,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
           TransactionProvider.TRANSACTIONS_URI, // the base URI for the table
           TRANSACTION_ID_PROJECTION,        // returns the ID and title columns of rows
           SELECTION_COLUMNS,         // select based on the title column
-          SELECTION_ARGS,            // select title of "Note1"
+          SELECTION_ARGS,            // select title of "Transaction 0"
           null                 // sort order returned is by title, ascending
       );
 
@@ -270,18 +262,18 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
       // Moves to the cursor's first row, and asserts that this did not fail.
       assertTrue(cursor.moveToFirst());
 
-      // Saves the record's note ID.
-      int inputNoteId = cursor.getInt(0);
+      // Saves the record's transaction ID.
+      int inputTransactionId = cursor.getInt(0);
 
-      // Builds a URI based on the provider's content ID URI base and the saved note ID.
-      transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, inputNoteId);
+      // Builds a URI based on the provider's content ID URI base and the saved transaction ID.
+      transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, inputTransactionId);
 
       // Queries the table using the content ID URI, which returns a single record with the
-      // specified note ID, matching the selection criteria provided.
-      cursor = mMockResolver.query(transactionIdUri, // the URI for a single note
+      // specified transaction ID, matching the selection criteria provided.
+      cursor = mMockResolver.query(transactionIdUri, // the URI for a single transaction
           TRANSACTION_ID_PROJECTION,                 // same projection, get ID and title columns
           SELECTION_COLUMNS,                  // same selection, based on title column
-          SELECTION_ARGS,                     // same selection arguments, title = "Note1"
+          SELECTION_ARGS,                     // same selection arguments, title = "Transaction 0"
           null                          // same sort order returned, by title, ascending
       );
 
@@ -291,8 +283,8 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
       // Moves to the cursor's first row, and asserts that this did not fail.
       assertTrue(cursor.moveToFirst());
 
-      // Asserts that the note ID passed to the provider is the same as the note ID returned.
-      assertEquals(inputNoteId, cursor.getInt(0));
+      // Asserts that the transaction ID passed to the provider is the same as the transaction ID returned.
+      assertEquals(inputTransactionId, cursor.getInt(0));
     }
 
     /*
@@ -305,14 +297,14 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
             TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId);
 
         // Insert subtest 1.
-        // Inserts a row using the new note instance.
+        // Inserts a row using the new transaction instance.
         // No assertion will be done. The insert() method either works or throws an Exception
         Uri rowUri = mMockResolver.insert(
             TransactionProvider.TRANSACTIONS_URI,  // the main table URI
             transaction.getContentValues()     // the map of values to insert as a new record
         );
 
-        // Parses the returned URI to get the note ID of the new note. The ID is used in subtest 2.
+        // Parses the returned URI to get the transaction ID of the new transaction. The ID is used in subtest 2.
         long transactionId = ContentUris.parseId(rowUri);
 
         // Does a full query on the table. Since insertData() hasn't yet been called, the
@@ -338,7 +330,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         int payeeIndex = cursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME);
 
         // Tests each column in the returned cursor against the data that was inserted, comparing
-        // the field in the NoteInfo object to the data at the column index in the cursor.
+        // the field in the TransactionInfo object to the data at the column index in the cursor.
         assertEquals(transaction.comment, cursor.getString(commentIndex));
         assertEquals(transaction.date, cursor.getString(dateIndex));
         assertEquals(transaction.amount, cursor.getLong(amountIndex));
@@ -346,10 +338,10 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Insert subtest 2.
         // Tests that we can't insert a record whose id value already exists.
 
-        // Defines a ContentValues object so that the test can add a note ID to it.
+        // Defines a ContentValues object so that the test can add a transaction ID to it.
         ContentValues values = transaction.getContentValues();
 
-        // Adds the note ID retrieved in subtest 1 to the ContentValues object.
+        // Adds the transaction ID retrieved in subtest 1 to the ContentValues object.
         values.put(DatabaseConstants.KEY_ROWID, transactionId);
 
         // Tries to insert this record into the table.
@@ -384,14 +376,14 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Sets the selection column to "title"
         final String SELECTION_COLUMNS = DatabaseConstants.KEY_COMMENT + " = " + "?";
 
-        // Sets the selection argument "Note0"
+        // Sets the selection argument "Transaction 0"
         final String[] SELECTION_ARGS = { "Transaction 0" };
 
         // Tries to delete rows matching the selection criteria from the data model.
         int rowsDeleted = mMockResolver.delete(
             TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
             SELECTION_COLUMNS,         // select based on the title column
-            SELECTION_ARGS             // select title = "Note0"
+            SELECTION_ARGS             // select title = "Transaction 0"
         );
 
         // Assert that the deletion did not work. The number of deleted rows should be zero.
@@ -421,7 +413,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
             TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
             null,                      // no projection, return all columns
             SELECTION_COLUMNS,         // select based on the title column
-            SELECTION_ARGS,            // select title = "Note0"
+            SELECTION_ARGS,            // select title = "Transaction 0"
             null                       // use the default sort order
         );
 
@@ -445,7 +437,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Subtest 1.
         // Tries to update a record in an empty table.
 
-        // Sets up the update by putting the "note" column and a value into the values map.
+        // Sets up the update by putting the "comment" column and a value into the values map.
         values.put(DatabaseConstants.KEY_COMMENT, "Testing an update with this string");
 
         // Tries to update the table
@@ -453,7 +445,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
             TransactionProvider.TRANSACTIONS_URI,  // the URI of the data table
             values,                     // a map of the updates to do (column title and value)
             SELECTION_COLUMNS,           // select based on the title column
-            selectionArgs               // select "title = Note1"
+            selectionArgs               // select "title = Transaction 1"
         );
 
         // Asserts that no rows were updated.
@@ -470,11 +462,68 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
             TransactionProvider.TRANSACTIONS_URI,   // The URI of the data table
             values,                      // the same map of updates
             SELECTION_COLUMNS,            // same selection, based on the title column
-            selectionArgs                // same selection argument, to select "title = Note1"
+            selectionArgs                // same selection argument, to select "title = Transaction 0"
         );
 
         // Asserts that only one row was updated. The selection criteria evaluated to
-        // "title = Note1", and the test data should only contain one row that matches that.
+        // "title = Transaction 0", and the test data should only contain one row that matches that.
         assertEquals(1, rowsUpdated);
+    }
+    
+    public void testToggleCrStatus() {
+      insertData();
+      final String[] TRANSACTION_ID_PROJECTION = {
+          DatabaseConstants.KEY_ROWID,
+          DatabaseConstants.KEY_COMMENT,
+          DatabaseConstants.KEY_CR_STATUS};
+      
+      // Queries the table using the URI for the full table.
+      Cursor cursor = mMockResolver.query(
+          TransactionProvider.TRANSACTIONS_URI, // the base URI for the table
+          TRANSACTION_ID_PROJECTION,
+          null, 
+          null,
+          null
+      );
+
+      // Moves to the cursor's first row, and asserts that this did not fail.
+      assertTrue(cursor.moveToFirst());
+
+      // Saves the record's note ID.
+      int inputTransactionId = cursor.getInt(0);
+      Uri transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, inputTransactionId);
+      //default value should be unreconciled
+      assertEquals(CrStatus.UNRECONCILED,CrStatus.valueOf(cursor.getString(2)));
+      //toggle, then should be cleared
+      mMockResolver.update(
+          transactionIdUri.buildUpon()
+            .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+            .build(),
+          null, null, null);
+      cursor = mMockResolver.query(
+          transactionIdUri, // the base URI for the table
+          TRANSACTION_ID_PROJECTION,
+          null, 
+          null,
+          null
+      );
+      assertTrue(cursor.moveToFirst());
+      assertEquals(CrStatus.CLEARED,CrStatus.valueOf(cursor.getString(2)));
+      
+      //toggle again, then should be unreconciled
+      mMockResolver.update(
+          transactionIdUri.buildUpon()
+            .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+            .build(),
+          null, null, null);
+      cursor = mMockResolver.query(
+          transactionIdUri, // the base URI for the table
+          TRANSACTION_ID_PROJECTION,
+          null, 
+          null,
+          null
+      );
+      assertTrue(cursor.moveToFirst());
+      assertEquals(CrStatus.UNRECONCILED,CrStatus.valueOf(cursor.getString(2)));
     }
 }
