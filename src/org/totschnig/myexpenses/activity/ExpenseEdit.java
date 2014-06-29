@@ -1148,7 +1148,10 @@ public class ExpenseEdit extends AmountActivity implements
         mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
         mCreateNew = false;
       } else {
-        Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
+        //possibly the selected category has been deleted
+        mCatId = null;
+        mCategoryButton.setText(R.string.select);
+        Toast.makeText(this, "Error while saving transaction. Try again", Toast.LENGTH_SHORT).show();
       }
     } else {
       if (mRecordTemplateWidget) {
