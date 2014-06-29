@@ -69,6 +69,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_EXPORT = 21;
   public static final int TASK_BACKUP = 22;
   public static final int TASK_RESTORE = 23;
+  public static final int TASK_BALANCE = 24;
   
 
   /**

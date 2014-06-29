@@ -318,7 +318,7 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     if (id == SUM_CURSOR) {
-      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("sumsForAccountsGroupedByType");
+      Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
       if (mAccount.id < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
       } else {
@@ -385,7 +385,7 @@ public class CategoryList extends BudgetListFragment implements
         selection = " = ?";
         accountSelector = String.valueOf(mAccount.id);
       }
-      String catFilter = "FROM transactions WHERE " + KEY_ACCOUNTID + selection;
+      String catFilter = "FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + selection;
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
@@ -399,9 +399,9 @@ public class CategoryList extends BudgetListFragment implements
           KEY_ROWID,
           KEY_LABEL,
           KEY_PARENTID,
-          "(SELECT sum(amount) " + catFilter + ") AS sum"
+          "(SELECT sum(amount) " + catFilter + ") AS " + KEY_SUM
       };
-      sortOrder="abs(sum) DESC";
+      sortOrder="abs(" + KEY_SUM + ") DESC";
     } else {
       projection = new String[] {
           KEY_ROWID,
@@ -439,10 +439,10 @@ public class CategoryList extends BudgetListFragment implements
       boolean[] seen = new boolean[2];
       c.moveToFirst();
       while (c.isAfterLast() == false) {
-        int type = c.getInt(c.getColumnIndex("type"));
+        int type = c.getInt(c.getColumnIndex(KEY_TYPE));
         updateSum(type > 0 ? "+ " : "- ",
             type > 0 ? incomeSumTv : expenseSumTv,
-            c.getLong(c.getColumnIndex("sum")));
+            c.getLong(c.getColumnIndex(KEY_SUM)));
         c.moveToNext();
         seen[type] = true;
       }

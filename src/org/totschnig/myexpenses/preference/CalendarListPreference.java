@@ -3,7 +3,10 @@ package org.totschnig.myexpenses.preference;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -15,8 +18,9 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.ListPreference;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
@@ -83,11 +87,7 @@ public class CalendarListPreference extends ListPreference {
             public void onClick(DialogInterface dialog, int which) {
               long itemId = ((AlertDialog) dialog).getListView().getItemIdAtPosition(which);
               if (itemId == -1) {
-                boolean success = MyApplication.getInstance().createPlanner();
-                Toast.makeText(
-                    getContext(),
-                    success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-                    Toast.LENGTH_LONG).show();
+                ((MyPreferenceActivity) getContext()).showDialog(R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG);
               }
               else if (callChangeListener(itemId)) {
                 setValue(String.valueOf(itemId));

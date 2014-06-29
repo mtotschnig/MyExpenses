@@ -85,19 +85,31 @@ public class Account extends Model {
   PROJECTION_EXTENDED = new String[baseLength+1];
   System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
   PROJECTION_EXTENDED[baseLength] =
-      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM
-        + " AND (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-        + SPLIT_CATID + ") AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) as " + KEY_CURRENT_BALANCE;
-  PROJECTION_FULL = new String[baseLength+6];
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
+      + " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE;
+  PROJECTION_FULL = new String[baseLength+11];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
-  PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM
-      + " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
-  PROJECTION_FULL[baseLength+2] = "(" + SELECT_AMOUNT_SUM
-      + " AND " + WHERE_EXPENSE  + ") AS " + KEY_SUM_EXPENSES;
-  PROJECTION_FULL[baseLength+3] = "(" + SELECT_AMOUNT_SUM
-      + " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS;
-  PROJECTION_FULL[baseLength+4] = KEY_USAGES;
-  PROJECTION_FULL[baseLength+5] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
+  PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
+      " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
+  PROJECTION_FULL[baseLength+2] = "(" + SELECT_AMOUNT_SUM +
+      " AND " + WHERE_EXPENSE  + ") AS " + KEY_SUM_EXPENSES;
+  PROJECTION_FULL[baseLength+3] = "(" + SELECT_AMOUNT_SUM +
+      " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS;
+  PROJECTION_FULL[baseLength+4] =
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART +
+      " ) AS " + KEY_TOTAL;
+  PROJECTION_FULL[baseLength+5] =
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART +
+      " AND " + KEY_CR_STATUS + " IN " +
+          "('" + CrStatus.RECONCILED.name() + "','" + CrStatus.CLEARED.name() + "')" +
+      " ) AS " + KEY_CLEARED_TOTAL;
+  PROJECTION_FULL[baseLength+6] =
+      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART +
+      " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'  ) AS " + KEY_RECONCILED_TOTAL;
+  PROJECTION_FULL[baseLength+7] = KEY_USAGES;
+  PROJECTION_FULL[baseLength+8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
+  PROJECTION_FULL[baseLength+9] = HAS_FUTURE;
+  PROJECTION_FULL[baseLength+10] = HAS_CLEARED;
   }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
@@ -452,7 +464,7 @@ public class Account extends Model {
     Account account = getInstanceFromDb(id);
     if (account == null)
       return false;
-    account.deleteAllTransactions();
+    account.deleteAllTransactions(false);
     account.deleteAllTemplates();
     accounts.remove(id);
     return cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
@@ -536,17 +548,24 @@ public class Account extends Model {
   /**
    * @return the sum of opening balance and all transactions for the account
    */
-  public Money getTotalBalance() {
+  public Money getTotalBalance(boolean reconciled) {
     return new Money(currency,
-        openingBalance.getAmountMinor() + getTransactionSum()
+        openingBalance.getAmountMinor() + getTransactionSum(reconciled)
     );
   }
   /**
    * @return sum of all transcations
    */
-  public long getTransactionSum() {
+  public long getTransactionSum(boolean reconciled) {
+    String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
+    if (reconciled) {
+      selection += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    }
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
-        new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?", new String[] { String.valueOf(id) }, null);
+        new String[] {"sum(" + KEY_AMOUNT + ")"},
+        selection,
+        new String[] { String.valueOf(id) },
+        null);
     c.moveToFirst();
     long result = c.getLong(0);
     c.close();
@@ -554,20 +573,23 @@ public class Account extends Model {
   }
   /**
    * deletes all expenses and set the new opening balance to the current balance
+   * @param reconciled if true only reconciled expenses will be deleted
    */
-  public void reset() {
-    long currentBalance = getTotalBalance().getAmountMinor();
+  public void reset(boolean reconciled) {
+    long currentBalance = getTotalBalance(reconciled).getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
     args.put(KEY_OPENING_BALANCE,currentBalance);
     cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
         null, null);
-    deleteAllTransactions();
+    deleteAllTransactions(reconciled);
   }
   public void markAsExported() {
     ContentValues args = new ContentValues();
     args.put(KEY_STATUS, STATUS_EXPORTED);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args, "account_id = ? and parent_id is null", new String[] { String.valueOf(id) });
+    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
+        KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null",
+        new String[] { String.valueOf(id) });
   }
 
   /**
@@ -610,21 +632,29 @@ public class Account extends Model {
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction
-   * also takes care of templates
+   * @param reconciled 
    */
-  public void deleteAllTransactions() {
+  public void deleteAllTransactions(boolean reconciled) {
+    String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
+    if (reconciled) {
+      rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    }
     String[] selectArgs = new String[] { String.valueOf(id) };
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
+        KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
+        selectArgs);
     cr().delete(
         TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-        KEY_TRANSACTIONID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?)",
+        KEY_TRANSACTIONID + " IN (" + rowSelect + ")",
         selectArgs);
-    cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+    cr().delete(
+        TransactionProvider.TRANSACTIONS_URI,
+        KEY_ROWID + " IN (" + rowSelect + ")",
+        selectArgs);
   }
   public void deleteAllTemplates() {
     String[] selectArgs = new String[] { String.valueOf(id) };
@@ -956,5 +986,21 @@ public class Account extends Model {
     if (type != other.type)
       return false;
     return true;
+  }
+  /**
+   * mark cleared transactions as reconciled
+   * @param resetP if true immediately delete reconciled transactions
+   * and reset opening balance 
+   */
+  public void balance(boolean resetP) {
+    ContentValues args = new ContentValues();
+    args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
+    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
+        KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
+            KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
+        new String[] { String.valueOf(id) });
+    if (resetP) {
+      reset(true);
+    }
   }
 }

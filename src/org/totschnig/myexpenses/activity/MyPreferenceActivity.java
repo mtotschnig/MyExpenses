@@ -34,6 +34,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
@@ -217,6 +218,22 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         .setView(view)
         .setPositiveButton(android.R.string.ok,null)
         .create();
+    case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
+      return new AlertDialog.Builder(this)
+      .setTitle(R.string.dialog_title_attention)
+      .setMessage(R.string.planner_setup_info_create_new_warning)
+      .setNegativeButton(android.R.string.cancel, null)
+      .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+        //TODO: use Async Task Strict Mode violation
+        boolean success = MyApplication.getInstance().createPlanner();
+        Toast.makeText(
+            MyPreferenceActivity.this,
+            success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+            Toast.LENGTH_LONG).show();
+          }
+       })
+      .create();
     }
     return null;
   }
@@ -298,7 +315,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       Bundle extras = new Bundle();
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-      addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.create_transaction_icon,extras);
+      addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.shortcut_create_transaction_icon,extras);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER)) {
@@ -306,7 +323,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-      addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.create_transfer_icon,extras);
+      addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.shortcut_create_transfer_icon,extras);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT)) {
@@ -314,7 +331,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
-      addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.create_split_icon,extras);
+      addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.shortcut_create_split_icon,extras);
       return true;
     }
     return false;

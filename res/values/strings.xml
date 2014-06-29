@@ -54,6 +54,8 @@
     <string name="decimal_separator">Decimal separator</string>
     <string name="default_account_description">This account was set up automatically during installation</string>
     <string name="description">Description</string>
+    <string name="dialog_balance_delete">Delete reconciled transactions</string>
+    <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
     <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
     <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
@@ -88,6 +90,8 @@
     <!-- Label for button that opens preferences for selecting an existing calendar -->
     <string name="dialog_setup_planner_button_select_existing">Select existing</string>
     <string name="dialog_title_attention">Attention</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
@@ -149,6 +153,8 @@
     <string name="menu_apply_template">Apply</string>
     <string name="menu_back">Back</string>
     <string name="menu_backup">Backup</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">Balance account</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Cancel</string>
     <string name="menu_clone_transaction">Clone</string>
@@ -258,6 +264,7 @@
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
     <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
     <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
+    <string name="planner_setup_info_create_new_warning">Attention: Local calendars have been reported to not work reliably on some devices. If your plans do not work with a dedicated local calendar, please rather select a calendar that you have set up in your Calendar App.</string>
     <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
     <!-- payment methods -->
     <string name="pm_cheque">Cheque</string>
@@ -351,6 +358,7 @@
     <string name="progress_dialog_create_plan">Creating new plan …</string>
     <string name="progress_dialog_deleting">Deleting objects …</string>
     <string name="progress_dialog_loading">Loading object from database …</string>
+    <string name="progress_dialog_saving">Saving object to database …</string>
     <string name="progress_dialog_setup">Database is initialized …</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
@@ -394,6 +402,8 @@
     <string name="thank_you">Thank you for your support!</string>
     <string name="time">Time</string>
     <string name="title">Title</string>
+    <string name="total_cleared">Cleared total</string>
+    <string name="total_reconciled">Reconciled total</string>
     <string name="transaction">Transaction</string>
     <string name="transfer">Transfer</string>
     <string name="transfer_from_account">From</string>
@@ -420,6 +430,8 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
+    <string name="warning_delete_reconciled">Deleting reconciled transactions will cause your records to differ from the bank statement.</string>
+    <string name="warning_balance_account">Please compare the cleared total with the ending balance in your bank statement. If you proceed, cleared transactions will be marked as reconciled.</string>
     <string name="warning_password_protected">App is password protected.</string>
     <string name="warning_widget_disabled">You need to enable this widget in the app settings.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Quick instantiation of templates from this widget only works if you allow data entry from widgets without password in the app settings.</string>

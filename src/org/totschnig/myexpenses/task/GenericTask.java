@@ -138,21 +138,14 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return null;
     case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
-      t = Transaction.getInstanceFromDb(ids[0]);
-      if (t != null) {
-        switch (t.crStatus) {
-        case CLEARED:
-          t.crStatus = CrStatus.RECONCILED;
-          break;
-        case RECONCILED:
-          t.crStatus = CrStatus.UNRECONCILED;
-          break;
-        case UNRECONCILED:
-          t.crStatus = CrStatus.CLEARED;
-          break;
-        }
-        t.save();
-      }
+      cr = MyApplication.getInstance().getContentResolver();
+      cr.update(
+          TransactionProvider.TRANSACTIONS_URI
+            .buildUpon()
+            .appendPath(String.valueOf(ids[0]))
+            .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+            .build(),
+          null, null, null);
       return null;
     case TaskExecutionFragment.TASK_MOVE:
       Transaction.move(ids[0], (Long) mExtra);
@@ -203,6 +196,9 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }
       return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
+    case TaskExecutionFragment.TASK_BALANCE:
+      Account.getInstanceFromDb(ids[0]).balance((Boolean)mExtra);
+      return null;
     }
     return null;
   }

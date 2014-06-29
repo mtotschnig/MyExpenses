@@ -29,17 +29,18 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 
 import com.android.calendar.CalendarContractCompat;
@@ -65,7 +66,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
@@ -243,11 +243,18 @@ public class ExpenseEdit extends AmountActivity implements
       public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View row = super.getDropDownView(position, convertView, parent);
         setColor(position,row);
+        row.findViewById(android.R.id.text1).setEnabled(isEnabled(position));
         return row;
       }
       private void setColor(int position, View row) {
         View color = row.findViewById(R.id.color1);
         color.setBackgroundColor(getItem(position).color);
+      }
+      @Override
+      public boolean isEnabled(int position) {
+        //if the transaction is reconciled, the status can not be changed
+        //otherwise only unreconciled and cleared can be set
+        return mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
       }
     };
     sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
@@ -759,9 +766,7 @@ public class ExpenseEdit extends AmountActivity implements
       //since we reset the plan to null in that case
       mManager.destroyLoader(EVENT_CURSOR);
       mIsSaving = true;
-      getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
-        .commit();
+      startDbWriteTask(true);
       if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
         SharedPreferences.Editor e = MyApplication.getInstance().getSettings().edit();
         switch (mOperationType) {
@@ -989,7 +994,7 @@ public class ExpenseEdit extends AmountActivity implements
       //unable to create new plan, inform user
       if (mPlanId == null) {
         MessageDialogFragment.Button createNewButton;
-        int message;
+        String message;
         int selectButtonLabel;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
           createNewButton =
@@ -997,11 +1002,11 @@ public class ExpenseEdit extends AmountActivity implements
                     R.string.dialog_setup_planner_button_create_new,
                     R.id.CREATE_COMMAND,
                     null);
-          message = R.string.planner_setup_info_jb;
+          message = Utils.concatResStrings(this, R.string.planner_setup_info_jb,R.string.planner_setup_info_create_new_warning);
           selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
         } else {
           createNewButton = null;
-          message = R.string.planner_setup_info;
+          message = getString(R.string.planner_setup_info);
           selectButtonLabel = android.R.string.yes;
         }
         MessageDialogFragment.newInstance(
@@ -1220,6 +1225,9 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    if (data == null) {
+      return;
+    }
     int id = loader.getId();
     switch(id) {
     case PAYEES_CURSOR:

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivityNoAppCompat;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import android.annotation.SuppressLint;
@@ -111,6 +110,12 @@ public abstract class ImportSourceDialogFragment extends DialogFragment
     } catch (ActivityNotFoundException e) {
         // No compatible file manager was found.
         Toast.makeText(getActivity(), R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
+    } catch(SecurityException ex) {
+      Toast.makeText(getActivity(),
+          String.format(
+              "Sorry, this destination does not accept %s request. Please select a different one.",intent.getAction()),
+          Toast.LENGTH_SHORT)
+        .show();
     }
   }
 

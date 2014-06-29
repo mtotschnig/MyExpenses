@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Model;
@@ -171,6 +172,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag("SAVE_TASK"));
+    t.remove(m.findFragmentByTag("PROGRESS"));
     t.commitAllowingStateLoss();
   }
   
@@ -184,6 +186,13 @@ public class ProtectedFragmentActivity extends ActionBarActivity
    */
   public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
     getProtection().startTaskExecution(taskId,objectIds,extra,progressMessage);
+  }
+  
+  public void startDbWriteTask(boolean returnSequenceCount) {
+    getSupportFragmentManager().beginTransaction()
+    .add(DbWriteFragment.newInstance(returnSequenceCount), "SAVE_TASK")
+    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
+    .commit();
   }
   
   /**

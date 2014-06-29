@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
@@ -38,7 +39,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -252,6 +252,6 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   public boolean splitComplete() {
-    return unsplitAmount.getAmountMinor() == 0L;
+    return unsplitAmount != null && unsplitAmount.getAmountMinor() == 0L;
   }
 }

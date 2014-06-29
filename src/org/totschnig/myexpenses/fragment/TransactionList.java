@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -38,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -58,10 +60,10 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -236,8 +238,9 @@ public class TransactionList extends BudgetListFragment implements
          FragmentManager fm = ctx.getSupportFragmentManager();
          DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
          if (f == null) {
-           f = TransactionDetailFragment.newInstance(id);
-           f.show(fm, "TRANSACTION_DETAIL");
+           FragmentTransaction ft = getFragmentManager().beginTransaction();
+           ft.add(TransactionDetailFragment.newInstance(id),"TRANSACTION_DETAIL");
+           ft.commitAllowingStateLoss();
          }
        }
     });
@@ -250,9 +253,27 @@ public class TransactionList extends BudgetListFragment implements
     FragmentManager fm = getActivity().getSupportFragmentManager();
     switch(command) {
     case R.id.DELETE_COMMAND:
+      boolean hasReconciled = false;
+      if (mAccount.type != Type.CASH) {
+        for (int i=0; i<positions.size(); i++) {
+          mTransactionsCursor.moveToPosition(i);
+          try {
+            if (CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus))==CrStatus.RECONCILED) {
+              hasReconciled = true;
+              break;
+            }
+          } catch (IllegalArgumentException ex) {
+            continue;
+          }
+        }
+      }
+      String message = getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length);
+      if (hasReconciled) {
+        message += " " + getString(R.string.warning_delete_reconciled);
+      }
       MessageDialogFragment.newInstance(
           R.string.dialog_title_warning_delete_transaction,
-          getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length),
+          message,
           new MessageDialogFragment.Button(
               R.string.menu_delete,
               R.id.DELETE_COMMAND_DO,
@@ -313,7 +334,7 @@ public class TransactionList extends BudgetListFragment implements
     String[] selectionArgs;
     if (mAccount.id < 0) {
       selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       selectionArgs = new String[] {mAccount.currency.getCurrencyCode()};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
@@ -323,7 +344,7 @@ public class TransactionList extends BudgetListFragment implements
     case TRANSACTION_CURSOR:
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
-          uri, null, selection + " AND parent_id is null",
+          uri, null, selection + " AND " + KEY_PARENTID + " is null",
           selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
@@ -331,7 +352,7 @@ public class TransactionList extends BudgetListFragment implements
       cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES},
-          selection + " AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ")",
+          selection + " AND " + WHERE_NOT_SPLIT,
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
@@ -670,7 +691,7 @@ public class TransactionList extends BudgetListFragment implements
           status = CrStatus.UNRECONCILED;
         }
         viewHolder.color1.setBackgroundColor(status.color);
-        viewHolder.colorContainer.setTag(getItemId(position));
+        viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
       }
       return convertView;
     }

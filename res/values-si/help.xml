@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">ලේඛන නියෝග</string>
+  <string name="help_contextual_actions">සන්දර්භානුගත ක්‍රියා</string>
+  <string name="cab_delete_help_text">තෝරා ඇති අයිතම මකා දමන්න.</string>
+  <string name="cab_edit_help_text">තෝරා ඇති අයිතම සංස්කරණය කරන්න</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">ගනුදෙනු ලැයිස්තුව</string>
+  <string name="help_MyExpenses_info">ජංගම ගිණුමෙහි සියලු ගනුදෙනු මෙම තිරයේ දිස් වේ. නැවිගේෂන් තීරය හරහා ගිණුම් ලැයිස්තුවට යාත්‍රා කිරීමට හෝ වෙනත් ගිණුමක් තෝරාගත හැක. ලැයිස්තුවෙහි සටහනක් ක්ලික් කර එය සංස්කරණය කල හැක.</string>
+  <string name="help_MyExpenses_crStatus_info">ගනුදෙනුවේ තත්ත්වය වර්ණ කොටුවකින් පෙන්නුම් කරයි: සසඳා නොවූ ගනුදෙනු අළු පාටින් ද, පූර්ණ බව නිල් පැහැයෙන්ද, සැසඳූ ගනුදෙනු කොළ පැහැයෙන්ද පෙන්නුම් කරයි. තත්ත්වය වෙනස් කිරීමට කොටුව මත ක්ලික් කරන්න.</string>
+  <string name="menu_create_transaction_help_text">නව ගනුදෙනුවක් සටහන් කිරීමේ පෝරමය විවෘත වේ.</string>
+  <string name="menu_create_transfer_help_text">ගිනුම් අතරෙහි මුදල් මාරු වීම. මෙම නියෝගය පැවරීම සඳහා ජංගම ගිනුමේ ව්‍යවහාර මුදල් සහිත තවත් එක් ගිනුමක් හෝ තිබිය යුතුයි. </string>
+  <string name="menu_create_split_help_text">කොටස් වශයෙන් මුදල් විවිධ ගණයට නියම කිරීමට හෝ වෙනත් ගිනුම් වලට මාරු කිරීමට විශේදණය වූ ගනුදෙනුවක් ඉඩ සලසයි.</string>
+  <string name="menu_reset_help_text">මෙම නියෝගය මඟින් ජංගම ගිනුමේ සියලු ගනුදෙනු ගෙන SD කාඩ් හි එක ගොනුවක QIF හෝ CSV ආකෘතියෙන් සකසයි. එම ගනුදෙනු මකා දැමීමට ඔබට තීරණය කල හැක, එම අවස්ථාවේදී ඉදිරියට ගෙන ආ ශේෂය ස්වයංක්‍රීයව ගළපයි. එසේම, ගනුදෙනු මකා දමා නැති අවස්ථාවක එය නිර්යාත කල බවට සලකුණු කරයි. මයි එක්ස්පෙන්සස් මඟින් නිර්යාත කල ගොනුවක්  එකෙනෙහිම FTP , විද්‍යුත් තැපෑල හෝ වෙනත් බෙදා හැරීමේ පද්ධතියක් මඟින් බෙදා හැරීමට හැක. එය කිරීමට සෙටින්ග්ස් රිසි සේ හැඩගසා තිබිය යුතුයි.</string>
+  <string name="menu_edit_account_help_text">ජංගම ගිණුමහි විශේෂාංග සැකසීම (නම, විස්තරය, ඉදිරියට ගෙන ආ ශේෂය, ගිණුම් වර්ගය, මුදල් වර්ගය, වර්ණය)</string>
+  <string name="menu_grouping_help_text">දිනය, සතිය, මාසය හෝ වර්ශයට අනුව ගනුදෙනු ඛාණ්ඩ කල හැක. සැම ඛාණ්ඩයකටම මුළු ආදායම්, වියදම් හා මාරු කිරීම් ගණනය කර විදහා පෙන්වයි. </string>
+  <string name="menu_distribution_help_text">කාණ්ඩයකට විභාජනය වී ඇති වියදම් විදහා පෙන්වයි. කණ්ඩායම් ශීර්ශය මත ක්ලික් කිරීමෙන් එක් කණ්ඩායමක ඇති විභාජනය පරීක්ෂා කල හැක.</string>
+  <string name="menu_manage_plans_help_text">ජංගම ගිණුමට අයත් සැලසුම් හා ක්‍රම ලේඛ්නයක් විවෘත වේ, මෙය ඔබට අදාල කර ගැනීමට හෝ සංස්කරණය කිරීමට හෝ මැකීමට හා නව හෝ නැවතත් ඇති වන ගනුදෙනු අර්ථ ගැන්වීමට යොදා ගත හැක. </string>
+  <string name="menu_create_account_help_text">නව ගිණුමක් තැනීමේ පෝරමය විවෘත කරයි. </string>
+  <string name="cab_create_template_from_transaction_help_text">තෝරා ඇති ගනුදෙනුවට අනුව නව සැලැස්මක් අර්ථ ගන්වන්න. සැලැස්මේ නම සඳහා ඔබට ඉඟියක් ලබා දෙයි.</string>
+  <string name="cab_clone_transaction_help_text">තෝරා ඇති ගනුදෙනුව එම මොහොතේ වේලාව හා දිනය සමඟ ක්ලෝනය වේ.</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">මෙම තිරයේ පෙර අර්ථ දැක්වූ ගෙවීමේ ක්‍රම (චෙක්පත්, ණය පත්, තැන්පතු,ඍජු හර ) ලැයිස්තු ගත කර නව ක්‍රම නියම කිරීමට ඉඩ සලසයි. ලැයිස්තු සටහනක ක්ලික් කිරීමෙන් ක්‍රමය හා ගිණුම් වර්ගය අතර ඇති සම්බන්දතාවය වෙනස් කල හැක. </string>
+  <string name="menu_create_method_help_text">නව ගෙවීමේ ක්‍රමයක් සෑදීමේ පෝරමය විවෘත කරයි.</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">ගෙවන්නා/ආදායකයා යන ස්ථාන ස්වයංක්‍රීයව පිරවීමට යොදා ගන්නා පක්ෂ මෙම තිරයේ ලැයිස්තු ගත කරයි. </string>
+  <string name="menu_create_party_help_text">ගෙවන්නා හා ආදායකයාගේ නම සඳහන් කිරීමේ සංවාද විවෘත වේ.</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">මෙම තීරුව මඟින් ඇති සියළු සැලසුම් ලැයිස්තු ගත කරයි. ගනුදෙනුවක සන්දර්භ ලේඛනයෙන් සැලසුමක් ගත හැකි වුනත් මෙහිදී මුළ සිට ඔබට සැලසුමක් නිර්මාණය කල හැක (ගනුදෙනු හෝ හුවමාරු ).</string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[ක්‍රමයක් යනු යම් සිදුවීමකට ( එක් වරකට හෝ නැවතත් ඇති වන )සැලසුම් දර්ශකයේ නිර්මාණය වූ සැලසුමකි. මෙම තීරුවේ සියළු ක්‍රම ලැයිස්තු ගත කෙරේ.ක්‍රම සටහනක් ප්‍රසාරණය කල විට ඉදිරියට ඇති සිද්ධීන් ලැයිස්තු ගත කරයි. යම් සිද්ධියක් සිදු වූ විට එන නිවේදනය එන තෙක් බලා නොසිට මෙම සිද්ධීන් ඉදිරියේදී ඇතිවීමට නියම කිරීමට තීරණය කල හැක, එය සන්දර්භ ලේඛනයේ විවිධ විධාන මඟින් ගනුදෙනු ලැයිස්තුවේ පෙන්නුම් කල හැක. සිද්ධියක තත්ත්වය මෙසේ පෙන්විය හැක:<br><img src="ic_stat_open">සිද්ධිය තවම අදාල කර නොමැත.<br><img src="ic_stat_cancelled"> සිද්ධිය අවලංගු කර ඇත, එනම් එය මඟ හැරීමට සලකුණු කර ඇත. මෙම සිද්ධියට ගනුදෙනු සකසා නොමැත.]]></string>
+  <string name="menu_create_template_for_transaction_help_text">ගනුදෙනුවකට නව සැලසුමක් හෝ ක්‍රමයක් සැකසීම.</string>
+  <string name="menu_create_template_for_transfer_help_text">හුවමාරුවකට නව සැලසුමක් හෝ ක්‍රමයක් සැකසීම.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">තෝරා ගත් සැලසුම් ක්ෂණයෙන් සිදුවන්නක් කර එය සුරැකීම.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">තෝරා ගත් සැලසුම් ක්ෂණයෙන් සිදුවන්නක් කර එය අවශ්‍ය ස්ථාන සංස්කරණය කර එය සුරැකීම</string>
+  <string name="cab_ManageTemplates_delete_help_text">තෝරා ගත් සැලසුම් හා ඊට සම්බඳ ක්‍රම මකා දැමීම.</string>
+  <string name="cab_ManageTemplates_edit_help_text">තෝරා ගත් සැලසුම් සංස්කරණය කර ඊට සම්බඳ ක්‍රම සැකසීම හෝ සංස්කරණය කිරීම.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදීම ගනුදෙනුව සකසා සැණින් සුරැකීම.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදීම ගනුදෙනුව සකසා අවශ්‍ය ස්ථාන සංස්කරණය කර සැණින් සුරැකීම.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සැකසීමට නොහැකි බව දක්වන්න.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සකසා තිබේ නම් එය මකා දැමේ, අවලංගු කිරීමට සලකුණු දමා තිබේ නම් ඒවා මකා දැමේ.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">තෝරා ගත් සිද්ධි අවස්ථාවේ ගනුදෙනුවක් සංස්කරණය කිරීම.</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">ගිණුමක ඇති සියළු ගනුදෙනු හෝ එක් කාණ්ඩයක විභාජනය වූ එක් එක් වර්ගයන්ට අදාල ආදායම් හා වියදම් මෙම තිරයෙන් දිස් වේ.</string>
+  <string name="help_ManageCategories_select_info">ප්‍රෙෆරන්ස් තිරය (තැනීම, සංස්කරණය, මැකීම් ) හරහා කාණ්ඩ පාලන කිරීමේ ක්‍රියා වලට අමතරව තෝරාගත් කාණ්ඩයකට ගනුදෙනුවක් තිරය මත අනුරූපනය කල හැක. අනුකාණඩයක් මත ක්ලික් කිරීමෙන් එය ජංගම ගනුදෙනුව අනුරූපනය කිරීමට තෝරා ගනියි. ප්‍රධාන කාණ්ඩයක් අනුරූපනය කිරීම සඳහා එහි සංදර්භ ලේඛනය තෝරා ගත යුතුයි. </string>
+  <string name="help_ManageCategories_manage_info">මෙම තිරය මඟින් කාණ්ඩ තැනීම, සංස්කරණය, මැකීම කල හැක.  පැහැරහැරීමේදී, කාණ්ඩ ලැයිස්තුවේ මූලික වර්ග උපමාන ගණන කාණ්ඩායක් භාවිතා කිරීමේ ගණනට සමාන වේ(ද්වීතීක උපමානය වනුයේ අකාරාදී පිළිවෙළයි ) . මෙය ඔබ වැඩියෙන්ම භාවිතා කරන කාණ්ඩය ඉතා ඉක්මනින් ප්‍රවේශ වීමට උදව් වෙයි. අකාරාදී පෙළිවෙළට කාණ්ඩ සැකසීමට සෙටින්ග්ස් මඟින් තෝරා ගත හැක. ප්‍රධාන කාණ්ඩයක් මත ක්ලික් කිරීමෙන් එහි අනුඛාණ්ඩ විවෘත වේ.  ප්‍රධාන කාණ්ඩයේ සංදර්භ ලේඛනය මඟින් ඔබට නව අනුකාණ්ඩ සැකසීමටත් කාණ්ඩ මැකීමට හෝ සංස්කරනය කල හැක.  අනුකාණ්ඩ මැකීමට හා සංස්කරනයට සංදර්භ ලේඛන තිබේ. </string>
+  <string name="menu_create_main_cat_help_text">නව ප්‍රධාන කාණ්ඩයේ නම නියම වශයෙන් සඳහන් කිරීමේ සංවාදය විවෘත වේ. </string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">කණ්ඩායම්කරනයේ වර්ග ස්ථාවර කර දිනට, මසකට, සතියකට හෝ වර්ශයට විභාජනය විදහා දැක්වීම.</string>
+  <string name="menu_back_help_text">පෙර කණ්ඩායමට ගමන් කිරීම. මෙය වමේ සිට දකුණට සර්පණ අංගහාරයෙන් කල හැක. </string>
+  <string name="menu_forward_help_text">ඊළඟ කණ්ඩායමට ගමන් කිරීම. මෙය දකුණේ සිට වමට සර්පණ අංගහාරයෙන් කල හැක. </string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">තෝරා ගත් කාණ්ඩය යටතේ ඇති අනුකාණ්ඩයක නම සටහන් කිරීමේ සංවාදය විවෘත වේ.</string>
+  <string name="cab_ManageCategories_select_category_help_text">තෝරා ගත් කාණ්ඩය ගනුදෙනුවකට අනුරූපනය කර ගනුදෙනු පෝරමයට නැවත පිවිසෙන්න.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">ගනුදෙනු සඳහා පෝරමය</string>
+  <string name="help_ExpenseEdit_transfer_title">මුදල් හුවමාරුව සඳහා පෝරමය</string>
+  <string name="help_ExpenseEdit_template_title">සැලැස්ම සඳහා පෝරමය</string>
+  <string name="help_ExpenseEdit_split_title">විභේදනය සඳහා පෝරමය</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">කාණ්ඩ කොටස් කිරීම සඳහා පෝරමය</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">විභේදනය කෙරූ කොටස්  සඳහා පෝරමය</string>
+  <string name="help_ExpenseEdit_info">= බොත්තම මත ක්ලික් කිරීමෙන් ගණකයන්ත්‍රය විවෘත වේ.</string>
+  <string name="help_ExpenseEdit_transaction_info">- බොත්තම මත ක්ලික් කිරීමෙන් ආදායම් හා වියදම් මත පුරුකක් සෑදේ.  ආදායකයා (හෝ ගෙවන්නා) ස්ථාන ඇතුලත් කරන අගය ධාරණය කර එය ඉදිරියේදී යෝජනා කරයි. ගෙවීමේ ක්‍රමය තෝරා ගැනීමේ බොත්තම ලැබිය හැක්කේ ජංගම ගිනුම යම් ගෙවීමේ ක්‍රමයකට සම්බන්ධ කර ඇති නම් පමණි. සාමාන්‍යයෙන් ගෙවීමේ ක්‍රමයට සම්බන්ධ කර ඇත්තේ බැංකු ගිනුම් පමණයි (චෙක්පත්, ණය පත්, තැන්පතු,ඍජු හර )</string>
+  <string name="help_ExpenseEdit_transfer_info">පහළට හෙලනා ලේඛනය මඟින් හුවමාරු කිරීමේ ගිනුම තෝරා ගැනීම.</string>
+  <string name="help_ExpenseEdit_template_info"><![CDATA[- බොත්තම මත ක්ලික් කිරීමෙන් ආදායම් හා වියදම් මත පුරුකක් සෑදේ.සැලැස්ම හඳුනා ගැනීමට නමක් යොදන්න.<h2>ක්‍රම</h2>සැලසුමකට ක්‍රමයක් නිම වූ විට එය දින දර්ශක පද්ධතියක් මඟින් ක්‍රියාත්මක වන පුද්ගලික දින දර්ශනයට ඇතුලත් වේ. ක්‍රමය එක් දිනකට පමණක් හෝ නැවත නැවත ඇතිවන්නක් බවට අර්ථ ගැන්විය හැක. ඔබට ක්‍රම බොත්තම මඟින් ක්‍රමය සැකසීමට, සංස්කරණය කිරීමට හෝ මැකීමට පුළුවන, එහෙත් ක්‍රමය නියත් කල විට එය පාලනය කිරීමට දින දර්ශක පද්ධතිය භාවිතා කල හැක. ක්‍රමය ස්වයංක්‍රීය හෝ කායික ලෙස ක්‍රියා කරන්නක් විය හැක. එය ස්වයංක්‍රීය ක්‍රමයක් වූ විට ගනුදෙනුව සැකසී ඔබට දැනුම්දීමක් ලැබේ. එය ස්වයංක්‍රීය ක්‍රමයක් නොවූ විට ඔබට දැනුම්දීමක් ලැබේ, එහෙත් ඔබට අවලංගු කිරීමට, සංස්කරණය කිරීමට හෝ සැලැස්ම අදාල කිරීමේ තීරණය ගැනීමට හැක.]]></string>
+  <string name="help_ExpenseEdit_split_info">ලේඛන නියෝග හරහා කාණ්ඩ හා හුවමාරු විභේදනයට, විභේදනය වූ කොටස් ඇතුලත් කල හැක. විභේදනය වූ කොටස් හා කාණ්ඩ හා හුවමාරුවලට තවමත් නියම කල නැති අගයන්  තිරයේ පහළ කොටසේ දිස් වේ. ඔබට සුරැකිය හැක්කේ ගනුදෙනු අගය නියම කර ඇති විභේදනය වූ ගනුදෙනු පමණි.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">විභේදනය වූ කොටස සඳහා ඛාණ්ඩයක් තේරීම.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">විභේදනය වූ කොටස සඳහා හුවමාරු ගිණුමක් තෝරා ගන්න.</string>
+  <string name="menu_create_split_part_category_help_text">විභේදනයේ කොටසක් කාණ්ඩයට නියම කිරීමේ පෝරමය විවෘත වේ.</string>
+  <string name="menu_create_split_part_transfer_help_text">විභේදනයේ කොටසක් වෙනත් ගිණුමකට හුවමාරුවක් ලෙස අර්ථ ගැන්වීමේ පෝරමය විවෘත වේ.</string>
+  <string name="menu_save_help_text">දත්ත සුරක්ෂිත කර පෝරමය වසා දමන්න.</string>
+  <string name="menu_save_and_new_help_text">දත්ත සුරක්ෂිත කර, එම දත්ත යොදා ගෙන නව ගනුදෙනුවක් සෑදීමට පෝරමය විවෘතව තබන්න.</string>
+  <string name="menu_invert_transfer_help_text">යවන්නා හා ලැබෙන්නා යන ගිණුම් මාරු කර හුවමාරුවක දිශාව යටිකුරු කිරීම.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">ගිණුම් සඳහා පෝරමය.</string>
+  <string name="help_AccountEdit_info">ගිණුමක් හඳුනා ගන්නේ එහි ලේබලයෙනි, විස්තරයෙන් වන්නේ තොරතුරු දැක්වීමකි. ව්‍යවහාර මුදල්, ලැයිස්තුවකින් ඉතා පහසුවෙන් තෝරා ගත හැක. මුදල්, බැංකු, වත්කම්, වගකීම්, ණය පත් ලෙස ගිණුම් වර්ග නම් කල හැක. සෙටින්ග්ස්, පාලනය කරන්න, ගෙවීමේ ක්‍රමය මඟින් හැඩගසා ගත හැකි ගෙවීමේ ක්‍රමය රඳා පවතින්නේ ගිණුම් වර්ගය මතයි.</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">ගෙවීමේ ක්‍රමය සඳහා පෝරමය.</string>
+  <string name="help_MethodEdit_info">මෙම තිරයේ දී ඔබ ගිණුම් වර්ග සමඟ ගෙවීමේ ක්‍රමයක් සම්බන්ඳ කල හැක. ඔබට ලේබලයක් අර්ථ ගැන්වීමට හැක (පෙර අර්ථ ගන්වා ඇති ස්ථිර ලේබලයක් සහිත රීති සංස්කරණය කල නොහැක.) රීතියේ වර්ගයට අනුව එය වියදම්(හර ), ආදායම් (බැර ) හෝ දෙවර්ගය (මධ්‍යස්ථ )ද යන්න ඔබට තීරණය කල හැක. මෙම ක්‍රමය භාවිතා කරන ගනුදෙනු අංකිත නම් එය ලකුණු කල හැක (උ.දා අංක බලන්න )</string>
+</resources>

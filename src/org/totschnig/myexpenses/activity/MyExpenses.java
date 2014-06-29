@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
@@ -48,6 +49,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -83,7 +85,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -188,7 +189,10 @@ public class MyExpenses extends LaunchActivity implements
         KEY_SUM_INCOME,
         KEY_SUM_EXPENSES,
         KEY_SUM_TRANSFERS,
-        KEY_CURRENT_BALANCE
+        KEY_CURRENT_BALANCE,
+        KEY_TOTAL,
+        KEY_CLEARED_TOTAL,
+        KEY_RECONCILED_TOTAL
     };
     // and an array of the fields we want to bind those fields to
     int[] to = new int[]{
@@ -198,7 +202,10 @@ public class MyExpenses extends LaunchActivity implements
         R.id.sum_income,
         R.id.sum_expenses,
         R.id.sum_transfer,
-        R.id.current_balance
+        R.id.current_balance,
+        R.id.total,
+        R.id.cleared_total,
+        R.id.reconciled_total
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
     mDrawerList.setAdapter(mDrawerListAdapter);
@@ -324,7 +331,17 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
+    boolean showBalanceCommand = false;
+    if (mAccountId > 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
+      try {
+        if (Type.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
+            != Type.CASH) {
+          showBalanceCommand = true;
+        }
+      } catch (IllegalArgumentException ex) {}
+    }
     menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
+    menu.findItem(R.id.BALANCE_COMMAND).setVisible(showBalanceCommand);
     menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
         mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
@@ -481,6 +498,34 @@ public class MyExpenses extends LaunchActivity implements
       }
       else {
         CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
+      }
+      return true;
+    case R.id.BALANCE_COMMAND:
+      tl = getCurrentFragment();
+      if (tl != null && hasCleared()) {
+        mAccountsCursor.moveToPosition(mCurrentPosition);
+        Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
+        Bundle bundle = new Bundle();
+        bundle.putLong(KEY_ROWID,
+            mAccountsCursor.getLong(columnIndexRowId));
+        bundle.putString(KEY_LABEL,
+            mAccountsCursor.getString(columnIndexLabel));
+        bundle.putString(KEY_RECONCILED_TOTAL,
+            Utils.formatCurrency(
+                new Money(currency,
+                    mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_RECONCILED_TOTAL)))));
+        bundle.putString(KEY_CLEARED_TOTAL, Utils.formatCurrency(
+            new Money(currency,
+                mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CLEARED_TOTAL)))));
+        BalanceDialogFragment.newInstance(bundle)
+            .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
+      } else {
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            R.string.dialog_command_disabled_balance,
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
     case R.id.RESET_COMMAND:
@@ -805,11 +850,14 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
   public void toggleCrStatus (View v) {
-    startTaskExecution(
-        TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-        new Long[] {(Long) v.getTag()},
-        null,
-        0);
+    Long id = (Long) v.getTag();
+    if (id != -1) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+          new Long[] {id},
+          null,
+          0);
+    }
   }
   /**
    * @return true if for the current Account there is a second account
@@ -841,6 +889,13 @@ public class MyExpenses extends LaunchActivity implements
       return false;
     mAccountsCursor.moveToPosition(mCurrentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_EXPORTED)) > 0;
+  }
+  private boolean hasCleared() {
+    //in case we are called before the accounts cursor is loaded, we return false
+    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
+      return false;
+    mAccountsCursor.moveToPosition(mCurrentPosition);
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {
@@ -902,8 +957,29 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
+      long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
+      boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
+      boolean is_aggregate = c.getLong(columnIndexRowId)<0;
+      boolean hide_cr;
+      if (is_aggregate) {
+        hide_cr = true;
+      } else {
+      Type type;
+        try {
+          type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+        } catch (IllegalArgumentException ex) {
+          type = Type.CASH;
+        }
+        hide_cr = type.equals(Type.CASH);
+      }
       row.findViewById(R.id.TransferRow).setVisibility(
-          c.getLong(columnIndexRowId)<0 ? View.GONE : View.VISIBLE);
+          sum_transfer==0 ? View.GONE : View.VISIBLE);
+      row.findViewById(R.id.TotalRow).setVisibility(
+          has_future ? View.VISIBLE : View.GONE);
+      row.findViewById(R.id.ClearedRow).setVisibility(
+          hide_cr ? View.GONE : View.VISIBLE);
+      row.findViewById(R.id.ReconciledRow).setVisibility(
+          hide_cr ? View.GONE : View.VISIBLE);
       if (c.getLong(columnIndexRowId)>0) {
         setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
       }
@@ -912,6 +988,9 @@ public class MyExpenses extends LaunchActivity implements
       setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
       setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
       setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.total), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.reconciled_total), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.cleared_total), currency);
       String description = c.getString(columnIndexDescription);
       if (description.equals(""))
         row.findViewById(R.id.description).setVisibility(View.GONE);
@@ -960,6 +1039,11 @@ public class MyExpenses extends LaunchActivity implements
        .add(ProgressDialogFragment.newInstance(
            R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
        .commit();
+     break;
+   case R.id.BALANCE_COMMAND_DO:
+     startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
+         new Long[]{args.getLong(KEY_ROWID)},
+         args.getBoolean("deleteP"), 0);
    }
    return false;
   }

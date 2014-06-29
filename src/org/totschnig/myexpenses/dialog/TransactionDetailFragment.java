@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
@@ -56,7 +57,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -73,7 +73,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
     Bundle bundle = new Bundle();
-    bundle.putSerializable("id", id);
+    bundle.putLong(KEY_ROWID, id);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -82,7 +82,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     super.onCreate(savedInstanceState);
     final Bundle bundle = getArguments();
     //TODO strict mode violation
-    mTransaction = Transaction.getInstanceFromDb(bundle.getLong("id"));
+    mTransaction = Transaction.getInstanceFromDb(bundle.getLong(KEY_ROWID));
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {

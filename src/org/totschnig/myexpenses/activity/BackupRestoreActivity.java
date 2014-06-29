@@ -262,6 +262,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     String[] files = appDir.list(new FilenameFilter(){
       @Override
       public boolean accept(File dir, String filename) {
+        //backup-yyyMMdd-HHmmss
         return filename.matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d");
       }
     });

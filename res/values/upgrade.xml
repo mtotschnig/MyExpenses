@@ -18,6 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_148">
+    <item>Sinhala translation</item>
+    <item>Multi-window support on Samsung devices</item>
+    <item>Reconciliation workflow</item>
+  </string-array>
   <string-array name="whats_new_145">
     <item>Backups are now stored in ZIP archives that can be shared (E-Mail, Drive, Dropbox, &#8230;) and restored from external sources</item>
   </string-array>

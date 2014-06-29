@@ -259,18 +259,23 @@ public class Utils {
    * @return directory for storing backups and exports, null if external storage is not available
    */
   public static File requireAppDir() {
-    if (!isExternalStorageAvailable())
-      return null;
-    else {
-      File result = getAppDir();
-      if (result != null) {
-        result.mkdir();
-      }
-      return result;
+    File result = getAppDir();
+    if (result != null) {
+      result.mkdir();
     }
+    return result;
   }
+  /**
+   * @return if external storage is not available returns null
+   * if user has configured app dir, return this value
+   * on Gingerbread and above returns {@link android.content.ContextWrapper.getExternalFilesDir(null)}
+   * on Froyo returns folder "myexpenses" on root of sdcard .
+   */
   @SuppressLint("NewApi")
   public static File getAppDir() {
+    if (!isExternalStorageAvailable()) {
+      return null;
+    }
     String pref = MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_APP_DIR, null);
     if (pref == null) {
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
@@ -313,9 +318,10 @@ public class Utils {
   }
   
   public static Result checkAppDir() {
-    if (!isExternalStorageAvailable())
-      return new Result(false,R.string.external_storage_unavailable);
     File appdir = getAppDir();
+    if (appdir == null) {
+      return new Result(false,R.string.external_storage_unavailable);
+    }
     if (!appdir.exists())
       return new Result(false,R.string.app_dir_does_not_exist,appdir.getAbsolutePath());
     if (!appdir.canWrite())
@@ -651,6 +657,10 @@ public class Utils {
     return result;
   }
 
+  /**
+   * @return false if the configured folder is inside the application folder that will be deleted upon app uninstall
+   * and hence user should be warned about the situation, unless he already has opted to no longer see this warning
+   */
   @SuppressLint("NewApi")
   public static boolean checkAppFolderWarning() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
@@ -661,11 +671,14 @@ public class Utils {
       return true;
     }
     try {
-      URI configuredDir = Utils.getAppDir().getCanonicalFile().toURI();
+      File configuredDir = Utils.getAppDir();
+      if (configuredDir == null) {
+        return true;
+      }
       URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null).getParentFile().getCanonicalFile().toURI();
-      return defaultDir.relativize(configuredDir).isAbsolute();
+      return defaultDir.relativize(configuredDir.getCanonicalFile().toURI()).isAbsolute();
     } catch (IOException e) {
-      return false;
+      return true;
     }
   }
 
