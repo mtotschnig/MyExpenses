@@ -43,18 +43,18 @@ public class TransactionTest extends ModelTest  {
       mAccount2.save();
   }
   public void testTemplate() {
-    Long start = mAccount1.getTotalBalance(false).getAmountMinor();
+    Long start = mAccount1.getTotalBalance().getAmountMinor();
     Long amount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(mAccount1.id);
     op1.amount = new Money(mAccount1.currency,amount);
     op1.comment = "test transaction";
     op1.save();
-    assertEquals(mAccount1.getTotalBalance(false).getAmountMinor().longValue(), start+amount);
+    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+amount);
     Template t = new Template(op1,"Template");
     t.save();
     Transaction op2  = Transaction.getInstanceFromTemplate(t.id);
     op2.save();
-    assertEquals(mAccount1.getTotalBalance(false).getAmountMinor().longValue(), start+2*amount);
+    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+2*amount);
     Transaction restored;
     restored = Transaction.getInstanceFromDb(op2.id);
     assertEquals(op2,restored);

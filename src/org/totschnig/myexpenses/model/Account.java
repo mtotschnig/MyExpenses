@@ -548,18 +548,39 @@ public class Account extends Model {
   /**
    * @return the sum of opening balance and all transactions for the account
    */
-  public Money getTotalBalance(boolean reconciled) {
+  public Money getTotalBalance() {
     return new Money(currency,
-        openingBalance.getAmountMinor() + getTransactionSum(reconciled)
+        openingBalance.getAmountMinor() + getTransactionSum(null)
+    );
+  }
+  /**
+   * @return the sum of opening balance and all transactions for the account
+   */
+  public Money getClearedBalance() {
+    return new Money(currency,
+        openingBalance.getAmountMinor() +
+          getTransactionSum(
+              KEY_CR_STATUS + " IN " +
+                  "('" + CrStatus.RECONCILED.name() + "','" + CrStatus.CLEARED.name() + "')")
+    );
+  }
+  /**
+   * @return the sum of opening balance and all transactions for the account
+   */
+  public Money getReconciledBalance() {
+    return new Money(currency,
+        openingBalance.getAmountMinor() +
+          getTransactionSum(
+              KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'")
     );
   }
   /**
    * @return sum of all transcations
    */
-  public long getTransactionSum(boolean reconciled) {
+  public long getTransactionSum(String condition) {
     String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
-    if (reconciled) {
-      selection += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    if (condition != null) {
+      selection += " AND " + condition;
     }
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"},
@@ -576,7 +597,8 @@ public class Account extends Model {
    * @param reconciled if true only reconciled expenses will be deleted
    */
   public void reset(boolean reconciled) {
-    long currentBalance = getTotalBalance(reconciled).getAmountMinor();
+    long currentBalance = (reconciled ? getReconciledBalance() : getTotalBalance())
+        .getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
     args.put(KEY_OPENING_BALANCE,currentBalance);

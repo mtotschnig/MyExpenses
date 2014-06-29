@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -44,6 +45,7 @@ public class AccountTest extends ModelTest  {
     account2.save();
     op = Transaction.getNewInstance(account1.id);
     op.amount = new Money(account1.currency,-expense1);
+    op.crStatus = CrStatus.CLEARED;
     op.save();
     op.amount = new Money(account1.currency,-expense2);
     op.saveAsNew();
@@ -74,7 +76,7 @@ public class AccountTest extends ModelTest  {
     op1.amount = new Money(account.currency,trAmount);
     op1.comment = "test transaction";
     op1.save();
-    assertEquals(account.getTotalBalance(false).getAmountMinor().longValue(),openingBalance+trAmount);
+    assertEquals(account.getTotalBalance().getAmountMinor().longValue(),openingBalance+trAmount);
     Account.delete(account.id);
     assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.id));
     assertNull("Account delete should delete transaction, but operation can still be retrieved",Transaction.getInstanceFromDb(op1.id));
@@ -145,35 +147,59 @@ public class AccountTest extends ModelTest  {
     assertEquals(openingBalance.longValue()*2,aa.openingBalance.getAmountMinor().longValue());
   }
   public void testBalanceWithoutReset() {
-    
+    insertData();
+    Money initialclearedBalance = account1.getClearedBalance();
+    assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
+    assertEquals(4,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(0,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    account1.balance(false);
+    assertEquals(0,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(4,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(initialclearedBalance,account1.getReconciledBalance());
   }
 
   public void testBalanceWithReset() {
+    insertData();
+    Money initialclearedBalance = account1.getClearedBalance();
+    assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
+    assertEquals(4,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(0,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    account1.balance(true);
+    assertEquals(0,count(account1.id,KEY_CR_STATUS + " != '" + CrStatus.UNRECONCILED.name() + "'"));
+    assertEquals(2,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.UNRECONCILED.name() + "'"));
+    assertEquals(initialclearedBalance,account1.getReconciledBalance());
     
   }
   public void testReset() {
     insertData();
-    Money initialtotalBalance = account1.getTotalBalance(false);
+    Money initialtotalBalance = account1.getTotalBalance();
+    assertEquals(6,count(account1.id,null));
+    account1.reset(false);
+    Account.clear();
+    assertEquals(0,count(account1.id,null));
+    Account resetAccount = Account.getInstanceFromDb(account1.id);
+    assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
+  }
+  /**
+   * @param accountId
+   * @param condition if not null interpreted as a where clause for filtering the transactions
+   * @return the number of transactions in an account
+   */
+  private int count(long accountId, String condition) {
+    String selection = KEY_ACCOUNTID + " = ?";
+    if (condition != null) {
+      selection += " AND " + condition;
+    }
     Cursor c = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI, 
         new String[] {"count(*)"},
-        KEY_ACCOUNTID + " = ?",  
-        new String[]{String.valueOf(account1.id)},   
+        selection,
+        new String[]{String.valueOf(accountId)},
         null
     );
     c.moveToFirst();
-    assertEquals(6,c.getInt(0));
-    account1.reset(false);
-    Account.clear();c = getMockContentResolver().query(
-        TransactionProvider.TRANSACTIONS_URI, 
-        new String[] {"count(*)"}, 
-        KEY_ACCOUNTID + " = ?", 
-        new String[]{String.valueOf(account1.id)},  
-        null
-    );
-    c.moveToFirst();
-    assertEquals(0,c.getInt(0));
-    Account resetAccount = Account.getInstanceFromDb(account1.id);
-    assertEquals(initialtotalBalance,resetAccount.getTotalBalance(false));
+    int result = c.getInt(0);
+    c.close();
+    return result;
   }
 }
