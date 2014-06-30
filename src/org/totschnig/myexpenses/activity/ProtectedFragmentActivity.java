@@ -135,25 +135,16 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    boolean result;
-    try {
-      result = dispatchCommand(item.getItemId(),null);
-    } catch (IllegalStateException e) {
-      //on some occasions, upon showing a DialogFragment we run into
-      //"java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState"
-      //we catch this here, and ignore silently, which hopefully should be save, since activity is being paused
-      Utils.reportToAcra(e);
-      result = true;
-    }
-    if (result) {
+    if (dispatchCommand(item.getItemId(),null)) {
       return true;
     }
-      return super.onOptionsItemSelected(item);
+    return super.onOptionsItemSelected(item);
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
-    if (CommonCommands.dispatchCommand(this, command, tag))
+    if (CommonCommands.dispatchCommand(this, command, tag)) {
       return true;
+    }
     return false;
   }
   @Override

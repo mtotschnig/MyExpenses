@@ -31,7 +31,6 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.widget.Toast;
 
 /**
@@ -40,7 +39,7 @@ import android.widget.Toast;
  *    instantiated through buildDialog and shown with showDialog
  * 2) From the ContribDialog when user clicks on "Buy". Here it is shown as DialogFragmen
  */
-public class DonateDialogFragment extends DialogFragment {
+public class DonateDialogFragment extends CommitSafeDialogFragment {
 
   public static final DonateDialogFragment newInstance() {
     return new DonateDialogFragment();

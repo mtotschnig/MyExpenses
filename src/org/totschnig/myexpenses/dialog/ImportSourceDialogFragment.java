@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +28,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public abstract class ImportSourceDialogFragment extends DialogFragment
+public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
     implements OnClickListener, DialogInterface.OnClickListener, OnCheckedChangeListener  {
 
   public static final int IMPORT_FILENAME_REQUESTCODE = 1;

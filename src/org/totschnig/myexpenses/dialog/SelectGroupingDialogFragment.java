@@ -22,13 +22,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
 /**
  * uses {@link MessageDialogFragment.MessageDialogListener} to dispatch result back to activity
  *
  */
-public class SelectGroupingDialogFragment extends DialogFragment implements OnClickListener {
+public class SelectGroupingDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   /**
    * @param account_id
    * @return

@@ -23,9 +23,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
-public class RemindRateDialogFragment  extends DialogFragment implements OnClickListener {
+public class RemindRateDialogFragment  extends CommitSafeDialogFragment implements OnClickListener {
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
