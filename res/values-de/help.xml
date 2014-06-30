@@ -11,7 +11,7 @@
   <string name="menu_create_transaction_help_text">Öffnet das Formular für die Eingabe einer neuen Buchung.</string>
   <string name="menu_create_transfer_help_text">Anlegen einer Umbuchung zwischen Konten. Dieser Befehl steht nur dann zur Verfügung, wenn es zumindest ein zweites Konto mit derselben Währung gibt.</string>
   <string name="menu_create_split_help_text">Eine Splitbuchung erlaubt Ihnen, Teile einer Buchung verschiedenen Kategorien zuzuordnen oder als Umbuchungen zu verschiedenen Konten zu erfassen.</string>
-  <string name="menu_reset_help_text">Dieser Befehl exportiert alle Buchungen des aktuellen Kontos in eine Datei auf der SD-Karte im QIF oder CSV Format. Standardmäßig werden die Buchungen von Ihrem Telefon gelöscht, aber Sie können sich auch dafür entscheiden, diese anstatt zu löschen als exportiert zu markieren, Sofort nach dem Export kann die Datei weitergeleitet werden, mittels FTP, Email oder anderen Apps, die Dateien übertragen können, wenn Sie dies in den Einstellungen so festlegen.</string>
+  <string name="menu_reset_help_text">Dieser Befehl exportiert alle Buchungen des aktuellen Kontos in eine Datei auf der SD-Karte im QIF oder CSV Format. Die exportierten Buchungen können gelöscht werden, in diesem Fall wird der Anfangssaldo angepasst. Wenn Sie sich entscheiden, die Buchungen nicht zu löschen, werden diese als exportiert markiert. Sofort nach dem Export kann die Datei weitergeleitet werden, mittels FTP, Email oder anderen Apps, die Dateien übertragen können, wenn Sie dies in den Einstellungen so festlegen.</string>
   <string name="menu_edit_account_help_text">Einstellungen des aktuellen Kontos verändern (Titel, Beschreibung, Anfangssaldo, Währung, Farbe).</string>
   <string name="menu_grouping_help_text">Buchungen können pro Tag, Woche, Monat oder Jahr gruppiert werden. Für jede Gruppe werden die Summen der Einnahmen, Ausgaben und Umbuchungen berechnget und angezeigt.</string>
   <string name="menu_distribution_help_text">Darstellung der Verteilung Ihrer Buchungen anhand der Kategorien. Sie können auch auf die Kopfzeile einer Gruppe klicken, um die Verteilung nur für einen Zeitraum anzuzeigen.</string>
@@ -39,7 +39,6 @@
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Für die ausgewählten Kalendereinträge wird vermerkt, dass für diese keine Buchung angelegt werden soll.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Falls für die ausgewählten Kalendereinträge Buchungen angelegt wurden, werden diese gelöscht, falls diese storniert wurden, wird die Stornierung aufgehoben.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Die dem ausgewählten Kalendereintrag zugeordnete Buchung kann verändert werden.</string>
-  
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Dieser Bildschirm zeigt die Verteilung Ihrer Ausgaben und Einnahmen anhand der Kategorien, für alle Buchungen eines Kontos, oder nur für einen bestimmten Zeitraum.</string>
   <string name="help_ManageCategories_select_info">Zusätzlich zu den Aktionen, die auch in der Kategorienverwaltung in den Einstellungen möglich sind (Erzeugen, Verändern, Löschen), können Sie hier eine Buchung zu einer Kategorie zuordnen.  Die Zuordnung einer Unterkategorie zur aktuellen Buchung erfolgt durch kurzen Klick. Die Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.</string>
@@ -71,7 +70,7 @@
   <string name="menu_invert_transfer_help_text">Verändert die Richtung der Umbuchung indem die Konten \'Von\' und \'Nach\' ihre Position wechseln.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formular für Konten</string>
-  <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>
+  <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -&gt; Verwalten -&gt; Zahlungsweisen konfiguriert.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formular für Zahlungsweisen</string>
   <string name="help_MethodEdit_info">Auf diesem Bildschirm wählen Sie die Kontotypen, bei denen eine Zahlungsweise zur Anwendung kommt. Die Bezeichnung is bei den vordefinierten Zahlungsweisen nicht veränderbar. Der Typ einer Zahlungsweise bestimmt, ob diese nur für Augaben, Einnahmen oder beides zur Anwendung kommt.</string>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_145">
-    <item>Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,&#8230;) y restaurados a partir de fuentes externas</item>
+    <item>Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,...) y restaurados a partir de fuentes externas</item>
   </string-array>
   <string-array name="whats_new_143">
     <item>Atajos de pantalla de Inicio para crear las transacciones y transferencias</item>
