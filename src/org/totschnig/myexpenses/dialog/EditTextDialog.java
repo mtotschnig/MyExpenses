@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.R;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,7 +31,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class EditTextDialog extends DialogFragment implements OnEditorActionListener {
+public class EditTextDialog extends CommitSafeDialogFragment implements OnEditorActionListener {
 
   public static final String KEY_RESULT = "result";
   public static final String KEY_DIALOG_TITLE = "dialogTitle";

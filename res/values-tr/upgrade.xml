@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_149">
+    <item>Seylanca tercüme</item>
+    <item>Samsung cihazlarında çoklu pencere desteği</item>
+    <item>Uzlaşma çalışma akışı</item>
+  </string-array>
   <string-array name="whats_new_145">
     <item>Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir.</item>
   </string-array>

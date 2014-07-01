@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_149">
+    <item>Singhalesische Übersetzung</item>
+    <item>Multi-Fenster Unterstützung auf Samsung-Geräten</item>
+    <item>Abstimmung mit Kontoauszug</item>
+  </string-array>
   <string-array name="whats_new_145">
-    <item>Sicherungskopien werden jetzt in ZIP Archiven gespeichert; diese können geteilt (E-Mail, Drive, Dropbox,&#8230;) und aus externen Quellen wiederhergestellt werden</item>
+    <item>Sicherungskopien werden jetzt in ZIP Archiven gespeichert; diese können geteilt (E-Mail, Drive, Dropbox,...) und aus externen Quellen wiederhergestellt werden</item>
   </string-array>
   <string-array name="whats_new_143">
     <item>Verknüpfungen für den Start-Bildschirm für das Hinzufügen von Buchungen und Umbuchungen</item>

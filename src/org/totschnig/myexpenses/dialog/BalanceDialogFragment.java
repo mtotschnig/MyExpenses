@@ -22,19 +22,19 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class BalanceDialogFragment extends DialogFragment implements OnClickListener {
+public class BalanceDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   
   public static final BalanceDialogFragment newInstance(Bundle bundle) {
     BalanceDialogFragment dialogFragment = new BalanceDialogFragment();

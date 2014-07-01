@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_149">
+    <item>Traduzione singalese</item>
+    <item>Supportare il multi-finestra su dispositivi Samsung</item>
+    <item>Flusso di lavoro di riconciliazione</item>
+  </string-array>
   <string-array name="whats_new_145">
-    <item>i backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,&#8230;) e restaurata da fonti esterne</item>
+    <item>i backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,...) e restaurata da fonti esterne</item>
   </string-array>
   <string-array name="whats_new_143">
     <item>Collegamenti di schermata Home per l\'aggiunta di transazioni e trasferimenti</item>

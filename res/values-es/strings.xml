@@ -40,6 +40,8 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante la instalación.</string>
   <string name="description">Descripción</string>
+  <string name="dialog_balance_delete">Eliminar transacciones reconciliadas</string>
+  <string name="dialog_command_disabled_balance">Ninguna transacción despejada para reconciliarse.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Los traslados a otra cuenta requieren una segunda cuenta con la misma moneda.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Usted tiene sólo una cuenta de divisas %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
@@ -74,6 +76,8 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Seleccione existente</string>
   <string name="dialog_title_attention">Atención</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">Equilibrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_menu_command_disabled">Comando de menú desactivado</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendar requerido</string>
@@ -135,6 +139,8 @@
   <string name="menu_apply_template">Aplicar</string>
   <string name="menu_back">Espalda</string>
   <string name="menu_backup">Copia de seguridad</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Equilibrar la cuenta</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Cancelar</string>
   <string name="menu_clone_transaction">Clonar</string>
@@ -244,6 +250,7 @@
   <string name="planner_create_calendar_success">Calendario planificador local creado con éxito</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Puede crear ya sea un calendario dedicado local o seleccionar una ya existente en la configuración.</string>
+  <string name="planner_setup_info_create_new_warning">Atención: Calendarios locales han reportado que no funcionan correctamente en algunos dispositivos. Si sus planes no funcionan con un calendario local dedicado, por favor seleccione un calendario que ha configurado en la aplicación de calendario.</string>
   <string name="planner_setup_info">Por favor, seleccione un calendario para el almacenamiento de los planes en los ajustes.</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
@@ -336,6 +343,7 @@
   <string name="progress_dialog_create_plan">Crear nuevo plan …</string>
   <string name="progress_dialog_deleting">Eliminación de objetos …</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos …</string>
+  <string name="progress_dialog_saving">Guardando objeto de base de datos …</string>
   <string name="progress_dialog_setup">Base de datos se inicializa …</string>
   <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Se encuentran en archivo QIF varias cuentas.</string>
@@ -379,6 +387,8 @@
   <string name="thank_you">¡Gracias por su apoyo!</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>
+  <string name="total_cleared">Total despejado</string>
+  <string name="total_reconciled">Total reconciliado</string>
   <string name="transaction">Asiento</string>
   <string name="transfer">Traslado a otra cuenta</string>
   <string name="transfer_from_account">Desde</string>
@@ -405,6 +415,8 @@
     <item quantity="one">Se eliminará la transacción seleccionada.</item>
     <item quantity="other">Se eliminará %1$d transacciónes seleccionadas.</item>
   </plurals>
+  <string name="warning_delete_reconciled">Eliminar transacciones reconciliadas hará que sus registros a diferir el extracto bancario.</string>
+  <string name="warning_balance_account">Por favor comparar el total despejado con el saldo final en su cuenta bancaria. Si continúas,  las transacciones despejadas estarán marcadas como reconciliadas.</string>
   <string name="warning_password_protected">La aplicación está protegido con contraseña.</string>
   <string name="warning_widget_disabled">Necesitas habilitar este widget en la configuración de la aplicación.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Rápida creación de instancias de las plantillas de este widget funciona sólo si permite la entrada de datos de widgets sin contraseña en la configuración de la app.</string>

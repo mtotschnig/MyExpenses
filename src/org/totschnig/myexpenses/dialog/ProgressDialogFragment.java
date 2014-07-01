@@ -20,14 +20,13 @@ import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-public class ProgressDialogFragment extends DialogFragment {
+public class ProgressDialogFragment extends CommitSafeDialogFragment {
   private static final String KEY_PROGRESS_STYLE = "progressStyle";
   private static final String KEY_MESSAGE = "message";
   private static final String KEY_WITH_BUTTON = "withButton";

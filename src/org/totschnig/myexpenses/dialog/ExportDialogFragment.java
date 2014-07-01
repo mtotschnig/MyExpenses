@@ -45,7 +45,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -59,7 +58,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
+public class ExportDialogFragment extends CommitSafeDialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
   CheckBox notYetExportedCB,deleteCB;
   RadioButton formatRB, separatorRB;
   TextView warningTV;

@@ -30,11 +30,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Html;
 import android.text.TextUtils;
 
-public class ContribDialogFragment extends DialogFragment implements DialogInterface.OnClickListener{
+public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener{
   Feature feature;
   int usagesLeft;
 

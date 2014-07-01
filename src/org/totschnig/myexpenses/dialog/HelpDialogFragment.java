@@ -29,7 +29,6 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.Html.ImageGetter;
@@ -43,7 +42,7 @@ import android.widget.ImageView;
  * based on the activity and an optional variant passed in.
  * @author Michael Totschnig
  */
-public class HelpDialogFragment extends DialogFragment implements ImageGetter {
+public class HelpDialogFragment extends CommitSafeDialogFragment implements ImageGetter {
   
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();

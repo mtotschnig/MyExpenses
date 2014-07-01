@@ -8,9 +8,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
-public class BackupListDialogFragment extends DialogFragment {
+public class BackupListDialogFragment extends CommitSafeDialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");

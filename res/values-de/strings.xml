@@ -40,6 +40,8 @@
   <string name="decimal_separator">Dezimaltrennzeichen</string>
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>
   <string name="description">Beschreibung</string>
+  <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
+  <string name="dialog_command_disabled_balance">Keine verrechnete Buchungen zum Abstimmen.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Umbuchungen benötigen ein zweites Konto mit derselben Währung.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Sie haben nur ein Konto in %1$s angelegt.</string>
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
@@ -74,6 +76,8 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Bestehenden auswählen</string>
   <string name="dialog_title_attention">Achtung</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_menu_command_disabled">Menübefehl deaktiviert</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
@@ -135,6 +139,8 @@
   <string name="menu_apply_template">Anwenden</string>
   <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Konto abstimmen</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Annullieren</string>
   <string name="menu_clone_transaction">Klonen</string>
@@ -244,6 +250,7 @@
   <string name="planner_create_calendar_success">Lokaler Kalender erfolgreich angelegt</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Sie können entweder einen speziellen lokalen Kalender anlegen, oder in den Einstellungen einen bestehenden Kalender auswählen.</string>
+  <string name="planner_setup_info_create_new_warning">Achtung: Auf manchen Geräten sind lokale Kalender unter Umständen unzuverlässig. Falls Ihre Pläne mit einem lokalen Kalender nicht funktionieren, verwenden Sie bitte eher einen in der Kalender-App angelegten Kalender.</string>
   <string name="planner_setup_info">Bitte wählen Sie in den Einstellungen den Kalender aus, in dem Pläne gespeichert werden sollen.</string>
   <!--payment methods-->
   <string name="pm_cheque">Scheck</string>
@@ -336,6 +343,7 @@
   <string name="progress_dialog_create_plan">Neuer Plan wird angelegt …</string>
   <string name="progress_dialog_deleting">Objekte werden gelöscht …</string>
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen …</string>
+  <string name="progress_dialog_saving">Objekt wird aus Datenbank geladen …</string>
   <string name="progress_dialog_setup">Datenbank wird initialisiert …</string>
   <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
   <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
@@ -379,6 +387,8 @@
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
   <string name="time">Zeit</string>
   <string name="title">Titel</string>
+  <string name="total_cleared">Verrechnete Summe</string>
+  <string name="total_reconciled">Abgestimmte Summe</string>
   <string name="transaction">Buchung</string>
   <string name="transfer">Umbuchung</string>
   <string name="transfer_from_account">Von</string>
@@ -405,6 +415,8 @@
     <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
   </plurals>
+  <string name="warning_delete_reconciled">Wenn Sie abgestimmte Buchungen löschen, können Ihre Aufzeichnungen von Ihrem Kontoauszug abweichen.</string>
+  <string name="warning_balance_account">Bitte vergleichen Sie die verrechnete Summe mit dem Kontostand Ihres Kontoauszuges. Wenn Sie fortfahren, werden verrechnete Buchungen als abgestimmt markiert.</string>
   <string name="warning_password_protected">App ist durch Passwort geschützt.</string>
   <string name="warning_widget_disabled">Sie müssen dieses Widget in den App Einstellungen aktivieren.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>

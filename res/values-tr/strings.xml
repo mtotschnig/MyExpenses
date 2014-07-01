@@ -40,6 +40,7 @@
   <string name="decimal_separator">Ondalık ayırıcı</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
+  <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
   <string name="dialog_command_disabled_insert_transfer_2">%1$s para biriminin sadece bir hesabı olmalısınız.</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
@@ -74,6 +75,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
   <string name="dialog_title_attention">Dikkat</string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
@@ -135,6 +137,7 @@
   <string name="menu_apply_template">Uygula</string>
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">İptal et</string>
   <string name="menu_clone_transaction">Klonla</string>
@@ -244,6 +247,7 @@
   <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Yerel özel bir takvim oluşturabilir ya da ayarlardan mevcut birini seçebilirsiniz.</string>
+  <string name="planner_setup_info_create_new_warning">Dikkat: Bazı cihazlarda yerel takvimlerin güvenilir bir şekilde çalışmadıkları bildirilmiştir. Eğer planlamalarınız özel bir yerel takvimle çalışmıyorsa, bunun yerine Takvim uygulamanızda kurduğunuz bir takvim seçiniz.</string>
   <string name="planner_setup_info">Ayarlarda planların saklanacağı bir takvim seç</string>
   <!--payment methods-->
   <string name="pm_cheque">Çek</string>
@@ -308,6 +312,7 @@
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
+  <string name="pref_restore_legacy_data">Eski veriler</string>
   <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
@@ -335,6 +340,7 @@
   <string name="progress_dialog_create_plan">Yeni planlama oluşturuluyor…</string>
   <string name="progress_dialog_deleting">Nesneler siliniyor…</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
+  <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor…</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
   <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
@@ -378,6 +384,7 @@
   <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
   <string name="time">Zaman</string>
   <string name="title">Başlık</string>
+  <string name="total_reconciled">Uzlaşmış toplam</string>
   <string name="transaction">Muamele</string>
   <string name="transfer">Transfer</string>
   <string name="transfer_from_account">Buradan</string>
@@ -404,6 +411,7 @@
     <item quantity="one">Seçilen muamele silinecektir.</item>
     <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
   </plurals>
+  <string name="warning_delete_reconciled">Uzlaşmış muameleleri silmeniz kayıtlarınızın banka kayıtlarından farklı olmasına yol açar.</string>
   <string name="warning_password_protected">Uygulama parola ile koruludur.</string>
   <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
@@ -431,4 +439,6 @@
   <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
   <string name="widget_title_accounts">Hesaplarım</string>
   <string name="widget_title_templates">Şablonlarım</string>
+  <string name="app_dir_does_not_exist">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasör (%1$s) mevcut değildir.</string>
+  <string name="app_dir_read_only">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasör (%1$s) sadece okunur durumdadır.</string>
 </resources>

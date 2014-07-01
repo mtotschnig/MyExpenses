@@ -11,12 +11,13 @@
   <string name="menu_create_transaction_help_text">Ouvre le formulaire pour saisir une nouvelle opération.</string>
   <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n\'est active que si vous avez au moins deux comptes dans la même devise.</string>
   <string name="menu_create_split_help_text">Dans une opération ventilée, vous attribuez des montants partiels à plusieurs catégories ou aux transferts vers d\'autres comptes.</string>
-  <string name="menu_reset_help_text">Cette commande exportera les opérations vers un fichier sur la carte SD en format QIF ou CSV. Par défaut, les opérations seront effacées, mais vous pouvez choisir de seulement les marquer comme exportées. Ce fichier peut être immédiatement transféré par FTP, courriel ou d\'autres applications, si vous activez cette option dans les paramètres.</string>
+  <string name="menu_reset_help_text">Cette commande exporte toutes les opérations du compte courant vers un fichier sur la carte SD au format QIF ou CSV. Vous pouvez décider de supprimer les opérations exportées, dans ce cas, le solde d\'ouverture s\'ajustera automatiquement. Par ailleurs, si elles ne sont pas supprimées, ces opérations seront marquées comme exportées. Mes dépenses peut envoyer le fichier immédiatement après export par FTP, e-mail ou tout autre application de partage de fichiers, si vous le configurez comme tel dans les paramètres.</string>
   <string name="menu_edit_account_help_text">Changer les propriétés du compte courant: titre, description, solde initial, type, devise, couleur.</string>
   <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>
   <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer sur un groupe pour inspecter une répartition spécifique.</string>
   <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances pour le compte courant. Vous pouvez appliquer, modifier, supprimer des modèles mais aussi définir vos opérations futures et périodiques.</string>
   <string name="menu_create_account_help_text">Ouvre le formulaire pour définir un nouveau compte.</string>
+  <string name="menu_balance_help_text">Cette commande ouvre une boîte de dialogue affichant le dernier solde rapproché et le solde pointé. Vous pouvez comparer ce dernier à votre relevé bancaire et marquer toutes les opérations pointées comme rapprochées. Facultativement, vous pouvez décider de supprimer ces opérations rapprochées.</string>
   <string name="cab_create_template_from_transaction_help_text">Définir un nouveau modèle à partir de l\'opération sélectionnée. Vous indiquerez le titre du modèle.</string>
   <string name="cab_clone_transaction_help_text">Les opérations sélectionnées seront clonées avec la date et l\'heure.</string>
   <!--ManageMethods title is in keys-->
@@ -70,7 +71,7 @@
   <string name="menu_invert_transfer_help_text">Inverser la direction du transfert en inversant \"De\" et \"Vers\" le compte.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulaire pour comptes</string>
-  <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -> Gestion -> Méthodes de paiement.</string>
+  <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -&gt; Gestion -&gt; Méthodes de paiement.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
   <string name="help_MethodEdit_info">Sélectionnez les types de comptes pour lesquels une méthode est applicable. Vous pouvez aussi définir un intitulé (sauf pour les méthodes prédéfinies). Par le type d\'une méthode, vous déterminez si celle-ci est applicable pour les dépenses (débit), les revenus (crédit) ou les deux (neutre).</string>
