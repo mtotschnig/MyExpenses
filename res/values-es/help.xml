@@ -17,6 +17,7 @@
   <string name="menu_distribution_help_text">Muestra la distribución de los gastos por categoría. También puede hacer clic en un encabezado de grupo para inspeccionar la distribución de un grupo específico.</string>
   <string name="menu_manage_plans_help_text">Abre la lista de plantillas y planes para la cuenta corriente, donde se puede aplicar, editar o borrar, y también definir planes para las transacciones futuras y recurrentes.</string>
   <string name="menu_create_account_help_text">Abre el formulario para crear una nueva cuenta.</string>
+  <string name="menu_balance_help_text">Este comando abre un cuadro de diálogo muestra el último saldo conciliado y el equilibrio despejado. Puede comparar el último a su cuenta bancaria y marcar las transacciones despejadas como reconciliados. Opcionalmente puedes decidir eliminar transacciones reconciliadas.</string>
   <string name="cab_create_template_from_transaction_help_text">Definir un nuevo modelo basado en la transacción seleccionada. Te preguntará por el título de la plantilla.</string>
   <string name="cab_clone_transaction_help_text">Las transacciones seleccionadas se clonará con la fecha y hora actuales.</string>
   <!--ManageMethods title is in keys-->

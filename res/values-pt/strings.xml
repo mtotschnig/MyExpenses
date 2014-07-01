@@ -40,6 +40,8 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
   <string name="description">Descrição</string>
+  <string name="dialog_balance_delete">Excluir transações reconciliadas</string>
+  <string name="dialog_command_disabled_balance">Nenhuma transação apuradas para se reconciliar.</string>
   <string name="dialog_command_disabled_insert_transfer_1">As transações de transferência exigem uma segunda conta com a mesma moeda.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Você tem apenas uma conta de moeda %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
@@ -74,6 +76,8 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Selecionar existente</string>
   <string name="dialog_title_attention">Atenção</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">Equilíbrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Premium</string>
   <string name="dialog_title_menu_command_disabled">Comando de menu desativado</string>
   <string name="dialog_title_planner_setup_info">Configuração de calendário necessária</string>
@@ -135,6 +139,8 @@
   <string name="menu_apply_template">Aplicar</string>
   <string name="menu_back">Voltar</string>
   <string name="menu_backup">Backup</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Equilibrar conta</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Cancelar</string>
   <string name="menu_clone_transaction">Clone</string>
@@ -244,6 +250,7 @@
   <string name="planner_create_calendar_success">Calendário de planejador local criado com sucesso</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Você pode criar um calendário dedicado local ou selecionar um existente nas configurações.</string>
+  <string name="planner_setup_info_create_new_warning">Atenção: Calendários locais foram relatados para não trabalhar confiantemente em alguns dispositivos. Se seus planos não funcionam com um calendário local dedicado, por favor, prefiro selecione um calendário que você configurou no seu aplicativo de calendário.</string>
   <string name="planner_setup_info">Por favor, selecione um calendário para armazenar planos nas configurações.</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
@@ -336,6 +343,7 @@
   <string name="progress_dialog_create_plan">Criação de novo plano...</string>
   <string name="progress_dialog_deleting">Exclusão de objetos...</string>
   <string name="progress_dialog_loading">Objeto de carregamento de banco de dados...</string>
+  <string name="progress_dialog_saving">Salvando o objeto de banco de dados...</string>
   <string name="progress_dialog_setup">O banco de dados foi inicializado …</string>
   <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Várias contas encontradas no arquivo QIF.</string>
@@ -379,6 +387,8 @@
   <string name="thank_you">Obrigado pelo vosso apoio!</string>
   <string name="time">Tempo</string>
   <string name="title">Título</string>
+  <string name="total_cleared">Total apurado</string>
+  <string name="total_reconciled">Total reconciliado</string>
   <string name="transaction">Transação</string>
   <string name="transfer">Transferência</string>
   <string name="transfer_from_account">De</string>
@@ -405,6 +415,8 @@
     <item quantity="one">As transações selecionadas serão excluídas.</item>
     <item quantity="other">Transações %1$d selecionadas serão excluídas.</item>
   </plurals>
+  <string name="warning_delete_reconciled">Excluir transacções reconciliadas fará com que seus registros diferir o extrato bancário.</string>
+  <string name="warning_balance_account">Por favor, compare o total apurado com o saldo final em seu extrato bancário. Se você prosseguir, transações apuradas serão marcadas como reconciliados.</string>
   <string name="warning_password_protected">App é protegido por senha.</string>
   <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Instanciação rápida de modelos deste widget funciona somente se você permitir a entrada de dados de widgets sem senha nas configurações do app.</string>

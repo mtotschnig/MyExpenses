@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_148">
+    <item>Traduction en Sinhala</item>
+    <item>Fenêtre multiples sur les appareils Samsung</item>
+    <item>Procédure de rapprochement</item>
+  </string-array>
   <string-array name="whats_new_145">
-    <item>Maintenant, les sauvegardes sont stockées dans des archives ZIP qui peuvent être partagées (E-Mail, Drive, Dropbox,&#8230;) et restaurées à partir de sources externes</item>
+    <item>Maintenant, les sauvegardes sont stockées dans des archives ZIP qui peuvent être partagées (E-Mail, Drive, Dropbox,...) et restaurées à partir de sources externes</item>
   </string-array>
   <string-array name="whats_new_143">
     <item>Raccourcis d\'écran d\'accueil permettant d\'ajouter des transactions et des transferts</item>

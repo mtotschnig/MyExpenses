@@ -40,6 +40,8 @@
   <string name="decimal_separator">Séparateur décimal</string>
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
+  <string name="dialog_balance_delete">Supprimer les transactions rapprochées</string>
+  <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Les opérations de transferts nécessitent un second compte de même devise.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
@@ -74,6 +76,8 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Sélectionner existant</string>
   <string name="dialog_title_attention">Attention</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">Solde %1$s</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_menu_command_disabled">Commande désactivée</string>
   <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
@@ -135,6 +139,8 @@
   <string name="menu_apply_template">Appliquer</string>
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Solde du compte</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Annuler</string>
   <string name="menu_clone_transaction">Cloner</string>
@@ -244,6 +250,7 @@
   <string name="planner_create_calendar_success">Échéancier créé avec succès</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Vous pouvez créer un calendrier local dédié ou en sélectionnez un dans les paramètres.</string>
+  <string name="planner_setup_info_create_new_warning">ATTENTION : Les calendriers locaux ont été signalés comme ne fonctionnant pas correctement sur certains périphériques. Si vos échéances ne fonctionnent pas avec un calendrier local dédié, veuillez plutôt sélectionner celui configuré par le système.</string>
   <string name="planner_setup_info">Veuillez sélectionner un calendrier pour stocker les échéances dans les paramètres.</string>
   <!--payment methods-->
   <string name="pm_cheque">Chèque</string>
@@ -336,6 +343,7 @@
   <string name="progress_dialog_create_plan">Création d\'une nouvelle échéance …</string>
   <string name="progress_dialog_deleting">Les objets sont effaçés …</string>
   <string name="progress_dialog_loading">Chargement …</string>
+  <string name="progress_dialog_saving">Enregistrement dans la base de données...</string>
   <string name="progress_dialog_setup">Initialisation de la base de données …</string>
   <string name="qif_parse_result">Analysé : %1$s comptes, %2$s catégories et %3$s tiers</string>
   <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier QIF.</string>
@@ -379,6 +387,8 @@
   <string name="thank_you">Merci de votre soutien!</string>
   <string name="time">Heure</string>
   <string name="title">Titre</string>
+  <string name="total_cleared">Total pointé</string>
+  <string name="total_reconciled">Total rapproché</string>
   <string name="transaction">Opération</string>
   <string name="transfer">Transfert</string>
   <string name="transfer_from_account">Depuis</string>
@@ -405,6 +415,8 @@
     <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
     <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
   </plurals>
+  <string name="warning_delete_reconciled">La suppression des opérations rapprochées entraînera une différence avec  les enregistrements de votre relevé bancaire.</string>
+  <string name="warning_balance_account">Vous pouvez ici comparer le total pointé avec le solde de votre relevé bancaire. Si vous poursuivez, les opérations pointées seront marquées comme rapprochées.</string>
   <string name="warning_password_protected">L\'application est protégée par mot de passe.</string>
   <string name="warning_widget_disabled">Vous devez activer ce widget dans les paramètres de l\'application.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">La création rapide de modèles à partir du widget ne fonctionne que si vous autorisez la saisie des données à partir du widget sans mot de passe dans les paramètres de l\'application.</string>

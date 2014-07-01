@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_148">
+    <item>Traducción en Cingalés</item>
+    <item>Multi-ventana soporte en dispositivos Samsung</item>
+    <item>Flujo de trabajo de reconciliación</item>
+  </string-array>
   <string-array name="whats_new_145">
     <item>Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,...) y restaurados a partir de fuentes externas</item>
   </string-array>
