@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_148">
+  <string-array name="whats_new_149">
     <item>Sinhala translation</item>
     <item>Multi-window support on Samsung devices</item>
     <item>Reconciliation workflow</item>
