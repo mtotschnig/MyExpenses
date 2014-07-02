@@ -70,6 +70,24 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.1.6
+    - 2014-07-01
+    -
+      en: |
+        Sinhala translation. Multi-window support on Samsung devices. Reconciliation workflow.
+      fr: |
+        Traduction en Sinhala. Fenêtre multiples sur les appareils Samsung. Procédure de rapprochement.
+      de: |
+        Singhalesische Übersetzung. Multi-Fenster Unterstützung auf Samsung-Geräten. Abstimmung mit Kontoauszug.
+      it: |
+        Traduzione singalese. Supportare il multi-finestra su dispositivi Samsung. Flusso di lavoro di riconciliazione.
+      es: |
+        Traducción en Cingalés. Multi-ventana soporte en dispositivos Samsung. Flujo de trabajo de reconciliación.
+      pt: |
+        Tradução de cingalês. Suporte a várias janelas em dispositivos Samsung. Fluxo de trabalho de reconciliação.
+      tr: |
+        Seylanca tercüme. Samsung cihazlarında çoklu pencere desteği. Uzlaşma çalışma akışı.
+  -
     - 2.1.5
     - 2014-06-02
     -
