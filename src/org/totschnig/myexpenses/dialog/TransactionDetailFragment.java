@@ -252,7 +252,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     switch(id) {
       case MyExpenses.SPLIT_PART_CURSOR:
       CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
-          new String[] { String.valueOf(mTransaction.id) }, null);
+          new String[] { String.valueOf(mTransaction.getId()) }, null);
       return cursorLoader;
     }
     return null;
@@ -279,7 +279,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         return;
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);
-      i.putExtra(KEY_ROWID, mTransaction.id);
+      i.putExtra(KEY_ROWID, mTransaction.getId());
       i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);

@@ -121,7 +121,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
       Template t) {
-    Log.d("MyExpensesWidget", "updating template " + t.id);
+    Log.d("MyExpensesWidget", "updating template " + t.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1,
@@ -153,8 +153,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
     setBackgroundColorSave(updateViews, R.id.divider3, Account.getInstanceFromDb(t.accountId).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);
-    addButtonsClick(context, updateViews, widgetId, t.id);
-    saveForWidget(context, widgetId, t.id);
+    addButtonsClick(context, updateViews, widgetId, t.getId());
+    saveForWidget(context, widgetId, t.getId());
     int multipleTemplatesVisible = 
         Transaction.count(Template.CONTENT_URI, KEY_PLANID + " is null", null) < 2 ?
             View.GONE : 

@@ -20,7 +20,7 @@ public class AggregateAccount extends Account {
     } catch (IllegalArgumentException ex) {
       this.grouping = Grouping.NONE;
     }
-    accounts.put(id, this);
+    accounts.put(getId(), this);
   }
   public static AggregateAccount getInstanceFromDb (long id) {
     assert id < 0;

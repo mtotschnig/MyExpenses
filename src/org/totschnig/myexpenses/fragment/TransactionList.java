@@ -332,13 +332,13 @@ public class TransactionList extends BudgetListFragment implements
     CursorLoader cursorLoader = null;
     String selection;
     String[] selectionArgs;
-    if (mAccount.id < 0) {
+    if (mAccount.getId() < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       selectionArgs = new String[] {mAccount.currency.getCurrencyCode()};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
-      selectionArgs = new String[] { String.valueOf(mAccount.id) };
+      selectionArgs = new String[] { String.valueOf(mAccount.getId()) };
     }
     switch(id) {
     case TRANSACTION_CURSOR:
@@ -361,10 +361,10 @@ public class TransactionList extends BudgetListFragment implements
         .appendPath(mAccount.grouping.name());
       //the selectionArg is used in a subquery used by the content provider
       //this will change once filters are implemented
-      if (mAccount.id < 0) {
+      if (mAccount.getId() < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
       } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
       }
       cursorLoader = new CursorLoader(getActivity(),
           builder.build(),
@@ -606,7 +606,7 @@ public class TransactionList extends BudgetListFragment implements
       if (mAccount.type.equals(Type.CASH)) {
         colorContainer.setVisibility(View.GONE);
       }
-      if (mAccount.id < 0) {
+      if (mAccount.getId() < 0) {
         colorAccount.setLayoutParams(
             new LayoutParams(4, LayoutParams.FILL_PARENT));
       }
@@ -642,7 +642,7 @@ public class TransactionList extends BudgetListFragment implements
       TextView tv1 = viewHolder.amount;
       Cursor c = getCursor();
       c.moveToPosition(position);
-      if (mAccount.id <0) {
+      if (mAccount.getId() <0) {
         int color = c.getInt(c.getColumnIndex("color"));
         viewHolder.colorAccount.setBackgroundColor(color);
       }

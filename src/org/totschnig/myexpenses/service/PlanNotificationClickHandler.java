@@ -47,7 +47,7 @@ public class PlanNotificationClickHandler extends IntentService {
             R.plurals.save_transaction_from_template_success,1);
           Intent displayIntent = new Intent(this, MyExpenses.class)
           .putExtra(DatabaseConstants.KEY_ROWID, t.accountId)
-          .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.id);
+          .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.getId());
           PendingIntent resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(resultIntent);

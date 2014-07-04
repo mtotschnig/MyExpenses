@@ -426,7 +426,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private int insertTransactions(Account a, List<QifTransaction> transactions) {
     int count = 0;
     for (QifTransaction transaction : transactions) {
-      Transaction t = transaction.toTransaction(a.id);
+      Transaction t = transaction.toTransaction(a.getId());
       t.payeeId = findPayee(transaction.payee);
       // t.projectId = findProject(transaction.categoryClass);
       findToAccount(transaction, t);
@@ -434,8 +434,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
        if (transaction.splits != null) {
          ((SplitTransaction) t).persistForEdit();
          for (QifTransaction split : transaction.splits) {
-           Transaction s = split.toTransaction(a.id);
-           s.parentId = t.id;
+           Transaction s = split.toTransaction(a.getId());
+           s.parentId = t.getId();
            s.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
            findToAccount(split, s);
            findCategory(split, s);
@@ -454,7 +454,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     if (transaction.isTransfer()) {
       Account toAccount = findAccount(transaction.toAccount);
       if (toAccount != null) {
-        t.transfer_account = toAccount.id;
+        t.transfer_account = toAccount.getId();
       }
     }
   }

@@ -64,7 +64,7 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   RemoteViews updateWidgetFrom(Context context,
       int widgetId, int layoutId, Account a) {
-    Log.d("MyExpensesWidget", "updating account " + a.id);
+    Log.d("MyExpensesWidget", "updating account " + a.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1, a.label);
@@ -74,9 +74,9 @@ public class AccountWidget extends AbstractWidget<Account> {
 //        balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
     setBackgroundColorSave(updateViews,R.id.divider3,a.color);
     addScrollOnClick(context, updateViews, widgetId);
-    addTapOnClick(context, updateViews, a.id);
-    addButtonsClick(context, updateViews, a.id);
-    saveForWidget(context, widgetId, a.id);
+    addTapOnClick(context, updateViews, a.getId());
+    addButtonsClick(context, updateViews, a.getId());
+    saveForWidget(context, widgetId, a.getId());
     int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
         : View.VISIBLE;
     int transferEnabledVisible = Account.getTransferEnabledGlobal() ? View.VISIBLE

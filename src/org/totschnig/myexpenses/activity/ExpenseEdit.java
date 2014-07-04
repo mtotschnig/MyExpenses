@@ -204,7 +204,7 @@ public class ExpenseEdit extends AmountActivity implements
       mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
       mPlan = (Plan) savedInstanceState.getSerializable(KEY_PLAN);
       if (mPlan != null) {
-        mPlanId = mPlan.id;
+        mPlanId = mPlan.getId();
         configurePlan();
       }
       mLabel = savedInstanceState.getString(KEY_LABEL);
@@ -324,7 +324,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
           mTransaction = SplitTransaction.getNewInstance(accountId);
           //Split transactions are returned persisted to db and already have an id
-          mRowId = mTransaction.id;
+          mRowId = mTransaction.getId();
           break;
         }
       }
@@ -399,7 +399,7 @@ public class ExpenseEdit extends AmountActivity implements
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
       setTitle(
-          getString(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
+          getString(mTransaction.getId() == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
           + " ("
           + getString(mOperationType ==  MyExpenses.TYPE_TRANSFER ? R.string.transfer : R.string.transaction)
           + ")");
@@ -415,31 +415,31 @@ public class ExpenseEdit extends AmountActivity implements
       SplitPartList f = (SplitPartList) fm.findFragmentByTag("SPLIT_PART_LIST");
       if (f == null) {
         fm.beginTransaction()
-          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.id,mTransaction.accountId),"SPLIT_PART_LIST")
+          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.getId(),mTransaction.accountId),"SPLIT_PART_LIST")
           .commit();
         fm.executePendingTransactions();
       }
       helpVariant = HelpVariant.split;
     } else {
       if (mTransaction instanceof SplitPartCategory) {
-        setTitle(mTransaction.id == 0 ?
+        setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_split_part_category : R.string.menu_edit_split_part_category  );
         helpVariant = HelpVariant.splitPartCategory;
         mTransaction.status = STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof SplitPartTransfer) {
-        setTitle(mTransaction.id == 0 ?
+        setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
         helpVariant = HelpVariant.splitPartTransfer;
         mTransaction.status = STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof Transfer) {
-        setTitle(mTransaction.id == 0 ?
+        setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_transfer : R.string.menu_edit_transfer );
         helpVariant = HelpVariant.transfer;
       }
       else if (mTransaction instanceof Transaction) {
-        setTitle(mTransaction.id == 0 ?
+        setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_transaction : R.string.menu_edit_transaction );
         helpVariant = HelpVariant.transaction;
       }
@@ -633,8 +633,8 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       Intent i = new Intent(this, ExpenseEdit.class);
       i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
-      i.putExtra(KEY_ACCOUNTID,account.id);
-      i.putExtra(KEY_PARENTID,mTransaction.id);
+      i.putExtra(KEY_ACCOUNTID,account.getId());
+      i.putExtra(KEY_PARENTID,mTransaction.getId());
       startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
   }
@@ -810,7 +810,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.amount.setCurrency(account.currency);
       mTransaction.amount.setAmountMajor(amount);
     }
-    mTransaction.accountId = account.id;
+    mTransaction.accountId = account.getId();
 
     mTransaction.comment = mCommentText.getText().toString();
 
@@ -1168,7 +1168,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mCreateNew) {
         mCreateNew = false;
-        mTransaction.id = 0L;
+        mTransaction.setId(0L);
         mRowId = 0L;
         if (mTransaction instanceof Template) {
           setTitle(R.string.menu_create_template);
@@ -1307,7 +1307,7 @@ public class ExpenseEdit extends AmountActivity implements
       //if the accountId we have been passed does not exist, we select the first entry
       if (mAccountSpinner.getSelectedItemPosition() == android.widget.AdapterView.INVALID_POSITION) {
         mAccountSpinner.setSelection(0);
-        mTransaction.accountId = mAccounts[0].id;
+        mTransaction.accountId = mAccounts[0].getId();
       }
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         mTransferAccountCursor = new FilterCursorWrapper(data);
@@ -1340,7 +1340,7 @@ public class ExpenseEdit extends AmountActivity implements
               "" // we do not need the description stored in the event
               );
         } else {
-          mPlan.id = eventId;
+          mPlan.setId(eventId);
           mPlan.dtstart= dtStart;
           mPlan.rrule = rRule;
           mPlan.title = title;
@@ -1361,10 +1361,10 @@ public class ExpenseEdit extends AmountActivity implements
     ArrayList<Integer> list = new ArrayList<Integer>();
     int position = 0,selectedPosition = 0;
     for (int i = 0; i < mAccounts.length; i++) {
-      if (fromAccount.id != mAccounts[i].id &&
+      if (fromAccount.getId() != mAccounts[i].getId() &&
           fromAccount.currency.equals(mAccounts[i].currency)) {
         list.add(i);
-        if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].id) {
+        if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].getId()) {
           selectedPosition = position;
         }
         position++;

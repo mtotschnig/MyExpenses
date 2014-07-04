@@ -30,7 +30,7 @@ public class Plan extends Model implements Serializable {
 
   public Plan(Long id, long dtstart, String rrule, String title, String description) {
     super();
-    this.id = id;
+    this.setId(id);
     this.dtstart = dtstart;
     this.rrule = rrule;
     this.title = title;

@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -508,15 +509,15 @@ public class Account extends Model {
    */
   public Account(Cursor c) {
     extract(c);
-    accounts.put(id, this);
+    accounts.put(getId(), this);
   }
   /**
    * extract information from Cursor and populate fields
    * @param c
    */
   protected void extract(Cursor c) {
-    this.id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
-    Log.d("DEBUG","extracting account from cursor with id "+ id);
+    this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
+    Log.d("DEBUG","extracting account from cursor with id "+ getId());
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
@@ -585,7 +586,7 @@ public class Account extends Model {
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"},
         selection,
-        new String[] { String.valueOf(id) },
+        new String[] { String.valueOf(getId()) },
         null);
     c.moveToFirst();
     long result = c.getLong(0);
@@ -602,7 +603,7 @@ public class Account extends Model {
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
     args.put(KEY_OPENING_BALANCE,currentBalance);
-    cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
+    cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(getId())).build(), args,
         null, null);
     deleteAllTransactions(reconciled);
   }
@@ -611,7 +612,7 @@ public class Account extends Model {
     args.put(KEY_STATUS, STATUS_EXPORTED);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null",
-        new String[] { String.valueOf(id) });
+        new String[] { String.valueOf(getId()) });
   }
 
   /**
@@ -661,7 +662,7 @@ public class Account extends Model {
     if (reconciled) {
       rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
     }
-    String[] selectArgs = new String[] { String.valueOf(id) };
+    String[] selectArgs = new String[] { String.valueOf(getId()) };
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
@@ -679,7 +680,7 @@ public class Account extends Model {
         selectArgs);
   }
   public void deleteAllTemplates() {
-    String[] selectArgs = new String[] { String.valueOf(id) };
+    String[] selectArgs = new String[] { String.valueOf(getId()) };
     cr().delete(
         TransactionProvider.PLAN_INSTANCE_STATUS_URI,
         KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
@@ -720,7 +721,7 @@ public class Account extends Model {
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
-    String selection = KEY_ACCOUNTID + " = " + id + " AND " + KEY_PARENTID + " is null";
+    String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (notYetExportedP)
       selection += " AND " + KEY_STATUS + " = 0";
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
@@ -948,15 +949,18 @@ public class Account extends Model {
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR,color);
     
-    if (id == 0) {
+    if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
-      id = Long.valueOf(uri.getLastPathSegment());
+      if (uri==null) {
+        return null;
+      }
+      setId(ContentUris.parseId(uri));
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri,initialValues,null,null);
     }
-    if (!accounts.containsKey(id))
-      accounts.put(id, this);
+    if (!accounts.containsKey(getId()))
+      accounts.put(getId(), this);
     return uri;
   }
   public static int count(String selection,String[] selectionArgs) {
@@ -993,7 +997,7 @@ public class Account extends Model {
         return false;
     } else if (!description.equals(other.description))
       return false;
-    if (id != other.id)
+    if (getId() != other.getId())
       return false;
     if (label == null) {
       if (other.label != null)
@@ -1020,7 +1024,7 @@ public class Account extends Model {
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
             KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
-        new String[] { String.valueOf(id) });
+        new String[] { String.valueOf(getId()) });
     if (resetP) {
       reset(true);
     }
