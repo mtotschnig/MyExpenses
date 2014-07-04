@@ -927,19 +927,27 @@ public class ExpenseEdit extends AmountActivity implements
     outState.putBoolean(KEY_TYPE, mType);
     outState.putSerializable(KEY_CALENDAR, mCalendar);
     //restored in onCreate
-    if (mRowId != 0)
+    if (mRowId != 0) {
       outState.putLong(KEY_ROWID, mRowId);
-    if (mCatId != null)
+    }
+    if (mCatId != null) {
       outState.putLong(KEY_CATID, mCatId);
+    }
     outState.putString(KEY_LABEL, mLabel);
-    if (mPlan != null)
+    if (mPlan != null) {
       outState.putSerializable(KEY_PLAN,mPlan);
+    }
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (methodId != android.widget.AdapterView.INVALID_POSITION)
+    if (methodId != android.widget.AdapterView.INVALID_POSITION) {
       outState.putLong(KEY_METHODID, methodId);
-    outState.putLong(KEY_ACCOUNTID, mAccountSpinner.getSelectedItemId());
-    if (mOperationType == MyExpenses.TYPE_TRANSFER)
+    }
+    long accountId = mAccountSpinner.getSelectedItemId();
+    if (accountId != android.widget.AdapterView.INVALID_POSITION) {
+      outState.putLong(KEY_ACCOUNTID, accountId);
+    }
+    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
+    }
   }
 
   private void switchAccountViews() {
