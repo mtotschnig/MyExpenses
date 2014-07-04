@@ -51,7 +51,7 @@
    <TextView android:text="@string/help_heading_credits"
         style="@style/headingStyle" />
    <TextView style="@style/about_text"
-         android:text="App icon design copied from Sipdroid."/>
+         android:text="App icon and promotional image by Christian Alban."/>
    <TextView style="@style/about_text"
         android:text="Dark theme design originally suggested by meinnoteblog."/>
    <TextView style="@style/about_text"
