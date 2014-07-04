@@ -50,11 +50,11 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
         continue;
       Log.i("TEST",loc.getDisplayLanguage(Locale.US));
       Log.i("TEST",code);
-      Transaction op = Transaction.getNewInstance(mAccount.id);
+      Transaction op = Transaction.getNewInstance(mAccount.getId());
       op.comment = code + " " + lang;
       op.save();
-      Assert.assertTrue("Failed to create transaction in Locale " + lang,op.id > 0);
-      assertNotNull(Transaction.getInstanceFromDb(op.id));
+      Assert.assertTrue("Failed to create transaction in Locale " + lang,op.getId() > 0);
+      assertNotNull(Transaction.getInstanceFromDb(op.getId()));
     }
   }
 }

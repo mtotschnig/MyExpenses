@@ -43,7 +43,7 @@ public class AccountTest extends ModelTest  {
     account1.save();
     account2 = new Account("Account 2",openingBalance,"Account 2");
     account2.save();
-    op = Transaction.getNewInstance(account1.id);
+    op = Transaction.getNewInstance(account1.getId());
     op.amount = new Money(account1.currency,-expense1);
     op.crStatus = CrStatus.CLEARED;
     op.save();
@@ -53,7 +53,7 @@ public class AccountTest extends ModelTest  {
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
     op.saveAsNew();
-    op = Transfer.getNewInstance(account1.id,account2.id);
+    op = Transfer.getNewInstance(account1.getId(),account2.getId());
     op.amount = new Money(account1.currency,transferP);
     op.save();
     op.amount = new Money(account1.currency,-transferN);
@@ -68,18 +68,18 @@ public class AccountTest extends ModelTest  {
     account.setCurrency("EUR");
     assertEquals("EUR", account.currency.getCurrencyCode());
     account.save();
-    assertTrue(account.id > 0);
-    restored = Account.getInstanceFromDb(account.id);
+    assertTrue(account.getId() > 0);
+    restored = Account.getInstanceFromDb(account.getId());
     assertEquals(account,restored);
     Long trAmount = (long) 100;
-    Transaction op1 = Transaction.getNewInstance(account.id);
+    Transaction op1 = Transaction.getNewInstance(account.getId());
     op1.amount = new Money(account.currency,trAmount);
     op1.comment = "test transaction";
     op1.save();
     assertEquals(account.getTotalBalance().getAmountMinor().longValue(),openingBalance+trAmount);
-    Account.delete(account.id);
-    assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.id));
-    assertNull("Account delete should delete transaction, but operation can still be retrieved",Transaction.getInstanceFromDb(op1.id));
+    Account.delete(account.getId());
+    assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.getId()));
+    assertNull("Account delete should delete transaction, but operation can still be retrieved",Transaction.getInstanceFromDb(op1.getId()));
   }
   /**
    * we test if the db calculates the aggregate sums correctly
@@ -150,11 +150,11 @@ public class AccountTest extends ModelTest  {
     insertData();
     Money initialclearedBalance = account1.getClearedBalance();
     assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
-    assertEquals(4,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(0,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(4,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     account1.balance(false);
-    assertEquals(0,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(4,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(4,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     assertEquals(initialclearedBalance,account1.getReconciledBalance());
   }
 
@@ -162,22 +162,22 @@ public class AccountTest extends ModelTest  {
     insertData();
     Money initialclearedBalance = account1.getClearedBalance();
     assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
-    assertEquals(4,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(0,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(4,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     account1.balance(true);
-    assertEquals(0,count(account1.id,KEY_CR_STATUS + " != '" + CrStatus.UNRECONCILED.name() + "'"));
-    assertEquals(2,count(account1.id,KEY_CR_STATUS + " = '" + CrStatus.UNRECONCILED.name() + "'"));
+    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " != '" + CrStatus.UNRECONCILED.name() + "'"));
+    assertEquals(2,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.UNRECONCILED.name() + "'"));
     assertEquals(initialclearedBalance,account1.getReconciledBalance());
     
   }
   public void testReset() {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
-    assertEquals(6,count(account1.id,null));
+    assertEquals(6,count(account1.getId(),null));
     account1.reset(false);
     Account.clear();
-    assertEquals(0,count(account1.id,null));
-    Account resetAccount = Account.getInstanceFromDb(account1.id);
+    assertEquals(0,count(account1.getId(),null));
+    Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
   }
   /**

@@ -45,95 +45,95 @@ public class TransactionTest extends ModelTest  {
   public void testTemplate() {
     Long start = mAccount1.getTotalBalance().getAmountMinor();
     Long amount = (long) 100;
-    Transaction op1 = Transaction.getNewInstance(mAccount1.id);
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     op1.amount = new Money(mAccount1.currency,amount);
     op1.comment = "test transaction";
     op1.save();
     assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+amount);
     Template t = new Template(op1,"Template");
     t.save();
-    Transaction op2  = Transaction.getInstanceFromTemplate(t.id);
+    Transaction op2  = Transaction.getInstanceFromTemplate(t.getId());
     op2.save();
     assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+2*amount);
     Transaction restored;
-    restored = Transaction.getInstanceFromDb(op2.id);
+    restored = Transaction.getInstanceFromDb(op2.getId());
     assertEquals(op2,restored);
 
-    Template.delete(t.id);
-    assertNull("Template deleted, but can still be retrieved",Template.getInstanceFromDb(t.id));
+    Template.delete(t.getId());
+    assertNull("Template deleted, but can still be retrieved",Template.getInstanceFromDb(t.getId()));
   }
   public void testTransaction() {
     String payee = "N.N";
     assertEquals(0L, Transaction.getSequenceCount().longValue());
-    Transaction op1 = Transaction.getNewInstance(mAccount1.id);
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.payee = payee;
     op1.save();
-    assertTrue(op1.id > 0);
+    assertTrue(op1.getId() > 0);
     assertEquals(1L, Transaction.getSequenceCount().longValue());
     //save creates a payee as side effect
     assertEquals(1,countPayee(payee));
-    Transaction restored = Transaction.getInstanceFromDb(op1.id);
+    Transaction restored = Transaction.getInstanceFromDb(op1.getId());
     assertEquals(op1,restored);
 
-    Long id = op1.id;
+    Long id = op1.getId();
     Transaction.delete(id);
     //Transaction sequence should report on the number of transactions that have been created
     assertEquals(1L, Transaction.getSequenceCount().longValue());
     assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(id));
     op1.saveAsNew();
-    assertTrue(op1.id != id);
+    assertTrue(op1.getId() != id);
     //the payee is still the same, so there should still be only one
     assertEquals(1,countPayee(payee));
   }
   
   public void testTransfer() {
-    Transfer op = Transfer.getNewInstance(mAccount1.id,mAccount2.id);
+    Transfer op = Transfer.getNewInstance(mAccount1.getId(),mAccount2.getId());
     Transfer peer;
     op.amount = new Money(mAccount1.currency,(long) 100);
     op.comment = "test transfer";
     op.save();
-    assertTrue(op.id > 0);
+    assertTrue(op.getId() > 0);
     peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
-    assertEquals(peer.id,op.transfer_peer);
-    assertEquals(op.id, peer.transfer_peer);
+    assertEquals(peer.getId(),op.transfer_peer);
+    assertEquals(op.getId(), peer.transfer_peer);
     assertEquals(op.transfer_account, peer.accountId);
-    Transaction.delete(op.id);
-    assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op.id));
-    assertNull("Transfer delete should delete peer, but peer can still be retrieved",Transaction.getInstanceFromDb(peer.id));
+    Transaction.delete(op.getId());
+    assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op.getId()));
+    assertNull("Transfer delete should delete peer, but peer can still be retrieved",Transaction.getInstanceFromDb(peer.getId()));
   }
   /**
    * we test if split parts get the date of their parent
    */
   public void testSplit() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.id);
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId());
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
-    assertTrue(op1.id > 0);
-    Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.id,op1.id);
+    assertTrue(op1.getId() > 0);
+    Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.getId(),op1.getId());
     split1.amount = new Money(mAccount1.currency,50L);
-    assertTrue(split1.parentId == op1.id);
+    assertTrue(split1.parentId == op1.getId());
     split1.status =org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     split1.save();
-    assertTrue(split1.id > 0);
-    Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.id,op1.id);
+    assertTrue(split1.getId() > 0);
+    Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.getId(),op1.getId());
     split2.amount = new Money(mAccount1.currency,50L);
-    assertTrue(split2.parentId == op1.id);
+    assertTrue(split2.parentId == op1.getId());
     split2.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     split2.save();
-    assertTrue(split2.id > 0);
+    assertTrue(split2.getId() > 0);
     op1.save();
     //we expect the parent to make sure that parts have the same date
-    Transaction restored = Transaction.getInstanceFromDb(op1.id);
-    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.id).getDate()));
-    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.id).getDate()));
+    Transaction restored = Transaction.getInstanceFromDb(op1.getId());
+    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.getId()).getDate()));
+    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.getId()).getDate()));
     restored.crStatus = CrStatus.CLEARED;
     restored.save();
       //splits should not be touched by simply saving the parent
-    assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split1.id));
-    assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split2.id));
+    assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split1.getId()));
+    assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split2.getId()));
   }
   public int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI,new String[] {"count(*)"},

@@ -32,7 +32,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"),1);
     setActivity(null);
     setActivityInitialTouchMode(false);
-    long accountId = Fixture.getAccount1().id;
+    long accountId = Fixture.getAccount1().getId();
     Intent i = new Intent()
       .putExtra(KEY_ROWID,accountId)
       .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses")

@@ -81,7 +81,7 @@ public class Fixture {
     account1.grouping = Account.Grouping.DAY;
     account1.save();
     //Transaction 0 for D_ContextActionTest
-    Transaction op0 = Transaction.getNewInstance(account1.id);
+    Transaction op0 = Transaction.getNewInstance(account1.getId());
     op0.amount = new Money(defaultCurrency,-1200L);
     op0.save();
     op0.saveAsNew();
@@ -128,20 +128,20 @@ public class Fixture {
     long mainCat6 = findCat(testContext.getString(R.string.testData_transaction6MainCat), null);
 
     //Transaction 1
-    Transaction op1 = Transaction.getNewInstance(account3.id);
+    Transaction op1 = Transaction.getNewInstance(account3.getId());
     op1.amount = new Money(defaultCurrency,-1200L);
     op1.catId = findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1);
     op1.setDate(new Date( now - 300000 ));
     op1.save();
 
     //Transaction 2
-    Transaction op2 = Transaction.getNewInstance(account3.id);
+    Transaction op2 = Transaction.getNewInstance(account3.getId());
     op2.amount = new Money(defaultCurrency,-2200L);
     op2.catId = findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2);
     op2.comment = testContext.getString(R.string.testData_transaction2Comment);
     op2.setDate(new Date( now - 7200000 ));
     op2.save();
-    Transaction op3 = Transaction.getNewInstance(account3.id);
+    Transaction op3 = Transaction.getNewInstance(account3.getId());
 
     //Transaction 3 Cleared
     op3.amount = new Money(defaultCurrency,-2500L);
@@ -152,7 +152,7 @@ public class Fixture {
     op3.save();
 
     //Transaction 4 Cleared
-    Transaction op4 = Transaction.getNewInstance(account3.id);
+    Transaction op4 = Transaction.getNewInstance(account3.getId());
     op4.amount = new Money(defaultCurrency,-5000L);
     op4.catId = findCat(testContext.getString(R.string.testData_transaction4SubCat),
         findCat(testContext.getString(R.string.testData_transaction4MainCat), null));
@@ -162,14 +162,14 @@ public class Fixture {
     op4.save();
 
     //Transaction 5 Reconciled
-    Transaction op5 = Transfer.getNewInstance(account1.id,account3.id);
+    Transaction op5 = Transfer.getNewInstance(account1.getId(),account3.getId());
     op5.amount = new Money(defaultCurrency,-10000L);
     op5.setDate(new Date( now - 800390000 ));
     op5.crStatus = CrStatus.RECONCILED;
     op5.save();
 
     //Transaction 6 Gift Reconciled
-    Transaction op6 = Transaction.getNewInstance(account3.id);
+    Transaction op6 = Transaction.getNewInstance(account3.getId());
     op6.amount = new Money(defaultCurrency,10000L);
     op6.catId = mainCat6;
     op6.setDate(new Date( now - 810390000 ));
@@ -177,20 +177,20 @@ public class Fixture {
     op6.save();
 
     //Transaction 7 Second account foreign Currency
-    Transaction op7 = Transaction.getNewInstance(account2.id);
+    Transaction op7 = Transaction.getNewInstance(account2.getId());
     op7.amount = new Money(foreignCurrency,-34523L);
     op7.setDate(new Date( now - 1003900000 ));
     op7.save();
 
     //Transaction 8: Split
-    Transaction op8 = SplitTransaction.getNewInstance(account3.id);
+    Transaction op8 = SplitTransaction.getNewInstance(account3.getId());
     op8.amount = new Money(defaultCurrency,-8967L);
     op8.save();
-    Transaction split1 = SplitPartCategory.getNewInstance(account3.id,op8.id);
+    Transaction split1 = SplitPartCategory.getNewInstance(account3.getId(),op8.getId());
     split1.amount = new Money(defaultCurrency,-4523L);
     split1.catId = mainCat2;
     split1.save();
-    Transaction split2 = SplitPartCategory.getNewInstance(account3.id,op8.id);
+    Transaction split2 = SplitPartCategory.getNewInstance(account3.getId(),op8.getId());
     split2.amount = new Money(defaultCurrency,-4444L);
     split2.catId = mainCat6;
     split2.save();
@@ -204,7 +204,7 @@ public class Fixture {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id);
+    Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.getId());
     template.amount = new Money(defaultCurrency,-90000L);
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.catId = findCat(templateSubCat,
