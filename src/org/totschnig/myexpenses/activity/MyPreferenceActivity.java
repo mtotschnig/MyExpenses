@@ -247,8 +247,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
-    } else if (key.equals(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.getKey())) {
-      MyApplication.setPasswordCheckDelayNanoSeconds() ;
     } else if (key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey()) ||
         key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
         key.equals(MyApplication.PrefKey.UI_THEME_KEY.getKey())) {

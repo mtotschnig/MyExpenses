@@ -137,13 +137,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
-    /**
-     * how many nanoseconds should we wait before prompting for the password
-     */
-    public static long passwordCheckDelayNanoSeconds;
-    public static void setPasswordCheckDelayNanoSeconds() {
-      MyApplication.passwordCheckDelayNanoSeconds = PrefKey.PROTECTION_DELAY_SECONDS.value(15) * 1000000000L;
-    }
 
     private boolean isLocked;
     public boolean isLocked() {
@@ -175,7 +168,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      setPasswordCheckDelayNanoSeconds();
       initContribEnabled();
       mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       initPlanner();
@@ -344,7 +336,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
       boolean isProtected = isProtected();
       long lastPause = getLastPause();
-      boolean isPostDelay = System.nanoTime() - lastPause > passwordCheckDelayNanoSeconds;
+      boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS.value(15) * 1000000000L);
       boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
       if (
           isProtected && isPostDelay && (!isDataEntryEnabled || !isStartFromWidget)
