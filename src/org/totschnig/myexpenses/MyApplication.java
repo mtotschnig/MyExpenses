@@ -108,22 +108,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         this.resId = resId;
       }
     }
-    public static String PREFKEY_EXPORT_FORMAT;
-    public static String PREFKEY_SEND_FEEDBACK;
-    public static String PREFKEY_MORE_INFO_DIALOG;
-    public static String PREFKEY_CATEGORY_CONTRIB;
-    public static String PREFKEY_SHORTCUT_CREATE_TRANSACTION;
-    public static String PREFKEY_SHORTCUT_CREATE_TRANSFER;
-    public static String PREFKEY_SHORTCUT_CREATE_SPLIT;
-    public static String PREFKEY_PLANNER_CALENDAR_ID;
     private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
     public static final String PREFKEY_APP_FOLDER_WARNING_SHOWN = "app_folder_warning_shown";
-    public static String PREFKEY_APP_DIR;
-    public static String PREFKEY_RATE;
-    public static String PREFKEY_UI_LANGUAGE;
 
     public static final String KEY_NOTIFICATION_ID = "notification_id";
     public static final String KEY_OPERATION_TYPE = "operationType";
@@ -180,17 +169,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
-      PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
-      PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
-      PREFKEY_SHORTCUT_CREATE_TRANSACTION = getString(R.string.pref_shortcut_create_transaction_key);
-      PREFKEY_SHORTCUT_CREATE_TRANSFER = getString(R.string.pref_shortcut_create_transfer_key);
-      PREFKEY_SHORTCUT_CREATE_SPLIT = getString(R.string.pref_shortcut_create_split_key);
-      PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
-      PREFKEY_RATE = getString(R.string.pref_rate_key);
-      PREFKEY_UI_LANGUAGE = getString(R.string.pref_ui_language_key);
-      PREFKEY_APP_DIR = getString(R.string.pref_app_dir_key);
-      PREFKEY_CATEGORY_CONTRIB = getString(R.string.pref_category_contrib_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -203,7 +181,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Log.w(TAG,"Failed to open property file");
       }
       initContribEnabled();
-      mPlannerCalendarId = mSettings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       initPlanner();
       registerWidgetObservers();
     }
@@ -301,7 +279,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public void setLanguage() {
-      String language = mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
+      String language = MyApplication.PrefKey.UI_LANGUAGE.value("default");
       Locale l;
       if (language.equals("default")) {
         l = systemLocale;
@@ -421,7 +399,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
               mSettings.edit()
-                .remove(PREFKEY_PLANNER_CALENDAR_ID)
+                .remove(PrefKey.PLANNER_CALENDAR_ID.key())
                 .remove(PREFKEY_PLANNER_CALENDAR_PATH)
                 .remove(PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP));
           return "-1";
@@ -505,7 +483,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       //onSharedPreferenceChanged should now trigger initPlanner
       SharedPreferencesCompat.apply(
-          mSettings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId));
+          mSettings.edit().putString(PrefKey.PLANNER_CALENDAR_ID.key(), plannerCalendarId));
       return true;
     }
     /**
@@ -524,10 +502,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
       //TODO: move to TaskExecutionFragment
-      if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
+      if (key.equals(PrefKey.PLANNER_CALENDAR_ID.key())) {
         String oldValue = mPlannerCalendarId;
         boolean safeToMovePlans = true;
-        String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+        String newValue = sharedPreferences.getString(PrefKey.PLANNER_CALENDAR_ID.key(), "-1");
         if (oldValue.equals(newValue)) {
           return;
         }
@@ -554,7 +532,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             Log.e("TAG","could not retrieve configured calendar");
             mPlannerCalendarId = "-1";
             SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PREFKEY_PLANNER_CALENDAR_ID, "-1"));
+                PrefKey.PLANNER_CALENDAR_ID.key(), "-1"));
           }
           if (c != null)
             c.close();

@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -1023,7 +1024,7 @@ public class ExpenseEdit extends AmountActivity implements
             new MessageDialogFragment.Button(
                 selectButtonLabel,
                 R.id.SETTINGS_COMMAND,
-                MyApplication.PREFKEY_PLANNER_CALENDAR_ID),
+                MyApplication.PrefKey.PLANNER_CALENDAR_ID.key()),
             createNewButton,
             MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 
 import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
@@ -60,8 +61,7 @@ public class Plan extends Model implements Serializable {
   }
 
   public static void delete(Long id) {
-    String calendarId = MyApplication.getInstance().getSettings()
-        .getString(MyApplication.PREFKEY_PLANNER_CALENDAR_ID, "-1");
+    String calendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
     Uri eventUri = Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
     Cursor eventCursor = cr().query(
         eventUri,
