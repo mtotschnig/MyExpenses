@@ -124,7 +124,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String KEY_NOTIFICATION_ID = "notification_id";
     public static final String KEY_OPERATION_TYPE = "operationType";
 
-    public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
     public static String MARKET_PREFIX = "market://details?id=";
     public static String CALENDAR_FULL_PATH_PROJECTION = 
@@ -177,16 +176,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       setPasswordCheckDelayNanoSeconds();
-      try {
-        InputStream rawResource = getResources().openRawResource(R.raw.app);
-        Properties properties = new Properties();
-        properties.load(rawResource);
-        BUILD_DATE = properties.getProperty("build.date");
-      } catch (NotFoundException e) {
-        Log.w(TAG,"Did not find raw resource");
-      } catch (IOException e) {
-        Log.w(TAG,"Failed to open property file");
-      }
       initContribEnabled();
       mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       initPlanner();
