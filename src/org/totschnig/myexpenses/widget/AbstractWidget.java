@@ -33,7 +33,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   
   abstract String getPrefName();
-  abstract String getProtectionKey();
+  abstract MyApplication.PrefKey getProtectionKey();
   abstract Uri getContentUri();
   abstract T getObject(Cursor c);
   abstract Cursor getCursor(Context c);
@@ -73,7 +73,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   protected boolean isProtected() {
     return MyApplication.getInstance().isProtected() &&
-        !MyApplication.getInstance().getSettings().getBoolean(getProtectionKey(), false);
+        !getProtectionKey().value(false);
   }
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,

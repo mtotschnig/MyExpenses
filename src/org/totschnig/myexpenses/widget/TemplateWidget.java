@@ -64,8 +64,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   @Override
-  String getProtectionKey() {
-    return MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
+  MyApplication.PrefKey getProtectionKey() {
+    return MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
   }
 
   public static final Uri[] OBSERVED_URIS = new Uri[] {

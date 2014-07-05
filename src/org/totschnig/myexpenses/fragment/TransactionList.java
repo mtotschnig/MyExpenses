@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -216,10 +217,11 @@ public class TransactionList extends BudgetListFragment implements
     setColors();
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
-    //work around the problem that the view pager does not display its background correclty with Sherlock
+    //TODO check if still needed with Appcompat
+    //work around the problem that the view pager does not display its background correctly with Sherlock
     if (Build.VERSION.SDK_INT < 11) {
       v.setBackgroundColor(ctx.getResources().getColor(
-         MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")
+         MyApplication.PrefKey.UI_THEME_KEY.value("dark").equals("light")
           ? android.R.color.white : android.R.color.black));
     }
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);

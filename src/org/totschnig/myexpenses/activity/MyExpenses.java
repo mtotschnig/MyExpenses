@@ -843,7 +843,7 @@ public class MyExpenses extends LaunchActivity implements
       ArrayList<File> files = (ArrayList<File>) o;
       if (files != null && files.size() >0)
         Utils.share(this,files,
-            MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+            MyApplication.PrefKey.SHARE_TARGET.value("").trim(),
             "text/" + mExportFormat.toLowerCase(Locale.US));
       break;
     }

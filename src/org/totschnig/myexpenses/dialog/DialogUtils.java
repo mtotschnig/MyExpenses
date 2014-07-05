@@ -98,8 +98,7 @@ public class DialogUtils {
       b.setOnClickListener(l);
   }
   public static AlertDialog passwordDialog(final Activity ctx) {
-    final SharedPreferences settings = MyApplication.getInstance().getSettings();
-    final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
+    final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.value("");
     Context wrappedCtx = wrapContext2(ctx);
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.password_check, null);
@@ -133,7 +132,7 @@ public class DialogUtils {
     @Override
     public void onClick(View v) {
       final SharedPreferences settings = MyApplication.getInstance().getSettings();
-      final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
+      final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.value("");
       EditText input = (EditText) dialog.findViewById(R.id.password);
       TextView error = (TextView) dialog.findViewById(R.id.passwordInvalid);
       if (v == dialog.getButton(AlertDialog.BUTTON_NEGATIVE)) {
@@ -149,8 +148,8 @@ public class DialogUtils {
       } else {
         String value = input.getText().toString();
         boolean isInSecurityQuestion = (Boolean) input.getTag();
-        if (Utils.md5(value).equals(settings.getString(
-            isInSecurityQuestion ? MyApplication.PREFKEY_SECURITY_ANSWER : MyApplication.PREFKEY_SET_PASSWORD,""))) {
+        if (Utils.md5(value).equals(
+            (isInSecurityQuestion ? MyApplication.PrefKey.SECURITY_ANSWER : MyApplication.PrefKey.SET_PASSWORD).value(""))) {
           input.setText("");
           error.setText("");
           MyApplication.getInstance().setLocked(false);
@@ -160,7 +159,7 @@ public class DialogUtils {
           }
           if (isInSecurityQuestion) {
             SharedPreferencesCompat.apply(
-                settings.edit().putBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false));
+                settings.edit().putBoolean(MyApplication.PrefKey.PERFORM_PROTECTION.key(), false));
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);

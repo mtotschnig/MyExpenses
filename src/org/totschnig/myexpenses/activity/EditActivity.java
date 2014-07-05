@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
 import android.content.SharedPreferences;
@@ -65,10 +66,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   protected void changeEditTextBackground(ViewGroup root) {
     //not needed in HOLO
-    if (Build.VERSION.SDK_INT > 10)
+    if (Build.VERSION.SDK_INT > 10) {
       return;
-    SharedPreferences settings = MyApplication.getInstance().getSettings();
-    if (settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("dark")) {
+    }
+    if (MyApplication.PrefKey.UI_THEME_KEY.value("dark").equals("dark")) {
       int c = getResources().getColor(R.color.theme_dark_button_color);
       for(int i = 0; i <root.getChildCount(); i++) {
         View v = root.getChildAt(i);

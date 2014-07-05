@@ -59,26 +59,55 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     //the following keys are stored as string resources, so that
     //they can be referenced from preferences.xml, and thus we
     //can guarantee the referential integrity
-    public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
-    public static String PREFKEY_PERFORM_SHARE;
-    public static String PREFKEY_SHARE_TARGET;
-    public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
-    public static String PREFKEY_UI_THEME_KEY;
-    public static String PREFKEY_UI_FONTSIZE;
-    public static String PREFKEY_BACKUP;
-    public static String PREFKEY_RESTORE;
-    public static String PREFKEY_RESTORE_LEGACY;
-    public static String PREFKEY_CONTRIB_DONATE;
-    public static String PREFKEY_REQUEST_LICENCE;
-    public static String PREFKEY_ENTER_LICENCE;
-    public static String PREFKEY_PERFORM_PROTECTION;
-    public static String PREFKEY_SET_PASSWORD;
-    public static String PREFKEY_SECURITY_ANSWER;
-    public static String PREFKEY_SECURITY_QUESTION;
-    public static String PREFKEY_PROTECTION_DELAY_SECONDS;
-    public static String PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET;
-    public static String PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
-    public static String PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
+    public enum PrefKey {
+      CATEGORIES_SORT_BY_USAGES(R.string.pref_categories_sort_by_usages_key),
+      PERFORM_SHARE(R.string.pref_perform_share_key),
+      SHARE_TARGET(R.string.pref_share_target_key),
+      QIF_EXPORT_FILE_ENCODING(R.string.pref_qif_export_file_encoding_key),
+      UI_THEME_KEY(R.string.pref_ui_theme_key),
+      UI_FONTSIZE(R.string.pref_ui_fontsize_key),
+      BACKUP(R.string.pref_backup_key),
+      RESTORE(R.string.pref_restore_key),
+      RESTORE_LEGACY(R.string.pref_restore_legacy_key),
+      CONTRIB_DONATE(R.string.pref_contrib_donate_key),
+      REQUEST_LICENCE(R.string.pref_request_licence_key),
+      ENTER_LICENCE(R.string.pref_enter_licence_key),
+      PERFORM_PROTECTION(R.string.pref_perform_protection_key),
+      SET_PASSWORD(R.string.pref_set_password_key),
+      SECURITY_ANSWER(R.string.pref_security_answer_key),
+      SECURITY_QUESTION(R.string.pref_security_question_key),
+      PROTECTION_DELAY_SECONDS(R.string.pref_protection_delay_seconds_key),
+      PROTECTION_ENABLE_ACCOUNT_WIDGET(R.string.pref_protection_enable_account_widget_key),
+      PROTECTION_ENABLE_TEMPLATE_WIDGET(R.string.pref_protection_enable_template_widget_key),
+      PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET(R.string.pref_protection_enable_data_entry_from_widget_key),
+      EXPORT_FORMAT(R.string.pref_export_format_key),
+      SEND_FEEDBACK(R.string.pref_send_feedback_key),
+      MORE_INFO_DIALOG(R.string.pref_more_info_dialog_key),
+      SHORTCUT_CREATE_TRANSACTION(R.string.pref_shortcut_create_transaction_key),
+      SHORTCUT_CREATE_TRANSFER(R.string.pref_shortcut_create_transfer_key),
+      SHORTCUT_CREATE_SPLIT(R.string.pref_shortcut_create_split_key),
+      PLANNER_CALENDAR_ID(R.string.pref_planner_calendar_id_key),
+      RATE(R.string.pref_rate_key),
+      UI_LANGUAGE(R.string.pref_ui_language_key),
+      APP_DIR(R.string.pref_app_dir_key),
+      CATEGORY_CONTRIB(R.string.pref_category_contrib_key);
+      private int resId;
+      public String key() {
+        return mSelf.getString(resId);
+      }
+      public String value(String defValue) {
+        return mSelf.mSettings.getString(key(), defValue);
+      }
+      public boolean value(boolean defValue) {
+        return mSelf.mSettings.getBoolean(key(), defValue);
+      }
+      public int value(int defValue) {
+        return mSelf.mSettings.getInt(key(), defValue);
+      }
+      PrefKey(int resId) {
+        this.resId = resId;
+      }
+    }
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
@@ -118,7 +147,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      */
     public static long passwordCheckDelayNanoSeconds;
     public static void setPasswordCheckDelayNanoSeconds() {
-      MyApplication.passwordCheckDelayNanoSeconds = mSelf.mSettings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
+      MyApplication.passwordCheckDelayNanoSeconds = PrefKey.PROTECTION_DELAY_SECONDS.value(15) * 1000000000L;
     }
 
     private boolean isLocked;
@@ -151,26 +180,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
-      PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
-      PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
-      PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
-      PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
-      PREFKEY_UI_FONTSIZE = getString(R.string.pref_ui_fontsize_key);
-      PREFKEY_BACKUP = getString(R.string.pref_backup_key);
-      PREFKEY_RESTORE = getString(R.string.pref_restore_key);
-      PREFKEY_RESTORE_LEGACY = getString(R.string.pref_restore_legacy_key);
-      PREFKEY_CONTRIB_DONATE = getString(R.string.pref_contrib_donate_key);
-      PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
-      PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
-      PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
-      PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
-      PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
-      PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
-      PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
-      PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET = getString(R.string.pref_protection_enable_account_widget_key);
-      PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET = getString(R.string.pref_protection_enable_template_widget_key);
-      PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET = getString(R.string.pref_protection_enable_data_entry_from_widget_key);
       PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
       PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
@@ -212,7 +221,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public boolean initContribEnabled() {
-      isContribEnabled = debug ? true : Utils.verifyLicenceKey(mSettings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
+      isContribEnabled = debug ? true : Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE.value(""));
       return isContribEnabled;
     }
     public static MyApplication getInstance() {
@@ -256,18 +265,18 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       LIGHT
     }
     public static ThemeType getThemeType() {
-      return mSelf.mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
+      return PrefKey.UI_THEME_KEY.value("dark").equals("light") ?
           ThemeType.LIGHT : ThemeType.DARK;
     }
     public static int getThemeId(boolean legacyPreferenceActivity) {
       int fontScale;
       try {
-        fontScale = mSelf.mSettings.getInt(PREFKEY_UI_FONTSIZE, 0);
+        fontScale = PrefKey.UI_FONTSIZE.value(0);
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
         SharedPreferencesCompat.apply(
-            mSelf.mSettings.edit().remove(PREFKEY_UI_FONTSIZE));
+            mSelf.mSettings.edit().remove(PrefKey.UI_FONTSIZE.key()));
       }
       int resId;
       String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
@@ -338,7 +347,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //if we are dealing with an activity called from widget that allows to 
         //bypass password protection, we do not reset last pause
         //otherwise user could gain unprotected access to the app
-        boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
+        boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
         boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
         if (!isDataEntryEnabled || !isStartFromWidget) {
           this.mLastPause = System.nanoTime();
@@ -362,7 +371,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       boolean isProtected = isProtected();
       long lastPause = getLastPause();
       boolean isPostDelay = System.nanoTime() - lastPause > passwordCheckDelayNanoSeconds;
-      boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
+      boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
       if (
           isProtected && isPostDelay && (!isDataEntryEnabled || !isStartFromWidget)
       ) {
@@ -372,7 +381,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return false;
     }
     public boolean isProtected() {
-      return mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false);
+      return PrefKey.PERFORM_PROTECTION.value(false);
     }
     /**
      * @param calendarId

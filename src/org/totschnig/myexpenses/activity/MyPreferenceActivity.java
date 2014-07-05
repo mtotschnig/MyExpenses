@@ -21,6 +21,7 @@ import java.net.URI;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
@@ -74,7 +75,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     super.onCreate(savedInstanceState);
     setTitle(Utils.concatResStrings(this,R.string.app_name,R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
-    Preference pref = findPreference(MyApplication.PREFKEY_SHARE_TARGET);
+    Preference pref = findPreference(MyApplication.PrefKey.SHARE_TARGET.key());
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
@@ -85,28 +86,28 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
       .setOnPreferenceClickListener(this);
 
-    pref = findPreference(MyApplication.PREFKEY_RESTORE);
+    pref = findPreference(MyApplication.PrefKey.RESTORE.key());
     pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
     pref.setOnPreferenceClickListener(this);
 
-    pref = findPreference(MyApplication.PREFKEY_RESTORE_LEGACY);
+    pref = findPreference(MyApplication.PrefKey.RESTORE_LEGACY.key());
     pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_legacy_data) + ")");
     pref.setOnPreferenceClickListener(this);
 
     findPreference(MyApplication.PREFKEY_RATE)
     .setOnPreferenceClickListener(this);
 
-    findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
+    findPreference(MyApplication.PrefKey.ENTER_LICENCE.key())
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
 
-    findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
+    findPreference(MyApplication.PrefKey.PERFORM_PROTECTION.key())
       .setOnPreferenceChangeListener(this);
     
-    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET)
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.key())
     .setOnPreferenceChangeListener(this);
     
-    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET)
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.key())
     .setOnPreferenceChangeListener(this);
     
     findPreference(MyApplication.PREFKEY_APP_DIR)
@@ -122,14 +123,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSACTION).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_TRANSFER).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setSummary(
+    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.key()).setSummary(
         Utils.concatResStrings(this, R.string.pref_security_question_summary,R.string.contrib_key_requires));
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setSummary(
         Utils.concatResStrings(this, R.string.pref_shortcut_summary,R.string.contrib_key_requires));
   }
   private void configureContribPrefs() {
-    Preference pref1 = findPreference(MyApplication.PREFKEY_REQUEST_LICENCE),
-        pref2 = findPreference(MyApplication.PREFKEY_CONTRIB_DONATE);
+    Preference pref1 = findPreference(MyApplication.PrefKey.REQUEST_LICENCE.key()),
+        pref2 = findPreference(MyApplication.PrefKey.CONTRIB_DONATE.key());
     if (MyApplication.getInstance().isContribEnabled) {
       ((PreferenceCategory) findPreference(MyApplication.PREFKEY_CATEGORY_CONTRIB)).removePreference(pref1);
       pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
@@ -142,12 +143,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_SHORTCUT_CREATE_SPLIT).setEnabled(MyApplication.getInstance().isContribEnabled);
   }
   private void setProtectionDependentsState() {
-    boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
-    findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
-    findPreference(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
-    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
-    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
-    findPreference(MyApplication.PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
+    boolean isProtected = MyApplication.PrefKey.PERFORM_PROTECTION.value(false);
+    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.key()).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.key()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.key()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.key()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.key()).setEnabled(isProtected);
   }
 
   @Override
@@ -163,7 +164,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
     String key = pref.getKey();
-    if (key.equals(MyApplication.PREFKEY_SHARE_TARGET)) {
+    if (key.equals(MyApplication.PrefKey.SHARE_TARGET.key())) {
       String target = (String) value;
       URI uri;
       if (!target.equals("")) {
@@ -186,7 +187,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           }
         }
       }
-    } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
+    } else if (key.equals(MyApplication.PrefKey.ENTER_LICENCE.key())) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = true;
@@ -242,31 +243,31 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PREFKEY_PERFORM_PROTECTION)) {
+    if (key.equals(MyApplication.PrefKey.PERFORM_PROTECTION.key())) {
       setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
-    } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
+    } else if (key.equals(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.key())) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
-    } else if (key.equals(MyApplication.PREFKEY_UI_FONTSIZE) ||
+    } else if (key.equals(MyApplication.PrefKey.UI_FONTSIZE.key()) ||
         key.equals(MyApplication.PREFKEY_UI_LANGUAGE) ||
-        key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+        key.equals(MyApplication.PrefKey.UI_THEME_KEY.key())) {
       restart();
-    } else if (key.equals(MyApplication.PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET)) {
+    } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.key())) {
       Log.d("DEBUG","shared preference changed: Account Widget");
       AbstractWidget.updateWidgets(this, AccountWidget.class);
-    } else if (key.equals(MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET)) {
+    } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.key())) {
       Log.d("DEBUG","shared preference changed: Template Widget");
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     }
   }
   @Override
   public boolean onPreferenceClick(Preference preference) {
-    if (preference.getKey().equals(MyApplication.PREFKEY_CONTRIB_DONATE)) {
+    if (preference.getKey().equals(MyApplication.PrefKey.CONTRIB_DONATE.key())) {
       Utils.contribBuyDo(MyPreferenceActivity.this);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PREFKEY_REQUEST_LICENCE)) {
+    if (preference.getKey().equals(MyApplication.PrefKey.REQUEST_LICENCE.key())) {
       String androidId = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
       Intent i = new Intent(android.content.Intent.ACTION_SEND);
       i.setType("plain/text");
@@ -295,8 +296,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       showDialog(R.id.MORE_INFO_DIALOG);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PREFKEY_RESTORE) ||
-        preference.getKey().equals(MyApplication.PREFKEY_RESTORE_LEGACY)) {
+    if (preference.getKey().equals(MyApplication.PrefKey.RESTORE.key()) ||
+        preference.getKey().equals(MyApplication.PrefKey.RESTORE_LEGACY.key())) {
       startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }

@@ -199,12 +199,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       break;
     case TaskExecutionFragment.TASK_BACKUP:
       Toast.makeText(getBaseContext(), getString(r.getMessage(),backupFile.getPath()), Toast.LENGTH_LONG).show();
-      if (((Result) result).success && MyApplication.getInstance().getSettings()
-          .getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+      if (((Result) result).success && MyApplication.PrefKey.PERFORM_SHARE.value(false)) {
         ArrayList<File> files = new ArrayList<File>();
         files.add((File) backupFile);
           Utils.share(this,files,
-              MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+              MyApplication.PrefKey.SHARE_TARGET.value("").trim(),
               "application/zip");
       }
     }

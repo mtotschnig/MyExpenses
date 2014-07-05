@@ -137,8 +137,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
         }
         publishProgress("... " + progressMsg);
         if (result.success) {
-          SharedPreferences settings = MyApplication.getInstance().getSettings();
-          if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+          if (MyApplication.PrefKey.PERFORM_SHARE.value(false)) {
             addResult(output);
           }
           successfullyExported.add(account);

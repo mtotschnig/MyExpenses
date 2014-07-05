@@ -717,7 +717,6 @@ public class Account extends Model {
   public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
-    SharedPreferences settings = ctx.getSettings();
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
@@ -739,7 +738,7 @@ public class Account extends Model {
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
         new FileOutputStream(outputFile),
-        settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
+        MyApplication.PrefKey.QIF_EXPORT_FILE_ENCODING.value("UTF-8"));
     switch (format) {
     case CSV:
       int[] columns = {R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,

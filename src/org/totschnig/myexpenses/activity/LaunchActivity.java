@@ -33,7 +33,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         return;
       if (prev_version < 19) {
         //renamed
-        edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
+        edit.putString(MyApplication.PrefKey.SHARE_TARGET.key(),mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();
       }
@@ -43,8 +43,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
       if (prev_version < 30) {
-        if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"") != "") {
-          edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
+        if (MyApplication.PrefKey.SHARE_TARGET.value("") != "") {
+          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.key(),true).commit();
         }
       }
       if (prev_version < 40) {
