@@ -38,7 +38,7 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
   public void testInsertSplit() {
     clickOnActionBarItem("CREATE_SPLIT");
     mSolo.waitForDialogToOpen(100);
-    if (!MyApplication.getInstance().isContribEnabled) {
+    if (!MyApplication.getInstance().isContribEnabled()) {
       assertTrue("Contrib Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_contrib_feature)));
       mSolo.clickOnText(mContext.getString(R.string.dialog_contrib_no));
     }

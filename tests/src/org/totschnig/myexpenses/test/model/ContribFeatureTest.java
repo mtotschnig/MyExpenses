@@ -15,13 +15,13 @@ public class ContribFeatureTest extends ModelTest  {
     Feature feature = Feature.RESET_ALL;
     MyApplication app = (MyApplication) getContext().getApplicationContext();
     Assert.assertEquals(5,feature.usagesLeft());
-    app.isContribEnabled = false;
+    app.setContribEnabled(false);
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    app.isContribEnabled = true;
+    app.setContribEnabled(true);
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    app.isContribEnabled = false;
+    app.setContribEnabled(false);
     feature.recordUsage();
     Assert.assertEquals(3,feature.usagesLeft());
   }
