@@ -152,7 +152,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
             R.id.BACKUP_COMMAND_DO);
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN);
+            MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
         ConfirmationDialogFragment.newInstance(b)
          .show(getSupportFragmentManager(),"APP_FOLDER_WARNING");
       }

@@ -190,7 +190,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         '.' : ',';
     SharedPreferencesCompat.apply(
       MyApplication.getInstance().getSettings().edit()
-        .putString(MyApplication.PrefKey.EXPORT_FORMAT.key(), format)
+        .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
         .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
         .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
@@ -222,7 +222,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
             R.id.START_EXPORT_COMMAND);
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN);
+            MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
         ConfirmationDialogFragment.newInstance(b)
           .show(getFragmentManager(),"APP_FOLDER_WARNING");
       }

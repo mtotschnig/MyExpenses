@@ -159,7 +159,7 @@ public class DialogUtils {
           }
           if (isInSecurityQuestion) {
             SharedPreferencesCompat.apply(
-                settings.edit().putBoolean(MyApplication.PrefKey.PERFORM_PROTECTION.key(), false));
+                settings.edit().putBoolean(MyApplication.PrefKey.PERFORM_PROTECTION.getKey(), false));
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);

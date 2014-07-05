@@ -90,29 +90,36 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       RATE(R.string.pref_rate_key),
       UI_LANGUAGE(R.string.pref_ui_language_key),
       APP_DIR(R.string.pref_app_dir_key),
-      CATEGORY_CONTRIB(R.string.pref_category_contrib_key);
-      private int resId;
-      public String key() {
-        return mSelf.getString(resId);
+      CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
+      PLANNER_CALENDAR_PATH("planner_calendar_path"),
+      CURRENT_VERSION("currentversion"),
+      CURRENT_ACCOUNT("current_account"),
+      PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
+      APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown");
+      private int resId = 0;
+      private String key = null;
+      public String getKey() {
+        return resId == 0 ? key : mSelf.getString(resId);
       }
       public String value(String defValue) {
-        return mSelf.mSettings.getString(key(), defValue);
+        return mSelf.mSettings.getString(getKey(), defValue);
       }
       public boolean value(boolean defValue) {
-        return mSelf.mSettings.getBoolean(key(), defValue);
+        return mSelf.mSettings.getBoolean(getKey(), defValue);
       }
       public int value(int defValue) {
-        return mSelf.mSettings.getInt(key(), defValue);
+        return mSelf.mSettings.getInt(getKey(), defValue);
+      }
+      public long value(long defValue) {
+        return mSelf.mSettings.getLong(getKey(), defValue);
       }
       PrefKey(int resId) {
         this.resId = resId;
       }
+      PrefKey(String key) {
+        this.key = key;
+      }
     }
-    private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
-    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
-    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
-    public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
-    public static final String PREFKEY_APP_FOLDER_WARNING_SHOWN = "app_folder_warning_shown";
 
     public static final String KEY_NOTIFICATION_ID = "notification_id";
     public static final String KEY_OPERATION_TYPE = "operationType";
@@ -254,7 +261,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //in a previous version, the same key was holding an integer
         fontScale = 0;
         SharedPreferencesCompat.apply(
-            mSelf.mSettings.edit().remove(PrefKey.UI_FONTSIZE.key()));
+            mSelf.mSettings.edit().remove(PrefKey.UI_FONTSIZE.getKey()));
       }
       int resId;
       String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
@@ -379,7 +386,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       else {
         if (c.moveToFirst()) {
           String found = DbUtils.getString(c,0);
-          String expected = mSettings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
+          String expected = PrefKey.PLANNER_CALENDAR_PATH.value("");
           if (!found.equals(expected)) {
             Log.w(TAG,String.format(
                 "found calendar, but path did not match; expected %s ; got %s",
@@ -399,9 +406,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
               mSettings.edit()
-                .remove(PrefKey.PLANNER_CALENDAR_ID.key())
-                .remove(PREFKEY_PLANNER_CALENDAR_PATH)
-                .remove(PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP));
+                .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
+                .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
+                .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey()));
           return "-1";
         }
       }
@@ -483,7 +490,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       //onSharedPreferenceChanged should now trigger initPlanner
       SharedPreferencesCompat.apply(
-          mSettings.edit().putString(PrefKey.PLANNER_CALENDAR_ID.key(), plannerCalendarId));
+          mSettings.edit().putString(PrefKey.PLANNER_CALENDAR_ID.getKey(), plannerCalendarId));
       return true;
     }
     /**
@@ -502,10 +509,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
       //TODO: move to TaskExecutionFragment
-      if (key.equals(PrefKey.PLANNER_CALENDAR_ID.key())) {
+      if (key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
         String oldValue = mPlannerCalendarId;
         boolean safeToMovePlans = true;
-        String newValue = sharedPreferences.getString(PrefKey.PLANNER_CALENDAR_ID.key(), "-1");
+        String newValue = sharedPreferences.getString(PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1");
         if (oldValue.equals(newValue)) {
           return;
         }
@@ -527,12 +534,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             String path = c.getString(0);
             Log.i(TAG,"storing calendar path : "+ path);
             SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PREFKEY_PLANNER_CALENDAR_PATH, path));
+                PrefKey.PLANNER_CALENDAR_PATH.getKey(), path));
           } else {
             Log.e("TAG","could not retrieve configured calendar");
             mPlannerCalendarId = "-1";
             SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PrefKey.PLANNER_CALENDAR_ID.key(), "-1"));
+                PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1"));
           }
           if (c != null)
             c.close();
@@ -595,7 +602,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           }
         } else {
           SharedPreferencesCompat.apply(
-              sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH));
+              sharedPreferences.edit().remove(PrefKey.PLANNER_CALENDAR_PATH.getKey()));
         }
       }
     }

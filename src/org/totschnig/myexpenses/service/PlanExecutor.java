@@ -45,9 +45,7 @@ public class PlanExecutor extends IntentService {
       Log.i(MyApplication.TAG,"PlanExecutor: no planner set, nothing to do");
       return;
     }
-    SharedPreferences settings = MyApplication.getInstance().getSettings();
-    long lastExecutionTimeStamp = settings.getLong(
-        MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, 0);
+    long lastExecutionTimeStamp = MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.value(0L);
     long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
       Log.i(MyApplication.TAG, "PlanExecutor started first time, nothing to do");
@@ -165,8 +163,8 @@ public class PlanExecutor extends IntentService {
         cursor.close();
       }
     }
-    SharedPreferencesCompat.apply(settings.edit()
-        .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
+    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit()
+        .putLong(MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey(), now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, PlanExecutor.class), 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
     manager.set(AlarmManager.RTC, now + INTERVAL, 

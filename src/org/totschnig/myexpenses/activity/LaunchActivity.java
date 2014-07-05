@@ -25,15 +25,15 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
-    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
+    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.value(-1);
     int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version < current_version) {
-      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
+      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PrefKey.CURRENT_VERSION.getKey(), current_version));
       if (prev_version == -1)
         return;
       if (prev_version < 19) {
         //renamed
-        edit.putString(MyApplication.PrefKey.SHARE_TARGET.key(),mSettings.getString("ftp_target",""));
+        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(),mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();
       }
@@ -44,7 +44,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       }
       if (prev_version < 30) {
         if (MyApplication.PrefKey.SHARE_TARGET.value("") != "") {
-          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.key(),true).commit();
+          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.getKey(),true).commit();
         }
       }
       if (prev_version < 40) {

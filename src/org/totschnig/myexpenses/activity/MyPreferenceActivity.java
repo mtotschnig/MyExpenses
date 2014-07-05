@@ -75,64 +75,64 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     super.onCreate(savedInstanceState);
     setTitle(Utils.concatResStrings(this,R.string.app_name,R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
-    Preference pref = findPreference(MyApplication.PrefKey.SHARE_TARGET.key());
+    Preference pref = findPreference(MyApplication.PrefKey.SHARE_TARGET.getKey());
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
     pref.setOnPreferenceChangeListener(this);
     configureContribPrefs();
-    findPreference(MyApplication.PrefKey.SEND_FEEDBACK.key())
+    findPreference(MyApplication.PrefKey.SEND_FEEDBACK.getKey())
       .setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PrefKey.MORE_INFO_DIALOG.key())
+    findPreference(MyApplication.PrefKey.MORE_INFO_DIALOG.getKey())
       .setOnPreferenceClickListener(this);
 
-    pref = findPreference(MyApplication.PrefKey.RESTORE.key());
+    pref = findPreference(MyApplication.PrefKey.RESTORE.getKey());
     pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
     pref.setOnPreferenceClickListener(this);
 
-    pref = findPreference(MyApplication.PrefKey.RESTORE_LEGACY.key());
+    pref = findPreference(MyApplication.PrefKey.RESTORE_LEGACY.getKey());
     pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_legacy_data) + ")");
     pref.setOnPreferenceClickListener(this);
 
-    findPreference(MyApplication.PrefKey.RATE.key())
+    findPreference(MyApplication.PrefKey.RATE.getKey())
     .setOnPreferenceClickListener(this);
 
-    findPreference(MyApplication.PrefKey.ENTER_LICENCE.key())
+    findPreference(MyApplication.PrefKey.ENTER_LICENCE.getKey())
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
 
-    findPreference(MyApplication.PrefKey.PERFORM_PROTECTION.key())
+    findPreference(MyApplication.PrefKey.PERFORM_PROTECTION.getKey())
       .setOnPreferenceChangeListener(this);
     
-    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.key())
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())
     .setOnPreferenceChangeListener(this);
     
-    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.key())
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())
     .setOnPreferenceChangeListener(this);
     
-    findPreference(MyApplication.PrefKey.APP_DIR.key())
+    findPreference(MyApplication.PrefKey.APP_DIR.getKey())
     .setOnPreferenceClickListener(this);
     setAppDirSummary();
     if (savedInstanceState == null &&
         TextUtils.equals(
             getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
-            MyApplication.PrefKey.PLANNER_CALENDAR_ID.key())) {
-      ((CalendarListPreference) findPreference(MyApplication.PrefKey.PLANNER_CALENDAR_ID.key())).show();
+            MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey())) {
+      ((CalendarListPreference) findPreference(MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey())).show();
     }
     
-    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSACTION.key()).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSFER.key()).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.key()).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.key()).setSummary(
+    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.getKey()).setSummary(
         Utils.concatResStrings(this, R.string.pref_security_question_summary,R.string.contrib_key_requires));
-    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.key()).setSummary(
+    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
         Utils.concatResStrings(this, R.string.pref_shortcut_summary,R.string.contrib_key_requires));
   }
   private void configureContribPrefs() {
-    Preference pref1 = findPreference(MyApplication.PrefKey.REQUEST_LICENCE.key()),
-        pref2 = findPreference(MyApplication.PrefKey.CONTRIB_DONATE.key());
+    Preference pref1 = findPreference(MyApplication.PrefKey.REQUEST_LICENCE.getKey()),
+        pref2 = findPreference(MyApplication.PrefKey.CONTRIB_DONATE.getKey());
     if (MyApplication.getInstance().isContribEnabled) {
-      ((PreferenceCategory) findPreference(MyApplication.PrefKey.CATEGORY_CONTRIB.key())).removePreference(pref1);
+      ((PreferenceCategory) findPreference(MyApplication.PrefKey.CATEGORY_CONTRIB.getKey())).removePreference(pref1);
       pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
     } else {
       pref1.setOnPreferenceClickListener(this);
@@ -140,15 +140,15 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       pref2.setSummary(R.string.pref_contrib_donate_summary);
     }
     pref2.setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.key()).setEnabled(MyApplication.getInstance().isContribEnabled);
+    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled);
   }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.PrefKey.PERFORM_PROTECTION.value(false);
-    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.key()).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
-    findPreference(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.key()).setEnabled(isProtected);
-    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.key()).setEnabled(isProtected);
-    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.key()).setEnabled(isProtected);
-    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.key()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.getKey()).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.getKey()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey()).setEnabled(isProtected);
+    findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.getKey()).setEnabled(isProtected);
   }
 
   @Override
@@ -164,7 +164,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
     String key = pref.getKey();
-    if (key.equals(MyApplication.PrefKey.SHARE_TARGET.key())) {
+    if (key.equals(MyApplication.PrefKey.SHARE_TARGET.getKey())) {
       String target = (String) value;
       URI uri;
       if (!target.equals("")) {
@@ -187,7 +187,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           }
         }
       }
-    } else if (key.equals(MyApplication.PrefKey.ENTER_LICENCE.key())) {
+    } else if (key.equals(MyApplication.PrefKey.ENTER_LICENCE.getKey())) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = true;
@@ -243,31 +243,31 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PrefKey.PERFORM_PROTECTION.key())) {
+    if (key.equals(MyApplication.PrefKey.PERFORM_PROTECTION.getKey())) {
       setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
-    } else if (key.equals(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.key())) {
+    } else if (key.equals(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.getKey())) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
-    } else if (key.equals(MyApplication.PrefKey.UI_FONTSIZE.key()) ||
-        key.equals(MyApplication.PrefKey.UI_LANGUAGE.key()) ||
-        key.equals(MyApplication.PrefKey.UI_THEME_KEY.key())) {
+    } else if (key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey()) ||
+        key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.UI_THEME_KEY.getKey())) {
       restart();
-    } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.key())) {
+    } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())) {
       Log.d("DEBUG","shared preference changed: Account Widget");
       AbstractWidget.updateWidgets(this, AccountWidget.class);
-    } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.key())) {
+    } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
       Log.d("DEBUG","shared preference changed: Template Widget");
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     }
   }
   @Override
   public boolean onPreferenceClick(Preference preference) {
-    if (preference.getKey().equals(MyApplication.PrefKey.CONTRIB_DONATE.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.CONTRIB_DONATE.getKey())) {
       Utils.contribBuyDo(MyPreferenceActivity.this);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.REQUEST_LICENCE.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.REQUEST_LICENCE.getKey())) {
       String androidId = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
       Intent i = new Intent(android.content.Intent.ACTION_SEND);
       i.setType("plain/text");
@@ -284,26 +284,26 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       }
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.SEND_FEEDBACK.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.SEND_FEEDBACK.getKey())) {
       CommonCommands.dispatchCommand(this, R.id.FEEDBACK_COMMAND, null);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.RATE.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.RATE.getKey())) {
       CommonCommands.dispatchCommand(this, R.id.RATE_COMMAND, null);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.MORE_INFO_DIALOG.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.MORE_INFO_DIALOG.getKey())) {
       showDialog(R.id.MORE_INFO_DIALOG);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.RESTORE.key()) ||
-        preference.getKey().equals(MyApplication.PrefKey.RESTORE_LEGACY.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.RESTORE.getKey()) ||
+        preference.getKey().equals(MyApplication.PrefKey.RESTORE_LEGACY.getKey())) {
       startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.APP_DIR.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.APP_DIR.getKey())) {
       File appDir = Utils.requireAppDir();
-      Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.key());
+      Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.getKey());
       if (appDir == null) {
         pref.setSummary(R.string.external_storage_unavailable);
         pref.setEnabled(false);
@@ -314,14 +314,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       }
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSACTION.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())) {
       Bundle extras = new Bundle();
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
       addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.shortcut_create_transaction_icon,extras);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSFER.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
       Bundle extras = new Bundle();
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
@@ -329,7 +329,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.shortcut_create_transfer_icon,extras);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.key())) {
+    if (preference.getKey().equals(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
       Bundle extras = new Bundle();
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
       extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
@@ -350,14 +350,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
         SharedPreferencesCompat.apply(
             MyApplication.getInstance().getSettings().edit()
-            .putString(MyApplication.PrefKey.APP_DIR.key(), databaseBackupFolder));
+            .putString(MyApplication.PrefKey.APP_DIR.getKey(), databaseBackupFolder));
       }
       setAppDirSummary();
     }
   }
   private void setAppDirSummary() {
     File appDir = Utils.requireAppDir();
-    Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.key());
+    Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.getKey());
     if (appDir == null) {
       pref.setSummary(R.string.external_storage_unavailable);
       pref.setEnabled(false);
@@ -405,7 +405,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   public void onCalendarListPreferenceSet() {
     if (TextUtils.equals(
         getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
-        MyApplication.PrefKey.PLANNER_CALENDAR_ID.key())) {
+        MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey())) {
       setResult(RESULT_OK);
       finish();
     }

@@ -276,7 +276,7 @@ public class Utils {
     if (!isExternalStorageAvailable()) {
       return null;
     }
-    String pref = MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_APP_DIR, null);
+    String pref = MyApplication.PrefKey.APP_DIR.value(null);
     if (pref == null) {
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
         File sd = Environment.getExternalStorageDirectory();
@@ -659,8 +659,7 @@ public class Utils {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
       return true;
     }
-    if (MyApplication.getInstance().getSettings()
-        .getBoolean(MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN, false)) {
+    if (MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.value(false)) {
       return true;
     }
     try {

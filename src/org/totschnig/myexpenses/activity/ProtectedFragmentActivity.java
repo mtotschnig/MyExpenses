@@ -119,9 +119,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PrefKey.UI_THEME_KEY.key()) ||
-        key.equals(MyApplication.PREFKEY_UI_LANGUAGE) ||
-        key.equals(MyApplication.PrefKey.UI_FONTSIZE.key())) {
+    if (key.equals(MyApplication.PrefKey.UI_THEME_KEY.getKey()) ||
+        key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey())) {
       scheduledRestart = true;
     }
   }

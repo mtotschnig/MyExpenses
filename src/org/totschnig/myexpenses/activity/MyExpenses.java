@@ -168,7 +168,7 @@ public class MyExpenses extends LaunchActivity implements
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
     mSettings = MyApplication.getInstance().getSettings();
-    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
+    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.value(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
@@ -293,7 +293,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     if (mAccountId == 0)
-      mAccountId = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+      mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.value(0L);
     setup();
   }
   private void initialSetup() {
@@ -738,7 +738,7 @@ public class MyExpenses extends LaunchActivity implements
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (mAccountId != newAccountId)
       SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
+        mSettings.edit().putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(), newAccountId));
     mAccountId = newAccountId;
     setCustomTitle();
     mDrawerList.setItemChecked(position, true);
