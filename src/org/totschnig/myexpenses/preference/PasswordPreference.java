@@ -78,7 +78,7 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       protect = (CheckBox) view.findViewById(R.id.performProtection);
       change = (CheckBox) view.findViewById(R.id.changePassword);
       error        = (TextView) view.findViewById(R.id.passwordNoMatch);
-      String warning = MyApplication.getInstance().isContribEnabled ?
+      String warning = MyApplication.getInstance().isContribEnabled() ?
           getContext().getString(R.string.warning_password_contrib) :
           Utils.concatResStrings(
               getContext(),

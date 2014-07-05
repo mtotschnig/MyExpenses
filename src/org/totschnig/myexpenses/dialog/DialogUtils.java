@@ -112,7 +112,7 @@ public class DialogUtils {
             ctx.moveTaskToBack(true);
           }
         });
-    if (MyApplication.getInstance().isContribEnabled && !securityQuestion.equals("")) {
+    if (MyApplication.getInstance().isContribEnabled() && !securityQuestion.equals("")) {
       builder.setNegativeButton(R.string.password_lost, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {}
       });

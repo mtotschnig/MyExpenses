@@ -276,7 +276,7 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE,0);
           mRecordTemplateWidget =
               getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
-              !MyApplication.getInstance().isContribEnabled;
+              !MyApplication.getInstance().isContribEnabled();
         } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }

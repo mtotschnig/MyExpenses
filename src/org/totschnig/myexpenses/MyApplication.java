@@ -133,14 +133,33 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
-    public boolean isContribEnabled,
-      showImportantUpgradeInfo = false;
+    private boolean contribEnabled = false, contribEnabledInitialized = false;
+
+
+    public boolean  showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
 
     private boolean isLocked;
     public boolean isLocked() {
       return isLocked;
+    }
+    public void setContribEnabled(boolean contribEnabled) {
+      this.contribEnabled = contribEnabled;
+    }
+    public boolean isContribEnabled() {
+      if (debug) {
+        return true;
+      }
+      if (!contribEnabledInitialized) {
+        contribEnabled = Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE.value(""));
+        contribEnabledInitialized = true;
+      }
+      return contribEnabled;
+    }
+
+    public void resetContribEnabled() {
+      contribEnabledInitialized = false;
     }
 
     public void setLocked(boolean isLocked) {
@@ -168,7 +187,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      initContribEnabled();
+      //TODO lazy setting of mPlannerCalendarId
       mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       initPlanner();
       registerWidgetObservers();
@@ -186,10 +205,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
     }
 
-    public boolean initContribEnabled() {
-      isContribEnabled = debug ? true : Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE.value(""));
-      return isContribEnabled;
-    }
     public static MyApplication getInstance() {
       return mSelf;
     }

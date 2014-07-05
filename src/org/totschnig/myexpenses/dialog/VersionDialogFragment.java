@@ -95,7 +95,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       .setIcon(R.drawable.myexpenses)
       .setView(view)
       .setNegativeButton(android.R.string.ok, this);
-    if (!MyApplication.getInstance().isContribEnabled)
+    if (!MyApplication.getInstance().isContribEnabled())
       builder.setPositiveButton( R.string.menu_contrib, this);
     return builder.create();
   }

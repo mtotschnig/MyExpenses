@@ -184,7 +184,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
     if (withTransactionsP) {
       if (accountId == 0) {
-        if (!MyApplication.getInstance().isContribEnabled
+        if (!MyApplication.getInstance().isContribEnabled()
             && parser.accounts.size() + Account.count(null, null) > 5) {
           publishProgress(
               MyApplication.getInstance()

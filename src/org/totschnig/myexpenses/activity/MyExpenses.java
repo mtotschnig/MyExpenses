@@ -371,7 +371,7 @@ public class MyExpenses extends LaunchActivity implements
         new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }*/
-      if (!MyApplication.getInstance().isContribEnabled) {
+      if (!MyApplication.getInstance().isContribEnabled()) {
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           CommonCommands.showContribInfoDialog(this,true);
@@ -433,7 +433,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.DISTRIBUTION_COMMAND:
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
-        if (MyApplication.getInstance().isContribEnabled) {
+        if (MyApplication.getInstance().isContribEnabled()) {
         contribFeatureCalled(Feature.DISTRIBUTION, null);
         }
         else {
@@ -492,7 +492,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.CREATE_SPLIT_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
+      if (MyApplication.getInstance().isContribEnabled()) {
         contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
       }
       else {
@@ -532,7 +532,7 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && tl.hasItems) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
+          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled()) {
             contribFeatureCalled(Feature.RESET_ALL, null);
           } else {
             CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
@@ -601,7 +601,7 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
-      if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
+      if (MyApplication.getInstance().isContribEnabled() || (mAccountCount > 0 && mAccountCount < 5)) {
         i = new Intent(this, AccountEdit.class);
         if (tag != null)
           i.putExtra(KEY_CURRENCY,(String)tag);

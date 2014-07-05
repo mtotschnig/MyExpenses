@@ -717,7 +717,7 @@ public class TransactionList extends BudgetListFragment implements
       int itemPosition, long headerId, boolean currentlySticky) {
     MyExpenses ctx = (MyExpenses) getActivity();
     if (mappedCategoriesPerGroup.get(itemPosition)) {
-      if (MyApplication.getInstance().isContribEnabled) {
+      if (MyApplication.getInstance().isContribEnabled()) {
         ctx.contribFeatureCalled(Feature.DISTRIBUTION, headerId);
       }
       else {

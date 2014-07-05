@@ -131,7 +131,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   private void configureContribPrefs() {
     Preference pref1 = findPreference(MyApplication.PrefKey.REQUEST_LICENCE.getKey()),
         pref2 = findPreference(MyApplication.PrefKey.CONTRIB_DONATE.getKey());
-    if (MyApplication.getInstance().isContribEnabled) {
+    if (MyApplication.getInstance().isContribEnabled()) {
       ((PreferenceCategory) findPreference(MyApplication.PrefKey.CATEGORY_CONTRIB.getKey())).removePreference(pref1);
       pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
     } else {
@@ -140,11 +140,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       pref2.setSummary(R.string.pref_contrib_donate_summary);
     }
     pref2.setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled);
+    findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
   }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.PrefKey.PERFORM_PROTECTION.value(false);
-    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.getKey()).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
+    findPreference(MyApplication.PrefKey.SECURITY_QUESTION.getKey()).setEnabled( MyApplication.getInstance().isContribEnabled() && isProtected);
     findPreference(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.getKey()).setEnabled(isProtected);
     findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey()).setEnabled(isProtected);
     findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey()).setEnabled(isProtected);
@@ -190,11 +190,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     } else if (key.equals(MyApplication.PrefKey.ENTER_LICENCE.getKey())) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
-       MyApplication.getInstance().isContribEnabled = true;
+       MyApplication.getInstance().setContribEnabled(true);
        setProtectionDependentsState();
      } else {
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
-       MyApplication.getInstance().isContribEnabled = false;
+       MyApplication.getInstance().setContribEnabled(false);
      }
      configureContribPrefs();
     }
