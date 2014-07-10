@@ -5,6 +5,7 @@ import java.util.List;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -183,7 +184,8 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
             cursor.close();
           }
         }
-      } catch (SecurityException e) {
+      } catch (Exception e) {
+        Utils.reportToAcra(e);
         return null;
       }
     }
