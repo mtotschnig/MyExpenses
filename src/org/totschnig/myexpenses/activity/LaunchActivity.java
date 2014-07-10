@@ -48,7 +48,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         }
       }
       if (prev_version < 40) {
-        DbUtils.fixDateValues(getContentResolver());
+        //this no longer works since we migrated time to utc format
+        //  DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
