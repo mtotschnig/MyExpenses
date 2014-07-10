@@ -187,8 +187,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      //TODO lazy setting of mPlannerCalendarId
-      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       initPlanner();
       registerWidgetObservers();
     }
@@ -398,6 +396,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
     }
     public String checkPlanner() {
+      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
