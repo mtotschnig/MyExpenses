@@ -120,8 +120,8 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     if (pref==null)
       Assert.fail("Could not find prefs");
     pref.edit()
-      .putString(MyApplication.PREFKEY_UI_LANGUAGE, lang + "-"+country)
-      .putString(MyApplication.PREFKEY_ENTER_LICENCE, l.toString())
+      .putString(MyApplication.PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
+      .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
       .commit();
     
     getActivity();

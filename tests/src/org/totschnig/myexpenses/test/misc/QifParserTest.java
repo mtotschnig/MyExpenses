@@ -569,6 +569,17 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals("My Cash Account", t.toAccount);
         assertEquals(100000, t.amount);
     }
+    public void test_should_not_add_cat_if_cat_list_is_empty() throws Exception {
+      parseQif(
+          "!Type:Cat\n"+
+          "^\n"+
+          "!Account\n"+
+          "NMy Cash Account\n"+
+          "TCash\n"+
+          "^\n"
+      );
+      assertEquals(0, p.categories.size());
+    }
 
     public void parseQif(String fileContent) throws IOException {
         parseQif(fileContent, EU);
