@@ -391,7 +391,11 @@ public class ExpenseEdit extends AmountActivity implements
       mTransferAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mTransferAccountSpinner.setAdapter(mTransferAccountsAdapter);
     } else if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-        accountLabelTv.setText(getString(R.string.account) + " / " + getString(R.string.category));
+      String accountLabel = getString(R.string.account);
+      if (mOperationType != MyExpenses.TYPE_SPLIT) {
+        accountLabel += " / " + getString(R.string.category);
+      }
+      accountLabelTv.setText(accountLabel);
     }
 
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
