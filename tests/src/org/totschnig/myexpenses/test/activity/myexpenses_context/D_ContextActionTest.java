@@ -96,7 +96,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   }
   private void sleep() {
     try {
-      Thread.sleep(1000);
+      Thread.sleep(1500);
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
