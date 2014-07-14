@@ -633,6 +633,7 @@ public class ExpenseEdit extends AmountActivity implements
        .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
     } else {
       Intent i = new Intent(this, ExpenseEdit.class);
+      forwardDataEntryFromWidget(i);
       i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
       i.putExtra(KEY_ACCOUNTID,account.getId());
       i.putExtra(KEY_PARENTID,mTransaction.getId());
@@ -644,6 +645,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   private void startSelectCategory() {
     Intent i = new Intent(this, ManageCategories.class);
+    forwardDataEntryFromWidget(i);
     //we pass the currently selected category in to prevent
     //it from being deleted, which can theoretically lead
     //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
