@@ -45,9 +45,7 @@ public class PlanExecutor extends IntentService {
       Log.i(MyApplication.TAG,"PlanExecutor: no planner set, nothing to do");
       return;
     }
-    SharedPreferences settings = MyApplication.getInstance().getSettings();
-    long lastExecutionTimeStamp = settings.getLong(
-        MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, 0);
+    long lastExecutionTimeStamp = MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.value(0L);
     long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
       Log.i(MyApplication.TAG, "PlanExecutor started first time, nothing to do");
@@ -89,7 +87,7 @@ public class PlanExecutor extends IntentService {
             //TODO we should set the date of the Event instance on the created transactions
             Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId,instanceId);
             if (template != null) {
-              Log.i(MyApplication.TAG,String.format("belongs to template %d",template.id));
+              Log.i(MyApplication.TAG,String.format("belongs to template %d",template.getId()));
               Notification notification;
               int notificationId = instanceId.hashCode();
               PendingIntent resultIntent;
@@ -112,7 +110,7 @@ public class PlanExecutor extends IntentService {
                 if (t.save() != null) {
                   Intent displayIntent = new Intent(this, MyExpenses.class)
                     .putExtra(KEY_ROWID, template.accountId)
-                    .putExtra(KEY_TRANSACTIONID, t.id);
+                    .putExtra(KEY_TRANSACTIONID, t.getId());
                   resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
                       PendingIntent.FLAG_UPDATE_CURRENT);
                   builder.setContentIntent(resultIntent);
@@ -133,7 +131,7 @@ public class PlanExecutor extends IntentService {
                     PendingIntent.getService(this, notificationId, cancelIntent, 0));
                 Intent editIntent = new Intent(this,ExpenseEdit.class)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                  .putExtra(KEY_TEMPLATEID, template.id)
+                  .putExtra(KEY_TEMPLATEID, template.getId())
                   .putExtra(KEY_INSTANCEID, -1L)
                   .putExtra(KEY_DATE, date);
                 resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
@@ -145,7 +143,7 @@ public class PlanExecutor extends IntentService {
                 applyIntent.setAction("Apply")
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra("title", title)
-                  .putExtra(KEY_TEMPLATEID, template.id)
+                  .putExtra(KEY_TEMPLATEID, template.getId())
                   .putExtra(KEY_DATE, date);
                 builder.addAction(
                     android.R.drawable.ic_menu_save,
@@ -165,8 +163,8 @@ public class PlanExecutor extends IntentService {
         cursor.close();
       }
     }
-    SharedPreferencesCompat.apply(settings.edit()
-        .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
+    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit()
+        .putLong(MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey(), now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, PlanExecutor.class), 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
     manager.set(AlarmManager.RTC, now + INTERVAL, 

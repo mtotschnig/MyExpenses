@@ -239,7 +239,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     pl.refresh();
   }
   public boolean getNewPlanEnabled() {
-    return MyApplication.getInstance().isContribEnabled ||
+    return MyApplication.getInstance().isContribEnabled() ||
         ((PlanList) getSupportFragmentManager().findFragmentByTag(
             mSectionsPagerAdapter.getFragmentName(1)))
           .newPlanEnabled;

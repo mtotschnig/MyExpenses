@@ -21,8 +21,16 @@ import android.content.ContentResolver;
 import android.net.Uri;
 
 public abstract class Model {
-  public Long id = 0L;
+  private Long id = 0L;
   private static ContentResolver cr;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public static ContentResolver cr() {
     return cr != null ? cr : MyApplication.getInstance().getContentResolver();

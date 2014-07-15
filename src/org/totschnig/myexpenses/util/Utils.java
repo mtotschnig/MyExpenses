@@ -276,7 +276,7 @@ public class Utils {
     if (!isExternalStorageAvailable()) {
       return null;
     }
-    String pref = MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_APP_DIR, null);
+    String pref = MyApplication.PrefKey.APP_DIR.value(null);
     if (pref == null) {
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
         File sd = Environment.getExternalStorageDirectory();
@@ -450,15 +450,15 @@ public class Utils {
         + 0.114 * Color.blue(color));
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
-  public static boolean verifyLicenceKey (String key) {
-    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
-        MyApplication.CONTRIB_SECRET;
-    Long l = (s.hashCode() & 0x00000000ffffffffL);
-    return l.toString().equals(key);
-  }
+//  public static boolean verifyLicenceKey (String key) {
+//    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
+//        MyApplication.CONTRIB_SECRET;
+//    Long l = (s.hashCode() & 0x00000000ffffffffL);
+//    return l.toString().equals(key);
+//  }
   public static void contribBuyDo(Activity ctx) {
    Intent i = new Intent(Intent.ACTION_VIEW);
-   if (MyApplication.getInstance().isContribEnabled) {
+   if (MyApplication.getInstance().isContribEnabled()) {
      if (ctx instanceof FragmentActivity)
        DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
      else {
@@ -666,8 +666,7 @@ public class Utils {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
       return true;
     }
-    if (MyApplication.getInstance().getSettings()
-        .getBoolean(MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN, false)) {
+    if (MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.value(false)) {
       return true;
     }
     try {

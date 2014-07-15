@@ -33,7 +33,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   
   abstract String getPrefName();
-  abstract String getProtectionKey();
+  abstract MyApplication.PrefKey getProtectionKey();
   abstract Uri getContentUri();
   abstract T getObject(Cursor c);
   abstract Cursor getCursor(Context c);
@@ -73,7 +73,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   protected boolean isProtected() {
     return MyApplication.getInstance().isProtected() &&
-        !MyApplication.getInstance().getSettings().getBoolean(getProtectionKey(), false);
+        !getProtectionKey().value(false);
   }
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
@@ -155,8 +155,8 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
           Log.d("AbstractWidget", "looking for " + objectId);
           while (c.moveToNext()) {
             o = getObject(c);
-            Log.d("AbstractWidget", "looking at " + o.id);
-            if (o.id == objectId) {
+            Log.d("AbstractWidget", "looking at " + o.getId());
+            if (o.getId() == objectId) {
               found = true;
               Log.d("AbstractWidget", "buildUpdateForOther found -> "
                   + objectId);
@@ -173,7 +173,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
             } else {
               if (found) {
                 Log.d("AbstractWidget",
-                    "buildUpdateForOther building update for -> " + o.id);
+                    "buildUpdateForOther building update for -> " + o.getId());
                 return updateWidgetFrom(context, widgetId, layoutId, o);
               }
             }
@@ -182,7 +182,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
           o = getObject(c);
           Log.d("AbstractWidget",
               "buildUpdateForOther not found, taking the first one -> "
-                  + o.id);
+                  + o.getId());
           return updateWidgetFrom(context, widgetId, layoutId, o);
         }
       }

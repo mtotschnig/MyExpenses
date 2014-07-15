@@ -319,10 +319,10 @@ public class CategoryList extends BudgetListFragment implements
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     if (id == SUM_CURSOR) {
       Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
-      if (mAccount.id < 0) {
+      if (mAccount.getId() < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
       } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
       }
       return new CursorLoader(
           getActivity(),
@@ -377,13 +377,13 @@ public class CategoryList extends BudgetListFragment implements
         + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES
         + "." + KEY_ROWID + " OR " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
     if (mAccount != null) {
-      if (mAccount.id < 0) {
+      if (mAccount.getId() < 0) {
         selection = " IN " +
             "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
         accountSelector = mAccount.currency.getCurrencyCode();
       } else {
         selection = " = ?";
-        accountSelector = String.valueOf(mAccount.id);
+        accountSelector = String.valueOf(mAccount.getId());
       }
       String catFilter = "FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + selection;
       if (!mGrouping.equals(Grouping.NONE)) {

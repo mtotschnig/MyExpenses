@@ -50,7 +50,7 @@ public class SecurityQuestion extends DialogPreference  {
       if (positiveResult) {
         persistString(question.getText().toString());
         Editor editor = getEditor();
-        editor.putString(MyApplication.PREFKEY_SECURITY_ANSWER, Utils.md5(answer.getText().toString()));
+        editor.putString(MyApplication.PrefKey.SECURITY_ANSWER.getKey(), Utils.md5(answer.getText().toString()));
         editor.commit();
       }
     }

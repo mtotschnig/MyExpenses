@@ -65,7 +65,7 @@ public class SplitTransaction extends Transaction {
   public void commit() {
     if (!inEditState)
       return;
-    String idStr = String.valueOf(id);
+    String idStr = String.valueOf(getId());
     cr().delete(CONTENT_URI,"(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
         + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where " 
         + KEY_PARENTID + " = ?))  AND " + KEY_STATUS + " != ?",
@@ -92,7 +92,7 @@ public class SplitTransaction extends Transaction {
    * all Split Parts are cloned and we work with the uncommitted clones
    */
   public void prepareForEdit() {
-    String idStr = String.valueOf(id);
+    String idStr = String.valueOf(getId());
     //we only create uncommited clones if none exist yet
     Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
         KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + VIEW_UNCOMMITTED
@@ -117,7 +117,7 @@ public class SplitTransaction extends Transaction {
         new String[] { String.valueOf(STATUS_UNCOMMITTED) });
   }
   public Uri saveAsNew() {
-    Long oldId = id;
+    Long oldId = getId();
     //saveAsNew sets new id
     Uri result = super.saveAsNew();
     Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
@@ -125,7 +125,7 @@ public class SplitTransaction extends Transaction {
     c.moveToFirst();
     while(!c.isAfterLast()) {
       Transaction t = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-      t.parentId = id;
+      t.parentId = getId();
       t.saveAsNew();
       c.moveToNext();
     }

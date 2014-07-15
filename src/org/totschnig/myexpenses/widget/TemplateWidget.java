@@ -64,8 +64,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   @Override
-  String getProtectionKey() {
-    return MyApplication.PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
+  MyApplication.PrefKey getProtectionKey() {
+    return MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
   }
 
   public static final Uri[] OBSERVED_URIS = new Uri[] {
@@ -121,7 +121,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
       Template t) {
-    Log.d("MyExpensesWidget", "updating template " + t.id);
+    Log.d("MyExpensesWidget", "updating template " + t.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1,
@@ -153,8 +153,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
     setBackgroundColorSave(updateViews, R.id.divider3, Account.getInstanceFromDb(t.accountId).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);
-    addButtonsClick(context, updateViews, widgetId, t.id);
-    saveForWidget(context, widgetId, t.id);
+    addButtonsClick(context, updateViews, widgetId, t.getId());
+    saveForWidget(context, widgetId, t.getId());
     int multipleTemplatesVisible = 
         Transaction.count(Template.CONTENT_URI, KEY_PLANID + " is null", null) < 2 ?
             View.GONE : 
@@ -181,7 +181,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
               Toast.makeText(context,
                   context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
                   Toast.LENGTH_LONG).show();
-              if (!MyApplication.getInstance().isContribEnabled) {
+              if (!MyApplication.getInstance().isContribEnabled()) {
                 ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
                 showContribMessage(context);
               }
@@ -203,7 +203,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   public void onEnabled(Context context) {
     Log.d("TemplateWidget", "onEnabled");
-    if (!MyApplication.getInstance().isContribEnabled) {
+    if (!MyApplication.getInstance().isContribEnabled()) {
       Log.d("TemplateWidget", "not contrib enabled");
       showContribMessage(context);
     }
@@ -227,7 +227,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   protected void updateWidgets(Context context, AppWidgetManager manager,
       int[] appWidgetIds, String action) {
     Log.d("DEBUG", "updating TemplateWidget");
-    if (!isProtected() && !MyApplication.getInstance().isContribEnabled) {
+    if (!isProtected() && !MyApplication.getInstance().isContribEnabled()) {
       Log.d("TemplateWidget", "not contrib enabled");
       int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
       if (usagesLeft < 1) {

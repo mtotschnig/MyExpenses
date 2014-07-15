@@ -103,7 +103,7 @@ public class PaymentMethod extends Model {
   }
 
   private PaymentMethod(Long id) {
-    this.id = id;
+    this.setId(id);
    }
 
   public PaymentMethod() {
@@ -160,22 +160,22 @@ public class PaymentMethod extends Model {
     initialValues.put(KEY_LABEL, label);
     initialValues.put(KEY_TYPE,paymentType);
     initialValues.put(KEY_IS_NUMBERED,isNumbered);
-    if (id == 0) {
+    if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
-      id = Long.valueOf(uri.getLastPathSegment());
+      setId(Long.valueOf(uri.getLastPathSegment()));
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri,initialValues,null,null);
     }
     setMethodAccountTypes();
-    if (!methods.containsKey(id))
-      methods.put(id, this);
+    if (!methods.containsKey(getId()))
+      methods.put(getId(), this);
     return uri;
   }
   private void setMethodAccountTypes() {
-    cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(id)});
+    cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(getId())});
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_METHODID, id);
+    initialValues.put(KEY_METHODID, getId());
     for (Account.Type accountType : accountTypes) {
       initialValues.put(KEY_TYPE,accountType.name());
       cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);

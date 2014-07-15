@@ -141,8 +141,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     warningTV = (TextView) view.findViewById(R.id.warning_reset);
 
     formatRB = (RadioButton) view.findViewById(R.id.csv);
-    String format = MyApplication.getInstance().getSettings()
-        .getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
+    String format = MyApplication.PrefKey.EXPORT_FORMAT.value("QIF");
     if (format.equals("CSV")) {
       formatRB.setChecked(true);
     }
@@ -191,7 +190,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         '.' : ',';
     SharedPreferencesCompat.apply(
       MyApplication.getInstance().getSettings().edit()
-        .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format)
+        .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
         .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
         .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
@@ -223,7 +222,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
             R.id.START_EXPORT_COMMAND);
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            MyApplication.PREFKEY_APP_FOLDER_WARNING_SHOWN);
+            MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
         ConfirmationDialogFragment.newInstance(b)
           .show(getFragmentManager(),"APP_FOLDER_WARNING");
       }

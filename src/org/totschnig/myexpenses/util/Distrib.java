@@ -28,11 +28,11 @@ public class Distrib {
    */
   public static int getContribStatusInfo(Context ctx) {
     PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
-    if (p.getString(MyApplication.PREFKEY_LICENSE_STATUS,"0").equals("1"))
+    if (p.getString(MyApplication.PrefKey.LICENSE_STATUS.getKey(),"0").equals("1"))
       return -1;
     else
       return Integer.parseInt(p.getString(
-          MyApplication.PREFKEY_LICENSE_RETRY_COUNT,"0"));
+          MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"));
   }
 
 }

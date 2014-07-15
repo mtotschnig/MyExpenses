@@ -22,6 +22,8 @@ import java.text.DecimalFormatSymbols;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -122,7 +124,8 @@ public abstract class AmountActivity extends EditActivity {
     return amount;
   }
   public void showCalculator(View view) {
-    Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
+    Intent intent = new Intent(this,CalculatorInput.class);
+    forwardDataEntryFromWidget(intent);
     String amount;
     if (validateAmountInput(false)!=null) {
       amount = mAmountText.getText().toString();
@@ -131,5 +134,9 @@ public abstract class AmountActivity extends EditActivity {
     }
     intent.putExtra(KEY_AMOUNT,amount);
     startActivityForResult(intent, CALCULATOR_REQUEST);
+  }
+  protected void forwardDataEntryFromWidget(Intent intent) {
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+        getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
   }
 }

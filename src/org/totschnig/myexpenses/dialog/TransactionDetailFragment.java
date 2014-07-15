@@ -252,7 +252,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     switch(id) {
       case MyExpenses.SPLIT_PART_CURSOR:
       CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
-          new String[] { String.valueOf(mTransaction.id) }, null);
+          new String[] { String.valueOf(mTransaction.getId()) }, null);
       return cursorLoader;
     }
     return null;
@@ -273,18 +273,21 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    if (ctx != null && which == AlertDialog.BUTTON_POSITIVE) {
+    if (ctx == null) {
+      return;
+    }
+    if (which == AlertDialog.BUTTON_POSITIVE) {
       if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
         Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
         return;
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);
-      i.putExtra(KEY_ROWID, mTransaction.id);
+      i.putExtra(KEY_ROWID, mTransaction.getId());
       i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
     } else {
-      this.dismiss();
+      dismiss();
     }
   }
 }

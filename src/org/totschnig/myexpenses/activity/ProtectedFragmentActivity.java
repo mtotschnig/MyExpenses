@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
@@ -118,9 +119,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
-        key.equals(MyApplication.PREFKEY_UI_LANGUAGE) ||
-        key.equals(MyApplication.PREFKEY_UI_FONTSIZE)) {
+    if (key.equals(MyApplication.PrefKey.UI_THEME_KEY.getKey()) ||
+        key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey())) {
       scheduledRestart = true;
     }
   }

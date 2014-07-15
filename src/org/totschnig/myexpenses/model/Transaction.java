@@ -188,7 +188,7 @@ public class Transaction extends Model {
     t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
-    t.id = id;
+    t.setId(id);
     t.setDate(c.getLong(
         c.getColumnIndexOrThrow(KEY_DATE))*1000L);
     t.comment = DbUtils.getString(c,KEY_COMMENT);
@@ -215,11 +215,11 @@ public class Transaction extends Model {
     tr.comment = te.comment;
     tr.payee = te.payee;
     tr.label = te.label;
-    tr.originTemplateId = te.id;
+    tr.originTemplateId = te.getId();
     cr().update(
         TransactionProvider.TEMPLATES_URI
           .buildUpon()
-          .appendPath(String.valueOf(te.id))
+          .appendPath(String.valueOf(te.getId()))
           .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
           .build(),
         null, null, null);
@@ -266,7 +266,7 @@ public class Transaction extends Model {
   }
   public Transaction(Account account, long amount) {
     this();
-    this.accountId = account.id;
+    this.accountId = account.getId();
     this.amount = new Money(account.currency,amount);
   }
   public void setDate(Date date){
@@ -317,13 +317,14 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
-    if (id == 0) {
+    if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
-      if (uri==null)
+      if (uri==null) {
         return null;
-      id = ContentUris.parseId(uri);
+      }
+      setId(ContentUris.parseId(uri));
       if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
         cr().update(
             TransactionProvider.CATEGORIES_URI
@@ -344,20 +345,20 @@ public class Transaction extends Model {
         ContentValues values = new ContentValues();
         values.put(KEY_TEMPLATEID, originTemplateId);
         values.put(KEY_INSTANCEID, originPlanInstanceId);
-        values.put(KEY_TRANSACTIONID, id);
+        values.put(KEY_TRANSACTIONID, getId());
         cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
       }
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri,initialValues,null,null);
     }
     return uri;
   }
   public Uri saveAsNew() {
-    id = 0L;
+    setId(0L);
     setDate(new Date());
     Uri result = save();
-    id = ContentUris.parseId(result);
+    setId(ContentUris.parseId(result));
     return result;
   }
   /**
@@ -456,10 +457,10 @@ public class Transaction extends Model {
         return false;
     } else if (Math.abs(date.getTime()-other.date.getTime())>30000) //30 seconds tolerance
       return false;
-    if (id == null) {
-      if (other.id != null)
+    if (getId() == null) {
+      if (other.getId() != null)
         return false;
-    } else if (!id.equals(other.id))
+    } else if (!getId().equals(other.getId()))
       return false;
     if (label == null) {
       if (other.label != null)

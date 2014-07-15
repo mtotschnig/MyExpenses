@@ -60,7 +60,7 @@ public class ExportTest extends ModelTest  {
     account2.save();
     cat1Id = Category.write(0,"Main",null);
     cat2Id = Category.write(0,"Sub", cat1Id);
-    op = Transaction.getNewInstance(account1.id);
+    op = Transaction.getNewInstance(account1.getId());
     op.amount = new Money(account1.currency,-expense1);
     op.methodId = PaymentMethod.find("CHEQUE");
     op.crStatus = Transaction.CrStatus.CLEARED;
@@ -81,16 +81,16 @@ public class ExportTest extends ModelTest  {
     op.amount = new Money(account1.currency,income2);
     op.comment = "Note for myself with \"quote\"";
     op.saveAsNew();
-    op = Transfer.getNewInstance(account1.id,account2.id);
+    op = Transfer.getNewInstance(account1.getId(),account2.getId());
     op.amount = new Money(account1.currency,transferP);
     op.crStatus = Transaction.CrStatus.RECONCILED;
     op.save();
     op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.amount = new Money(account1.currency,-transferN);
     op.saveAsNew();
-    SplitTransaction split = SplitTransaction.getNewInstance(account1.id);
+    SplitTransaction split = SplitTransaction.getNewInstance(account1.getId());
     split.amount = new Money(account1.currency,split1);
-    Transaction part = SplitPartCategory.getNewInstance(account1.id,split.id);
+    Transaction part = SplitPartCategory.getNewInstance(account1.getId(),split.getId());
     part.amount =  new Money(account1.currency,part1);
     part.catId = cat1Id;
     part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
@@ -102,7 +102,7 @@ public class ExportTest extends ModelTest  {
   }
   private void insertData2() {
     Transaction op;
-    op = Transaction.getNewInstance(account1.id);
+    op = Transaction.getNewInstance(account1.getId());
     op.amount = new Money(account1.currency,-expense3);
     op.methodId = PaymentMethod.find("CHEQUE");
     op.comment = "Expense inserted after first export";

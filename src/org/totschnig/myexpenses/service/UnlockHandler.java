@@ -26,16 +26,16 @@ public class UnlockHandler extends Handler {
     Log.i(MyApplication.TAG,"Now handling answer from license verification service; got status "+msg.what);
     if (msg.what == STATUS_PERMANENT || msg.what == STATUS_TEMPORARY || msg.what == STATUS_RETRY) {
       PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
-      app.isContribEnabled = true;
+      app.setContribEnabled(true);
       //TODO show notification
       if (msg.what == STATUS_PERMANENT) {
-        mPreferences.putString(MyApplication.PREFKEY_LICENSE_STATUS, "1");
+        mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "1");
         mPreferences.commit();
       }
       if (msg.what == STATUS_RETRY) {
-        mPreferences.putString(MyApplication.PREFKEY_LICENSE_RETRY_COUNT,
+        mPreferences.putString(MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),
             String.valueOf(Integer.parseInt(mPreferences.getString(
-                MyApplication.PREFKEY_LICENSE_RETRY_COUNT,"0"))+1));
+                MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"))+1));
         mPreferences.commit();
       }
     }

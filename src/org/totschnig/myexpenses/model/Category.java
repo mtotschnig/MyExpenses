@@ -39,7 +39,7 @@ public class Category extends Model {
    * @param parentId
    */
   public Category(Long id, String label,Long parentId) {
-    this.id = id;
+    this.setId(id);
     this.label = label;
     this.parentId = parentId;
   }
@@ -98,7 +98,7 @@ public class Category extends Model {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL, label);
     Uri uri;
-    if (id == 0) {
+    if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
@@ -106,9 +106,9 @@ public class Category extends Model {
         uri = null;
       }
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       try {
-        cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
             initialValues, null, null);
       } catch (SQLiteConstraintException e) {
         // TODO Auto-generated catch block

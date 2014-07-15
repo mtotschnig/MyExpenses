@@ -168,7 +168,7 @@ public class MyExpenses extends LaunchActivity implements
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
     mSettings = MyApplication.getInstance().getSettings();
-    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
+    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.value(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
@@ -293,7 +293,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     if (mAccountId == 0)
-      mAccountId = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+      mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.value(0L);
     setup();
   }
   private void initialSetup() {
@@ -372,7 +372,8 @@ public class MyExpenses extends LaunchActivity implements
           .show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }
-      if (!MyApplication.getInstance().isContribEnabled) {
+      if (!MyApplication.getInstance().isContribEnabled()) {
+
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           CommonCommands.showContribInfoDialog(this,true);
@@ -434,7 +435,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.DISTRIBUTION_COMMAND:
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
-        if (MyApplication.getInstance().isContribEnabled) {
+        if (MyApplication.getInstance().isContribEnabled()) {
         contribFeatureCalled(Feature.DISTRIBUTION, null);
         }
         else {
@@ -493,7 +494,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.CREATE_SPLIT_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
+      if (MyApplication.getInstance().isContribEnabled()) {
         contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
       }
       else {
@@ -533,7 +534,7 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && tl.hasItems) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
+          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled()) {
             contribFeatureCalled(Feature.RESET_ALL, null);
           } else {
             CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
@@ -602,7 +603,7 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
-      if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
+      if (MyApplication.getInstance().isContribEnabled() || (mAccountCount > 0 && mAccountCount < 5)) {
         i = new Intent(this, AccountEdit.class);
         if (tag != null)
           i.putExtra(KEY_CURRENCY,(String)tag);
@@ -739,7 +740,7 @@ public class MyExpenses extends LaunchActivity implements
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (mAccountId != newAccountId)
       SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
+        mSettings.edit().putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(), newAccountId));
     mAccountId = newAccountId;
     setCustomTitle();
     mDrawerList.setItemChecked(position, true);
@@ -844,7 +845,7 @@ public class MyExpenses extends LaunchActivity implements
       ArrayList<File> files = (ArrayList<File>) o;
       if (files != null && files.size() >0)
         Utils.share(this,files,
-            MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+            MyApplication.PrefKey.SHARE_TARGET.value("").trim(),
             "text/" + mExportFormat.toLowerCase(Locale.US));
       break;
     }

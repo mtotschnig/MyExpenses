@@ -27,15 +27,15 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
-    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
+    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.value(-1);
     int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version < current_version) {
-      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
+      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PrefKey.CURRENT_VERSION.getKey(), current_version));
       if (prev_version == -1)
         return;
       if (prev_version < 19) {
         //renamed
-        edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
+        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(),mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();
       }
@@ -45,12 +45,13 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
       if (prev_version < 30) {
-        if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"") != "") {
-          edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
+        if (MyApplication.PrefKey.SHARE_TARGET.value("") != "") {
+          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.getKey(),true).commit();
         }
       }
       if (prev_version < 40) {
-        DbUtils.fixDateValues(getContentResolver());
+        //this no longer works since we migrated time to utc format
+        //  DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();

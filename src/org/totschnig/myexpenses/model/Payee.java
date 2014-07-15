@@ -29,7 +29,7 @@ import android.util.Log;
 public class Payee extends Model {
   public String name;
   public Payee(Long id, String name) {
-    this.id = id;
+    this.setId(id);
     this.name = name;
   }
   public static final String[] PROJECTION = new String[] {
@@ -98,16 +98,16 @@ public class Payee extends Model {
     ContentValues initialValues = new ContentValues();
     initialValues.put("name", name);
     Uri uri;
-    if (id == 0) {
+    if (getId() == 0) {
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {
         uri = null;
       }
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       try {
-        cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
             initialValues, null, null);
       } catch (SQLiteConstraintException e) {
         // TODO Auto-generated catch block

@@ -154,8 +154,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   /**
    * stores payees and payers
-   * this table is only used for populating the autocompleting text field,
-   * hence there is no need for using foreign keys from transactions
+   * this table is used for populating the autocompleting text field,
    */
   private static final String PAYEE_CREATE =
     "CREATE TABLE " + TABLE_PAYEES
@@ -228,7 +227,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private void insertCurrencies(SQLiteDatabase db) {
     ContentValues initialValues = new ContentValues();
     for (Account.CurrencyEnum currency: Account.CurrencyEnum.values()) {
-      initialValues.put("code",currency.name());
+      initialValues.put(KEY_CODE,currency.name());
       db.insert(TABLE_CURRENCIES, null, initialValues);
     }
   }

@@ -15,7 +15,10 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Properties;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -28,6 +31,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -124,9 +128,20 @@ public class CommonCommands {
       versionname = pi.versionName;
       //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
     } catch (Exception e) {
-      Log.e("MyExpenses", "Package info not found", e);
+      Log.e(MyApplication.TAG, "Package info not found", e);
     }
-    return versionname + version  + MyApplication.BUILD_DATE + "-GP";
+    String buildDate = "";
+    try {
+      InputStream rawResource = ctx.getResources().openRawResource(R.raw.app);
+      Properties properties = new Properties();
+      properties.load(rawResource);
+      buildDate = properties.getProperty("build.date");
+    } catch (NotFoundException e) {
+      Log.w(MyApplication.TAG,"Did not find raw resource");
+    } catch (IOException e) {
+      Log.w(MyApplication.TAG,"Failed to open property file");
+    }
+    return versionname + version  + buildDate + "-GP";
   }
   /**
    * @return version name

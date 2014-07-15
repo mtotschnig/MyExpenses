@@ -86,50 +86,74 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     //the following keys are stored as string resources, so that
     //they can be referenced from preferences.xml, and thus we
     //can guarantee the referential integrity
-    public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
-    public static String PREFKEY_PERFORM_SHARE;
-    public static String PREFKEY_SHARE_TARGET;
-    public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
-    public static String PREFKEY_UI_THEME_KEY;
-    public static String PREFKEY_UI_FONTSIZE;
-    public static String PREFKEY_BACKUP;
-    public static String PREFKEY_RESTORE;
-    public static String PREFKEY_RESTORE_LEGACY;  
-    public static String PREFKEY_CONTRIB_INSTALL;
-    public static String PREFKEY_REQUEST_LICENCE;
-    public static String PREFKEY_ENTER_LICENCE;
-    public static String PREFKEY_PERFORM_PROTECTION;
-    public static String PREFKEY_SET_PASSWORD;
-    public static String PREFKEY_SECURITY_ANSWER;
-    public static String PREFKEY_SECURITY_QUESTION;
-    public static String PREFKEY_PROTECTION_DELAY_SECONDS;
-    public static String PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET;
-    public static String PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET;
-    public static String PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
-    public static String PREFKEY_EXPORT_FORMAT;
-    public static String PREFKEY_SEND_FEEDBACK;
-    public static String PREFKEY_MORE_INFO_DIALOG;
-    public static final String PREFKEY_LICENSE_STATUS = "licenseStatus";
-    public static final String PREFKEY_LICENSE_RETRY_COUNT = "retryCount";
-    public static String PREFKEY_CATEGORY_CONTRIB;
-    public static String PREFKEY_SHORTCUT_CREATE_TRANSACTION;
-    public static String PREFKEY_SHORTCUT_CREATE_TRANSFER;
-    public static String PREFKEY_SHORTCUT_CREATE_SPLIT;
-    public static String PREFKEY_PLANNER_CALENDAR_ID;
-    private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
-    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
-    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
-    public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
-    public static final String PREFKEY_APP_FOLDER_WARNING_SHOWN = "app_folder_warning_shown";
-    public static String PREFKEY_APP_DIR;
-    public static String PREFKEY_RATE;
-    public static String PREFKEY_UI_LANGUAGE;
+    public enum PrefKey {
+      CATEGORIES_SORT_BY_USAGES(R.string.pref_categories_sort_by_usages_key),
+      PERFORM_SHARE(R.string.pref_perform_share_key),
+      SHARE_TARGET(R.string.pref_share_target_key),
+      QIF_EXPORT_FILE_ENCODING(R.string.pref_qif_export_file_encoding_key),
+      UI_THEME_KEY(R.string.pref_ui_theme_key),
+      UI_FONTSIZE(R.string.pref_ui_fontsize_key),
+      BACKUP(R.string.pref_backup_key),
+      RESTORE(R.string.pref_restore_key),
+      RESTORE_LEGACY(R.string.pref_restore_legacy_key),
+      CONTRIB_INSTALL(R.string.pref_contrib_install_key),
+      REQUEST_LICENCE(R.string.pref_request_licence_key),
+      ENTER_LICENCE(R.string.pref_enter_licence_key),
+      PERFORM_PROTECTION(R.string.pref_perform_protection_key),
+      SET_PASSWORD(R.string.pref_set_password_key),
+      SECURITY_ANSWER(R.string.pref_security_answer_key),
+      SECURITY_QUESTION(R.string.pref_security_question_key),
+      PROTECTION_DELAY_SECONDS(R.string.pref_protection_delay_seconds_key),
+      PROTECTION_ENABLE_ACCOUNT_WIDGET(R.string.pref_protection_enable_account_widget_key),
+      PROTECTION_ENABLE_TEMPLATE_WIDGET(R.string.pref_protection_enable_template_widget_key),
+      PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET(R.string.pref_protection_enable_data_entry_from_widget_key),
+      EXPORT_FORMAT(R.string.pref_export_format_key),
+      SEND_FEEDBACK(R.string.pref_send_feedback_key),
+      MORE_INFO_DIALOG(R.string.pref_more_info_dialog_key),
+      SHORTCUT_CREATE_TRANSACTION(R.string.pref_shortcut_create_transaction_key),
+      SHORTCUT_CREATE_TRANSFER(R.string.pref_shortcut_create_transfer_key),
+      SHORTCUT_CREATE_SPLIT(R.string.pref_shortcut_create_split_key),
+      PLANNER_CALENDAR_ID(R.string.pref_planner_calendar_id_key),
+      RATE(R.string.pref_rate_key),
+      UI_LANGUAGE(R.string.pref_ui_language_key),
+      APP_DIR(R.string.pref_app_dir_key),
+      CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
+      LICENSE_STATUS("licenseStatus"),
+      LICENSE_RETRY_COUNT("retryCount"),
+      PLANNER_CALENDAR_PATH("planner_calendar_path"),
+      CURRENT_VERSION("currentversion"),
+      CURRENT_ACCOUNT("current_account"),
+      PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
+      APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown");
+
+      private int resId = 0;
+      private String key = null;
+      public String getKey() {
+        return resId == 0 ? key : mSelf.getString(resId);
+      }
+      public String value(String defValue) {
+        return mSelf.mSettings.getString(getKey(), defValue);
+      }
+      public boolean value(boolean defValue) {
+        return mSelf.mSettings.getBoolean(getKey(), defValue);
+      }
+      public int value(int defValue) {
+        return mSelf.mSettings.getInt(getKey(), defValue);
+      }
+      public long value(long defValue) {
+        return mSelf.mSettings.getLong(getKey(), defValue);
+      }
+      PrefKey(int resId) {
+        this.resId = resId;
+      }
+      PrefKey(String key) {
+        this.key = key;
+      }
+    }
 
     public static final String KEY_NOTIFICATION_ID = "notification_id";
     public static final String KEY_OPERATION_TYPE = "operationType";
 
-    public static String BUILD_DATE = "";
-    public static String CONTRIB_SECRET = "onqn1bKZzM";
     public static String MARKET_PREFIX = "market://details?id=";
     public static String CALENDAR_FULL_PATH_PROJECTION = 
         "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || '/' ||" +
@@ -138,23 +162,32 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
-    public boolean isContribEnabled = false,
-        showImportantUpgradeInfo = false,
-        showContribRetryLimitReachedInfo = false;
     private ServiceConnection mConnection;
+
+    private boolean contribEnabled = false, contribEnabledInitialized = false;
+    
+
+    public boolean  showImportantUpgradeInfo = false,
+        showContribRetryLimitReachedInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
-    /**
-     * how many nanoseconds should we wait before prompting for the password
-     */
-    public static long passwordCheckDelayNanoSeconds;
-    public static void setPasswordCheckDelayNanoSeconds() {
-      MyApplication.passwordCheckDelayNanoSeconds = mSelf.mSettings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
-    }
 
     private boolean isLocked;
     public boolean isLocked() {
       return isLocked;
+    }
+    public void setContribEnabled(boolean contribEnabled) {
+      this.contribEnabled = contribEnabled;
+    }
+    public boolean isContribEnabled() {
+      if (debug) {
+        return true;
+      }
+      return contribEnabled;
+    }
+
+    public void resetContribEnabled() {
+      contribEnabledInitialized = false;
     }
 
     public void setLocked(boolean isLocked) {
@@ -186,50 +219,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       mSelf = this;
       //sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
-      PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
-      PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
-      PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
-      PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
-      PREFKEY_UI_FONTSIZE = getString(R.string.pref_ui_fontsize_key);
-      PREFKEY_BACKUP = getString(R.string.pref_backup_key);
-      PREFKEY_RESTORE = getString(R.string.pref_restore_key);
-      PREFKEY_RESTORE_LEGACY = getString(R.string.pref_restore_legacy_key);
-      PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
-      PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
-      PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
-      PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
-      PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
-      PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
-      PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
-      PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
-      PREFKEY_PROTECTION_ENABLE_ACCOUNT_WIDGET = getString(R.string.pref_protection_enable_account_widget_key);
-      PREFKEY_PROTECTION_ENABLE_TEMPLATE_WIDGET = getString(R.string.pref_protection_enable_template_widget_key);
-      PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET = getString(R.string.pref_protection_enable_data_entry_from_widget_key);
-      PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
-      PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
-      PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
-      PREFKEY_SHORTCUT_CREATE_TRANSACTION = getString(R.string.pref_shortcut_create_transaction_key);
-      PREFKEY_SHORTCUT_CREATE_TRANSFER = getString(R.string.pref_shortcut_create_transfer_key);
-      PREFKEY_SHORTCUT_CREATE_SPLIT = getString(R.string.pref_shortcut_create_split_key);
-      PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
-      PREFKEY_RATE = getString(R.string.pref_rate_key);
-      PREFKEY_UI_LANGUAGE = getString(R.string.pref_ui_language_key);
-      PREFKEY_APP_DIR = getString(R.string.pref_app_dir_key);
-      PREFKEY_CATEGORY_CONTRIB = getString(R.string.pref_category_contrib_key);
-      setPasswordCheckDelayNanoSeconds();
-      try {
-        InputStream rawResource = getResources().openRawResource(R.raw.app);
-        Properties properties = new Properties();
-        properties.load(rawResource);
-        BUILD_DATE = properties.getProperty("build.date");
-      } catch (NotFoundException e) {
-        Log.w(TAG,"Did not find raw resource");
-      } catch (IOException e) {
-        Log.w(TAG,"Failed to open property file");
-      }
       initContribEnabled();
-      mPlannerCalendarId = mSettings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
       initPlanner();
       registerWidgetObservers();
     }
@@ -249,9 +239,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public boolean initContribEnabled() {
       //TODO profile time taken in this function
       int contribStatusInfo = Distrib.getContribStatusInfo(this);
-      isContribEnabled = contribStatusInfo == -1 ||Utils.verifyLicenceKey(mSettings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
+      contribEnabled = contribStatusInfo == -1;
       //we call MyExpensesContrib to check status
-      if (!isContribEnabled) {
+      if (!contribEnabled) {
         Log.i(TAG,"contribStatusInfo: " + contribStatusInfo);
         if (contribStatusInfo < 5) {
           try {
@@ -302,12 +292,15 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             Log.w(TAG,"Could not bind to licence verification service");
           }
         }
-        else
+        else {
           showContribRetryLimitReachedInfo = true;
-      } else
+        }
+      } else {
         Log.i(TAG,"Contrib status enabled");
-      return isContribEnabled;
+      }
+      return contribEnabled;
     }
+
     public static MyApplication getInstance() {
       return mSelf;
     }
@@ -349,18 +342,18 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       LIGHT
     }
     public static ThemeType getThemeType() {
-      return mSelf.mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
+      return PrefKey.UI_THEME_KEY.value("dark").equals("light") ?
           ThemeType.LIGHT : ThemeType.DARK;
     }
     public static int getThemeId(boolean legacyPreferenceActivity) {
       int fontScale;
       try {
-        fontScale = mSelf.mSettings.getInt(PREFKEY_UI_FONTSIZE, 0);
+        fontScale = PrefKey.UI_FONTSIZE.value(0);
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
         SharedPreferencesCompat.apply(
-            mSelf.mSettings.edit().remove(PREFKEY_UI_FONTSIZE));
+            mSelf.mSettings.edit().remove(PrefKey.UI_FONTSIZE.getKey()));
       }
       int resId;
       String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
@@ -385,7 +378,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public void setLanguage() {
-      String language = mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
+      String language = MyApplication.PrefKey.UI_LANGUAGE.value("default");
       Locale l;
       if (language.equals("default")) {
         l = systemLocale;
@@ -431,7 +424,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //if we are dealing with an activity called from widget that allows to 
         //bypass password protection, we do not reset last pause
         //otherwise user could gain unprotected access to the app
-        boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
+        boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
         boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
         if (!isDataEntryEnabled || !isStartFromWidget) {
           this.mLastPause = System.nanoTime();
@@ -454,8 +447,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
       boolean isProtected = isProtected();
       long lastPause = getLastPause();
-      boolean isPostDelay = System.nanoTime() - lastPause > passwordCheckDelayNanoSeconds;
-      boolean isDataEntryEnabled = mSettings.getBoolean(PREFKEY_PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
+      boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS.value(15) * 1000000000L);
+      boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
       if (
           isProtected && isPostDelay && (!isDataEntryEnabled || !isStartFromWidget)
       ) {
@@ -465,7 +458,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return false;
     }
     public boolean isProtected() {
-      return mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false);
+      return PrefKey.PERFORM_PROTECTION.value(false);
     }
     /**
      * @param calendarId
@@ -485,7 +478,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       else {
         if (c.moveToFirst()) {
           String found = DbUtils.getString(c,0);
-          String expected = mSettings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
+          String expected = PrefKey.PLANNER_CALENDAR_PATH.value("");
           if (!found.equals(expected)) {
             Log.w(TAG,String.format(
                 "found calendar, but path did not match; expected %s ; got %s",
@@ -501,13 +494,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
     }
     public String checkPlanner() {
+      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
               mSettings.edit()
-                .remove(PREFKEY_PLANNER_CALENDAR_ID)
-                .remove(PREFKEY_PLANNER_CALENDAR_PATH)
-                .remove(PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP));
+                .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
+                .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
+                .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey()));
           return "-1";
         }
       }
@@ -589,7 +583,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       //onSharedPreferenceChanged should now trigger initPlanner
       SharedPreferencesCompat.apply(
-          mSettings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId));
+          mSettings.edit().putString(PrefKey.PLANNER_CALENDAR_ID.getKey(), plannerCalendarId));
       return true;
     }
     /**
@@ -608,10 +602,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
       //TODO: move to TaskExecutionFragment
-      if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
+      if (key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
         String oldValue = mPlannerCalendarId;
         boolean safeToMovePlans = true;
-        String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+        String newValue = sharedPreferences.getString(PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1");
         if (oldValue.equals(newValue)) {
           return;
         }
@@ -633,12 +627,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             String path = c.getString(0);
             Log.i(TAG,"storing calendar path : "+ path);
             SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PREFKEY_PLANNER_CALENDAR_PATH, path));
+                PrefKey.PLANNER_CALENDAR_PATH.getKey(), path));
           } else {
             Log.e("TAG","could not retrieve configured calendar");
             mPlannerCalendarId = "-1";
             SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PREFKEY_PLANNER_CALENDAR_ID, "-1"));
+                PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1"));
           }
           if (c != null)
             c.close();
@@ -701,7 +695,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           }
         } else {
           SharedPreferencesCompat.apply(
-              sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH));
+              sharedPreferences.edit().remove(PrefKey.PLANNER_CALENDAR_PATH.getKey()));
         }
       }
     }

@@ -107,7 +107,7 @@ public class Template extends Transaction {
       catId = DbUtils.getLongOrNull(c, KEY_CATID);
       payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     }
-    id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
+    setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     comment = DbUtils.getString(c,KEY_COMMENT);
     label =  DbUtils.getString(c,KEY_LABEL);
     title = DbUtils.getString(c,KEY_TITLE);
@@ -194,16 +194,16 @@ public class Template extends Transaction {
     initialValues.put(KEY_PLANID, planId);
     initialValues.put(KEY_PLAN_EXECUTION,planExecutionAutomatic);
     initialValues.put(KEY_ACCOUNTID, accountId);
-    if (id == 0) {
+    if (getId() == 0) {
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {
         return null;
       }
-      id = ContentUris.parseId(uri);
+      setId(ContentUris.parseId(uri));
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       try {
         cr().update(uri, initialValues, null, null);
       } catch (SQLiteConstraintException e) {
@@ -219,7 +219,7 @@ public class Template extends Transaction {
             Events.CUSTOM_APP_URI,
             ContentUris.withAppendedId(
                 ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
-                id).toString());
+                getId()).toString());
         initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
       }
       initialValues.put(Events.TITLE,title);

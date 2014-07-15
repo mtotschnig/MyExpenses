@@ -59,7 +59,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     return new AlertDialog.Builder(ctx)
       .setTitle(R.string.donate)
       .setMessage(
-        ctx.getString(MyApplication.getInstance().isContribEnabled ?
+        ctx.getString(MyApplication.getInstance().isContribEnabled() ?
             R.string.pref_contrib_donate_summary_already_contrib :
             R.string.donate_dialog_text)
         +"\n\n"+

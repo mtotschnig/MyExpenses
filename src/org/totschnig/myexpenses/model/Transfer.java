@@ -67,23 +67,23 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
-    if (id == 0) {
+    if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
-      id = ContentUris.parseId(uri);
+      setId(ContentUris.parseId(uri));
       //if the transfer is part of a split, the transfer peer needs to have a null parent
       initialValues.remove(KEY_PARENTID);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       initialValues.put(KEY_ACCOUNTID, transfer_account);
-      initialValues.put(KEY_TRANSFER_PEER,id);
+      initialValues.put(KEY_TRANSFER_PEER,getId());
       Uri transferUri = cr().insert(CONTENT_URI, initialValues);
       transfer_peer = ContentUris.parseId(transferUri);
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
-      cr().update(Uri.parse(CONTENT_URI+ "/" + id), args, null, null);
+      cr().update(Uri.parse(CONTENT_URI+ "/" + getId()), args, null, null);
       cr().update(
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
           null, null, null);
@@ -91,7 +91,7 @@ public class Transfer extends Transaction {
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(transfer_account)).appendPath("increaseUsage").build(),
           null, null, null);
     } else {
-      uri = Uri.parse(CONTENT_URI + "/" + id);
+      uri = Uri.parse(CONTENT_URI + "/" + getId());
       cr().update(uri,initialValues,null,null);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       //if the user has changed the account to which we should transfer,
