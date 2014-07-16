@@ -164,7 +164,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final boolean debug = false;
     private ServiceConnection mConnection;
 
-    private boolean contribEnabled = false, contribEnabledInitialized = false;
+    private boolean contribEnabled = false;
     
 
     public boolean  showImportantUpgradeInfo = false,
@@ -184,10 +184,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         return true;
       }
       return contribEnabled;
-    }
-
-    public void resetContribEnabled() {
-      contribEnabledInitialized = false;
     }
 
     public void setLocked(boolean isLocked) {
@@ -236,7 +232,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
     }
 
-    public boolean initContribEnabled() {
+    private void initContribEnabled() {
       //TODO profile time taken in this function
       int contribStatusInfo = Distrib.getContribStatusInfo(this);
       contribEnabled = contribStatusInfo == -1;
@@ -298,7 +294,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } else {
         Log.i(TAG,"Contrib status enabled");
       }
-      return contribEnabled;
     }
 
     public static MyApplication getInstance() {
