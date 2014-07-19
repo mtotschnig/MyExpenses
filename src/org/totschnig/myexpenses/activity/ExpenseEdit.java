@@ -521,7 +521,10 @@ public class ExpenseEdit extends AmountActivity implements
           }
           return;
        }
-       launchPlanView();
+       //mPlan could be null, even if mPlan, when EVENT_CURSOR is loading
+       if (mPlan != null) {
+         launchPlanView();
+       }
      }
     });
   }
