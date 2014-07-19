@@ -113,17 +113,18 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     instCtx.getResources().updateConfiguration(config,  
         instCtx.getResources().getDisplayMetrics());
     //set language and contrib key as preference,
-    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
-        MyApplication.CONTRIB_SECRET;
-    Long l = (s.hashCode() & 0x00000000ffffffffL);
+//    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
+//        MyApplication.CONTRIB_SECRET;
+//    Long l = (s.hashCode() & 0x00000000ffffffffL);
     android.content.SharedPreferences pref = app.getSettings();
     if (pref==null)
       Assert.fail("Could not find prefs");
     pref.edit()
       .putString(MyApplication.PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
-      .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
+//      .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
       .commit();
-    
+    //not yet tested
+    app.setContribEnabled(true);
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
 	}
