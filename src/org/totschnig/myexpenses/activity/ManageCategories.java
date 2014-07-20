@@ -237,16 +237,20 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
     }
+
     @Override
     public Model getObject() {
       return mCategory;
     }
-    @Override 
-    public boolean dispatchTouchEvent(MotionEvent event){
-       if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE))
-         mDetector.onTouchEvent(event);
-        // Be sure to call the superclass implementation
-        return super.dispatchTouchEvent(event);
-    }
 
+    @Override 
+    public boolean dispatchTouchEvent(MotionEvent event) {
+      if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE)) {
+        if (mDetector.onTouchEvent(event)) {
+          return true;
+        }
+      }
+      // Be sure to call the superclass implementation
+      return super.dispatchTouchEvent(event);
+    }
 }
