@@ -189,11 +189,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-<<<<<<< HEAD
-      <item>151</item>
-=======
       <item>152</item>
->>>>>>> master
       <item>149</item>
       <item>145</item>
       <item>143</item>
