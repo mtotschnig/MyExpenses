@@ -77,6 +77,7 @@ import android.util.Log;
     excludeMatchingSharedPreferencesKeys={"planner_calendar_path","password"}
     )
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
+    private static final int RETRY_LIMIT = 50;
     public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
     private SharedPreferences mSettings;
@@ -240,7 +241,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       //we call MyExpensesContrib to check status
       if (!contribEnabled) {
         Log.i(TAG,"contribStatusInfo: " + contribStatusInfo);
-        if (contribStatusInfo < 5) {
+        if (contribStatusInfo < RETRY_LIMIT) {
           try {
             final Messenger mMessenger = new Messenger(new UnlockHandler() {
               public void handleMessage(Message msg) {
