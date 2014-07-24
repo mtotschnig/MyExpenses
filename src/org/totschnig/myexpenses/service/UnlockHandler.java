@@ -22,13 +22,30 @@ public class UnlockHandler extends Handler {
   
   @Override
   public void handleMessage(Message msg) {
+    boolean permanent = false;
     MyApplication app = MyApplication.getInstance();
     Log.i(MyApplication.TAG,"Now handling answer from license verification service; got status "+msg.what);
     if (msg.what == STATUS_PERMANENT || msg.what == STATUS_TEMPORARY || msg.what == STATUS_RETRY) {
       PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
       app.setContribEnabled(true);
-      //TODO show notification
-      if (msg.what == STATUS_PERMANENT) {
+      if (msg.what == STATUS_TEMPORARY) {
+        long timestamp = Long.parseLong(mPreferences.getString(
+            MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),"0"));
+        long now = System.currentTimeMillis();
+        if (timestamp == 0L) {
+          mPreferences.putString(MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),
+              String.valueOf(now));
+          mPreferences.commit();
+        } else {
+          long timeSinceInitialCheck = now - timestamp ;
+          Log.d(MyApplication.TAG,"time since initial check : " + timeSinceInitialCheck);
+          //15 minutes refund limit
+          if (timeSinceInitialCheck> 90000L) {
+            permanent = true;
+          }
+        }
+      }
+      if (msg.what == STATUS_PERMANENT || permanent) {
         mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "1");
         mPreferences.commit();
       }
