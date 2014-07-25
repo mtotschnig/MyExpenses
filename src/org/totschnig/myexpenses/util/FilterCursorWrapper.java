@@ -7,80 +7,96 @@ import android.database.CursorWrapper;
 
 public class FilterCursorWrapper extends CursorWrapper {
   private ArrayList<Integer> filterMap;
+
   public void setFilterMap(ArrayList<Integer> list) {
     this.filterMap = list;
   }
 
   private int mPos = -1;
-  
+
   public FilterCursorWrapper(Cursor cursor) {
     super(cursor);
   }
 
   @Override
-  public int getCount() { return filterMap.size(); }
+  public int getCount() {
+    return filterMap.size();
+  }
 
   @Override
   public boolean moveToPosition(int pos) {
-      boolean moved = super.moveToPosition(filterMap.get(pos));
-      if (moved) mPos = pos;
-      return moved;
+    // Make sure position isn't past the end of the cursor
+    final int count = getCount();
+    if (pos >= count) {
+      pos = count;
+      return false;
+    }
+    // Make sure position isn't before the beginning of the cursor
+    if (pos < 0) {
+      mPos = -1;
+      return false;
+    }
+
+    boolean moved = super.moveToPosition(filterMap.get(pos));
+    if (moved)
+      mPos = pos;
+    return moved;
   }
 
   @Override
   public final boolean move(int offset) {
-      return moveToPosition(mPos + offset);
+    return moveToPosition(mPos + offset);
   }
 
   @Override
   public final boolean moveToFirst() {
-      return moveToPosition(0);
+    return moveToPosition(0);
   }
 
   @Override
   public final boolean moveToLast() {
-      return moveToPosition(getCount() - 1);
+    return moveToPosition(getCount() - 1);
   }
 
   @Override
   public final boolean moveToNext() {
-      return moveToPosition(mPos + 1);
+    return moveToPosition(mPos + 1);
   }
 
   @Override
   public final boolean moveToPrevious() {
-      return moveToPosition(mPos - 1);
+    return moveToPosition(mPos - 1);
   }
 
   @Override
   public final boolean isFirst() {
-      return mPos == 0 && getCount() != 0;
+    return mPos == 0 && getCount() != 0;
   }
 
   @Override
   public final boolean isLast() {
-      int cnt = getCount();
-      return mPos == (cnt - 1) && cnt != 0;
+    int cnt = getCount();
+    return mPos == (cnt - 1) && cnt != 0;
   }
 
   @Override
   public final boolean isBeforeFirst() {
-      if (getCount() == 0) {
-          return true;
-      }
-      return mPos == -1;
+    if (getCount() == 0) {
+      return true;
+    }
+    return mPos == -1;
   }
 
   @Override
   public final boolean isAfterLast() {
-      if (getCount() == 0) {
-          return true;
-      }
-      return mPos == getCount();
+    if (getCount() == 0) {
+      return true;
+    }
+    return mPos == getCount();
   }
 
   @Override
   public int getPosition() {
-      return mPos;
+    return mPos;
   }
 }

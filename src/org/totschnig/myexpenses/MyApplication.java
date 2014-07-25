@@ -16,14 +16,15 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
+<<<<<<< HEAD
 import java.util.Properties;
 
 import org.acra.*;
 import org.acra.annotation.*;
 
+=======
+>>>>>>> master
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -59,7 +60,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.content.res.Resources.NotFoundException;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;

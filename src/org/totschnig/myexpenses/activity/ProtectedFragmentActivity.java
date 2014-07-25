@@ -208,4 +208,17 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   protected final boolean shouldUpRecreateTask(Activity from){
     return from.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
   }
+  /* 
+   * @see android.support.v7.app.ActionBarActivity#onBackPressed()
+   * https://code.google.com/p/android/issues/detail?id=25517
+   */
+  @Override
+  public void onBackPressed() {
+    try {
+      super.onBackPressed();
+    } catch (IllegalStateException e) {
+      Utils.reportToAcra(e);
+      finish();
+    }
+  }
 }
