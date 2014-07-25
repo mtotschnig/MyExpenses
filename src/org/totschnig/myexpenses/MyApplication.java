@@ -17,14 +17,10 @@ package org.totschnig.myexpenses;
 
 import java.io.File;
 import java.util.Locale;
-<<<<<<< HEAD
-import java.util.Properties;
 
 import org.acra.*;
 import org.acra.annotation.*;
 
-=======
->>>>>>> master
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
