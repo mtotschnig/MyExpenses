@@ -171,7 +171,7 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals("Some note here...", t.memo);
     }
 
-    public void test_should_parse_date_according_to_format() throws Exception {
+    public void test_should_parse_date_according_to_format_MDY() throws Exception {
         parseQif(
                 "!Type:Cat\n" +
                         "NP1\n" +
@@ -211,6 +211,45 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
     }
 
+    public void test_should_parse_date_according_to_format_YMD() throws Exception {
+        parseQif(
+                "!Type:Cat\n" +
+                        "NP1\n" +
+                        "E\n" +
+                        "^\n" +
+                        "NP1:c1\n" +
+                        "E\n" +
+                        "^\n" +
+                        "NP2\n" +
+                        "I\n" +
+                        "^\n" +
+                        "!Account\n" +
+                        "NMy Cash Account\n" +
+                        "TCash\n" +
+                        "^\n" +
+                        "!Type:Cash\n" +
+                        "D2011-02-08\n" +
+                        "T10.00\n" +
+                        "LP1\n" +
+                        "^\n" +
+                        "D2011/02/07\n" +
+                        "T-20.56\n" +
+                        "LP1:c1\n" +
+                        "PPayee 1\n" +
+                        "MSome note here...\n" +
+                        "^\n", YMD);
+
+        assertEquals(1, p.accounts.size());
+
+        QifAccount a = p.accounts.get(0);
+        assertEquals(2, a.transactions.size());
+
+        QifTransaction t = a.transactions.get(0);
+        assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
+
+        t = a.transactions.get(1);
+        assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
+    }
     public void test_should_parse_account_with_a_couple_of_transactions_without_category_list() throws Exception {
         parseQif(
                 "!Account\n" +

@@ -77,7 +77,15 @@ public class QifUtils {
             } catch (Exception e) {
                 Log.e("QifUtils", "Unable to parse EU date", e);
             }
-        } else {
+        } else if (format == YMD) {
+          try {
+            year = Integer.parseInt(chunks[0].trim());
+            month = Integer.parseInt(chunks[1].trim());
+            day = Integer.parseInt(chunks[2].trim());
+          } catch (Exception e) {
+              Log.e("QifUtils", "Unable to parse YMD date", e);
+          }
+        }  else {
             Log.e("QifUtils", "Invalid date format specified");
             return new Date();
         }

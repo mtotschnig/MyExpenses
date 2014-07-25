@@ -135,12 +135,15 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
             wrappedCtx, android.R.layout.simple_spinner_item, QifDateFormat.values());
     dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mDateFormatSpinner.setAdapter(dateFormatAdapter);
-    mDateFormatSpinner.setSelection(
-        QifDateFormat.valueOf(
-            MyApplication.getInstance().getSettings()
-            .getString(PREFKEY_IMPORT_QIF_DATE_FORMAT, "EU")
-            == "EU" ? "EU" : "US")
-        .ordinal());
+    QifDateFormat qdf;
+    try {
+      qdf = QifDateFormat.valueOf(
+          MyApplication.getInstance().getSettings()
+          .getString(PREFKEY_IMPORT_QIF_DATE_FORMAT, "EU"));
+    } catch (IllegalArgumentException e) {
+      qdf = QifDateFormat.EU;
+    }
+    mDateFormatSpinner.setSelection(qdf.ordinal());
     mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
         wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
