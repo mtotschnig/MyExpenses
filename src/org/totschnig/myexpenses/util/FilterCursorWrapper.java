@@ -22,6 +22,18 @@ public class FilterCursorWrapper extends CursorWrapper {
 
   @Override
   public boolean moveToPosition(int pos) {
+    // Make sure position isn't past the end of the cursor
+    final int count = getCount();
+    if (pos >= count) {
+        pos = count;
+        return false;
+    }
+    // Make sure position isn't before the beginning of the cursor
+    if (pos < 0) {
+        mPos = -1;
+        return false;
+    }
+
       boolean moved = super.moveToPosition(filterMap.get(pos));
       if (moved) mPos = pos;
       return moved;
