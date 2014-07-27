@@ -77,7 +77,7 @@
   <string name="dialog_setup_planner_button_select_existing">Sélectionner existant</string>
   <string name="dialog_title_attention">Attention</string>
   <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">Solde %1$s</string>
+  <string name="dialog_title_balance_account">Rapprocher %1$s</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_menu_command_disabled">Commande désactivée</string>
   <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
@@ -140,7 +140,7 @@
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Solde du compte</string>
+  <string name="menu_balance">Rapprocher le compte</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Annuler</string>
   <string name="menu_clone_transaction">Cloner</string>
