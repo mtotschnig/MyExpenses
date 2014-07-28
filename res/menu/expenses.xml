@@ -34,6 +34,17 @@
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
+  <item android:title="@string/menu_search"
+    android:icon="@drawable/search_icon"
+  	app:showAsAction="ifRoom">
+  	<menu>
+  		<item android:title="@string/category"/>
+      <item android:title="@string/amount"/>
+      <item android:title="@string/status"/>
+      <item android:title="@string/payer"/>
+      <item android:title="@string/method"/>
+  	</menu>
+  </item>
   <item
     android:id="@id/MANAGE_PLANS_COMMAND"
     app:showAsAction="ifRoom"
