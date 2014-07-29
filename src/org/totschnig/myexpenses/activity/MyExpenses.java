@@ -1028,7 +1028,7 @@ public class MyExpenses extends LaunchActivity implements
     outState.putString("exportFormat", mExportFormat);
   }
   @Override
-  public boolean dispatchCommand(int command, Bundle args) {
+  public void dispatchCommand(int command, Bundle args) {
    switch (command) {
    case R.id.START_EXPORT_COMMAND:
      mExportFormat = args.getString("format");
@@ -1044,6 +1044,5 @@ public class MyExpenses extends LaunchActivity implements
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
    }
-   return false;
   }
 }
