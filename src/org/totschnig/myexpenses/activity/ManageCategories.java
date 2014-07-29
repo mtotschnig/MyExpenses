@@ -51,7 +51,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     EditTextDialogListener,DbWriteFragment.TaskCallbacks {
     
     public enum HelpVariant {
-      manage,distribution,select
+      manage,distribution,select_mapping,select_filter
     }
 
     private Category mCategory;
@@ -65,10 +65,13 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       Intent intent = getIntent();
       String action = intent.getAction();
-      if (action != null && action.equals("myexpenses.intent.manage.categories")) {
+      if (action == null) {
+        helpVariant = HelpVariant.select_mapping;
+        getSupportActionBar().setTitle(R.string.select_category);
+      } else if (action.equals("myexpenses.intent.manage.categories")) {
         helpVariant = HelpVariant.manage;
         getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
-      } else if (action != null && action.equals("myexpenses.intent.distribution")) {
+      } else if (action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
         //title is set in categories list
         mDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
@@ -86,8 +89,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
               return false;
           }
         });
-      } else {
-        helpVariant = HelpVariant.select;
+      } else if (action.equals("myexpenses.intent.select_filter")) {
+        helpVariant = HelpVariant.select_filter;
         getSupportActionBar().setTitle(R.string.select_category);
       }
       setContentView(R.layout.select_category);
@@ -99,7 +102,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       MenuInflater inflater = getMenuInflater();
       if (helpVariant.equals(HelpVariant.distribution)) {
         inflater.inflate(R.menu.distribution, menu);
-      } else {
+      } else if (!helpVariant.equals(HelpVariant.select_filter)) {
         inflater.inflate(R.menu.categories, menu);
       }
       super.onCreateOptionsMenu(menu);

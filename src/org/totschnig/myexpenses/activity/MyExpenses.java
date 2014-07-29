@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -382,6 +383,14 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
+    if (requestCode == FILTER_CATEGORY_REQUEST && resultCode == RESULT_OK) {
+      TransactionList tl = getCurrentFragment();
+      if (tl != null) {
+        long catId = intent.getLongExtra("cat_id",0);
+        String label = intent.getStringExtra("label");
+        tl.addFilterCriteria(new SingleCategoryCriteria(catId, label));
+      }
+    }
   }
 
   /**
@@ -635,15 +644,19 @@ public class MyExpenses extends LaunchActivity implements
             0);
         return true;
       case R.id.SHARE_COMMAND:
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message));
-        sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.menu_share)));
+        i = new Intent();
+        i.setAction(Intent.ACTION_SEND);
+        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message));
+        i.setType("text/plain");
+        startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
         return true;
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
+      case R.id.FILTER_CATEGORY_COMMAND:
+        i = new Intent(this, ManageCategories.class);
+        i.setAction("myexpenses.intent.select_filter");
+        startActivityForResult(i, FILTER_CATEGORY_REQUEST);
     }
     return super.dispatchCommand(command, tag);
   }

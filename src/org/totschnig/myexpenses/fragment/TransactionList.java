@@ -19,11 +19,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -39,6 +36,8 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -73,6 +72,8 @@ import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -91,6 +92,8 @@ public class TransactionList extends BudgetListFragment implements
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
   }
+  
+  protected WhereFilter mFilter = WhereFilter.empty();
 
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
@@ -343,6 +346,10 @@ public class TransactionList extends BudgetListFragment implements
     }
     switch(id) {
     case TRANSACTION_CURSOR:
+      if (!mFilter.isEmpty()) {
+        selection += " AND " + mFilter.getSelection();
+        selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs());
+      }
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
           uri, null, selection + " AND " + KEY_PARENTID + " is null",
@@ -769,5 +776,26 @@ public class TransactionList extends BudgetListFragment implements
       }
     }
     mCheckedListItems = null;
+  }
+  public void addFilterCriteria(Criteria c) {
+    mFilter.put(c);
+    mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+    getActivity().supportInvalidateOptionsMenu();
+  }
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    SubMenu filterMenu = menu.findItem(R.id.SEARCH_MENU).getSubMenu();
+    for (int i = 0; i < filterMenu.size(); i++) {
+      MenuItem filterItem = filterMenu.getItem(i);
+      switch(filterItem.getItemId()) {
+      case R.id.FILTER_CATEGORY_COMMAND:
+        Criteria c = mFilter.get(KEY_CATID);
+        if (c!=null) {
+          filterItem.setChecked(true);
+          filterItem.setTitle(getString(R.string.category) + " ("+c.prettyPrint() + ")");
+        }
+      }
+    }
   }
 }

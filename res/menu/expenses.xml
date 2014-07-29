@@ -34,15 +34,19 @@
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
-  <item android:title="@string/menu_search"
+  <item 
+    android:id="@+id/SEARCH_MENU"
+    android:title="@string/menu_search"
     android:icon="@drawable/search_icon"
   	app:showAsAction="ifRoom">
   	<menu>
-  		<item android:title="@string/category"/>
+  		<group android:checkableBehavior="all">
+  		<item android:id="@id/FILTER_CATEGORY_COMMAND" android:title="@string/category"/>
       <item android:title="@string/amount"/>
       <item android:title="@string/status"/>
       <item android:title="@string/payer"/>
       <item android:title="@string/method"/>
+      </group>
   	</menu>
   </item>
   <item

@@ -674,4 +674,15 @@ public class Utils {
     }
   }
 
+  //From Financisto
+  public static String[] joinArrays(String[] a1, String[] a2) {
+    if (a1.length == 0) {
+      return a2;
+    }
+    String[] a = new String[a1.length+a2.length];
+    System.arraycopy(a1, 0, a, 0, a1.length);
+    System.arraycopy(a2, 0, a, a1.length, a2.length);
+    return a;
+  }
+
 }
