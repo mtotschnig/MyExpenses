@@ -782,6 +782,14 @@ public class TransactionList extends BudgetListFragment implements
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
     getActivity().supportInvalidateOptionsMenu();
   }
+  public boolean removeFilter(String column) {
+    boolean isFiltered = mFilter.remove(column) != null;
+    if (isFiltered) {
+      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+      getActivity().supportInvalidateOptionsMenu();
+    }
+    return isFiltered;
+  }
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);

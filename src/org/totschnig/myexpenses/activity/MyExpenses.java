@@ -654,9 +654,15 @@ public class MyExpenses extends LaunchActivity implements
         finishActionMode();
         return true;
       case R.id.FILTER_CATEGORY_COMMAND:
-        i = new Intent(this, ManageCategories.class);
-        i.setAction("myexpenses.intent.select_filter");
-        startActivityForResult(i, FILTER_CATEGORY_REQUEST);
+        tl = getCurrentFragment();
+        if (tl != null) {
+          if (!tl.removeFilter(KEY_CATID)) {
+            i = new Intent(this, ManageCategories.class);
+            i.setAction("myexpenses.intent.select_filter");
+            startActivityForResult(i, FILTER_CATEGORY_REQUEST);
+          }
+        }
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
