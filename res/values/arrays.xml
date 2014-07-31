@@ -232,4 +232,10 @@
       <item>1.10.1</item>
       <item>1.10.0</item>
     </string-array>
+    <string-array name="comparison_operators">
+      <item>equal to</item>
+      <item>greater than</item>
+      <item>smaller than</item>
+      <item>between</item>
+    </string-array>
 </resources>

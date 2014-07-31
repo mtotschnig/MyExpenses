@@ -74,4 +74,5 @@
   <item type="id" name="BALANCE_COMMAND" />
   <item type="id" name="BALANCE_COMMAND_DO" />
   <item type="id" name="FILTER_CATEGORY_COMMAND" />
+  <item type="id" name="FILTER_AMOUNT_COMMAND" />
 </resources>

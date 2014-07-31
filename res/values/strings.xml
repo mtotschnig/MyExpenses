@@ -462,4 +462,7 @@
     <string name="widget_title_templates">My templates</string>
     <string name="app_dir_does_not_exist">The currently selected folder for backups and exports (%1$s) does not exist.</string>
     <string name="app_dir_read_only">The currently selected folder for backups and exports (%1$s) is read only.</string>
+    <string name="search_amount">Search for amount</string>
+    <string name="search_category">Search for category</string>
+    <string name="and">and</string>
 </resources>

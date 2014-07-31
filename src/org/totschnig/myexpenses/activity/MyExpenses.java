@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -660,6 +661,15 @@ public class MyExpenses extends LaunchActivity implements
             i = new Intent(this, ManageCategories.class);
             i.setAction("myexpenses.intent.select_filter");
             startActivityForResult(i, FILTER_CATEGORY_REQUEST);
+          }
+        }
+        return true;
+      case R.id.FILTER_AMOUNT_COMMAND:
+        tl = getCurrentFragment();
+        if (tl != null) {
+          if (!tl.removeFilter(KEY_AMOUNT)) {
+            AmountFilterDialog.newInstance()
+            .show(getSupportFragmentManager(), "AMOUNT_FILTER");
           }
         }
         return true;

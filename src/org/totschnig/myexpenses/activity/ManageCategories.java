@@ -91,7 +91,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         });
       } else if (action.equals("myexpenses.intent.select_filter")) {
         helpVariant = HelpVariant.select_filter;
-        getSupportActionBar().setTitle(R.string.select_category);
+        getSupportActionBar().setTitle(R.string.search_category);
       }
       setContentView(R.layout.select_category);
       mListFragment = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
