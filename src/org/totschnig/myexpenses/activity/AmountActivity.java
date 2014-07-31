@@ -26,11 +26,7 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -57,38 +53,12 @@ public abstract class AmountActivity extends EditActivity {
    */
   protected void configAmountInput() {
     mAmountText = (EditText) findViewById(R.id.Amount);
-    final char decimalSeparator = Utils.getDefaultDecimalSeparator();
+    char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
-    final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
     nfDLocal = new DecimalFormat("#0.###",symbols);
-    //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
-    //the soft keyboard if it occupies full screen in horizontal orientation does not display
-    //the , as comma separator
-    mAmountText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-    mAmountText.setFilters(new InputFilter[] { 
-        new InputFilter() {
-          public CharSequence filter(CharSequence source, int start, int end,
-              Spanned dest, int dstart, int dend) {
-            boolean separatorPresent = dest.toString().indexOf(decimalSeparator) > -1;
-            for (int i = start; i < end; i++) {
-              if (source.charAt(i) == otherSeparator || source.charAt(i) == decimalSeparator) {
-                char[] v = new char[end - start];
-                TextUtils.getChars(source, start, end, v, 0);
-                String s = new String(v).replace(otherSeparator,decimalSeparator);
-                if (separatorPresent)
-                  return s.replace(String.valueOf(decimalSeparator),"");
-                else
-                  return s;
-                }
-              }
-            return null; // keep original
-          }
-        },
-        new InputFilter.LengthFilter(16)
-    });
     nfDLocal.setGroupingUsed(false);
+    Utils.configDecimalSeparator(mAmountText, decimalSeparator);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode,

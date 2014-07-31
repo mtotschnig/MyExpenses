@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This file is part of My Expenses. My Expenses is free software: you 
+<!--
+  This file is part of My Expenses. My Expenses is free software: you 
 	can redistribute it and/or modify it under the terms of the GNU General Public 
 	License as published by the Free Software Foundation, either version 3 of 
 	the License, or (at your option) any later version. My Expenses is distributed 
@@ -7,47 +8,77 @@
 	the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 	See the GNU General Public License for more details. You should have received 
 	a copy of the GNU General Public License along with My Expenses. If not, 
-	see <http://www.gnu.org/licenses/>. -->
+	see <http://www.gnu.org/licenses/>.
+-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="0dp"
-	android:layout_weight="1">
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_height="wrap_content">
-		<RadioGroup android:layout_width="fill_parent" android:layout_height="wrap_content"
-      android:id="@+id/format"
-			android:orientation="horizontal">
-			<RadioButton android:id="@+id/expense" android:checked="true"
-				android:layout_weight="1" android:text="@string/expense" />
-			<RadioButton android:id="@+id/income"
-				android:layout_weight="1" android:text="@string/income" />
-		</RadioGroup>
-			<TableLayout
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" >
+
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:stretchColumns="1"
-        android:shrinkColumns="0"
-        android:layout_height="wrap_content">
-      <TableRow>
-      <Spinner
-            android:entries="@array/comparison_operators"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RadioGroup
+            android:id="@+id/format"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Operator" />
-      <EditText android:id="@+id/amount1"
-	      android:digits="1234567890,."
-	      android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
-       android:layout_height="wrap_content"/>
-      </TableRow>
-      <TableRow>
-      <TextView android:text="@string/and" android:gravity="center_horizontal"/>
-      <EditText android:id="@+id/amount2"
-        android:digits="1234567890,."
-        android:inputType="numberDecimal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-      </TableRow>
-		</TableLayout>
-	</LinearLayout>
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/expense"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/expense" />
+
+            <RadioButton
+                android:id="@+id/income"
+                android:layout_weight="1"
+                android:text="@string/income" />
+        </RadioGroup>
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/general_padding"
+            android:paddingRight="@dimen/general_padding"
+            android:shrinkColumns="0"
+            android:stretchColumns="1" >
+
+            <TableRow>
+
+                <Spinner
+                    android:id="@+id/Operator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/comparison_operator_entries"
+                    android:entryValues="@array/comparison_operator_values" />
+
+                <EditText
+                    android:id="@+id/amount1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890,."
+                    android:inputType="numberDecimal" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/Amount2Row"
+                android:visibility="gone" >
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:text="@string/and" />
+
+                <EditText
+                    android:id="@+id/amount2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890,."
+                    android:inputType="numberDecimal" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
 </ScrollView>
