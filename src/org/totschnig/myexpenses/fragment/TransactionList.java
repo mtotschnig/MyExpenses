@@ -782,6 +782,11 @@ public class TransactionList extends BudgetListFragment implements
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
     getActivity().supportInvalidateOptionsMenu();
   }
+  /**
+   * Removes a given filter
+   * @param column
+   * @return true if the filter was set and succesfully removed, false otherwise
+   */
   public boolean removeFilter(String column) {
     boolean isFiltered = mFilter.remove(column) != null;
     if (isFiltered) {
