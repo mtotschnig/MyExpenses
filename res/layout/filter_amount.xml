@@ -21,7 +21,7 @@
         android:orientation="vertical" >
 
         <RadioGroup
-            android:id="@+id/format"
+            android:id="@+id/type"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >

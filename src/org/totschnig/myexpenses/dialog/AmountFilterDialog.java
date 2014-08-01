@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.dialog;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Currency;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.AmountActivity;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Money;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 public class AmountFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
@@ -92,22 +95,35 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     if (strAmount1.equals("")) {
       return;
     }
+    AlertDialog dlg = (AlertDialog) dialog;
+    boolean type = ((RadioGroup) dlg.findViewById(R.id.type)).getCheckedRadioButtonId() == R.id.income ?
+        AmountActivity.INCOME : AmountActivity.EXPENSE;
+    BigDecimal bdAmount1 = Utils.validateNumber(nfDLocal, strAmount1);
+    if (type == AmountActivity.EXPENSE) {
+      bdAmount1 = bdAmount1.negate();
+    }
     longAmount1 = new Money(
         (Currency)getArguments().getSerializable(KEY_CURRENCY),
-        Utils.validateNumber(nfDLocal, strAmount1))
-    .getAmountMinor();
+        bdAmount1)
+      .getAmountMinor();
     if (selectedOp.equals("BTW")) {
       if (strAmount2.equals("")) {
         return;
       }
+      BigDecimal bdAmount2 = Utils.validateNumber(nfDLocal, strAmount2);
+      if (type == AmountActivity.EXPENSE) {
+        bdAmount2 = bdAmount2.negate();
+      }
       longAmount2 = new Money(
           (Currency)getArguments().getSerializable(KEY_CURRENCY),
-          Utils.validateNumber(nfDLocal, strAmount2))
-      .getAmountMinor();
+          bdAmount2)
+        .getAmountMinor();
+      //SQL BETWEEN requires first value to be smaller
+      boolean needSwap = (bdAmount2.compareTo(bdAmount1)==-1);
       c = new AmountCriteria(
           WhereFilter.Operation.BTW,
-          String.valueOf(longAmount1),
-          String.valueOf(longAmount2));
+          String.valueOf(needSwap?longAmount2:longAmount1),
+          String.valueOf(needSwap?longAmount1:longAmount2));
     } else {
       longAmount2 = null;
       c = new AmountCriteria(
