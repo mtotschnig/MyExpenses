@@ -31,6 +31,10 @@ public class Money implements Serializable {
     this.currency = currency;
     this.amountMinor = amountMinor;
   }
+  public Money(Currency currency, BigDecimal amountMajor) {
+    this.currency = currency;
+    setAmountMajor(amountMajor);
+  }
   public Currency getCurrency() {
     return currency;
   }
@@ -76,7 +80,7 @@ public class Money implements Serializable {
   /**
    * @param c
    * @return getDefaultFractionDigits for a currency, unless it is -1,
-   * then we return 10 in order to allow fractions with currencies like XXX
+   * then we return {@link Money#DEFAULTFRACTIONDIGITS} in order to allow fractions with currencies like XXX
    */
   public int fractionDigits(Currency c) {
     int digits = c.getDefaultFractionDigits();

@@ -808,6 +808,14 @@ public class TransactionList extends BudgetListFragment implements
           filterItem.setChecked(true);
           filterItem.setTitle(getString(R.string.category) + " ("+c.prettyPrint() + ")");
         }
+        break;
+      case R.id.FILTER_AMOUNT_COMMAND:
+        c = mFilter.get(KEY_AMOUNT);
+        if (c!=null) {
+          filterItem.setChecked(true);
+          filterItem.setTitle(getString(R.string.amount) + " ("+c.prettyPrint() + ")");
+        }
+        break;
       }
     }
   }

@@ -235,13 +235,13 @@
     <string-array name="comparison_operator_entries">
       <item>equal to</item>
       <item>greater than</item>
-      <item>smaller than</item>
+      <item>lesser than</item>
       <item>between</item>
     </string-array>
     <string-array name="comparison_operator_values">
-      <item>eq</item>
-      <item>gt</item>
-      <item>lt</item>
-      <item>btw</item>
+      <item>EQ</item>
+      <item>GTE</item>
+      <item>LTE</item>
+      <item>BTW</item>
     </string-array>
 </resources>

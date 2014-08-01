@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
@@ -385,15 +386,17 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
     if (requestCode == FILTER_CATEGORY_REQUEST && resultCode == RESULT_OK) {
-      TransactionList tl = getCurrentFragment();
-      if (tl != null) {
-        long catId = intent.getLongExtra("cat_id",0);
-        String label = intent.getStringExtra("label");
-        tl.addFilterCriteria(new SingleCategoryCriteria(catId, label));
-      }
+      long catId = intent.getLongExtra("cat_id",0);
+      String label = intent.getStringExtra("label");
+      addFilterCriteria(new SingleCategoryCriteria(catId, label));
     }
   }
-
+  public void addFilterCriteria(Criteria c) {
+    TransactionList tl = getCurrentFragment();
+    if (tl != null) {
+      tl.addFilterCriteria(c);
+    }
+  }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer/split
    * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER} or {@link #TYPE_SPLIT}
@@ -668,7 +671,9 @@ public class MyExpenses extends LaunchActivity implements
         tl = getCurrentFragment();
         if (tl != null) {
           if (!tl.removeFilter(KEY_AMOUNT)) {
-            AmountFilterDialog.newInstance()
+            mAccountsCursor.moveToPosition(mCurrentPosition);
+            Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
+            AmountFilterDialog.newInstance(currency)
             .show(getSupportFragmentManager(), "AMOUNT_FILTER");
           }
         }

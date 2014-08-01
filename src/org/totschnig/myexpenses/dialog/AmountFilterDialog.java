@@ -1,7 +1,16 @@
 package org.totschnig.myexpenses.dialog;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Currency;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Money;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import org.totschnig.myexpenses.provider.filter.AmountCriteria;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
@@ -18,8 +27,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 public class AmountFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
-  public static final AmountFilterDialog newInstance() {
-    return new AmountFilterDialog();
+  private EditText mAmount1Text;
+  private EditText mAmount2Text;
+  private DecimalFormat nfDLocal;
+  private Spinner mOperatorSpinner;
+  public static final AmountFilterDialog newInstance(Currency currency) {
+    Bundle bundle = new Bundle();
+    bundle.putSerializable(KEY_CURRENCY, currency);
+    AmountFilterDialog f = new AmountFilterDialog();
+    f.setArguments(bundle);
+    return f;
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,15 +44,15 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.filter_amount, null);
-    Spinner operatorSpinner = (Spinner) view.findViewById(R.id.Operator);
+    mOperatorSpinner = (Spinner) view.findViewById(R.id.Operator);
     final View amount2Row = view.findViewById(R.id.Amount2Row);
-    operatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+    mOperatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
           int position, long id) {
         String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)[position];
-        amount2Row.setVisibility(selectedOp.equals("btw") ? View.VISIBLE : View.GONE);
+        amount2Row.setVisibility(selectedOp.equals("BTW") ? View.VISIBLE : View.GONE);
       }
 
       @Override
@@ -44,10 +61,14 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
       }
     });
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
-    EditText amount1 = (EditText) view.findViewById(R.id.amount1);
-    EditText amount2 = (EditText) view.findViewById(R.id.amount2);
-    Utils.configDecimalSeparator(amount1, decimalSeparator);
-    Utils.configDecimalSeparator(amount2, decimalSeparator);
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(decimalSeparator);
+    nfDLocal = new DecimalFormat("#0.###",symbols);
+    nfDLocal.setGroupingUsed(false);
+    mAmount1Text = (EditText) view.findViewById(R.id.amount1);
+    mAmount2Text = (EditText) view.findViewById(R.id.amount2);
+    Utils.configDecimalSeparator(mAmount1Text, decimalSeparator);
+    Utils.configDecimalSeparator(mAmount2Text, decimalSeparator);
 
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(R.string.search_amount)
@@ -58,7 +79,41 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    // TODO Auto-generated method stub
-    
+    MyExpenses ctx = (MyExpenses) getActivity();
+    if (ctx==null) {
+      return;
+    }
+    String strAmount1 = mAmount1Text.getText().toString();
+    String strAmount2 = mAmount2Text.getText().toString();
+    Long longAmount1,longAmount2;
+    Criteria c;
+    String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)
+        [mOperatorSpinner.getSelectedItemPosition()];
+    if (strAmount1.equals("")) {
+      return;
+    }
+    longAmount1 = new Money(
+        (Currency)getArguments().getSerializable(KEY_CURRENCY),
+        Utils.validateNumber(nfDLocal, strAmount1))
+    .getAmountMinor();
+    if (selectedOp.equals("BTW")) {
+      if (strAmount2.equals("")) {
+        return;
+      }
+      longAmount2 = new Money(
+          (Currency)getArguments().getSerializable(KEY_CURRENCY),
+          Utils.validateNumber(nfDLocal, strAmount2))
+      .getAmountMinor();
+      c = new AmountCriteria(
+          WhereFilter.Operation.BTW,
+          String.valueOf(longAmount1),
+          String.valueOf(longAmount2));
+    } else {
+      longAmount2 = null;
+      c = new AmountCriteria(
+          WhereFilter.Operation.valueOf(selectedOp),
+          String.valueOf(longAmount1));
+    }
+    ctx.addFilterCriteria(c);
   }
 }
