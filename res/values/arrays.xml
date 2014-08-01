@@ -233,10 +233,10 @@
       <item>1.10.0</item>
     </string-array>
     <string-array name="comparison_operator_entries">
-      <item>equal to</item>
-      <item>greater than</item>
-      <item>lesser than</item>
-      <item>between</item>
+      <item>@string/comparison_operator_equal</item>
+      <item>@string/comparison_operator_greater_than</item>
+      <item>@string/comparison_operator_lesser_than</item>
+      <item>@string/comparison_operator_between</item>
     </string-array>
     <string-array name="comparison_operator_values">
       <item>EQ</item>

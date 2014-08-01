@@ -66,6 +66,12 @@ public class Criteria {
     this.operation = operation;
     this.values = values;
   }
+  
+  public Criteria(Criteria c) {
+    this.columnName = c.columnName;
+    this.operation = c.operation;
+    this.values = c.values;
+  }
 
   public boolean isNull() {
     return operation == WhereFilter.Operation.ISNULL;

@@ -465,4 +465,9 @@
     <string name="search_amount">Search for amount</string>
     <string name="search_category">Search for category</string>
     <string name="and">and</string>
+    <string name="between_and">between %1$s and %2$s</string>
+    <string name="comparison_operator_equal">equal to</string>
+    <string name="comparison_operator_greater_than">greater than</string>
+    <string name="comparison_operator_lesser_than">lesser than</string>
+    <string name="comparison_operator_between">between</string>
 </resources>

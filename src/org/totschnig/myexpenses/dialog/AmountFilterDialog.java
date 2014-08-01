@@ -88,48 +88,27 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     }
     String strAmount1 = mAmount1Text.getText().toString();
     String strAmount2 = mAmount2Text.getText().toString();
-    Long longAmount1,longAmount2;
-    Criteria c;
+    BigDecimal bdAmount1,bdAmount2 = null;
     String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)
         [mOperatorSpinner.getSelectedItemPosition()];
     if (strAmount1.equals("")) {
       return;
     }
+    Currency currency = (Currency)getArguments().getSerializable(KEY_CURRENCY);
     AlertDialog dlg = (AlertDialog) dialog;
     boolean type = ((RadioGroup) dlg.findViewById(R.id.type)).getCheckedRadioButtonId() == R.id.income ?
         AmountActivity.INCOME : AmountActivity.EXPENSE;
-    BigDecimal bdAmount1 = Utils.validateNumber(nfDLocal, strAmount1);
-    if (type == AmountActivity.EXPENSE) {
-      bdAmount1 = bdAmount1.negate();
-    }
-    longAmount1 = new Money(
-        (Currency)getArguments().getSerializable(KEY_CURRENCY),
-        bdAmount1)
-      .getAmountMinor();
+    bdAmount1 = Utils.validateNumber(nfDLocal, strAmount1);
     if (selectedOp.equals("BTW")) {
       if (strAmount2.equals("")) {
         return;
       }
-      BigDecimal bdAmount2 = Utils.validateNumber(nfDLocal, strAmount2);
-      if (type == AmountActivity.EXPENSE) {
-        bdAmount2 = bdAmount2.negate();
-      }
-      longAmount2 = new Money(
-          (Currency)getArguments().getSerializable(KEY_CURRENCY),
-          bdAmount2)
-        .getAmountMinor();
-      //SQL BETWEEN requires first value to be smaller
-      boolean needSwap = (bdAmount2.compareTo(bdAmount1)==-1);
-      c = new AmountCriteria(
-          WhereFilter.Operation.BTW,
-          String.valueOf(needSwap?longAmount2:longAmount1),
-          String.valueOf(needSwap?longAmount1:longAmount2));
-    } else {
-      longAmount2 = null;
-      c = new AmountCriteria(
-          WhereFilter.Operation.valueOf(selectedOp),
-          String.valueOf(longAmount1));
+      bdAmount2 = Utils.validateNumber(nfDLocal, strAmount2);
     }
-    ctx.addFilterCriteria(c);
+    ctx.addFilterCriteria(new AmountCriteria(
+        WhereFilter.Operation.valueOf(selectedOp),
+        currency,
+        type,
+        bdAmount1,bdAmount2));
   }
 }
