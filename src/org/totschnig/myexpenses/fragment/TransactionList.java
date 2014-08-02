@@ -19,12 +19,16 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -37,6 +41,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -47,6 +52,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -98,6 +104,8 @@ public class TransactionList extends BudgetListFragment implements
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
+
+  private static final String KEY_FILTER = "filter";
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
@@ -218,7 +226,9 @@ public class TransactionList extends BudgetListFragment implements
     mManager = getLoaderManager();
     setGrouping();
     setColors();
-    
+    if (savedInstanceState != null) {
+      mFilter =  new WhereFilter(savedInstanceState.getSparseParcelableArray(KEY_FILTER));
+    }
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     //TODO check if still needed with Appcompat
     //work around the problem that the view pager does not display its background correctly with Sherlock
@@ -382,7 +392,6 @@ public class TransactionList extends BudgetListFragment implements
     }
     return cursorLoader;
   }
-
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     switch(arg0.getId()) {
@@ -789,8 +798,9 @@ public class TransactionList extends BudgetListFragment implements
    * @return true if the filter was set and succesfully removed, false otherwise
    */
   public boolean removeFilter(Integer id) {
-    boolean isFiltered = mFilter.remove(id) != null;
+    boolean isFiltered = mFilter.get(id) != null;
     if (isFiltered) {
+      mFilter.remove(id);
       mManager.restartLoader(TRANSACTION_CURSOR, null, this);
       getActivity().supportInvalidateOptionsMenu();
     }
@@ -805,8 +815,50 @@ public class TransactionList extends BudgetListFragment implements
       Criteria c = mFilter.get(filterItem.getItemId());
       if (c!=null) {
         filterItem.setChecked(true);
-        filterItem.setTitle(filterItem.getTitle() + " ("+c.prettyPrint() + ")");
+        filterItem.setTitle(c.prettyPrint());
       }
+    }
+  }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSparseParcelableArray(KEY_FILTER, mFilter.getCriteria());
+  }
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int command = item.getItemId();
+    switch (item.getItemId()) {
+    case R.id.FILTER_CATEGORY_COMMAND:
+      if (!removeFilter(command)) {
+        Intent i = new Intent(getActivity(), ManageCategories.class);
+        i.setAction("myexpenses.intent.select_filter");
+        startActivityForResult(i, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST);
+      }
+      return true;
+    case R.id.FILTER_AMOUNT_COMMAND:
+      if (!removeFilter(command)) {
+        AmountFilterDialog.newInstance(mAccount.currency)
+        .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
+      }
+      return true;
+    case R.id.FILTER_COMMENT_COMMAND:
+      if (!removeFilter(command)) {
+        Bundle args = new Bundle();
+        args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.FILTER_COMMENT_REQUEST);
+        args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.search_comment));
+        EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "COMMENT_FILTER");
+      }
+      return true;
+    default:
+      return super.onOptionsItemSelected(item);
+    }
+  }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
+      long catId = intent.getLongExtra("cat_id",0);
+      String label = intent.getStringExtra("label");
+      addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
     }
   }
 }

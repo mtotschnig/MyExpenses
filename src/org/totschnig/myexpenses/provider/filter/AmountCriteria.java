@@ -24,11 +24,12 @@ public class AmountCriteria extends Criteria {
     this.origOperation=operation;
     this.origValue1=values[0];
     this.origValue2=values[1];
+    this.title = MyApplication.getInstance().getString(R.string.amount);
   }
   @Override
   public String prettyPrint() {
     String result = MyApplication.getInstance().getString(
-        type == AmountActivity.EXPENSE ? R.string.expense : R.string.income) + ", ";
+        type == AmountActivity.EXPENSE ? R.string.expense : R.string.income) + " ";
     String amount1 = Utils.formatCurrency(new Money(currency,origValue1.abs()));
     switch (origOperation) {
     case EQ:
@@ -44,7 +45,7 @@ public class AmountCriteria extends Criteria {
       String amount2 = Utils.formatCurrency(new Money(currency,origValue2.abs()));
       result += MyApplication.getInstance().getString(R.string.between_and,amount1,amount2);
     }
-    return result;
+    return prettyPrintInternal(result);
   }
   private static Criteria transformCriteria(Operation operation, Currency currency, boolean type,BigDecimal... values) {
     switch(operation) {

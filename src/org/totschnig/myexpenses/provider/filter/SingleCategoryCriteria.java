@@ -8,7 +8,12 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
@@ -23,18 +28,14 @@ public class SingleCategoryCriteria extends Criteria {
         .valueOf(categoryId));
     this.categoryId = categoryId;
     this.label = label;
+    this.title = MyApplication.getInstance().getString(R.string.category);
   }
 
-  public String toStringExtra() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(DatabaseConstants.KEY_CATID).append(",EQ,").append(categoryId);
-    return sb.toString();
+  public SingleCategoryCriteria(Parcel in) {
+    super(in);
+    categoryId = in.readLong();
+    label = in.readString();
   }
-
-  // public static Criteria fromStringExtra(String extra) {
-  // String[] a = extra.split(",");
-  // return new SingleCategoryCriteria(Long.parseLong(a[2]));
-  // }
 
   public long getCategoryId() {
     return categoryId;
@@ -42,7 +43,21 @@ public class SingleCategoryCriteria extends Criteria {
 
   @Override
   public String prettyPrint() {
-    // TODO Auto-generated method stub
-    return label;
+    return prettyPrintInternal(label);
   }
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    super.writeToParcel(dest, flags);
+    dest.writeLong(categoryId);
+    dest.writeString(label);
+  }
+  public static final Parcelable.Creator<SingleCategoryCriteria> CREATOR = new Parcelable.Creator<SingleCategoryCriteria>() {
+    public SingleCategoryCriteria createFromParcel(Parcel in) {
+        return new SingleCategoryCriteria(in);
+    }
+
+    public SingleCategoryCriteria[] newArray(int size) {
+        return new SingleCategoryCriteria[size];
+    }
+};
 }

@@ -386,11 +386,6 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
-    if (requestCode == FILTER_CATEGORY_REQUEST && resultCode == RESULT_OK) {
-      long catId = intent.getLongExtra("cat_id",0);
-      String label = intent.getStringExtra("label");
-      addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
-    }
   }
   public void addFilterCriteria(Integer id,Criteria c) {
     TransactionList tl = getCurrentFragment();
@@ -658,38 +653,6 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
-      case R.id.FILTER_CATEGORY_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null) {
-          if (!tl.removeFilter(command)) {
-            i = new Intent(this, ManageCategories.class);
-            i.setAction("myexpenses.intent.select_filter");
-            startActivityForResult(i, FILTER_CATEGORY_REQUEST);
-          }
-        }
-        return true;
-      case R.id.FILTER_AMOUNT_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null) {
-          if (!tl.removeFilter(command)) {
-            mAccountsCursor.moveToPosition(mCurrentPosition);
-            Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
-            AmountFilterDialog.newInstance(currency)
-            .show(getSupportFragmentManager(), "AMOUNT_FILTER");
-          }
-        }
-        return true;
-      case R.id.FILTER_COMMENT_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null) {
-          if (!tl.removeFilter(command)) {
-            Bundle args = new Bundle();
-            args.putInt(EditTextDialog.KEY_REQUEST_CODE, FILTER_COMMENT_REQUEST);
-            args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.search_comment));
-            EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "COMMENT_FILTER");
-          }
-        }
-        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -863,7 +826,7 @@ public class MyExpenses extends LaunchActivity implements
       finishActionMode();
       break;
     case FILTER_COMMENT_REQUEST:
-      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,new TextCriteria(KEY_COMMENT,result));
+      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,new TextCriteria(getString(R.string.comment),KEY_COMMENT,result));
       break;
     }
   }
