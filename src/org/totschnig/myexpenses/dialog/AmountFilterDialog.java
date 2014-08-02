@@ -105,7 +105,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
       }
       bdAmount2 = Utils.validateNumber(nfDLocal, strAmount2);
     }
-    ctx.addFilterCriteria(new AmountCriteria(
+    ctx.addFilterCriteria(R.id.FILTER_AMOUNT_COMMAND,new AmountCriteria(
         WhereFilter.Operation.valueOf(selectedOp),
         currency,
         type,

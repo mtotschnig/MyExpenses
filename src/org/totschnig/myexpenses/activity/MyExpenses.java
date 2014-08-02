@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
+import org.totschnig.myexpenses.provider.filter.TextCriteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -388,13 +389,13 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == FILTER_CATEGORY_REQUEST && resultCode == RESULT_OK) {
       long catId = intent.getLongExtra("cat_id",0);
       String label = intent.getStringExtra("label");
-      addFilterCriteria(new SingleCategoryCriteria(catId, label));
+      addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
     }
   }
-  public void addFilterCriteria(Criteria c) {
+  public void addFilterCriteria(Integer id,Criteria c) {
     TransactionList tl = getCurrentFragment();
     if (tl != null) {
-      tl.addFilterCriteria(c);
+      tl.addFilterCriteria(id,c);
     }
   }
   /**
@@ -660,7 +661,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.FILTER_CATEGORY_COMMAND:
         tl = getCurrentFragment();
         if (tl != null) {
-          if (!tl.removeFilter(KEY_CATID)) {
+          if (!tl.removeFilter(command)) {
             i = new Intent(this, ManageCategories.class);
             i.setAction("myexpenses.intent.select_filter");
             startActivityForResult(i, FILTER_CATEGORY_REQUEST);
@@ -670,11 +671,22 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.FILTER_AMOUNT_COMMAND:
         tl = getCurrentFragment();
         if (tl != null) {
-          if (!tl.removeFilter(KEY_AMOUNT)) {
+          if (!tl.removeFilter(command)) {
             mAccountsCursor.moveToPosition(mCurrentPosition);
             Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
             AmountFilterDialog.newInstance(currency)
             .show(getSupportFragmentManager(), "AMOUNT_FILTER");
+          }
+        }
+        return true;
+      case R.id.FILTER_COMMENT_COMMAND:
+        tl = getCurrentFragment();
+        if (tl != null) {
+          if (!tl.removeFilter(command)) {
+            Bundle args = new Bundle();
+            args.putInt(EditTextDialog.KEY_REQUEST_CODE, FILTER_COMMENT_REQUEST);
+            args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.search_comment));
+            EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "COMMENT_FILTER");
           }
         }
         return true;
@@ -840,13 +852,20 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onFinishEditDialog(Bundle args) {
-    String title = args.getString(EditTextDialog.KEY_RESULT);
-    if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)),title)).save() == null) {
-      Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
-    } else {
-      Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+    String result = args.getString(EditTextDialog.KEY_RESULT);
+    switch (args.getInt(EditTextDialog.KEY_REQUEST_CODE)) {
+    case TEMPLATE_TITLE_REQUEST:
+      if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)),result)).save() == null) {
+        Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,result), Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(getBaseContext(),getString(R.string.template_create_success,result), Toast.LENGTH_LONG).show();
+      }
+      finishActionMode();
+      break;
+    case FILTER_COMMENT_REQUEST:
+      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,new TextCriteria(KEY_COMMENT,result));
+      break;
     }
-    finishActionMode();
   }
   @Override
   public void onCancelEditDialog() {

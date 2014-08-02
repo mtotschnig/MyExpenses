@@ -464,6 +464,7 @@
     <string name="app_dir_read_only">The currently selected folder for backups and exports (%1$s) is read only.</string>
     <string name="search_amount">Search for amount</string>
     <string name="search_category">Search for category</string>
+    <string name="search_comment">Search for notes</string>
     <string name="and">and</string>
     <string name="between_and">between %1$s and %2$s</string>
     <string name="comparison_operator_equal">equal to</string>

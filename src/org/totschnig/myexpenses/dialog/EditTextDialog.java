@@ -36,6 +36,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   public static final String KEY_RESULT = "result";
   public static final String KEY_DIALOG_TITLE = "dialogTitle";
   public static final String KEY_VALUE = "value";
+  public static final String KEY_REQUEST_CODE = "requestCode";
 
   public interface EditTextDialogListener {
     void onFinishEditDialog(Bundle args);

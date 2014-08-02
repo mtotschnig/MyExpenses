@@ -325,6 +325,7 @@ public class TransactionList extends BudgetListFragment implements
       args.putLong(KEY_ROWID, acmi.id);
       args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_template_title));
       args.putString(EditTextDialog.KEY_VALUE,label);
+      args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.TEMPLATE_TITLE_REQUEST);
       EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }
@@ -777,8 +778,8 @@ public class TransactionList extends BudgetListFragment implements
     }
     mCheckedListItems = null;
   }
-  public void addFilterCriteria(Criteria c) {
-    mFilter.put(c);
+  public void addFilterCriteria(Integer id, Criteria c) {
+    mFilter.put(id, c);
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
     getActivity().supportInvalidateOptionsMenu();
   }
@@ -787,8 +788,8 @@ public class TransactionList extends BudgetListFragment implements
    * @param column
    * @return true if the filter was set and succesfully removed, false otherwise
    */
-  public boolean removeFilter(String column) {
-    boolean isFiltered = mFilter.remove(column) != null;
+  public boolean removeFilter(Integer id) {
+    boolean isFiltered = mFilter.remove(id) != null;
     if (isFiltered) {
       mManager.restartLoader(TRANSACTION_CURSOR, null, this);
       getActivity().supportInvalidateOptionsMenu();
@@ -801,21 +802,10 @@ public class TransactionList extends BudgetListFragment implements
     SubMenu filterMenu = menu.findItem(R.id.SEARCH_MENU).getSubMenu();
     for (int i = 0; i < filterMenu.size(); i++) {
       MenuItem filterItem = filterMenu.getItem(i);
-      switch(filterItem.getItemId()) {
-      case R.id.FILTER_CATEGORY_COMMAND:
-        Criteria c = mFilter.get(KEY_CATID);
-        if (c!=null) {
-          filterItem.setChecked(true);
-          filterItem.setTitle(getString(R.string.category) + " ("+c.prettyPrint() + ")");
-        }
-        break;
-      case R.id.FILTER_AMOUNT_COMMAND:
-        c = mFilter.get(KEY_AMOUNT);
-        if (c!=null) {
-          filterItem.setChecked(true);
-          filterItem.setTitle(getString(R.string.amount) + " ("+c.prettyPrint() + ")");
-        }
-        break;
+      Criteria c = mFilter.get(filterItem.getItemId());
+      if (c!=null) {
+        filterItem.setChecked(true);
+        filterItem.setTitle(filterItem.getTitle() + " ("+c.prettyPrint() + ")");
       }
     }
   }
