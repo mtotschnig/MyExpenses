@@ -20,8 +20,6 @@ import java.util.List;
 //import ru.orangesoftware.financisto.utils.Utils;
 //import ru.orangesoftware.financisto.datetime.PeriodType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.orb.Expression;
-import org.totschnig.myexpenses.provider.orb.Expressions;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
@@ -169,15 +167,6 @@ public class WhereFilter {
 
   public static WhereFilter empty() {
     return new WhereFilter("");
-  }
-
-  public Expression toWhereExpression() {
-    int count = criterias.size();
-    Expression[] ee = new Expression[count];
-    for (int i = 0; i < count; i++) {
-      ee[i] = criterias.get(i).toWhereExpression();
-    }
-    return Expressions.and(ee);
   }
 
   public void toBundle(Bundle bundle) {

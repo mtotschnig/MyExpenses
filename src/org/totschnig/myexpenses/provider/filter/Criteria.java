@@ -12,8 +12,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.orb.Expression;
-import org.totschnig.myexpenses.provider.orb.Expressions;
 
 /**
  * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
@@ -75,24 +73,6 @@ public class Criteria {
 
   public boolean isNull() {
     return operation == WhereFilter.Operation.ISNULL;
-  }
-
-  public Expression toWhereExpression() {
-    switch (operation) {
-    case EQ:
-      return Expressions.eq(columnName, getLongValue1());
-    case GT:
-      return Expressions.gt(columnName, getLongValue1());
-    case GTE:
-      return Expressions.gte(columnName, getLongValue1());
-    case LT:
-      return Expressions.lt(columnName, getLongValue1());
-    case LTE:
-      return Expressions.lte(columnName, getLongValue1());
-    case BTW:
-      return Expressions.btw(columnName, getLongValue1(), getLongValue2());
-    }
-    throw new IllegalArgumentException();
   }
 
   public String toStringExtra() {
