@@ -11,8 +11,7 @@ public class TextCriteria extends Criteria {
             searchString
               .replace(WhereFilter.LIKE_ESCAPE_CHAR, WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
               .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
-              .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_")
-               +
+              .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_") +
         "%");
     this.searchString = searchString;
     this.title = title;

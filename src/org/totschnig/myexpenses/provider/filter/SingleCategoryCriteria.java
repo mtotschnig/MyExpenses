@@ -40,6 +40,16 @@ public class SingleCategoryCriteria extends Criteria {
   public long getCategoryId() {
     return categoryId;
   }
+  @Override
+  public String getSelection() {
+    return  DatabaseConstants.KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+        + DatabaseConstants.TABLE_CATEGORIES + " WHERE " + DatabaseConstants.KEY_PARENTID + " = ? OR "
+        + DatabaseConstants.KEY_ROWID + " = ?)";
+  }
+  @Override
+  public String[] getSelectionArgs() {
+    return new String[] {values[0],values[0]};
+  }
 
   @Override
   public String prettyPrint() {
