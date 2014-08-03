@@ -6,7 +6,14 @@ import android.os.Parcelable;
 public class TextCriteria extends Criteria {
   private String searchString;
   public TextCriteria(String title, String columnName, String searchString) {
-    super(columnName, WhereFilter.Operation.LIKE, "%"+searchString+"%");
+    super(columnName, WhereFilter.Operation.LIKE,
+        "%" +
+            searchString
+              .replace(WhereFilter.LIKE_ESCAPE_CHAR, WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
+              .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
+              .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_")
+               +
+        "%");
     this.searchString = searchString;
     this.title = title;
   }

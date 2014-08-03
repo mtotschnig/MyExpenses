@@ -31,6 +31,7 @@ public class WhereFilter {
   public static final String FILTER_LENGTH_PREF = "filterLength";
   public static final String FILTER_CRITERIA_PREF = "filterCriteria";
   public static final String FILTER_SORT_ORDER_PREF = "filterSortOrder";
+  public static final String LIKE_ESCAPE_CHAR = "\\";
 
   private SparseArray<Criteria> criterias= new SparseArray<Criteria>();
   private final LinkedList<String> sorts = new LinkedList<String>();
@@ -146,7 +147,7 @@ public class WhereFilter {
 
   public static enum Operation {
     NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW(
-        "BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ?");
+        "BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ? ESCAPE '" + LIKE_ESCAPE_CHAR + "'");
 
     public final String op;
 
