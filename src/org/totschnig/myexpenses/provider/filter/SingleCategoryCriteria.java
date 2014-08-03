@@ -20,26 +20,20 @@ import android.os.Parcelable;
  */
 public class SingleCategoryCriteria extends Criteria {
 
-  private final long categoryId;
   private final String label;
 
   public SingleCategoryCriteria(long categoryId, String label) {
     super(DatabaseConstants.KEY_CATID, WhereFilter.Operation.EQ, String
         .valueOf(categoryId));
-    this.categoryId = categoryId;
     this.label = label;
     this.title = MyApplication.getInstance().getString(R.string.category);
   }
 
   public SingleCategoryCriteria(Parcel in) {
     super(in);
-    categoryId = in.readLong();
     label = in.readString();
   }
 
-  public long getCategoryId() {
-    return categoryId;
-  }
   @Override
   public String getSelection() {
     return  DatabaseConstants.KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
@@ -58,7 +52,6 @@ public class SingleCategoryCriteria extends Criteria {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
-    dest.writeLong(categoryId);
     dest.writeString(label);
   }
   public static final Parcelable.Creator<SingleCategoryCriteria> CREATOR = new Parcelable.Creator<SingleCategoryCriteria>() {
