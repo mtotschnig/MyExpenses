@@ -344,9 +344,11 @@ public class MyExpenses extends LaunchActivity implements
         }
       } catch (IllegalArgumentException ex) {}
     }
-    menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
-    menu.findItem(R.id.BALANCE_COMMAND).setVisible(showBalanceCommand);
-    menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
+    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EDIT_ACCOUNT_COMMAND),
+        mAccountId > 0);
+    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BALANCE_COMMAND),
+        showBalanceCommand);
+    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.DELETE_ACCOUNT_COMMAND),
         mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
   }

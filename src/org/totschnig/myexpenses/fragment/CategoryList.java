@@ -490,9 +490,9 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
-      menu.findItem(R.id.FORWARD_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
-      menu.findItem(R.id.BACK_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
-    }
+      boolean grouped = !mGrouping.equals(Grouping.NONE);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);    }
   }
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))

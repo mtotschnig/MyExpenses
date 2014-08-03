@@ -70,11 +70,11 @@ import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.InputFilter;
-import android.text.InputFilter.LengthFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -548,11 +548,9 @@ public class Utils {
    * @param item
    * @param enabled
    */
-//  public static void menuItemSetEnabled(Menu menu, int id, boolean enabled) {
-//    MenuItem item = menu.findItem(id);
-//    item.setEnabled(enabled);
-//    item.getIcon().setAlpha(enabled ? 255 : 90);
-//  }
+  public static void menuItemSetEnabledAndVisible(MenuItem item, boolean enabled) {
+    item.setEnabled(enabled).setVisible(enabled);
+  }
 
   public static boolean doesPackageExist(Context context,String targetPackage) {
     try {

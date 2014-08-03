@@ -812,10 +812,17 @@ public class TransactionList extends BudgetListFragment implements
     SubMenu filterMenu = menu.findItem(R.id.SEARCH_MENU).getSubMenu();
     for (int i = 0; i < filterMenu.size(); i++) {
       MenuItem filterItem = filterMenu.getItem(i);
-      Criteria c = mFilter.get(filterItem.getItemId());
-      if (c!=null) {
-        filterItem.setChecked(true);
-        filterItem.setTitle(c.prettyPrint());
+      boolean enabled = true;
+      if (filterItem.getItemId()==R.id.FILTER_STATUS_COMMAND) {
+        enabled = !mAccount.type.equals(Type.CASH);
+        Utils.menuItemSetEnabledAndVisible(filterItem, enabled);
+      }
+      if (enabled) {
+        Criteria c = mFilter.get(filterItem.getItemId());
+        if (c!=null) {
+          filterItem.setChecked(true);
+          filterItem.setTitle(c.prettyPrint());
+        }
       }
     }
   }
