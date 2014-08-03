@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -854,6 +855,12 @@ public class TransactionList extends BudgetListFragment implements
         args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.FILTER_COMMENT_REQUEST);
         args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.search_comment));
         EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "COMMENT_FILTER");
+      }
+      return true;
+    case R.id.FILTER_STATUS_COMMAND:
+      if (!removeFilter(command)) {
+        SelectCrStatusDialogFragment.newInstance()
+        .show(getActivity().getSupportFragmentManager(), "STATUS_FILTER");
       }
       return true;
     default:
