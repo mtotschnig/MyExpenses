@@ -80,6 +80,11 @@
         <item>@string/grouping_month</item>
         <item>@string/grouping_year</item>
     </string-array>
+    <string-array name="crstatus_entries">
+        <item>@string/status_uncreconciled</item>
+        <item>@string/status_cleared</item>
+        <item>@string/status_reconciled</item>
+    </string-array>
     <string-array name="method_types">
     	<item>@string/pm_type_debit</item>
       <item>@string/pm_type_neutral</item>
