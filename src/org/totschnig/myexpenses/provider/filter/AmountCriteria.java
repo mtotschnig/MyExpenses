@@ -11,6 +11,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 public class AmountCriteria extends Criteria {
   private boolean type;
   private Currency currency;
@@ -25,6 +28,14 @@ public class AmountCriteria extends Criteria {
     this.origValue1=values[0];
     this.origValue2=values[1];
     this.title = MyApplication.getInstance().getString(R.string.amount);
+  }
+  public AmountCriteria(Parcel in) {
+    super(in);
+    type = in.readByte() != 0;
+    currency = Currency.getInstance(in.readString());
+    origOperation = Operation.valueOf(in.readString());
+    origValue1 = new BigDecimal(in.readString());
+    origValue2 = new BigDecimal(in.readString());
   }
   @Override
   public String prettyPrint() {
@@ -107,4 +118,25 @@ public class AmountCriteria extends Criteria {
         operation,
         String.valueOf(longAmount1));
   }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    // TODO Auto-generated method stub
+    super.writeToParcel(dest, flags);
+    dest.writeByte((byte) (type ? 1 : 0));
+    dest.writeString(currency.getCurrencyCode());
+    dest.writeString(origOperation.name());
+    dest.writeString(origValue1.toPlainString());
+    dest.writeString(origValue2.toPlainString());
+  }
+
+  public static final Parcelable.Creator<AmountCriteria> CREATOR = new Parcelable.Creator<AmountCriteria>() {
+    public AmountCriteria createFromParcel(Parcel in) {
+        return new AmountCriteria(in);
+    }
+
+    public AmountCriteria[] newArray(int size) {
+        return new AmountCriteria[size];
+    }
+};
 }
