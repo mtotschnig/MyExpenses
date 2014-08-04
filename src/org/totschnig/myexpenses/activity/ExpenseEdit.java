@@ -1139,6 +1139,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mTransaction instanceof SplitTransaction) {
         ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
       }
+      mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
       configureStatusSpinner();
     }
   }
