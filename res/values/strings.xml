@@ -251,6 +251,7 @@
     <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
     <string name="payee">Payee</string>
     <string name="payer">Payer</string>
+    <string name="payer_or_payee">Payee/Payer</string>
     <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s) that has been deleted</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
@@ -466,6 +467,7 @@
     <string name="search_category">Search for category</string>
     <string name="search_comment">Search for notes</string>
     <string name="search_status">Search for status</string>
+    <string name="search_payee">Search for payee/payer</string>
     <string name="and">and</string>
     <string name="between_and">between %1$s and %2$s</string>
     <string name="comparison_operator_equal">equal to</string>

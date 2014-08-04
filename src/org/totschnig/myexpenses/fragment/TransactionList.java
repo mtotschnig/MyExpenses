@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -861,6 +862,12 @@ public class TransactionList extends BudgetListFragment implements
       if (!removeFilter(command)) {
         SelectCrStatusDialogFragment.newInstance()
         .show(getActivity().getSupportFragmentManager(), "STATUS_FILTER");
+      }
+      return true;
+    case R.id.FILTER_PAYER_COMMAND:
+      if (!removeFilter(command)) {
+        SelectPayerDialogFragment.newInstance(mAccount.getId())
+        .show(getActivity().getSupportFragmentManager(), "PAYER_FILTER");
       }
       return true;
     default:

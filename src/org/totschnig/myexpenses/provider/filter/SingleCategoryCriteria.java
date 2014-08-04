@@ -18,20 +18,17 @@ import android.os.Parcelable;
 /**
  * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
  */
-public class SingleCategoryCriteria extends Criteria {
-
-  private final String label;
+public class SingleCategoryCriteria extends IdCriteria {
 
   public SingleCategoryCriteria(long categoryId, String label) {
-    super(DatabaseConstants.KEY_CATID, WhereFilter.Operation.EQ, String
-        .valueOf(categoryId));
-    this.label = label;
-    this.title = MyApplication.getInstance().getString(R.string.category);
+    super(MyApplication.getInstance().getString(R.string.category),
+        DatabaseConstants.KEY_CATID,
+        categoryId,
+        label);
   }
 
   public SingleCategoryCriteria(Parcel in) {
     super(in);
-    label = in.readString();
   }
 
   @Override
@@ -48,11 +45,6 @@ public class SingleCategoryCriteria extends Criteria {
   @Override
   public String prettyPrint() {
     return prettyPrintInternal(label);
-  }
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    super.writeToParcel(dest, flags);
-    dest.writeString(label);
   }
   public static final Parcelable.Creator<SingleCategoryCriteria> CREATOR = new Parcelable.Creator<SingleCategoryCriteria>() {
     public SingleCategoryCriteria createFromParcel(Parcel in) {

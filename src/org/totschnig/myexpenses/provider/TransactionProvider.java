@@ -59,6 +59,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/accounts/aggregatesCount");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
+  public static final Uri PAYEES_FILTERED_URI =
+      Uri.parse("content://" + AUTHORITY + "/payees_transactions");
   public static final Uri METHODS_URI =
       Uri.parse("content://" + AUTHORITY + "/methods");
   public static final Uri ACCOUNTTYPES_METHODS_URI =
@@ -111,6 +113,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CURRENCIES = 27;
   private static final int AGGREGATES_COUNT = 28;
   private static final int TRANSACTION_TOGGLE_CRSTATUS = 29;
+  private static final int PAYEES_FILTERED = 30;
   
   @Override
   public boolean onCreate() {
@@ -395,6 +398,11 @@ public class TransactionProvider extends ContentProvider {
       defaultOrderBy = "name";
       if (projection == null)
         projection = Payee.PROJECTION;
+      break;
+    case PAYEES_FILTERED:
+      qb.setTables(TABLE_PAYEES  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
+      projection = new String[] {"DISTINCT " + TABLE_PAYEES + "." + KEY_ROWID,KEY_PAYEE_NAME};
+      defaultOrderBy = "name";
       break;
     case METHODS:
       qb.setTables(TABLE_METHODS);
@@ -909,6 +917,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#",AGGREGATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "payees_transactions", PAYEES_FILTERED);
   }
   public void resetDatabase() {
     mOpenHelper.close();
