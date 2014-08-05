@@ -72,7 +72,7 @@ amazon:
 versions:
   -
     - 2.1.6
-    - 2014-07-01
+    - "2014-07-01"
     -
       en: |
         Sinhala translation. Multi-window support on Samsung devices. Reconciliation workflow.
@@ -90,7 +90,7 @@ versions:
         Seylanca tercüme. Samsung cihazlarında çoklu pencere desteği. Uzlaşma çalışma akışı.
   -
     - 2.1.5
-    - 2014-06-02
+    - "2014-06-02"
     -
       en: |
         Backups are now stored in ZIP archives that can be shared (E-Mail, Drive, Dropbox, …) and restored from external sources.
@@ -108,7 +108,7 @@ versions:
         Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir.
   -
     - 2.1.4
-    - 2014-05-29
+    - "2014-05-29"
     -
       en: |
         Home screen shortcuts for adding transactions and transfers.
@@ -126,7 +126,7 @@ versions:
         Virman ve muamele eklemek için ana ekran kısayolları.
   -
     - 2.1.3
-    - 2014-05-25
+    - "2014-05-25"
     -
       en: |
         Home screen widgets for quick data entry.
@@ -144,7 +144,7 @@ versions:
         Çabuk veri girişi için ana ekran widget'leri.
   -
     - 2.1.2
-    - 2014-04-26
+    - "2014-04-26"
     -
       en: |
         Russian translation.
@@ -162,7 +162,7 @@ versions:
         Перевод на русский язык.
   -
     - 2.1.1
-    - 2014-04-21
+    - "2014-04-21"
     -
       en: |
         Folder location for backups and exports is now configurable.
@@ -182,7 +182,7 @@ versions:
         Расположение папки для резервного копирования и экспорта теперь настраивается.
   -
     - 2.1.0
-    - 2014-04-16
+    - "2014-04-16"
     -
       en: |
         Multiple independent backups. QIF import.
@@ -200,7 +200,7 @@ versions:
         Несколько независимых резервных копий. Импорт QIF.
   -
     - 2.0.2
-    - 2014-02-23
+    - "2014-02-23"
     -
       en: |
         Greek translation. Week start made dependent on locale (e.g. Sunday for US).
@@ -220,7 +220,7 @@ versions:
         Греческий перевод. Начало недели зависит от языковых стандартов (например, воскресенье для США).
   -
     - 2.0.1
-    - 2014-02-12
+    - "2014-02-12"
     -
       en: |
         UI improvements: #115,#117,#120,#122,#124. Made transaction dates timezone aware.
@@ -240,7 +240,7 @@ versions:
         Улучшения пользовательского интерфейса: #115, #117, #120, #122, #124. Дата транзакции зависит от часового пояса.
   -
     - 2.0
-    - 2014-01-31
+    - "2014-01-31"
     -
       en: |
         Modernized UI: navigation drawer and contextual action bar.
@@ -260,7 +260,7 @@ versions:
         Модернизация UI: секция навигации и панель контекстных действий.
   -
     - 1.11.5
-    - 2014-01-12
+    - "2014-01-12"
     -
       en: |
         Improved handling of plans: Apply upcoming instances in advance. New translations: Portuguese, Polish, Czech.
@@ -284,7 +284,7 @@ versions:
         Улучшена обработка планов: примение предстоящих планов заранее. Новые переводы: Португальский, польский, чешский.
   -
     - 1.11.0
-    - 2013-12-31
+    - "2013-12-31"
     -
       en: |
         Display transaction list and statistical distribution for aggregates of multiple accounts.
@@ -306,7 +306,7 @@ versions:
         Отображение списка транзакций и статистическое распределение для объединения нескольких счетов.
   -
     - 1.10.5
-    - 2013-12-24
+    - "2013-12-24"
     -
       en: |
         (Traditional) Chinese translation. Allow selection of account in transaction editing form. Clearer UI for transfers.
@@ -330,7 +330,7 @@ versions:
         Перевод на китайский язык (традиционный). Разрешить выбор счета в форме редактирования транзакции. Яснее пользовательский интерфейс для переводов.
   -
     - 1.10.4
-    - 2013-12-16
+    - "2013-12-16"
     -
       en: |
         UI improvements (#94) and bug fixes (#95,#96).
@@ -354,7 +354,7 @@ versions:
         Усовершенствования пользовательского интерфейса (#94) и исправления (#95, #96).
   -
     - 1.10.3
-    - 2013-12-14
+    - "2013-12-14"
     -
       en: |
         Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait. Bug fixes: Issues #71,#91,#92,#93.
@@ -378,7 +378,7 @@ versions:
         Текущий баланс отображается снова на более видном месте, показ основных кнопок в нижней части, когда устройство в портретной ориентации. Исправления ошибок: вопросы #71, #91, #92, #93.
   -
     - 1.10.2
-    - 2013-12-12
+    - "2013-12-12"
     -
       en: |
         When transaction list is grouped, show intermediate balance for each period in group header. Bug fix: Issue #90.
@@ -402,7 +402,7 @@ versions:
         При группировке списка транзакций показывать промежуточный баланс для каждого периода в верхнем колонтитуле группы. Багфикс: проблема #90.
   -
     - 1.10.1
-    - 2013-12-06
+    - "2013-12-06"
     -
       en: |
         UI language configurable. Font size configurable.
@@ -426,7 +426,7 @@ versions:
         Настраиваемый язык пользовательского интерфейса. Настраиваемый размер шрифта.
   -
     - 1.10.0
-    - 2013-12-01
+    - "2013-12-01"
     -
       en: |
         Plans for future and recurring transactions. Khmer translation.
@@ -452,7 +452,7 @@ versions:
         Планы на будущее и повторяющиеся транзакции. Кхмерский перевод.
   -
     - 1.9.7
-    - 2013-11-07
+    - "2013-11-07"
     -
       en: |
         Reference number (cheque payments). Start with account list from launcher. Swipe between periods in distribution view. Configurable date format for QIF and CSV export. UI improvements.
@@ -476,7 +476,7 @@ versions:
         Numer odniesienia (płatność czekiem). Uruchom z launchera na listę kont. Zmień między okresami w widoku dystrybucji. Możliwość zmiany formatu daty dla eksportu QIF i CSV. Ulepszenia interfejsu użytkownika.
   -
     - 1.9.6
-    - 2013-10-18
+    - "2013-10-18"
     -
       en: |
         Flag transactions as cleared / reconciled (enabled for bank accounts and credit cards). Parties can now be edited. Hungarian translation.
@@ -502,7 +502,7 @@ versions:
         Oznakuj transakcje jako zrobione / uzgodnione (włączone dla kont bankowych i kart kredytowych). Partie mogą być teraz edytowane. Tłumaczenie w języku węgierskim.
   -
     - 1.9.5
-    - 2013-10-04
+    - "2013-10-04"
     -
       en: |
         Distribution of transactions by category (Premium).
@@ -528,7 +528,7 @@ versions:
         Dystrybucja transakcji według kategorii (Premium).
   -
     - 1.9.1
-    - 2013-09-23
+    - "2013-09-23"
     -
       en: |
         Bug fix: Issue #69. Arab translation.
@@ -556,7 +556,7 @@ versions:
         Poprawa błędu: Issue #69. Tłumaczenie w języku arabskim.
   -
     - 1.9.0
-    - 2013-08-20
+    - "2013-08-20"
     -
       en: |
         Group transactions per day, week, month, year and display sums per group.
@@ -598,7 +598,7 @@ versions:
         Grupowanie transakcji na dni, tygodnie, miesiące, lata i wyświetlanie sum dla każdej z grup. Odbiorca płatności jest wyświetlany na liście transakcji. Lista kont jest posortowana (domyślnie według częstotliwości użytkowania).
   -
     - 1.8.5.
-    - 2013-08-06
+    - "2013-08-06"
     -
       en: Split transactions (Premium).
       fr: Opérations ventilées (Premium).
@@ -611,7 +611,7 @@ versions:
         تقسيم العمليات.
   -
     - 1.8.1.
-    - 2013-07-11
+    - "2013-07-11"
     -
       en: |
         Vietnamese translation.
@@ -638,7 +638,7 @@ versions:
         دعم اللغة الفيتنامية. تحسينات أخرى.
   -
     - 1.8.0.
-    - 2013-07-10
+    - "2013-07-10"
     -
       en: |
         New UI design based on Holo theme.
@@ -668,7 +668,7 @@ versions:
         واجهة مستخدم جديدة باستخدام مظهر Holo. إضافة نافذة للمساعدة. تصدير بدون حاجة للحذف.
   -
     - 1.7.4
-    - 2013-06-18
+    - "2013-06-18"
     -
       en: |
         Export to CSV.
@@ -700,7 +700,7 @@ versions:
         Android 1.6 desteği.
   -
     - 1.7.3
-    - 2013-05-23
+    - "2013-05-23"
     -
       en: |
         Clone transactions (Premium).
@@ -725,7 +725,7 @@ versions:
         Kaydet ve yenisini aç.
   -
     - 1.7.2
-    - 2013-05-21
+    - "2013-05-21"
     -
       en: |
         Reset all accounts (Premium).
@@ -771,7 +771,7 @@ versions:
         Sıfırdan şablon oluşturulması.
   -
     - 1.7.1
-    - 2013-05-09
+    - "2013-05-09"
     -
       en: |
         Password protection.
@@ -796,7 +796,7 @@ versions:
         Bazı dillerde (Arapça, Bengalce, Farsça, Hintçe, Marathi, Peştuca, Tamilce) tarihlerin ele alınmasındaki hata düzeltildi.
   -
     - 1.7.0
-    - 2013-04-26
+    - "2013-04-26"
     -
       en: |
         Swipe through accounts.
@@ -849,7 +849,7 @@ versions:
         Aydınlık temada titreme sorunu giderildi.
   -
     - 1.6.8
-    - 2013-02-23
+    - "2013-02-23"
     -
       ca: |
         Localitzat icona de l'aplicació i el botó de la data.
@@ -872,7 +872,7 @@ versions:
         Notlar muamele listesinde görüntüleniyor.
   -
     - 1.6.7
-    - 2013-02-08
+    - "2013-02-08"
     -
       ca: |
         Colors diferents per a cada compte.
@@ -895,7 +895,7 @@ versions:
         Türkçe tercüme.
   -
     - 1.6.6
-    - 2013-01-26
+    - "2013-01-26"
     -
       ca: |
         Associació entre els tipus de comptes i mètodes de pagament reparats.
@@ -920,7 +920,7 @@ versions:
         Varsayılan sistem yazıtipi boyutunu kullan.
   -
     - 1.6.5
-    - 2013-01-24
+    - "2013-01-24"
     -
       ca: |
         Aparença: tema fosc.
@@ -948,7 +948,7 @@ versions:
         La soma dei trasferimenti aggiunta al sommario dei conti.
   -
     - 1.6.0
-    - 2012-12-24
+    - "2012-12-24"
     -
       ca: |
         Creare operazione riguardo modelli.
@@ -983,111 +983,112 @@ versions:
         L'elenco degli conti mostra una panoramica della situazione finanziaria.
   -
     - 1.5.1
-    - 2012-10-21
+    - "2012-10-21"
     -
       en: "Fixed problem with restore from old backups. Show payment method in transaction details."
   -
     - 1.5.0
-    - 2012-10-20
+    - "2012-10-20"
     -
       en: "Payment methods. FTP transfer factored out to SendWithFTP app. Bug fixes (Issues #24, #27, #28 ,#29, #30, #32, #33). Improved QIF format (header and category)."
   -
     - 1.4.12
-    - 2012-04-26
+    - "2012-04-26"
     -
       en: "User interface translated to Spanish. Move transaction to different account. Parties list sorted alphabetically."
   -
     - 1.4.11
-    - 2012-04-20
+    - "2012-04-20"
     -
       en: "Improved stability of categories import and ftp transfer. Added FAQ. Generic export through any installed file transfer app."
   -
     - 1.4.10
-    - 2012-04-14
+    - "2012-04-14"
     -
       en: "Improved usability and added configurability to input of currency amounts."
   -
     - 1.4.9
-    - 2012-03-31
+    - "2012-03-31"
     -
       en: "Additional features for list of payers/payees (import from Grisbi, delete). Fixed display of buttons in ICS."
   -
     - 1.4.8
-    - 2012-03-26
+    - "2012-03-26"
     -
       en: "Revamped user interface. Some bug-fixes."
+  -
     - 1.4.7
-    - 2012-03-09
+    - "2012-03-09"
     -
       en: "Improved usability of currency input. Reduced apk size, since tutorial is no longer included, but hosted on Github."
   -
     - 1.4.6
-    - 2012-03-04
+    - "2012-03-04"
     -
       en: "Backup and restore of database and preferences. User interface translated to Italian."
   -
     - 1.4.5
-    - 2012-02-13
+    - "2012-02-13"
     -
       en: "Support for sending QIF file via email. Reduced memory footprint."
   -
     - 1.4.4
-    - 2012-02-08
+    - "2012-02-08"
     -
       en: "FTP upload done in background. Default account created in user's language and currency."
   -
     - 1.4.3
-    - 2012-02-03
+    - "2012-02-03"
     -
       en: "Improved parsing of number input in German locale. Upload of QIF file to FTP server."
   -
     - 1.4.1
-    - 2012-01-31
+    - "2012-01-31"
     -
       en: "Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set."
   -
     - 1.4.0
-    - 2012-01-27
+    - "2012-01-27"
     -
       en: "Currencies now handled with java.util.Currency. Support for transfers between accounts."
   -
     - 1.3.2
-    - 2012-01-17
+    - "2012-01-17"
     -
       en: "Improved help and included tutorial."
   -
     - 1.3.0
-    - 2012-01-13
+    - "2012-01-13"
     -
       en: "Cleaned up UI."
   -
     - 1.2.8
-    - 2012-01-08
+    - "2012-01-08"
     -
       en: "Fixed bug in export."
   -
     - 1.2.7
-    - 2012-01-07
+    - "2012-01-07"
     -
       en: "Added payee field. Ignore empty fields in QIF export."
   -
     - 1.2.6
-    - 2011-11-06
+    - "2011-11-06"
     -
       en: "Better management of categories: Default category files from Grisbi are now included in the app, categories can be deleted and renamed."
   -
     - 1.2.0
-    - 2011-10-07
+    - "2011-10-07"
     -
       en: "Support for multiple accounts. No upgrade. You have to uninstall older versions."
   -
     - 1.1.3
-    - 2011-06-06
+    - "2011-06-06"
     -
       en: "Use workaround class for bug in SimpleCursorTreeAdapter (NullPointerException when adding the first subcategory) from http://code.google.com/p/android/issues/detail?id=9170; better feedback when category import goes wrong."
   -
     - 1.1.2
-    - 2011-05-18
+    - "2011-05-18"
     -
       en: "Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
 
