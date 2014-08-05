@@ -425,6 +425,7 @@ public class TransactionList extends BudgetListFragment implements
       mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) > 0;
       mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
       mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
+      getActivity().supportInvalidateOptionsMenu();
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;

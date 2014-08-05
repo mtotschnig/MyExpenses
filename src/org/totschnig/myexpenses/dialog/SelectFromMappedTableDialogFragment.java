@@ -21,7 +21,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.filter.IdCriteria;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
