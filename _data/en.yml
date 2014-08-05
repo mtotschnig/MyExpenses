@@ -40,6 +40,7 @@ en:
       split_transaction:  Split transaction
       security_question:  Security question
       reset_all:          Reset all accounts
+      template_widget:    Template widget
     licence-howto-buy:
       intro: |
         You have the following options for purchasing the Contrib licence:

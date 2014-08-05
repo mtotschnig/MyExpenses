@@ -40,6 +40,7 @@ tr:
       split_transaction: Bölünmüş muameleler
       security_question: Güvenlik sorusu
       reset_all: Tüm hesapları sıfırlama
+      template_widget: Şablon widget'i
     licence-howto-buy:
       intro: |
         Katkı lisansını satın almak için şu seçenekler mevcuttur:

@@ -39,6 +39,7 @@ ca:
       split_transaction: 'Repartiment d''operacions '
       security_question: Pregunta de seguretat
       reset_all: Reinicieu tots els comptes
+      template_widget: Widget de plantilla
     licence-howto-buy:
       intro: |
         Teniu les següents opcions per adquirir una llicència Contrib:

@@ -40,6 +40,7 @@ de:
       split_transaction: Splitbuchung
       security_question: Sicherheitsfrage
       reset_all: Alle Konten zurücksetzen
+      template_widget: Vorlagen Widget
     licence-howto-buy:
       intro: |
         Die Contrib Lizenz kann auf folgenden Wegen erworben werden:

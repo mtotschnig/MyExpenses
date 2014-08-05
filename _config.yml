@@ -25,9 +25,10 @@ contrib:
   - accounts_unlimited
   - distribution
   - plans_unlimited
+  - template_widget
+  - split_transaction
   - reset_all
   - security_question
-  - split_transaction
 title:
   ar: مصروفاتي
   en: My Expenses

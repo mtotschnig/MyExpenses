@@ -41,6 +41,7 @@ it:
       split_transaction: Operazione suddivisa
       security_question: Domanda di sicurezza
       reset_all: Reinizializzare tutti i conti
+      template_widget: Widget modelli
     licence-howto-buy:
       intro: |
         Opzioni per attivare la licenza Contrib:

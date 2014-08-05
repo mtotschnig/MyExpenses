@@ -39,6 +39,7 @@ cs:
       split_transaction: Rozdělení transakcí
       security_question: Bezpečnostní otázka
       reset_all: Obnovit všechny účty
+      template_widget: Šablona widget
     licence-howto-buy:
       intro: |+
         Máte následující možnosti pro nákup Contrib licence:

@@ -30,6 +30,7 @@ pt:
       split_transaction: Transação de divisão
       security_question: Pergunta de segurança
       reset_all: Reiniciar todas as contas
+      template_widget: Widget de modelos
   google-play:
   - Manter o controle de suas despesas e rendas...
   - Gerenciá-los diretamente no seu smartphone...
