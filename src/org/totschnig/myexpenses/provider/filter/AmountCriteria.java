@@ -35,7 +35,9 @@ public class AmountCriteria extends Criteria {
     currency = Currency.getInstance(in.readString());
     origOperation = Operation.valueOf(in.readString());
     origValue1 = new BigDecimal(in.readString());
-    origValue2 = new BigDecimal(in.readString());
+    if (origOperation==Operation.BTW) {
+      origValue2 = new BigDecimal(in.readString());
+    }
   }
   @Override
   public String prettyPrint() {
@@ -69,23 +71,17 @@ public class AmountCriteria extends Criteria {
       throw new UnsupportedOperationException("Operator not supported: "+operation.name());
     }
     Long longAmount1,longAmount2;
-    if (type == AmountActivity.EXPENSE) {
-      values[0] = values[0].negate();
-    }
     longAmount1 = new Money(
         currency,
-        values[0])
+        type == AmountActivity.EXPENSE ? values[0].negate() : values[0])
       .getAmountMinor();
     if (operation==Operation.BTW) {
       if (values[1]==null) {
         throw new UnsupportedOperationException("Operator BTW needs two values");
       }
-      if (type == AmountActivity.EXPENSE) {
-        values[1] = values[1].negate();
-      }
       longAmount2 = new Money(
           currency,
-          values[1])
+          type == AmountActivity.EXPENSE ? values[1].negate() : values[1])
         .getAmountMinor();
       boolean needSwap = longAmount2<longAmount1;
       return new Criteria(
@@ -127,7 +123,9 @@ public class AmountCriteria extends Criteria {
     dest.writeString(currency.getCurrencyCode());
     dest.writeString(origOperation.name());
     dest.writeString(origValue1.toPlainString());
-    dest.writeString(origValue2.toPlainString());
+    if (origOperation == Operation.BTW) {
+      dest.writeString(origValue2.toPlainString());
+    }
   }
 
   public static final Parcelable.Creator<AmountCriteria> CREATOR = new Parcelable.Creator<AmountCriteria>() {
@@ -139,4 +137,22 @@ public class AmountCriteria extends Criteria {
         return new AmountCriteria[size];
     }
 };
+
+  public String toStringExtra() {
+    String result = origOperation.name()+EXTRA_SEPARATOR+currency.getCurrencyCode()+EXTRA_SEPARATOR+(type?"1":"0")+EXTRA_SEPARATOR+origValue1.toPlainString();
+    if (origOperation == Operation.BTW) {
+      result += EXTRA_SEPARATOR+origValue2.toPlainString();
+    }
+    return result;
+  }
+  public static AmountCriteria fromStringExtra(String extra) {
+    String[] values = extra.split(EXTRA_SEPARATOR);
+    Operation op = Operation.valueOf(values[0]);
+    return new AmountCriteria(
+        op,
+        Currency.getInstance(values[1]),
+        values[2].equals("1"),
+        new BigDecimal(values[3]),
+        op==Operation.BTW?new BigDecimal(values[4]):null);
+  }
 }

@@ -40,9 +40,11 @@ import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.AmountCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -59,6 +61,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -231,6 +234,8 @@ public class TransactionList extends BudgetListFragment implements
     setColors();
     if (savedInstanceState != null) {
       mFilter =  new WhereFilter(savedInstanceState.getSparseParcelableArray(KEY_FILTER));
+    } else {
+      restoreFilterFromPreferences();
     }
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     //TODO check if still needed with Appcompat
@@ -264,6 +269,7 @@ public class TransactionList extends BudgetListFragment implements
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
   }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
@@ -797,6 +803,9 @@ public class TransactionList extends BudgetListFragment implements
   }
   public void addFilterCriteria(Integer id, Criteria c) {
     mFilter.put(id, c);
+    SharedPreferencesCompat.apply(
+      MyApplication.getInstance().getSettings().edit().putString(
+          KEY_FILTER + "_"+c.columnName+"_"+mAccount.getId(), c.toStringExtra()));
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
     getActivity().supportInvalidateOptionsMenu();
   }
@@ -806,8 +815,12 @@ public class TransactionList extends BudgetListFragment implements
    * @return true if the filter was set and succesfully removed, false otherwise
    */
   public boolean removeFilter(Integer id) {
-    boolean isFiltered = mFilter.get(id) != null;
+    Criteria c = mFilter.get(id);
+    boolean isFiltered = c != null;
     if (isFiltered) {
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit().remove(
+              KEY_FILTER + "_"+c.columnName+"_"+mAccount.getId()));
       mFilter.remove(id);
       mManager.restartLoader(TRANSACTION_CURSOR, null, this);
       getActivity().supportInvalidateOptionsMenu();
@@ -892,6 +905,13 @@ public class TransactionList extends BudgetListFragment implements
       return true;
     default:
       return super.onOptionsItemSelected(item);
+    }
+  }
+  private void restoreFilterFromPreferences() {
+    SharedPreferences settings = MyApplication.getInstance().getSettings();
+    String amountFilter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
+    if (amountFilter!=null) {
+      mFilter.put(R.id.FILTER_AMOUNT_COMMAND, AmountCriteria.fromStringExtra(amountFilter));
     }
   }
   @Override

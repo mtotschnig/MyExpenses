@@ -29,5 +29,5 @@ public class CrStatusCriteria extends Criteria {
     public CrStatusCriteria[] newArray(int size) {
         return new CrStatusCriteria[size];
     }
-};
+  };
 }

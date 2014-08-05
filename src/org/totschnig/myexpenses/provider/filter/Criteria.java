@@ -22,6 +22,7 @@ import android.text.TextUtils;
 @SuppressLint("ParcelCreator")
 public class Criteria implements Parcelable {
 
+  protected static final String EXTRA_SEPARATOR = ";";
   public String title;
   public final String columnName;
   public final WhereFilter.Operation operation;
@@ -97,5 +98,9 @@ public class Criteria implements Parcelable {
   }
   protected String prettyPrintInternal(String value) {
     return title + " : " + value;
+  }
+
+  public String toStringExtra() {
+    throw new UnsupportedOperationException("Only subclasses can be persisted");
   }
 }
