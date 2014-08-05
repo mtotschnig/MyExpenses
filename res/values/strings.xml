@@ -468,6 +468,7 @@
     <string name="search_comment">Search for notes</string>
     <string name="search_status">Search for status</string>
     <string name="search_payee">Search for payee/payer</string>
+    <string name="search_method">Search for method</string>
     <string name="and">and</string>
     <string name="between_and">between %1$s and %2$s</string>
     <string name="comparison_operator_equal">equal to</string>

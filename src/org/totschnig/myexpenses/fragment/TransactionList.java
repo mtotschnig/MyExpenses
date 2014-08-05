@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -111,7 +112,7 @@ public class TransactionList extends BudgetListFragment implements
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
-  public boolean hasItems, mappedCategories;
+  public boolean hasItems, mappedCategories, mappedPayees, mappedMethods;
   private Cursor mTransactionsCursor, mGroupingCursor;
   private DateFormat itemDateFormat, localizedTimeFormat;
   private StickyListHeadersListView mListView;
@@ -372,7 +373,7 @@ public class TransactionList extends BudgetListFragment implements
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
-          new String[] {MAPPED_CATEGORIES},
+          new String[] {MAPPED_CATEGORIES,MAPPED_METHODS,MAPPED_PAYEES},
           selection + " AND " + WHERE_NOT_SPLIT,
           selectionArgs, null);
       break;
@@ -421,7 +422,9 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       c.moveToFirst();
-      mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) >0;
+      mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) > 0;
+      mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
+      mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;
@@ -452,6 +455,8 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       mappedCategories = false;
+      mappedPayees = false;
+      mappedMethods = false;
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = null;
@@ -815,10 +820,18 @@ public class TransactionList extends BudgetListFragment implements
     for (int i = 0; i < filterMenu.size(); i++) {
       MenuItem filterItem = filterMenu.getItem(i);
       boolean enabled = true;
-      if (filterItem.getItemId()==R.id.FILTER_STATUS_COMMAND) {
+      switch(filterItem.getItemId()) {
+      case R.id.FILTER_STATUS_COMMAND:
         enabled = !mAccount.type.equals(Type.CASH);
-        Utils.menuItemSetEnabledAndVisible(filterItem, enabled);
+        break;
+      case R.id.FILTER_PAYER_COMMAND:
+        enabled = mappedPayees;
+        break;
+      case R.id.FILTER_METHOD_COMMAND:
+        enabled = mappedMethods;
+        break;
       }
+      Utils.menuItemSetEnabledAndVisible(filterItem, enabled);
       if (enabled) {
         Criteria c = mFilter.get(filterItem.getItemId());
         if (c!=null) {
@@ -868,6 +881,12 @@ public class TransactionList extends BudgetListFragment implements
       if (!removeFilter(command)) {
         SelectPayerDialogFragment.newInstance(mAccount.getId())
         .show(getActivity().getSupportFragmentManager(), "PAYER_FILTER");
+      }
+      return true;
+    case R.id.FILTER_METHOD_COMMAND:
+      if (!removeFilter(command)) {
+        SelectMethodDialogFragment.newInstance(mAccount.getId())
+        .show(getActivity().getSupportFragmentManager(), "METHOD_FILTER");
       }
       return true;
     default:

@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.DialogInterface.OnClickListener;
@@ -25,39 +26,43 @@ import android.os.Bundle;
 
 import android.support.v4.app.LoaderManager;
 
-public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragment implements OnClickListener,
+public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragment implements OnClickListener,
     LoaderManager.LoaderCallbacks<Cursor>
 {
 
   @Override
   int getDialogTitle() {
-    return R.string.search_payee;
+    return R.string.search_method;
   }
   @Override
   int getCriteriaTitle() {
-    return R.string.payer_or_payee;
+    return R.string.method;
   }
   @Override
   int getCommand() {
-    return R.id.FILTER_PAYER_COMMAND;
+    return R.id.FILTER_METHOD_COMMAND;
   }
   @Override
   String getColumn() {
-    return DatabaseConstants.KEY_PAYEEID;
+    return DatabaseConstants.KEY_METHODID;
   }
   @Override
   Uri getUri() {
-    return TransactionProvider.MAPPED_PAYEES_URI;
+    return TransactionProvider.MAPPED_METHODS_URI;
   }
   /**
    * @param account_id
    * @return
    */
-  public static final SelectPayerDialogFragment newInstance(long account_id) {
-    SelectPayerDialogFragment dialogFragment = new SelectPayerDialogFragment();
+  public static final SelectMethodDialogFragment newInstance(long account_id) {
+    SelectMethodDialogFragment dialogFragment = new SelectMethodDialogFragment();
     Bundle args = new Bundle();
     args.putLong(DatabaseConstants.KEY_ACCOUNTID, account_id);
     dialogFragment.setArguments(args);
     return dialogFragment;
+  }
+  @Override
+  protected String getDisplayLabel(String label) {
+    return PaymentMethod.getDisplayLabel(label);
   }
 }

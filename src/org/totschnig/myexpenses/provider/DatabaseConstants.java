@@ -126,6 +126,8 @@ public class DatabaseConstants {
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";
   public static final String KEY_INTERIM_BALANCE = "interim_balance";
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
+  public static final String KEY_MAPPED_PAYEES = "mapped_payees";
+  public static final String KEY_MAPPED_METHODS = "mapped_methods";
   public static final String KEY_HAS_CLEARED = "has_cleared";
   public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
@@ -243,4 +245,8 @@ public class DatabaseConstants {
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
       "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
+  public static final String MAPPED_PAYEES =
+      "count(CASE WHEN  " + KEY_PAYEEID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_PAYEES;
+  public static final String MAPPED_METHODS =
+      "count(CASE WHEN  " + KEY_METHODID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
 }
