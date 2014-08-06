@@ -136,8 +136,9 @@ public class AmountCriteria extends Criteria {
     public AmountCriteria[] newArray(int size) {
         return new AmountCriteria[size];
     }
-};
+  };
 
+  @Override
   public String toStringExtra() {
     String result = origOperation.name()+EXTRA_SEPARATOR+currency.getCurrencyCode()+EXTRA_SEPARATOR+(type?"1":"0")+EXTRA_SEPARATOR+origValue1.toPlainString();
     if (origOperation == Operation.BTW) {
@@ -145,6 +146,7 @@ public class AmountCriteria extends Criteria {
     }
     return result;
   }
+
   public static AmountCriteria fromStringExtra(String extra) {
     String[] values = extra.split(EXTRA_SEPARATOR);
     Operation op = Operation.valueOf(values[0]);

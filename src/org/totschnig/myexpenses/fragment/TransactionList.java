@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.AmountCriteria;
+import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -909,9 +910,17 @@ public class TransactionList extends BudgetListFragment implements
   }
   private void restoreFilterFromPreferences() {
     SharedPreferences settings = MyApplication.getInstance().getSettings();
-    String amountFilter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
-    if (amountFilter!=null) {
-      mFilter.put(R.id.FILTER_AMOUNT_COMMAND, AmountCriteria.fromStringExtra(amountFilter));
+    String filter = settings.getString(KEY_FILTER + "_"+KEY_CATID+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_CATEGORY_COMMAND, SingleCategoryCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_AMOUNT_COMMAND, AmountCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_COMMENT+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_AMOUNT_COMMAND, CommentCriteria.fromStringExtra(filter));
     }
   }
   @Override

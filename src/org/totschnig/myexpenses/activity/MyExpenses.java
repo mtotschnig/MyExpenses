@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.TextCriteria;
@@ -828,7 +829,7 @@ public class MyExpenses extends LaunchActivity implements
       finishActionMode();
       break;
     case FILTER_COMMENT_REQUEST:
-      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,new TextCriteria(getString(R.string.comment),KEY_COMMENT,result));
+      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,new CommentCriteria(result));
       break;
     }
   }

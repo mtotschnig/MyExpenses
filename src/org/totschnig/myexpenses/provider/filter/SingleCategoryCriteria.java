@@ -54,5 +54,12 @@ public class SingleCategoryCriteria extends IdCriteria {
     public SingleCategoryCriteria[] newArray(int size) {
         return new SingleCategoryCriteria[size];
     }
-};
+  };
+  
+  public static SingleCategoryCriteria fromStringExtra(String filter) {
+    int sepIndex = filter.indexOf(EXTRA_SEPARATOR);
+    long id = Long.parseLong(filter.substring(0, sepIndex));
+    String label = filter.substring(sepIndex+1);
+    return new SingleCategoryCriteria(id, label);
+  }
 }

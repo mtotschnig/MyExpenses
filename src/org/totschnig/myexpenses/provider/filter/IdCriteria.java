@@ -47,5 +47,10 @@ public class IdCriteria extends Criteria {
     public IdCriteria[] newArray(int size) {
         return new IdCriteria[size];
     }
-};
+  };
+  
+  @Override
+  public String toStringExtra() {
+    return getStringValue() + EXTRA_SEPARATOR + label;
+  };
 }

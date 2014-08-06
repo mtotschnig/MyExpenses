@@ -29,13 +29,9 @@ public class TextCriteria extends Criteria {
     super.writeToParcel(dest, flags);
     dest.writeString(searchString);
   }
-  public static final Parcelable.Creator<TextCriteria> CREATOR = new Parcelable.Creator<TextCriteria>() {
-    public TextCriteria createFromParcel(Parcel in) {
-        return new TextCriteria(in);
-    }
-
-    public TextCriteria[] newArray(int size) {
-        return new TextCriteria[size];
-    }
-};
+  
+  @Override
+  public String toStringExtra() {
+    return searchString;
+  };
 }
