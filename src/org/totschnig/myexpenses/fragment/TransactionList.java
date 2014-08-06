@@ -59,6 +59,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Build;
@@ -825,7 +827,13 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    SubMenu filterMenu = menu.findItem(R.id.SEARCH_MENU).getSubMenu();
+    MenuItem searchMenu = menu.findItem(R.id.SEARCH_MENU);
+    if (!mFilter.isEmpty()) {
+      searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+    } else {
+      searchMenu.getIcon().setColorFilter(null);
+    }
+    SubMenu filterMenu = searchMenu.getSubMenu();
     for (int i = 0; i < filterMenu.size(); i++) {
       MenuItem filterItem = filterMenu.getItem(i);
       boolean enabled = true;
