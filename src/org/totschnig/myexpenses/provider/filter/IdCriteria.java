@@ -39,15 +39,6 @@ public class IdCriteria extends Criteria {
     super.writeToParcel(dest, flags);
     dest.writeString(label);
   }
-  public static final Parcelable.Creator<IdCriteria> CREATOR = new Parcelable.Creator<IdCriteria>() {
-    public IdCriteria createFromParcel(Parcel in) {
-        return new IdCriteria(in);
-    }
-
-    public IdCriteria[] newArray(int size) {
-        return new IdCriteria[size];
-    }
-  };
   
   @Override
   public String toStringExtra() {

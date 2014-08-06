@@ -21,7 +21,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-import org.totschnig.myexpenses.provider.filter.IdCriteria;
+import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import android.app.AlertDialog;
@@ -45,9 +45,8 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
   protected Cursor mCursor;
   
   abstract int getDialogTitle();
-  abstract int getCriteriaTitle();
+  abstract Criteria makeCriteria(long id, String label);
   abstract int getCommand();
-  abstract String getColumn();
   abstract Uri getUri();
   
   /**
@@ -82,8 +81,7 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
     mCursor.moveToPosition(which);
     ((MyExpenses) getActivity()).addFilterCriteria(
         getCommand(),
-        new IdCriteria(getString(getCriteriaTitle()),
-            getColumn(),
+        makeCriteria(
             mCursor.getLong(mCursor.getColumnIndex(KEY_ROWID)),
             getDisplayLabel(mCursor.getString(mCursor.getColumnIndex(KEY_LABEL)))));
     dismiss();

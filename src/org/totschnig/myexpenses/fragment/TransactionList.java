@@ -19,8 +19,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Currency;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
@@ -44,11 +42,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.AmountCriteria;
-import org.totschnig.myexpenses.provider.filter.CommentCriteria;
-import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.provider.filter.*;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -839,7 +833,7 @@ public class TransactionList extends BudgetListFragment implements
       case R.id.FILTER_STATUS_COMMAND:
         enabled = !mAccount.type.equals(Type.CASH);
         break;
-      case R.id.FILTER_PAYER_COMMAND:
+      case R.id.FILTER_PAYEE_COMMAND:
         enabled = mappedPayees;
         break;
       case R.id.FILTER_METHOD_COMMAND:
@@ -892,7 +886,7 @@ public class TransactionList extends BudgetListFragment implements
         .show(getActivity().getSupportFragmentManager(), "STATUS_FILTER");
       }
       return true;
-    case R.id.FILTER_PAYER_COMMAND:
+    case R.id.FILTER_PAYEE_COMMAND:
       if (!removeFilter(command)) {
         SelectPayerDialogFragment.newInstance(mAccount.getId())
         .show(getActivity().getSupportFragmentManager(), "PAYER_FILTER");
@@ -920,7 +914,19 @@ public class TransactionList extends BudgetListFragment implements
     }
     filter = settings.getString(KEY_FILTER + "_"+KEY_COMMENT+"_"+mAccount.getId(),null);
     if (filter!=null) {
-      mFilter.put(R.id.FILTER_AMOUNT_COMMAND, CommentCriteria.fromStringExtra(filter));
+      mFilter.put(R.id.FILTER_COMMENT_COMMAND, CommentCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_CR_STATUS+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_STATUS_COMMAND, CrStatusCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_PAYEEID+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_PAYEE_COMMAND, PayeeCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_METHODID+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(filter));
     }
   }
   @Override

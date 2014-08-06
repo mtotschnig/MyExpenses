@@ -19,33 +19,26 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import android.content.DialogInterface.OnClickListener;
-import android.database.Cursor;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.MethodCriteria;
+
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.support.v4.app.LoaderManager;
 
-public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragment implements OnClickListener,
-    LoaderManager.LoaderCallbacks<Cursor>
+public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragment
 {
 
   @Override
   int getDialogTitle() {
     return R.string.search_method;
   }
-  @Override
-  int getCriteriaTitle() {
-    return R.string.method;
-  }
+
   @Override
   int getCommand() {
     return R.id.FILTER_METHOD_COMMAND;
   }
-  @Override
-  String getColumn() {
-    return DatabaseConstants.KEY_METHODID;
-  }
+
   @Override
   Uri getUri() {
     return TransactionProvider.MAPPED_METHODS_URI;
@@ -64,5 +57,9 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
   @Override
   protected String getDisplayLabel(String label) {
     return PaymentMethod.getDisplayLabel(label);
+  }
+  @Override
+  Criteria makeCriteria(long id, String label) {
+    return new MethodCriteria(id,label);
   }
 }

@@ -77,6 +77,6 @@
   <item type="id" name="FILTER_AMOUNT_COMMAND" />
   <item type="id" name="FILTER_COMMENT_COMMAND" />
   <item type="id" name="FILTER_STATUS_COMMAND" />
-  <item type="id" name="FILTER_PAYER_COMMAND" />
+  <item type="id" name="FILTER_PAYEE_COMMAND" />
   <item type="id" name="FILTER_METHOD_COMMAND" />
 </resources>
