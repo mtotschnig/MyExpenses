@@ -1,23 +1,26 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
+/*   This file is part of My Expenses.
+ *   My Expenses is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   My Expenses is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ *   
+ *   Based on Financisto (c) 2010 Denis Solonenko, made available
+ *   under the terms of the GNU Public License v2.0
+*/
+
 package org.totschnig.myexpenses.provider.filter;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.SparseArray;
 
@@ -109,37 +112,6 @@ public class WhereFilter {
   public void resetSort() {
     sorts.clear();
   }
-
-//  public void toSharedPreferences(SharedPreferences preferences) {
-//    Editor e = preferences.edit();
-//    int count = criterias.size();
-//    e.putInt(FILTER_LENGTH_PREF, count);
-//    for (int i = 0; i < count; i++) {
-//      e.putString(FILTER_CRITERIA_PREF + i, criterias.get(i).toStringExtra());
-//    }
-//    e.putString(FILTER_SORT_ORDER_PREF, getSortOrder());
-//    e.commit();
-//  }
-
-//  public static WhereFilter fromSharedPreferences(SharedPreferences preferences) {
-//    String title = preferences.getString(FILTER_TITLE_PREF, "");
-//    WhereFilter filter = new WhereFilter(title);
-//    int count = preferences.getInt(FILTER_LENGTH_PREF, 0);
-//    if (count > 0) {
-//      for (int i = 0; i < count; i++) {
-//        String criteria = preferences.getString(FILTER_CRITERIA_PREF + i, "");
-//        if (criteria.length() > 0) {
-//          filter.put(Criteria.fromStringExtra(criteria));
-//        }
-//      }
-//    }
-//    String sortOrder = preferences.getString(FILTER_SORT_ORDER_PREF, "");
-//    String[] orders = sortOrder.split(",");
-//    if (orders != null && orders.length > 0) {
-//      filter.sorts.addAll(Arrays.asList(orders));
-//    }
-//    return filter;
-//  }
 
   public boolean isEmpty() {
     return criterias.size()==0;
