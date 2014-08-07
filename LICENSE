@@ -11,13 +11,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
-CalculatorInput and QifParser from https://launchpad.net/financisto , licensed under GPL v2.0 .
+CalculatorInput, QifParser, FolderBrowser, WhereFilter from https://launchpad.net/financisto , licensed under GPL v2.0 .
 
 EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project, licensed under Apache License, Version 2.0 .
 
 Category definitions from http://www.grisbi.org, licensed under GPL v2.0 .
-
-Category Import Icon (squiggle) from glyphish.com , licensed under the Creative Commons Attribution 3.0 United States License .
 
 Calculator Icon (ic_action_calc), generated with Android Asset Studio,
 http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-actionbar.html.
