@@ -35,8 +35,6 @@
     <TextView android:text="@string/help_licence_gpl"
       android:id="@+id/help_licence_gpl"
         style="@style/about_text" />
-    <TextView android:text="@string/help_licence_glyphish"
-        style="@style/about_text" />
     <TextView android:text="@string/help_licence_financisto"
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_stickylistheaders"

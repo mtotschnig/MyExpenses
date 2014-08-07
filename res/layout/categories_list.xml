@@ -43,7 +43,7 @@
           android:onClick="importCats"
           android:layout_marginTop="15dp"
           android:layout_below="@id/noCategories"
-          android:drawableTop="@drawable/squiggle"
+          android:drawableTop="@drawable/categories_setup_default_icon"
           android:text="@string/menu_categories_setup_default" />
     </RelativeLayout>
 </LinearLayout>

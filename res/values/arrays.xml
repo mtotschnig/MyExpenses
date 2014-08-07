@@ -147,9 +147,11 @@
     </string-array>
     <string-array name="ManageCategories_manage_menuitems">
       <item>create_main_cat</item>
+      <item>categories_setup_default</item>
     </string-array>
-    <string-array name="ManageCategories_select_menuitems">
+    <string-array name="ManageCategories_select_mapping_menuitems">
       <item>create_main_cat</item>
+      <item>categories_setup_default</item>
     </string-array>
     <string-array name="ManageCategories_distribution_menuitems">
       <item>grouping</item>
@@ -164,11 +166,14 @@
       <item>create_sub_cat</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageCategories_select_cabitems">
+    <string-array name="ManageCategories_select_mapping_cabitems">
       <item>select_category</item>
       <item>edit</item>
       <item>create_sub_cat</item>
       <item>delete</item>
+    </string-array>
+    <string-array name="ManageCategories_select_filter_cabitems">
+      <item>select_category</item>
     </string-array>
     <string-array name="ExpenseEdit_menuitems">
       <item>save</item>
