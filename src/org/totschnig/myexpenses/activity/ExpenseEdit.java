@@ -1407,10 +1407,14 @@ public class ExpenseEdit extends AmountActivity implements
     switch(id) {
     case METHODS_CURSOR:
       mMethodsCursor = null;
-      mMethodsAdapter.swapCursor(null);
+      if (mMethodsAdapter != null) {
+        mMethodsAdapter.swapCursor(null);
+      }
       break;
     case ACCOUNTS_CURSOR:
-      mAccountsAdapter.swapCursor(null);
+      if (mAccountsAdapter != null) {
+        mAccountsAdapter.swapCursor(null);
+      }
       break;
     case EVENT_CURSOR:
       mPlan = null;
