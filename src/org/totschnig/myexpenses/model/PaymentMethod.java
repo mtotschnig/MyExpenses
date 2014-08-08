@@ -188,10 +188,10 @@ public class PaymentMethod extends Model {
   public static void clear() {
     methods.clear();
   }
-  public static boolean delete(long id) {
+  public static void delete(long id) {
     cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,KEY_METHODID + " = ?",new String[] {String.valueOf(id)});
-    return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        null, null) > 0;
+    cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        null, null);
   }
   public static int count(String selection,String[] selectionArgs) {
     Cursor mCursor = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,new String[] {"count(*)"},

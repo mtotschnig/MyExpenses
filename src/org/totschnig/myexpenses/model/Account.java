@@ -461,14 +461,15 @@ public class Account extends Model {
   public static void clear() {
     accounts.clear();
   }
-  public static boolean delete(long id) {
+  public static void delete(long id) {
     Account account = getInstanceFromDb(id);
-    if (account == null)
-      return false;
+    if (account == null) {
+      return;
+    }
     account.deleteAllTransactions(false);
     account.deleteAllTemplates();
     accounts.remove(id);
-    return cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
+    cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null);
   }
 
   /**
