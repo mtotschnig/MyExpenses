@@ -58,9 +58,13 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     final ArrayList<VersionInfo> versions = new ArrayList<VersionInfo>();
     for (int i=0;i<versionCodes.length;i++) {
       int code = versionCodes[i];
+      String name = versionNames[i];
       if (from >= code)
         break;
-      int resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());
+      int resId = res.getIdentifier("whats_new_"+name.replace(".", ""), "array", ctx.getPackageName());//new based on name
+      if (resId == 0) {
+        resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());//legacy based on code
+      }
       if (resId == 0) {
         Log.e(MyApplication.TAG, "missing change log entry for version " + code);
       } else {
