@@ -49,7 +49,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
-  <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser and HomeScreenWidgets inspired by https://launchpad.net/financisto ,
+  <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto ,
     licensed under GPL v2.0 .</string>
   <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
     licensed under Apache License, Version 2.0 .</string>
