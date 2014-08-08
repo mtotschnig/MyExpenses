@@ -94,6 +94,9 @@ public abstract class AmountActivity extends EditActivity {
     return amount;
   }
   public void showCalculator(View view) {
+    if (mAmountText == null) {
+      return;
+    }
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
     String amount;
