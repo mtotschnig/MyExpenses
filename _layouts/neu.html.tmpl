@@ -160,6 +160,14 @@
   </head>
 
   <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&appId=167340969961033&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
@@ -191,13 +199,13 @@
           </li>
         </ul>
         <h3 class="text-muted">{{site.title[pagelang]}}</h3>
-      </div>
+      </div> <!-- /header-->
       <div class="jumbotron">
         <p>{{t.hero_main}}</p>
         <span class="btn btn-primary">{{t.hero_sub.use}}</span>
         <span class="btn btn-primary">{{t.hero_sub.functionality}}</span>
         <span class="btn btn-primary">{{t.hero_sub.source}}</span>
-      </div>
+      </div> <!-- /jumbotron -->
       <div class="well">
         <div class="row">
           <div class="col-xs-12 col-ms-6 col-sm-6">
@@ -211,7 +219,7 @@
               <img alt="Get it on F-Droid" src="/visuals/getitonfdroid.png" />
             </a>
           </div>
-        </div>
+        </div> <!-- /row -->
         <div class="row">
           <div class="col-xs-12 col-ms-6 col-sm-6">
             <a id="amazon" class="track" href="http://{{amazon}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
@@ -223,8 +231,8 @@
               <img alt="Get it on Github" src="/visuals/downloadfromgithub.png" />
             </a>
           </div>
-        </div>
-      </div>
+        </div> <!-- /row -->
+      </div> <!-- /well -->
       <div id="features" class="carousel slide block">
         <!-- Indicators -->      
         <!-- Wrapper for slides -->
@@ -250,11 +258,27 @@
         <a class="right carousel-control" href="#features" data-slide="next">
           <span class="icon-next"></span>
         </a>
-      </div>
+      </div> <!-- /features -->
       {{content}}
       {% include misc_info.html %}
       <div class="footer">
-        <p>© 2014 Michael Totschnig - <a class="intern" href="#imprint">{{t.imprint}}</a> - <a href="mailto:{{site.support-email}}">Feedback</a></p>
+        © 2014 Michael Totschnig - <a class="intern" href="#imprint">{{t.imprint}}</a> - <a href="mailto:{{site.support-email}}">Feedback</a>
+      </div>
+      <div style="text-align:center">
+        <!-- Place this tag where you want the widget to render. -->
+        <div class="g-follow" data-annotation="bubble" data-height="20" data-href="//plus.google.com/u/0/116736113799210525299" data-rel="publisher"></div>
+        
+        <!-- Place this tag after the last widget tag. -->
+        <script type="text/javascript">
+          (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/platform.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+          })();
+        </script>
+      </div>
+      <div style="text-align:center">
+        <div class="fb-like" data-href="https://www.facebook.com/MyExpenses" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
       </div>
       <p id="back-top" style="display:none">
         <a href="#top"><span></span>Top</a>
