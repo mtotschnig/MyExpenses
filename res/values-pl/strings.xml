@@ -13,8 +13,14 @@
   <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie.</string>
   <string name="category">Kategoria</string>
   <string name="clone_transaction_error">Nie można sklonować transakcji.</string>
+  <plurals name="clone_transaction_success">
+    <item quantity="one">Transakcja została sklonowana pomyślnie.</item>
+    <item quantity="few">%1$d transakcje zostały sklonowane pomyślnie.</item>
+    <item quantity="other">%1$d transakcji zostało sklonowano pomyślnie.</item>
+  </plurals>
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
+  <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>
   <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
   <string name="contrib_feature_aggregate_label">Sumy dla wszystkich kont</string>
@@ -32,8 +38,10 @@
   <string name="date">Data</string>
   <string name="date_format">Format daty</string>
   <string name="date_format_illegal">Nieprawidłowy format daty</string>
+  <string name="decimal_separator">Separator dziesiętny</string>
   <string name="default_account_description">To konto zostało utworzone automatycznie podczas instalacji</string>
   <string name="description">Opis</string>
+  <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
   <string name="dialog_command_disabled_insert_transfer_1">Do przeniesienia transakcji, potrzeba drugiego konta z tą samą walutą.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Posiadasz tylko jedno konto z walutą %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
@@ -68,6 +76,8 @@
   <string name="dialog_setup_planner_button_create_new">Utwórz nowy</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Wybierz istniejący</string>
+  <string name="dialog_title_attention">Uwaga</string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
   <string name="dialog_title_menu_command_disabled">Komenda menu została wyłączona</string>
   <string name="dialog_title_planner_setup_info">Wymagana konfiguracja kalendarza</string>
@@ -117,6 +127,7 @@
   </string-array>
   <string name="help_leading">Dziękujemy za zainstalowanie <i>Moje Wydatki</i> dla systemu Android.</string>
   <string name="important_upgrade_information_heading">Ważna informacja</string>
+  <string name="important_upgrade_information_1">Kopie zapasowe oraz Eksporty są teraz przechowywane w Android/data/org.totschnig.myexpenses . UWAGA: Ten katalog jest usuwany, gdy odinstalujesz Moje Wydatki.</string>
   <string name="import_select_transactions">Transakcje</string>
   <string name="income">Dochód</string>
   <string name="invalid_number_format">Format dziesiętny nie jest rozpoznawalny przez twoją lokalizację. Proszę użyć %1$s</string>
@@ -128,6 +139,7 @@
   <string name="menu_apply_template">Zastosuj</string>
   <string name="menu_back">Wstecz</string>
   <string name="menu_backup">Kopia zapasowa</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Anuluj</string>
   <string name="menu_clone_transaction">Klonuj</string>
@@ -200,6 +212,16 @@
   <string name="no_split_parts">Brak części podziałów</string>
   <string name="no_templates">Brak szablonów.</string>
   <string name="no_title_given">Nie wprowadziłeś tytułu.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">Wybrany obiekt jest zmapowany do transakcji i nie może zostać usunięty.</item>
+    <item quantity="few">%1$d obiekty są zmapowane do transakcji i nie mogą zostać usunięte.</item>
+    <item quantity="other">%1$d obiektów jest zmapowanych do transakcji i nie mogą zostać usunięte.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">Wybrany obiekt jest zmapowany do szablonu i nie może być usunięty.</item>
+    <item quantity="few">%1$d obiekty zostały zmapowane do szablonu i nie mogą być usunięte.</item>
+    <item quantity="other">%1$d obiektów jest zmapowanych do szablonu i nie mogą być usunięte.</item>
+  </plurals>
   <string name="numbered">ponumerowane</string>
   <string name="oi_pick_colors_info">Zainstaluj Ol Color Picker dla większego wyboru</string>
   <string name="opening_balance">Bilans otwarcia</string>
@@ -228,6 +250,7 @@
   <string name="planner_create_calendar_success">Lokalny kalendarz planowania został utworzony pomyślnie</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Możesz albo stworzyć lokalny dedykowany kalendarz lub wybrać jeden z istniejących w ustawieniach.</string>
+  <string name="planner_setup_info_create_new_warning">Ostrzeżenie: Zgłoszono że lokalne kalendarze nie działają solidnie na niektórych urządzeniach. Jeżeli twoje plany nie działają z dedykowanym lokalnym kalendarzem, proszę raczej wybrać kalendarz jaki ustawiłeś w swojej aplikacji Kalendarza.</string>
   <string name="planner_setup_info">Proszę wybrać kalendarz dla przechowywania planów w ustawieniach.</string>
   <!--payment methods-->
   <string name="pm_cheque">Czek</string>
@@ -248,7 +271,10 @@
   <string name="pref_category_title_more_information">Więcej informacji</string>
   <string name="pref_category_title_security">Bezpieczeństwo</string>
   <string name="pref_category_title_ui">Interfejs użytkownika</string>
+  <string name="pref_checkbox_enabled">Włączone</string>
+  <string name="pref_checkbox_disabled">Wyłączone</string>
   <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
+  <string name="pref_contrib_donate_summary_already_contrib">Jeżeli chciałbyś dodatkowo się przyczynić, możesz wysłać darowiznę przez flattr, PayPal lub wysłać Bitcoiny.</string>
   <string name="pref_contrib_donate_title">Wyślij datek</string>
   <string name="pref_contrib_install_summary">Instalując Moje Wydatki Klucz Contrib, dostajesz dostęp do funkcji premium.</string>
   <string name="pref_contrib_install_title">Instaluj aplikację Contrib</string>
@@ -258,6 +284,7 @@
   <string name="pref_follow_gplus_title">Śledź Moje Wydatki na Google+</string>
   <string name="pref_import_from_grisbi_summary">Kategorie importu oraz partii Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Import z Grisbi</string>
+  <string name="pref_import_qif_summary">Importuj transakcje, kategorie i partie z pliku QIF</string>
   <string name="pref_import_qif_title">Import QIF</string>
   <string name="pref_manage_accounts_title">Konta</string>
   <string name="pref_manage_categories_summary">Utwórz, edytuj, usuń kategorie.</string>
@@ -273,17 +300,22 @@
   <string name="pref_password_not_equal">Hasła nie zgadzają się ze sobą</string>
   <string name="pref_perform_protection_summary">Czy uruchamianie i wznawianie pracy aplikacji powinno być zabezpieczone?</string>
   <string name="pref_perform_protection_title">Zabezpieczenie hasłem</string>
-  <string name="pref_perform_share_title">Udostępnij plik eksportu</string>
-  <string name="pref_perform_share_summaryOff">Plik nie będzie udostępniany po każdym eksporcie.</string>
-  <string name="pref_perform_share_summaryOn">Plik będzie udostępniany po każdym eksporcie.</string>
+  <string name="pref_perform_share_title">Udostępnij eksporty i kopie zapasowe</string>
+  <string name="pref_perform_share_summaryOff">Pliki nie zostaną udostępnione.</string>
+  <string name="pref_perform_share_summaryOn">Pliki zostaną udostępnione.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Utwórz nowy lokalny kalendarz planowania</string>
   <string name="pref_planning_calendar_summary">Wybierz kalendarz gdzie będą przechowywane przyszłe plany oraz cykliczne transakcje</string>
   <string name="pref_planning_calendar_title">Kalendarz planowania</string>
   <string name="pref_protection_delay_seconds_summary">Ilość sekund przed zablokowaniem aplikacji przez hasło.</string>
   <string name="pref_protection_delay_seconds_title">Okres przed zabezpieczeniem</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Hasło nie jest wymagane.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Hasło jest wymagane.</string>
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
+  <string name="pref_request_licence_summary">Jeżeli przyczyniłeś się do aplikacji, poproś o klucz Contrib dla ID Androida %1$s przez e-mail.</string>
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
+  <string name="pref_restore_legacy_data">Starszy typ danych</string>
+  <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>
   <string name="pref_restore_title">Przywróć</string>
   <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>
   <string name="pref_security_question_title">Pytanie bezpieczeństwa</string>
@@ -291,10 +323,12 @@
   <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, ...), lub podaj URL w jednym z obsługiwanym schemacie</string>
   <string name="pref_share_target_title">Wyślij URL</string>
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
+  <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
   <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Każdy stopień powiększa rozmiar czcionki bazowanej o 2sp</string>
   <string name="pref_ui_fontsize_title">Powiększ rozmiar czcionki</string>
+  <string name="pref_ui_home_screen_shortcuts">Skróty</string>
   <string name="pref_ui_language_default">Domyślne systemowe</string>
   <string name="pref_ui_language_summary">Ustaw język interfejsu użytkownika</string>
   <!--Title of the preference for selecting the UI language-->
@@ -308,7 +342,9 @@
   <string name="progress_dialog_create_plan">Utwórz nowy plan...</string>
   <string name="progress_dialog_deleting">Usuwanie obiektów...</string>
   <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych...</string>
+  <string name="progress_dialog_saving">Zapisywanie obiektu do bazy danych ...</string>
   <string name="progress_dialog_setup">Baza danych jest inicjowana...</string>
+  <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
   <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>
   <string name="reference_number">Numer Odniesienia</string>
@@ -318,10 +354,16 @@
   <string name="restore_db_success">Baza danych została przywrócona z kopii zapasowej.</string>
   <string name="restore_no_backup_found">Nie znaleziono kopii zapasowej.</string>
   <string name="restore_preferences_failure">Przywracanie preferencji nie powiodło się</string>
-  <string name="restore_backup_file_not_found">Nie znaleziono pliku %1$s w folderze \"%2$s\"</string>
+  <string name="restore_backup_archive_not_valid">Archiwum %1$s jest niepoprawne</string>
+  <string name="restore_backup_file_not_found">Brak pliku %1$s w archiwum \"%2$s\"</string>
   <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>
   <string name="save_transaction_and_new_success">Zapisano pomyślnie</string>
   <string name="save_transaction_error">Nie można zapisać nowej transakcji z szablonu.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Nowa transakcja została pomyślnie zapisana z szablonu.</item>
+    <item quantity="few">%1$d nowe transakcje zostały pomyślnie zapisane z szablonu.</item>
+    <item quantity="other">%1$d nowych transakcji zostało pomyślnie zapisanych z szablonu.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
@@ -345,14 +387,42 @@
   <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
   <string name="time">Czas</string>
   <string name="title">Tytuł</string>
+  <string name="total_cleared">Wyczyszczono w sumie</string>
+  <string name="total_reconciled">Pojednano w sumie</string>
   <string name="transaction">Transakcja</string>
   <string name="transfer">Przelew</string>
   <string name="transfer_from_account">Z</string>
   <string name="transfer_to_account">Do</string>
   <string name="tutorial">Podręcznik użytkownika</string>
   <string name="type">Typ</string>
+  <string name="unsplit_amount">Wycofaj rozdzielenie kwoty</string>
+  <string name="unsplit_amount_greater_than_zero">Pewna kwota została nierozdzielona.</string>
   <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci. Czy chcesz kontynuować?</string>
   <string name="warning_delete_account">Konto \"%1$s\" zostanie usunięte razem ze wszystkimi jego transakcjami.</string>
+  <plurals name="warning_delete_main_category">
+    <item quantity="one">Jedna wybrana kategoria posiada podkategorie, które zostaną też usunięte.</item>
+    <item quantity="few">%1$d wybrane kategorie posiadają podkategorie, które zostaną też usunięte.</item>
+    <item quantity="other">%1$d wybranych kategorii posiadają podkategorie, które zostaną też usunięte.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">Zaznaczony plan zostanie usunięty.</item>
+    <item quantity="few">%1$d zaznaczone plany zostaną usunięte.</item>
+    <item quantity="other">%1$d zaznaczonych planów zostanie usuniętych.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">Wybrany szablon zostanie usunięty.</item>
+    <item quantity="few">%1$d wybrane szablony zostanią usunięte.</item>
+    <item quantity="other">%1$d wybranych szablonów zostanie usuniętych.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">Wybrana transakcja zostanie usunięta.</item>
+    <item quantity="few">%1$d wybrane transakcje zostaną usunięte.</item>
+    <item quantity="other">%1$d wybranych transakcji zostanie usuniętych.</item>
+  </plurals>
+  <string name="warning_delete_reconciled">Usunięcie pojednanych transakcji spowoduje powstanie różnicy twoich rekordów z wyciągiem z konta bankowego.</string>
+  <string name="warning_password_protected">Aplikacja jest chroniona hasłem.</string>
+  <string name="warning_widget_disabled">Musisz włączyć ten widżet w ustawieniach aplikacji.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">Szybka tworzenie instancji szablonów z tego widżetu działa tylko jeżeli zezwolisz na wprowadzanie danych z widżetu bez hasła w ustawieniach aplikacji.</string>
   <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
   <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa.</string>
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
@@ -360,6 +430,7 @@
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
   <string name="warning_select_account">Proszę wybrać konto!</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
@@ -367,7 +438,12 @@
   <string name="import_transactions_success">%1$s transakcji pomyślnie zaimportowano do konta %2$s</string>
   <string name="import_accounts_none">Nie zaimportowano żadnych kont</string>
   <string name="import_categories_none">Nie zaimportowano żadnych kategorii</string>
+  <string name="import_parties_none">Brak zaimportowanych partii</string>
+  <string name="import_transactions_none">Brak transakcji zaimportowanych na konto %1$s</string>
   <string name="menu_categories_setup_default">Ustaw domyślne kategorie</string>
   <string name="menu_create_folder">Nowy folder</string>
+  <string name="menu_up">Do góry</string>
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
+  <string name="widget_title_accounts">Moje konta</string>
+  <string name="widget_title_templates">Moje szablony</string>
 </resources>

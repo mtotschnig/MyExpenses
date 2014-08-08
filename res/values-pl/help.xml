@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="help_menu_commands">Polecenia menu</string>
+  <string name="help_contextual_actions">Akcje kontekstowe</string>
   <string name="cab_delete_help_text">Usuń zaznaczone elementy.</string>
   <string name="cab_edit_help_text">Edytuj zaznaczony element.</string>
   <!--My Expenses Transaction list-->
@@ -10,7 +11,7 @@
   <string name="menu_create_transaction_help_text">Otwiera formularz tworzenia nowej transakcji.</string>
   <string name="menu_create_transfer_help_text">Przenieś pieniądze pomiędzy kontami. To polecenie jest włączone tylko jeżeli posiadasz przynajmniej jedno inne konto z tą samą walutą jak bieżąca.</string>
   <string name="menu_create_split_help_text">Transakcja podziału pozwala Ci na przydzielenie częściowych ilości do innej kategorii lub jako przelew do innego konta.</string>
-  <string name="menu_reset_help_text">To polecenie wyeksportuje wszystkie transakcje bieżącego konta do pliku na karcie pamięci w formacie QIF lub CSV. Domyślnie, transakcje zostaną usunięte z twojego telefonu, ale możesz wybrać do zachowania ich i zaznaczenia jako wyeksportowane. Moje Wydatki mogą udostępnić plik natychmiastowo po eksporcie przez FTP, E-mail lub przez inną aplikację do udostępniania plików, jeżeli skonfigurujesz ją do robienia tego w Ustawieniach.</string>
+  <string name="menu_reset_help_text">To polecenie wyeksportuje wszystkie transakcje bieżącego konta do pliku na karcie SD w formacie QIF lub CSV. Możesz zdecydować czy chcesz usunąć wyeksportowane transakcje, w takim przypadku otwierający balans zostanie automatycznie skorygowany. Alternatywnie, jeżeli transakcje nie są usunięte, zostaną one oznaczone jako wyeksportowane. Moje Wydatki może udostępniać plik natychmiastowo po eksporcie przez FTP, e-mail lub każdą inną aplikację do dzielenia się plikami, jeżeli skonfigurujesz to w Ustawieniach.</string>
   <string name="menu_edit_account_help_text">Dopasuj właściwości bieżącego konta (tytuł, opis, bilans otwarcia, typ konta, waluta, kolor).</string>
   <string name="menu_grouping_help_text">Możesz grupować transakcje według dnia, tygodnia, miesiąca lub roku. Dla każdej grupy, suma dochodu, wydatków i przelewów jest obliczana i wyświetlana.</string>
   <string name="menu_distribution_help_text">Wyświetla dystrybucję twoich wydatków według kategorii. Możesz także kliknąć na nagłówku grupy do sprawdzenia dystrybucji dla poszczególnej grupy.</string>
@@ -29,8 +30,11 @@
   <string name="help_ManageTemplates_plans_info"><![CDATA[Plany są dostępne na liście na osobnej karcie. Kiedy rozwiniesz pozycję, możesz zobaczyć listę przyszłych instancji planu. Zamiast czekać na powiadomienie które dostaniesz jak wystąpi instancja, tutaj możesz zdecydować o zastosowaniu tych przyszłych zdarzeniach z góry aby zrobić je widzocznymi w twojej liście transakcji przez powołanie odpowiedniego polecenia z menu kontekstowego. Stan instancji jest oznaczony przez jedną z poniższych ikon:<br><img src="ic_stat_open"> Instancja nie jest jeszcze zatwierdzona.<br><img src="ic_stat_applied"> Instancja jest zatwierdzona.<br><img src="ic_stat_cancelled"> Instancja została anulowana, tzn. oznaczyłeś ją do pominięcia. Transakcja nie zostanie stworzona dla tej instancji.]]></string>
   <string name="menu_create_template_for_transaction_help_text">Tworzy nowy szablon dla transakcji</string>
   <string name="menu_create_template_for_transfer_help_text">Tworzy nowy szablon dla przelewu</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Utwórz instancję wybranego szablonu i zapisz go natychmiastowo.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Utwórz instancję wybranego szablonu i wejdź do jego pola edycyjnego gdzie możesz modyfikować go przed zapisem. </string>
   <string name="cab_ManageTemplates_delete_help_text">Usuń zaznaczone szablony i wszystkie powiązane plany.</string>
   <string name="cab_ManageTemplates_edit_help_text">Edytuj zaznaczony szablon i utwórz lub edytuj powiązany plan.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Jeżeli transakcje zostały utworzone dla wybranych instancji zdarzenia, zostaną one usunięte, jeżeli zostały one oflagowane jako anulowane, flagi te zostaną usunięte.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edytuj transakcję która została utworzona dla wybranej instancji planu.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Ten ekran wyświetla dystrybucję twoich wydatków i przychodów na kategorię, dla każdej transakcji na koncie, lub dla specyficznej grupy.</string>
@@ -41,6 +45,7 @@
   <string name="menu_back_help_text">Przechodzi do poprzedniej grupy. To może być także dokonane przez gest przesunięcia palcem od lewej do prawej.</string>
   <string name="menu_forward_help_text">Przechodzi do następnej grupy. To może być także dokonane przez gest przesunięcia palcem od prawej do lewej.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Otwiera okno dialogowe dla określenia tytułu dla nowej podkategorii poniżej aktualnie wybranej kategorii.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Mapuj wybraną kategorię do transakcji i wróć do formy transakcji.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formularz dla transakcji</string>
   <string name="help_ExpenseEdit_transfer_title">Formularz dla przelewów</string>
@@ -61,7 +66,7 @@
   <string name="menu_invert_transfer_help_text">Odwróć kierunek przelewu poprzez zamianę kont \'Z\' i \'Do\'</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formularz dla kont</string>
-  <string name="help_AccountEdit_info">Konto jest identyfikowane przez jego etykietę, opis może mieć tylko cel informacyjny. Waluta może zostać wybrana z lity. Możesz zdefiniować typ konta na Gotówkę, Bank, Kapitał, Płatności, Karta Kredytowa. Typ określa dostępne metody płatności które możesz skonfigurować w menu Ustawień -> Zarządzaj -> Metody Płatności.</string>
+  <string name="help_AccountEdit_info">Konto jest identyfikowane przez jego etykietę, opis może mieć tylko cel informacyjny. Waluta może zostać wybrana z lity. Możesz zdefiniować typ konta na Gotówkę, Bank, Kapitał, Płatności, Karta Kredytowa. Typ określa dostępne metody płatności które możesz skonfigurować w menu Ustawień -&gt; Zarządzaj -&gt; Metody Płatności.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formularz dla metody płatności</string>
   <string name="help_MethodEdit_info">Na tym erkanie, możesz skojarzyć metodę płatności z typem konta. Możesz także określić etykietę (z wyjątkiem takiej jak predefiniowane metody które mają ustaloną etykietę która nie może być edytowana). Przez typ metody, określasz czy ona dotyczy wydatków (debet), przychodów (kredyt) lub obu (neutralnie). Możesz też zaznaczyć je jeżeli transakcje używające tej metody są ponumerowane (np. sprawdzenie liczb).</string>
