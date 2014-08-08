@@ -186,6 +186,13 @@
         android:data="https://google.com/+MyexpensesMobi"
         />
     </Preference>
+    <Preference
+        android:title="@string/pref_like_facebook_title">
+        <intent
+        android:action="android.intent.action.VIEW"
+        android:data="https://www.facebook.com/MyExpenses"
+        />
+    </Preference>
     <Preference android:key="@string/pref_more_info_dialog_key"
         android:title="@string/pref_more_info_dialog_title"
         android:summary="@string/pref_more_info_dialog_summary"/>
