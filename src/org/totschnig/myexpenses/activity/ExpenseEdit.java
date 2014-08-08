@@ -165,6 +165,7 @@ public class ExpenseEdit extends AmountActivity implements
     setContentView(R.layout.one_expense);
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    configAmountInput();
     mTypeButton = (Button) findViewById(R.id.TaType);
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     mTypeButton.setEnabled(false);
@@ -337,7 +338,15 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
   private void setup() {
-    configAmountInput();
+    if (mTransaction instanceof SplitTransaction) {
+      mAmountText.addTextChangedListener(new TextWatcher(){
+        public void afterTextChanged(Editable s) {
+          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+      }
+      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+      public void onTextChanged(CharSequence s, int start, int before, int count){}
+      });
+    }
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
@@ -526,19 +535,6 @@ public class ExpenseEdit extends AmountActivity implements
        }
      }
     });
-  }
-  @Override
-  protected void configAmountInput() {
-    super.configAmountInput();
-    if (mTransaction instanceof SplitTransaction) {
-      mAmountText.addTextChangedListener(new TextWatcher(){
-        public void afterTextChanged(Editable s) {
-          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
-      }
-      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-      public void onTextChanged(CharSequence s, int start, int before, int count){}
-      });
-    }
   }
 
   @Override
