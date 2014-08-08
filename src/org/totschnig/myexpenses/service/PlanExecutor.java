@@ -25,7 +25,6 @@ import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -40,7 +39,14 @@ public class PlanExecutor extends IntentService {
 
   @Override
   public void onHandleIntent(Intent intent) {
-    String plannerCalendarId = MyApplication.getInstance().checkPlanner();
+    String plannerCalendarId;
+    try {
+      plannerCalendarId = MyApplication.getInstance().checkPlanner();
+    } catch (Exception e) {
+      //has been reported to fail (report 9bc4e977220f559fcd8a204195bcf47f)
+      Utils.reportToAcra(e);
+      return;
+    }
     if (plannerCalendarId.equals("-1")) {
       Log.i(MyApplication.TAG,"PlanExecutor: no planner set, nothing to do");
       return;
