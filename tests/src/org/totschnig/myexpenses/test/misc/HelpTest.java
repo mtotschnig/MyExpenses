@@ -1,4 +1,4 @@
-/*   This file is part of My Expenses.
+ /*   This file is part of My Expenses.
  *   My Expenses is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.*;
+import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -91,10 +92,9 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     Context ctx =  getInstrumentation().getTargetContext();
     Resources res = ctx.getResources();
     int[] versionCodes = res.getIntArray(R.array.version_codes);
+    String[] versionNames = res.getStringArray(R.array.version_names);
     for (int i=0;i<versionCodes.length;i++) {
-      int code = versionCodes[i];
-      Assert.assertTrue("missing change log entry for version " + code,
-          res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()) != 0);
+      Assert.assertNotNull(new VersionDialogFragment.VersionInfo(versionCodes[i], versionNames[i]).getChanges(ctx));
     }
   }
 }

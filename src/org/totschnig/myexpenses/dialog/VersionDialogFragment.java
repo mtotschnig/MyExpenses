@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
@@ -49,7 +50,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Bundle bundle = getArguments();
-    Activity ctx  = (Activity) getActivity();
+    final Activity ctx  = (Activity) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     int from = bundle.getInt("from");
     Resources res = getResources();
@@ -58,20 +59,10 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     final ArrayList<VersionInfo> versions = new ArrayList<VersionInfo>();
     for (int i=0;i<versionCodes.length;i++) {
       int code = versionCodes[i];
-      String name = versionNames[i];
-      if (from >= code)
+      if (from >= code) {
         break;
-      int resId = res.getIdentifier("whats_new_"+name.replace(".", ""), "array", ctx.getPackageName());//new based on name
-      if (resId == 0) {
-        resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());//legacy based on code
       }
-      if (resId == 0) {
-        Log.e(MyApplication.TAG, "missing change log entry for version " + code);
-      } else {
-        String changes[] = res.getStringArray(
-            res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()));
-        versions.add(new VersionInfo(code, versionNames[i], changes));
-      }
+      versions.add(new VersionInfo(code, versionNames[i]));
     }
     View view = li.inflate(R.layout.versiondialog, null);
     final ListView lv = (ListView) view.findViewById(R.id.list);
@@ -83,8 +74,9 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         LinearLayout row = (LinearLayout) super.getView(position, convertView, parent);
         VersionInfo version = versions.get(position);
         ((TextView) row.findViewById(R.id.versionInfoName)).setText(version.name);
+        String[] changes = version.getChanges(ctx);
         ((TextView) row.findViewById(R.id.versionInfoChanges))
-          .setText("- " + TextUtils.join("\n- ", version.changes));
+          .setText(changes != null ? ("- " + TextUtils.join("\n- ",changes)) : "");
         return row;
       }
     };
@@ -111,15 +103,26 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     if (which == AlertDialog.BUTTON_POSITIVE)
       ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_INFO_COMMAND,null);
   }
-  private class VersionInfo {
-    int code;
-    String name;
-    String[] changes;
-    public VersionInfo(int code, String name, String[] changes) {
+  public static class VersionInfo {
+    private int code;
+    private String name;
+    public VersionInfo(int code, String name) {
       super();
       this.code = code;
       this.name = name;
-      this.changes = changes;
+    }
+    public String[] getChanges(Context ctx) {
+      Resources res= ctx.getResources();
+      int resId = res.getIdentifier("whats_new_"+name.replace(".", ""), "array", ctx.getPackageName());//new based on name
+      if (resId == 0) {
+        resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());//legacy based on code
+      }
+      if (resId == 0) {
+        Log.e(MyApplication.TAG, "missing change log entry for version " + code);
+        return null;
+      } else {
+        return res.getStringArray(resId);
+      }
     }
   }
 }
