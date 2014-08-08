@@ -127,10 +127,10 @@ public class CategoryList extends BudgetListFragment implements
     String[] from;
     int[] to;
     if (mAccount != null) {
-      from = new String[] {"label","sum"};
+      from = new String[] {KEY_LABEL,KEY_SUM};
       to = new int[] {R.id.label,R.id.amount};
     } else {
-      from = new String[] {"label"};
+      from = new String[] {KEY_LABEL};
       to = new int[] {R.id.label};
     }
     mAdapter = new MyExpandableListAdapter(ctx,
@@ -138,9 +138,7 @@ public class CategoryList extends BudgetListFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      registerForContextMenu(mListView);
-    } else {
+    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       registerForContextualActionBar(mListView);
     }
     return v;
@@ -492,9 +490,9 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
-      menu.findItem(R.id.FORWARD_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
-      menu.findItem(R.id.BACK_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
-    }
+      boolean grouped = !mGrouping.equals(Grouping.NONE);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);    }
   }
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))
@@ -541,7 +539,8 @@ public class CategoryList extends BudgetListFragment implements
     if (super.onChildClick(parent, v, groupPosition,childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+    if (!(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
+        ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
       return false;
     }
     Intent intent=new Intent();
@@ -559,7 +558,8 @@ public class CategoryList extends BudgetListFragment implements
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+    if (!(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) || 
+        ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
       return false;
     }
     long cat_id = id;
@@ -639,9 +639,10 @@ public class CategoryList extends BudgetListFragment implements
       return;
     }
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1);
-    menu.findItem(R.id.DELETE_COMMAND).setVisible(!ctx.helpVariant.equals(HelpVariant.distribution));
-    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && ctx.helpVariant.equals(HelpVariant.select));
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !ctx.helpVariant.equals(HelpVariant.distribution));
+    boolean inFilter = ctx.helpVariant.equals(HelpVariant.select_filter);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilter);
+    menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilter);
+    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && !ctx.helpVariant.equals(HelpVariant.manage));
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilter);
   }
 }

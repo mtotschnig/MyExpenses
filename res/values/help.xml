@@ -62,7 +62,8 @@
   
   <!-- ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories, for all transactions in an account, or for a specific group.</string>
-  <string name="help_ManageCategories_select_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.</string>
+  <string name="help_ManageCategories_select_mapping_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.</string>
+  <string name="help_ManageCategories_select_filter_info">Select the category for filtering the transaction list. In order to search for a main category, you have to call its context menu.</string>
   <string name="help_ManageCategories_manage_info">This screen allows to create, edit and delete categories. By default, the primary sort criteria in the category list is the number of times you use a category (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often. In the settings, you can opt for sorting the categories in plain alphabetical order. Clicking on a main category, opens up its subcategories. From a main category\'s context menu, you can add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.</string>
   <string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Set the type of grouping and display the distribution per day, month, week or year.</string>
@@ -70,6 +71,8 @@
   <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Opens the dialog for specifying the title of a new sub-category below the selected category.</string>
   <string name="cab_ManageCategories_select_category_help_text">Map the selected category to the transaction and return to the transaction form.</string>
+  <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">The selected category will be used for filtering the transaction list.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>

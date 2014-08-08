@@ -34,6 +34,22 @@
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
+  <item 
+    android:id="@+id/SEARCH_MENU"
+    android:title="@string/menu_search"
+    android:icon="@drawable/search_icon"
+  	app:showAsAction="ifRoom">
+  	<menu>
+  		<group android:checkableBehavior="all">
+  		<item android:id="@id/FILTER_CATEGORY_COMMAND" android:title="@string/category"/>
+      <item android:id="@id/FILTER_AMOUNT_COMMAND" android:title="@string/amount"/>
+      <item android:id="@id/FILTER_COMMENT_COMMAND" android:title="@string/comment"/>
+      <item android:id="@id/FILTER_STATUS_COMMAND" android:title="@string/status"/>
+      <item android:id="@id/FILTER_PAYEE_COMMAND" android:title="@string/payer_or_payee"/>
+      <item android:id="@id/FILTER_METHOD_COMMAND" android:title="@string/method"/>
+      </group>
+  	</menu>
+  </item>
   <item
     android:id="@id/MANAGE_PLANS_COMMAND"
     app:showAsAction="ifRoom"

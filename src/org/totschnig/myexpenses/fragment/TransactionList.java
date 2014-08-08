@@ -19,26 +19,30 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.*;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -48,11 +52,15 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Build;
@@ -73,6 +81,8 @@ import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -91,14 +101,18 @@ public class TransactionList extends BudgetListFragment implements
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
   }
+  
+  protected WhereFilter mFilter = WhereFilter.empty();
 
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
+
+  private static final String KEY_FILTER = "filter";
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
-  public boolean hasItems, mappedCategories;
+  public boolean hasItems, mappedCategories, mappedPayees, mappedMethods;
   private Cursor mTransactionsCursor, mGroupingCursor;
   private DateFormat itemDateFormat, localizedTimeFormat;
   private StickyListHeadersListView mListView;
@@ -215,7 +229,11 @@ public class TransactionList extends BudgetListFragment implements
     mManager = getLoaderManager();
     setGrouping();
     setColors();
-    
+    if (savedInstanceState != null) {
+      mFilter =  new WhereFilter(savedInstanceState.getSparseParcelableArray(KEY_FILTER));
+    } else {
+      restoreFilterFromPreferences();
+    }
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     //TODO check if still needed with Appcompat
     //work around the problem that the view pager does not display its background correctly with Sherlock
@@ -248,6 +266,7 @@ public class TransactionList extends BudgetListFragment implements
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
   }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
@@ -322,6 +341,7 @@ public class TransactionList extends BudgetListFragment implements
       args.putLong(KEY_ROWID, acmi.id);
       args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_template_title));
       args.putString(EditTextDialog.KEY_VALUE,label);
+      args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.TEMPLATE_TITLE_REQUEST);
       EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }
@@ -343,6 +363,10 @@ public class TransactionList extends BudgetListFragment implements
     }
     switch(id) {
     case TRANSACTION_CURSOR:
+      if (!mFilter.isEmpty()) {
+        selection += " AND " + mFilter.getSelection();
+        selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs());
+      }
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
           uri, null, selection + " AND " + KEY_PARENTID + " is null",
@@ -352,7 +376,7 @@ public class TransactionList extends BudgetListFragment implements
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
-          new String[] {MAPPED_CATEGORIES},
+          new String[] {MAPPED_CATEGORIES,MAPPED_METHODS,MAPPED_PAYEES},
           selection + " AND " + WHERE_NOT_SPLIT,
           selectionArgs, null);
       break;
@@ -374,7 +398,6 @@ public class TransactionList extends BudgetListFragment implements
     }
     return cursorLoader;
   }
-
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     switch(arg0.getId()) {
@@ -402,7 +425,10 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       c.moveToFirst();
-      mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) >0;
+      mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) > 0;
+      mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
+      mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
+      getActivity().supportInvalidateOptionsMenu();
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;
@@ -433,6 +459,8 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       mappedCategories = false;
+      mappedPayees = false;
+      mappedMethods = false;
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = null;
@@ -769,5 +797,152 @@ public class TransactionList extends BudgetListFragment implements
       }
     }
     mCheckedListItems = null;
+  }
+  public void addFilterCriteria(Integer id, Criteria c) {
+    mFilter.put(id, c);
+    SharedPreferencesCompat.apply(
+      MyApplication.getInstance().getSettings().edit().putString(
+          KEY_FILTER + "_"+c.columnName+"_"+mAccount.getId(), c.toStringExtra()));
+    mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+    getActivity().supportInvalidateOptionsMenu();
+  }
+  /**
+   * Removes a given filter
+   * @param column
+   * @return true if the filter was set and succesfully removed, false otherwise
+   */
+  public boolean removeFilter(Integer id) {
+    Criteria c = mFilter.get(id);
+    boolean isFiltered = c != null;
+    if (isFiltered) {
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit().remove(
+              KEY_FILTER + "_"+c.columnName+"_"+mAccount.getId()));
+      mFilter.remove(id);
+      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+      getActivity().supportInvalidateOptionsMenu();
+    }
+    return isFiltered;
+  }
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    MenuItem searchMenu = menu.findItem(R.id.SEARCH_MENU);
+    if (!mFilter.isEmpty()) {
+      searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+    } else {
+      searchMenu.getIcon().setColorFilter(null);
+    }
+    SubMenu filterMenu = searchMenu.getSubMenu();
+    for (int i = 0; i < filterMenu.size(); i++) {
+      MenuItem filterItem = filterMenu.getItem(i);
+      boolean enabled = true;
+      switch(filterItem.getItemId()) {
+      case R.id.FILTER_STATUS_COMMAND:
+        enabled = !mAccount.type.equals(Type.CASH);
+        break;
+      case R.id.FILTER_PAYEE_COMMAND:
+        enabled = mappedPayees;
+        break;
+      case R.id.FILTER_METHOD_COMMAND:
+        enabled = mappedMethods;
+        break;
+      }
+      Utils.menuItemSetEnabledAndVisible(filterItem, enabled);
+      if (enabled) {
+        Criteria c = mFilter.get(filterItem.getItemId());
+        if (c!=null) {
+          filterItem.setChecked(true);
+          filterItem.setTitle(c.prettyPrint());
+        }
+      }
+    }
+  }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSparseParcelableArray(KEY_FILTER, mFilter.getCriteria());
+  }
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int command = item.getItemId();
+    switch (item.getItemId()) {
+    case R.id.FILTER_CATEGORY_COMMAND:
+      if (!removeFilter(command)) {
+        Intent i = new Intent(getActivity(), ManageCategories.class);
+        i.setAction("myexpenses.intent.select_filter");
+        startActivityForResult(i, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST);
+      }
+      return true;
+    case R.id.FILTER_AMOUNT_COMMAND:
+      if (!removeFilter(command)) {
+        AmountFilterDialog.newInstance(mAccount.currency)
+        .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
+      }
+      return true;
+    case R.id.FILTER_COMMENT_COMMAND:
+      if (!removeFilter(command)) {
+        Bundle args = new Bundle();
+        args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.FILTER_COMMENT_REQUEST);
+        args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.search_comment));
+        EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "COMMENT_FILTER");
+      }
+      return true;
+    case R.id.FILTER_STATUS_COMMAND:
+      if (!removeFilter(command)) {
+        SelectCrStatusDialogFragment.newInstance()
+        .show(getActivity().getSupportFragmentManager(), "STATUS_FILTER");
+      }
+      return true;
+    case R.id.FILTER_PAYEE_COMMAND:
+      if (!removeFilter(command)) {
+        SelectPayerDialogFragment.newInstance(mAccount.getId())
+        .show(getActivity().getSupportFragmentManager(), "PAYER_FILTER");
+      }
+      return true;
+    case R.id.FILTER_METHOD_COMMAND:
+      if (!removeFilter(command)) {
+        SelectMethodDialogFragment.newInstance(mAccount.getId())
+        .show(getActivity().getSupportFragmentManager(), "METHOD_FILTER");
+      }
+      return true;
+    default:
+      return super.onOptionsItemSelected(item);
+    }
+  }
+  private void restoreFilterFromPreferences() {
+    SharedPreferences settings = MyApplication.getInstance().getSettings();
+    String filter = settings.getString(KEY_FILTER + "_"+KEY_CATID+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_CATEGORY_COMMAND, SingleCategoryCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_AMOUNT_COMMAND, AmountCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_COMMENT+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_COMMENT_COMMAND, CommentCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_CR_STATUS+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_STATUS_COMMAND, CrStatusCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_PAYEEID+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_PAYEE_COMMAND, PayeeCriteria.fromStringExtra(filter));
+    }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_METHODID+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(filter));
+    }
+  }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
+      long catId = intent.getLongExtra("cat_id",0);
+      String label = intent.getStringExtra("label");
+      addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
+    }
   }
 }

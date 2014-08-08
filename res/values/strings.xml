@@ -206,6 +206,7 @@
     <string name="menu_reset_plan_instance">Reset</string>
     <string name="menu_save">Save</string>
     <string name="menu_save_and_new">Save and new</string>
+    <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_share">Tell a friend</string>
     <string name="method">Method</string>
@@ -250,6 +251,7 @@
     <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
     <string name="payee">Payee</string>
     <string name="payer">Payer</string>
+    <string name="payer_or_payee">Payee/Payer</string>
     <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s) that has been deleted</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
@@ -461,4 +463,16 @@
     <string name="widget_title_templates">My templates</string>
     <string name="app_dir_does_not_exist">The currently selected folder for backups and exports (%1$s) does not exist.</string>
     <string name="app_dir_read_only">The currently selected folder for backups and exports (%1$s) is read only.</string>
+    <string name="search_amount">Search for amount</string>
+    <string name="search_category">Search for category</string>
+    <string name="search_comment">Search for notes</string>
+    <string name="search_status">Search for status</string>
+    <string name="search_payee">Search for payee/payer</string>
+    <string name="search_method">Search for method</string>
+    <string name="and">and</string>
+    <string name="between_and">between %1$s and %2$s</string>
+    <string name="comparison_operator_equal">equal to</string>
+    <string name="comparison_operator_greater_than">greater than</string>
+    <string name="comparison_operator_lesser_than">lesser than</string>
+    <string name="comparison_operator_between">between</string>
 </resources>

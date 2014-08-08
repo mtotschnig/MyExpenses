@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--My Expenses Transaction list-->
+  <!--ManageMethods title is in keys-->
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <!--ManageCategories_* titles are in keys-->
+  <!--ExpenseEdit-->
+  <!--AccountEdit-->
+  <!--MethodEdit-->
+</resources>

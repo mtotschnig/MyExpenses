@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentUris;

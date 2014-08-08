@@ -246,6 +246,9 @@ public class Template extends Transaction {
   }
   public static void delete(long id) {
     Template t = getInstanceFromDb(id);
+    if (t==null) {
+      return;
+    }
     if (t.planId != null) {
       Plan.delete(t.planId);
       cr().delete(

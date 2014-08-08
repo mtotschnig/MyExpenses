@@ -19,6 +19,7 @@
 <Sub_category Nbc="4" Nb="1" Na="Nadgodziny"/>
 <Sub_category Nbc="4" Nb="2" Na="Pozostawiony zasiłek"/>
 <Sub_category Nbc="4" Nb="3" Na="Różne składki"/>
+<Sub_category Nbc="4" Nb="4" Na="Opłata za sukces"/>
 <Sub_category Nbc="4" Nb="5" Na="Wynagrodzenie netto"/>
 <Category Nb="5" Na="Różne przychody"/>
 <Sub_category Nbc="5" Nb="1" Na="Prezenty"/>
@@ -27,7 +28,7 @@
 <Sub_category Nbc="6" Nb="1" Na="Bar"/>
 <Sub_category Nbc="6" Nb="2" Na="Piekarnia"/>
 <Sub_category Nbc="6" Nb="3" Na="Stołówka"/>
-<Sub_category Nbc="6" Nb="4" Na="Cukierki"/>
+<Sub_category Nbc="6" Nb="4" Na="Słodzycze"/>
 <Sub_category Nbc="6" Nb="5" Na="Różne"/>
 <Sub_category Nbc="6" Nb="6" Na="Sklep spożywczy"/>
 <Sub_category Nbc="6" Nb="7" Na="Restauracja"/>
@@ -36,6 +37,7 @@
 <Category Nb="7" Na="Zwierzęta"/>
 <Sub_category Nbc="7" Nb="1" Na="Pokarm"/>
 <Sub_category Nbc="7" Nb="2" Na="Różne materiały"/>
+<Sub_category Nbc="7" Nb="3" Na="Kosmetyczka"/>
 <Sub_category Nbc="7" Nb="4" Na="Weterynarz"/>
 <Category Nb="8" Na="Ubezpieczenie"/>
 <Sub_category Nbc="8" Nb="1" Na="Samochód"/>
@@ -65,7 +67,10 @@
 <Sub_category Nbc="15" Nb="2" Na="Opłaty bankowe"/>
 <Sub_category Nbc="15" Nb="3" Na="Pożyczka/Hipoteka"/>
 <Sub_category Nbc="15" Nb="4" Na="Opłaty"/>
+<Sub_category Nbc="15" Nb="5" Na="Zwroty"/>
 <Category Nb="16" Na="Profesjonalne wydatki"/>
+<Sub_category Nbc="16" Nb="1" Na="Bez możliwości zwrotu"/>
+<Sub_category Nbc="16" Nb="2" Na="Z możliwością zwrotu"/>
 <Category Nb="17" Na="Wydatki"/>
 <Sub_category Nbc="17" Nb="1" Na="Różne"/>
 <Sub_category Nbc="17" Nb="2" Na="Dochody"/>
@@ -86,6 +91,7 @@
 <Sub_category Nbc="18" Nb="13" Na="Ogród"/>
 <Sub_category Nbc="18" Nb="15" Na="Telefon"/>
 <Sub_category Nbc="18" Nb="16" Na="Telefon komórkowy"/>
+<Category Nb="19" Na="Wypoczynek"/>
 <Sub_category Nbc="19" Nb="1" Na="Snooker"/>
 <Sub_category Nbc="19" Nb="2" Na="Kręgle"/>
 <Sub_category Nbc="19" Nb="3" Na="Filmy"/>
@@ -106,6 +112,7 @@
 <Sub_category Nbc="21" Nb="1" Na="Ubezpieczenie"/>
 <Sub_category Nbc="21" Nb="2" Na="Dentysta"/>
 <Sub_category Nbc="21" Nb="3" Na="Szpital"/>
+<Sub_category Nbc="21" Nb="4" Na="Kinezyterapeuta"/>
 <Sub_category Nbc="21" Nb="5" Na="Doktor"/>
 <Sub_category Nbc="21" Nb="6" Na="Okulista"/>
 <Sub_category Nbc="21" Nb="7" Na="Osteopata"/>

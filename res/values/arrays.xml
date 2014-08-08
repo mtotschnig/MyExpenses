@@ -80,6 +80,11 @@
         <item>@string/grouping_month</item>
         <item>@string/grouping_year</item>
     </string-array>
+    <string-array name="crstatus_entries">
+        <item>@string/status_uncreconciled</item>
+        <item>@string/status_cleared</item>
+        <item>@string/status_reconciled</item>
+    </string-array>
     <string-array name="method_types">
     	<item>@string/pm_type_debit</item>
       <item>@string/pm_type_neutral</item>
@@ -142,9 +147,11 @@
     </string-array>
     <string-array name="ManageCategories_manage_menuitems">
       <item>create_main_cat</item>
+      <item>categories_setup_default</item>
     </string-array>
-    <string-array name="ManageCategories_select_menuitems">
+    <string-array name="ManageCategories_select_mapping_menuitems">
       <item>create_main_cat</item>
+      <item>categories_setup_default</item>
     </string-array>
     <string-array name="ManageCategories_distribution_menuitems">
       <item>grouping</item>
@@ -159,11 +166,14 @@
       <item>create_sub_cat</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageCategories_select_cabitems">
+    <string-array name="ManageCategories_select_mapping_cabitems">
       <item>select_category</item>
       <item>edit</item>
       <item>create_sub_cat</item>
       <item>delete</item>
+    </string-array>
+    <string-array name="ManageCategories_select_filter_cabitems">
+      <item>select_category</item>
     </string-array>
     <string-array name="ExpenseEdit_menuitems">
       <item>save</item>
@@ -189,8 +199,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>153</item>
-      <item>152</item>
+      <item>154</item>
       <item>149</item>
       <item>145</item>
       <item>143</item>
@@ -211,8 +220,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
-      <item>2.1.6.3</item>
-      <item>2.1.6.2</item>
+      <item>2.2.0</item>
       <item>2.1.6</item>
       <item>2.1.5</item>
       <item>2.1.4</item>
@@ -231,5 +239,17 @@
       <item>1.10.2</item>
       <item>1.10.1</item>
       <item>1.10.0</item>
+    </string-array>
+    <string-array name="comparison_operator_entries">
+      <item>@string/comparison_operator_equal</item>
+      <item>@string/comparison_operator_greater_than</item>
+      <item>@string/comparison_operator_lesser_than</item>
+      <item>@string/comparison_operator_between</item>
+    </string-array>
+    <string-array name="comparison_operator_values">
+      <item>EQ</item>
+      <item>GTE</item>
+      <item>LTE</item>
+      <item>BTW</item>
     </string-array>
 </resources>

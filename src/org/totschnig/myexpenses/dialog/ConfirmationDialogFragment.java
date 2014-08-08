@@ -89,7 +89,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     }
   }
   public interface ConfirmationDialogListener {
-    boolean dispatchCommand(int command, Bundle args);
+    void dispatchCommand(int command, Bundle args);
     void onMessageDialogDismissOrCancel();
   }
 }

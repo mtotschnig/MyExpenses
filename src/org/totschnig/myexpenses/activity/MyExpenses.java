@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -46,6 +47,10 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.CommentCriteria;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
+import org.totschnig.myexpenses.provider.filter.TextCriteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -340,9 +345,11 @@ public class MyExpenses extends LaunchActivity implements
         }
       } catch (IllegalArgumentException ex) {}
     }
-    menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
-    menu.findItem(R.id.BALANCE_COMMAND).setVisible(showBalanceCommand);
-    menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
+    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EDIT_ACCOUNT_COMMAND),
+        mAccountId > 0);
+    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BALANCE_COMMAND),
+        showBalanceCommand);
+    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.DELETE_ACCOUNT_COMMAND),
         mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
   }
@@ -385,7 +392,12 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
   }
-
+  public void addFilterCriteria(Integer id,Criteria c) {
+    TransactionList tl = getCurrentFragment();
+    if (tl != null) {
+      tl.addFilterCriteria(id,c);
+    }
+  }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer/split
    * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER} or {@link #TYPE_SPLIT}
@@ -637,11 +649,11 @@ public class MyExpenses extends LaunchActivity implements
             0);
         return true;
       case R.id.SHARE_COMMAND:
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message));
-        sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.menu_share)));
+        i = new Intent();
+        i.setAction(Intent.ACTION_SEND);
+        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message));
+        i.setType("text/plain");
+        startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
         return true;
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
@@ -808,13 +820,20 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onFinishEditDialog(Bundle args) {
-    String title = args.getString(EditTextDialog.KEY_RESULT);
-    if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)),title)).save() == null) {
-      Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
-    } else {
-      Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+    String result = args.getString(EditTextDialog.KEY_RESULT);
+    switch (args.getInt(EditTextDialog.KEY_REQUEST_CODE)) {
+    case TEMPLATE_TITLE_REQUEST:
+      if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)),result)).save() == null) {
+        Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,result), Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(getBaseContext(),getString(R.string.template_create_success,result), Toast.LENGTH_LONG).show();
+      }
+      finishActionMode();
+      break;
+    case FILTER_COMMENT_REQUEST:
+      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,new CommentCriteria(result));
+      break;
     }
-    finishActionMode();
   }
   @Override
   public void onCancelEditDialog() {
@@ -1030,7 +1049,7 @@ public class MyExpenses extends LaunchActivity implements
     outState.putString("exportFormat", mExportFormat);
   }
   @Override
-  public boolean dispatchCommand(int command, Bundle args) {
+  public void dispatchCommand(int command, Bundle args) {
    switch (command) {
    case R.id.START_EXPORT_COMMAND:
      mExportFormat = args.getString("format");
@@ -1046,6 +1065,5 @@ public class MyExpenses extends LaunchActivity implements
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
    }
-   return false;
   }
 }

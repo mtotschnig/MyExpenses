@@ -229,11 +229,10 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   }
 
   @Override
-  public boolean dispatchCommand(int command, Bundle args) {
+  public void dispatchCommand(int command, Bundle args) {
     switch(command) {
     case R.id.BACKUP_COMMAND_DO:
       doBackup();
-      return true;
     case R.id.RESTORE_COMMAND:
       getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstanceRestore(args),
@@ -242,7 +241,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
             R.string.pref_restore_title),"PROGRESS")
         .commit();
     }
-    return false;
   }
   public void openBrowse() {
     String[] backups = listBackups();

@@ -1,5 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_149">
+    <item>Tłumaczenie w języku Sinhala</item>
+    <item>Wsparcie dla trybu kilku-okienkowego na urządzeniach Samsung</item>
+    <item>Pojednanie postępu pracy</item>
+  </string-array>
+  <string-array name="whats_new_145">
+    <item>Kopie zapasowe są teraz przechowywane w formacie ZIP, które mogą być udostępniane (przez E-Mail, Dysk Google, Dropbox itp.) i przywracane z zewnętrznych źródeł</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>Skróty do dodawania transakcji oraz transferów</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>Widżety do szybkiego wprowadzania danych</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>Tłumaczenie rosyjskie</item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>Od teraz ścieżka zapisu kopii zapasowych może być dowolnie zmieniana</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>Wiele niezależnych kopii zapasowych</item>
+    <item>Import QIF</item>
+  </string-array>
   <string-array name="whats_new_130">
     <item>Tłumaczenie w języku greckim</item>
     <item>Początek tygodnia zależny od lokalizacji (np. Niedziela dla Stanów Zjednoczonych)</item>

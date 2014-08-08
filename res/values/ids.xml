@@ -74,4 +74,10 @@
   <item type="id" name="PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG" />
   <item type="id" name="BALANCE_COMMAND" />
   <item type="id" name="BALANCE_COMMAND_DO" />
+  <item type="id" name="FILTER_CATEGORY_COMMAND" />
+  <item type="id" name="FILTER_AMOUNT_COMMAND" />
+  <item type="id" name="FILTER_COMMENT_COMMAND" />
+  <item type="id" name="FILTER_STATUS_COMMAND" />
+  <item type="id" name="FILTER_PAYEE_COMMAND" />
+  <item type="id" name="FILTER_METHOD_COMMAND" />
 </resources>

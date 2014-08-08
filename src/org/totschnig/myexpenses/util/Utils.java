@@ -69,10 +69,15 @@ import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.Toast;
 
 /**
@@ -551,11 +556,9 @@ public class Utils {
    * @param item
    * @param enabled
    */
-//  public static void menuItemSetEnabled(Menu menu, int id, boolean enabled) {
-//    MenuItem item = menu.findItem(id);
-//    item.setEnabled(enabled);
-//    item.getIcon().setAlpha(enabled ? 255 : 90);
-//  }
+  public static void menuItemSetEnabledAndVisible(MenuItem item, boolean enabled) {
+    item.setEnabled(enabled).setVisible(enabled);
+  }
 
   public static boolean doesPackageExist(Context context,String targetPackage) {
     try {
@@ -679,6 +682,47 @@ public class Utils {
     } catch (IOException e) {
       return true;
     }
+  }
+
+  //From Financisto
+  public static String[] joinArrays(String[] a1, String[] a2) {
+    if (a1.length == 0) {
+      return a2;
+    }
+    String[] a = new String[a1.length+a2.length];
+    System.arraycopy(a1, 0, a, 0, a1.length);
+    System.arraycopy(a2, 0, a, a1.length, a2.length);
+    return a;
+  }
+
+  public static void configDecimalSeparator(final EditText editText, final char decimalSeparator) {
+    //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
+    //the soft keyboard if it occupies full screen in horizontal orientation does not display
+    //the , as comma separator
+    final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
+    editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+    editText.setFilters(new InputFilter[] {
+        new InputFilter() {
+          public CharSequence filter(CharSequence source, int start, int end,
+              Spanned dest, int dstart, int dend) {
+            boolean separatorPresent = dest.toString().indexOf(decimalSeparator) > -1;
+            for (int i = start; i < end; i++) {
+              if (source.charAt(i) == otherSeparator || source.charAt(i) == decimalSeparator) {
+                char[] v = new char[end - start];
+                TextUtils.getChars(source, start, end, v, 0);
+                String s = new String(v).replace(otherSeparator,decimalSeparator);
+                if (separatorPresent)
+                  return s.replace(String.valueOf(decimalSeparator),"");
+                else
+                  return s;
+                }
+              }
+            return null; // keep original
+          }
+        },
+        new InputFilter.LengthFilter(16)
+    });
   }
 
 }

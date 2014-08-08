@@ -23,6 +23,7 @@
     android:title="@string/menu_create_main_cat"/>
     <item
     android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
+    android:icon="@drawable/categories_setup_default_icon"
     app:showAsAction="never"
     android:title="@string/menu_categories_setup_default"/>
 </menu>

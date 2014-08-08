@@ -41,6 +41,7 @@
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
   <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
+  <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
   <string name="dialog_command_disabled_insert_transfer_2">%1$s para biriminin sadece bir hesabı olmalısınız.</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
@@ -76,6 +77,7 @@
   <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
   <string name="dialog_title_attention">Dikkat</string>
   <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
@@ -138,6 +140,7 @@
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Hesabı uzlaştır</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">İptal et</string>
   <string name="menu_clone_transaction">Klonla</string>
@@ -384,6 +387,7 @@
   <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
   <string name="time">Zaman</string>
   <string name="title">Başlık</string>
+  <string name="total_cleared">Çözümlenmiş toplam</string>
   <string name="total_reconciled">Uzlaşmış toplam</string>
   <string name="transaction">Muamele</string>
   <string name="transfer">Transfer</string>
@@ -412,6 +416,7 @@
     <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
   </plurals>
   <string name="warning_delete_reconciled">Uzlaşmış muameleleri silmeniz kayıtlarınızın banka kayıtlarından farklı olmasına yol açar.</string>
+  <string name="warning_balance_account">Lütfen çözümlenmiş toplamı banka ekstresindeki bakiye ile karşılaştırın. Devam ederseniz çözümlenmiş muameleler uzlaşmış olarak işaretlenecektir.</string>
   <string name="warning_password_protected">Uygulama parola ile koruludur.</string>
   <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>

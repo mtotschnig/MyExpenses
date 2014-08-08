@@ -49,8 +49,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
-  <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
-    licensed under the Creative Commons Attribution 3.0 United States License .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser and HomeScreenWidgets inspired by https://launchpad.net/financisto ,
     licensed under GPL v2.0 .</string>
   <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
@@ -77,8 +75,10 @@
   <string name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
   <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
   <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
-  <string name="help_ManageCategories_select_title">@string/select_category</string>
+  <string name="help_ManageCategories_select_mapping_title">@string/select_category</string>
+  <string name="help_ManageCategories_select_filter_title">@string/search_category</string>
 
   <string name="app_name_contrib">My Expenses Contrib</string>
   <string name="app_contrib_launch">Launch My Expenses Contrib</string>
+
 </resources>

@@ -89,9 +89,9 @@ public class Payee extends Model {
     Uri uri = new Payee(0L,name).save();
     return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
   }
-  public static boolean delete(long id) {
-    return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        null, null) > 0;
+  public static void delete(long id) {
+    cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        null, null);
   }
   @Override
   public Uri save() {

@@ -55,6 +55,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int EDIT_ACCOUNT_REQUEST=2;
   public static final int PREFERENCES_REQUEST=3;
   public static final int CREATE_ACCOUNT_REQUEST=4;
+  public static final int FILTER_CATEGORY_REQUEST=5;
+  public static final int FILTER_COMMENT_REQUEST=6;
+  public static final int TEMPLATE_TITLE_REQUEST=7;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
