@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import android.content.ContentValues;
 import android.database.Cursor;
