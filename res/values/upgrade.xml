@@ -18,11 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_153">
-    <item>Minor fixes</item>
-  </string-array>
-  <string-array name="whats_new_152">
-    <item>Stability improvements</item>
+  <string-array name="whats_new_2200">
+    <item>Search for transactions per category, amount, comment, status, payee/payer, payment method</item>
   </string-array>
   <string-array name="whats_new_149">
     <item>Sinhala translation</item>
