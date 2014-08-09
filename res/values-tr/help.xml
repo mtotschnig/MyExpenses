@@ -17,6 +17,7 @@
   <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına tıklayarak belli bir grup için dağılımı inceleyebilirsiniz.</string>
   <string name="menu_manage_plans_help_text">Güncel hesap için gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
   <string name="menu_create_account_help_text">Yeni bir hesap oluşturma formunu açar.</string>
+  <string name="menu_balance_help_text">Bu komut son mutabık ve kullanılabilir bakiyeyi gösteren bir diyalog açar. Kullanılabilir bakiyeyi banka hesabınız ile karşılaştırabilir ve tüm çözümlenmiş muameleleri uzlaşmış olarak işaretleyebilirsiniz. Seçime dayalı olarak, uzlaşmış muameleleri silmeye de karar verebilirsiniz.</string>
   <string name="cab_create_template_from_transaction_help_text">Seçilen muameleye dayalı yeni bir şablon tanımlayın. Şablonun başlığı size sorulacaktır.</string>
   <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve saatle klonlanacaktır.</string>
   <!--ManageMethods title is in keys-->
@@ -42,6 +43,7 @@
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Bu ekran,herhangi bir hesaptaki tüm muameleler ya da belli bir grup için gelirleriniz ve harcamalarınızın kategori başına dağılımını gösterir.</string>
   <string name="help_ManageCategories_select_mapping_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
+  <string name="help_ManageCategories_select_filter_info">Muamele listesini süzmek için kategori seçin. Ana bir kategori aramak için onun bağlam menüsünü çağırmanız gerekir.</string>
   <string name="help_ManageCategories_manage_info">Bu ekran kategorileri oluşturmaya, düzenlemeye ve silmeye imkân verir. Varsayılan değer olarak kategori listesinde ilk sıralama kriteri kategoriyi kullanma sayınızdır (ikinci kriter ise alfabetik sıradır). Bu, en sık kullandığınız kategorilere çabuk ulaşmanızı sağlar. Ayarlarda kategorilerin sadece alfabetik sıraya göre sıralanmasını seçebilirsiniz. Herhangi bir ana kategoriye tıklamanız alt kategorileri açar. Ana kategorinin bağlam menüsünden alt kategori ilâve edebilir, silebilir ya da düzenleyebilirsiniz. Silmek ve düzenlemek için alt kategorilerin de bağlam menüleri vardır.</string>
   <string name="menu_create_main_cat_help_text">Yeni bir ana kategorinin başlığını belirtmek için diyalog açar.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Gruplama biçimini seçin ve dağılımı gün, ay, hafta ya da senelik olarak görüntüleyin.</string>
@@ -49,6 +51,8 @@
   <string name="menu_forward_help_text">Sonraki gruba geç. Sağdan sola kaydırarak yapılması da mümkündür.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Seçilen kategorinin altındaki yeni bir kategorinin başlığını belirtmek için diyalog açar.</string>
   <string name="cab_ManageCategories_select_category_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
+  <string name="menu_categories_setup_default_help_text">Bir seri varsayılan kategori içe aktarılacaktır.</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
   <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>
