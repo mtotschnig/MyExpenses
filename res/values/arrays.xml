@@ -94,6 +94,7 @@
       <item>create_transaction</item>
       <item>create_transfer</item>
       <item>create_split</item>
+      <item>search</item>
       <item>reset</item>
       <item>edit_account</item>
       <item>create_account</item>
