@@ -71,6 +71,24 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.2.0
+    - "2014-08-09"
+    -
+      en: |
+        Search for transactions per category, amount, comment, status, payee/payer, payment method.
+      fr: |
+         Recherche d\'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement .
+      de: |
+        Suche nach Buchungen pro Kategorie, Betrag, Notiz, Status, Empfänger/Zahler, Zahlungsweise.
+      it: |
+        Ricerca di transazioni per categoria, quantità, commento, stato, beneficiario/pagatore, metodo di pagamento.
+      es: |
+        Búsqueda para transacciones por categoría, importe, apuntes, estado, beneficiario/pagador, método de pago.
+      pt: |
+        Busca de transações por categoria, quantidade, comentário, status, beneficiário/pagador, método de pagamento.
+      tr: |
+        Muameleleri kategori, meblağ, yorum, durum, alacaklı/mükellef veya ödeme metoduna dayanarak ara.
+  -
     - 2.1.6
     - "2014-07-01"
     -
