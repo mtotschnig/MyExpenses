@@ -1263,7 +1263,7 @@ public class ExpenseEdit extends AmountActivity implements
     case METHODS_CURSOR:
       mMethodsCursor = data;
       View methodContainer = findViewById(R.id.MethodRow);
-      if (!data.moveToFirst()) {
+      if (mMethodsAdapter != null && !data.moveToFirst()) {
         methodContainer.setVisibility(View.GONE);
       } else {
         methodContainer.setVisibility(View.VISIBLE);

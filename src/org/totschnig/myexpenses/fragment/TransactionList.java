@@ -830,8 +830,10 @@ public class TransactionList extends BudgetListFragment implements
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_MENU);
     if (!mFilter.isEmpty()) {
       searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+      searchMenu.setChecked(true);
     } else {
       searchMenu.getIcon().setColorFilter(null);
+      searchMenu.setChecked(false);
     }
     SubMenu filterMenu = searchMenu.getSubMenu();
     for (int i = 0; i < filterMenu.size(); i++) {
