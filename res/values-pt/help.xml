@@ -1,11 +1,75 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="help_menu_commands">Comandos de menu</string>
+  <string name="help_contextual_actions">Ações contextuais</string>
+  <string name="cab_delete_help_text">Exclua os itens selecionados.</string>
+  <string name="cab_edit_help_text">Edite o item selecionado.</string>
   <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Lista de transações</string>
+  <string name="help_MyExpenses_info">Essa tela lista todas as transações da conta corrente. Na barra de navegação, você pode navegar para a lista de contas ou selecionar uma conta diferente. Clique numa entrada da lista para editar o item.</string>
+  <string name="help_MyExpenses_crStatus_info">O status da transação é indicado por um retângulo colorido: cinza para não reconciliado, azul para claro, verde para reconciliado. Clicando sobre o retângulo, altera o status.</string>
+  <string name="menu_create_transaction_help_text">Abre o formulário para a criação de uma nova transação.</string>
+  <string name="menu_create_transfer_help_text">Transferência de dinheiro entre contas. Este comando é habilitado somente se você tiver pelo menos uma outra conta com a mesma moeda.</string>
+  <string name="menu_create_split_help_text">Uma transação de split permite que você atribuir quantidades parciais a diferentes categorias ou como transferências para contas diferentes.</string>
+  <string name="menu_reset_help_text">Este comando exportará todas as transações da conta corrente para um arquivo no cartão SD em formato QIF ou CSV. Você pode optar por excluir as transações exportadas, nesse caso, o saldo de abertura é ajustado automaticamente. Alternativamente, se as transações não são excluídas, eles serão marcados como exportados. \"Minhas despesa\"s pode compartilhar o arquivo imediatamente após a exportação através de FTP, e-mail ou qualquer outro app de  compartilhamento de arquivos, se você configurá isto para fazê-lo nas configurações.</string>
+  <string name="menu_edit_account_help_text">Ajuste as propriedades da conta corrente (título, descrição, saldo de entrada, tipo de conta, moeda, cor).</string>
+  <string name="menu_grouping_help_text">Você pode agrupar transações por dia, semana, mês ou ano. Para cada grupo, a quantía das receitas, despesas e transferências é calculada e exibida.</string>
+  <string name="menu_distribution_help_text">Exiba a distribuição de seus gastos por categoria. Você também pode clicar num cabeçalho de grupo para inspecionar a distribuição para um grupo específico.</string>
+  <string name="menu_manage_plans_help_text">Abre a lista de modelos e planos para a conta corrente, onde você pode aplicar, editar ou excluí-los e também definir planos para transações futuras e recorrentes.</string>
+  <string name="menu_create_account_help_text">Abre o formulário para criar uma nova conta.</string>
+  <string name="cab_create_template_from_transaction_help_text">Defina um modelo novo baseado na transação selecionada. Vai perguntar como denominar o  modelo.</string>
+  <string name="cab_clone_transaction_help_text">As transações selecionadas serão clonadas com a data atual e tempo.</string>
   <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Essa tela lista os métodos predefinidos de pagamento (Cheque, cartão de crédito, depósito, débito directo) e permite definirem novos. Clicar numa entrada da lista, permite alterar a associação entre os tipos de método e conta.</string>
+  <string name="menu_create_method_help_text">Abre o formulário para a criação de um novo método de pagamento.</string>
   <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Esta tela lista as partes usadas para o preenchimento automático do campo contribuinte/beneficiário.</string>
+  <string name="menu_create_party_help_text">Abre a caixa de diálogo para especificar o nome de um novo contribuinte ou beneficiário.</string>
   <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">Este guia lista todos os modelos disponíveis. Enquanto modelos podem ser derivados de transações através de seu menu de contexto, aqui você pode criar novos modelos do zero (para transações ou transferências).</string>
+  <string name="menu_create_template_for_transaction_help_text">Criar um modelo novo ou um plano para uma transação.</string>
+  <string name="menu_create_template_for_transfer_help_text">Criar um modelo novo ou um plano para uma transferência.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instanciar os modelos selecionados e salvá-los imediatamente.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Criar uma instância do modelo selecionado e insirar a sua forma de edição onde você pode modificá-la antes de salvar.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Exclua os modelos selecionados e planos associados.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Editar o modelo selecionado e criar ou editar um plano associado.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Criar transações no momento das instâncias de evento selecionado e salvá-los imediatamente.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Criar uma transação no momento da instância do evento selecionado e insira a sua forma de edição onde você pode modificá-la antes de salvar.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indica que pelas instâncias de evento selecionado, nenhuma transação deve ser criada.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se foram criadas transações para as instâncias de evento selecionado, elas serão canceladas, se elas tem sido marcadas como cancelada, os sinalizadores são removidos.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editar a transação que foi criada pela instância do plano selecionado.</string>
   <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Esta tela exibe a distribuição de suas despesas e receitas por categorias, para todas as transações numa conta, ou para um grupo específico.</string>
+  <string name="help_ManageCategories_select_mapping_info">Além das ações que você pode executar ao gerenciar categorias a partir da tela de preferências (criar, editar, excluir), nesta tela você mapea uma transação para uma categoria selecionada. Você pode selecionar uma subcategoria para mapeamento para a transação atual, simplesmente clicando sobre ela. A fim de mapear uma categoria principal, você tem que chamar o seu menu de contexto.</string>
+  <string name="help_ManageCategories_manage_info">Esta tela permite criar, editar e excluir categorias. Por padrão, os critérios de classificação primária na lista Categoria é o número de vezes que você usa uma categoria (o critério secundário é por ordem alfabética). Isto dá-lhe acesso rápido às categorias que você usa com mais freqüência. Nas configurações, você pode optar para classificar as categorias em ordem alfabética simples. Clicar numa categoria principal, abre suas subcategorias. De um menu de uma categoria principal de contexto, você pode adicionar novas subcategorias, excluir uma categoria ou editá-la. Subcategorias também têm menus de contexto para apagar e editar.</string>
+  <string name="menu_create_main_cat_help_text">Abre a caixa de diálogo para especificar o título de uma nova categoria principal.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Definir o tipo de agrupamento e exibir a distribuição por dia, mês, semana ou ano.</string>
+  <string name="menu_back_help_text">Navegar para o grupo anterior. Também pode ser feito através do gesto de furto da esquerda para a direita.</string>
+  <string name="menu_forward_help_text">Navegar até o próximo grupo. Também pode ser feito através do gesto de furto da direita para a esquerda.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Abre a caixa de diálogo para especificar o título de uma nova sub-categoria abaixo a categoria selecionada.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Mapear a categoria selecionada pela operação e retornar pela forma de transação.</string>
   <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">Formulário para transações</string>
+  <string name="help_ExpenseEdit_transfer_title">Formulário para transferências</string>
+  <string name="help_ExpenseEdit_template_title">Formulário para modelos</string>
+  <string name="help_ExpenseEdit_split_title">Formulário para Split</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formulário para categoria divisão peças</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formulário para transferência divisão peças</string>
+  <string name="help_ExpenseEdit_info">Clique no botão = para abrir uma calculadora .</string>
+  <string name="help_ExpenseEdit_transaction_info">Clique sobre o botão - para alternar entre despesa e receita. O campo do beneficiário (ou contribuinte) lembra os valores você entra e irá sugerir-lhes no futuro. O botão para selecionar um método de pagamento, só está disponível se a conta corrente é de um tipo que está vinculado a qualquer método de pagamento. Por padrão, somente contas de banco, estão ligadas a métodos de pagamento (cheque, cartão de crédito, depósito, débito directo).</string>
+  <string name="help_ExpenseEdit_transfer_info">Selecionar a conta de transferência na lista suspensa.</string>
+  <string name="help_ExpenseEdit_template_info">&lt;! [CDATA [Clique sobre o Botão para alternar entre despesas e receitas. Enter um título que identifica o modelo.&lt;h2&gt;planos&lt;/h2&gt;Quando você criar um plano para um modelo, ele é adicionado a um calendário particular tratado pelo seu aplicativo de calendário. Você pode definir o plano como um evento único ou como qualquer tipo de evento recorrente que pode manipular o calendário. Você pode criar, modificar e excluir o plano do botão do plano, mas uma vez que o plano está configurado, você também pode usar o aplicativo de calendário para gerenciá-lo. Um plano pode ser definido como automático ou manual. Quando uma instância de um plano automático ocorre, a transação será criada, e você recebe uma notificação. Quando o plano for manual, você também receberá uma notificação, que deixa a opção de cancelar, modificar ou aplicar o modelo para você.]]&gt;</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Selecionar uma categoria para a parte de split.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Atribuir uma conta de transferência para a parte da divisão.</string>
+  <string name="menu_create_split_part_category_help_text">Abre o formulário para atribuir uma parte da divisão de uma categoria.</string>
+  <string name="menu_create_split_part_transfer_help_text">Abre o formulário para a definição de uma parte da divisão como uma transferência para outra conta.</string>
+  <string name="menu_save_help_text">Salvar os dados e fechar o formulário.</string>
+  <string name="menu_save_and_new_help_text">Salvar os dados, embora o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
+  <string name="menu_invert_transfer_help_text">Inverta a direção da transferência, trocando o \'De\' e \'Para\' conta.</string>
   <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Formulário para contas</string>
+  <string name="help_AccountEdit_info">A conta é identificada pela sua gravadora, a descrição tem somente um propósito informativo. A moeda pode ser facilmente escolhida de uma lista. Você pode definir o tipo de conta como um de dinheiro, banco, ativos, passivos, cartão de crédito. O tipo determina os métodos de pagamento disponíveis que você pode configurar em Settings -&gt; Gerenciar -&gt; métodos de pagamento.</string>
   <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>
+  <string name="help_MethodEdit_info">Nesta tela, você pode associar um método de pagamento com os tipos de conta. Você também pode definir um rótulo (com exceção dos métodos predefinidos que têm um rótulo fixo que não pode ser editado). Através de tipo de um método, você determina se é aplicável para as despesas (débito), renda (crédito) ou ambos (neutro). Você também pode definir um sinalizador se transações usando este método são numeradas (por exemplo verificar os números).</string>
 </resources>

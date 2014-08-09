@@ -288,6 +288,7 @@
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <string name="pref_import_qif_summary">Buchungen, Kategorien und Parteien aus QIF Datei importieren</string>
   <string name="pref_import_qif_title">QIF Import</string>
+  <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
   <string name="pref_manage_accounts_title">Konten</string>
   <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
   <string name="pref_manage_categories_title">Kategorien</string>

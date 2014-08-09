@@ -192,6 +192,7 @@
   <string name="menu_reset_plan_instance">Redefinir</string>
   <string name="menu_save">Salvar</string>
   <string name="menu_save_and_new">Salvar e novo</string>
+  <string name="menu_search">Pesquisar</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_share">Indique a um amigo</string>
   <string name="method">Método</string>
@@ -236,6 +237,7 @@
   <string name="password_security_answer_not_valid">Resposta incorreta. Tente novamente!</string>
   <string name="payee">Beneficiário</string>
   <string name="payer">Pagador</string>
+  <string name="payer_or_payee">Beneficiário/pagador</string>
   <string name="peer_transaction_deleted">Esta transação referida contrapartida (conta %1$s) que foi excluída</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plano</string>
@@ -286,6 +288,7 @@
   <string name="pref_import_from_grisbi_title">Importação de Grisbi</string>
   <string name="pref_import_qif_summary">Importar transações, categorias e partidos de arquivo QIF</string>
   <string name="pref_import_qif_title">Importação QIF</string>
+  <string name="pref_like_facebook_title">Curta-nos no Facebook</string>
   <string name="pref_manage_accounts_title">Contas</string>
   <string name="pref_manage_categories_summary">Adicionar, editar e/ou deletar categorias.</string>
   <string name="pref_manage_categories_title">Categorias</string>
@@ -309,7 +312,7 @@
   <string name="pref_planning_calendar_title">Calendário de planejamento</string>
   <string name="pref_protection_delay_seconds_summary">Idle segundos antes de app será bloqueado por senha.</string>
   <string name="pref_protection_delay_seconds_title">Adiar até proteção</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dados de widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dados de widgets e atalhos</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem senha.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Senha é necessária.</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
@@ -446,4 +449,16 @@
   <string name="widget_title_templates">Meus modelos</string>
   <string name="app_dir_does_not_exist">Não existe a pasta atualmente selecionada para backups e exportações (%1$s).</string>
   <string name="app_dir_read_only">A pasta atualmente selecionada para backups e exportações (%1$s) é somente leitura.</string>
+  <string name="search_amount">Busca por quantidade</string>
+  <string name="search_category">Busca por categoria</string>
+  <string name="search_comment">Busca por notas</string>
+  <string name="search_status">Busca por status</string>
+  <string name="search_payee">Busca por beneficiário/pagador</string>
+  <string name="search_method">Busca por método</string>
+  <string name="and">e</string>
+  <string name="between_and">entre %1$s e %2$s</string>
+  <string name="comparison_operator_equal">igual a</string>
+  <string name="comparison_operator_greater_than">maior que</string>
+  <string name="comparison_operator_lesser_than">menor do que</string>
+  <string name="comparison_operator_between">entre</string>
 </resources>

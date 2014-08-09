@@ -18,6 +18,7 @@
   <string name="menu_manage_plans_help_text">Öffnet die Liste der Vorlagen und Pläne für das aktuelle Konto. Sie können Vorlagen anwenden, verändern oder löschen, und auch Pläne für zukünftige und wiederkehrende Buchungen anlegen.</string>
   <string name="menu_create_account_help_text">Öffnet das Formular für das Anlegen eines neuen Kontos.</string>
   <string name="menu_balance_help_text">Dieser Befehl öffnet ein Dialogfeld, in dem der letzte abgestimmte Kontostand und der verrechnete Kontostand angezeigt werden. Sie können die letztere mit Ihrem Kontoauszug vergleichen und alle gelöschten Transaktionen als abgestimmt markieren. Optional können Sie sich auch dafür entscheiden, abgestimmte Buchungen zu löschen.</string>
+  <string name="menu_search_help_text">Dieser Eintrag öffnet ein Untermenü, das Ihnen erlaubt, Suchkriterien auf der Grundlage von Kategorie, Betrag, Kommentar, Status, Empfänger/Zahler und Zahlungsweise festzulegen. Wenn ein Such-Filter aktiv ist, können Sie diesen durch Klick auf den Eintrag im Untermenü deaktivieren.</string>
   <string name="cab_create_template_from_transaction_help_text">Basierend auf der ausgewählten Buchung wird eine neue Vorlage definiert. Sie werden zur Eingabe des Titel der Vorlage aufgefordert.</string>
   <string name="cab_clone_transaction_help_text">Die ausgewählten Buchungen werden mit dem aktuellen Datum und der aktuellen Zeit geklont.</string>
   <!--ManageMethods title is in keys-->

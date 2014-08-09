@@ -192,6 +192,7 @@
   <string name="menu_reset_plan_instance">Reinizializzare</string>
   <string name="menu_save">Salvare</string>
   <string name="menu_save_and_new">Salvare e nuova</string>
+  <string name="menu_search">Cerca</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_share">Dillo a un amico</string>
   <string name="method">Modo</string>
@@ -236,6 +237,7 @@
   <string name="password_security_answer_not_valid">Risposta sbagliata. Prova ancora!</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagatore</string>
+  <string name="payer_or_payee">Beneficiario/Pagatore</string>
   <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto %1$s) che è stato eliminato</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Scadenza</string>
@@ -286,6 +288,7 @@
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
   <string name="pref_import_qif_summary">Importazione di operazioni, categorie e beneficiari da QIF.</string>
   <string name="pref_import_qif_title">Importazione QIF</string>
+  <string name="pref_like_facebook_title">Mi piace su Facebook</string>
   <string name="pref_manage_accounts_title">Conti</string>
   <string name="pref_manage_categories_summary">Aggiungere, modificare, cancellare categorie.</string>
   <string name="pref_manage_categories_title">Categorie</string>
@@ -309,7 +312,7 @@
   <string name="pref_planning_calendar_title">Calendario di pianificazione</string>
   <string name="pref_protection_delay_seconds_summary">Secondi di inattività prima che l\'app sia bloccata con password.</string>
   <string name="pref_protection_delay_seconds_title">Ritardo prima della protezione</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Immissione di dati da widget</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Immissione di dati da widgets e collegamenti</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ammessi senza password.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Viene richiesta la password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
@@ -446,4 +449,16 @@
   <string name="widget_title_templates">I miei modelli</string>
   <string name="app_dir_does_not_exist">Non esiste la cartella correntemente selezionata per i backup e le esportazioni (%1$s).</string>
   <string name="app_dir_read_only">La cartella correntemente selezionata per i backup e le esportazioni (%1$s) è di sola lettura.</string>
+  <string name="search_amount">Cerca per importo</string>
+  <string name="search_category">Cerca per categoria</string>
+  <string name="search_comment">Cerca per note</string>
+  <string name="search_status">Cerca per stato</string>
+  <string name="search_payee">Cerca per beneficiario/pagatore</string>
+  <string name="search_method">Cerca per metodo.</string>
+  <string name="and">e</string>
+  <string name="between_and">tra %1$s e %2$s</string>
+  <string name="comparison_operator_equal">uguale a</string>
+  <string name="comparison_operator_greater_than">maggiore di</string>
+  <string name="comparison_operator_lesser_than">minore di</string>
+  <string name="comparison_operator_between">tra</string>
 </resources>
