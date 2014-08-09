@@ -55,7 +55,7 @@
    <TextView style="@style/about_text"
         android:text="Dark theme design originally suggested by meinnoteblog."/>
    <TextView style="@style/about_text"
-        android:text="Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Ar.Alothaim (ar), Roland Csipai (hu), Pongsametrey SOK (km), Enrico Nicoletto (pt), Fabiano Oliveira (pt), Marcin Kralka (pl), Jan Splíchal (cs), Dmitrij Kurenkov (ru)"/>
+        android:text="Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Ar.Alothaim (ar), Roland Csipai (hu), Pongsametrey SOK (km), Enrico Nicoletto (pt), Fabiano Oliveira (pt), Maria Gabriel (pt), Marcin Kralka (pl), Jan Splíchal (cs), Dmitrij Kurenkov (ru), isuru (si),  janith9590 (si), Dilruni (si)" />
    <TextView style="@style/about_text"
     android:text="Code contributions: Configuring and applying custom colors to accounts by khris78"/>
     </LinearLayout>

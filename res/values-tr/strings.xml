@@ -192,6 +192,7 @@
   <string name="menu_reset_plan_instance">Sıfırla</string>
   <string name="menu_save">Kaydet</string>
   <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
+  <string name="menu_search">Ara</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_share">Bir arkadaşa bahset</string>
   <string name="method">Metot</string>
@@ -236,6 +237,7 @@
   <string name="password_security_answer_not_valid">Yanlış cevap. Yeniden deneyin!</string>
   <string name="payee">Alacaklı</string>
   <string name="payer">Ödeyen</string>
+  <string name="payer_or_payee">Alacaklı/Mükellef</string>
   <string name="peer_transaction_deleted">Bu muamele silinmiş olan başka bir hesap (%1$s hesabı) ile ilişkiliydi</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Planla</string>
@@ -309,7 +311,7 @@
   <string name="pref_planning_calendar_title">Planlama takvimi</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Widget\'lerden veri girişini koru</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Kısayollar ve wigdet\'lardan veri girişi</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
@@ -446,4 +448,16 @@
   <string name="widget_title_templates">Şablonlarım</string>
   <string name="app_dir_does_not_exist">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasör (%1$s) mevcut değildir.</string>
   <string name="app_dir_read_only">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasör (%1$s) sadece okunur durumdadır.</string>
+  <string name="search_amount">Meblağ ara</string>
+  <string name="search_category">Kategori ara</string>
+  <string name="search_comment">Not ara</string>
+  <string name="search_status">Durum ara</string>
+  <string name="search_payee">Alacaklı/mükellef ara</string>
+  <string name="search_method">Metot ara</string>
+  <string name="and">ve</string>
+  <string name="between_and">%1$s ilâ %2$s arasında</string>
+  <string name="comparison_operator_equal">şuna eşit</string>
+  <string name="comparison_operator_greater_than">şundan büyük</string>
+  <string name="comparison_operator_lesser_than">şundan küçük</string>
+  <string name="comparison_operator_between">arasında</string>
 </resources>

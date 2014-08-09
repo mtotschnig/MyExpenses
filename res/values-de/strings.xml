@@ -192,6 +192,7 @@
   <string name="menu_reset_plan_instance">Zurücksetzen</string>
   <string name="menu_save">Speichern</string>
   <string name="menu_save_and_new">Speichern und neu</string>
+  <string name="menu_search">Suche</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_share">Weiterempfehlen</string>
   <string name="method">Zahlungsweise</string>
@@ -236,6 +237,7 @@
   <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
+  <string name="payer_or_payee">Empfänger/Zahler</string>
   <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s) verknüpft, die gelöscht wurde</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
@@ -286,6 +288,7 @@
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <string name="pref_import_qif_summary">Buchungen, Kategorien und Parteien aus QIF Datei importieren</string>
   <string name="pref_import_qif_title">QIF Import</string>
+  <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
   <string name="pref_manage_accounts_title">Konten</string>
   <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
   <string name="pref_manage_categories_title">Kategorien</string>
@@ -309,7 +312,7 @@
   <string name="pref_planning_calendar_title">Planer</string>
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets und Verknüpfungen</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
@@ -446,4 +449,16 @@
   <string name="widget_title_templates">Meine Vorlagen</string>
   <string name="app_dir_does_not_exist">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte (%1$s) ist nicht vorhanden.</string>
   <string name="app_dir_read_only">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte (%1$s) ist nur lesbar.</string>
+  <string name="search_amount">Suche nach Betrag</string>
+  <string name="search_category">Suche nach Kategorie</string>
+  <string name="search_comment">Suche nach Notizen</string>
+  <string name="search_status">Suche nach Status</string>
+  <string name="search_payee">Suche nach Empfänger/Zahler</string>
+  <string name="search_method">Suche nach Zahlungsweise</string>
+  <string name="and">und</string>
+  <string name="between_and">zwischen %1$s und %2$s</string>
+  <string name="comparison_operator_equal">gleich</string>
+  <string name="comparison_operator_greater_than">größer als</string>
+  <string name="comparison_operator_lesser_than">kleiner als</string>
+  <string name="comparison_operator_between">zwischen</string>
 </resources>

@@ -18,6 +18,7 @@
   <string name="menu_manage_plans_help_text">Abre la lista de plantillas y planes para la cuenta corriente, donde se puede aplicar, editar o borrar, y también definir planes para las transacciones futuras y recurrentes.</string>
   <string name="menu_create_account_help_text">Abre el formulario para crear una nueva cuenta.</string>
   <string name="menu_balance_help_text">Este comando abre un cuadro de diálogo muestra el último saldo conciliado y el equilibrio despejado. Puede comparar el último a su cuenta bancaria y marcar las transacciones despejadas como reconciliados. Opcionalmente puedes decidir eliminar transacciones reconciliadas.</string>
+  <string name="menu_search_help_text">Esta entrada abre un submenú que permite definir criterios de búsqueda basados en la categoría, el importe, el comentario, el estado, el pagador/beneficiario y el método de pago. Cuando se activa un filtro de búsqueda, puede simplemente hacer clic en su entrada en el submenú para desactivarlo.</string>
   <string name="cab_create_template_from_transaction_help_text">Definir un nuevo modelo basado en la transacción seleccionada. Te preguntará por el título de la plantilla.</string>
   <string name="cab_clone_transaction_help_text">Las transacciones seleccionadas se clonará con la fecha y hora actuales.</string>
   <!--ManageMethods title is in keys-->
@@ -43,6 +44,7 @@
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de los gastos y de los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico.</string>
   <string name="help_ManageCategories_select_mapping_info">Además de las acciones que se pueden realizar en la gestión de categorías en la pantalla de Preferencias (crear, editar, borrar), en esta pantalla se asigna una operación a una categoría seleccionada.  La asignación de una subcategoría al asiento actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.</string>
+  <string name="help_ManageCategories_select_filter_info">Seleccione la categoría para el filtrado de la lista de transacciones. Con el fin de buscar una categoría principal, tienes que llamar a su menú contextual.</string>
   <string name="help_ManageCategories_manage_info">Esta pantalla le permite crear, editar y eliminar categorías. Como primer criterio de clasificación se utiliza el número de usos de una categoría (criterio secundario es el orden alfabético). Así usted puede acceder de manera muy rápida a las categorías de uso más frecuente. En la configuración, se puede optar por el orden alfabético. Un clic sobre una categoría principal abre la lista de subcategorías. El menú contextual de une una categoría principal permite crear nuevas subcategorías, y borrar y modificar categorías principales. También las subcategorías disponen de un menú contextual para borrar- o modificarlas.</string>
   <string name="menu_create_main_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova categoria principale.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Ajuste el tipo de agrupación y mostrar la distribución por días, meses, semanas o años.</string>
@@ -50,6 +52,8 @@
   <string name="menu_forward_help_text">Vaya al siguiente grupo. También se puede hacer a través del gesto Swipe de derecha a izquierda.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Se abre el cuadro de diálogo para especificar el título de una nueva subcategoría por debajo de la categoría seleccionada.</string>
   <string name="cab_ManageCategories_select_category_help_text">Asignar la categoría seleccionada a la transacción y volver a la forma de transacción.</string>
+  <string name="menu_categories_setup_default_help_text">Un conjunto de categorías por defecto se importarán.</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoría seleccionada se utilizará para filtrar la lista de transacciones.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulario para los asientos</string>
   <string name="help_ExpenseEdit_transfer_title">Formulario para las transferencias</string>
