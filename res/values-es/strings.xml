@@ -192,6 +192,7 @@
   <string name="menu_reset_plan_instance">Restablecer</string>
   <string name="menu_save">Guardar</string>
   <string name="menu_save_and_new">Guardar y nueva</string>
+  <string name="menu_search">Buscar</string>
   <string name="menu_settings">Configuraciones</string>
   <string name="menu_share">Contarle a un amigo</string>
   <string name="method">Método</string>
@@ -236,6 +237,7 @@
   <string name="password_security_answer_not_valid">Respuesta no válida. ¡Inténtelo de nuevo!</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagador</string>
+  <string name="payer_or_payee">Beneficiario/</string>
   <string name="peer_transaction_deleted">Este asiento estaba conectado con un asiento de contrapartida (cuenta %1$s) que fue borrado.</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">plan</string>
@@ -309,7 +311,7 @@
   <string name="pref_planning_calendar_title">Calendario de planificación</string>
   <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea protegida por contraseña.</string>
   <string name="pref_protection_delay_seconds_title">Demoa hasta la protección por contraseña</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de datos de widgets</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de datos de widgets y atajos</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sin contraseña.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Se requiere una contraseña.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
@@ -446,4 +448,16 @@
   <string name="widget_title_templates">Mis plantillas</string>
   <string name="app_dir_does_not_exist">No existe la carpeta seleccionada para copias de seguridad y las exportaciones (%1$s).</string>
   <string name="app_dir_read_only">La carpeta seleccionada para copias de seguridad y las exportaciones (%1$s) es de sólo lectura.</string>
+  <string name="search_amount">Búsqueda por importe</string>
+  <string name="search_category">Búsqueda por categoría</string>
+  <string name="search_comment">Buscar por apuntes</string>
+  <string name="search_status">Buscar por estado</string>
+  <string name="search_payee">Buscar para beneficiario/pagador</string>
+  <string name="search_method">Busquar por método</string>
+  <string name="and">y</string>
+  <string name="between_and">entre %1$s y %2$s</string>
+  <string name="comparison_operator_equal">igual a</string>
+  <string name="comparison_operator_greater_than">mayor que</string>
+  <string name="comparison_operator_lesser_than">menor que</string>
+  <string name="comparison_operator_between">entre</string>
 </resources>

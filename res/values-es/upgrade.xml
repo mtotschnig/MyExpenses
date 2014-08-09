@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_220">
+    <item>Búsqueda para transacciones por categoría, importe, apuntes, estado, beneficiario/pagador, método de pago</item>
+  </string-array>
   <string-array name="whats_new_149">
     <item>Traducción en Cingalés</item>
     <item>Multi-ventana soporte en dispositivos Samsung</item>
