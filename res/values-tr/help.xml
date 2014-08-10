@@ -18,6 +18,7 @@
   <string name="menu_manage_plans_help_text">Güncel hesap için gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
   <string name="menu_create_account_help_text">Yeni bir hesap oluşturma formunu açar.</string>
   <string name="menu_balance_help_text">Bu komut son mutabık ve kullanılabilir bakiyeyi gösteren bir diyalog açar. Kullanılabilir bakiyeyi banka hesabınız ile karşılaştırabilir ve tüm çözümlenmiş muameleleri uzlaşmış olarak işaretleyebilirsiniz. Seçime dayalı olarak, uzlaşmış muameleleri silmeye de karar verebilirsiniz.</string>
+  <string name="menu_search_help_text">Bu unsur, kategori, meblağ, yorum, durum, alacaklı/mükellef ve ödeme metoduna dayalı arama kriterleri belirtmenize imkân veren bir alt menü açar. Bir arama filtresi etkin olduğunda alt menüde unsuruna tıklayıp onu devre dışı bırakabilirsiniz.</string>
   <string name="cab_create_template_from_transaction_help_text">Seçilen muameleye dayalı yeni bir şablon tanımlayın. Şablonun başlığı size sorulacaktır.</string>
   <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve saatle klonlanacaktır.</string>
   <!--ManageMethods title is in keys-->
