@@ -1131,11 +1131,14 @@ public class ExpenseEdit extends AmountActivity implements
       mAmountLabel.setText(getString(R.string.amount) + " ("+mAccounts[position].currency.getSymbol()+")");
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         setTransferAccountFilterMap();
+      } else {
+        if (!(mTransaction instanceof SplitPartCategory)) {
+          mManager.restartLoader(METHODS_CURSOR, null, this); 
+        }
+        if (mTransaction instanceof SplitTransaction) {
+          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+        }
       }
-      if (mTransaction instanceof SplitTransaction) {
-        ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
-      }
-      mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
       configureStatusSpinner();
     }
   }
@@ -1263,7 +1266,7 @@ public class ExpenseEdit extends AmountActivity implements
     case METHODS_CURSOR:
       mMethodsCursor = data;
       View methodContainer = findViewById(R.id.MethodRow);
-      if (mMethodsAdapter != null && !data.moveToFirst()) {
+      if (mMethodsAdapter == null || !data.moveToFirst()) {
         methodContainer.setVisibility(View.GONE);
       } else {
         methodContainer.setVisibility(View.VISIBLE);
