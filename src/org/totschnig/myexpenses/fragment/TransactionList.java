@@ -850,13 +850,11 @@ public class TransactionList extends BudgetListFragment implements
         enabled = mappedMethods;
         break;
       }
-      Utils.menuItemSetEnabledAndVisible(filterItem, enabled);
-      if (enabled) {
-        Criteria c = mFilter.get(filterItem.getItemId());
-        if (c!=null) {
-          filterItem.setChecked(true);
-          filterItem.setTitle(c.prettyPrint());
-        }
+      Criteria c = mFilter.get(filterItem.getItemId());
+      Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c!=null);
+      if (c!=null) {
+        filterItem.setChecked(true);
+        filterItem.setTitle(c.prettyPrint());
       }
     }
   }
