@@ -51,6 +51,7 @@ import android.view.MenuItem;
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
+  public static final int CALCULATOR_REQUEST = 0;
   public static final int EDIT_TRANSACTION_REQUEST=1;
   public static final int EDIT_ACCOUNT_REQUEST=2;
   public static final int PREFERENCES_REQUEST=3;
@@ -58,6 +59,10 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int FILTER_CATEGORY_REQUEST=5;
   public static final int FILTER_COMMENT_REQUEST=6;
   public static final int TEMPLATE_TITLE_REQUEST=7;
+  public static final int EDIT_SPLIT_REQUEST = 8;
+  public static final int SELECT_CATEGORY_REQUEST = 9;
+  public static final int EDIT_EVENT_REQUEST = 10;
+  public static final int PICK_COLOR_REQUEST = 11;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;

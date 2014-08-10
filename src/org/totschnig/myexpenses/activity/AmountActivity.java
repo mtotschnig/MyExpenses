@@ -32,7 +32,6 @@ import android.widget.EditText;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
-  private static final int CALCULATOR_REQUEST = 0;
   protected DecimalFormat nfDLocal;
   protected EditText mAmountText;
   public static final boolean INCOME = true;

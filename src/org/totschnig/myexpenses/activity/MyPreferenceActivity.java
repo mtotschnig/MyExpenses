@@ -66,7 +66,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     OnPreferenceClickListener {
   
   private static final int RESTORE_REQUEST = 1;
-  private static final int PICK_FOLDER_REQUEST = 1;
+  private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
   @SuppressWarnings("deprecation")
   @Override

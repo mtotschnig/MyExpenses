@@ -137,10 +137,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
-  //CALCULATOR_REQUEST in super = 0
-  private static final int EDIT_SPLIT_REQUEST = 1;
-  private static final int SELECT_CATEGORY_REQUEST = 2;
-  protected static final int EDIT_EVENT_REQUEST = 4;
 
   public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
