@@ -1433,17 +1433,19 @@ public class ExpenseEdit extends AmountActivity implements
     // nothing to do
   }
   private void launchNewPlan() {
-    String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
-    startTaskExecution(
-        TaskExecutionFragment.TASK_NEW_PLAN,
-        new Long[] {0L} ,
-        new Plan(
-            0L,
-            System.currentTimeMillis(),
-            "",
-            ((Template) mTransaction).title,
-            description),
-        R.string.progress_dialog_create_plan);
+    if (mTransaction != null) { // might be null if called from onActivityResult
+      String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+      startTaskExecution(
+          TaskExecutionFragment.TASK_NEW_PLAN,
+          new Long[] {0L} ,
+          new Plan(
+              0L,
+              System.currentTimeMillis(),
+              "",
+              ((Template) mTransaction).title,
+              description),
+          R.string.progress_dialog_create_plan);
+    }
   }
   public void disableAccountSpinner() {
     mAccountSpinner.setEnabled(false);
