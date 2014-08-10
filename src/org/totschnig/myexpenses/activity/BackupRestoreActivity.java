@@ -233,6 +233,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     switch(command) {
     case R.id.BACKUP_COMMAND_DO:
       doBackup();
+      break;
     case R.id.RESTORE_COMMAND:
       getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstanceRestore(args),
@@ -240,6 +241,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
         .add(ProgressDialogFragment.newInstance(
             R.string.pref_restore_title),"PROGRESS")
         .commit();
+      break;
     }
   }
   public void openBrowse() {
