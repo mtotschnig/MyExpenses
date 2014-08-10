@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2201">
+    <item>Bug fixes</item>
+  </string-array>
   <string-array name="whats_new_220">
     <item>Search for transactions per category, amount, comment, status, payee/payer, payment method</item>
   </string-array>
