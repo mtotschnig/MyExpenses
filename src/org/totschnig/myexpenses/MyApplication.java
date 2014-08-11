@@ -122,24 +122,34 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       CURRENT_VERSION("currentversion"),
       CURRENT_ACCOUNT("current_account"),
       PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
+<<<<<<< HEAD
       APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown");
+=======
+      APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),
+      NEXT_REMINDER_RATE("nextReminderRate"),
+      NEXT_REMINDER_CONTRIB("nextReminderContrib");
+>>>>>>> master
 
       private int resId = 0;
       private String key = null;
       public String getKey() {
         return resId == 0 ? key : mSelf.getString(resId);
       }
-      public String value(String defValue) {
+      public String getString(String defValue) {
         return mSelf.mSettings.getString(getKey(), defValue);
       }
-      public boolean value(boolean defValue) {
+      public boolean getBoolean(boolean defValue) {
         return mSelf.mSettings.getBoolean(getKey(), defValue);
       }
-      public int value(int defValue) {
+      public int getInt(int defValue) {
         return mSelf.mSettings.getInt(getKey(), defValue);
       }
-      public long value(long defValue) {
+      public long getLong(long defValue) {
         return mSelf.mSettings.getLong(getKey(), defValue);
+      }
+      public void putLong(long value) {
+        SharedPreferencesCompat.apply(
+            mSelf.mSettings.edit().putLong(getKey(),value));
       }
       PrefKey(int resId) {
         this.resId = resId;
@@ -335,13 +345,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       LIGHT
     }
     public static ThemeType getThemeType() {
-      return PrefKey.UI_THEME_KEY.value("dark").equals("light") ?
+      return PrefKey.UI_THEME_KEY.getString("dark").equals("light") ?
           ThemeType.LIGHT : ThemeType.DARK;
     }
     public static int getThemeId(boolean legacyPreferenceActivity) {
       int fontScale;
       try {
-        fontScale = PrefKey.UI_FONTSIZE.value(0);
+        fontScale = PrefKey.UI_FONTSIZE.getInt(0);
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
@@ -371,7 +381,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public void setLanguage() {
-      String language = MyApplication.PrefKey.UI_LANGUAGE.value("default");
+      String language = MyApplication.PrefKey.UI_LANGUAGE.getString("default");
       Locale l;
       if (language.equals("default")) {
         l = systemLocale;
@@ -417,7 +427,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //if we are dealing with an activity called from widget that allows to 
         //bypass password protection, we do not reset last pause
         //otherwise user could gain unprotected access to the app
-        boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
+        boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.getBoolean(false);
         boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
         if (!isDataEntryEnabled || !isStartFromWidget) {
           this.mLastPause = System.nanoTime();
@@ -440,8 +450,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           ctx.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
       boolean isProtected = isProtected();
       long lastPause = getLastPause();
-      boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS.value(15) * 1000000000L);
-      boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.value(false);
+      boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS.getInt(15) * 1000000000L);
+      boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.getBoolean(false);
       if (
           isProtected && isPostDelay && (!isDataEntryEnabled || !isStartFromWidget)
       ) {
@@ -451,7 +461,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return false;
     }
     public boolean isProtected() {
-      return PrefKey.PERFORM_PROTECTION.value(false);
+      return PrefKey.PERFORM_PROTECTION.getBoolean(false);
     }
     /**
      * @param calendarId
@@ -471,7 +481,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       else {
         if (c.moveToFirst()) {
           String found = DbUtils.getString(c,0);
-          String expected = PrefKey.PLANNER_CALENDAR_PATH.value("");
+          String expected = PrefKey.PLANNER_CALENDAR_PATH.getString("");
           if (!found.equals(expected)) {
             Log.w(TAG,String.format(
                 "found calendar, but path did not match; expected %s ; got %s",
@@ -487,7 +497,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
     }
     public String checkPlanner() {
-      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
+      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(

@@ -738,7 +738,7 @@ public class Account extends Model {
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
         new FileOutputStream(outputFile),
-        MyApplication.PrefKey.QIF_EXPORT_FILE_ENCODING.value("UTF-8"));
+        MyApplication.PrefKey.QIF_EXPORT_FILE_ENCODING.getString("UTF-8"));
     switch (format) {
     case CSV:
       int[] columns = {R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,

@@ -74,6 +74,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -1188,6 +1189,9 @@ public class ExpenseEdit extends AmountActivity implements
         mAmountText.setText("");
         Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
       } else {
+        //make sure soft keyboard is closed
+        InputMethodManager im = (InputMethodManager) this.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         Intent intent=new Intent();
         intent.putExtra("sequence_count", sequenceCount);
         setResult(RESULT_OK,intent);

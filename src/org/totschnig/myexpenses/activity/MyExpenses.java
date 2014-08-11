@@ -23,12 +23,14 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -119,8 +121,8 @@ public class MyExpenses extends LaunchActivity implements
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final int TRESHOLD_REMIND_RATE = 47;
-  static final int TRESHOLD_REMIND_CONTRIB = 113;
+  static final long TRESHOLD_REMIND_RATE = 6L;
+  static final long TRESHOLD_REMIND_CONTRIB = 2L;
 
   public static final int ACCOUNTS_CURSOR=-1;
   public static final int ACCOUNTS_OTHER_CURSOR=2;
@@ -173,7 +175,7 @@ public class MyExpenses extends LaunchActivity implements
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
     mSettings = MyApplication.getInstance().getSettings();
-    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.value(-1);
+    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
@@ -298,7 +300,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     if (mAccountId == 0)
-      mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.value(0L);
+      mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.getLong(0L);
     setup();
   }
   private void initialSetup() {
@@ -373,15 +375,18 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
-      nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
+      nextReminder = 
+          MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
       if (nextReminder != -1 && sequenceCount >= nextReminder) {
-        new org.totschnig.myexpenses.dialog.RemindRateDialogFragment()
-          .show(getSupportFragmentManager(),"REMIND_RATE");
+        RemindRateDialogFragment f = 
+        new org.totschnig.myexpenses.dialog.RemindRateDialogFragment();
+        f.setCancelable(false);
+        f.show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }
-      if (!MyApplication.getInstance().isContribEnabled()) {
-
-        nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
+      if (!MyApplication.getInstance(). isContribEnabled()) {
+        nextReminder = 
+            MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           CommonCommands.showContribInfoDialog(this,true);
           return;
@@ -590,12 +595,15 @@ public class MyExpenses extends LaunchActivity implements
       initialSetup();
       return true;*/
     case R.id.REMIND_NO_COMMAND:
-      SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminder" + (String) tag,-1));
+      PrefKey pref = ((String) tag).equals("Rate") ? PrefKey.NEXT_REMINDER_RATE : PrefKey.NEXT_REMINDER_CONTRIB;
+      pref.putLong(-1);
       return true;
     case R.id.REMIND_LATER_COMMAND:
-      String key = "nextReminder" + (String) tag;
-      long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
-      SharedPreferencesCompat.apply(mSettings.edit().putLong(key,sequenceCount+treshold));
+      if (((String) tag).equals("Rate")) {
+        PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount+TRESHOLD_REMIND_RATE);
+      } else {
+        PrefKey.NEXT_REMINDER_CONTRIB.putLong(sequenceCount+TRESHOLD_REMIND_CONTRIB);
+      }
       return true;
     case R.id.HELP_COMMAND:
       setHelpVariant();
@@ -864,7 +872,7 @@ public class MyExpenses extends LaunchActivity implements
       ArrayList<File> files = (ArrayList<File>) o;
       if (files != null && files.size() >0)
         Utils.share(this,files,
-            MyApplication.PrefKey.SHARE_TARGET.value("").trim(),
+            MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
             "text/" + mExportFormat.toLowerCase(Locale.US));
       break;
     }
