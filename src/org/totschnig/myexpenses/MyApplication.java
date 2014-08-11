@@ -122,13 +122,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       CURRENT_VERSION("currentversion"),
       CURRENT_ACCOUNT("current_account"),
       PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
-<<<<<<< HEAD
-      APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown");
-=======
       APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),
       NEXT_REMINDER_RATE("nextReminderRate"),
       NEXT_REMINDER_CONTRIB("nextReminderContrib");
->>>>>>> master
 
       private int resId = 0;
       private String key = null;
