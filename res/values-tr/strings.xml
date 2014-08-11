@@ -288,6 +288,7 @@
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
   <string name="pref_import_qif_summary">Muameleleri, kategorileri ve kişileri QIF dosyasından içe aktar</string>
   <string name="pref_import_qif_title">QIF içe aktar</string>
+  <string name="pref_like_facebook_title">Bizi Facebook\'ta beğenin</string>
   <string name="pref_manage_accounts_title">Hesaplar</string>
   <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
   <string name="pref_manage_categories_title">Kategoriler</string>

@@ -52,7 +52,6 @@ import android.widget.Toast;
 public class AccountEdit extends AmountActivity implements OnItemSelectedListener {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
-  private static final int PICK_COLOR_REQUEST = 11;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private Spinner mCurrencySpinner;

@@ -18,8 +18,12 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.activity.MyExpenses;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
 
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -91,12 +95,23 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
     if (getActivity()==null) {
       return null;
     }
+    String selection,selectionArg;
+    long accountId = getArguments().getLong(KEY_ACCOUNTID);
+    if (accountId < 0) {
+      selection = KEY_ACCOUNTID + " IN " +
+          "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY +
+          " = (SELECT " + KEY_CODE + " FROM " + TABLE_CURRENCIES + " WHERE " + KEY_ROWID + " = ?))";
+      selectionArg = String.valueOf(Math.abs(accountId));
+    } else {
+      selection = KEY_ACCOUNTID + " = ?";
+      selectionArg = String.valueOf(accountId);
+    }
     CursorLoader cursorLoader = new CursorLoader(
         getActivity(),
         getUri(),
         null,
-        KEY_ACCOUNTID + " = ?",
-        new String[] {String.valueOf(getArguments().getLong(KEY_ACCOUNTID))},
+        selection,
+        new String[] {selectionArg},
         null);
     return cursorLoader;
 
