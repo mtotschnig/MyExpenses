@@ -61,7 +61,7 @@ public class Plan extends Model implements Serializable {
   }
 
   public static void delete(Long id) {
-    String calendarId = PrefKey.PLANNER_CALENDAR_ID.value("-1");
+    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     Uri eventUri = Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
     Cursor eventCursor = cr().query(
         eventUri,

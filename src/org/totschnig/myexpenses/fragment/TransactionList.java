@@ -239,7 +239,7 @@ public class TransactionList extends BudgetListFragment implements
     //work around the problem that the view pager does not display its background correctly with Sherlock
     if (Build.VERSION.SDK_INT < 11) {
       v.setBackgroundColor(ctx.getResources().getColor(
-         MyApplication.PrefKey.UI_THEME_KEY.value("dark").equals("light")
+         MyApplication.PrefKey.UI_THEME_KEY.getString("dark").equals("light")
           ? android.R.color.white : android.R.color.black));
     }
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);

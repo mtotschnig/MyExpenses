@@ -137,7 +137,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
         }
         publishProgress("... " + progressMsg);
         if (result.success) {
-          if (MyApplication.PrefKey.PERFORM_SHARE.value(false)) {
+          if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
             addResult(output);
           }
           successfullyExported.add(account);

@@ -143,7 +143,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
   }
   private void setProtectionDependentsState() {
-    boolean isProtected = MyApplication.PrefKey.PERFORM_PROTECTION.value(false);
+    boolean isProtected = MyApplication.PrefKey.PERFORM_PROTECTION.getBoolean(false);
     findPreference(MyApplication.PrefKey.SECURITY_QUESTION.getKey()).setEnabled( MyApplication.getInstance().isContribEnabled() && isProtected);
     findPreference(MyApplication.PrefKey.PROTECTION_DELAY_SECONDS.getKey()).setEnabled(isProtected);
     findPreference(MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey()).setEnabled(isProtected);
@@ -287,6 +287,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(MyApplication.PrefKey.RATE.getKey())) {
+      PrefKey.NEXT_REMINDER_RATE.putLong(-1);
       CommonCommands.dispatchCommand(this, R.id.RATE_COMMAND, null);
       return true;
     }

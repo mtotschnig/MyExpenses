@@ -270,7 +270,7 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = Category.PROJECTION;
       //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.value(true) ?
+      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
       break;
@@ -282,7 +282,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.value(true) ?
+      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
       if (mergeCurrencyAggregates) {
@@ -447,7 +447,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.value(true) ?
+      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_TITLE;
       if (projection == null)

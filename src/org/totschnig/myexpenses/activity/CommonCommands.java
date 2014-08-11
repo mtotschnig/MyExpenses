@@ -42,8 +42,6 @@ public class CommonCommands {
     Intent i;
     switch(command) {
     case R.id.RATE_COMMAND:
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit().putLong("nextReminderRate", -1));
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses"));
       if (Utils.isIntentAvailable(ctx,i)) {

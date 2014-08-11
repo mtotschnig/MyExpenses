@@ -73,7 +73,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
   protected boolean isProtected() {
     return MyApplication.getInstance().isProtected() &&
-        !getProtectionKey().value(false);
+        !getProtectionKey().getBoolean(false);
   }
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,

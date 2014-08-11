@@ -69,7 +69,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     if (Build.VERSION.SDK_INT > 10) {
       return;
     }
-    if (MyApplication.PrefKey.UI_THEME_KEY.value("dark").equals("dark")) {
+    if (MyApplication.PrefKey.UI_THEME_KEY.getString("dark").equals("dark")) {
       int c = getResources().getColor(R.color.theme_dark_button_color);
       for(int i = 0; i <root.getChildCount(); i++) {
         View v = root.getChildAt(i);

@@ -38,6 +38,9 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
     ContribInfoDialogFragment dialogFragment = new ContribInfoDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putBoolean(KEY_REMINDER_P, reminderP);
+    if (reminderP) {
+      dialogFragment.setCancelable(false);
+    }
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -57,8 +60,7 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       builder.setMessage(message)
         .setPositiveButton(R.string.dialog_contrib_yes, this);
       if (getArguments().getBoolean(KEY_REMINDER_P)) {
-        builder.setCancelable(false)
-          .setNeutralButton(R.string.dialog_remind_later,this)
+        builder.setNeutralButton(R.string.dialog_remind_later,this)
           .setNegativeButton(R.string.dialog_remind_no,this);
       } else {
         builder.setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {

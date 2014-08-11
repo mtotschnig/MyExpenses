@@ -25,7 +25,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
-    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.value(-1);
+    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
     int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version < current_version) {
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PrefKey.CURRENT_VERSION.getKey(), current_version));
@@ -43,7 +43,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
       if (prev_version < 30) {
-        if (MyApplication.PrefKey.SHARE_TARGET.value("") != "") {
+        if (MyApplication.PrefKey.SHARE_TARGET.getString("") != "") {
           edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.getKey(),true).commit();
         }
       }

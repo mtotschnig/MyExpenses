@@ -98,7 +98,7 @@ public class DialogUtils {
       b.setOnClickListener(l);
   }
   public static AlertDialog passwordDialog(final Activity ctx) {
-    final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.value("");
+    final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
     Context wrappedCtx = wrapContext2(ctx);
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.password_check, null);
@@ -132,7 +132,7 @@ public class DialogUtils {
     @Override
     public void onClick(View v) {
       final SharedPreferences settings = MyApplication.getInstance().getSettings();
-      final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.value("");
+      final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
       EditText input = (EditText) dialog.findViewById(R.id.password);
       TextView error = (TextView) dialog.findViewById(R.id.passwordInvalid);
       if (v == dialog.getButton(AlertDialog.BUTTON_NEGATIVE)) {
@@ -149,7 +149,7 @@ public class DialogUtils {
         String value = input.getText().toString();
         boolean isInSecurityQuestion = (Boolean) input.getTag();
         if (Utils.md5(value).equals(
-            (isInSecurityQuestion ? MyApplication.PrefKey.SECURITY_ANSWER : MyApplication.PrefKey.SET_PASSWORD).value(""))) {
+            (isInSecurityQuestion ? MyApplication.PrefKey.SECURITY_ANSWER : MyApplication.PrefKey.SET_PASSWORD).getString(""))) {
           input.setText("");
           error.setText("");
           MyApplication.getInstance().setLocked(false);

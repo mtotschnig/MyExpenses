@@ -136,7 +136,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     warningTV = (TextView) view.findViewById(R.id.warning_reset);
 
     formatRB = (RadioButton) view.findViewById(R.id.csv);
-    String format = MyApplication.PrefKey.EXPORT_FORMAT.value("QIF");
+    String format = MyApplication.PrefKey.EXPORT_FORMAT.getString("QIF");
     if (format.equals("CSV")) {
       formatRB.setChecked(true);
     }
