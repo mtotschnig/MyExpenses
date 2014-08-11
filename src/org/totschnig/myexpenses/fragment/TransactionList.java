@@ -827,6 +827,10 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
+    if (mAccount==null) {
+      //seen in report 3331195c529454ca6b25a4c5d403beda
+      return;
+    }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_MENU);
     if (!mFilter.isEmpty()) {
       searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
