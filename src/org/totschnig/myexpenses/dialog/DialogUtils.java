@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -158,8 +157,7 @@ public class DialogUtils {
             ((ActionBarActivity) ctx).getSupportActionBar().show();
           }
           if (isInSecurityQuestion) {
-            SharedPreferencesCompat.apply(
-                settings.edit().putBoolean(MyApplication.PrefKey.PERFORM_PROTECTION.getKey(), false));
+            MyApplication.PrefKey.PERFORM_PROTECTION.putBoolean(false);
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);

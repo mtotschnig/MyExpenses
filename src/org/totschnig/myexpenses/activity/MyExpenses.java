@@ -24,13 +24,11 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
-import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -46,13 +44,10 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
-import org.totschnig.myexpenses.provider.filter.TextCriteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -758,9 +753,9 @@ public class MyExpenses extends LaunchActivity implements
   private void setCurrentAccount(int position) {
     mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
-    if (mAccountId != newAccountId)
-      SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(), newAccountId));
+    if (mAccountId != newAccountId) {
+      MyApplication.PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
+    }
     mAccountId = newAccountId;
     setCustomTitle();
     mDrawerList.setItemChecked(position, true);

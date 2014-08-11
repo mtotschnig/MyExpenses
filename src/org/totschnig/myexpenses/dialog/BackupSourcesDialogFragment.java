@@ -3,12 +3,10 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.View;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
