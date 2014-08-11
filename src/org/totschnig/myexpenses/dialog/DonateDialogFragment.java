@@ -98,8 +98,11 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
           }
         }
       } else {
+        String paypalButtonId = MyApplication.getInstance().isContribEnabled() ?
+            "KPXNZHMXJE8ZJ" : "A7ZPSCUTS23K6";
         String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
-            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6" :
+            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id="
+                +  paypalButtonId :
             "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
         intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(uri));
