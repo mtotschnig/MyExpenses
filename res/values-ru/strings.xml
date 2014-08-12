@@ -65,7 +65,8 @@
   <string name="dialog_password_new_password_confirmation">Новый пароль (подтверждение)</string>
   <string name="dialog_remind_later">Позже</string>
   <string name="dialog_remind_no">Нет, спасибо</string>
-  <string name="dialog_remind_rate">Пожалуйста, найдите минутку, чтобы оценить и написать обзор на Мои расходы. Ваши комментарии позволяют мне постоянно улучшать и совершенствовать программу.</string>
+  <string name="dialog_remind_rate_1">Пожалуйста, найдите минутку, чтобы оценить и написать обзор на Мои расходы.</string>
+  <string name="dialog_remind_rate_2">Ваши комментарии позволяют нам постоянно улучшать и совершенствовать программу.</string>
   <string name="dialog_remind_rate_yes">Оценить сейчас</string>
   <string name="dialog_security_answer">Ответ</string>
   <string name="dialog_security_question">Вопрос</string>

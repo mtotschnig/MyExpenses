@@ -83,8 +83,8 @@
     <string name="dialog_remind_no">No thanks</string>
     <string name="dialog_remind_rate_how_many_stars">How many stars would you give to My Expenses?</string>
     <string name="dialog_remind_rate_1">Please take a moment to rate and review My Expenses.</string>
-    <string name="dialog_remind_rate_1_suggest_improvement">Please take a moment to send us your suggestions for improvements.</string>
     <string name="dialog_remind_rate_2">Your comments allow us to continually add improvements and enhancements.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Please take a moment to send us your suggestions for improvements.</string>
     <string name="dialog_remind_rate_yes">Rate now</string>
     <string name="dialog_security_answer">Answer</string>
     <string name="dialog_security_question">Question</string>

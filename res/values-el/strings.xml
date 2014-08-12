@@ -62,7 +62,8 @@
     <string name="dialog_password_new_password_confirmation">Νέος κωδικός πρόσβασης (επιβεβαίωση)</string>
     <string name="dialog_remind_later">Αργότερα</string>
     <string name="dialog_remind_no">Όχι, ευχαριστώ</string>
-    <string name="dialog_remind_rate">Αφιερώστε λίγο χρόνο για την αξιολόγηση και κριτική του \"Έξοδά μου\". Τα σχόλιά σας θα μου επιτρέψουν να το βελτιώνω συνεχώς και να το εμπλουτίζω.</string>
+    <string name="dialog_remind_rate_1">Αφιερώστε λίγο χρόνο για την αξιολόγηση και κριτική του \"Έξοδά μου\".</string>
+    <string name="dialog_remind_rate_2">Τα σχόλιά σας θα μας επιτρέψουν να το βελτιώνω συνεχώς και να το εμπλουτίζω.</string>
     <string name="dialog_remind_rate_yes">Βαθμολογήστε Τώρα</string>
     <string name="dialog_security_answer">Απάντηση</string>
     <string name="dialog_security_question">Ερώτηση</string>
