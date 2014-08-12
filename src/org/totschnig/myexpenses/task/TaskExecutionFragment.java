@@ -187,9 +187,6 @@ public class TaskExecutionFragment extends Fragment {
     if (savedInstanceState != null
         && savedInstanceState.getBoolean(KEY_RUNNING, true)) {
       // if we are recreated, prevent the task from being executed twice
-      if (mCallbacks != null) {
-        mCallbacks.onCancelled();
-      }
       return;
     }
     // Retain this fragment across configuration changes.
@@ -223,7 +220,6 @@ public class TaskExecutionFragment extends Fragment {
     } catch (ClassCastException e) {
       // the cast could fail, if Fragment is recreated,
       // but we are cancelling above in that case
-      mCallbacks.onCancelled();
     }
   }
 
