@@ -60,6 +60,10 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.batch.android.Batch;
+import com.batch.android.BatchUnlockListener;
+import com.batch.android.Offer;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -96,6 +100,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.util.TypedValue;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -110,7 +115,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, ConfirmationDialogListener,
-    ContribIFace {
+    ContribIFace, BatchUnlockListener {
 
   private static final int VIEWPAGER = R.id.viewpager;
   public static final int TYPE_TRANSACTION = 0;
@@ -1074,4 +1079,44 @@ public class MyExpenses extends LaunchActivity implements
          args.getBoolean("deleteP"), 0);
    }
   }
+  @Override
+  protected void onStart()
+  {
+      super.onStart();
+
+      Batch.Unlock.setUnlockListener(this); /* Pass this as parameter since  we're implementing BatchUnlockListener */
+      Batch.onStart(this);
+  }
+  @Override
+  public void onRedeemAutomaticOffer(Offer offer) {
+    Log.d(MyApplication.TAG,"batch onRedeemAutomaticOffer called");
+    Toast.makeText(this, "Batch onRedeemAutomaticOffer", Toast.LENGTH_LONG).show();
+    for(com.batch.android.Feature feature : offer.getFeatures())
+    {
+      String featureRef = feature.getReference();
+      String value = feature.getValue();
+      Toast.makeText(this, featureRef + " / "+ value + " unlocked !", Toast.LENGTH_LONG).show();
+      MyApplication.getInstance().setContribEnabled(true);
+    }
+  }
+  @Override
+  protected void onStop() {
+   Batch.onStop(this);
+   super.onStop();
+  }
+   @Override
+   protected void onDestroy()
+   {
+       Batch.onDestroy(this);
+  
+       super.onDestroy();
+   }
+  
+   @Override
+   protected void onNewIntent(Intent intent)
+   {
+       Batch.onNewIntent(this, intent);
+  
+       super.onNewIntent(intent);
+   }
 }
