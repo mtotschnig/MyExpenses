@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
@@ -53,6 +54,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClic
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -108,7 +110,7 @@ public class TransactionList extends BudgetListFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
 
-  private static final String KEY_FILTER = "filter";
+  public static final String KEY_FILTER = "filter";
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
@@ -870,7 +872,7 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     int command = item.getItemId();
-    switch (item.getItemId()) {
+    switch (command) {
     case R.id.FILTER_CATEGORY_COMMAND:
       if (!removeFilter(command)) {
         Intent i = new Intent(getActivity(), ManageCategories.class);
@@ -909,6 +911,16 @@ public class TransactionList extends BudgetListFragment implements
         SelectMethodDialogFragment.newInstance(mAccount.getId())
         .show(getActivity().getSupportFragmentManager(), "METHOD_FILTER");
       }
+      return true;
+    case R.id.PRINT_COMMAND:
+      Bundle args = new Bundle();
+      args.putSparseParcelableArray(KEY_FILTER, mFilter.getCriteria());
+      args.putLong(KEY_ROWID, mAccount.getId());
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstancePrint(args),
+            "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
+        .commit();
       return true;
     default:
       return super.onOptionsItemSelected(item);

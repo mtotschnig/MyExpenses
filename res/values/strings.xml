@@ -203,6 +203,7 @@
     <string name="menu_manage_plans">Templates and plans</string>
     <string name="menu_manage_plans_tab_templates">Templates</string>
     <string name="menu_manage_plans_tab_plans">Plans</string>
+    <string name="menu_print">Print</string>
     <string name="menu_reset">Export and reset</string>
     <string name="menu_reset_all">Export and reset all</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -364,6 +365,7 @@
     <string name="progress_dialog_create_plan">Creating new plan …</string>
     <string name="progress_dialog_deleting">Deleting objects …</string>
     <string name="progress_dialog_loading">Loading object from database …</string>
+    <string name="progress_dialog_printing">Generating PDF …</string>
     <string name="progress_dialog_saving">Saving object to database …</string>
     <string name="progress_dialog_setup">Database is initialized …</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>

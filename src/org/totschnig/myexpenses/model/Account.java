@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
@@ -714,7 +715,8 @@ public class Account extends Model {
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator)
+      throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
@@ -1027,5 +1029,9 @@ public class Account extends Model {
     if (resetP) {
       reset(true);
     }
+  }
+  public Result print(File destDir, WhereFilter filter) throws IOException {
+    // TODO Auto-generated method stub
+    return new Result(true,R.string.export_expenses_sdcard_success,"DUMMY");
   }
 }

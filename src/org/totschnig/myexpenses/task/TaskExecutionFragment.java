@@ -70,6 +70,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_BACKUP = 22;
   public static final int TASK_RESTORE = 23;
   public static final int TASK_BALANCE = 24;
+  public static final int TASK_PRINT = 25;
   
 
   /**
@@ -151,6 +152,13 @@ public class TaskExecutionFragment extends Fragment {
     f.setArguments(b);
     return f;
   }
+  
+  public static TaskExecutionFragment newInstancePrint(Bundle b) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    b.putInt(KEY_TASKID, TASK_PRINT);
+    f.setArguments(b);
+    return f;
+  }
 
   /**
    * Hold a reference to the parent Activity so we can report the task's current
@@ -204,6 +212,9 @@ public class TaskExecutionFragment extends Fragment {
         break;
       case TASK_RESTORE:
         new RestoreTask(this,args).execute();
+        break;
+      case TASK_PRINT:
+        new PrintTask(this,args).execute();
         break;
       default:
         new GenericTask(this, taskId, args.getSerializable("extra"))

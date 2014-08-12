@@ -100,7 +100,13 @@
     android:title="@string/menu_delete_account">
   </item>
   <item
+    android:id="@id/PRINT_COMMAND"
+    android:icon="@drawable/print_icon"
+    app:showAsAction="never"
+    android:title="@string/menu_print"/>
+  <item
     android:id="@id/SHARE_COMMAND"
+    app:showAsAction="never"
     android:title="@string/menu_share">
   </item>
   <item

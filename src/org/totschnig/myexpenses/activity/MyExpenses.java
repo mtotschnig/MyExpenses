@@ -870,6 +870,10 @@ public class MyExpenses extends LaunchActivity implements
             MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
             "text/" + mExportFormat.toLowerCase(Locale.US));
       break;
+    case TaskExecutionFragment.TASK_PRINT:
+      Result result = (Result) o;
+      Toast.makeText(this,result.print(this),Toast.LENGTH_LONG).show();
+      break;
     }
   }
   public void toggleCrStatus (View v) {
