@@ -55,7 +55,8 @@
     <string name="dialog_password_new_password_confirmation">新密碼 (再確認)</string>
     <string name="dialog_remind_later">以後來說</string>
     <string name="dialog_remind_no">不用感謝</string>
-    <string name="dialog_remind_rate">請大家花點時間來評價開支助手。你的意見將不斷鼓勵我改進此工具。</string>
+    <string name="dialog_remind_rate_1">請大家花點時間來評價開支助手。</string>
+    <string name="dialog_remind_rate_2">你的意見將不斷鼓勵我改進此工具。</string>
     <string name="dialog_remind_rate_yes">現在評分</string>
     <string name="dialog_security_answer">答案</string>
     <string name="dialog_security_question">問題</string>

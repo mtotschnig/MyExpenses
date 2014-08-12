@@ -67,7 +67,8 @@
   <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
-  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de Mes dépenses. Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
+  <string name="dialog_remind_rate_1">S\'il vous plaît, publiez votre avis au sujet de Mes dépenses.</string>
+  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter sans cesse des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_security_answer">Réponse</string>
   <string name="dialog_security_question">Question</string>

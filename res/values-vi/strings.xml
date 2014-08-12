@@ -60,7 +60,8 @@
     <string name="dialog_password_change_password">Thay đổi mật khẩu</string>
     <string name="dialog_password_new_password">Mật khẩu mới</string>
     <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
-    <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi. Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
+    <string name="dialog_remind_rate_1">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi.</string>
+    <string name="dialog_remind_rate_2">Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
     <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
     <string name="dialog_remind_later">Để sau</string>
     <string name="dialog_remind_no">Không cảm ơn</string>

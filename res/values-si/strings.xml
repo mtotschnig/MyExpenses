@@ -65,7 +65,7 @@
   <string name="dialog_password_new_password_confirmation">අලුත් මුරපදය(තහවුරු කරන්න) </string>
   <string name="dialog_remind_later">පසුව </string>
   <string name="dialog_remind_no">අවශ්‍ය නැත </string>
-  <string name="dialog_remind_rate">කරුණාකර කුඩා වෙලාවක් වෙන්කර මයි එක්ස්පෙන්සස් හි  වටිනාකම නියම කිරම සහ ගුණදොස් විවේචනය කිරීම කරන්න.ඔබගේ පරිකථන මට මෙම මෘදුකාංගය  දියුණු කිරීමට උපකාරී වේ </string>
+  <!-- <string name="dialog_remind_rate">කරුණාකර කුඩා වෙලාවක් වෙන්කර මයි එක්ස්පෙන්සස් හි  වටිනාකම නියම කිරම සහ ගුණදොස් විවේචනය කිරීම කරන්න.ඔබගේ පරිකථන මට මෙම මෘදුකාංගය  දියුණු කිරීමට උපකාරී වේ </string> -->
   <string name="dialog_remind_rate_yes">වටිනාකම නියම කිරන්න </string>
   <string name="dialog_security_answer">පිළිතුර </string>
   <string name="dialog_security_question">ප්‍රශ්නය </string>

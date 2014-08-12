@@ -67,7 +67,8 @@
   <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
-  <string name="dialog_remind_rate">Lütfen Harcamalarım değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
+  <string name="dialog_remind_rate_1">Lütfen Harcamalarım değerlendirip not vermek için birkaç dakika ayırınız.</string>
+  <string name="dialog_remind_rate_2">Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_security_answer">Cevap</string>
   <string name="dialog_security_question">Soru</string>
