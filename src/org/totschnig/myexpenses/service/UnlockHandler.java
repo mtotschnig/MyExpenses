@@ -72,7 +72,7 @@ public class UnlockHandler extends Handler {
           new NotificationCompat.Builder(app)
             .setSmallIcon(R.drawable.ic_home_dark)
             .setContentTitle(app.getString(R.string.premium_unlocked))
-            .setContentText(app.getString(R.string.thanks_support))
+            .setContentText(app.getString(R.string.thank_you))
             .setContentIntent(PendingIntent.getActivity(app, 0, new Intent(app, MyExpenses.class),0));
       Notification notification  = builder.build();
       notification.flags = Notification.FLAG_AUTO_CANCEL; 
