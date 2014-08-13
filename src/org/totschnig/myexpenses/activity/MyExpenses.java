@@ -251,29 +251,29 @@ public class MyExpenses extends LaunchActivity implements
   // Set the drawer toggle as the DrawerListener
   mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-    if (prev_version == -1) {
-      getSupportActionBar().hide();
-      /*if (MyApplication.backupExists()) {
-        if (!mSettings.getBoolean("restoreOnInstallAsked", false)) {
-          DialogFragment df = MessageDialogFragment.newInstance(
-              R.string.dialog_title_restore_on_install,
-              R.string.dialog_confirm_restore_on_install,
-              new MessageDialogFragment.Button(
-                  android.R.string.yes,
-                  R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,
-                  Boolean.valueOf(true)),
-              null,
-              new MessageDialogFragment.Button(
-                  android.R.string.no,
-                  R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,
-                  Boolean.valueOf(false)));
-          df.setCancelable(false);
-          df.show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
-          SharedPreferencesCompat.apply(
-              mSettings.edit().putBoolean("restoreOnInstallAsked", true));
-        }
-      } else {*/
-        initialSetup();
+  if (prev_version == -1) {
+    getSupportActionBar().hide();
+    /*if (MyApplication.backupExists()) {
+      if (!mSettings.getBoolean("restoreOnInstallAsked", false)) {
+        DialogFragment df = MessageDialogFragment.newInstance(
+            R.string.dialog_title_restore_on_install,
+            R.string.dialog_confirm_restore_on_install,
+            new MessageDialogFragment.Button(
+                android.R.string.yes,
+                R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,
+                Boolean.valueOf(true)),
+            null,
+            new MessageDialogFragment.Button(
+                android.R.string.no,
+                R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,
+                Boolean.valueOf(false)));
+        df.setCancelable(false);
+        df.show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
+        SharedPreferencesCompat.apply(
+            mSettings.edit().putBoolean("restoreOnInstallAsked", true));
+      }
+    } else {*/
+      initialSetup();
      /* }*/
       return;
     }
