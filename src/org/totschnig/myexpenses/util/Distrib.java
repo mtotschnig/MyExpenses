@@ -34,5 +34,7 @@ public class Distrib {
       return Integer.parseInt(p.getString(
           MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"));
   }
-
+  public static boolean isBatchAvailable() {
+    return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
+    }
 }

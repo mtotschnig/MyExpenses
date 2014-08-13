@@ -224,8 +224,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initContribEnabled();
       initPlanner();
       registerWidgetObservers();
-      Log.d(TAG,"calling batch setconfig");
-      Batch.setConfig(new Config("DEV53E77E52E3DEF90DE5A6AAB9239"));
+      if (Distrib.isBatchAvailable()) {
+        Batch.setConfig(new Config("DEV53E77E52E3DEF90DE5A6AAB9239"));
+      }
     }
 
     private void registerWidgetObservers() {

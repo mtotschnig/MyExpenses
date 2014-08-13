@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -1083,9 +1084,10 @@ public class MyExpenses extends LaunchActivity implements
   protected void onStart()
   {
       super.onStart();
-
-      Batch.Unlock.setUnlockListener(this); /* Pass this as parameter since  we're implementing BatchUnlockListener */
-      Batch.onStart(this);
+      if (Distrib.isBatchAvailable()) {
+        Batch.Unlock.setUnlockListener(this); /* Pass this as parameter since  we're implementing BatchUnlockListener */
+        Batch.onStart(this);
+      }
   }
   @Override
   public void onRedeemAutomaticOffer(Offer offer) {
@@ -1101,22 +1103,26 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   protected void onStop() {
-   Batch.onStop(this);
-   super.onStop();
+    if (Distrib.isBatchAvailable()) {
+      Batch.onStop(this);
+    }
+    super.onStop();
   }
    @Override
    protected void onDestroy()
    {
+     if (Distrib.isBatchAvailable()) {
        Batch.onDestroy(this);
-  
-       super.onDestroy();
+     }
+     super.onDestroy();
    }
   
    @Override
    protected void onNewIntent(Intent intent)
    {
+     if (Distrib.isBatchAvailable()) {
        Batch.onNewIntent(this, intent);
-  
-       super.onNewIntent(intent);
+     }
+     super.onNewIntent(intent);
    }
 }
