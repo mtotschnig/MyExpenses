@@ -479,4 +479,7 @@
     <string name="comparison_operator_greater_than">greater than</string>
     <string name="comparison_operator_lesser_than">lesser than</string>
     <string name="comparison_operator_between">between</string>
+    <string name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
+    <string name="premium_unlocked">Premium features unlocked.</string>
+    <string name="thanks_support">Thanks for your support!</string>
 </resources>
