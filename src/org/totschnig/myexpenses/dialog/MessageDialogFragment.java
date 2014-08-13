@@ -72,8 +72,11 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     Activity ctx  = getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
-        .setTitle(bundle.getInt("title"))
         .setMessage(bundle.getCharSequence("message"));
+    int title = bundle.getInt("title");
+    if (title != 0) {
+      builder.setTitle(title);
+    }
     Button positive = (Button) bundle.getSerializable("positive");
     Button neutral = (Button) bundle.getSerializable("neutral");
     Button negative = (Button) bundle.getSerializable("negative");
