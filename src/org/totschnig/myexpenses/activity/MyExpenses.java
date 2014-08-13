@@ -1092,13 +1092,15 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onRedeemAutomaticOffer(Offer offer) {
     Log.d(MyApplication.TAG,"batch onRedeemAutomaticOffer called");
-    Toast.makeText(this, "Batch onRedeemAutomaticOffer", Toast.LENGTH_LONG).show();
     for(com.batch.android.Feature feature : offer.getFeatures())
     {
-      String featureRef = feature.getReference();
-      String value = feature.getValue();
-      Toast.makeText(this, featureRef + " / "+ value + " unlocked !", Toast.LENGTH_LONG).show();
-      MyApplication.getInstance().setContribEnabled(true);
+      Log.d(MyApplication.TAG,feature.getReference());
+      if (feature.getReference().equalsIgnoreCase("PREMIUMKEY")) {
+        MyApplication app = MyApplication.getInstance();
+        app.setContribEnabled(true);
+        Distrib.getLicenseStatusPrefs(app).putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "1");
+        handleUnlock(R.string.promotion_appgratis_welcome);
+      }
     }
   }
   @Override
@@ -1124,5 +1126,20 @@ public class MyExpenses extends LaunchActivity implements
        Batch.onNewIntent(this, intent);
      }
      super.onNewIntent(intent);
+   }
+   private void handleUnlock(int message) {
+     FragmentManager fm = getSupportFragmentManager();
+     WelcomeDialogFragment f =
+         ((WelcomeDialogFragment) fm.findFragmentByTag("WELCOME"));
+     if (f!=null) {
+       f.showUnlockWelcome(message);
+     } else {
+       MessageDialogFragment.newInstance(
+           0,
+           message,
+           MessageDialogFragment.Button.okButton(),
+           null,null)
+        .show(getSupportFragmentManager(),"UNLOCK_WELCOME");
+     }
    }
 }

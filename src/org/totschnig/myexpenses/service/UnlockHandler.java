@@ -1,10 +1,18 @@
 package org.totschnig.myexpenses.service;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.util.Distrib;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
@@ -24,6 +32,9 @@ public class UnlockHandler extends Handler {
   public void handleMessage(Message msg) {
     boolean permanent = false;
     MyApplication app = MyApplication.getInstance();
+    if (app.isContribEnabled()) {
+      return;
+    }
     Log.i(MyApplication.TAG,"Now handling answer from license verification service; got status "+msg.what);
     if (msg.what == STATUS_PERMANENT || msg.what == STATUS_TEMPORARY || msg.what == STATUS_RETRY) {
       PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
@@ -55,6 +66,17 @@ public class UnlockHandler extends Handler {
                 MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"))+1));
         mPreferences.commit();
       }
+      NotificationManager notificationManager =
+          (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+      NotificationCompat.Builder builder =
+          new NotificationCompat.Builder(app)
+            .setSmallIcon(R.drawable.ic_home_dark)
+            .setContentTitle(app.getString(R.string.premium_unlocked))
+            .setContentText(app.getString(R.string.thanks_support))
+            .setContentIntent(PendingIntent.getActivity(app, 0, new Intent(app, MyExpenses.class),0));
+      Notification notification  = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL; 
+      notificationManager.notify(0, notification);
     }
   }
 }

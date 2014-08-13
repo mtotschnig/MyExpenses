@@ -225,7 +225,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initPlanner();
       registerWidgetObservers();
       if (Distrib.isBatchAvailable()) {
-        Batch.setConfig(new Config("DEV53E77E52E3DEF90DE5A6AAB9239"));
+        Batch.setConfig(new Config("DEV53E77E52E3DEF90DE5A6AAB9239")
+            .setCanUseAdvertisingID(false)
+            .setCanUseAndroidID(false));
       }
     }
 
