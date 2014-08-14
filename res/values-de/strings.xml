@@ -67,8 +67,10 @@
   <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
+  <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für meine Ausgaben vergeben?</string>
   <string name="dialog_remind_rate_1">Bitte nehmen Sie sich einen Augenblick Zeit, um Meine Ausgaben zu bewerten und zu rezensieren.</string>
   <string name="dialog_remind_rate_2">Ihre Kommentare ermöglichen uns regelmäßige Verbesserungen und Erweiterungen.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Bitte nehmen Sie sich einen Augenblick Zeit, uns Ihre Verbesserungsvorschläge mitzuteilen.</string>
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_security_answer">Antwort</string>
   <string name="dialog_security_question">Frage</string>
@@ -462,4 +464,6 @@
   <string name="comparison_operator_greater_than">größer als</string>
   <string name="comparison_operator_lesser_than">kleiner als</string>
   <string name="comparison_operator_between">zwischen</string>
+  <string name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
+  <string name="premium_unlocked">Premium Funktionen entsperrt.</string>
 </resources>
