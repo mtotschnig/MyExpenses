@@ -34,7 +34,7 @@
   <string name="menu_manage_plans_help_text">Opens the list of templates and plans for the current account, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
   <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
   <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
-  <string name="menu_print_help_text">Printing ...</string>
+  <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
   <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
   <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
   <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time.</string>
