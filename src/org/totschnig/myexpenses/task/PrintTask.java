@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 public class PrintTask extends AsyncTask<Void, String, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -58,8 +59,11 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
     account = Account.getInstanceFromDb(accountId);
     try {
       return account.print(appDir,filter);
-    } catch (IOException e) {
-      return new Result(false,R.string.export_expenses_sdcard_failure,appDir.getAbsolutePath());
+    } catch (Exception e) {
+      Log.e("DEBUG","Error while printing",e);
+      return new Result(false,
+          R.string.export_expenses_sdcard_failure,
+          appDir.getAbsolutePath(),e.getMessage());
     }
   }
 }

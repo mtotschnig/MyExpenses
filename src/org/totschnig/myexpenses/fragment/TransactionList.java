@@ -919,7 +919,7 @@ public class TransactionList extends BudgetListFragment implements
       getActivity().getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstancePrint(args),
             "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),"PROGRESS")
         .commit();
       return true;
     default:
