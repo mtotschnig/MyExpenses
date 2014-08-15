@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -48,7 +49,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.widget.TextView;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -1048,10 +1054,26 @@ public class Account extends Model {
 
   public Result print(File destDir, WhereFilter filter) throws IOException, DocumentException {
     Log.d("MyExpenses","now starting print");
+    String selection;
+    String[] selectionArgs;
+    if (getId() < 0) {
+      selection = KEY_ACCOUNTID + " IN " +
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+      selectionArgs = new String[] {currency.getCurrencyCode()};
+    } else {
+      selection = KEY_ACCOUNTID + " = ?";
+      selectionArgs = new String[] { String.valueOf(getId()) };
+    }
+    if (!filter.isEmpty()) {
+      selection += " AND " + filter.getSelection();
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs());
+    }
+    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
+    Cursor c = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE);
+
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     //first we check if there are any exportable transactions
-    String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
+    //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (c.getCount() == 0)
       return new Result(false,R.string.no_exportable_expenses);
     //then we check if the filename we construct already exists
@@ -1097,7 +1119,37 @@ public class Account extends Model {
     document.add(preface);
   }
 
-  private static void addTransactionList(Document document, Cursor c, WhereFilter filter) throws DocumentException {
+  private void addTransactionList(Document document, Cursor c, WhereFilter filter) throws DocumentException {
+
+    MyApplication ctx = MyApplication.getInstance();
+    int columnIndexYear = c.getColumnIndex(KEY_YEAR);
+    int columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
+    int columnIndexMonth = c.getColumnIndex(KEY_MONTH);
+    int columnIndexWeek = c.getColumnIndex(KEY_WEEK);
+    int columnIndexDay  = c.getColumnIndex(KEY_DAY);
+    int columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
+    int columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
+    int columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
+    int columnIndexComment = c.getColumnIndex(KEY_COMMENT);
+    int columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
+    int columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
+    int columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
+    int columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
+    int columnIndexDate = c.getColumnIndex(KEY_DATE);
+    DateFormat itemDateFormat;
+    switch (grouping) {
+    case DAY:
+      itemDateFormat = android.text.format.DateFormat.getTimeFormat(ctx);
+      break;
+    case MONTH:
+      itemDateFormat = new SimpleDateFormat("dd");
+      break;
+    case WEEK:
+      itemDateFormat = new SimpleDateFormat("EEE");
+      break;
+    default:
+      itemDateFormat = Utils.localizedYearlessDateFormat();
+    }
     PdfPTable table = new PdfPTable(3);
 
     // t.setBorderColor(BaseColor.GRAY);
@@ -1120,9 +1172,44 @@ public class Account extends Model {
     
 
     while( c.getPosition() < c.getCount() ) {
-      table.addCell(c.getString(c.getColumnIndex(KEY_DATE)));
-      table.addCell(c.getString(c.getColumnIndex(KEY_LABEL_MAIN)));
-      table.addCell(c.getString(c.getColumnIndex(KEY_AMOUNT)));
+      long amount = c.getLong(columnIndexAmount);
+      //setColor(tv1,amount < 0);
+      CharSequence catText = c.getString(columnIndexLabelMain);
+      if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {
+        catText = ((amount < 0) ? "=> " : "<= ") + catText;
+      } else {
+        Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+        if (SPLIT_CATID.equals(catId))
+          catText = ctx.getString(R.string.split_transaction);
+        else if (catId == null) {
+          catText = ctx.getString(R.string.no_category_assigned);
+        } else {
+          String label_sub = c.getString(columnIndexLabelSub);
+          if (label_sub != null && label_sub.length() > 0) {
+            catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
+          }
+        }
+      }
+      String referenceNumber= c.getString(columnIndexReferenceNumber);
+      if (referenceNumber != null && referenceNumber.length() > 0)
+        catText = "(" + referenceNumber + ") " + catText;
+      SpannableStringBuilder ssb;
+      String comment = c.getString(columnIndexComment);
+      if (comment != null && comment.length() > 0) {
+        ssb = new SpannableStringBuilder(comment);
+        ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
+        catText = TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb);
+      }
+      String payee = c.getString(columnIndexPayee);
+      if (payee != null && payee.length() > 0) {
+        ssb = new SpannableStringBuilder(payee);
+        ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
+        catText = TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb);
+      }
+
+      table.addCell(Utils.convDateTime(c.getString(columnIndexDate),itemDateFormat));
+      table.addCell(catText.toString());
+      table.addCell(Utils.convAmount(c.getString(columnIndexAmount),currency));
       c.moveToNext();
     }
     // now add all this to the document
@@ -1130,7 +1217,7 @@ public class Account extends Model {
 
   }
 
-  private static void addEmptyLine(Paragraph paragraph, int number) {
+  private void addEmptyLine(Paragraph paragraph, int number) {
     for (int i = 0; i < number; i++) {
       paragraph.add(new Paragraph(" "));
     }

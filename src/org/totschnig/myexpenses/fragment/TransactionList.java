@@ -54,7 +54,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClic
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -111,6 +110,8 @@ public class TransactionList extends BudgetListFragment implements
   private static final int GROUPING_CURSOR = 2;
 
   public static final String KEY_FILTER = "filter";
+  public static final String CATEGORY_SEPARATOR = " : ",
+      COMMENT_SEPARATOR = " / ";
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
@@ -614,8 +615,6 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
   public class MyAdapter extends SimpleCursorAdapter {
-    String categorySeparator = " : ",
-        commentSeparator = " / ";
     private int dateEms;
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
@@ -692,7 +691,7 @@ public class TransactionList extends BudgetListFragment implements
         } else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
-            catText = catText + categorySeparator + label_sub;
+            catText = catText + CATEGORY_SEPARATOR + label_sub;
           }
         }
       }
@@ -704,13 +703,13 @@ public class TransactionList extends BudgetListFragment implements
       if (comment != null && comment.length() > 0) {
         ssb = new SpannableStringBuilder(comment);
         ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
-        catText = TextUtils.concat(catText,commentSeparator,ssb);
+        catText = TextUtils.concat(catText,COMMENT_SEPARATOR,ssb);
       }
       String payee = c.getString(columnIndexPayee);
       if (payee != null && payee.length() > 0) {
         ssb = new SpannableStringBuilder(payee);
         ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
-        catText = TextUtils.concat(catText,commentSeparator,ssb);
+        catText = TextUtils.concat(catText,COMMENT_SEPARATOR,ssb);
       }
       tv2.setText(catText);
       
