@@ -34,6 +34,12 @@
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
+  <item
+    android:id="@id/MANAGE_PLANS_COMMAND"
+    app:showAsAction="ifRoom"
+    android:icon="@drawable/manage_plans_icon"
+    android:title="@string/menu_manage_plans">
+  </item>
   <item android:checkable="true"
     android:id="@+id/SEARCH_MENU"
     android:title="@string/menu_search"
@@ -52,12 +58,6 @@
         android:enabled="false"/>
       </group>
   	</menu>
-  </item>
-  <item
-    android:id="@id/MANAGE_PLANS_COMMAND"
-    app:showAsAction="ifRoom"
-    android:icon="@drawable/manage_plans_icon"
-    android:title="@string/menu_manage_plans">
   </item>
   <item
     android:id="@id/RESET_COMMAND"
