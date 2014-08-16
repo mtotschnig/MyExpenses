@@ -40,7 +40,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -49,12 +48,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.net.Uri.Builder;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.widget.TextView;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -1069,12 +1068,12 @@ public class Account extends Model {
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs());
     }
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
-    Cursor c = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE);
+    Cursor transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, null);
 
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
-    if (c.getCount() == 0)
+    if (transactionCursor.getCount() == 0)
       return new Result(false,R.string.no_exportable_expenses);
     //then we check if the filename we construct already exists
     File outputFile = new File(destDir,
@@ -1083,14 +1082,14 @@ public class Account extends Model {
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
-    c.moveToFirst();
+    transactionCursor.moveToFirst();
     Document document = new Document();
     PdfWriter.getInstance(document, new FileOutputStream(outputFile));
     document.open();
     addMetaData(document);
     addHeader(document);
-    addTransactionList(document,c,filter);
-    c.close();
+    addTransactionList(document,transactionCursor,filter);
+    transactionCursor.close();
     document.close();
     return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getAbsolutePath());
   }
@@ -1120,8 +1119,26 @@ public class Account extends Model {
   }
 
   private void addTransactionList(Document document, Cursor c, WhereFilter filter) throws DocumentException {
+    Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+    builder.appendPath("groups")
+      .appendPath(grouping.name());
+    //the selectionArg is used in a subquery used by the content provider
+    //this will change once filters are implemented
+    if (getId() < 0) {
+      builder.appendQueryParameter(KEY_CURRENCY, currency.getCurrencyCode());
+    } else {
+      builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
+    }
+    Cursor groupCursor = cr().query(builder.build(), null, null, null, null);
 
     MyApplication ctx = MyApplication.getInstance();
+
+    int columnIndexGroupYear = groupCursor.getColumnIndex(KEY_YEAR);
+    int columnIndexGroupSecond = groupCursor.getColumnIndex(KEY_SECOND_GROUP);
+    int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
+    int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
+    int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
+    int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
     int columnIndexYear = c.getColumnIndex(KEY_YEAR);
     int columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
     int columnIndexMonth = c.getColumnIndex(KEY_MONTH);
@@ -1133,7 +1150,6 @@ public class Account extends Model {
     int columnIndexComment = c.getColumnIndex(KEY_COMMENT);
     int columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
     int columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
-    int columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
     int columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
     int columnIndexDate = c.getColumnIndex(KEY_DATE);
     DateFormat itemDateFormat;
@@ -1150,7 +1166,7 @@ public class Account extends Model {
     default:
       itemDateFormat = Utils.localizedYearlessDateFormat();
     }
-    PdfPTable table = new PdfPTable(3);
+    PdfPTable table = null;
 
     // t.setBorderColor(BaseColor.GRAY);
     // t.setPadding(4);
@@ -1169,9 +1185,93 @@ public class Account extends Model {
 //    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 //    table.addCell(c1);
 //    table.setHeaderRows(1);
-    
+
+    int prevHeaderId = 0,currentHeaderId;
 
     while( c.getPosition() < c.getCount() ) {
+      int year = c.getInt(grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int month = c.getInt(columnIndexMonth);
+      int week = c.getInt(columnIndexWeek);
+      int day = c.getInt(columnIndexDay);
+      int second=-1;
+
+      switch(grouping) {
+      case DAY:
+        currentHeaderId = year*1000+day;
+        break;
+      case WEEK:
+        currentHeaderId = year*1000+week;
+        break;
+      case MONTH:
+        currentHeaderId = year*1000+month;
+        break;
+      case YEAR:
+        currentHeaderId = year*1000;
+        break;
+      default:
+        currentHeaderId = 1;
+      }
+      if (currentHeaderId != prevHeaderId) {
+        if (table !=null) {
+          document.add(table);
+        }
+        groupCursor.moveToFirst();
+        //no grouping, we need the first and only row
+        if (grouping.equals(Grouping.NONE)) {
+          //fillSums(holder,groupCursor);
+        } else {
+          traverseCursor:
+          while (!groupCursor.isAfterLast()) {
+            if (groupCursor.getInt(columnIndexGroupYear) == year) {
+              switch (grouping) {
+              case YEAR:
+                //fillSums(holder,groupCursor);
+                break traverseCursor;
+              case DAY:
+                second = c.getInt(columnIndexDay);
+                if (groupCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  //fillSums(holder,groupCursor);
+                  break traverseCursor;
+                }
+              case MONTH:
+                second = c.getInt(columnIndexMonth);
+                if (groupCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  //fillSums(holder,groupCursor);
+                  break traverseCursor;
+                }
+              case WEEK:
+                second = c.getInt(columnIndexWeek);
+                if (groupCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  //fillSums(holder,groupCursor);
+                  break traverseCursor;
+                }
+              }
+            }
+            groupCursor.moveToNext();
+          }
+        }
+        document.add(new Paragraph(grouping.getDisplayTitle(ctx,year,second,c)));
+        document.add(new Paragraph("= " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim),
+            currency)));
+        document.add(new Paragraph("- " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense),
+            currency)));
+        document.add(new Paragraph("+ " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome),
+            currency)));
+        document.add(new Paragraph("<-> " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
+            currency)));
+        table = new PdfPTable(3);
+        prevHeaderId = currentHeaderId;
+      }
       long amount = c.getLong(columnIndexAmount);
       //setColor(tv1,amount < 0);
       CharSequence catText = c.getString(columnIndexLabelMain);
