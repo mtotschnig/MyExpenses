@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
@@ -108,7 +109,9 @@ public class TransactionList extends BudgetListFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
 
-  private static final String KEY_FILTER = "filter";
+  public static final String KEY_FILTER = "filter";
+  public static final String CATEGORY_SEPARATOR = " : ",
+      COMMENT_SEPARATOR = " / ";
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
@@ -612,8 +615,6 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
   public class MyAdapter extends SimpleCursorAdapter {
-    String categorySeparator = " : ",
-        commentSeparator = " / ";
     private int dateEms;
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
@@ -690,7 +691,7 @@ public class TransactionList extends BudgetListFragment implements
         } else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
-            catText = catText + categorySeparator + label_sub;
+            catText = catText + CATEGORY_SEPARATOR + label_sub;
           }
         }
       }
@@ -702,13 +703,13 @@ public class TransactionList extends BudgetListFragment implements
       if (comment != null && comment.length() > 0) {
         ssb = new SpannableStringBuilder(comment);
         ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
-        catText = TextUtils.concat(catText,commentSeparator,ssb);
+        catText = TextUtils.concat(catText,COMMENT_SEPARATOR,ssb);
       }
       String payee = c.getString(columnIndexPayee);
       if (payee != null && payee.length() > 0) {
         ssb = new SpannableStringBuilder(payee);
         ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
-        catText = TextUtils.concat(catText,commentSeparator,ssb);
+        catText = TextUtils.concat(catText,COMMENT_SEPARATOR,ssb);
       }
       tv2.setText(catText);
       
@@ -870,7 +871,7 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     int command = item.getItemId();
-    switch (item.getItemId()) {
+    switch (command) {
     case R.id.FILTER_CATEGORY_COMMAND:
       if (!removeFilter(command)) {
         Intent i = new Intent(getActivity(), ManageCategories.class);
@@ -909,6 +910,16 @@ public class TransactionList extends BudgetListFragment implements
         SelectMethodDialogFragment.newInstance(mAccount.getId())
         .show(getActivity().getSupportFragmentManager(), "METHOD_FILTER");
       }
+      return true;
+    case R.id.PRINT_COMMAND:
+      Bundle args = new Bundle();
+      args.putSparseParcelableArray(KEY_FILTER, mFilter.getCriteria());
+      args.putLong(KEY_ROWID, mAccount.getId());
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstancePrint(args),
+            "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),"PROGRESS")
+        .commit();
       return true;
     default:
       return super.onOptionsItemSelected(item);

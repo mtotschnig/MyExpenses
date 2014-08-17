@@ -31,17 +31,26 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.net.Uri.Builder;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -53,6 +62,24 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Account extends Model {
+  
+  private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+      Font.BOLD);
+  private static Font headerFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+      Font.BOLD, BaseColor.BLUE);
+  private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+      Font.BOLD);
+  private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+      Font.BOLD);
+  private static Font italicFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+      Font.ITALIC);
+  private static Font underlineFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+      Font.UNDERLINE);
+  private static Font incomeFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+      Font.NORMAL, BaseColor.GREEN);
+  private static Font expenseFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+      Font.NORMAL, BaseColor.RED);
+
 
   public String label;
 
@@ -65,6 +92,8 @@ public class Account extends Model {
   public int color;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
+  private static String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
+      + " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') )";
 
   static {
     PROJECTION_BASE = new String[] {
@@ -84,9 +113,7 @@ public class Account extends Model {
   int baseLength = PROJECTION_BASE.length;
   PROJECTION_EXTENDED = new String[baseLength+1];
   System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
-  PROJECTION_EXTENDED[baseLength] =
-      KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
-      + " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE;
+  PROJECTION_EXTENDED[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
   PROJECTION_FULL = new String[baseLength+11];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
@@ -468,7 +495,7 @@ public class Account extends Model {
     account.deleteAllTransactions(false);
     account.deleteAllTemplates();
     accounts.remove(id);
-    cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null);
+    cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null);
   }
 
   /**
@@ -603,7 +630,7 @@ public class Account extends Model {
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
     args.put(KEY_OPENING_BALANCE,currentBalance);
-    cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(getId())).build(), args,
+    cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(), args,
         null, null);
     deleteAllTransactions(reconciled);
   }
@@ -714,7 +741,8 @@ public class Account extends Model {
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator)
+      throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
@@ -1026,6 +1054,281 @@ public class Account extends Model {
         new String[] { String.valueOf(getId()) });
     if (resetP) {
       reset(true);
+    }
+  }
+
+  public Result print(File destDir, WhereFilter filter) throws IOException, DocumentException {
+    Log.d("MyExpenses","now starting print");
+    String selection;
+    String[] selectionArgs;
+    if (getId() < 0) {
+      selection = KEY_ACCOUNTID + " IN " +
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+      selectionArgs = new String[] {currency.getCurrencyCode()};
+    } else {
+      selection = KEY_ACCOUNTID + " = ?";
+      selectionArgs = new String[] { String.valueOf(getId()) };
+    }
+    if (!filter.isEmpty()) {
+      selection += " AND " + filter.getSelection();
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs());
+    }
+    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
+    Cursor transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, null);
+
+    SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
+    //first we check if there are any exportable transactions
+    //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
+    if (transactionCursor.getCount() == 0)
+      return new Result(false,R.string.no_exportable_expenses);
+    //then we check if the filename we construct already exists
+    File outputFile = new File(destDir,
+        label.replaceAll("\\W","") + "-" +
+        now.format(new Date()) + ".pdf");
+    if (outputFile.exists()) {
+      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
+    }
+    Document document = new Document();
+    PdfWriter.getInstance(document, new FileOutputStream(outputFile));
+    document.open();
+    addMetaData(document);
+    addHeader(document);
+    addTransactionList(document,transactionCursor,filter);
+    transactionCursor.close();
+    document.close();
+    return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
+  }
+  // iText allows to add metadata to the PDF which can be viewed in your Adobe
+  // Reader
+  // under File -> Properties
+  private void addMetaData(Document document) {
+    document.addTitle(label);
+    document.addSubject("Generated by MyExpenses.mobi");
+  }
+
+  private void addHeader(Document document)
+      throws DocumentException {
+    Cursor account = cr().query(
+        CONTENT_URI,
+        new String[] {CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE},
+        KEY_ROWID + " = ?",
+        new String[] {String.valueOf(getId())},
+        null);
+    account.moveToFirst();
+    long currentBalance = account.getLong(0);
+    account.close();
+    Paragraph preface = new Paragraph();
+
+    preface.add(new Paragraph(label, catFont));
+
+    preface.add(new Paragraph(
+        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()),
+        smallBold));
+    preface.add(new Paragraph(
+        MyApplication.getInstance().getString(R.string.current_balance) + " : " +
+            Utils.formatCurrency(new Money(currency, currentBalance)),
+        smallBold));
+    
+    addEmptyLine(preface, 1);
+    document.add(preface);
+  }
+
+  private void addTransactionList(Document document, Cursor transactionCursor, WhereFilter filter)
+      throws DocumentException {
+    Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+    builder.appendPath("groups")
+      .appendPath(grouping.name());
+    //the selectionArg is used in a subquery used by the content provider
+    //this will change once filters are implemented
+    if (getId() < 0) {
+      builder.appendQueryParameter(KEY_CURRENCY, currency.getCurrencyCode());
+    } else {
+      builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
+    }
+    Cursor groupCursor = cr().query(builder.build(), null, null, null, null);
+
+    MyApplication ctx = MyApplication.getInstance();
+
+    int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
+    int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
+    int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
+    int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
+    int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
+    int columnIndexYearOfWeekStart = transactionCursor.getColumnIndex(KEY_YEAR_OF_WEEK_START);
+    int columnIndexMonth = transactionCursor.getColumnIndex(KEY_MONTH);
+    int columnIndexWeek = transactionCursor.getColumnIndex(KEY_WEEK);
+    int columnIndexDay  = transactionCursor.getColumnIndex(KEY_DAY);
+    int columnIndexAmount = transactionCursor.getColumnIndex(KEY_AMOUNT);
+    int columnIndexLabelSub = transactionCursor.getColumnIndex(KEY_LABEL_SUB);
+    int columnIndexLabelMain = transactionCursor.getColumnIndex(KEY_LABEL_MAIN);
+    int columnIndexComment = transactionCursor.getColumnIndex(KEY_COMMENT);
+    int columnIndexReferenceNumber= transactionCursor.getColumnIndex(KEY_REFERENCE_NUMBER);
+    int columnIndexPayee = transactionCursor.getColumnIndex(KEY_PAYEE_NAME);
+    int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
+    int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
+    DateFormat itemDateFormat;
+    switch (grouping) {
+    case DAY:
+      itemDateFormat = android.text.format.DateFormat.getTimeFormat(ctx);
+      break;
+    case MONTH:
+      itemDateFormat = new SimpleDateFormat("dd");
+      break;
+    case WEEK:
+      itemDateFormat = new SimpleDateFormat("EEE");
+      break;
+    default:
+      itemDateFormat = Utils.localizedYearlessDateFormat();
+    }
+    PdfPTable table = null;
+
+    int prevHeaderId = 0,currentHeaderId;
+
+    transactionCursor.moveToFirst();
+    groupCursor.moveToFirst();
+
+    while( transactionCursor.getPosition() < transactionCursor.getCount() ) {
+      int year = transactionCursor.getInt(grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int month = transactionCursor.getInt(columnIndexMonth);
+      int week = transactionCursor.getInt(columnIndexWeek);
+      int day = transactionCursor.getInt(columnIndexDay);
+      int second=-1;
+
+      switch(grouping) {
+      case DAY:
+        currentHeaderId = year*1000+day;
+        break;
+      case WEEK:
+        currentHeaderId = year*1000+week;
+        break;
+      case MONTH:
+        currentHeaderId = year*1000+month;
+        break;
+      case YEAR:
+        currentHeaderId = year*1000;
+        break;
+      default:
+        currentHeaderId = 1;
+      }
+      if (currentHeaderId != prevHeaderId) {
+        if (table !=null) {
+          document.add(table);
+        }
+        switch (grouping) {
+        case DAY:
+          second = transactionCursor.getInt(columnIndexDay);
+            break;
+        case MONTH:
+          second = transactionCursor.getInt(columnIndexMonth);
+            break;
+        case WEEK:
+          second = transactionCursor.getInt(columnIndexWeek);
+            break;
+        }
+        table = new PdfPTable(2);
+        table.setWidthPercentage(100f);
+        PdfPCell cell = new PdfPCell(
+            new Phrase(grouping.getDisplayTitle(ctx,year,second,transactionCursor),headerFont));
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+        cell = new PdfPCell(
+            new Phrase("= " + Utils.convAmount(
+                DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim),
+                currency),
+            headerFont));
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+        document.add(table);
+        table = new PdfPTable(3);
+        table.setWidthPercentage(100f);
+        cell = new PdfPCell(
+            new Phrase("- " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense),
+            currency)));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        cell = new PdfPCell(
+            new Phrase("+ " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome),
+            currency)));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        cell = new PdfPCell(
+                new Phrase("<-> " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
+            currency)));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        table.setSpacingAfter(2f);
+        document.add(table);
+        LineSeparator sep = new LineSeparator();
+        document.add(sep);
+        table = new PdfPTable(3);
+        table.setWidths(new int[] {1,5,1});
+        table.setSpacingBefore(2f);
+        table.setSpacingAfter(2f);
+        table.setWidthPercentage(95f);
+        prevHeaderId = currentHeaderId;
+        groupCursor.moveToNext();
+      }
+      long amount = transactionCursor.getLong(columnIndexAmount);
+      Paragraph catPara = new Paragraph();
+      String catText = transactionCursor.getString(columnIndexLabelMain);
+      if (DbUtils.getLongOrNull(transactionCursor,columnIndexTransferPeer) != null) {
+        catText = ((amount < 0) ? "=> " : "<= ") + catText;
+      } else {
+        Long catId = DbUtils.getLongOrNull(transactionCursor,KEY_CATID);
+        if (SPLIT_CATID.equals(catId))
+          catText = ctx.getString(R.string.split_transaction);
+        else if (catId == null) {
+          catText = ctx.getString(R.string.no_category_assigned);
+        } else {
+          String label_sub = transactionCursor.getString(columnIndexLabelSub);
+          if (label_sub != null && label_sub.length() > 0) {
+            catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
+          }
+        }
+      }
+      String referenceNumber= transactionCursor.getString(columnIndexReferenceNumber);
+      if (referenceNumber != null && referenceNumber.length() > 0)
+        catText = "(" + referenceNumber + ") " + catText;
+      catPara.add(new Phrase(catText));
+      String comment = transactionCursor.getString(columnIndexComment);
+      if (comment != null && comment.length() > 0) {
+        catPara.add(new Phrase(TransactionList.COMMENT_SEPARATOR));
+        catPara.add(new Phrase(comment,italicFont));
+      }
+      String payee = transactionCursor.getString(columnIndexPayee);
+      if (payee != null && payee.length() > 0) {
+        catPara.add(new Phrase(TransactionList.COMMENT_SEPARATOR));
+        catPara.add(new Phrase(payee,underlineFont));
+      }
+      PdfPCell cell = new PdfPCell(
+          new Phrase(Utils.convDateTime(transactionCursor.getString(columnIndexDate),itemDateFormat)));
+      cell.setBorder(Rectangle.NO_BORDER);
+      table.addCell(cell);
+      cell = new PdfPCell(catPara);
+      cell.setBorder(Rectangle.NO_BORDER);
+      table.addCell(cell);
+      cell = new PdfPCell(
+              new Phrase(Utils.convAmount(amount,currency),
+                  amount<0 ? expenseFont : incomeFont));
+      cell.setBorder(Rectangle.NO_BORDER);
+      table.addCell(cell);
+      transactionCursor.moveToNext();
+    }
+    // now add all this to the document
+    document.add(table);
+
+  }
+
+  private void addEmptyLine(Paragraph paragraph, int number) {
+    for (int i = 0; i < number; i++) {
+      paragraph.add(new Paragraph(" "));
     }
   }
 }

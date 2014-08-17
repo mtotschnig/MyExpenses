@@ -870,6 +870,20 @@ public class MyExpenses extends LaunchActivity implements
             MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
             "text/" + mExportFormat.toLowerCase(Locale.US));
       break;
+    case TaskExecutionFragment.TASK_PRINT:
+      Result result = (Result) o;
+      if (result.success) {
+        MessageDialogFragment.newInstance(
+            0,
+            result.print(this),
+            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,result.extra),
+            null,
+            MessageDialogFragment.Button.nullButton(android.R.string.cancel))
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+      } else {
+        Toast.makeText(this,result.print(this),Toast.LENGTH_LONG).show();
+      }
+      break;
     }
   }
   public void toggleCrStatus (View v) {
