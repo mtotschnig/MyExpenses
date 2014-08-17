@@ -1082,7 +1082,6 @@ public class Account extends Model {
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
-    transactionCursor.moveToFirst();
     Document document = new Document();
     PdfWriter.getInstance(document, new FileOutputStream(outputFile));
     document.open();
@@ -1118,7 +1117,8 @@ public class Account extends Model {
     document.add(preface);
   }
 
-  private void addTransactionList(Document document, Cursor c, WhereFilter filter) throws DocumentException {
+  private void addTransactionList(Document document, Cursor transactionCursor, WhereFilter filter)
+      throws DocumentException {
     Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
     builder.appendPath("groups")
       .appendPath(grouping.name());
@@ -1139,19 +1139,19 @@ public class Account extends Model {
     int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
     int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
     int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
-    int columnIndexYear = c.getColumnIndex(KEY_YEAR);
-    int columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
-    int columnIndexMonth = c.getColumnIndex(KEY_MONTH);
-    int columnIndexWeek = c.getColumnIndex(KEY_WEEK);
-    int columnIndexDay  = c.getColumnIndex(KEY_DAY);
-    int columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
-    int columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
-    int columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
-    int columnIndexComment = c.getColumnIndex(KEY_COMMENT);
-    int columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
-    int columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
-    int columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
-    int columnIndexDate = c.getColumnIndex(KEY_DATE);
+    int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
+    int columnIndexYearOfWeekStart = transactionCursor.getColumnIndex(KEY_YEAR_OF_WEEK_START);
+    int columnIndexMonth = transactionCursor.getColumnIndex(KEY_MONTH);
+    int columnIndexWeek = transactionCursor.getColumnIndex(KEY_WEEK);
+    int columnIndexDay  = transactionCursor.getColumnIndex(KEY_DAY);
+    int columnIndexAmount = transactionCursor.getColumnIndex(KEY_AMOUNT);
+    int columnIndexLabelSub = transactionCursor.getColumnIndex(KEY_LABEL_SUB);
+    int columnIndexLabelMain = transactionCursor.getColumnIndex(KEY_LABEL_MAIN);
+    int columnIndexComment = transactionCursor.getColumnIndex(KEY_COMMENT);
+    int columnIndexReferenceNumber= transactionCursor.getColumnIndex(KEY_REFERENCE_NUMBER);
+    int columnIndexPayee = transactionCursor.getColumnIndex(KEY_PAYEE_NAME);
+    int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
+    int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
     DateFormat itemDateFormat;
     switch (grouping) {
     case DAY:
@@ -1168,31 +1168,16 @@ public class Account extends Model {
     }
     PdfPTable table = null;
 
-    // t.setBorderColor(BaseColor.GRAY);
-    // t.setPadding(4);
-    // t.setSpacing(4);
-    // t.setBorderWidth(1);
-
-//    PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-//    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//    table.addCell(c1);
-//
-//    c1 = new PdfPCell(new Phrase("Table Header 2"));
-//    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//    table.addCell(c1);
-//
-//    c1 = new PdfPCell(new Phrase("Table Header 3"));
-//    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//    table.addCell(c1);
-//    table.setHeaderRows(1);
-
     int prevHeaderId = 0,currentHeaderId;
 
-    while( c.getPosition() < c.getCount() ) {
-      int year = c.getInt(grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
-      int month = c.getInt(columnIndexMonth);
-      int week = c.getInt(columnIndexWeek);
-      int day = c.getInt(columnIndexDay);
+    transactionCursor.moveToFirst();
+    groupCursor.moveToFirst();
+
+    while( transactionCursor.getPosition() < transactionCursor.getCount() ) {
+      int year = transactionCursor.getInt(grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int month = transactionCursor.getInt(columnIndexMonth);
+      int week = transactionCursor.getInt(columnIndexWeek);
+      int day = transactionCursor.getInt(columnIndexDay);
       int second=-1;
 
       switch(grouping) {
@@ -1215,48 +1200,18 @@ public class Account extends Model {
         if (table !=null) {
           document.add(table);
         }
-        groupCursor.moveToFirst();
-        //no grouping, we need the first and only row
-        if (grouping.equals(Grouping.NONE)) {
-          //fillSums(holder,groupCursor);
-        } else {
-          traverseCursor:
-          while (!groupCursor.isAfterLast()) {
-            if (groupCursor.getInt(columnIndexGroupYear) == year) {
-              switch (grouping) {
-              case YEAR:
-                //fillSums(holder,groupCursor);
-                break traverseCursor;
-              case DAY:
-                second = c.getInt(columnIndexDay);
-                if (groupCursor.getInt(columnIndexGroupSecond) != second)
-                  break;
-                else {
-                  //fillSums(holder,groupCursor);
-                  break traverseCursor;
-                }
-              case MONTH:
-                second = c.getInt(columnIndexMonth);
-                if (groupCursor.getInt(columnIndexGroupSecond) != second)
-                  break;
-                else {
-                  //fillSums(holder,groupCursor);
-                  break traverseCursor;
-                }
-              case WEEK:
-                second = c.getInt(columnIndexWeek);
-                if (groupCursor.getInt(columnIndexGroupSecond) != second)
-                  break;
-                else {
-                  //fillSums(holder,groupCursor);
-                  break traverseCursor;
-                }
-              }
-            }
-            groupCursor.moveToNext();
-          }
+        switch (grouping) {
+        case DAY:
+          second = transactionCursor.getInt(columnIndexDay);
+            break;
+        case MONTH:
+          second = transactionCursor.getInt(columnIndexMonth);
+            break;
+        case WEEK:
+          second = transactionCursor.getInt(columnIndexWeek);
+            break;
         }
-        document.add(new Paragraph(grouping.getDisplayTitle(ctx,year,second,c)));
+        document.add(new Paragraph(grouping.getDisplayTitle(ctx,year,second,transactionCursor)));
         document.add(new Paragraph("= " + Utils.convAmount(
             DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim),
             currency)));
@@ -1271,46 +1226,47 @@ public class Account extends Model {
             currency)));
         table = new PdfPTable(3);
         prevHeaderId = currentHeaderId;
+        groupCursor.moveToNext();
       }
-      long amount = c.getLong(columnIndexAmount);
+      long amount = transactionCursor.getLong(columnIndexAmount);
       //setColor(tv1,amount < 0);
-      CharSequence catText = c.getString(columnIndexLabelMain);
-      if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {
+      CharSequence catText = transactionCursor.getString(columnIndexLabelMain);
+      if (DbUtils.getLongOrNull(transactionCursor,columnIndexTransferPeer) != null) {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
       } else {
-        Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+        Long catId = DbUtils.getLongOrNull(transactionCursor,KEY_CATID);
         if (SPLIT_CATID.equals(catId))
           catText = ctx.getString(R.string.split_transaction);
         else if (catId == null) {
           catText = ctx.getString(R.string.no_category_assigned);
         } else {
-          String label_sub = c.getString(columnIndexLabelSub);
+          String label_sub = transactionCursor.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
             catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
           }
         }
       }
-      String referenceNumber= c.getString(columnIndexReferenceNumber);
+      String referenceNumber= transactionCursor.getString(columnIndexReferenceNumber);
       if (referenceNumber != null && referenceNumber.length() > 0)
         catText = "(" + referenceNumber + ") " + catText;
       SpannableStringBuilder ssb;
-      String comment = c.getString(columnIndexComment);
+      String comment = transactionCursor.getString(columnIndexComment);
       if (comment != null && comment.length() > 0) {
         ssb = new SpannableStringBuilder(comment);
         ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
         catText = TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb);
       }
-      String payee = c.getString(columnIndexPayee);
+      String payee = transactionCursor.getString(columnIndexPayee);
       if (payee != null && payee.length() > 0) {
         ssb = new SpannableStringBuilder(payee);
         ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
         catText = TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb);
       }
 
-      table.addCell(Utils.convDateTime(c.getString(columnIndexDate),itemDateFormat));
+      table.addCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate),itemDateFormat));
       table.addCell(catText.toString());
-      table.addCell(Utils.convAmount(c.getString(columnIndexAmount),currency));
-      c.moveToNext();
+      table.addCell(Utils.convAmount(transactionCursor.getString(columnIndexAmount),currency));
+      transactionCursor.moveToNext();
     }
     // now add all this to the document
     document.add(table);

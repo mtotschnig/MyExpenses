@@ -258,6 +258,7 @@ public class TransactionProvider extends ContentProvider {
                     + "(" + yearExpression + " = " + KEY_YEAR + " AND "
                     + secondDef + " <= " + KEY_SECOND_GROUP + "))) AS " + KEY_INTERIM_BALANCE
             };
+        defaultOrderBy = KEY_YEAR + " DESC," + KEY_SECOND_GROUP + " DESC";
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
