@@ -1096,7 +1096,7 @@ public class Account extends Model {
     addTransactionList(document,transactionCursor,filter);
     transactionCursor.close();
     document.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getAbsolutePath());
+    return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
   }
   // iText allows to add metadata to the PDF which can be viewed in your Adobe
   // Reader

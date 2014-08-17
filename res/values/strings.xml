@@ -203,6 +203,7 @@
     <string name="menu_manage_plans">Templates and plans</string>
     <string name="menu_manage_plans_tab_templates">Templates</string>
     <string name="menu_manage_plans_tab_plans">Plans</string>
+    <string name="menu_open">Open</string>
     <string name="menu_print">Print</string>
     <string name="menu_reset">Export and reset</string>
     <string name="menu_reset_all">Export and reset all</string>
