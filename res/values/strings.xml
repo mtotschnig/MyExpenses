@@ -220,6 +220,7 @@
     <string name="no_amount_given">You did not enter any amount.</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
     <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
+    <string name="no_app_handling_pdf_available">No app handling PDF files available.</string>
     <string name="no_categories">No categories.</string>
     <string name="no_category_assigned">No category assigned</string>
     <string name="no_details">No details.</string>

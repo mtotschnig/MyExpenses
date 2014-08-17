@@ -661,6 +661,16 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
+      case R.id.OPEN_PDF_COMMAND:
+        i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.setDataAndType(Uri.fromFile((File) tag), "application/pdf");
+        if (!Utils.isIntentAvailable(this,i)) {
+          Toast.makeText(this,R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
+        } else {
+          startActivity(i);
+        }
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -876,7 +886,7 @@ public class MyExpenses extends LaunchActivity implements
         MessageDialogFragment.newInstance(
             0,
             result.print(this),
-            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,result.extra),
+            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,(File) result.extra[0]),
             null,
             MessageDialogFragment.Button.nullButton(android.R.string.cancel))
          .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
