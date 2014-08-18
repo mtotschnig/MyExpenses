@@ -67,8 +67,10 @@
   <string name="dialog_password_new_password_confirmation">Nuova password (conferma)</string>
   <string name="dialog_remind_later">Più tardi</string>
   <string name="dialog_remind_no">No grazie</string>
-  <string name="dialog_remind_rate_1">Si prega di prendere un momento per votare Le mie spese.</string>
-  <string name="dialog_remind_rate_2">I vostri commenti ci permettono di aggiungere continuamente perfezionamenti.</string>
+  <string name="dialog_remind_rate_how_many_stars">Quante stelle daresti a miei spese?</string>
+  <string name="dialog_remind_rate_1">Si prega di prendere un momento di votare e di rivedere le spese personali.</string>
+  <string name="dialog_remind_rate_2">Le vostre osservazioni ci permettono di aggiungere continuamente miglioramenti e perfezionamenti.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Si prega di prendere un momento per inviarci i vostri suggerimenti per miglioramenti.</string>
   <string name="dialog_remind_rate_yes">Vota ora</string>
   <string name="dialog_security_answer">Risposta</string>
   <string name="dialog_security_question">Domanda</string>
@@ -462,4 +464,6 @@
   <string name="comparison_operator_greater_than">maggiore di</string>
   <string name="comparison_operator_lesser_than">minore di</string>
   <string name="comparison_operator_between">tra</string>
+  <string name="promotion_appgratis_welcome">Offerta speciale di oggi con AppGratis: caratteristiche Premium sbloccati gratuitamente.</string>
+  <string name="premium_unlocked">Caratteristiche Premium sbloccate.</string>
 </resources>

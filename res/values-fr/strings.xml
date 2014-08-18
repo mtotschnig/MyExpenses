@@ -19,7 +19,7 @@
   </plurals>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
-  <string name="confirmation_dialog_dont_show_again">Ne pas le remontrer</string>
+  <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec <i>Mes dépenses</i> est limité à 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
@@ -67,8 +67,10 @@
   <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
-  <string name="dialog_remind_rate_1">S\'il vous plaît, publiez votre avis au sujet de Mes dépenses.</string>
-  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter sans cesse des améliorations.</string>
+  <string name="dialog_remind_rate_how_many_stars">Combien d\'étoiles donneriez-vous à Mes dépenses</string>
+  <string name="dialog_remind_rate_1">S\'il vous plaît prenez le temps pour évaluer et noter Mes dépenses.</string>
+  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter continuellement des améliorations et perfectionnements.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">S\'il vous plaît prenez le temps de nous envoyer vos suggestions pour des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_security_answer">Réponse</string>
   <string name="dialog_security_question">Question</string>
@@ -78,7 +80,7 @@
   <string name="dialog_setup_planner_button_select_existing">Sélectionner existant</string>
   <string name="dialog_title_attention">Attention</string>
   <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">Rapprocher %1$s</string>
+  <string name="dialog_title_balance_account">Rapprochement %1$s</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_menu_command_disabled">Commande désactivée</string>
   <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
@@ -462,4 +464,6 @@
   <string name="comparison_operator_greater_than">supérieur à</string>
   <string name="comparison_operator_lesser_than">inférieur à</string>
   <string name="comparison_operator_between">entre</string>
+  <string name="promotion_appgratis_welcome">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
+  <string name="premium_unlocked">Fonctions Premium déverrouillées.</string>
 </resources>
