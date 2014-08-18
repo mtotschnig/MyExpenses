@@ -1151,6 +1151,7 @@ public class Account extends Model {
     int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
     int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
     int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
+    int columnIndexRowId = transactionCursor.getColumnIndex(KEY_ROWID);
     int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
     int columnIndexYearOfWeekStart = transactionCursor.getColumnIndex(KEY_YEAR_OF_WEEK_START);
     int columnIndexMonth = transactionCursor.getColumnIndex(KEY_MONTH);
@@ -1280,8 +1281,38 @@ public class Account extends Model {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
       } else {
         Long catId = DbUtils.getLongOrNull(transactionCursor,KEY_CATID);
-        if (SPLIT_CATID.equals(catId))
-          catText = ctx.getString(R.string.split_transaction);
+        if (SPLIT_CATID.equals(catId)) {
+          Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+              KEY_PARENTID + " = "+transactionCursor.getLong(columnIndexRowId), null, null);
+          splits.moveToFirst();
+          catText = "";
+          while( splits.getPosition() < splits.getCount() ) {
+            String splitText = DbUtils.getString(splits, KEY_LABEL_MAIN);
+            if (splitText.length() > 0) {
+              if (DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER) != null) {
+                splitText = "[" + splitText + "]";
+              } else {
+                String label_sub =  DbUtils.getString(splits, KEY_LABEL_SUB);
+                if (label_sub.length() > 0)
+                  splitText += TransactionList.CATEGORY_SEPARATOR + label_sub;
+              }
+            } else {
+              splitText = ctx.getString(R.string.no_category_assigned);
+            }
+            splitText += " " + Utils.convAmount(splits.getLong(
+                splits.getColumnIndexOrThrow(KEY_AMOUNT)),currency);
+            String splitComment = DbUtils.getString(splits, KEY_COMMENT);
+            if (splitComment != null && splitComment.length() > 0) {
+              splitText += " (" + splitComment + ")";
+            }
+            catText += splitText;
+            if (splits.getPosition()!=splits.getCount()-1) {
+              catText += "; ";
+            }
+            splits.moveToNext();
+          }
+          splits.close();
+          }
         else if (catId == null) {
           catText = ctx.getString(R.string.no_category_assigned);
         } else {
