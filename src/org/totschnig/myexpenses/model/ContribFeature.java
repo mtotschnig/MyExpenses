@@ -27,7 +27,14 @@ import android.net.Uri;
 public class ContribFeature extends Model {
 
   public enum Feature {
-    ACCOUNTS_UNLIMITED(false),PLANS_UNLIMITED(false),RESET_ALL,SECURITY_QUESTION,SPLIT_TRANSACTION,DISTRIBUTION, TEMPLATE_WIDGET;
+    ACCOUNTS_UNLIMITED(false),
+    PLANS_UNLIMITED(false),
+    RESET_ALL,
+    SECURITY_QUESTION,
+    SPLIT_TRANSACTION,
+    DISTRIBUTION,
+    TEMPLATE_WIDGET,
+    PRINT;
 
     private Feature() {
       this(true);

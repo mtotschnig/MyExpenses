@@ -78,6 +78,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -387,8 +388,6 @@ public class TransactionList extends BudgetListFragment implements
       Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       builder.appendPath("groups")
         .appendPath(mAccount.grouping.name());
-      //the selectionArg is used in a subquery used by the content provider
-      //this will change once filters are implemented
       if (mAccount.getId() < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
       } else {
@@ -912,18 +911,20 @@ public class TransactionList extends BudgetListFragment implements
       }
       return true;
     case R.id.PRINT_COMMAND:
-      Bundle args = new Bundle();
-      args.putSparseParcelableArray(KEY_FILTER, mFilter.getCriteria());
-      args.putLong(KEY_ROWID, mAccount.getId());
-      getActivity().getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstancePrint(args),
-            "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),"PROGRESS")
-        .commit();
+      MyExpenses ctx = (MyExpenses) getActivity();
+      if (MyApplication.getInstance().isContribEnabled()) {
+        ctx.contribFeatureCalled(Feature.PRINT, null);
+      }
+      else {
+        CommonCommands.showContribDialog(ctx,Feature.PRINT, null);
+      }
       return true;
     default:
       return super.onOptionsItemSelected(item);
     }
+  }
+  public SparseArray<Criteria> getFilterCriteria() {
+    return mFilter.getCriteria();
   }
   private void restoreFilterFromPreferences() {
     SharedPreferences settings = MyApplication.getInstance().getSettings();

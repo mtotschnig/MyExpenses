@@ -40,6 +40,7 @@
     <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
     <string name="contrib_feature_plans_unlimited_description">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
     <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
+    <string name="contrib_feature_print_label">Export transaction list to PDF</string>
     <string name="contrib_feature_reset_all_label">Reset all accounts</string>
     <string name="contrib_feature_security_question_label">Security question</string>
     <string name="contrib_feature_split_transaction_label">Split transaction</string>

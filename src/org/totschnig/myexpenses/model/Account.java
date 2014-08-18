@@ -1093,7 +1093,7 @@ public class Account extends Model {
     document.open();
     addMetaData(document);
     addHeader(document);
-    addTransactionList(document,transactionCursor,filter);
+    addTransactionList(document,transactionCursor);
     transactionCursor.close();
     document.close();
     return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
@@ -1133,13 +1133,11 @@ public class Account extends Model {
     document.add(preface);
   }
 
-  private void addTransactionList(Document document, Cursor transactionCursor, WhereFilter filter)
+  private void addTransactionList(Document document, Cursor transactionCursor)
       throws DocumentException {
     Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
     builder.appendPath("groups")
       .appendPath(grouping.name());
-    //the selectionArg is used in a subquery used by the content provider
-    //this will change once filters are implemented
     if (getId() < 0) {
       builder.appendQueryParameter(KEY_CURRENCY, currency.getCurrencyCode());
     } else {

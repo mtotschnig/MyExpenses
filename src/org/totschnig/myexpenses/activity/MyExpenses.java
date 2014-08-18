@@ -116,8 +116,8 @@ public class MyExpenses extends LaunchActivity implements
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final long TRESHOLD_REMIND_RATE = 6L;
-  static final long TRESHOLD_REMIND_CONTRIB = 2L;
+  static final long TRESHOLD_REMIND_RATE = 47L;
+  static final long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR=-1;
   public static final int ACCOUNTS_OTHER_CURSOR=2;
@@ -448,7 +448,7 @@ public class MyExpenses extends LaunchActivity implements
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled()) {
-        contribFeatureCalled(Feature.DISTRIBUTION, null);
+          contribFeatureCalled(Feature.DISTRIBUTION, null);
         }
         else {
           CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
@@ -739,6 +739,20 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case RESET_ALL:
       DialogUtils.showWarningResetDialog(this, mAccountId);
+      break;
+    case PRINT:
+      TransactionList tl = getCurrentFragment();
+      if (tl != null)  {
+        feature.recordUsage();
+        Bundle args = new Bundle();
+        args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
+        args.putLong(KEY_ROWID, mAccountId);
+        getSupportFragmentManager().beginTransaction()
+          .add(TaskExecutionFragment.newInstancePrint(args),
+              "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),"PROGRESS")
+          .commit();
+      }
       break;
     }
   }
