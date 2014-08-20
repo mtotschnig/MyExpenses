@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_230">
+    <item>Buchungsliste als PDF-Datei drucken</item>
+  </string-array>
   <string-array name="whats_new_220">
     <item>Suche nach Buchungen pro Kategorie, Betrag, Notiz, Status, Empfänger/Zahler, Zahlungsweise</item>
   </string-array>

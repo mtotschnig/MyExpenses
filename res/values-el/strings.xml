@@ -89,7 +89,7 @@
     <string name="donate_dialog_text">Παρακαλούμε κάνετε δωρεά μέσω PayPal, Flattr ή Bitcoin, και στη συνέχεια να ζητήσετε ένα κλειδί contrib από την οθόνη ρυθμίσεων.</string>
     <string name="expense">Δαπάνη</string>
     <string name="export_expenses">Εξαγωγή εξόδων </string>
-    <string name="export_expenses_sdcard_failure">Εξαγωγή εξόδων σε sdcard απέτυχε</string>
+    <string name="export_expenses_sdcard_failure">Εξαγωγή εξόδων σε sdcard απέτυχε %1$s: %2$s</string>
     <string name="export_expenses_sdcard_success">Έξοδα που εξάγονται σε αρχείο %1$s</string>
     <string name="external_storage_unavailable">Εξωτερική αποθήκευση (sdcard) δεν είναι διαθέσιμη</string>
     <string name="feedback">Ανατροφοδότηση</string>

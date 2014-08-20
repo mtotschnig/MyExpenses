@@ -80,7 +80,7 @@
     <string name="donate_dialog_text">請使用PayPal、Flattr或Bitcoin捐贈，然後於設定版面要求獲得一個貢獻密鑰。</string>
     <string name="expense">支出</string>
     <string name="export_expenses">匯出開支</string>
-    <string name="export_expenses_sdcard_failure">開支匯出到SD卡失敗</string>
+    <string name="export_expenses_sdcard_failure">開支匯出到SD卡失敗 %1$s: %2$s</string>
     <string name="export_expenses_sdcard_success">匯出開支到檔案 %1$s</string>
     <string name="external_storage_unavailable">外部儲存 (SD卡) 不可用</string>
     <string name="feedback">意見反饋</string>

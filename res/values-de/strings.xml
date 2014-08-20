@@ -26,6 +26,7 @@
   <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
   <string name="contrib_feature_plans_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
   <string name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
+  <string name="contrib_feature_print_label">Buchungsliste als PDF-Datei drucken</string>
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
@@ -99,7 +100,7 @@
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
-  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach \"%1$s\"</string>
+  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach \"%1$s\": %2$s</string>
   <string name="export_expenses_sdcard_success">Ausgaben in Datei \"%1$s\" exportiert</string>
   <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
   <string name="feedback">Feedback</string>
@@ -189,6 +190,8 @@
   <string name="menu_manage_plans">Vorlagen und Pläne</string>
   <string name="menu_manage_plans_tab_templates">Vorlagen</string>
   <string name="menu_manage_plans_tab_plans">Pläne</string>
+  <string name="menu_open">Öffnen</string>
+  <string name="menu_print">Drucken</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -204,6 +207,7 @@
   <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
   <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
+  <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
   <string name="no_category_assigned">Keine Kategorie zugeordnet</string>
   <string name="no_details">Keine Details vorhanden.</string>
@@ -349,6 +353,7 @@
   <string name="progress_dialog_create_plan">Neuer Plan wird angelegt …</string>
   <string name="progress_dialog_deleting">Objekte werden gelöscht …</string>
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen …</string>
+  <string name="progress_dialog_printing">Generierung von PDF...</string>
   <string name="progress_dialog_saving">Objekt wird in Datenbank gespeichert …</string>
   <string name="progress_dialog_setup">Datenbank wird initialisiert …</string>
   <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>

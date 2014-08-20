@@ -26,6 +26,7 @@
   <string name="contrib_feature_distribution_label">Distribuição de transações por categoria</string>
   <string name="contrib_feature_plans_unlimited_description">O número de planos que você pode criar com <i>Minhas despesas</i> é limitado a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Número ilimitado de planos</string>
+  <string name="contrib_feature_print_label">Exportar lista de transações para PDF</string>
   <string name="contrib_feature_reset_all_label">Reiniciar todas as contas</string>
   <string name="contrib_feature_security_question_label">Pergunta de segurança</string>
   <string name="contrib_feature_split_transaction_label">Transação de divisão</string>
@@ -67,8 +68,10 @@
   <string name="dialog_password_new_password_confirmation">Nova senha (confirmação)</string>
   <string name="dialog_remind_later">Depois</string>
   <string name="dialog_remind_no">Não, obrigado</string>
+  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria aos Minhas despesas?</string>
   <string name="dialog_remind_rate_1">Por favor, tome um momento para avaliar e revisar minhas despesas.</string>
   <string name="dialog_remind_rate_2">Seus comentários nos permitam adicionar continuamente melhorias e aperfeiçoamentos.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Por favor tire um momento para nos enviar suas sugestões para melhorias.</string>
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
   <string name="dialog_security_answer">Responder</string>
   <string name="dialog_security_question">Pergunta</string>
@@ -97,7 +100,7 @@
   <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave de contrib a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
-  <string name="export_expenses_sdcard_failure">Falha na exportação de despesas para \"%1$s\"</string>
+  <string name="export_expenses_sdcard_failure">Falha na exportação de despesas para \"%1$s\": %2$s</string>
   <string name="export_expenses_sdcard_success">Despesas exportadas para o arquivo \"%1$s\"</string>
   <string name="external_storage_unavailable">Armazenamento externo (sdcard) não disponível</string>
   <string name="feedback">Comentar</string>
@@ -187,6 +190,8 @@
   <string name="menu_manage_plans">Modelos e planos</string>
   <string name="menu_manage_plans_tab_templates">Modelos</string>
   <string name="menu_manage_plans_tab_plans">Planos</string>
+  <string name="menu_open">Abrir</string>
+  <string name="menu_print">Imprimir</string>
   <string name="menu_reset">Exportação e reset</string>
   <string name="menu_reset_all">Exportação e redefinir todos os</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -202,6 +207,7 @@
   <string name="no_amount_given">Você não entra qualquer quantidade.</string>
   <string name="no_app_handling_email_available">Nenhum aplicativo de manipulação de e-mail disponível.</string>
   <string name="no_app_handling_ftp_available">Nenhum app manipulação de ftp disponível. Instalar <i>enviar com FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Nenhum app PDF disponível.</string>
   <string name="no_categories">Sem categorias.</string>
   <string name="no_category_assigned">Sem categoria atribuída</string>
   <string name="no_details">Sem detalhes.</string>
@@ -347,6 +353,7 @@
   <string name="progress_dialog_create_plan">Criação de novo plano...</string>
   <string name="progress_dialog_deleting">Exclusão de objetos...</string>
   <string name="progress_dialog_loading">Objeto de carregamento de banco de dados...</string>
+  <string name="progress_dialog_printing">Gerando PDF...</string>
   <string name="progress_dialog_saving">Salvando o objeto de banco de dados...</string>
   <string name="progress_dialog_setup">O banco de dados foi inicializado …</string>
   <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s partidos</string>
@@ -462,4 +469,6 @@
   <string name="comparison_operator_greater_than">maior que</string>
   <string name="comparison_operator_lesser_than">menor do que</string>
   <string name="comparison_operator_between">entre</string>
+  <string name="promotion_appgratis_welcome">Oferta especial de hoje com AppGratis: características Premium desbloqueadas gratuitamente.</string>
+  <string name="premium_unlocked">Características premium desbloqueadas.</string>
 </resources>

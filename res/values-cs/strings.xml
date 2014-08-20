@@ -84,7 +84,7 @@
   <string name="donate_dialog_text">Prosím přispějte přes PayPal, Flattr nebo Bitcoin a potom požádejte o klíč ke Contrib verzi aplikace z obrazovky nastavení.</string>
   <string name="expense">Výdaj</string>
   <string name="export_expenses">Export výdajů</string>
-  <string name="export_expenses_sdcard_failure">Export výdajů na sdkartu se nezdařil.</string>
+  <string name="export_expenses_sdcard_failure">Export výdajů na sdkartu se nezdařil %1$s: %2$s</string>
   <string name="export_expenses_sdcard_success">Výdaje vyexportovány do souboru %1$s</string>
   <string name="external_storage_unavailable">Externí úložiště (paměťová karta) není k dispozici.</string>
   <string name="feedback">Zpětná vazba</string>

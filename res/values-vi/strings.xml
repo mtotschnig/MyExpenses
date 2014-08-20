@@ -79,7 +79,7 @@
     <string name="donate_dialog_text">Bạn có thể ủng hộ chúng tôi thông qua PayPal, Flattr hoặc Bitcoin, và sau đó gửi một yêu cầu về khóa cống hiến từ màn hình thiết lập.</string>
     <string name="expense">Chi tiêu</string>
     <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
-    <string name="export_expenses_sdcard_failure">Xảy ra lỗi khi xuất dữ liệu chi tiêu vào thẻ nhớ</string>
+    <string name="export_expenses_sdcard_failure">Xảy ra lỗi khi xuất dữ liệu chi tiêu vào thẻ nhớ %1$s: %2$s</string>
     <string name="export_expenses_sdcard_success">Dữ liệu về chi tiêu đã được xuất ra tập tin %1$s</string>
     <string name="external_storage_unavailable">Dữ liệu ngoại vi (thẻ nhớ) hiện không thể truy cập</string>
     <string name="feedback">Phản hồi</string>
