@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
