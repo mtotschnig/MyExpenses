@@ -97,7 +97,7 @@
   <string name="donate_dialog_text">Proszę dawać datki przez PayPal, Flattr lub Bitcoin, i wtedy poproś o klucz Contrib z ekranu ustawień.</string>
   <string name="expense">Wydatek</string>
   <string name="export_expenses">Eksport wydatków</string>
-  <string name="export_expenses_sdcard_failure">Eksport wydatków na kartę pamięci nie powiodło się.</string>
+  <string name="export_expenses_sdcard_failure">Eksport wydatków na kartę pamięci nie powiodło się %1$s: %2$s</string>
   <string name="export_expenses_sdcard_success">Wydatki zostały wyeksportowane do pliku %1$s</string>
   <string name="external_storage_unavailable">Zewnętrzny nośnik (karta pamięci) nie jest dostępna</string>
   <string name="feedback">Opinie</string>

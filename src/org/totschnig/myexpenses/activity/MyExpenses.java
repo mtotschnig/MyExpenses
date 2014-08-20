@@ -24,13 +24,11 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
-import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -46,13 +44,10 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
-import org.totschnig.myexpenses.provider.filter.TextCriteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -127,8 +122,8 @@ public class MyExpenses extends LaunchActivity implements
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final long TRESHOLD_REMIND_RATE = 6L;
-  static final long TRESHOLD_REMIND_CONTRIB = 2L;
+  static final long TRESHOLD_REMIND_RATE = 47L;
+  static final long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR=-1;
   public static final int ACCOUNTS_OTHER_CURSOR=2;
@@ -459,7 +454,7 @@ public class MyExpenses extends LaunchActivity implements
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled()) {
-        contribFeatureCalled(Feature.DISTRIBUTION, null);
+          contribFeatureCalled(Feature.DISTRIBUTION, null);
         }
         else {
           CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
@@ -672,6 +667,16 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
+      case R.id.OPEN_PDF_COMMAND:
+        i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.setDataAndType(Uri.fromFile((File) tag), "application/pdf");
+        if (!Utils.isIntentAvailable(this,i)) {
+          Toast.makeText(this,R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
+        } else {
+          startActivity(i);
+        }
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -741,6 +746,20 @@ public class MyExpenses extends LaunchActivity implements
     case RESET_ALL:
       DialogUtils.showWarningResetDialog(this, mAccountId);
       break;
+    case PRINT:
+      TransactionList tl = getCurrentFragment();
+      if (tl != null)  {
+        feature.recordUsage();
+        Bundle args = new Bundle();
+        args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
+        args.putLong(KEY_ROWID, mAccountId);
+        getSupportFragmentManager().beginTransaction()
+          .add(TaskExecutionFragment.newInstancePrint(args),
+              "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),"PROGRESS")
+          .commit();
+      }
+      break;
     }
   }
   @Override
@@ -764,9 +783,9 @@ public class MyExpenses extends LaunchActivity implements
   private void setCurrentAccount(int position) {
     mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
-    if (mAccountId != newAccountId)
-      SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(), newAccountId));
+    if (mAccountId != newAccountId) {
+      MyApplication.PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
+    }
     mAccountId = newAccountId;
     setCustomTitle();
     mDrawerList.setItemChecked(position, true);
@@ -880,6 +899,20 @@ public class MyExpenses extends LaunchActivity implements
         Utils.share(this,files,
             MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
             "text/" + mExportFormat.toLowerCase(Locale.US));
+      break;
+    case TaskExecutionFragment.TASK_PRINT:
+      Result result = (Result) o;
+      if (result.success) {
+        MessageDialogFragment.newInstance(
+            0,
+            result.print(this),
+            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,(File) result.extra[0]),
+            null,
+            MessageDialogFragment.Button.nullButton(android.R.string.cancel))
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+      } else {
+        Toast.makeText(this,result.print(this),Toast.LENGTH_LONG).show();
+      }
       break;
     }
   }

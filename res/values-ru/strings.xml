@@ -92,7 +92,7 @@
   <string name="donate_dialog_text">Пожертвовать через PayPal, Flattr или Bitcoin, а затем запросить contrib-ключ в настройках.</string>
   <string name="expense">Расход</string>
   <string name="export_expenses">Экспорт расходов</string>
-  <string name="export_expenses_sdcard_failure">Экспорт расходов в \"%1$s\" не удался</string>
+  <string name="export_expenses_sdcard_failure">Экспорт расходов в \"%1$s\" не удался: %2$s</string>
   <string name="export_expenses_sdcard_success">Расходы экспортированы в файл \"%1$s\"</string>
   <string name="external_storage_unavailable">Внешнее хранилище (sdcard) не доступно</string>
   <string name="feedback">Отзыв</string>

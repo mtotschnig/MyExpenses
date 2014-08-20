@@ -57,6 +57,7 @@
     licensed under GPL v2.0 .</string>
   <string name="help_licence_aosp">EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project,
     licensed under Apache License, Version 2.0 .</string>
+  <string name="help_licence_itext">iText from http://itextpdf.com, licensed under Affero General Public License .</string>
   <string name="help_licence_acra">Includes Acra from http://acra.ch/, licensed under Apache License, Version 2.0 .</string>
 
   <string name="donate_button_flattr">Flattr</string>

@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -104,6 +103,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       Cursor c = MyApplication.getInstance().getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {KEY_ROWID}, selection, selectionArgs, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
+      c.close();
     }
     Account account;
     File destDir;
@@ -143,8 +143,10 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
           successfullyExported.add(account);
         }
       } catch (IOException e) {
-        publishProgress("... " + MyApplication.getInstance().getString(R.string.export_expenses_sdcard_failure,appDir.getAbsolutePath()));
-        publishProgress(e.getMessage());
+        publishProgress("... " + MyApplication.getInstance().getString(
+            R.string.export_expenses_sdcard_failure,
+            appDir.getAbsolutePath(),
+            e.getMessage()));
       }
     }
     for (Account a : successfullyExported) {

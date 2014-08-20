@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -37,7 +36,6 @@ import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
@@ -346,9 +344,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     } else if (requestCode == PICK_FOLDER_REQUEST) {
       if (resultCode == RESULT_OK) {
         String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
-        SharedPreferencesCompat.apply(
-            MyApplication.getInstance().getSettings().edit()
-            .putString(MyApplication.PrefKey.APP_DIR.getKey(), databaseBackupFolder));
+        MyApplication.PrefKey.APP_DIR.putString(databaseBackupFolder);
       }
       setAppDirSummary();
     }

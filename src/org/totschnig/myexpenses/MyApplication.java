@@ -136,11 +136,23 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       public String getString(String defValue) {
         return mSelf.mSettings.getString(getKey(), defValue);
       }
+      public void putString(String value) {
+        SharedPreferencesCompat.apply(
+            mSelf.mSettings.edit().putString(getKey(),value));
+      }
       public boolean getBoolean(boolean defValue) {
         return mSelf.mSettings.getBoolean(getKey(), defValue);
       }
+      public void putBoolean(boolean value) {
+        SharedPreferencesCompat.apply(
+            mSelf.mSettings.edit().putBoolean(getKey(),value));
+      }
       public int getInt(int defValue) {
         return mSelf.mSettings.getInt(getKey(), defValue);
+      }
+      public void putInt(int value) {
+        SharedPreferencesCompat.apply(
+            mSelf.mSettings.edit().putInt(getKey(),value));
       }
       public long getLong(long defValue) {
         return mSelf.mSettings.getLong(getKey(), defValue);
@@ -148,6 +160,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       public void putLong(long value) {
         SharedPreferencesCompat.apply(
             mSelf.mSettings.edit().putLong(getKey(),value));
+      }
+      public void remove() {
+        SharedPreferencesCompat.apply(
+            mSelf.mSettings.edit().remove(getKey()));
       }
       PrefKey(int resId) {
         this.resId = resId;
@@ -358,8 +374,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
-        SharedPreferencesCompat.apply(
-            mSelf.mSettings.edit().remove(PrefKey.UI_FONTSIZE.getKey()));
+        PrefKey.UI_FONTSIZE.remove();
       }
       int resId;
       String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
@@ -588,8 +603,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
       }
       //onSharedPreferenceChanged should now trigger initPlanner
-      SharedPreferencesCompat.apply(
-          mSettings.edit().putString(PrefKey.PLANNER_CALENDAR_ID.getKey(), plannerCalendarId));
+      PrefKey.PLANNER_CALENDAR_ID.putString(plannerCalendarId);
       return true;
     }
     /**
@@ -632,13 +646,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           if (c != null && c.moveToFirst()) {
             String path = c.getString(0);
             Log.i(TAG,"storing calendar path : "+ path);
-            SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PrefKey.PLANNER_CALENDAR_PATH.getKey(), path));
+            PrefKey.PLANNER_CALENDAR_PATH.putString(path);
           } else {
             Log.e("TAG","could not retrieve configured calendar");
             mPlannerCalendarId = "-1";
-            SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1"));
+            PrefKey.PLANNER_CALENDAR_ID.putString("-1");
           }
           if (c != null)
             c.close();
@@ -700,8 +712,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             planCursor.close();
           }
         } else {
-          SharedPreferencesCompat.apply(
-              sharedPreferences.edit().remove(PrefKey.PLANNER_CALENDAR_PATH.getKey()));
+          PrefKey.PLANNER_CALENDAR_PATH.remove();
         }
       }
     }

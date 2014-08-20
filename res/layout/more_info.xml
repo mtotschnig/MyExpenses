@@ -39,6 +39,8 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_stickylistheaders"
         style="@style/about_text" />
+    <TextView android:text="@string/help_licence_itext"
+        style="@style/about_text" />
     <TextView android:text="@string/help_licence_grisbi"
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_aosp"

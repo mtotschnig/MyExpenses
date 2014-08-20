@@ -88,7 +88,7 @@
   <string name="donate_dialog_text">សូម​មេត្តា​ឧបត្ថម្ភ​តាម PayPal, Flattr ឬ Bitcoin ហើយ​បន្ទាប់​មក​ដាក់​ស្នើរ Contrib key ពី​អេក្រង់ ការកំណត់។</string>
   <string name="expense">ចំណាយ</string>
   <string name="export_expenses">នាំយកទិន្នន័យ​ចំណាយចេញ</string>
-  <string name="export_expenses_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន</string>
+  <string name="export_expenses_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន %1$s: %2$s</string>
   <string name="export_expenses_sdcard_success">ទិន្នន័យ​ចំណាយបានបញ្ចូលទៅឯកសារ %1$s</string>
   <string name="external_storage_unavailable">ការផ្ទុកខាងក្រៅ (sdកាត) មិនអាចទៅរួច</string>
   <string name="feedback">ផ្តល់មតិ</string>

@@ -26,6 +26,7 @@
   <string name="contrib_feature_distribution_label">Distribución de las transacciones por categoría</string>
   <string name="contrib_feature_plans_unlimited_description">El número de planes que se pueden crear con <i>Mis gastos</i> se limita a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Planes sin limite</string>
+  <string name="contrib_feature_print_label">Lista de transacciones de exportación a PDF</string>
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
@@ -67,8 +68,10 @@
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
+  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le darías a mis gastos?</string>
   <string name="dialog_remind_rate_1">Por favor, tome un momento para valorar y comentar Mis gastos.</string>
   <string name="dialog_remind_rate_2">Sus comentarios nos permiten añadir continuamente mejoras.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Por favor tome un momento para enviarnos tus sugerencias para mejoras.</string>
   <string name="dialog_remind_rate_yes">Valora hoy</string>
   <string name="dialog_security_answer">Respuesta</string>
   <string name="dialog_security_question">Pregunta</string>
@@ -97,7 +100,7 @@
   <string name="donate_dialog_text">Por favor,  donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportación de los gastos</string>
-  <string name="export_expenses_sdcard_failure">Exportación de los gastos al archivo %1$s ha fallado.</string>
+  <string name="export_expenses_sdcard_failure">Gastos exportan a \"%1$s\" error: %2$s</string>
   <string name="export_expenses_sdcard_success">Gastos han sido exportados al archivo %1$s</string>
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es disponible.</string>
   <string name="feedback">Feedback</string>
@@ -187,6 +190,8 @@
   <string name="menu_manage_plans">Plantillas y planes</string>
   <string name="menu_manage_plans_tab_templates">Plantillas</string>
   <string name="menu_manage_plans_tab_plans">Planes</string>
+  <string name="menu_open">Abierto</string>
+  <string name="menu_print">Imprimir</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -202,6 +207,7 @@
   <string name="no_amount_given">No ha insertado usted importe alguno.</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Instalar <i>Enviar con FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">No aplicación de manipulación de archivos PDF disponibles.</string>
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_category_assigned">Ninguna categoría asignada</string>
   <string name="no_details">No hay detalles.</string>
@@ -347,6 +353,7 @@
   <string name="progress_dialog_create_plan">Crear nuevo plan …</string>
   <string name="progress_dialog_deleting">Eliminación de objetos …</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos …</string>
+  <string name="progress_dialog_printing">Generación de PDF...</string>
   <string name="progress_dialog_saving">Guardando objeto de base de datos …</string>
   <string name="progress_dialog_setup">Base de datos se inicializa …</string>
   <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s partidos</string>
@@ -462,4 +469,6 @@
   <string name="comparison_operator_greater_than">mayor que</string>
   <string name="comparison_operator_lesser_than">menor que</string>
   <string name="comparison_operator_between">entre</string>
+  <string name="promotion_appgratis_welcome">Oferta especial de hoy con AppGratis: Características Premium desbloqueadas totalmente gratis.</string>
+  <string name="premium_unlocked">Características Premium desbloqueadas.</string>
 </resources>

@@ -187,6 +187,7 @@ public class Utils {
     } else {
       nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
     }
+    nf.setGroupingUsed(false);
     return nf;
   }
 

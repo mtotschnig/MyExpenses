@@ -26,6 +26,7 @@
   <string name="contrib_feature_distribution_label">Distribuzione di transazioni per categoria</string>
   <string name="contrib_feature_plans_unlimited_description">Il numero di scadenze che si possono creare con <i>Le mie spese</i> è limitata a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Numero illimitato di scadenze</string>
+  <string name="contrib_feature_print_label">Esportazione dell\'elenco delle transazioni in PDF</string>
   <string name="contrib_feature_reset_all_label">Resetta tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_split_transaction_label">Operazione frazionata</string>
@@ -67,8 +68,10 @@
   <string name="dialog_password_new_password_confirmation">Nuova password (conferma)</string>
   <string name="dialog_remind_later">Più tardi</string>
   <string name="dialog_remind_no">No grazie</string>
+  <string name="dialog_remind_rate_how_many_stars">Quante stelle daresti a miei spese?</string>
   <string name="dialog_remind_rate_1">Si prega di prendere un momento per votare Le mie spese.</string>
   <string name="dialog_remind_rate_2">I vostri commenti ci permettono di aggiungere continuamente perfezionamenti.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Si prega di prendere un momento per inviarci i vostri suggerimenti per miglioramenti.</string>
   <string name="dialog_remind_rate_yes">Vota ora</string>
   <string name="dialog_security_answer">Risposta</string>
   <string name="dialog_security_question">Domanda</string>
@@ -97,7 +100,7 @@
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
   <string name="expense">Spesa</string>
   <string name="export_expenses">Esportazione delle spese</string>
-  <string name="export_expenses_sdcard_failure">Esportazione delle spese nel file \"%1$s\" fallito</string>
+  <string name="export_expenses_sdcard_failure">Esportazione delle spese a \"%1$s\" fallito: %2$s</string>
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file \"%1$s\"</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
@@ -187,6 +190,8 @@
   <string name="menu_manage_plans">Modelli e scadenze</string>
   <string name="menu_manage_plans_tab_templates">Modelli</string>
   <string name="menu_manage_plans_tab_plans">Scadenze</string>
+  <string name="menu_open">Aprir</string>
+  <string name="menu_print">Stampare</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
   <string name="menu_reset_all">Esportare e reinizializzare tutti</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -202,6 +207,7 @@
   <string name="no_amount_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Nessun applicazione gestisce i file PDF e disponibile.</string>
   <string name="no_categories">Non ci sono categorie.</string>
   <string name="no_category_assigned">Nessuna categoria assegnata</string>
   <string name="no_details">Nessun dettaglio.</string>
@@ -347,6 +353,7 @@
   <string name="progress_dialog_create_plan">Creazione di una nuova scadenza …</string>
   <string name="progress_dialog_deleting">Cancellazione di oggetti …</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database …</string>
+  <string name="progress_dialog_printing">Creazione di PDF...</string>
   <string name="progress_dialog_saving">Salvando oggetto al database …</string>
   <string name="progress_dialog_setup">Il database è inizializzato …</string>
   <string name="qif_parse_result">Analizzato: %1$s conti. %2$s categorie e %3$s beneficiari</string>
@@ -462,4 +469,6 @@
   <string name="comparison_operator_greater_than">maggiore di</string>
   <string name="comparison_operator_lesser_than">minore di</string>
   <string name="comparison_operator_between">tra</string>
+  <string name="promotion_appgratis_welcome">Offerta speciale di oggi con AppGratis: caratteristiche Premium sbloccati gratuitamente.</string>
+  <string name="premium_unlocked">Caratteristiche Premium sbloccate.</string>
 </resources>

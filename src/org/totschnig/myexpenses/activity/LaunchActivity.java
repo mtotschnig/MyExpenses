@@ -7,8 +7,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Intent;
@@ -26,15 +24,14 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
-    Editor edit = mSettings.edit();
     int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
     int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version < current_version) {
-      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PrefKey.CURRENT_VERSION.getKey(), current_version));
+      MyApplication.PrefKey.CURRENT_VERSION.putInt(current_version);
       if (prev_version == -1)
         return;
+      Editor edit = mSettings.edit();
       if (prev_version < 19) {
-        //renamed
         edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(),mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();

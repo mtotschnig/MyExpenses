@@ -97,7 +97,7 @@
   <string name="donate_dialog_text">Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
-  <string name="export_expenses_sdcard_failure">Giderlerin SD kartına aktarılması başarısız oldu</string>
+  <string name="export_expenses_sdcard_failure">Giderlerin SD kartına aktarılması başarısız oldu %1$s: %2$s</string>
   <string name="export_expenses_sdcard_success">Giderler %1$s dosyasına aktarıldı</string>
   <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
   <string name="feedback">Geri bildirim</string>
