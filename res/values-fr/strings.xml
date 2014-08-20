@@ -70,7 +70,7 @@
   <string name="dialog_remind_no">Non merci</string>
   <string name="dialog_remind_rate_how_many_stars">Combien d\'étoiles donneriez-vous à Mes dépenses</string>
   <string name="dialog_remind_rate_1">S\'il vous plaît prenez le temps pour évaluer et noter Mes dépenses.</string>
-  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter continuellement des améliorations et perfectionnements.</string>
+  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter continuellement des améliorations.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">S\'il vous plaît prenez le temps de nous envoyer vos suggestions pour des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_security_answer">Réponse</string>
