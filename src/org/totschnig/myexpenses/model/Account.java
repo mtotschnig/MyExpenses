@@ -1081,25 +1081,23 @@ public class Account extends Model {
         now.format(new Date()) + ".pdf");
     Document document = new Document();
     transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, null);
-    try {
-      //first we check if there are any exportable transactions
-      //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
-      if (transactionCursor.getCount() == 0)
-        return new Result(false,R.string.no_exportable_expenses);
-      //then we check if the filename we construct already exists
-      if (outputFile.exists()) {
-        return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
-      }
-      PdfWriter.getInstance(document, new FileOutputStream(outputFile));
-      document.open();
-      addMetaData(document);
-      addHeader(document);
-      addTransactionList(document,transactionCursor);
-    } catch(Exception e) {
-      throw e;
-    } finally {
+    //first we check if there are any exportable transactions
+    //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
+    if (transactionCursor.getCount() == 0) {
       transactionCursor.close();
+      return new Result(false,R.string.no_exportable_expenses);
     }
+    //then we check if the filename we construct already exists
+    if (outputFile.exists()) {
+      transactionCursor.close();
+      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
+    }
+    PdfWriter.getInstance(document, new FileOutputStream(outputFile));
+    document.open();
+    addMetaData(document);
+    addHeader(document);
+    addTransactionList(document,transactionCursor);
+    transactionCursor.close();
     document.close();
     return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
   }
