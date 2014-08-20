@@ -68,8 +68,8 @@
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
-  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le darías a mis gastos?</string>
-  <string name="dialog_remind_rate_1">Por favor tome un momento para calificar y revisar mis gastos.</string>
+  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le darías a Mis Gastos?</string>
+  <string name="dialog_remind_rate_1">Por favor tome un momento para calificar y revisar Mis Gastos.</string>
   <string name="dialog_remind_rate_2">Sus comentarios nos permiten añadir continuamente mejoras y mejoras.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor tome un momento para enviarnos tus sugerencias para mejoras.</string>
   <string name="dialog_remind_rate_yes">Valora hoy</string>
