@@ -18,6 +18,7 @@
   <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances pour le compte courant. Vous pouvez appliquer, modifier, supprimer des modèles mais aussi définir vos opérations futures et périodiques.</string>
   <string name="menu_create_account_help_text">Ouvre le formulaire pour définir un nouveau compte.</string>
   <string name="menu_balance_help_text">Cette commande ouvre une boîte de dialogue affichant le dernier solde rapproché et le solde pointé. Vous pouvez comparer ce dernier à votre relevé bancaire et marquer toutes les opérations pointées comme rapprochées. Facultativement, vous pourrez décider de supprimer ces opérations rapprochées.</string>
+  <string name="menu_print_help_text">Créée une vue imprimable des opérations affichées actuellement.</string>
   <string name="menu_search_help_text">Cette entrée ouvre un sous-menu qui permet de définir des critères de recherche basés sur la catégorie, le montant, le commentaire, le statut, le tiers et le mode de paiement. Lorsqu\'un filtre de recherche est actif, vous pouvez simplement cliquer sur son entrée dans le sous-menu pour le désactiver.</string>
   <string name="cab_create_template_from_transaction_help_text">Définir un nouveau modèle à partir de l\'opération sélectionnée. Vous indiquerez le titre du modèle.</string>
   <string name="cab_clone_transaction_help_text">Les opérations sélectionnées seront clonées avec la date et l\'heure.</string>

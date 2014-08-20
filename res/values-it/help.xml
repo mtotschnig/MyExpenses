@@ -18,6 +18,7 @@
   <string name="menu_manage_plans_help_text">Apre l\'elenco dei modelli e piani per il conto attuale, dove è possibile impostarli, modificarli o cancellarli, e anche definire la pianificazione di operazioni future e ricorrenti.</string>
   <string name="menu_create_account_help_text">Apre il modulo per la creazione di un nuovo conto.</string>
   <string name="menu_balance_help_text">Questo comando apre una finestra di dialogo con l\'ultimo saldo riconciliato e il saldo liquidato. È possibile confrontare quest\'ultimo al tuo estratto conto e contrassegnare le transazioni liqudiate come riconciliate. Facoltativamente, è possibile decidere di eliminare le transazioni riconciliate.</string>
+  <string name="menu_print_help_text">Crea una visualizzazione stampabile delle operazioni visualizzate attualmente.</string>
   <string name="menu_search_help_text">Questa voce apre un sottomenu che permette di definire i criteri di ricerca basati su categoria, quantità, commento, stato, metodo di pagamento e beneficiario/pagatore. Quando è attivo un filtro di ricerca, puoi semplicemente cliccare sulla relativa voce del sottomenu per disattivarla.</string>
   <string name="cab_create_template_from_transaction_help_text">Definire un nuovo modello basato sulla transazione selezionata. Verrà richiesto il nome del modello.</string>
   <string name="cab_clone_transaction_help_text">Le transazioni selezionate verranno ricopiate con data e ora correnti.</string>

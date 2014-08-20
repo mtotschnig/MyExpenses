@@ -26,6 +26,7 @@
   <string name="contrib_feature_distribution_label">Répartition des transactions par catégorie</string>
   <string name="contrib_feature_plans_unlimited_description">Le nombre d\'échéances que vous pouvez créer avec <i>Mes dépenses</i> est limité à 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Nombre d\'échéances illimité</string>
+  <string name="contrib_feature_print_label">Export de la liste des opérations au format PDF</string>
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
@@ -99,7 +100,7 @@
   <string name="donate_dialog_text">S\'il vous plaît, faites un don au moyen de PayPal, Flattr ou Bitcoin, et ensuite demandez une clé Contrib à partir des paramètres.</string>
   <string name="expense">Dépense</string>
   <string name="export_expenses">Export des dépenses</string>
-  <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers \"%1$s\".</string>
+  <string name="export_expenses_sdcard_failure">L\'export des dépenses vers \"%1$s\"a échoué : %2$s</string>
   <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers \"%1$s\".</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas disponible</string>
   <string name="feedback">Réactions</string>
@@ -189,6 +190,8 @@
   <string name="menu_manage_plans">Modèles et échéances</string>
   <string name="menu_manage_plans_tab_templates">Modèles</string>
   <string name="menu_manage_plans_tab_plans">Échéances</string>
+  <string name="menu_open">Ouvrir</string>
+  <string name="menu_print">Imprimer</string>
   <string name="menu_reset">Exporter et réinitialiser</string>
   <string name="menu_reset_all">Exporter et réinitialiser tous</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -204,6 +207,7 @@
   <string name="no_amount_given">Vous n\'avez pas saisi de montant.</string>
   <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
   <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer <i>Envoi par FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Aucune application pour les fichiers PDF disponible.</string>
   <string name="no_categories">Aucune catégorie.</string>
   <string name="no_category_assigned">Sans catégorie</string>
   <string name="no_details">Aucun détail.</string>
@@ -349,6 +353,7 @@
   <string name="progress_dialog_create_plan">Création d\'une nouvelle échéance …</string>
   <string name="progress_dialog_deleting">Les objets sont effaçés …</string>
   <string name="progress_dialog_loading">Chargement …</string>
+  <string name="progress_dialog_printing">Génération du PDF...</string>
   <string name="progress_dialog_saving">Enregistrement dans la base de données...</string>
   <string name="progress_dialog_setup">Initialisation de la base de données …</string>
   <string name="qif_parse_result">Analysé : %1$s comptes, %2$s catégories et %3$s tiers</string>
