@@ -388,10 +388,12 @@ public class CategoryList extends BudgetListFragment implements
         catFilter += " AND " +buildGroupingClause();
       }
       //we need to include transactions mapped to children for main categories
-      if (bundle == null)
+      if (bundle == null) {
         catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-      else
-        catFilter += " AND cat_id  = categories._id";
+      }
+      else {
+        catFilter += " AND " + KEY_CATID + "  = " + TABLE_CATEGORIES + "." + KEY_ROWID;
+      }
       selection = " AND exists (SELECT 1 " + catFilter +")";
       projection = new String[] {
           KEY_ROWID,
@@ -412,12 +414,12 @@ public class CategoryList extends BudgetListFragment implements
     }
     if (bundle == null) {
       //group cursor
-      selection = "parent_id is null" + selection;
+      selection = KEY_PARENTID + " is null" + selection;
       selectionArgs = mAccount != null ? new String[]{accountSelector,accountSelector} : null;
     } else {
       //child cursor
-      parentId = bundle.getLong("parent_id");
-      selection = "parent_id = ?"  + selection;
+      parentId = bundle.getLong(KEY_PARENTID);
+      selection = KEY_PARENTID + " = ?"  + selection;
       selectionArgs = mAccount != null ?
           new String[]{accountSelector,String.valueOf(parentId),accountSelector} :
           new String[]{String.valueOf(parentId)};
