@@ -83,7 +83,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Bilanciare %1$s</string>
   <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
-  <string name="dialog_title_menu_command_disabled">Comando di menu disattivato</string>
   <string name="dialog_title_planner_setup_info">Configurazione di calendario richiesta</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_grouping">Scegli un raggruppamento</string>

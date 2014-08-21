@@ -65,7 +65,6 @@
     <!--Label for button that opens preferences for selecting an existing calendar-->
     <string name="dialog_setup_planner_button_select_existing">選取現有的</string>
     <string name="dialog_title_contrib_feature">高級功能</string>
-    <string name="dialog_title_menu_command_disabled">選單命令禁用</string>
     <string name="dialog_title_planner_setup_info">要求設定日曆</string>
     <string name="dialog_title_select_account">選取一個帳戶</string>
     <string name="dialog_title_select_grouping">選取一個分組</string>

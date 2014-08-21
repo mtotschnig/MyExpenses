@@ -67,7 +67,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
-  <string name="dialog_title_menu_command_disabled">أوامر القائمة معطلة</string>
   <string name="dialog_title_planner_setup_info">يتطلب إعداد التقويم</string>
   <string name="dialog_title_select_account">اختر حساب</string>
   <string name="dialog_title_select_grouping">اختر تجميع</string>
