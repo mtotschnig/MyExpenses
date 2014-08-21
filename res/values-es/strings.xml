@@ -83,7 +83,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Equilibrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
-  <string name="dialog_title_menu_command_disabled">Comando de menú desactivado</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendar requerido</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>

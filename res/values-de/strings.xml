@@ -83,7 +83,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
-  <string name="dialog_title_menu_command_disabled">Menübefehl deaktiviert</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>

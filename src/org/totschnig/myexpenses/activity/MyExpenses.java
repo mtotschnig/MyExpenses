@@ -462,7 +462,7 @@ public class MyExpenses extends LaunchActivity implements
         }
       } else {
         MessageDialogFragment.newInstance(
-            R.string.dialog_title_menu_command_disabled,
+            0,
             R.string.dialog_command_disabled_distribution,
             MessageDialogFragment.Button.okButton(),
             null,null)
@@ -500,7 +500,7 @@ public class MyExpenses extends LaunchActivity implements
         if (a != null) {
           String currency = a.currency.getCurrencyCode();
           MessageDialogFragment.newInstance(
-              R.string.dialog_title_menu_command_disabled,
+              0,
               getString(R.string.dialog_command_disabled_insert_transfer_1) +
               " " +
               getString(R.string.dialog_command_disabled_insert_transfer_2,
@@ -541,7 +541,7 @@ public class MyExpenses extends LaunchActivity implements
             .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
       } else {
         MessageDialogFragment.newInstance(
-            R.string.dialog_title_menu_command_disabled,
+            0,
             R.string.dialog_command_disabled_balance,
             MessageDialogFragment.Button.okButton(),
             null,null)
@@ -566,7 +566,7 @@ public class MyExpenses extends LaunchActivity implements
         }
       } else {
         MessageDialogFragment.newInstance(
-            R.string.dialog_title_menu_command_disabled,
+            0,
             R.string.dialog_command_disabled_reset_account,
             MessageDialogFragment.Button.okButton(),
             null,null)
@@ -910,7 +910,7 @@ public class MyExpenses extends LaunchActivity implements
             new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,(File) result.extra[0]),
             null,
             MessageDialogFragment.Button.nullButton(android.R.string.cancel))
-         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+         .show(getSupportFragmentManager(),"PRINT_RESULT");
       } else {
         Toast.makeText(this,result.print(this),Toast.LENGTH_LONG).show();
       }

@@ -71,7 +71,6 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">ជ្រើសរើស​អ្វី​ដែល​មានស្រាប់</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
-  <string name="dialog_title_menu_command_disabled">បានបិទ​ពាក្យ​បញ្ជា​ម៉ឺនុយ</string>
   <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
   <string name="dialog_title_select_account">ជ្រើសយកគណនីមួយ</string>
   <string name="dialog_title_select_grouping">ជ្រើសយក​ក្រុមមួយ</string>

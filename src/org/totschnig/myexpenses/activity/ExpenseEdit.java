@@ -622,7 +622,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (type == MyExpenses.TYPE_TRANSFER &&
         !mTransferEnabled) {
       MessageDialogFragment.newInstance(
-          R.string.dialog_title_menu_command_disabled,
+          0,
           getString(R.string.dialog_command_disabled_insert_transfer_1) +
             " " +
             getString(R.string.dialog_command_disabled_insert_transfer_2,

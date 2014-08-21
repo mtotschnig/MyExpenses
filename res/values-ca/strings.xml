@@ -70,7 +70,6 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Trieu</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
-  <string name="dialog_title_menu_command_disabled">S\'ha desactivat el menú d\'ordres</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
   <string name="dialog_title_select_grouping">Trieu una agrupació</string>

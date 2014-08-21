@@ -97,7 +97,6 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
-    <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
     <string name="dialog_title_select_account">Pick an account</string>
     <string name="dialog_title_select_grouping">Pick a grouping</string>

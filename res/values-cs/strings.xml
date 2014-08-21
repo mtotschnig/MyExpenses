@@ -69,7 +69,6 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Vyberte existující</string>
   <string name="dialog_title_contrib_feature">Prémiové funkce</string>
-  <string name="dialog_title_menu_command_disabled">Příkaz nabídky zakázán</string>
   <string name="dialog_title_planner_setup_info">Vyžadování nastavení kalendáře</string>
   <string name="dialog_title_select_account">Vyberte si účet</string>
   <string name="dialog_title_select_grouping">Vyberte seskupení</string>
