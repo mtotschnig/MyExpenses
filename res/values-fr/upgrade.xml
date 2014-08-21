@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_230">
-    <item>Impression de la liste des opérations en format PDF</item>
+    <item>Impression de la liste des opérations en format PDF (Premium)</item>
   </string-array>
   <string-array name="whats_new_220">
     <item> Recherche d\'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement </item>
