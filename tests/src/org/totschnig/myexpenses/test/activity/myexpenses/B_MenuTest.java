@@ -73,13 +73,21 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
   public void testInactiveItems() {
     //only when we send this key event, onPrepareOptionsMenu is called before the test
     //mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-    for (String command : new String[] {
+    String [] commands = new String[] {
         "CREATE_TRANSFER",
         "RESET",
-        "DISTRIBUTION"
-    }) {
-      clickOnActionBarItem(command);
-      assertTrue("Inactive dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_menu_command_disabled)));
+        "DISTRIBUTION",
+        "PRINT"
+    };
+    int[] messages = new int[] {
+        R.string.dialog_command_disabled_insert_transfer_1,
+        R.string.dialog_command_disabled_reset_account,
+        R.string.dialog_command_disabled_distribution,
+        R.string.dialog_command_disabled_reset_account
+    };
+    for (int i = 0; i < commands.length; i++) {
+      clickOnActionBarItem(commands[i]);
+      assertTrue("Inactive dialog not shown", mSolo.searchText(mContext.getString(messages[i])));
       mSolo.clickOnText(mContext.getString(android.R.string.ok));
     }
   }
