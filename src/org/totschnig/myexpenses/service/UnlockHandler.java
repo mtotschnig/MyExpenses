@@ -39,21 +39,20 @@ public class UnlockHandler extends Handler {
     if (msg.what == STATUS_PERMANENT || msg.what == STATUS_TEMPORARY || msg.what == STATUS_RETRY) {
       PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
       app.setContribEnabled(true);
-      if (msg.what == STATUS_TEMPORARY) {
-        long timestamp = Long.parseLong(mPreferences.getString(
-            MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),"0"));
-        long now = System.currentTimeMillis();
-        if (timestamp == 0L) {
-          mPreferences.putString(MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),
-              String.valueOf(now));
-          mPreferences.commit();
-        } else {
-          long timeSinceInitialCheck = now - timestamp ;
-          Log.d(MyApplication.TAG,"time since initial check : " + timeSinceInitialCheck);
-          //15 minutes refund limit
-          if (timeSinceInitialCheck> 90000L) {
-            permanent = true;
-          }
+      long timestamp = Long.parseLong(mPreferences.getString(
+          MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),"0"));
+      long now = System.currentTimeMillis();
+      if (timestamp == 0L) {
+        mPreferences.putString(MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),
+            String.valueOf(now));
+        mPreferences.commit();
+      }
+      if (msg.what == STATUS_TEMPORARY && timestamp != 0L) {
+        long timeSinceInitialCheck = now - timestamp ;
+        Log.d(MyApplication.TAG,"time since initial check : " + timeSinceInitialCheck);
+        //15 minutes refund limit
+        if (timeSinceInitialCheck> 90000L) {
+          permanent = true;
         }
       }
       if (msg.what == STATUS_PERMANENT || permanent) {
@@ -66,17 +65,19 @@ public class UnlockHandler extends Handler {
                 MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"))+1));
         mPreferences.commit();
       }
-      NotificationManager notificationManager =
-          (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
-      NotificationCompat.Builder builder =
-          new NotificationCompat.Builder(app)
-            .setSmallIcon(R.drawable.ic_home_dark)
-            .setContentTitle(app.getString(R.string.premium_unlocked))
-            .setContentText(app.getString(R.string.thank_you))
-            .setContentIntent(PendingIntent.getActivity(app, 0, new Intent(app, MyExpenses.class),0));
-      Notification notification  = builder.build();
-      notification.flags = Notification.FLAG_AUTO_CANCEL; 
-      notificationManager.notify(0, notification);
+      if (timestamp == 0L) {
+        NotificationManager notificationManager =
+            (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder =
+            new NotificationCompat.Builder(app)
+              .setSmallIcon(R.drawable.ic_home_dark)
+              .setContentTitle(app.getString(R.string.premium_unlocked))
+              .setContentText(app.getString(R.string.thank_you))
+              .setContentIntent(PendingIntent.getActivity(app, 0, new Intent(app, MyExpenses.class),0));
+        Notification notification  = builder.build();
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(0, notification);
+      }
     }
   }
 }
