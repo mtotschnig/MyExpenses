@@ -40,6 +40,8 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   @Override
   public void tearDown() throws Exception {
     mSolo.finishOpenedActivities();
+    getActivity().finish();
+    super.tearDown();
     //backOutToHome();
   }
   private void backOutToHome() {
