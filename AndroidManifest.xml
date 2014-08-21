@@ -28,7 +28,7 @@
 		android:icon="@drawable/myexpenses" android:label="@string/app_name"
 		android:theme="@style/Launch">
 		<activity android:name=".activity.MyExpenses" android:label="@string/app_name"
-			android:uiOptions="splitActionBarWhenNarrow" android:launchMode="singleTop">
+			android:uiOptions="splitActionBarWhenNarrow">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
