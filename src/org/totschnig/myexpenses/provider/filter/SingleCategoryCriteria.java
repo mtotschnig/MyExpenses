@@ -22,6 +22,12 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -32,7 +38,7 @@ public class SingleCategoryCriteria extends IdCriteria {
 
   public SingleCategoryCriteria(long categoryId, String label) {
     super(MyApplication.getInstance().getString(R.string.category),
-        DatabaseConstants.KEY_CATID,
+        KEY_CATID,
         categoryId,
         label);
   }
@@ -43,13 +49,18 @@ public class SingleCategoryCriteria extends IdCriteria {
 
   @Override
   public String getSelection() {
-    return  DatabaseConstants.KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
-        + DatabaseConstants.TABLE_CATEGORIES + " WHERE " + DatabaseConstants.KEY_PARENTID + " = ? OR "
-        + DatabaseConstants.KEY_ROWID + " = ?)";
+    String catFilter = " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+        + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
+        + KEY_ROWID + " = ?)";
+    return  "(" + KEY_CATID + catFilter
+        + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID
+        + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
+        + " WHERE children." + KEY_PARENTID
+        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_ROWID + " AND children." + KEY_CATID + catFilter + ")))";
   }
   @Override
   public String[] getSelectionArgs() {
-    return new String[] {values[0],values[0]};
+    return new String[] {values[0],values[0],values[0],values[0]};
   }
 
   @Override
