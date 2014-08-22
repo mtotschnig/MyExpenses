@@ -44,10 +44,15 @@ public class Transfer extends Transaction {
   public Transfer() {
    super();
   }
+  /**
+   * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
+   * @param transfer_account
+   * @return
+   */
   public static Transfer getNewInstance(long accountId, Long transfer_account) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
-      return null;
+      account = Account.getInstanceFromDb(0L);
     }
     return new Transfer(account,0L,transfer_account);
   }

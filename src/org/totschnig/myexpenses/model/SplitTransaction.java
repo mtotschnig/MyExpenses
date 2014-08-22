@@ -37,10 +37,14 @@ public class SplitTransaction extends Transaction {
     super(account,amount);
     catId = DatabaseConstants.SPLIT_CATID;
   }
+  /**
+   * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
+   * @return new SplitTransactionw with Account set to accountId
+   */
   public static SplitTransaction getNewInstance(long accountId) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
-      return null;
+      account = Account.getInstanceFromDb(0L);
     }
     SplitTransaction t = new SplitTransaction(account,0L);
     t.status = STATUS_UNCOMMITTED;

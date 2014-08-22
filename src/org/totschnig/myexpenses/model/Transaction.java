@@ -228,7 +228,7 @@ public class Transaction extends Model {
 
   /**
    * factory method for creating an object of the correct type and linked to a given account
-   * @param accountId the account the transaction belongs two
+   * @param accountId the account the transaction belongs to if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @param parentId if != 0L this is the id of a split part's parent
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
@@ -236,7 +236,7 @@ public class Transaction extends Model {
   public static Transaction getNewInstance(long accountId) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
-      return null;
+      account = Account.getInstanceFromDb(0L);
     }
     return new Transaction(account,0L);
   }
