@@ -32,7 +32,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 42;
+  public static final int DATABASE_VERSION = 43;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -590,6 +590,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
                 "number " +
               "FROM transactions_old");
           db.execSQL("DROP TABLE transactions_old");
+    }
+    if (oldVersion < 43) {
+      db.execSQL("UPDATE accounts set currency = 'ZMW' WHERE currency = 'ZMK'");
+      db.execSQL("UPDATE currency set code = 'ZMW' WHERE code = 'ZMK'");
     }
   }
 }

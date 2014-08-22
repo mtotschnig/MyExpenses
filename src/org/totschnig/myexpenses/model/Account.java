@@ -409,7 +409,7 @@ public class Account extends Model {
     VEF("Venezuela Bolivar Fuerte"),
     VND("Vietnam Dong"),
     YER("Yemeni Rial"),
-    ZMK("Zambian Kwacha"),
+    ZMW("Zambian Kwacha"),
     ZWL("Zimbabwe Dollar"),
     XXX("No currency "),
     XAU("Gold"),
