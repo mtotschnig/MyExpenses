@@ -15,12 +15,14 @@
 
 package org.totschnig.myexpenses.model;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 
 import android.content.ContentResolver;
 import android.net.Uri;
 
-public abstract class Model {
+public abstract class Model implements Serializable {
   private Long id = 0L;
   private static ContentResolver cr;
 

@@ -526,7 +526,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
           return;
        }
-       //mPlan could be null, even if mPlan, when EVENT_CURSOR is loading
+       //mPlan could be null, even if mPlanId is not , when EVENT_CURSOR is loading
        if (mPlan != null) {
          launchPlanView();
        }
@@ -1414,10 +1414,6 @@ public class ExpenseEdit extends AmountActivity implements
       if (mAccountsAdapter != null) {
         mAccountsAdapter.swapCursor(null);
       }
-      break;
-    case EVENT_CURSOR:
-      mPlan = null;
-      mPlanId = null;
       break;
     }
   }
