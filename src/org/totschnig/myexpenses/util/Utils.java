@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
@@ -244,11 +245,21 @@ public class Utils {
     return convAmount(amount, currency);
   }
   public static Currency getSaveInstance(String strCurrency) {
+    Currency c;
     try {
-      return Currency.getInstance(strCurrency);
+      c = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
       Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
-      return Currency.getInstance(Locale.getDefault());
+      c = Currency.getInstance(Locale.getDefault());
+    }
+    return getSaveInstance(c);
+  }
+  public static Currency getSaveInstance(Currency currency) {
+    try  {
+      Account.CurrencyEnum.valueOf(currency.getCurrencyCode());
+      return currency;
+    } catch (IllegalArgumentException e) {
+      return Currency.getInstance("EUR");
     }
   }
   /**

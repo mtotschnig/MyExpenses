@@ -18,7 +18,9 @@ package org.totschnig.myexpenses.test.misc;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Currency;
 
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.util.Utils;
 
 import junit.framework.Assert;
@@ -40,5 +42,8 @@ public class UtilsTest extends TestCase {
     nfDLocal.setParseIntegerOnly(true);
     Assert.assertEquals(0, Utils.validateNumber(nfDLocal,"470").compareTo(new BigDecimal(470)));
     Assert.assertNull(Utils.validateNumber(nfDLocal,"470.123"));
+  }
+  public void testGetSaveInstance() {
+    Assert.assertNotNull(Account.CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
   }
 }

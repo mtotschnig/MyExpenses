@@ -506,7 +506,9 @@ public class Account extends Model {
   }
   public static Currency getLocaleCurrency() {
     try {
-      return Currency.getInstance(Locale.getDefault());
+      Currency c = Currency.getInstance(Locale.getDefault());
+      //makeSure we know about the currency
+      return Utils.getSaveInstance(c);
     } catch (IllegalArgumentException e) {
       return Currency.getInstance("EUR");
     }
