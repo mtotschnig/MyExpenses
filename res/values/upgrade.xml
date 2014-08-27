@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2301">
+    <item>Minor fix</item>
+  </string-array>
   <string-array name="whats_new_230">
     <item>Print transaction list to PDF file (Premium)</item>
   </string-array>
