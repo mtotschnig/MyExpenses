@@ -58,6 +58,9 @@ echo "sdk.dir={sdk-dir}">local.properties
 cp -R {sdk-dir}/extras/android/support/v7/appcompat .
 android update lib-project --path ./appcompat
 android update lib-project --path ./StickyListHeaders/library/
+mkdir libs
+wget http://sourceforge.net/projects/itext/files/iText/iText5.5.2/itext-5.5.2.zip
+unzip itext-5.5.2.zip itextpdf-5.5.2.jar -d libs
 ant clean
 ant release
 ```
