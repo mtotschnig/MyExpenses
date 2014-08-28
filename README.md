@@ -30,6 +30,7 @@ Dependencies
 =====
 *My Expenses* depends on:
 - Emil Sjölander's <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
+- <a href="http://itextpdf.com/">Itext</a>
 
 
 Build
