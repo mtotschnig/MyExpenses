@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.util.Utils;
 import com.batch.android.Batch;
 import com.batch.android.BatchUnlockListener;
 import com.batch.android.Offer;
+import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -1132,7 +1133,9 @@ public class MyExpenses extends LaunchActivity implements
       if (feature.getReference().equalsIgnoreCase("PREMIUMKEY")) {
         MyApplication app = MyApplication.getInstance();
         app.setContribEnabled(true);
-        Distrib.getLicenseStatusPrefs(app).putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "1");
+        PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
+        mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "1");
+        mPreferences.commit();
         handleUnlock(R.string.promotion_appgratis_welcome);
       }
     }
