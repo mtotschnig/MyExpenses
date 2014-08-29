@@ -57,9 +57,9 @@ import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.batch.android.Batch;
-import com.batch.android.BatchUnlockListener;
-import com.batch.android.Offer;
+//import com.batch.android.Batch;
+//import com.batch.android.BatchUnlockListener;
+//import com.batch.android.Offer;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -113,7 +113,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, ConfirmationDialogListener,
-    ContribIFace, BatchUnlockListener {
+    ContribIFace {
 
   private static final int VIEWPAGER = R.id.viewpager;
   public static final int TYPE_TRANSACTION = 0;
@@ -1115,12 +1115,12 @@ public class MyExpenses extends LaunchActivity implements
          args.getBoolean("deleteP"), 0);
    }
   }
-  @Override
+/*  @Override
   protected void onStart()
   {
       super.onStart();
       if (Distrib.isBatchAvailable()) {
-        Batch.Unlock.setUnlockListener(this); /* Pass this as parameter since  we're implementing BatchUnlockListener */
+        Batch.Unlock.setUnlockListener(this);  Pass this as parameter since  we're implementing BatchUnlockListener 
         Batch.onStart(this);
       }
   }
@@ -1163,7 +1163,7 @@ public class MyExpenses extends LaunchActivity implements
        Batch.onNewIntent(this, intent);
      }
      super.onNewIntent(intent);
-   }
+   }*/
    private void handleUnlock(int message) {
      FragmentManager fm = getSupportFragmentManager();
      WelcomeDialogFragment f =

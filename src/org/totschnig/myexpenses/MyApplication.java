@@ -34,8 +34,8 @@ import org.totschnig.myexpenses.widget.*;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
-import com.batch.android.Batch;
-import com.batch.android.Config;
+//import com.batch.android.Batch;
+//import com.batch.android.Config;
 
 import android.app.Activity;
 import android.app.Application;
@@ -242,11 +242,11 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       initContribEnabled();
       initPlanner();
       registerWidgetObservers();
-      if (Distrib.isBatchAvailable()) {
-        Batch.setConfig(new Config(debug ? "DEV53E77E52E3DEF90DE5A6AAB9239" : "53E77E52E3C1DBC38C202023D2516C")
-            .setCanUseAdvertisingID(false)
-            .setCanUseAndroidID(false));
-      }
+//      if (Distrib.isBatchAvailable()) {
+//        Batch.setConfig(new Config(debug ? "DEV53E77E52E3DEF90DE5A6AAB9239" : "53E77E52E3C1DBC38C202023D2516C")
+//            .setCanUseAdvertisingID(false)
+//            .setCanUseAndroidID(false));
+//      }
     }
 
     private void registerWidgetObservers() {
