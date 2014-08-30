@@ -24,6 +24,9 @@ import android.net.Uri;
 
 public class SplitTransaction extends Transaction {
   private boolean inEditState = false;
+  private String     PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
+      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where " 
+      + KEY_PARENTID + " = ?))";
   
   public SplitTransaction(long accountId,Long amount) {
     super(accountId,amount);
@@ -69,9 +72,7 @@ public class SplitTransaction extends Transaction {
     if (!inEditState)
       return;
     String idStr = String.valueOf(getId());
-    cr().delete(CONTENT_URI,"(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
-        + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where " 
-        + KEY_PARENTID + " = ?))  AND " + KEY_STATUS + " != ?",
+    cr().delete(CONTENT_URI,PART_OR_PEER_SELECT + "  AND " + KEY_STATUS + " != ?",
         new String[] { idStr, idStr, String.valueOf(STATUS_UNCOMMITTED) });
     ContentValues initialValues = new ContentValues();
     if (status==STATUS_UNCOMMITTED)
@@ -81,14 +82,16 @@ public class SplitTransaction extends Transaction {
     //when we edit a split only the parts are in state uncommitted,
     //in any case we only update the state for rows that are uncommitted, to
     //prevent altering the state of a parent (e.g. from exported to non-exported)
-    cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ?",
-        new String[] {String.valueOf(STATUS_UNCOMMITTED)});
+    cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ? AND "+ KEY_ROWID + " = ?",
+        new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr});
+    cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
+        new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr,idStr});
     initialValues.clear();
     //make sure that parts have the same date as their parent,
     //otherwise they might be incorrectly counted in groups
     initialValues.put(KEY_DATE, date.getTime()/1000);
-    cr().update(CONTENT_URI,initialValues,KEY_PARENTID + " = ?",
-        new String[] {idStr});
+    cr().update(CONTENT_URI,initialValues,PART_OR_PEER_SELECT,
+        new String[] {idStr,idStr});
     inEditState = false;
   }
   /**
@@ -111,13 +114,14 @@ public class SplitTransaction extends Transaction {
     inEditState = true;
   }
   /**
-   * delete all uncommitted rows in the database,
-   * this assumes that there are never more than one edits in parallel
-   * TODO get rid of reliance on this assumption
+   * delete uncommitted rows that are related to this split transaction
    */
   public void cleanupCanceledEdit() {
-    cr().delete(CONTENT_URI, KEY_STATUS + " = ?",
-        new String[] { String.valueOf(STATUS_UNCOMMITTED) });
+    String idStr = String.valueOf(getId());
+    cr().delete(CONTENT_URI,KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
+        new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr,idStr});
+    cr().delete(CONTENT_URI,KEY_STATUS + " = ? AND "+ KEY_ROWID + " = ?",
+        new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr});
   }
   public Uri saveAsNew() {
     Long oldId = getId();
