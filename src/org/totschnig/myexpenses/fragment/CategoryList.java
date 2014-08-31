@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -170,10 +171,10 @@ public class CategoryList extends BudgetListFragment implements
           }
           long itemId = c.getLong(c.getColumnIndex(KEY_ROWID));
           Bundle extras = ctx.getIntent().getExtras();
-          if ((extras != null && extras.getLong(KEY_ROWID) == itemId) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0) {
+          if ((extras != null && extras.getLong(KEY_ROWID) == itemId) || c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS)) > 0) {
             mappedTransactionsCount++;
             deletable = false;
-          } else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0) {
+          } else if (c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES)) > 0) {
             mappedTemplatesCount++;
             deletable = false;
           }
@@ -408,8 +409,8 @@ public class CategoryList extends BudgetListFragment implements
           KEY_LABEL,
           KEY_PARENTID,
           "(select count(*) FROM categories subtree where parent_id = categories._id) as child_count",
-          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS mapped_transactions",
-          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS mapped_templates"
+          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
     }
     if (bundle == null) {

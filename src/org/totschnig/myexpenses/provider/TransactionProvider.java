@@ -399,7 +399,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
-      defaultOrderBy = "name";
+      defaultOrderBy = KEY_PAYEE_NAME;
       if (projection == null)
         projection = Payee.PROJECTION;
       break;

@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -82,6 +83,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
@@ -109,7 +111,6 @@ public class ExpenseEdit extends AmountActivity implements
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
-  private ArrayAdapter<String>  mPayeeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel, mAmountLabel;
@@ -139,7 +140,6 @@ public class ExpenseEdit extends AmountActivity implements
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
 
-  public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
   public static final int ACCOUNTS_CURSOR=3;
   private static final int EVENT_CURSOR = 4;
@@ -173,6 +173,31 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
+    SimpleCursorAdapter payeeAdapter =  new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
+        new String[] { KEY_PAYEE_NAME },
+        new int[] {android.R.id.text1},
+        0);
+    mPayeeText.setAdapter(payeeAdapter);
+    payeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+      public Cursor runQuery(CharSequence str) {
+        Log.d("DEBUG","looking for "+ str);
+        String selection = KEY_PAYEE_NAME + " LIKE ? ";
+        String[] selectArgs = { "%" + str + "%"};
+      return getContentResolver().query(
+          TransactionProvider.PAYEES_URI, 
+          new String[] {
+              KEY_ROWID,
+              KEY_PAYEE_NAME
+          },
+          selection, selectArgs, null);
+      } });
+
+    payeeAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+      public CharSequence convertToString(Cursor cur) {
+      int index = cur.getColumnIndex(KEY_PAYEE_NAME);
+      return cur.getString(index);
+      }});
+       
     mCategoryButton = (Button) findViewById(R.id.Category);
     mPlanButton = (Button) findViewById(R.id.Plan);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
@@ -356,7 +381,6 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setOnItemSelectedListener(this);
 
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
-      mManager.initLoader(PAYEES_CURSOR, null, this);
 
       // Spinner for methods
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
@@ -1209,8 +1233,6 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     switch(id){
-    case PAYEES_CURSOR:
-      return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, null, null, null);
     case METHODS_CURSOR:
       Account a = getCurrentAccount();
       if (a == null)
@@ -1250,19 +1272,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     int id = loader.getId();
     switch(id) {
-    case PAYEES_CURSOR:
-      data.moveToFirst();
-      if (mPayeeAdapter == null)
-        mPayeeAdapter = new ArrayAdapter<String>(this,
-          android.R.layout.simple_dropdown_item_1line);
-      else
-        mPayeeAdapter.clear();
-      while(!data.isAfterLast()) {
-        mPayeeAdapter.add(data.getString(data.getColumnIndex("name")));
-        data.moveToNext();
-      }
-      mPayeeText.setAdapter(mPayeeAdapter);
-      break;
     case METHODS_CURSOR:
       mMethodsCursor = data;
       View methodContainer = findViewById(R.id.MethodRow);
