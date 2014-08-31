@@ -77,6 +77,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -173,31 +174,45 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    SimpleCursorAdapter payeeAdapter =  new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
+    final SimpleCursorAdapter payeeAdapter =  new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
         new String[] { KEY_PAYEE_NAME },
         new int[] {android.R.id.text1},
         0);
     mPayeeText.setAdapter(payeeAdapter);
     payeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
       public Cursor runQuery(CharSequence str) {
-        Log.d("DEBUG","looking for "+ str);
         String selection = KEY_PAYEE_NAME + " LIKE ? ";
         String[] selectArgs = { "%" + str + "%"};
       return getContentResolver().query(
           TransactionProvider.PAYEES_URI, 
           new String[] {
               KEY_ROWID,
-              KEY_PAYEE_NAME
-          },
+              KEY_PAYEE_NAME,
+              "(SELECT max(" + KEY_ROWID
+                  + ") FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
           selection, selectArgs, null);
       } });
 
     payeeAdapter.setCursorToStringConverter(new CursorToStringConverter() {
       public CharSequence convertToString(Cursor cur) {
-      int index = cur.getColumnIndex(KEY_PAYEE_NAME);
-      return cur.getString(index);
+      return cur.getString(1);
       }});
-       
+    mPayeeText.setOnItemClickListener(new OnItemClickListener() {
+
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position,
+          long id) {
+        if (mNewInstance) {
+          Cursor c = (Cursor) payeeAdapter.getItem(position);
+          if (c.isNull(2)) {
+            Toast.makeText(ExpenseEdit.this, "nothin to do", Toast.LENGTH_LONG).show();
+          } else {
+            Toast.makeText(ExpenseEdit.this, "will now fetch transaction with id "+c.getLong(2), Toast.LENGTH_LONG).show();
+          }
+        }
+      }
+    });
+
     mCategoryButton = (Button) findViewById(R.id.Category);
     mPlanButton = (Button) findViewById(R.id.Plan);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
@@ -1200,6 +1215,7 @@ public class ExpenseEdit extends AmountActivity implements
         mCreateNew = false;
         mTransaction.setId(0L);
         mRowId = 0L;
+        mNewInstance = true;
         if (mTransaction instanceof Template) {
           setTitle(R.string.menu_create_template);
           mTitleText.setText("");
