@@ -1121,6 +1121,8 @@ public class ExpenseEdit extends AmountActivity implements
         mCommentText.setText(t.comment);
         fillAmount(t.amount.getAmountMajor());
         configureType();
+        mAmountText.requestFocus();
+        mAmountText.selectAll();
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
