@@ -91,6 +91,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       CURRENT_ACCOUNT("current_account"),
       PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
       APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),
+      AUTO_FILL(R.string.pref_auto_fill_key),
+      AUTO_FILL_HINT_SHOWN("auto_fill_hint_shown"),
       NEXT_REMINDER_RATE("nextReminderRate"),
       NEXT_REMINDER_CONTRIB("nextReminderContrib");
 

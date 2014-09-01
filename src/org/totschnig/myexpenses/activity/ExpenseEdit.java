@@ -40,6 +40,8 @@ import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -96,7 +98,8 @@ import android.widget.ToggleButton;
  * @author Michael Totschnig
  */
 public class ExpenseEdit extends AmountActivity implements
-    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,ContribIFace {
+    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
+    ContribIFace, ConfirmationDialogListener {
 
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
@@ -202,14 +205,27 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        if (mNewInstance) {
+        if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
           Cursor c = (Cursor) payeeAdapter.getItem(position);
           if (!c.isNull(2)) {
-            startTaskExecution(
-                TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
-                new Long[] {c.getLong(2)},
-                null,
-                R.string.progress_dialog_loading);
+            if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
+              startAutoFill(c.getLong(2));
+            } else {
+              Bundle b = new Bundle();
+              b.putLong(KEY_ROWID,c.getLong(2));
+              b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+                  R.string.dialog_title_attention);
+              b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+                  getString(R.string.hint_auto_fill));
+              b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+                  R.id.AUTO_FILL_COMMAND);
+              b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+                  MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
+              b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.yes);
+              b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,R.string.no);
+              ConfirmationDialogFragment.newInstance(b)
+                .show(getSupportFragmentManager(),"AUTO_FILL_HINT");
+            }
           }
         }
       }
@@ -1483,5 +1499,26 @@ public class ExpenseEdit extends AmountActivity implements
   }
   public void disableAccountSpinner() {
     mAccountSpinner.setEnabled(false);
+  }
+  @Override
+  public void dispatchCommand(int command, Bundle args) {
+    switch (command) {
+    case R.id.AUTO_FILL_COMMAND:
+      startAutoFill(args.getLong(KEY_ROWID));
+      break;
+    }
+  }
+  private void startAutoFill(long id) {
+    startTaskExecution(
+        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
+        new Long[] {id},
+        null,
+        R.string.progress_dialog_loading);
+  }
+  @Override
+  public void onConfirmationDialogDismissOrCancel(int command) {
+    if (command == R.id.AUTO_FILL_COMMAND) {
+      MyApplication.PrefKey.AUTO_FILL.putBoolean(false);
+    }
   }
 }

@@ -172,7 +172,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   }
 
   @Override
-  public void onMessageDialogDismissOrCancel() {
+  public void onConfirmationDialogDismissOrCancel(int command) {
     //super.onMessageDialogDismissOrCancel();
     setResult(RESULT_CANCELED);
     finish();

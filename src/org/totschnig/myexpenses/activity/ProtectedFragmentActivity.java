@@ -133,8 +133,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       scheduledRestart = true;
     }
   }
-
   public void onMessageDialogDismissOrCancel() {
+  }
+  public void onConfirmationDialogDismissOrCancel(int command) {
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
