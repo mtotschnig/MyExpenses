@@ -86,6 +86,18 @@
         </LinearLayout>
       </TableRow>
 
+      <TableRow android:id="@+id/PayeeRow">
+        <TextView style="@style/form_label"
+            android:id="@+id/PayeeLabel"
+            android:text="@string/payee" />
+        <AutoCompleteTextView
+            android:completionThreshold="1"
+            android:id="@+id/Payee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+      </TableRow>
+
       <TableRow>
         <TextView style="@style/form_label" android:id="@+id/AmountLabel"/>
         <LinearLayout
@@ -108,18 +120,6 @@
             android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-      </TableRow>
-
-      <TableRow android:id="@+id/PayeeRow">
-        <TextView style="@style/form_label"
-            android:id="@+id/PayeeLabel"
-            android:text="@string/payee" />
-        <AutoCompleteTextView
-            android:completionThreshold="1"
-            android:id="@+id/Payee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"/>
       </TableRow>
 
       <TableRow android:id="@+id/MethodRow">

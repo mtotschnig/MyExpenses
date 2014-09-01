@@ -71,6 +71,11 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_RESTORE = 23;
   public static final int TASK_BALANCE = 24;
   public static final int TASK_PRINT = 25;
+  /**
+   * same as {@link TaskExecutionFragment#TASK_INSTANTIATE_TRANSACTION}
+   * but allows Activity to define a second callback
+   */
+  public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
   
 
   /**

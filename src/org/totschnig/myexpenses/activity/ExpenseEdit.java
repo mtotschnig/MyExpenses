@@ -204,10 +204,12 @@ public class ExpenseEdit extends AmountActivity implements
           long id) {
         if (mNewInstance) {
           Cursor c = (Cursor) payeeAdapter.getItem(position);
-          if (c.isNull(2)) {
-            Toast.makeText(ExpenseEdit.this, "nothin to do", Toast.LENGTH_LONG).show();
-          } else {
-            Toast.makeText(ExpenseEdit.this, "will now fetch transaction with id "+c.getLong(2), Toast.LENGTH_LONG).show();
+          if (!c.isNull(2)) {
+            startTaskExecution(
+                TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
+                new Long[] {c.getLong(2)},
+                null,
+                R.string.progress_dialog_loading);
           }
         }
       }
@@ -763,8 +765,9 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer))
       setDateTime(mTransaction.getDate());
 
-    //fill amount
-    BigDecimal amount = mTransaction.amount.getAmountMajor();
+    fillAmount(mTransaction.amount.getAmountMajor());
+  }
+  protected void fillAmount(BigDecimal amount) {
     int signum = amount.signum();
     switch(signum) {
     case -1:
@@ -1092,6 +1095,16 @@ public class ExpenseEdit extends AmountActivity implements
       //if we successfully created the calendar, we set up the plan immediately
       if (success) {
         launchNewPlan();
+      }
+      break;
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      if (o!=null) {
+        Transaction t = (Transaction) o;
+        mCatId = t.catId;
+        mLabel = t.label;
+        mCommentText.setText(t.comment);
+        fillAmount(t.amount.getAmountMajor());
+        configureType();
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:

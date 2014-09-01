@@ -73,6 +73,7 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       t = Transaction.getInstanceFromDb(ids[0]);
       if (t != null && t instanceof SplitTransaction)
         ((SplitTransaction) t).prepareForEdit();
