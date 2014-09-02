@@ -19,9 +19,9 @@ package org.totschnig.myexpenses.fragment;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -137,7 +137,9 @@ public class DbWriteFragment extends Fragment {
       Uri uri = null;
       try {
         uri = object[0].save();
-      } catch (SQLiteConstraintException e) {}
+      } catch (Exception e) {
+          Utils.reportToAcra(e);
+      }
       if (returnSequenceCount && object[0] instanceof Transaction)
         return uri == null ? -1 : Transaction.getSequenceCount();
       else
