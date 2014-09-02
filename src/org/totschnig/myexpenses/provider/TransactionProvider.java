@@ -19,8 +19,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.widget.*;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -77,6 +75,11 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccountsGroupedByType");
+  /**
+   * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
+   */
+  public static final Uri DUAL_URI = 
+      Uri.parse("content://" + AUTHORITY + "/dual");
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
@@ -117,6 +120,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTION_TOGGLE_CRSTATUS = 29;
   private static final int MAPPED_PAYEES = 30;
   private static final int MAPPED_METHODS = 31;
+  private static final int DUAL = 32;
   
   @Override
   public boolean onCreate() {
@@ -399,7 +403,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
-      defaultOrderBy = "name";
+      defaultOrderBy = KEY_PAYEE_NAME;
       if (projection == null)
         projection = Payee.PROJECTION;
       break;
@@ -476,7 +480,10 @@ public class TransactionProvider extends ContentProvider {
     case CURRENCIES:
       qb.setTables(TABLE_CURRENCIES);
       break;
-
+    case DUAL:
+      qb.setTables("sqlite_master");
+      return qb.query(db, projection, selection, selectionArgs, null,
+          null, null,"1");
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -927,13 +934,14 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#",AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
+    URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
   }
   public void resetDatabase() {
     mOpenHelper.close();
     mOpenHelper = new TransactionDatabase(getContext());
 }
   /**
-   * A test package can call this to get a handle to the database underlying NotePadProvider,
+   * A test package can call this to get a handle to the database underlying TransactionProvider,
    * so it can insert test data into the database. The test case class is responsible for
    * instantiating the provider in a test context; {@link android.test.ProviderTestCase2} does
    * this during the call to setUp()

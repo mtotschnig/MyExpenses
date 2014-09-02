@@ -73,6 +73,16 @@
         <Button style="@style/SmallButton" android:id="@+id/Time" android:text="@string/select" />
       </TableRow>
 
+      <TableRow android:id="@+id/PayeeRow">
+        <TextView style="@style/form_label"
+            android:id="@+id/PayeeLabel" android:text="@string/payee" />
+        <AutoCompleteTextView 
+            android:completionThreshold="1" 
+            android:id="@+id/Payee" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" android:inputType="textPersonName"/>
+      </TableRow>
+
       <TableRow>
         <TextView style="@style/form_label"
             android:id="@+id/AmountLabel"/>
@@ -101,16 +111,6 @@
       <TableRow android:id="@+id/CategoryRow">
         <TextView style="@style/form_label" android:text="@string/category" />
         <Button style="@style/SmallButton" android:id="@+id/Category" android:text="@string/select" />
-      </TableRow>
-
-      <TableRow android:id="@+id/PayeeRow">
-        <TextView style="@style/form_label"
-            android:id="@+id/PayeeLabel" android:text="@string/payee" />
-        <AutoCompleteTextView 
-            android:completionThreshold="1" 
-            android:id="@+id/Payee" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" android:inputType="textPersonName"/>
       </TableRow>
 
       <TableRow android:id="@+id/MethodRow">

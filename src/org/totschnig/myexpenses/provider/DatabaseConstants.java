@@ -128,6 +128,8 @@ public class DatabaseConstants {
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
   public static final String KEY_MAPPED_PAYEES = "mapped_payees";
   public static final String KEY_MAPPED_METHODS = "mapped_methods";
+  public static final String KEY_MAPPED_TEMPLATES = "mapped_templates";
+  public static final String KEY_MAPPED_TRANSACTIONS = "mapped_transactions";
   public static final String KEY_HAS_CLEARED = "has_cleared";
   public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";

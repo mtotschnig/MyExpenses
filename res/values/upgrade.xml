@@ -18,11 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2302">
-    <item>Bug fix</item>
-  </string-array>
-  <string-array name="whats_new_2301">
-    <item>Minor fix</item>
+  <string-array name="whats_new_231">
+    <item>Autofill from last transaction for same payee/payer</item>
   </string-array>
   <string-array name="whats_new_230">
     <item>Print transaction list to PDF file (Premium)</item>

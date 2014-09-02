@@ -44,8 +44,8 @@ public class PaymentMethod extends Model {
     KEY_LABEL,
     KEY_TYPE,
     KEY_IS_NUMBERED,
-    "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS mapped_transactions",
-    "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS mapped_templates"};
+    "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
+    "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES};
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable

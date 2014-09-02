@@ -38,7 +38,9 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public static String KEY_MESSAGE = "message";
   public static String KEY_COMMAND = "command";
   public static String KEY_PREFKEY = "prefKey";
-  
+  public static String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
+  public static String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
+
   public static final ConfirmationDialogFragment newInstance(Bundle args) {
     ConfirmationDialogFragment dialogFragment = new ConfirmationDialogFragment();
     dialogFragment.setArguments(args);
@@ -59,15 +61,17 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
       dontShowAgain.setText(R.string.confirmation_dialog_dont_show_again);
       builder.setView(cb);
     }
-    builder.setPositiveButton(android.R.string.ok, this);
-    builder.setNegativeButton(android.R.string.cancel, this);
+    int positiveLabel = bundle.getInt(KEY_POSITIVE_BUTTON_LABEL);
+    int negativeLabel = bundle.getInt(KEY_NEGATIVE_BUTTON_LABEL);
+    builder.setPositiveButton(positiveLabel == 0 ? android.R.string.ok : positiveLabel, this);
+    builder.setNegativeButton(negativeLabel == 0 ? android.R.string.cancel: negativeLabel, this);
     return builder.create();
   }
   @Override
   public void onCancel (DialogInterface dialog) {
     ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
     if (ctx != null) {
-      ctx.onMessageDialogDismissOrCancel();
+      ctx.onConfirmationDialogDismissOrCancel(getArguments().getInt(KEY_COMMAND));
     }
   }
   @Override
@@ -77,12 +81,12 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
       return;
     }
     Bundle bundle = getArguments();
+    if (dontShowAgain != null && dontShowAgain.isChecked()) {
+      SharedPreferencesCompat.apply(
+        MyApplication.getInstance().getSettings().edit()
+        .putBoolean(bundle.getString(KEY_PREFKEY), true));
+    }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      if (dontShowAgain != null && dontShowAgain.isChecked()) {
-        SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit()
-          .putBoolean(bundle.getString(KEY_PREFKEY), true));
-      }
       ctx.dispatchCommand(bundle.getInt(KEY_COMMAND), bundle);
     } else {
       onCancel(dialog);
@@ -90,6 +94,6 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   }
   public interface ConfirmationDialogListener {
     void dispatchCommand(int command, Bundle args);
-    void onMessageDialogDismissOrCancel();
+    void onConfirmationDialogDismissOrCancel(int command);
   }
 }

@@ -62,8 +62,8 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
       SparseBooleanArray positions,Long[]itemIds) {
     switch(command) {
     case R.id.DELETE_COMMAND:
-      int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex("mapped_transactions");
-      int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex("mapped_templates");
+      int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
+      int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
       int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
       ArrayList<Long> idList = new ArrayList<Long>();

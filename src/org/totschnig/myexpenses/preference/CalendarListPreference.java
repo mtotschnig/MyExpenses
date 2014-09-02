@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.preference;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
@@ -18,11 +16,8 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
-import android.os.Bundle;
 import android.preference.ListPreference;
-import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
-import android.widget.Toast;
 
 public class CalendarListPreference extends ListPreference {
   public CalendarListPreference(Context context) {

@@ -113,8 +113,8 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
       SparseBooleanArray positions,Long[]itemIds) {
     switch(command) {
     case R.id.DELETE_COMMAND:
-      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex("mapped_transactions");
-      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex("mapped_templates");
+      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
+      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
       int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
       ArrayList<Long> idList = new ArrayList<Long>();

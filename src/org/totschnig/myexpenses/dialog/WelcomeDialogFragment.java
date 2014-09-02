@@ -105,8 +105,15 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment {
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_SETUP_COMPLETED, mSetupCompleted);
   }
+
   public void showUnlockWelcome(int message) {
-    TextView help_leading = (TextView) getDialog().findViewById(R.id.help_leading);
-    help_leading.setText(message);
+    Dialog dlg = getDialog();
+    if (dlg != null) {
+      TextView help_leading = (TextView) dlg.findViewById(R.id.help_leading);
+      if (help_leading != null) {
+        help_leading.setText(message);
+      }
+    }
   }
+
 }

@@ -44,6 +44,7 @@
   <string name="pref_rate_key">rate</string>
   <string name="pref_ui_language_key">ui_language</string>
   <string name="pref_app_dir_key">app_dir</string>
+  <string name="pref_auto_fill_key">auto_fill</string>
   <string name="pref_protection_enable_account_widget_key">enable_account_widget</string>
   <string name="pref_protection_enable_template_widget_key">enable_template_widget</string>
   <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>

@@ -40,6 +40,7 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
 
   private RatingBar mRating;
   private TextView mRatingRemind;
+  private int POSITIVE_RATING = 5;
   @SuppressLint("NewApi")
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
     if (which == AlertDialog.BUTTON_POSITIVE) {
       PrefKey.NEXT_REMINDER_RATE.putLong(-1);
       ((MessageDialogListener) getActivity())
-        .dispatchCommand(mRating.getRating() >= 4.0 ? R.id.RATE_COMMAND : R.id.FEEDBACK_COMMAND,null);
+        .dispatchCommand(mRating.getRating() >= POSITIVE_RATING ? R.id.RATE_COMMAND : R.id.FEEDBACK_COMMAND,null);
     } else if (which == AlertDialog.BUTTON_NEUTRAL) {
       ((MessageDialogListener) getActivity())
         .dispatchCommand(R.id.REMIND_LATER_COMMAND,"Rate");
@@ -102,10 +103,10 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
       if (rating < 1) {
         ratingBar.setRating(1);
       }
-      setRatingRemindText(rating >= 4);
+      setRatingRemindText(rating >= POSITIVE_RATING);
       Button b = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
       b.setEnabled(true);
-      b.setText(rating >= 4 ? R.string.dialog_remind_rate_yes : R.string.pref_send_feedback_title);
+      b.setText(rating >= POSITIVE_RATING ? R.string.dialog_remind_rate_yes : R.string.pref_send_feedback_title);
       b.invalidate();
     }
   }

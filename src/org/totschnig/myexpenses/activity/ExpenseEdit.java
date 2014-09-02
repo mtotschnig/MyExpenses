@@ -35,10 +35,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -76,12 +79,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
@@ -93,7 +98,8 @@ import android.widget.ToggleButton;
  * @author Michael Totschnig
  */
 public class ExpenseEdit extends AmountActivity implements
-    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,ContribIFace {
+    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
+    ContribIFace, ConfirmationDialogListener {
 
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
@@ -109,7 +115,6 @@ public class ExpenseEdit extends AmountActivity implements
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
-  private ArrayAdapter<String>  mPayeeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel, mAmountLabel;
@@ -139,7 +144,6 @@ public class ExpenseEdit extends AmountActivity implements
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
 
-  public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
   public static final int ACCOUNTS_CURSOR=3;
   private static final int EVENT_CURSOR = 4;
@@ -173,6 +177,60 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
+    final SimpleCursorAdapter payeeAdapter =  new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
+        new String[] { KEY_PAYEE_NAME },
+        new int[] {android.R.id.text1},
+        0);
+    mPayeeText.setAdapter(payeeAdapter);
+    payeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+      public Cursor runQuery(CharSequence str) {
+        String selection = KEY_PAYEE_NAME + " LIKE ? ";
+        String[] selectArgs = { "%" + str + "%"};
+      return getContentResolver().query(
+          TransactionProvider.PAYEES_URI, 
+          new String[] {
+              KEY_ROWID,
+              KEY_PAYEE_NAME,
+              "(SELECT max(" + KEY_ROWID
+                  + ") FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
+          selection, selectArgs, null);
+      } });
+
+    payeeAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+      public CharSequence convertToString(Cursor cur) {
+      return cur.getString(1);
+      }});
+    mPayeeText.setOnItemClickListener(new OnItemClickListener() {
+
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position,
+          long id) {
+        if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+          Cursor c = (Cursor) payeeAdapter.getItem(position);
+          if (!c.isNull(2)) {
+            if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
+              startAutoFill(c.getLong(2));
+            } else {
+              Bundle b = new Bundle();
+              b.putLong(KEY_ROWID,c.getLong(2));
+              b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+                  R.string.dialog_title_attention);
+              b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+                  getString(R.string.hint_auto_fill));
+              b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+                  R.id.AUTO_FILL_COMMAND);
+              b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+                  MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
+              b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.yes);
+              b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,R.string.no);
+              ConfirmationDialogFragment.newInstance(b)
+                .show(getSupportFragmentManager(),"AUTO_FILL_HINT");
+            }
+          }
+        }
+      }
+    });
+
     mCategoryButton = (Button) findViewById(R.id.Category);
     mPlanButton = (Button) findViewById(R.id.Plan);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
@@ -356,7 +414,6 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setOnItemSelectedListener(this);
 
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
-      mManager.initLoader(PAYEES_CURSOR, null, this);
 
       // Spinner for methods
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
@@ -724,8 +781,9 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer))
       setDateTime(mTransaction.getDate());
 
-    //fill amount
-    BigDecimal amount = mTransaction.amount.getAmountMajor();
+    fillAmount(mTransaction.amount.getAmountMajor());
+  }
+  protected void fillAmount(BigDecimal amount) {
     int signum = amount.signum();
     switch(signum) {
     case -1:
@@ -1055,6 +1113,18 @@ public class ExpenseEdit extends AmountActivity implements
         launchNewPlan();
       }
       break;
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      if (o!=null) {
+        Transaction t = (Transaction) o;
+        mCatId = t.catId;
+        mLabel = t.label;
+        mCommentText.setText(t.comment);
+        fillAmount(t.amount.getAmountMajor());
+        configureType();
+        mAmountText.requestFocus();
+        mAmountText.selectAll();
+      }
+      break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
       if (o==null) {
         Toast.makeText(this, R.string.save_transaction_template_deleted,Toast.LENGTH_LONG).show();
@@ -1176,6 +1246,7 @@ public class ExpenseEdit extends AmountActivity implements
         mCreateNew = false;
         mTransaction.setId(0L);
         mRowId = 0L;
+        mNewInstance = true;
         if (mTransaction instanceof Template) {
           setTitle(R.string.menu_create_template);
           mTitleText.setText("");
@@ -1209,8 +1280,6 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     switch(id){
-    case PAYEES_CURSOR:
-      return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, null, null, null);
     case METHODS_CURSOR:
       Account a = getCurrentAccount();
       if (a == null)
@@ -1250,19 +1319,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     int id = loader.getId();
     switch(id) {
-    case PAYEES_CURSOR:
-      data.moveToFirst();
-      if (mPayeeAdapter == null)
-        mPayeeAdapter = new ArrayAdapter<String>(this,
-          android.R.layout.simple_dropdown_item_1line);
-      else
-        mPayeeAdapter.clear();
-      while(!data.isAfterLast()) {
-        mPayeeAdapter.add(data.getString(data.getColumnIndex("name")));
-        data.moveToNext();
-      }
-      mPayeeText.setAdapter(mPayeeAdapter);
-      break;
     case METHODS_CURSOR:
       mMethodsCursor = data;
       View methodContainer = findViewById(R.id.MethodRow);
@@ -1445,5 +1501,26 @@ public class ExpenseEdit extends AmountActivity implements
   }
   public void disableAccountSpinner() {
     mAccountSpinner.setEnabled(false);
+  }
+  @Override
+  public void dispatchCommand(int command, Bundle args) {
+    switch (command) {
+    case R.id.AUTO_FILL_COMMAND:
+      startAutoFill(args.getLong(KEY_ROWID));
+      break;
+    }
+  }
+  private void startAutoFill(long id) {
+    startTaskExecution(
+        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
+        new Long[] {id},
+        null,
+        R.string.progress_dialog_loading);
+  }
+  @Override
+  public void onConfirmationDialogDismissOrCancel(int command) {
+    if (command == R.id.AUTO_FILL_COMMAND) {
+      MyApplication.PrefKey.AUTO_FILL.putBoolean(false);
+    }
   }
 }

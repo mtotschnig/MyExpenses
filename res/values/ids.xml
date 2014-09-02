@@ -82,4 +82,5 @@
   <item type="id" name="FILTER_METHOD_COMMAND" />
   <item type="id" name="PRINT_COMMAND" />
   <item type="id" name="OPEN_PDF_COMMAND" />
+  <item type="id" name="AUTO_FILL_COMMAND" />
 </resources>
