@@ -89,10 +89,16 @@ public class Transfer extends Transaction {
       args.put(KEY_TRANSFER_PEER,transfer_peer);
       cr().update(Uri.parse(CONTENT_URI+ "/" + getId()), args, null, null);
       cr().update(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
+          TransactionProvider.ACCOUNTS_URI.buildUpon()
+            .appendPath(String.valueOf(accountId))
+            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+            .build(),
           null, null, null);
       cr().update(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(transfer_account)).appendPath("increaseUsage").build(),
+          TransactionProvider.ACCOUNTS_URI.buildUpon()
+            .appendPath(String.valueOf(transfer_account))
+            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+            .build(),
           null, null, null);
     } else {
       uri = Uri.parse(CONTENT_URI + "/" + getId());
