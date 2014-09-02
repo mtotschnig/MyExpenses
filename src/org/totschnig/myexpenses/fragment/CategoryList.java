@@ -364,7 +364,7 @@ public class CategoryList extends BudgetListFragment implements
         projectionList.add(DbUtils.weekEndFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
       }
       return new CursorLoader(getActivity(),
-          TransactionProvider.TRANSACTIONS_URI,
+          TransactionProvider.DUAL_URI,
           projectionList.toArray(new String[projectionList.size()]),
           null,null, null);
     }
