@@ -649,7 +649,7 @@ public class Utils {
   }
 
   public static void reportToAcra(Exception e) {
-    Log.w(MyApplication.TAG, e.toString());
+    Log.e(MyApplication.TAG,"Report", e);
     /*org.acra.ACRA.getErrorReporter().handleSilentException(e);*/
   }
 
