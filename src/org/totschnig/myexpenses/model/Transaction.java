@@ -19,7 +19,6 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -237,6 +236,9 @@ public class Transaction extends Model {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       account = Account.getInstanceFromDb(0L);
+    }
+    if (account == null) {
+      return null;
     }
     return new Transaction(account,0L);
   }
