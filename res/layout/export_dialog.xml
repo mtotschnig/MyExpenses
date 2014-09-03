@@ -13,102 +13,137 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="0dp"
-    android:layout_weight="1">
-  <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
-    <TableLayout
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
+    android:layout_weight="1" >
+
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:stretchColumns="*"
-        android:shrinkColumns="*"
-        android:layout_height="wrap_content">
-      <TableRow
-          android:gravity="center_vertical">
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/pref_export_format_title"
-            style="@style/dialog_text"/>
-        <RadioGroup
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:id="@+id/format"
-            android:orientation="horizontal">
-          <RadioButton android:id="@+id/qif"
-              android:checked="true"
-              android:layout_weight="1"
-              android:text="QIF"/>
-          <RadioButton android:id="@+id/csv"
-              android:layout_weight="1"
-              android:text="CSV"/>
-        </RadioGroup>
-      </TableRow>
-      <TableRow
-          android:gravity="center_vertical">
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:text="@string/date_format"
-            android:gravity="center_vertical"
-            style="@style/dialog_text"/>
-        <EditText
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:id="@+id/date_format" />
-      </TableRow>
-      <TableRow
-          android:gravity="center_vertical">
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:text="@string/decimal_separator"
-            android:gravity="center_vertical"
-            style="@style/dialog_text"/>
-        <RadioGroup
-            android:layout_width="0dip"
-            android:layout_weight="1" 
-            android:id="@+id/separator"
-            android:orientation="horizontal">
-          <RadioButton
-              android:id="@+id/dot"
-              android:layout_weight="1"
-              android:checked="true"
-              android:text="."/>
-          <RadioButton
-              android:id="@+id/comma"
-              android:layout_weight="1"
-              android:text=","/>
-        </RadioGroup>
-      </TableRow>
-    </TableLayout>
-    <CheckBox
-        android:id="@+id/export_delete"
-        android:checked="false"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog_export_delete"/>
-    <CheckBox
-        android:id="@+id/export_not_yet_exported"
-        android:visibility="gone"
-        android:checked="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dialog_export_not_yet_exported"/>
-    <TextView
-        style="@style/dialog_text_bold"
-        android:visibility="gone"
-        android:layout_margin="@dimen/general_padding"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/warning_reset"
-        android:text="@string/warning_reset_account" />
-  </LinearLayout>
+        android:orientation="vertical" >
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/general_padding"
+            android:paddingRight="@dimen/general_padding"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >
+
+            <TableRow android:gravity="center_vertical" >
+
+                <TextView
+                    style="@style/dialog_text"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/pref_export_format_title" />
+
+                <RadioGroup
+                    android:id="@+id/format"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/qif"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="QIF" />
+
+                    <RadioButton
+                        android:id="@+id/csv"
+                        android:layout_weight="1"
+                        android:text="CSV" />
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow android:gravity="center_vertical" >
+
+                <TextView
+                    style="@style/dialog_text"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/date_format" />
+
+                <EditText
+                    android:id="@+id/date_format"
+                    android:layout_width="0dip"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow android:gravity="center_vertical" >
+
+                <TextView
+                    style="@style/dialog_text"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/decimal_separator" />
+
+                <RadioGroup
+                    android:id="@+id/separator"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/dot"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="." />
+
+                    <RadioButton
+                        android:id="@+id/comma"
+                        android:layout_weight="1"
+                        android:text="," />
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow android:gravity="center_vertical" >
+
+                <TextView
+                    style="@style/dialog_text"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/pref_qif_export_file_encoding_title" />
+
+                <Spinner
+                    android:id="@+id/Encoding"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:entries="@array/pref_qif_export_file_encoding"
+                    android:entryValues="@array/pref_qif_export_file_encoding" />
+            </TableRow>
+        </TableLayout>
+
+        <CheckBox
+            android:id="@+id/export_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/dialog_export_delete" />
+
+        <CheckBox
+            android:id="@+id/export_not_yet_exported"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/dialog_export_not_yet_exported"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/warning_reset"
+            style="@style/dialog_text_bold"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_padding"
+            android:text="@string/warning_reset_account"
+            android:visibility="gone" />
+    </LinearLayout>
+
 </ScrollView>

@@ -13,46 +13,69 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="0dp"
-    android:layout_weight="1">
+    android:layout_weight="1" >
+
     <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/general_padding"
         android:paddingRight="@dimen/general_padding"
-        android:stretchColumns="1"
         android:shrinkColumns="1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-        <include layout="@layout/filename"/>
-      <TableRow
-          android:gravity="center_vertical">
-        <TextView
-            android:text="@string/date_format"
-            style="@style/dialog_text"/>
-        <Spinner
-            android:id="@+id/DateFormat"
-            android:layout_weight="1" />
-      </TableRow>
-      <TableRow
-          android:gravity="center_vertical">
-        <TextView
-            android:text="@string/account"
-            style="@style/dialog_text"/>
-        <LinearLayout android:orientation="horizontal">
-        <Spinner
-            android:id="@+id/Account"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:id="@+id/Currency"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        </LinearLayout>
-      </TableRow>
-      <include layout="@layout/import_select_types"/>
+        android:stretchColumns="1" >
+
+        <include layout="@layout/filename" />
+
+        <TableRow android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/dialog_text"
+                android:text="@string/date_format" />
+
+            <Spinner
+                android:id="@+id/DateFormat"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/dialog_text"
+                android:text="@string/pref_qif_export_file_encoding_title" />
+
+            <Spinner
+                android:id="@+id/Encoding"
+                android:layout_weight="1"
+                android:entries="@array/pref_qif_export_file_encoding"
+                android:entryValues="@array/pref_qif_export_file_encoding" />
+        </TableRow>
+
+        <TableRow android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/dialog_text"
+                android:text="@string/account" />
+
+            <LinearLayout android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/Account"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/Currency"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </TableRow>
+
+        <include layout="@layout/import_select_types" />
     </TableLayout>
+
 </ScrollView>

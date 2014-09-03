@@ -20,10 +20,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.task.ExportTask;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -50,6 +53,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +66,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
   static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
+  static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
   
   public static final ExportDialogFragment newInstance(Long accountId) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -134,6 +139,13 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
     deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
     warningTV = (TextView) view.findViewById(R.id.warning_reset);
+    
+    String encoding = MyApplication.getInstance().getSettings()
+        .getString(PREFKEY_EXPORT_ENCODING, "UTF-8");
+    
+    ((Spinner) view.findViewById(R.id.Encoding)).setSelection(
+        Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
+          .indexOf(encoding));
 
     formatRB = (RadioButton) view.findViewById(R.id.csv);
     String format = MyApplication.PrefKey.EXPORT_FORMAT.getString("QIF");
@@ -183,10 +195,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
     char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
         '.' : ',';
+    String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
     SharedPreferencesCompat.apply(
       MyApplication.getInstance().getSettings().edit()
         .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
         .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
+        .putString(PREFKEY_EXPORT_ENCODING, encoding)
         .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
@@ -203,11 +217,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         Feature.RESET_ALL.recordUsage();
         b.putString(KEY_CURRENCY, currency);
       }
-      b.putString("format", format);
-      b.putBoolean("deleteP", deleteP);
-      b.putBoolean("notYetExportedP",notYetExportedP);
-      b.putString("dateFormat",dateFormat);
-      b.putChar("decimalSeparator",decimalSeparator);
+      b.putString(ExportTask.KEY_FORMAT, format);
+      b.putBoolean(ExportTask.KEY_DELETE_P, deleteP);
+      b.putBoolean(ExportTask.KEY_NOT_YET_EXPORTED_P,notYetExportedP);
+      b.putString(TaskExecutionFragment.KEY_DATE_FORMAT,dateFormat);
+      b.putChar(ExportTask.KEY_DECIMAL_SEPARATOR,decimalSeparator);
+      b.putString(TaskExecutionFragment.KEY_ENCODING,encoding);
       if (Utils.checkAppFolderWarning()) {
         ((ConfirmationDialogListener) getActivity())
         .onPositive(b);

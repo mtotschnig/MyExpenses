@@ -45,6 +45,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final String KEY_FILE_PATH = "filePath";
   public static final String KEY_EXTERNAL = "external";
   public static final String KEY_DATE_FORMAT = "dateFormat";
+  public static final String KEY_ENCODING = "encoding";
 
   public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
@@ -128,8 +129,9 @@ public class TaskExecutionFragment extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceQifImport(Uri mUri,
-      QifDateFormat qifDateFormat, long accountId,
-      String currency, boolean withTransactions, boolean withCategories, boolean withParties) {
+      QifDateFormat qifDateFormat, long accountId, String currency,
+      boolean withTransactions, boolean withCategories, boolean withParties,
+      String encoding) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_QIF_IMPORT);
@@ -140,6 +142,7 @@ public class TaskExecutionFragment extends Fragment {
     bundle.putBoolean(KEY_WITH_TRANSACTIONS, withTransactions);
     bundle.putBoolean(KEY_WITH_PARTIES, withParties);
     bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
+    bundle.putString(KEY_ENCODING, encoding);
     f.setArguments(bundle);
     return f;
   }

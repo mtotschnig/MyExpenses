@@ -21,6 +21,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
+  public static final String KEY_FORMAT = "format";
+  public static final String KEY_DECIMAL_SEPARATOR = "decimalSeparator";
+  public static final String KEY_NOT_YET_EXPORTED_P = "notYetExportedP";
+  public static final String KEY_DELETE_P = "deleteP";
   private final TaskExecutionFragment taskExecutionFragment;
   //we store the label of the account as progress
   private String progress ="";
@@ -32,6 +36,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
   private char decimalSeparator;
   private long accountId;
   private String currency;
+  private String encoding;
 
   /**
    * @param args 
@@ -40,16 +45,17 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
    */
   public ExportTask(TaskExecutionFragment taskExecutionFragment, Bundle extras) {
     this.taskExecutionFragment = taskExecutionFragment;
-    deleteP = extras.getBoolean("deleteP");
-    notYetExportedP = extras.getBoolean("notYetExportedP");
-    dateFormat = extras.getString("dateFormat");
-    decimalSeparator = extras.getChar("decimalSeparator");
+    deleteP = extras.getBoolean(KEY_DELETE_P);
+    notYetExportedP = extras.getBoolean(KEY_NOT_YET_EXPORTED_P);
+    dateFormat = extras.getString(TaskExecutionFragment.KEY_DATE_FORMAT);
+    decimalSeparator = extras.getChar(KEY_DECIMAL_SEPARATOR);
+    encoding = extras.getString(TaskExecutionFragment.KEY_ENCODING);
     currency = extras.getString(KEY_CURRENCY);
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");
     try {
-      format = ExportFormat.valueOf(extras.getString("format"));
+      format = ExportFormat.valueOf(extras.getString(KEY_FORMAT));
     } catch (IllegalArgumentException e) {
       format = ExportFormat.QIF;
     }
@@ -126,7 +132,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       account = Account.getInstanceFromDb(id);
       publishProgress(account.label + " ...");
       try {
-        Result result = account.exportAll(destDir,format,notYetExportedP,dateFormat,decimalSeparator);
+        Result result = account.exportAll(destDir,format,notYetExportedP,dateFormat,decimalSeparator,encoding);
         File output = null;
         String progressMsg;
         if (result.extra != null) {

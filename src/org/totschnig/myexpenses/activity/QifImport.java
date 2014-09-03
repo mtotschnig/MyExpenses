@@ -42,7 +42,7 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
       String currency,
       boolean withTransactions,
       boolean withCategories,
-      boolean withParties) {
+      boolean withParties, String encoding) {
     getSupportFragmentManager()
       .beginTransaction()
       .add(TaskExecutionFragment.newInstanceQifImport(
@@ -52,7 +52,8 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
           currency,
           withTransactions,
           withCategories,
-          withParties),
+          withParties,
+          encoding),
           "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(
           R.string.pref_import_qif_title,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")

@@ -54,6 +54,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (prev_version < 132) {
         MyApplication.getInstance().showImportantUpgradeInfo = true;
       }
+      if (prev_version < 163) {
+        mSettings.edit().remove("qif_export_file_encoding").commit();
+      }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
