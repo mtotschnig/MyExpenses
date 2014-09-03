@@ -310,7 +310,7 @@ public class ExpenseEdit extends AmountActivity implements
       public boolean isEnabled(int position) {
         //if the transaction is reconciled, the status can not be changed
         //otherwise only unreconciled and cleared can be set
-        return mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
+        return mTransaction != null && mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
       }
     };
     sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
