@@ -75,6 +75,10 @@
         android:defaultValue="true"
         android:title="@string/pref_auto_fill_title"
         android:summary="@string/pref_auto_fill_summary" />
+    <ListPreference android:key="@string/pref_template_click_default_key"
+        android:title="@string/pref_template_click_default_title"
+        android:summary="@string/pref_template_click_default_summary"
+        android:entries="@array/pref_template_click_default_entries" android:entryValues="@array/pref_template_click_default_values"/>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">

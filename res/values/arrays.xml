@@ -85,6 +85,14 @@
         <item>@string/status_cleared</item>
         <item>@string/status_reconciled</item>
     </string-array>
+    <string-array  name="pref_template_click_default_entries">
+        <item>@string/menu_create_instance_save</item>
+        <item>@string/menu_create_instance_edit</item>
+    </string-array>
+    <string-array  name="pref_template_click_default_values">
+        <item>SAVE</item>
+        <item>EDIT</item>
+    </string-array>
     <string-array name="method_types">
     	<item>@string/pm_type_debit</item>
       <item>@string/pm_type_neutral</item>

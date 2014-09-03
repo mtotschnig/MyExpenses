@@ -352,6 +352,8 @@
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
     <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
+    <string name="pref_template_click_default_title">Template default action</string>
+    <string name="pref_template_click_default_summary">Upon short tap on entry in template list</string>
     <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
     <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
     <string name="pref_ui_fontsize_title">Increase font size</string>
@@ -490,4 +492,5 @@
     <string name="hint_auto_fill">Should amount, category and comment be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
 </resources>

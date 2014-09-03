@@ -205,11 +205,13 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+        if (mNewInstance) {
           Cursor c = (Cursor) payeeAdapter.getItem(position);
           if (!c.isNull(2)) {
             if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
-              startAutoFill(c.getLong(2));
+              if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+                startAutoFill(c.getLong(2));
+              }
             } else {
               Bundle b = new Bundle();
               b.putLong(KEY_ROWID,c.getLong(2));
@@ -217,7 +219,7 @@ public class ExpenseEdit extends AmountActivity implements
                   R.string.dialog_title_attention);
               b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
                   getString(R.string.hint_auto_fill));
-              b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
                   R.id.AUTO_FILL_COMMAND);
               b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
                   MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
@@ -1503,8 +1505,8 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setEnabled(false);
   }
   @Override
-  public void dispatchCommand(int command, Bundle args) {
-    switch (command) {
+  public void onPositive(Bundle args) {
+    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
     case R.id.AUTO_FILL_COMMAND:
       startAutoFill(args.getLong(KEY_ROWID));
       break;
@@ -1518,9 +1520,12 @@ public class ExpenseEdit extends AmountActivity implements
         R.string.progress_dialog_loading);
   }
   @Override
-  public void onConfirmationDialogDismissOrCancel(int command) {
-    if (command == R.id.AUTO_FILL_COMMAND) {
+  public void onDismissOrCancel(Bundle args) {
+    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.AUTO_FILL_COMMAND) {
       MyApplication.PrefKey.AUTO_FILL.putBoolean(false);
     }
+  }
+  @Override
+  public void onNegative(Bundle args) {
   }
 }

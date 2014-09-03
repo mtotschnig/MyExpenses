@@ -15,10 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+
 import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
@@ -45,7 +50,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.Toast;
 
-public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
+public class ManageTemplates extends ProtectedFragmentActivity implements TabListener,
+    ConfirmationDialogListener {
   public enum HelpVariant {
     templates,plans
   }
@@ -180,7 +186,19 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
           NavUtils.navigateUpTo(this, upIntent);
       }
       return true;
-
+    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+      startTaskExecution(
+          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+          (Long[])tag,
+          null,
+          0);
+      return true;
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      Intent intent = new Intent(this, ExpenseEdit.class);
+      intent.putExtra(KEY_TEMPLATEID, (Long) tag);
+      intent.putExtra(KEY_INSTANCEID, -1L);
+      startActivity(intent);
+      return true;
     }
     return super.dispatchCommand(command, tag);
    }
@@ -251,5 +269,34 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     if (f!=null) {
       f.finishActionMode();
     }
+  }
+  @Override
+  public void onPositive(Bundle args) {
+    long id = args.getLong(DatabaseConstants.KEY_ROWID);
+    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
+    switch(command) {
+    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+      MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
+      dispatchCommand(
+          command,
+          new Long[] {id});
+      break;
+    }
+  }
+  @Override
+  public void onNegative(Bundle args) {
+    long id = args.getLong(DatabaseConstants.KEY_ROWID);
+    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
+    switch(command) {
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
+      dispatchCommand(
+          command,
+          id);
+      break;
+    }
+  }
+  @Override
+  public void onDismissOrCancel(Bundle args) {
   }
 }

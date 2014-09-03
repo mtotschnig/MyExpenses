@@ -17,19 +17,18 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -44,6 +43,8 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -88,6 +89,41 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         0);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
+    lv.setOnItemClickListener(new OnItemClickListener() {
+
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position,
+          long id) {
+        if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
+          if (MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
+            ((ManageTemplates) getActivity()).dispatchCommand(
+                R.id.CREATE_INSTANCE_SAVE_COMMAND,
+                new Long[] {id});
+          } else {
+            ((ManageTemplates) getActivity()).dispatchCommand(
+                R.id.CREATE_INSTANCE_EDIT_COMMAND,
+                id);
+          }
+        } else {
+          Bundle b = new Bundle();
+          b.putLong(KEY_ROWID,id);
+          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+              R.string.dialog_title_attention);
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+              getString(R.string.hint_template_click));
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+              R.id.CREATE_INSTANCE_SAVE_COMMAND);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+              R.id.CREATE_INSTANCE_EDIT_COMMAND);
+          b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+              MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getKey());
+          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.menu_create_instance_save);
+          b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,R.string.menu_create_instance_edit);
+          ConfirmationDialogFragment.newInstance(b)
+            .show(getFragmentManager(),"TEMPLATE_CLICK_HINT");
+        }
+      }
+    });
     registerForContextualActionBar(lv);
     return v;
   }
@@ -109,12 +145,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-          itemIds,
-          null,
-          0);
-      break;
+      return ((ManageTemplates) getActivity()).dispatchCommand(command, itemIds);
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
@@ -123,11 +154,6 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     switch(command) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-      intent.putExtra(KEY_TEMPLATEID, menuInfo.id);
-      intent.putExtra(KEY_INSTANCEID, -1L);
-      startActivity(intent);
-      break;
     case R.id.EDIT_COMMAND:
       return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
     }

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -1090,8 +1091,8 @@ public class MyExpenses extends LaunchActivity implements
     outState.putString("exportFormat", mExportFormat);
   }
   @Override
-  public void dispatchCommand(int command, Bundle args) {
-   switch (command) {
+  public void onPositive(Bundle args) {
+   switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
    case R.id.START_EXPORT_COMMAND:
      mExportFormat = args.getString("format");
      getSupportFragmentManager().beginTransaction()
@@ -1106,5 +1107,11 @@ public class MyExpenses extends LaunchActivity implements
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
    }
+  }
+  @Override
+  public void onNegative(Bundle args) {
+  }
+  @Override
+  public void onDismissOrCancel(Bundle args) {
   }
 }
