@@ -54,6 +54,9 @@ public class Transfer extends Transaction {
     if (account == null) {
       account = Account.getInstanceFromDb(0L);
     }
+    if (account == null) {
+      return null;
+    }
     return new Transfer(account,0L,transfer_account);
   }
   /* (non-Javadoc)

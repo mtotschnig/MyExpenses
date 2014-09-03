@@ -122,6 +122,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),
       AUTO_FILL(R.string.pref_auto_fill_key),
       AUTO_FILL_HINT_SHOWN("auto_fill_hint_shown"),
+      TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
+      TEMPLATE_CLICK_HINT_SHOWN("template_click_hint_shown"),
       NEXT_REMINDER_RATE("nextReminderRate"),
       NEXT_REMINDER_CONTRIB("nextReminderContrib");
 

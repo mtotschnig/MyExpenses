@@ -193,6 +193,8 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     Result appDirStatus = Utils.checkAppDir();
     if (appDirStatus.success) {
       Bundle b = new Bundle();
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+          R.id.START_EXPORT_COMMAND);
       if (accountId == null) {
         Feature.RESET_ALL.recordUsage();
       } else if (accountId>0) {
@@ -208,14 +210,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putChar("decimalSeparator",decimalSeparator);
       if (Utils.checkAppFolderWarning()) {
         ((ConfirmationDialogListener) getActivity())
-        .dispatchCommand(R.id.START_EXPORT_COMMAND, b);
+        .onPositive(b);
       } else {
         b.putInt(ConfirmationDialogFragment.KEY_TITLE,
             R.string.dialog_title_attention);
         b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
             getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
-            R.id.START_EXPORT_COMMAND);
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
             MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
         ConfirmationDialogFragment.newInstance(b)

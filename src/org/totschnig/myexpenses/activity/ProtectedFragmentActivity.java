@@ -135,8 +135,6 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
   public void onMessageDialogDismissOrCancel() {
   }
-  public void onConfirmationDialogDismissOrCancel(int command) {
-  }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();

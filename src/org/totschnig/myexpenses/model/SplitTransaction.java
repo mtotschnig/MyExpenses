@@ -49,6 +49,9 @@ public class SplitTransaction extends Transaction {
     if (account == null) {
       account = Account.getInstanceFromDb(0L);
     }
+    if (account == null) {
+      return null;
+    }
     SplitTransaction t = new SplitTransaction(account,0L);
     t.status = STATUS_UNCOMMITTED;
     //TODO: Strict mode

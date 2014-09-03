@@ -110,7 +110,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
         R.string.pref_restore_title);
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
         getString(R.string.warning_restore,ImportSourceDialogFragment.getDisplayName(fileUri)));
-    b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
         R.id.RESTORE_COMMAND);
     b.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri);
     ConfirmationDialogFragment.newInstance(b)
@@ -128,7 +128,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
         R.string.pref_restore_title);
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
         getString(R.string.warning_restore,dir));
-    b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
         R.id.RESTORE_COMMAND);
     b.putString(KEY_DIR_NAME_LEGACY, dir);
     ConfirmationDialogFragment.newInstance(b)
@@ -149,7 +149,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
             R.string.dialog_title_attention);
         b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
             getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
             R.id.BACKUP_COMMAND_DO);
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
             MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
@@ -169,13 +169,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       Toast.makeText(getBaseContext(),appDirStatus.print(this), Toast.LENGTH_LONG).show();
       finish();
     }
-  }
-
-  @Override
-  public void onConfirmationDialogDismissOrCancel(int command) {
-    //super.onMessageDialogDismissOrCancel();
-    setResult(RESULT_CANCELED);
-    finish();
   }
 
   @Override
@@ -229,8 +222,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   }
 
   @Override
-  public void dispatchCommand(int command, Bundle args) {
-    switch(command) {
+  public void onPositive(Bundle args) {
+    switch(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
     case R.id.BACKUP_COMMAND_DO:
       doBackup();
       break;
@@ -277,4 +270,23 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       return new String[0];
     }
   }
+
+  @Override
+  public void onNegative(Bundle args) {
+    setResult(RESULT_CANCELED);
+    finish();
+  }
+
+  @Override
+  public void onDismissOrCancel(Bundle args) {
+    setResult(RESULT_CANCELED);
+    finish();
+  }
+
+  @Override
+  public void onMessageDialogDismissOrCancel() {
+    setResult(RESULT_CANCELED);
+    finish();
+  }
+
 }

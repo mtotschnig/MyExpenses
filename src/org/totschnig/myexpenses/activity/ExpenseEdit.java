@@ -205,19 +205,21 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+        if (mNewInstance) {
           Cursor c = (Cursor) payeeAdapter.getItem(position);
           if (!c.isNull(2)) {
             if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
-              startAutoFill(c.getLong(2));
+              if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+                startAutoFill(c.getLong(2));
+              }
             } else {
               Bundle b = new Bundle();
               b.putLong(KEY_ROWID,c.getLong(2));
               b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-                  R.string.dialog_title_attention);
+                  R.string.dialog_title_information);
               b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
                   getString(R.string.hint_auto_fill));
-              b.putInt(ConfirmationDialogFragment.KEY_COMMAND,
+              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
                   R.id.AUTO_FILL_COMMAND);
               b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
                   MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
@@ -310,7 +312,7 @@ public class ExpenseEdit extends AmountActivity implements
       public boolean isEnabled(int position) {
         //if the transaction is reconciled, the status can not be changed
         //otherwise only unreconciled and cleared can be set
-        return mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
+        return mTransaction != null && mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
       }
     };
     sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
@@ -792,8 +794,11 @@ public class ExpenseEdit extends AmountActivity implements
     case 1:
       mType = INCOME;
     }
-    if (signum != 0)
+    if (signum != 0) {
       mAmountText.setText(nfDLocal.format(amount));
+    }
+    mAmountText.requestFocus();
+    mAmountText.selectAll();
   }
 
   /**
@@ -1121,8 +1126,6 @@ public class ExpenseEdit extends AmountActivity implements
         mCommentText.setText(t.comment);
         fillAmount(t.amount.getAmountMajor());
         configureType();
-        mAmountText.requestFocus();
-        mAmountText.selectAll();
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
@@ -1503,8 +1506,8 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setEnabled(false);
   }
   @Override
-  public void dispatchCommand(int command, Bundle args) {
-    switch (command) {
+  public void onPositive(Bundle args) {
+    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
     case R.id.AUTO_FILL_COMMAND:
       startAutoFill(args.getLong(KEY_ROWID));
       break;
@@ -1518,9 +1521,12 @@ public class ExpenseEdit extends AmountActivity implements
         R.string.progress_dialog_loading);
   }
   @Override
-  public void onConfirmationDialogDismissOrCancel(int command) {
-    if (command == R.id.AUTO_FILL_COMMAND) {
+  public void onDismissOrCancel(Bundle args) {
+    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.AUTO_FILL_COMMAND) {
       MyApplication.PrefKey.AUTO_FILL.putBoolean(false);
     }
+  }
+  @Override
+  public void onNegative(Bundle args) {
   }
 }

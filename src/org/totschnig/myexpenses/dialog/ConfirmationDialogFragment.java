@@ -36,7 +36,8 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   
   public static String KEY_TITLE = "title";
   public static String KEY_MESSAGE = "message";
-  public static String KEY_COMMAND = "command";
+  public static String KEY_COMMAND_POSITIVE = "positiveCommand";
+  public static String KEY_COMMAND_NEGATIVE = "negativeCommand";
   public static String KEY_PREFKEY = "prefKey";
   public static String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
   public static String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
@@ -71,7 +72,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public void onCancel (DialogInterface dialog) {
     ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
     if (ctx != null) {
-      ctx.onConfirmationDialogDismissOrCancel(getArguments().getInt(KEY_COMMAND));
+      ctx.onDismissOrCancel(getArguments());
     }
   }
   @Override
@@ -87,13 +88,19 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
         .putBoolean(bundle.getString(KEY_PREFKEY), true));
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ctx.dispatchCommand(bundle.getInt(KEY_COMMAND), bundle);
+      ctx.onPositive(bundle);
     } else {
-      onCancel(dialog);
+      int negativeCommand = getArguments().getInt(KEY_COMMAND_NEGATIVE);
+      if (negativeCommand != 0) {
+        ctx.onNegative(bundle);
+      } else {
+        onCancel(dialog);
+      }
     }
   }
   public interface ConfirmationDialogListener {
-    void dispatchCommand(int command, Bundle args);
-    void onConfirmationDialogDismissOrCancel(int command);
+    void onPositive(Bundle args);
+    void onNegative(Bundle args);
+    void onDismissOrCancel(Bundle args);
   }
 }
