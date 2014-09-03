@@ -192,7 +192,9 @@ public class ExpenseEdit extends AmountActivity implements
               KEY_ROWID,
               KEY_PAYEE_NAME,
               "(SELECT max(" + KEY_ROWID
-                  + ") FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
+                  + ") FROM " + TABLE_TRANSACTIONS
+                  + " WHERE " + WHERE_NOT_SPLIT + " AND "
+                  + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
           selection, selectArgs, null);
       } });
 
@@ -205,7 +207,8 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        if (mNewInstance) {
+        if (mNewInstance && mTransaction != null &&
+            !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
           Cursor c = (Cursor) payeeAdapter.getItem(position);
           if (!c.isNull(2)) {
             if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
