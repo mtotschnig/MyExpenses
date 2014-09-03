@@ -84,7 +84,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       CATEGORIES_SORT_BY_USAGES(R.string.pref_categories_sort_by_usages_key),
       PERFORM_SHARE(R.string.pref_perform_share_key),
       SHARE_TARGET(R.string.pref_share_target_key),
-      QIF_EXPORT_FILE_ENCODING(R.string.pref_qif_export_file_encoding_key),
       UI_THEME_KEY(R.string.pref_ui_theme_key),
       UI_FONTSIZE(R.string.pref_ui_fontsize_key),
       BACKUP(R.string.pref_backup_key),

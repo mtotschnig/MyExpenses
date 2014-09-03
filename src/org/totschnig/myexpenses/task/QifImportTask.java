@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.mozilla.universalchardet.UniversalDetector;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.qif.QifAccount;
@@ -53,6 +54,7 @@ import android.util.Log;
 public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
+  private String encoding;
   private long accountId;
   private int totalCategories=0;
   private final Map<String, Long> payeeToId = new HashMap<String, Long>();
@@ -75,6 +77,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.withTransactionsP = b.getBoolean(TaskExecutionFragment.KEY_WITH_TRANSACTIONS);
     this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
+    this.encoding = b.getString(TaskExecutionFragment.KEY_ENCODING);
   }
 
   @Override
@@ -101,12 +104,18 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     QifParser parser;
     try {
       InputStream inputStream = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
-      //String encoding = detectEncoding(inputStream);
-      //passing an encoding to InputStreamReader together with the InputStream retrieved through the content resolver does not work
-      r = new QifBufferedReader(new BufferedReader(new InputStreamReader(inputStream)));
+      r = new QifBufferedReader(
+          new BufferedReader(
+              new InputStreamReader(
+                  inputStream,
+                  encoding)));
     } catch (FileNotFoundException e) {
       publishProgress(MyApplication.getInstance()
           .getString(R.string.parse_error_file_not_found,fileUri));
+      return null;
+    } catch (Exception e) {
+      publishProgress(MyApplication.getInstance()
+          .getString(R.string.parse_error_other_exception,e.getMessage()));
       return null;
     }
     parser = new QifParser(r, dateFormat);

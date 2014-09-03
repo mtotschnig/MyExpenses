@@ -723,7 +723,10 @@ public class Account extends Model {
   }
 
   /**
-   * calls {@link #exportAll(File, ExportFormat, boolean, String)} with date format "dd/MM/yyyy"
+   * calls {@link #exportAll(File, ExportFormat, boolean, String)} with
+   * * date format "dd/MM/yyyy"
+   * * encoding UTF-8
+   * * decimal separator '.'
    * @param destDir
    * @param format
    * @param notYetExportedP
@@ -731,7 +734,7 @@ public class Account extends Model {
    * @throws IOException
    */
   public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.');
+    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8");
   }
   /**
    * writes transactions to export file
@@ -743,7 +746,13 @@ public class Account extends Model {
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat, char decimalSeparator)
+  public Result exportAll(
+      File destDir,
+      ExportFormat format,
+      boolean notYetExportedP,
+      String dateFormat,
+      char decimalSeparator,
+      String encoding)
       throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
@@ -768,7 +777,7 @@ public class Account extends Model {
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
         new FileOutputStream(outputFile),
-        MyApplication.PrefKey.QIF_EXPORT_FILE_ENCODING.getString("UTF-8"));
+        encoding);
     switch (format) {
     case CSV:
       int[] columns = {R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,

@@ -4,6 +4,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
+import java.util.Arrays;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
@@ -30,10 +32,11 @@ import android.widget.Spinner;
 
 public class QifImportDialogFragment extends ImportSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
-  Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner;
+  Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
 
   static final String PREFKEY_IMPORT_QIF_DATE_FORMAT = "import_qif_date_format";
+  static final String PREFKEY_IMPORT_QIF_ENCODING = "import_qif_encoding";
   private MergeCursor mAccountsCursor;
 
   public static final QifImportDialogFragment newInstance() {
@@ -64,9 +67,11 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
     }
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
+      String encoding = (String) mEncodingSpinner.getSelectedItem();
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
           .putString(getPrefKey(), mUri.toString())
+          .putString(PREFKEY_IMPORT_QIF_ENCODING, encoding)
           .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString()));
       ((QifImport) getActivity()).onSourceSelected(
           mUri,
@@ -75,7 +80,8 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
           ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name(),
           mImportTransactions.isChecked(),
           mImportCategories.isChecked(),
-          mImportParties.isChecked()
+          mImportParties.isChecked(),
+          encoding
           );
     } else {
       super.onClick(dialog, id);
@@ -129,6 +135,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
+
     mDateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
         new ArrayAdapter<QifDateFormat>(
@@ -144,6 +151,14 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
       qdf = QifDateFormat.EU;
     }
     mDateFormatSpinner.setSelection(qdf.ordinal());
+
+
+    mEncodingSpinner = (Spinner) view.findViewById(R.id.Encoding);
+    mEncodingSpinner.setSelection(
+        Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
+        .indexOf(MyApplication.getInstance().getSettings()
+            .getString(PREFKEY_IMPORT_QIF_ENCODING, "UTF-8")));
+
     mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
         wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
