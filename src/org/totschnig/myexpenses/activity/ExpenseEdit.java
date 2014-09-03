@@ -794,8 +794,11 @@ public class ExpenseEdit extends AmountActivity implements
     case 1:
       mType = INCOME;
     }
-    if (signum != 0)
+    if (signum != 0) {
       mAmountText.setText(nfDLocal.format(amount));
+    }
+    mAmountText.requestFocus();
+    mAmountText.selectAll();
   }
 
   /**
@@ -1123,8 +1126,6 @@ public class ExpenseEdit extends AmountActivity implements
         mCommentText.setText(t.comment);
         fillAmount(t.amount.getAmountMajor());
         configureType();
-        mAmountText.requestFocus();
-        mAmountText.selectAll();
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
