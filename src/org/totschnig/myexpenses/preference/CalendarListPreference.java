@@ -41,13 +41,17 @@ public class CalendarListPreference extends ListPreference {
             "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || ' / ' ||" +
             "ifnull(" + Calendars.CALENDAR_DISPLAY_NAME + ",'') AS full_name"
     };
-    Cursor calCursor =
-        getContext().getContentResolver().
-            query(Calendars.CONTENT_URI,
-                projection,
-                Calendars.CALENDAR_ACCESS_LEVEL + " >= " + Calendars.CAL_ACCESS_CONTRIBUTOR,
-                null,
-                Calendars._ID + " ASC");
+    Cursor calCursor = null;
+    try {
+      calCursor = getContext().getContentResolver().
+          query(Calendars.CONTENT_URI,
+              projection,
+              Calendars.CALENDAR_ACCESS_LEVEL + " >= " + Calendars.CAL_ACCESS_CONTRIBUTOR,
+              null,
+              Calendars._ID + " ASC");
+    } catch (SecurityException e) {
+      // android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing
+    }
     if (calCursor != null) {
       if (calCursor.moveToFirst()) {
         do {
