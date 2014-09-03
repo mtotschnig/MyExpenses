@@ -94,6 +94,7 @@
     <!-- Label for button that opens preferences for selecting an existing calendar -->
     <string name="dialog_setup_planner_button_select_existing">Select existing</string>
     <string name="dialog_title_attention">Attention</string>
+    <string name="dialog_title_information">Information</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>

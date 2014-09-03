@@ -108,7 +108,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
           Bundle b = new Bundle();
           b.putLong(KEY_ROWID,id);
           b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-              R.string.dialog_title_attention);
+              R.string.dialog_title_information);
           b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
               getString(R.string.hint_template_click));
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,

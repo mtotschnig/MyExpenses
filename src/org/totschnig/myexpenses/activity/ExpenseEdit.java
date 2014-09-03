@@ -216,7 +216,7 @@ public class ExpenseEdit extends AmountActivity implements
               Bundle b = new Bundle();
               b.putLong(KEY_ROWID,c.getLong(2));
               b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-                  R.string.dialog_title_attention);
+                  R.string.dialog_title_information);
               b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
                   getString(R.string.hint_auto_fill));
               b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
