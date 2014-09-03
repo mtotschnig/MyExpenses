@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -72,7 +73,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
     if (accountId != null) {
       Bundle bundle = new Bundle();
-      bundle.putLong("accountId", accountId);
+      bundle.putLong(KEY_ACCOUNTID, accountId);
       dialogFragment.setArguments(bundle);
     }
     return dialogFragment;
@@ -84,7 +85,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     MyExpenses ctx  = (MyExpenses) getActivity();
     Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     Bundle args = getArguments();
-    Long accountId = args != null ? args.getLong("accountId") : null;
+    Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
     boolean allP = false, hasExported;
     String warningText;
     if (accountId == null) {
