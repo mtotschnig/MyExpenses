@@ -28,16 +28,16 @@ import android.os.Bundle;
  *
  */
 public class SelectGroupingDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
+  private static final String KEY_SELECTED_INDEX = "selected_index";
   /**
    * @param account_id
    * @return
    */
   public static final SelectGroupingDialogFragment newInstance(
-      int commandId,int selectedIndex) {
+      int selectedIndex) {
     SelectGroupingDialogFragment dialogFragment = new SelectGroupingDialogFragment();
     Bundle args = new Bundle();
-    args.putInt("command_id",commandId);
-    args.putInt("selected_index",selectedIndex);
+    args.putInt(KEY_SELECTED_INDEX,selectedIndex);
     dialogFragment.setArguments(args);
     return dialogFragment;
   }
@@ -47,7 +47,7 @@ public class SelectGroupingDialogFragment extends CommitSafeDialogFragment imple
     return new AlertDialog.Builder(getActivity())
       .setTitle(R.string.dialog_title_select_grouping)
       .setSingleChoiceItems(R.array.grouping_entries,
-          getArguments().getInt("selected_index"), this)
+          getArguments().getInt(KEY_SELECTED_INDEX), this)
       .create();
   }
   @Override
@@ -55,9 +55,8 @@ public class SelectGroupingDialogFragment extends CommitSafeDialogFragment imple
     if (getActivity()==null) {
       return;
     }
-    Bundle bundle = getArguments();
     ((MessageDialogListener) getActivity())
-    .dispatchCommand(bundle.getInt("command_id"), which);
+    .dispatchCommand(R.id.GROUPING_COMMAND_DO, which);
     dismiss();
   }
 }

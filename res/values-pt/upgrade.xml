@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_231">
+    <item>Preenchimento automático da última transação para o mesmo beneficiário/pagador</item>
+    <item>Instantiate modelo com torneira curta na entrada na lista de modelo</item>
+    <item>Configurável de codificação para importação QIF</item>
+  </string-array>
   <string-array name="whats_new_230">
     <item>Exportar lista de transações para PDF (Premium)</item>
   </string-array>

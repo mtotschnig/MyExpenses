@@ -68,9 +68,9 @@
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
-  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le darías a Mis Gastos?</string>
-  <string name="dialog_remind_rate_1">Por favor, tome un momento para calificar y revisar Mis Gastos.</string>
-  <string name="dialog_remind_rate_2">Sus comentarios nos permiten añadir continuamente mejoras.</string>
+  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le darías a mis gastos?</string>
+  <string name="dialog_remind_rate_1">Por favor tome un momento para calificar y revisar mis gastos.</string>
+  <string name="dialog_remind_rate_2">Sus comentarios nos permiten añadir continuamente mejoras y mejoras.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor tome un momento para enviarnos tus sugerencias para mejoras.</string>
   <string name="dialog_remind_rate_yes">Valora hoy</string>
   <string name="dialog_security_answer">Respuesta</string>
@@ -80,6 +80,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Seleccione existente</string>
   <string name="dialog_title_attention">Atención</string>
+  <string name="dialog_title_information">Información</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Equilibrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
@@ -269,6 +270,8 @@
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_app_dir_title">Carpeta para copias de seguridad y exportaciones</string>
+  <string name="pref_auto_fill_title"> Autorrelleno de asientos</string>
+  <string name="pref_auto_fill_summary">Relleno en cantidad, categoría y comentario de lo último asiento para el mismo beneficiario/ordenante</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
@@ -335,6 +338,8 @@
   <string name="pref_shortcut_added">Acceso directo se ha añadido a la pantalla de inicio</string>
   <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepta atajos.</string>
   <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio.</string>
+  <string name="pref_template_click_default_title">Acción predeterminada de plantilla</string>
+  <string name="pref_template_click_default_summary">Al toque corto en la entrada en la lista de plantillas</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada paso aumenta el tamaño de fuente por 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar el tamaño de la fuente</string>
@@ -470,4 +475,8 @@
   <string name="comparison_operator_between">entre</string>
   <string name="promotion_appgratis_welcome">Oferta especial de hoy con AppGratis: Características Premium desbloqueadas totalmente gratis.</string>
   <string name="premium_unlocked">Características Premium desbloqueadas.</string>
+  <string name="hint_auto_fill">¿Deben cantidad, categoría y comentario se rellena de forma automática desde lo último asiento para el mismo beneficiario/ordenante? Siempre puedes cambiar este comportamiento de los ajustes.</string>
+  <string name="yes">Sí</string>
+  <string name="no">No</string>
+  <string name="hint_template_click">Un toque corto en una entrada en esta lista se crea una instancia de la plantilla y tampoco guarde inmediatamente o accede a su formulario de edición donde puedes modificarla antes de guardarlo. Siempre puede acceder a ambas acciones a través de un toque largo y cambiar la opción predeterminada en la configuración.</string>
 </resources>

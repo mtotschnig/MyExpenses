@@ -475,7 +475,6 @@ public class MyExpenses extends LaunchActivity implements
       a = Account.getInstanceFromDb(mAccountId);
       if (a != null) {
         SelectGroupingDialogFragment.newInstance(
-            R.id.GROUPING_COMMAND_DO,
             a.grouping.ordinal())
           .show(getSupportFragmentManager(), "SELECT_GROUPING");
       }
@@ -1114,6 +1113,7 @@ public class MyExpenses extends LaunchActivity implements
      startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
+     break;
    }
   }
 /*  @Override

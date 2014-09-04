@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_231">
+    <item>Remplissage automatique de la dernière opération pour le même bénéficiaire/payeur</item>
+    <item>Applique le modèle sur clic court dans la liste des modèles</item>
+    <item>Encodage configurable pour importation QIF</item>
+  </string-array>
   <string-array name="whats_new_230">
-    <item>Impression de la liste des opérations en format PDF (Premium)</item>
+    <item>Impression de la liste des opérations dans un fichier PDF (Premium)</item>
   </string-array>
   <string-array name="whats_new_220">
     <item> Recherche d\'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement </item>

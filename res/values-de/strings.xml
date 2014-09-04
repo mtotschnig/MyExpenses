@@ -68,7 +68,7 @@
   <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
-  <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für Meine Ausgaben vergeben?</string>
+  <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für meine Ausgaben vergeben?</string>
   <string name="dialog_remind_rate_1">Bitte nehmen Sie sich einen Augenblick Zeit, um Meine Ausgaben zu bewerten und zu rezensieren.</string>
   <string name="dialog_remind_rate_2">Ihre Kommentare ermöglichen uns regelmäßige Verbesserungen und Erweiterungen.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Bitte nehmen Sie sich einen Augenblick Zeit, uns Ihre Verbesserungsvorschläge mitzuteilen.</string>
@@ -80,6 +80,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Bestehenden auswählen</string>
   <string name="dialog_title_attention">Achtung</string>
+  <string name="dialog_title_information">Informationen</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
@@ -269,6 +270,8 @@
   <string name="pm_type_debit">Ausgaben</string>
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
+  <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
+  <string name="pref_auto_fill_summary">Betrag, Kategorie und Kommentar von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
   <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
@@ -335,6 +338,8 @@
   <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu.</string>
+  <string name="pref_template_click_default_title">Standard-Aktion für Vorlagen</string>
+  <string name="pref_template_click_default_summary">Beim kurzen Tippen auf Eintrag in der Vorlagenliste</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Jeder Schritt vergrößert die Schrift um 2sp</string>
   <string name="pref_ui_fontsize_title">Schrift vergrößern</string>
@@ -432,7 +437,7 @@
   <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
   <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen.</string>
-  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.\tDies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten%1$s von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
@@ -470,4 +475,8 @@
   <string name="comparison_operator_between">zwischen</string>
   <string name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
   <string name="premium_unlocked">Premium Funktionen entsperrt.</string>
+  <string name="hint_auto_fill">Sollen Betrag, Kategorie und Kommentar automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
+  <string name="yes">Ja</string>
+  <string name="no">Nein</string>
+  <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
 </resources>

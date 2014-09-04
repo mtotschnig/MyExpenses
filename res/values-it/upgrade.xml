@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_231">
+    <item>Autocompilazione da ultima operazione stesso beneficiario/ordinante</item>
+    <item>Modello instantiate a breve colpetto sulla voce nell\'elenco dei modelli</item>
+    <item>Codifica configurabile per l\'importazione QIF</item>
+  </string-array>
   <string-array name="whats_new_230">
-    <item>Stampa un elenco delle transazioni in file PDF (Premium)</item>
+    <item>Stampare un elenco dei operazione in file PDF (Premium)</item>
   </string-array>
   <string-array name="whats_new_220">
     <item>Ricerca di transazioni per categoria, quantità, commento, stato, beneficiario/pagatore, metodo di pagamento</item>
@@ -12,7 +17,7 @@
     <item>Flusso di lavoro di riconciliazione</item>
   </string-array>
   <string-array name="whats_new_145">
-    <item>i backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,...) e restaurata da fonti esterne</item>
+    <item>I backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,...) e restaurata da fonti esterne</item>
   </string-array>
   <string-array name="whats_new_143">
     <item>Collegamenti di schermata Home per l\'aggiunta di transazioni e trasferimenti</item>
