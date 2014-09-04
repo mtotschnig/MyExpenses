@@ -70,7 +70,7 @@
   <string name="dialog_remind_no">Non merci</string>
   <string name="dialog_remind_rate_how_many_stars">Combien d\'étoiles donneriez-vous à Mes dépenses</string>
   <string name="dialog_remind_rate_1">S\'il vous plaît prenez le temps pour évaluer et noter Mes dépenses.</string>
-  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter continuellement des améliorations.</string>
+  <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter continuellement des améliorations et perfectionnements.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">S\'il vous plaît prenez le temps de nous envoyer vos suggestions pour des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_security_answer">Réponse</string>
@@ -269,6 +269,8 @@
   <string name="pm_type_debit">Débit</string>
   <string name="pm_type_neutral">Neutre</string>
   <string name="pref_app_dir_title">Dossier pour sauvegardes et exports</string>
+  <string name="pref_auto_fill_title">Remplissage automatique des opérations</string>
+  <string name="pref_auto_fill_summary">Remplissage du montant, de la catégorie et du commentaire de la dernière opération pour le même tiers</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Fréquence d\'utilisation</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Par ordre alphabétique</string>
@@ -335,6 +337,8 @@
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
   <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
+  <string name="pref_template_click_default_title">Action par défaut du modèle</string>
+  <string name="pref_template_click_default_summary">Sur clic court dans la liste des modèles</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
   <string name="pref_ui_fontsize_title">Augmenter la taille du texte</string>
@@ -470,4 +474,8 @@
   <string name="comparison_operator_between">entre</string>
   <string name="promotion_appgratis_welcome">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
   <string name="premium_unlocked">Fonctions Premium déverrouillées.</string>
+  <string name="hint_auto_fill">Voulez-vous remplit automatiquement le commentaire, la catégorie et le montane à partir de la derière opération de ce tiers ? Vous pourrez toujours modifier cette option dans les paramètres.</string>
+  <string name="yes">Oui</string>
+  <string name="no">Non</string>
+  <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrez immédiatement, soit vous l\'éditez et vous pourrez le modifier avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
 </resources>
