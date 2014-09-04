@@ -65,6 +65,7 @@ public class BalanceDialogFragment extends CommitSafeDialogFragment implements O
     Bundle b = getArguments();
     b.putBoolean("deleteP",
         ((CheckBox) ((AlertDialog) dialog).findViewById(R.id.balance_delete)).isChecked());
-    ctx.dispatchCommand(R.id.BALANCE_COMMAND_DO,b);
+    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.BALANCE_COMMAND_DO);
+    ctx.onPositive(b);
   }
 }

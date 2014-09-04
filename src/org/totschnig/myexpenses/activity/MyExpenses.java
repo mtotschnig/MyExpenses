@@ -1105,6 +1105,7 @@ public class MyExpenses extends LaunchActivity implements
      startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
+     break;
    }
   }
   @Override
