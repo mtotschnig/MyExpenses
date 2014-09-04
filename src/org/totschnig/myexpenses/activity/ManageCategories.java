@@ -116,7 +116,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         createCat(null);
         return true;
       case R.id.GROUPING_COMMAND:
-        SelectGroupingDialogFragment.newInstance(R.id.GROUPING_COMMAND_DO,mListFragment.mGrouping.ordinal())
+        SelectGroupingDialogFragment.newInstance(mListFragment.mGrouping.ordinal())
           .show(getSupportFragmentManager(), "SELECT_GROUPING");
         return true;
       case R.id.GROUPING_COMMAND_DO:

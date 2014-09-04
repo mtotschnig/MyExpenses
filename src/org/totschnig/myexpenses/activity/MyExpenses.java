@@ -467,7 +467,6 @@ public class MyExpenses extends LaunchActivity implements
       a = Account.getInstanceFromDb(mAccountId);
       if (a != null) {
         SelectGroupingDialogFragment.newInstance(
-            R.id.GROUPING_COMMAND_DO,
             a.grouping.ordinal())
           .show(getSupportFragmentManager(), "SELECT_GROUPING");
       }
