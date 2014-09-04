@@ -218,7 +218,7 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',');
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',',"UTF-8");
       assertTrue(result.success);
       export = (File) result.extra[0];
       compare(export,linesCSV);
