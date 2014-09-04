@@ -3,6 +3,7 @@
   <string-array name="whats_new_231">
     <item>Autocompilazione da ultima operazione stesso beneficiario/ordinante</item>
     <item>Modello instantiate a breve colpetto sulla voce nell\'elenco dei modelli</item>
+    <item>Codifica configurabile per l'importazione QIF</item>
   </string-array>
   <string-array name="whats_new_230">
     <item>Stampare un elenco dei operazione in file PDF (Premium)</item>

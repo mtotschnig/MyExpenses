@@ -3,6 +3,7 @@
   <string-array name="whats_new_231">
     <item>Autorrellenar con última operación para el mismo beneficiario/ordenante</item>
     <item>Crear instancias de plantilla sobre la breve toque en la entrada en la lista de la plantilla</item>
+    <item>Codificación configurable para QIF importación</item>
   </string-array>
   <string-array name="whats_new_230">
     <item>Imprimir la lista de operacciones in archivo PDF (Premium)</item>

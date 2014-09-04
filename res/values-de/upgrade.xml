@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_231">
+    <item>Automatisches Ausfüllen auf Basis der letzten Buchung für denselben Empfänger/Zahler</item>
+    <item>Vorlage werden durch kurzes Tippen auf den Eintrag in der Vorlagenliste angewendet</item>
+    <item>Konfigurierbare Kodierung für QIF-import</item>
+  </string-array>
   <string-array name="whats_new_230">
     <item>Buchungsliste als PDF-Datei drucken (Premium)</item>
   </string-array>

@@ -68,8 +68,8 @@
   <string name="dialog_password_new_password_confirmation">Nova senha (confirmação)</string>
   <string name="dialog_remind_later">Depois</string>
   <string name="dialog_remind_no">Não, obrigado</string>
-  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria aos Minhas Despesas?</string>
-  <string name="dialog_remind_rate_1">Por favor, tome um momento para avaliar e revisar Minhas Despesas.</string>
+  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria aos Minhas despesas?</string>
+  <string name="dialog_remind_rate_1">Por favor, tome um momento para avaliar e revisar minhas despesas.</string>
   <string name="dialog_remind_rate_2">Seus comentários nos permitam adicionar continuamente melhorias e aperfeiçoamentos.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor tire um momento para nos enviar suas sugestões para melhorias.</string>
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
@@ -269,6 +269,8 @@
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutro/indefinido</string>
   <string name="pref_app_dir_title">Pasta para backups e exportações</string>
+  <string name="pref_auto_fill_title">Preenchimento automático</string>
+  <string name="pref_auto_fill_summary">Preenchimento em quantidade, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
   <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Contagem de usos</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanumérico</string>
@@ -335,6 +337,8 @@
   <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
   <string name="pref_shortcut_not_added">Nenhuma tela inicial disponível que aceita atalhos.</string>
   <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
+  <string name="pref_template_click_default_title">Ação padrão do modelo</string>
+  <string name="pref_template_click_default_summary">Em cima da torneira curta na entrada na lista de modelo</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar tamanho da fonte</string>
@@ -470,4 +474,8 @@
   <string name="comparison_operator_between">entre</string>
   <string name="promotion_appgratis_welcome">Oferta especial de hoje com AppGratis: características Premium desbloqueadas gratuitamente.</string>
   <string name="premium_unlocked">Características premium desbloqueadas.</string>
+  <string name="hint_auto_fill">Devem quantidade, categoria e comentário ser preenchidos automaticamente da última transação para o mesmo beneficiário/pagador? Você sempre pode alterar este comportamento das configurações.</string>
+  <string name="yes">Sim</string>
+  <string name="no">Não</string>
+  <string name="hint_template_click">Um toque curto em uma entrada nesta lista será instanciar o modelo e quer salvá-lo imediatamente ou insira a sua forma de edição onde você pode modificá-la antes de salvar. Você sempre pode acessar ambas as ações através de um toque longo e alterar o padrão nas configurações.</string>
 </resources>
