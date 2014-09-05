@@ -72,7 +72,7 @@ public class QifImportDialogFragment extends ImportSourceDialogFragment implemen
         MyApplication.getInstance().getSettings().edit()
           .putString(getPrefKey(), mUri.toString())
           .putString(PREFKEY_IMPORT_QIF_ENCODING, encoding)
-          .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.toString()));
+          .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.name()));
       ((QifImport) getActivity()).onSourceSelected(
           mUri,
           format,
