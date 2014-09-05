@@ -50,7 +50,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     if (savedInstanceState == null) {
-      if (getIntent().getAction().equals("myexpenses.intent.backup")) {
+      String action = getIntent().getAction();
+      if (action != null && action.equals("myexpenses.intent.backup")) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
           backupFile = MyApplication.requireBackupFile();
