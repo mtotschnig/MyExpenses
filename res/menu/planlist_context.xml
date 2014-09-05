@@ -33,7 +33,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <group android:id="@+id/MenuBulkChild">
     <item
-      android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
+      android:id="@id/CREATE_PLAN_INSTANCE_SAVE_COMMAND"
       android:icon="@drawable/create_instance_save_icon"
       android:showAsAction="always"
       android:orderInCategory="1"
@@ -56,7 +56,7 @@
   </group>
   <group android:id="@+id/MenuSingleChild">
     <item
-      android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
+      android:id="@id/CREATE_PLAN_INSTANCE_EDIT_COMMAND"
       android:icon="@drawable/create_instance_edit_icon"
       android:showAsAction="ifRoom"
       android:orderInCategory="5"

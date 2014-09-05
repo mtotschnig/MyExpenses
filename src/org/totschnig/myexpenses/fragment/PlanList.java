@@ -130,7 +130,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       i.putExtra(KEY_ROWID, transactionId);
       startActivity(i);
       break;
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+    case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
       int group = ExpandableListView.getPackedPositionGroup(menuInfo.packedPosition),
         child = ExpandableListView.getPackedPositionChild(menuInfo.packedPosition);
       Cursor c = mAdapter.getChild(group,child);
@@ -164,7 +164,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
           new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
         .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+    case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
       for (int i=0; i<positions.size(); i++) {
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
@@ -534,8 +534,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   private void configureMenuInternal(Menu menu, int count,boolean withOpen,boolean withApplied,boolean withCancelled) {
     //Long transactionId = mInstance2TransactionMap.get(id);
     //state open
-    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(withOpen);
-    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count==1 && withOpen);
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).setVisible(withOpen);
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).setVisible(count==1 && withOpen);
     //state open or applied
     menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(withOpen || withApplied);
     //state cancelled or applied

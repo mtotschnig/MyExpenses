@@ -61,8 +61,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    if (mActionMode != null)
-      mActionMode.finish();
+    finishActionMode();
     return ctx.dispatchCommand(command, info);
   }
   /**
@@ -79,8 +78,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     //we send only the positions to the default dispatch command mechanism,
     //but subclasses can provide a method that handles the itemIds
-    if (mActionMode != null)
-      mActionMode.finish();
+    finishActionMode();
     return ctx.dispatchCommand(command, positions);
   }
   protected int getMenuResource() {

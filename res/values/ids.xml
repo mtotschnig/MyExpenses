@@ -60,6 +60,8 @@
   <item type="id" name="WEB_COMMAND"/>
   <item type="id" name="CREATE_INSTANCE_EDIT_COMMAND"/>
   <item type="id" name="CREATE_INSTANCE_SAVE_COMMAND"/>
+  <item type="id" name="CREATE_PLAN_INSTANCE_EDIT_COMMAND"/>
+  <item type="id" name="CREATE_PLAN_INSTANCE_SAVE_COMMAND"/>
   <item type="id" name="CANCEL_PLAN_INSTANCE_COMMAND"/>
   <item type="id" name="RESET_PLAN_INSTANCE_COMMAND"/>
   <item type="id" name="DELETE_ACCOUNT_COMMAND" />
