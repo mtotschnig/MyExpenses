@@ -517,7 +517,7 @@ public class MyExpenses extends LaunchActivity implements
       tl = getCurrentFragment();
       if (tl != null && hasCleared()) {
         mAccountsCursor.moveToPosition(mCurrentPosition);
-        Currency currency = Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency));
+        Currency currency = Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency));
         Bundle bundle = new Bundle();
         bundle.putLong(KEY_ROWID,
             mAccountsCursor.getLong(columnIndexRowId));
@@ -993,7 +993,7 @@ public class MyExpenses extends LaunchActivity implements
         mAccountsCursor.getString(columnIndexLabel));
     ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
         new Money(
-            Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency)),
+            Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency)),
             mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE)))));
     titleBar.findViewById(R.id.color1).setBackgroundColor(
         mAccountId < 0 ?

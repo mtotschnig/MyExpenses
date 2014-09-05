@@ -93,7 +93,11 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
       mAccount = new Account();
       String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
       if (currency != null)
-        mAccount.setCurrency(currency);
+        try {
+          mAccount.setCurrency(currency);
+        } catch (IllegalArgumentException e) {
+          //if not supported ignore
+        }
     }
     
     
@@ -247,7 +251,13 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     if (openingBalance == null)
        return;
     String label;
-    mAccount.setCurrency(((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name());
+    String currency = ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+    try {
+      mAccount.setCurrency(currency);
+    } catch (IllegalArgumentException e) {
+      Toast.makeText(this, currency + " not supported by your OS. Please select a different currency.",Toast.LENGTH_LONG).show();
+      return;
+    }
 
     label = mLabelText.getText().toString();
     if (label.equals("")) {
