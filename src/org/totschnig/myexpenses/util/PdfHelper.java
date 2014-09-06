@@ -55,13 +55,23 @@ public class PdfHelper {
         File[] files = dir.listFiles();
         Arrays.sort(files, new Comparator<File>() {
           public int compare(File f1, File f2) {
-            if (f1.getName().equals("DroidSans.ttf")) {
+            String n1 = f1.getName();
+            String n2 = f2.getName();
+            if (n1.equals("DroidSans.ttf")) {
               return -1;
-            } else if (f2.getName().equals("DroidSans.ttf")) {
+            } else if (n2.equals("DroidSans.ttf")) {
               return 1;
-            } else {
-              return f1.compareTo(f2);
             }
+            if (n1.startsWith("Droid")) {
+              if (n2.startsWith("Droid")) {
+                return n1.compareTo(n2);
+              } else {
+                return -1;
+              }
+            } else if (n2.startsWith("Droid")) {
+              return 1;
+            }
+            return n1.compareTo(n2);
           }
         });
         lfs = new LazyFontSelector(files);
