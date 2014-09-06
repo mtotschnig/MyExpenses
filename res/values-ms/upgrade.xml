@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_231">
+    <item>Autoisi dari transaksi terakhir untuk penerima/pembayar yang sama</item>
+    <item>Templat segera jika ketuk pantas pada masukan dalam senarai templat</item>
+    <item>Pengekodan boleh konfigur untuk import QIF</item>
+  </string-array>
+  <string-array name="whats_new_230">
+    <item>Cetak senarai transaksi menjadi fail PDF (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_220">
+    <item>Gelintar transaksi per kategori, amaun, ulasan,, pembayar/penerima, kaedah pembayaran</item>
+  </string-array>
+  <string-array name="whats_new_149">
+    <item>Terjemahan bahasa Sinhala</item>
+    <item>Sokongan tetingkap-berbilang pada peranti Samsung</item>
+    <item>Aliran kerja penyesuaian</item>
+  </string-array>
+  <string-array name="whats_new_145">
+    <item>Sandar kini disimpan dalam arkib ZIP yang boleh dikongsi (E-Mel, Pemacu, Dropbox, …) dan dipulihkan melalui sumber luaran</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>Pintasan skrin rumah untuk penambahan transaksi dan pemindahan</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>Widget skrin rumah untuk masukan data pantas</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>Terjemahan bahasa Rusia</item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>Lokasi folder untuk sandar dan eksport kini boleh dikonfigur</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>Sandar bebas berbilang</item>
+    <item>Import QIF</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>Terjemahan bahasa Yunani</item>
+    <item>Permulaan minggu menjadi bebas pada lokal (iaitu Ahad untuk AS)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Penambahbaikan UI: #115,#117,#120,#122,#124</item>
+    <item>Jadikan zon waktu tarikh transaksi disedari</item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>UI dimodernkan: laci navigasi dan palang tindakan konteksual</item>
+  </string-array>
+  <string-array name="whats_new_116">
+    <item>Pengendalian pelan dipertingkat: Laksana kejadian akan datang terlebih dahulu</item>
+    <item>Terjemahan baharu: Portugis, Poland, Czech</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Papar senarai transaksi dan distribusi statistik untuk aggregat akaun berbilang</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>Terjemahan Bahasa Cina (Traditsonal)</item>
+    <item>Membolehkan pemilihan akaun dalam bentuk penyuntingan transaksi</item>
+    <item>UI lebih jelas dalam pemindahan</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>Penambahbaikan UI (#94) dan pembaikan pepijat (#95,#96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>Baki semasa dipaparkan lebih jelas dan tunjukkan butang utama di bahagian bawah, bila orientasi peranti adalah potret</item>
+    <item>Pembaikan pepijat: Isu #71,#91,#92,#93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>Bila drnstsi transaksi dikumpulkan, tunjuk baki pertengahan bagi setiap tempoh dalam pengepala kumpulan</item>
+    <item>Pembaikan pepijat: Isu #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>UI bahasa boleh dikonfigur</item>
+    <item>Saiz fon boleh dikonfigur</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Pelan untuk transaksi akan datang dan berulang</item>
+    <item>Terjemahan bahasa Khmer</item>
+  </string-array>
+</resources>

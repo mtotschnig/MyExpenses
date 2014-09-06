@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Perintah menu</string>
+  <string name="help_contextual_actions">Tindakan konteksual</string>
+  <string name="cab_delete_help_text">Padam item terpilih.</string>
+  <string name="cab_edit_help_text">Sunting item terpilih.</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Senarai transaksi</string>
+  <string name="help_MyExpenses_info">Skrin ini menyenaraikan semua transaksi dari akaun semasa. Menerusi palang navigasi, anda boleh navigasi ke senarai akaun atau memilih akaun lain. Klik pada masukan senarai untuk menyunting item.</string>
+  <string name="help_MyExpenses_crStatus_info">Status transaksi ditunjukkan dengan bentuk segiempat berwarna: kelabu untuk tidak selesai, biru untuk dikosongkan, hijau untuk selesai. Mengklik pada segiempat akan mengubah status.</string>
+  <string name="menu_create_transaction_help_text">Buka borang untuk mencipta transaksi baharu.</string>
+  <string name="menu_create_transfer_help_text">Pindah duit diantara akaun. Perintah ini hanya dibenarkan jika anda mempunyai sekurang-kurangnya satu akaun lain dengan matawang yang sama dengan semasa.</string>
+  <string name="menu_create_split_help_text">Satu transaksi pisah membolehkan anda umpukkan sebahagian amaun pada kategori berbeza atau sebagai pemindahan ke akaun berbeza.</string>
+  <string name="menu_reset_help_text">Perintah ini akan mengeksport semua transaksi akaun semasa ke fail pada kad SD dalam format QIF atau CSV. Anda boleh tentukan untuk memadam transaksi dieksport, dalam kes baki mula dilaras secara automatik. Cara lain, jika transaksi tidak dipadam, ia akan ditanda sebagai dieksport. My Expenses boleh berkongsi fail serta-merta selepas mengeksport melalui FTP, emel atau mana-mana apl perkongsian fail, jika anda konfigur ia di dalam Tetapan.</string>
+  <string name="menu_edit_account_help_text">Laras sifat akaun semasa (tajuk, keterangan, baki mula, jenis akaun, matawang, warna)</string>
+  <string name="menu_grouping_help_text">Anda boleh kumpulkan transaksi mengikut hari, minggu, bulan atau tahun. Bagi setiap kumpulan, hasil tambah pendapatan, perbelanjaan dan pemindahan dikira dan dipaparkan.</string>
+  <string name="menu_distribution_help_text">Papar agihan perbelanjaan per kategori. Anda juga boleh klik pada pengepala kumpulan untuk memeriksa agihan untuk kumpulan tertentu.</string>
+  <string name="menu_manage_plans_help_text">Buka senarai templat dan pelan untuk akaun semasa, yang mana anda boleh laksana, sunting atau padam ia, dan juga takrifkan plan untuk transaksi akan datang dan berulang.</string>
+  <string name="menu_create_account_help_text">Buka borang untuk mencipta akaun baharu.</string>
+  <string name="menu_balance_help_text">Perintah ini membuka satu dialog yang memaparkan baki tersesuai dan baki selesai. Anda boleh bandingkan kemudian dengan penyata bank anda, dan tandakan semua transaksi selesai sebagai disesuaikan. Atau anda boleh cadang untuk padamkan transaksi tersesuai.</string>
+  <string name="menu_print_help_text">Jana paparan boleh cetak bagi transaksi semasa yang dipapar.</string>
+  <string name="menu_search_help_text">Masukan ini membuka satu submenu yang membolehkan anda takrif kriteria gelintar berasaskan kategori, amaun, ulasan, status, pembayar/penerima dan kaedah pembayaran. Bila penapis gelintar diaktifkan, andah hanya klik pada masukannya pada submenu untuk dinyahaktifkan.</string>
+  <string name="cab_create_template_from_transaction_help_text">Takrif templat baharu yang berdasarkan pada transaksi terpilih. Akan maklumkan anda untuk masukkan tajuk templat tersebut.</string>
+  <string name="cab_clone_transaction_help_text">Transaksi terpilih akan diklon dengan tarikh dan masa semasa.</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Skrin ini senaraikan kaedah pembayaran pratakrif (Cek, Kad Kredit, Deposit, Debit Langsung) dan membolehkan anda buat takrifan baharu. Dengan mengklik pada masukan senarai, anda boleh ubah perkaitan diantara kaedah dengan jenis akaun.</string>
+  <string name="menu_create_method_help_text">Buka borang untuk mencipta kaedah pembayaran baharu.</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Senarai skrin ini menyenaraikan pihak yang digunakan untuk auto-pelengkapan bagi medan Pembayar/Penerima.</string>
+  <string name="menu_create_party_help_text">Buka dialog untuk menentukan nama bagi pembayar atau penerima baharu.</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">Tab ini senaraikan semua templat yang tersedia. Manakala templat boleh diperoleh melalui transaksi dalam menu konteks mereka. Di sini anda boleh cipta templat baharu dari awal (untuk transaksi atau pemindahan). Jika anda klik pada masukan senarai, anda boleh wujukan templat.</string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[Pelan ialah templat yang mana anda telah ciptakan satu peristiwa (satu kali sahaja atau berulang) di dalam kalendar perancangan. Pada tab ini semua pelan disenaraikan. Bila anda kembangkan masukan pelan dalam senarai, anda akan lihat senarai kejadian pelan akan datang. Selain dari menunggu pmberitahuan yang anda terima bila sesebuah kejadian berlaku, di sini anda boleh tentukan bagaimana hendak laksanakan kemunculan akan datang di sini supaya ia kelihatan dalam senarai transaksi anda menerusi perintah berkaitan dari menu konteks. Keadaan sesebuah kejaidan tidak ditunjukkan berdasarkan ikon berikut:<br><img src=\"ic_stat_open\"> Kejadian belum lagi dilaksanakan.<br><img src=\"ic_stat_applied\"> Kejadian telah dilaksanakan.<br><img src=\"ic_stat_cancelled\"> Kejadian telah dibatalkan, iaitu anda menanda ia sebagai dilangkau. Oleh itu, tiada transaksi akan dicipta untuk kejadian ini.]]></string>
+  <string name="menu_create_template_for_transaction_help_text">Cipta satu templat atau pelan baharu untuk transaksi.</string>
+  <string name="menu_create_template_for_transfer_help_text">Cipta satu templat atau pelan baharu untuk pemindahan.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Segerakan templat terpilih dan simpan ia serta-merta.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Segerakan templat terpilih dan masukkan borang penyuntingannya yang mana anda boleh ubahsuai ia sebelum menyimpan.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Padam templat terpilih dan mana-mana pelan yang dikaitkan.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Sunting templat terpilh dan cipta atau sunting pelan yang dikaitkan.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Cipta transaksi pada masa kejadian peristiwa terpilih dan simpan ia serta-merta.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Cipta satu transaksi pada masa kejadian peristiwa terpilih dan masukkan borang penyuntingannya yang mana anda boleh ubahsuai ia sebelum menyimpan.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Menunjukkan pada kejadian peristiwa terpilih, tiada transaksi seharusnya dicipta.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Jika transaksi telah dicipta untuk kejadian peristiwa terpilih, ia akan dipadam, jika ia telah ditanda sebagai dibatalkan, tanda akan dibuang.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Sunting transaksi yang telah dicipta untuk kejadian pelan terpilih.</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Skrin ini paparkan agihan perbelanjaan dan pendapatan anda per kategori, untuk semua transaksi dalam akaun, atau untuk kumpulan tertentu.</string>
+  <string name="help_ManageCategories_select_mapping_info">Selain dari tindakan yang anda boleh buat bila mengurus kategori dari skrin Keutamaan (cipta, sunting, padam), pada skrin ini anda boleh petakan transaksi pada kategori terpilih. Anda boleh pilih subkategori untuk pemetaan pada transaksi semasa dengan hanya mengklik padanya. Untuk petakan kategori utama, anda perlu pergi ke menu konteksnya.</string>
+  <string name="help_ManageCategories_select_filter_info">Pilih kategori untuk menapis senarai transaksi. Untuk menggelintar kategori utama, anda perlu pergi kem menu konteksnya.</string>
+  <string name="help_ManageCategories_manage_info">Skrin ini membolehkan anda cipta, sunting dan padam kategori. Secara lalai, kriteria isih utama dalam senarai kategori ialah berapa kali anda gunakan kategori (kriteria sekunder adalah tertib abjad). Ia memberikan anda capaian pantas ke kategori yang kerap anda guna. Dalam tetapan, anda boleh isih kategori dalam tertib abjad. Dengan mengklik kategori utama, buka sub-kategorinya. Dari menu konteks kategori utama, anda boleh tambah subkategori baharu, padam kategori atau menyuntingnya. Subkategori juga mempunyai menu konteks untuk pemadaman dan penyuntingan.</string>
+  <string name="menu_create_main_cat_help_text">Buka dialog untuk menyatakan tajuk kategori utama baharu.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Tetapkan jenis pengumpulan dan papar agihan sehari, sebulan, seminggu atau setahun.</string>
+  <string name="menu_back_help_text">Navigasi ke kumpulan terdahulu. Boleh juga dibuat melalui gerak isyarat seret dari kiri ke kanan.</string>
+  <string name="menu_forward_help_text">Navigasi ke kumpulan berikutnya. Boleh juga dibuat melalui gerak isyarat seret dari kanan ke kiri.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Buka dialog untuk menyatakan tajuk bagi sub-kategori dibawah kategori terpilih.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Petakan kategori terpilih ke transaksi dan kembali ke borang transaksi.</string>
+  <string name="menu_categories_setup_default_help_text">Satu set kategori lalai akan diimport.</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">Borang  untuk transaksi</string>
+  <string name="help_ExpenseEdit_transfer_title">Borang untuk pemindahan</string>
+  <string name="help_ExpenseEdit_template_title">Borang untuk templat</string>
+  <string name="help_ExpenseEdit_split_title">Borang untuk pisah</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Borang untuk bahagian pisah kategori</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Borang untuk bahagian pisah pemindahan</string>
+  <string name="help_ExpenseEdit_info">Klik pada Butang = untuk buka kalkulator.</string>
+  <string name="help_ExpenseEdit_transaction_info">Klik pada Bitang - untuk togol diantara perbelanjaan dengan pendapatan. Medan pembayar (atau penerima) akan ingat nilai yang anda masukkan dan akan cadangkannya pada masa akan datang. Butang untuk memilih kaedah pembayaran, hanya tersedia jika akaun semasa adalah jenis terpaut pada mana-mana kaedah pembayaran. Secara lalai hanya akaun bank, dipaut ke kaedah pembayaran (cek,kad kredit,deposit, debit langsung).</string>
+  <string name="help_ExpenseEdit_transfer_info">Pilih akaun pemindahan dari senarai tarik-turun.</string>
+  <string name="help_ExpenseEdit_template_info"><![CDATA[Klik pada Butang - untuk togol diantara perbelanjaan dengan pendapatan. Masukkan tajuk mengenalpasti templat secara unik.<h2>Plan</h2>Bila anda cipta satu pelan untuk sesebuah templat, ia ditambah ke kalendar persendirian yang dikendali oleh apl Kalendar anda. Anda boleh takrifkan pelan sebagai peristiwa satu kali atau sebagai mana-mana jenis peristiwa berulang yang mana kalendar boleh kendalikan. Anda boleh cipta, ubahsuai dan padam plan melalu butang plan, tetapi jika pelan telah dibuat, anda juga boleh gunakan apl Kalendar mengurusnya. Satu pelan boleh ditetapkan menjadi automatik atau manual. Bila sesebuah kejadian pelan automatik berlaku, transaksi akan dicipta, dan seterusnya anda akan menerima pemberitahuan. Apabila pelan adalah manual, anda juga menerima pemberitahuan, yang memberikan pilihan untuk batalkan, ubahsuai atau laksanakan templat untuk anda.]]></string>
+  <string name="help_ExpenseEdit_split_info">Masukkan sebanyak mungkin bahagian pisah yang diperlukan melalui perintah menu untuk kategori pisah dan pisah pemindahan. Sebahagian bawah skrin paparkan senarai bahagian pisah dan amaun yang belum lagi diumpuk pada kategori atau pemindahan. Anda boleh menyimpan transaksi pisah jika amaun transaksi telah diumpuk dengan tepat.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Pilih satu kategori untuk bahagian pisah.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Umpukkan akaun pemindahan kepada bahagian pisah.</string>
+  <string name="menu_create_split_part_category_help_text">Buka borang untuk mengumpuk bahagian pisah pada kategori.</string>
+  <string name="menu_create_split_part_transfer_help_text">Buka borang untuk mentakrif sebahagian pisah sebagai pemindahan ke akaun lain.</string>
+  <string name="menu_save_help_text">Simpan data dan tutup borang.</string>
+  <string name="menu_save_and_new_help_text">Simpan data, biarkan borang terbuka untuk mencipta transaksi baharu dengan data yang sama.</string>
+  <string name="menu_invert_transfer_help_text">Songsang arah pemindahan dengan menyilih akaun \"Daripada\' dan \'Kepada\'.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Borang untuk akaun</string>
+  <string name="help_AccountEdit_info">Akaun dikenalpasti mengikut labelnya, keterangan hanyalah untuk tujuan menyatakan maklumat. Matawang boleh dipilih dengan mudah melalui senarai. Anda boleh takrifkan jenis akaun sebagai salah satu dari Tunai, Bank, Aset, Liabiliti, Kad Kredit. Jenis tersebut menentukan kaedah pembayaran yang anda boleh konfigurkan dibawah Tetapan -&gt; Urus -&gt; Kaedah Pembayaran.</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Borang untuk kaedah pembayaran</string>
+  <string name="help_MethodEdit_info">Pada skrin ini, anda boleh kaitkan kaedah pembayaran dengan jenis akaun. Anda juga takrif label (dengan pengecualian kaedah pratakrif yang telah mempunyai label tetap yang tidak dapat disunting). Menerusi jenis kaedah, anda tentukan jika ia boleh dilakukan untuk pembelanjaan (debit), pendapatan (kredit) atau kedua-dua (neutral). Anda juga boleh tetapkan satu penanda jika transaksi menggunakan kaedah ini bernombor (iaitu nombor bertanda).</string>
+</resources>
