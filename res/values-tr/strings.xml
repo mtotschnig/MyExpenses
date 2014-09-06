@@ -26,6 +26,7 @@
   <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
   <string name="contrib_feature_plans_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
   <string name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>
+  <string name="contrib_feature_print_label">Muamele listesini PDF dosyasına aktar</string>
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
@@ -67,8 +68,10 @@
   <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
-  <string name="dialog_remind_rate_1">Lütfen Harcamalarım değerlendirip not vermek için birkaç dakika ayırınız.</string>
-  <string name="dialog_remind_rate_2">Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
+  <string name="dialog_remind_rate_how_many_stars">Harcamalarıma kaç yıldız verirsiniz?</string>
+  <string name="dialog_remind_rate_1">Harcamalarımı yorumlamak ve puan vermek için lütfen bir dakikanızı ayrınız.</string>
+  <string name="dialog_remind_rate_2">Yorumlarınız devamlı olarak geliştirme ve iyileştirmeler eklememize imkân vermektedir.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Bize geliştirme için tavsiyelerinizi yollamak için lütfen bir dakikanızı ayırınız.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_security_answer">Cevap</string>
   <string name="dialog_security_question">Soru</string>
@@ -77,6 +80,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
   <string name="dialog_title_attention">Dikkat</string>
+  <string name="dialog_title_information">Bilgi</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
@@ -96,7 +100,7 @@
   <string name="donate_dialog_text">Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
-  <string name="export_expenses_sdcard_failure">Giderlerin SD kartına aktarılması başarısız oldu %1$s: %2$s</string>
+  <string name="export_expenses_sdcard_failure">Harcamaların \"%1$s\" konumuna aktarımı başarısız oldu: %2$s</string>
   <string name="export_expenses_sdcard_success">Giderler %1$s dosyasına aktarıldı</string>
   <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
   <string name="feedback">Geri bildirim</string>
@@ -186,6 +190,8 @@
   <string name="menu_manage_plans">Şablonlar ve planlar</string>
   <string name="menu_manage_plans_tab_templates">Şablonlar</string>
   <string name="menu_manage_plans_tab_plans">Planlar</string>
+  <string name="menu_open">Aç</string>
+  <string name="menu_print">Yazdır</string>
   <string name="menu_reset">Dışa aktar ve sıfırla</string>
   <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -201,6 +207,7 @@
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
+  <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
   <string name="no_categories">Kategori yok.</string>
   <string name="no_category_assigned">Hiçbir kategori atanmamış</string>
   <string name="no_details">Ayrıntı yok.</string>
@@ -263,6 +270,8 @@
   <string name="pm_type_debit">Gider</string>
   <string name="pm_type_neutral">Nötr</string>
   <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
+  <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
+  <string name="pref_auto_fill_summary">Son muameleden aynı alacaklı/ödeyici için meblağ, kategori ve yorum alanlarını doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Kullanım sayacı</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alfanümerik</string>
@@ -329,6 +338,8 @@
   <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
   <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
   <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
+  <string name="pref_template_click_default_title">Varsayılan şablon etkinliği</string>
+  <string name="pref_template_click_default_summary">Şablon listesinde unsura kısa dokunulduğunda</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Her adım yazı boyutunu 2sp arttırır</string>
   <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
@@ -346,6 +357,7 @@
   <string name="progress_dialog_create_plan">Yeni planlama oluşturuluyor…</string>
   <string name="progress_dialog_deleting">Nesneler siliniyor…</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
+  <string name="progress_dialog_printing">PDF oluşturuluyor…</string>
   <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor…</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
   <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
@@ -428,7 +440,8 @@
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
+  <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler
+	silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarımı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
@@ -461,4 +474,10 @@
   <string name="comparison_operator_greater_than">şundan büyük</string>
   <string name="comparison_operator_lesser_than">şundan küçük</string>
   <string name="comparison_operator_between">arasında</string>
+  <string name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
+  <string name="premium_unlocked">Katkı özelliklerinin kilidi kaldırılmıştır.</string>
+  <string name="hint_auto_fill">Aynı alacaklı/ödeyici için meblağ, kategori ve yorum son muameleye dayanılarak otomatik olarak doldurulsun mu? Bunu ayarlardan değiştirebilirsiniz.</string>
+  <string name="yes">Evet</string>
+  <string name="no">Hayır</string>
+  <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
 </resources>
