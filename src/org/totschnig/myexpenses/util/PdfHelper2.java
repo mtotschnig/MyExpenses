@@ -6,11 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
@@ -20,6 +26,7 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.FontSelector;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class PdfHelper2 {
@@ -33,39 +40,51 @@ public class PdfHelper2 {
 
   private boolean useSystemFonts = true;
 
+  private boolean layoutDirectionFromLocaleIsRTL;
+
+  @SuppressLint("NewApi")
   public PdfHelper2() {
-    long start = System.currentTimeMillis();
-    Log.d("MyExpenses","PdfHelper2 constructor start "+start);
-    //we want the Default Font to be used first
-    try {
-      File dir = new File("/system/fonts");
-      File[] files = dir.listFiles();
-      Arrays.sort(files, new Comparator<File>() {
-        public int compare(File f1, File f2) {
-          if (f1.getName().equals("DroidSans.ttf")) {
-            return -1;
-          } else {
-            return f1.compareTo(f2);
-          }
-        }
-      });
-      Log.d("MyExpenses","Files listed "+(System.currentTimeMillis()-start));
-      lfs = new LazyFontSelector(files);
-      Log.d("MyExpenses","Font selectors set up "+(System.currentTimeMillis()-start));
-    } catch (Exception e) {
-      useSystemFonts = false;
-      fNormal = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
-      fTitle = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-      fHeader = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD,
-          BaseColor.BLUE);
-      fBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-      fItalic = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.ITALIC);
-      fUnderline = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.UNDERLINE);
-      fIncome = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
-          BaseColor.GREEN);
-      fExpense = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
-          BaseColor.RED);
+    final Locale l = Locale.getDefault();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+    layoutDirectionFromLocaleIsRTL = TextUtils.getLayoutDirectionFromLocale(l)
+        == View.LAYOUT_DIRECTION_RTL;
+    } else {
+      final int directionality = Character.getDirectionality(l.getDisplayName().charAt(0));
+      layoutDirectionFromLocaleIsRTL =  directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
+             directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
     }
+    if (MyApplication.getInstance().getMemoryClass()>=32) {
+      //we want the Default Font to be used first
+      try {
+        File dir = new File("/system/fonts");
+        File[] files = dir.listFiles();
+        Arrays.sort(files, new Comparator<File>() {
+          public int compare(File f1, File f2) {
+            if (f1.getName().equals("DroidSans.ttf")) {
+              return -1;
+            } else if (f2.getName().equals("DroidSans.ttf")) {
+              return 1;
+            } else {
+              return f1.compareTo(f2);
+            }
+          }
+        });
+        lfs = new LazyFontSelector(files);
+        return;
+      } catch (Exception e) {}
+    }
+    useSystemFonts = false;
+    fNormal = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
+    fTitle = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+    fHeader = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD,
+        BaseColor.BLUE);
+    fBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+    fItalic = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.ITALIC);
+    fUnderline = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.UNDERLINE);
+    fIncome = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+        BaseColor.GREEN);
+    fExpense = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+        BaseColor.RED);
   }
 
   public PdfPCell printToCell(String text, FontType font) throws DocumentException, IOException {
@@ -110,5 +129,12 @@ public class PdfHelper2 {
     PdfPCell cell = new PdfPCell();
     cell.setBorder(Rectangle.NO_BORDER);
     return cell;
+  }
+  public PdfPTable newTable(int numColumns) {
+    PdfPTable t = new PdfPTable(numColumns);
+    if (layoutDirectionFromLocaleIsRTL) {
+      t.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
+    }
+    return t;
   }
 }
