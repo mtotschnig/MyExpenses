@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2312">
+    <item>Improved stability</item>
+  </string-array>
   <string-array name="whats_new_231">
     <item>Autofill from last transaction for same payee/payer</item>
     <item>Instantiate template upon short tap on entry in template list</item>
