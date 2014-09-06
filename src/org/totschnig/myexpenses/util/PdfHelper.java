@@ -93,9 +93,6 @@ public class PdfHelper {
   }
 
   public PdfPCell printToCell(String text, FontType font) {
-    if (text == null || text.length() == 0) {
-      return new PdfPCell();
-    }
     PdfPCell cell = new PdfPCell(print(text,font));
     if (hasAnyRtl(text)) {
       cell.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
@@ -149,4 +146,10 @@ public class PdfHelper {
   public static boolean hasAnyRtl(String str) {
         return HAS_ANY_RTL_RE.matcher(str).matches();
       }
+
+  public PdfPCell emptyCell() {
+    PdfPCell cell = new PdfPCell();
+    cell.setBorder(Rectangle.NO_BORDER);
+    return cell;
+  }
 }

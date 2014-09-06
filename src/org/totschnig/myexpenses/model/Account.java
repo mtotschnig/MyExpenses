@@ -1053,8 +1053,10 @@ public class Account extends Model {
   }
 
   public Result print(File destDir, WhereFilter filter) throws IOException, DocumentException {
-    Log.d("MyExpenses","now starting print");
+    long start = System.currentTimeMillis();
+    Log.d("MyExpenses","Print start "+start);
     PdfHelper helper = new PdfHelper();
+    Log.d("MyExpenses","Helper created "+(System.currentTimeMillis()-start));
     String selection;
     String[] selectionArgs;
     if (getId() < 0) {
@@ -1089,10 +1091,15 @@ public class Account extends Model {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
     PdfWriter.getInstance(document, new FileOutputStream(outputFile));
+    Log.d("MyExpenses","All setup "+(System.currentTimeMillis()-start));
     document.open();
+    Log.d("MyExpenses","Document open "+(System.currentTimeMillis()-start));
     addMetaData(document);
+    Log.d("MyExpenses","Metadata "+(System.currentTimeMillis()-start));
     addHeader(document,helper);
+    Log.d("MyExpenses","Header "+(System.currentTimeMillis()-start));
     addTransactionList(document,transactionCursor,helper);
+    Log.d("MyExpenses","List "+(System.currentTimeMillis()-start));
     transactionCursor.close();
     document.close();
     return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
@@ -1264,11 +1271,11 @@ public class Account extends Model {
         document.add(table);
         LineSeparator sep = new LineSeparator();
         document.add(sep);
-        table = new PdfPTable(5);
-        table.setWidths(new int[] {1,3,3,3,2});
+        table = new PdfPTable(4);
+        table.setWidths(new int[] {1,5,3,2});
         table.setSpacingBefore(2f);
         table.setSpacingAfter(2f);
-        table.setWidthPercentage(95f);
+        table.setWidthPercentage(100f);
         prevHeaderId = currentHeaderId;
         groupCursor.moveToNext();
       }
@@ -1325,15 +1332,27 @@ public class Account extends Model {
       String referenceNumber= transactionCursor.getString(columnIndexReferenceNumber);
       if (referenceNumber != null && referenceNumber.length() > 0)
         catText = "(" + referenceNumber + ") " + catText;
-      table.addCell(helper.printToCell(catText, FontType.NORMAL));
-      String comment = transactionCursor.getString(columnIndexComment);
-      table.addCell(helper.printToCell(comment, FontType.ITALIC));
+      cell = helper.printToCell(catText, FontType.NORMAL);
       String payee = transactionCursor.getString(columnIndexPayee);
-      table.addCell(helper.printToCell(payee, FontType.UNDERLINE));
+      if (payee == null || payee.length()==0) {
+        cell.setColspan(2);
+      }
+      table.addCell(cell);
+      if (payee != null && payee.length()>0) {
+        table.addCell(helper.printToCell(payee, FontType.UNDERLINE));
+      }
       FontType t = amount<0 ? FontType.EXPENSE : FontType.INCOME;
       cell = helper.printToCell(Utils.convAmount(amount,currency), t);
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
+      String comment = transactionCursor.getString(columnIndexComment);
+      if (comment != null && comment.length()>0) {
+        cell = helper.printToCell(comment, FontType.ITALIC);
+        cell.setColspan(2);
+        table.addCell(helper.emptyCell());
+        table.addCell(cell);
+        table.addCell(helper.emptyCell());
+      }
       transactionCursor.moveToNext();
     }
     // now add all this to the document
