@@ -36,8 +36,8 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 import org.totschnig.myexpenses.util.PdfHelper;
-import org.totschnig.myexpenses.util.PdfHelper.FontType;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
@@ -53,7 +53,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -1111,7 +1113,7 @@ public class Account extends Model {
   }
 
   private void addHeader(Document document, PdfHelper helper)
-      throws DocumentException {
+      throws DocumentException, IOException {
     String selection, column;
     String[] selectionArgs;
     if (getId() < 0) {
@@ -1150,7 +1152,7 @@ public class Account extends Model {
   }
 
   private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper)
-      throws DocumentException {
+      throws DocumentException, IOException {
     Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
     builder.appendPath("groups")
       .appendPath(grouping.name());
@@ -1240,7 +1242,7 @@ public class Account extends Model {
           second = transactionCursor.getInt(columnIndexWeek);
             break;
         }
-        table = new PdfPTable(2);
+        table = helper.newTable(2);
         table.setWidthPercentage(100f);
         PdfPCell cell = helper.printToCell(grouping.getDisplayTitle(ctx,year,second,transactionCursor),FontType.HEADER);
         table.addCell(cell);
@@ -1250,7 +1252,7 @@ public class Account extends Model {
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
         document.add(table);
-        table = new PdfPTable(3);
+        table = helper.newTable(3);
         table.setWidthPercentage(100f);
         cell = helper.printToCell("- " + Utils.convAmount(
             DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense),
@@ -1271,7 +1273,7 @@ public class Account extends Model {
         document.add(table);
         LineSeparator sep = new LineSeparator();
         document.add(sep);
-        table = new PdfPTable(4);
+        table = helper.newTable(4);
         table.setWidths(new int[] {1,5,3,2});
         table.setSpacingBefore(2f);
         table.setSpacingAfter(2f);

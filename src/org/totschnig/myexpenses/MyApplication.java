@@ -30,6 +30,7 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -210,6 +211,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       getSettings().registerOnSharedPreferenceChangeListener(this);
       initPlanner();
       registerWidgetObservers();
+      Log.d(TAG,"Memory class " + getMemoryClass());
     }
 
     private void registerWidgetObservers() {
@@ -633,5 +635,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           super.onChange(selfChange);
           AbstractWidget.updateWidgets(mSelf,mProvider);
       }
+    }
+    public int getMemoryClass() {
+      ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+      return am.getMemoryClass();
     }
 }
