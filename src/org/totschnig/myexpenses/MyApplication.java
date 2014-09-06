@@ -38,6 +38,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 //import com.batch.android.Config;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -243,6 +244,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 //            .setCanUseAdvertisingID(false)
 //            .setCanUseAndroidID(false));
 //      }
+      Log.d(TAG,"Memory class " + getMemoryClass());
     }
 
     private void registerWidgetObservers() {
@@ -731,4 +733,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           AbstractWidget.updateWidgets(mSelf,mProvider);
       }
     }
+
+    public int getMemoryClass() {
+      ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+      return am.getMemoryClass();
+    }
 }
+

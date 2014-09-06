@@ -889,10 +889,10 @@ public class MyExpenses extends LaunchActivity implements
       getSupportActionBar().show();
       FragmentManager fm = getSupportFragmentManager();
       setup();
-      WelcomeDialogFragment f =
+      WelcomeDialogFragment wdf =
           ((WelcomeDialogFragment) fm.findFragmentByTag("WELCOME"));
-      if (f!=null) {
-        f.setSetupComplete();
+      if (wdf!=null) {
+        wdf.setSetupComplete();
       }
       break;
     case TaskExecutionFragment.TASK_EXPORT:
@@ -905,13 +905,14 @@ public class MyExpenses extends LaunchActivity implements
     case TaskExecutionFragment.TASK_PRINT:
       Result result = (Result) o;
       if (result.success) {
-        MessageDialogFragment.newInstance(
+        MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
             result.print(this),
             new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,(File) result.extra[0]),
             null,
-            MessageDialogFragment.Button.nullButton(android.R.string.cancel))
-         .show(getSupportFragmentManager(),"PRINT_RESULT");
+            MessageDialogFragment.Button.nullButton(android.R.string.cancel));
+        f.setCancelable(false);
+        f.show(getSupportFragmentManager(),"PRINT_RESULT");
       } else {
         Toast.makeText(this,result.print(this),Toast.LENGTH_LONG).show();
       }

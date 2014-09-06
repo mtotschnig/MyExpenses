@@ -21,6 +21,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Currency;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import junit.framework.Assert;
@@ -45,5 +46,10 @@ public class UtilsTest extends TestCase {
   }
   public void testGetSaveInstance() {
     Assert.assertNotNull(Account.CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
+  }
+  public void testPdfHelper() {
+    Assert.assertFalse(PdfHelper.hasAnyRtl("test"));
+    Assert.assertTrue(PdfHelper.hasAnyRtl("مصروفاتي"));
+    Assert.assertTrue(PdfHelper.hasAnyRtl("הנושאים שלי"));
   }
 }
