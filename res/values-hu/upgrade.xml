@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_100">
+    <item>A tranzakcós listán csoportosított kiválasztás során az aktuális egyenleg megjelenik a kiválasztás időszakra vonatkozóan a fejlécben.</item>
+    <item>Bug fix: #90-es ügy</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Kezelőfelület nyelve választható</item>
+    <item>Betűméret változtatható</item>
+  </string-array>
   <string-array name="whats_new_93">
     <item>Tervek készítése a jövőbeli, vagy ismétlődő tranzakciók kezelésére</item>
     <item>Khmer nyelv</item>

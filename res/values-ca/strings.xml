@@ -69,6 +69,7 @@
   <string name="dialog_setup_planner_button_create_new">Nova</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Trieu</string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Característica premium</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
@@ -128,6 +129,7 @@
   <string name="menu_apply_template">Aplica</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Anul·la</string>
   <string name="menu_clone_transaction">Clona</string>

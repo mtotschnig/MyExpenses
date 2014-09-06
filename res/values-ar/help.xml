@@ -7,17 +7,16 @@
   <string name="menu_create_transaction_help_text">يفتح نموذج لإنشاء عملية جديدة</string>
   <string name="menu_create_transfer_help_text">تحويل المال بين الحسابات. يتم اتاحة هذا الأمر عندما يكون لديك حساب واحد آخر على الأقل بنفس العملة الحالية.</string>
   <string name="menu_create_split_help_text">تقسيم العملية تمكنك من تعيين أجزاء من القيمة لأكثر من تصنيف أو كتحويلات لحسابات مختلفة.</string>
-  <string name="menu_reset_help_text">هذا الأمر يقوم بتصدير كل العمليات المتعلقة بالحساب الحالي إلى ملف على الذاكرة كصيغة QIF أو CSV. بشكل افتراضي، سيتم حذف العمليات من جهازك، لكن يمكنك اختيار الابقاء عليها وتصديرها. My Expenses يمكنه مشاركة الملف مباشرة بعد تصديره عبر FTP أو البريد الالكتروني أو أي تطبيق لمشاركة الملفات، إذا تم تكوينه عن طريق الاعدادات.</string>
   <string name="menu_edit_account_help_text">ضبط خصائص الحساب الحالي (العنوان، الوصف، الرصيد الافتتاحي، نوع الحساب، العملة، اللون).</string>
   <string name="menu_grouping_help_text">يمكنك تجميع العمليات حسب اليوم، الاسبوع، الشهر أو السنة. يتم حساب الاجمالي لكل مجموعة سواء للايرادات أو للمصروفات أو للتحويلات.</string>
   <string name="menu_create_account_help_text">يقوم بفتح نموذج لإنشاء حساب جديد.</string>
- 
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">هذه الشاشة تقوم بعرض طرق الدفع المسبقة (شيك، بطاقة ائتمانية، إيداع، أمر مستديم) ويمكنك إضافة طرق دفع أخرى. بالضغط على مدخلات القائمة ، يمكنك تغيير الارتباط بين الطريقة ونوع الحساب.</string>
   <string name="menu_create_method_help_text">يقوم بفتح نموذج لإنشاء طريقة دفع جديدة.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">هذه الشاشة تعرض كل الاطراف المستخدمة للاكمال التلقائي لحقل البائع/المشتري. يمكنك حذف المدخلات عن طريق القائمة (استمر بالضغط عليه).</string>
-  <!-- ManageCategories_* titles are in keys-->
+  <!--ManageTemplates title is in keys-->
+  <!--ManageCategories_* titles are in keys-->
   <string name="menu_create_main_cat_help_text">يقوم بفتح مربع لتحديد العنوان للتصنيف الاساسي.</string>
   <string name="menu_back_help_text">الانتقال للمجموعة السابقة.</string>
   <string name="menu_forward_help_text">الانتقال للمجموعة التالية.</string>
@@ -33,10 +32,10 @@
   <string name="help_ExpenseEdit_split_info">قم بإدخال تقسيمات بقدر ماتريد من خلال قائمة تقسيمات التصنيف وتقسيمات التحويل.    نصف الشاشة السفلي يقوم بعرض أجزاء التقسيم وقيمها التي لم يتم تعيينها بعد بتصنيف أو تحويل.    يمكنك حفظ تقسيم عملية فقط عندما تكون قيمة العملية محددة.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">تحديد تصنيف للتقسيم.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">تعيين حساب تحويل للتقسيم.</string>
-  <string name="menu_save_help_text">حفظ البيانات ثم إغلاق.</string>
-  <string name="menu_save_and_new_help_text">حفظ البيانات، مع ترك النموذج مفتوح لإنشاء عملية جديدة بنفس البيانات.</string>
   <string name="menu_create_split_part_category_help_text">يقوم بفتح نموذج لتعيين اجزاء التقسيم للتصنيف.</string>
   <string name="menu_create_split_part_transfer_help_text">يقوم بفتح نموذج لتعريف جزء من التقسيم كعملية تحويل لحساب آخر.</string>
+  <string name="menu_save_help_text">حفظ البيانات ثم إغلاق.</string>
+  <string name="menu_save_and_new_help_text">حفظ البيانات، مع ترك النموذج مفتوح لإنشاء عملية جديدة بنفس البيانات.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">نموذج للحسابات</string>
   <string name="help_AccountEdit_info">يتم تعريف الحساب بعبارته التوضيحية ، الوصف فقط لغرض الشرح. يجب ادخال العملة بناء على رمزها (ثلاثة أحرف) في ISO 4217 ، ويمكنك اختيارها بسهولة من القائمة. يمكنك تحديد نوع الحساب كـ نقدي ، بنك ، أصل ، إلتزامات ، بطاقة ائتمانية. النوع يحدد طرق الدفع المتاحة والتي يمكنك اعدادها عن طريق الاعدادات -&gt; إدارة -&gt; طرق الدفع.</string>

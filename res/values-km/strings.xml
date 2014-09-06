@@ -18,6 +18,7 @@
   </plurals>
   <string name="color">ពណ៌</string>
   <string name="comment">សម្គាល់</string>
+  <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
   <string name="contrib_feature_accounts_unlimited_description">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
   <string name="contrib_feature_accounts_unlimited_label">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
   <string name="contrib_feature_aggregate_label">កម្មវិធីប្រមូលផ្ដុំនៅលើគណនីច្រើន</string>
@@ -27,6 +28,7 @@
   <string name="contrib_feature_reset_all_label">កំណត់គណនីយទាំងអស់ឡើងវិញ</string>
   <string name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
   <string name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
+  <string name="contrib_feature_template_widget_label">ប្រអប់​ធាតុពុម្ព</string>
   <string name="contrib_key">Contrib key</string>
   <string name="contrib_key_requires">ត្រូវការកម្មវិធី My Expenses Contrib Key</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
@@ -37,6 +39,8 @@
   <string name="decimal_separator">កាត់ខ្ទង់ទសភាគ</string>
   <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
+  <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
+  <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
   <string name="dialog_command_disabled_insert_transfer_1">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។</string>
   <string name="dialog_command_disabled_insert_transfer_2">អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
@@ -70,6 +74,9 @@
   <string name="dialog_setup_planner_button_create_new">បង្កើត​ថ្មី</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">ជ្រើសរើស​អ្វី​ដែល​មានស្រាប់</string>
+  <string name="dialog_title_attention">ប្រុង​ប្រយ័ត្ន</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
   <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
   <string name="dialog_title_select_account">ជ្រើសយកគណនីមួយ</string>
@@ -129,6 +136,8 @@
   <string name="menu_apply_template">ដាក់ទៅ</string>
   <string name="menu_back">ត្រឡប់​ក្រោយ</string>
   <string name="menu_backup">ការ​បម្រុង​ទុក</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">គណនីសមតុល្យ</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">បោះបង់</string>
   <string name="menu_clone_transaction">ក្លូន</string>
@@ -159,6 +168,7 @@
   <string name="menu_edit_cat">កែ​ចំណាត់ថ្នាក់</string>
   <string name="menu_edit_method">កែ​វិធីសាស្ត្រ​ទូទាត់ប្រាក់</string>
   <string name="menu_edit_party">កែ​ភាគី</string>
+  <string name="menu_edit_plan_instance">កែសម្រួលផែនការកើតឡើងតែមួយ</string>
   <string name="menu_edit_split">កែការញែក</string>
   <string name="menu_edit_split_part_category">កែចំណាត់ថ្នាក់​​បែង​ចែក​ជាផ្នែក</string>
   <string name="menu_edit_split_part_transfer">កែ​ផ្នែក​ញែក​​ការផ្ទេរ​</string>
@@ -179,6 +189,7 @@
   <string name="menu_reset_plan_instance">សារដើម</string>
   <string name="menu_save">រក្សាទុក</string>
   <string name="menu_save_and_new">រក្សាទុក និងថ្មី</string>
+  <string name="menu_search">ស្វែងរក</string>
   <string name="menu_settings">ការកំណត់</string>
   <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
   <string name="method">វិធីសាស្ត្រ</string>
@@ -192,6 +203,7 @@
   <string name="no_details">គ្មាន​សេចក្តីលម្អិត។</string>
   <string name="no_expenses">គ្មាន​ទិន្នន័យចំណាយ​នៅឡើយទេ។</string>
   <string name="no_exportable_expenses">មិនមានប្រតិបត្តិការដែលមិនទាន់ត្រូវបាននាំចេញទេ។</string>
+  <string name="no_filemanager_installed">គ្មាន​កម្មវិធី​គ្រប់គ្រងឯកសារបញ្ចូលទេ</string>
   <string name="no_mapped_transactions">គ្មាន​ប្រតិបត្តិ​ការ​ណាមួយ​ត្រូវបាន​ភ្ជាប់ទៅ​ចំណាត់ថ្នាក់ណា​ក្នុង​រយៈពេលនេះទេ</string>
   <string name="no_methods">គ្មានវិធីសាស្ត្រទូទាត់​ប្រាក់</string>
   <string name="no_parties">គ្មានទិន្នន័យភាគីទេ។</string>
@@ -199,6 +211,9 @@
   <string name="no_split_parts">គ្មាន​ផ្នែក​ណា​​ត្រូវបាន​​ញែកទេ។</string>
   <string name="no_templates">គ្មានពុម្ពគំរូទេ។</string>
   <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ប្រតិបត្តិការ និង​មិន​អាច​លុប​បានទេ។</item>
+  </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ពុម្ព និង​មិន​អាច​លុប​បានទេ។</item>
   </plurals>
@@ -217,6 +232,7 @@
   <string name="password_security_answer_not_valid">ចម្លើយខុស។ សូមព្យាយាមម្តងទៀត!</string>
   <string name="payee">អ្នកទទួលប្រាក់</string>
   <string name="payer">អ្នកចេញការចំណាយ</string>
+  <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
   <string name="peer_transaction_deleted">ប្រតិបត្តិការនេះបានបញ្ជូនទៅ contra-entry មួយ (គណនី  %1$s) ដែលត្រូវបានលុប</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">ផែនការ</string>
@@ -240,6 +256,7 @@
   <string name="pm_type_credit">ឥណទាន</string>
   <string name="pm_type_debit">ឥណពន្ធ</string>
   <string name="pm_type_neutral">អព្យាក្រឹត</string>
+  <string name="pref_app_dir_title">ថត​សម្រាប់​ឯកសារ​ដែល​រក្សាទុក និង​ដែលនាំចេញ</string>
   <string name="pref_backup_summary">បង្កើតការបម្រុងទុក នៃមូលដ្ឋានទិន្នន័យ និងចំណង់​ចំណូល​ចិត្ត លើ sdcard នេះ។</string>
   <string name="pref_categories_sort_by_usages_summaryOn">រាប់នៃការប្រើប្រាស់</string>
   <string name="pref_categories_sort_by_usages_summaryOff">អក្សរក្រមលេខ</string>
@@ -250,6 +267,8 @@
   <string name="pref_category_title_more_information">ព័ត៌មានបន្ថែម</string>
   <string name="pref_category_title_security">សន្តិសុខ</string>
   <string name="pref_category_title_ui">User Interface</string>
+  <string name="pref_checkbox_enabled">បើក</string>
+  <string name="pref_checkbox_disabled">បិទ</string>
   <string name="pref_contrib_donate_summary">ផ្តល់​ជំនួយ​តាម​រយៈ PayPal, Flattr ឬ Bitcoin និង​ដើម្បីទទួល​ផ្នែក​ ពិសេសៗនៃកម្មវិធី។</string>
   <string name="pref_contrib_donate_title">ផ្តល់​ជំនួយ</string>
   <string name="pref_contrib_install_summary">តាមរយះការតម្លើង My Expenses Contrib Key អ្នកអាចនឹងទទួលបាន​លក្ខណៈពិសេស​​របស់​កម្មវិធីនេះ</string>
@@ -267,7 +286,9 @@
   <string name="pref_manage_methods_title">វិធីសាស្ត្រទូទាត់​ប្រាក់</string>
   <string name="pref_manage_parties_summary">បញ្ចូល កែ លុប ភាគី (អ្នក​បង់​ចំណាយ និង​អ្នក​ទទួល)។</string>
   <string name="pref_manage_parties_title">ភាគី</string>
-  <string name="pref_more_info_dialog_summary">\n        \n    <!-- My Expenses បក​ប្រែ​ដោយ Pongsametrey SOK, http://osify.com, 2013 រួមគ្នា​​ដើម្បី​​អក្សរ​សាស្ត្រ​ខ្មែរ នៅ​កម្ពុជា --></string>
+  <string name="pref_more_info_dialog_summary">
+        
+    <!-- My Expenses បក​ប្រែ​ដោយ Pongsametrey SOK, http://osify.com, 2013 រួមគ្នា​​ដើម្បី​​អក្សរ​សាស្ត្រ​ខ្មែរ នៅ​កម្ពុជា --></string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">អាជ្ញាប័ណ្ណ &amp; ក្រេឌីត</string>
   <string name="pref_password_empty">ពាក្យសម្ងាត់មិនអានអាចទទេរបានទេ</string>
@@ -283,9 +304,12 @@
   <string name="pref_planning_calendar_title">​ប្រតិទិនផែនការ</string>
   <string name="pref_protection_delay_seconds_summary">ប៉ុន្មាននាទីមុនពេលកម្មវិធីទំនេរ​ នឹងត្រូវបានចាក់សោដោយពាក្យសម្ងាត់។</string>
   <string name="pref_protection_delay_seconds_title">ពន្យាពេលរហូតដល់ការការពារ</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">អនុញ្ញាតិ​ដោយ​មិនបាច់​មាន​ពាក្យសម្ងាត់។</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">ពាក្យ​សម្ងាត់​ត្រូវការជានិច្ច</string>
   <string name="pref_qif_export_file_encoding_title">ការអ៊ិនកូដតួអក្សរ</string>
   <string name="pref_request_licence_summary">ប្រសិនបើអ្នកបាន​ចូលរួម​ចំណែក​ដោយ​មធ្យោបាយ​ផ្សេង​ទៀត​ សូម​សួររក Contrib key តាមអ៊ីមែល។</string>
   <string name="pref_request_licence_title">ស្នើសុំកូនសោរ Contrib មួយ</string>
+  <string name="pref_restore_legacy_data">ទិន្នន័យ​កេរ្តិ៍ដំណែល</string>
   <string name="pref_restore_title">ស្តារ</string>
   <string name="pref_security_question_summary">អនុញ្ញាតឲ្យអ្នកដោះសោរកម្មវិធីនេះ ប្រសិនបើអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក ។ តម្រូវឲ្យមាន ការចំណាយរបស់ខ្ញុំ</string>
   <string name="pref_security_question_title">សំនួរសន្តិសុខ</string>
@@ -297,6 +321,7 @@
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">រាល់​ជំហាន​និមួយៗ បន្ថែម​ទំហំ​ពុម្ពអក្សរ​ដោយ 2sp</string>
   <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
+  <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
   <string name="pref_ui_language_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>
   <string name="pref_ui_language_summary">ដាក់ភាសា​អោយ​ផ្ទាំង​ប្រើប្រាស់</string>
   <!--Title of the preference for selecting the UI language-->
@@ -310,12 +335,14 @@
   <string name="progress_dialog_create_plan">កំពុង​បង្កើត​ផែនការ​ថ្មី​ ...</string>
   <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ ...</string>
   <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ ...</string>
+  <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
   <string name="progress_dialog_setup">មូលដ្ឋាន​ទិន្នន័យ​ត្រូវបាន​​ចាប់​ផ្តើម ...</string>
   <string name="reference_number">លេខ​យោង</string>
   <string name="request_licence_mail_description">សូម​ពិពណ៌នា (ជាភាសាអង់គ្លេស អាឡឺម៉ង ឬបារាំង) ពី​​ការរួម​ចំណែក​របស់​អ្នក​សំរាប់ My Expenses (ឧ. វិភាគទាន​ជា​ប្រាក់​តាម Paypal, ផ្តល់​ព័ត៌​មាន​ពីកំហុស, តេស្ត ឬ​បក​ប្រែ)។</string>
   <string name="request_licence_mail_head">សូម​ផ្ញើ Contrib key មួយ​សំរាប់​ Android-Id %1$s មកខ្ញុំ។</string>
   <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
   <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
+  <string name="restore_no_backup_found">គ្មាន​អ្វីដែល​រក្សាទុករកឃើញទេ។</string>
   <string name="restore_preferences_failure">ការស្តារចំណង់ចំណូលចិត្តបានបរាជ័យ</string>
   <string name="restore_backup_file_not_found">គ្មាន​ឯកសារ %1$s នៅក្នុងថត \"%2$s\" ទេ</string>
   <string name="restore_preferences_success">ចំណង់ចំណូលចិត្តត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
@@ -347,6 +374,7 @@
   <string name="thank_you">សូមអរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!</string>
   <string name="time">ពេលវេលា</string>
   <string name="title">ចំណងជើង</string>
+  <string name="total_cleared">គិតបញ្ជីចេញសរុប</string>
   <string name="transaction">ប្រតិបត្តិការ</string>
   <string name="transfer">ការបញ្ជូនចេញ</string>
   <string name="transfer_from_account">ពី</string>
@@ -366,6 +394,7 @@
   <plurals name="warning_delete_transaction">
     <item quantity="other">%1$d ប្រតិបត្តិការនេះ​នឹង​ត្រូវ​លុបចេញ។</item>
   </plurals>
+  <string name="warning_password_protected">កម្មវិធីនេះ ការពារដោយ​ពាក្យសម្ងាត់</string>
   <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
   <string name="warning_password_no_contrib">ប្រសិន​បើអ្នក​ដាក់​លេខ​សម្ងាត់​ សូម​ចាំថា​មិន​អាចភ្លេច​បានឡើយ។ អ្នក​នឹង​មិន​អាចយកវា​ត្រឡប់​មកវិញទេ រហូត​ទាល់​តែ​អ្នក​ដាក់​សំនួរ​សុវត្ថិភាព​មួយ (ត្រូវការកម្មវិធី My Expenses Contrib)។</string>
   <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
@@ -382,4 +411,21 @@
   <string name="import_transactions_none">គ្មាន​ប្រតិបត្តិការ​ណា​នាំចូល​ទៅគណនី %1$s</string>
   <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
   <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
+  <string name="menu_create_folder">ថត​ថ្មី</string>
+  <string name="menu_up">ទៅលើ</string>
+  <string name="create_new_folder_fail">បរាជ័យ​ក្នុង​ការបង្កើតថតនេះ</string>
+  <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
+  <string name="widget_title_templates">ពុម្ព​របស់ខ្ញុំ</string>
+  <string name="search_amount">ស្វែង​រក​ទឹកប្រាក់</string>
+  <string name="search_category">ស្វែងរក​ចំណាត់ថ្នាក់</string>
+  <string name="search_comment">ស្វែងរក​កំណត់ហេតុ</string>
+  <string name="search_status">ស្វែងរកតាមស្ថានភាព</string>
+  <string name="search_payee">ស្វែងរក​អ្នកទទួល/អ្នក​បង់ប្រាក់</string>
+  <string name="search_method">ស្វែងរកតាមវិធីសាស្ត្រ</string>
+  <string name="and">និង</string>
+  <string name="between_and">រវាង %1$s និង %2$s</string>
+  <string name="comparison_operator_equal">ស្មើនឹង</string>
+  <string name="comparison_operator_greater_than">ច្រើនជាង</string>
+  <string name="comparison_operator_lesser_than">តិចជាង</string>
+  <string name="comparison_operator_between">រវាង</string>
 </resources>
