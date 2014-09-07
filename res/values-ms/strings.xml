@@ -19,11 +19,11 @@
   <string name="color">Warna</string>
   <string name="comment">Nota</string>
   <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>
-  <string name="contrib_feature_accounts_unlimited_description">Bilangan akaun yang anda boleh cipta dengan <i>My Expenses</i> adalah terhad pada 5.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Bilangan akaun yang anda boleh cipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Bilangan akaun tidak terhad</string>
   <string name="contrib_feature_aggregate_label">Agregat menerusi akaun berbilang</string>
   <string name="contrib_feature_distribution_label">Agihan transaksi per kategori</string>
-  <string name="contrib_feature_plans_unlimited_description">Bilang pelan yang boleh dicipta dengan <i>My Expenses</i> adalah terhad pada 3.</string>
+  <string name="contrib_feature_plans_unlimited_description">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Bilang pelan tidak terhad</string>
   <string name="contrib_feature_print_label">Eksport senarai transaksi menjadi PDF</string>
   <string name="contrib_feature_reset_all_label">Tetap semula semua akaun</string>
@@ -31,7 +31,7 @@
   <string name="contrib_feature_split_transaction_label">Transaksi pisah</string>
   <string name="contrib_feature_template_widget_label">Widget  templat</string>
   <string name="contrib_key">Kunci contrib</string>
-  <string name="contrib_key_requires">Perlukan Kunci Contrib My Expenses.</string>
+  <string name="contrib_key_requires">Perlukan Kunci Contrib Perbelanjaan Saya.</string>
   <string name="currency">Matawang</string>
   <string name="current_balance">Baki semasa</string>
   <string name="date">Tarikh</string>
@@ -50,10 +50,10 @@
   <string name="dialog_contrib_no_usages_left">Tiada penggunaan percuma berbaki.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Buang batasan ini dengan membeli <i>Kunci Contrib My Expenses</i>.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Buang batasan ini dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Anda juga mendapat capaian tanpa had pada fitur berikut:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>My Expenses</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka. Sila beri sumbangan dengan membeli <i>Kunci Contrib My Expenses</i>. Anda akan mendapat capaian tanpa had pada fitur premium berikut:</string>
+  <string name="dialog_contrib_text"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka. Sila beri sumbangan dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>. Anda akan mendapat capaian tanpa had pada fitur premium berikut:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">Anda mempunyai %1$d penggunaan percuma berbaki.</item>
   </plurals>
@@ -66,8 +66,8 @@
   <string name="dialog_password_new_password_confirmation">Kata laluan baharu (pengesahan)</string>
   <string name="dialog_remind_later">Kemudian</string>
   <string name="dialog_remind_no">Tidak terima kasih</string>
-  <string name="dialog_remind_rate_how_many_stars">Berapa banyak bintang yang anda mahu berikan kepada My Expenses?</string>
-  <string name="dialog_remind_rate_1">Sila ambil sedikit masa untuk beri penarafan dan ulasan My Expenses.</string>
+  <string name="dialog_remind_rate_how_many_stars">Berapa banyak bintang yang anda mahu berikan kepada Perbelanjaan Saya?</string>
+  <string name="dialog_remind_rate_1">Sila ambil sedikit masa untuk beri penarafan dan ulasan Perbelanjaan Saya.</string>
   <string name="dialog_remind_rate_2">Ulasan anda membolehkan kami tambah penambahbaikan dan peningkatan secara berterusan.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Sila ambil sedikit masa untuk menghantar kepada kami cadangan penambahbaikan.</string>
   <string name="dialog_remind_rate_yes">Beri penarafan sekarang</string>
@@ -127,9 +127,9 @@
     <item>Urus ia secara terus dalam telefon pintar anda.</item>
     <item>Eksport ia ke dalam program kewangan Desktop seperti Grisbi, GnuCash, Quicken atau MS Money.</item>
   </string-array>
-  <string name="help_leading">Terima kasih kerana memasang <i>My Expenses</i> Android.</string>
+  <string name="help_leading">Terima kasih kerana memasang <i>Perbelanjaan Saya</i> Android.</string>
   <string name="important_upgrade_information_heading">Maklumat penting</string>
-  <string name="important_upgrade_information_1">Sandar dan Eksport kini disimpan dibawah Android/data/org.totschnig.myexpenses . PERHATIAN: Direktori ini akan dipadam jika anda menyahpasang My Expenses.</string>
+  <string name="important_upgrade_information_1">Sandar dan Eksport kini disimpan dibawah Android/data/org.totschnig.myexpenses . PERHATIAN: Direktori ini akan dipadam jika anda menyahpasang Perbelanjaan Saya.</string>
   <string name="import_select_transactions">Transaksi</string>
   <string name="income">Pendapatan</string>
   <string name="invalid_number_format">Format perpuluhan tidak dikenali oleh lokal anda. Sila guna %1$s</string>
@@ -246,7 +246,7 @@
   <string name="plan">Pelan</string>
   <string name="plan_automatic">automatik</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Perancang My Expenses</string>
+  <string name="plan_calendar_name">Perancang Perbelanjaan Saya</string>
   <string name="plan_event_deleted">Pelan berkaitan dengan templat ini telah dipadam dari kalendar.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Pelakuan pelan dibatalkan</string>
@@ -281,14 +281,14 @@
   <string name="pref_checkbox_enabled">Dibenarkan</string>
   <string name="pref_checkbox_disabled">Dilumpuhkan</string>
   <string name="pref_contrib_donate_summary">Derma melalui PayPal, Flattr atau Bitcoin dan dapatkan capaian ke fitur premium.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Jika anda mahu memberi lagi sumbangan, anda boleh flattr My Expenses, beri derma melalui Paypal atau hantar Bitcoin.</string>
+  <string name="pref_contrib_donate_summary_already_contrib">Jika anda mahu memberi lagi sumbangan, anda boleh flattr Perbelanjaan Saya, beri derma melalui Paypal atau hantar Bitcoin.</string>
   <string name="pref_contrib_donate_title">Hantar derma</string>
-  <string name="pref_contrib_install_summary">Dengan memasang Kunci Contrib My Expenses, anda memperoleh capaian ke fitur premium.</string>
+  <string name="pref_contrib_install_summary">Dengan memasang Kunci Contrib Perbelanjaan Saya, anda memperoleh capaian ke fitur premium.</string>
   <string name="pref_contrib_install_title">Pasang apl Contrib</string>
   <string name="pref_enter_licence_summary">Jika ana menerima kunci Contrib, akan peroleh capaian ke fitur premium.</string>
   <string name="pref_enter_licence_title">Masukkan kunci Contrib</string>
   <string name="pref_export_format_title">Format data</string>
-  <string name="pref_follow_gplus_title">Ikut My Expenses pada Google+</string>
+  <string name="pref_follow_gplus_title">Ikut Perbelanjaan Saya pada Google+</string>
   <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
   <string name="pref_import_from_grisbi_title">Import dari Grisbi</string>
   <string name="pref_import_qif_summary">Import transaksi, kategori dan pihak dari fail QIF</string>
@@ -362,7 +362,7 @@ Abuyop</string>
   <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>
   <string name="reference_number">Nombor Rujukan</string>
-  <string name="request_licence_mail_description">Sila terangkan (dalam bahasa Inggeris, Jerman atau Perancis) sumbangan anda terhadap My Expenses (iaitu derma melalui Paypal, laporan pepijat, pengujian, terjemahan).</string>
+  <string name="request_licence_mail_description">Sila terangkan (dalam bahasa Inggeris, Jerman atau Perancis) sumbangan anda terhadap Perbelanjaan Saya (iaitu derma melalui Paypal, laporan pepijat, pengujian, terjemahan).</string>
   <string name="request_licence_mail_head">Sila hantar kepada saya satu kunci Contrib untuk Android-Id %1$s.</string>
   <string name="restore_db_failure">Pemulihan pangkalan data gagal.</string>
   <string name="restore_db_success">Pangkalan data telah dipulihkan dari sandar.</string>
@@ -392,7 +392,7 @@ Abuyop</string>
   <string name="sum_expenses">Perbelanjaan</string>
   <string name="sum_income">Pendapatan</string>
   <string name="sum_transfer">Pemindahan</string>
-  <string name="tell_a_friend_message">Lihat My Expenses, Pengurus Kewangan Persendirian untuk Android, di http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Lihat Perbelanjaan Saya, Pengurus Kewangan Persendirian untuk Android, di http://www.myexpenses.mobi</string>
   <string name="template">Templat</string>
   <string name="template_create_success">Templat \"%1$s\" berjaya dicipta</string>
   <string name="template_title_exists">Satu templat dengan tajuk \"%1$s\" sudah wujud</string>
@@ -435,7 +435,7 @@ Abuyop</string>
   <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam, Anda mahu teruskan?</string>
   <string name="warning_select_account">Sila pilih satu akaun!</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang My Expenses. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
   <string name="import_categories_success">%1$s kategori berjaya diimport</string>
   <string name="import_parties_success">%1$s pihak berjaya diimport</string>
