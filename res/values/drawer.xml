@@ -2,6 +2,7 @@
 <!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
+     android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="drawer_open">Open navigation drawer</string>
