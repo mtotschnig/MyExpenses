@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_232">
+    <item>Imprimer vers PDF maintenant prend en charge les scripts non occidentaux</item>
+    <item>Traduction en Malais</item>
+  </string-array>
   <string-array name="whats_new_231">
     <item>Remplissage automatique de la dernière opération pour le même bénéficiaire/payeur</item>
     <item>Applique le modèle sur clic court dans la liste des modèles</item>
