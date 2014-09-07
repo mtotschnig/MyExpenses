@@ -68,6 +68,7 @@
   <string name="dialog_setup_planner_button_create_new">Vytvořit nový</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Vyberte existující</string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémiové funkce</string>
   <string name="dialog_title_planner_setup_info">Vyžadování nastavení kalendáře</string>
   <string name="dialog_title_select_account">Vyberte si účet</string>
@@ -124,6 +125,7 @@
   <string name="menu_apply_template">Použít</string>
   <string name="menu_back">Zpět</string>
   <string name="menu_backup">Zálohování</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Storno</string>
   <string name="menu_clone_transaction">Klon</string>

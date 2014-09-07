@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_232">
+    <item>PDF Druck unterstützt jetzt nicht-westliche Skripts</item>
+    <item>Malaiische Übersetzung</item>
+  </string-array>
   <string-array name="whats_new_231">
     <item>Automatisches Ausfüllen auf Basis der letzten Buchung für denselben Empfänger/Zahler</item>
     <item>Vorlage werden durch kurzes Tippen auf den Eintrag in der Vorlagenliste angewendet</item>

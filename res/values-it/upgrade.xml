@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_232">
+    <item>Stampa in PDF ora supporta gli script non-occidentali</item>
+    <item>Traduzione di Malese</item>
+  </string-array>
   <string-array name="whats_new_231">
     <item>Autocompilazione da ultima operazione stesso beneficiario/ordinante</item>
     <item>Modello instantiate a breve colpetto sulla voce nell\'elenco dei modelli</item>

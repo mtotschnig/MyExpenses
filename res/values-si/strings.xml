@@ -65,7 +65,6 @@
   <string name="dialog_password_new_password_confirmation">අලුත් මුරපදය(තහවුරු කරන්න) </string>
   <string name="dialog_remind_later">පසුව </string>
   <string name="dialog_remind_no">අවශ්‍ය නැත </string>
-  <!-- <string name="dialog_remind_rate">කරුණාකර කුඩා වෙලාවක් වෙන්කර මයි එක්ස්පෙන්සස් හි  වටිනාකම නියම කිරම සහ ගුණදොස් විවේචනය කිරීම කරන්න.ඔබගේ පරිකථන මට මෙම මෘදුකාංගය  දියුණු කිරීමට උපකාරී වේ </string> -->
   <string name="dialog_remind_rate_yes">වටිනාකම නියම කිරන්න </string>
   <string name="dialog_security_answer">පිළිතුර </string>
   <string name="dialog_security_question">ප්‍රශ්නය </string>
@@ -74,6 +73,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">දැනට පැවතින එකක් තෝරන්න </string>
   <string name="dialog_title_attention">අවධානයයි </string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
   <string name="dialog_title_planner_setup_info">දින දර්ශනය පිහිටුවීම අවශයි </string>
   <string name="dialog_title_select_account">ගිණුමක් තෝරාගන්න </string>
@@ -122,7 +122,8 @@
   </string-array>
   <string name="help_leading"> <i>මයි එක්ස්පෙන්සස්</i> ඇන්ඩ්‍රෝයිඩ් පිහිටුවීම නිසා ස්තුත්යි   </string>
   <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
-  <string name="important_upgrade_information_1">උපස්ථ සහ අපනයන දැන් තැන්පත් වන්නේ Android/data/org.totschnig.myexpenses.\nඅවධානය පිණිස:ඔබ මයි එක්ස්පෙන්සස් ඉවත් කලවිට  මෙම ඩිරෙක්ටරිය ඉබේම මකා දැමේ </string>
+  <string name="important_upgrade_information_1">උපස්ථ සහ අපනයන දැන් තැන්පත් වන්නේ Android/data/org.totschnig.myexpenses.
+අවධානය පිණිස:ඔබ මයි එක්ස්පෙන්සස් ඉවත් කලවිට  මෙම ඩිරෙක්ටරිය ඉබේම මකා දැමේ </string>
   <string name="import_select_transactions">ගනුදෙනු </string>
   <string name="income">ආදායම</string>
   <string name="invalid_number_format">ලෝකලයට දශම අකාරය හඳුනාගත නොහැක. කරුණාකර  %1$s පාවිච්චි කරන්න </string>
@@ -134,6 +135,7 @@
   <string name="menu_apply_template">යොමු කරනවා</string>
   <string name="menu_back">පිටුපස </string>
   <string name="menu_backup">උපස්ථ </string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">අවලංගු කරනවා</string>
   <string name="menu_clone_transaction">ක්ලෝනය</string>
@@ -285,7 +287,8 @@
   <string name="pref_manage_methods_title">මුදල් ගෙවීමේ ක්‍රම </string>
   <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා  සහ ආදායකයා)</string>
   <string name="pref_manage_parties_title">පක්ෂ </string>
-  <string name="pref_more_info_dialog_summary">\n<!-- මෙය ඉංග්‍රීසි භාෂාවට හිස් වන අතර අනිකුත් භාෂා වල පරිවර්තකයන්ට ස්තුති ලබාදේ  --></string>
+  <string name="pref_more_info_dialog_summary">
+<!-- මෙය ඉංග්‍රීසි භාෂාවට හිස් වන අතර අනිකුත් භාෂා වල පරිවර්තකයන්ට ස්තුති ලබාදේ  --></string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">බලපත්‍ර සහ amp ; ස්තූති කිරීම් </string>
   <string name="pref_password_empty">මුරපදය හිස්ව තැබිය නොහැක </string>
@@ -371,7 +374,8 @@
   <string name="sum_expenses">වියදම් </string>
   <string name="sum_income">ආදායම</string>
   <string name="sum_transfer">මාරු කිරීම් </string>
-  <string name="tell_a_friend_message">මයි එක්ස්පෙසස් බලන්න පුද්ගලික මුල්‍ය කළමනාකරණ අන්ඩ්රෝයිඩ්  වැඩසටහන \nhttp://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">මයි එක්ස්පෙසස් බලන්න පුද්ගලික මුල්‍ය කළමනාකරණ අන්ඩ්රෝයිඩ්  වැඩසටහන 
+http://www.myexpenses.mobi</string>
   <string name="template">අච්චුව </string>
   <string name="template_create_success">\"%1$s\" අච්චුව නිමවීම සාර්ථකයි </string>
   <string name="template_title_exists"> \"%1$s\"  නම සහිත අච්චුව මේ වන විටත් පවතී </string>

@@ -114,7 +114,8 @@
   </string-array>
   <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i> للاندرويد.</string>
   <string name="important_upgrade_information_heading">معلومات مهمة</string>
-  <string name="important_upgrade_information_1">النسخ الاحتياطية والتصديرات محفوظة في Android/data/org.totschnig.myexpenses.\nتحذير: عند إلغاء تثبيت تطبيق مصروفاتي سيتم حذف هذا المجلد.</string>
+  <string name="important_upgrade_information_1">النسخ الاحتياطية والتصديرات محفوظة في Android/data/org.totschnig.myexpenses.
+تحذير: عند إلغاء تثبيت تطبيق مصروفاتي سيتم حذف هذا المجلد.</string>
   <string name="import_select_transactions">العمليات</string>
   <string name="income">الدخل</string>
   <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>

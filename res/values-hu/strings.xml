@@ -63,6 +63,7 @@
   <string name="dialog_setup_planner_button_create_new">Új létrehozása</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Meglévő választása</string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
   <string name="dialog_title_planner_setup_info">Naptár beállítás szükséges</string>
   <string name="dialog_title_select_account">Számla kiválasztása</string>
@@ -119,6 +120,7 @@
   <string name="menu_apply_template">Alkalmaz</string>
   <string name="menu_back">Vissza</string>
   <string name="menu_backup">Mentés</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_clone_transaction">Másolás</string>
   <string name="menu_contrib">Támogatás</string>
