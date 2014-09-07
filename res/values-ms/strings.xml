@@ -301,9 +301,7 @@
   <string name="pref_manage_methods_title">Kaedah pembayaran</string>
   <string name="pref_manage_parties_summary">Tambah,sunting pihak (pembayar dan penerima).</string>
   <string name="pref_manage_parties_title">Pihak</string>
-  <string name="pref_more_info_dialog_summary">
-
-Abuyop</string>
+  <string name="pref_more_info_dialog_summary">Abuyop</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lesen &amp; Penghargaan</string>
   <string name="pref_password_empty">Kata laluan tidak boleh kosong</string>
