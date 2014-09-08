@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="වෙනත් ආදායම් "/>
+<Sub_category Nbc="1" Nb="1" Na="සේවා වියුක්ති ප්‍රතිලාභ "/>
+<Sub_category Nbc="1" Nb="2" Na="පවුල් දීමනාව "/>
+<Sub_category Nbc="1" Nb="3" Na="බදු ණය "/>
+<Sub_category Nbc="1" Nb="4" Na="සූදූ ක්‍රීඩාව "/>
+<Sub_category Nbc="1" Nb="5" Na="පොදු රක්ෂණය "/>
+<Sub_category Nbc="1" Nb="6" Na="සමාජ ශුරක්ෂිතභාවය "/>
+<Category Nb="2" Na="විශ්‍රාම ගැනීම "/>
+<Sub_category Nbc="2" Nb="1" Na=" විශ්‍රාමික අරමුදල "/>
+<Sub_category Nbc="2" Nb="2" Na="විශ්‍රාම වැටුප "/>
+<Sub_category Nbc="2" Nb="3" Na="ඌනපූඋරක  විශ්‍රාමික මුදල "/>
+<Category Nb="3" Na="ආයෝජන ආදායම"/>
+<Sub_category Nbc="3" Nb="1" Na="ලාභාංශ "/>
+<Sub_category Nbc="3" Nb="2" Na="පොළිය "/>
+<Sub_category Nbc="3" Nb="3" Na="ප්‍රාග්ධන ලාභය "/>
+<Category Nb="4" Na="වැටුප "/>
+<Sub_category Nbc="4" Nb="1" Na="අතිකාල "/>
+<Sub_category Nbc="4" Nb="2" Na="නිවාඩු  දීමනාව "/>
+<Sub_category Nbc="4" Nb="3" Na="විවිධ අධිමිල  "/>
+<Sub_category Nbc="4" Nb="4" Na="පාරිතෝෂිකය "/>
+<Sub_category Nbc="4" Nb="5" Na=" ශුද්ධ වැටුප"/>
+<Category Nb="5" Na="විවිධ ආදායම  "/>
+<Sub_category Nbc="5" Nb="1" Na="තෑගි "/>
+<Sub_category Nbc="5" Nb="2" Na="ආපසු දුන් අරමුදල් "/>
+<Sub_category Nbc="5" Nb="3" Na="නැවත විකුණුම් "/>
+<Category Nb="6" Na="ආහාර "/>
+<Sub_category Nbc="6" Nb="1" Na="බීමහල  "/>
+<Sub_category Nbc="6" Nb="2" Na="බක්කරේ "/>
+<Sub_category Nbc="6" Nb="3" Na="ආපනශාලාව "/>
+<Sub_category Nbc="6" Nb="4" Na="රසකැවිලි "/>
+<Sub_category Nbc="6" Nb="5" Na="විවිධ"/>
+<Sub_category Nbc="6" Nb="6" Na="සිල්ලර භාණ්ඩ "/>
+<Sub_category Nbc="6" Nb="7" Na="අවන්හල "/>
+<Sub_category Nbc="6" Nb="8" Na="ස්වයං සේවා "/>
+<Sub_category Nbc="6" Nb="9" Na="සුපිරි වෙළදසැල "/>
+<Category Nb="7" Na="සුරතල් සතුන් "/>
+<Sub_category Nbc="7" Nb="1" Na="ආහාර "/>
+<Sub_category Nbc="7" Nb="2" Na="විවිධ සපයන්නන්  "/>
+<Sub_category Nbc="7" Nb="3" Na="විවාහ වෙනවා"/>
+<Sub_category Nbc="7" Nb="4" Na="ශල්‍ය වෛද්‍යවරයා"/>
+<Category Nb="8" Na="රක්ෂණය "/>
+<Sub_category Nbc="8" Nb="1" Na="රථය "/>
+<Sub_category Nbc="8" Nb="2" Na="සැපය "/>
+<Sub_category Nbc="8" Nb="3" Na="නිවහන "/>
+<Sub_category Nbc="8" Nb="4" Na="මහජන වගකීම "/>
+<Sub_category Nbc="8" Nb="5" Na="ජීවිතය "/>
+<Category Nb="9" Na="රථය "/>
+<Sub_category Nbc="9" Nb="1" Na="ඉන්ධන "/>
+<Sub_category Nbc="9" Nb="2" Na="අලුත්වැඩියා කිරීම "/>
+<Sub_category Nbc="9" Nb="3" Na="නඩත්තු කිරීම "/>
+<Sub_category Nbc="9" Nb="4" Na="ගාල් කරනවා "/>
+<Sub_category Nbc="9" Nb="5" Na="දඩ"/>
+<Category Nb="11" Na="තෑගි "/>
+<Category Nb="12" Na="දරුවන් "/>
+<Sub_category Nbc="12" Nb="1" Na="හෙදිය"/>
+<Sub_category Nbc="12" Nb="2" Na="Misc."/>
+<Sub_category Nbc="12" Nb="3" Na="අධ්‍යනයන් "/>
+<Category Nb="13" Na="අධ්‍යනයන් "/>
+<Sub_category Nbc="13" Nb="1" Na="පාඩම් "/>
+<Sub_category Nbc="13" Nb="2" Na="පාසල් ගාස්තු"/>
+<Sub_category Nbc="13" Nb="3" Na="පොත් "/>
+<Category Nb="14" Na="විවිධ "/>
+<Sub_category Nbc="14" Nb="1" Na="තෑගි "/>
+<Category Nb="15" Na=" මූල්‍ය වියදම් "/>
+<Sub_category Nbc="15" Nb="1" Na="විවිධ "/>
+<Sub_category Nbc="15" Nb="2" Na="බැංකු අයකිරීම් "/>
+<Sub_category Nbc="15" Nb="3" Na="ණය/උකස "/>
+<Sub_category Nbc="15" Nb="4" Na="අයකිරීම් "/>
+<Sub_category Nbc="15" Nb="5" Na="නැවත ලබා දීම "/>
+<Category Nb="16" Na="  වෞර්තිමය වියදම් "/>
+<Sub_category Nbc="16" Nb="1" Na="නැවත ලබා දිය නොහැකි "/>
+<Sub_category Nbc="16" Nb="2" Na="නැවත ලබා දිය හැකි "/>
+<Category Nb="17" Na="බදු  "/>
+<Sub_category Nbc="17" Nb="1" Na="විවිධ "/>
+<Sub_category Nbc="17" Nb="2" Na="ආදායම"/>
+<Sub_category Nbc="17" Nb="3" Na="භූමිය "/>
+<Category Nb="18" Na="නිවාස "/>
+<Sub_category Nbc="18" Nb="1" Na="හෝටලය "/>
+<Sub_category Nbc="18" Nb="2" Na="බදු කුළිය "/>
+<Sub_category Nbc="18" Nb="3" Na="රූපවාහිනී  "/>
+<Sub_category Nbc="18" Nb="4" Na="ලී බඩු "/>
+<Sub_category Nbc="18" Nb="5" Na="අයකිරීම් "/>
+<Sub_category Nbc="18" Nb="6" Na="රත්වීම "/>
+<Sub_category Nbc="18" Nb="7" Na="සැරසිලි"/>
+<Sub_category Nbc="18" Nb="8" Na="ජලය "/>
+<Sub_category Nbc="18" Nb="9" Na="විදුලිය "/>
+<Sub_category Nbc="18" Nb="10" Na="නිත්‍යානුකූල භාණ්ඩ "/>
+<Sub_category Nbc="18" Nb="11" Na="උපකරණය "/>
+<Sub_category Nbc="18" Nb="12" Na="වායූ "/>
+<Sub_category Nbc="18" Nb="13" Na="වත්ත "/>
+<Sub_category Nbc="18" Nb="14" Na="ප්‍රධාන මෙහෙකරුවා "/>
+<Sub_category Nbc="18" Nb="15" Na="දුරකථනය"/>
+<Sub_category Nbc="18" Nb="16" Na="ජංගම දුරකථනය "/>
+<Category Nb="19" Na="විවේක කාලයන් "/>
+<Sub_category Nbc="19" Nb="1" Na="ස්නූකර් ක්‍රීඩාව"/>
+<Sub_category Nbc="19" Nb="2" Na="පෙරළීම "/>
+<Sub_category Nbc="19" Nb="3" Na="චිත්‍රපට "/>
+<Sub_category Nbc="19" Nb="4" Na="රාත්‍රී  සමාජ ශාලාව "/>
+<Sub_category Nbc="19" Nb="5" Na="තොරතුරු තාක්ෂණය "/>
+<Sub_category Nbc="19" Nb="6" Na="ක්‍රීඩා "/>
+<Sub_category Nbc="19" Nb="7" Na="පොත් "/>
+<Sub_category Nbc="19" Nb="8" Na="උද්‍යාන "/>
+<Sub_category Nbc="19" Nb="9" Na="ප්‍රසංග"/>
+<Sub_category Nbc="19" Nb="10" Na="ක්‍රීඩා "/>
+<Sub_category Nbc="19" Nb="11" Na="රූපමය  "/>
+<Sub_category Nbc="19" Nb="12" Na="චාරිකා "/>
+<Sub_category Nbc="19" Nb="13" Na="උපකරණ"/>
+<Sub_category Nbc="19" Nb="14" Na="කෞතුකාගාර/ප්‍රදර්ශන "/>
+<Category Nb="20" Na="ණය/උකස "/>
+<Sub_category Nbc="20" Nb="1" Na="ප්‍රාග්ධනය "/>
+<Category Nb="21" Na="සැපය "/>
+<Sub_category Nbc="21" Nb="1" Na="රක්ෂණය "/>
+<Sub_category Nbc="21" Nb="2" Na="දන්ත  වෛද්‍යවරයා "/>
+<Sub_category Nbc="21" Nb="3" Na="රෝහල "/>
+<Sub_category Nbc="21" Nb="4" Na="භෞතික වෛද්‍යවරයා"/>
+<Sub_category Nbc="21" Nb="5" Na="වෛද්‍යවරයා "/>
+<Sub_category Nbc="21" Nb="6" Na="අක්ෂි වෛද්‍යවරයා"/>
+<Sub_category Nbc="21" Nb="7" Na="අස්ථි ශාස්ත්‍ර වෛද්‍යවරයා"/>
+<Sub_category Nbc="21" Nb="8" Na=" රසායන විද්‍යාඤයා "/>
+<Sub_category Nbc="21" Nb="9" Na="සමාජ ශුරක්ෂිතභාවය "/>
+<Category Nb="22" Na="පරිස්සම "/>
+<Sub_category Nbc="22" Nb="1" Na="බාබර් "/>
+<Sub_category Nbc="22" Nb="2" Na="වස්ත්‍ර"/>
+<Category Nb="23" Na="ගමනාගමනය "/>
+<Sub_category Nbc="23" Nb="1" Na="බස් රථය "/>
+<Sub_category Nbc="23" Nb="2" Na="මීටරය "/>
+<Sub_category Nbc="23" Nb="3" Na="රේන්ද "/>
+<Sub_category Nbc="23" Nb="4" Na="දුම්රිය "/>
+<Sub_category Nbc="23" Nb="5" Na="ගුවන් රැහැන් මඟ "/>
+<Sub_category Nbc="23" Nb="6" Na="චාරිකා "/>
+<Sub_category Nbc="23" Nb="7" Na="වාතය "/>
+<Category Nb="24" Na="නිවාඩු දිනයන්"/>
+<Sub_category Nbc="24" Nb="1" Na="නිවාස "/>
+<Sub_category Nbc="24" Nb="2" Na="ගමන් "/>
+<Sub_category Nbc="24" Nb="3" Na="චාරිකා "/></Grisbi_categ>

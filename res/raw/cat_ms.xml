@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Pendapatan lain"/>
+<Sub_category Nbc="1" Nb="1" Na="Faedah penggangguran"/>
+<Sub_category Nbc="1" Nb="2" Na="Elaun keluarga"/>
+<Sub_category Nbc="1" Nb="3" Na="Kredit cukai"/>
+<Sub_category Nbc="1" Nb="4" Na="Perjudian"/>
+<Sub_category Nbc="1" Nb="5" Na="Insurans bersama"/>
+<Sub_category Nbc="1" Nb="6" Na="Sekuriti sosial"/>
+<Category Nb="2" Na="Persaraan"/>
+<Sub_category Nbc="2" Nb="1" Na="Dana Persaraan"/>
+<Sub_category Nbc="2" Nb="2" Na="Pencen"/>
+<Sub_category Nbc="2" Nb="3" Na="Pencen tambahan"/>
+<Category Nb="3" Na="Pendapatan pelaburan"/>
+<Sub_category Nbc="3" Nb="1" Na="Dividen"/>
+<Sub_category Nbc="3" Nb="2" Na="Faedah"/>
+<Sub_category Nbc="3" Nb="3" Na="Laba modal"/>
+<Category Nb="4" Na="Gaji"/>
+<Sub_category Nbc="4" Nb="1" Na="Lebih masa"/>
+<Sub_category Nbc="4" Nb="2" Na="Elaun cuti"/>
+<Sub_category Nbc="4" Nb="3" Na="Premium pelbagai"/>
+<Sub_category Nbc="4" Nb="4" Na="Bayaran kejayaan"/>
+<Sub_category Nbc="4" Nb="5" Na="Gaji bersih"/>
+<Category Nb="5" Na="Pendapatan pelbagai"/>
+<Sub_category Nbc="5" Nb="1" Na="Hadiah"/>
+<Sub_category Nbc="5" Nb="2" Na="Bayaran balik"/>
+<Sub_category Nbc="5" Nb="3" Na="Jualan terpakai"/>
+<Category Nb="6" Na="Makanan"/>
+<Sub_category Nbc="6" Nb="1" Na="Bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Pembuat roti"/>
+<Sub_category Nbc="6" Nb="3" Na="Kantin"/>
+<Sub_category Nbc="6" Nb="4" Na="Manisan"/>
+<Sub_category Nbc="6" Nb="5" Na="Pelbagai"/>
+<Sub_category Nbc="6" Nb="6" Na="Barang runcit"/>
+<Sub_category Nbc="6" Nb="7" Na="Restoran"/>
+<Sub_category Nbc="6" Nb="8" Na="Layan diri"/>
+<Sub_category Nbc="6" Nb="9" Na="Supermarket"/>
+<Category Nb="7" Na="Haiwan kesayangan"/>
+<Sub_category Nbc="7" Nb="1" Na="Makanan"/>
+<Sub_category Nbc="7" Nb="2" Na="Pelbagai bekalan"/>
+<Sub_category Nbc="7" Nb="3" Na="Dandanan"/>
+<Sub_category Nbc="7" Nb="4" Na="Doktor haiwan"/>
+<Category Nb="8" Na="Insurans"/>
+<Sub_category Nbc="8" Nb="1" Na="Kereta"/>
+<Sub_category Nbc="8" Nb="2" Na="Kesihatan"/>
+<Sub_category Nbc="8" Nb="3" Na="Rumah"/>
+<Sub_category Nbc="8" Nb="4" Na="Liabiliti awam"/>
+<Sub_category Nbc="8" Nb="5" Na="Hayat"/>
+<Category Nb="9" Na="Kereta"/>
+<Sub_category Nbc="9" Nb="1" Na="Bahan Api"/>
+<Sub_category Nbc="9" Nb="2" Na="Baik pulih"/>
+<Sub_category Nbc="9" Nb="3" Na="Penyelenggaraan"/>
+<Sub_category Nbc="9" Nb="4" Na="Parkir"/>
+<Sub_category Nbc="9" Nb="5" Na="Denda"/>
+<Category Nb="11" Na="Hadiah"/>
+<Category Nb="12" Na="Anak"/>
+<Sub_category Nbc="12" Nb="1" Na="Jururawat"/>
+<Sub_category Nbc="12" Nb="2" Na="Pelbagai"/>
+<Sub_category Nbc="12" Nb="3" Na="Pembelajaran"/>
+<Category Nb="13" Na="Pembelajaran"/>
+<Sub_category Nbc="13" Nb="1" Na="Pelajaran"/>
+<Sub_category Nbc="13" Nb="2" Na="Yuran sekolah"/>
+<Sub_category Nbc="13" Nb="3" Na="Buku"/>
+<Category Nb="14" Na="Pelbagai"/>
+<Sub_category Nbc="14" Nb="1" Na="Hadiah"/>
+<Category Nb="15" Na="Perbelanjaan kewangan"/>
+<Sub_category Nbc="15" Nb="1" Na="Pelbagai"/>
+<Sub_category Nbc="15" Nb="2" Na="Bayaran bank"/>
+<Sub_category Nbc="15" Nb="3" Na="Pinjaman/Gadaian"/>
+<Sub_category Nbc="15" Nb="4" Na="Bayaran"/>
+<Sub_category Nbc="15" Nb="5" Na="Bayaran balik"/>
+<Category Nb="16" Na="Pembelanjaan profesional"/>
+<Sub_category Nbc="16" Nb="1" Na="Tidak boleh bayar balik"/>
+<Sub_category Nbc="16" Nb="2" Na="Boleh bayar balik"/>
+<Category Nb="17" Na="Cukai"/>
+<Sub_category Nbc="17" Nb="1" Na="Pelbagai"/>
+<Sub_category Nbc="17" Nb="2" Na="Pendapatan"/>
+<Sub_category Nbc="17" Nb="3" Na="Hartanah"/>
+<Category Nb="18" Na="Perumahan"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Sewa"/>
+<Sub_category Nbc="18" Nb="3" Na="TV"/>
+<Sub_category Nbc="18" Nb="4" Na="Perabot"/>
+<Sub_category Nbc="18" Nb="5" Na="Bayaran"/>
+<Sub_category Nbc="18" Nb="6" Na="Pemanasan"/>
+<Sub_category Nbc="18" Nb="7" Na="Hiasan"/>
+<Sub_category Nbc="18" Nb="8" Na="Air"/>
+<Sub_category Nbc="18" Nb="9" Na="Elektrik"/>
+<Sub_category Nbc="18" Nb="10" Na="Kelengkapan rumah"/>
+<Sub_category Nbc="18" Nb="11" Na="Peralatan"/>
+<Sub_category Nbc="18" Nb="12" Na="Gas"/>
+<Sub_category Nbc="18" Nb="13" Na="Kebun"/>
+<Sub_category Nbc="18" Nb="14" Na="Pengurus rumah tangga"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefon"/>
+<Sub_category Nbc="18" Nb="16" Na="Telefon Bimbit"/>
+<Category Nb="19" Na="Hiburan"/>
+<Sub_category Nbc="19" Nb="1" Na="Snooker"/>
+<Sub_category Nbc="19" Nb="2" Na="Bowling"/>
+<Sub_category Nbc="19" Nb="3" Na="Cereka"/>
+<Sub_category Nbc="19" Nb="4" Na="Kelab malam"/>
+<Sub_category Nbc="19" Nb="5" Na="IT"/>
+<Sub_category Nbc="19" Nb="6" Na="Permainan"/>
+<Sub_category Nbc="19" Nb="7" Na="Buku"/>
+<Sub_category Nbc="19" Nb="8" Na="Taman"/>
+<Sub_category Nbc="19" Nb="9" Na="Konsert"/>
+<Sub_category Nbc="19" Nb="10" Na="Sukan"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Pelancongan"/>
+<Sub_category Nbc="19" Nb="13" Na="Peralatan"/>
+<Sub_category Nbc="19" Nb="14" Na="Muzium/Pameran"/>
+<Category Nb="20" Na="Pinjaman/Gadaian"/>
+<Sub_category Nbc="20" Nb="1" Na="Modal"/>
+<Category Nb="21" Na="Kesihatan"/>
+<Sub_category Nbc="21" Nb="1" Na="Insurans"/>
+<Sub_category Nbc="21" Nb="2" Na="Pergigian"/>
+<Sub_category Nbc="21" Nb="3" Na="Hospital"/>
+<Sub_category Nbc="21" Nb="4" Na="Kinesiterapi"/>
+<Sub_category Nbc="21" Nb="5" Na="Doktor"/>
+<Sub_category Nbc="21" Nb="6" Na="Ahli oftalmologi&#9;"/>
+<Sub_category Nbc="21" Nb="7" Na="Osteopath"/>
+<Sub_category Nbc="21" Nb="8" Na="Ahli kimia"/>
+<Sub_category Nbc="21" Nb="9" Na="Sekuriti sosial"/>
+<Category Nb="22" Na="Penjagaan"/>
+<Sub_category Nbc="22" Nb="1" Na="Pendandan rambut"/>
+<Sub_category Nbc="22" Nb="2" Na="Pakaian"/>
+<Category Nb="23" Na="Pengangkutan"/>
+<Sub_category Nbc="23" Nb="1" Na="Bas"/>
+<Sub_category Nbc="23" Nb="2" Na="Metro"/>
+<Sub_category Nbc="23" Nb="3" Na="Tol"/>
+<Sub_category Nbc="23" Nb="4" Na="Keretapi"/>
+<Sub_category Nbc="23" Nb="5" Na="Trem"/>
+<Sub_category Nbc="23" Nb="6" Na="Perjalanan"/>
+<Sub_category Nbc="23" Nb="7" Na="Penerbangan"/>
+<Category Nb="24" Na="Percutian"/>
+<Sub_category Nbc="24" Nb="1" Na="Perumahan"/>
+<Sub_category Nbc="24" Nb="2" Na="Ziarah"/>
+<Sub_category Nbc="24" Nb="3" Na="Perlancongan"/></Grisbi_categ>
