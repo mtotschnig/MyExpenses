@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_232">
+    <item>Cetak ke PDF kini menyokong skrip non-Western</item>
+    <item>Terjemahan Bahasa Melayu... yay</item>
+  </string-array>
   <string-array name="whats_new_231">
     <item>Autoisi dari transaksi terakhir untuk penerima/pembayar yang sama</item>
     <item>Templat segera jika ketuk pantas pada masukan dalam senarai templat</item>
