@@ -23,11 +23,13 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -55,12 +57,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_DATE             + " DATETIME not null, "
     + KEY_AMOUNT           + " integer not null, "
     + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-    + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
+    + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
     + KEY_PAYEEID          + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
     + KEY_TRANSFER_PEER    + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
     + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
-    + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
+    + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
     + KEY_STATUS           + " integer default 0, "
     + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "',"
     + KEY_REFERENCE_NUMBER + " text);";
@@ -134,10 +136,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_COMMENT          + " text, "
       + KEY_AMOUNT           + " integer not null, "
       + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-      + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
+      + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
       + KEY_PAYEEID          + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
       + KEY_TRANSFER_PEER    + " boolean default 0, "
-      + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
+      + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
       + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
       + KEY_TITLE            + " text not null, "
       + KEY_USAGES           + " integer default 0, "
@@ -173,9 +175,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    */
   private static final String PLAN_INSTANCE_STATUS_CREATE =
       "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS 
-      + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ")," +
+      + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE," +
       KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
-      KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), " +
+      KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
       "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
   
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
@@ -188,7 +190,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onOpen(SQLiteDatabase db) {
       super.onOpen(db);
-      if (!db.isReadOnly()) {
+      if (!db.isReadOnly() && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ) {
           // Enable foreign key constraints
           db.execSQL("PRAGMA foreign_keys=ON;");
       }
@@ -595,5 +597,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("UPDATE accounts set currency = 'ZMW' WHERE currency = 'ZMK'");
       db.execSQL("UPDATE currency set code = 'ZMW' WHERE code = 'ZMK'");
     }
+  }
+  @SuppressLint("NewApi")
+  @Override
+  public void onConfigure(SQLiteDatabase db) {
+    db.setForeignKeyConstraintsEnabled(true);
+    super.onConfigure(db);
+  }
+  public static boolean hasForeignKeySupport() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
   }
 }
