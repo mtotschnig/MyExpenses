@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
@@ -685,27 +686,37 @@ public class Account extends Model {
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
         selectArgs);
-    cr().delete(
-        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-        KEY_TRANSACTIONID + " IN (" + rowSelect + ")",
-        selectArgs);
-    cr().delete(
-        TransactionProvider.TRANSACTIONS_URI,
-        KEY_ROWID + " IN (" + rowSelect + ")",
-        selectArgs);
+    if (!TransactionDatabase.hasForeignKeySupport()) {
+      cr().delete(
+          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_TRANSACTIONID + " IN (" + rowSelect + ")",
+          selectArgs);
+      //try to be on the safe side. There could be children
+      //whose account is set differently
+      cr().delete(
+          TransactionProvider.TRANSACTIONS_URI,
+          KEY_PARENTID + " IN (" + rowSelect + ")",
+          selectArgs);
+      cr().delete(
+          TransactionProvider.TRANSACTIONS_URI,
+          KEY_ROWID + " IN (" + rowSelect + ")",
+          selectArgs);
+    }
   }
   public void deleteAllTemplates() {
-    String[] selectArgs = new String[] { String.valueOf(getId()) };
-    cr().delete(
-        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-        KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
-        selectArgs);
-    cr().delete(
-        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-        KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_TRANSFER_ACCOUNT + " = ?)",
-        selectArgs);
-    cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
-    cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
+    if (!TransactionDatabase.hasForeignKeySupport()) {
+      String[] selectArgs = new String[] { String.valueOf(getId()) };
+      cr().delete(
+          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
+          selectArgs);
+      cr().delete(
+          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_TRANSFER_ACCOUNT + " = ?)",
+          selectArgs);
+      cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+      cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
+    }
   }
 
   /**

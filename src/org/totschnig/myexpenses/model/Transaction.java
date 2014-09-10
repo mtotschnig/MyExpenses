@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -244,10 +245,12 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
-    cr().delete(
-        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-        KEY_TRANSACTIONID + " = ?",
-        new String[]{String.valueOf(id)});
+    if (!TransactionDatabase.hasForeignKeySupport()) {
+      cr().delete(
+          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_TRANSACTIONID + " = ?",
+          new String[]{String.valueOf(id)});
+    }
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass

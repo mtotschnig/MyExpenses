@@ -627,6 +627,7 @@ public class TransactionProvider extends ContentProvider {
           KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
           new String[] {segment});
       //we delete the transaction, its children, its transfer peers, and transfer peers of its children
+      //children is only necessary for Android 2.1, above they would be dealt with through ON DELETE CASCADE
       count = db.delete(TABLE_TRANSACTIONS,
           KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
               + KEY_ROWID + " IN "
