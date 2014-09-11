@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
@@ -48,12 +49,15 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -479,10 +483,18 @@ public class Account extends Model {
     if (account == null) {
       return;
     }
-    account.deleteAllTransactions(false);
-    account.deleteAllTemplates();
-    accounts.remove(id);
-    cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null);
+    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+    ops.add(account.updateTransferPeersForTransactionDelete(buildTransactionRowSelect(false)));
+    ops.add(ContentProviderOperation.newDelete(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
+        .build());
+    try {
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+      accounts.remove(id);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -614,14 +626,28 @@ public class Account extends Model {
    * @param reconciled if true only reconciled expenses will be deleted
    */
   public void reset(boolean reconciled) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
     long currentBalance = (reconciled ? getReconciledBalance() : getTotalBalance())
         .getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
-    ContentValues args = new ContentValues();
-    args.put(KEY_OPENING_BALANCE,currentBalance);
-    cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(), args,
-        null, null);
-    deleteAllTransactions(reconciled);
+    ops.add(ContentProviderOperation.newUpdate(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+        .withValue(KEY_OPENING_BALANCE,currentBalance)
+        .build());
+    String rowSelect = buildTransactionRowSelect(reconciled);
+    ops.add(updateTransferPeersForTransactionDelete(rowSelect));
+    ops.add(ContentProviderOperation.newDelete(
+        TransactionProvider.TRANSACTIONS_URI)
+        .withSelection(
+              KEY_ROWID + " IN (" + rowSelect + ")",
+              new String[] { String.valueOf(getId()) })
+         .build());
+    try {
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
   public void markAsExported() {
     ContentValues args = new ContentValues();
@@ -668,55 +694,24 @@ public class Account extends Model {
     return result;
   }
 
-  /**
-   * For transfers the peer transaction will survive, but we transform it to a normal transaction
-   * with a note about the deletion of the peer_transaction
-   * @param reconciled 
-   */
-  public void deleteAllTransactions(boolean reconciled) {
+  private static String buildTransactionRowSelect(boolean reconciled) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
     if (reconciled) {
       rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
     }
-    String[] selectArgs = new String[] { String.valueOf(getId()) };
+    return rowSelect;
+  }
+  private ContentProviderOperation updateTransferPeersForTransactionDelete(String rowSelect) {
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
-        selectArgs);
-    if (!TransactionDatabase.hasForeignKeySupport()) {
-      cr().delete(
-          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_TRANSACTIONID + " IN (" + rowSelect + ")",
-          selectArgs);
-      //try to be on the safe side. There could be children
-      //whose account is set differently
-      cr().delete(
-          TransactionProvider.TRANSACTIONS_URI,
-          KEY_PARENTID + " IN (" + rowSelect + ")",
-          selectArgs);
-      cr().delete(
-          TransactionProvider.TRANSACTIONS_URI,
-          KEY_ROWID + " IN (" + rowSelect + ")",
-          selectArgs);
-    }
-  }
-  public void deleteAllTemplates() {
-    if (!TransactionDatabase.hasForeignKeySupport()) {
-      String[] selectArgs = new String[] { String.valueOf(getId()) };
-      cr().delete(
-          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
-          selectArgs);
-      cr().delete(
-          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_TRANSFER_ACCOUNT + " = ?)",
-          selectArgs);
-      cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
-      cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
-    }
+    return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+        .withValues(args)
+        .withSelection(
+            KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
+            new String[] { String.valueOf(getId()) })
+        .build();
   }
 
   /**

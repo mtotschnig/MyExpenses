@@ -15,12 +15,17 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.util.ArrayList;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import android.content.ContentProvider;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -513,6 +518,9 @@ public class TransactionProvider extends ContentProvider {
   }
   @Override
   public Uri insert(Uri uri, ContentValues values) {
+    if (MyApplication.debug) {
+      Log.d(TAG,values.toString());
+    }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id = 0;
     String newUri;
@@ -608,31 +616,35 @@ public class TransactionProvider extends ContentProvider {
       //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
       //because the split would be left in an invalid state, hence we transform the peer to a normal split part
       //first we find out the account label
-      Cursor c = db.query(
-          TABLE_ACCOUNTS,
-          new String []{KEY_LABEL},
-          KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
-          new String[] {segment},
-          null, null, null);
-      c.moveToFirst();
-      //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
-      String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
-      c.close();
-      ContentValues args = new ContentValues();
-      args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
-      args.putNull(KEY_TRANSFER_ACCOUNT);
-      args.putNull(KEY_TRANSFER_PEER);
-      db.update(TABLE_TRANSACTIONS,
-          args,
-          KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
-          new String[] {segment});
-      //we delete the transaction, its children, its transfer peers, and transfer peers of its children
-      //children is only necessary for Android 2.1, above they would be dealt with through ON DELETE CASCADE
-      count = db.delete(TABLE_TRANSACTIONS,
-          KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
-              + KEY_ROWID + " IN "
-              + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
-         new String[] {segment,segment,segment,segment});
+      db.beginTransaction();
+      try {
+        Cursor c = db.query(
+            TABLE_ACCOUNTS,
+            new String []{KEY_LABEL},
+            KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
+            new String[] {segment},
+            null, null, null);
+        c.moveToFirst();
+        //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
+        String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
+        c.close();
+        ContentValues args = new ContentValues();
+        args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
+        args.putNull(KEY_TRANSFER_ACCOUNT);
+        args.putNull(KEY_TRANSFER_PEER);
+        db.update(TABLE_TRANSACTIONS,
+            args,
+            KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
+            new String[] {segment});
+        //we delete the transaction, and its transfer peers,
+        //children are deleted through ON DELETE CASCADE
+        count = db.delete(TABLE_TRANSACTIONS,
+            KEY_ROWID + " = ?  OR " + KEY_TRANSFER_PEER + " = ?",
+           new String[] {segment,segment});
+        db.setTransactionSuccessful();
+      } finally {
+        db.endTransaction();
+      }
       break;
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
@@ -898,6 +910,29 @@ public class TransactionProvider extends ContentProvider {
     }
     return count;
   }
+  /**
+  * Apply the given set of {@link ContentProviderOperation}, executing inside
+  * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
+  * any single one fails.
+  */
+  @Override
+  public ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations)
+      throws OperationApplicationException {
+    final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    db.beginTransaction();
+      try {
+      final int numOperations = operations.size();
+      final ContentProviderResult[] results = new ContentProviderResult[numOperations];
+      for (int i = 0; i < numOperations; i++) {
+      results[i] = operations.get(i).apply(this, results, i);
+    }
+      db.setTransactionSuccessful();
+      return results;
+    } finally {
+      db.endTransaction();
+    }
+  }
+
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);

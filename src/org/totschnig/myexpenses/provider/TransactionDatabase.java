@@ -34,7 +34,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 43;
+  public static final int DATABASE_VERSION = 44;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -597,14 +597,91 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("UPDATE accounts set currency = 'ZMW' WHERE currency = 'ZMK'");
       db.execSQL("UPDATE currency set code = 'ZMW' WHERE code = 'ZMK'");
     }
+    if (oldVersion < 44) {
+      db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
+      db.execSQL("CREATE TABLE transactions (" +
+          " _id integer primary key autoincrement," +
+          " comment text, date DATETIME not null," +
+          " amount integer not null," +
+          " cat_id integer references categories(_id)," +
+          " account_id integer not null references accounts(_id) ON DELETE CASCADE," +
+          " payee_id integer references payee(_id)," +
+          " transfer_peer integer references transactions(_id)," +
+          " transfer_account integer references accounts(_id)," +
+          " method_id integer references paymentmethods(_id)," +
+          " parent_id integer references transactions(_id) ON DELETE CASCADE," +
+          " status integer default 0," +
+          " cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'RECONCILED'," +
+          " number text)");
+      db.execSQL("INSERT INTO transactions " +
+          "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number) " +
+          "SELECT " +
+            "_id, " +
+            "comment, " +
+            "date, " +
+            "amount, "+
+            "cat_id, " +
+            "account_id, " +
+            "payee_id, " +
+            "transfer_peer, " +
+            "transfer_account, " +
+            "method_id," +
+            "parent_id," +
+            "status," +
+            "cr_status, " +
+            "number " +
+          "FROM transactions_old");
+      db.execSQL("DROP TABLE transactions_old");
+      db.execSQL("ALTER TABLE templates RENAME to templates_old");
+      db.execSQL("CREATE TABLE templates (" +
+          " _id integer primary key autoincrement," +
+          " comment text," +
+          " amount integer not null," +
+          " cat_id integer references categories(_id)," +
+          " account_id integer not null references accounts(_id) ON DELETE CASCADE," +
+          " payee_id integer references payee(_id)," +
+          " transfer_peer boolean default false," +
+          " transfer_account integer references accounts(_id) ON DELETE CASCADE," +
+          " method_id integer references paymentmethods(_id)," +
+          " title text not null," +
+          " usages integer default 0," +
+          " plan_id integer, " +
+          " plan_execution boolean default 0, " +
+          " unique(account_id,title));");
+      db.execSQL("INSERT INTO templates " +
+          "(_id,comment,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,title,usages,plan_id,plan_execution) " +
+          "SELECT " +
+            "_id, " +
+            "comment, " +
+            "amount, "+
+            "cat_id, " +
+            "account_id, " +
+            "payee_id, " +
+            "transfer_peer, " +
+            "transfer_account, " +
+            "method_id," +
+            "title," +
+            "usages, " +
+            "plan_id, " +
+            "plan_execution " +
+          "FROM templates_old");
+      db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old");
+      db.execSQL("CREATE TABLE planinstance_transaction " +
+          "(template_id integer references templates(_id) ON DELETE CASCADE, " +
+          "instance_id integer, " +
+          "transaction_id integer references transactions(_id) ON DELETE CASCADE, " +
+          "primary key (instance_id,transaction_id));");
+      db.execSQL("INSERT INTO planinstance_transaction " +
+          "(template_id,instance_id,transaction_id)" +
+          "SELECT " +
+          "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
+      db.execSQL("DROP TABLE planinstance_transaction_old");
+    }
   }
   @SuppressLint("NewApi")
   @Override
   public void onConfigure(SQLiteDatabase db) {
     db.setForeignKeyConstraintsEnabled(true);
     super.onConfigure(db);
-  }
-  public static boolean hasForeignKeySupport() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
   }
 }
