@@ -16,10 +16,15 @@
  --><resources>
     <string name="account">Account</string>
     <string name="account_type_asset">Asset account</string>
+    <string name="account_type_asset_plural">Asset accounts</string>
     <string name="account_type_bank">Bank account</string>
+    <string name="account_type_bank_plural">Bank accounts</string>
     <string name="account_type_cash">Cash account</string>
+    <string name="account_type_cash_plural">Cash accounts</string>
     <string name="account_type_ccard">Credit card</string>
+    <string name="account_type_ccard_plural">Credit cards</string>
     <string name="account_type_liability">Liabilities account</string>
+    <string name="account_type_liability_plural">Liabilities accounts</string>
     <string name="already_defined">%1$s already defined</string>
     <string name="amount">Amount</string>
     <string name="app_name">My Expenses</string>

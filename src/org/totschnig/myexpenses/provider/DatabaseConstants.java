@@ -136,6 +136,8 @@ public class DatabaseConstants {
   public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
   public static final String KEY_TRANSFER_ENABLED = "transfer_enabled";
   public static final String KEY_SUM = "sum";
+  public static final String KEY_SORT_ORDER = "sort_order";
+  public static final String KEY_SORT_ORDER_TYPE = "sort_order_type";
   /**
    * column alias for the second group (month or week)
    */

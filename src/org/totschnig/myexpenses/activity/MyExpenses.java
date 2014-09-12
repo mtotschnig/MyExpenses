@@ -341,7 +341,7 @@ public class MyExpenses extends LaunchActivity implements
             != Type.CASH) {
           showBalanceCommand = true;
         }
-      } catch (IllegalArgumentException ex) {}
+      } catch (IllegalArgumentException ex) {/*aggregate*/}
     }
     Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EDIT_ACCOUNT_COMMAND),
         mAccountId > 0);
@@ -764,7 +764,7 @@ public class MyExpenses extends LaunchActivity implements
     switch(id) {
     case ACCOUNTS_CURSOR:
       Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
-      builder.appendQueryParameter("mergeCurrencyAggregates", "1");
+      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
       return new CursorLoader(this,
           builder.build(), null, null, null, null);
     }
@@ -1026,11 +1026,11 @@ public class MyExpenses extends LaunchActivity implements
       if (is_aggregate) {
         hide_cr = true;
       } else {
-      Type type;
+        Type type = null;
         try {
           type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
         } catch (IllegalArgumentException ex) {
-          type = Type.CASH;
+          //aggregate
         }
         hide_cr = type.equals(Type.CASH);
       }
@@ -1072,14 +1072,27 @@ public class MyExpenses extends LaunchActivity implements
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.accounts_header, parent, false);
       }
-      ((TextView) convertView.findViewById(R.id.sectionLabel)).setText(getHeaderId(position)==0?R.string.pref_manage_accounts_title:R.string.menu_aggregates);
+      long headerId = getHeaderId(position);
+      int headerRes;
+      if (headerId == Type.values().length) {
+        headerRes = R.string.menu_aggregates;
+      } else {
+        headerRes = Type.values()[(int) headerId].toStringResPlural();
+      }
+      ((TextView) convertView.findViewById(R.id.sectionLabel)).setText(headerRes);
       return convertView;
     }
     @Override
     public long getHeaderId(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
-      return c.getLong(columnIndexRowId)>0 ? 0 : 1;
+      Type type;
+      try {
+        type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+        return type.ordinal();
+      } catch (IllegalArgumentException ex) {
+        return Type.values().length;
+      }
     }
   }
   protected void onSaveInstanceState (Bundle outState) {

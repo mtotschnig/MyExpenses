@@ -105,7 +105,7 @@ public class Account extends Model {
   PROJECTION_EXTENDED = new String[baseLength+1];
   System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
   PROJECTION_EXTENDED[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
-  PROJECTION_FULL = new String[baseLength+11];
+  PROJECTION_FULL = new String[baseLength+13];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
       " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
@@ -128,7 +128,10 @@ public class Account extends Model {
   PROJECTION_FULL[baseLength+8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
   PROJECTION_FULL[baseLength+9] = HAS_FUTURE;
   PROJECTION_FULL[baseLength+10] = HAS_CLEARED;
+  PROJECTION_FULL[baseLength+11] = Type.sqlOrderExpression();
+  PROJECTION_FULL[baseLength+12] = KEY_SORT_ORDER;
   }
+
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
@@ -148,6 +151,17 @@ public class Account extends Model {
       case LIABILITY: return ctx.getString(R.string.account_type_liability);
       }
       return "";
+    }
+    public int toStringResPlural() {
+      switch(this) {
+      case CASH: return R.string.account_type_cash_plural;
+      case BANK: return R.string.account_type_bank_plural;
+      case CCARD: return R.string.account_type_ccard_plural;
+      case ASSET: return R.string.account_type_asset_plural;
+      case LIABILITY: return R.string.account_type_liability_plural;
+      default:
+        return 0;
+      }
     }
     public String toQifName() {
       switch (this) {
@@ -171,6 +185,24 @@ public class Account extends Model {
       } else {
         return BANK;
       }
+    }
+    public static String sqlOrderExpression() {
+      String result = "CASE " + KEY_TYPE;
+      for (Type type: Type.values()) {
+        result += " WHEN '"+type.name()+"' THEN "+type.getSortOrder();
+      }
+      result += " ELSE -1 END AS "+KEY_SORT_ORDER_TYPE;
+      return result;
+    }
+    private String getSortOrder() {
+      switch(this) {
+      case CASH: return "0";
+      case BANK: return "1";
+      case CCARD: return "2";
+      case ASSET: return "3";
+      case LIABILITY: return "4";
+      }
+      return "-1";
     }
     static {
       JOIN = Utils.joinEnum(Type.class);
