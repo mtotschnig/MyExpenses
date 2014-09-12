@@ -677,6 +677,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "SELECT " +
           "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
       db.execSQL("DROP TABLE planinstance_transaction_old");
+      db.execSQL("ALTER TABLE accounts add column sort_order integer");
     }
   }
   @SuppressLint("NewApi")
