@@ -34,6 +34,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -319,5 +321,13 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     setResult(RESULT_OK,intent);
     finish();
     //no need to call super after finish
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    MenuItemCompat.setShowAsAction(
+        menu.add(Menu.NONE, R.id.SET_SORT_KEY_COMMAND, 0, R.string.menu_set_sort_key),
+        MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    return true;
   }
 }
