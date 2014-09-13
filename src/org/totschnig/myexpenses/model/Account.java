@@ -81,6 +81,8 @@ public class Account extends Model {
   public String description;
 
   public int color;
+  
+  public int sortKey = 0;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   private static String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
@@ -96,6 +98,7 @@ public class Account extends Model {
     KEY_COLOR,
     KEY_GROUPING,
     KEY_TYPE,
+    KEY_SORT_KEY,
     "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
         +      "AS " + KEY_TRANSFER_ENABLED,
@@ -105,7 +108,7 @@ public class Account extends Model {
   PROJECTION_EXTENDED = new String[baseLength+1];
   System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
   PROJECTION_EXTENDED[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
-  PROJECTION_FULL = new String[baseLength+13];
+  PROJECTION_FULL = new String[baseLength+12];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
       " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
@@ -129,7 +132,6 @@ public class Account extends Model {
   PROJECTION_FULL[baseLength+9] = HAS_FUTURE;
   PROJECTION_FULL[baseLength+10] = HAS_CLEARED;
   PROJECTION_FULL[baseLength+11] = Type.sqlOrderExpression();
-  PROJECTION_FULL[baseLength+12] = KEY_SORT_ORDER;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
@@ -191,7 +193,7 @@ public class Account extends Model {
       for (Type type: Type.values()) {
         result += " WHEN '"+type.name()+"' THEN "+type.getSortOrder();
       }
-      result += " ELSE -1 END AS "+KEY_SORT_ORDER_TYPE;
+      result += " ELSE -1 END AS "+KEY_SORT_KEY_TYPE;
       return result;
     }
     private String getSortOrder() {
@@ -599,6 +601,7 @@ public class Account extends Model {
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
     }
+    this.sortKey = c.getInt(c.getColumnIndexOrThrow(KEY_SORT_KEY));
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
@@ -1010,6 +1013,7 @@ public class Account extends Model {
     initialValues.put(KEY_TYPE,type.name());
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR,color);
+    initialValues.put(KEY_SORT_KEY, sortKey);
     
     if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);

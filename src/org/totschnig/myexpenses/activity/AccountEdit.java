@@ -20,10 +20,13 @@ import java.util.ArrayList;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
@@ -35,6 +38,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +55,8 @@ import android.widget.Toast;
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class AccountEdit extends AmountActivity implements OnItemSelectedListener {
+public class AccountEdit extends AmountActivity implements
+    OnItemSelectedListener, EditTextDialogListener {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
@@ -329,5 +334,37 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
         menu.add(Menu.NONE, R.id.SET_SORT_KEY_COMMAND, 0, R.string.menu_set_sort_key),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
     return true;
+  }
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    if (command == R.id.SET_SORT_KEY_COMMAND) {
+      Bundle args = new Bundle();
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_set_sort_key));
+      args.putString(EditTextDialog.KEY_VALUE, String.valueOf(mAccount.sortKey));
+      args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
+      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "SET_SORT_KEY");
+      return true;
+    }
+    return super.dispatchCommand(command, tag);
+  }
+  @Override
+  public void onFinishEditDialog(Bundle args) {
+    try {
+      mAccount.sortKey = Integer.valueOf(args.getString(EditTextDialog.KEY_RESULT));
+      if (mAccount.getId()!=0) {
+        startTaskExecution(
+            TaskExecutionFragment.TASK_UPDATE_SORT_KEY,
+            new Long[] {mAccount.getId()},
+            mAccount.sortKey, 0);
+      }
+    } catch (NumberFormatException e) {
+     Toast.makeText(this, "Could not parse as number", Toast.LENGTH_LONG).show();
+    }
+    
+  }
+  @Override
+  public void onCancelEditDialog() {
+    // TODO Auto-generated method stub
+    
   }
 }

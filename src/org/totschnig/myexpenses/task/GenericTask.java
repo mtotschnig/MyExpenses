@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
@@ -197,7 +198,15 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
     case TaskExecutionFragment.TASK_BALANCE:
-      Account.getInstanceFromDb(ids[0]).balance((Boolean)mExtra);
+      Account.getInstanceFromDb(ids[0]).balance((Boolean) mExtra);
+      return null;
+    case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
+      cr = MyApplication.getInstance().getContentResolver();
+      ContentValues values = new ContentValues();
+      values.put(DatabaseConstants.KEY_SORT_KEY, (Integer) mExtra);
+      cr.update(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
+          values,null,null);
       return null;
     }
     return null;

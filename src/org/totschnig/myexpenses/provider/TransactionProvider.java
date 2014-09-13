@@ -329,6 +329,7 @@ public class TransactionProvider extends ContentProvider {
             "-1 AS " + KEY_COLOR,
             "'NONE' AS " + KEY_GROUPING,
             "'AGGREGATE' AS " + KEY_TYPE,
+            "0 AS " + KEY_SORT_KEY,
             "1 AS " + KEY_TRANSFER_ENABLED,
             "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
             "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
@@ -341,12 +342,12 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_USAGES,
             "1 AS " + KEY_IS_AGGREGATE,
             "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
-            "0 AS " + KEY_HAS_CLEARED+ ",0 AS " + KEY_SORT_ORDER_TYPE+ ",0 AS " + KEY_SORT_ORDER}; //ignored
+            "0 AS " + KEY_HAS_CLEARED+ ",0 AS " + KEY_SORT_KEY_TYPE}; //ignored
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
-            KEY_IS_AGGREGATE + ","+KEY_SORT_ORDER_TYPE+","+KEY_SORT_ORDER+","+defaultOrderBy,//real accounts should come first, then aggregate accounts
+            KEY_IS_AGGREGATE + ","+KEY_SORT_KEY_TYPE+","+KEY_SORT_KEY+","+defaultOrderBy,//real accounts should come first, then aggregate accounts
             null);
         c = db.rawQuery(sql, null);
         if (MyApplication.debug) {

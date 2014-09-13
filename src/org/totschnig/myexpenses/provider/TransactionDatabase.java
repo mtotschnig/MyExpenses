@@ -94,7 +94,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_COLOR           + " integer default -3355444, "
         + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "', "
         + KEY_USAGES          + " integer default 0,"
-        + KEY_SORT_ORDER      + " integer);";
+        + KEY_SORT_KEY      + " integer);";
 
   /**
    * SQL statement for categories TABLE
@@ -677,7 +677,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "SELECT " +
           "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
       db.execSQL("DROP TABLE planinstance_transaction_old");
-      db.execSQL("ALTER TABLE accounts add column sort_order integer");
+      db.execSQL("ALTER TABLE accounts add column sort_key integer");
     }
   }
   @SuppressLint("NewApi")
