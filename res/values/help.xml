@@ -98,6 +98,7 @@
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Form for accounts</string>
   <string name="help_AccountEdit_info">The account is identified by its label, the description has only an informative purpose. The currency can be chosen easily from a list. You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
+  <string name="menu_set_sort_key_help_text">Set a numeric key determining the position of the account in the account list in the navigation drawer (ascending sort).</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Form for payment methods</string>
   <string name="help_MethodEdit_info">On this screen, you associate a payment method with account types. You can also define a label (with the exception of the predefined methods which have a fixed label that cannot be edited). Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral). You can also set a flag if transactions using this method are numbered (e.g. check numbers).</string>
