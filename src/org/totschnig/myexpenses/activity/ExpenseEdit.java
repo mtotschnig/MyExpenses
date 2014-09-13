@@ -114,7 +114,7 @@ public class ExpenseEdit extends AmountActivity implements
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner;
-  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
+  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel, mAmountLabel;
@@ -177,12 +177,12 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    final SimpleCursorAdapter payeeAdapter =  new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
+    mPayeeAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
         new String[] { KEY_PAYEE_NAME },
         new int[] {android.R.id.text1},
         0);
-    mPayeeText.setAdapter(payeeAdapter);
-    payeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+    mPayeeText.setAdapter(mPayeeAdapter);
+    mPayeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
       public Cursor runQuery(CharSequence str) {
         String selection = KEY_PAYEE_NAME + " LIKE ? ";
         String[] selectArgs = { "%" + str + "%"};
@@ -198,7 +198,7 @@ public class ExpenseEdit extends AmountActivity implements
           selection, selectArgs, null);
       } });
 
-    payeeAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+    mPayeeAdapter.setCursorToStringConverter(new CursorToStringConverter() {
       public CharSequence convertToString(Cursor cur) {
       return cur.getString(1);
       }});
@@ -209,7 +209,7 @@ public class ExpenseEdit extends AmountActivity implements
           long id) {
         if (mNewInstance && mTransaction != null &&
             !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
-          Cursor c = (Cursor) payeeAdapter.getItem(position);
+          Cursor c = (Cursor) mPayeeAdapter.getItem(position);
           if (!c.isNull(2)) {
             if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
               if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
@@ -1531,5 +1531,11 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   public void onNegative(Bundle args) {
+  }
+  @Override
+  protected void onPause() {
+    //try to preven cursor leak
+    mPayeeAdapter.changeCursor(null);
+    super.onPause();
   }
 }
