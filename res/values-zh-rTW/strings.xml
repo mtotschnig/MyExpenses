@@ -219,9 +219,7 @@
   <string name="pm_type_debit">借記</string>
   <string name="pm_type_neutral">中性</string>
   <string name="pref_backup_summary">在SD卡上建立資料庫備份和喜好設定檔。</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">使用量計數</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">字母數字</string>
-  <string name="pref_categories_sort_by_usages_title">排列次序 (類別，樣本，帳戶)</string>
+  <string name="pref_categories_sort_by_usages_title">排列次序 : 使用量計數</string>
   <string name="pref_category_title_export">匯出</string>
   <string name="pref_category_title_import">匯入</string>
   <string name="pref_category_title_manage">管理</string>

@@ -273,9 +273,7 @@
   <string name="pref_auto_fill_title"> Autorrelleno de asientos</string>
   <string name="pref_auto_fill_summary">Relleno en cantidad, categoría y comentario de lo último asiento para el mismo beneficiario/ordenante</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
-  <string name="pref_categories_sort_by_usages_title">Criterio de ordenación (categorías, plantillas, cuentas)</string>
+  <string name="pref_categories_sort_by_usages_title">Criterio de ordenación: Frecuencia de utilización</string>
   <string name="pref_category_title_export">Exportación</string>
   <string name="pref_category_title_import">Importación</string>
   <string name="pref_category_title_manage">Administrar</string>

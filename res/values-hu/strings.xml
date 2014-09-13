@@ -223,9 +223,7 @@
   <string name="pm_type_debit">Tartozás</string>
   <string name="pm_type_neutral">Semleges</string>
   <string name="pref_backup_summary">Mentés készítése az adatbázisról és a beállításokról az SD-kártyára.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Használat száma</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">ABC sorrend</string>
-  <string name="pref_categories_sort_by_usages_title">Rendezés (kategóriák, sablonok, számlák)</string>
+  <string name="pref_categories_sort_by_usages_title">Rendezés: Használat száma</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Kezelés</string>

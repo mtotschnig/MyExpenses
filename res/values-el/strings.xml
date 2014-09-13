@@ -247,9 +247,7 @@
   <string name="pm_type_debit">Χρεωστική εγγραφή, χρέωση</string>
   <string name="pm_type_neutral">Ουδέτερο</string>
   <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Άθροισμα χρήσεων</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Αλφαριθμητικό</string>
-  <string name="pref_categories_sort_by_usages_title">Σειρά ταξινόμησης (κατηγορίες, πρότυπα, λογαριασμοί) </string>
+  <string name="pref_categories_sort_by_usages_title">Σειρά ταξινόμησης: Άθροισμα χρήσεων</string>
   <string name="pref_category_title_export">Εξαγωγή</string>
   <string name="pref_category_title_import">Εισαγωγή</string>
   <string name="pref_category_title_manage">Διαχείριση</string>

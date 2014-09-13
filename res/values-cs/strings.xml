@@ -232,9 +232,7 @@
   <string name="pm_type_debit">Má dáti</string>
   <string name="pm_type_neutral">Neutrální</string>
   <string name="pref_backup_summary">Vytvořte zálohu databáze a preferencí na paměťovou kartu.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Počet použití</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Alfanumerické</string>
-  <string name="pref_categories_sort_by_usages_title">Řazení pořadí (kategorie, šablony, účty)</string>
+  <string name="pref_categories_sort_by_usages_title">Řazení pořadí: Počet použití</string>
   <string name="pref_category_title_export">Exportovat</string>
   <string name="pref_category_title_import">Importovat</string>
   <string name="pref_category_title_manage">Správa</string>

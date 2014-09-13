@@ -273,9 +273,6 @@
   <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
   <string name="pref_auto_fill_summary">Son muameleden aynı alacaklı/ödeyici için meblağ, kategori ve yorum alanlarını doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Kullanım sayacı</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Alfanümerik</string>
-  <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_manage">Yönet</string>

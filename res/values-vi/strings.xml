@@ -195,9 +195,6 @@
   <string name="pm_type_debit">Nợ</string>
   <string name="pm_type_neutral">Trung lập</string>
   <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Số lần sử dụng</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Chữ số</string>
-  <string name="pref_categories_sort_by_usages_title">Sắp xếp thứ tự theo phân loại</string>
   <string name="pref_category_title_export">Xuất dữ liệu</string>
   <string name="pref_category_title_import">Nhập dữ liệu</string>
   <string name="pref_category_title_manage">Quản lý</string>

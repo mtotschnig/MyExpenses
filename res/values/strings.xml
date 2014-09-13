@@ -293,9 +293,8 @@
     <string name="pref_auto_fill_title">Autofill transactions</string>
     <string name="pref_auto_fill_summary">Fill in amount, category and comment from last transaction for same payee/payer</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
-    <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
-    <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
-    <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
+    <string name="pref_categories_sort_by_usages_summary">Should categories, templates and accounts be sorted by how often they are used instead of alphabetic sort. This setting is ignored for accounts if they have a sort key set.</string>
+    <string name="pref_categories_sort_by_usages_title">Sort by count of usages</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Manage</string>
