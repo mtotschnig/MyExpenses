@@ -286,7 +286,7 @@ public class Utils {
    * @return if external storage is not available returns null
    * if user has configured app dir, return this value
    * on Gingerbread and above returns {@link android.content.ContextWrapper.getExternalFilesDir(null)}
-   * on Froyo returns folder "myexpenses" on root of sdcard .
+   * <STRIKE>on Froyo returns folder "myexpenses" on root of sdcard.</STRIKE>
    */
   @SuppressLint("NewApi")
   public static File getAppDir() {
@@ -295,20 +295,19 @@ public class Utils {
     }
     String pref = MyApplication.PrefKey.APP_DIR.getString(null);
     if (pref == null) {
-      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-        File sd = Environment.getExternalStorageDirectory();
-        File appDir = new File(sd, "myexpenses");
-        return appDir;
-      }
+//      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+//        File sd = Environment.getExternalStorageDirectory();
+//        File appDir = new File(sd, "myexpenses");
+//        return appDir;
+//      }
       return  MyApplication.getInstance().getExternalFilesDir(null);
     } else {
       return new File(pref);
     }
   }
-  @SuppressLint("NewApi")
   public static File getCacheDir() {
-    return Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO ?
-        MyApplication.getInstance().getCacheDir() :
+    return /*Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO ?
+        MyApplication.getInstance().getCacheDir() :*/
         MyApplication.getInstance().getExternalCacheDir();
   }
   /**
@@ -671,9 +670,9 @@ public class Utils {
    */
   @SuppressLint("NewApi")
   public static boolean checkAppFolderWarning() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-      return true;
-    }
+//    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+//      return true;
+//    }
     if (MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getBoolean(false)) {
       return true;
     }

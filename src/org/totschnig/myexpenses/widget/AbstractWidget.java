@@ -211,8 +211,8 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
 
   protected void setBackgroundColorSave(RemoteViews updateViews, int res, int color) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
       updateViews.setInt(res,"setBackgroundColor",color);
-    }
+//    }
   }
 }
