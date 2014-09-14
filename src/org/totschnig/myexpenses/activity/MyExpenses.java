@@ -217,8 +217,10 @@ public class MyExpenses extends LaunchActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        moveToPosition(position);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        if (mAccountId!=id) {
+          moveToPosition(position);
+          mDrawerLayout.closeDrawer(mDrawerList);
+        }
       }
     });
 
@@ -343,12 +345,8 @@ public class MyExpenses extends LaunchActivity implements
         }
       } catch (IllegalArgumentException ex) {/*aggregate*/}
     }
-    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EDIT_ACCOUNT_COMMAND),
-        mAccountId > 0);
     Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BALANCE_COMMAND),
         showBalanceCommand);
-    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.DELETE_ACCOUNT_COMMAND),
-        mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -566,13 +564,6 @@ public class MyExpenses extends LaunchActivity implements
          .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
-    case R.id.EDIT_ACCOUNT_COMMAND:
-      if (mAccountId >0) {
-        i = new Intent(this, AccountEdit.class);
-        i.putExtra(KEY_ROWID, mAccountId);
-        startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
-      }
-      return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;
@@ -628,20 +619,6 @@ public class MyExpenses extends LaunchActivity implements
         CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
       }
       return true;
-      case R.id.DELETE_ACCOUNT_COMMAND:
-        mAccountsCursor.moveToPosition(mCurrentPosition);
-        long accountId = mAccountsCursor.getLong(columnIndexRowId); //we do not rely on mAccountId being in sync with mCurrentPosition
-        if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_warning_delete_account,
-              getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
-              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                  accountId),
-              null,
-              MessageDialogFragment.Button.noButton())
-            .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
-        }
-        return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
         mAccountId = 0;
@@ -921,6 +898,31 @@ public class MyExpenses extends LaunchActivity implements
           0);
     }
   }
+  public void deleteAccount (View v) {
+    mDrawerLayout.closeDrawer(mDrawerList);
+    int position = (Integer) v.getTag();
+    mAccountsCursor.moveToPosition(position);
+    long accountId = mAccountsCursor.getLong(columnIndexRowId);
+    if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_account,
+          getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
+          new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+              accountId),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+    }
+  }
+  public void editAccount(View v) {
+    mDrawerLayout.closeDrawer(mDrawerList);
+    long id = (Long) v.getTag();
+    if (id > 0) { //do nothing if accidentally we are positioned at an aggregate account
+      Intent i = new Intent(this, AccountEdit.class);
+      i.putExtra(KEY_ROWID,id);
+      startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+    }
+  }
   /**
    * @return true if for the current Account there is a second account
    * with the same currency we can transfer to
@@ -1019,20 +1021,24 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
+      long rowId =  c.getLong(columnIndexRowId);
       long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      boolean is_aggregate = c.getLong(columnIndexRowId)<0;
+      boolean is_aggregate =rowId<0;
       boolean hide_cr;
       if (is_aggregate) {
         hide_cr = true;
+        row.findViewById(R.id.EDIT_ACCOUNT_COMMAND).setVisibility(View.GONE);
+        row.findViewById(R.id.DELETE_ACCOUNT_COMMAND).setVisibility(View.GONE);
       } else {
-        Type type = null;
+        row.findViewById(R.id.EDIT_ACCOUNT_COMMAND).setTag(rowId);
+        //for deleting we need the position, because we need to find out the account's label
+        row.findViewById(R.id.DELETE_ACCOUNT_COMMAND).setTag(position);
         try {
-          type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+          hide_cr = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(Type.CASH);
         } catch (IllegalArgumentException ex) {
-          //aggregate
+          hide_cr = true;
         }
-        hide_cr = type.equals(Type.CASH);
       }
       row.findViewById(R.id.TransferRow).setVisibility(
           sum_transfer==0 ? View.GONE : View.VISIBLE);
