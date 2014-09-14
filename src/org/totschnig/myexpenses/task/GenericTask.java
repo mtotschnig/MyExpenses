@@ -191,6 +191,9 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       boolean result = false;
       File backupFile = (File) mExtra;
       File cacheDir = Utils.getCacheDir();
+      if (cacheDir == null) {
+        return new Result(false,R.string.external_storage_unavailable);
+      }
       if (MyApplication.getInstance().backup(cacheDir)) {
         result = ZipUtils.zip(cacheDir.listFiles(),backupFile);
         MyApplication.getBackupDbFile(cacheDir).delete();
