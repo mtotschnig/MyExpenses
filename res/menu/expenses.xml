@@ -83,12 +83,6 @@
     android:title="@string/menu_grouping">
   </item>
   <item
-    android:id="@id/CREATE_ACCOUNT_COMMAND"
-    android:icon="@drawable/create_account_icon"
-    app:showAsAction="never"
-    android:title="@string/menu_create_account">
-  </item>
-  <item
     android:id="@id/PRINT_COMMAND"
     android:icon="@drawable/print_icon"
     app:showAsAction="never"

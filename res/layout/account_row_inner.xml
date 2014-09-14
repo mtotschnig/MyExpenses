@@ -23,22 +23,26 @@
                     style="@style/headingStyle"
                     android:layout_alignParentLeft="true"
                     android:text="LABEL" />
-                <ImageView
-                    android:id="@id/DELETE_ACCOUNT_COMMAND"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:onClick="deleteAccount"
-                    android:src="@drawable/delete_account_icon" />
+                    android:orientation="horizontal"
+                    android:layout_alignParentRight="true">
                 <ImageView
                     android:id="@id/EDIT_ACCOUNT_COMMAND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/DELETE_ACCOUNT_COMMAND"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="editAccount"
                     android:src="@drawable/edit_account_icon" />
+                <ImageView
+                    android:id="@id/DELETE_ACCOUNT_COMMAND"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="deleteAccount"
+                    android:src="@drawable/delete_account_icon" />
+                </LinearLayout>
             </RelativeLayout>
         </TableRow>
 

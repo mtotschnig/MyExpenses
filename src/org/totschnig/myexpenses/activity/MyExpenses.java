@@ -70,15 +70,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -211,6 +216,24 @@ public class MyExpenses extends LaunchActivity implements
         R.id.reconciled_total
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
+    LinearLayout footer = new LinearLayout(this);
+    footer.setLayoutParams(new AbsListView.LayoutParams(
+        AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+    footer.setGravity(Gravity.CENTER_HORIZONTAL);
+    Button createAccount = new Button(this);
+    createAccount.setText(R.string.menu_create_account);
+    createAccount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.create_account_icon, 0, 0, 0);
+    createAccount.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+    createAccount.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mDrawerLayout.closeDrawers();
+        dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND, null);
+      }
+    });
+    footer.addView(createAccount);
+    mDrawerList.addFooterView(footer);
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
     mDrawerList.setOnItemClickListener(new OnItemClickListener() {
@@ -219,7 +242,7 @@ public class MyExpenses extends LaunchActivity implements
           long id) {
         if (mAccountId!=id) {
           moveToPosition(position);
-          mDrawerLayout.closeDrawer(mDrawerList);
+          mDrawerLayout.closeDrawers();
         }
       }
     });
@@ -608,8 +631,11 @@ public class MyExpenses extends LaunchActivity implements
           R.string.progress_dialog_deleting);
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
+      if (mAccountCount == 0) {
+        Toast.makeText(this, "Account list not yet loaded. Please try again", Toast.LENGTH_LONG).show();
+      }
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
-      if (MyApplication.getInstance().isContribEnabled() || (mAccountCount > 0 && mAccountCount < 5)) {
+      else if (MyApplication.getInstance().isContribEnabled() || mAccountCount < 5) {
         i = new Intent(this, AccountEdit.class);
         if (tag != null)
           i.putExtra(KEY_CURRENCY,(String)tag);
@@ -899,11 +925,12 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
   public void deleteAccount (View v) {
-    mDrawerLayout.closeDrawer(mDrawerList);
+    mDrawerLayout.closeDrawers();
     int position = (Integer) v.getTag();
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(columnIndexRowId);
-    if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
+    //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
+    if (mAccountsCursor.getCount()==1 || accountId > 0) {
       MessageDialogFragment.newInstance(
           R.string.dialog_title_warning_delete_account,
           getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
@@ -915,7 +942,7 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
   public void editAccount(View v) {
-    mDrawerLayout.closeDrawer(mDrawerList);
+    mDrawerLayout.closeDrawers();
     long id = (Long) v.getTag();
     if (id > 0) { //do nothing if accidentally we are positioned at an aggregate account
       Intent i = new Intent(this, AccountEdit.class);
@@ -1026,14 +1053,17 @@ public class MyExpenses extends LaunchActivity implements
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
       boolean is_aggregate =rowId<0;
       boolean hide_cr;
+      View deleteAccount = row.findViewById(R.id.DELETE_ACCOUNT_COMMAND);
+      deleteAccount.setVisibility(is_aggregate || c.getCount()==1 ? View.GONE : View.VISIBLE);
+      deleteAccount.setTag(position);
+      View editAccount = row.findViewById(R.id.EDIT_ACCOUNT_COMMAND);
+      editAccount.setVisibility(is_aggregate ? View.GONE : View.VISIBLE);
+      editAccount.setTag(rowId);
+
       if (is_aggregate) {
         hide_cr = true;
-        row.findViewById(R.id.EDIT_ACCOUNT_COMMAND).setVisibility(View.GONE);
-        row.findViewById(R.id.DELETE_ACCOUNT_COMMAND).setVisibility(View.GONE);
       } else {
-        row.findViewById(R.id.EDIT_ACCOUNT_COMMAND).setTag(rowId);
         //for deleting we need the position, because we need to find out the account's label
-        row.findViewById(R.id.DELETE_ACCOUNT_COMMAND).setTag(position);
         try {
           hide_cr = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(Type.CASH);
         } catch (IllegalArgumentException ex) {
