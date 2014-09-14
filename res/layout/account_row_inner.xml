@@ -20,6 +20,8 @@
 
                 <TextView
                     android:id="@+id/label"
+                    android:layout_marginTop="14dp"
+                    android:drawablePadding="10dp"
                     style="@style/headingStyle"
                     android:layout_alignParentLeft="true"
                     android:text="LABEL" />
@@ -29,6 +31,7 @@
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true">
                 <ImageView
+                    android:padding="8dp"
                     android:id="@id/EDIT_ACCOUNT_COMMAND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,6 +39,7 @@
                     android:onClick="editAccount"
                     android:src="@drawable/edit_account_icon" />
                 <ImageView
+                    android:padding="8dp"
                     android:id="@id/DELETE_ACCOUNT_COMMAND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
