@@ -193,8 +193,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         ((TextView) view.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
         ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
       }
-      else
+      else {
         title = type ? R.string.income : R.string.expense;
+        ((TextView) view.findViewById(R.id.PayeeLabel)).setText(type?R.string.payer:R.string.payee);
+      }
     }
     String accountLabel = Account.getInstanceFromDb(mTransaction.accountId).label;
     if (mTransaction instanceof Transfer) {
