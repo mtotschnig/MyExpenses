@@ -58,6 +58,9 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
     File workingDir;
     if (fileUri != null) {
       workingDir = Utils.getCacheDir();
+      if (workingDir == null) {
+        return new Result(false,R.string.external_storage_unavailable);
+      }
       try {
         if (!ZipUtils.unzip(MyApplication.getInstance().getContentResolver().openInputStream(fileUri), workingDir)) {
           return new Result(false,R.string.restore_backup_archive_not_valid,fileUri.getPath());

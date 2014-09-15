@@ -83,23 +83,6 @@
     android:title="@string/menu_grouping">
   </item>
   <item
-    android:id="@id/EDIT_ACCOUNT_COMMAND"
-    android:icon="@drawable/edit_account_icon"
-    android:title="@string/menu_edit_account">
-  </item>
-  <item
-    android:id="@id/CREATE_ACCOUNT_COMMAND"
-    android:icon="@drawable/create_account_icon"
-    app:showAsAction="never"
-    android:title="@string/menu_create_account">
-  </item>
-  <item
-    android:id="@id/DELETE_ACCOUNT_COMMAND"
-    android:icon="@drawable/delete_account_icon"
-    app:showAsAction="never"
-    android:title="@string/menu_delete_account">
-  </item>
-  <item
     android:id="@id/PRINT_COMMAND"
     android:icon="@drawable/print_icon"
     app:showAsAction="never"

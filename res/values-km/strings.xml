@@ -258,9 +258,6 @@
   <string name="pm_type_neutral">អព្យាក្រឹត</string>
   <string name="pref_app_dir_title">ថត​សម្រាប់​ឯកសារ​ដែល​រក្សាទុក និង​ដែលនាំចេញ</string>
   <string name="pref_backup_summary">បង្កើតការបម្រុងទុក នៃមូលដ្ឋានទិន្នន័យ និងចំណង់​ចំណូល​ចិត្ត លើ sdcard នេះ។</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">រាប់នៃការប្រើប្រាស់</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">អក្សរក្រមលេខ</string>
-  <string name="pref_categories_sort_by_usages_title">តម្រៀបលំដាប់ (ចំណាត់ថ្នាក់ ទិន្នន័យគំរូ ឬគណនី)</string>
   <string name="pref_category_title_export">នាំចេញ</string>
   <string name="pref_category_title_import">នាំចូល</string>
   <string name="pref_category_title_manage">គ្រប់គ្រង</string>

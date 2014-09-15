@@ -15,12 +15,20 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.util.Utils;
+
 import android.content.ContentProvider;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -83,6 +91,8 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
+  public static final String URI_SEGMENT_GROUPS = "groups";
+  public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
 
   
   static final String TAG = "TransactionProvider";
@@ -180,21 +190,18 @@ public class TransactionProvider extends ContentProvider {
       selectionArgs = new String[]{accountSelector};
       break;
     case TRANSACTIONS_GROUPS:
-      if (selection != null || selectionArgs != null) {
-        throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
-            "use query parameters");
-      }
+      String accountSelectionField,accountSelectionFieldOpeningBalance;
       accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionQuery = " IN " +
-            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        accountSelectionField = accountSelectionFieldOpeningBalance = KEY_CURRENCY; 
       } else {
-        accountSelectionQuery = " = ?";
+        accountSelectionField = KEY_ACCOUNTID;
+        accountSelectionFieldOpeningBalance = KEY_ROWID;
       }
-      String accountSelection = KEY_ACCOUNTID + accountSelectionQuery;
+      
       String openingBalanceSubQuery =
-          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + accountSelectionQuery + ")";
+          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionFieldOpeningBalance  + " = ? )";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -202,27 +209,31 @@ public class TransactionProvider extends ContentProvider {
         group = Grouping.NONE;
       }
       String yearExpression = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR);
-      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
-      if (group.equals(Grouping.NONE)) {
-        qb.setTables(VIEW_COMMITTED);
-        selection = accountSelection;
-        //the second accountId is used in openingBalanceSubquery
-        selectionArgs = new String[]{accountSelector,accountSelector};
-        projection = new String[] {
-            "1 AS " + KEY_YEAR,
-            "1"+secondColumnAlias,
-            INCOME_SUM,
-            EXPENSE_SUM,
-            TRANSFER_SUM,
-            MAPPED_CATEGORIES,
-            openingBalanceSubQuery
-                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN " + KEY_AMOUNT + " ELSE 0 END),0) AS " + KEY_INTERIM_BALANCE
-        };
-      } else {
+//      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
+//      if (group.equals(Grouping.NONE)) {
+//        qb.setTables(VIEW_COMMITTED);
+//        selection = accountSelection;
+//        //the second accountId is used in openingBalanceSubquery
+//        selectionArgs = new String[]{accountSelector,accountSelector};
+//        projection = new String[] {
+//            "1 AS " + KEY_YEAR,
+//            "1"+secondColumnAlias,
+//            INCOME_SUM,
+//            EXPENSE_SUM,
+//            TRANSFER_SUM,
+//            MAPPED_CATEGORIES,
+//            openingBalanceSubQuery
+//                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN " + KEY_AMOUNT + " ELSE 0 END),0) AS " + KEY_INTERIM_BALANCE
+//        };
+//      } else {
         String subGroupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
         String secondDef ="";
 
         switch(group) {
+        case NONE:
+          yearExpression = "1";
+          secondDef = "1";
+          break;
         case DAY:
           secondDef = DAY;
           break;
@@ -239,13 +250,14 @@ public class TransactionProvider extends ContentProvider {
         }
         qb.setTables("(SELECT "
             + yearExpression + " AS " + KEY_YEAR + ","
-            + secondDef + secondColumnAlias + ","
+            + secondDef + " AS " + KEY_SECOND_GROUP + ","
             + INCOME_SUM + ","
             + EXPENSE_SUM + ","
             + TRANSFER_SUM + ","
             + MAPPED_CATEGORIES
-            + " FROM " + VIEW_COMMITTED
-            + " WHERE " + accountSelection
+            + " FROM " + VIEW_EXTENDED
+            + " WHERE " + accountSelectionField + " = ? "
+            + (selection!=null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
         projection = new String[] {
             KEY_YEAR,
@@ -256,8 +268,8 @@ public class TransactionProvider extends ContentProvider {
             KEY_MAPPED_CATEGORIES,
             openingBalanceSubQuery +
                 " + (SELECT sum(amount) FROM "
-                    + VIEW_COMMITTED
-                    + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
+                    + VIEW_EXTENDED
+                    + " WHERE " + accountSelectionField + " = ? AND " + WHERE_NOT_SPLIT
                     + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
                     + "(" + yearExpression + " = " + KEY_YEAR + " AND "
                     + secondDef + " <= " + KEY_SECOND_GROUP + "))) AS " + KEY_INTERIM_BALANCE
@@ -266,8 +278,13 @@ public class TransactionProvider extends ContentProvider {
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
-        selectionArgs = new String[]{accountSelector,accountSelector,accountSelector};
-      }
+        Log.d(TAG, "SelectionArgs before join : " + Arrays.toString(selectionArgs));
+        selectionArgs = Utils.joinArrays(
+            new String[]{accountSelector,accountSelector,accountSelector},
+            selectionArgs);
+        //selection is used in the inner table, needs to be set to null for outer query
+        selection=null;
+      //}
       break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
@@ -286,7 +303,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS:
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
-      boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
+      boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
       defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
@@ -322,7 +339,8 @@ public class TransactionProvider extends ContentProvider {
             KEY_CURRENCY,
             "-1 AS " + KEY_COLOR,
             "'NONE' AS " + KEY_GROUPING,
-            "'CASH' AS " + KEY_TYPE,
+            "'AGGREGATE' AS " + KEY_TYPE,
+            "0 AS " + KEY_SORT_KEY,
             "1 AS " + KEY_TRANSFER_ENABLED,
             "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
             "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
@@ -335,12 +353,12 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_USAGES,
             "1 AS " + KEY_IS_AGGREGATE,
             "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
-            "0 AS " + KEY_HAS_CLEARED}; //ignored
+            "0 AS " + KEY_HAS_CLEARED+ ",0 AS " + KEY_SORT_KEY_TYPE}; //ignored
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
-            KEY_IS_AGGREGATE + ","+defaultOrderBy,//real accounts should come first, then aggregate accounts
+            KEY_IS_AGGREGATE + ","+KEY_SORT_KEY_TYPE+","+KEY_SORT_KEY+","+defaultOrderBy,//real accounts should come first, then aggregate accounts
             null);
         c = db.rawQuery(sql, null);
         if (MyApplication.debug) {
@@ -499,6 +517,7 @@ public class TransactionProvider extends ContentProvider {
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
+      Log.d(TAG, "SelectionArgs : " + Arrays.toString(selectionArgs));
     }
 
     c = qb.query(db, projection, selection, selectionArgs, groupBy,
@@ -513,6 +532,9 @@ public class TransactionProvider extends ContentProvider {
   }
   @Override
   public Uri insert(Uri uri, ContentValues values) {
+    if (MyApplication.debug) {
+      Log.d(TAG,values.toString());
+    }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id = 0;
     String newUri;
@@ -608,31 +630,35 @@ public class TransactionProvider extends ContentProvider {
       //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
       //because the split would be left in an invalid state, hence we transform the peer to a normal split part
       //first we find out the account label
-      Cursor c = db.query(
-          TABLE_ACCOUNTS,
-          new String []{KEY_LABEL},
-          KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
-          new String[] {segment},
-          null, null, null);
-      c.moveToFirst();
-      //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
-      String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
-      c.close();
-      ContentValues args = new ContentValues();
-      args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
-      args.putNull(KEY_TRANSFER_ACCOUNT);
-      args.putNull(KEY_TRANSFER_PEER);
-      db.update(TABLE_TRANSACTIONS,
-          args,
-          KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
-          new String[] {segment});
-      //we delete the transaction, its children, its transfer peers, and transfer peers of its children
-      //children is only necessary for Android 2.1, above they would be dealt with through ON DELETE CASCADE
-      count = db.delete(TABLE_TRANSACTIONS,
-          KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
-              + KEY_ROWID + " IN "
-              + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
-         new String[] {segment,segment,segment,segment});
+      db.beginTransaction();
+      try {
+        Cursor c = db.query(
+            TABLE_ACCOUNTS,
+            new String []{KEY_LABEL},
+            KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
+            new String[] {segment},
+            null, null, null);
+        c.moveToFirst();
+        //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
+        String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
+        c.close();
+        ContentValues args = new ContentValues();
+        args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
+        args.putNull(KEY_TRANSFER_ACCOUNT);
+        args.putNull(KEY_TRANSFER_PEER);
+        db.update(TABLE_TRANSACTIONS,
+            args,
+            KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
+            new String[] {segment});
+        //we delete the transaction, and its transfer peers,
+        //children are deleted through ON DELETE CASCADE
+        count = db.delete(TABLE_TRANSACTIONS,
+            KEY_ROWID + " = ?  OR " + KEY_TRANSFER_PEER + " = ?",
+           new String[] {segment,segment});
+        db.setTransactionSuccessful();
+      } finally {
+        db.endTransaction();
+      }
       break;
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
@@ -898,11 +924,34 @@ public class TransactionProvider extends ContentProvider {
     }
     return count;
   }
+  /**
+  * Apply the given set of {@link ContentProviderOperation}, executing inside
+  * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
+  * any single one fails.
+  */
+  @Override
+  public ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations)
+      throws OperationApplicationException {
+    final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    db.beginTransaction();
+      try {
+      final int numOperations = operations.size();
+      final ContentProviderResult[] results = new ContentProviderResult[numOperations];
+      for (int i = 0; i < numOperations; i++) {
+      results[i] = operations.get(i).apply(this, results, i);
+    }
+      db.setTransactionSuccessful();
+      return results;
+    } finally {
+      db.endTransaction();
+    }
+  }
+
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);

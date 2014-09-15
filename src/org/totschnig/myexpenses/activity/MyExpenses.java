@@ -77,15 +77,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -219,14 +224,34 @@ public class MyExpenses extends LaunchActivity implements
         R.id.reconciled_total
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
+    LinearLayout footer = new LinearLayout(this);
+    footer.setLayoutParams(new AbsListView.LayoutParams(
+        AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+    footer.setGravity(Gravity.CENTER_HORIZONTAL);
+    Button createAccount = new Button(this);
+    createAccount.setText(R.string.menu_create_account);
+    createAccount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.create_account_icon, 0, 0, 0);
+    createAccount.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+    createAccount.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mDrawerLayout.closeDrawers();
+        dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND, null);
+      }
+    });
+    footer.addView(createAccount);
+    mDrawerList.addFooterView(footer);
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
     mDrawerList.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        moveToPosition(position);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        if (mAccountId!=id) {
+          moveToPosition(position);
+          mDrawerLayout.closeDrawers();
+        }
       }
     });
 
@@ -349,14 +374,10 @@ public class MyExpenses extends LaunchActivity implements
             != Type.CASH) {
           showBalanceCommand = true;
         }
-      } catch (IllegalArgumentException ex) {}
+      } catch (IllegalArgumentException ex) {/*aggregate*/}
     }
-    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EDIT_ACCOUNT_COMMAND),
-        mAccountId > 0);
     Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BALANCE_COMMAND),
         showBalanceCommand);
-    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.DELETE_ACCOUNT_COMMAND),
-        mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -574,13 +595,6 @@ public class MyExpenses extends LaunchActivity implements
          .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
-    case R.id.EDIT_ACCOUNT_COMMAND:
-      if (mAccountId >0) {
-        i = new Intent(this, AccountEdit.class);
-        i.putExtra(KEY_ROWID, mAccountId);
-        startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
-      }
-      return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;
@@ -625,8 +639,11 @@ public class MyExpenses extends LaunchActivity implements
           R.string.progress_dialog_deleting);
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
+      if (mAccountCount == 0) {
+        Toast.makeText(this, "Account list not yet loaded. Please try again", Toast.LENGTH_LONG).show();
+      }
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
-      if (MyApplication.getInstance().isContribEnabled() || (mAccountCount > 0 && mAccountCount < 5)) {
+      else if (MyApplication.getInstance().isContribEnabled() || mAccountCount < 5) {
         i = new Intent(this, AccountEdit.class);
         if (tag != null)
           i.putExtra(KEY_CURRENCY,(String)tag);
@@ -636,20 +653,6 @@ public class MyExpenses extends LaunchActivity implements
         CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
       }
       return true;
-      case R.id.DELETE_ACCOUNT_COMMAND:
-        mAccountsCursor.moveToPosition(mCurrentPosition);
-        long accountId = mAccountsCursor.getLong(columnIndexRowId); //we do not rely on mAccountId being in sync with mCurrentPosition
-        if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_warning_delete_account,
-              getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
-              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                  accountId),
-              null,
-              MessageDialogFragment.Button.noButton())
-            .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
-        }
-        return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
         mAccountId = 0;
@@ -772,7 +775,7 @@ public class MyExpenses extends LaunchActivity implements
     switch(id) {
     case ACCOUNTS_CURSOR:
       Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
-      builder.appendQueryParameter("mergeCurrencyAggregates", "1");
+      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
       return new CursorLoader(this,
           builder.build(), null, null, null, null);
     }
@@ -929,6 +932,32 @@ public class MyExpenses extends LaunchActivity implements
           0);
     }
   }
+  public void deleteAccount (View v) {
+    mDrawerLayout.closeDrawers();
+    int position = (Integer) v.getTag();
+    mAccountsCursor.moveToPosition(position);
+    long accountId = mAccountsCursor.getLong(columnIndexRowId);
+    //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
+    if (mAccountsCursor.getCount()==1 || accountId > 0) {
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_account,
+          getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
+          new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+              accountId),
+          null,
+          MessageDialogFragment.Button.noButton())
+        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+    }
+  }
+  public void editAccount(View v) {
+    mDrawerLayout.closeDrawers();
+    long id = (Long) v.getTag();
+    if (id > 0) { //do nothing if accidentally we are positioned at an aggregate account
+      Intent i = new Intent(this, AccountEdit.class);
+      i.putExtra(KEY_ROWID,id);
+      startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+    }
+  }
   /**
    * @return true if for the current Account there is a second account
    * with the same currency we can transfer to
@@ -1027,20 +1056,27 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
+      long rowId =  c.getLong(columnIndexRowId);
       long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      boolean is_aggregate = c.getLong(columnIndexRowId)<0;
+      boolean is_aggregate =rowId<0;
       boolean hide_cr;
+      View deleteAccount = row.findViewById(R.id.DELETE_ACCOUNT_COMMAND);
+      deleteAccount.setVisibility(is_aggregate || c.getCount()==1 ? View.GONE : View.VISIBLE);
+      deleteAccount.setTag(position);
+      View editAccount = row.findViewById(R.id.EDIT_ACCOUNT_COMMAND);
+      editAccount.setVisibility(is_aggregate ? View.GONE : View.VISIBLE);
+      editAccount.setTag(rowId);
+
       if (is_aggregate) {
         hide_cr = true;
       } else {
-      Type type;
+        //for deleting we need the position, because we need to find out the account's label
         try {
-          type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+          hide_cr = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(Type.CASH);
         } catch (IllegalArgumentException ex) {
-          type = Type.CASH;
+          hide_cr = true;
         }
-        hide_cr = type.equals(Type.CASH);
       }
       row.findViewById(R.id.TransferRow).setVisibility(
           sum_transfer==0 ? View.GONE : View.VISIBLE);
@@ -1080,14 +1116,27 @@ public class MyExpenses extends LaunchActivity implements
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.accounts_header, parent, false);
       }
-      ((TextView) convertView.findViewById(R.id.sectionLabel)).setText(getHeaderId(position)==0?R.string.pref_manage_accounts_title:R.string.menu_aggregates);
+      long headerId = getHeaderId(position);
+      int headerRes;
+      if (headerId == Type.values().length) {
+        headerRes = R.string.menu_aggregates;
+      } else {
+        headerRes = Type.values()[(int) headerId].toStringResPlural();
+      }
+      ((TextView) convertView.findViewById(R.id.sectionLabel)).setText(headerRes);
       return convertView;
     }
     @Override
     public long getHeaderId(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
-      return c.getLong(columnIndexRowId)>0 ? 0 : 1;
+      Type type;
+      try {
+        type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+        return type.ordinal();
+      } catch (IllegalArgumentException ex) {
+        return Type.values().length;
+      }
     }
   }
   protected void onSaveInstanceState (Bundle outState) {

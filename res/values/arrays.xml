@@ -206,6 +206,7 @@
     </string-array>
     <string-array name="AccountEdit_menuitems">
       <item>save</item>
+      <item>set_sort_key</item>
     </string-array>
     <string-array name="MethodEdit_menuitems">
       <item>save</item>

@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.test.model;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;

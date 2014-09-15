@@ -269,9 +269,7 @@
   <string name="pref_auto_fill_title">Transaksi autoisi</string>
   <string name="pref_auto_fill_summary">Isi amaun, kategori dan ulasan dari transaksi terakhir bagi penerima/pembayar yang sama</string>
   <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Kiraan penggunaan</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Alfanumerik</string>
-  <string name="pref_categories_sort_by_usages_title">Isih tertib (kategori, templat, akaun)</string>
+  <string name="pref_categories_sort_by_usages_title">Isih tertib: Kiraan penggunaan</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Urus</string>

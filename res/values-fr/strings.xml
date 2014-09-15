@@ -273,9 +273,7 @@
   <string name="pref_auto_fill_title">Remplissage automatique des opérations</string>
   <string name="pref_auto_fill_summary">Remplissage du montant, de la catégorie et du commentaire de la dernière opération pour le même tiers</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
-  <string name="pref_categories_sort_by_usages_summaryOn">Fréquence d\'utilisation</string>
-  <string name="pref_categories_sort_by_usages_summaryOff">Par ordre alphabétique</string>
-  <string name="pref_categories_sort_by_usages_title">Critères de tri (catégories, modèles, comptes)</string>
+  <string name="pref_categories_sort_by_usages_title">Critères de tri: Fréquence d\'utilisation</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Gestion</string>

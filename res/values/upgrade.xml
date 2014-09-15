@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Redesign of account list: User-defined sort order</item>
+    <item>Group sums in transaction list takes filters into account</item>
+  </string-array>
   <string-array name="whats_new_232">
     <item>Print to PDF now supports non-Western scripts</item>
     <item>Malaya translation</item>

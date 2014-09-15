@@ -37,6 +37,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   public static final String KEY_DIALOG_TITLE = "dialogTitle";
   public static final String KEY_VALUE = "value";
   public static final String KEY_REQUEST_CODE = "requestCode";
+  public static final String KEY_INPUT_TYPE = "inputType";
 
   public interface EditTextDialogListener {
     void onFinishEditDialog(Bundle args);
@@ -58,7 +59,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
     mEditText = new EditText(getActivity());
     getDialog().setTitle(args.getString(KEY_DIALOG_TITLE));
     // Show soft keyboard automatically
-    mEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+    mEditText.setInputType(args.getInt(KEY_INPUT_TYPE,InputType.TYPE_CLASS_TEXT));
     mEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
     mEditText.requestFocus();
     getDialog().getWindow().setSoftInputMode(

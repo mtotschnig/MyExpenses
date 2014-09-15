@@ -256,9 +256,6 @@
   <string name="pm_type_neutral">මධ්‍යස්ත </string>
   <string name="pref_app_dir_title">අපනයන සහ උපස්ටහ සදහාවූ ගොනුව </string>
   <string name="pref_backup_summary">දත්ත ගබඩාවෙහි සහ මනාප හි උපස්තයක් නිර්මාණය කරන්න </string>
-  <string name="pref_categories_sort_by_usages_summaryOn">පාවිච්චි කල ගනන </string>
-  <string name="pref_categories_sort_by_usages_summaryOff">අක්ෂර සංඛ්‍යා</string>
-  <string name="pref_categories_sort_by_usages_title">පිළිවෙල බෙදා වෙන් කරන්න (වර්ග,අච්චු,ගිණුම්)</string>
   <string name="pref_category_title_export">අපනයනය </string>
   <string name="pref_category_title_import">ආනයනය </string>
   <string name="pref_category_title_manage">කලමනාකරණය </string>

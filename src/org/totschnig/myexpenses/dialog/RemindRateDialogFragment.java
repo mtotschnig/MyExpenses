@@ -21,13 +21,10 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +38,6 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
   private RatingBar mRating;
   private TextView mRatingRemind;
   private int POSITIVE_RATING = 5;
-  @SuppressLint("NewApi")
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
@@ -60,8 +56,7 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
       .setNeutralButton(R.string.dialog_remind_later,this)
       .setNegativeButton(R.string.dialog_remind_no,this)
       .create();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-      dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
         @Override
         public void onShow(DialogInterface dialog) {
           Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
@@ -70,7 +65,6 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
           }
         }
       });
-    }
     return dialog;
   }
   private void setRatingRemindText(boolean isPositive) {

@@ -56,7 +56,7 @@
 
       <TableRow android:id="@+id/PayeeRow">
         <TextView style="@style/form_label_dialog"
-            android:id="@+id/PayeeLabel" android:text="@string/payee" />
+            android:id="@+id/PayeeLabel"/>
         <TextView
             android:id="@+id/Payee" style="@style/dialog_text" />
       </TableRow>

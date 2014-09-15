@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -52,7 +53,14 @@ public class PdfHelper {
       //we want the Default Font to be used first
       try {
         File dir = new File("/system/fonts");
-        File[] files = dir.listFiles();
+        File[] files = dir.listFiles(new FilenameFilter() {
+
+          @Override
+          public boolean accept(File dir, String filename) {
+            return !filename.equals("NotoColorEmoji.ttf");//know not to work
+
+          }
+        });
         Arrays.sort(files, new Comparator<File>() {
           public int compare(File f1, File f2) {
             String n1 = f1.getName();

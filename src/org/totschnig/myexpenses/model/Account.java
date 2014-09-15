@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
@@ -48,12 +49,15 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -77,6 +81,8 @@ public class Account extends Model {
   public String description;
 
   public int color;
+  
+  public int sortKey = 0;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   private static String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
@@ -92,6 +98,7 @@ public class Account extends Model {
     KEY_COLOR,
     KEY_GROUPING,
     KEY_TYPE,
+    KEY_SORT_KEY,
     "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
         +      "AS " + KEY_TRANSFER_ENABLED,
@@ -101,7 +108,7 @@ public class Account extends Model {
   PROJECTION_EXTENDED = new String[baseLength+1];
   System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
   PROJECTION_EXTENDED[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
-  PROJECTION_FULL = new String[baseLength+11];
+  PROJECTION_FULL = new String[baseLength+12];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(" + SELECT_AMOUNT_SUM +
       " AND " + WHERE_INCOME   + ") AS " + KEY_SUM_INCOME;
@@ -124,7 +131,9 @@ public class Account extends Model {
   PROJECTION_FULL[baseLength+8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
   PROJECTION_FULL[baseLength+9] = HAS_FUTURE;
   PROJECTION_FULL[baseLength+10] = HAS_CLEARED;
+  PROJECTION_FULL[baseLength+11] = Type.sqlOrderExpression();
   }
+
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
@@ -144,6 +153,17 @@ public class Account extends Model {
       case LIABILITY: return ctx.getString(R.string.account_type_liability);
       }
       return "";
+    }
+    public int toStringResPlural() {
+      switch(this) {
+      case CASH: return R.string.account_type_cash_plural;
+      case BANK: return R.string.account_type_bank_plural;
+      case CCARD: return R.string.account_type_ccard_plural;
+      case ASSET: return R.string.account_type_asset_plural;
+      case LIABILITY: return R.string.account_type_liability_plural;
+      default:
+        return 0;
+      }
     }
     public String toQifName() {
       switch (this) {
@@ -167,6 +187,24 @@ public class Account extends Model {
       } else {
         return BANK;
       }
+    }
+    public static String sqlOrderExpression() {
+      String result = "CASE " + KEY_TYPE;
+      for (Type type: Type.values()) {
+        result += " WHEN '"+type.name()+"' THEN "+type.getSortOrder();
+      }
+      result += " ELSE -1 END AS "+KEY_SORT_KEY_TYPE;
+      return result;
+    }
+    private String getSortOrder() {
+      switch(this) {
+      case CASH: return "0";
+      case BANK: return "1";
+      case CCARD: return "2";
+      case ASSET: return "3";
+      case LIABILITY: return "4";
+      }
+      return "-1";
     }
     static {
       JOIN = Utils.joinEnum(Type.class);
@@ -479,10 +517,18 @@ public class Account extends Model {
     if (account == null) {
       return;
     }
-    account.deleteAllTransactions(false);
-    account.deleteAllTemplates();
-    accounts.remove(id);
-    cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null);
+    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+    ops.add(account.updateTransferPeersForTransactionDelete(buildTransactionRowSelect(false)));
+    ops.add(ContentProviderOperation.newDelete(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
+        .build());
+    try {
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+      accounts.remove(id);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -555,6 +601,7 @@ public class Account extends Model {
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
     }
+    this.sortKey = c.getInt(c.getColumnIndexOrThrow(KEY_SORT_KEY));
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
@@ -614,14 +661,28 @@ public class Account extends Model {
    * @param reconciled if true only reconciled expenses will be deleted
    */
   public void reset(boolean reconciled) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
     long currentBalance = (reconciled ? getReconciledBalance() : getTotalBalance())
         .getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
-    ContentValues args = new ContentValues();
-    args.put(KEY_OPENING_BALANCE,currentBalance);
-    cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(), args,
-        null, null);
-    deleteAllTransactions(reconciled);
+    ops.add(ContentProviderOperation.newUpdate(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+        .withValue(KEY_OPENING_BALANCE,currentBalance)
+        .build());
+    String rowSelect = buildTransactionRowSelect(reconciled);
+    ops.add(updateTransferPeersForTransactionDelete(rowSelect));
+    ops.add(ContentProviderOperation.newDelete(
+        TransactionProvider.TRANSACTIONS_URI)
+        .withSelection(
+              KEY_ROWID + " IN (" + rowSelect + ")",
+              new String[] { String.valueOf(getId()) })
+         .build());
+    try {
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
   public void markAsExported() {
     ContentValues args = new ContentValues();
@@ -668,55 +729,24 @@ public class Account extends Model {
     return result;
   }
 
-  /**
-   * For transfers the peer transaction will survive, but we transform it to a normal transaction
-   * with a note about the deletion of the peer_transaction
-   * @param reconciled 
-   */
-  public void deleteAllTransactions(boolean reconciled) {
+  private static String buildTransactionRowSelect(boolean reconciled) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
     if (reconciled) {
       rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
     }
-    String[] selectArgs = new String[] { String.valueOf(getId()) };
+    return rowSelect;
+  }
+  private ContentProviderOperation updateTransferPeersForTransactionDelete(String rowSelect) {
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
-        selectArgs);
-    if (!TransactionDatabase.hasForeignKeySupport()) {
-      cr().delete(
-          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_TRANSACTIONID + " IN (" + rowSelect + ")",
-          selectArgs);
-      //try to be on the safe side. There could be children
-      //whose account is set differently
-      cr().delete(
-          TransactionProvider.TRANSACTIONS_URI,
-          KEY_PARENTID + " IN (" + rowSelect + ")",
-          selectArgs);
-      cr().delete(
-          TransactionProvider.TRANSACTIONS_URI,
-          KEY_ROWID + " IN (" + rowSelect + ")",
-          selectArgs);
-    }
-  }
-  public void deleteAllTemplates() {
-    if (!TransactionDatabase.hasForeignKeySupport()) {
-      String[] selectArgs = new String[] { String.valueOf(getId()) };
-      cr().delete(
-          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?)",
-          selectArgs);
-      cr().delete(
-          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_TEMPLATEID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TEMPLATES + " WHERE " + KEY_TRANSFER_ACCOUNT + " = ?)",
-          selectArgs);
-      cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
-      cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
-    }
+    return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+        .withValues(args)
+        .withSelection(
+            KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
+            new String[] { String.valueOf(getId()) })
+        .build();
   }
 
   /**
@@ -983,6 +1013,7 @@ public class Account extends Model {
     initialValues.put(KEY_TYPE,type.name());
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR,color);
+    initialValues.put(KEY_SORT_KEY, sortKey);
     
     if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);

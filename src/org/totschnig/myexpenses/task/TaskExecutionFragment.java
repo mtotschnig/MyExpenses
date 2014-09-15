@@ -77,6 +77,7 @@ public class TaskExecutionFragment extends Fragment {
    * but allows Activity to define a second callback
    */
   public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
+  public static final int TASK_UPDATE_SORT_KEY = 27;
   
 
   /**

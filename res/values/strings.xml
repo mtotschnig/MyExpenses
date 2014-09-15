@@ -16,10 +16,15 @@
  --><resources>
     <string name="account">Account</string>
     <string name="account_type_asset">Asset account</string>
+    <string name="account_type_asset_plural">Asset accounts</string>
     <string name="account_type_bank">Bank account</string>
+    <string name="account_type_bank_plural">Bank accounts</string>
     <string name="account_type_cash">Cash account</string>
+    <string name="account_type_cash_plural">Cash accounts</string>
     <string name="account_type_ccard">Credit card</string>
+    <string name="account_type_ccard_plural">Credit cards</string>
     <string name="account_type_liability">Liabilities account</string>
+    <string name="account_type_liability_plural">Liabilities accounts</string>
     <string name="already_defined">%1$s already defined</string>
     <string name="amount">Amount</string>
     <string name="app_name">My Expenses</string>
@@ -215,6 +220,7 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_share">Tell a friend</string>
+    <string name="menu_set_sort_key">Set sort key</string>
     <string name="method">Method</string>
     <string name="new_version">New version</string>
     <string name="no_accounts">No Accounts!</string>
@@ -287,9 +293,8 @@
     <string name="pref_auto_fill_title">Autofill transactions</string>
     <string name="pref_auto_fill_summary">Fill in amount, category and comment from last transaction for same payee/payer</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
-    <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
-    <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
-    <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
+    <string name="pref_categories_sort_by_usages_summary">Should categories, templates and accounts be sorted by how often they are used instead of alphabetic sort. This setting is ignored for accounts if they have a sort key set.</string>
+    <string name="pref_categories_sort_by_usages_title">Sort by count of usages</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Manage</string>
