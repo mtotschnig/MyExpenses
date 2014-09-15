@@ -26,6 +26,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="LABEL" />
                 <LinearLayout
+                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -33,16 +34,16 @@
                 <ImageView
                     android:padding="8dp"
                     android:id="@id/EDIT_ACCOUNT_COMMAND"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:background="?attr/selectableItemBackground"
                     android:onClick="editAccount"
                     android:src="@drawable/edit_account_icon" />
                 <ImageView
                     android:padding="8dp"
                     android:id="@id/DELETE_ACCOUNT_COMMAND"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:background="?attr/selectableItemBackground"
                     android:onClick="deleteAccount"
                     android:src="@drawable/delete_account_icon" />
