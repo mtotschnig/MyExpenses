@@ -533,8 +533,7 @@ public class TransactionList extends BudgetListFragment implements
       int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
       int second=-1;
 
-      if (mGroupingCursor != null) {
-        mGroupingCursor.moveToFirst();
+      if (mGroupingCursor != null && mGroupingCursor.moveToFirst()) {
         //no grouping, we need the first and only row
         if (mAccount.grouping.equals(Grouping.NONE)) {
           fillSums(holder,mGroupingCursor);
