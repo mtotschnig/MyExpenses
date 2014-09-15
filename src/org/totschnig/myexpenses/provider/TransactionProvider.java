@@ -16,11 +16,14 @@
 package org.totschnig.myexpenses.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.util.Utils;
+
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -88,6 +91,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
+  public static final String URI_SEGMENT_GROUPS = "groups";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
 
   
@@ -186,21 +190,18 @@ public class TransactionProvider extends ContentProvider {
       selectionArgs = new String[]{accountSelector};
       break;
     case TRANSACTIONS_GROUPS:
-      if (selection != null || selectionArgs != null) {
-        throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
-            "use query parameters");
-      }
+      String accountSelectionField,accountSelectionFieldOpeningBalance;
       accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionQuery = " IN " +
-            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        accountSelectionField = accountSelectionFieldOpeningBalance = KEY_CURRENCY; 
       } else {
-        accountSelectionQuery = " = ?";
+        accountSelectionField = KEY_ACCOUNTID;
+        accountSelectionFieldOpeningBalance = KEY_ROWID;
       }
-      String accountSelection = KEY_ACCOUNTID + accountSelectionQuery;
+      
       String openingBalanceSubQuery =
-          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + accountSelectionQuery + ")";
+          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionFieldOpeningBalance  + " = ? )";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -208,27 +209,31 @@ public class TransactionProvider extends ContentProvider {
         group = Grouping.NONE;
       }
       String yearExpression = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR);
-      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
-      if (group.equals(Grouping.NONE)) {
-        qb.setTables(VIEW_COMMITTED);
-        selection = accountSelection;
-        //the second accountId is used in openingBalanceSubquery
-        selectionArgs = new String[]{accountSelector,accountSelector};
-        projection = new String[] {
-            "1 AS " + KEY_YEAR,
-            "1"+secondColumnAlias,
-            INCOME_SUM,
-            EXPENSE_SUM,
-            TRANSFER_SUM,
-            MAPPED_CATEGORIES,
-            openingBalanceSubQuery
-                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN " + KEY_AMOUNT + " ELSE 0 END),0) AS " + KEY_INTERIM_BALANCE
-        };
-      } else {
+//      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
+//      if (group.equals(Grouping.NONE)) {
+//        qb.setTables(VIEW_COMMITTED);
+//        selection = accountSelection;
+//        //the second accountId is used in openingBalanceSubquery
+//        selectionArgs = new String[]{accountSelector,accountSelector};
+//        projection = new String[] {
+//            "1 AS " + KEY_YEAR,
+//            "1"+secondColumnAlias,
+//            INCOME_SUM,
+//            EXPENSE_SUM,
+//            TRANSFER_SUM,
+//            MAPPED_CATEGORIES,
+//            openingBalanceSubQuery
+//                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN " + KEY_AMOUNT + " ELSE 0 END),0) AS " + KEY_INTERIM_BALANCE
+//        };
+//      } else {
         String subGroupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
         String secondDef ="";
 
         switch(group) {
+        case NONE:
+          yearExpression = "1";
+          secondDef = "1";
+          break;
         case DAY:
           secondDef = DAY;
           break;
@@ -245,13 +250,14 @@ public class TransactionProvider extends ContentProvider {
         }
         qb.setTables("(SELECT "
             + yearExpression + " AS " + KEY_YEAR + ","
-            + secondDef + secondColumnAlias + ","
+            + secondDef + " AS " + KEY_SECOND_GROUP + ","
             + INCOME_SUM + ","
             + EXPENSE_SUM + ","
             + TRANSFER_SUM + ","
             + MAPPED_CATEGORIES
-            + " FROM " + VIEW_COMMITTED
-            + " WHERE " + accountSelection
+            + " FROM " + VIEW_EXTENDED
+            + " WHERE " + accountSelectionField + " = ? "
+            + (selection!=null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
         projection = new String[] {
             KEY_YEAR,
@@ -262,8 +268,8 @@ public class TransactionProvider extends ContentProvider {
             KEY_MAPPED_CATEGORIES,
             openingBalanceSubQuery +
                 " + (SELECT sum(amount) FROM "
-                    + VIEW_COMMITTED
-                    + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
+                    + VIEW_EXTENDED
+                    + " WHERE " + accountSelectionField + " = ? AND " + WHERE_NOT_SPLIT
                     + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
                     + "(" + yearExpression + " = " + KEY_YEAR + " AND "
                     + secondDef + " <= " + KEY_SECOND_GROUP + "))) AS " + KEY_INTERIM_BALANCE
@@ -272,8 +278,13 @@ public class TransactionProvider extends ContentProvider {
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
-        selectionArgs = new String[]{accountSelector,accountSelector,accountSelector};
-      }
+        Log.d(TAG, "SelectionArgs before join : " + Arrays.toString(selectionArgs));
+        selectionArgs = Utils.joinArrays(
+            new String[]{accountSelector,accountSelector,accountSelector},
+            selectionArgs);
+        //selection is used in the inner table, needs to be set to null for outer query
+        selection=null;
+      //}
       break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
@@ -506,6 +517,7 @@ public class TransactionProvider extends ContentProvider {
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
+      Log.d(TAG, "SelectionArgs : " + Arrays.toString(selectionArgs));
     }
 
     c = qb.query(db, projection, selection, selectionArgs, groupBy,
@@ -939,7 +951,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);

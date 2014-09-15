@@ -385,8 +385,15 @@ public class TransactionList extends BudgetListFragment implements
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
+      if (!mFilter.isEmpty()) {
+        selection = mFilter.getSelection();
+        selectionArgs = mFilter.getSelectionArgs();
+      } else {
+        selection = null;
+        selectionArgs = null;
+      }
       Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
-      builder.appendPath("groups")
+      builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
         .appendPath(mAccount.grouping.name());
       if (mAccount.getId() < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
@@ -395,7 +402,7 @@ public class TransactionList extends BudgetListFragment implements
       }
       cursorLoader = new CursorLoader(getActivity(),
           builder.build(),
-          null,null,null, null);
+          null,selection,selectionArgs, null);
       break;
     }
     return cursorLoader;
@@ -804,6 +811,7 @@ public class TransactionList extends BudgetListFragment implements
       MyApplication.getInstance().getSettings().edit().putString(
           KEY_FILTER + "_"+c.columnName+"_"+mAccount.getId(), c.toStringExtra()));
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+    mManager.restartLoader(GROUPING_CURSOR, null, this);
     getActivity().supportInvalidateOptionsMenu();
   }
   /**
@@ -820,6 +828,7 @@ public class TransactionList extends BudgetListFragment implements
               KEY_FILTER + "_"+c.columnName+"_"+mAccount.getId()));
       mFilter.remove(id);
       mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+      mManager.restartLoader(GROUPING_CURSOR, null, this);
       getActivity().supportInvalidateOptionsMenu();
     }
     return isFiltered;
