@@ -382,8 +382,9 @@ public class TransactionProvider extends ContentProvider {
           KEY_CODE + " AS " + KEY_CURRENCY,
           "-1 AS " + KEY_COLOR,
           "'NONE' AS " + KEY_GROUPING,
-          "'CASH' AS " + KEY_TYPE,
-          "1 AS " + KEY_TRANSFER_ENABLED};
+          "'AGGREGATE' AS " + KEY_TYPE,
+          "1 AS " + KEY_TRANSFER_ENABLED,
+          "-1 AS " + KEY_SORT_KEY};
       qb.appendWhere(KEY_ROWID + "=" + currencyId);
       break;
     case ACCOUNT_ID:
@@ -971,7 +972,6 @@ public class TransactionProvider extends ContentProvider {
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
-//  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
