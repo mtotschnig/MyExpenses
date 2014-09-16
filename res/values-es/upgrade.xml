@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Rediseño de lista de cuentas: orden definido por el usuario</item>
+    <item>Sumas de grupo en la lista de transacciones toma en cuenta los filtros</item>
+  </string-array>
   <string-array name="whats_new_232">
     <item>Imprimir a PDF ahora admite escrituras no occidentales</item>
     <item>Traducción de Malayo</item>

@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Hesap</string>
   <string name="account_type_asset">Aktif hesabı</string>
+  <string name="account_type_asset_plural">Aktif hesapları</string>
   <string name="account_type_bank">Banka hesabı</string>
+  <string name="account_type_bank_plural">Banka hesapları</string>
   <string name="account_type_cash">Nakit hesabı</string>
+  <string name="account_type_cash_plural">Nakit hesapları</string>
   <string name="account_type_ccard">Kredi kartı</string>
+  <string name="account_type_ccard_plural">Kredi kartları</string>
   <string name="account_type_liability">Borç hesabı</string>
+  <string name="account_type_liability_plural">Borç hesapları</string>
   <string name="already_defined">%1$s zaten tanımlanmış</string>
   <string name="amount">Miktar</string>
   <string name="app_name">Harcamalarım</string>
@@ -201,6 +206,7 @@
   <string name="menu_search">Ara</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_share">Bir arkadaşa bahset</string>
+  <string name="menu_set_sort_key">Sırlama anahtarını belirle</string>
   <string name="method">Metot</string>
   <string name="new_version">Yeni sürüm</string>
   <string name="no_accounts">Hesap yok!</string>
@@ -273,6 +279,8 @@
   <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
   <string name="pref_auto_fill_summary">Son muameleden aynı alacaklı/ödeyici için meblağ, kategori ve yorum alanlarını doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
+  <string name="pref_categories_sort_by_usages_summary">Kategorilerin, şablonların ve hesapların alfabetik sıralama yerine ne kadar sık kullanıldıklarına dayanılarak sıralanıp sıralanmayacağı. Bir sıralama anahtarı belirlendiyse bu ayar görmezden gelinir.</string>
+  <string name="pref_categories_sort_by_usages_title">Kullanım sayacına göre sırala</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_manage">Yönet</string>

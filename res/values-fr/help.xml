@@ -77,6 +77,7 @@
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulaire pour comptes</string>
   <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -&gt; Gestion -&gt; Méthodes de paiement.</string>
+  <string name="menu_set_sort_key_help_text">Définit une clé numérique déterminant la position du compte dans cette liste des comptes pour le volet de navigation (ordre croissant).</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
   <string name="help_MethodEdit_info">Sélectionnez les types de comptes pour lesquels une méthode est applicable. Vous pouvez aussi définir un intitulé (sauf pour les méthodes prédéfinies). Par le type d\'une méthode, vous déterminez si celle-ci est applicable pour les dépenses (débit), les revenus (crédit) ou les deux (neutre).</string>

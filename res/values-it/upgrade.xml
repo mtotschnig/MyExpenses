@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Riprogettazione dell\'elenco dei conti: ordinamento definito dall\'utente</item>
+    <item>Somme di gruppo nell\'elenco delle transazioni accetta filtri in considerazione</item>
+  </string-array>
   <string-array name="whats_new_232">
     <item>Stampa in PDF ora supporta gli script non-occidentali</item>
     <item>Traduzione di Malese</item>

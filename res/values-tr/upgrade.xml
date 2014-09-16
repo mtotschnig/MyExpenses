@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Yeni hesap listesi tasarımı: kullanıcı tanımlı sıralama düzeni</item>
+    <item>Muamele listesindeki grup toplamları filtreleri dikkate alır</item>
+  </string-array>
   <string-array name="whats_new_232">
     <item>PDF dosyasına yazdırmak artık Batılı olmayan yazma sistemlerini destekler</item>
     <item>Malayca tercüme</item>
