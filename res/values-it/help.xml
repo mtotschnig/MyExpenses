@@ -77,6 +77,7 @@
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Modulo per i conti</string>
   <string name="help_AccountEdit_info">Il conto è identificato dalla sua etichetta, la descrizione ha solo scopo informativo. La valuta può essere facilmente selezionata da una lista. Si può definire la tipologia di conto come uno dei seguenti: contanti, conto bancario, accredito, addebito, carta di credito. La tipologia determina i metodi di pagamento disponibili che si possono configurare nelle Impostazioni-&gt; Gestione -&gt; Metodi di pagamento.</string>
+  <string name="menu_set_sort_key_help_text">Impostare una chiave numerica, determinazione della posizione dell\'account nell\'elenco account nel cassetto navigazione (sorta di ascendente).</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
   <string name="help_MethodEdit_info">In questa schermata è possibile associare un metodo di pagamento con i tipi di conto. È inoltre possibile definire un\'etichetta (con l\'eccezione dei metodi predefiniti che hanno un\'etichetta fissa non modificabile). Attraverso il tipo di un metodo, si determina se è applicabile per le spese (debito), reddito (credito) o entrambi (neutrale).</string>

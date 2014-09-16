@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Cuenta</string>
   <string name="account_type_asset">Cuenta de activo</string>
+  <string name="account_type_asset_plural">Cuentas de activo</string>
   <string name="account_type_bank">Cuenta bancaria</string>
+  <string name="account_type_bank_plural">Cuentas bancarias</string>
   <string name="account_type_cash">Cuenta de caja</string>
+  <string name="account_type_cash_plural">Cuentas de caja</string>
   <string name="account_type_ccard">Tarjeta de crédito</string>
+  <string name="account_type_ccard_plural">Tarjetas de crédito</string>
   <string name="account_type_liability">Cuenta de pasivo</string>
+  <string name="account_type_liability_plural">Cuentas de passivo</string>
   <string name="already_defined">%1$s ya existe.</string>
   <string name="amount">Importe</string>
   <string name="app_name">Mis gastos</string>
@@ -201,6 +206,7 @@
   <string name="menu_search">Buscar</string>
   <string name="menu_settings">Configuraciones</string>
   <string name="menu_share">Contarle a un amigo</string>
+  <string name="menu_set_sort_key">Establecer la clave de ordenación</string>
   <string name="method">Método</string>
   <string name="new_version">Nueva versión</string>
   <string name="no_accounts">Ningunas cuentas</string>
@@ -273,6 +279,7 @@
   <string name="pref_auto_fill_title"> Autorrelleno de asientos</string>
   <string name="pref_auto_fill_summary">Relleno en cantidad, categoría y comentario de lo último asiento para el mismo beneficiario/ordenante</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones.</string>
+  <string name="pref_categories_sort_by_usages_summary">Deben ordenar cuentas, plantillas y categorías por con qué frecuencia se utilizan en lugar de tipo alfabético. Este valor se omite para cuentas si tienen una especie clave establecido.</string>
   <string name="pref_categories_sort_by_usages_title">Criterio de ordenación: Frecuencia de utilización</string>
   <string name="pref_category_title_export">Exportación</string>
   <string name="pref_category_title_import">Importación</string>

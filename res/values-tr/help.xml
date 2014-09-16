@@ -77,6 +77,7 @@
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="help_AccountEdit_info">Hesaplar etiketleri ile tanımlanır, açıklamanın amacı sadece bilgilendirici olmaktır. Para birimi listeden kolayca seçilebilir. Hesabın türünü nakit, banka hesabı, aktifler, borç ve kredi kartından biri olarak seçebilirsiniz. Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
+  <string name="menu_set_sort_key_help_text">Tarama çekmecesindeki hesap listesinde hesabın konumunu belirleyecek bir sayısal anahtar ayarların (yukarıya doğru sıralama). </string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>
   <string name="help_MethodEdit_info">Bu ekranda herhangi bir ödeme metodunu hesap türleriyle ilişkilendirebilirsiniz. Bir etiket tanımlamanız da mümkündür (düzenlenmeyen ve sabit etiketi bulunan öntanımlı metotların istisnası dışında). Metodun türüyle, harcalamalar (giderler), gelirler ya da ikisi için (nötr) geçerli olmasını sağlayabilirsiniz. Bu metodu kullanan muameleler sayılı ise (mesela çek numarası), bir bayrak ayarlamanız da mümkündür.</string>

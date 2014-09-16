@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Conto</string>
   <string name="account_type_asset">Conto di beni</string>
+  <string name="account_type_asset_plural">Conti di beni</string>
   <string name="account_type_bank">Conto bancario</string>
-  <string name="account_type_cash">Conto monetario</string>
+  <string name="account_type_bank_plural">Conti bancari</string>
+  <string name="account_type_cash">Conto di cassa</string>
+  <string name="account_type_cash_plural">Conti di cassa</string>
   <string name="account_type_ccard">Carta di credito</string>
+  <string name="account_type_ccard_plural">Carte di credito</string>
   <string name="account_type_liability">Conto di responsabilità</string>
+  <string name="account_type_liability_plural">Conti di responsabilità</string>
   <string name="already_defined">%1$s è già definita</string>
   <string name="amount">Somma</string>
   <string name="app_name">Le mie spese</string>
@@ -201,6 +206,7 @@
   <string name="menu_search">Cerca</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_share">Dillo a un amico</string>
+  <string name="menu_set_sort_key">Impostare la chiave di ordinamento</string>
   <string name="method">Modo</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">Nessun conto !</string>
@@ -273,6 +279,7 @@
   <string name="pref_auto_fill_title">Operazioni di riempimento automatico</string>
   <string name="pref_auto_fill_summary">Riempimento in quantità, categoria e commento da ultima operazione stesso beneficiario/ordinante</string>
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.</string>
+  <string name="pref_categories_sort_by_usages_summary">Dovrebbero categorie, modelli e conti ordinati in quanto spesso sono usati invece di ordinamento alfabetico. Questa impostazione viene ignorata per i conti se hanno una chiave di ordinamento impostato.</string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento: frequenza d\'uso</string>
   <string name="pref_category_title_export">Esporta</string>
   <string name="pref_category_title_import">Importa</string>
