@@ -680,19 +680,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE accounts add column sort_key integer");
     }
   }
+
   @SuppressLint("NewApi")
   @Override
   public void onConfigure(SQLiteDatabase db) {
     db.setForeignKeyConstraintsEnabled(true);
     super.onConfigure(db);
-  }
-  @SuppressLint("NewApi")
-  @Override
-  public void onConfigure(SQLiteDatabase db) {
-    db.setForeignKeyConstraintsEnabled(true);
-    super.onConfigure(db);
-  }
-  public static boolean hasForeignKeySupport() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
   }
 }
