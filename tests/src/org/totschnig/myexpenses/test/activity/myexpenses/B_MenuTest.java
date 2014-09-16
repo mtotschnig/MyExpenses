@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.activity.myexpenses;
 
-import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
@@ -43,11 +42,6 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
       mSolo.clickOnText(mContext.getString(R.string.dialog_contrib_no));
     }
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
-  }
-  public void testEditAccount() {
-    clickOnActionBarItem("EDIT_ACCOUNT");
-    //assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, R.id.EDIT_ACCOUNT_COMMAND, 0));
-    assertTrue(mSolo.waitForActivity(AccountEdit.class.getSimpleName()));
   }
   public void testHelp() {
     clickOnActionBarItem("HELP");

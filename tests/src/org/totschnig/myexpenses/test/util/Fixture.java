@@ -98,6 +98,7 @@ public class Fixture {
         Build.VERSION.SDK_INT > 13 ? testContext.getResources().getColor(android.R.color.holo_red_dark) : Color.RED
     );
     account2.save();
+    if (stage ==2) return;
     account3 = new Account(
         testContext.getString(R.string.testData_account3Label),
         defaultCurrency,
