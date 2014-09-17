@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -89,7 +90,7 @@ public class CommonCommands {
       return true;
     case R.id.HELP_COMMAND:
       i = new Intent(ctx,Help.class);
-      i.putExtra("variant",((ProtectedFragmentActivity)ctx).helpVariant);
+      i.putExtra(HelpDialogFragment.KEY_VARIANT,((ProtectedFragmentActivity)ctx).helpVariant);
       //for result is needed since it allows us to inspect the calling activity
       ctx.startActivityForResult(i,0);
       return true;

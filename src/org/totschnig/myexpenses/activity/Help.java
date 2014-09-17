@@ -17,16 +17,23 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 
+import android.content.ComponentName;
 import android.os.Bundle;
 
 public class Help extends ProtectedFragmentActivityNoAppCompat {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    String activityName = getCallingActivity().getShortClassName();
-    //trim leading .
-    activityName = activityName.substring(activityName.lastIndexOf(".")+1);
-    Enum<?> variant = (Enum<?>) getIntent().getSerializableExtra("variant");
+    String activityName;
+    ComponentName callingActivity = getCallingActivity();
+    if (callingActivity!=null) {
+      activityName = callingActivity.getShortClassName();
+      //trim leading .
+      activityName = activityName.substring(activityName.lastIndexOf(".")+1);
+    } else {
+      activityName = "MyExpenses";
+    }
+    Enum<?> variant = (Enum<?>) getIntent().getSerializableExtra(HelpDialogFragment.KEY_VARIANT);
     HelpDialogFragment.newInstance(activityName,variant).show(getSupportFragmentManager(),"HELP");
   }
 }
