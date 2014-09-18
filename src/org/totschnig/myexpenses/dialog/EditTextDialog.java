@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.R;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -67,6 +68,10 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
     mEditText.setOnEditorActionListener(this);
     mEditText.setId(1);
     mEditText.setText(args.getString(KEY_VALUE));
+    if (Build.VERSION.SDK_INT==Build.VERSION_CODES.FROYO) {
+      //workaround crash seen on HTC 2.2. devices
+      mEditText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT));
+    }
     //input.setSingleLine();
     return mEditText;
   }
