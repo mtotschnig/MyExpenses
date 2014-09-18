@@ -210,7 +210,9 @@ public class ExpenseEdit extends AmountActivity implements
         if (mNewInstance && mTransaction != null &&
             !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
           Cursor c = (Cursor) mPayeeAdapter.getItem(position);
-          if (!c.isNull(2)) {
+          //moveToPosition should not be necessary,
+          //but has been reported to not be positioned correctly on samsung GT-I8190N
+          if (c.moveToPosition(position) && !c.isNull(2)) {
             if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
               if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
                 startAutoFill(c.getLong(2));
