@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
@@ -124,8 +125,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
-      calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
-      mViewPager.setCurrentItem(1);
+      try {
+        calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
+        mViewPager.setCurrentItem(1);
+      } catch (Exception e) {
+        Utils.reportToAcra(e);
+      }
     }
     helpVariant = HelpVariant.templates;
   }
