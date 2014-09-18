@@ -897,8 +897,9 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer))
       mTransaction.setDate(mCalendar.getTime());
 
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION)
-      mTransaction.catId = mCatId;
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+      mTransaction.setCatId(mCatId);
+    }
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mTransaction.setPayee(mPayeeText.getText().toString());
         long selected = mMethodSpinner.getSelectedItemId();
@@ -1124,7 +1125,7 @@ public class ExpenseEdit extends AmountActivity implements
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       if (o!=null) {
         Transaction t = (Transaction) o;
-        mCatId = t.catId;
+        mCatId = t.getCatId();
         mLabel = t.label;
         mCommentText.setText(t.comment);
         fillAmount(t.amount.getAmountMajor());
@@ -1164,7 +1165,7 @@ public class ExpenseEdit extends AmountActivity implements
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
       if (mCatId == null) {
-        mCatId = mTransaction.catId;
+        mCatId = mTransaction.getCatId();
         mLabel =  mTransaction.label;
       }
       setup();

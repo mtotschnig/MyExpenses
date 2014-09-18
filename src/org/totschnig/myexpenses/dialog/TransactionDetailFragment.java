@@ -204,7 +204,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       ((TextView) view.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
     } else {
       ((TextView) view.findViewById(R.id.Account)).setText(accountLabel);
-      if ((mTransaction.catId != null && mTransaction.catId > 0)) {
+      if ((mTransaction.getCatId() != null && mTransaction.getCatId() > 0)) {
         ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
       } else {
         view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);

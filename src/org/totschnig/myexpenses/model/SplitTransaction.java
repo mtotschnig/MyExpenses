@@ -30,15 +30,15 @@ public class SplitTransaction extends Transaction {
   
   public SplitTransaction(long accountId,Long amount) {
     super(accountId,amount);
-    catId = DatabaseConstants.SPLIT_CATID;
+    setCatId(DatabaseConstants.SPLIT_CATID);
   }
   public SplitTransaction(long accountId, Money amount) {
     super(accountId,amount);
-    catId = DatabaseConstants.SPLIT_CATID;
+    setCatId(DatabaseConstants.SPLIT_CATID);
   }
   public SplitTransaction(Account account, long amount) {
     super(account,amount);
-    catId = DatabaseConstants.SPLIT_CATID;
+    setCatId(DatabaseConstants.SPLIT_CATID);
   }
   /**
    * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}

@@ -15,10 +15,12 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+
 import java.util.Date;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitPartCategory;
 import org.totschnig.myexpenses.model.SplitTransaction;
@@ -26,6 +28,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.database.Cursor;
@@ -37,6 +40,8 @@ public class TransactionTest extends ModelTest  {
   @Override
   protected void setUp() throws Exception {
       super.setUp();
+      //make sure we have no categories stored
+      getMockContentResolver().delete(TransactionProvider.CATEGORIES_URI, null, null);
       mAccount1 = new Account("TestAccount 1",100,"Main account");
       mAccount1.save();
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
@@ -135,7 +140,42 @@ public class TransactionTest extends ModelTest  {
     assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split1.getId()));
     assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split2.getId()));
   }
-  public int countPayee(String name) {
+  
+  public void testIncreaseCatUsage() {
+    long catId1 = Category.write(0, "Test category 1", null);
+    long catId2 = Category.write(0, "Test category 2", null);
+    assertEquals(getUsage(catId1),0);
+    assertEquals(getUsage(catId2),0);
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
+    op1.amount = new Money(mAccount1.currency,100L);
+    op1.setCatId(catId1);
+    op1.save();
+    //saving a new transaction increases usage
+    assertEquals(getUsage(catId1),1);
+    assertEquals(getUsage(catId2),0);
+    //updating a transaction without touching catId does not increase usage
+    op1.comment = "Now with comment";
+    op1.save();
+    assertEquals(getUsage(catId1),1);
+    assertEquals(getUsage(catId2),0);
+    //updating category in transaction, does increase usage of new catId
+    op1.setCatId(catId2);
+    op1.save();
+    assertEquals(getUsage(catId1),1);
+    assertEquals(getUsage(catId2),1);
+    //new transaction without cat, does not increase usage
+    Transaction op2 = Transaction.getNewInstance(mAccount1.getId());
+    op2.amount = new Money(mAccount1.currency,100L);
+    op2.save();
+    assertEquals(getUsage(catId1),1);
+    assertEquals(getUsage(catId2),1);
+    //setting catId now does increase usage
+    op2.setCatId(catId1);
+    op2.save();
+    assertEquals(getUsage(catId1),2);
+    assertEquals(getUsage(catId2),1);
+  }
+  private int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI,new String[] {"count(*)"},
         "name = ?", new String[] {name}, null);
     if (cursor.getCount() == 0) {
@@ -147,5 +187,18 @@ public class TransactionTest extends ModelTest  {
       cursor.close();
       return result;
     }
+  }
+  private long getUsage(long catId) {
+    Cursor c = getMockContentResolver().query(
+        TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).build(),
+        new String[]{DatabaseConstants.KEY_USAGES},
+        null, null, null);
+    if (c!=null) {
+      if (c.moveToFirst()) {
+          return c.getLong(0);
+      }
+      c.close();
+    }
+    return 0;
   }
 }
