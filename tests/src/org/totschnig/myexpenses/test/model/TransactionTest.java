@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.test.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-
 import java.util.Date;
 
 import org.totschnig.myexpenses.model.Account;
@@ -40,8 +38,6 @@ public class TransactionTest extends ModelTest  {
   @Override
   protected void setUp() throws Exception {
       super.setUp();
-      //make sure we have no categories stored
-      getMockContentResolver().delete(TransactionProvider.CATEGORIES_URI, null, null);
       mAccount1 = new Account("TestAccount 1",100,"Main account");
       mAccount1.save();
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
