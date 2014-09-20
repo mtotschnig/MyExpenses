@@ -1009,11 +1009,11 @@ public class ExpenseEdit extends AmountActivity implements
       outState.putSerializable(KEY_PLAN,mPlan);
     }
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (methodId != android.widget.AdapterView.INVALID_POSITION) {
+    if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_METHODID, methodId);
     }
     long accountId = mAccountSpinner.getSelectedItemId();
-    if (accountId != android.widget.AdapterView.INVALID_POSITION) {
+    if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_ACCOUNTID, accountId);
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
