@@ -77,6 +77,7 @@
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formular für Konten</string>
   <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -&gt; Verwalten -&gt; Zahlungsweisen konfiguriert.</string>
+  <string name="menu_set_sort_key_help_text">Legen Sie eine Zahl fest, die die Position des Kontos in der Kontenliste in der Navigationsleiste bestimmt (aufsteigende Sortierung).</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formular für Zahlungsweisen</string>
   <string name="help_MethodEdit_info">Auf diesem Bildschirm wählen Sie die Kontotypen, bei denen eine Zahlungsweise zur Anwendung kommt. Die Bezeichnung is bei den vordefinierten Zahlungsweisen nicht veränderbar. Der Typ einer Zahlungsweise bestimmt, ob diese nur für Augaben, Einnahmen oder beides zur Anwendung kommt.</string>

@@ -77,6 +77,7 @@
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulário para contas</string>
   <string name="help_AccountEdit_info">A conta é identificada pela sua gravadora, a descrição tem somente um propósito informativo. A moeda pode ser facilmente escolhida de uma lista. Você pode definir o tipo de conta como um de dinheiro, banco, ativos, passivos, cartão de crédito. O tipo determina os métodos de pagamento disponíveis que você pode configurar em Settings -&gt; Gerenciar -&gt; métodos de pagamento.</string>
+  <string name="menu_set_sort_key_help_text">Defina uma chave numérica que determinam a posição da conta na lista de contas na gaveta de navegação (tipo de ascendente).</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>
   <string name="help_MethodEdit_info">Nesta tela, você pode associar um método de pagamento com os tipos de conta. Você também pode definir um rótulo (com exceção dos métodos predefinidos que têm um rótulo fixo que não pode ser editado). Através de tipo de um método, você determina se é aplicável para as despesas (débito), renda (crédito) ou ambos (neutro). Você também pode definir um sinalizador se transações usando este método são numeradas (por exemplo verificar os números).</string>
