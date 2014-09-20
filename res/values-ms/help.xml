@@ -77,6 +77,7 @@
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Borang untuk akaun</string>
   <string name="help_AccountEdit_info">Akaun dikenalpasti mengikut labelnya, keterangan hanyalah untuk tujuan menyatakan maklumat. Matawang boleh dipilih dengan mudah melalui senarai. Anda boleh takrifkan jenis akaun sebagai salah satu dari Tunai, Bank, Aset, Liabiliti, Kad Kredit. Jenis tersebut menentukan kaedah pembayaran yang anda boleh konfigurkan dibawah Tetapan -&gt; Urus -&gt; Kaedah Pembayaran.</string>
+  <string name="menu_set_sort_key_help_text">Tetapkan kekunci numerik yang menentukan kedudukan akaun dalam senarai akaun di dalam laci navigasi (isih menaik).</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Borang untuk kaedah pembayaran</string>
   <string name="help_MethodEdit_info">Pada skrin ini, anda boleh kaitkan kaedah pembayaran dengan jenis akaun. Anda juga takrif label (dengan pengecualian kaedah pratakrif yang telah mempunyai label tetap yang tidak dapat disunting). Menerusi jenis kaedah, anda tentukan jika ia boleh dilakukan untuk pembelanjaan (debit), pendapatan (kredit) atau kedua-dua (neutral). Anda juga boleh tetapkan satu penanda jika transaksi menggunakan kaedah ini bernombor (iaitu nombor bertanda).</string>
