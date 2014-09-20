@@ -191,8 +191,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onOpen(SQLiteDatabase db) {
       super.onOpen(db);
-      if (!db.isReadOnly() && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ) {
-          // Enable foreign key constraints, handled in onConfigure on JELLY_BEAN and above
+      //since API 16 we could use onConfigure to enable foreign keys
+      //which is run before onUpgrade
+      //but this makes upgrades more difficult, since then you have to maintain the constraint in
+      //each step of a multi statement upgrade with table rename
+      //we stick to doing upgrades with foreign keys disabled which forces us
+      //to take care of ensuring consistency during upgrades
+      if (!db.isReadOnly()) {
           db.execSQL("PRAGMA foreign_keys=ON;");
       }
   }
@@ -601,6 +606,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 44) {
       //add ON DELETE CASCADE
       //accounts table sort_key column
+      db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old");
+      db.execSQL("CREATE TABLE planinstance_transaction " +
+          "(template_id integer references templates(_id) ON DELETE CASCADE, " +
+          "instance_id integer, " +
+          "transaction_id integer references transactions(_id) ON DELETE CASCADE, " +
+          "primary key (instance_id,transaction_id));");
+      db.execSQL("INSERT INTO planinstance_transaction " +
+          "(template_id,instance_id,transaction_id)" +
+          "SELECT " +
+          "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
+      db.execSQL("DROP TABLE planinstance_transaction_old");
       db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
       db.execSQL("CREATE TABLE transactions (" +
           " _id integer primary key autoincrement," +
@@ -668,25 +684,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "plan_id, " +
             "plan_execution " +
           "FROM templates_old");
-      db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old");
-      db.execSQL("CREATE TABLE planinstance_transaction " +
-          "(template_id integer references templates(_id) ON DELETE CASCADE, " +
-          "instance_id integer, " +
-          "transaction_id integer references transactions(_id) ON DELETE CASCADE, " +
-          "primary key (instance_id,transaction_id));");
-      db.execSQL("INSERT INTO planinstance_transaction " +
-          "(template_id,instance_id,transaction_id)" +
-          "SELECT " +
-          "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
-      db.execSQL("DROP TABLE planinstance_transaction_old");
       db.execSQL("ALTER TABLE accounts add column sort_key integer");
     }
-  }
-
-  @SuppressLint("NewApi")
-  @Override
-  public void onConfigure(SQLiteDatabase db) {
-    db.setForeignKeyConstraintsEnabled(true);
-    super.onConfigure(db);
   }
 }

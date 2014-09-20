@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2331">
+      <item>Bug fix</item>
+  </string-array>
   <string-array name="whats_new_233">
     <item>Redesign of account list: User-defined sort order</item>
     <item>Group sums in transaction list takes filters into account</item>
