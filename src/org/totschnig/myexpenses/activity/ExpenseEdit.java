@@ -210,7 +210,9 @@ public class ExpenseEdit extends AmountActivity implements
         if (mNewInstance && mTransaction != null &&
             !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
           Cursor c = (Cursor) mPayeeAdapter.getItem(position);
-          if (!c.isNull(2)) {
+          //moveToPosition should not be necessary,
+          //but has been reported to not be positioned correctly on samsung GT-I8190N
+          if (c.moveToPosition(position) && !c.isNull(2)) {
             if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
               if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
                 startAutoFill(c.getLong(2));
@@ -897,8 +899,9 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer))
       mTransaction.setDate(mCalendar.getTime());
 
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION)
-      mTransaction.catId = mCatId;
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+      mTransaction.setCatId(mCatId);
+    }
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mTransaction.setPayee(mPayeeText.getText().toString());
         long selected = mMethodSpinner.getSelectedItemId();
@@ -1006,11 +1009,11 @@ public class ExpenseEdit extends AmountActivity implements
       outState.putSerializable(KEY_PLAN,mPlan);
     }
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (methodId != android.widget.AdapterView.INVALID_POSITION) {
+    if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_METHODID, methodId);
     }
     long accountId = mAccountSpinner.getSelectedItemId();
-    if (accountId != android.widget.AdapterView.INVALID_POSITION) {
+    if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_ACCOUNTID, accountId);
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
@@ -1124,7 +1127,7 @@ public class ExpenseEdit extends AmountActivity implements
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       if (o!=null) {
         Transaction t = (Transaction) o;
-        mCatId = t.catId;
+        mCatId = t.getCatId();
         mLabel = t.label;
         mCommentText.setText(t.comment);
         fillAmount(t.amount.getAmountMajor());
@@ -1164,7 +1167,7 @@ public class ExpenseEdit extends AmountActivity implements
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
       if (mCatId == null) {
-        mCatId = mTransaction.catId;
+        mCatId = mTransaction.getCatId();
         mLabel =  mTransaction.label;
       }
       setup();

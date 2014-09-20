@@ -542,7 +542,8 @@ public class CategoryList extends BudgetListFragment implements
     if (super.onChildClick(parent, v, groupPosition,childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (!(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
+    if (ctx==null ||
+        !(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
         ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
       return false;
     }
@@ -561,7 +562,8 @@ public class CategoryList extends BudgetListFragment implements
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (!(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) || 
+    if (ctx==null ||
+        !(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
         ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
       return false;
     }

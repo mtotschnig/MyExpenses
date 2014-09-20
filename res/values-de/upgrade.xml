@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Neugestaltung der Kontenliste: benutzerdefinierte Sortierreihenfolge</item>
+    <item>In der Buchungsliste berücksichtigen die Gruppensummen jetzt die Filter</item>
+  </string-array>
   <string-array name="whats_new_232">
     <item>PDF Druck unterstützt jetzt nicht-westliche Skripts</item>
     <item>Malaiische Übersetzung</item>

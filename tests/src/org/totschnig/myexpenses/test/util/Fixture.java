@@ -131,14 +131,14 @@ public class Fixture {
     //Transaction 1
     Transaction op1 = Transaction.getNewInstance(account3.getId());
     op1.amount = new Money(defaultCurrency,-1200L);
-    op1.catId = findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1);
+    op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
     op1.setDate(new Date( now - 300000 ));
     op1.save();
 
     //Transaction 2
     Transaction op2 = Transaction.getNewInstance(account3.getId());
     op2.amount = new Money(defaultCurrency,-2200L);
-    op2.catId = findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2);
+    op2.setCatId(findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2));
     op2.comment = testContext.getString(R.string.testData_transaction2Comment);
     op2.setDate(new Date( now - 7200000 ));
     op2.save();
@@ -146,8 +146,8 @@ public class Fixture {
 
     //Transaction 3 Cleared
     op3.amount = new Money(defaultCurrency,-2500L);
-    op3.catId = findCat(testContext.getString(R.string.testData_transaction3SubCat),
-        findCat(testContext.getString(R.string.testData_transaction3MainCat), null));
+    op3.setCatId(findCat(testContext.getString(R.string.testData_transaction3SubCat),
+        findCat(testContext.getString(R.string.testData_transaction3MainCat), null)));
     op3.setDate(new Date( now - 72230000 ));
     op3.crStatus = CrStatus.CLEARED;
     op3.save();
@@ -155,8 +155,8 @@ public class Fixture {
     //Transaction 4 Cleared
     Transaction op4 = Transaction.getNewInstance(account3.getId());
     op4.amount = new Money(defaultCurrency,-5000L);
-    op4.catId = findCat(testContext.getString(R.string.testData_transaction4SubCat),
-        findCat(testContext.getString(R.string.testData_transaction4MainCat), null));
+    op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat),
+        findCat(testContext.getString(R.string.testData_transaction4MainCat), null)));
     op4.payee = testContext.getString(R.string.testData_transaction4Payee);
     op4.setDate(new Date( now - 98030000 ));
     op4.crStatus = CrStatus.CLEARED;
@@ -172,7 +172,7 @@ public class Fixture {
     //Transaction 6 Gift Reconciled
     Transaction op6 = Transaction.getNewInstance(account3.getId());
     op6.amount = new Money(defaultCurrency,10000L);
-    op6.catId = mainCat6;
+    op6.setCatId(mainCat6);
     op6.setDate(new Date( now - 810390000 ));
     op6.crStatus = CrStatus.RECONCILED;
     op6.save();
@@ -189,11 +189,11 @@ public class Fixture {
     op8.save();
     Transaction split1 = SplitPartCategory.getNewInstance(account3.getId(),op8.getId());
     split1.amount = new Money(defaultCurrency,-4523L);
-    split1.catId = mainCat2;
+    split1.setCatId(mainCat2);
     split1.save();
     Transaction split2 = SplitPartCategory.getNewInstance(account3.getId(),op8.getId());
     split2.amount = new Money(defaultCurrency,-4444L);
-    split2.catId = mainCat6;
+    split2.setCatId(mainCat6);
     split2.save();
 
     // Template
@@ -208,8 +208,8 @@ public class Fixture {
     Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.getId());
     template.amount = new Money(defaultCurrency,-90000L);
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
-    template.catId = findCat(templateSubCat,
-        findCat(testContext.getString(R.string.testData_templateMainCat), null));
+    template.setCatId(findCat(templateSubCat,
+        findCat(testContext.getString(R.string.testData_templateMainCat), null)));
     template.title = templateSubCat;
     template.payee = testContext.getString(R.string.testData_templatePayee);
     Uri planUri = new Plan(

@@ -484,6 +484,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   }
 
   private void findCategory(QifTransaction transaction, Transaction t) {
-    t.catId = categoryToId.get(transaction.category);
+    t.setCatId(categoryToId.get(transaction.category));
   }
 }

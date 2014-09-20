@@ -67,13 +67,13 @@ public class ExportTest extends ModelTest  {
     op.referenceNumber = "1";
     op.save();
     op.amount = new Money(account1.currency,-expense2);
-    op.catId = cat1Id;
+    op.setCatId(cat1Id);
     op.payee = "N.N.";
     op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.referenceNumber = "2";
     op.saveAsNew();
     op.amount = new Money(account1.currency,income1);
-    op.catId = cat2Id;
+    op.setCatId(cat2Id);
     op.payee = null;
     op.methodId = null;
     op.referenceNumber = null;
@@ -92,11 +92,11 @@ public class ExportTest extends ModelTest  {
     split.amount = new Money(account1.currency,split1);
     Transaction part = SplitPartCategory.getNewInstance(account1.getId(),split.getId());
     part.amount =  new Money(account1.currency,part1);
-    part.catId = cat1Id;
+    part.setCatId(cat1Id);
     part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     part.save();
     part.amount =  new Money(account1.currency,part2);
-    part.catId = cat2Id;
+    part.setCatId(cat2Id);
     part.saveAsNew();
     split.save();
   }

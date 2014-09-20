@@ -44,12 +44,14 @@ import android.widget.ImageView;
  */
 public class HelpDialogFragment extends CommitSafeDialogFragment implements ImageGetter {
   
+  public static final String KEY_VARIANT = "variant";
+  public static final String KEY_ACTIVITY_NAME = "activityName";
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
     Bundle args = new Bundle();
-    args.putString("activityName", activityName);
+    args.putString(KEY_ACTIVITY_NAME, activityName);
     if (variant != null)
-      args.putString("variant", variant.name());
+      args.putString(KEY_VARIANT, variant.name());
     dialogFragment.setArguments(args);
     return dialogFragment;
   }
@@ -63,8 +65,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     String title;
     String screenInfo="";
     Bundle args = getArguments();
-    String activityName = args.getString("activityName");
-    String variant = args.getString("variant");
+    String activityName = args.getString(KEY_ACTIVITY_NAME);
+    String variant = args.getString(KEY_VARIANT);
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.help_dialog, null);
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);

@@ -192,7 +192,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   public void onOpen(SQLiteDatabase db) {
       super.onOpen(db);
       if (!db.isReadOnly() && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ) {
-          // Enable foreign key constraints
+          // Enable foreign key constraints, handled in onConfigure on JELLY_BEAN and above
           db.execSQL("PRAGMA foreign_keys=ON;");
       }
   }
@@ -599,6 +599,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("UPDATE currency set code = 'ZMW' WHERE code = 'ZMK'");
     }
     if (oldVersion < 44) {
+      //add ON DELETE CASCADE
+      //accounts table sort_key column
       db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
       db.execSQL("CREATE TABLE transactions (" +
           " _id integer primary key autoincrement," +

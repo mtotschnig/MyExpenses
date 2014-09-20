@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -40,11 +39,14 @@ public class PlanExecutor extends IntentService {
   @Override
   public void onHandleIntent(Intent intent) {
     String plannerCalendarId;
+    long now = System.currentTimeMillis();
     try {
       plannerCalendarId = MyApplication.getInstance().checkPlanner();
     } catch (Exception e) {
       //has been reported to fail (report 9bc4e977220f559fcd8a204195bcf47f)
       Utils.reportToAcra(e);
+      //we retry later
+      setAlarm(now+INTERVAL);
       return;
     }
     if (plannerCalendarId.equals("-1")) {
@@ -52,7 +54,6 @@ public class PlanExecutor extends IntentService {
       return;
     }
     long lastExecutionTimeStamp = MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(0L);
-    long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
       Log.i(MyApplication.TAG, "PlanExecutor started first time, nothing to do");
     } else {
@@ -170,9 +171,12 @@ public class PlanExecutor extends IntentService {
       }
     }
     MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(now);
+    setAlarm(now+INTERVAL);
+  }
+  private void setAlarm(long when) {
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, PlanExecutor.class), 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-    manager.set(AlarmManager.RTC, now + INTERVAL, 
+    manager.set(AlarmManager.RTC, when,
         pendingIntent);
   }
 }

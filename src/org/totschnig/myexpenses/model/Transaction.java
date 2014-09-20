@@ -39,11 +39,14 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Transaction extends Model {
-  public String comment="",label="",payee = "",referenceNumber="";
+  public String comment="",payee = "",referenceNumber="";
+  /**
+   * stores a short label of the category or the account the transaction is linked to
+   */
+  public String label="";
   protected Date date;
   public Money amount;
-  public Long catId;
-  //stores a short label of the category or the account the transaction is linked to
+  private Long catId;
   public Long accountId;
   public Long transfer_peer;
   public Long transfer_account;
@@ -184,7 +187,7 @@ public class Transaction extends Model {
       t.crStatus = CrStatus.UNRECONCILED;
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-    t.catId = catId;
+    t.setCatId(catId);
     t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
@@ -210,7 +213,7 @@ public class Transaction extends Model {
     else {
       tr = new Transaction(te.accountId,te.amount);
       tr.methodId = te.methodId;
-      tr.catId = te.catId;
+      tr.setCatId(te.getCatId());
     }
     tr.comment = te.comment;
     tr.payee = te.payee;
@@ -268,6 +271,12 @@ public class Transaction extends Model {
     this.accountId = account.getId();
     this.amount = new Money(account.currency,amount);
   }
+  public Long getCatId() {
+    return catId;
+  }
+  public void setCatId(Long catId) {
+    this.catId = catId;
+  }
   public void setDate(Date date){
     if (date==null) {
       throw new RuntimeException("Transaction date cannot be set to null");
@@ -294,6 +303,25 @@ public class Transaction extends Model {
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public Uri save() {
+    boolean needIncreaseUsage = false;
+    if (catId != null && catId != DatabaseConstants.SPLIT_CATID) {
+      if (getId() == 0) {
+        needIncreaseUsage = true;
+      } else {
+        Cursor c = cr().query(
+            CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
+            new String[]{KEY_CATID},
+            null, null, null);
+        if (c!=null) {
+          if (c.moveToFirst()) {
+            if (c.getLong(0) != catId) {
+              needIncreaseUsage = true;
+            }
+          }
+          c.close();
+        }
+      }
+    }
     Uri uri;
     Long payeeStore;
     if (payeeId > 0) {
@@ -311,7 +339,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_DATE, date.getTime()/1000);
 
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
-    initialValues.put(KEY_CATID, catId);
+    initialValues.put(KEY_CATID, getCatId());
     initialValues.put(KEY_PAYEEID, payeeStore);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
@@ -324,14 +352,6 @@ public class Transaction extends Model {
         return null;
       }
       setId(ContentUris.parseId(uri));
-      if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
-        cr().update(
-            TransactionProvider.CATEGORIES_URI
-              .buildUpon()
-              .appendPath(String.valueOf(catId))
-              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-              .build(),
-            null, null, null);
       if (parentId == null)
         cr().update(
             TransactionProvider.ACCOUNTS_URI
@@ -350,6 +370,15 @@ public class Transaction extends Model {
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri,initialValues,null,null);
+    }
+    if (needIncreaseUsage) {
+      cr().update(
+          TransactionProvider.CATEGORIES_URI
+            .buildUpon()
+            .appendPath(String.valueOf(catId))
+            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+            .build(),
+          null, null, null);
     }
     return uri;
   }
@@ -441,10 +470,10 @@ public class Transaction extends Model {
         return false;
     } else if (!amount.equals(other.amount))
       return false;
-    if (catId == null) {
-      if (other.catId != null)
+    if (getCatId() == null) {
+      if (other.getCatId() != null)
         return false;
-    } else if (!catId.equals(other.catId))
+    } else if (!getCatId().equals(other.getCatId()))
       return false;
     if (comment == null) {
       if (other.comment != null)

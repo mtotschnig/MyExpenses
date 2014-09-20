@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Reka semula senarai akaun: Tertib isih ditakrif-pengguna</item>
+    <item>Hasil tambah berkumpulan dalam senarai transaksi membawa penapis ke dalam akaun</item>
+  </string-array>
   <string-array name="whats_new_232">
     <item>Cetak ke PDF kini menyokong skrip non-Western</item>
     <item>Terjemahan Bahasa Melayu... yay</item>

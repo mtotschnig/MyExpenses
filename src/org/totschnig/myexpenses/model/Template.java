@@ -80,7 +80,7 @@ public class Template extends Transaction {
     this.title = title;
     this.accountId = t.accountId;
     this.amount = t.amount;
-    this.catId = t.catId;
+    this.setCatId(t.getCatId());
     this.comment = t.comment;
     this.methodId = t.methodId;
     this.payee = t.payee;
@@ -104,7 +104,7 @@ public class Template extends Transaction {
       transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     } else {
       methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-      catId = DbUtils.getLongOrNull(c, KEY_CATID);
+      setCatId(DbUtils.getLongOrNull(c, KEY_CATID));
       payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
@@ -186,7 +186,7 @@ public class Template extends Transaction {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
-    initialValues.put(KEY_CATID, catId);
+    initialValues.put(KEY_CATID, getCatId());
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     initialValues.put(KEY_PAYEEID, payee_id);
     initialValues.put(KEY_METHODID, methodId);
@@ -276,7 +276,7 @@ public class Template extends Transaction {
     sb.append(" : ");
     sb.append(Utils.formatCurrency(amount));
     sb.append("\n");
-    if (catId != null && catId > 0) {
+    if (getCatId() != null && getCatId() > 0) {
       sb.append(ctx.getString(R.string.category));
       sb.append(" : ");
       sb.append(label);
