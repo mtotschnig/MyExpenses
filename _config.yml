@@ -71,6 +71,79 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.3.3
+    - "2014-09-20"
+    -
+      en: |
+        Redesign of account list: User-defined sort order. Group sums in transaction list takes filters into account.
+      fr: |
+        Refonte de la liste des comptes : ordre de tri défini par l\'utilisateur. Les totaux de groupes dans la liste des opérations prend en compte les filtres.
+      de: |
+        Neugestaltung der Kontenliste: benutzerdefinierte Sortierreihenfolge. In der Buchungsliste berücksichtigen die Gruppensummen jetzt die Filter.
+      it: |
+        Riprogettazione dell\'elenco dei conti: ordinamento definito dall\'utente. Somme di gruppo nell\'elenco delle transazioni accetta filtri in considerazione.
+      es: |
+        Rediseño de lista de cuentas: orden definido por el usuario. Sumas de grupo en la lista de transacciones toma en cuenta los filtros.
+      pt: |
+        Redesenho da lista de contas: ordem de classificação definida pelo usuário. Somas de grupo na lista de transação leva filtros em consideração.
+      tr: |
+        Yeni hesap listesi tasarımı: kullanıcı tanımlı sıralama düzeni. Muamele listesindeki grup toplamları filtreleri dikkate alır.
+  -
+    - 2.3.2
+    - "2014-09-06"
+    -
+      en: |
+        Print to PDF now supports non-Western scripts. Malaya translation.
+      fr: |
+        Imprimer vers PDF maintenant prend en charge les scripts non occidentaux. Traduction en Malais.
+      de: |
+        PDF Druck unterstützt jetzt nicht-westliche Skripts. Malaiische Übersetzung.
+      it: |
+        Stampa in PDF ora supporta gli script non-occidentali. Traduzione di Malese.
+      es: |
+        Imprimir a PDF ahora admite escrituras no occidentales. Traducción de Malayo.
+      pt: |
+        Imprimir para PDF agora suporta scripts não-ocidentais. Tradução de malaio.
+      tr: |
+        PDF dosyasına yazdırmak artık Batılı olmayan yazma sistemlerini destekler. Malayca tercüme.
+  -
+    - 2.3.1
+    - "2014-09-02"
+    -
+      en: |
+        Autofill from last transaction for same payee/payer. Instantiate template upon short tap on entry in template list. Configurable encoding for QIF import.
+      fr: |
+        Remplissage automatique de la dernière opération pour le même bénéficiaire/payeur. Applique le modèle sur clic court dans la liste des modèles. Encodage configurable pour importation QIF.
+      de: |
+        Automatisches Ausfüllen auf Basis der letzten Buchung für denselben Empfänger/Zahler. Vorlage werden durch kurzes Tippen auf den Eintrag in der Vorlagenliste angewendet. Konfigurierbare Kodierung für QIF-import.
+      it: |
+        Autocompilazione da ultima operazione stesso beneficiario/ordinante. Modello instantiate a breve colpetto sulla voce nell'elenco dei modelli. Codifica configurabile per l'importazione QIF.
+      es: |
+        Autorrellenar con última operación para el mismo beneficiario/ordenante. Crear instancias de plantilla sobre la breve toque en la entrada en la lista de la plantilla. Codificación configurable para QIF importación.
+      pt: |
+        Preenchimento automático da última transação para o mesmo beneficiário/pagador. Instantiate modelo com torneira curta na entrada na lista de modelo. Configurável de codificação para importação QIF.
+      tr: |
+        Aynı alacaklı/ödeyici için son muameleden otomatik doldurma. Şablon listesindeki bir unsura kısa dokunma ile şablon örneklemesi. QIF içe aktarım içen yapılandırılabilir kodlama.
+  -
+    - 2.3.0
+    - "2014-08-26"
+    -
+      en: |
+        Print transaction list to PDF file (Premium).
+      fr: |
+        Impression de la liste des opérations dans un fichier PDF (Premium).
+      de: |
+        Buchungsliste als PDF-Datei drucken (Premium).
+      it: |
+        Stampare un elenco dei operazione in file PDF (Premium).
+      es: |
+        Imprimir la lista de operacciones in archivo PDF (Premium).
+      pt: |
+        Exportar lista de transações para PDF (Premium).
+      tr: |
+        Muamele listesini PDF dosyasına yazdır (Katkı sürümünü gerektirir).
+
+  -
     - 2.2.0
     - "2014-08-09"
     -
