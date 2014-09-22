@@ -231,6 +231,10 @@ public class CategoryList extends BudgetListFragment implements
     } else  {
       c = mGroupCursor;
     }
+    if (c==null||c.getCount()==0) {
+      //observed on Blackberry Z10
+      return false;
+    }
     String label = c.getString(c.getColumnIndex(KEY_LABEL));
     switch(command) {
     case R.id.EDIT_COMMAND:
