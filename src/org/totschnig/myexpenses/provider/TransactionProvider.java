@@ -176,9 +176,9 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS_SUMS:
       accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
-        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+        accountSelector = uri.getQueryParameter(KEY_CURRENCY_ID);
         accountSelectionQuery = " IN " +
-            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY_ID + " = ?)";
       } else {
         accountSelectionQuery = " = ?";
       }
@@ -193,8 +193,8 @@ public class TransactionProvider extends ContentProvider {
       String accountSelectionField,accountSelectionFieldOpeningBalance;
       accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
-        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionField = accountSelectionFieldOpeningBalance = KEY_CURRENCY; 
+        accountSelector = uri.getQueryParameter(KEY_CURRENCY_ID);
+        accountSelectionField = accountSelectionFieldOpeningBalance = KEY_CURRENCY_ID; 
       } else {
         accountSelectionField = KEY_ACCOUNTID;
         accountSelectionFieldOpeningBalance = KEY_ROWID;
@@ -316,7 +316,7 @@ public class TransactionProvider extends ContentProvider {
             null, null, null);
         qb.setTables("(SELECT " + 
             KEY_ROWID + "," + 
-            KEY_CURRENCY + "," + 
+            KEY_CURRENCY_CODE + "," + 
             KEY_OPENING_BALANCE + "," +
             KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT +
@@ -327,16 +327,15 @@ public class TransactionProvider extends ContentProvider {
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
               HAS_EXPORTED + ", " +
               HAS_FUTURE +
-            " FROM " + TABLE_ACCOUNTS + ") as t");
-        groupBy = "currency";
+            " FROM " + VIEW_ACCOUNTS + ") as t");
+        groupBy = KEY_CURRENCY_CODE;
         having = "count(*) > 1";
         projection = new String[] {
-            "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
-                + " WHERE code = currency)  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-            KEY_CURRENCY + " AS " + KEY_LABEL,
+            "0 - KEY_CURRENCY_ID  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+            KEY_CURRENCY_CODE + " AS " + KEY_LABEL,
             "'' AS " + KEY_DESCRIPTION,
             "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
-            KEY_CURRENCY,
+            KEY_CURRENCY_CODE,
             "-1 AS " + KEY_COLOR,
             "'NONE' AS " + KEY_GROUPING,
             "'AGGREGATE' AS " + KEY_TYPE,
@@ -375,11 +374,11 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_CURRENCIES);
       projection = new String[] {
           "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-          KEY_CODE + " AS " + KEY_LABEL,
+          KEY_CURRENCY_CODE + " AS " + KEY_LABEL,
           "'' AS " + KEY_DESCRIPTION,
           "(select sum(" + KEY_OPENING_BALANCE
-              + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
-          KEY_CODE + " AS " + KEY_CURRENCY,
+              + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY_ID + " = " + KEY_ROWID + ") AS " + KEY_OPENING_BALANCE,
+          KEY_CURRENCY_CODE,
           "-1 AS " + KEY_COLOR,
           "'NONE' AS " + KEY_GROUPING,
           "'AGGREGATE' AS " + KEY_TYPE,

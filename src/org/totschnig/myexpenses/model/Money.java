@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Currency;
 
 public class Money implements Serializable {
   private Currency currency;
@@ -83,7 +82,7 @@ public class Money implements Serializable {
    * then we return {@link Money#DEFAULTFRACTIONDIGITS} in order to allow fractions with currencies like XXX
    */
   public int fractionDigits(Currency c) {
-    int digits = c.getDefaultFractionDigits();
+    int digits = c.getFractionDigits();
     return (digits == -1) ? DEFAULTFRACTIONDIGITS : digits;
   }
 }

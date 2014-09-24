@@ -75,10 +75,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
   private static final String VIEW_DEFINITION_EXTENDED(String tableName) {
     return " AS SELECT " +
-      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " + KEY_COLOR + ", " + KEY_CURRENCY +
+      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " + KEY_COLOR + ", " + KEY_CURRENCY_CODE +
       " FROM " + tableName +
       " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
-      " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
+      " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID +
+      " LEFT JOIN " + TABLE_CURRENCIES + " ON " + KEY_CURRENCY_ID + " = " + TABLE_CURRENCIES + "." + KEY_ROWID ;
 }
   /**
    * SQL statement for accounts TABLE
@@ -89,13 +90,19 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_LABEL           + " text not null, "
         + KEY_OPENING_BALANCE + " integer, "
         + KEY_DESCRIPTION     + " text, "
-        + KEY_CURRENCY        + " text not null, "
+        + KEY_CURRENCY_ID        + " integer references " + TABLE_CURRENCIES + "(" + KEY_ROWID + "), "
         + KEY_TYPE            + " text not null check (" + KEY_TYPE     + " in (" + Account.Type.JOIN     + ")) default '" + Account.Type.CASH.name()      + "', "
         + KEY_COLOR           + " integer default -3355444, "
         + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "', "
         + KEY_USAGES          + " integer default 0,"
         + KEY_SORT_KEY      + " integer);";
 
+  private static final String ACCOUNTS_VIEW_CREATE = 
+      "CREATE VIEW " + VIEW_ACCOUNTS + " AS SELECT" +
+          TABLE_ACCOUNTS + ".*, " + KEY_CURRENCY_CODE + "," + KEY_FRACTION_DIGITS + 
+          " FROM " + TABLE_ACCOUNTS +
+          " LEFT JOIN " + TABLE_CURRENCIES + " ON " + KEY_CURRENCY_ID + " = " + TABLE_CURRENCIES + "." + KEY_ROWID;
+          
   /**
    * SQL statement for categories TABLE
    * Table definition reflects format of Grisbis categories
@@ -165,9 +172,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " text unique not null);";
 
   private static final String CURRENCY_CREATE =
-    "CREATE TABLE " + TABLE_CURRENCIES
-      + " (" + KEY_ROWID  + " integer primary key autoincrement, " + KEY_CODE
-          + " text unique not null);";
+    "CREATE TABLE " + TABLE_CURRENCIES + " ("
+        + KEY_ROWID  + " integer primary key autoincrement, "
+        + KEY_CURRENCY_CODE  + " text unique not null,"
+        + KEY_FRACTION_DIGITS + " integer default null);";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -216,7 +224,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED   + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
-    insertDefaultAccount(db);
+    db.execSQL(ACCOUNTS_VIEW_CREATE);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
@@ -228,16 +236,28 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_PARENTID, SPLIT_CATID);
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
-    insertCurrencies(db);
+    long defaultCurrency = insertCurrencies(db);
+    insertDefaultAccount(db,defaultCurrency);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
   }
 
-  private void insertCurrencies(SQLiteDatabase db) {
+  /**
+   * @param db
+   * @return the id of the default currency which is needed in default account setup
+   */
+  private long insertCurrencies(SQLiteDatabase db) {
+    String defaultCurrencyCode = Account.getLocaleCurrency().getCode();
+    long defaultCurrencyId = 1; //it should not happen that we have to return this value
     ContentValues initialValues = new ContentValues();
     for (Account.CurrencyEnum currency: Account.CurrencyEnum.values()) {
-      initialValues.put(KEY_CODE,currency.name());
-      db.insert(TABLE_CURRENCIES, null, initialValues);
+      String code = currency.name();
+      initialValues.put(KEY_CURRENCY_CODE,code);
+      long _id = db.insert(TABLE_CURRENCIES, null, initialValues);
+      if (code.equals(defaultCurrencyCode)) {
+        defaultCurrencyId = _id;
+      }
     }
+    return defaultCurrencyId;
   }
   /**
    * @param db
@@ -258,12 +278,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.insert(TABLE_ACCOUNTTYES_METHODS, null, initialValues);
     }
   }
-  private void insertDefaultAccount(SQLiteDatabase db) {
+  private void insertDefaultAccount(SQLiteDatabase db,long currencyId) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL,mCtx.getString(R.string.app_name));
     initialValues.put(KEY_OPENING_BALANCE,0);
     initialValues.put(KEY_DESCRIPTION,mCtx.getString(R.string.default_account_description));
-    initialValues.put(KEY_CURRENCY,Account.getLocaleCurrency().getCurrencyCode());
+    initialValues.put(KEY_CURRENCY_ID,currencyId);
     initialValues.put(KEY_TYPE,Account.Type.CASH.name());
     initialValues.put(KEY_GROUPING,Account.Grouping.NONE.name());
     initialValues.put(KEY_COLOR,Account.defaultColor);

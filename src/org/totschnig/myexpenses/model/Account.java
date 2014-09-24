@@ -25,7 +25,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -34,6 +33,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.Currency;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -94,13 +94,13 @@ public class Account extends Model {
     KEY_LABEL,
     KEY_DESCRIPTION,
     KEY_OPENING_BALANCE,
-    KEY_CURRENCY,
+    KEY_CURRENCY_CODE,
     KEY_COLOR,
     KEY_GROUPING,
     KEY_TYPE,
     KEY_SORT_KEY,
     "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
-        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
+        + KEY_CURRENCY_ID + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY_ID + ") > 1 "
         +      "AS " + KEY_TRANSFER_ENABLED,
     HAS_EXPORTED
   };
@@ -538,13 +538,9 @@ public class Account extends Model {
     this("",(long)0,"");
   }
   public static Currency getLocaleCurrency() {
-    try {
-      Currency c = Currency.getInstance(Locale.getDefault());
+      java.util.Currency c = java.util.Currency.getInstance(Locale.getDefault());
       //makeSure we know about the currency
       return Utils.getSaveInstance(c);
-    } catch (IllegalArgumentException e) {
-      return Currency.getInstance("EUR");
-    }
   }
   /**
    * @param label
@@ -582,7 +578,7 @@ public class Account extends Model {
     Log.d("DEBUG","extracting account from cursor with id "+ getId());
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
-    this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
+    this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY_CODE)));
     this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
     try {
@@ -605,7 +601,7 @@ public class Account extends Model {
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
-     this.currency = Currency.getInstance(currency);
+     this.currency = new Currency(currency);
      openingBalance.setCurrency(this.currency);
    }
   
@@ -705,8 +701,8 @@ public class Account extends Model {
         //aggregate account
         AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);
         selection = KEY_ACCOUNTID +  " IN " +
-            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-        selectionArgs = new String[]{aa.currency.getCurrencyCode()};
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY_ID + " = ?)";
+        selectionArgs = new String[]{String.valueOf(aa.currency.getId())};
       } else {
         selection = KEY_ACCOUNTID + " = ?";
         selectionArgs  = new String[] { String.valueOf(accountId) };
@@ -1009,7 +1005,7 @@ public class Account extends Model {
     initialValues.put(KEY_LABEL, label);
     initialValues.put(KEY_OPENING_BALANCE,openingBalance.getAmountMinor());
     initialValues.put(KEY_DESCRIPTION,description);
-    initialValues.put(KEY_CURRENCY,currency.getCurrencyCode());
+    initialValues.put(KEY_CURRENCY_ID,currency.getId());
     initialValues.put(KEY_TYPE,type.name());
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR,color);
@@ -1105,8 +1101,8 @@ public class Account extends Model {
     String[] selectionArgs;
     if (getId() < 0) {
       selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[] {currency.getCurrencyCode()};
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY_ID + " = ?)";
+      selectionArgs = new String[] {String.valueOf(currency.getId())};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
       selectionArgs = new String[] { String.valueOf(getId()) };
@@ -1161,8 +1157,8 @@ public class Account extends Model {
     if (getId() < 0) {
       column = "sum("+CURRENT_BALANCE_EXPR+")";
       selection = KEY_ROWID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[] {currency.getCurrencyCode()};
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY_ID + " = ?)";
+      selectionArgs = new String[] {String.valueOf(currency.getId())};
     } else {
       column = CURRENT_BALANCE_EXPR;
       selection = KEY_ROWID + " = ?";
@@ -1199,7 +1195,7 @@ public class Account extends Model {
     builder.appendPath("groups")
       .appendPath(grouping.name());
     if (getId() < 0) {
-      builder.appendQueryParameter(KEY_CURRENCY, currency.getCurrencyCode());
+      builder.appendQueryParameter(KEY_CURRENCY_ID, String.valueOf(currency.getId()));
     } else {
       builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
     }
