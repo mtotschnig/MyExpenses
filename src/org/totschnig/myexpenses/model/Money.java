@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import org.totschnig.myexpenses.MyApplication;
+
 public class Money implements Serializable {
   private Currency currency;
   private Long amountMinor;
@@ -82,8 +84,16 @@ public class Money implements Serializable {
    * @return getDefaultFractionDigits for a currency, unless it is -1,
    * then we return {@link Money#DEFAULTFRACTIONDIGITS} in order to allow fractions with currencies like XXX
    */
-  public int fractionDigits(Currency c) {
+  public static int fractionDigits(Currency c) {
+    int customFractionDigits = MyApplication.getInstance().getSettings()
+        .getInt(c.getCurrencyCode()+"CustomFractionDigits", -1);
+    if (customFractionDigits != -1) {
+      return customFractionDigits;
+    }
     int digits = c.getDefaultFractionDigits();
-    return (digits == -1) ? DEFAULTFRACTIONDIGITS : digits;
+    if (digits != -1) {
+      return digits;
+    }
+    return DEFAULTFRACTIONDIGITS;
   }
 }
