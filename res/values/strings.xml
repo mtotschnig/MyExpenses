@@ -300,6 +300,7 @@
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_categories_sort_by_usages_summary">Should categories, templates and accounts be sorted by how often they are used instead of alphabetic sort. This setting is ignored for accounts if they have a sort key set.</string>
     <string name="pref_categories_sort_by_usages_title">Sort by count of usages</string>
+    <string name="pref_category_title_advanced">Advanced</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Manage</string>
@@ -313,6 +314,7 @@
     <string name="pref_contrib_donate_title">Send donation</string>
     <string name="pref_contrib_install_summary">By installing My Expenses Contrib Key, you gain access to premium features.</string>
     <string name="pref_contrib_install_title">Install Contrib app</string>
+    <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
     <string name="pref_enter_licence_title">Enter Contrib key</string>
     <string name="pref_export_format_title">Data format</string>
