@@ -35,6 +35,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +49,6 @@ import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Currency;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -151,23 +151,16 @@ public class Utils {
     return formatCurrency(amount,currency);
   }
   static String formatCurrency(BigDecimal amount, Currency currency) {
-    java.util.Currency c= currency.getWrappedCurrency();
-    NumberFormat nf;
-    if (c!=null) {
-      nf = NumberFormat.getCurrencyInstance();
-      nf.setCurrency(c);
-    } else {
-      nf = NumberFormat.getInstance();
-    }
-    int fractionDigits = currency.getFractionDigits();
+    NumberFormat nf = NumberFormat.getCurrencyInstance();
+    int fractionDigits = currency.getDefaultFractionDigits();
+    nf.setCurrency(currency);
     if (fractionDigits != -1) {
       nf.setMinimumFractionDigits(fractionDigits);
       nf.setMaximumFractionDigits(fractionDigits);
     } else {
       nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
     }
-    return (c!=null ? "" : currency.getCode() + " ")
-        + nf.format(amount);
+    return nf.format(amount);
   }
   public static Date dateFromSQL(String dateString) {
     try {
@@ -183,13 +176,12 @@ public class Utils {
    * currency, and with the given separator, but without the currency symbol
    * appropriate for CSV and QIF export
    */
-  public static DecimalFormat getDecimalFormat(
-      org.totschnig.myexpenses.model.Currency currency,char separator) {
+  public static DecimalFormat getDecimalFormat(Currency currency,char separator) {
     DecimalFormat nf = new DecimalFormat();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
     nf.setDecimalFormatSymbols(symbols);
-    int fractionDigits = currency.getFractionDigits();
+    int fractionDigits = currency.getDefaultFractionDigits();
     if (fractionDigits != -1) {
       nf.setMinimumFractionDigits(fractionDigits);
       nf.setMaximumFractionDigits(fractionDigits);
@@ -253,25 +245,21 @@ public class Utils {
     return convAmount(amount, currency);
   }
   public static Currency getSaveInstance(String strCurrency) {
-    java.util.Currency c;
+    Currency c;
     try {
-      c = java.util.Currency.getInstance(strCurrency);
+      c = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
       Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
-      c =  java.util.Currency.getInstance(Locale.getDefault());
+      c = Currency.getInstance(Locale.getDefault());
     }
     return getSaveInstance(c);
   }
-  /**
-   * @param currency
-   * @return a Currency that is guaranteed to be part of {@link Account.CurrencyEnum}
-   */
-  public static Currency getSaveInstance(java.util.Currency currency) {
+  public static Currency getSaveInstance(Currency currency) {
     try  {
       Account.CurrencyEnum.valueOf(currency.getCurrencyCode());
-      return new org.totschnig.myexpenses.model.Currency(currency.getCurrencyCode(),null);
+      return currency;
     } catch (IllegalArgumentException e) {
-      return new Currency("EUR");
+      return Currency.getInstance("EUR");
     }
   }
   /**

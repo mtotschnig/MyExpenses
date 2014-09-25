@@ -86,8 +86,7 @@ public class DatabaseConstants {
   public static final String KEY_LABEL = "label";
   public static final String KEY_COLOR = "color";
   public static final String KEY_TYPE = "type";
-  public static final String KEY_CURRENCY_CODE = "currency_code";
-  public static final String KEY_CURRENCY_ID = "currency_id";
+  public static final String KEY_CURRENCY = "currency";
   public static final String KEY_DESCRIPTION = "description";
   public static final String KEY_OPENING_BALANCE = "opening_balance";
   public static final String KEY_USAGES = "usages";
@@ -104,6 +103,7 @@ public class DatabaseConstants {
   public static final String KEY_PLAN_EXECUTION = "plan_execution";
   public static final String KEY_TEMPLATEID = "template_id";
   public static final String KEY_INSTANCEID = "instance_id";
+  public static final String KEY_CODE = "code";
   public static final String KEY_WEEK_START = "week_start";
   public static final String KEY_WEEK_END = "week_end";
   public static final String KEY_DAY = "day";
@@ -138,7 +138,6 @@ public class DatabaseConstants {
   public static final String KEY_SUM = "sum";
   public static final String KEY_SORT_KEY = "sort_key";
   public static final String KEY_SORT_KEY_TYPE = "sort_key_type";
-  public static final String KEY_FRACTION_DIGITS = "fraction_digits";
   /**
    * column alias for the second group (month or week)
    */
@@ -169,7 +168,7 @@ public class DatabaseConstants {
   public static final String VIEW_EXTENDED = "transactions_extended";
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
-  public static final String VIEW_ACCOUNTS = "accounts_all";
+
   /**
    * an SQL CASE expression for transactions
    * that gives either the category for normal transactions
