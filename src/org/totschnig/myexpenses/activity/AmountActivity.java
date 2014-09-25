@@ -55,7 +55,7 @@ public abstract class AmountActivity extends EditActivity {
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
-    nfDLocal = new DecimalFormat("#0.###",symbols);
+    nfDLocal = new DecimalFormat("#0.########",symbols);
     nfDLocal.setGroupingUsed(false);
     Utils.configDecimalSeparator(mAmountText, decimalSeparator);
   }
