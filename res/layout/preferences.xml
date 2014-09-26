@@ -209,8 +209,8 @@
   <PreferenceCategory android:title="@string/pref_category_title_advanced">
       <Preference android:key="@string/pref_custom_currency_key"
           android:title="@string/pref_custom_currency_title">
-        <intent android:targetPackage="org.myexpenses.totschnig"
-         android:targetClass="org.myexpenses.totschnig.ManageCurrencies"/>
+        <intent android:targetPackage="org.totschnig.myexpenses"
+         android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"/>
       </Preference>
   </PreferenceCategory>
 </PreferenceScreen> 

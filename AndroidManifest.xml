@@ -112,6 +112,7 @@
 		</activity>
 		<activity android:name=".activity.ContribInfoDialogActivity"
 			android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
+		<activity android:name=".activity.ManageCurrencies" />
 
 		<provider android:exported="false" android:name=".provider.TransactionProvider"
 			android:authorities="org.totschnig.myexpenses" />
