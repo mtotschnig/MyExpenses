@@ -88,7 +88,7 @@ public class ProtectionDelegate {
       }
     }
   }
-  public void startTaskExecution(int taskId, Long[] objectIds,
+  public <T> void startTaskExecution(int taskId, T[] objectIds,
       Serializable extra, int progressMessage) {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
     if (m.findFragmentByTag("ASYNC_TASK") != null) {

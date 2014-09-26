@@ -12,12 +12,14 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -36,7 +38,7 @@ import android.os.AsyncTask;
  * they are invoked after the Activity's and Fragment's onDestroy() method
  * have been called.
  */
-public class GenericTask extends AsyncTask<Long, Void, Object> {
+public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   private final TaskExecutionFragment taskExecutionFragment;
   private int mTaskId;
   private Serializable mExtra;
@@ -53,13 +55,12 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       this.taskExecutionFragment.mCallbacks.onPreExecute();
     }
   }
-
   /**
    * Note that we do NOT call the callback object's methods directly from the
    * background thread, as this could result in a race condition.
    */
   @Override
-  protected Object doInBackground(Long... ids) {
+  protected Object doInBackground(T... ids) {
     Transaction t;
     Long transactionId;
     Long[][] extraInfo2d;
@@ -67,7 +68,7 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
     int successCount = 0;
     switch (mTaskId) {
     case TaskExecutionFragment.TASK_CLONE:
-      for (long id : ids) {
+      for (long id : (Long[]) ids) {
         t = Transaction.getInstanceFromDb(id);
         if (t != null && t.saveAsNew() != null)
           successCount++;
@@ -75,20 +76,20 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
-      t = Transaction.getInstanceFromDb(ids[0]);
+      t = Transaction.getInstanceFromDb((Long) ids[0]);
       if (t != null && t instanceof SplitTransaction)
         ((SplitTransaction) t).prepareForEdit();
       return t;
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
-      return Template.getInstanceFromDb(ids[0]);
+      return Template.getInstanceFromDb((Long) ids[0]);
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
       // when we are called from a notification,
       // the template could have been deleted in the meantime
       // getInstanceFromTemplate should return null in that case
-      return Transaction.getInstanceFromTemplate(ids[0]);
+      return Transaction.getInstanceFromTemplate((Long) ids[0]);
     case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
       for (int i = 0; i < ids.length; i++) {
-        t = Transaction.getInstanceFromTemplate(ids[i]);
+        t = Transaction.getInstanceFromTemplate((Long) ids[i]);
         if (t != null) {
           if (mExtra != null) {
             extraInfo2d = (Long[][]) mExtra;
@@ -111,30 +112,30 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return account;
     case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
-      for (long id : ids) {
+      for (long id : (Long[]) ids) {
         Transaction.delete(id);
       }
       return null;
     case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-      Account.delete(ids[0]);
+      Account.delete((Long) ids[0]);
       return null;
     case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      for (long id : ids) {
+      for (long id : (Long[])ids) {
         PaymentMethod.delete(id);
       }
       return null;
     case TaskExecutionFragment.TASK_DELETE_PAYEES:
-      for (long id : ids) {
+      for (long id : (Long[])ids) {
         Payee.delete(id);
       }
       return null;
     case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-      for (long id : ids) {
+      for (long id : (Long[])ids) {
         Category.delete(id);
       }
       return null;
     case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      for (long id : ids) {
+      for (long id : (Long[]) ids) {
         Template.delete(id);
       }
       return null;
@@ -149,7 +150,7 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
           null, null, null);
       return null;
     case TaskExecutionFragment.TASK_MOVE:
-      Transaction.move(ids[0], (Long) mExtra);
+      Transaction.move((Long) ids[0], (Long) mExtra);
       return null;
     case TaskExecutionFragment.TASK_NEW_PLAN:
       Uri uri = ((Plan) mExtra).save();
@@ -172,7 +173,7 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
         ContentValues values = new ContentValues();
         values.putNull(KEY_TRANSACTIONID);
         values.put(KEY_TEMPLATEID, templateId);
-        values.put(KEY_INSTANCEID, ids[i]);
+        values.put(KEY_INSTANCEID, (Long) ids[i]);
         cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
       }
       return null;
@@ -201,7 +202,7 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       }
       return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
     case TaskExecutionFragment.TASK_BALANCE:
-      Account.getInstanceFromDb(ids[0]).balance((Boolean) mExtra);
+      Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;
     case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
       cr = MyApplication.getInstance().getContentResolver();
@@ -210,6 +211,12 @@ public class GenericTask extends AsyncTask<Long, Void, Object> {
       cr.update(
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
           values,null,null);
+      return null;
+    case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit()
+          .putInt(((String) (ids[0]))+Money.KEY_CUSTOM_FRACTION_DIGITS, (Integer) mExtra));
+      //TODO handle DB update
       return null;
     }
     return null;

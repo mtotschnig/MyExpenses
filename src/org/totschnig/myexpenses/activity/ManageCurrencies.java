@@ -1,16 +1,17 @@
 package org.totschnig.myexpenses.activity;
 
+import java.util.Currency;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -25,11 +26,6 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
       setContentView(R.layout.currency_list);
     }
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    // TODO overriden because help menu is not defined
-    return true;
-    }
-    @Override
     public void onFinishEditDialog(Bundle args) {
       String currency = args.getString(DatabaseConstants.KEY_CURRENCY);
       try {
@@ -37,11 +33,11 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
         if (result<0 ||result>8) {
           throw new IllegalArgumentException();
         }
-        SharedPreferencesCompat.apply(
-            MyApplication.getInstance().getSettings().edit()
-            .putInt(currency+Money.KEY_CUSTOM_FRACTION_DIGITS, result));
-        ((ArrayAdapter) ((ListFragment) getSupportFragmentManager().findFragmentById(R.id.currency_list))
-          .getListAdapter()).notifyDataSetChanged();
+        if (Money.fractionDigits(Currency.getInstance(currency))!=result) {
+          startTaskExecution(TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS,
+              new String[] {currency}, result,R.string.progress_dialog_saving);
+
+        }
       } catch (IllegalArgumentException e) {
         Toast.makeText(this, R.string.warning_fraction_digits_out_of_range, Toast.LENGTH_LONG).show();
       }
@@ -51,5 +47,11 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
 
     @Override
     public void onCancelEditDialog() {
+    }
+    @Override
+    public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    ((ArrayAdapter) ((ListFragment) getSupportFragmentManager().findFragmentById(R.id.currency_list))
+        .getListAdapter()).notifyDataSetChanged();
     }
 }

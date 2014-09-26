@@ -195,7 +195,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
    * @param extra
    * @param progressMessage if 0 no progress dialog will be shown
    */
-  public void startTaskExecution(int taskId, Long[] objectIds, Serializable extra, int progressMessage) {
+  public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra, int progressMessage) {
     getProtection().startTaskExecution(taskId,objectIds,extra,progressMessage);
   }
   
