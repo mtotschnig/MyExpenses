@@ -1,27 +1,19 @@
-
 package org.totschnig.myexpenses.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
+import java.util.Currency;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.List;
-
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 public class CurrencyList extends ListFragment {
 
@@ -35,10 +27,25 @@ public class CurrencyList extends ListFragment {
     setAdapter();
   }
 
-
   private void setAdapter() {
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        getActivity(), android.R.layout.simple_list_item_1,Account.CurrencyEnum.values());
+        getActivity(), android.R.layout.simple_list_item_1,Account.CurrencyEnum.values()) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        String text;
+        TextView v = (TextView) super.getView(position, convertView, parent);
+        Account.CurrencyEnum item = Account.CurrencyEnum.values()[position];
+        try {
+          Currency c = Currency.getInstance(item.name());
+          text = String.valueOf(Money.fractionDigits(c));
+        } catch (IllegalArgumentException e) {
+          text = "not supported by your OS";
+        }
+        v.setText(v.getText()+ " ("+text+")");
+        return v;
+      }
+    };
 
     setListAdapter(curAdapter);
   }
@@ -46,8 +53,17 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    Account.CurrencyEnum selected = Account.CurrencyEnum.values()[position];
-    Toast.makeText(getActivity(), selected.name(), Toast.LENGTH_LONG).show();
-    
+    Account.CurrencyEnum item = Account.CurrencyEnum.values()[position];
+    try {
+      Currency c = Currency.getInstance(item.name());
+      Bundle args = new Bundle();
+      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_set_fraction_digits));
+      args.putString(DatabaseConstants.KEY_CURRENCY, item.name());
+      args.putString(EditTextDialog.KEY_VALUE, String.valueOf(String.valueOf(Money.fractionDigits(c))));
+      args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
+      EditTextDialog.newInstance(args).show(getFragmentManager(), "SET_FRACTION_DIGITS");
+    } catch (IllegalArgumentException e) {
+      // "not supported by your OS";
+    }
   }
 }

@@ -22,6 +22,7 @@ import java.util.Currency;
 import org.totschnig.myexpenses.MyApplication;
 
 public class Money implements Serializable {
+  public static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
   private Currency currency;
   private Long amountMinor;
   /**
@@ -86,7 +87,7 @@ public class Money implements Serializable {
    */
   public static int fractionDigits(Currency c) {
     int customFractionDigits = MyApplication.getInstance().getSettings()
-        .getInt(c.getCurrencyCode()+"CustomFractionDigits", -1);
+        .getInt(c.getCurrencyCode()+KEY_CUSTOM_FRACTION_DIGITS, -1);
     if (customFractionDigits != -1) {
       return customFractionDigits;
     }

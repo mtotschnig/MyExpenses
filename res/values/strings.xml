@@ -113,6 +113,9 @@
     <string name="dialog_title_select_grouping">Pick a grouping</string>
     <string name="dialog_title_select_import_source">Pick a source for import</string>
     <string name="dialog_title_select_template">Pick a template</string>
+    <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
+    <string name="dialog_title_set_fraction_digits">Set the number of fraction digits</string>
     <string name="dialog_title_template_title">Set the title</string>
     <string name="dialog_title_warning_delete_account">Delete account?</string>
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
@@ -471,6 +474,7 @@
     <string name="warning_select_account">Please select an account!</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
+    <string name="warning_fraction_digits_out_of_range">Please set a number between 0 and 8</string>
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
     <string name="import_accounts_success">%1$s accounts successfully imported</string>
