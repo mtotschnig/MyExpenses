@@ -6,10 +6,13 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.CurrencyEnum;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 
@@ -28,31 +31,31 @@ public class CustomFractionDigitsTest extends MyActivityTest<ManageCurrencies> {
     super.setUp();
     mActivity = getActivity();
     mSolo = new Solo(mInstrumentation, mActivity);
-    
+    String currencyToTest = CurrencyEnum.values()[0].name();
+    //we start from 2
+    SharedPreferencesCompat.apply(
+        MyApplication.getInstance().getSettings().edit()
+        .putInt(currencyToTest+Money.KEY_CUSTOM_FRACTION_DIGITS,2));
     Fixture.setup(mInstrumentation, Locale.getDefault(),
-        Currency.getInstance(CurrencyEnum.values()[0].name()),1);
-    setActivity(null);
-    setActivityInitialTouchMode(false);
-    long accountId = Fixture.getAccount1().getId();
-    Intent i = new Intent()
-      .putExtra(KEY_ROWID,accountId)
-      .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses")
-      ;
-    setActivityIntent(i);
+        Currency.getInstance(currencyToTest),1);
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
     mSolo.waitForActivity(ManageCurrencies.class);
-    mList =  (ListView) ((ManageCurrencies) mActivity)
-        .getSupportFragmentManager().findFragmentById(R.id.currency_list).getView().findViewById(R.id.list);
   }
   public void testChangeOfFractionDigitsShouldKeepTransactionSum() {
     Account account = Fixture.getAccount1();
-    BigDecimal before = account.getTotalBalance().getAmountMajor();
+    Money before = account.getTotalBalance();
+    mInstrumentation.waitForIdleSync();
     mSolo.clickInList(0);
     assertTrue(mSolo.waitForText(mActivity.getString(R.string.dialog_title_set_fraction_digits)));
-    mSolo.enterText(0,"8");
+    mSolo.clearEditText(0);
+    mSolo.enterText(0,"3");
     mSolo.sendKey(Solo.ENTER);
-    mInstrumentation.waitForIdleSync();
-    assertEquals(before,account.getTotalBalance().getAmountMajor());
+    mSolo.waitForDialogToClose();
+    //refetch account
+    account = Account.getInstanceFromDb(account.getId());
+    Money after = account.getTotalBalance();
+    assertEquals(before.getAmountMajor(),after.getAmountMajor());
+    assertEquals(before.getAmountMinor()*10,after.getAmountMinor().longValue());
   }
 }

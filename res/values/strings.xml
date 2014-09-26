@@ -475,6 +475,8 @@
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="warning_fraction_digits_out_of_range">Please set a number between 0 and 8</string>
+    <string name="warning_change_fraction_digits">You are reducing the number of fraction digits for currency %1$s.
+        This will lead to loss of information for transactions you have already entered, and cannot be undone. Do you want to continue?</string>
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
     <string name="import_accounts_success">%1$s accounts successfully imported</string>

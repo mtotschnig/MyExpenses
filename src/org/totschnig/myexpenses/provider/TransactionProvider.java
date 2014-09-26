@@ -920,6 +920,11 @@ public class TransactionProvider extends ContentProvider {
           List<String> segments = uri.getPathSegments();
           segment = segments.get(2);
           String[] bindArgs = new String[] {segment};
+          int oldValue = Money.fractionDigits(Currency.getInstance(segment));
+          int newValue = Integer.parseInt(segments.get(3));
+          if (oldValue==newValue) {
+            return 0;
+          }
           c = db.query(
               TABLE_ACCOUNTS,
               new String[]{"count(*)"},
@@ -931,29 +936,23 @@ public class TransactionProvider extends ContentProvider {
             count=c.getInt(0);
           }
           c.close();
-          if (count==0) {
-            return 0;
+          if (count!=0) {
+            String operation = oldValue<newValue?"*":"/";
+            int factor = (int) Math.pow(10,Math.abs(oldValue-newValue));
+            db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
+                + KEY_OPENING_BALANCE+operation+factor+ " WHERE " + KEY_CURRENCY + "=?",
+                bindArgs);
+      
+            db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
+                + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
+                + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                bindArgs);
+      
+            db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
+                + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
+                + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                bindArgs);
           }
-          int oldValue = Money.fractionDigits(Currency.getInstance(segment));
-          int newValue = Integer.parseInt(segments.get(3));
-          if (oldValue==newValue) {
-            return 0;
-          }
-          String operation = oldValue<newValue?"*":"/";
-          int factor = (int) Math.pow(10,Math.abs(oldValue-newValue));
-          db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
-              + KEY_OPENING_BALANCE+operation+factor+ " WHERE " + KEY_CURRENCY + "=?",
-              bindArgs);
-    
-          db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
-              + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
-              + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
-              bindArgs);
-    
-          db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
-              + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
-              + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
-              bindArgs);
           Log.i("DEBUG","now storing "+newValue);
           SharedPreferencesCompat.apply(
               MyApplication.getInstance().getSettings().edit()
