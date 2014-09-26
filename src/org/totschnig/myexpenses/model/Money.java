@@ -21,10 +21,13 @@ import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
 
+import android.util.Log;
+
 public class Money implements Serializable {
   public static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
   private Currency currency;
   private Long amountMinor;
+  private int fractionDigits;
   /**
    * used with currencies where Currency.getDefaultFractionDigits returns -1
    */
@@ -33,9 +36,11 @@ public class Money implements Serializable {
   public Money(Currency currency, Long amountMinor) {
     this.currency = currency;
     this.amountMinor = amountMinor;
+    this.fractionDigits = fractionDigits(currency);
   }
   public Money(Currency currency, BigDecimal amountMajor) {
     this.currency = currency;
+    this.fractionDigits = fractionDigits(currency);
     setAmountMajor(amountMajor);
   }
   public Currency getCurrency() {
@@ -51,13 +56,11 @@ public class Money implements Serializable {
     this.amountMinor = amountMinor;
   }
   public void setAmountMajor(BigDecimal amountMajor) {
-    int scale = fractionDigits(currency);
-    this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10,scale))).longValue();
+    this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10,fractionDigits))).longValue();
   }
   public BigDecimal getAmountMajor() {
     BigDecimal bd = new BigDecimal(amountMinor);
-    int scale = fractionDigits(currency);
-    return bd.divide(new BigDecimal(Math.pow(10,scale)));
+    return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)));
   }
   @Override
   public boolean equals(Object obj) {
@@ -89,6 +92,7 @@ public class Money implements Serializable {
     int customFractionDigits = MyApplication.getInstance().getSettings()
         .getInt(c.getCurrencyCode()+KEY_CUSTOM_FRACTION_DIGITS, -1);
     if (customFractionDigits != -1) {
+      Log.i("DEBUG","retrieved "+customFractionDigits);
       return customFractionDigits;
     }
     int digits = c.getDefaultFractionDigits();

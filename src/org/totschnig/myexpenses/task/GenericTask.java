@@ -213,11 +213,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           values,null,null);
       return null;
     case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit()
-          .putInt(((String) (ids[0]))+Money.KEY_CUSTOM_FRACTION_DIGITS, (Integer) mExtra));
-      //TODO handle DB update
-      return null;
+      cr = MyApplication.getInstance().getContentResolver();
+      return cr.update(TransactionProvider.CURRENCIES_URI.buildUpon()
+          .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
+          .appendPath((String) ids[0])
+          .appendPath(String.valueOf((Integer)mExtra))
+          .build(),null,null, null);
     }
     return null;
   }

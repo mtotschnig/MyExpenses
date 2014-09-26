@@ -510,4 +510,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
+    <string name="change_fraction_digits_result">%1$d accounts with currency %2$s have been updated.</string>
 </resources>
