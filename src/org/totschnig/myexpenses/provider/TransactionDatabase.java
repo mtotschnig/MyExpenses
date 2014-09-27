@@ -260,7 +260,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
   private void insertDefaultAccount(SQLiteDatabase db) {
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_LABEL,mCtx.getString(R.string.app_name));
+    initialValues.put(KEY_LABEL,mCtx.getString(R.string.default_account_name));
     initialValues.put(KEY_OPENING_BALANCE,0);
     initialValues.put(KEY_DESCRIPTION,mCtx.getString(R.string.default_account_description));
     initialValues.put(KEY_CURRENCY,Account.getLocaleCurrency().getCurrencyCode());

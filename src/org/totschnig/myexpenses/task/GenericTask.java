@@ -106,7 +106,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       Account account;
       account = Account.getInstanceFromDb(0);
       if (account == null) {
-        account = new Account(MyApplication.getInstance().getString(R.string.app_name), 0,
+        account = new Account(MyApplication.getInstance().getString(R.string.default_account_name), 0,
             MyApplication.getInstance().getString(R.string.default_account_description));
         account.save();
       }
