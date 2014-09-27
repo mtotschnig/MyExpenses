@@ -348,12 +348,23 @@ public class AccountEdit extends AmountActivity implements
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
-    if (command == R.id.SET_SORT_KEY_COMMAND) {
+    switch (command) {
+    case R.id.SET_SORT_KEY_COMMAND:
       Bundle args = new Bundle();
       args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_set_sort_key));
       args.putString(EditTextDialog.KEY_VALUE, String.valueOf(mAccount.sortKey));
       args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "SET_SORT_KEY");
+      return true;
+    case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
+      mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
+      if (mAccount.getId()!=0) {
+        startTaskExecution(
+            TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
+            new Long[] {mAccount.getId()},
+            mAccount.excludeFromTotals, 0);
+        supportInvalidateOptionsMenu();
+      }
       return true;
     }
     return super.dispatchCommand(command, tag);

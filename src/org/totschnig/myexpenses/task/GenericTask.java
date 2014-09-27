@@ -65,6 +65,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Long transactionId;
     Long[][] extraInfo2d;
     ContentResolver cr;
+    ContentValues values;
     int successCount = 0;
     switch (mTaskId) {
     case TaskExecutionFragment.TASK_CLONE:
@@ -170,7 +171,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               KEY_INSTANCEID + " = ?",
               new String[] { String.valueOf(ids[i]) });
         }
-        ContentValues values = new ContentValues();
+        values = new ContentValues();
         values.putNull(KEY_TRANSACTIONID);
         values.put(KEY_TEMPLATEID, templateId);
         values.put(KEY_INSTANCEID, (Long) ids[i]);
@@ -206,7 +207,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return null;
     case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
       cr = MyApplication.getInstance().getContentResolver();
-      ContentValues values = new ContentValues();
+      values = new ContentValues();
       values.put(DatabaseConstants.KEY_SORT_KEY, (Integer) mExtra);
       cr.update(
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
@@ -219,6 +220,14 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           .appendPath((String) ids[0])
           .appendPath(String.valueOf((Integer)mExtra))
           .build(),null,null, null);
+    case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
+      cr = MyApplication.getInstance().getContentResolver();
+      values = new ContentValues();
+      values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean)mExtra);
+      cr.update(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
+          values,null,null);
+      return null;
     }
     return null;
   }

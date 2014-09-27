@@ -82,6 +82,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
   public static final int TASK_UPDATE_SORT_KEY = 27;
   public static final int TASK_CHANGE_FRACTION_DIGITS = 28;
+  public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   
 
   /**
