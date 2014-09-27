@@ -333,6 +333,9 @@ public class AccountEdit extends AmountActivity implements
     MenuItemCompat.setShowAsAction(
         menu.add(Menu.NONE, R.id.SET_SORT_KEY_COMMAND, 0, R.string.menu_set_sort_key),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    MenuItemCompat.setShowAsAction(
+        menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals),
+        MenuItemCompat.SHOW_AS_ACTION_NEVER);
     return true;
   }
   @Override

@@ -85,4 +85,5 @@
   <item type="id" name="OPEN_PDF_COMMAND" />
   <item type="id" name="AUTO_FILL_COMMAND" />
   <item type="id" name="SET_SORT_KEY_COMMAND"/>
+  <item type="id" name="EXCLUDE_FROM_TOTALS_COMMAND"/>
 </resources>

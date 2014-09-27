@@ -209,6 +209,7 @@
     <string name="menu_edit_template">Edit Template</string>
     <string name="menu_edit_transaction">Edit Transaction</string>
     <string name="menu_edit_transfer">Edit Transfer</string>
+    <string name="menu_exclude_from_totals">Exclude from totals</string>
     <string name="menu_forward">Forward</string>
     <string name="menu_grouping">Grouping</string>
     <string name="menu_help">Help</string>

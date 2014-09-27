@@ -120,10 +120,6 @@
       <item>create_template_from_transaction</item>
       <item>clone_transaction</item>
     </string-array>
-    <string-array name="ManageAccounts_menuitems">
-      <item>create_account</item>
-      <item>reset_all</item>
-    </string-array>
     <string-array name="ManageMethods_menuitems">
       <item>create_method</item>
     </string-array>
@@ -207,12 +203,13 @@
     <string-array name="AccountEdit_menuitems">
       <item>save</item>
       <item>set_sort_key</item>
+      <item>exclude_from_totals</item>
     </string-array>
     <string-array name="MethodEdit_menuitems">
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>171</item>
+      <item>172</item>
       <item>170</item>
       <item>168</item>
       <item>164</item>
@@ -238,7 +235,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
-      <item>2.3.3.1</item>
+      <item>2.3.4</item>
       <item>2.3.3</item>
       <item>2.3.2</item>
       <item>2.3.1</item>
