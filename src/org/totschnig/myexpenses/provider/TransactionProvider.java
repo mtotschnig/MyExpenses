@@ -183,7 +183,8 @@ public class TransactionProvider extends ContentProvider {
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
         accountSelectionQuery = " IN " +
-            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+          KEY_EXCLUDE_FROM_TOTALS + "=0)";
       } else {
         accountSelectionQuery = " = ?";
       }
@@ -195,18 +196,19 @@ public class TransactionProvider extends ContentProvider {
       selectionArgs = new String[]{accountSelector};
       break;
     case TRANSACTIONS_GROUPS:
-      String accountSelectionField,accountSelectionFieldOpeningBalance;
+      String accountSelectionQueryOpeningBalance;
       accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionField = accountSelectionFieldOpeningBalance = KEY_CURRENCY; 
+        accountSelectionQuery = accountSelectionQueryOpeningBalance 
+            = KEY_CURRENCY + " = ? AND "+ KEY_EXCLUDE_FROM_TOTALS + " = 0"; 
       } else {
-        accountSelectionField = KEY_ACCOUNTID;
-        accountSelectionFieldOpeningBalance = KEY_ROWID;
+        accountSelectionQuery = KEY_ACCOUNTID + " = ?";
+        accountSelectionQueryOpeningBalance = KEY_ROWID + " = ?";
       }
       
       String openingBalanceSubQuery =
-          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionFieldOpeningBalance  + " = ? )";
+          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance  + ")";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -261,7 +263,7 @@ public class TransactionProvider extends ContentProvider {
             + TRANSFER_SUM + ","
             + MAPPED_CATEGORIES
             + " FROM " + VIEW_EXTENDED
-            + " WHERE " + accountSelectionField + " = ? "
+            + " WHERE " + accountSelectionQuery
             + (selection!=null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
         projection = new String[] {
@@ -274,7 +276,7 @@ public class TransactionProvider extends ContentProvider {
             openingBalanceSubQuery +
                 " + (SELECT sum(amount) FROM "
                     + VIEW_EXTENDED
-                    + " WHERE " + accountSelectionField + " = ? AND " + WHERE_NOT_SPLIT
+                    + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT
                     + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
                     + "(" + yearExpression + " = " + KEY_YEAR + " AND "
                     + secondDef + " <= " + KEY_SECOND_GROUP + "))) AS " + KEY_INTERIM_BALANCE
@@ -332,7 +334,7 @@ public class TransactionProvider extends ContentProvider {
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
               HAS_EXPORTED + ", " +
               HAS_FUTURE +
-            " FROM " + TABLE_ACCOUNTS + ") as t");
+            " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t");
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {

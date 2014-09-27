@@ -34,7 +34,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 44;
+  public static final int DATABASE_VERSION = 45;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -75,7 +75,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
   private static final String VIEW_DEFINITION_EXTENDED(String tableName) {
     return " AS SELECT " +
-      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " + KEY_COLOR + ", " + KEY_CURRENCY +
+      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
+        KEY_COLOR + ", " + KEY_CURRENCY + ", " + KEY_EXCLUDE_FROM_TOTALS +
       " FROM " + tableName +
       " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
       " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
@@ -94,7 +95,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_COLOR           + " integer default -3355444, "
         + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "', "
         + KEY_USAGES          + " integer default 0,"
-        + KEY_SORT_KEY      + " integer);";
+        + KEY_SORT_KEY      + " integer,"
+        + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0);";
 
   /**
    * SQL statement for categories TABLE
@@ -659,7 +661,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           " cat_id integer references categories(_id)," +
           " account_id integer not null references accounts(_id) ON DELETE CASCADE," +
           " payee_id integer references payee(_id)," +
-          " transfer_peer boolean default false," +
+          " transfer_peer boolean default 0," +
           " transfer_account integer references accounts(_id) ON DELETE CASCADE," +
           " method_id integer references paymentmethods(_id)," +
           " title text not null," +
@@ -685,6 +687,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "plan_execution " +
           "FROM templates_old");
       db.execSQL("ALTER TABLE accounts add column sort_key integer");
+    }
+    if (oldVersion < 45) {
+      db.execSQL("ALTER TABLE accounts add column exclude_from_totals boolean default 0");
+      //added  to extended view
+      db.execSQL("DROP VIEW transactions_extended");
+      db.execSQL("DROP VIEW templates_extended");
+      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
   }
 }
