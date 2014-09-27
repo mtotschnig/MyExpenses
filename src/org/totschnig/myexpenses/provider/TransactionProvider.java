@@ -301,7 +301,7 @@ public class TransactionProvider extends ContentProvider {
       //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
       defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
-         + KEY_LABEL;
+         + KEY_LABEL + " COLLATE LOCALIZED";
       break;
     case CATEGORY_ID:
       qb.setTables(TABLE_CATEGORIES);
@@ -313,7 +313,7 @@ public class TransactionProvider extends ContentProvider {
       boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
       defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
-         + KEY_LABEL;
+         + KEY_LABEL + " COLLATE LOCALIZED";
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
@@ -481,7 +481,7 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(VIEW_TEMPLATES_EXTENDED);
       defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
-         + KEY_TITLE;
+         + KEY_TITLE + " COLLATE LOCALIZED";
       if (projection == null)
         projection = Template.PROJECTION_EXTENDED;
       break;
