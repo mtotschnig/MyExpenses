@@ -84,6 +84,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
@@ -167,7 +168,6 @@ public class ExpenseEdit extends AmountActivity implements
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     configAmountInput();
-    mTypeButton = (Button) findViewById(R.id.TaType);
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     mTypeButton.setEnabled(false);
     mCommentText = (EditText) findViewById(R.id.Comment);
@@ -281,8 +281,6 @@ public class ExpenseEdit extends AmountActivity implements
         mAccountId = null;
       if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
         mTransferAccountId = null;
-      mType = savedInstanceState.getBoolean(KEY_TYPE);
-      configureType();
     }
     mTemplateId = getIntent().getLongExtra(KEY_TEMPLATEID,0);
     //were we called from a notification
@@ -547,18 +545,6 @@ public class ExpenseEdit extends AmountActivity implements
       });
     }
 
-    mTypeButton.setOnClickListener(new View.OnClickListener() {
-
-      public void onClick(View view) {
-        mType = ! mType;
-        configureType();
-        if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
-          mTransaction.methodId = null;
-          mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
-        }
-      } 
-    });
-
     //when we have a savedInstance, fields have already been populated
     if (!mSavedInstance) {
       populateFields();
@@ -597,7 +583,14 @@ public class ExpenseEdit extends AmountActivity implements
      }
     });
   }
-
+  @Override
+  protected void onTypeButtonClicked() {
+    super.onTypeButtonClicked();
+    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+      mTransaction.methodId = null;
+      mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
+    }
+  }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
@@ -953,7 +946,6 @@ public class ExpenseEdit extends AmountActivity implements
    * updates interface based on type (EXPENSE or INCOME)
    */
   protected void configureType() {
-    super.configureType();
     if (mPayeeLabel != null) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
@@ -995,7 +987,6 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putBoolean(KEY_TYPE, mType);
     outState.putSerializable(KEY_CALENDAR, mCalendar);
     //restored in onCreate
     if (mRowId != 0) {

@@ -192,17 +192,6 @@ public class AccountEdit extends AmountActivity implements
     mColorSpinner.setAdapter(mColAdapter);
     populateFields();
   }
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putBoolean("type", mType);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    mType = savedInstanceState.getBoolean("type");
-    configureType();
-  }
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_COLOR_REQUEST) {
@@ -221,13 +210,6 @@ public class AccountEdit extends AmountActivity implements
    * populates the input field either from the database or with default value for currency (from Locale)
    */
   private void populateFields() {
-    mTypeButton = (Button) findViewById(R.id.TaType);
-    mTypeButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        mType = ! mType;
-        configureType();
-      }
-    });
 
     BigDecimal amount = mAccount.openingBalance.getAmountMajor();
     if (amount.signum() == -1) {

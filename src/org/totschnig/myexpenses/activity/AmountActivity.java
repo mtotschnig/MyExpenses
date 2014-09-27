@@ -28,7 +28,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
@@ -38,7 +40,7 @@ public abstract class AmountActivity extends EditActivity {
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
-  protected Button mTypeButton;
+  protected CompoundButton mTypeButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,12 @@ public abstract class AmountActivity extends EditActivity {
     nfDLocal = new DecimalFormat("#0.########",symbols);
     nfDLocal.setGroupingUsed(false);
     Utils.configDecimalSeparator(mAmountText, decimalSeparator);
+    mTypeButton = (CompoundButton) findViewById(R.id.TaType);
+    mTypeButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        onTypeButtonClicked();
+      }
+    });
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
@@ -72,9 +80,13 @@ public abstract class AmountActivity extends EditActivity {
       }
     }
   }
+  protected void onTypeButtonClicked() {
+    mType = mTypeButton.isChecked();
+    configureType();
+  }
 
   protected void configureType() {
-    mTypeButton.setText(mType ? "+" : "-");
+    mTypeButton.setChecked(mType);
   }
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
@@ -110,5 +122,17 @@ public abstract class AmountActivity extends EditActivity {
   protected void forwardDataEntryFromWidget(Intent intent) {
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
         getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean("type", mType);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    mType = savedInstanceState.getBoolean("type");
+    configureType();
   }
 }

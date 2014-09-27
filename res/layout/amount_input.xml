@@ -15,13 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-  <Button
+  <ToggleButton
       android:layout_gravity="center"
       android:layout_width="0dp"
       android:layout_weight="1"
       android:layout_height="wrap_content"
       android:id="@+id/TaType"
-      android:text="-" />
+      android:textOff="-"
+      android:textOn="+" />
   <EditText
       android:layout_gravity="center"
       android:id="@+id/Amount"
