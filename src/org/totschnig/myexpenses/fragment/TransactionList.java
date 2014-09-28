@@ -158,17 +158,6 @@ public class TransactionList extends BudgetListFragment implements
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
-    aObserver = new AccountObserver(new Handler());
-    ContentResolver cr= getActivity().getContentResolver();
-    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
-    //when account has changed, we might have
-    //1) to refresh the list (currency has changed),
-    //2) update current balance(opening balance has changed),
-    //3) update the bottombarcolor (color has changed)
-    //4) refetch grouping cursor (grouping has changed)
-    cr.registerContentObserver(
-        TransactionProvider.ACCOUNTS_URI,
-        true,aObserver);
   }
   private void setAdapter() {
     Context ctx = getActivity();
@@ -253,7 +242,6 @@ public class TransactionList extends BudgetListFragment implements
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
-    // Now create a simple cursor adapter and set it to display
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
     mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -267,6 +255,18 @@ public class TransactionList extends BudgetListFragment implements
          }
        }
     });
+    aObserver = new AccountObserver(new Handler());
+    ContentResolver cr= getActivity().getContentResolver();
+    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
+    //when account has changed, we might have
+    //1) to refresh the list (currency has changed),
+    //2) update current balance(opening balance has changed),
+    //3) update the bottombarcolor (color has changed)
+    //4) refetch grouping cursor (grouping has changed)
+    cr.registerContentObserver(
+        TransactionProvider.ACCOUNTS_URI,
+        true,aObserver);
+
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
   }
@@ -484,8 +484,8 @@ public class TransactionList extends BudgetListFragment implements
       super.onChange(selfChange);
       //if grouping has changed
       if (mAccount.grouping != mGrouping) {
+        mGrouping = mAccount.grouping;
         if (mAdapter != null) {
-          mGrouping = mAccount.grouping;
           setGrouping();
           //we should not need to notify here, since setGrouping restarts
           //the loader and in onLoadFinished we notify
