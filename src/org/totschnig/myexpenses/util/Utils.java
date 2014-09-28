@@ -152,13 +152,13 @@ public class Utils {
   }
   static String formatCurrency(BigDecimal amount, Currency currency) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
-    int fractionDigits = currency.getDefaultFractionDigits();
+    int fractionDigits = Money.fractionDigits(currency);
     nf.setCurrency(currency);
-    if (fractionDigits != -1) {
+    if (fractionDigits <= 3) {
       nf.setMinimumFractionDigits(fractionDigits);
       nf.setMaximumFractionDigits(fractionDigits);
     } else {
-      nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
+      nf.setMaximumFractionDigits(fractionDigits);
     }
     return nf.format(amount);
   }

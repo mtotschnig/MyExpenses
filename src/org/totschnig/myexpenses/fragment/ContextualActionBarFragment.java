@@ -26,7 +26,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 /**
  * @author Michael Totschnig
  *  provide helper functionality to create a CAB for a ListView
- *  below HoneyComb a context menu is used instead
+ *  below ICE_CREAM_SANDWICH a context menu is used instead
  */
 public class ContextualActionBarFragment extends Fragment implements OnGroupClickListener, OnChildClickListener {
   protected ActionMode mActionMode;

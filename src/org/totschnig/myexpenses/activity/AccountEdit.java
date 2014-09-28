@@ -192,17 +192,6 @@ public class AccountEdit extends AmountActivity implements
     mColorSpinner.setAdapter(mColAdapter);
     populateFields();
   }
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putBoolean("type", mType);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    mType = savedInstanceState.getBoolean("type");
-    configureType();
-  }
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_COLOR_REQUEST) {
@@ -221,13 +210,6 @@ public class AccountEdit extends AmountActivity implements
    * populates the input field either from the database or with default value for currency (from Locale)
    */
   private void populateFields() {
-    mTypeButton = (Button) findViewById(R.id.TaType);
-    mTypeButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        mType = ! mType;
-        configureType();
-      }
-    });
 
     BigDecimal amount = mAccount.openingBalance.getAmountMajor();
     if (amount.signum() == -1) {
@@ -333,16 +315,38 @@ public class AccountEdit extends AmountActivity implements
     MenuItemCompat.setShowAsAction(
         menu.add(Menu.NONE, R.id.SET_SORT_KEY_COMMAND, 0, R.string.menu_set_sort_key),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    MenuItemCompat.setShowAsAction(
+        menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
+          .setCheckable(true),
+        MenuItemCompat.SHOW_AS_ACTION_NEVER);
     return true;
   }
   @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    
+    menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND).setChecked(
+        mAccount.excludeFromTotals);
+    return super.onPrepareOptionsMenu(menu);
+  }
+  @Override
   public boolean dispatchCommand(int command, Object tag) {
-    if (command == R.id.SET_SORT_KEY_COMMAND) {
+    switch (command) {
+    case R.id.SET_SORT_KEY_COMMAND:
       Bundle args = new Bundle();
       args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_set_sort_key));
       args.putString(EditTextDialog.KEY_VALUE, String.valueOf(mAccount.sortKey));
       args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "SET_SORT_KEY");
+      return true;
+    case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
+      mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
+      if (mAccount.getId()!=0) {
+        startTaskExecution(
+            TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
+            new Long[] {mAccount.getId()},
+            mAccount.excludeFromTotals, 0);
+        supportInvalidateOptionsMenu();
+      }
       return true;
     }
     return super.dispatchCommand(command, tag);

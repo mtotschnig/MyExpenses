@@ -83,6 +83,8 @@ public class Account extends Model {
   public int color;
   
   public int sortKey = 0;
+  
+  public boolean excludeFromTotals = false;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   private static String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
@@ -99,6 +101,7 @@ public class Account extends Model {
     KEY_GROUPING,
     KEY_TYPE,
     KEY_SORT_KEY,
+    KEY_EXCLUDE_FROM_TOTALS,
     "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
         +      "AS " + KEY_TRANSFER_ENABLED,
@@ -602,6 +605,7 @@ public class Account extends Model {
       this.color = defaultColor;
     }
     this.sortKey = c.getInt(c.getColumnIndexOrThrow(KEY_SORT_KEY));
+    this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS))!=0;
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {

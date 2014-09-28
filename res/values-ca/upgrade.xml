@@ -1,5 +1,59 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_233">
+    <item>Redisseny de la llista de comptes: ordre definit d\'usuari</item>
+    <item>Sumes de grup en llista de transacció necessita filtres en compte</item>
+  </string-array>
+  <string-array name="whats_new_232">
+    <item>Print to PDF ara pren en càrrega escriptures no occidentals</item>
+    <item>Traducció al Malaisi</item>
+  </string-array>
+  <string-array name="whats_new_231">
+    <item>Emplenament automàtic de l\'última transacció per al mateix beneficiari/pagador</item>
+    <item>Plantilla instantània amb un toc curt en l\'entrada a la llista de plantilles</item>
+    <item>Codificació per a la importació QIF</item>
+  </string-array>
+  <string-array name="whats_new_230">
+    <item>imprimir la llista de transacció en fitxer PDF (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_220">
+    <item>Recerca d\'operacions per categoria, quantitat, comentari, estatut, beneficiari/pagador, forma de pagament</item>
+  </string-array>
+  <string-array name="whats_new_149">
+    <item>Traducció al Sinhala</item>
+    <item>Suport multi-finestra en dispositius Samsung</item>
+    <item>Flux de treball de reconciliació</item>
+  </string-array>
+  <string-array name="whats_new_145">
+    <item>Les còpies de seguretat es troben actualment emmagatzemades en arxius ZIP que es poden compartir (correu electrònic, Drive, Dropbox,...) i restaurar des de fonts externes</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>Dreceres de la pantalla inicial per a afegir moviments i transferències</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>Ginys de pantalla inicial per a l\'entrada ràpida de dades</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>Traducció al rus</item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>La localització de la carpeta de còpies de seguretat i exportacions ara és configurable</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>Còpies de seguretat mindependents</item>
+    <item>Importació QIF</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>Traducció al grec</item>
+    <item>Inici de setmana que depengui del lloc (p. ex. diumenge per als EUA)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Millores d\'interfície d\'usuari: #115, #117, #120, #122, #124</item>
+    <item>Activa la transacció de dates segons el fus horari</item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>UI modernitzat: calaix de navegació i barra d\'acció contextual</item>
+  </string-array>
   <string-array name="whats_new_116">
     <item>Millores a la gestió de la planificació: Podeu aplicar les instàncies pendents per endavant</item>
     <item>Noves traduccions: Portuguès, Polonès, Txec</item>

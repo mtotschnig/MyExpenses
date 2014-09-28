@@ -138,6 +138,7 @@ public class DatabaseConstants {
   public static final String KEY_SUM = "sum";
   public static final String KEY_SORT_KEY = "sort_key";
   public static final String KEY_SORT_KEY_TYPE = "sort_key_type";
+  public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   /**
    * column alias for the second group (month or week)
    */

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Result;
@@ -95,6 +96,7 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
       //upon application install does not exist yet
       sharedPrefsDir.mkdir();
       File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
+      String oldLicenceKey = PrefKey.ENTER_LICENCE.getString("");
       if (Utils.copy(backupPrefFile,tempPrefFile)) {
         SharedPreferences backupPref = MyApplication.getInstance().getSharedPreferences("backup_temp",0);
         Editor edit = MyApplication.getInstance().getSettings().edit().clear();
@@ -114,6 +116,9 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
           } else {
             Log.i(MyApplication.TAG,"Found: "+key+ " of type "+val.getClass().getName());
           }
+        }
+        if (!oldLicenceKey.equals("")) {
+          edit.putString(PrefKey.ENTER_LICENCE.getKey(), oldLicenceKey);
         }
         SharedPreferencesCompat.apply(edit);
         backupPref = null;

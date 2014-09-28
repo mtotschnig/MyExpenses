@@ -9,8 +9,8 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.totschnig.myexpenses" android:versionCode="171"
-	android:versionName="2.3.3.1" android:installLocation="internalOnly">
+	package="org.totschnig.myexpenses" android:versionCode="172"
+	android:versionName="2.3.4" android:installLocation="internalOnly">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19"></uses-sdk>
 	<supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"
@@ -116,6 +116,7 @@
 		</activity>
 		<activity android:name=".activity.ContribInfoDialogActivity"
 			android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
+		<activity android:name=".activity.ManageCurrencies" />
 
 		<service android:name=".service.MyService"
 			android:permission="org.totschnig.myexpenses.UNLOCK_PREMIUM">

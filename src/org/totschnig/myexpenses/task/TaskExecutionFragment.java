@@ -36,7 +36,10 @@ import android.util.Log;
  * db object identified by its row id
  * 
  */
-public class TaskExecutionFragment extends Fragment {
+public class TaskExecutionFragment<T> extends Fragment {
+  private static final String KEY_STRING_PARAMS = "stringParams";
+  private static final String KEY_EXTRA = "extra";
+  private static final String KEY_OBJECT_IDS = "objectIds";
   private static final String KEY_RUNNING = "running";
   private static final String KEY_TASKID = "taskId";
   public static final String KEY_WITH_PARTIES = "withParties";
@@ -78,6 +81,8 @@ public class TaskExecutionFragment extends Fragment {
    */
   public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
   public static final int TASK_UPDATE_SORT_KEY = 27;
+  public static final int TASK_CHANGE_FRACTION_DIGITS = 28;
+  public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   
 
   /**
@@ -103,15 +108,15 @@ public class TaskExecutionFragment extends Fragment {
 
   TaskCallbacks mCallbacks;
 
-  public static TaskExecutionFragment newInstance(int taskId, Long[] objectIds,
+  public static <T> TaskExecutionFragment newInstance(int taskId, T[] objectIds,
       Serializable extra) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
+    TaskExecutionFragment<T> f = new TaskExecutionFragment<T>();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, taskId);
     if (objectIds != null)
-      bundle.putSerializable("objectIds", objectIds);
+      bundle.putSerializable(KEY_OBJECT_IDS, objectIds);
     if (extra != null)
-      bundle.putSerializable("extra", extra);
+      bundle.putSerializable(KEY_EXTRA, extra);
     f.setArguments(bundle);
     return f;
   }
@@ -223,8 +228,8 @@ public class TaskExecutionFragment extends Fragment {
         new PrintTask(this,args).execute();
         break;
       default:
-        new GenericTask(this, taskId, args.getSerializable("extra"))
-            .execute((Long[]) args.getSerializable("objectIds"));
+        new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
+            .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
       }
     } catch (ClassCastException e) {
       // the cast could fail, if Fragment is recreated,

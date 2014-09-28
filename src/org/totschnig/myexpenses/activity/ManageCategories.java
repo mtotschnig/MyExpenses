@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,7 +57,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
     private Category mCategory;
     private GestureDetector mDetector;
-    private static final int SWIPE_MIN_DISTANCE = 50;
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private CategoryList mListFragment;
 
     @Override
@@ -74,21 +77,33 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       } else if (action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
         //title is set in categories list
-        mDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
-          @Override
-          public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-              if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
-                //Toast.makeText(ManageCategories.this,"Right to left", Toast.LENGTH_LONG).show();
-                mListFragment.forward();
-                return true;
-              }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
-                //Toast.makeText(ManageCategories.this,"Left to right", Toast.LENGTH_LONG).show();
-                mListFragment.back();
-                return true;
-              }
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+
+        final int REL_SWIPE_MIN_DISTANCE = (int)(SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
+        final int REL_SWIPE_MAX_OFF_PATH = (int)(SWIPE_MAX_OFF_PATH * dm.densityDpi / 160.0f);
+        final int REL_SWIPE_THRESHOLD_VELOCITY = (int)(SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f);
+        mDetector = new GestureDetector(this,
+          new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2,
+                float velocityX, float velocityY) {
+              //http://stackoverflow.com/questions/937313/android-basic-gesture-detection
+              try {
+                if (Math.abs(e1.getY() - e2.getY()) > REL_SWIPE_MAX_OFF_PATH)
+                  return false;
+                if (e1.getX() - e2.getX() > REL_SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
+                  mListFragment.forward();
+                  return true;
+                } else if (e2.getX() - e1.getX() > REL_SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
+                  mListFragment.back();
+                  return true;
+                }
+              } catch (Exception e) {}
               return false;
-          }
-        });
+            }
+          });
       } else if (action.equals("myexpenses.intent.select_filter")) {
         helpVariant = HelpVariant.select_filter;
         getSupportActionBar().setTitle(R.string.search_category);

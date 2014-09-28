@@ -18,6 +18,7 @@
   <string name="pref_category_export_key">category_export</string>
   <string name="pref_category_contrib_key">category_contrib</string>
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
+  <string name="pref_custom_currency_key">custom_currency</string>
   <string name="pref_perform_share_key">perform_share</string>
   <string name="pref_share_target_key">share_target</string>
   <string name="pref_ui_theme_key">pref_ui_theme</string>

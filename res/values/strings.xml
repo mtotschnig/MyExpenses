@@ -64,6 +64,7 @@
     <string name="date_format_illegal">Illegal date format</string>
     <string name="decimal_separator">Decimal separator</string>
     <string name="default_account_description">This account was set up automatically during installation</string>
+    <string name="default_account_name">Budget Book</string>
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
@@ -113,6 +114,9 @@
     <string name="dialog_title_select_grouping">Pick a grouping</string>
     <string name="dialog_title_select_import_source">Pick a source for import</string>
     <string name="dialog_title_select_template">Pick a template</string>
+    <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
+    <string name="dialog_title_set_fraction_digits">Set the number of fraction digits</string>
     <string name="dialog_title_template_title">Set the title</string>
     <string name="dialog_title_warning_delete_account">Delete account?</string>
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
@@ -206,6 +210,7 @@
     <string name="menu_edit_template">Edit Template</string>
     <string name="menu_edit_transaction">Edit Transaction</string>
     <string name="menu_edit_transfer">Edit Transfer</string>
+    <string name="menu_exclude_from_totals">Exclude from totals</string>
     <string name="menu_forward">Forward</string>
     <string name="menu_grouping">Grouping</string>
     <string name="menu_help">Help</string>
@@ -300,6 +305,7 @@
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_categories_sort_by_usages_summary">Should categories, templates and accounts be sorted by how often they are used instead of alphabetic sort. This setting is ignored for accounts if they have a sort key set.</string>
     <string name="pref_categories_sort_by_usages_title">Sort by count of usages</string>
+    <string name="pref_category_title_advanced">Advanced</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Manage</string>
@@ -313,6 +319,7 @@
     <string name="pref_contrib_donate_title">Send donation</string>
     <string name="pref_contrib_install_summary">By installing My Expenses Contrib Key, you gain access to premium features.</string>
     <string name="pref_contrib_install_title">Install Contrib app</string>
+    <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
     <string name="pref_enter_licence_title">Enter Contrib key</string>
     <string name="pref_export_format_title">Data format</string>
@@ -469,6 +476,9 @@
     <string name="warning_select_account">Please select an account!</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
+    <string name="warning_fraction_digits_out_of_range">Please set a number between 0 and 8</string>
+    <string name="warning_change_fraction_digits">You are reducing the number of fraction digits for currency %1$s.
+        This will lead to loss of information for transactions you have already entered, and cannot be undone. Do you want to continue?</string>
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
     <string name="import_accounts_success">%1$s accounts successfully imported</string>
@@ -504,4 +514,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
+    <string name="change_fraction_digits_result">%1$d accounts with currency %2$s have been updated.</string>
 </resources>
