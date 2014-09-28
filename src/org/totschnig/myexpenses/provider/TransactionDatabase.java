@@ -523,8 +523,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "FROM templates_old");
       db.execSQL("DROP TABLE templates_old");
 
-      db.execSQL("DROP VIEW committed");
-      db.execSQL("DROP VIEW uncommitted");
+      db.execSQL("DROP VIEW IF EXISTS committed");
+      db.execSQL("DROP VIEW IF EXISTS uncommitted");
       //for the definition of the view, it is safe to rely on the constants,
       //since we will not alter the view, but drop it, and recreate it, if needed
       String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
@@ -545,17 +545,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE templates add column plan_execution boolean default 0");
     }
     if (oldVersion < 39) {
-      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      //db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      //db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
       db.execSQL("CREATE TABLE currency (_id integer primary key autoincrement, code text unique not null);");
       insertCurrencies(db);
     }
     if (oldVersion < 40) {
       //added currency to extended view
-      db.execSQL("DROP VIEW transactions_extended");
-      db.execSQL("DROP VIEW templates_extended");
-      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      //db.execSQL("DROP VIEW transactions_extended");
+      //db.execSQL("DROP VIEW templates_extended");
+      //db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      //db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
     if (oldVersion < 41) {
       db.execSQL("CREATE TABLE planinstance_transaction " +
@@ -691,8 +691,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 45) {
       db.execSQL("ALTER TABLE accounts add column exclude_from_totals boolean default 0");
       //added  to extended view
-      db.execSQL("DROP VIEW transactions_extended");
-      db.execSQL("DROP VIEW templates_extended");
+      db.execSQL("DROP VIEW IF EXISTS transactions_extended");
+      db.execSQL("DROP VIEW IF EXISTS templates_extended");
       db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
