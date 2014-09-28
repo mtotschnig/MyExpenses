@@ -53,6 +53,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
         ManageTemplates.class,
         MyExpenses.class,
         ManageCategories.class,
+        ManageCurrencies.class
         };
     for (Class<?> activity: activities) {
       String className = activity.getSimpleName();

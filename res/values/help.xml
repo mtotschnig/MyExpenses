@@ -103,4 +103,6 @@
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Form for payment methods</string>
   <string name="help_MethodEdit_info">On this screen, you associate a payment method with account types. You can also define a label (with the exception of the predefined methods which have a fixed label that cannot be edited). Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral). You can also set a flag if transactions using this method are numbered (e.g. check numbers).</string>
+  <!--  ManageCurrencies -->
+  <string name="help_ManageCurrencies_info">For each currency, you can modify the number of fraction digits used. For example, if for Euro, you need to handle 1/10 of a ¢, i.e. 1/1000 of a Euro, you would set the number to three. Existing accounts which use the currency, will be switched to the new setting.</string>
 </resources>
