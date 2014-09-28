@@ -482,6 +482,9 @@ public class TransactionList extends BudgetListFragment implements
     }
     public void onChange(boolean selfChange) {
       super.onChange(selfChange);
+      if (getActivity()==null||getActivity().isFinishing()) {
+        return;
+      }
       //if grouping has changed
       if (mAccount.grouping != mGrouping) {
         mGrouping = mAccount.grouping;
