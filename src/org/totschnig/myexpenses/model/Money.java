@@ -89,11 +89,15 @@ public class Money implements Serializable {
    * then we return {@link Money#DEFAULTFRACTIONDIGITS} in order to allow fractions with currencies like XXX
    */
   public static int fractionDigits(Currency c) {
-    int customFractionDigits = MyApplication.getInstance().getSettings()
-        .getInt(c.getCurrencyCode()+KEY_CUSTOM_FRACTION_DIGITS, -1);
-    if (customFractionDigits != -1) {
-      Log.i("DEBUG","retrieved "+customFractionDigits);
-      return customFractionDigits;
+    MyApplication context = MyApplication.getInstance();
+    //in testing environment context might be null
+    if (context!=null) {
+      int customFractionDigits = context.getSettings()
+          .getInt(c.getCurrencyCode()+KEY_CUSTOM_FRACTION_DIGITS, -1);
+      if (customFractionDigits != -1) {
+        Log.i("DEBUG","retrieved "+customFractionDigits);
+        return customFractionDigits;
+      }
     }
     int digits = c.getDefaultFractionDigits();
     if (digits != -1) {
