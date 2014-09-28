@@ -392,7 +392,8 @@ public class TransactionProvider extends ContentProvider {
           "'NONE' AS " + KEY_GROUPING,
           "'AGGREGATE' AS " + KEY_TYPE,
           "1 AS " + KEY_TRANSFER_ENABLED,
-          "-1 AS " + KEY_SORT_KEY};
+          "-1 AS " + KEY_SORT_KEY,
+          "0 AS " + KEY_EXCLUDE_FROM_TOTALS};
       qb.appendWhere(KEY_ROWID + "=" + currencyId);
       break;
     case ACCOUNT_ID:
