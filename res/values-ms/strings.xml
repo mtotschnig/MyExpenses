@@ -2,14 +2,19 @@
 <resources>
   <string name="account">Akaun</string>
   <string name="account_type_asset">Akaun aset</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Akaun aset</string>
   <string name="account_type_bank">Akaun bank</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Akaun bank</string>
   <string name="account_type_cash">Akaun tunai</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">Akaun tunai</string>
   <string name="account_type_ccard">Kad kredit</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Kad kredit</string>
   <string name="account_type_liability">Akaun liabiliti</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Akaun liabiliti</string>
   <string name="already_defined">%1$s sudah ditakrif</string>
   <string name="amount">Amaun</string>
@@ -44,6 +49,7 @@
   <string name="date_format_illegal">Format tarikh tidak sah</string>
   <string name="decimal_separator">Pemisah perpuluhan</string>
   <string name="default_account_description">Akaun ini telah dipasang secara automatik ketika pemasangan</string>
+  <string name="default_account_name">Buku Bajet</string>
   <string name="description">Keterangan</string>
   <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
   <string name="dialog_command_disabled_balance">Tiada transaksi selesai yang disesuaikan.</string>
@@ -92,6 +98,9 @@
   <string name="dialog_title_select_grouping">Ambil satu kumpulan</string>
   <string name="dialog_title_select_import_source">Ambil satu sumber untuk import</string>
   <string name="dialog_title_select_template">Ambil satu templat</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_set_fraction_digits">Tetapkan bilangan digit pecahan</string>
   <string name="dialog_title_template_title">Tetapkan tajuk</string>
   <string name="dialog_title_warning_delete_account">Padam akaun?</string>
   <string name="dialog_title_warning_delete_main_category">Padam kategori utama?</string>
@@ -185,6 +194,7 @@
   <string name="menu_edit_template">Sunting Templat</string>
   <string name="menu_edit_transaction">Sunting Transaksi</string>
   <string name="menu_edit_transfer">Sunting Pemindahan</string>
+  <string name="menu_exclude_from_totals">Asingkan dari jumlah</string>
   <string name="menu_forward">Maju</string>
   <string name="menu_grouping">Pengumpulan</string>
   <string name="menu_help">Bantuan</string>
@@ -277,6 +287,7 @@
   <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
   <string name="pref_categories_sort_by_usages_summary">Patutkah kategori, templat dan akaun diisih dan berapakah kekerapan ia digunakan selain dari isih secara berabjad. Tetapan ini diabaikan untuk akaun jika ia mempunyai kekunci isih yang  telah ditetapkan.</string>
   <string name="pref_categories_sort_by_usages_title">Isih tertib: Kiraan penggunaan</string>
+  <string name="pref_category_title_advanced">Lanjutan</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Urus</string>
@@ -290,6 +301,7 @@
   <string name="pref_contrib_donate_title">Hantar derma</string>
   <string name="pref_contrib_install_summary">Dengan memasang Kunci Contrib Perbelanjaan Saya, anda memperoleh capaian ke fitur premium.</string>
   <string name="pref_contrib_install_title">Pasang apl Contrib</string>
+  <string name="pref_custom_currency_title">Suaikan matawang</string>
   <string name="pref_enter_licence_summary">Jika ana menerima kunci Contrib, akan peroleh capaian ke fitur premium.</string>
   <string name="pref_enter_licence_title">Masukkan kunci Contrib</string>
   <string name="pref_export_format_title">Format data</string>
@@ -440,6 +452,9 @@
   <string name="warning_select_account">Sila pilih satu akaun!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
+  <string name="warning_fraction_digits_out_of_range">Sila tetapkan nombor diantara 0 hingga 8</string>
+  <string name="warning_change_fraction_digits">Anda telah mengurangkan bilangan digit pecahan untuk matawang %1$s.
+Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan tidak dapat diundur kembali. Anda mahu teruskan?</string>
   <string name="import_categories_success">%1$s kategori berjaya diimport</string>
   <string name="import_parties_success">%1$s pihak berjaya diimport</string>
   <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
@@ -475,4 +490,5 @@
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
   <string name="hint_template_click">Satu ketukan pantas pada masukan dalam senarai ini akan segerakan templat dan sama ada simpan ia serta-merta atau pergi ke bentuk suntingan yang mana anda boleh ubahsuai ia sebelum menyimpan. Anda boleh mengubah kedua-dua tindakan melalui ketukan panjang, dan ubah lalai di dalam tetapan.</string>
+  <string name="change_fraction_digits_result">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
 </resources>

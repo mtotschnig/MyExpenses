@@ -2,14 +2,19 @@
 <resources>
   <string name="account">Hesap</string>
   <string name="account_type_asset">Aktif hesabı</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Aktif hesapları</string>
   <string name="account_type_bank">Banka hesabı</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Banka hesapları</string>
   <string name="account_type_cash">Nakit hesabı</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">Nakit hesapları</string>
   <string name="account_type_ccard">Kredi kartı</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Kredi kartları</string>
   <string name="account_type_liability">Borç hesabı</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Borç hesapları</string>
   <string name="already_defined">%1$s zaten tanımlanmış</string>
   <string name="amount">Miktar</string>
@@ -45,6 +50,7 @@
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
   <string name="decimal_separator">Ondalık ayırıcı</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
+  <string name="default_account_name">Bütçe defteri</string>
   <string name="description">Açıklama</string>
   <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
   <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
@@ -94,6 +100,9 @@
   <string name="dialog_title_select_grouping">Bir grup seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_template">Şablon seç</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_set_fraction_digits">Kesir basamak sayısını ayarla</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
   <string name="dialog_title_warning_delete_main_category">Ana kategori silinsin mi?</string>
@@ -187,6 +196,7 @@
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
+  <string name="menu_exclude_from_totals">Toplamlardan dışla</string>
   <string name="menu_forward">Sonraki</string>
   <string name="menu_grouping">Gruplandırma</string>
   <string name="menu_help">Yardım</string>
@@ -281,6 +291,7 @@
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_summary">Kategorilerin, şablonların ve hesapların alfabetik sıralama yerine ne kadar sık kullanıldıklarına dayanılarak sıralanıp sıralanmayacağı. Bir sıralama anahtarı belirlendiyse bu ayar görmezden gelinir.</string>
   <string name="pref_categories_sort_by_usages_title">Kullanım sayacına göre sırala</string>
+  <string name="pref_category_title_advanced">Gelişmiş</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_manage">Yönet</string>
@@ -294,6 +305,7 @@
   <string name="pref_contrib_donate_title">Bağışı gönder</string>
   <string name="pref_contrib_install_summary">Harcamalarım Katkı Anahtarı uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
+  <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_export_format_title">Veri biçimi</string>
@@ -450,6 +462,9 @@
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarımı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
+  <string name="warning_fraction_digits_out_of_range">0 ilâ 8 arası bir sayı ayarlayınız</string>
+  <string name="warning_change_fraction_digits">%1$s para birimi için kesir basamak sayısını azaltıyorsunuz.
+Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve geri alınamaz. Devam etmek istiyor musunuz?</string>
   <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
   <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
@@ -485,4 +500,5 @@
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
   <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
+  <string name="change_fraction_digits_result">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
 </resources>
