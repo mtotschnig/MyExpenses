@@ -78,7 +78,10 @@
   <string name="help_AccountEdit_title">Formulaire pour comptes</string>
   <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -&gt; Gestion -&gt; Méthodes de paiement.</string>
   <string name="menu_set_sort_key_help_text">Définit une clé numérique déterminant la position du compte dans cette liste des comptes pour le volet de navigation (ordre croissant).</string>
+  <string name="menu_exclude_from_totals_help_text">Si vous cochez cette option, ce compte ne sera pas inclu dans les agrégats par devise.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
   <string name="help_MethodEdit_info">Sélectionnez les types de comptes pour lesquels une méthode est applicable. Vous pouvez aussi définir un intitulé (sauf pour les méthodes prédéfinies). Par le type d\'une méthode, vous déterminez si celle-ci est applicable pour les dépenses (débit), les revenus (crédit) ou les deux (neutre).</string>
+  <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Pour chaque devise, vous pouvez modifier le nombre de chiffres de fraction utilisés. Par exemple, si pour l\'Euro, vous devez gérer 1/10 d\'une ¢, c\'est-à-dire 1/1000 d\'un Euro, vous définiriez le nombre à trois. Les comptes existants qui utilisent la devise, seront actualisés pour le nouveau paramètre.</string>
 </resources>

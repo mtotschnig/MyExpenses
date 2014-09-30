@@ -2,14 +2,19 @@
 <resources>
   <string name="account">Conto</string>
   <string name="account_type_asset">Conto di beni</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Conti di beni</string>
   <string name="account_type_bank">Conto bancario</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Conti bancari</string>
   <string name="account_type_cash">Conto di cassa</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">Conti di cassa</string>
   <string name="account_type_ccard">Carta di credito</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Carte di credito</string>
   <string name="account_type_liability">Conto di responsabilità</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Conti di responsabilità</string>
   <string name="already_defined">%1$s è già definita</string>
   <string name="amount">Somma</string>
@@ -45,6 +50,7 @@
   <string name="date_format_illegal">Formato data non valido</string>
   <string name="decimal_separator">Separatore decimale</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
+  <string name="default_account_name">Libro di bilancio</string>
   <string name="description">Descrizione</string>
   <string name="dialog_balance_delete">Eliminare le transazioni riconciliate</string>
   <string name="dialog_command_disabled_balance">Nessuna transazione liquidata di riconciliarsi.</string>
@@ -94,6 +100,9 @@
   <string name="dialog_title_select_grouping">Scegli un raggruppamento</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
   <string name="dialog_title_select_template">Scegli un modello</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_set_fraction_digits">Impostare il numero di cifre della frazione</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
   <string name="dialog_title_warning_delete_account">Cancellare il conto ?</string>
   <string name="dialog_title_warning_delete_main_category">Cancellare la categoria principale</string>
@@ -187,6 +196,7 @@
   <string name="menu_edit_template">Modifica modello</string>
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
+  <string name="menu_exclude_from_totals">Escludere da totali</string>
   <string name="menu_forward">In avanti</string>
   <string name="menu_grouping">Raggruppamento</string>
   <string name="menu_help">Aiuto</string>
@@ -281,6 +291,7 @@
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.</string>
   <string name="pref_categories_sort_by_usages_summary">Dovrebbero categorie, modelli e conti ordinati in quanto spesso sono usati invece di ordinamento alfabetico. Questa impostazione viene ignorata per i conti se hanno una chiave di ordinamento impostato.</string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento: frequenza d\'uso</string>
+  <string name="pref_category_title_advanced">Avanzata</string>
   <string name="pref_category_title_export">Esporta</string>
   <string name="pref_category_title_import">Importa</string>
   <string name="pref_category_title_manage">Gestione</string>
@@ -294,6 +305,7 @@
   <string name="pref_contrib_donate_title">Invia donazione</string>
   <string name="pref_contrib_install_summary">Installando Le Mie Spese Chiave Contrib ottiene accesso a funzionalità speciali.</string>
   <string name="pref_contrib_install_title">Installa Contrib app</string>
+  <string name="pref_custom_currency_title">Personalizzare le valute</string>
   <string name="pref_enter_licence_summary">Se avete ricevuto una chiave Contrib, otterete accesso a funzionalità speciali.</string>
   <string name="pref_enter_licence_title">Inserisci la chiave Contrib</string>
   <string name="pref_export_format_title">Formato dati</string>
@@ -310,7 +322,7 @@
   <string name="pref_manage_methods_title">Modi di pagamento</string>
   <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
-  <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet e Silvia Delpero</string>
+  <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet, Silvia Delpero, FrancescaLaV et  fedett92</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_empty">La password non deve essere vuoto</string>
@@ -449,6 +461,8 @@
   <string name="warning_select_account">Si deve selezionare un conto !</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla My spese. È possibile impedire questo accadere selezionando una cartella diversa dalla schermata impostazioni.</string>
   <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
+  <string name="warning_fraction_digits_out_of_range">Si prega di impostare un numero compreso tra 0 e 8</string>
+  <string name="warning_change_fraction_digits">Si stanno riducendo il numero di cifre della frazione per valuta %1$s. Questo porterà alla perdita di informazioni per le transazioni già inserite e non può essere annullata. Si desidera continuare?</string>
   <string name="import_categories_success">%1$s categorie state importati</string>
   <string name="import_parties_success">%1$s beneficiari state importati</string>
   <string name="import_accounts_success">%1$s conti importati correttamente</string>
@@ -484,4 +498,5 @@
   <string name="yes">Sì</string>
   <string name="no">No</string>
   <string name="hint_template_click">Un breve tasto su una voce in questa lista sarà istanziare il modello e subito o salvarlo o immettere la sua forma modifica dove è possibile modificare prima di salvare. È sempre possibile accedere entrambe le azioni attraverso un tasto lungo e modificare l\'impostazione predefinita nelle impostazioni.</string>
+  <string name="change_fraction_digits_result">%1$d conti con valuta %2$s sono state aggiornate.</string>
 </resources>
