@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_234">
+    <item>Personalizável número de dígitos de fração para moedas</item>
+    <item>Permitir excluir contas de totais</item>
+  </string-array>
   <string-array name="whats_new_233">
     <item>Redesenho da lista de contas: ordem de classificação definida pelo usuário</item>
     <item>Somas de grupo na lista de transação leva filtros em consideração</item>

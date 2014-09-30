@@ -81,4 +81,5 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
   <string name="help_MethodEdit_info">In questa schermata è possibile associare un metodo di pagamento con i tipi di conto. È inoltre possibile definire un\'etichetta (con l\'eccezione dei metodi predefiniti che hanno un\'etichetta fissa non modificabile). Attraverso il tipo di un metodo, si determina se è applicabile per le spese (debito), reddito (credito) o entrambi (neutrale).</string>
+  <!--ManageCurrencies-->
 </resources>

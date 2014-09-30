@@ -2,14 +2,19 @@
 <resources>
   <string name="account">Conta</string>
   <string name="account_type_asset">Conta de ativos</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Contas de ativo</string>
   <string name="account_type_bank">Conta bancária</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Contas bancárias</string>
   <string name="account_type_cash">Conta de dinheiro</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">Contas de dinheiro</string>
   <string name="account_type_ccard">Cartão de crédito</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Cartões de crédito</string>
   <string name="account_type_liability">Conta do passivo</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Contas de passivo</string>
   <string name="already_defined">%1$s já definido</string>
   <string name="amount">Valor</string>
@@ -45,6 +50,7 @@
   <string name="date_format_illegal">Formato de data ilegal</string>
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
+  <string name="default_account_name">Livro de orçamento</string>
   <string name="description">Descrição</string>
   <string name="dialog_balance_delete">Excluir transações reconciliadas</string>
   <string name="dialog_command_disabled_balance">Nenhuma transação apuradas para se reconciliar.</string>
@@ -94,6 +100,9 @@
   <string name="dialog_title_select_grouping">Escolher um agrupamento</string>
   <string name="dialog_title_select_import_source">Escolha uma fonte para importar</string>
   <string name="dialog_title_select_template">Escolha um modelo</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_set_fraction_digits">Definir o número de dígitos de fração</string>
   <string name="dialog_title_template_title">Defina o título</string>
   <string name="dialog_title_warning_delete_account">Excluir a conta?</string>
   <string name="dialog_title_warning_delete_main_category">Excluir categoria principal?</string>
@@ -187,6 +196,7 @@
   <string name="menu_edit_template">Editar modelo</string>
   <string name="menu_edit_transaction">Editar transação</string>
   <string name="menu_edit_transfer">Editar transferência</string>
+  <string name="menu_exclude_from_totals">Excluir de totais</string>
   <string name="menu_forward">Avançar</string>
   <string name="menu_grouping">Agrupamento</string>
   <string name="menu_help">Ajuda</string>
@@ -281,6 +291,7 @@
   <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
   <string name="pref_categories_sort_by_usages_summary">Categorias, modelos e contas devem ser classificadas por como muitas vezes eles são usados em vez de tipo alfabético. Essa configuração é ignorada para contas se eles têm uma chave de classificação definida.</string>
   <string name="pref_categories_sort_by_usages_title">Classificar ordem:  Contagem de usos</string>
+  <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
   <string name="pref_category_title_import">Importar</string>
   <string name="pref_category_title_manage">Administrar</string>
@@ -294,6 +305,7 @@
   <string name="pref_contrib_donate_title">Enviar doação</string>
   <string name="pref_contrib_install_summary">Ao instalar Minhas despesas Chave Contrib, você ganha acesso a recursos premium.</string>
   <string name="pref_contrib_install_title">Instalar aplicativo Contrib</string>
+  <string name="pref_custom_currency_title">Personalizar moedas</string>
   <string name="pref_enter_licence_summary">Se você tiver recebido uma licença do Contrib, obtenha acesso aos recursos Premium.</string>
   <string name="pref_enter_licence_title">Digitar licença do Contrib</string>
   <string name="pref_export_format_title">Formato dos dados</string>
@@ -449,6 +461,8 @@
   <string name="warning_select_account">Por favor, selecione uma conta!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação de divisão apenas podem ser editadas no contexto da divisão.</string>
+  <string name="warning_fraction_digits_out_of_range">Por favor, defina um número entre 0 e 8</string>
+  <string name="warning_change_fraction_digits">Você está reduzindo o número de dígitos de fração para moeda %1$s. Isto levará a perda de informações de transações você já digitou e não pode ser desfeita. Você quer continuar?</string>
   <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
   <string name="import_parties_success">%1$s participantes importados com sucesso</string>
   <string name="import_accounts_success">%1$s contas importadas com êxito</string>
@@ -484,4 +498,5 @@
   <string name="yes">Sim</string>
   <string name="no">Não</string>
   <string name="hint_template_click">Um toque curto em uma entrada nesta lista será instanciar o modelo e quer salvá-lo imediatamente ou insira a sua forma de edição onde você pode modificá-la antes de salvar. Você sempre pode acessar ambas as ações através de um toque longo e alterar o padrão nas configurações.</string>
+  <string name="change_fraction_digits_result">%1$d contas com moeda %2$s foram atualizadas.</string>
 </resources>

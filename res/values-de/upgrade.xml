@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_234">
+    <item>Anpassbare Anzahl der Nachkommastellen für Währungen</item>
+    <item>Konten können aus der aggregierten Ansicht ausgeschlossen werden</item>
+  </string-array>
   <string-array name="whats_new_233">
     <item>Neugestaltung der Kontenliste: benutzerdefinierte Sortierreihenfolge</item>
     <item>In der Buchungsliste berücksichtigen die Gruppensummen jetzt die Filter</item>

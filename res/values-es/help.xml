@@ -82,4 +82,5 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>
   <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago a tipos de cuenta. También puede definir una designación (con la excepción de los métodos predefinidos que tienen una designación fija que no se puede modificar). A través del tipo de un método se determina si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
+  <!--ManageCurrencies-->
 </resources>

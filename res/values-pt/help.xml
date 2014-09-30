@@ -81,4 +81,5 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>
   <string name="help_MethodEdit_info">Nesta tela, você pode associar um método de pagamento com os tipos de conta. Você também pode definir um rótulo (com exceção dos métodos predefinidos que têm um rótulo fixo que não pode ser editado). Através de tipo de um método, você determina se é aplicável para as despesas (débito), renda (crédito) ou ambos (neutro). Você também pode definir um sinalizador se transações usando este método são numeradas (por exemplo verificar os números).</string>
+  <!--ManageCurrencies-->
 </resources>

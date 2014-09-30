@@ -2,14 +2,19 @@
 <resources>
   <string name="account">Konto</string>
   <string name="account_type_asset">Anlagekonto</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Anlagekonten</string>
   <string name="account_type_bank">Bankkonto</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Bankkonten</string>
   <string name="account_type_cash">Bargeldkonto</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">Bargeldkonten</string>
   <string name="account_type_ccard">Kreditkarte</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Kreditkarten</string>
   <string name="account_type_liability">Kreditkonto</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Kreditkonten</string>
   <string name="already_defined">%1$s existiert bereits</string>
   <string name="amount">Betrag</string>
@@ -45,6 +50,7 @@
   <string name="date_format_illegal">Unzulässiges Datumsformat</string>
   <string name="decimal_separator">Dezimaltrennzeichen</string>
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>
+  <string name="default_account_name">Haushaltsbuch</string>
   <string name="description">Beschreibung</string>
   <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
   <string name="dialog_command_disabled_balance">Keine verrechnete Buchungen zum Abstimmen.</string>
@@ -94,6 +100,9 @@
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
   <string name="dialog_title_select_template">Vorlage auswählen</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_set_fraction_digits">Anzahl der Nachkommastellen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
   <string name="dialog_title_warning_delete_main_category">Hauptkategorie löschen?</string>
@@ -187,6 +196,7 @@
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
+  <string name="menu_exclude_from_totals">Ausschließen von Summen</string>
   <string name="menu_forward">Weiter</string>
   <string name="menu_grouping">Gruppierung</string>
   <string name="menu_help">Hilfe</string>
@@ -281,6 +291,7 @@
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
   <string name="pref_categories_sort_by_usages_summary">Kategorien, Vorlagen und Konten nach Häufigkeit der Nutzung anstatt alphabetisch sortieren. Diese Einstellung wird für Konten ignoriert, wenn für diese ein Sortierschlüssel festgelegt wurde.</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
+  <string name="pref_category_title_advanced">Erweitert</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Verwalten</string>
@@ -294,6 +305,7 @@
   <string name="pref_contrib_donate_title">Spenden</string>
   <string name="pref_contrib_install_summary">Durch die Installation von Meine Ausgaben Contrib-Schlüssel erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
+  <string name="pref_custom_currency_title">Anpassen von Währungen</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
@@ -449,6 +461,8 @@
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
+  <string name="warning_fraction_digits_out_of_range">Bitte eine Zahl zwischen 0 und 8 angeben</string>
+  <string name="warning_change_fraction_digits">Sie verringern die Anzahl der Nachkommastellen für Währung %1$s. Dies führt zu Verlust von Informationen für Buchungen, die Sie bereits eingegeben haben, und kann nicht rückgängig gemacht werden. Möchten Sie fortfahren?</string>
   <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
   <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
@@ -484,4 +498,5 @@
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
   <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
+  <string name="change_fraction_digits_result">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
 </resources>

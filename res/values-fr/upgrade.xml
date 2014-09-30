@@ -1,17 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_234">
+    <item>Le nombre de chiffres de fraction pour monnaies est personnalisable</item>
+    <item>Les comptes peuvent être exclus des totaux</item>
+  </string-array>
   <string-array name="whats_new_233">
     <item>Refonte de la liste des comptes : ordre de tri défini par l\'utilisateur</item>
     <item>Les totaux de groupes dans la liste des opérations prend en compte les filtres</item>
   </string-array>
   <string-array name="whats_new_232">
-    <item>Imprimer vers PDF maintenant prend en charge les scripts non occidentaux</item>
+    <item>L\'impression en PDF prend maintenant en charge les scripts non occidentaux</item>
     <item>Traduction en Malais</item>
   </string-array>
   <string-array name="whats_new_231">
     <item>Remplissage automatique de la dernière opération pour le même bénéficiaire/payeur</item>
-    <item>Applique le modèle sur clic court dans la liste des modèles</item>
-    <item>Encodage configurable pour importation QIF</item>
+    <item>Application du modèle sur clic court dans la liste des modèles</item>
+    <item>Encodage configurable pour l\' importation QIF</item>
   </string-array>
   <string-array name="whats_new_230">
     <item>Impression de la liste des opérations dans un fichier PDF (Premium)</item>
