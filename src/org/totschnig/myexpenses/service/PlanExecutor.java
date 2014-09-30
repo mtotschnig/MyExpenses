@@ -76,11 +76,18 @@ public class PlanExecutor extends IntentService {
       //because we want to deal with each instance only once
       //the calendar content provider on Android < 4 does not interpret the selection arguments
       //hence we put them into the selection
-      Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-          Events.CALENDAR_ID + " = " + plannerCalendarId + " AND "+ Instances.BEGIN +
-              " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
-          null,
-          null);
+      Cursor cursor;
+      try {
+        cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
+            Events.CALENDAR_ID + " = " + plannerCalendarId + " AND "+ Instances.BEGIN +
+                " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
+            null,
+            null);
+      } catch (SecurityException e) {
+        Utils.reportToAcra(e);
+        //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing
+        return;
+      }
       if (cursor != null) {
         if (cursor.moveToFirst()) {
           while (cursor.isAfterLast() == false) {
