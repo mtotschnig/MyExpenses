@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_234">
-    <item>Le nombre de chiffres de fraction pour monnaies est personnalisable</item>
-    <item>Les comptes peuvent être exclus des totaux</item>
+    <item>Le nombre de décimales pour les devises est personnalisable</item>
+    <item>Des comptes peuvent être exclus des totaux</item>
   </string-array>
   <string-array name="whats_new_233">
     <item>Refonte de la liste des comptes : ordre de tri défini par l\'utilisateur</item>
