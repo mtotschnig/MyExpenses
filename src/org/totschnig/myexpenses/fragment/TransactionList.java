@@ -220,6 +220,7 @@ public class TransactionList extends BudgetListFragment implements
       return  tv;
     }
     mManager = getLoaderManager();
+    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
     setGrouping();
     setColors();
     if (savedInstanceState != null) {
@@ -257,7 +258,6 @@ public class TransactionList extends BudgetListFragment implements
     });
     aObserver = new AccountObserver(new Handler());
     ContentResolver cr= getActivity().getContentResolver();
-    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
     //when account has changed, we might have
     //1) to refresh the list (currency has changed),
     //2) update current balance(opening balance has changed),
