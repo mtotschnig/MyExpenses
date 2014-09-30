@@ -158,6 +158,7 @@ public class TransactionList extends BudgetListFragment implements
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
+    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
   }
   private void setAdapter() {
     Context ctx = getActivity();
@@ -220,7 +221,6 @@ public class TransactionList extends BudgetListFragment implements
       return  tv;
     }
     mManager = getLoaderManager();
-    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
     setGrouping();
     setColors();
     if (savedInstanceState != null) {
