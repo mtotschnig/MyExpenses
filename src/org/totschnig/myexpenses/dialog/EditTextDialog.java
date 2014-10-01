@@ -67,11 +67,11 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
         LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     mEditText.setOnEditorActionListener(this);
     mEditText.setId(1);
-    mEditText.setText(args.getString(KEY_VALUE));
     if (Build.VERSION.SDK_INT==Build.VERSION_CODES.FROYO) {
       //workaround crash seen on HTC 2.2. devices
       mEditText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT));
     }
+    mEditText.setText(args.getString(KEY_VALUE));
     //input.setSingleLine();
     return mEditText;
   }

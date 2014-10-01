@@ -1126,7 +1126,7 @@ public class Account extends Model {
         label.replaceAll("\\W","") + "-" +
         now.format(new Date()) + ".pdf");
     Document document = new Document();
-    transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, null);
+    transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (transactionCursor.getCount() == 0) {
@@ -1207,7 +1207,8 @@ public class Account extends Model {
     } else {
       builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
     }
-    Cursor groupCursor = cr().query(builder.build(), null, null, null, null);
+    Cursor groupCursor = cr().query(builder.build(), null, null, null,
+        KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC");
 
     MyApplication ctx = MyApplication.getInstance();
 

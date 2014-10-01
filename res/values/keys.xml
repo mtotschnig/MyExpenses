@@ -82,7 +82,4 @@
   <string name="help_ManageCategories_select_filter_title">@string/search_category</string>
   <string name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
 
-  <string name="app_name_contrib">My Expenses Contrib</string>
-  <string name="app_contrib_launch">Launch My Expenses Contrib</string>
-
 </resources>
