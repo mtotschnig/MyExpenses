@@ -189,7 +189,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       return;
     }
     Bundle args = getArguments();
-    Long accountId = args != null ? args.getLong("accountId") : null;
+    Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
     AlertDialog dlg = (AlertDialog) dialog;
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
         "CSV" : "QIF";
