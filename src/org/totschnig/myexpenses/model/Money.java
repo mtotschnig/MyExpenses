@@ -95,7 +95,6 @@ public class Money implements Serializable {
       int customFractionDigits = context.getSettings()
           .getInt(c.getCurrencyCode()+KEY_CUSTOM_FRACTION_DIGITS, -1);
       if (customFractionDigits != -1) {
-        Log.i("DEBUG","retrieved "+customFractionDigits);
         return customFractionDigits;
       }
     }
