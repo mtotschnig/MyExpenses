@@ -84,7 +84,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
@@ -584,9 +583,9 @@ public class ExpenseEdit extends AmountActivity implements
     });
   }
   @Override
-  protected void onTypeButtonClicked() {
-    super.onTypeButtonClicked();
-    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+  protected void onTypeChanged(boolean isClicked) {
+    super.onTypeChanged(isClicked);
+    if (mTransaction != null && mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       mTransaction.methodId = null;
       mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
     }
@@ -946,6 +945,7 @@ public class ExpenseEdit extends AmountActivity implements
    * updates interface based on type (EXPENSE or INCOME)
    */
   protected void configureType() {
+    super.configureType();
     if (mPayeeLabel != null) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
