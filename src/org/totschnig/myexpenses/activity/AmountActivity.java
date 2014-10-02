@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -61,9 +62,11 @@ public abstract class AmountActivity extends EditActivity {
     nfDLocal.setGroupingUsed(false);
     Utils.configDecimalSeparator(mAmountText, decimalSeparator);
     mTypeButton = (CompoundButton) findViewById(R.id.TaType);
-    mTypeButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        onTypeButtonClicked();
+    mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        onTypeChanged(isChecked);
       }
     });
   }
@@ -80,8 +83,8 @@ public abstract class AmountActivity extends EditActivity {
       }
     }
   }
-  protected void onTypeButtonClicked() {
-    mType = mTypeButton.isChecked();
+  protected void onTypeChanged(boolean isChecked) {
+    mType = isChecked;
     configureType();
   }
 
