@@ -78,7 +78,10 @@
   <string name="help_AccountEdit_title">Borang untuk akaun</string>
   <string name="help_AccountEdit_info">Akaun dikenalpasti mengikut labelnya, keterangan hanyalah untuk tujuan menyatakan maklumat. Matawang boleh dipilih dengan mudah melalui senarai. Anda boleh takrifkan jenis akaun sebagai salah satu dari Tunai, Bank, Aset, Liabiliti, Kad Kredit. Jenis tersebut menentukan kaedah pembayaran yang anda boleh konfigurkan dibawah Tetapan -&gt; Urus -&gt; Kaedah Pembayaran.</string>
   <string name="menu_set_sort_key_help_text">Tetapkan kekunci numerik yang menentukan kedudukan akaun dalam senarai akaun di dalam laci navigasi (isih menaik).</string>
+  <string name="menu_exclude_from_totals_help_text">Jika anda tanda pilihan ini, akaun ini tidak akan disertakan dalam aggregat per matawang.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Borang untuk kaedah pembayaran</string>
   <string name="help_MethodEdit_info">Pada skrin ini, anda boleh kaitkan kaedah pembayaran dengan jenis akaun. Anda juga takrif label (dengan pengecualian kaedah pratakrif yang telah mempunyai label tetap yang tidak dapat disunting). Menerusi jenis kaedah, anda tentukan jika ia boleh dilakukan untuk pembelanjaan (debit), pendapatan (kredit) atau kedua-dua (neutral). Anda juga boleh tetapkan satu penanda jika transaksi menggunakan kaedah ini bernombor (iaitu nombor bertanda).</string>
+  <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Bagi setiap matawang, anda boleh ubahsuai bilangan digit pecahan yang digunakan. Sebagai contoh, jika Euro, anda perlu kendali 1/10 untuk ¢, iaitu 1/1000 Euro, anda perlu tetapkan bilangan menjadi tiga. Akaun sedia ada yang gunakan matawang, akan ditukar ke tetapan baharu.</string>
 </resources>
