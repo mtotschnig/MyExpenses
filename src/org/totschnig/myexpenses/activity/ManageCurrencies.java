@@ -34,6 +34,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.currency_list);
+      getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
     }
     @Override
     public void onFinishEditDialog(Bundle args) {
