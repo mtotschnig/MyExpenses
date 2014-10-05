@@ -384,12 +384,16 @@ public class ExpenseEdit extends AmountActivity implements
           }
           mTransaction = SplitTransaction.getNewInstance(accountId);
           //Split transactions are returned persisted to db and already have an id
-          mRowId = mTransaction.getId();
+          if (mTransaction!=null) {
+            mRowId = mTransaction.getId();
+          }
           break;
         }
       }
       if (mTransaction == null) {
-        Toast.makeText(this,"Error instantiating transaction for account "+accountId,Toast.LENGTH_SHORT).show();
+        String errMsg = "Error instantiating transaction for account "+accountId;
+        Utils.reportToAcra(new IllegalStateException(errMsg));
+        Toast.makeText(this,errMsg,Toast.LENGTH_SHORT).show();
         finish();
         return;
       }
