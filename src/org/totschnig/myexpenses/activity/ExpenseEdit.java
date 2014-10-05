@@ -591,7 +591,11 @@ public class ExpenseEdit extends AmountActivity implements
     super.onTypeChanged(isClicked);
     if (mTransaction != null && mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       mTransaction.methodId = null;
-      mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
+      if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
+        mManager.restartLoader(METHODS_CURSOR, null, this);
+      } else {
+        mManager.initLoader(METHODS_CURSOR, null, this);
+      }
     }
   }
   @Override
@@ -1103,9 +1107,9 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mLaunchPlanView = true;
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
-          mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+          mManager.restartLoader(EVENT_CURSOR, null, this);
         else
-          mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+          mManager.initLoader(EVENT_CURSOR, null, this);
       }
       break;
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
@@ -1204,7 +1208,11 @@ public class ExpenseEdit extends AmountActivity implements
         setTransferAccountFilterMap();
       } else {
         if (!(mTransaction instanceof SplitPartCategory)) {
-          mManager.restartLoader(METHODS_CURSOR, null, this); 
+          if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
+            mManager.restartLoader(METHODS_CURSOR, null, this);
+          } else {
+            mManager.initLoader(METHODS_CURSOR, null, this);
+          }
         }
         if (mTransaction instanceof SplitTransaction) {
           ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
