@@ -16,7 +16,7 @@ The export command applies to individual accounts and is available from the acti
 
 As a premium feature you can apply the command to multiple accounts in batch from the aggregate transaction list.
 
-The export file is created on the external file system in a special application folder by default You can set up a different folder from the settings, you  can also decide to hand over the data to another application after each export, for example Email, or cloud storage by activating the option "Share exports and backups" in the Settings screen.
+The export file is created on the external file system in a special application folder by default. You can set up a different folder from the settings, you  can also decide to hand over the data to another application after each export, for example Email, or cloud storage by activating the option "Share exports and backups" in the Settings screen.
 
 Import functionality is available from the Settings screen. My Expenses mainly supports import from QIF data. When you select a file for import, you have the following options as can be seen on the screenshot:
 
