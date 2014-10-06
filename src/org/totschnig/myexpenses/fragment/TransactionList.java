@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
@@ -249,10 +248,10 @@ public class TransactionList extends BudgetListFragment implements
        @Override
        public void onItemClick(AdapterView<?> a, View v,int position, long id) {
          FragmentManager fm = ctx.getSupportFragmentManager();
-         DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
+         DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
          if (f == null) {
            FragmentTransaction ft = getFragmentManager().beginTransaction();
-           TransactionDetailFragment.newInstance(id).show(ft, "TRANSACTION_DETAIL");
+           TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
          }
        }
     });

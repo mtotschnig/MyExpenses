@@ -39,9 +39,11 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -68,6 +70,7 @@ import android.widget.Toast;
 public class TransactionDetailFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor>,OnClickListener {
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
+  View mLayout;
   
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
@@ -77,29 +80,91 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     return dialogFragment;
   }
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    final Bundle bundle = getArguments();
-    //TODO strict mode violation
-    mTransaction = Transaction.getInstanceFromDb(bundle.getLong(KEY_ROWID));
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    ((MyExpenses) activity).startTaskExecution(
+        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION,
+      new Long[] {getArguments().getLong(KEY_ROWID)},
+      null,
+      0);
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    if (mTransaction == null) {
-      return new AlertDialog.Builder(wrappedCtx)
-        .setMessage("Transaction has been deleted")
-        .create();
-    }
+    
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
-    View view = li.inflate(R.layout.transaction_detail, null);
+    mLayout = li.inflate(R.layout.transaction_detail, null);
+    return new AlertDialog.Builder(getActivity())
+      .setTitle(R.string.progress_dialog_loading)
+      .setView(mLayout)
+      .setNegativeButton(android.R.string.ok,this)
+      .setPositiveButton(R.string.menu_edit,this)
+      .create();
+  }
+  @Override
+  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+    if (getActivity()==null) {
+      return null;
+    }
+    switch(id) {
+      case MyExpenses.SPLIT_PART_CURSOR:
+      CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
+          new String[] { String.valueOf(mTransaction.getId()) }, null);
+      return cursorLoader;
+    }
+    return null;
+  }
+
+  @Override
+  public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    int id = loader.getId();
+    switch(id) {
+      case MyExpenses.SPLIT_PART_CURSOR:
+      mAdapter.swapCursor(cursor);
+    }
+  }
+  @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    mAdapter.swapCursor(null);
+  }
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    MyExpenses ctx = (MyExpenses) getActivity();
+    if (ctx == null) {
+      return;
+    }
+    if (which == AlertDialog.BUTTON_POSITIVE) {
+      if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
+        Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
+        return;
+      }
+      Intent i = new Intent(ctx, ExpenseEdit.class);
+      i.putExtra(KEY_ROWID, mTransaction.getId());
+      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
+      //i.putExtra("operationType", operationType);
+      ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+    } else {
+      dismiss();
+    }
+  }
+  public void fillData(Transaction o) {
+    final MyExpenses ctx = (MyExpenses) getActivity();
+    mLayout.findViewById(R.id.progress).setVisibility(View.GONE);
+    mTransaction = o;
+    if (mTransaction == null) {
+      TextView error = (TextView) mLayout.findViewById(R.id.error);
+      error.setVisibility(View.VISIBLE);
+      error.setText("Transaction has been deleted");
+      return;
+    }
+    mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
     int title;
     boolean type = mTransaction.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
     if (mTransaction instanceof SplitTransaction) {
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
-      View emptyView = view.findViewById(R.id.empty);
+      View emptyView = mLayout.findViewById(R.id.empty);
       Resources.Theme theme = ctx.getTheme();
       TypedValue color = new TypedValue();
       theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -107,7 +172,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       theme.resolveAttribute(R.attr.colorIncome,color, true);
       final int colorIncome = color.data;
       
-      ListView lv = (ListView) view.findViewById(R.id.list);
+      ListView lv = (ListView) mLayout.findViewById(R.id.list);
       // Create an array to specify the fields we want to display in the list
       String[] from = new String[]{KEY_LABEL_MAIN,KEY_AMOUNT};
 
@@ -187,109 +252,58 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       else
         manager.initLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
     } else {
-      view.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
+      mLayout.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
       if (mTransaction instanceof Transfer) {
         title = R.string.transfer;
-        ((TextView) view.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
-        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
+        ((TextView) mLayout.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
+        ((TextView) mLayout.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
       }
       else {
         title = type ? R.string.income : R.string.expense;
-        ((TextView) view.findViewById(R.id.PayeeLabel)).setText(type?R.string.payer:R.string.payee);
+        ((TextView) mLayout.findViewById(R.id.PayeeLabel)).setText(type?R.string.payer:R.string.payee);
       }
     }
     String accountLabel = Account.getInstanceFromDb(mTransaction.accountId).label;
     if (mTransaction instanceof Transfer) {
-      ((TextView) view.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
-      ((TextView) view.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
+      ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
+      ((TextView) mLayout.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
     } else {
-      ((TextView) view.findViewById(R.id.Account)).setText(accountLabel);
+      ((TextView) mLayout.findViewById(R.id.Account)).setText(accountLabel);
       if ((mTransaction.getCatId() != null && mTransaction.getCatId() > 0)) {
-        ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
+        ((TextView) mLayout.findViewById(R.id.Category)).setText(mTransaction.label);
       } else {
-        view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
     }
-    ((TextView) view.findViewById(R.id.Date)).setText(
+    ((TextView) mLayout.findViewById(R.id.Date)).setText(
         DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate())
         + " "
         + DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate()));
-    ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
+    ((TextView) mLayout.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
         new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
     if (!mTransaction.comment.equals(""))
-      ((TextView) view.findViewById(R.id.Comment)).setText(mTransaction.comment);
+      ((TextView) mLayout.findViewById(R.id.Comment)).setText(mTransaction.comment);
     else
-      view.findViewById(R.id.CommentRow).setVisibility(View.GONE);
+      mLayout.findViewById(R.id.CommentRow).setVisibility(View.GONE);
     if (!mTransaction.referenceNumber.equals(""))
-      ((TextView) view.findViewById(R.id.Number)).setText(mTransaction.referenceNumber);
+      ((TextView) mLayout.findViewById(R.id.Number)).setText(mTransaction.referenceNumber);
     else
-      view.findViewById(R.id.NumberRow).setVisibility(View.GONE);
+      mLayout.findViewById(R.id.NumberRow).setVisibility(View.GONE);
     if (!mTransaction.payee.equals(""))
-      ((TextView) view.findViewById(R.id.Payee)).setText(mTransaction.payee);
+      ((TextView) mLayout.findViewById(R.id.Payee)).setText(mTransaction.payee);
     else
-      view.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
+      mLayout.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
     if (mTransaction.methodId != null)
-      ((TextView) view.findViewById(R.id.Method)).setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getDisplayLabel());
+      ((TextView) mLayout.findViewById(R.id.Method)).setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getDisplayLabel());
     else
-      view.findViewById(R.id.MethodRow).setVisibility(View.GONE);
+      mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH))
-      view.findViewById(R.id.StatusRow).setVisibility(View.GONE);
+      mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     else {
-      TextView tv = (TextView)view.findViewById(R.id.Status);
+      TextView tv = (TextView)mLayout.findViewById(R.id.Status);
       tv.setBackgroundColor(mTransaction.crStatus.color);
       tv.setText(mTransaction.crStatus.toString());
     }
-    return new AlertDialog.Builder(getActivity())
-      .setTitle(title)
-      .setView(view)
-      .setNegativeButton(android.R.string.ok,this)
-      .setPositiveButton(R.string.menu_edit,this)
-      .create();
-  }
-  @Override
-  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    if (getActivity()==null) {
-      return null;
-    }
-    switch(id) {
-      case MyExpenses.SPLIT_PART_CURSOR:
-      CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
-          new String[] { String.valueOf(mTransaction.getId()) }, null);
-      return cursorLoader;
-    }
-    return null;
-  }
-
-  @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    int id = loader.getId();
-    switch(id) {
-      case MyExpenses.SPLIT_PART_CURSOR:
-      mAdapter.swapCursor(cursor);
-    }
-  }
-  @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
-    mAdapter.swapCursor(null);
-  }
-  @Override
-  public void onClick(DialogInterface dialog, int which) {
-    MyExpenses ctx = (MyExpenses) getActivity();
-    if (ctx == null) {
-      return;
-    }
-    if (which == AlertDialog.BUTTON_POSITIVE) {
-      if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
-        Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
-        return;
-      }
-      Intent i = new Intent(ctx, ExpenseEdit.class);
-      i.putExtra(KEY_ROWID, mTransaction.getId());
-      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
-      //i.putExtra("operationType", operationType);
-      ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-    } else {
-      dismiss();
-    }
+    getDialog().setTitle(title);
   }
 }

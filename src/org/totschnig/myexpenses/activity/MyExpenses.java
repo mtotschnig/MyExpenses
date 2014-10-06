@@ -313,9 +313,9 @@ public class MyExpenses extends LaunchActivity implements
       //detail fragment from notification should only be shown upon first instantiation from notification
       if (idFromNotification != 0 && savedInstanceState == null) {
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
+        if (fm.findFragmentByTag(TransactionDetailFragment.class.getName()) == null) {
           TransactionDetailFragment.newInstance(idFromNotification)
-              .show(fm, "TRANSACTION_DETAIL");
+              .show(fm, TransactionDetailFragment.class.getName());
           getIntent().removeExtra(KEY_TRANSACTIONID);
         }
       }
@@ -873,6 +873,11 @@ public class MyExpenses extends LaunchActivity implements
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
+      ((TransactionDetailFragment)
+          getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName()))
+          .fillData((Transaction) o);
+      break;
     case TaskExecutionFragment.TASK_CLONE:
       Integer successCount = (Integer) o;
       String msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
