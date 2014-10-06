@@ -71,6 +71,26 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.3.4
+    - "2014-09-30"
+    -
+      en: |
+        Customizable number of fraction digits for currencies. Allow to exclude accounts from totals.
+      fr: |
+        Le nombre de décimales pour les devises est personnalisable. Des comptes peuvent être exclus des totaux.
+      de: |
+        Anpassbare Anzahl der Nachkommastellen für Währungen. Konten können aus der aggregierten Ansicht ausgeschlossen werden.
+      it: |
+        Personalizzabile numero di cifre della frazione per valute. Consenti di escludere gli conti da totali.
+      es: |
+        Personaliza la cantidad de dígitos de fracción por moneda.. Ahora se pueden excluir las cuentas de los totales.
+      pt: |
+        Personalizável número de dígitos de fração para moedas. Permitir excluir contas de totais.
+      tr: |
+        Para birimleri için kişiselleştirilebilir kesir basamak sayısı. Hesapları toplamlardan dışlamaya izin ver.
+      ms: |
+        Nombor digit pecahan boleh suai untuk matawang. Membolehkan akaun diasing dari jumlah.
+  -
     - 2.3.3
     - "2014-09-20"
     -
