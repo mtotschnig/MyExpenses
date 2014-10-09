@@ -71,21 +71,25 @@ def finalize():
 
 def main():
   #1 ManageAccounts
-  left()
-  left()
-  enter()
-  snapshot("manage_accounts")
-  
-  #3 GrooupedList
   toTopLeft()
-  down()
   enter()
-  snapshot("grouped_list")
+  down()
+  down()
+  down()
+  toTopLeft()
+  snapshot("manage_accounts")
   
   if (stage == "1"):
     finalize()
     return
   
+  #3 GrooupedList
+  down()
+  down()
+  down()
+  enter()
+  snapshot("grouped_list")
+    
   #4 Templates and Plans
   toBottomLeft()
   right()
@@ -104,17 +108,11 @@ def main():
   sleep()
   up()
   up()
+  right()
   up()
   left()
   enter() #apply instance
   sleep()
-  for _ in range(8):
-    down()
-  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN) # open CAB
-  sleep()
-  for _ in range(8):
-    up()
-  enter() #cancel instance
   snapshot("plans")
   
   #5 ExportAndReset
@@ -147,11 +145,13 @@ def main():
   
   #give time for loading
   sleep(2)
+  back()#close virtual keyboard
   snapshot("split")
   
   #8 Distribution
   back()
   menu(1)
+  right()
   right()
   enter()
   down()
@@ -164,11 +164,11 @@ def main():
   
   #9 Backup
   back()
-  menu(7)
+  menu(6)
   if lang == 'zh':
-    distance = 17
+    distance = 14
   else:
-    distance = 19
+    distance = 16
   for _ in range(distance):
     down()
   enter()
@@ -177,13 +177,14 @@ def main():
   #10 Password
   back()
   back()
-  menu(7)
+  menu(6)
   if lang == 'zh':
-    distance = 24
+    distance = 20
   else:
-    distance = 26
+    distance = 22
   for _ in range(distance):
     down()
+  enter()
   enter()
   enter()
   snapshot("password")
@@ -191,8 +192,9 @@ def main():
   #10 Light Theme
   back()
   back()
-  menu(7)
-  for _ in range(5):
+  back()
+  menu(6)
+  for _ in range(4):
     down()
   enter()
   down()
@@ -201,7 +203,7 @@ def main():
   snapshot("light_theme")
   
   #11 Help
-  menu(8)
+  menu(7)
   snapshot("help")
   finalize()
 
