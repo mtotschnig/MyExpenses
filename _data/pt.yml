@@ -31,6 +31,7 @@ pt:
       security_question: Pergunta de segurança
       reset_all: Reiniciar todas as contas
       template_widget: Widget de modelos
+      print: Exportar lista de transações para PDF
   google-play:
   - Manter o controle de suas despesas e rendas...
   - Gerenciá-los diretamente no seu smartphone...

@@ -24,6 +24,7 @@ features:
 contrib:
   - accounts_unlimited
   - distribution
+  - print
   - plans_unlimited
   - template_widget
   - split_transaction

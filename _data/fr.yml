@@ -41,6 +41,7 @@ fr:
       security_question: Question de sécurité
       reset_all: Réinitialiser tous les comptes
       template_widget: Widget de modèles
+      print: Export de la liste des opérations au format PDF
     licence-howto-buy:
       intro: |
         Vous avez les options suivantes pour l'achat de la licence de Contrib :

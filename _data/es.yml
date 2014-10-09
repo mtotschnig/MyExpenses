@@ -41,6 +41,7 @@ es:
       security_question: Pregunta de seguridad
       reset_all: Restablecer todas las cuentas
       template_widget: Widget de plantillas
+      print: Lista de transacciones de exportación a PDF
     licence-howto-buy:
       intro: |
         Usted tiene las siguientes opciones para adquirir la licencia de Contrib:

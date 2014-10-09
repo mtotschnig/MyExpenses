@@ -36,10 +36,11 @@ ca:
       accounts_unlimited: Nombre de comptes il·limitat
       plans_unlimited: Nombre de planificacions il·limitat
       distribution: Distribució d'operacions per categoria
-      split_transaction: 'Repartiment d''operacions '
+      split_transaction: Repartiment d'operacions
       security_question: Pregunta de seguretat
       reset_all: Reinicieu tots els comptes
       template_widget: Widget de plantilla
+      print: Exporta la llista de transaccions en PDF
     licence-howto-buy:
       intro: |
         Teniu les següents opcions per adquirir una llicència Contrib:

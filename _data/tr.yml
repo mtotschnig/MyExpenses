@@ -41,6 +41,7 @@ tr:
       security_question: Güvenlik sorusu
       reset_all: Tüm hesapları sıfırlama
       template_widget: Şablon widget'i
+      print: Muamele listesini PDF dosyasına aktar
     licence-howto-buy:
       intro: |
         Katkı lisansını satın almak için şu seçenekler mevcuttur:

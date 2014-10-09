@@ -42,6 +42,7 @@ it:
       security_question: Domanda di sicurezza
       reset_all: Reinizializzare tutti i conti
       template_widget: Widget modelli
+      print: Esportazione dell'elenco delle transazioni in PDF
     licence-howto-buy:
       intro: |
         Opzioni per attivare la licenza Contrib:

@@ -41,6 +41,7 @@ en:
       security_question:  Security question
       reset_all:          Reset all accounts
       template_widget:    Template widget
+      print: Export transaction list to PDF
     licence-howto-buy:
       intro: |
         You have the following options for purchasing the Contrib licence:
