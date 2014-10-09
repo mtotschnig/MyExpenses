@@ -17,9 +17,13 @@ package org.totschnig.myexpenses.model;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import java.text.Normalizer;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -93,10 +97,13 @@ public class Payee extends Model {
     cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null);
   }
+  @SuppressLint("NewApi")
   @Override
   public Uri save() {
     ContentValues initialValues = new ContentValues();
-    initialValues.put("name", name);
+    initialValues.put(KEY_PAYEE_NAME, name);
+    initialValues.put(KEY_PAYEE_NAME_NORMALIZED,
+        Utils.normalize(name));
     Uri uri;
     if (getId() == 0) {
       try {

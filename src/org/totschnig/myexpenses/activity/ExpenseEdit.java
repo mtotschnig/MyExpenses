@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
@@ -182,9 +184,14 @@ public class ExpenseEdit extends AmountActivity implements
         0);
     mPayeeText.setAdapter(mPayeeAdapter);
     mPayeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+      @SuppressLint("NewApi")
       public Cursor runQuery(CharSequence str) {
-        String selection = KEY_PAYEE_NAME + " LIKE ? ";
-        String[] selectArgs = { "%" + str + "%"};
+        String search = Utils.esacapeSqlLikeExpression(Utils.normalize(str.toString()));
+        //we accept the string at the beginning of a word
+        String selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
+        String[] selectArgs = { search + "%", "% "+search + "%","%."+search + "%"};
       return getContentResolver().query(
           TransactionProvider.PAYEES_URI, 
           new String[] {

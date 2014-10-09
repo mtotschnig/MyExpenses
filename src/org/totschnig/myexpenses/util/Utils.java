@@ -29,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.Normalizer;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -52,6 +53,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.xml.sax.SAXException;
 
@@ -732,4 +734,26 @@ public class Utils {
     });
   }
 
+  /**
+   * @param str
+   * @return a representation of str converted to lower case, Unicode normalization applied and markers removed
+   * this allows case-insentive comparison for non-ascii and non-latin strings
+   * works only above Gingerbread, on Froyo only lower case transformation is performed
+   */
+  @SuppressLint({ "NewApi", "DefaultLocale" })
+  public static String normalize(String str) {
+    str = str.toLowerCase();
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+      return str;
+    }
+    //Credits: http://stackoverflow.com/a/3322174/1199911
+    return Normalizer.normalize(str, Normalizer.Form.NFD)
+        .replaceAll("\\p{M}", "");
+  }
+  public static String esacapeSqlLikeExpression(String str) {
+    return str
+        .replace(WhereFilter.LIKE_ESCAPE_CHAR, WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
+        .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
+        .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_");
+  }
 }
