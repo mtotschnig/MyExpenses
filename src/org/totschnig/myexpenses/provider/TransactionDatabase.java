@@ -22,14 +22,14 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.util.Utils;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -699,7 +699,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 46) {
       db.execSQL("ALTER TABLE payee add column name_normalized text");
-      //TODO populate ...
+      Cursor c = db.query("payee", new String[]{"_id","name"},null, null, null, null, null);
+      if (c!=null) {
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while( c.getPosition() < c.getCount() ) {
+            v.put("name_normalized", Utils.normalize(c.getString(1)));
+            db.update("payee", v, "_id = "+c.getLong(0),null);
+            c.moveToNext();
+          }
+        }
+        c.close();
+      }
     }
   }
 }
