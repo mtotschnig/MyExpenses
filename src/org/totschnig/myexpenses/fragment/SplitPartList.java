@@ -21,16 +21,15 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,8 +38,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.text.Html;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,8 +53,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   //
   SimpleCursorAdapter mAdapter;
-  private int colorExpense;
-  private int colorIncome;
   private TextView balanceTv;
   private long transactionSum = 0;
   private Money unsplitAmount;
@@ -81,12 +76,6 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     final FragmentActivity ctx = getActivity();
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
-    Resources.Theme theme = ctx.getTheme();
-    TypedValue color = new TypedValue();
-    theme.resolveAttribute(R.attr.colorExpense, color, true);
-    colorExpense = color.data;
-    theme.resolveAttribute(R.attr.colorIncome,color, true);
-    colorIncome = color.data;
     balanceTv = (TextView) v.findViewById(R.id.end);
     
     ListView lv = (ListView) v.findViewById(R.id.list);
@@ -96,71 +85,11 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.amount};
 
-    final String categorySeparator, commentSeparator;
-    categorySeparator = " : ";
-    commentSeparator = " / ";
     ctx.getSupportLoaderManager().initLoader(ExpenseEdit.TRANSACTION_CURSOR, getArguments(), this);
     ctx.getSupportLoaderManager().initLoader(ExpenseEdit.SUM_CURSOR, getArguments(), this);
     // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(ctx, R.layout.split_part_row, null, from, to,0)  {
-      /* (non-Javadoc)
-       * calls {@link #convText for formatting the values retrieved from the cursor}
-       * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
-       */
-      @Override
-      public void setViewText(TextView v, String text) {
-        switch (v.getId()) {
-        case R.id.amount:
-          text = Utils.convAmount(text,Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID)).currency);
-        }
-        super.setViewText(v, text);
-      }
-      /* (non-Javadoc)
-       * manipulates the view for amount (setting expenses to red) and
-       * category (indicate transfer direction with => or <=
-       * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
-       */
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row=super.getView(position, convertView, parent);
-        TextView tv1 = (TextView)row.findViewById(R.id.amount);
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int col = c.getColumnIndex(KEY_AMOUNT);
-        long amount = c.getLong(col);
-        if (amount < 0) {
-          tv1.setTextColor(colorExpense);
-          // Set the background color of the text.
-        }
-        else {
-          tv1.setTextColor(colorIncome);
-        }
-        TextView tv2 = (TextView)row.findViewById(R.id.category);
-        String catText = tv2.getText().toString();
-        if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
-          catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
-        } else {
-          Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
-          if (catId == null) {
-            catText = getString(R.string.no_category_assigned);
-          }
-          else {
-            col = c.getColumnIndex(KEY_LABEL_SUB);
-            String label_sub = c.getString(col);
-            if (label_sub != null && label_sub.length() > 0) {
-              catText += categorySeparator + label_sub;
-            }
-          }
-        }
-        col = c.getColumnIndex(KEY_COMMENT);
-        String comment = c.getString(col);
-        if (comment != null && comment.length() > 0) {
-          catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
-        }
-        tv2.setText(Html.fromHtml(catText));
-        return row;
-      }
-    };
+    mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
+        Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID)).currency);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
     lv.setOnItemClickListener(new OnItemClickListener()

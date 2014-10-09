@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.dialog;
 
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -29,6 +30,7 @@ import java.text.DateFormat;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Money;
@@ -165,12 +167,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
       View emptyView = mLayout.findViewById(R.id.empty);
-      Resources.Theme theme = ctx.getTheme();
-      TypedValue color = new TypedValue();
-      theme.resolveAttribute(R.attr.colorExpense, color, true);
-      final int colorExpense = color.data;
-      theme.resolveAttribute(R.attr.colorIncome,color, true);
-      final int colorIncome = color.data;
       
       ListView lv = (ListView) mLayout.findViewById(R.id.list);
       // Create an array to specify the fields we want to display in the list
@@ -179,71 +175,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       // and an array of the fields we want to bind those fields to 
       int[] to = new int[]{R.id.category,R.id.amount};
 
-      final String categorySeparator, commentSeparator;
-      categorySeparator = " : ";
-      commentSeparator = " / ";
       // Now create a simple cursor adapter and set it to display
-      mAdapter = new SimpleCursorAdapter(ctx, R.layout.split_part_row, null, from, to,0)  {
-        /* (non-Javadoc)
-         * calls {@link #convText for formatting the values retrieved from the cursor}
-         * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
-         */
-        @Override
-        public void setViewText(TextView v, String text) {
-          switch (v.getId()) {
-          case R.id.amount:
-            text = Utils.convAmount(text,mTransaction.amount.getCurrency());
-          }
-          super.setViewText(v, text);
-        }
-        /* (non-Javadoc)
-         * manipulates the view for amount (setting expenses to red) and
-         * category (indicate transfer direction with => or <=
-         * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
-         */
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-          View row=super.getView(position, convertView, parent);
-          TextView tv1 = (TextView)row.findViewById(R.id.amount);
-          Cursor c = getCursor();
-          c.moveToPosition(position);
-          int col = c.getColumnIndex(KEY_AMOUNT);
-          long amount = c.getLong(col);
-          if (amount < 0) {
-            tv1.setTextColor(colorExpense);
-            // Set the background color of the text.
-          }
-          else {
-            tv1.setTextColor(colorIncome);
-          }
-          TextView tv2 = (TextView)row.findViewById(R.id.category);
-          if (Build.VERSION.SDK_INT < 11)
-            tv2.setTextColor(Color.WHITE);
-          String catText = tv2.getText().toString();
-          if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
-            catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
-          } else {
-            Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
-            if (catId == null) {
-              catText = getString(R.string.no_category_assigned);
-            }
-            else {
-              col = c.getColumnIndex(KEY_LABEL_SUB);
-              String label_sub = c.getString(col);
-              if (label_sub != null && label_sub.length() > 0) {
-                catText += categorySeparator + label_sub;
-              }
-            }
-          }
-          col = c.getColumnIndex(KEY_COMMENT);
-          String comment = c.getString(col);
-          if (comment != null && comment.length() > 0) {
-            catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
-          }
-          tv2.setText(Html.fromHtml(catText));
-          return row;
-        }
-      };
+      mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
+          mTransaction.amount.getCurrency());
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
       LoaderManager manager = ctx.getSupportLoaderManager();
