@@ -103,6 +103,7 @@ public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
     ContribIFace, ConfirmationDialogListener {
 
+  private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   private static final String KEY_PLAN = "plan";
@@ -411,7 +412,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new TextWatcher(){
         public void afterTextChanged(Editable s) {
-          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+          findSplitPartList().updateBalance();
       }
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -493,11 +494,10 @@ public class ExpenseEdit extends AmountActivity implements
       //when the split transaction is saved the split and its parts are committed
       categoryContainer.setVisibility(View.GONE);
       //add split list
-      FragmentManager fm = getSupportFragmentManager();
-      SplitPartList f = (SplitPartList) fm.findFragmentByTag("SPLIT_PART_LIST");
-      if (f == null) {
+      if (findSplitPartList() == null) {
+        FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.getId(),mTransaction.accountId),"SPLIT_PART_LIST")
+          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.getId(),mTransaction.accountId),SPLIT_PART_LIST)
           .commit();
         fm.executePendingTransactions();
       }
@@ -654,7 +654,7 @@ public class ExpenseEdit extends AmountActivity implements
       return true;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction &&
-        !((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete()) {
+        !findSplitPartList().splitComplete()) {
           Toast.makeText(this,getString(R.string.unsplit_amount_greater_than_zero),Toast.LENGTH_SHORT).show();
           return true;
       }
@@ -965,7 +965,7 @@ public class ExpenseEdit extends AmountActivity implements
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
     if (mTransaction instanceof SplitTransaction) {
-      ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+      findSplitPartList().updateBalance();
     }
     setCategoryButton();
   }
@@ -1222,7 +1222,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
         if (mTransaction instanceof SplitTransaction) {
-          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+          findSplitPartList().updateBalance();
         }
       }
       configureStatusSpinner();
@@ -1547,8 +1547,11 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   protected void onPause() {
-    //try to preven cursor leak
+    //try to prevent cursor leak
     mPayeeAdapter.changeCursor(null);
     super.onPause();
+  }
+  protected SplitPartList findSplitPartList() {
+    return (SplitPartList) getSupportFragmentManager().findFragmentByTag(SPLIT_PART_LIST);
   }
 }
