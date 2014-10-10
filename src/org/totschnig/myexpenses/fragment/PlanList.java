@@ -65,7 +65,7 @@ import android.widget.Toast;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
 
-public class PlanList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PlanList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
   protected int getMenuResource() {
     return R.menu.planlist_context;
@@ -95,7 +95,6 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setColors();
     View v = inflater.inflate(R.layout.plans_list, null, false);
     mListView = (ExpandableListView) v.findViewById(R.id.list);
 
@@ -405,6 +404,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   }
 
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
+    private int colorExpense;
+    private int colorIncome;
     String categorySeparator = " : ",
         commentSeparator = " / ";
     Calendar calendar = Calendar.getInstance();
@@ -415,6 +416,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             int[] childrenTo) {
         super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
                 childrenTo);
+        colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
+        colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     }
     @Override
     public void setViewText(TextView v, String text) {
@@ -450,7 +453,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       c.moveToPosition(groupPosition);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
-      setColor(tv1,amount < 0);
+      tv1.setTextColor(amount<0?colorExpense:colorIncome);
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       Long planId = c.getLong(columnIndexPlanId);
       String planInfo = mPlanTimeInfo.get(planId);

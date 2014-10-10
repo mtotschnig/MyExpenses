@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -60,7 +61,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
-public class CategoryList extends BudgetListFragment implements
+public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
 
   protected int getMenuResource() {
@@ -92,7 +93,6 @@ public class CategoryList extends BudgetListFragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setColors();
     final ManageCategories ctx = (ManageCategories) getActivity();
     int viewResource;
     Bundle extras = ctx.getIntent().getExtras();
@@ -259,11 +259,15 @@ public class CategoryList extends BudgetListFragment implements
    *
    */
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
+    private int colorExpense;
+    private int colorIncome;
     public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
             int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
             int[] childrenTo) {
         super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
                 childrenTo);
+        colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
+        colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     }
     /* (non-Javadoc)
      * returns a cursor with the subcategories for the group
@@ -297,7 +301,7 @@ public class CategoryList extends BudgetListFragment implements
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
       case R.id.amount:
-        setColor(v,Long.valueOf(text) < 0);
+        v.setTextColor(Long.valueOf(text)<0?colorExpense:colorIncome);
         text = Utils.convAmount(text,mAccount.currency);
       }
       super.setViewText(v, text);

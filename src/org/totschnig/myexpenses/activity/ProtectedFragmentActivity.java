@@ -33,6 +33,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
@@ -40,9 +41,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 /**
  * @author Michael Totschnig
@@ -67,6 +70,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
   public Enum<?> helpVariant = null;
+  protected int colorExpense;
+  public int getColorExpense() {
+    return colorExpense;
+  }
+
+  protected int colorIncome;
+  public int getColorIncome() {
+    return colorIncome;
+  }
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +102,14 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     setLanguage();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
+    Resources.Theme theme = getTheme();
+    TypedValue color = new TypedValue();
+    theme.resolveAttribute(R.attr.colorExpense, color, true);
+    colorExpense = color.data;
+    theme.resolveAttribute(R.attr.colorIncome,color, true);
+    colorIncome = color.data;
   }
+
   private ProtectionDelegate getProtection() {
     if (protection == null) {
       protection = new ProtectionDelegate(this);
