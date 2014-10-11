@@ -223,12 +223,15 @@ public class CategoryList extends ContextualActionBarFragment implements
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
     Cursor c;
+    boolean isMain;
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
       c = (Cursor) mAdapter.getChild(group,child);
+      isMain = false;
     } else  {
       c = mGroupCursor;
+      isMain = true;
     }
     if (c==null||c.getCount()==0) {
       //observed on Blackberry Z10
@@ -240,7 +243,8 @@ public class CategoryList extends ContextualActionBarFragment implements
       ctx.editCat(label,elcmi.id);
       return true;
     case R.id.SELECT_COMMAND:
-      doSelection(elcmi.id,label);
+      doSelection(elcmi.id,label,isMain);
+      finishActionMode();
       return true;
     case R.id.CREATE_COMMAND:
       ctx.createCat(elcmi.id);
@@ -549,7 +553,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       return false;
     }
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
-    doSelection(id,label);
+    doSelection(id,label,false);
     return true;
   }
   @Override
@@ -568,14 +572,14 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
       return false;
     String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
-    doSelection(cat_id,label);
+    doSelection(cat_id,label,true);
     return true;
   }
-  private void doSelection(long cat_id,String label) {
+  private void doSelection(long cat_id,String label,boolean isMain) {
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       TransactionListDialogFragment.newInstance(
-          mAccount.getId(), mGrouping,mGroupingYear,mGroupingSecond,label)
+          mAccount.getId(), cat_id, isMain, mGrouping,buildGroupingClause(),label)
           .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
       return;
     }

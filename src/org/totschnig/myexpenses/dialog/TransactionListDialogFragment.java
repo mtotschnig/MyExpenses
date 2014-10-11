@@ -23,10 +23,13 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,22 +39,23 @@ import android.support.v4.content.Loader;
 import android.widget.ListView;
 
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+  private static final String KEY_IS_MAIN = "is_main";
+  private static final String KEY_GROUPING_CLAUSE = "grouping_clause";
   Account mAccount;
-  Grouping mGrouping;
-  int mGroupingYear;
-  int mGroupingSecond;
   SimpleCursorAdapter mAdapter;
   ListView mLayout;
+  boolean isMain;
   
   public static final TransactionListDialogFragment newInstance(
-      Long id,Grouping grouping,int year,int second,String label) {
+      Long account_id,long cat_id, boolean isMain, Grouping grouping,String groupingClause,String label) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putLong(KEY_ACCOUNTID, id);
-    bundle.putInt(KEY_YEAR, year);
-    bundle.putInt(KEY_SECOND_GROUP,second);
+    bundle.putLong(KEY_ACCOUNTID, account_id);
+    bundle.putLong(KEY_CATID, cat_id);
+    bundle.putString(KEY_GROUPING_CLAUSE, groupingClause);
     bundle.putSerializable(KEY_GROUPING, grouping);
     bundle.putString(KEY_LABEL,label);
+    bundle.putBoolean(KEY_IS_MAIN, isMain);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -59,6 +63,8 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
+    isMain = getArguments().getBoolean(KEY_IS_MAIN);
+    
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -78,7 +84,13 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         null,
         from,
         to,
-        0);
+        0) {
+          @Override
+          protected CharSequence getCatText(CharSequence catText,
+              String label_sub) {
+            return isMain ? label_sub : "";
+          }
+      };
     mLayout.setAdapter(mAdapter);
     getLoaderManager().initLoader(0, null, this);
     
@@ -92,6 +104,10 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     String selection;
     String[] selectionArgs;
+    WhereFilter wf = new WhereFilter();
+    wf.put(0, new SingleCategoryCriteria(
+        getArguments().getLong(KEY_CATID),
+        getArguments().getString(KEY_LABEL)));
     if (mAccount.getId() < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
@@ -100,6 +116,12 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     } else {
       selection = KEY_ACCOUNTID + " = ?";
       selectionArgs = new String[] { String.valueOf(mAccount.getId()) };
+    }
+    selection += " AND " + wf.getSelection();
+    selectionArgs = Utils.joinArrays(selectionArgs, wf.getSelectionArgs());
+    String groupingClause = getArguments().getString(KEY_GROUPING_CLAUSE);
+    if (groupingClause!= null) {
+      selection += " AND " + groupingClause;
     }
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     return new CursorLoader(getActivity(),

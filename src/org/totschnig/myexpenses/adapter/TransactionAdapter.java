@@ -97,6 +97,18 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     }
     super.setViewText(v, text);
   }
+  /**
+   * @param c
+   * @return extracts the information that should
+   * be displayed about the mapped category, can be overridden by subclass
+   * should not be used for handle transfers
+   */
+  protected CharSequence getCatText(CharSequence catText,String label_sub) {
+    if (label_sub != null && label_sub.length() > 0) {
+      catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
+    }
+    return catText;
+  }
   /* (non-Javadoc)
    * manipulates the view for amount (setting expenses to red) and
    * category (indicate transfer direction with => or <=
@@ -126,10 +138,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       else if (catId == null) {
         catText = MyApplication.getInstance().getString(R.string.no_category_assigned);
       } else {
-        String label_sub = c.getString(c.getColumnIndex(KEY_LABEL_SUB));
-        if (label_sub != null && label_sub.length() > 0) {
-          catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
-        }
+        catText = getCatText(catText,c.getString(c.getColumnIndex(KEY_LABEL_SUB)));
       }
     }
     String referenceNumber= c.getString(c.getColumnIndex(KEY_REFERENCE_NUMBER));
