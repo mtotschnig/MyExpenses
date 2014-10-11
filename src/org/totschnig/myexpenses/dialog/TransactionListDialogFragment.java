@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -36,6 +37,8 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ListView;
 
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -43,7 +46,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   private static final String KEY_GROUPING_CLAUSE = "grouping_clause";
   Account mAccount;
   SimpleCursorAdapter mAdapter;
-  ListView mLayout;
+  ListView mListView;
   boolean isMain;
   
   public static final TransactionListDialogFragment newInstance(
@@ -70,7 +73,11 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     //Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
     
-    mLayout = new ListView(getActivity());
+    mListView = new ListView(getActivity());
+    ViewGroup.MarginLayoutParams mlp = new MarginLayoutParams(
+        MarginLayoutParams.WRAP_CONTENT,MarginLayoutParams.WRAP_CONTENT);
+    mlp.setMargins(2, 0, 2, 0);
+    mListView.setLayoutParams(mlp);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
 
@@ -91,41 +98,41 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
             return isMain ? label_sub : "";
           }
       };
-    mLayout.setAdapter(mAdapter);
+    mListView.setAdapter(mAdapter);
     getLoaderManager().initLoader(0, null, this);
     
-    return new AlertDialog.Builder(getActivity())
+    AlertDialog dlg = new AlertDialog.Builder(getActivity())
       .setTitle(getArguments().getString(KEY_LABEL))
-      .setView(mLayout)
       .setPositiveButton(android.R.string.ok,null)
       .create();
+    dlg.setView(mListView, 5, 0, 20, 0);
+    return dlg;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    String selection;
+    String selection,accountSelect;
     String[] selectionArgs;
-    WhereFilter wf = new WhereFilter();
-    wf.put(0, new SingleCategoryCriteria(
-        getArguments().getLong(KEY_CATID),
-        getArguments().getString(KEY_LABEL)));
+    String catSelect = String.valueOf(getArguments().getLong(KEY_CATID));
     if (mAccount.getId() < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + "=0)";
-      selectionArgs = new String[] {mAccount.currency.getCurrencyCode()};
+      accountSelect = mAccount.currency.getCurrencyCode();
     } else {
       selection = KEY_ACCOUNTID + " = ?";
-      selectionArgs = new String[] { String.valueOf(mAccount.getId()) };
+      accountSelect = String.valueOf(mAccount.getId());
     }
-    selection += " AND " + wf.getSelection();
-    selectionArgs = Utils.joinArrays(selectionArgs, wf.getSelectionArgs());
+    selection += " AND " + KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+        + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
+        + KEY_ROWID + " = ?)";
+    selectionArgs = new String[]{accountSelect,catSelect,catSelect};
     String groupingClause = getArguments().getString(KEY_GROUPING_CLAUSE);
     if (groupingClause!= null) {
       selection += " AND " + groupingClause;
     }
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     return new CursorLoader(getActivity(),
-        uri, null, selection + " AND " + KEY_PARENTID + " is null",
+        uri, null, selection,
         selectionArgs, null);
   }
 
