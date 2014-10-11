@@ -45,6 +45,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -245,6 +246,17 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     } catch (IllegalStateException e) {
       Utils.reportToAcra(e);
       finish();
+    }
+  }
+
+  public void toggleCrStatus(View v) {
+    Long id = (Long) v.getTag();
+    if (id != -1) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+          new Long[] {id},
+          null,
+          0);
     }
   }
 }

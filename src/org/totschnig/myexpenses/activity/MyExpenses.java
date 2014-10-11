@@ -916,16 +916,6 @@ public class MyExpenses extends LaunchActivity implements
       break;
     }
   }
-  public void toggleCrStatus (View v) {
-    Long id = (Long) v.getTag();
-    if (id != -1) {
-      startTaskExecution(
-          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-          new Long[] {id},
-          null,
-          0);
-    }
-  }
   public void deleteAccount (View v) {
     mDrawerLayout.closeDrawers();
     int position = (Integer) v.getTag();
