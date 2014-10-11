@@ -496,11 +496,8 @@ public class MyExpenses extends LaunchActivity implements
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
         AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(value);
-        getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
-        a = Account.getInstanceFromDb(mAccountId);
-        a.grouping=value;
-        a.save();
+        Account.getInstanceFromDb(mAccountId).persistGrouping(value);
       }
       return true;
     case R.id.CREATE_TRANSACTION_COMMAND:
