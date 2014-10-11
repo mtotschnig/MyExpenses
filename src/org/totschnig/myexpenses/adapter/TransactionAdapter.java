@@ -159,7 +159,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     }
     tv2.setText(catText);
     
-    if (mAccount.type.equals(Type.CASH)) {
+    if (!mAccount.type.equals(Type.CASH)) {
       CrStatus status;
       try {
         status = CrStatus.valueOf(c.getString(c.getColumnIndex(KEY_CR_STATUS)));
