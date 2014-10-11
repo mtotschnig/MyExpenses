@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -573,7 +574,9 @@ public class CategoryList extends ContextualActionBarFragment implements
   private void doSelection(long cat_id,String label) {
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      Toast.makeText(ctx, "TODO: display transaction list",Toast.LENGTH_LONG).show();
+      TransactionListDialogFragment.newInstance(
+          mAccount.getId(), mGroupingYear,mGroupingSecond,label)
+          .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
       return;
     }
     Intent intent=new Intent();
