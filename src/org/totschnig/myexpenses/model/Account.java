@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
@@ -53,14 +52,10 @@ import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
-import android.os.RemoteException;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -1413,5 +1408,10 @@ public class Account extends Model {
     for (int i = 0; i < number; i++) {
       paragraph.add(new Paragraph(" "));
     }
+  }
+
+  public void persistGrouping(Grouping value) {
+    grouping=value;
+    save();
   }
 }
