@@ -44,12 +44,13 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   ListView mLayout;
   
   public static final TransactionListDialogFragment newInstance(
-      Long id,int year,int second,String label) {
+      Long id,Grouping grouping,int year,int second,String label) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_ACCOUNTID, id);
     bundle.putInt(KEY_YEAR, year);
     bundle.putInt(KEY_SECOND_GROUP,second);
+    bundle.putSerializable(KEY_GROUPING, grouping);
     bundle.putString(KEY_LABEL,label);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
@@ -69,7 +70,15 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
 
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
-    mAdapter = new TransactionAdapter(mAccount, getActivity(), R.layout.expense_row, null, from, to,0);
+    mAdapter = new TransactionAdapter(
+        mAccount,
+        (Grouping) getArguments().getSerializable(KEY_GROUPING),
+        getActivity(),
+        R.layout.expense_row,
+        null,
+        from,
+        to,
+        0);
     mLayout.setAdapter(mAdapter);
     getLoaderManager().initLoader(0, null, this);
     

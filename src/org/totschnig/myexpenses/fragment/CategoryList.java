@@ -575,7 +575,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       TransactionListDialogFragment.newInstance(
-          mAccount.getId(), mGroupingYear,mGroupingSecond,label)
+          mAccount.getId(), mGrouping,mGroupingYear,mGroupingSecond,label)
           .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
       return;
     }

@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -38,19 +39,25 @@ import android.widget.LinearLayout.LayoutParams;
 public class TransactionAdapter extends SimpleCursorAdapter {
   private int dateEms;
   private Account mAccount;
+  private Grouping mGroupingOverride;
   DateFormat localizedTimeFormat,itemDateFormat;
   private int colorExpense;
   private int colorIncome;
 
-  public TransactionAdapter(Account account, Context context, int layout, Cursor c, String[] from,
+  public TransactionAdapter(Account account, Grouping grouping, Context context, int layout, Cursor c, String[] from,
       int[] to, int flags) {
     super(context, layout, c, from, to, flags);
     colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
     colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     mAccount = account;
+    mGroupingOverride = grouping;
     dateEms = android.text.format.DateFormat.is24HourFormat(context) ? 3 : 4;
     localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context);
     refreshDateFormat();
+  }
+  public TransactionAdapter(Account account, Context context, int layout, Cursor c, String[] from,
+      int[] to, int flags) {
+    this(account, null, context, layout, c, from, to, flags);
   }
   @Override
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -156,7 +163,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     return convertView;
   }
   public void refreshDateFormat() {
-    switch (mAccount.grouping) {
+    switch (mGroupingOverride!=null ? mGroupingOverride : mAccount.grouping) {
     case DAY:
       itemDateFormat = localizedTimeFormat;
       break;
