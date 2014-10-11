@@ -835,8 +835,8 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
-      long catId = intent.getLongExtra("cat_id",0);
-      String label = intent.getStringExtra("label");
+      long catId = intent.getLongExtra(KEY_CATID,0);
+      String label = intent.getStringExtra(KEY_LABEL);
       addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
     }
   }

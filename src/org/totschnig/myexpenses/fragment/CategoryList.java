@@ -139,9 +139,7 @@ public class CategoryList extends ContextualActionBarFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      registerForContextualActionBar(mListView);
-    }
+    registerForContextualActionBar(mListView);
     return v;
   }
 
@@ -241,11 +239,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       ctx.editCat(label,elcmi.id);
       return true;
     case R.id.SELECT_COMMAND:
-      Intent intent=new Intent();
-      intent.putExtra("cat_id", elcmi.id);
-      intent.putExtra("label", label);
-      ctx.setResult(ManageCategories.RESULT_OK,intent);
-      ctx.finish();
+      doSelection(elcmi.id,label);
       return true;
     case R.id.CREATE_COMMAND:
       ctx.createCat(elcmi.id);
@@ -550,18 +544,11 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (super.onChildClick(parent, v, groupPosition,childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx==null ||
-        !(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
-        ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
+    if (ctx==null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
-    Intent intent=new Intent();
-    long sub_cat = id;
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
-    intent.putExtra("cat_id",sub_cat);
-    intent.putExtra("label", label);
-    ctx.setResult(ManageCategories.RESULT_OK,intent);
-    ctx.finish();
+    doSelection(id,label);
     return true;
   }
   @Override
@@ -580,12 +567,20 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
       return false;
     String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
+    doSelection(cat_id,label);
+    return true;
+  }
+  private void doSelection(long cat_id,String label) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      Toast.makeText(ctx, "TODO: display transaction list",Toast.LENGTH_LONG).show();
+      return;
+    }
     Intent intent=new Intent();
-    intent.putExtra("cat_id",cat_id);
-    intent.putExtra("label", label);
+    intent.putExtra(KEY_CATID,cat_id);
+    intent.putExtra(KEY_LABEL, label);
     ctx.setResult(ManageCategories.RESULT_OK,intent);
     ctx.finish();
-    return true;
   }
   public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
@@ -652,10 +647,11 @@ public class CategoryList extends ContextualActionBarFragment implements
       return;
     }
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-    boolean inFilter = ctx.helpVariant.equals(HelpVariant.select_filter);
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilter);
-    menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilter);
+    boolean inFilterOrDistribution = ctx.helpVariant.equals(HelpVariant.select_filter) ||
+        ctx.helpVariant.equals(HelpVariant.distribution);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilterOrDistribution);
+    menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && !ctx.helpVariant.equals(HelpVariant.manage));
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilter);
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
   }
 }
