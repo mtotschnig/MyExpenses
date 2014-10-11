@@ -149,13 +149,17 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     if (comment != null && comment.length() > 0) {
       ssb = new SpannableStringBuilder(comment);
       ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
-      catText = TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb);
+      catText = catText.length()>0 ?
+          TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb):
+          ssb;
     }
     String payee = c.getString(c.getColumnIndex(KEY_PAYEE_NAME));
     if (payee != null && payee.length() > 0) {
       ssb = new SpannableStringBuilder(payee);
       ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
-      catText = TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb);
+      catText = catText.length()>0 ?
+          TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb):
+          ssb;
     }
     tv2.setText(catText);
     
