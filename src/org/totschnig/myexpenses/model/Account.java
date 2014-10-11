@@ -524,7 +524,7 @@ public class Account extends Model {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
       accounts.remove(id);
     } catch (Exception e) {
-      // TODO Auto-generated catch block
+      Utils.reportToAcra(e);
       e.printStackTrace();
     }
   }
@@ -679,7 +679,7 @@ public class Account extends Model {
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
-      // TODO Auto-generated catch block
+      Utils.reportToAcra(e);
       e.printStackTrace();
     }
   }
