@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
@@ -150,7 +151,7 @@ public class TransactionProvider extends ContentProvider {
     SQLiteDatabase db = mOpenHelper.getReadableDatabase();
     Cursor c;
 
-    if (MyApplication.debug) {
+    if (BuildConfig.DEBUG) {
       Log.d(TAG, "Query for URL: " + uri);
     }
     String defaultOrderBy = null;
@@ -369,7 +370,7 @@ public class TransactionProvider extends ContentProvider {
             KEY_IS_AGGREGATE + ","+KEY_SORT_KEY_TYPE+","+KEY_SORT_KEY+","+defaultOrderBy,//real accounts should come first, then aggregate accounts
             null);
         c = db.rawQuery(sql, null);
-        if (MyApplication.debug) {
+        if (BuildConfig.DEBUG) {
           Log.d(TAG, "Query : " + sql);
         }
         c.setNotificationUri(getContext().getContentResolver(), uri);
@@ -522,7 +523,7 @@ public class TransactionProvider extends ContentProvider {
       orderBy = sortOrder;
     }
 
-    if (MyApplication.debug) {
+    if (BuildConfig.DEBUG) {
       @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
@@ -542,7 +543,7 @@ public class TransactionProvider extends ContentProvider {
   }
   @Override
   public Uri insert(Uri uri, ContentValues values) {
-    if (MyApplication.debug) {
+    if (BuildConfig.DEBUG) {
       Log.d(TAG,values.toString());
     }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -623,7 +624,7 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public int delete(Uri uri, String where, String[] whereArgs) {
-    if (MyApplication.debug)
+    if (BuildConfig.DEBUG)
       Log.d(TAG, "Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;

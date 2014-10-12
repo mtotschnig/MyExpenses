@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
@@ -83,7 +84,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    if (MyApplication.debug) {
+    if (BuildConfig.DEBUG) {
       StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
       .detectDiskReads()
       .detectDiskWrites()

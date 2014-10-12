@@ -154,7 +154,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         "ifnull(" + Calendars.NAME + ",'') AS path";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
-    public static final boolean debug = BuildConfig.DEBUG;
     private boolean contribEnabled = false, contribEnabledInitialized = false;
 
 
@@ -170,7 +169,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       this.contribEnabled = contribEnabled;
     }
     public boolean isContribEnabled() {
-      if (debug) {
+      if (BuildConfig.DEBUG) {
         return true;
       }
       if (!contribEnabledInitialized) {
