@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -49,7 +50,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class TemplatesList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TemplatesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -70,7 +71,6 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setColors();
     View v = inflater.inflate(R.layout.templates_list, null, false);
     final ListView lv = (ListView) v.findViewById(R.id.list);
 
@@ -197,11 +197,15 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       ((SimpleCursorAdapter) mAdapter).swapCursor(null);
   }
   public class MyAdapter extends SimpleCursorAdapter {
+    private int colorExpense;
+    private int colorIncome;
     String categorySeparator = " : ",
         commentSeparator = " / ";
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
+      colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
+      colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -210,7 +214,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       c.moveToPosition(position);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
-      setColor(tv1,amount < 0);
+      tv1.setTextColor(amount<0?colorExpense:colorIncome);
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);

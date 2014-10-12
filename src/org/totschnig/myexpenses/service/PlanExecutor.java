@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.service;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -31,7 +32,7 @@ import android.util.Log;
 
 public class PlanExecutor extends IntentService {
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
-  public static long INTERVAL = MyApplication.debug ? 60000 : 21600000;
+  public static long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
   public PlanExecutor() {
     super("PlanExexcutor");
   }

@@ -321,9 +321,9 @@ public class MyExpenses extends LaunchActivity implements
       //detail fragment from notification should only be shown upon first instantiation from notification
       if (idFromNotification != 0 && savedInstanceState == null) {
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
+        if (fm.findFragmentByTag(TransactionDetailFragment.class.getName()) == null) {
           TransactionDetailFragment.newInstance(idFromNotification)
-              .show(fm, "TRANSACTION_DETAIL");
+              .show(fm, TransactionDetailFragment.class.getName());
           getIntent().removeExtra(KEY_TRANSACTIONID);
         }
       }
@@ -504,11 +504,8 @@ public class MyExpenses extends LaunchActivity implements
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
         AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(value);
-        getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
-        a = Account.getInstanceFromDb(mAccountId);
-        a.grouping=value;
-        a.save();
+        Account.getInstanceFromDb(mAccountId).persistGrouping(value);
       }
       return true;
     case R.id.CREATE_TRANSACTION_COMMAND:
@@ -881,6 +878,11 @@ public class MyExpenses extends LaunchActivity implements
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
+      ((TransactionDetailFragment)
+          getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName()))
+          .fillData((Transaction) o);
+      break;
     case TaskExecutionFragment.TASK_CLONE:
       Integer successCount = (Integer) o;
       String msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
@@ -920,16 +922,6 @@ public class MyExpenses extends LaunchActivity implements
         Toast.makeText(this,result.print(this),Toast.LENGTH_LONG).show();
       }
       break;
-    }
-  }
-  public void toggleCrStatus (View v) {
-    Long id = (Long) v.getTag();
-    if (id != -1) {
-      startTaskExecution(
-          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-          new Long[] {id},
-          null,
-          0);
     }
   }
   public void deleteAccount (View v) {

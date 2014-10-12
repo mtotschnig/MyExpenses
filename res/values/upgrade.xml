@@ -18,12 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2342">
-      <item>Fixed problem with amount input +/- toggle on some devices</item>
-  </string-array>
-  <string-array name="whats_new_2341">
-      <item>Print view displays transactions in ascending order</item>
-      <item>Bug fix</item>
+  <string-array name="whats_new_235">
+    <item>From distribution screen, display list of transactions per category</item>
+    <item>Improved payer/payee autocomplete</item>
   </string-array>
   <string-array name="whats_new_234">
       <item>Customizable number of fraction digits for currencies</item>

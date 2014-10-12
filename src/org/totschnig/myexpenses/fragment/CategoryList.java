@@ -23,8 +23,10 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -60,7 +62,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
-public class CategoryList extends BudgetListFragment implements
+public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
 
   protected int getMenuResource() {
@@ -92,7 +94,6 @@ public class CategoryList extends BudgetListFragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setColors();
     final ManageCategories ctx = (ManageCategories) getActivity();
     int viewResource;
     Bundle extras = ctx.getIntent().getExtras();
@@ -139,9 +140,7 @@ public class CategoryList extends BudgetListFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      registerForContextualActionBar(mListView);
-    }
+    registerForContextualActionBar(mListView);
     return v;
   }
 
@@ -224,12 +223,15 @@ public class CategoryList extends BudgetListFragment implements
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
     Cursor c;
+    boolean isMain;
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
       c = (Cursor) mAdapter.getChild(group,child);
+      isMain = false;
     } else  {
       c = mGroupCursor;
+      isMain = true;
     }
     if (c==null||c.getCount()==0) {
       //observed on Blackberry Z10
@@ -241,11 +243,8 @@ public class CategoryList extends BudgetListFragment implements
       ctx.editCat(label,elcmi.id);
       return true;
     case R.id.SELECT_COMMAND:
-      Intent intent=new Intent();
-      intent.putExtra("cat_id", elcmi.id);
-      intent.putExtra("label", label);
-      ctx.setResult(ManageCategories.RESULT_OK,intent);
-      ctx.finish();
+      doSelection(elcmi.id,label,isMain);
+      finishActionMode();
       return true;
     case R.id.CREATE_COMMAND:
       ctx.createCat(elcmi.id);
@@ -259,11 +258,15 @@ public class CategoryList extends BudgetListFragment implements
    *
    */
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
+    private int colorExpense;
+    private int colorIncome;
     public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
             int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
             int[] childrenTo) {
         super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
                 childrenTo);
+        colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
+        colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     }
     /* (non-Javadoc)
      * returns a cursor with the subcategories for the group
@@ -297,7 +300,7 @@ public class CategoryList extends BudgetListFragment implements
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
       case R.id.amount:
-        setColor(v,Long.valueOf(text) < 0);
+        v.setTextColor(Long.valueOf(text)<0?colorExpense:colorIncome);
         text = Utils.convAmount(text,mAccount.currency);
       }
       super.setViewText(v, text);
@@ -546,18 +549,11 @@ public class CategoryList extends BudgetListFragment implements
     if (super.onChildClick(parent, v, groupPosition,childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx==null ||
-        !(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
-        ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
+    if (ctx==null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
-    Intent intent=new Intent();
-    long sub_cat = id;
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
-    intent.putExtra("cat_id",sub_cat);
-    intent.putExtra("label", label);
-    ctx.setResult(ManageCategories.RESULT_OK,intent);
-    ctx.finish();
+    doSelection(id,label,false);
     return true;
   }
   @Override
@@ -576,12 +572,22 @@ public class CategoryList extends BudgetListFragment implements
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
       return false;
     String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
+    doSelection(cat_id,label,true);
+    return true;
+  }
+  private void doSelection(long cat_id,String label,boolean isMain) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      TransactionListDialogFragment.newInstance(
+          mAccount.getId(), cat_id, isMain, mGrouping,buildGroupingClause(),label)
+          .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
+      return;
+    }
     Intent intent=new Intent();
-    intent.putExtra("cat_id",cat_id);
-    intent.putExtra("label", label);
+    intent.putExtra(KEY_CATID,cat_id);
+    intent.putExtra(KEY_LABEL, label);
     ctx.setResult(ManageCategories.RESULT_OK,intent);
     ctx.finish();
-    return true;
   }
   public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
@@ -648,10 +654,11 @@ public class CategoryList extends BudgetListFragment implements
       return;
     }
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-    boolean inFilter = ctx.helpVariant.equals(HelpVariant.select_filter);
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilter);
-    menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilter);
+    boolean inFilterOrDistribution = ctx.helpVariant.equals(HelpVariant.select_filter) ||
+        ctx.helpVariant.equals(HelpVariant.distribution);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilterOrDistribution);
+    menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && !ctx.helpVariant.equals(HelpVariant.manage));
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilter);
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
   }
 }

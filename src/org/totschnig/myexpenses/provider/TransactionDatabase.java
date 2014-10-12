@@ -22,19 +22,19 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.util.Utils;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 45;
+  public static final int DATABASE_VERSION = 46;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -163,8 +163,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    */
   private static final String PAYEE_CREATE =
     "CREATE TABLE " + TABLE_PAYEES
-      + " (" + KEY_ROWID + " integer primary key autoincrement, " + KEY_PAYEE_NAME
-          + " text unique not null);";
+      + " (" + KEY_ROWID + " integer primary key autoincrement, " +
+        KEY_PAYEE_NAME + " text unique not null," +
+        KEY_PAYEE_NAME_NORMALIZED + " text);";
 
   private static final String CURRENCY_CREATE =
     "CREATE TABLE " + TABLE_CURRENCIES
@@ -695,6 +696,21 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP VIEW IF EXISTS templates_extended");
       db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+    }
+    if (oldVersion < 46) {
+      db.execSQL("ALTER TABLE payee add column name_normalized text");
+      Cursor c = db.query("payee", new String[]{"_id","name"},null, null, null, null, null);
+      if (c!=null) {
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while( c.getPosition() < c.getCount() ) {
+            v.put("name_normalized", Utils.normalize(c.getString(1)));
+            db.update("payee", v, "_id = "+c.getLong(0),null);
+            c.moveToNext();
+          }
+        }
+        c.close();
+      }
     }
   }
 }

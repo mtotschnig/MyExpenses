@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
@@ -33,6 +34,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
@@ -40,9 +42,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * @author Michael Totschnig
@@ -67,10 +72,19 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
   public Enum<?> helpVariant = null;
+  protected int colorExpense;
+  public int getColorExpense() {
+    return colorExpense;
+  }
+
+  protected int colorIncome;
+  public int getColorIncome() {
+    return colorIncome;
+  }
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    if (MyApplication.debug) {
+    if (BuildConfig.DEBUG) {
       StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
       .detectDiskReads()
       .detectDiskWrites()
@@ -90,7 +104,14 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     setLanguage();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
+    Resources.Theme theme = getTheme();
+    TypedValue color = new TypedValue();
+    theme.resolveAttribute(R.attr.colorExpense, color, true);
+    colorExpense = color.data;
+    theme.resolveAttribute(R.attr.colorIncome,color, true);
+    colorIncome = color.data;
   }
+
   private ProtectionDelegate getProtection() {
     if (protection == null) {
       protection = new ProtectionDelegate(this);
@@ -226,6 +247,17 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     } catch (IllegalStateException e) {
       Utils.reportToAcra(e);
       finish();
+    }
+  }
+
+  public void toggleCrStatus(View v) {
+    Long id = (Long) v.getTag();
+    if (id != -1) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+          new Long[] {id},
+          null,
+          0);
     }
   }
 }

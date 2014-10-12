@@ -17,8 +17,6 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
@@ -26,10 +24,10 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
@@ -74,10 +72,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -88,7 +83,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -97,7 +91,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
-public class TransactionList extends BudgetListFragment implements
+public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
 
   protected int getMenuResource() {
@@ -113,12 +107,12 @@ public class TransactionList extends BudgetListFragment implements
   public static final String KEY_FILTER = "filter";
   public static final String CATEGORY_SEPARATOR = " : ",
       COMMENT_SEPARATOR = " / ";
-  private StickyListHeadersAdapter mAdapter;
+  private MyGroupedAdapter mAdapter;
   private AccountObserver aObserver;
-  private Account mAccount;
+  Account mAccount;
   public boolean hasItems, mappedCategories, mappedPayees, mappedMethods;
   private Cursor mTransactionsCursor, mGroupingCursor;
-  private DateFormat itemDateFormat, localizedTimeFormat;
+
   private StickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
@@ -127,10 +121,11 @@ public class TransactionList extends BudgetListFragment implements
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay, columnIndexTransferPeer,
-    columnIndexAmount, columnIndexLabelSub, columnIndexLabelMain, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
-    columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories, columIndexGroupSumInterim,
-    columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
+  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth,
+    columnIndexWeek, columnIndexDay, columnIndexLabelSub, columnIndexLabelMain,
+    columnIndexPayee, columnIndexCrStatus, columnIndexGroupYear, columnIndexGroupSecond,
+    columnIndexGroupMappedCategories, columIndexGroupSumInterim, columnIndexGroupSumIncome,
+    columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
@@ -158,7 +153,6 @@ public class TransactionList extends BudgetListFragment implements
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
-    localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(getActivity());
   }
   private void setAdapter() {
     Context ctx = getActivity();
@@ -171,20 +165,7 @@ public class TransactionList extends BudgetListFragment implements
     mListView.setAdapter(mAdapter);
   }
   private void setGrouping() {
-    switch (mAccount.grouping) {
-    case DAY:
-      itemDateFormat = localizedTimeFormat;
-      break;
-    case MONTH:
-      itemDateFormat = new SimpleDateFormat("dd");
-      break;
-    case WEEK:
-      itemDateFormat = new SimpleDateFormat("EEE");
-      break;
-    case YEAR:
-    case NONE:
-      itemDateFormat = Utils.localizedYearlessDateFormat();
-    }
+    mAdapter.refreshDateFormat();
     restartGroupingLoader();
   }
   private void restartGroupingLoader() {
@@ -221,8 +202,7 @@ public class TransactionList extends BudgetListFragment implements
       return  tv;
     }
     mManager = getLoaderManager();
-    setGrouping();
-    setColors();
+    //setGrouping();
     if (savedInstanceState != null) {
       mFilter =  new WhereFilter(savedInstanceState.getSparseParcelableArray(KEY_FILTER));
     } else {
@@ -249,10 +229,10 @@ public class TransactionList extends BudgetListFragment implements
        @Override
        public void onItemClick(AdapterView<?> a, View v,int position, long id) {
          FragmentManager fm = ctx.getSupportFragmentManager();
-         DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
+         DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
          if (f == null) {
            FragmentTransaction ft = getFragmentManager().beginTransaction();
-           TransactionDetailFragment.newInstance(id).show(ft, "TRANSACTION_DETAIL");
+           TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
          }
        }
     });
@@ -420,14 +400,10 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexMonth = c.getColumnIndex(KEY_MONTH);
         columnIndexWeek = c.getColumnIndex(KEY_WEEK);
         columnIndexDay  = c.getColumnIndex(KEY_DAY);
-        columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
-        columnIndexComment = c.getColumnIndex(KEY_COMMENT);
-        columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
-        columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(c);
@@ -508,11 +484,11 @@ public class TransactionList extends BudgetListFragment implements
       }
     }
   }
-  public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
+  public class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
     LayoutInflater inflater;
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
-      super(context, layout, c, from, to, flags);
+      super(mAccount,context, layout, c, from, to, flags);
       inflater = LayoutInflater.from(getActivity());
     }
     @SuppressWarnings("incomplete-switch")
@@ -623,118 +599,6 @@ public class TransactionList extends BudgetListFragment implements
       }
     }
   }
-  public class MyAdapter extends SimpleCursorAdapter {
-    private int dateEms;
-
-    public MyAdapter(Context context, int layout, Cursor c, String[] from,
-        int[] to, int flags) {
-      super(context, layout, c, from, to, flags);
-      dateEms = android.text.format.DateFormat.is24HourFormat(context) ? 3 : 4;
-    }
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-      View v= super.newView(context, cursor, parent);
-      ViewHolder holder = new ViewHolder();
-      View colorContainer = v.findViewById(R.id.colorContainer);
-      View colorAccount = v.findViewById(R.id.colorAccount);
-      holder.colorContainer = colorContainer;
-      holder.colorAccount = colorAccount;
-      holder.amount = (TextView) v.findViewById(R.id.amount);
-      holder.category = (TextView) v.findViewById(R.id.category);
-      holder.color1 = v.findViewById(R.id.color1);
-      if (mAccount.type.equals(Type.CASH)) {
-        colorContainer.setVisibility(View.GONE);
-      }
-      if (mAccount.getId() < 0) {
-        colorAccount.setLayoutParams(
-            new LayoutParams(4, LayoutParams.FILL_PARENT));
-      }
-      TextView tv = (TextView) v.findViewById(R.id.date);
-      tv.setEms(dateEms);
-      v.setTag(holder);
-      return v;
-  }
-    /* (non-Javadoc)
-     * calls {@link #convText for formatting the values retrieved from the cursor}
-     * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
-     */
-    @Override
-    public void setViewText(TextView v, String text) {
-      switch (v.getId()) {
-      case R.id.date:
-        text = Utils.convDateTime(text,itemDateFormat);
-        break;
-      case R.id.amount:
-        text = Utils.convAmount(text,mAccount.currency);
-      }
-      super.setViewText(v, text);
-    }
-    /* (non-Javadoc)
-     * manipulates the view for amount (setting expenses to red) and
-     * category (indicate transfer direction with => or <=
-     * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
-     */
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-      convertView=super.getView(position, convertView, parent);
-      ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-      TextView tv1 = viewHolder.amount;
-      Cursor c = getCursor();
-      c.moveToPosition(position);
-      if (mAccount.getId() <0) {
-        int color = c.getInt(c.getColumnIndex("color"));
-        viewHolder.colorAccount.setBackgroundColor(color);
-      }
-      long amount = c.getLong(columnIndexAmount);
-      setColor(tv1,amount < 0);
-      TextView tv2 = viewHolder.category;
-      CharSequence catText = tv2.getText();
-      if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {
-        catText = ((amount < 0) ? "=> " : "<= ") + catText;
-      } else {
-        Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
-        if (SPLIT_CATID.equals(catId))
-          catText = getString(R.string.split_transaction);
-        else if (catId == null) {
-          catText = getString(R.string.no_category_assigned);
-        } else {
-          String label_sub = c.getString(columnIndexLabelSub);
-          if (label_sub != null && label_sub.length() > 0) {
-            catText = catText + CATEGORY_SEPARATOR + label_sub;
-          }
-        }
-      }
-      String referenceNumber= c.getString(columnIndexReferenceNumber);
-      if (referenceNumber != null && referenceNumber.length() > 0)
-        catText = "(" + referenceNumber + ") " + catText;
-      SpannableStringBuilder ssb;
-      String comment = c.getString(columnIndexComment);
-      if (comment != null && comment.length() > 0) {
-        ssb = new SpannableStringBuilder(comment);
-        ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
-        catText = TextUtils.concat(catText,COMMENT_SEPARATOR,ssb);
-      }
-      String payee = c.getString(columnIndexPayee);
-      if (payee != null && payee.length() > 0) {
-        ssb = new SpannableStringBuilder(payee);
-        ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
-        catText = TextUtils.concat(catText,COMMENT_SEPARATOR,ssb);
-      }
-      tv2.setText(catText);
-      
-      if (!mAccount.type.equals(Type.CASH)) {
-        CrStatus status;
-        try {
-          status = CrStatus.valueOf(c.getString(columnIndexCrStatus));
-        } catch (IllegalArgumentException ex) {
-          status = CrStatus.UNRECONCILED;
-        }
-        viewHolder.color1.setBackgroundColor(status.color);
-        viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
-      }
-      return convertView;
-    }
-  }
   class HeaderViewHolder {
     TextView interimBalance;
     TextView text;
@@ -742,13 +606,7 @@ public class TransactionList extends BudgetListFragment implements
     TextView sumExpense;
     TextView sumTransfer;
   }
-  class ViewHolder {
-    TextView amount;
-    View colorAccount;
-    TextView category;
-    View color1;
-    View colorContainer;
-  }
+
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
       int itemPosition, long headerId, boolean currentlySticky) {
@@ -977,8 +835,8 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
-      long catId = intent.getLongExtra("cat_id",0);
-      String label = intent.getStringExtra("label");
+      long catId = intent.getLongExtra(KEY_CATID,0);
+      String label = intent.getStringExtra(KEY_LABEL);
       addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
     }
   }

@@ -18,18 +18,15 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import org.totschnig.myexpenses.util.Utils;
+
 import android.os.Parcel;
 
 public class TextCriteria extends Criteria {
   private String searchString;
   public TextCriteria(String title, String columnName, String searchString) {
     super(columnName, WhereFilter.Operation.LIKE,
-        "%" +
-            searchString
-              .replace(WhereFilter.LIKE_ESCAPE_CHAR, WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
-              .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
-              .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_") +
-        "%");
+        "%" + Utils.esacapeSqlLikeExpression(searchString) + "%");
     this.searchString = searchString;
     this.title = title;
   }

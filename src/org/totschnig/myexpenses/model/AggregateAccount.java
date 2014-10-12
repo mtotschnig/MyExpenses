@@ -46,9 +46,12 @@ public class AggregateAccount extends Account {
     c.close();
     return aa;
   }
+
+  @Override
   public void persistGrouping(Grouping value) {
     this.grouping = value;
     SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit()
         .putString(GROUPING_PREF_PREFIX + currency.getCurrencyCode(), value.name()));
+    cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
   }
 }

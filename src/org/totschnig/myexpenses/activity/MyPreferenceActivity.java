@@ -386,6 +386,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     shortcutIntent.setComponent(new ComponentName(this.getPackageName(), activity));
     shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
     return shortcutIntent;
   }
   private Intent findDirPicker() {

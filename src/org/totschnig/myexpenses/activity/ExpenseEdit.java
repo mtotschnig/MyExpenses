@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
@@ -101,6 +103,7 @@ public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
     ContribIFace, ConfirmationDialogListener {
 
+  private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   private static final String KEY_PLAN = "plan";
@@ -182,9 +185,14 @@ public class ExpenseEdit extends AmountActivity implements
         0);
     mPayeeText.setAdapter(mPayeeAdapter);
     mPayeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+      @SuppressLint("NewApi")
       public Cursor runQuery(CharSequence str) {
-        String selection = KEY_PAYEE_NAME + " LIKE ? ";
-        String[] selectArgs = { "%" + str + "%"};
+        String search = Utils.esacapeSqlLikeExpression(Utils.normalize(str.toString()));
+        //we accept the string at the beginning of a word
+        String selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
+        String[] selectArgs = { search + "%", "% "+search + "%","%."+search + "%"};
       return getContentResolver().query(
           TransactionProvider.PAYEES_URI, 
           new String[] {
@@ -384,12 +392,16 @@ public class ExpenseEdit extends AmountActivity implements
           }
           mTransaction = SplitTransaction.getNewInstance(accountId);
           //Split transactions are returned persisted to db and already have an id
-          mRowId = mTransaction.getId();
+          if (mTransaction!=null) {
+            mRowId = mTransaction.getId();
+          }
           break;
         }
       }
       if (mTransaction == null) {
-        Toast.makeText(this,"Error instantiating transaction for account "+accountId,Toast.LENGTH_SHORT).show();
+        String errMsg = "Error instantiating transaction for account "+accountId;
+        Utils.reportToAcra(new IllegalStateException(errMsg));
+        Toast.makeText(this,errMsg,Toast.LENGTH_SHORT).show();
         finish();
         return;
       }
@@ -400,7 +412,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new TextWatcher(){
         public void afterTextChanged(Editable s) {
-          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+          findSplitPartList().updateBalance();
       }
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -482,11 +494,10 @@ public class ExpenseEdit extends AmountActivity implements
       //when the split transaction is saved the split and its parts are committed
       categoryContainer.setVisibility(View.GONE);
       //add split list
-      FragmentManager fm = getSupportFragmentManager();
-      SplitPartList f = (SplitPartList) fm.findFragmentByTag("SPLIT_PART_LIST");
-      if (f == null) {
+      if (findSplitPartList() == null) {
+        FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.getId(),mTransaction.accountId),"SPLIT_PART_LIST")
+          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.getId(),mTransaction.accountId),SPLIT_PART_LIST)
           .commit();
         fm.executePendingTransactions();
       }
@@ -587,7 +598,11 @@ public class ExpenseEdit extends AmountActivity implements
     super.onTypeChanged(isClicked);
     if (mTransaction != null && mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       mTransaction.methodId = null;
-      mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
+      if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
+        mManager.restartLoader(METHODS_CURSOR, null, this);
+      } else {
+        mManager.initLoader(METHODS_CURSOR, null, this);
+      }
     }
   }
   @Override
@@ -639,7 +654,7 @@ public class ExpenseEdit extends AmountActivity implements
       return true;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction &&
-        !((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete()) {
+        !findSplitPartList().splitComplete()) {
           Toast.makeText(this,getString(R.string.unsplit_amount_greater_than_zero),Toast.LENGTH_SHORT).show();
           return true;
       }
@@ -950,7 +965,7 @@ public class ExpenseEdit extends AmountActivity implements
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
     if (mTransaction instanceof SplitTransaction) {
-      ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+      findSplitPartList().updateBalance();
     }
     setCategoryButton();
   }
@@ -1099,9 +1114,9 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mLaunchPlanView = true;
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
-          mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+          mManager.restartLoader(EVENT_CURSOR, null, this);
         else
-          mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+          mManager.initLoader(EVENT_CURSOR, null, this);
       }
       break;
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
@@ -1200,10 +1215,14 @@ public class ExpenseEdit extends AmountActivity implements
         setTransferAccountFilterMap();
       } else {
         if (!(mTransaction instanceof SplitPartCategory)) {
-          mManager.restartLoader(METHODS_CURSOR, null, this); 
+          if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
+            mManager.restartLoader(METHODS_CURSOR, null, this);
+          } else {
+            mManager.initLoader(METHODS_CURSOR, null, this);
+          }
         }
         if (mTransaction instanceof SplitTransaction) {
-          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+          findSplitPartList().updateBalance();
         }
       }
       configureStatusSpinner();
@@ -1528,8 +1547,11 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   protected void onPause() {
-    //try to preven cursor leak
+    //try to prevent cursor leak
     mPayeeAdapter.changeCursor(null);
     super.onPause();
+  }
+  protected SplitPartList findSplitPartList() {
+    return (SplitPartList) getSupportFragmentManager().findFragmentByTag(SPLIT_PART_LIST);
   }
 }
