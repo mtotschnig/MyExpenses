@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -27,6 +28,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -43,10 +46,14 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   DateFormat localizedTimeFormat,itemDateFormat;
   private int colorExpense;
   private int colorIncome;
+  boolean insideFragment;
 
   public TransactionAdapter(Account account, Grouping grouping, Context context, int layout, Cursor c, String[] from,
       int[] to, int flags) {
     super(context, layout, c, from, to, flags);
+    if (context instanceof ManageCategories) {
+      insideFragment = true;
+    }
     colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
     colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     mAccount = account;
@@ -70,6 +77,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.amount = (TextView) v.findViewById(R.id.amount);
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
+    holder.date = (TextView) v.findViewById(R.id.date);
     if (mAccount.type.equals(Type.CASH)) {
       colorContainer.setVisibility(View.GONE);
     }
@@ -162,6 +170,10 @@ public class TransactionAdapter extends SimpleCursorAdapter {
           ssb;
     }
     tv2.setText(catText);
+    if (insideFragment && Build.VERSION.SDK_INT < 11) {
+      tv2.setTextColor(Color.WHITE);
+      viewHolder.date.setTextColor(Color.WHITE);
+    }
     
     if (!mAccount.type.equals(Type.CASH)) {
       CrStatus status;
@@ -197,5 +209,6 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     TextView category;
     View color1;
     View colorContainer;
+    TextView date;
   }
 }

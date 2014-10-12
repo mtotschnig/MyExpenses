@@ -74,10 +74,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     //Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
     
     mListView = new ListView(getActivity());
-    ViewGroup.MarginLayoutParams mlp = new MarginLayoutParams(
-        MarginLayoutParams.WRAP_CONTENT,MarginLayoutParams.WRAP_CONTENT);
-    mlp.setMargins(2, 0, 2, 0);
-    mListView.setLayoutParams(mlp);
+    mListView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_INSET);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
 
@@ -101,12 +98,11 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     mListView.setAdapter(mAdapter);
     getLoaderManager().initLoader(0, null, this);
     
-    AlertDialog dlg = new AlertDialog.Builder(getActivity())
+    return new AlertDialog.Builder(getActivity())
       .setTitle(getArguments().getString(KEY_LABEL))
+      .setView(mListView)
       .setPositiveButton(android.R.string.ok,null)
       .create();
-    dlg.setView(mListView, 5, 0, 20, 0);
-    return dlg;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {

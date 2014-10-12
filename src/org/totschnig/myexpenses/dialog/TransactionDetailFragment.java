@@ -80,10 +80,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final MyExpenses ctx = (MyExpenses) getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     
-    final LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    final LayoutInflater li = LayoutInflater.from(getActivity());
     mLayout = li.inflate(R.layout.transaction_detail, null);
     return new AlertDialog.Builder(getActivity())
       .setTitle(R.string.progress_dialog_loading)
