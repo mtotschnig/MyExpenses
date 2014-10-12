@@ -258,7 +258,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     private void initContribEnabled() {
       //TODO profile time taken in this function
       int contribStatusInfo = Distrib.getContribStatusInfo(this);
-      contribEnabled = contribStatusInfo == -1;
+      contribEnabled = contribStatusInfo < 0;
       //we call MyExpensesContrib to check status
       if (!contribEnabled) {
         Log.i(TAG,"contribStatusInfo: " + contribStatusInfo);

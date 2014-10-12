@@ -32,7 +32,7 @@ public class UnlockHandler extends Handler {
   public void handleMessage(Message msg) {
     boolean permanent = false;
     MyApplication app = MyApplication.getInstance();
-    if (app.isContribEnabled()) {
+    if (Distrib.getContribStatusInfo(app)==-2) {
       return;
     }
     Log.i(MyApplication.TAG,"Now handling answer from license verification service; got status "+msg.what);
@@ -50,13 +50,13 @@ public class UnlockHandler extends Handler {
       if (msg.what == STATUS_TEMPORARY && timestamp != 0L) {
         long timeSinceInitialCheck = now - timestamp ;
         Log.d(MyApplication.TAG,"time since initial check : " + timeSinceInitialCheck);
-        //15 minutes refund limit
-        if (timeSinceInitialCheck> 90000L) {
+        //2 hours refund limit
+        if (timeSinceInitialCheck> 7200000L) {
           permanent = true;
         }
       }
       if (msg.what == STATUS_PERMANENT || permanent) {
-        mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "1");
+        mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), "2");
         mPreferences.commit();
       }
       if (msg.what == STATUS_RETRY) {

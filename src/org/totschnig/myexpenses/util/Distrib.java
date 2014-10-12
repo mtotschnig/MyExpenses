@@ -24,12 +24,13 @@ public class Distrib {
 
   /**
    * @param ctx
-   * @return -1 if we have a permanent license confirmed, otherwise the number of retrys returned from the licensing service
+   * @return -1,or-2 if we have a permanent license confirmed, otherwise the number of retrys returned from the licensing service
    */
   public static int getContribStatusInfo(Context ctx) {
     PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
-    if (p.getString(MyApplication.PrefKey.LICENSE_STATUS.getKey(),"0").equals("1"))
-      return -1;
+    int status = Integer.parseInt(p.getString(MyApplication.PrefKey.LICENSE_STATUS.getKey(),"0"));
+    if (status>0)
+      return 0-status;
     else
       return Integer.parseInt(p.getString(
           MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"));
