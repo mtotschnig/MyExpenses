@@ -34,6 +34,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -169,11 +170,19 @@ public class TransactionAdapter extends SimpleCursorAdapter {
           TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb):
           ssb;
     }
-    tv2.setText(catText);
-    if (insideFragment && Build.VERSION.SDK_INT < 11) {
-      tv2.setTextColor(Color.WHITE);
-      viewHolder.date.setTextColor(Color.WHITE);
+    if (insideFragment) {
+      if (catText.length()==0) {
+        catText = "―――";
+        tv2.setGravity(Gravity.CENTER);
+      } else {
+        tv2.setGravity(Gravity.LEFT);
+      }
+      if (Build.VERSION.SDK_INT < 11) {
+        tv2.setTextColor(Color.WHITE);
+        viewHolder.date.setTextColor(Color.WHITE);
+      }
     }
+    tv2.setText(catText);
     
     if (!mAccount.type.equals(Type.CASH)) {
       CrStatus status;
