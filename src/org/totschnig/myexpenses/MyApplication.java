@@ -169,9 +169,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       this.contribEnabled = contribEnabled;
     }
     public boolean isContribEnabled() {
-      if (BuildConfig.DEBUG) {
-        return true;
-      }
       if (!contribEnabledInitialized) {
         contribEnabled = Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE.getString(""));
         contribEnabledInitialized = true;

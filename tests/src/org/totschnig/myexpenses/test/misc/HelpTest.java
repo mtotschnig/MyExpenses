@@ -95,7 +95,8 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     int[] versionCodes = res.getIntArray(R.array.version_codes);
     String[] versionNames = res.getStringArray(R.array.version_names);
     for (int i=0;i<versionCodes.length;i++) {
-      Assert.assertNotNull(new VersionDialogFragment.VersionInfo(versionCodes[i], versionNames[i]).getChanges(ctx));
+      Assert.assertNotNull("Could not get changes for version " + versionNames[i],
+          new VersionDialogFragment.VersionInfo(versionCodes[i], versionNames[i]).getChanges(ctx));
     }
   }
 }

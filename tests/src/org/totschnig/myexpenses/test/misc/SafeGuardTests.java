@@ -7,8 +7,8 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class SafeGuardTests extends TestCase {
-  public void testDebugIsFalse() {
-    Assert.assertFalse(MyApplication.debug);
-    Assert.assertEquals(21600000, PlanExecutor.INTERVAL);
+  public void testContribIsNotEnabled() {
+    Assert.assertFalse(MyApplication.getInstance().isContribEnabled());
+    
   }
 }
