@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_235">
+    <item>Dans l\'écran de distribution, afficher la liste de transactions par catégorie</item>
+    <item>Amélioration du remplissage automatique des tiers</item>
+  </string-array>
   <string-array name="whats_new_234">
     <item>Le nombre de décimales pour les devises est personnalisable</item>
     <item>Des comptes peuvent être exclus des totaux</item>
