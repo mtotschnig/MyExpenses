@@ -29,7 +29,11 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +42,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class VersionDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   public static final VersionDialogFragment newInstance(int from) {
@@ -45,6 +50,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     Bundle bundle = new Bundle();
     bundle.putInt("from", from);
     dialogFragment.setArguments(bundle);
+    dialogFragment.setCancelable(false);
     return dialogFragment;
   }
   @Override
@@ -77,6 +83,19 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         String[] changes = version.getChanges(ctx);
         ((TextView) row.findViewById(R.id.versionInfoChanges))
           .setText(changes != null ? ("- " + TextUtils.join("\n- ",changes)) : "");
+
+        TextView learn_more = (TextView) row.findViewById(R.id.versionInfoLearnMore);
+        Spannable span = Spannable.Factory.getInstance().newSpannable("Learn more");
+        span.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View v) {
+              v.invalidate();
+                Log.d("main", "link clicked");
+                Toast.makeText(getActivity(), "link clicked", Toast.LENGTH_SHORT).show();
+            } }, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        learn_more.setText(span);
+
+        learn_more.setMovementMethod(LinkMovementMethod.getInstance());
         return row;
       }
     };
