@@ -72,16 +72,22 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
 
     try {
-      int resId = res.getIdentifier("help_" +activityName + "_info", "string", pack);
-      if (resId != 0)
-        screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
-      else if (variant == null)
-        throw new NotFoundException("help_" +activityName + "_info");
+      String resIdString = "help_" +activityName + "_info";
+      int resId = res.getIdentifier(resIdString, "string", pack);
+      if (resId != 0) {
+        screenInfo = getString(resId);
+      }
+      else if (variant == null) {
+        throw new NotFoundException(resIdString);
+      }
       if (variant != null) {
+        resIdString = "help_" +activityName + "_" + variant + "_info";
+        resId = res.getIdentifier(resIdString, "string", pack);
+        if (resId == 0) {
+          throw new NotFoundException(resIdString);
+        }
         screenInfo += "<br>";
-        screenInfo +=  getString(
-            res.getIdentifier(
-                "help_" +activityName + "_" + variant + "_info", "string", pack));
+        screenInfo +=  getString(resId);
       }
       ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo, this, null));
       resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
@@ -94,25 +100,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (menuItems.size() == 0)
         view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
       else {
-        for (String item: menuItems) {
-          View row = li.inflate(R.layout.help_dialog_action_row, null);
-          ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
-              res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
-          ((TextView) row.findViewById(R.id.title)).setText(
-              res.getString(res.getIdentifier("menu_"+item,"string",pack)));
-          //we look for a help text specific to the variant first, then to the activity
-          //and last a generic one
-          resId = res.getIdentifier("menu_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
-          if (resId == 0)
-            resId = res.getIdentifier("menu_" +activityName + "_" + item + "_help_text","string",pack);
-          if (resId == 0)
-            resId = res.getIdentifier("menu_" + item + "_help_text","string",pack);
-          if (resId == 0)
-            throw new NotFoundException(item);
-          ((TextView) row.findViewById(R.id.help_text)).setText(
-              res.getString(resId));
-          ll.addView(row,ll.getChildCount()-1);
-        }
+        handleMenuItems(activityName, variant, li, ll, menuItems,"menu",1);
       }
       resId = res.getIdentifier(activityName+"_cabitems", "array", pack);
       menuItems.clear();
@@ -124,32 +112,15 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (menuItems.size() == 0)
         view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
       else {
-        for (String item: menuItems) {
-          View row = li.inflate(R.layout.help_dialog_action_row, null);
-          ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
-              res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
-          ((TextView) row.findViewById(R.id.title)).setText(
-              res.getString(res.getIdentifier("menu_"+item,"string",pack)));
-          //we look for a help text specific to the variant first, then to the activity
-          //and last a generic one
-          resId = res.getIdentifier("cab_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
-          if (resId == 0) {
-            resId = res.getIdentifier("cab_" +activityName + "_" + item + "_help_text","string",pack);
-          }
-          if (resId == 0) {
-            resId = res.getIdentifier("cab_" + item + "_help_text","string",pack);
-          }
-          if (resId == 0) {
-            throw new NotFoundException(item);
-          }
-          ((TextView) row.findViewById(R.id.help_text)).setText(
-              res.getString(resId));
-          ll.addView(row);
-        }
+        handleMenuItems(activityName, variant, li, ll, menuItems,"cab",0);
       }
       resId = variant != null ? res.getIdentifier("help_" +activityName + "_" + variant + "_title", "string", pack) : 0;
       if (resId == 0) {
-        resId = res.getIdentifier("help_" +activityName + "_title", "string", pack);
+        resIdString = "help_" +activityName + "_title";
+        resId = res.getIdentifier(resIdString, "string", pack);
+        if (resId == 0) {
+          throw new NotFoundException(resIdString);
+        }
       }
       title = getString(resId);
     } catch (NotFoundException e) {
@@ -172,6 +143,57 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         }
       })
       .create();
+  }
+
+  /**
+   * @param res
+   * @param pack
+   * @param activityName
+   * @param variant
+   * @param li
+   * @param ll
+   * @param menuItems
+   * @throws NotFoundException
+   */
+  protected void handleMenuItems(String activityName, String variant, final LayoutInflater li,
+      LinearLayout ll, ArrayList<String> menuItems,String prefix,int offset) throws NotFoundException {
+    final Resources res = getResources();
+    final String pack = getActivity().getPackageName();
+    String resIdString;
+    int resId;
+    for (String item: menuItems) {
+      View row = li.inflate(R.layout.help_dialog_action_row, null);
+      resIdString = item+"_icon";
+      resId = res.getIdentifier(resIdString, "drawable", pack);
+      if (resId == 0) {
+        throw new NotFoundException(resIdString);
+      }
+      ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
+          res.getDrawable(resId));
+      resIdString = "menu_"+item;
+      resId = res.getIdentifier(resIdString,"string",pack);
+      if (resId == 0) {
+        throw new NotFoundException(resIdString);
+      }
+      ((TextView) row.findViewById(R.id.title)).setText(
+          res.getString(resId));
+      //we look for a help text specific to the variant first, then to the activity
+      //and last a generic one
+      resId = res.getIdentifier(prefix + "_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
+      if (resId == 0) {
+        resId = res.getIdentifier(prefix + "_" +activityName + "_" + item + "_help_text","string",pack);
+        if (resId == 0) {
+          resIdString = prefix + "_"  + item + "_help_text";
+          resId = res.getIdentifier(resIdString,"string",pack);
+          if (resId == 0) {
+            throw new NotFoundException(resIdString);
+          }
+        }
+      }
+      ((TextView) row.findViewById(R.id.help_text)).setText(
+          res.getString(resId));
+      ll.addView(row,ll.getChildCount()-offset);
+    }
   }
   public void onCancel (DialogInterface dialog) {
     getActivity().finish();
