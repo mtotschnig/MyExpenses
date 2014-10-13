@@ -1,8 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_235">
+    <item>Desde la pantalla de distribución, mostrar la lista de transacciones por categoría</item>
+    <item>Mejora de la función de autocompletar Beneficiario/Pagador</item>
+  </string-array>
   <string-array name="whats_new_234">
-      <item>Personaliza la cantidad de dígitos de fracción por moneda.</item>
-      <item>Ahora se pueden excluir las cuentas de los totales</item>
+    <item>Personaliza la cantidad de dígitos de fracción por moneda.</item>
+    <item>Ahora se pueden excluir las cuentas de los totales</item>
   </string-array>
   <string-array name="whats_new_233">
     <item>Rediseño de lista de cuentas: orden definido por el usuario</item>

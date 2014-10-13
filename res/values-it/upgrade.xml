@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_235">
+    <item>Dalla schermata di distribuzione, visualizzare l\'elenco delle transazioni per ogni categoria</item>
+    <item>Miglioramento del completamento automatico Beneficiario/Pagatore</item>
+  </string-array>
   <string-array name="whats_new_234">
     <item>Personalizzabile numero di cifre della frazione per valute</item>
     <item>Consenti di escludere gli conti da totali</item>
