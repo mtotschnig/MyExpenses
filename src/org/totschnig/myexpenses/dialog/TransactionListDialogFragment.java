@@ -24,11 +24,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.SingleCategoryCriteria;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -37,8 +33,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ListView;
 
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -92,7 +86,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
           @Override
           protected CharSequence getCatText(CharSequence catText,
               String label_sub) {
-            return isMain ? label_sub : "";
+            return (isMain && label_sub != null) ? label_sub : "";
           }
       };
     mListView.setAdapter(mAdapter);
