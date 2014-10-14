@@ -65,6 +65,9 @@ import org.totschnig.myexpenses.util.Utils;
 public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
 
+  private static final String KEY_CHILD_COUNT = "child_count";
+  private static final String TABS = "\u0009\u0009\u0009\u0009";
+
   protected int getMenuResource() {
     return R.menu.categorylist_context;
   }
@@ -178,7 +181,7 @@ public class CategoryList extends ContextualActionBarFragment implements
             deletable = false;
           }
           if (deletable) {
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex("child_count")) > 0) {
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex(KEY_CHILD_COUNT)) > 0) {
               hasChildrenCount++;
             }
             idList.add(itemId);
@@ -243,6 +246,9 @@ public class CategoryList extends ContextualActionBarFragment implements
       ctx.editCat(label,elcmi.id);
       return true;
     case R.id.SELECT_COMMAND:
+      if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+        label += TABS + Utils.convAmount(c.getString(c.getColumnIndex(KEY_SUM)),mAccount.currency);
+      }
       doSelection(elcmi.id,label,isMain);
       finishActionMode();
       return true;
@@ -382,6 +388,8 @@ public class CategoryList extends ContextualActionBarFragment implements
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES
         + "." + KEY_ROWID + " OR " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
+    String CHILD_COUNT_SELECT = "(select count(*) FROM categories subtree where parent_id = categories._id) as "
+        + KEY_CHILD_COUNT;
     if (mAccount != null) {
       if (mAccount.getId() < 0) {
         selection = " IN " +
@@ -407,6 +415,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           KEY_ROWID,
           KEY_LABEL,
           KEY_PARENTID,
+          CHILD_COUNT_SELECT,
           "(SELECT sum(amount) " + catFilter + ") AS " + KEY_SUM
       };
       sortOrder="abs(" + KEY_SUM + ") DESC";
@@ -415,7 +424,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           KEY_ROWID,
           KEY_LABEL,
           KEY_PARENTID,
-          "(select count(*) FROM categories subtree where parent_id = categories._id) as child_count",
+          CHILD_COUNT_SELECT,
           "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
@@ -553,6 +562,9 @@ public class CategoryList extends ContextualActionBarFragment implements
       return false;
     }
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
+    }
     doSelection(id,label,false);
     return true;
   }
@@ -562,16 +574,17 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx==null ||
-        !(ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping) ||
-        ctx.helpVariant.equals(ManageCategories.HelpVariant.select_filter))) {
+    if (ctx==null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
     long cat_id = id;
     mGroupCursor.moveToPosition(groupPosition);
-    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
+    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0)
       return false;
     String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
+    }
     doSelection(cat_id,label,true);
     return true;
   }
