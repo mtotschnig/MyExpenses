@@ -91,6 +91,10 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       };
     mListView.setAdapter(mAdapter);
     getLoaderManager().initLoader(0, null, this);
+    //TODO pretify layout
+//    View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.transaction_list_dialog_title, null);
+//    ((TextView) titleView.findViewById(R.id.label)).setText(getArguments().getString(KEY_LABEL));
+//    ((TextView) titleView.findViewById(R.id.amount)).setText("TBF");
     
     return new AlertDialog.Builder(getActivity())
       .setTitle(getArguments().getString(KEY_LABEL))
