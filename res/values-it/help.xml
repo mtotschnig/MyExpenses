@@ -43,7 +43,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se delle transazioni sono state ordinate per l\'evento selezionato, queste verranno eliminate; nel caso siano state contrassegnate come annullate, i flag verranno rimossi.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modificare la transazine creata per l\'istanza del piano selezionato.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Questa schermata mostra la distribuzione delle tue spese e redditi per categorie, per tutte le operazioni in un conto, o per un gruppo specifico.</string>
+  <string name="help_ManageCategories_distribution_info">Questa schermata mostra la distribuzione del vostro spese e redditi per categorie, per tutte le transazioni in un conto o per un gruppo specifico. Fare clic su una sottocategoria per visualizzare le transazioni registrate per esso. Per le categorie principali, questa funzionalità è disponibile dal menu di scelta rapida.</string>
   <string name="help_ManageCategories_select_mapping_info">Oltre alle azioni che si possono eseguire nel gestire le categorie dalla schermata delle preferenze (creare, modificare, eliminare), su questa schermata si associa una transazione ad una categoria selezionata. Si seleziona una sottocategoria per la transazione corrente semplicemente cliccandoci sopra. Per mappare una categoria principale, si deve richiamare l\'apposito menu contestuale.</string>
   <string name="help_ManageCategories_select_filter_info">Selezionare la categoria per filtrare l\'elenco delle transazioni. Per cercare una categoria principale, deve chiamare il suo menu di scelta rapida.</string>
   <string name="help_ManageCategories_manage_info">Questa schermata consente di creare, modificare ed eliminare le categorie. Per impostazione predefinita, le categorie sono ordinate per frequenza di utilizzo (l\'ordine alfabetico viene utilizzato come criterio secondario). Questa funzione consente di accedere rapidamente alle categorie usate più spesso. Nelle impostazioni si può optare per l\'ordine alfabetico. Cliccando su una categoria principale si aprono le sue sottocategorie. Nel menu contestuale di una categoria principale si possono aggiungere nuove sottocategorie, eliminare una categoria o modificarla. Anche le sottocategorie hanno un menu di scelta rapida per l\'eliminazione e la modifica.</string>
@@ -55,6 +55,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Mappa la categoria selezionata alla transazione e ritorna al modulo di transazione.</string>
   <string name="menu_categories_setup_default_help_text">Un insieme di categorie predefinite verrà importato.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoria selezionata si utilizzerà per filtrare l\'elenco delle transazioni.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Visualizzare le singole transazioni che sono state inclusi per la categoria selezionata.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Modulo per le operazioni</string>
   <string name="help_ExpenseEdit_transfer_title">Modulo per i trasferimenti</string>
@@ -78,8 +79,10 @@
   <string name="help_AccountEdit_title">Modulo per i conti</string>
   <string name="help_AccountEdit_info">Il conto è identificato dalla sua etichetta, la descrizione ha solo scopo informativo. La valuta può essere facilmente selezionata da una lista. Si può definire la tipologia di conto come uno dei seguenti: contanti, conto bancario, accredito, addebito, carta di credito. La tipologia determina i metodi di pagamento disponibili che si possono configurare nelle Impostazioni-&gt; Gestione -&gt; Metodi di pagamento.</string>
   <string name="menu_set_sort_key_help_text">Impostare una chiave numerica, determinazione della posizione dell\'account nell\'elenco account nel cassetto navigazione (sorta di ascendente).</string>
+  <string name="menu_exclude_from_totals_help_text">Se si seleziona questa opzione, questo conto non sarà incluso in aggregati per ogni moneta.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
   <string name="help_MethodEdit_info">In questa schermata è possibile associare un metodo di pagamento con i tipi di conto. È inoltre possibile definire un\'etichetta (con l\'eccezione dei metodi predefiniti che hanno un\'etichetta fissa non modificabile). Attraverso il tipo di un metodo, si determina se è applicabile per le spese (debito), reddito (credito) o entrambi (neutrale).</string>
   <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Per ogni valuta, è possibile modificare il numero di cifre di frazione utilizzata. Ad esempio, se per Euro, è necessario gestire 1/10 di un ¢, cioè 1/1000 di un Euro, si imposta il numero a tre. Account esistenti che utilizzano la moneta, si passerà alla nuova impostazione.</string>
 </resources>

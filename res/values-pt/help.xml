@@ -43,7 +43,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se foram criadas transações para as instâncias de evento selecionado, elas serão canceladas, se elas tem sido marcadas como cancelada, os sinalizadores são removidos.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editar a transação que foi criada pela instância do plano selecionado.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Esta tela exibe a distribuição de suas despesas e receitas por categorias, para todas as transações numa conta, ou para um grupo específico.</string>
+  <string name="help_ManageCategories_distribution_info">Esta tela exibe a distribuição de suas despesas e receitas por categorias, para todas as transações em uma conta, ou para um grupo específico. Clique em uma subcategoria para exibir as transações gravadas por ele. Para as categorias principais essa funcionalidade está disponível a partir do seu menu de contexto.</string>
   <string name="help_ManageCategories_select_mapping_info">Além das ações que você pode executar ao gerenciar categorias a partir da tela de preferências (criar, editar, excluir), nesta tela você mapea uma transação para uma categoria selecionada. Você pode selecionar uma subcategoria para mapeamento para a transação atual, simplesmente clicando sobre ela. A fim de mapear uma categoria principal, você tem que chamar o seu menu de contexto.</string>
   <string name="help_ManageCategories_select_filter_info">Selecione a categoria para filtrar a lista de transações. A fim de procurar uma categoria principal, você tem que chamar o seu menu de contexto.</string>
   <string name="help_ManageCategories_manage_info">Esta tela permite criar, editar e excluir categorias. Por padrão, os critérios de classificação primária na lista Categoria é o número de vezes que você usa uma categoria (o critério secundário é por ordem alfabética). Isto dá-lhe acesso rápido às categorias que você usa com mais freqüência. Nas configurações, você pode optar para classificar as categorias em ordem alfabética simples. Clicar numa categoria principal, abre suas subcategorias. De um menu de uma categoria principal de contexto, você pode adicionar novas subcategorias, excluir uma categoria ou editá-la. Subcategorias também têm menus de contexto para apagar e editar.</string>
@@ -55,6 +55,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Mapear a categoria selecionada pela operação e retornar pela forma de transação.</string>
   <string name="menu_categories_setup_default_help_text">Um conjunto de categorias padrão será importado.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Exiba as transações individuais que foram  incluídos para a categoria selecionada.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulário para transações</string>
   <string name="help_ExpenseEdit_transfer_title">Formulário para transferências</string>
@@ -78,8 +79,10 @@
   <string name="help_AccountEdit_title">Formulário para contas</string>
   <string name="help_AccountEdit_info">A conta é identificada pela sua gravadora, a descrição tem somente um propósito informativo. A moeda pode ser facilmente escolhida de uma lista. Você pode definir o tipo de conta como um de dinheiro, banco, ativos, passivos, cartão de crédito. O tipo determina os métodos de pagamento disponíveis que você pode configurar em Settings -&gt; Gerenciar -&gt; métodos de pagamento.</string>
   <string name="menu_set_sort_key_help_text">Defina uma chave numérica que determinam a posição da conta na lista de contas na gaveta de navegação (tipo de ascendente).</string>
+  <string name="menu_exclude_from_totals_help_text">Se você marcar esta opção, esta conta não será incluída nos agregados por moeda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>
   <string name="help_MethodEdit_info">Nesta tela, você pode associar um método de pagamento com os tipos de conta. Você também pode definir um rótulo (com exceção dos métodos predefinidos que têm um rótulo fixo que não pode ser editado). Através de tipo de um método, você determina se é aplicável para as despesas (débito), renda (crédito) ou ambos (neutro). Você também pode definir um sinalizador se transações usando este método são numeradas (por exemplo verificar os números).</string>
   <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Para cada moeda, você pode modificar o número de dígitos de fração usados. Por exemplo, se para o Euro, você precisa lidar com 1/10 de um ¢, ou seja, 1/1000 de um Euro, você definiria o número para três. Contas existentes que usam a moeda, será alterada para a nova configuração.</string>
 </resources>

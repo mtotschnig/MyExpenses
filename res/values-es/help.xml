@@ -43,7 +43,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si una transacción se ha creado para esta instancia del evento, será eliminado, si ha sido marcado como cancelado, se retira la bandera.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edite la transacción que ha sido creada para la instancia del plan seleccionado.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de los gastos y de los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico.</string>
+  <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de sus gastos y los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico. Haga clic en una subcategoría para mostrar las transacciones registradas por ello. Para categorías principales esta funcionalidad está disponible en su menú contextual.</string>
   <string name="help_ManageCategories_select_mapping_info">Además de las acciones que se pueden realizar en la gestión de categorías en la pantalla de Preferencias (crear, editar, borrar), en esta pantalla se asigna una operación a una categoría seleccionada.  La asignación de una subcategoría al asiento actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.</string>
   <string name="help_ManageCategories_select_filter_info">Seleccione la categoría para el filtrado de la lista de transacciones. Con el fin de buscar una categoría principal, tienes que llamar a su menú contextual.</string>
   <string name="help_ManageCategories_manage_info">Esta pantalla le permite crear, editar y eliminar categorías. Como primer criterio de clasificación se utiliza el número de usos de una categoría (criterio secundario es el orden alfabético). Así usted puede acceder de manera muy rápida a las categorías de uso más frecuente. En la configuración, se puede optar por el orden alfabético. Un clic sobre una categoría principal abre la lista de subcategorías. El menú contextual de une una categoría principal permite crear nuevas subcategorías, y borrar y modificar categorías principales. También las subcategorías disponen de un menú contextual para borrar- o modificarlas.</string>
@@ -55,6 +55,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Asignar la categoría seleccionada a la transacción y volver a la forma de transacción.</string>
   <string name="menu_categories_setup_default_help_text">Un conjunto de categorías por defecto se importarán.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoría seleccionada se utilizará para filtrar la lista de transacciones.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Muestra las transacciones individuales que han sido incluidos para la categoría seleccionada.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulario para los asientos</string>
   <string name="help_ExpenseEdit_transfer_title">Formulario para las transferencias</string>
@@ -83,4 +84,5 @@
   <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>
   <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago a tipos de cuenta. También puede definir una designación (con la excepción de los métodos predefinidos que tienen una designación fija que no se puede modificar). A través del tipo de un método se determina si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
   <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Para cada moneda, puede modificar el número de dígitos fracción utilizado. Por ejemplo, si para el Euro, tienes que manejar 1/10 de un centavos, es decir, 1/1000 de un Euro, se establecería el número tres. Las cuentas existentes que utilizan la moneda, se conecta a la nueva configuración.</string>
 </resources>
