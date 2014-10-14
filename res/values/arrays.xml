@@ -167,7 +167,7 @@
       <item>forward</item>
     </string-array>
     <string-array name="ManageCategories_distribution_cabitems">
-      <item>edit</item>
+      <item>select_category</item>
     </string-array>
     <string-array name="ManageCategories_manage_cabitems">
       <item>edit</item>
