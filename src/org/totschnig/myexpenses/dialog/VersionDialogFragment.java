@@ -26,8 +26,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
@@ -106,14 +108,18 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
                   @Override
                   public boolean onMenuItemClick(MenuItem item) {
                     String[] postIds = res.getStringArray(resId);
+                    String uri = null;
                     switch(item.getItemId()) {
                     case R.id.facebook:
-                      Toast.makeText(getActivity(), "now linking to facebook post "+postIds[0], Toast.LENGTH_SHORT).show();
+                      uri = "https://www.facebook.com/MyExpenses/posts/" + postIds[0];
                       break;
                     case R.id.google:
-                      Toast.makeText(getActivity(), "now linking to google+ post "+postIds[1], Toast.LENGTH_SHORT).show();
+                      uri = "https://plus.google.com/116736113799210525299/posts/" + postIds[1];
                       break;
                     }
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(uri));
+                    startActivity(i);
                     return true;
                   }
 
