@@ -29,6 +29,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -36,6 +38,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -85,17 +88,42 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
           .setText(changes != null ? ("- " + TextUtils.join("\n- ",changes)) : "");
 
         TextView learn_more = (TextView) row.findViewById(R.id.versionInfoLearnMore);
-        Spannable span = Spannable.Factory.getInstance().newSpannable("Learn more");
-        span.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View v) {
-              v.invalidate();
-                Log.d("main", "link clicked");
-                Toast.makeText(getActivity(), "link clicked", Toast.LENGTH_SHORT).show();
-            } }, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        learn_more.setText(span);
+        final Resources res= ctx.getResources();
+        final int resId = res.getIdentifier("version_more_info_"+version.nameCondensed.replace(".", ""), "array", ctx.getPackageName());
+        if (resId ==0) {
+          learn_more.setVisibility(View.GONE);
+        } else {
+          learn_more.setVisibility(View.VISIBLE);
+          learn_more.setTag(resId);
+          Spannable span = Spannable.Factory.getInstance().newSpannable("Learn more");
+          span.setSpan(new ClickableSpan() {
+              @Override
+              public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getActivity(), v);
+                // This activity implements OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
-        learn_more.setMovementMethod(LinkMovementMethod.getInstance());
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                    String[] postIds = res.getStringArray(resId);
+                    switch(item.getItemId()) {
+                    case R.id.facebook:
+                      Toast.makeText(getActivity(), "now linking to facebook post "+postIds[0], Toast.LENGTH_SHORT).show();
+                      break;
+                    case R.id.google:
+                      Toast.makeText(getActivity(), "now linking to google+ post "+postIds[1], Toast.LENGTH_SHORT).show();
+                      break;
+                    }
+                    return true;
+                  }
+
+                });
+                popup.inflate(R.menu.version_info);
+                popup.show();
+              } }, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+          learn_more.setText(span);
+          learn_more.setMovementMethod(LinkMovementMethod.getInstance());
+        }
         return row;
       }
     };
@@ -125,14 +153,16 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
   public static class VersionInfo {
     private int code;
     private String name;
+    private String nameCondensed;
     public VersionInfo(int code, String name) {
       super();
       this.code = code;
       this.name = name;
+      this.nameCondensed = name.replace(".", "");
     }
     public String[] getChanges(Context ctx) {
       Resources res= ctx.getResources();
-      int resId = res.getIdentifier("whats_new_"+name.replace(".", ""), "array", ctx.getPackageName());//new based on name
+      int resId = res.getIdentifier("whats_new_"+nameCondensed, "array", ctx.getPackageName());//new based on name
       if (resId == 0) {
         resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());//legacy based on code
       }

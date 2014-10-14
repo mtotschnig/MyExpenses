@@ -262,6 +262,23 @@
       <item>1.10.1</item>
       <item>1.10.0</item>
     </string-array>
+    <!-- first member is Facebook post id, second Google+ post id -->
+    <string-array name="version_more_info_231">
+        <item>1464897740438366</item>
+        <item>ernTPUcN4fy</item>
+    </string-array>
+    <string-array name="version_more_info_232">
+        <item>1466255806969226</item>
+        <item>aUXDn7qHp1E</item>
+    </string-array>
+    <string-array name="version_more_info_233">
+        <item>1470350743226399</item>
+        <item>gYVRpHMrbTi</item>
+    </string-array>
+    <string-array name="version_more_info_234">
+        <item>1476254905969316</item>
+        <item>UcC1kZbdEpE</item>
+    </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
       <item>@string/comparison_operator_greater_than</item>
