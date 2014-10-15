@@ -72,6 +72,22 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.3.5
+    - "2014-10-15"
+    -
+      en: |
+        From distribution screen, display list of transactions per category. Improved payer/payee autocomplete.
+      fr: |
+        Dans l'écran de distribution, afficher la liste de transactions par catégorie. Amélioration du remplissage automatique des tiers.
+      de: |
+        In der Verteilungsansicht die Liste der Buchungen pro Kategorie anzeigen. Verbesserte Vervollständigung von Zahler/Empfänger.
+      it: |
+        Dalla schermata di distribuzione, visualizzare l'elenco delle transazioni per ogni categoria. Miglioramento del completamento automatico Beneficiario/Pagatore.
+      es: |
+        Desde la pantalla de distribución, mostrar la lista de transacciones por categoría. Mejora de la función de autocompletar Beneficiario/Pagador.
+      pt: |
+        Tela de distribuição, exibir a lista de transações por categoria. Melhoria do preenchimento automático Beneficiário/Pagador.
+  -
     - 2.3.4
     - "2014-09-30"
     -
