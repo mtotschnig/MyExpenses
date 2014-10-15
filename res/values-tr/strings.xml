@@ -501,4 +501,5 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="no">Hayır</string>
   <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
   <string name="change_fraction_digits_result">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
+  <string name="learn_more">Daha fazla bilgi</string>
 </resources>

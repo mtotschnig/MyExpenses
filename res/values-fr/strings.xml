@@ -499,4 +499,5 @@
   <string name="no">Non</string>
   <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrerez immédiatement, soit vous l\'éditerez et le modifierez avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
   <string name="change_fraction_digits_result">%1$d comptes en devise %2$s ont été mis à jour.</string>
+  <string name="learn_more">Apprenez plus</string>
 </resources>

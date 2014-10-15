@@ -391,4 +391,5 @@
   <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
   <string name="import_accounts_none">No s\'ha importat cap compte!</string>
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
+  <string name="learn_more">Més informació</string>
 </resources>

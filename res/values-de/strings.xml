@@ -499,4 +499,5 @@
   <string name="no">Nein</string>
   <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
   <string name="change_fraction_digits_result">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
+  <string name="learn_more">Mehr erfahren</string>
 </resources>
