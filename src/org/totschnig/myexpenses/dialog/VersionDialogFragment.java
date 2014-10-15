@@ -84,7 +84,8 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout row = (LinearLayout) super.getView(position, convertView, parent);
         VersionInfo version = versions.get(position);
-        ((TextView) row.findViewById(R.id.versionInfoName)).setText(version.name);
+        final TextView heading = (TextView) row.findViewById(R.id.versionInfoName);
+        heading.setText(version.name);
         String[] changes = version.getChanges(ctx);
         ((TextView) row.findViewById(R.id.versionInfoChanges))
           .setText(changes != null ? ("- " + TextUtils.join("\n- ",changes)) : "");
@@ -102,7 +103,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
           span.setSpan(new ClickableSpan() {
               @Override
               public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(getActivity(), v);
+                PopupMenu popup = new PopupMenu(getActivity(), heading);
                 // This activity implements OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
