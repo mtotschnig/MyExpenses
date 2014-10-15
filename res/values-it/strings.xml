@@ -499,4 +499,5 @@
   <string name="no">No</string>
   <string name="hint_template_click">Un breve tasto su una voce in questa lista sarà istanziare il modello e subito o salvarlo o immettere la sua forma modifica dove è possibile modificare prima di salvare. È sempre possibile accedere entrambe le azioni attraverso un tasto lungo e modificare l\'impostazione predefinita nelle impostazioni.</string>
   <string name="change_fraction_digits_result">%1$d conti con valuta %2$s sono state aggiornate.</string>
+  <string name="learn_more">Per saperne di più</string>
 </resources>
