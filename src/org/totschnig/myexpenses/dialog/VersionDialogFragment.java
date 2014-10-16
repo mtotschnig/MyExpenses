@@ -98,7 +98,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         } else {
           learn_more.setVisibility(View.VISIBLE);
           learn_more.setTag(resId);
-          Spannable span = Spannable.Factory.getInstance().newSpannable(getString(R.string.learn_more));
+          Spannable span = Spannable.Factory.getInstance().newSpannable(res.getString(R.string.learn_more));
           span.setSpan(new ClickableSpan() {
               @Override
               public void onClick(View v) {
