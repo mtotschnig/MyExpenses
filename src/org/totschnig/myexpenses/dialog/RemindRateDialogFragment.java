@@ -56,15 +56,7 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
       .setNeutralButton(R.string.dialog_remind_later,this)
       .setNegativeButton(R.string.dialog_remind_no,this)
       .create();
-    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-        @Override
-        public void onShow(DialogInterface dialog) {
-          Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-          if (button != null) {
-            button.setEnabled(false);
-          }
-        }
-      });
+    dialog.setOnShowListener(new ButtonOnShowDisabler());
     return dialog;
   }
   private void setRatingRemindText(boolean isPositive) {
