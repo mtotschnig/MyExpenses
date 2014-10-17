@@ -871,10 +871,10 @@ public class MyExpenses extends LaunchActivity implements
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-      TransactionDetailFragment f = (TransactionDetailFragment)
+      TransactionDetailFragment tdf = (TransactionDetailFragment)
           getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
-      if (f!= null) {
-        f.fillData((Transaction) o);
+      if (tdf!= null) {
+        tdf.fillData((Transaction) o);
       }
       break;
     case TaskExecutionFragment.TASK_CLONE:
