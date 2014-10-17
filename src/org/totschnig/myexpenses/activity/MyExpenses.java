@@ -871,9 +871,11 @@ public class MyExpenses extends LaunchActivity implements
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-      ((TransactionDetailFragment)
-          getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName()))
-          .fillData((Transaction) o);
+      TransactionDetailFragment f = (TransactionDetailFragment)
+          getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
+      if (f!= null) {
+        f.fillData((Transaction) o);
+      }
       break;
     case TaskExecutionFragment.TASK_CLONE:
       Integer successCount = (Integer) o;
