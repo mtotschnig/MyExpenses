@@ -113,13 +113,10 @@ public abstract class AmountActivity extends EditActivity {
     }
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
-    String amount;
-    if (validateAmountInput(false)!=null) {
-      amount = mAmountText.getText().toString();
-    } else {
-      amount ="";
+    BigDecimal amount = validateAmountInput(false);
+    if (amount!=null) {
+      intent.putExtra(KEY_AMOUNT,amount);
     }
-    intent.putExtra(KEY_AMOUNT,amount);
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
   protected void forwardDataEntryFromWidget(Intent intent) {

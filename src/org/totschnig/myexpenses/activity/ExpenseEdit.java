@@ -20,7 +20,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

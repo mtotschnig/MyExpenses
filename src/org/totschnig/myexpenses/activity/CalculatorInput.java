@@ -84,9 +84,9 @@ public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implem
 
         Intent intent = getIntent();
         if (intent != null) {
-          String amount = intent.getStringExtra(KEY_AMOUNT);
+          BigDecimal amount = (BigDecimal) intent.getSerializableExtra(KEY_AMOUNT);
             if (amount != null) {
-                setDisplay(amount);
+                setDisplay(amount.toPlainString());
             }
         }
 
