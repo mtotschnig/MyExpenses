@@ -704,24 +704,37 @@ public class Utils {
     return a;
   }
 
-  public static void configDecimalSeparator(final EditText editText, final char decimalSeparator) {
+  public static void configDecimalSeparator(
+      final EditText editText, final char decimalSeparator, final int fractionDigits) {
     //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
     //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
     //the soft keyboard if it occupies full screen in horizontal orientation does not display
     //the , as comma separator
+    //TODO we should take into account the arab separator as well
     final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
     editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     editText.setFilters(new InputFilter[] {
         new InputFilter() {
+          @Override
           public CharSequence filter(CharSequence source, int start, int end,
               Spanned dest, int dstart, int dend) {
-            boolean separatorPresent = dest.toString().indexOf(decimalSeparator) > -1;
+            int separatorPosition = dest.toString().indexOf(decimalSeparator);
+            if (fractionDigits>0) {
+              int minorUnits = separatorPosition==-1 ? 0 : dest.length()-(separatorPosition+1);
+              if (dstart > separatorPosition && dend > separatorPosition) {
+                //filter is only needed if we are past the separator and the change increases length of string
+                if (dend-dstart<end-start && minorUnits>=fractionDigits)
+                  return "";
+              }
+            }
             for (int i = start; i < end; i++) {
               if (source.charAt(i) == otherSeparator || source.charAt(i) == decimalSeparator) {
                 char[] v = new char[end - start];
                 TextUtils.getChars(source, start, end, v, 0);
                 String s = new String(v).replace(otherSeparator,decimalSeparator);
-                if (separatorPresent)
+                if (fractionDigits==0 || //no separator allowed
+                    separatorPosition>-1 || //we already have a separator
+                    dest.length()-dend>fractionDigits) //the separator would be positioned so that we have too many fraction digits
                   return s.replace(String.valueOf(decimalSeparator),"");
                 else
                   return s;

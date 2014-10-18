@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
@@ -76,7 +77,6 @@ public class AccountEdit extends AmountActivity implements
     
     setContentView(R.layout.one_account);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
-    configAmountInput();
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
@@ -105,7 +105,8 @@ public class AccountEdit extends AmountActivity implements
           //if not supported ignore
         }
     }
-    
+    configTypeButton();
+    configAmountInput(Money.fractionDigits(mAccount.currency));
     
 
     mCurrencySpinner = (Spinner) findViewById(R.id.Currency);

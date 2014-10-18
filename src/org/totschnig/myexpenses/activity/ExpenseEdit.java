@@ -168,8 +168,8 @@ public class ExpenseEdit extends AmountActivity implements
     setContentView(R.layout.one_expense);
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
-    configAmountInput();
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
+    configTypeButton();
     mTypeButton.setEnabled(false);
     mCommentText = (EditText) findViewById(R.id.Comment);
     mTitleText = (EditText) findViewById(R.id.Title);
@@ -408,6 +408,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
   private void setup() {
+    configAmountInput(Money.fractionDigits(mTransaction.amount.getCurrency()));
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new TextWatcher(){
         public void afterTextChanged(Editable s) {
