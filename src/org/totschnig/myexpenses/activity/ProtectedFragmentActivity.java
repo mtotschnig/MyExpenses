@@ -48,6 +48,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Michael Totschnig
@@ -190,6 +191,19 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   public void onPostExecute(int taskId, Object o) {
     getProtection().removeAsyncTaskFragment(taskId);
+    switch(taskId) {
+    case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
+    case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
+    case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
+    case TaskExecutionFragment.TASK_DELETE_CATEGORY:
+    case TaskExecutionFragment.TASK_DELETE_PAYEES:
+    case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
+      Boolean success = (Boolean) o;
+      if (!success) {
+        Toast.makeText(this, "There was an error deleting the object. Please contact support@myexenses.mobi !", Toast.LENGTH_LONG).show();
+      }
+      break;
+    }
   }
 
   protected void setLanguage() {

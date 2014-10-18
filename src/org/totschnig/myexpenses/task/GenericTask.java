@@ -114,13 +114,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return account;
     case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
-      for (long id : (Long[]) ids) {
-        try {
+      try {
+        for (long id : (Long[]) ids) {
           Transaction.delete(id);
-        } catch (SQLiteConstraintException e) {
-          Utils.reportToAcra(e);
-          return false;
         }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
       return true;
     case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
@@ -132,25 +132,45 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return true;
     case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      for (long id : (Long[])ids) {
-        PaymentMethod.delete(id);
+      try {
+        for (long id : (Long[])ids) {
+          PaymentMethod.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_PAYEES:
-      for (long id : (Long[])ids) {
-        Payee.delete(id);
+      try {
+        for (long id : (Long[])ids) {
+          Payee.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-      for (long id : (Long[])ids) {
-        Category.delete(id);
+      try {
+        for (long id : (Long[])ids) {
+          Category.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      for (long id : (Long[]) ids) {
-        Template.delete(id);
+      try {
+        for (long id : (Long[]) ids) {
+          Template.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
       cr = MyApplication.getInstance().getContentResolver();
       cr.update(
