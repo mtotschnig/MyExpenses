@@ -399,7 +399,7 @@ public class CategoryList extends ContextualActionBarFragment implements
         selection = " = ?";
         accountSelector = String.valueOf(mAccount.getId());
       }
-      String catFilter = "FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + selection;
+      String catFilter = "FROM " + VIEW_COMMITTED + " WHERE " + KEY_ACCOUNTID + selection;
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
