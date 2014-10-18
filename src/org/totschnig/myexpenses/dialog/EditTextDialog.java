@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.R;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   public static final String KEY_VALUE = "value";
   public static final String KEY_REQUEST_CODE = "requestCode";
   public static final String KEY_INPUT_TYPE = "inputType";
+  public static final String KEY_MAX_LENGTH = "maxLenght";
 
   public interface EditTextDialogListener {
     void onFinishEditDialog(Bundle args);
@@ -72,6 +74,10 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
       mEditText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT));
     }
     mEditText.setText(args.getString(KEY_VALUE));
+    int maxLength = args.getInt(KEY_MAX_LENGTH);
+    if (maxLength!=0) {
+      mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+    }
     //input.setSingleLine();
     return mEditText;
   }

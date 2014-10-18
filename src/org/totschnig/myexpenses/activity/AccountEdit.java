@@ -335,6 +335,7 @@ public class AccountEdit extends AmountActivity implements
       args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_set_sort_key));
       args.putString(EditTextDialog.KEY_VALUE, String.valueOf(mAccount.sortKey));
       args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
+      args.putInt(EditTextDialog.KEY_MAX_LENGTH,9);
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "SET_SORT_KEY");
       return true;
     case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
