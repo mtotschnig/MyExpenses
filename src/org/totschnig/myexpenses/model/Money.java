@@ -39,8 +39,7 @@ public class Money implements Serializable {
     this.fractionDigits = fractionDigits(currency);
   }
   public Money(Currency currency, BigDecimal amountMajor) {
-    this.currency = currency;
-    this.fractionDigits = fractionDigits(currency);
+    setCurrency(currency);
     setAmountMajor(amountMajor);
   }
   public Currency getCurrency() {
@@ -48,6 +47,7 @@ public class Money implements Serializable {
   }
   public void setCurrency(Currency currency) {
     this.currency = currency;
+    this.fractionDigits = fractionDigits(currency);
   }
   public Long getAmountMinor() {
     return amountMinor;
