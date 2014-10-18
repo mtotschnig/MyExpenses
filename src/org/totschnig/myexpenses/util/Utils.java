@@ -769,4 +769,14 @@ public class Utils {
         .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
         .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_");
   }
+
+  public static String printDebug(Object[] objects) {
+    String result ="";
+    for (Object object : objects) {
+      if (!result.equals(""))
+        result+=",";
+      result+=object.toString();
+    }
+    return result;
+  }
 }
