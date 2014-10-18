@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -114,9 +115,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return account;
     case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       for (long id : (Long[]) ids) {
-        Transaction.delete(id);
+        try {
+          Transaction.delete(id);
+        } catch (SQLiteConstraintException e) {
+          return false;
+        }
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       Account.delete((Long) ids[0]);
       return null;
