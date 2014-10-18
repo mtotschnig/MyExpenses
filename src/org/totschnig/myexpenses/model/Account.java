@@ -52,9 +52,11 @@ import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
+import android.os.RemoteException;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -510,7 +512,7 @@ public class Account extends Model {
   public static void clear() {
     accounts.clear();
   }
-  public static void delete(long id) {
+  public static void delete(long id) throws RemoteException, OperationApplicationException {
     Account account = getInstanceFromDb(id);
     if (account == null) {
       return;
@@ -520,13 +522,8 @@ public class Account extends Model {
     ops.add(ContentProviderOperation.newDelete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
         .build());
-    try {
-      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-      accounts.remove(id);
-    } catch (Exception e) {
-      Utils.reportToAcra(e);
-      e.printStackTrace();
-    }
+    cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+    accounts.remove(id);
   }
 
   /**

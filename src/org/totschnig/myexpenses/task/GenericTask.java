@@ -118,13 +118,19 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           Transaction.delete(id);
         } catch (SQLiteConstraintException e) {
+          Utils.reportToAcra(e);
           return false;
         }
       }
       return true;
     case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-      Account.delete((Long) ids[0]);
-      return null;
+      try {
+        Account.delete((Long) ids[0]);
+      } catch (Exception e) {
+        Utils.reportToAcra(e);
+        return false;
+      }
+      return true;
     case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
       for (long id : (Long[])ids) {
         PaymentMethod.delete(id);

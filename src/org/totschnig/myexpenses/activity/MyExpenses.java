@@ -917,9 +917,10 @@ public class MyExpenses extends LaunchActivity implements
       }
       break;
     case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
+    case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       Boolean success = (Boolean) o;
       if (!success) {
-        Toast.makeText(this, "There was an error deleting the transaction. Please contact support@myexenses.mobi !", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "There was an error deleting the object. Please contact support@myexenses.mobi !", Toast.LENGTH_LONG).show();
       }
       break;
     }
