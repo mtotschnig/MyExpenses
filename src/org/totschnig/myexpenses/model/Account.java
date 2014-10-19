@@ -212,6 +212,16 @@ public class Account extends Model {
   }
   public Type type;
 
+  /**
+   * grouping of accounts in account list
+   */
+  public enum AccountGrouping {
+    NONE,TYPE,CURRENCY
+  }
+  
+  /**
+   * grouping of transactions 
+   */
   public enum Grouping {
     NONE,DAY,WEEK,MONTH,YEAR;
 

@@ -312,9 +312,6 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
-              KEY_USAGES + " DESC, " : "")
-         + KEY_LABEL + " COLLATE LOCALIZED";
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
@@ -367,7 +364,7 @@ public class TransactionProvider extends ContentProvider {
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
-            KEY_IS_AGGREGATE + ","+KEY_SORT_KEY_TYPE+","+KEY_SORT_KEY+","+defaultOrderBy,//real accounts should come first, then aggregate accounts
+            sortOrder,
             null);
         c = db.rawQuery(sql, null);
         if (BuildConfig.DEBUG) {
