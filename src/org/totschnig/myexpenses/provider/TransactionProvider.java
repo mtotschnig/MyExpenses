@@ -312,6 +312,9 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
+      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
+          KEY_USAGES + " DESC, " : "")
+          + KEY_LABEL + " COLLATE LOCALIZED";
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
@@ -362,9 +365,6 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_HAS_CLEARED+ ",0 AS " + KEY_SORT_KEY_TYPE}; //ignored
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
-        defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
-            KEY_USAGES + " DESC, " : "")
-       + KEY_LABEL + " COLLATE LOCALIZED";
         String grouping="";
         Account.AccountGrouping accountGrouping;
         try {
