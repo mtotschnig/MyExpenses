@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -255,6 +256,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     } else if (key.equals(MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
       Log.d("DEBUG","shared preference changed: Template Widget");
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
+    } else if (key.equals(MyApplication.PrefKey.ACCOUNT_GROUPING.getKey())) {
+      getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
     }
   }
   @Override

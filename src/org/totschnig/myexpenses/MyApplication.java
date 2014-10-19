@@ -86,6 +86,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       UI_LANGUAGE(R.string.pref_ui_language_key),
       APP_DIR(R.string.pref_app_dir_key),
       CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
+      ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
       PLANNER_CALENDAR_PATH("planner_calendar_path"),
       CURRENT_VERSION("currentversion"),
       CURRENT_ACCOUNT("current_account"),

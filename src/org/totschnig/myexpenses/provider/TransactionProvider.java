@@ -362,6 +362,30 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_HAS_CLEARED+ ",0 AS " + KEY_SORT_KEY_TYPE}; //ignored
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
+        defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
+            KEY_USAGES + " DESC, " : "")
+       + KEY_LABEL + " COLLATE LOCALIZED";
+        String grouping="";
+        Account.AccountGrouping accountGrouping;
+        try {
+          accountGrouping = Account.AccountGrouping.valueOf(
+              MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+        } catch (IllegalArgumentException e) {
+          // TODO Auto-generated catch block
+          accountGrouping = Account.AccountGrouping.TYPE;
+        }
+        switch (accountGrouping) {
+        case CURRENCY:
+          grouping = KEY_CURRENCY + "," + KEY_IS_AGGREGATE;
+          break;
+        case TYPE:
+          grouping = KEY_IS_AGGREGATE + "," + KEY_SORT_KEY_TYPE;
+          break;
+        case NONE:
+          //real accounts should come first, then aggregate accounts
+          grouping = KEY_IS_AGGREGATE;
+        }
+        sortOrder = grouping + "," + KEY_SORT_KEY + "," + defaultOrderBy;
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
             sortOrder,

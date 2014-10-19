@@ -49,6 +49,7 @@
   <string name="pref_protection_enable_account_widget_key">enable_account_widget</string>
   <string name="pref_protection_enable_template_widget_key">enable_template_widget</string>
   <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
+  <string name="pref_account_grouping_key">account_grouping</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto ,

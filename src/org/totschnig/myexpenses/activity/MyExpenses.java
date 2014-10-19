@@ -175,7 +175,6 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue value = new TypedValue();
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
-    mAccountGrouping = Account.AccountGrouping.valueOf("CURRENCY");
     int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
@@ -764,25 +763,10 @@ public class MyExpenses extends LaunchActivity implements
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     switch(id) {
     case ACCOUNTS_CURSOR:
-      String defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
-          KEY_USAGES + " DESC, " : "")
-     + KEY_LABEL + " COLLATE LOCALIZED";
-      String grouping="";
-      switch (mAccountGrouping) {
-      case CURRENCY:
-        grouping = KEY_CURRENCY + "," + KEY_IS_AGGREGATE;
-        break;
-      case TYPE:
-        grouping = KEY_IS_AGGREGATE + "," + KEY_SORT_KEY_TYPE;
-      case NONE:
-        //real accounts should come first, then aggregate accounts
-        grouping = KEY_IS_AGGREGATE;
-      }
-      String sortOrder = grouping + "," + KEY_SORT_KEY + "," + defaultOrderBy;
       Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
       builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
       return new CursorLoader(this,
-          builder.build(), null, null, null, sortOrder);
+          builder.build(), null, null, null, null);
     }
     return null;
   }
@@ -807,6 +791,15 @@ public class MyExpenses extends LaunchActivity implements
     case ACCOUNTS_CURSOR:
       mAccountCount = 0;
       mAccountsCursor = cursor;
+      //when account grouping is changed in setting, cursor is reloaded,
+      //and we need to refresh the value here
+      try {
+        mAccountGrouping = Account.AccountGrouping.valueOf(
+            MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+      } catch (IllegalArgumentException e) {
+        // TODO Auto-generated catch block
+        mAccountGrouping = Account.AccountGrouping.TYPE;
+      }
       ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
       //swaping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
