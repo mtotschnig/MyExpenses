@@ -56,6 +56,11 @@
         android:defaultValue="true"
         android:title="@string/pref_categories_sort_by_usages_title"
         android:summary="@string/pref_categories_sort_by_usages_summary" />
+    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_account_grouping_key"
+        android:defaultValue="TYPE"
+      android:title="@string/pref_account_grouping_title"
+      android:entries="@array/pref_account_grouping_entries"
+      android:entryValues="@array/pref_account_grouping_values"/>
     <ListPreference android:key="@string/pref_ui_language_key"
     	android:title="@string/pref_ui_language_title"
     	android:summary="@string/pref_ui_language_summary"

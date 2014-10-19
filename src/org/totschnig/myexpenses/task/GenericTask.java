@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -113,33 +114,63 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return account;
     case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
-      for (long id : (Long[]) ids) {
-        Transaction.delete(id);
+      try {
+        for (long id : (Long[]) ids) {
+          Transaction.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-      Account.delete((Long) ids[0]);
-      return null;
+      try {
+        Account.delete((Long) ids[0]);
+      } catch (Exception e) {
+        Utils.reportToAcra(e);
+        return false;
+      }
+      return true;
     case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      for (long id : (Long[])ids) {
-        PaymentMethod.delete(id);
+      try {
+        for (long id : (Long[])ids) {
+          PaymentMethod.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_PAYEES:
-      for (long id : (Long[])ids) {
-        Payee.delete(id);
+      try {
+        for (long id : (Long[])ids) {
+          Payee.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-      for (long id : (Long[])ids) {
-        Category.delete(id);
+      try {
+        for (long id : (Long[])ids) {
+          Category.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      for (long id : (Long[]) ids) {
-        Template.delete(id);
+      try {
+        for (long id : (Long[]) ids) {
+          Template.delete(id);
+        }
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcra(e);
+        return false;
       }
-      return null;
+      return true;
     case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
       cr = MyApplication.getInstance().getContentResolver();
       cr.update(

@@ -115,6 +115,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       LICENSE_STATUS("licenseStatus"),
       LICENSE_RETRY_COUNT("retryCount"),
       LICENSE_INITIAL_TIMESTAMP("licenseInitialTimeStamp"),
+      ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
       PLANNER_CALENDAR_PATH("planner_calendar_path"),
       CURRENT_VERSION("currentversion"),
       CURRENT_ACCOUNT("current_account"),

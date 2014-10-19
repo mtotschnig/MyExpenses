@@ -562,18 +562,27 @@ public class TransactionList extends ContextualActionBarFragment implements
       return convertView;
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
+      Long sumExpense = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense);
       holder.sumExpense.setText("- " + Utils.convAmount(
-          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense),
+          sumExpense,
           mAccount.currency));
+      Long sumIncome = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome);
       holder.sumIncome.setText("+ " + Utils.convAmount(
-          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome),
+          sumIncome,
           mAccount.currency));
+      Long sumTransfer = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer);
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
-          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer),
+          sumTransfer,
           mAccount.currency));
-      holder.interimBalance.setText("= " + Utils.convAmount(
-          DbUtils.getLongOr0L(mGroupingCursor, columIndexGroupSumInterim),
-          mAccount.currency));
+      Long delta = sumIncome - sumExpense +  sumTransfer;
+      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columIndexGroupSumInterim);
+      Long previousBalance = interimBalance - delta;
+      holder.interimBalance.setText(
+          String.format("%s %s %s = %s",
+              Utils.convAmount(previousBalance,mAccount.currency),
+              Long.signum(delta) >-1 ? "+" : "-",
+              Utils.convAmount(Math.abs(delta),mAccount.currency),
+              Utils.convAmount(interimBalance,mAccount.currency)));
     }
     @Override
     public long getHeaderId(int position) {

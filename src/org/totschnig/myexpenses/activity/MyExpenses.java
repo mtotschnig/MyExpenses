@@ -134,7 +134,6 @@ public class MyExpenses extends LaunchActivity implements
   static final long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR=-1;
-  public static final int ACCOUNTS_OTHER_CURSOR=2;
   public static final int SPLIT_PART_CURSOR=3;
   private LoaderManager mManager;
 
@@ -170,6 +169,7 @@ public class MyExpenses extends LaunchActivity implements
   private long idFromNotification = 0;
   private String mExportFormat = null;
   public boolean setupComplete;
+  private Account.AccountGrouping mAccountGrouping;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -183,7 +183,6 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue value = new TypedValue();
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
-    mSettings = MyApplication.getInstance().getSettings();
     int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
@@ -309,6 +308,7 @@ public class MyExpenses extends LaunchActivity implements
     } else {*/
       initialSetup();
      /* }*/
+
       return;
     }
     if (savedInstanceState != null) {
@@ -799,6 +799,15 @@ public class MyExpenses extends LaunchActivity implements
     case ACCOUNTS_CURSOR:
       mAccountCount = 0;
       mAccountsCursor = cursor;
+      //when account grouping is changed in setting, cursor is reloaded,
+      //and we need to refresh the value here
+      try {
+        mAccountGrouping = Account.AccountGrouping.valueOf(
+            MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+      } catch (IllegalArgumentException e) {
+        // TODO Auto-generated catch block
+        mAccountGrouping = Account.AccountGrouping.TYPE;
+      }
       ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
       //swaping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
@@ -879,9 +888,11 @@ public class MyExpenses extends LaunchActivity implements
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-      ((TransactionDetailFragment)
-          getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName()))
-          .fillData((Transaction) o);
+      TransactionDetailFragment tdf = (TransactionDetailFragment)
+          getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
+      if (tdf!= null) {
+        tdf.fillData((Transaction) o);
+      }
       break;
     case TaskExecutionFragment.TASK_CLONE:
       Integer successCount = (Integer) o;
@@ -1062,6 +1073,9 @@ public class MyExpenses extends LaunchActivity implements
 
       if (is_aggregate) {
         hide_cr = true;
+        if (mAccountGrouping==Account.AccountGrouping.CURRENCY) {
+          ((TextView) row.findViewById(R.id.label)).setText(R.string.menu_aggregates);
+        }
       } else {
         //for deleting we need the position, because we need to find out the account's label
         try {
@@ -1102,33 +1116,55 @@ public class MyExpenses extends LaunchActivity implements
       super(context, layout, c, from, to, flags);
       inflater = LayoutInflater.from(MyExpenses.this);
     }
-    @SuppressLint("NewApi")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.accounts_header, parent, false);
       }
+      Cursor c = getCursor();
+      c.moveToPosition(position);
       long headerId = getHeaderId(position);
-      int headerRes;
-      if (headerId == Type.values().length) {
-        headerRes = R.string.menu_aggregates;
-      } else {
-        headerRes = Type.values()[(int) headerId].toStringResPlural();
+      TextView sectionLabelTV = (TextView) convertView.findViewById(R.id.sectionLabel);
+      switch(mAccountGrouping) {
+      case CURRENCY:
+        sectionLabelTV.setText(Account.CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString());
+        break;
+      case NONE:
+        sectionLabelTV.setText(headerId==0?R.string.pref_manage_accounts_title:R.string.menu_aggregates);
+        break;
+      case TYPE:
+        int headerRes;
+        if (headerId == Type.values().length) {
+          headerRes = R.string.menu_aggregates;
+        } else {
+          headerRes = Type.values()[(int) headerId].toStringResPlural();
+        }
+        sectionLabelTV.setText(headerRes);
+      default:
+        break;
+      
       }
-      ((TextView) convertView.findViewById(R.id.sectionLabel)).setText(headerRes);
       return convertView;
     }
     @Override
     public long getHeaderId(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
-      Type type;
-      try {
-        type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
-        return type.ordinal();
-      } catch (IllegalArgumentException ex) {
-        return Type.values().length;
+      switch(mAccountGrouping) {
+      case CURRENCY:
+        return Account.CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).ordinal();
+      case NONE:
+        return c.getLong(columnIndexRowId)>0 ? 0 : 1;
+      case TYPE:
+        Type type;
+        try {
+          type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+          return type.ordinal();
+        } catch (IllegalArgumentException ex) {
+          return Type.values().length;
+        }
       }
+      return 0;
     }
   }
   protected void onSaveInstanceState (Bundle outState) {

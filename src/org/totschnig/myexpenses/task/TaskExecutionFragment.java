@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -209,7 +210,8 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
-    Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId);
+    Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId +
+        " with objects: "+Utils.printDebug((T[]) args.getSerializable(KEY_OBJECT_IDS)));
     try {
       switch (taskId) {
       case TASK_GRISBI_IMPORT:

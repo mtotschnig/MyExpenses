@@ -52,15 +52,22 @@ public abstract class AmountActivity extends EditActivity {
   /**
    * configures the decimal format and the amount EditText based on configured
    * currency_decimal_separator 
+   * @param fractionDigits 
    */
-  protected void configAmountInput() {
+  protected void configAmountInput(int fractionDigits) {
     mAmountText = (EditText) findViewById(R.id.Amount);
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
     nfDLocal = new DecimalFormat("#0.########",symbols);
     nfDLocal.setGroupingUsed(false);
-    Utils.configDecimalSeparator(mAmountText, decimalSeparator);
+    Utils.configDecimalSeparator(mAmountText, decimalSeparator,fractionDigits);
+  }
+
+  /**
+   * 
+   */
+  protected void configTypeButton() {
     mTypeButton = (CompoundButton) findViewById(R.id.TaType);
     mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -113,13 +120,10 @@ public abstract class AmountActivity extends EditActivity {
     }
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
-    String amount;
-    if (validateAmountInput(false)!=null) {
-      amount = mAmountText.getText().toString();
-    } else {
-      amount ="";
+    BigDecimal amount = validateAmountInput(false);
+    if (amount!=null) {
+      intent.putExtra(KEY_AMOUNT,amount);
     }
-    intent.putExtra(KEY_AMOUNT,amount);
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
   protected void forwardDataEntryFromWidget(Intent intent) {

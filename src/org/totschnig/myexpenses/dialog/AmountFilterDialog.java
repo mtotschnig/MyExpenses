@@ -70,8 +70,10 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     nfDLocal.setGroupingUsed(false);
     mAmount1Text = (EditText) view.findViewById(R.id.amount1);
     mAmount2Text = (EditText) view.findViewById(R.id.amount2);
-    Utils.configDecimalSeparator(mAmount1Text, decimalSeparator);
-    Utils.configDecimalSeparator(mAmount2Text, decimalSeparator);
+    int fractionDigits = Money.fractionDigits(
+        (Currency)getArguments().getSerializable(KEY_CURRENCY));
+    Utils.configDecimalSeparator(mAmount1Text, decimalSeparator, fractionDigits);
+    Utils.configDecimalSeparator(mAmount2Text, decimalSeparator, fractionDigits);
 
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(R.string.search_amount)

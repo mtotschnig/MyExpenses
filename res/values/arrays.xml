@@ -31,6 +31,16 @@
         <item>@string/pref_ui_theme_dark</item>
         <item>@string/pref_ui_theme_light</item>
     </string-array>
+    <string-array name="pref_account_grouping_values">
+        <item>TYPE</item>
+        <item>CURRENCY</item>
+        <item>NONE</item>
+    </string-array>
+    <string-array name="pref_account_grouping_entries">
+        <item>@string/type</item>
+        <item>@string/currency</item>
+        <item>@string/grouping_none</item>
+    </string-array>
     <string-array name="pref_ui_language_entries">
     	<item>@string/pref_ui_language_default</item>
       <item>العربية</item>
@@ -209,6 +219,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
+      <item>178</item>
       <item>177</item>
       <item>173</item>
       <item>170</item>
@@ -236,6 +247,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
+      <item>2.3.6</item>
       <item>2.3.5</item>
       <item>2.3.4</item>
       <item>2.3.3</item>

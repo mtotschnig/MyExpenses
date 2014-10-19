@@ -53,6 +53,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,12 +84,21 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     
     final LayoutInflater li = LayoutInflater.from(getActivity());
     mLayout = li.inflate(R.layout.transaction_detail, null);
-    return new AlertDialog.Builder(getActivity())
+    AlertDialog dialog = new AlertDialog.Builder(getActivity())
       .setTitle(R.string.progress_dialog_loading)
       .setView(mLayout)
       .setNegativeButton(android.R.string.ok,this)
       .setPositiveButton(R.string.menu_edit,this)
       .create();
+    dialog.setOnShowListener(new ButtonOnShowDisabler(){
+      @Override
+      public void onShow(DialogInterface dialog) {
+        if (mTransaction==null) {
+          super.onShow(dialog);
+        }
+      }
+    });
+    return dialog;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
@@ -145,6 +155,13 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       error.setVisibility(View.VISIBLE);
       error.setText("Transaction has been deleted");
       return;
+    }
+    AlertDialog dlg = (AlertDialog) getDialog();
+    if (dlg!=null) {
+      Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
+      if (btn!=null) {
+        btn.setEnabled(true);
+      }
     }
     mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
     int title;
