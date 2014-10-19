@@ -14,7 +14,6 @@ import android.util.Log;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
-  protected SharedPreferences mSettings;
   /**
    * check if this is the first invocation of a new version
    * in which case help dialog is presented
@@ -28,9 +27,10 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       MyApplication.PrefKey.CURRENT_VERSION.putInt(current_version);
       if (prev_version == -1)
         return;
-      Editor edit = mSettings.edit();
+      SharedPreferences settings = MyApplication.getInstance().getSettings();
+      Editor edit = settings.edit();
       if (prev_version < 19) {
-        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(),mSettings.getString("ftp_target",""));
+        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(),settings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();
       }
@@ -49,13 +49,13 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         //  DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
-        mSettings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
+        settings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
       }
       if (prev_version < 132) {
         MyApplication.getInstance().showImportantUpgradeInfo = true;
       }
       if (prev_version < 163) {
-        mSettings.edit().remove("qif_export_file_encoding").commit();
+        settings.edit().remove("qif_export_file_encoding").commit();
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
