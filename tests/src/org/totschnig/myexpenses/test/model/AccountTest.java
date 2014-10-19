@@ -25,7 +25,9 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.os.RemoteException;
 
 public class AccountTest extends ModelTest  {
   Account account1, account2;
@@ -60,7 +62,7 @@ public class AccountTest extends ModelTest  {
 
   }
   
-  public void testAccount() {
+  public void testAccount() throws RemoteException, OperationApplicationException {
     Account account,restored = null;
     Long openingBalance = (long) 100;
     account = new Account("TestAccount",openingBalance,"Testing with Junit");
@@ -106,6 +108,14 @@ public class AccountTest extends ModelTest  {
 
     assertEquals(3, cursor.getCount());
 
+    cursor = getMockContentResolver().query(
+        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
+        Account.PROJECTION_FULL,            // get all the columns
+        KEY_ROWID + "=" + account1.getId(),                       // no selection columns, get all the records
+        null,                       // no selection criteria
+        null                        // use default the sort order
+    );
+
     assertTrue(cursor.moveToFirst());
 
     // Since no projection was used, get the column indexes of the returned columns
@@ -117,7 +127,15 @@ public class AccountTest extends ModelTest  {
     assertEquals(-expense1-expense2, cursor.getLong(expensesIndex));
     assertEquals(transferP-transferN, cursor.getLong(transferIndex));
     assertEquals(openingBalance+income1+income2-expense1-expense2+transferP-transferN, cursor.getLong(balanceIndex));
-    assertTrue(cursor.moveToNext());
+    cursor = getMockContentResolver().query(
+        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
+        Account.PROJECTION_FULL,            // get all the columns
+        KEY_ROWID + "=" + account2.getId(),                       // no selection columns, get all the records
+        null,                       // no selection criteria
+        null                        // use default the sort order
+    );
+
+    assertTrue(cursor.moveToFirst());
     assertEquals(0L, cursor.getLong(incomeIndex));
     assertEquals(0L, cursor.getLong(expensesIndex));
     assertEquals(transferN-transferP, cursor.getLong(transferIndex));
