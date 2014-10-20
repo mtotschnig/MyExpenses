@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_236">
+    <item>Le regroupement des comptes dans la liste des comptes est personnalisable</item>
+    <item>Les en-têtes de groupe maintenant montrent le solde précédent et gain/perte nette</item>
+  </string-array>
   <string-array name="whats_new_235">
     <item>Dans l\'écran de distribution, afficher la liste de transactions par catégorie</item>
     <item>Amélioration du remplissage automatique des tiers</item>

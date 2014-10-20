@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_236">
+    <item>Personalizar agrupamento de contas na lista de contas</item>
+    <item>Cabeçalhos de grupo agora mostram equilíbrio anterior e ganho/perda líquida</item>
+  </string-array>
   <string-array name="whats_new_235">
     <item>Tela de distribuição, exibir a lista de transações por categoria</item>
     <item>Melhoria do preenchimento automático Beneficiário/Pagador</item>

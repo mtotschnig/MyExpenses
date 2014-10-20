@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_236">
+    <item>Personalizar agrupamiento de cuentas en la lista de cuentas</item>
+    <item>Cabeceras de grupo ahora mostran equilibrio anterior y ganancia/pérdida neta</item>
+  </string-array>
   <string-array name="whats_new_235">
     <item>Desde la pantalla de distribución, mostrar la lista de transacciones por categoría</item>
     <item>Mejora de la función de autocompletar Beneficiario/Pagador</item>
