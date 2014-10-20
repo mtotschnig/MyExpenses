@@ -329,6 +329,8 @@ public class CategoryList extends ContextualActionBarFragment implements
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+    if (getActivity()==null)
+      return null;
     if (id == SUM_CURSOR) {
       Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
       if (mAccount.getId() < 0) {
