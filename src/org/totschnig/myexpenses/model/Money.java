@@ -60,7 +60,12 @@ public class Money implements Serializable {
   }
   public BigDecimal getAmountMajor() {
     BigDecimal bd = new BigDecimal(amountMinor);
-    return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)));
+    try {
+      return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)));
+    } catch (ArithmeticException e) {
+      throw new RuntimeException(
+          "Error calculating amount major for : "+amountMinor+" with "+fractionDigits + "fraction digits.",e);
+    }
   }
   @Override
   public boolean equals(Object obj) {
