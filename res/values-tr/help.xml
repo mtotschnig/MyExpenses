@@ -43,7 +43,6 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Eğer seçilen olay örneklemeleri için muamele oluşturulduysa, bu muameleler silinecek, eğer iptal edilmiş olarak işaretlendiler ise bu işaretler kaldırılacaktır.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Seçilen planlama örneklemesi için oluşturulan muameleyi düzenle.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Bu ekran,herhangi bir hesaptaki tüm muameleler ya da belli bir grup için gelirleriniz ve harcamalarınızın kategori başına dağılımını gösterir.</string>
   <string name="help_ManageCategories_select_mapping_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
   <string name="help_ManageCategories_select_filter_info">Muamele listesini süzmek için kategori seçin. Ana bir kategori aramak için onun bağlam menüsünü çağırmanız gerekir.</string>
   <string name="help_ManageCategories_manage_info">Bu ekran kategorileri oluşturmaya, düzenlemeye ve silmeye imkân verir. Varsayılan değer olarak kategori listesinde ilk sıralama kriteri kategoriyi kullanma sayınızdır (ikinci kriter ise alfabetik sıradır). Bu, en sık kullandığınız kategorilere çabuk ulaşmanızı sağlar. Ayarlarda kategorilerin sadece alfabetik sıraya göre sıralanmasını seçebilirsiniz. Herhangi bir ana kategoriye tıklamanız alt kategorileri açar. Ana kategorinin bağlam menüsünden alt kategori ilâve edebilir, silebilir ya da düzenleyebilirsiniz. Silmek ve düzenlemek için alt kategorilerin de bağlam menüleri vardır.</string>
@@ -78,7 +77,9 @@
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="help_AccountEdit_info">Hesaplar etiketleri ile tanımlanır, açıklamanın amacı sadece bilgilendirici olmaktır. Para birimi listeden kolayca seçilebilir. Hesabın türünü nakit, banka hesabı, aktifler, borç ve kredi kartından biri olarak seçebilirsiniz. Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
   <string name="menu_set_sort_key_help_text">Tarama çekmecesindeki hesap listesinde hesabın konumunu belirleyecek bir sayısal anahtar ayarların (yukarıya doğru sıralama). </string>
+  <string name="menu_exclude_from_totals_help_text">Bu şıkkı seçerseniz, bu hesap para birimine dayalı gruplara dahil edilmeyecektir.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>
   <string name="help_MethodEdit_info">Bu ekranda herhangi bir ödeme metodunu hesap türleriyle ilişkilendirebilirsiniz. Bir etiket tanımlamanız da mümkündür (düzenlenmeyen ve sabit etiketi bulunan öntanımlı metotların istisnası dışında). Metodun türüyle, harcalamalar (giderler), gelirler ya da ikisi için (nötr) geçerli olmasını sağlayabilirsiniz. Bu metodu kullanan muameleler sayılı ise (mesela çek numarası), bir bayrak ayarlamanız da mümkündür.</string>
+  <!--ManageCurrencies-->
 </resources>

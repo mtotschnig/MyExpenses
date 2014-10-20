@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="help_menu_commands">Ordres del menú</string>
+  <string name="help_contextual_actions">Accions contextuals</string>
   <string name="cab_delete_help_text">Suprimeix els elements seleccionats.</string>
   <string name="cab_edit_help_text">Edita els elements seleccionats.</string>
   <!--My Expenses Transaction list-->
@@ -25,9 +26,11 @@
   <string name="help_ManageTemplates_plans_info"><![CDATA[En expandir una entrada, veureu la llista de les properes instàncies d\'una planificació. En lloc d\'esperar la notificació que rebreu quan es doni el cas, aquí podeu aplicar les futures ocurrències per endavant per tal de fer-les visibles a la llista de transaccions amb les ordres respectives del menú contextual. L\'estat d\'una instància s\'indica amb les següents icones: <br><img src=\"ic_stat_open\"> encara no s\'ha aplicat la instància <br><img src=\"ic_stat_applied\"> la instància s\'ha aplicat. <br><img src=\"ic_stat_cancelled\"> la instància s\'ha anul·lat, és a dir, que l\'heu marcat per que sigui omesa. Cap transacció es crearà d\'aquesta instància.]]></string>
   <string name="menu_create_template_for_transaction_help_text">Obre una nova plantilla per a una operació</string>
   <string name="menu_create_template_for_transfer_help_text">Obre una nova plantilla per a una transferència</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Defineix les plantilles seleccionades i desa-les immediatament.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Defineix la plantilla seleccionada i introdueix el seu formulari d\'edició on es pot modificar abans de desar-la.</string>
   <string name="cab_ManageTemplates_delete_help_text">Suprimeix les plantilles seleccionades i les seves planificacions.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Modifica les plantilles seleccionades i crea o modifica una planificació relacionada.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Aquesta pantalla mostra la distribució de les vostres despeses i ingressos per categories, per a totes les operacions del compte, o per a un grup concret.</string>
   <string name="help_ManageCategories_select_mapping_info">A més de les accions que podeu utilitzar quan gestioneu categories des de la pantalla de Preferències (nou, edita, suprimeix), en aquesta pantalla podeu assignar una operació a una categoria. Seleccioneu una subcategoria per assignar l\'operació actual només clicant-hi. Per tal d\'assignar una categoria principal, heu d\'anar al seu menú contextual.</string>
   <string name="help_ManageCategories_manage_info">Aquesta pantalla permet generar, modificar i suprimir categories. Per omissió, la llista de categories s\'ordena pel nombre de vegades que utilitzeu una categoria (i en segon lloc per ordre alfabètic). Això permet accedir ràpidament a les categories que feu servir més sovint. A les preferències podeu optar a ordenar les categories només per ordre alfabètic. Si cliqueu a una categoria principal, s\'obren les subcategories. Des del menú contextual d\'una categoria principal, podeu afegir noves subcategories, suprimir o modificar una categoria. Les subcategories també disposen de menús contextuals per suprimir-les i modificar-les.</string>
   <string name="menu_create_main_cat_help_text">Obre el diàleg que permet indicar el títol d\'una nova categoria principal.</string>
@@ -59,4 +62,5 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Pantalla de les formes de pagament</string>
   <string name="help_MethodEdit_info">En aquesta pantalla podeu associar les formes de pagament als tipus de comptes. També podeu definir una etiqueta (excepte els mètodes definits prèviament que disposen d\'una etiqueta fixe que no es pot modificar). Amb la forma de pagament, decidiu si és de despeses (càrrec), Ingressos (crèdit) o els dos (neutre). També podeu indicar si les transaccions que facin servir aquesta forma de pagament aniran numerades (per exemple la numeració dels xecs).</string>
+  <!--ManageCurrencies-->
 </resources>

@@ -25,7 +25,6 @@
   <string name="menu_create_template_for_transaction_help_text">Vytvořit novou šablonu pro transakci</string>
   <string name="menu_create_template_for_transfer_help_text">Vytvořit novou šablonu pro transfer</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Tato obrazovka zobrazuje rozložení vašich výdajů a příjmů na kategorie, pro všechny transakce na účtu, nebo pro konkrétní skupiny.</string>
   <string name="help_ManageCategories_select_mapping_info">Kromě akcí, které můžete provádět při správě kategorií z nabídky předvolby (vytvoření, upravení, odstranění), můžete na této obrazovce přiřadit transakci k vybrané kategorii. Vyberte podkategorii pro přiřazení k aktuální transakci kliknutím na tuto kategorii. K přiřazení hlavní kategorie, budete muset vyvolat kontextové menu.</string>
   <string name="help_ManageCategories_manage_info">Tato obrazovka umožňuje vytvářet, upravovat a odstraňovat kategorie. Ve výchozím nastavení jsou kategorie primárně řazeny podle počtu opakovaných použití dané kategorie (druhou možností je abecední řazení). To vám umožní rychlý přístup ke kategoriím, které nejčastěji používáte. V nastavení se můžete  alternativně rozhodnout pro primární třídění kategorií podle abecedy. Kliknutí na hlavní kategorie otevírá nabídku podkategorií. Z hlavní kategorie místní nabídky můžete přidávat nové podkategorie, odstraňovat kategorie nebo je upravovat. Podkategorie mají také místní nabídky pro odstranění a pro úpravy.</string>
   <string name="menu_create_main_cat_help_text">Otevře dialog pro zadání názvu nové hlavní kategorie.</string>
@@ -57,4 +56,5 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulář pro metodu platby</string>
   <string name="help_MethodEdit_info">Na této obrazovce můžete přidružit způsobu platby s typem účtů. Můžete také definovat popisek (s výjimkou předdefinované metody, která má pevný štítek, který nelze upravovat). Prostřednictvím typu metody můžete zjistit, zda je použitelná pro výdaj (má dáti), příjem (dal) nebo oba (neutrální). Lze také nastavit příznak pokud jsou transakce touto metodou číslovány (např. kontrola čísla).</string>
+  <!--ManageCurrencies-->
 </resources>

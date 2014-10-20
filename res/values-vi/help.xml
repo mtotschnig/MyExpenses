@@ -20,7 +20,6 @@
   <string name="menu_create_party_help_text">Mở hộp thoại này để chỉ định tên của người trả hoặc người nhận tiền.</string>
   <!--ManageTemplates title is in keys-->
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Màn hình này hiển thị việc phân phối chi tiêu của bạn cũng như thu nhập cho từng phân loại, đối với mọi giao dịch trong một tài khoản hoặc một nhóm cụ thể nào đó.</string>
   <string name="help_ManageCategories_select_mapping_info">Để có thể tác động thêm các thao tác khi quản lý các phần phân loại từ màn hình Tùy Biến (tạo, chỉnh sửa, xóa), trên màn hình này bạn có thể gán các giao dịch vào các phần phân loại đã được chọn. Bạn chọn một phân loại con để gán vào giáo dịch hiện tại chỉ đơn giản bằng cách click vào đối tượng này. Để có thể gán vào phần phân loại chính, bạn sẽ cần phải sử dụng menu bổ sung.</string>
   <string name="help_ManageCategories_manage_info">Màn hình này cho phép bạn tạo, chỉnh sửa và xóa các phân loại. Theo mặc định, phần sắp xếp chính trong danh sách phân loại là sớ lần bạn sử dụng một phân loại (điều kiện sắp xếp thứ hai dựa vào trình tự chữ cái abc). Phần này sẽ giúp bạn truy cập nhanh hơn đến các phân loại mà bạn thường hay sử dụng. Trong phần thiết lập, bạn có thể chọn việc sắp xếp các phân loại theo kiểu thường hay sử dụng hay theo kiểu thứ tự chữ cái. Click vào một phân loại chính, mở ra các phân loại con. Từ menu bổ sung của phân loại chính, bạn có thể thêm vào các phân loại con, xóa một phân loại hoặc hiệu chỉnh đối tượng đó. Các phân loại con đồng thời cũng bao gồm các menu bổ sung cho thao tác xóa và chỉnh sửa.</string>
   <string name="menu_create_main_cat_help_text">Mở hộp thoại để xác định tiêu đề của phần phân loại chính.</string>
@@ -49,4 +48,5 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Mẫu đơn cho phương thức thanh toán</string>
   <string name="help_MethodEdit_info">Ở màn hình này, bạn sẽ gắn kết với phương t hức thanh toán với loại tài khoản của mình. Bạn cũng có thể dùng các mẫu (với các ngoại lệ của việc xác định trước khi thanh toán thì việc xác định các mẫu có thể được hoàn toàn chỉnh sửa). Thông qua loại phương thức, bạn có thể xác định tính khả dĩ của chi tiêu (nợ), thu nhập (tín dụng), hoặc cả hai (nợ và tín dụng).</string>
+  <!--ManageCurrencies-->
 </resources>

@@ -17,7 +17,6 @@
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Ezen a képernyőn látható a kiadások és bevételek megoszlása kategóriánként minden tranzakcióra egy számlán, vagy annak egy meghatározott csoportján.</string>
   <string name="help_ManageCategories_select_mapping_info">A kategóriák kezelésén kívül, a Beállítások képernyőn (hozzáadás, szerkesztés, törlés) - ezen a képernyőn lehet hozzárendelni az adott tranzakciót a kiválasztott kategóriához. Az összerendeléshez csak rá kell koppintani a kiválasztott alkategóriára. Főkategóriához is rendelhető tranzakció, de az annak a helyi menüjében kell kiválasztani. </string>
   <string name="help_ManageCategories_manage_info">Ezen a képernyőn lehet létrehozni, szerkeszteni vagy törölni kategóriákat. Alapértelmezetten a legsűrűbben használt kategória áll legelöl, másodlagos rendezési szempont az ábécé-sorrend. Így a legtöbbet használt kategória lesz a leggyorsabban elérhető. A beállítások között átállítható, hogy egyszerű ABC sorrendben kerüljenek rendezésre a kategóriák. Az adott fő kategória menüjében van lehetőség ahhoz a főkategóriához tartozó alkategóriákat létrehozni, szerkeszteni, vagy törölni. Az alkategóriák menüjében is lehet szerkeszteni, vagy törölni. </string>
   <string name="menu_create_main_cat_help_text">Megnyit egy beviteli mezőt az új főkategória nevének/címének megadásához.</string>
@@ -42,4 +41,5 @@
   <string name="help_AccountEdit_title">Számlák űrlapja</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Fizetési módok űrlapja</string>
+  <!--ManageCurrencies-->
 </resources>

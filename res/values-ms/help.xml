@@ -43,7 +43,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Jika transaksi telah dicipta untuk kejadian peristiwa terpilih, ia akan dipadam, jika ia telah ditanda sebagai dibatalkan, tanda akan dibuang.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Sunting transaksi yang telah dicipta untuk kejadian pelan terpilih.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Skrin ini paparkan agihan perbelanjaan dan pendapatan anda per kategori, untuk semua transaksi dalam akaun, atau untuk kumpulan tertentu.</string>
+  <string name="help_ManageCategories_distribution_info">Skrin ini paparkan agihan perbelanjaaan dan pendapatan anda per kategori, untuk semua transaksi di dalam akaun, atau untuk kumpulan tertentu. Klik pada subkategori untuk paparkan transaksi yang direkod di dalamnya. Untuk kategori utama kefungsian ini tersedia dari menu konteks mereka.</string>
   <string name="help_ManageCategories_select_mapping_info">Selain dari tindakan yang anda boleh buat bila mengurus kategori dari skrin Keutamaan (cipta, sunting, padam), pada skrin ini anda boleh petakan transaksi pada kategori terpilih. Anda boleh pilih subkategori untuk pemetaan pada transaksi semasa dengan hanya mengklik padanya. Untuk petakan kategori utama, anda perlu pergi ke menu konteksnya.</string>
   <string name="help_ManageCategories_select_filter_info">Pilih kategori untuk menapis senarai transaksi. Untuk menggelintar kategori utama, anda perlu pergi kem menu konteksnya.</string>
   <string name="help_ManageCategories_manage_info">Skrin ini membolehkan anda cipta, sunting dan padam kategori. Secara lalai, kriteria isih utama dalam senarai kategori ialah berapa kali anda gunakan kategori (kriteria sekunder adalah tertib abjad). Ia memberikan anda capaian pantas ke kategori yang kerap anda guna. Dalam tetapan, anda boleh isih kategori dalam tertib abjad. Dengan mengklik kategori utama, buka sub-kategorinya. Dari menu konteks kategori utama, anda boleh tambah subkategori baharu, padam kategori atau menyuntingnya. Subkategori juga mempunyai menu konteks untuk pemadaman dan penyuntingan.</string>
@@ -55,6 +55,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Petakan kategori terpilih ke transaksi dan kembali ke borang transaksi.</string>
   <string name="menu_categories_setup_default_help_text">Satu set kategori lalai akan diimport.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Papar transaksi individu yang telah diaggregat untuk kategori terpilih.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Borang  untuk transaksi</string>
   <string name="help_ExpenseEdit_transfer_title">Borang untuk pemindahan</string>
