@@ -72,6 +72,22 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.3.6
+    - "2014-10-21"
+    -
+      en: |
+        Customize grouping of accounts in account list. Group headers now show previous balance and net gain/loss.
+      fr: |
+        Le regroupement des comptes dans la liste des comptes est personnalisable. Les en-têtes de groupe maintenant montrent le solde précédent et gain/perte nette.
+      de: |
+        Gruppierung der Konten in der Kontenliste ist anpassbar. Die Titelzeilen der Gruppen zeigen jetzt den vorhergehenden Kontostand und den Netto Gewinn/Verlust.
+      it: |
+        Personalizza il raggruppamento dei conti nell'elenco dei conti. Intestazioni di gruppo ora mostrano il saldo precedente e guadagno/perdita netta.
+      es: |
+        Personalizar agrupamiento de cuentas en la lista de cuentas. Cabeceras de grupo ahora mostran equilibrio anterior y ganancia/pérdida neta.
+      pt: |
+        Personalizar agrupamento de contas na lista de contas. Cabeçalhos de grupo agora mostram equilíbrio anterior e ganho/perda líquida.
+  -
     - 2.3.5
     - "2014-10-15"
     -
