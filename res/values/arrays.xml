@@ -295,6 +295,10 @@
         <item>1483023585292448</item>
         <item>K1qgfKdvodM</item>
     </string-array>
+    <string-array name="version_more_info_236">
+        <item>1485758261685647</item>
+        <item>6xukdJk2owx</item>
+    </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
       <item>@string/comparison_operator_greater_than</item>
