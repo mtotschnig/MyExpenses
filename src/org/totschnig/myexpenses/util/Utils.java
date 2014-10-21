@@ -778,6 +778,9 @@ public class Utils {
   }
 
   public static String printDebug(Object[] objects) {
+    if (objects==null) {
+      return "null";
+    }
     String result ="";
     for (Object object : objects) {
       if (!result.equals(""))

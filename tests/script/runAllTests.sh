@@ -7,6 +7,8 @@ adb shell pm clear org.totschnig.myexpenses
 adb shell am instrument -w -e package "org.totschnig.myexpenses.test.activity.expenseedit" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner
 adb shell pm clear org.totschnig.myexpenses
 adb shell am instrument -w -e package "org.totschnig.myexpenses.test.activity.managecurrencies" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner
+adb shell pm clear org.totschnig.myexpenses
+adb shell am instrument -w -e package "org.totschnig.myexpenses.test.activity.managecategories" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner
 adb shell am instrument -w -e package "org.totschnig.myexpenses.test.misc" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner
 adb shell am instrument -w -e package "org.totschnig.myexpenses.test.model" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner
 adb shell am instrument -w -e package "org.totschnig.myexpenses.test.provider" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner

@@ -20,7 +20,7 @@ import android.view.KeyEvent;
 public abstract class MyActivityTest<T extends Activity>  extends ActivityInstrumentationTestCase2<T> {
 
 
-  protected Activity mActivity;
+  protected T mActivity;
   protected Solo mSolo;
   protected Instrumentation mInstrumentation;
   protected Context mContext;

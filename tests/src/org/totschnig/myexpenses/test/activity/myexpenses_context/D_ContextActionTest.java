@@ -41,7 +41,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
     mSolo.waitForActivity(MyExpenses.class);
-    mList =  (StickyListHeadersListView) ((MyExpenses) mActivity).getCurrentFragment().getView().findViewById(R.id.list);
+    mList =  (StickyListHeadersListView) mActivity.getCurrentFragment().getView().findViewById(R.id.list);
   }
   public void testA_Clone() {
     int itemsInList = mList.getAdapter().getCount();
