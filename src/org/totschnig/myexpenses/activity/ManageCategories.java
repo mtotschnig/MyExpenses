@@ -62,6 +62,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private CategoryList mListFragment;
 
+    public CategoryList getListFragment() {
+      return mListFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
       setTheme(MyApplication.getThemeId());
@@ -71,7 +75,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       if (action == null) {
         helpVariant = HelpVariant.select_mapping;
         getSupportActionBar().setTitle(R.string.select_category);
-      } else if (action.equals("myexpenses.intent.manage.categories")) {
+      } else if (action.equals("myexpenses.intent.manage.categories")||
+          action.equals(Intent.ACTION_MAIN)) {
         helpVariant = HelpVariant.manage;
         getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
       } else if (action.equals("myexpenses.intent.distribution")) {
