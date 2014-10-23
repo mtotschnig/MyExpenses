@@ -58,13 +58,23 @@ public class WhereFilter {
     return this;
   }
 
-  public String getSelection() {
+  public String getSelectionForParents() {
     StringBuilder sb = new StringBuilder();
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
       if (sb.length() > 0) {
         sb.append(" AND ");
       }
-      sb.append(criterias.valueAt(i).getSelection());
+      sb.append(criterias.valueAt(i).getSelectionForParents());
+    }
+    return sb.toString().trim();
+  }
+  public String getSelectionForParts() {
+    StringBuilder sb = new StringBuilder();
+    for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
+      if (sb.length() > 0) {
+        sb.append(" AND ");
+      }
+      sb.append(criterias.valueAt(i).getSelectionForParts());
     }
     return sb.toString().trim();
   }
@@ -72,7 +82,9 @@ public class WhereFilter {
   public String[] getSelectionArgs() {
     String[] args = new String[0];
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      args = Utils.joinArrays(args, criterias.valueAt(i).getSelectionArgs());
+      String critArgs[] = criterias.valueAt(i).getSelectionArgs();
+      //we need to double each criteria since it is applied to parents and parts
+      args = Utils.joinArrays(args,Utils.joinArrays(critArgs, critArgs));
     }
     return args;
   }

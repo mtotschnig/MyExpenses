@@ -350,7 +350,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     switch(id) {
     case TRANSACTION_CURSOR:
       if (!mFilter.isEmpty()) {
-        selection += " AND " + mFilter.getSelection();
+        selection += " AND " + mFilter.getSelectionForParents();
         selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs());
       }
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
@@ -368,7 +368,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       break;
     case GROUPING_CURSOR:
       if (!mFilter.isEmpty()) {
-        selection = mFilter.getSelection();
+        selection = mFilter.getSelectionForParts();
         selectionArgs = mFilter.getSelectionArgs();
       } else {
         selection = null;

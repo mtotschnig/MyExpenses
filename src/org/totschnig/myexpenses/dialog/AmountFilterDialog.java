@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Money;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import org.totschnig.myexpenses.provider.filter.AmountCriteria;
-import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 

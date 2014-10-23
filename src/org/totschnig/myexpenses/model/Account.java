@@ -1118,7 +1118,7 @@ public class Account extends Model {
       selectionArgs = new String[] { String.valueOf(getId()) };
     }
     if (!filter.isEmpty()) {
-      selection += " AND " + filter.getSelection();
+      selection += " AND " + filter.getSelectionForParents();
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs());
     }
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
