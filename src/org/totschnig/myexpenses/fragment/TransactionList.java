@@ -121,11 +121,12 @@ public class TransactionList extends ContextualActionBarFragment implements
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth,
-    columnIndexWeek, columnIndexDay, columnIndexLabelSub, columnIndexLabelMain,
-    columnIndexPayee, columnIndexCrStatus, columnIndexGroupYear, columnIndexGroupSecond,
-    columnIndexGroupMappedCategories, columIndexGroupSumInterim, columnIndexGroupSumIncome,
-    columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
+  private int columnIndexYear,                 columnIndexYearOfWeekStart, columnIndexMonth,
+              columnIndexWeek,                 columnIndexDay,             columnIndexLabelSub,
+              columnIndexPayee,                columnIndexCrStatus,        columnIndexGroupYear,
+              columnIndexGroupMappedCategories,columnIndexGroupSumInterim, columnIndexGroupSumIncome,
+              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer,columnIndexDelta,
+              columnIndexLabelMain,            columnIndexGroupSecond;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
@@ -427,7 +428,8 @@ public class TransactionList extends ContextualActionBarFragment implements
         columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
         columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
         columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
-        columIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
+        columnIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
+        columnIndexDelta = c.getColumnIndex(KEY_DELTA);
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
@@ -574,8 +576,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
           sumTransfer,
           mAccount.currency));
-      Long delta = sumIncome - sumExpense +  sumTransfer;
-      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columIndexGroupSumInterim);
+      Long delta = DbUtils.getLongOr0L(mGroupingCursor, columnIndexDelta);
+      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
       Long previousBalance = interimBalance - delta;
       holder.interimBalance.setText(
           String.format("%s %s %s = %s",

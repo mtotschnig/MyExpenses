@@ -125,6 +125,7 @@ public class DatabaseConstants {
   public static final String KEY_SUM_EXPENSES = "sum_expenses";
   public static final String KEY_SUM_INCOME = "sum_income";
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";
+  public static final String KEY_DELTA = "delta";
   public static final String KEY_INTERIM_BALANCE = "interim_balance";
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
   public static final String KEY_MAPPED_PAYEES = "mapped_payees";
