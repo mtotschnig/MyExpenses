@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_237">
+    <item>Payment methods are sorted alphabetically</item> 
+  </string-array>
   <string-array name="whats_new_236">
     <item>Customize grouping of accounts in account list</item>
     <item>Group headers now show previous balance and net gain/loss</item>  
