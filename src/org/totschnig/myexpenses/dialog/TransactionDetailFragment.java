@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.util.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
@@ -166,6 +165,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
     int title;
     boolean type = mTransaction.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
+
     if (mTransaction instanceof SplitTransaction) {
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
@@ -183,11 +183,15 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
           mTransaction.amount.getCurrency());
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
+
       LoaderManager manager = ctx.getSupportLoaderManager();
-      if (manager.getLoader(MyExpenses.SPLIT_PART_CURSOR) != null && !manager.getLoader(MyExpenses.SPLIT_PART_CURSOR).isReset())
+      if (manager.getLoader(MyExpenses.SPLIT_PART_CURSOR) != null &&
+          !manager.getLoader(MyExpenses.SPLIT_PART_CURSOR).isReset()) {
         manager.restartLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
-      else
+      } else {
         manager.initLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
+      }
+
     } else {
       mLayout.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
       if (mTransaction instanceof Transfer) {
@@ -197,9 +201,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       }
       else {
         title = type ? R.string.income : R.string.expense;
-        ((TextView) mLayout.findViewById(R.id.PayeeLabel)).setText(type?R.string.payer:R.string.payee);
       }
     }
+
     String accountLabel = Account.getInstanceFromDb(mTransaction.accountId).label;
     if (mTransaction instanceof Transfer) {
       ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
@@ -212,28 +216,40 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         mLayout.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
     }
+
     ((TextView) mLayout.findViewById(R.id.Date)).setText(
         DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate())
         + " "
         + DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate()));
+
     ((TextView) mLayout.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
         new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
-    if (!mTransaction.comment.equals(""))
+
+    if (!mTransaction.comment.equals("")) {
       ((TextView) mLayout.findViewById(R.id.Comment)).setText(mTransaction.comment);
-    else
+    } else {
       mLayout.findViewById(R.id.CommentRow).setVisibility(View.GONE);
-    if (!mTransaction.referenceNumber.equals(""))
+    }
+
+    if (!mTransaction.referenceNumber.equals("")) {
       ((TextView) mLayout.findViewById(R.id.Number)).setText(mTransaction.referenceNumber);
-    else
+    } else {
       mLayout.findViewById(R.id.NumberRow).setVisibility(View.GONE);
-    if (!mTransaction.payee.equals(""))
+    }
+
+    if (!mTransaction.payee.equals("")) {
       ((TextView) mLayout.findViewById(R.id.Payee)).setText(mTransaction.payee);
-    else
+      ((TextView) mLayout.findViewById(R.id.PayeeLabel)).setText(type?R.string.payer:R.string.payee);
+    } else {
       mLayout.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
-    if (mTransaction.methodId != null)
+    }
+
+    if (mTransaction.methodId != null) {
       ((TextView) mLayout.findViewById(R.id.Method)).setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getDisplayLabel());
-    else
+    } else {
       mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
+    }
+
     if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH))
       mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     else {
@@ -241,6 +257,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       tv.setBackgroundColor(mTransaction.crStatus.color);
       tv.setText(mTransaction.crStatus.toString());
     }
+
     getDialog().setTitle(title);
   }
 }
