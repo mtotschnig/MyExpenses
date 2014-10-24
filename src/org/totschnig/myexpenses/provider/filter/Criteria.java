@@ -19,6 +19,12 @@
 package org.totschnig.myexpenses.provider.filter;
 
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 
 import android.annotation.SuppressLint;
@@ -113,4 +119,38 @@ public class Criteria implements Parcelable {
   public String toStringExtra() {
     throw new UnsupportedOperationException("Only subclasses can be persisted");
   }
+  /**
+   * @param selection
+   * @return selection wrapped in a way that it also finds split transactions with parts
+   * that are matched by the critera
+   */
+  protected String applyToSplitParts(String selection) {
+    return "(" + selection + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID //maybe the check for split catId is not needed
+        + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
+        + " WHERE children." + KEY_PARENTID
+        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_ROWID + " AND children." + selection + ")))";
+  }
+  
+  /**
+   * the sums are calculated based on split parts, hence here we must apply the reverse method
+   * of {@link #applyToSplitParts(String)}
+   * @param selection
+   * @return selection wrapped in a way that is also finds split parts where parents are
+   * matched by the criteria
+   */
+  protected String applyToSplitParents(String selection) {
+    return "(" + selection + " OR "
+        + " exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
+        + " WHERE parents." + KEY_ROWID
+        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + "))";
+  }
+
+  public String getSelectionForParts() {
+    return applyToSplitParents(getSelection());
+  }
+  public String getSelectionForParents() {
+    return applyToSplitParts(getSelection());
+  }
+  
 }
+ 

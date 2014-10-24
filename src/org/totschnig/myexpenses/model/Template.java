@@ -307,7 +307,7 @@ public class Template extends Transaction {
     if (methodId != null) {
       sb.append(ctx.getString(R.string.method));
       sb.append(" : ");
-      sb.append(PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel());
+      sb.append(PaymentMethod.getInstanceFromDb(methodId).getLabel());
     }
     return sb.toString();
   }

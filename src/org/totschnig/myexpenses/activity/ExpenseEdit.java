@@ -433,12 +433,7 @@ public class ExpenseEdit extends AmountActivity implements
 
       // Spinner for methods
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
-          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0) {
-        @Override
-        public void setViewText(TextView v, String text) {
-          super.setViewText(v, PaymentMethod.getDisplayLabel(text));
-        }
-      };
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
       mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
       mMethodSpinner.setOnItemSelectedListener(this);
@@ -1305,7 +1300,7 @@ public class ExpenseEdit extends AmountActivity implements
         return null;
       return new CursorLoader(this,
           TransactionProvider.METHODS_URI.buildUpon()
-          .appendPath("typeFilter")
+          .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
           .appendPath(mType == INCOME ? "1" : "-1")
           .appendPath(a.type.name())
           .build(), null, null, null, null);

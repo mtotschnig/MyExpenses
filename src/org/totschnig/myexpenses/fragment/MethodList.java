@@ -54,7 +54,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     View v = inflater.inflate(R.layout.methods_list, null, false);
     final ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{DatabaseConstants.KEY_ROWID};
+    String[] from = new String[]{DatabaseConstants.KEY_LABEL};
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{android.R.id.text1};
     // Now create a simple cursor adapter and set it to display
@@ -66,12 +66,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
             null,
             from,
             to,
-            0) {
-      @Override
-      public void setViewText(TextView v, String text) {
-        super.setViewText(v, PaymentMethod.getInstanceFromDb(Long.valueOf(text)).getDisplayLabel());
-      }
-    };
+            0);
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));

@@ -52,25 +52,12 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
   abstract Criteria makeCriteria(long id, String label);
   abstract int getCommand();
   abstract Uri getUri();
-  
-  /**
-   * needed by PaymentMethod to translate labels of default methods
-   * @param label
-   * @return
-   */
-  protected String getDisplayLabel(String label) {
-    return label;
-  }
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Context wrappedCtx = DialogUtils.wrapContext1(getActivity());
     mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_single_choice, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0) {
-      @Override
-      public void setViewText(TextView v, String text) {
-        super.setViewText(v, getDisplayLabel(text));
-      }
-    };
+        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(getDialogTitle())
@@ -87,7 +74,7 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
         getCommand(),
         makeCriteria(
             mCursor.getLong(mCursor.getColumnIndex(KEY_ROWID)),
-            getDisplayLabel(mCursor.getString(mCursor.getColumnIndex(KEY_LABEL)))));
+            mCursor.getString(mCursor.getColumnIndex(KEY_LABEL))));
     dismiss();
   }
   @Override

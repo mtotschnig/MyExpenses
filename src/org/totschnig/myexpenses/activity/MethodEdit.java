@@ -70,7 +70,7 @@ public class MethodEdit extends EditActivity {
       mMethod = PaymentMethod.getInstanceFromDb(rowId);
 
       setTitle(R.string.menu_edit_method);
-      mLabelText.setText(mMethod.getDisplayLabel());
+      mLabelText.setText(mMethod.getLabel());
       mPaymentType = mMethod.getPaymentType();
       mIsNumberedCheckBox.setChecked(mMethod.isNumbered);
       mPaymentTypeSpinner.setSelection(mPaymentType+1);
@@ -111,11 +111,9 @@ public class MethodEdit extends EditActivity {
       mLabelText.setError(getString(R.string.no_title_given));
       return;
     }
-    //when the label has not been changed from its localized form
-    //we keep the predefined KEYS to preserve localizability
-    if (!mMethod.getDisplayLabel().equals(label)) {
-      mMethod.setLabel(label);
-    }
+
+    mMethod.setLabel(label);
+
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
     for (Account.Type accountType : Account.Type.values()) {
       CheckBox cb = (CheckBox) mTable.findViewWithTag(accountType);

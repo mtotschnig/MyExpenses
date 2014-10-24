@@ -121,11 +121,12 @@ public class TransactionList extends ContextualActionBarFragment implements
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth,
-    columnIndexWeek, columnIndexDay, columnIndexLabelSub, columnIndexLabelMain,
-    columnIndexPayee, columnIndexCrStatus, columnIndexGroupYear, columnIndexGroupSecond,
-    columnIndexGroupMappedCategories, columIndexGroupSumInterim, columnIndexGroupSumIncome,
-    columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
+  private int columnIndexYear,                 columnIndexYearOfWeekStart, columnIndexMonth,
+              columnIndexWeek,                 columnIndexDay,             columnIndexLabelSub,
+              columnIndexPayee,                columnIndexCrStatus,        columnIndexGroupYear,
+              columnIndexGroupMappedCategories,columnIndexGroupSumInterim, columnIndexGroupSumIncome,
+              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer,columnIndexDelta,
+              columnIndexLabelMain,            columnIndexGroupSecond;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
@@ -349,7 +350,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     switch(id) {
     case TRANSACTION_CURSOR:
       if (!mFilter.isEmpty()) {
-        selection += " AND " + mFilter.getSelection();
+        selection += " AND " + mFilter.getSelectionForParents();
         selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs());
       }
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
@@ -362,12 +363,12 @@ public class TransactionList extends ContextualActionBarFragment implements
       cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES,MAPPED_METHODS,MAPPED_PAYEES},
-          selection + " AND " + WHERE_NOT_SPLIT,
+          selection,
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
       if (!mFilter.isEmpty()) {
-        selection = mFilter.getSelection();
+        selection = mFilter.getSelectionForParts();
         selectionArgs = mFilter.getSelectionArgs();
       } else {
         selection = null;
@@ -427,7 +428,8 @@ public class TransactionList extends ContextualActionBarFragment implements
         columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
         columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
         columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
-        columIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
+        columnIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
+        columnIndexDelta = c.getColumnIndex(KEY_DELTA);
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
@@ -574,8 +576,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
           sumTransfer,
           mAccount.currency));
-      Long delta = sumIncome - sumExpense +  sumTransfer;
-      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columIndexGroupSumInterim);
+      Long delta = DbUtils.getLongOr0L(mGroupingCursor, columnIndexDelta);
+      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
       Long previousBalance = interimBalance - delta;
       holder.interimBalance.setText(
           String.format("%s %s %s = %s",
@@ -723,6 +725,9 @@ public class TransactionList extends ContextualActionBarFragment implements
       MenuItem filterItem = filterMenu.getItem(i);
       boolean enabled = true;
       switch(filterItem.getItemId()) {
+      case R.id.FILTER_CATEGORY_COMMAND:
+        enabled = mappedCategories;
+        break;
       case R.id.FILTER_STATUS_COMMAND:
         enabled = !mAccount.type.equals(Type.CASH);
         break;

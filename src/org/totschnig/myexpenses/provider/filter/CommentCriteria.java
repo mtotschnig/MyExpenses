@@ -49,16 +49,4 @@ public class CommentCriteria extends TextCriteria {
   public static CommentCriteria fromStringExtra(String extra) {
     return new CommentCriteria(extra);
   }
-  @Override
-  public String getSelection() {
-    String selection = super.getSelection();
-    return "(" + selection + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID
-        + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
-        + " WHERE children." + KEY_PARENTID
-        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_ROWID + " AND children." + selection + ")))";
-  }
-  @Override
-  public String[] getSelectionArgs() {
-    return new String[] {values[0],values[0]};
-  }
 }

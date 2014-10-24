@@ -49,18 +49,13 @@ public class SingleCategoryCriteria extends IdCriteria {
 
   @Override
   public String getSelection() {
-    String catFilter = " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+    return KEY_CATID +" IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
         + KEY_ROWID + " = ?)";
-    return  "(" + KEY_CATID + catFilter
-        + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID
-        + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
-        + " WHERE children." + KEY_PARENTID
-        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_ROWID + " AND children." + KEY_CATID + catFilter + ")))";
   }
   @Override
   public String[] getSelectionArgs() {
-    return new String[] {values[0],values[0],values[0],values[0]};
+    return new String[] {values[0],values[0]};
   }
 
   @Override
