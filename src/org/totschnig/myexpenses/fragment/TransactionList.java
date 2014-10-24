@@ -363,7 +363,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES,MAPPED_METHODS,MAPPED_PAYEES},
-          selection + " AND " + WHERE_NOT_SPLIT,
+          selection,
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
@@ -725,6 +725,9 @@ public class TransactionList extends ContextualActionBarFragment implements
       MenuItem filterItem = filterMenu.getItem(i);
       boolean enabled = true;
       switch(filterItem.getItemId()) {
+      case R.id.FILTER_CATEGORY_COMMAND:
+        enabled = mappedCategories;
+        break;
       case R.id.FILTER_STATUS_COMMAND:
         enabled = !mAccount.type.equals(Type.CASH);
         break;
