@@ -1148,7 +1148,7 @@ public class Account extends Model {
     Log.d("MyExpenses","Metadata "+(System.currentTimeMillis()-start));
     addHeader(document,helper);
     Log.d("MyExpenses","Header "+(System.currentTimeMillis()-start));
-    addTransactionList(document,transactionCursor,helper);
+    addTransactionList(document,transactionCursor,helper,filter);
     Log.d("MyExpenses","List "+(System.currentTimeMillis()-start));
     transactionCursor.close();
     document.close();
@@ -1199,17 +1199,26 @@ public class Account extends Model {
     document.add(empty);
   }
 
-  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper)
+  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, WhereFilter filter)
       throws DocumentException, IOException {
+    String selection;
+    String[] selectionArgs;
+    if (!filter.isEmpty()) {
+      selection = filter.getSelectionForParts();
+      selectionArgs = filter.getSelectionArgs();
+    } else {
+      selection = null;
+      selectionArgs = null;
+    }
     Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
-    builder.appendPath("groups")
+    builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
       .appendPath(grouping.name());
     if (getId() < 0) {
       builder.appendQueryParameter(KEY_CURRENCY, currency.getCurrencyCode());
     } else {
       builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
     }
-    Cursor groupCursor = cr().query(builder.build(), null, null, null,
+    Cursor groupCursor = cr().query(builder.build(), null, selection, selectionArgs,
         KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC");
 
     MyApplication ctx = MyApplication.getInstance();
@@ -1217,6 +1226,7 @@ public class Account extends Model {
     int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
     int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
     int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
+    int columIndexGroupDelta = groupCursor.getColumnIndex(KEY_DELTA);
     int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
     int columnIndexRowId = transactionCursor.getColumnIndex(KEY_ROWID);
     int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
@@ -1295,21 +1305,26 @@ public class Account extends Model {
         table.setWidthPercentage(100f);
         PdfPCell cell = helper.printToCell(grouping.getDisplayTitle(ctx,year,second,transactionCursor),FontType.HEADER);
         table.addCell(cell);
-        cell = helper.printToCell("= " + Utils.convAmount(
-                DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim),
-                currency), FontType.HEADER);
+        Long delta = DbUtils.getLongOr0L(groupCursor, columIndexGroupDelta);
+        Long interimBalance = DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim);
+        Long previousBalance = interimBalance - delta;
+        cell = helper.printToCell(String.format("%s %s %s = %s",
+            Utils.convAmount(previousBalance,currency),
+            Long.signum(delta) >-1 ? "+" : "-",
+            Utils.convAmount(Math.abs(delta),currency),
+            Utils.convAmount(interimBalance,currency)), FontType.HEADER);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
-        cell = helper.printToCell("- " + Utils.convAmount(
-            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense),
+        cell = helper.printToCell("+ " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome),
             currency), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell("+ " + Utils.convAmount(
-            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome),
+        cell = helper.printToCell("- " + Utils.convAmount(
+            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense),
             currency), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
