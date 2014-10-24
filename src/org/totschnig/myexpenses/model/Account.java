@@ -898,7 +898,7 @@ public class Account extends Model {
           .append("\";\"")
           .appendQ(comment)
           .append("\";\"")
-          .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel())
+          .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getLabel())
           .append("\";\"")
           .append(status.symbol)
           .append("\";\"")
@@ -976,7 +976,7 @@ public class Account extends Model {
               .append("\";\"")
               .appendQ(comment)
               .append("\";\"")
-              .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel())
+              .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getLabel())
               .append("\";");
             break;
           //QIF  

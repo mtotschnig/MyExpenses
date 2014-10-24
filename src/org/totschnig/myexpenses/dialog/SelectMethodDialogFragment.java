@@ -55,10 +55,6 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
     return dialogFragment;
   }
   @Override
-  protected String getDisplayLabel(String label) {
-    return PaymentMethod.getDisplayLabel(label);
-  }
-  @Override
   Criteria makeCriteria(long id, String label) {
     return new MethodCriteria(id,label);
   }

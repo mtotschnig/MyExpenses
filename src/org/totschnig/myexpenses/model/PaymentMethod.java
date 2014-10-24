@@ -23,6 +23,7 @@ import java.util.HashMap;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 
@@ -39,13 +40,16 @@ public class PaymentMethod extends Model {
   public static final int INCOME = 1;
   private int paymentType;
   public boolean isNumbered = false;
-  public static final String[] PROJECTION = new String[] {
+  private PreDefined preDefined = null;
+  public static final String[] PROJECTION(Context ctx) { return new String[] {
     KEY_ROWID,
-    KEY_LABEL,
+    preDefinedName() + " AS " + KEY_PREDEFINED_METHOD_NAME,
+    localizedLabelSqlColumn(ctx) + " AS " + KEY_LABEL,
     KEY_TYPE,
     KEY_IS_NUMBERED,
     "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
     "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES};
+  }
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable
@@ -53,16 +57,40 @@ public class PaymentMethod extends Model {
   private ArrayList<Account.Type> accountTypes = new ArrayList<Account.Type>();
   
   public enum PreDefined {
-    CHEQUE(-1,true),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);
+    CHEQUE(-1,true,R.string.pm_cheque),
+    CREDITCARD(-1,false,R.string.pm_creditcard),
+    DEPOSIT(1,false,R.string.pm_deposit),
+    DIRECTDEBIT(-1,false,R.string.pm_directdebit);
+
     public final int paymentType;
     public final boolean isNumbered;
-    PreDefined(int paymentType, boolean isNumbered) {
+    public final int resId;
+
+    PreDefined(int paymentType, boolean isNumbered, int resId) {
       this.isNumbered = isNumbered;
       this.paymentType = paymentType;
+      this.resId = resId;
     }
-    PreDefined(int paymentType) {
-      this(paymentType,false);
+    public String getLocalizedLabel() {
+      return MyApplication.getInstance().getString(resId);
     }
+  }
+  public static String localizedLabelSqlColumn(Context ctx) {
+    String result = "CASE " + KEY_LABEL;
+    for (PreDefined method: PreDefined.values()) {
+      result += " WHEN '"+method.name()+"' THEN '"+ctx.getString(method.resId) + "'";
+    }
+    result += " ELSE " + KEY_LABEL + " END";
+    return result;
+  }
+  public static String preDefinedName() {
+    String result = "CASE " + KEY_LABEL;
+    for (PreDefined method: PreDefined.values()) {
+      result += " WHEN '"+method.name()+"' THEN '"+method.name() + "'";
+    }
+    result += " ELSE null END";
+    return result;
+    
   }
   public static PaymentMethod getInstanceFromDb(long id) {
     PaymentMethod method;
@@ -84,6 +112,11 @@ public class PaymentMethod extends Model {
     method.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     method.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
     method.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
+    int columnIndexPreDefined = c.getColumnIndexOrThrow(KEY_PREDEFINED_METHOD_NAME);
+    if (!c.isNull(columnIndexPreDefined)) {
+      method.preDefined = PreDefined.valueOf(
+          c.getString(columnIndexPreDefined));
+    }
     c.close();
     c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
         new String[] {KEY_TYPE}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
@@ -113,6 +146,9 @@ public class PaymentMethod extends Model {
   public int getPaymentType() {
     return paymentType;
   }
+  public boolean isPredefined() {
+    return preDefined != null;
+  }
   public void setPaymentType(int paymentType) {
     this.paymentType = paymentType;
   }
@@ -134,30 +170,15 @@ public class PaymentMethod extends Model {
   public void setLabel(String label) {
     this.label = label;
   }
-  //TODO we should not need to instantiate the methods
-  //to get their display label
-  //move all calls from the instance method to the static metod
-  public String getDisplayLabel() {
-    return PaymentMethod.getDisplayLabel(label);
-  }
-  public static String getDisplayLabel(String label) {
-    Context ctx = MyApplication.getInstance();
-    if (label.equals("CHEQUE"))
-      return ctx.getString(R.string.pm_cheque);
-    if (label.equals("CREDITCARD"))
-      return ctx.getString(R.string.pm_creditcard);
-    if (label.equals("DEPOSIT"))
-      return ctx.getString(R.string.pm_deposit);
-    if (label.equals("DIRECTDEBIT"))
-      return ctx.getString(R.string.pm_directdebit);
-    return label;
-  }
+
   static HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
   
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_LABEL, label);
+    if (preDefined==null || !preDefined.getLocalizedLabel().equals(label)) {
+      initialValues.put(KEY_LABEL, label);
+    }
     initialValues.put(KEY_TYPE,paymentType);
     initialValues.put(KEY_IS_NUMBERED,isNumbered);
     if (getId() == 0) {

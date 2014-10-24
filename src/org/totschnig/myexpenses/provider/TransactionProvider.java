@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -45,6 +46,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
+  
 
   protected static TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
@@ -96,7 +98,8 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
   public static final String URI_SEGMENT_GROUPS = "groups";
-  public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
+  public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits"; 
+  public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
 
   
@@ -298,8 +301,9 @@ public class TransactionProvider extends ContentProvider {
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
       qb.appendWhere(KEY_ROWID+ " != " + SPLIT_CATID);
-      if (projection == null)
+      if (projection == null) {
         projection = Category.PROJECTION;
+      }
       //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
       defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
               KEY_USAGES + " DESC, " : "")
@@ -465,22 +469,27 @@ public class TransactionProvider extends ContentProvider {
       break;
     case METHODS:
       qb.setTables(TABLE_METHODS);
-      if (projection == null)
-        projection = PaymentMethod.PROJECTION;
+      if (projection == null) {
+        projection = PaymentMethod.PROJECTION(getContext());
+      }
+      defaultOrderBy = PaymentMethod.localizedLabelSqlColumn(getContext()) + " COLLATE LOCALIZED";
       break;
     case MAPPED_METHODS:
+      String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
       qb.setTables(TABLE_METHODS  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
-      projection = new String[] {"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID,KEY_LABEL};
+      projection = new String[] {"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID,localizedLabel+ " AS "+KEY_LABEL};
+      defaultOrderBy = localizedLabel + " COLLATE LOCALIZED";
       break;
     case METHOD_ID:
       qb.setTables(TABLE_METHODS);
       if (projection == null)
-        projection = PaymentMethod.PROJECTION;
+        projection = PaymentMethod.PROJECTION(getContext());
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case METHODS_FILTERED:
+      localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
       qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
-      projection =  new String[] {KEY_ROWID,KEY_LABEL,KEY_IS_NUMBERED};
+      projection =  new String[] {KEY_ROWID,localizedLabel+ " AS "+KEY_LABEL,KEY_IS_NUMBERED};
       String paymentType = uri.getPathSegments().get(2);
       if (paymentType.equals("1")) {
         selection = TABLE_METHODS + ".type > -1";
@@ -497,6 +506,7 @@ public class TransactionProvider extends ContentProvider {
       }
       selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type = ?";
       selectionArgs = new String[] {accountType};
+      defaultOrderBy = localizedLabel+ " COLLATE LOCALIZED";
       break;
     case ACCOUNTTYPES_METHODS:
       qb.setTables(TABLE_ACCOUNTTYES_METHODS);
@@ -1059,7 +1069,7 @@ public class TransactionProvider extends ContentProvider {
     //methods/typeFilter/{TransactionType}/{AccountType}
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
-    URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
+    URI_MATCHER.addURI(AUTHORITY, "methods/" + URI_SEGMENT_TYPE_FILTER + "/*/*", METHODS_FILTERED);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
@@ -1074,6 +1084,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
+    
   }
   public void resetDatabase() {
     mOpenHelper.close();
