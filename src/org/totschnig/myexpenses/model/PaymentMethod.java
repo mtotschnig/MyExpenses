@@ -23,13 +23,13 @@ import java.util.HashMap;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account.Type;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.util.Log;
 
@@ -76,12 +76,14 @@ public class PaymentMethod extends Model {
     }
   }
   public static String localizedLabelSqlColumn(Context ctx) {
-    String result = "CASE " + KEY_LABEL;
+    StringBuilder sb = new StringBuilder();
+    sb.append("CASE " + KEY_LABEL);
     for (PreDefined method: PreDefined.values()) {
-      result += " WHEN '"+method.name()+"' THEN '"+ctx.getString(method.resId) + "'";
+      sb.append(" WHEN '"+method.name()+"' THEN ");
+      DatabaseUtils.appendEscapedSQLString(sb, ctx.getString(method.resId));
     }
-    result += " ELSE " + KEY_LABEL + " END";
-    return result;
+    sb.append(" ELSE " + KEY_LABEL + " END");
+    return sb.toString();
   }
   public static String preDefinedName() {
     String result = "CASE " + KEY_LABEL;
