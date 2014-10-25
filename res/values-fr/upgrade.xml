@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_237">
+    <item>Modes de paiement sont triés par ordre alphabétique</item>
+  </string-array>
   <string-array name="whats_new_236">
     <item>Le regroupement des comptes dans la liste des comptes est personnalisable</item>
     <item>Les en-têtes de groupe maintenant montrent le solde précédent et gain/perte nette</item>
