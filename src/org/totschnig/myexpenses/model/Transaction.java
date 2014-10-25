@@ -443,8 +443,13 @@ public class Transaction extends Model {
   public static Long getSequenceCount() {
     Cursor mCursor = cr().query(TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
         null, null, null, null);
-    if (mCursor.getCount() == 0)
+    if (mCursor == null) {
       return 0L;
+    }
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return 0L;
+    }
     mCursor.moveToFirst();
     Long result = mCursor.getLong(0);
     mCursor.close();
