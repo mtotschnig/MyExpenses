@@ -128,12 +128,12 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    if (ctx == null) {
+    if (ctx == null || mTransaction == null) {
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
       if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
-        Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
+        Toast.makeText(ctx, getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
         return;
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);
