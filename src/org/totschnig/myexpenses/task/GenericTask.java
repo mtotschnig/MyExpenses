@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -72,6 +73,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_CLONE:
       for (long id : (Long[]) ids) {
         t = Transaction.getInstanceFromDb(id);
+        t.crStatus = CrStatus.UNRECONCILED;
         if (t != null && t.saveAsNew() != null)
           successCount++;
       }
