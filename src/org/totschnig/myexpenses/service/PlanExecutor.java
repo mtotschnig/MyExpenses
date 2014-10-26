@@ -47,7 +47,7 @@ public class PlanExecutor extends IntentService {
       //has been reported to fail (report 9bc4e977220f559fcd8a204195bcf47f)
       Utils.reportToAcra(e);
       //we retry later
-      setAlarm(now+INTERVAL);
+      setAlarm(this,now+INTERVAL);
       return;
     }
     if (plannerCalendarId.equals("-1")) {
@@ -179,11 +179,11 @@ public class PlanExecutor extends IntentService {
       }
     }
     MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(now);
-    setAlarm(now+INTERVAL);
+    setAlarm(this,now+INTERVAL);
   }
-  private void setAlarm(long when) {
-    PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, PlanExecutor.class), 0);
-    AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+  public static void setAlarm(Context ctx, long when) {
+    PendingIntent pendingIntent = PendingIntent.getService(ctx, 0, new Intent(ctx, PlanExecutor.class), 0);
+    AlarmManager manager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
     manager.set(AlarmManager.RTC, when,
         pendingIntent);
   }
