@@ -75,7 +75,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Map the selected category to the transaction and return to the transaction form.</string>
   <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">The selected category will be used for filtering the transaction list.</string>
-  <string name="cab_ManageCategories_distribution_select_category_help_text">Display the individual transactions that have been aggreated for the selected category.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Display the individual transactions that have been aggregated for the selected category.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>
