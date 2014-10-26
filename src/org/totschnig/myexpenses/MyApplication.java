@@ -513,9 +513,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * 3) reschedule execution through alarm 
      */
     public void initPlanner() {
-      Log.i(TAG,"initPlanner called");
-      Intent service = new Intent(this, PlanExecutor.class);
-      startService(service);
+      Log.i(TAG,"initPlanner called, setting plan executor to run in 1 minute");
+      PlanExecutor.setAlarm(this,System.currentTimeMillis()+60000);
     }
 
     @Override
