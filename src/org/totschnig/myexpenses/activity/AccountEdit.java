@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -323,9 +324,17 @@ public class AccountEdit extends AmountActivity implements
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    
-    menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND).setChecked(
-        mAccount.excludeFromTotals);
+    if (mAccount==null) {
+      Utils.reportToAcra(new NullPointerException("mAccount is null"));
+    } else {
+      MenuItem item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND);
+      if (item==null) {
+        Utils.reportToAcra(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
+      } else {
+        item.setChecked(
+            mAccount.excludeFromTotals);
+      }
+    }
     return super.onPrepareOptionsMenu(menu);
   }
   @Override
