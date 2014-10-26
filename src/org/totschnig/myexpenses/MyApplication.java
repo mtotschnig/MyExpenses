@@ -71,7 +71,7 @@ import android.util.Log;
     excludeMatchingSharedPreferencesKeys={"planner_calendar_path","password"}
     )
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
-    private static final int RETRY_LIMIT = 50;
+    private static final int RETRY_LIMIT = 20;
     public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
     private SharedPreferences mSettings;
