@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentProvider;
@@ -38,6 +39,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
@@ -151,7 +153,13 @@ public class TransactionProvider extends ContentProvider {
   public Cursor query(Uri uri, String[] projection, String selection,
       String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-    SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+    SQLiteDatabase db;
+    try {
+      db = mOpenHelper.getReadableDatabase();
+    } catch (SQLiteDowngradeFailedException e) {
+      Utils.reportToAcra(e);
+      throw new IllegalStateException(e);
+    }
     Cursor c;
 
     if (BuildConfig.DEBUG) {

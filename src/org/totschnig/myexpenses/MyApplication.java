@@ -76,6 +76,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
     private SharedPreferences mSettings;
     private static MyApplication mSelf;
+
     public static final String BACKUP_DB_FILE_NAME = "BACKUP";
     public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
     //the following keys are stored as string resources, so that
