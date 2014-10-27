@@ -671,6 +671,9 @@ public class MyExpenses extends LaunchActivity implements
           startActivity(i);
         }
         return true;
+      case R.id.QUIT_COMMAND:
+        finish();
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -766,7 +769,30 @@ public class MyExpenses extends LaunchActivity implements
       Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
       builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
       return new CursorLoader(this,
-          builder.build(), null, null, null, null);
+          builder.build(), null, null, null, null) {
+        @Override
+        public Cursor loadInBackground() {
+          try {
+            return super.loadInBackground();
+          } catch (IllegalStateException e) {
+//            runOnUiThread(new Runnable() {
+//              @Override
+//              public void run() {
+                MessageDialogFragment f = MessageDialogFragment.newInstance(
+                    0,
+                    "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses," +
+                    "before reinstalling, or upgrade to a new version.",
+                    new MessageDialogFragment.Button(android.R.string.ok,R.id.QUIT_COMMAND,null),
+                    null,
+                    null);
+                f.setCancelable(false);
+                f.show(getSupportFragmentManager(),"DOWNGRADE"); 
+//              }
+//            });
+                return null;
+          }
+        }
+      };
     }
     return null;
   }
@@ -791,6 +817,9 @@ public class MyExpenses extends LaunchActivity implements
     case ACCOUNTS_CURSOR:
       mAccountCount = 0;
       mAccountsCursor = cursor;
+      if (mAccountsCursor == null) {
+        return;
+      }
       //when account grouping is changed in setting, cursor is reloaded,
       //and we need to refresh the value here
       try {
@@ -806,8 +835,6 @@ public class MyExpenses extends LaunchActivity implements
       long cacheAccountId = mAccountId;
       mViewPagerAdapter.swapCursor(cursor);
       mAccountId = cacheAccountId;
-      if (mAccountsCursor == null)
-        return;
       if (!indexesCalculated) {
         columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
         columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);

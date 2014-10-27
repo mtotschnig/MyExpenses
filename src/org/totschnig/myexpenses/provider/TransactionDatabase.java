@@ -29,12 +29,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 46;
+  public static final int DATABASE_VERSION = 45;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -714,4 +715,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
     }
   }
+  @Override
+  public final void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+      throw new SQLiteDowngradeFailedException();
+  }
+
+  static class SQLiteDowngradeFailedException extends SQLiteException {}
 }
