@@ -125,7 +125,7 @@ public class TransactionList extends ContextualActionBarFragment implements
               columnIndexWeek,                 columnIndexDay,             columnIndexLabelSub,
               columnIndexPayee,                columnIndexCrStatus,        columnIndexGroupYear,
               columnIndexGroupMappedCategories,columnIndexGroupSumInterim, columnIndexGroupSumIncome,
-              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer,columnIndexDelta,
+              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer,
               columnIndexLabelMain,            columnIndexGroupSecond;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
@@ -429,7 +429,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
         columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
         columnIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
-        columnIndexDelta = c.getColumnIndex(KEY_DELTA);
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
@@ -576,7 +575,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
           sumTransfer,
           mAccount.currency));
-      Long delta = DbUtils.getLongOr0L(mGroupingCursor, columnIndexDelta);
+      Long delta = sumIncome - sumExpense +  sumTransfer;
       Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
       Long previousBalance = interimBalance - delta;
       holder.interimBalance.setText(
