@@ -5,16 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -80,6 +83,19 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
     if (backupPrefFile == null || !backupPrefFile.exists()) {
       return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,workingDir);
     }
+    //peek into file to inspect version
+    try {
+      SQLiteDatabase db = SQLiteDatabase.openDatabase(backupFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
+      int version = db.getVersion();
+      if (version>TransactionDatabase.DATABASE_VERSION) {
+        db.close();
+        return new Result(false,R.string.restore_cannot_downgrade,version,TransactionDatabase.DATABASE_VERSION);
+      }
+      db.close();
+    } catch (SQLiteException e) {
+      return new Result(false,R.string.restore_db_not_valid);
+    }
+    
     if (DbUtils.restore(backupFile)) {
       publishProgress(R.string.restore_db_success);
       
