@@ -9,7 +9,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 
 import org.totschnig.myexpenses.MyApplication;
