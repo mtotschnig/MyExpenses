@@ -345,10 +345,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setResult(resultCode);
       finish();
     } else if (requestCode == PICK_FOLDER_REQUEST) {
-      if (resultCode == RESULT_OK) {
-        String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
-        MyApplication.PrefKey.APP_DIR.putString(databaseBackupFolder);
-      }
       setAppDirSummary();
     }
   }
