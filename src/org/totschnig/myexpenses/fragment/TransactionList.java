@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
@@ -113,7 +114,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public boolean hasItems, mappedCategories, mappedPayees, mappedMethods;
   private Cursor mTransactionsCursor, mGroupingCursor;
 
-  private StickyListHeadersListView mListView;
+  private ExpandableStickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
   /**
@@ -217,7 +218,7 @@ public class TransactionList extends ContextualActionBarFragment implements
          MyApplication.PrefKey.UI_THEME_KEY.getString("dark").equals("light")
           ? android.R.color.white : android.R.color.black));
     }
-    mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
+    mListView = (ExpandableStickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
@@ -620,6 +621,16 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
       int itemPosition, long headerId, boolean currentlySticky) {
+    if(mListView.isHeaderCollapsed(headerId)){
+      mListView.expand(headerId);
+    } else {
+      mListView.collapse(headerId);
+    }
+  }
+
+  @Override
+  public boolean onHeaderLongClick(StickyListHeadersListView l, View header,
+      int itemPosition, long headerId, boolean currentlySticky) {
     MyExpenses ctx = (MyExpenses) getActivity();
     if (mappedCategoriesPerGroup.get(itemPosition)) {
       if (MyApplication.getInstance().isContribEnabled()) {
@@ -631,7 +642,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
     }
+    return true;
   }
+
   @Override
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
