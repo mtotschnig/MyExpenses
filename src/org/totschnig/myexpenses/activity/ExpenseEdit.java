@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -156,7 +157,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private boolean mNewInstance = true,
       mCreateNew, mLaunchPlanView,
-      mSavedInstance, mTransferEnabled, mRecordTemplateWidget;
+      mSavedInstance, mRecordTemplateWidget;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -260,7 +261,6 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingLeft()
         + mPlanToggleButton.getPaddingRight());
 
-    mTransferEnabled = getIntent().getBooleanExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, false);
     mRowId = getIntent().getLongExtra(KEY_ROWID,0);
     if (mRowId != 0L) {
       mNewInstance = false;
@@ -686,7 +686,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (account == null)
       return;
     if (type == MyExpenses.TYPE_TRANSFER &&
-        !mTransferEnabled) {
+        !isTransferEnabled(account)) {
       MessageDialogFragment.newInstance(
           0,
           getString(R.string.dialog_command_disabled_insert_transfer_1) +
@@ -704,6 +704,15 @@ public class ExpenseEdit extends AmountActivity implements
       i.putExtra(KEY_PARENTID,mTransaction.getId());
       startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
+  }
+  private boolean isTransferEnabled(Account fromAccount) {
+    for (int i = 0; i < mAccounts.length; i++) {
+      if (fromAccount.getId() != mAccounts[i].getId() &&
+          fromAccount.currency.equals(mAccounts[i].currency)) {
+        return true;
+      }
+    }
+    return false;
   }
   /**
    * calls the activity for selecting (and managing) categories
@@ -1438,15 +1447,14 @@ public class ExpenseEdit extends AmountActivity implements
   private int setTransferAccountFilterMap() {
     Account fromAccount = mAccounts[mAccountSpinner.getSelectedItemPosition()];
     ArrayList<Integer> list = new ArrayList<Integer>();
-    int position = 0,selectedPosition = 0;
+    int selectedPosition = 0;
     for (int i = 0; i < mAccounts.length; i++) {
       if (fromAccount.getId() != mAccounts[i].getId() &&
           fromAccount.currency.equals(mAccounts[i].currency)) {
         list.add(i);
         if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].getId()) {
-          selectedPosition = position;
+          selectedPosition = i;
         }
-        position++;
       }
     }
     mTransferAccountCursor.setFilterMap(list);

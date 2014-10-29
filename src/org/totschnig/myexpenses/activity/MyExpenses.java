@@ -453,7 +453,6 @@ public class MyExpenses extends LaunchActivity implements
       return;
     //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
     i.putExtra(KEY_ACCOUNTID,accountId);
-    i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,transferEnabled());
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
   /**
