@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
@@ -61,9 +62,8 @@ public class FolderList extends ListFragment {
     FolderBrowser ctx = (FolderBrowser) getActivity();
     switch (item.getItemId()) {
     case R.id.SELECT_COMMAND:
-      Intent result = new Intent();
-      result.putExtra(FolderBrowser.PATH, selectedFolder.getAbsolutePath());
-      ctx.setResult(FolderBrowser.RESULT_OK, result);
+      MyApplication.PrefKey.APP_DIR.putString(selectedFolder.getAbsolutePath());
+      ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();
       break;
     case R.id.CREATE_COMMAND:

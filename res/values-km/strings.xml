@@ -2,10 +2,15 @@
 <resources>
   <string name="account">គណនី</string>
   <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">គណនីធនាគារ</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">គណនីសាច់ប្រាក់</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">កាតឥណទាន</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">គណនីទ្រព្យ​អសកម្ម</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s កំណត់​ហើយ</string>
   <string name="amount">ចំនួនទឹកប្រាក់</string>
   <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
@@ -83,6 +88,8 @@
   <string name="dialog_title_select_grouping">ជ្រើសយក​ក្រុមមួយ</string>
   <string name="dialog_title_select_import_source">ជ្រើសយកប្រភពសម្រាប់នាំចូលមួយ</string>
   <string name="dialog_title_select_template">ជ្រើសយកពុម្ពមួយ</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">កំណត់ចំណងជើង</string>
   <string name="dialog_title_warning_delete_account">លុបចោលគណនី ?</string>
   <string name="dialog_title_warning_delete_main_category">តើលុប​ចំណាត់​ថ្នាក់​ចម្បងទេ?</string>

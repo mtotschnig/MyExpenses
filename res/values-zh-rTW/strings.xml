@@ -2,10 +2,15 @@
 <resources>
   <string name="account">帳戶</string>
   <string name="account_type_asset">資產帳戶</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">銀行帳戶</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">現金帳戶</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">信用卡</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">負債賬戶</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s 已被定義</string>
   <string name="amount">金額</string>
   <string name="app_name">開支助手</string>
@@ -70,6 +75,8 @@
   <string name="dialog_title_select_grouping">選取一個分組</string>
   <string name="dialog_title_select_import_source">選取匯入來源</string>
   <string name="dialog_title_select_template">選取一個範本</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">設置名稱</string>
   <string name="dialog_title_warning_delete_account">刪除帳戶？</string>
   <string name="dialog_title_warning_delete_template">要刪除範本？</string>

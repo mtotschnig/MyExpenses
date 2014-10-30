@@ -285,6 +285,7 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="pm_type_debit">Ausgaben</string>
   <string name="pm_type_neutral">Neutral</string>
+  <string name="pref_account_grouping_title">Kontengruppierung</string>
   <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
   <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
   <string name="pref_auto_fill_summary">Betrag, Kategorie und Kommentar von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>

@@ -302,10 +302,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     }
     if (preference.getKey().equals(MyApplication.PrefKey.APP_DIR.getKey())) {
       File appDir = Utils.requireAppDir();
-      Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.getKey());
       if (appDir == null) {
-        pref.setSummary(R.string.external_storage_unavailable);
-        pref.setEnabled(false);
+        preference.setSummary(R.string.external_storage_unavailable);
+        preference.setEnabled(false);
       } else {
         Intent intent = new Intent(this, FolderBrowser.class);
         intent.putExtra(FolderBrowser.PATH, appDir.getPath());
@@ -345,10 +344,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setResult(resultCode);
       finish();
     } else if (requestCode == PICK_FOLDER_REQUEST) {
-      if (resultCode == RESULT_OK) {
-        String databaseBackupFolder = intent.getStringExtra(FolderBrowser.PATH);
-        MyApplication.PrefKey.APP_DIR.putString(databaseBackupFolder);
-      }
       setAppDirSummary();
     }
   }

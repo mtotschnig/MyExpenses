@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Számla</string>
   <string name="account_type_asset">Forgóeszköz számla</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Bankszámla</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">Készpénz számla</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">Hitelkártya</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">Megtakarítási számla</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s már létezik</string>
   <string name="amount">Összeg</string>
   <string name="app_name">Kiadásaim</string>
@@ -70,6 +75,8 @@
   <string name="dialog_title_select_grouping">Csoportosítás kiválasztása</string>
   <string name="dialog_title_select_import_source">Importálás forrásának kiválasztása</string>
   <string name="dialog_title_select_template">Sablon választása</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Elnevezés megadása</string>
   <string name="dialog_title_warning_delete_account">Számla törlése?</string>
   <string name="dialog_title_warning_delete_template">Sablon törlése?</string>

@@ -291,7 +291,6 @@ public class TransactionProvider extends ContentProvider {
             KEY_SUM_EXPENSES,
             KEY_SUM_TRANSFERS,
             KEY_MAPPED_CATEGORIES,
-            deltaExpr + " AS " + KEY_DELTA,
             openingBalanceSubQuery + " + " + deltaExpr + " AS " + KEY_INTERIM_BALANCE
             };
         defaultOrderBy = KEY_YEAR + " DESC," + KEY_SECOND_GROUP + " DESC";
@@ -300,7 +299,7 @@ public class TransactionProvider extends ContentProvider {
         //(first in the where clause, second in the subselect for the opening balance),
         Log.d(TAG, "SelectionArgs before join : " + Arrays.toString(selectionArgs));
         selectionArgs = Utils.joinArrays(
-            new String[]{accountSelector,accountSelector,accountSelector,accountSelector},
+            new String[]{accountSelector,accountSelector,accountSelector},
             selectionArgs);
         //selection is used in the inner table, needs to be set to null for outer query
         selection=null;

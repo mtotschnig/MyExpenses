@@ -285,6 +285,7 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutro/indefinido</string>
+  <string name="pref_account_grouping_title">Agrupamento de contas</string>
   <string name="pref_app_dir_title">Pasta para backups e exportações</string>
   <string name="pref_auto_fill_title">Preenchimento automático</string>
   <string name="pref_auto_fill_summary">Preenchimento em quantidade, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
@@ -499,5 +500,5 @@
   <string name="no">Não</string>
   <string name="hint_template_click">Um toque curto em uma entrada nesta lista será instanciar o modelo e quer salvá-lo imediatamente ou insira a sua forma de edição onde você pode modificá-la antes de salvar. Você sempre pode acessar ambas as ações através de um toque longo e alterar o padrão nas configurações.</string>
   <string name="change_fraction_digits_result">%1$d contas com moeda %2$s foram atualizadas.</string>
-  <string name="learn_more">Saber mais</string>
+  <string name="learn_more">Saiba Mais</string>
 </resources>

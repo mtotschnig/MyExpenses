@@ -71,6 +71,9 @@
   <string name="error_accessing_market">No market application found</string>
   <!-- only shown in theoretically possible edge case, hence no need for localization -->
   <string name="export_expenses_outputfile_exists">Output file already exists.</string>
+  <!-- only shown to users experimenting with restore, so no need for localization -->
+  <string name="restore_db_not_valid">BACKUP file is no valid SQLITE3 database.</string>
+  <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
   <string name="website">http://www.myexpenses.mobi</string>
   
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>

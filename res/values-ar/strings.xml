@@ -2,10 +2,15 @@
 <resources>
   <string name="account">الحساب</string>
   <string name="account_type_asset">حساب الاصول</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">حساب البنك</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">حساب النقد</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">بطاقة ائتمانية</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">حساب الالتزامات</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s معرّف مسبقاً</string>
   <string name="amount">القيمة</string>
   <string name="app_name">مصروفاتي</string>
@@ -72,6 +77,8 @@
   <string name="dialog_title_select_grouping">اختر تجميع</string>
   <string name="dialog_title_select_import_source">اختر مصدر للاستيراد</string>
   <string name="dialog_title_select_template">اختر نموذج</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">اكتب العنوان</string>
   <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_warning_delete_main_category">حذف التصنيف الأساسي؟</string>
