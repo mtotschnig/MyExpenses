@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">メニュー コマンド</string>
+  <string name="help_contextual_actions">コンテキスト アクション</string>
+  <string name="cab_delete_help_text">選択したアイテムを削除</string>
+  <string name="cab_edit_help_text">選択したアイテムを編集</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">取引リスト</string>
+  <string name="help_MyExpenses_info">この画面には、現在の勘定のすべての取引が一覧表示されます。ナビゲーションバーから、勘定リストに移動するか、別の勘定を選択することができます。リストのエントリをクリックすると、アイテムを編集します。</string>
+  <string name="help_MyExpenses_crStatus_info">取引のステータスは、色付きの四角で示されます: 灰は未照合、青は消去、緑は照合済です。四角をクリックすると、ステータスを変更します。</string>
+  <string name="menu_create_transaction_help_text">新しい取引を作成するためのフォームを開きます。</string>
+  <string name="menu_create_transfer_help_text">勘定間の転記。あなたが現在の勘定と同じ通貨の勘定を、少なくとも一つ他にをお持ちの場合のみ、このコマンドは有効になります。</string>
+  <string name="menu_create_split_help_text">取引の分割を使用すると、異なる分類または別の勘定に転記として、金額の一部を割り当てることができます。</string>
+  <string name="menu_reset_help_text">このコマンドは、QIFまたはCSV形式で、SDカード上のファイルに、現在の勘定のすべての取引をエクスポートします。期首残高が自動的に調整される場合は、エクスポートされた取引を、削除するように指定することができます。取引が削除されない場合は、代わりにエクスポート済としてマークされます。設定で指定すれば、FTP、Eメールまたはその他のファイル共有アプリケーションを通じてエクスポートした後に、My Expenses は直ちにファイルを共有することができます。</string>
+  <string name="menu_edit_account_help_text">現在の勘定のプロパティを調整します (科目、説明、期首残高、勘定種類、通貨、色)。</string>
+  <string name="menu_grouping_help_text">日、週、月または年によって取引をグループ化することができます。各グループについて、収入、支出、および転記の合計が計算されて表示されます。</string>
+  <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダをクリックすると、特定のグループの分布を検査することができます。</string>
+  <string name="menu_manage_plans_help_text">現在の勘定のテンプレートと計画のリストを開きます。ここではそれらを適用、編集、または削除することができます。また、将来の繰り返し取引の計画を定義することができます。</string>
+  <string name="menu_create_account_help_text">新しいアカウントを作成するためのフォームを開きます。</string>
+  <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消去した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消去済にマークした取引と比較することができます。オプションで、照合済みの取引を削除することを指定することができます。</string>
+  <string name="menu_print_help_text">現在表示されている取引の印刷可能なビューを生成します。</string>
+  <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義することができる、サブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
+  <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
+  <string name="cab_clone_transaction_help_text">選択された取引は、現在の日付と時刻で複製されます。</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">この画面では、あらかじめ定義された支払方法 (小切手/手形、クレジットカード、預金、口座振替) を一覧表示し、新しいものを定義することができます。リストのエントリーをクリックすると、方法と勘定の種類との関連付けを変更することができます。</string>
+  <string name="menu_create_method_help_text">新しい支払い方法を作成するためのフォームを開きます。</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">この画面は、支払人/受取人フィールドのオートコンプリート用に使用される、取引先が一覧表示されます。</string>
+  <string name="menu_create_party_help_text">新しい支払人または受取人の名前を指定するダイアログを開きます。</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">このタブには、使用可能なすべてのテンプレートが一覧表示されます。テンプレートは、取引のコンテキストメニューから派生させることができますが、ここでは最初から (取引または転記用の) 新しいテンプレートを作成することができます。リストのエントリーをクリックすると、テンプレートをインスタンス化することができます。</string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[計画は、プランナー カレンダーに (1回または繰り返しの) イベントを作成するテンプレートです。このタブにすべての計画が一覧表示されます。リスト内の計画のエントリを展開すると、計画の今後のインスタンスが一覧表示されます。インスタンスが発生したときに、通知を受け取るのを待つ代わりに、ここでこれらの将来の発生を事前に適用することを指定できます。取引リスト内でそれらが見えるようにするためには、コンテキストメニューから各コマンドを呼び出します。インスタンスの状態は以下のアイコンで示されます:<br><img src=\"ic_stat_open\"> インスタンスはまだ適用されていません。<br><img src=\"ic_stat_applied\"> インスタンスは適用済です。<br><img src=\"ic_stat_cancelled\"> インスタンスはキャンセルされました。すなわち、スキップするようにフラグが付けられています。取引はこのインスタンスに作成されません。]]></string>
+  <string name="menu_create_template_for_transaction_help_text">取引用の新しいテンプレートや計画を作成します。</string>
+  <string name="menu_create_template_for_transfer_help_text">転送用の新しいテンプレートや計画を作成します。</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">選択したテンプレートをインスタンス化し、すぐに保存します。</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">選択したテンプレートをインスタンス化し、保存する前にその編集フォームの入力項目に入力することができます。</string>
+  <string name="cab_ManageTemplates_delete_help_text">選択したテンプレートおよびすべての関連した計画を削除します。</string>
+  <string name="cab_ManageTemplates_edit_help_text">選択したテンプレートを編集したり、関連した計画を作成したり編集します。</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">選択したイベントがインスタンス化する時に、取引を作成して、すぐに保存します。</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">選択したイベント·がインスタンス化する時に、取引を作成して、保存する前にその編集フォームの入力項目に入力することができます。</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">選択されたイベントがインスタンス化する時に、取引が作成されないことを示しています。</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">選択されたイベントのインスタンスに対して取引が作成されている場合、それらは削除されます。キャンセル済としてフラグが設定されている場合、フラグは削除されます。</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">選択された計画のインスタンスに対して作成された取引を編集します。</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。副分類をクリックすると、それに対して記録された取引を表示します。この機能は、主分類に対して、コンテキストメニューから利用可能です。</string>
+  <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。副分類をクリックすることで、現在の取引に割り当てる副分類を選択します。主分類を配置するには、そのコンテキストメニューを呼び出す必要があります。</string>
+  <string name="help_ManageCategories_select_filter_info">取引リストをフィルタリングする分類を選択します。主分類を検索するには、そのコンテキストメニューを呼び出す必要があります。</string>
+  <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。設定で、分類をプレーンなアルファベット順にソートすることを選ぶことができます。主分類をクリックすると、その副分類を開きます。主分類のコンテキストメニューから、新しい副分類を追加、分類を削除または編集することができます。副分類にも削除や編集のコンテキストメニューがあります。</string>
+  <string name="menu_create_main_cat_help_text">新しい主分類のタイトルを指定するダイアログを開きます。</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">グループ化の種類を設定し、日、月、週または年間の分布を表示します。</string>
+  <string name="menu_back_help_text">前のグループに移動します。左から右にスワイプのジェスチャーをして移動することもできます。</string>
+  <string name="menu_forward_help_text">次のグループに移動します。右から左にスワイプのジェスチャーをして移動することもできます。</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">選択した分類の下の、新しい副分類のタイトルを指定するダイアログを開きます。</string>
+  <string name="cab_ManageCategories_select_category_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
+  <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">選択した分類に集計されている個々の取引を表示します。</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">取引用のフォーム</string>
+  <string name="help_ExpenseEdit_transfer_title">転記用のフォーム</string>
+  <string name="help_ExpenseEdit_template_title">テンプレート用のフォーム</string>
+  <string name="help_ExpenseEdit_split_title">分割用のフォーム</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">分類分割パート用のフォーム</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">転記分割パート用のフォーム</string>
+  <string name="help_ExpenseEdit_info">= ボタンをクリックすると、電卓を開きます。</string>
+  <string name="help_ExpenseEdit_transaction_info">- ボタンをクリックすると、支出と収入を切り替えます。受取人 (または支払人) フィールドは入力された値を記憶し、後でそれを提案します。支払方法を選択するボタンは、現在の勘定がいずれかの支払方法にリンクする種類の場合のみ利用可能です。デフォルトでは、銀行口座のみ支払方法 (小切手/手形、クレジットカード、預金、口座引落) にリンクされています。</string>
+  <string name="help_ExpenseEdit_transfer_info">ドロップダウンリストから転記する勘定を選択します。</string>
+  <string name="help_ExpenseEdit_template_info"><![CDATA[- ボタンをクリックすると、支出と収入を切り替えます。テンプレートを一意に識別するタイトルを入力してください。<h2>計画</h2>テンプレート用の計画を作成すると、あなたのカレンダーアプリが扱うプライベート カレンダーに追加されます。1回のイベントとして、またはカレンダーが扱うことができる任意の種類の繰り返しイベントとして、計画を定義できます。計画ボタンから、計画を作成、変更および削除できますが、一度計画を設定すると、カレンダーアプリを使用して管理することもできます。計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成され、通知を受信します。計画が手動の場合は、キャンセル、変更またはテンプレートを適用する選択肢を残して、やはり通知を受け取ります。]]></string>
+  <string name="help_ExpenseEdit_split_info">分類の分割と転送の分割用のメニュー コマンドから、必要な数の分割パートを入力します。画面の下半分に、分割パートのリストや、まだ分類または転記に割り当てられていない金額が表示されます。取引の金額が正確に割り当てられている場合にのみ、分割した取引を保存することができます。</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">分割パートの分類を選択します。</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">分割パートに転記勘定を割り当てます。</string>
+  <string name="menu_create_split_part_category_help_text">分類に、分割のパートを割り当てるフォームを開きます。</string>
+  <string name="menu_create_split_part_transfer_help_text">別の勘定に転記するように、分割のパートを定義するフォームを開きます。</string>
+  <string name="menu_save_help_text">データを保存して、フォームを閉じます。</string>
+  <string name="menu_save_and_new_help_text">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
+  <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、転記の向きを反転させます。</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">勘定用のフォーム</string>
+  <string name="help_AccountEdit_info">勘定はラベルで識別され、説明は報知する目的のみです。通貨は、リストから簡単に選択できます。勘定は、現金、銀行、資産、負債、クレジットカードのうち一つの種類を定義することができます。種類は、利用可能な支払方法を決定し、設定 -&gt; 管理 -&gt; 支払方法 から設定することができます。</string>
+  <string name="menu_set_sort_key_help_text">ナビゲーション ドロワーにある勘定リスト内の勘定の位置を決める数字キーを設定します (昇順ソート)。</string>
+  <string name="menu_exclude_from_totals_help_text">このオプションをチェックすると、この勘定は、通貨ごとの集計に含まれません。</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">支払方法用のフォーム</string>
+  <string name="help_MethodEdit_info">この画面では、勘定の種類と支払方法を関連付けます。また、ラベルを定義することもできます (編集できない固定されたラベルの事前定義された方法を除く)。方法の種類により、それが支出 (借方)、収入 (貸方) または両方 (中性) に適用可能であるかを判断します。この方法を使用している取引に番号が付けられている場合 (例えば小切手番号)、フラグを設定することもできます。</string>
+  <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">各通貨に対して、使用される小数点以下の桁数を変更することができます。例えばユーロで、1 ¢ の 1/10、すなわち 1/1000 を処理する必要がある場合は、番号に 3 を設定します。通貨を使用する既存の勘定は、新しい設定に切り替わります。</string>
+</resources>

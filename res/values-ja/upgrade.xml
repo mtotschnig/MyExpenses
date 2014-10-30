@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_237">
+    <item>支払方法は、アルファベット順にソート</item>
+  </string-array>
+  <string-array name="whats_new_236">
+    <item>勘定リスト内の勘定のグループ化をカスタマイズ</item>
+    <item>グループヘッダーは、前の残高と純利益/損失を示すようになりました</item>
+  </string-array>
+  <string-array name="whats_new_235">
+    <item>分布画面で、分類ごとの取引のリストを表示</item>
+    <item>支払人/受取人のオートコンプリートの改善</item>
+  </string-array>
+  <string-array name="whats_new_234">
+    <item>通貨の小数点以下の桁数がカスタマイズ可能</item>
+    <item>合計から勘定の除外を許可</item>
+  </string-array>
+  <string-array name="whats_new_233">
+    <item>勘定リストの再設計: ユーザー定義のソート順</item>
+    <item>勘定でフィルターした取引リストのグループ合計</item>
+  </string-array>
+  <string-array name="whats_new_232">
+    <item>PDF に印刷が、非西欧のスクリプトをサポートするようになりました</item>
+    <item>マラヤ翻訳</item>
+  </string-array>
+  <string-array name="whats_new_231">
+    <item>同じ受取人/支払人の最後の取引から自動入力</item>
+    <item>テンプレートリストのエントリを短くタップすると、テンプレートをインスタンス化</item>
+    <item>QIF インポートのエンコーディングを設定可能</item>
+  </string-array>
+  <string-array name="whats_new_230">
+    <item>PDF ファイルに取引リストを印刷 (プレミアム)</item>
+  </string-array>
+  <string-array name="whats_new_220">
+    <item>分類、金額、コメント、ステータス、受取人/支払人、支払方法ごとの取引を検索</item>
+  </string-array>
+  <string-array name="whats_new_149">
+    <item>シンハラ語翻訳</item>
+    <item>Samsung のデバイスでマルチウィンドウをサポート</item>
+    <item>照合ワークフロー</item>
+  </string-array>
+  <string-array name="whats_new_145">
+    <item>バックアップが共有 (Eメール、Drive、Dropbox …)、および外部ソースから復元できるように、ZIP アーカイブになりました</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>取引および転記を追加する、ホーム画面のショートカット</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>クイック データ入力用のホーム画面のウィジェット</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>ロシア語翻訳</item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>バックアップとエクスポート用のフォルダの場所が設定できるようになりました</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>複数の独立したバックアップ</item>
+    <item>QIF インポート</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>ギリシャ語翻訳</item>
+    <item>ロケールに従った週の開始 (例 米国は日曜日)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>UI の改善: #115,#117,#120,#122,#124</item>
+    <item>タイムゾーンに従った取引の日付</item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>モダン UI: ナビゲーション ドロワーとコンテキスト アクションバー</item>
+  </string-array>
+  <string-array name="whats_new_116">
+    <item>計画の処理を改善: 事前にこれからのインスタンスを適用</item>
+    <item>新しい翻訳: ポルトガル語、ポーランド語、チェコ語</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>取引リストと、複数の勘定を集約する統計分布の表示</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>(繁体) 中国語訳</item>
+    <item>取引編集フォームで勘定の選択が可能</item>
+    <item>転記用のより明確な UI</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>UI の改善 (#94) とバグ修正 fixes (#95,#96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>現在の残高を再度より目立つように表示、デバイスの向きが縦の場合にメインボタンを下部に表示</item>
+    <item>バグ修正: 問題 #71,#91,#92,#93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>取引リストがグループ化されている場合、グループヘッダーに各期間の中間の残高を表示</item>
+    <item>バグ修正: 問題 #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>UI の言語を設定可能</item>
+    <item>フォントサイズを設定可能</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>将来および繰り返し取引の計画</item>
+    <item>クメール語翻訳</item>
+  </string-array>
+</resources>
