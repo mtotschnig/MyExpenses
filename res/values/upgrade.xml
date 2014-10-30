@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_238">
+    <item>Japanese translation</item>
+    <item>Transaction groups can be collapsed</item>
+  </string-array>
   <string-array name="whats_new_237">
     <item>Payment methods are sorted alphabetically</item> 
   </string-array>
