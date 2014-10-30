@@ -2,19 +2,19 @@
 <resources>
   <string name="account">Cuenta</string>
   <string name="account_type_asset">Cuenta de activo</string>
-  <!-- Plural form to be used in account list where accounts are grouped by type -->
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Cuentas de activo</string>
   <string name="account_type_bank">Cuenta bancaria</string>
-  <!-- Plural form to be used in account list where accounts are grouped by type -->
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Cuentas bancarias</string>
   <string name="account_type_cash">Cuenta de caja</string>
-  <!-- Plural form to be used in account list where accounts are grouped by type -->
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">Cuentas de caja</string>
   <string name="account_type_ccard">Tarjeta de crédito</string>
-  <!-- Plural form to be used in account list where accounts are grouped by type -->
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Tarjetas de crédito</string>
   <string name="account_type_liability">Cuenta de pasivo</string>
-  <!-- Plural form to be used in account list where accounts are grouped by type -->
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Cuentas de pasivo</string>
   <string name="already_defined">%1$s ya existe.</string>
   <string name="amount">Importe</string>
@@ -100,8 +100,8 @@
   <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_template">Escoger une plantilla</string>
-  <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-  e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Defina la cantidad de dígitos de fracción</string>
   <string name="dialog_title_template_title">Establecer el título</string>
   <string name="dialog_title_warning_delete_account">¿Borrar la cuenta?</string>
@@ -285,6 +285,7 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutral</string>
+  <string name="pref_account_grouping_title">Agrupamiento de cuentas</string>
   <string name="pref_app_dir_title">Carpeta para copias de seguridad y exportaciones</string>
   <string name="pref_auto_fill_title"> Autorrelleno de asientos</string>
   <string name="pref_auto_fill_summary">Rellenar cantidad, categoría y comentario del último asiento para el mismo beneficiario/pagador</string>
@@ -500,5 +501,5 @@
   <string name="no">No</string>
   <string name="hint_template_click">Un toque corto en una entrada en esta lista creará una instancia de la plantilla, o guardelo inmediatamente o acceda a su formulario de edición donde puedes modificarla antes de guardarlo. Siempre puede acceder a ambas acciones a través de un toque largo y cambiar la opción predeterminada en la configuración.</string>
   <string name="change_fraction_digits_result">%1$d cuentas con moneda %2$s han sido actualizadas.</string>
-  <string name="learn_more">>Más información</string>
+  <string name="learn_more">Más información</string>
 </resources>

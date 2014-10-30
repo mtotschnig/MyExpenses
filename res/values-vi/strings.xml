@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Tài khoản</string>
   <string name="account_type_asset">Tài khoản tài sản</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Tài khoản ngân hàng</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">Tài khoản tiền mặt</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">Thẻ tín dụng</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">Nợ phải trả</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s đã được xác định</string>
   <string name="amount">Số lượng</string>
   <string name="app_name">Chi Tiêu Của Tôi</string>
@@ -62,6 +67,8 @@
   <string name="dialog_title_select_grouping">Chọn một nhóm</string>
   <string name="dialog_title_select_import_source">Chọn một nguồn để nhập dữ liệu</string>
   <string name="dialog_title_select_template">Chọn một mẫu</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>

@@ -285,6 +285,7 @@
   <string name="pm_type_credit">Credito</string>
   <string name="pm_type_debit">Debito</string>
   <string name="pm_type_neutral">Neutro</string>
+  <string name="pref_account_grouping_title">Raggruppamento dei conti</string>
   <string name="pref_app_dir_title">Cartella per backup et esportazioni</string>
   <string name="pref_auto_fill_title">Operazioni di riempimento automatico</string>
   <string name="pref_auto_fill_summary">Riempimento in quantità, categoria e commento da ultima operazione stesso beneficiario/ordinante</string>

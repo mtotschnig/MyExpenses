@@ -43,6 +43,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Eğer seçilen olay örneklemeleri için muamele oluşturulduysa, bu muameleler silinecek, eğer iptal edilmiş olarak işaretlendiler ise bu işaretler kaldırılacaktır.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Seçilen planlama örneklemesi için oluşturulan muameleyi düzenle.</string>
   <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Bu ekran, herhangi bir hesaptaki tüm muameleler ya da belli bir grup için gelirleriniz ve harcamalarınızın kategori başına dağılımını gösterir. Bir alt kategoriye tıklayıp kayıtlı muameleleri görebilirsiniz. Ana kategoriler için bu işleve bağlam menülerinden erişilebilir.</string>
   <string name="help_ManageCategories_select_mapping_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
   <string name="help_ManageCategories_select_filter_info">Muamele listesini süzmek için kategori seçin. Ana bir kategori aramak için onun bağlam menüsünü çağırmanız gerekir.</string>
   <string name="help_ManageCategories_manage_info">Bu ekran kategorileri oluşturmaya, düzenlemeye ve silmeye imkân verir. Varsayılan değer olarak kategori listesinde ilk sıralama kriteri kategoriyi kullanma sayınızdır (ikinci kriter ise alfabetik sıradır). Bu, en sık kullandığınız kategorilere çabuk ulaşmanızı sağlar. Ayarlarda kategorilerin sadece alfabetik sıraya göre sıralanmasını seçebilirsiniz. Herhangi bir ana kategoriye tıklamanız alt kategorileri açar. Ana kategorinin bağlam menüsünden alt kategori ilâve edebilir, silebilir ya da düzenleyebilirsiniz. Silmek ve düzenlemek için alt kategorilerin de bağlam menüleri vardır.</string>
@@ -54,6 +55,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
   <string name="menu_categories_setup_default_help_text">Bir seri varsayılan kategori içe aktarılacaktır.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Seçilen kategori için toplanmış bireysel işlemleri görüntüle. </string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
   <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>
@@ -82,4 +84,5 @@
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>
   <string name="help_MethodEdit_info">Bu ekranda herhangi bir ödeme metodunu hesap türleriyle ilişkilendirebilirsiniz. Bir etiket tanımlamanız da mümkündür (düzenlenmeyen ve sabit etiketi bulunan öntanımlı metotların istisnası dışında). Metodun türüyle, harcalamalar (giderler), gelirler ya da ikisi için (nötr) geçerli olmasını sağlayabilirsiniz. Bu metodu kullanan muameleler sayılı ise (mesela çek numarası), bir bayrak ayarlamanız da mümkündür.</string>
   <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Her para birimi için kullanılan kesir basamak sayısını değiştirebilirsiniz. Mesela avro için bir sentin 1/10\'nu yani bir avronun 1/1000\'ni dikkate almanız gerekiyorsa bu sayıyı üç olarak ayarlamanız gerekir. Bu para birimini kullanan mevcut hesaplar bu yeni ayara geçecektir.</string>
 </resources>

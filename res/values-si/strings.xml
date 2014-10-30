@@ -2,10 +2,15 @@
 <resources>
   <string name="account">ගිණුම </string>
   <string name="account_type_asset">වත්කම් ගිණුම </string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">බැංකු ගිණුම </string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">මුදල් ගිණුම   </string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">ණය කාඩ් පත </string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">වගකීම් ගිණුම </string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s මුලින්ම අර්ථ දක්වා ඇත </string>
   <string name="amount">ප්‍රමානය </string>
   <string name="app_name">මගේ වියදම් </string>
@@ -80,6 +85,8 @@
   <string name="dialog_title_select_grouping">කණ්ඩායම් කිරීමක් තෝරන්න </string>
   <string name="dialog_title_select_import_source">ආනයන කිරීමට මුලාශ්‍රයක් තෝරාගන්න </string>
   <string name="dialog_title_select_template">අච්චුවක් තෝරන්න </string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">මාතෘකාවක් යොදන්න </string>
   <string name="dialog_title_warning_delete_account">ගිණුම මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_main_category">ප්‍රධාන ප්‍රබෙධය මක දමන්න?</string>

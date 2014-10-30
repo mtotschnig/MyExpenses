@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Účet</string>
   <string name="account_type_asset">Účet aktiv</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Bankovní účet</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">Peněžní účet</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">Kreditní karta</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">Účet závazků</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s již definován.</string>
   <string name="amount">Částka</string>
   <string name="app_name">Moje výdaje</string>
@@ -75,6 +80,8 @@
   <string name="dialog_title_select_grouping">Vyberte seskupení</string>
   <string name="dialog_title_select_import_source">Vyberte zdroj pro import</string>
   <string name="dialog_title_select_template">Vybrat šablonu</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Nastavte název</string>
   <string name="dialog_title_warning_delete_account">Odstranit účet?</string>
   <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>

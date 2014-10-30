@@ -2,10 +2,15 @@
 <resources>
   <string name="account">λογαριασμός</string>
   <string name="account_type_asset">Λογαριασμός Παγίων, αξία περιουσίας</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Τραπεζικός λογαριασμός</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">τρέχων λογαριασμός</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">Πιστωτική κάρτα</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">Λογαριασμός παθητικού</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s ήδη οριστεί</string>
   <string name="amount">Ποσό</string>
   <string name="app_name">Έξοδα μου</string>
@@ -78,6 +83,8 @@
   <string name="dialog_title_select_grouping">Επιλέξετε μια ομαδοποίηση</string>
   <string name="dialog_title_select_import_source">Διαλέξτε μια πηγή για την εισαγωγή</string>
   <string name="dialog_title_select_template">Επιλέξετε ένα πρότυπο</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Ρυθμίστε τον τίτλο</string>
   <string name="dialog_title_warning_delete_account">Διαγραφή λογαριασμού;</string>
   <string name="dialog_title_warning_delete_main_category">Διαγραφή κύριας κατηγορίας;</string>

@@ -285,6 +285,7 @@
   <string name="pm_type_credit">Crédit</string>
   <string name="pm_type_debit">Débit</string>
   <string name="pm_type_neutral">Neutre</string>
+  <string name="pref_account_grouping_title">Regroupement de comptes</string>
   <string name="pref_app_dir_title">Dossier pour sauvegardes et exports</string>
   <string name="pref_auto_fill_title">Remplissage automatique des opérations</string>
   <string name="pref_auto_fill_summary">Remplissage du montant, de la catégorie et du commentaire de la dernière opération pour le même tiers</string>
@@ -499,5 +500,5 @@
   <string name="no">Non</string>
   <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrerez immédiatement, soit vous l\'éditerez et le modifierez avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
   <string name="change_fraction_digits_result">%1$d comptes en devise %2$s ont été mis à jour.</string>
-  <string name="learn_more">Apprenez plus</string>
+  <string name="learn_more">En apprendre plus</string>
 </resources>
