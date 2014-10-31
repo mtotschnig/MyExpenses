@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_238">
+    <item>Japanische Übersetzung</item>
+    <item>Buchungsgruppen können ausgeblendet werden</item>
+  </string-array>
   <string-array name="whats_new_237">
     <item>Zahlungsmethoden werden alphabetisch sortiert</item>
   </string-array>
