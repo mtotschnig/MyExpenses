@@ -192,7 +192,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     /**
      * we cache value of planner calendar id, so that we can handle changes in value
      */
-    private String mPlannerCalendarId;
+    private String mPlannerCalendarId = "-1";
     /**
      * we store the systemLocale if the user wants to come back to it
      * after having tried a different locale;
@@ -522,51 +522,59 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
       //TODO: move to TaskExecutionFragment
-      if (key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-        String oldValue = mPlannerCalendarId;
-        boolean safeToMovePlans = true;
-        String newValue = sharedPreferences.getString(PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1");
-        if (oldValue.equals(newValue)) {
+      if (!key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
+        return;
+      }
+      String oldValue = mPlannerCalendarId;
+      boolean safeToMovePlans = true;
+      String newValue = sharedPreferences.getString(PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1");
+      if (oldValue.equals(newValue)) {
+        return;
+      }
+      mPlannerCalendarId = newValue;
+      if (!newValue.equals("-1")) {
+        //if we cannot verify that the oldValue has the correct path
+        //we will not risk mangling with an unrelated calendar
+        if (!oldValue.equals("-1") && !checkPlannerInternal(oldValue))
+          safeToMovePlans = false;
+        ContentResolver cr = getContentResolver();
+        //we also store the name and account of the calendar,
+        //to protect against cases where a user wipes the data of the calendar provider
+        //and then accidentally we link to the wrong calendar
+        Uri uri= ContentUris.withAppendedId(Calendars.CONTENT_URI, Long.parseLong(mPlannerCalendarId));
+        Cursor c = cr.query(uri,
+            new String[]{CALENDAR_FULL_PATH_PROJECTION},
+                null, null, null);
+        if (c != null && c.moveToFirst()) {
+          String path = c.getString(0);
+          Log.i(TAG,"storing calendar path : "+ path);
+          PrefKey.PLANNER_CALENDAR_PATH.putString(path);
+        } else {
+          Utils.reportToAcra(new IllegalStateException("could not retrieve configured calendar"));
+          mPlannerCalendarId = "-1";
+          PrefKey.PLANNER_CALENDAR_PATH.remove();
+          PrefKey.PLANNER_CALENDAR_ID.putString("-1");
+        }
+        if (c != null) {
+          c.close();
+        }
+        if (mPlannerCalendarId.equals("-1")){
           return;
         }
-        mPlannerCalendarId = newValue;
-        if (!newValue.equals("-1")) {
-          //if we cannot verify that the oldValue has the correct path
-          //we will not risk mangling with an unrelated calendar
-          if (!oldValue.equals("-1") && !checkPlannerInternal(oldValue))
-            safeToMovePlans = false;
-          ContentResolver cr = getContentResolver();
-          //we also store the name and account of the calendar,
-          //to protect against cases where a user wipes the data of the calendar provider
-          //and then accidentally we link to the wrong calendar
-          Uri uri= ContentUris.withAppendedId(Calendars.CONTENT_URI, Long.parseLong(mPlannerCalendarId));
-          Cursor c = cr.query(uri,
-              new String[]{CALENDAR_FULL_PATH_PROJECTION},
-                  null, null, null);
-          if (c != null && c.moveToFirst()) {
-            String path = c.getString(0);
-            Log.i(TAG,"storing calendar path : "+ path);
-            PrefKey.PLANNER_CALENDAR_PATH.putString(path);
-          } else {
-            Log.e("TAG","could not retrieve configured calendar");
-            mPlannerCalendarId = "-1";
-            PrefKey.PLANNER_CALENDAR_ID.putString("-1");
-          }
-          if (c != null)
-            c.close();
-          if (oldValue.equals("-1")) {
-            initPlanner();
-          } else if (safeToMovePlans) {
-            ContentValues eventValues = new ContentValues(),
-                planValues = new ContentValues();
-            eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
-            Cursor planCursor = cr.query(
-                Template.CONTENT_URI,
-                new String[] {DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_PLANID},
-                DatabaseConstants.KEY_PLANID + " IS NOT null",
-                null,
-                null);
-            if (planCursor!=null && planCursor.moveToFirst()) {
+        if (oldValue.equals("-1")) {
+          initPlanner();
+        } else if (safeToMovePlans) {
+          ContentValues eventValues = new ContentValues(),
+              planValues = new ContentValues();
+          eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
+          Cursor planCursor = cr.query(
+              Template.CONTENT_URI,
+              new String[] {DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_PLANID},
+              DatabaseConstants.KEY_PLANID + " IS NOT null",
+              null,
+              null);
+          if (planCursor!=null) {
+            if (planCursor.moveToFirst()) {
               do {
                 long templateId = planCursor.getLong(0);
                 long planId = planCursor.getLong(1);
@@ -585,35 +593,37 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                     Events.CALENDAR_ID + " = ?",
                     new String[] {oldValue},
                     null);
-                if (eventCursor != null && eventCursor.moveToFirst()) {
-                  //Log.i("DEBUG", DatabaseUtils.dumpCursorToString(eventCursor));
-                  eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor,0));
-                  eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor,1));
-                  eventValues.put(Events.RRULE, eventCursor.getString(2));
-                  eventValues.put(Events.TITLE, eventCursor.getString(3));
-                  eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
-                  eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
-                  eventValues.put(Events.DURATION, eventCursor.getString(6));
-                  eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
-                  uri = cr.insert(Events.CONTENT_URI, eventValues);
-                  planId = ContentUris.parseId(uri);
-                  Log.i(TAG,"copied event from old to new" + planId);
-                  planValues.put(DatabaseConstants.KEY_PLANID, planId);
-                  int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
-                  Log.i(TAG,"updated plan id in template:" + updated);
-                  int deleted = cr.delete(eventUri,
-                      null,
-                      null);
-                  Log.i(TAG,"deleted old event: " + deleted);
+                if (eventCursor != null) {
+                  if (eventCursor.moveToFirst()) {
+                    //Log.i("DEBUG", DatabaseUtils.dumpCursorToString(eventCursor));
+                    eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor,0));
+                    eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor,1));
+                    eventValues.put(Events.RRULE, eventCursor.getString(2));
+                    eventValues.put(Events.TITLE, eventCursor.getString(3));
+                    eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
+                    eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
+                    eventValues.put(Events.DURATION, eventCursor.getString(6));
+                    eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
+                    uri = cr.insert(Events.CONTENT_URI, eventValues);
+                    planId = ContentUris.parseId(uri);
+                    Log.i(TAG,"copied event from old to new" + planId);
+                    planValues.put(DatabaseConstants.KEY_PLANID, planId);
+                    int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
+                    Log.i(TAG,"updated plan id in template:" + updated);
+                    int deleted = cr.delete(eventUri,
+                        null,
+                        null);
+                    Log.i(TAG,"deleted old event: " + deleted);
+                  }
+                  eventCursor.close();
                 }
-                eventCursor.close();
               } while (planCursor.moveToNext());
             }
             planCursor.close();
           }
-        } else {
-          PrefKey.PLANNER_CALENDAR_PATH.remove();
         }
+      } else {
+        PrefKey.PLANNER_CALENDAR_PATH.remove();
       }
     }
     class WidgetObserver extends ContentObserver {
