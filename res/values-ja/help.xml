@@ -13,13 +13,13 @@
   <string name="menu_create_split_help_text">取引の分割を使用すると、異なる分類または別の勘定に転記として、金額の一部を割り当てることができます。</string>
   <string name="menu_reset_help_text">このコマンドは、QIFまたはCSV形式で、SDカード上のファイルに、現在の勘定のすべての取引をエクスポートします。期首残高が自動的に調整される場合は、エクスポートされた取引を、削除するように指定することができます。取引が削除されない場合は、代わりにエクスポート済としてマークされます。設定で指定すれば、FTP、Eメールまたはその他のファイル共有アプリケーションを通じてエクスポートした後に、My Expenses は直ちにファイルを共有することができます。</string>
   <string name="menu_edit_account_help_text">現在の勘定のプロパティを調整します (科目、説明、期首残高、勘定種類、通貨、色)。</string>
-  <string name="menu_grouping_help_text">日、週、月または年によって取引をグループ化することができます。各グループについて、収入、支出、および転記の合計が計算されて表示されます。</string>
-  <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダをクリックすると、特定のグループの分布を検査することができます。</string>
+  <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および転記の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
+  <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
   <string name="menu_manage_plans_help_text">現在の勘定のテンプレートと計画のリストを開きます。ここではそれらを適用、編集、または削除することができます。また、将来の繰り返し取引の計画を定義することができます。</string>
   <string name="menu_create_account_help_text">新しいアカウントを作成するためのフォームを開きます。</string>
   <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消去した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消去済にマークした取引と比較することができます。オプションで、照合済みの取引を削除することを指定することができます。</string>
   <string name="menu_print_help_text">現在表示されている取引の印刷可能なビューを生成します。</string>
-  <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義することができる、サブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
+  <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
   <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
   <string name="cab_clone_transaction_help_text">選択された取引は、現在の日付と時刻で複製されます。</string>
   <!--ManageMethods title is in keys-->
