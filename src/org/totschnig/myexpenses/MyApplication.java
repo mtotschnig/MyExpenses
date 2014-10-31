@@ -736,7 +736,4 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return am.getMemoryClass();
     }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> master
