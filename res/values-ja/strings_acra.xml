@@ -6,8 +6,8 @@
   <string name="pref_acra_enabled">自動送信は有効です</string>
   <string name="pref_acra_disabled">自動送信は無効です</string>
   <string name="pref_acra_syslog">クラッシュ レポートにシステム ログを含める</string>
-  <string name="pref_acra_syslog_enabled">システム ログを含める</string>
-  <string name="pref_acra_syslog_disabled">システム ログを含めない</string>
+  <string name="pref_acra_syslog_enabled">システム ログを含めます</string>
+  <string name="pref_acra_syslog_disabled">システム ログを含めません</string>
   <string name="pref_acra_user_email">クラッシュ レポートにユーザーのメールを含める</string>
-  <string name="pref_acra_user_email_summary">デバッグを助けることを希望し、私たちがあなたに連絡することを許可していただける場合は、メールアドレスを入力してください。</string>
+  <string name="pref_acra_user_email_summary">あなたがデバッグを支援することを希望し、私たちがあなたに連絡することを許可していただける場合は、メールアドレスを入力してください。</string>
 </resources>
