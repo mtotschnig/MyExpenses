@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="その他の収入"/>
+<Sub_category Nbc="1" Nb="1" Na="失業手当給付金"/>
+<Sub_category Nbc="1" Nb="2" Na="家族手当"/>
+<Sub_category Nbc="1" Nb="3" Na="税額控除"/>
+<Sub_category Nbc="1" Nb="4" Na="ギャンブル"/>
+<Sub_category Nbc="1" Nb="5" Na="相互保険"/>
+<Sub_category Nbc="1" Nb="6" Na="社会保障"/>
+<Category Nb="2" Na="退職金"/>
+<Sub_category Nbc="2" Nb="1" Na="退職資金"/>
+<Sub_category Nbc="2" Nb="2" Na="年金"/>
+<Sub_category Nbc="2" Nb="3" Na="補足年金"/>
+<Category Nb="3" Na="投資収益"/>
+<Sub_category Nbc="3" Nb="1" Na="配当金"/>
+<Sub_category Nbc="3" Nb="2" Na="利子"/>
+<Sub_category Nbc="3" Nb="3" Na="キャピタルゲイン"/>
+<Category Nb="4" Na="給与"/>
+<Sub_category Nbc="4" Nb="1" Na="残業代"/>
+<Sub_category Nbc="4" Nb="2" Na="休業手当"/>
+<Sub_category Nbc="4" Nb="3" Na="その他保険料"/>
+<Sub_category Nbc="4" Nb="4" Na="成功報酬"/>
+<Sub_category Nbc="4" Nb="5" Na="正味給与"/>
+<Category Nb="5" Na="その他収入"/>
+<Sub_category Nbc="5" Nb="1" Na="贈答品"/>
+<Sub_category Nbc="5" Nb="2" Na="払い戻し"/>
+<Sub_category Nbc="5" Nb="3" Na="中古品販売"/>
+<Category Nb="6" Na="食品"/>
+<Sub_category Nbc="6" Nb="1" Na="バー"/>
+<Sub_category Nbc="6" Nb="2" Na="パン"/>
+<Sub_category Nbc="6" Nb="3" Na="食堂"/>
+<Sub_category Nbc="6" Nb="4" Na="菓子"/>
+<Sub_category Nbc="6" Nb="5" Na="その他"/>
+<Sub_category Nbc="6" Nb="6" Na="食料品店"/>
+<Sub_category Nbc="6" Nb="7" Na="レストラン"/>
+<Sub_category Nbc="6" Nb="8" Na="セルフサービス"/>
+<Sub_category Nbc="6" Nb="9" Na="スーパー"/>
+<Category Nb="7" Na="ペット"/>
+<Sub_category Nbc="7" Nb="1" Na="食品"/>
+<Sub_category Nbc="7" Nb="2" Na="様々な消耗品"/>
+<Sub_category Nbc="7" Nb="3" Na="グルーミング"/>
+<Sub_category Nbc="7" Nb="4" Na="獣医"/>
+<Category Nb="8" Na="保険"/>
+<Sub_category Nbc="8" Nb="1" Na="自動車"/>
+<Sub_category Nbc="8" Nb="2" Na="健康"/>
+<Sub_category Nbc="8" Nb="3" Na="住居"/>
+<Sub_category Nbc="8" Nb="4" Na="民事責任"/>
+<Sub_category Nbc="8" Nb="5" Na="生活"/>
+<Category Nb="9" Na="自動車"/>
+<Sub_category Nbc="9" Nb="1" Na="燃料"/>
+<Sub_category Nbc="9" Nb="2" Na="修繕"/>
+<Sub_category Nbc="9" Nb="3" Na="維持"/>
+<Sub_category Nbc="9" Nb="4" Na="駐車代"/>
+<Sub_category Nbc="9" Nb="5" Na="罰金"/>
+<Category Nb="11" Na="贈答品"/>
+<Category Nb="12" Na="子供"/>
+<Sub_category Nbc="12" Nb="1" Na="看護士"/>
+<Sub_category Nbc="12" Nb="2" Na="その他"/>
+<Sub_category Nbc="12" Nb="3" Na="学習"/>
+<Category Nb="13" Na="学習"/>
+<Sub_category Nbc="13" Nb="1" Na="レッスン"/>
+<Sub_category Nbc="13" Nb="2" Na="授業料"/>
+<Sub_category Nbc="13" Nb="3" Na="本"/>
+<Category Nb="14" Na="その他"/>
+<Sub_category Nbc="14" Nb="1" Na="贈答品"/>
+<Category Nb="15" Na="金融費用"/>
+<Sub_category Nbc="15" Nb="1" Na="その他"/>
+<Sub_category Nbc="15" Nb="2" Na="銀行手数料"/>
+<Sub_category Nbc="15" Nb="3" Na="ローン/住宅ローン"/>
+<Sub_category Nbc="15" Nb="4" Na="料金"/>
+<Sub_category Nbc="15" Nb="5" Na="払い戻し"/>
+<Category Nb="16" Na="専門家費用"/>
+<Sub_category Nbc="16" Nb="1" Na="返金不可"/>
+<Sub_category Nbc="16" Nb="2" Na="返金可"/>
+<Category Nb="17" Na="税金"/>
+<Sub_category Nbc="17" Nb="1" Na="その他"/>
+<Sub_category Nbc="17" Nb="2" Na="収入"/>
+<Sub_category Nbc="17" Nb="3" Na="土地"/>
+<Category Nb="18" Na="住宅"/>
+<Sub_category Nbc="18" Nb="1" Na="ホテル"/>
+<Sub_category Nbc="18" Nb="2" Na="家賃"/>
+<Sub_category Nbc="18" Nb="3" Na="テレビ"/>
+<Sub_category Nbc="18" Nb="4" Na="家具"/>
+<Sub_category Nbc="18" Nb="5" Na="料金"/>
+<Sub_category Nbc="18" Nb="6" Na="冷暖房"/>
+<Sub_category Nbc="18" Nb="7" Na="装飾"/>
+<Sub_category Nbc="18" Nb="8" Na="水道"/>
+<Sub_category Nbc="18" Nb="9" Na="電気"/>
+<Sub_category Nbc="18" Nb="10" Na="白物家電"/>
+<Sub_category Nbc="18" Nb="11" Na="設備"/>
+<Sub_category Nbc="18" Nb="12" Na="ガス"/>
+<Sub_category Nbc="18" Nb="13" Na="庭"/>
+<Sub_category Nbc="18" Nb="14" Na="家政婦"/>
+<Sub_category Nbc="18" Nb="15" Na="電話"/>
+<Sub_category Nbc="18" Nb="16" Na="携帯電話"/>
+<Category Nb="19" Na="余暇"/>
+<Sub_category Nbc="19" Nb="1" Na="ビリヤード"/>
+<Sub_category Nbc="19" Nb="2" Na="ボーリング"/>
+<Sub_category Nbc="19" Nb="3" Na="映画"/>
+<Sub_category Nbc="19" Nb="4" Na="ナイトクラブ"/>
+<Sub_category Nbc="19" Nb="5" Na="IT"/>
+<Sub_category Nbc="19" Nb="6" Na="ゲーム"/>
+<Sub_category Nbc="19" Nb="7" Na="本"/>
+<Sub_category Nbc="19" Nb="8" Na="公園"/>
+<Sub_category Nbc="19" Nb="9" Na="コンサート"/>
+<Sub_category Nbc="19" Nb="10" Na="スポーツ"/>
+<Sub_category Nbc="19" Nb="11" Na="ビデオ"/>
+<Sub_category Nbc="19" Nb="12" Na="旅行"/>
+<Sub_category Nbc="19" Nb="13" Na="設備"/>
+<Sub_category Nbc="19" Nb="14" Na="博物館/展示会"/>
+<Category Nb="20" Na="ローン/住宅ローン"/>
+<Sub_category Nbc="20" Nb="1" Na="資金"/>
+<Category Nb="21" Na="健康"/>
+<Sub_category Nbc="21" Nb="1" Na="保険"/>
+<Sub_category Nbc="21" Nb="2" Na="歯科医"/>
+<Sub_category Nbc="21" Nb="3" Na="病院"/>
+<Sub_category Nbc="21" Nb="4" Na="運動療法士"/>
+<Sub_category Nbc="21" Nb="5" Na="医者"/>
+<Sub_category Nbc="21" Nb="6" Na="眼科医"/>
+<Sub_category Nbc="21" Nb="7" Na="整骨医"/>
+<Sub_category Nbc="21" Nb="8" Na="薬剤師"/>
+<Sub_category Nbc="21" Nb="9" Na="社会保障"/>
+<Category Nb="22" Na="介護"/>
+<Sub_category Nbc="22" Nb="1" Na="美容師"/>
+<Sub_category Nbc="22" Nb="2" Na="衣類"/>
+<Category Nb="23" Na="交通費"/>
+<Sub_category Nbc="23" Nb="1" Na="バス"/>
+<Sub_category Nbc="23" Nb="2" Na="メトロ"/>
+<Sub_category Nbc="23" Nb="3" Na="通行料金"/>
+<Sub_category Nbc="23" Nb="4" Na="鉄道"/>
+<Sub_category Nbc="23" Nb="5" Na="路面電車"/>
+<Sub_category Nbc="23" Nb="6" Na="旅行"/>
+<Sub_category Nbc="23" Nb="7" Na="飛行機"/>
+<Category Nb="24" Na="休暇"/>
+<Sub_category Nbc="24" Nb="1" Na="住宅"/>
+<Sub_category Nbc="24" Nb="2" Na="訪問"/>
+<Sub_category Nbc="24" Nb="3" Na="旅行"/></Grisbi_categ>
