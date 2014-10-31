@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_238">
+    <item>Japonca tercüme</item>
+    <item>Muamele grupları küçültülebilir</item>
+  </string-array>
   <string-array name="whats_new_237">
     <item>Ödeme metotları alfabetik olarak sıralanır</item>
   </string-array>

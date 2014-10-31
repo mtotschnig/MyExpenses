@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_238">
+    <item>日本語翻訳</item>
+    <item>取引のグループを折りたたむことができます</item>
+  </string-array>
   <string-array name="whats_new_237">
     <item>支払方法は、アルファベット順にソート</item>
   </string-array>
