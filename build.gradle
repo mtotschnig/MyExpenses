@@ -17,9 +17,9 @@ repositories {
 
 dependencies {
   compile 'com.android.support:support-v4:19.0.1'
-  compile 'se.emilsjolander:stickylistheaders:2.3.0'
   compile 'com.android.support:appcompat-v7:19.0.1'
   compile 'com.itextpdf:itextpdf:5.5.2'
+  compile project(':StickyListHeaders:library')
 }
 
 android {
