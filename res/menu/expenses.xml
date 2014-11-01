@@ -18,19 +18,19 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
     android:id="@id/CREATE_TRANSACTION_COMMAND"
-    android:icon="@drawable/create_transaction_icon"
+    android:icon="@android:drawable/ic_menu_add"
     app:showAsAction="always"
     android:title="@string/menu_create_transaction">
   </item>
   <item
     android:id="@id/CREATE_TRANSFER_COMMAND"
-    android:icon="@drawable/create_transfer_icon"
+    android:icon="@drawable/ic_menu_forward"
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_transfer">
   </item>
   <item
     android:id="@id/CREATE_SPLIT_COMMAND"
-    android:icon="@drawable/create_split_icon"
+    android:icon="@drawable/ic_menu_split"
     app:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
@@ -68,18 +68,18 @@
   <item
     android:id="@id/DISTRIBUTION_COMMAND"
     app:showAsAction="ifRoom"
-    android:icon="@drawable/distribution_icon"
+    android:icon="@android:drawable/ic_menu_today"
     android:title="@string/menu_distribution">
   </item>
   <item
     android:id="@id/BALANCE_COMMAND"
     app:showAsAction="ifRoom"
-    android:icon="@drawable/distribution_icon"
+    android:icon="@drawable/ic_action_balance"
     android:title="@string/menu_balance">
   </item>
   <item
     android:id="@id/GROUPING_COMMAND"
-    android:icon="@drawable/grouping_icon"
+    android:icon="@android:drawable/ic_menu_sort_by_size"
     android:title="@string/menu_grouping">
   </item>
   <item

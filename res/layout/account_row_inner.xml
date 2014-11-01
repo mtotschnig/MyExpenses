@@ -38,7 +38,7 @@
                     android:layout_height="48dp"
                     android:background="?attr/selectableItemBackground"
                     android:onClick="editAccount"
-                    android:src="@drawable/edit_account_icon" />
+                    android:src="@android:drawable/ic_menu_edit" />
                 <ImageView
                     android:padding="8dp"
                     android:id="@id/DELETE_ACCOUNT_COMMAND"
@@ -46,7 +46,7 @@
                     android:layout_height="48dp"
                     android:background="?attr/selectableItemBackground"
                     android:onClick="deleteAccount"
-                    android:src="@drawable/delete_account_icon" />
+                    android:src="@android:drawable/ic_menu_delete" />
                 </LinearLayout>
             </RelativeLayout>
         </TableRow>

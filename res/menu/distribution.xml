@@ -19,16 +19,16 @@
   <item
     android:id="@+id/BACK_COMMAND"
     android:title="@string/menu_back"
-    android:icon="@drawable/back_icon"
+    android:icon="@drawable/ic_menu_back"
     app:showAsAction="never"/>
   <item
     android:id="@+id/FORWARD_COMMAND"
-    android:icon="@drawable/forward_icon"
+    android:icon="@drawable/ic_menu_forward"
     android:title="@string/menu_forward"
     app:showAsAction="never"/>
   <item
     android:id="@id/GROUPING_COMMAND"
-    android:icon="@drawable/grouping_icon"
+    android:icon="@android:drawable/ic_menu_sort_by_size"
     app:showAsAction="ifRoom"
     android:title="@string/menu_grouping"/>
 </menu>

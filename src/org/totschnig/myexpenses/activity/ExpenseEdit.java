@@ -618,7 +618,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-          .setIcon(R.drawable.invert_transfer_icon), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+          .setIcon(R.drawable.ic_menu_refresh), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
     return true;
   }

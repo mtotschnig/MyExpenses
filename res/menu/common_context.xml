@@ -22,7 +22,7 @@
 	    android:icon="@drawable/delete_icon"
 	    android:showAsAction="always"
       android:orderInCategory="20"
-	    android:title="@string/menu_delete">
+	    android:title="@android:drawable/ic_menu_delete">
 	  </item>
   </group>
   <group android:id="@+id/MenuSingle">
@@ -31,7 +31,7 @@
 	    android:icon="@drawable/edit_icon"
 	    android:showAsAction="always"
       android:orderInCategory="10"
-	    android:title="@string/menu_edit">
+	    android:title="@android:drawable/ic_menu_edit">
 	  </item>
   </group>
 </menu>

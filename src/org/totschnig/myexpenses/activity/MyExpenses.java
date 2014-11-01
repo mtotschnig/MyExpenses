@@ -220,7 +220,7 @@ public class MyExpenses extends LaunchActivity implements
     footer.setGravity(Gravity.CENTER_HORIZONTAL);
     Button createAccount = new Button(this);
     createAccount.setText(R.string.menu_create_account);
-    createAccount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.create_account_icon, 0, 0, 0);
+    createAccount.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_add, 0, 0, 0);
     createAccount.setLayoutParams(new LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     createAccount.setOnClickListener(new OnClickListener() {

@@ -41,7 +41,7 @@
     </item>
     <item
       android:id="@id/CANCEL_PLAN_INSTANCE_COMMAND"
-      android:icon="@drawable/cancel_plan_instance_icon"
+      android:icon="@android:drawable/ic_menu_close_clear_cancel"
       android:showAsAction="ifRoom"
       android:orderInCategory="10"
       android:title="@string/menu_cancel_plan_instance">
@@ -64,7 +64,7 @@
     </item>
     <item
       android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"
-      android:icon="@drawable/edit_plan_instance_icon"
+      android:icon="@android:drawable/ic_menu_edit"
       android:orderInCategory="1"
       android:showAsAction="always"
       android:title="@string/menu_edit_plan_instance">
