@@ -18,7 +18,7 @@
   <string name="account_type_liability_plural">負債勘定</string>
   <string name="already_defined">%1$s は既に定義されています</string>
   <string name="amount">金額</string>
-  <string name="app_name">My Expenses</string>
+  <string name="app_name">マイ エクスペンス</string>
   <string name="backup_failure">\"%1$s\" へのバックアップに失敗しました。</string>
   <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
   <string name="category">分類</string>
@@ -29,11 +29,11 @@
   <string name="color">色</string>
   <string name="comment">メモ</string>
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
-  <string name="contrib_feature_accounts_unlimited_description"><i>My Expenses</i> で作成できる勘定の数は 5 に制限されています。</string>
+  <string name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
   <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
   <string name="contrib_feature_aggregate_label">複数の勘定を集約</string>
   <string name="contrib_feature_distribution_label">分類ごとの取引の分布</string>
-  <string name="contrib_feature_plans_unlimited_description"><i>My Expenses</i> で作成できる計画の数は 3 に制限されています。</string>
+  <string name="contrib_feature_plans_unlimited_description"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
   <string name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
   <string name="contrib_feature_print_label">取引リストを PDF にエクスポート</string>
   <string name="contrib_feature_reset_all_label">すべての勘定をリセット</string>
@@ -41,7 +41,7 @@
   <string name="contrib_feature_split_transaction_label">取引を分割</string>
   <string name="contrib_feature_template_widget_label">テンプレート ウィジェット</string>
   <string name="contrib_key">貢献キー</string>
-  <string name="contrib_key_requires">My Expenses 貢献キーが必要です。</string>
+  <string name="contrib_key_requires">マイ エクスペンス 貢献キーが必要です。</string>
   <string name="currency">通貨</string>
   <string name="current_balance">現在の残高</string>
   <string name="date">日付</string>
@@ -61,10 +61,10 @@
   <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です。</string>
-  <string name="dialog_contrib_reminder_remove_limitation"><i>My Expenses 貢献キー</i> を購入することで、この制限を解除します。</string>
+  <string name="dialog_contrib_reminder_remove_limitation"><i>マイ エクスペンス 貢献キー</i> を購入することで、この制限を解除します。</string>
   <string name="dialog_contrib_reminder_gain_access">次の機能に無制限にアクセスすることができます:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>My Expenses</i> 広告なしのオープンソースで提供しています。 <i>My Expenses 貢献キー</i> を購入して、貢献してください。 次のプレミアム機能に無制限にアクセスすることができます:</string>
+  <string name="dialog_contrib_text"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。 <i>マイ エクスペンス 貢献キー</i> を購入して、貢献してください。 次のプレミアム機能に無制限にアクセスすることができます:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">%1$d の無料の使用が残っています。</item>
   </plurals>
@@ -77,8 +77,8 @@
   <string name="dialog_password_new_password_confirmation">新しいパスワード (確認)</string>
   <string name="dialog_remind_later">後で</string>
   <string name="dialog_remind_no">いいえ結構です</string>
-  <string name="dialog_remind_rate_how_many_stars">My Expenses にいくつ星をつけますか?</string>
-  <string name="dialog_remind_rate_1">My Expenses の評価とレビューに少しお時間をいただけませんか。</string>
+  <string name="dialog_remind_rate_how_many_stars">マイ エクスペンス にいくつ星をつけますか?</string>
+  <string name="dialog_remind_rate_1">マイ エクスペンス の評価とレビューに少しお時間をいただけませんか。</string>
   <string name="dialog_remind_rate_2">あなたのご意見により、私たちは絶え間ない改善と機能拡張を行うことができます。</string>
   <string name="dialog_remind_rate_1_suggest_improvement">私たちに改善の提案をメールするお時間を少しいただけませんか。</string>
   <string name="dialog_remind_rate_yes">今すぐ評価</string>
@@ -141,9 +141,9 @@
     <item>スマートフォンでそれを直接管理します。</item>
     <item>それを Grisbi, GnuCash, Quicken または MS Money のようなデスクトップの金融プログラムにエクスポートします。</item>
   </string-array>
-  <string name="help_leading"><i>My Expenses</i> for Android をインストールしていただきありがとうございます。</string>
+  <string name="help_leading"><i>マイ エクスペンス</i> for Android をインストールしていただきありがとうございます。</string>
   <string name="important_upgrade_information_heading">重要な情報</string>
-  <string name="important_upgrade_information_1">バックアップおよびエクスポートは、Android/data/org.totschnig.myexpenses の下に格納されます。注意: My Expenses をアンインストールすると、このディレクトリは削除されます。</string>
+  <string name="important_upgrade_information_1">バックアップおよびエクスポートは、Android/data/org.totschnig.myexpenses の下に格納されます。注意: マイ エクスペンス をアンインストールすると、このディレクトリは削除されます。</string>
   <string name="import_select_transactions">取引</string>
   <string name="income">収入</string>
   <string name="invalid_number_format">小数点の書式があなたのロケールでは認識できません。%1$s を使用してください。</string>
@@ -262,7 +262,7 @@
   <string name="plan">計画</string>
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">My Expenses プランナー</string>
+  <string name="plan_calendar_name">マイ エクスペンス プランナー</string>
   <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
@@ -298,15 +298,15 @@
   <string name="pref_checkbox_enabled">有効</string>
   <string name="pref_checkbox_disabled">無効</string>
   <string name="pref_contrib_donate_summary">PayPal、Flattr、またはBitcoin 経由で寄付をして、プレミアム機能へのアクセスを入手します。</string>
-  <string name="pref_contrib_donate_summary_already_contrib">追加の貢献をしたい場合、あなたは My Expenses を Flattr、Paypal を通じて寄付、または Bitcoin を送ることができます。</string>
+  <string name="pref_contrib_donate_summary_already_contrib">追加の貢献をしたい場合、あなたは マイ エクスペンス を Flattr、Paypal を通じて寄付、または Bitcoin を送ることができます。</string>
   <string name="pref_contrib_donate_title">寄付を送る</string>
-  <string name="pref_contrib_install_summary">My Expenses 貢献キーをインストールすることにより、プレミアム機能へアクセスすることができます。</string>
+  <string name="pref_contrib_install_summary">マイ エクスペンス 貢献キーをインストールすることにより、プレミアム機能へアクセスすることができます。</string>
   <string name="pref_contrib_install_title">貢献アプリをインストール</string>
   <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
   <string name="pref_enter_licence_summary">あなたが貢献キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
   <string name="pref_enter_licence_title">貢献キーを入力</string>
   <string name="pref_export_format_title">データ形式</string>
-  <string name="pref_follow_gplus_title">Google+ で My Expenses をフォローする</string>
+  <string name="pref_follow_gplus_title">Google+ で マイ エクスペンス をフォローする</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
   <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
   <string name="pref_import_qif_summary">QIF ファイルから取引、分類、および取引先をインポートします</string>
@@ -378,7 +378,7 @@
   <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
   <string name="reference_number">参照番号</string>
-  <string name="request_licence_mail_description">(英語、ドイツ語またはフランス語で) My Expenses に、あなたの貢献を説明してください (例: Paypal で寄付、バグ報告、テスト、翻訳)。</string>
+  <string name="request_licence_mail_description">(英語、ドイツ語またはフランス語で) マイ エクスペンス に、あなたの貢献を説明してください (例: Paypal で寄付、バグ報告、テスト、翻訳)。</string>
   <string name="request_licence_mail_head">Please send me a Contrib key for Android-Id %1$s.</string>
   <string name="restore_db_failure">データベースの復元に失敗しました。</string>
   <string name="restore_db_success">バックアップからデータベースが復元されました。</string>
@@ -408,7 +408,7 @@
   <string name="sum_expenses">支出</string>
   <string name="sum_income">収入</string>
   <string name="sum_transfer">転記</string>
-  <string name="tell_a_friend_message">My Expenses: Android用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">マイ エクスペンス: Android用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
   <string name="template">テンプレート</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
   <string name="template_title_exists">タイトル \"%1$s\" のテンプレートは既に存在します</string>
@@ -451,7 +451,7 @@
   <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
   <string name="warning_select_account">勘定を選択してください!</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">My Expenses をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">転記は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>
   <string name="warning_change_fraction_digits">通貨 %1$s の小数点以下の桁数を減らしています。
