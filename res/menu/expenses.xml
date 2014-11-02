@@ -37,13 +37,13 @@
   <item
     android:id="@id/MANAGE_PLANS_COMMAND"
     app:showAsAction="ifRoom"
-    android:icon="@drawable/manage_plans_icon"
+    android:icon="@android:drawable/ic_menu_set_as"
     android:title="@string/menu_manage_plans">
   </item>
   <item android:checkable="true"
     android:id="@+id/SEARCH_MENU"
     android:title="@string/menu_search"
-    android:icon="@drawable/search_icon"
+    android:icon="@android:drawable/ic_menu_search"
   	app:showAsAction="ifRoom">
   	<menu>
   		<group android:checkableBehavior="all">
@@ -61,7 +61,7 @@
   </item>
   <item
     android:id="@id/RESET_COMMAND"
-    android:icon="@drawable/reset_icon"
+    android:icon="@android:drawable/ic_menu_revert"
     app:showAsAction="ifRoom"
     android:title="@string/menu_reset">
   </item>

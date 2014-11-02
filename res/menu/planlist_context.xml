@@ -48,7 +48,7 @@
     </item>
     <item
       android:id="@id/RESET_PLAN_INSTANCE_COMMAND"
-      android:icon="@drawable/reset_plan_instance_icon"
+      android:icon="@android:drawable/ic_menu_revert"
       android:showAsAction="ifRoom"
       android:orderInCategory="15"
       android:title="@string/menu_reset_plan_instance">

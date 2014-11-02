@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -75,6 +76,16 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("exclude_from_totals",android.R.drawable.ic_menu_close_clear_cancel);
     iconMap.put("forward", R.drawable.ic_menu_forward);
     iconMap.put("grouping", android.R.drawable.ic_menu_sort_by_size);
+    iconMap.put("invert_transfer",R.drawable.ic_menu_refresh);
+    iconMap.put("manage_plans",android.R.drawable.ic_menu_set_as);
+    iconMap.put("reset", android.R.drawable.ic_menu_revert);
+    iconMap.put("reset_plan_instance", android.R.drawable.ic_menu_revert);
+    iconMap.put("save_and_new", Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ?
+        android.R.drawable.ic_menu_save : R.drawable.save_and_new_icon);
+    iconMap.put("save",android.R.drawable.ic_menu_save);
+    iconMap.put("search", android.R.drawable.ic_menu_search);
+    iconMap.put("select_category", R.drawable.ic_menu_goto);
+    iconMap.put("set_sort_key", android.R.drawable.ic_menu_sort_by_size);
   }
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();

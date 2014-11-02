@@ -18,7 +18,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
     android:id="@+id/Confirm"
-    android:icon="@drawable/save_icon"
+    android:icon="@android:drawable/ic_menu_save"
     app:showAsAction="always"
     android:title="@string/menu_save"/>
 </menu>
