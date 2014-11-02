@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
     }
 }
 
@@ -17,14 +17,14 @@ repositories {
 
 dependencies {
   compile 'com.android.support:support-v4:19.0.1'
-  compile 'se.emilsjolander:stickylistheaders:2.3.0'
   compile 'com.android.support:appcompat-v7:19.0.1'
   compile 'com.itextpdf:itextpdf:5.5.2'
+  compile project(':StickyListHeaders:library')
 }
 
 android {
   compileSdkVersion 19
-  buildToolsVersion '19.0.1'
+  buildToolsVersion '19.1.0'
 
   sourceSets {
     main {
@@ -48,6 +48,7 @@ task copyTask(type: Copy) {
     filter(ReplaceTokens, tokens: ["build.date": getDate()])
 }
 project.afterEvaluate{
+    compileDebugJava.dependsOn("copyTask")
     compileReleaseJava.dependsOn("copyTask")
 }
 

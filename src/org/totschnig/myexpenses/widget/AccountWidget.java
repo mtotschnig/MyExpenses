@@ -108,7 +108,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
-    updateViews.setImageViewResource(R.id.command1, R.drawable.create_transaction_icon);
+    updateViews.setImageViewResource(R.id.command1, android.R.drawable.ic_menu_add);
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
@@ -120,7 +120,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
-    updateViews.setImageViewResource(R.id.command2, R.drawable.create_transfer_icon);
+    updateViews.setImageViewResource(R.id.command2, R.drawable.ic_menu_forward);
   }
 
   @Override

@@ -1,0 +1,23 @@
+[main]
+host = https://www.transifex.com
+lang_map = ca_ES:ca,pt_BR:pt,zh_HK:zh-rTW,ms_MY:ms
+
+[my-expenses.strings]
+source_lang = en
+source_file = res/values/strings.xml
+file_filter = res/values-<lang>/strings.xml
+
+[my-expenses.help]
+source_lang = en
+source_file = res/values/help.xml
+file_filter = res/values-<lang>/help.xml
+
+[my-expenses.acra]
+source_lang = en
+source_file = res/values/strings_acra.xml
+file_filter = res/values-<lang>/strings_acra.xml
+
+[my-expenses.upgrade]
+source_lang = en
+source_file = res/values/upgrade.xml
+file_filter = res/values-<lang>/upgrade.xml

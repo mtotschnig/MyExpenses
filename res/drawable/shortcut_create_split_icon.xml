@@ -22,5 +22,5 @@
             <size android:width="48dp" android:height="48dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/create_split_icon" />
+    <item android:drawable="@drawable/ic_menu_split" />
 </layer-list>

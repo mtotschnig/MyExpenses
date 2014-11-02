@@ -18,12 +18,12 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
 	  <item
     android:id="@id/CREATE_COMMAND"
-    android:icon="@drawable/create_main_cat_icon"
+    android:icon="@android:drawable/ic_menu_add"
     app:showAsAction="always"
     android:title="@string/menu_create_main_cat"/>
     <item
     android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
-    android:icon="@drawable/categories_setup_default_icon"
+    android:icon="@android:drawable/ic_menu_upload"
     app:showAsAction="never"
     android:title="@string/menu_categories_setup_default"/>
 </menu>

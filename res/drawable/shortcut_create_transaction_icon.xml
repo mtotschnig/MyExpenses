@@ -22,5 +22,5 @@
             <size android:width="48dp" android:height="48dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/create_transaction_icon" />
+    <item android:drawable="@android:drawable/ic_menu_add" />
 </layer-list>

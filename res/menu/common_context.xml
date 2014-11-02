@@ -19,7 +19,7 @@
   <group android:id="@+id/MenuBulk">
 	  <item
 	    android:id="@id/DELETE_COMMAND"
-	    android:icon="@drawable/delete_icon"
+	    android:icon="@android:drawable/ic_menu_delete"
 	    android:showAsAction="always"
       android:orderInCategory="20"
 	    android:title="@string/menu_delete">
@@ -28,7 +28,7 @@
   <group android:id="@+id/MenuSingle">
 	  <item
 	    android:id="@id/EDIT_COMMAND"
-	    android:icon="@drawable/edit_icon"
+	    android:icon="@android:drawable/ic_menu_edit"
 	    android:showAsAction="always"
       android:orderInCategory="10"
 	    android:title="@string/menu_edit">

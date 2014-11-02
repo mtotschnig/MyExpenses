@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.*;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 
 import android.content.Context;
@@ -84,7 +85,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       }
     }
     for (String item : menuItems) {
-      Assert.assertTrue("icon not defined for "+ item,res.getIdentifier(item+"_icon", "drawable", pack)!=0);
+      Assert.assertTrue(HelpDialogFragment.iconMap.containsKey(item));
       Assert.assertTrue("title not defined for "+ item,res.getIdentifier("menu_"+item,"string",pack)!=0);
       Assert.assertTrue("help text not defined for "+ item,res.getIdentifier("menu_"+item+"_help_text","string",pack)!=0);
     }

@@ -26,7 +26,7 @@
   </group>
   <item
     android:id="@id/CLONE_TRANSACTION_COMMAND"
-    android:icon="@drawable/clone_transaction_icon"
+    android:icon="@drawable/ic_menu_copy"
     android:showAsAction="always"
     android:title="@string/menu_clone_transaction">
   </item>

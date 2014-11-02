@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
@@ -28,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -46,6 +48,47 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   
   public static final String KEY_VARIANT = "variant";
   public static final String KEY_ACTIVITY_NAME = "activityName";
+  public static final HashMap<String,Integer> iconMap = new HashMap<String,Integer>();
+  static {
+    iconMap.put("create_transaction", android.R.drawable.ic_menu_add);
+    iconMap.put("edit", android.R.drawable.ic_menu_edit);
+    iconMap.put("back", R.drawable.ic_menu_back);
+    iconMap.put("balance", R.drawable.ic_action_balance);
+    iconMap.put("cancel_plan_instance", android.R.drawable.ic_menu_close_clear_cancel);
+    iconMap.put("categories_setup_default",android.R.drawable.ic_menu_upload);
+    iconMap.put("clone_transaction",R.drawable.ic_menu_copy);
+    iconMap.put("create_instance_edit",R.drawable.create_instance_edit_icon);
+    iconMap.put("create_main_cat",android.R.drawable.ic_menu_add);
+    iconMap.put("create_method",android.R.drawable.ic_menu_add);
+    iconMap.put("create_party",android.R.drawable.ic_menu_add);
+    iconMap.put("create_split",R.drawable.ic_menu_split);
+    iconMap.put("create_split_part_category",android.R.drawable.ic_menu_add);
+    iconMap.put("create_split_part_transfer",R.drawable.ic_menu_forward);
+    iconMap.put("create_sub_cat",android.R.drawable.ic_menu_add);
+    iconMap.put("create_template_for_transfer",R.drawable.ic_menu_forward);
+    iconMap.put("create_template_for_transaction",android.R.drawable.ic_menu_add);
+    iconMap.put("create_transaction",android.R.drawable.ic_menu_add);
+    iconMap.put("create_transfer",R.drawable.ic_menu_forward);
+    iconMap.put("delete",android.R.drawable.ic_menu_delete);
+    iconMap.put("edit", android.R.drawable.ic_menu_edit);
+    iconMap.put("distribution", android.R.drawable.ic_menu_today);
+    iconMap.put("edit_plan_instance", android.R.drawable.ic_menu_edit);
+    iconMap.put("exclude_from_totals",android.R.drawable.ic_menu_close_clear_cancel);
+    iconMap.put("forward", R.drawable.ic_menu_forward);
+    iconMap.put("grouping", android.R.drawable.ic_menu_sort_by_size);
+    iconMap.put("invert_transfer",R.drawable.ic_menu_refresh);
+    iconMap.put("manage_plans",android.R.drawable.ic_menu_set_as);
+    iconMap.put("reset", android.R.drawable.ic_menu_revert);
+    iconMap.put("reset_plan_instance", android.R.drawable.ic_menu_revert);
+    iconMap.put("save_and_new", Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ?
+        android.R.drawable.ic_menu_save : R.drawable.save_and_new_icon);
+    iconMap.put("save",android.R.drawable.ic_menu_save);
+    iconMap.put("search", android.R.drawable.ic_menu_search);
+    iconMap.put("select_category", R.drawable.ic_menu_goto);
+    iconMap.put("set_sort_key", android.R.drawable.ic_menu_sort_by_size);
+    iconMap.put("print", R.drawable.print_icon);
+    iconMap.put("create_template_from_transaction", R.drawable.create_template_from_transaction_icon);
+  }
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
     Bundle args = new Bundle();
@@ -163,13 +206,13 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     int resId;
     for (String item: menuItems) {
       View row = li.inflate(R.layout.help_dialog_action_row, null);
-      resIdString = item+"_icon";
-      resId = res.getIdentifier(resIdString, "drawable", pack);
-      if (resId == 0) {
-        throw new NotFoundException(resIdString);
+      if (iconMap.containsKey(item)) {
+        resId = iconMap.get(item);
+        ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
+            res.getDrawable(resId));
+      } else {
+        throw new NotFoundException(item + " icon");
       }
-      ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
-          res.getDrawable(resId));
       resIdString = "menu_"+item;
       resId = res.getIdentifier(resIdString,"string",pack);
       if (resId == 0) {
