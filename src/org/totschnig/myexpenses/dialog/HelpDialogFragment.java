@@ -48,7 +48,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   
   public static final String KEY_VARIANT = "variant";
   public static final String KEY_ACTIVITY_NAME = "activityName";
-  private static final HashMap<String,Integer> iconMap = new HashMap<String,Integer>();
+  public static final HashMap<String,Integer> iconMap = new HashMap<String,Integer>();
   static {
     iconMap.put("create_transaction", android.R.drawable.ic_menu_add);
     iconMap.put("edit", android.R.drawable.ic_menu_edit);
@@ -86,6 +86,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("search", android.R.drawable.ic_menu_search);
     iconMap.put("select_category", R.drawable.ic_menu_goto);
     iconMap.put("set_sort_key", android.R.drawable.ic_menu_sort_by_size);
+    iconMap.put("print", R.drawable.print_icon);
+    iconMap.put("create_template_from_transaction", R.drawable.create_template_from_transaction_icon);
   }
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
