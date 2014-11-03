@@ -1,157 +1,137 @@
-<?xml version="1.0"?>
-<!--
-  This file is part of My Expenses (based on a file distributed with Grisbi)
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+<?xml version="1.0" encoding="UTF-8"?>
 <Grisbi_categ>
-    <General
-		File_version="0.6.0"
-		Grisbi_version="0.6.0" 
-		Title="Categorie generale"
-		Description="Elenco de categorie pertinente per uso personale."/>
-    <Category Nb="1" Na="Alimentazione" Kd="1" />
-    <Sub_category Nbc="1" Nb="1" Na="Auto" />
-    <Sub_category Nbc="1" Nb="2" Na="Bar" />
-    <Sub_category Nbc="1" Nb="3" Na="Drogheria" />
-    <Sub_category Nbc="1" Nb="4" Na="Mensa" />
-    <Sub_category Nbc="1" Nb="5" Na="Panetteria" />
-    <Sub_category Nbc="1" Nb="6" Na="Pasticceria" />
-    <Sub_category Nbc="1" Nb="7" Na="Ristorante" />
-    <Sub_category Nbc="1" Nb="8" Na="Supermercato" />
-    <Sub_category Nbc="1" Nb="9" Na="Vario" />
-    <Category Nb="2" Na="Alloggiamento" Kd="1" />
-    <Sub_category Nbc="2" Nb="1" Na="Abbonamento TV" />
-    <Sub_category Nbc="2" Nb="2" Na="Acqua" />
-    <Sub_category Nbc="2" Nb="3" Na="Affitto" />
-    <Sub_category Nbc="2" Nb="4" Na="Albergo" />
-    <Sub_category Nbc="2" Nb="5" Na="Arredamento" />
-    <Sub_category Nbc="2" Nb="6" Na="Attrezzatura" />
-    <Sub_category Nbc="2" Nb="7" Na="Cellulare" />
-    <Sub_category Nbc="2" Nb="8" Na="Decorazione" />
-    <Sub_category Nbc="2" Nb="9" Na="Dipendenti a casa" />
-    <Sub_category Nbc="2" Nb="10" Na="Elettricità" />
-    <Sub_category Nbc="2" Nb="11" Na="Elettrodomestici" />
-    <Sub_category Nbc="2" Nb="12" Na="Gas" />
-    <Sub_category Nbc="2" Nb="13" Na="Giardino" />
-    <Sub_category Nbc="2" Nb="14" Na="Riscaldamento" />
-    <Sub_category Nbc="2" Nb="15" Na="Spese" />
-    <Sub_category Nbc="2" Nb="16" Na="Telefono" />
-    <Category Nb="3" Na="Animali domestici" Kd="1" />
-    <Sub_category Nbc="3" Nb="1" Na="Alimentazione" />
-    <Sub_category Nbc="3" Nb="2" Na="Forniture" />
-    <Sub_category Nbc="3" Nb="3" Na="Preparando" />
-    <Sub_category Nbc="3" Nb="4" Na="Veterinario" />
-    <Category Nb="4" Na="Assicurazione" Kd="1" />
-    <Sub_category Nbc="4" Nb="1" Na="Automobile" />
-    <Sub_category Nbc="4" Nb="2" Na="Casa" />
-    <Sub_category Nbc="4" Nb="3" Na="Responsabilità" />
-    <Sub_category Nbc="4" Nb="4" Na="Salute" />
-    <Sub_category Nbc="4" Nb="5" Na="Vita" />
-    <Category Nb="5" Na="Automobile" Kd="1" />
-    <Sub_category Nbc="5" Nb="1" Na="Carburante" />
-    <Sub_category Nbc="5" Nb="2" Na="Manutenzione" />
-    <Sub_category Nbc="5" Nb="3" Na="Multe" />
-    <Sub_category Nbc="5" Nb="4" Na="Parcheggio" />
-    <Sub_category Nbc="5" Nb="5" Na="Riparazione" />
-    <Category Nb="6" Na="Bambini" Kd="1" />
-    <Sub_category Nbc="6" Nb="1" Na="Asili nido / Nurse" />
-    <Sub_category Nbc="6" Nb="2" Na="Spese varie" />
-    <Sub_category Nbc="6" Nb="3" Na="Studi" />
-    <Category Nb="7" Na="Cura" Kd="1" />
-    <Sub_category Nbc="7" Nb="1" Na="Abbigliamento" />
-    <Sub_category Nbc="7" Nb="2" Na="Parrucchiere" />
-    <Category Nb="8" Na="Donazioni" Kd="1" />
-    <Category Nb="9" Na="Oneri finanziari" Kd="1" />
-    <Sub_category Nbc="9" Nb="1" Na="Oneri bancari" />
-    <Sub_category Nbc="9" Nb="2" Na="Oneri finanziari" />
-    <Sub_category Nbc="9" Nb="3" Na="Prestito" />
-    <Sub_category Nbc="9" Nb="4" Na="Rimborso" />
-    <Sub_category Nbc="9" Nb="5" Na="Vario" />
-    <Category Nb="10" Na="Prestito" Kd="1" />
-    <Sub_category Nbc="10" Nb="1" Na="Capitale" />
-    <Category Nb="11" Na="Salute" Kd="1" />
-    <Sub_category Nbc="11" Nb="1" Na="Assicurazione" />
-    <Sub_category Nbc="11" Nb="2" Na="Dentista" />
-    <Sub_category Nbc="11" Nb="3" Na="Farmacia" />
-    <Sub_category Nbc="11" Nb="4" Na="Fisioterapista" />
-    <Sub_category Nbc="11" Nb="5" Na="Medico" />
-    <Sub_category Nbc="11" Nb="6" Na="Oculista" />
-    <Sub_category Nbc="11" Nb="7" Na="Ospedale" />
-    <Sub_category Nbc="11" Nb="8" Na="Osteopata" />
-    <Sub_category Nbc="11" Nb="9" Na="Sicurezza sociale" />
-    <Category Nb="12" Na="Studi" Kd="1" />
-    <Sub_category Nbc="12" Nb="1" Na="Corso" />
-    <Sub_category Nbc="12" Nb="2" Na="Costi d'istruzione" />
-    <Sub_category Nbc="12" Nb="3" Na="Libri" />
-    <Category Nbc="13" Na="Tariffe professionali" Kd="1" />
-    <Sub_category Nbc="13" Nb="1" Na="Non rimborsabile" />
-    <Sub_category Nbc="13" Nb="2" Na="Rimborsabile" />
-    <Category Nb="14" Na="Tasse" Kd="1" />
-    <Sub_category Nbc="14" Nb="1" Na="Altre imposte" />
-    <Sub_category Nbc="14" Nb="2" Na="Imposta sul reddito" />
-    <Sub_category Nbc="14" Nb="3" Na="Tasse locali" />
-    <Category Nb="15" Na="Tempo libero" Kd="1" />
-    <Sub_category Nbc="15" Nb="1" Na="Attrezzatura" />
-    <Sub_category Nbc="15" Nb="2" Na="Biliardo" />
-    <Sub_category Nbc="15" Nb="3" Na="Bowling" />
-    <Sub_category Nbc="15" Nb="4" Na="Cinema" />
-    <Sub_category Nbc="15" Nb="5" Na="Computing" />
-    <Sub_category Nbc="15" Nb="6" Na="Giochi" />
-    <Sub_category Nbc="15" Nb="7" Na="Lettura" />
-    <Sub_category Nbc="15" Nb="8" Na="Mostra" />
-    <Sub_category Nbc="15" Nb="9" Na="Museo / Mostra" />
-    <Sub_category Nbc="15" Nb="10" Na="Night club" />
-    <Sub_category Nbc="15" Nb="11" Na="Parco a tema" />
-    <Sub_category Nbc="15" Nb="12" Na="Sport" />
-    <Sub_category Nbc="15" Nb="13" Na="Viaggiare" />
-    <Sub_category Nbc="15" Nb="14" Na="Video" />
-    <Category Nb="16" Na="Trasporto" Kd="1" />
-    <Sub_category Nbc="16" Nb="1" Na="Autobus" />
-    <Sub_category Nbc="16" Nb="2" Na="Metro" />
-    <Sub_category Nbc="16" Nb="3" Na="Pedaggio" />
-    <Sub_category Nbc="16" Nb="4" Na="Tram" />
-    <Sub_category Nbc="16" Nb="5" Na="Treno" />
-    <Sub_category Nbc="16" Nb="6" Na="Viaggiare" />
-    <Category Nb="17" Na="Vacanza" Kd="1" />
-    <Sub_category Nbc="17" Nb="1" Na="Alloggiamento" />
-    <Sub_category Nbc="17" Nb="2" Na="Di viaggio" />
-    <Sub_category Nbc="17" Nb="3" Na="Visite" />
-    <Category Nb="18" Na="Vario" Kd="1" />
-    <Sub_category Nbc="18" Nb="1" Na="Regali" />
-    <Category Nb="19" Na="Altri proventi" Kd="0" />
-    <Sub_category Nbc="19" Nb="1" Na="Assegni familiari" />
-    <Sub_category Nbc="19" Nb="2" Na="Credito d'imposta" />
-    <Sub_category Nbc="19" Nb="3" Na="Gioco" />
-    <Sub_category Nbc="19" Nb="4" Na="Indennità di disoccupazione" />
-    <Sub_category Nbc="19" Nb="5" Na="Mutualistici" />
-    <Sub_category Nbc="19" Nb="6" Na="Sicurezza sociale" />
-    <Category Nb="20" Na="Pensionamento" Kd="0" />
-    <Sub_category Nbc="20" Nb="1" Na="Pensione complementare" />
-    <Sub_category Nbc="20" Nb="2" Na="Pensioni" />
-    <Sub_category Nbc="20" Nb="3" Na="Piano Generale" />
-    <Category Nb="21" Na="Proventi varie" Kd="0" />
-    <Sub_category Nbc="21" Nb="1" Na="Opportunità di vendita" />
-    <Sub_category Nbc="21" Nb="2" Na="Regali" />
-    <Sub_category Nbc="21" Nb="3" Na="Rimborso" />
-    <Category Nb="22" Na="Redditi da capitale" Kd="0" />
-    <Sub_category Nbc="22" Nb="1" Na="Dividendi" />
-    <Sub_category Nbc="22" Nb="2" Na="Interessi" />
-    <Sub_category Nbc="22" Nb="3" Na="Utili" />
-    <Category Nb="23" Na="Stipendio" Kd="0" />
-    <Sub_category Nbc="23" Nb="1" Na="Premi risultati" />
-    <Sub_category Nbc="23" Nb="2" Na="Premium vacanze" />
-    <Sub_category Nbc="23" Nb="3" Na="Retribuzione netta" />
-    <Sub_category Nbc="23" Nb="4" Na="Straordinario" />
-    <Sub_category Nbc="23" Nb="5" Na="Vari bonus" />
- </Grisbi_categ>
+<Category Nb="1" Na="Altri proventi"/>
+<Sub_category Nbc="1" Nb="1" Na="Indennità di disoccupazione"/>
+<Sub_category Nbc="1" Nb="2" Na="Assegno familiare"/>
+<Sub_category Nbc="1" Nb="3" Na="Credito d\'imposta"/>
+<Sub_category Nbc="1" Nb="4" Na="Gioco"/>
+<Sub_category Nbc="1" Nb="5" Na="Assicurazione mutua"/>
+<Sub_category Nbc="1" Nb="6" Na="Previdenza sociale"/>
+<Category Nb="2" Na="Pensionamento"/>
+<Sub_category Nbc="2" Nb="1" Na="Fondo pensione"/>
+<Sub_category Nbc="2" Nb="2" Na="Pensione"/>
+<Sub_category Nbc="2" Nb="3" Na="Pensione integrativa"/>
+<Category Nb="3" Na="Proventi da investimenti"/>
+<Sub_category Nbc="3" Nb="1" Na="Dividendi"/>
+<Sub_category Nbc="3" Nb="2" Na="Guadagno/interesse"/>
+<Sub_category Nbc="3" Nb="3" Na="Reddito da capitale"/>
+<Category Nb="4" Na="Stipendio"/>
+<Sub_category Nbc="4" Nb="1" Na="Straordinario"/>
+<Sub_category Nbc="4" Nb="2" Na="Liquidazione"/>
+<Sub_category Nbc="4" Nb="3" Na="Varie premi"/>
+<Sub_category Nbc="4" Nb="4" Na="Commissione di successo"/>
+<Sub_category Nbc="4" Nb="5" Na="Salario netto"/>
+<Category Nb="5" Na="Varie reddito"/>
+<Sub_category Nbc="5" Nb="1" Na="Regali"/>
+<Sub_category Nbc="5" Nb="2" Na="Rimborsi"/>
+<Sub_category Nbc="5" Nb="3" Na="Vendite di seconda mano"/>
+<Category Nb="6" Na="Cibo"/>
+<Sub_category Nbc="6" Nb="1" Na="Bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Fornaio"/>
+<Sub_category Nbc="6" Nb="3" Na="Mensa"/>
+<Sub_category Nbc="6" Nb="4" Na="Dolci"/>
+<Sub_category Nbc="6" Nb="5" Na="Varie"/>
+<Sub_category Nbc="6" Nb="6" Na="Alimentari"/>
+<Sub_category Nbc="6" Nb="7" Na="Ristorante"/>
+<Sub_category Nbc="6" Nb="8" Na="Self-service"/>
+<Sub_category Nbc="6" Nb="9" Na="Supermercato"/>
+<Category Nb="7" Na="Animali domestici"/>
+<Sub_category Nbc="7" Nb="1" Na="Cibo"/>
+<Sub_category Nbc="7" Nb="2" Na="Forniture varie"/>
+<Sub_category Nbc="7" Nb="3" Na="Cura personale"/>
+<Sub_category Nbc="7" Nb="4" Na="Veterinario"/>
+<Category Nb="8" Na="Assicurazione"/>
+<Sub_category Nbc="8" Nb="1" Na="Auto"/>
+<Sub_category Nbc="8" Nb="2" Na="Salute"/>
+<Sub_category Nbc="8" Nb="3" Na="Casa"/>
+<Sub_category Nbc="8" Nb="4" Na="Responsabilità civile"/>
+<Sub_category Nbc="8" Nb="5" Na="Vita"/>
+<Category Nb="9" Na="Auto"/>
+<Sub_category Nbc="9" Nb="1" Na="Carburante"/>
+<Sub_category Nbc="9" Nb="2" Na="Riparazioni"/>
+<Sub_category Nbc="9" Nb="3" Na="Manutenzione"/>
+<Sub_category Nbc="9" Nb="4" Na="Parcheggio"/>
+<Sub_category Nbc="9" Nb="5" Na="Multe"/>
+<Category Nb="11" Na="Regali"/>
+<Category Nb="12" Na="Bambini"/>
+<Sub_category Nbc="12" Nb="1" Na="Bambinaia"/>
+<Sub_category Nbc="12" Nb="2" Na="Varie ed eventuali"/>
+<Sub_category Nbc="12" Nb="3" Na="Studi"/>
+<Category Nb="13" Na="Studi"/>
+<Sub_category Nbc="13" Nb="1" Na="Lezioni"/>
+<Sub_category Nbc="13" Nb="2" Na="Tasse scolastiche"/>
+<Sub_category Nbc="13" Nb="3" Na="Libri"/>
+<Category Nb="14" Na="Varie ed eventuali"/>
+<Sub_category Nbc="14" Nb="1" Na="Regali"/>
+<Category Nb="15" Na="Oneri finanziari"/>
+<Sub_category Nbc="15" Nb="1" Na="Varie ed eventuali"/>
+<Sub_category Nbc="15" Nb="2" Na="Spese bancarie"/>
+<Sub_category Nbc="15" Nb="3" Na="Prestito/Ipoteca"/>
+<Sub_category Nbc="15" Nb="4" Na="Addebiti"/>
+<Sub_category Nbc="15" Nb="5" Na="Rimborso"/>
+<Category Nb="16" Na="Spese professionali"/>
+<Sub_category Nbc="16" Nb="1" Na="Non rimborsabile"/>
+<Sub_category Nbc="16" Nb="2" Na="Rimborsabile"/>
+<Category Nb="17" Na="Tasse"/>
+<Sub_category Nbc="17" Nb="1" Na="Varie ed eventuali"/>
+<Sub_category Nbc="17" Nb="2" Na="Reddito"/>
+<Sub_category Nbc="17" Nb="3" Na="Terreno"/>
+<Category Nb="18" Na="Abitazione"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Affitto"/>
+<Sub_category Nbc="18" Nb="3" Na="TV"/>
+<Sub_category Nbc="18" Nb="4" Na="Arredamento"/>
+<Sub_category Nbc="18" Nb="5" Na="Addebiti"/>
+<Sub_category Nbc="18" Nb="6" Na="Riscaldamento"/>
+<Sub_category Nbc="18" Nb="7" Na="Decorazione"/>
+<Sub_category Nbc="18" Nb="8" Na="Acqua"/>
+<Sub_category Nbc="18" Nb="9" Na="Elettricità"/>
+<Sub_category Nbc="18" Nb="10" Na="Elettrodomestici"/>
+<Sub_category Nbc="18" Nb="11" Na="Attrezzatura"/>
+<Sub_category Nbc="18" Nb="12" Na="Gas"/>
+<Sub_category Nbc="18" Nb="13" Na="Giardino"/>
+<Sub_category Nbc="18" Nb="14" Na="Governante"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefono"/>
+<Sub_category Nbc="18" Nb="16" Na="Telefono cellulare"/>
+<Category Nb="19" Na="Tempo libero"/>
+<Sub_category Nbc="19" Nb="1" Na="Biliardo"/>
+<Sub_category Nbc="19" Nb="2" Na="Bowling"/>
+<Sub_category Nbc="19" Nb="3" Na="Film"/>
+<Sub_category Nbc="19" Nb="4" Na="Night club"/>
+<Sub_category Nbc="19" Nb="5" Na="Computer"/>
+<Sub_category Nbc="19" Nb="6" Na="Giochi"/>
+<Sub_category Nbc="19" Nb="7" Na="Libri"/>
+<Sub_category Nbc="19" Nb="8" Na="Parchi"/>
+<Sub_category Nbc="19" Nb="9" Na="Concerti"/>
+<Sub_category Nbc="19" Nb="10" Na="Sport"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Viaggi"/>
+<Sub_category Nbc="19" Nb="13" Na="Attrezzatura"/>
+<Sub_category Nbc="19" Nb="14" Na="Musei/mostre"/>
+<Category Nb="20" Na="Prestito/ipoteca"/>
+<Sub_category Nbc="20" Nb="1" Na="Capitale"/>
+<Category Nb="21" Na="Salute"/>
+<Sub_category Nbc="21" Nb="1" Na="Assicurazione"/>
+<Sub_category Nbc="21" Nb="2" Na="Dentista"/>
+<Sub_category Nbc="21" Nb="3" Na="Ospedale"/>
+<Sub_category Nbc="21" Nb="4" Na="Cinesiterapista"/>
+<Sub_category Nbc="21" Nb="5" Na="Medico"/>
+<Sub_category Nbc="21" Nb="6" Na="Oftalmologo"/>
+<Sub_category Nbc="21" Nb="7" Na="Osteopata"/>
+<Sub_category Nbc="21" Nb="8" Na="Farmacista"/>
+<Sub_category Nbc="21" Nb="9" Na="Previdenza sociale"/>
+<Category Nb="22" Na="Cura"/>
+<Sub_category Nbc="22" Nb="1" Na="Parrucchiere"/>
+<Sub_category Nbc="22" Nb="2" Na="Abbigliamento"/>
+<Category Nb="23" Na="Trasporto"/>
+<Sub_category Nbc="23" Nb="1" Na="Autobus"/>
+<Sub_category Nbc="23" Nb="2" Na="Metropolitana"/>
+<Sub_category Nbc="23" Nb="3" Na="Pedaggio"/>
+<Sub_category Nbc="23" Nb="4" Na="Treno"/>
+<Sub_category Nbc="23" Nb="5" Na="Tram"/>
+<Sub_category Nbc="23" Nb="6" Na="Viaggi"/>
+<Sub_category Nbc="23" Nb="7" Na="Aria"/>
+<Category Nb="24" Na="Vacanze"/>
+<Sub_category Nbc="24" Nb="1" Na="Abitazione"/>
+<Sub_category Nbc="24" Nb="2" Na="Visite"/>
+<Sub_category Nbc="24" Nb="3" Na="Viaggi"/></Grisbi_categ>
