@@ -611,7 +611,9 @@ public class ExpenseEdit extends AmountActivity implements
       int iconRes,actionEnum;
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
         iconRes = android.R.drawable.ic_menu_save;
-        actionEnum = MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT;
+        actionEnum = getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ?
+            (MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT) :
+              MenuItemCompat.SHOW_AS_ACTION_NEVER;
       } else {
         iconRes = R.drawable.save_and_new_icon;
         actionEnum = MenuItemCompat.SHOW_AS_ACTION_ALWAYS;
