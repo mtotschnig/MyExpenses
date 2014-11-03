@@ -3,21 +3,20 @@
     android:id="@+id/header_line"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/text"
         style="@style/headingStyleNoBorder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_weight="1"
         android:text="GROUP_TITLE" />
 
     <TextView
         android:id="@+id/interim_balance"
         style="@style/headingStyleNoBorder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
