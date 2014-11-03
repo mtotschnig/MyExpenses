@@ -308,9 +308,9 @@ public class Utils {
     }
   }
   public static File getCacheDir() {
-    return /*Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO ?
-        MyApplication.getInstance().getCacheDir() :*/
-        MyApplication.getInstance().getExternalCacheDir();
+    File external = MyApplication.getInstance().getExternalCacheDir();
+    return external != null ? external :
+        MyApplication.getInstance().getCacheDir();
   }
   /**
    * @param parentDir
