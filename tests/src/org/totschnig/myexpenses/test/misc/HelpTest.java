@@ -111,15 +111,15 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     String resIdString;
     int resId;
     for (String item: menuItems) {
-      assertTrue(HelpDialogFragment.iconMap.containsKey(item));
+      assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
       resIdString = "menu_"+item;
-      assertTrue(res.getIdentifier(resIdString,"string",pack) != 0);
+      assertTrue("title not found for " + item,res.getIdentifier(resIdString,"string",pack) != 0);
       resId = res.getIdentifier(prefix + "_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
       if (resId == 0) {
         resId = res.getIdentifier(prefix + "_" +activityName + "_" + item + "_help_text","string",pack);
         if (resId == 0) {
           resIdString = prefix + "_"  + item + "_help_text";
-          assertTrue(res.getIdentifier(resIdString,"string",pack)!=0);
+          assertTrue("help text not found for " + item,res.getIdentifier(resIdString,"string",pack)!=0);
         }
       }
     }
