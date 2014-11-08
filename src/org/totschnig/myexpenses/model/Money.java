@@ -17,9 +17,11 @@ package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.util.Log;
 
@@ -63,8 +65,9 @@ public class Money implements Serializable {
     try {
       return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)));
     } catch (ArithmeticException e) {
-      throw new RuntimeException(
-          "Error calculating amount major for : "+amountMinor+" with "+fractionDigits + "fraction digits.",e);
+      Utils.reportToAcra(new RuntimeException(
+          "Error calculating amount major for : "+amountMinor+" with "+fractionDigits + "fraction digits.",e));
+      return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)),fractionDigits,RoundingMode.DOWN);
     }
   }
   @Override
