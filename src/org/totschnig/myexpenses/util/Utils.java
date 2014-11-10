@@ -95,14 +95,16 @@ public class Utils {
     char sep = '.';
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();
     if (nfDLocal instanceof DecimalFormat) {
-      DecimalFormatSymbols symbols = ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
+      DecimalFormatSymbols symbols =
+          ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
       sep=symbols.getDecimalSeparator();
     }
     return sep;
   }
   
   /**
-   * <a href="http://www.ibm.com/developerworks/java/library/j-numberformat/">http://www.ibm.com/developerworks/java/library/j-numberformat/</a>
+   * <a href="http://www.ibm.com/developerworks/java/library/j-numberformat/">
+   * http://www.ibm.com/developerworks/java/library/j-numberformat/</a>
    * @param strFloat parsed as float with the number format defined in the locale
    * @return the float retrieved from the string or null if parse did not succeed
    */
@@ -128,8 +130,10 @@ public class Utils {
       try {
         uri = new URI(target);
         String scheme = uri.getScheme();
-        //strangely for mailto URIs getHost returns null, so we make sure that mailto URIs handled as valid
-        targetParsable = scheme != null && (scheme.equals("mailto") || uri.getHost() != null);
+        //strangely for mailto URIs getHost returns null,
+        //so we make sure that mailto URIs handled as valid
+        targetParsable = scheme != null &&
+            (scheme.equals("mailto") || uri.getHost() != null);
       } catch (URISyntaxException e1) {
         targetParsable = false;
       }
@@ -178,7 +182,9 @@ public class Utils {
    * currency, and with the given separator, but without the currency symbol
    * appropriate for CSV and QIF export
    */
-  public static DecimalFormat getDecimalFormat(Currency currency,char separator) {
+  public static DecimalFormat getDecimalFormat(
+      Currency currency,
+      char separator) {
     DecimalFormat nf = new DecimalFormat();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
@@ -220,8 +226,8 @@ public class Utils {
     try {
       date = new Date(Long.valueOf(text)*1000L);
     } catch (NumberFormatException e) {
-      //legacy, the migration from date string to unix timestamp might have gone wrong
-      //for some users
+      //legacy, the migration from date string to unix timestamp
+      //might have gone wrong for some users
       try {
         date = TransactionDatabase.dateTimeFormat.parse(text);
       } catch (ParseException e1) {
@@ -275,7 +281,8 @@ public class Utils {
     return formatCurrency(new Money(currency,amount));
   }
   /**
-   * @return directory for storing backups and exports, null if external storage is not available
+   * @return directory for storing backups and exports,
+   * null if external storage is not available
    */
   public static File requireAppDir() {
     File result = getAppDir();
@@ -287,7 +294,8 @@ public class Utils {
   /**
    * @return if external storage is not available returns null
    * if user has configured app dir, return this value
-   * on Gingerbread and above returns {@link android.content.ContextWrapper.getExternalFilesDir(null)}
+   * on Gingerbread and above returns
+   * {@link android.content.ContextWrapper.getExternalFilesDir(null)}
    * <STRIKE>on Froyo returns folder "myexpenses" on root of sdcard.</STRIKE>
    */
   @SuppressLint("NewApi")
@@ -315,16 +323,22 @@ public class Utils {
   /**
    * @param parentDir
    * @param prefix
-   * @return creates a file object in parentDir, with a timestamp appended to prefix as name
+   * @return creates a file object in parentDir,
+   * with a timestamp appended to prefix as name
    */
-  public static File timeStampedFile(File parentDir, String prefix, String extension) {
-    String now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US).format(new Date());
+  public static File timeStampedFile(
+      File parentDir,
+      String prefix,
+      String extension) {
+    String now = new SimpleDateFormat(
+        "yyyMMdd-HHmmss",Locale.US)
+      .format(new Date());
     extension = TextUtils.isEmpty(extension) ? "" : "." + extension;
     return new File(parentDir,prefix+"-" + now + extension);
   }
   /**
-   * Helper Method to Test if external Storage is Available
-   * from http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
+   * Helper Method to Test if external Storage is Available from
+   * http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
    */
   public static boolean isExternalStorageAvailable() {
       boolean state = false;
@@ -338,12 +352,21 @@ public class Utils {
   public static Result checkAppDir() {
     File appdir = getAppDir();
     if (appdir == null) {
-      return new Result(false,R.string.external_storage_unavailable);
+      return new Result(
+          false,
+          R.string.external_storage_unavailable);
     }
-    if (!appdir.exists())
-      return new Result(false,R.string.app_dir_does_not_exist,appdir.getAbsolutePath());
-    if (!appdir.canWrite())
-      return new Result(false,R.string.app_dir_read_only,appdir.getAbsolutePath());
+    if (!appdir.exists()) {
+      return new Result(
+          false,
+          R.string.app_dir_does_not_exist,appdir.getAbsolutePath());
+    }
+    if (!appdir.canWrite()) {
+      return new Result(
+          false,
+          R.string.app_dir_read_only,
+          appdir.getAbsolutePath());
+    }
     return new Result(true);
   }
   
@@ -353,7 +376,10 @@ public class Utils {
     try {
       srcStream = new FileInputStream(src);
       dstStream = new FileOutputStream(dst);
-      dstStream.getChannel().transferFrom(srcStream.getChannel(), 0, srcStream.getChannel().size());
+      dstStream.getChannel().transferFrom(
+          srcStream.getChannel(),
+          0,
+          srcStream.getChannel().size());
       return true;
     } catch (FileNotFoundException e) {
       Log.e("MyExpenses",e.getLocalizedMessage());
@@ -366,7 +392,11 @@ public class Utils {
       try { dstStream.close(); } catch (Exception e) {}
     }
   }
-  public static void share(Context ctx, ArrayList<File> files,String target, String mimeType) {
+  public static void share(
+      Context ctx,
+      ArrayList<File> files,
+      String target,
+      String mimeType) {
     URI uri = null;
     Intent intent;
     String scheme = "mailto";
@@ -374,25 +404,38 @@ public class Utils {
     if (!target.equals("")) {
       uri = Utils.validateUri(target);
       if (uri == null) {
-        Toast.makeText(ctx,ctx.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+        Toast.makeText(
+            ctx,
+            ctx.getString(R.string.ftp_uri_malformed,target),
+            Toast.LENGTH_LONG)
+          .show();
         return;
       }
       scheme = uri.getScheme();
     }
-    //if we get a String that does not include a scheme, we interpret it as a mail address
+    //if we get a String that does not include a scheme,
+    //we interpret it as a mail address
     if (scheme == null) {
       scheme = "mailto";
     }
     if (scheme.equals("ftp")) {
       if (multiple) {
-        Toast.makeText(ctx,"sending multiple file through ftp is not supported", Toast.LENGTH_LONG).show();
+        Toast.makeText(
+            ctx,
+            "sending multiple file through ftp is not supported",
+            Toast.LENGTH_LONG)
+          .show();
         return;
       }
       intent = new Intent(android.content.Intent.ACTION_SENDTO);
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
       intent.setDataAndType(android.net.Uri.parse(target),mimeType);
       if (!isIntentAvailable(ctx,intent)) {
-        Toast.makeText(ctx,R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
+        Toast.makeText(
+            ctx,
+            R.string.no_app_handling_ftp_available,
+            Toast.LENGTH_LONG)
+          .show();
         return;
       }
       ctx.startActivity(intent);
@@ -415,11 +458,16 @@ public class Utils {
       }
       intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
       if (!isIntentAvailable(ctx,intent)) {
-        Toast.makeText(ctx,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+        Toast.makeText(
+            ctx,
+            R.string.no_app_handling_email_available,
+            Toast.LENGTH_LONG)
+          .show();
         return;
       }
       //if we got mail address, we launch the default application
-      //if we are called without target, we launch the chooser in order to make action more explicit
+      //if we are called without target, we launch the chooser
+      //in order to make action more explicit
       if (uri != null) {
         ctx.startActivity(intent);
       } else {
@@ -427,7 +475,11 @@ public class Utils {
             intent,ctx.getString(R.string.share_sending)));
       }
     } else {
-      Toast.makeText(ctx,ctx.getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
+      Toast.makeText(
+          ctx,
+          ctx.getString(R.string.share_scheme_not_supported,scheme),
+          Toast.LENGTH_LONG)
+        .show();
       return;
     }
   }
@@ -477,14 +529,18 @@ public class Utils {
   public static void contribBuyDo(Activity ctx) {
    Intent i = new Intent(Intent.ACTION_VIEW);
    if (MyApplication.getInstance().isContribEnabled()) {
-     if (ctx instanceof FragmentActivity)
-       DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
-     else {
-       //We are called from MyPreferenceActivity where support fragmentmanager is not available
+     if (ctx instanceof FragmentActivity) {
+       DonateDialogFragment.newInstance().show(
+           ((FragmentActivity) ctx).getSupportFragmentManager(),
+           "CONTRIB");
+     } else {
+       //We are called from MyPreferenceActivity where
+       //support fragmentmanager is not available
        ctx.showDialog(R.id.DONATE_DIALOG);
      }
    } else {
-     i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
+     i.setData(Uri.parse(
+         MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
      if (Utils.isIntentAvailable(ctx,i)) {
        ctx.startActivity(i);
      } else {
@@ -501,14 +557,19 @@ public class Utils {
    * @param other if not null, all features except the one provided will be returned
    * @return construct a list of all contrib features to be included into a TextView
    */
-  public static CharSequence getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
+  public static CharSequence getContribFeatureLabelsAsFormattedList(
+      Context ctx,
+      Feature other) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
     while (iterator.hasNext()) {
       Feature f = iterator.next();
       if (!f.equals(other)) {
         result = TextUtils.concat(result,
-            ctx.getText(ctx.getResources().getIdentifier("contrib_feature_" + f.toString() + "_label", "string", ctx.getPackageName())));
+            ctx.getText(ctx.getResources().getIdentifier(
+                "contrib_feature_" + f.toString() + "_label",
+                "string",
+                ctx.getPackageName())));
         if (iterator.hasNext())
           result = TextUtils.concat(result,linefeed);
       }
@@ -569,13 +630,17 @@ public class Utils {
    * @param item
    * @param enabled
    */
-  public static void menuItemSetEnabledAndVisible(MenuItem item, boolean enabled) {
+  public static void menuItemSetEnabledAndVisible(
+      MenuItem item,
+      boolean enabled) {
     item.setEnabled(enabled).setVisible(enabled);
   }
 
   public static boolean doesPackageExist(Context context,String targetPackage) {
     try {
-      context.getPackageManager().getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+      context.getPackageManager().getPackageInfo(
+          targetPackage,
+          PackageManager.GET_META_DATA);
         } catch (NameNotFoundException e) {
      return false;
      }
@@ -584,7 +649,8 @@ public class Utils {
 
   public static DateFormat localizedYearlessDateFormat() {
     Locale l = Locale.getDefault();
-    String yearlessPattern = ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
+    String yearlessPattern =
+        ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
         .toPattern().replaceAll("\\W?[Yy]+\\W?", "");
     return new SimpleDateFormat(yearlessPattern, l);
   }
@@ -594,16 +660,26 @@ public class Utils {
     try {
         Xml.parse(is, Xml.Encoding.UTF_8, handler);
     }  catch (IOException e) {
-      return new Result(false,R.string.parse_error_other_exception,e.getMessage());
+      return new Result(
+          false,
+          R.string.parse_error_other_exception,
+          e.getMessage());
     } catch (GrisbiHandler.FileVersionNotSupportedException e) {
-      return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
+      return new Result(
+          false,
+          R.string.parse_error_grisbi_version_not_supported,
+          e.getMessage());
     } catch (SAXException e) {
-      return new Result(false,R.string.parse_error_parse_exception);
+      return new Result(
+          false,
+          R.string.parse_error_parse_exception);
     }
     return handler.getResult();
   }
 
-  public static int importParties(ArrayList<String> partiesList,GrisbiImportTask task) {
+  public static int importParties(
+      ArrayList<String> partiesList,
+      GrisbiImportTask task) {
     int total = 0;
     for (int i=0;i<partiesList.size();i++){
       if (Payee.maybeWrite(partiesList.get(i)) != -1) {
@@ -636,7 +712,9 @@ public class Utils {
           }
         } else {
           //this should not happen
-          Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+          Log.w(
+              "MyExpenses",
+              "could neither retrieve nor store main category " + label);
           continue;
         }
       }
@@ -674,8 +752,10 @@ public class Utils {
   }
 
   /**
-   * @return false if the configured folder is inside the application folder that will be deleted upon app uninstall
-   * and hence user should be warned about the situation, unless he already has opted to no longer see this warning
+   * @return false if the configured folder is inside the application folder
+   * that will be deleted upon app uninstall
+   * and hence user should be warned about the situation,
+   * unless he already has opted to no longer see this warning
    */
   @SuppressLint("NewApi")
   public static boolean checkAppFolderWarning() {
@@ -690,8 +770,10 @@ public class Utils {
       if (configuredDir == null) {
         return true;
       }
-      URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null).getParentFile().getCanonicalFile().toURI();
-      return defaultDir.relativize(configuredDir.getCanonicalFile().toURI()).isAbsolute();
+      URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null)
+          .getParentFile().getCanonicalFile().toURI();
+      return defaultDir.relativize(configuredDir.getCanonicalFile().toURI())
+          .isAbsolute();
     } catch (IOException e) {
       return true;
     }
@@ -712,11 +794,15 @@ public class Utils {
   }
 
   public static void configDecimalSeparator(
-      final EditText editText, final char decimalSeparator, final int fractionDigits) {
-    //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
-    //the soft keyboard if it occupies full screen in horizontal orientation does not display
-    //the , as comma separator
+      final EditText editText,
+      final char decimalSeparator,
+      final int fractionDigits) {
+    //mAmountText.setInputType(
+    //  InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    //due to bug in Android platform
+    //http://code.google.com/p/android/issues/detail?id=2626
+    //the soft keyboard if it occupies full screen in horizontal orientation
+    //does not display the , as comma separator
     //TODO we should take into account the arab separator as well
     final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
     editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
@@ -727,21 +813,26 @@ public class Utils {
               Spanned dest, int dstart, int dend) {
             int separatorPosition = dest.toString().indexOf(decimalSeparator);
             if (fractionDigits>0) {
-              int minorUnits = separatorPosition==-1 ? 0 : dest.length()-(separatorPosition+1);
+              int minorUnits = separatorPosition==-1 ?
+                  0 :
+                  dest.length()-(separatorPosition+1);
               if (dstart > separatorPosition && dend > separatorPosition) {
-                //filter is only needed if we are past the separator and the change increases length of string
+                //filter is only needed if we are past the separator
+                //and the change increases length of string
                 if (dend-dstart<end-start && minorUnits>=fractionDigits)
                   return "";
               }
             }
             for (int i = start; i < end; i++) {
-              if (source.charAt(i) == otherSeparator || source.charAt(i) == decimalSeparator) {
+              if (source.charAt(i) == otherSeparator ||
+                  source.charAt(i) == decimalSeparator) {
                 char[] v = new char[end - start];
                 TextUtils.getChars(source, start, end, v, 0);
                 String s = new String(v).replace(otherSeparator,decimalSeparator);
                 if (fractionDigits==0 || //no separator allowed
                     separatorPosition>-1 || //we already have a separator
-                    dest.length()-dend>fractionDigits) //the separator would be positioned so that we have too many fraction digits
+                    dest.length()-dend>fractionDigits) //the separator would be 
+                      //positioned so that we have too many fraction digits
                   return s.replace(String.valueOf(decimalSeparator),"");
                 else
                   return s;
@@ -756,9 +847,11 @@ public class Utils {
 
   /**
    * @param str
-   * @return a representation of str converted to lower case, Unicode normalization applied and markers removed
+   * @return a representation of str converted to lower case,
+   * Unicode normalization applied and markers removed
    * this allows case-insentive comparison for non-ascii and non-latin strings
-   * works only above Gingerbread, on Froyo only lower case transformation is performed
+   * works only above Gingerbread,
+   * on Froyo only lower case transformation is performed
    */
   @SuppressLint({ "NewApi", "DefaultLocale" })
   public static String normalize(String str) {
@@ -772,7 +865,8 @@ public class Utils {
   }
   public static String esacapeSqlLikeExpression(String str) {
     return str
-        .replace(WhereFilter.LIKE_ESCAPE_CHAR, WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
+        .replace(WhereFilter.LIKE_ESCAPE_CHAR,
+            WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
         .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
         .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_");
   }
