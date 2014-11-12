@@ -46,7 +46,6 @@ import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
@@ -58,7 +57,6 @@ import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.xml.sax.SAXException;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -69,8 +67,6 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings.Secure;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -526,32 +522,7 @@ public class Utils {
 //    Long l = (s.hashCode() & 0x00000000ffffffffL);
 //    return l.toString().equals(key);
 //  }
-  public static void contribBuyDo(Activity ctx) {
-   Intent i = new Intent(Intent.ACTION_VIEW);
-   if (MyApplication.getInstance().isContribEnabled()) {
-     if (ctx instanceof FragmentActivity) {
-       DonateDialogFragment.newInstance().show(
-           ((FragmentActivity) ctx).getSupportFragmentManager(),
-           "CONTRIB");
-     } else {
-       //We are called from MyPreferenceActivity where
-       //support fragmentmanager is not available
-       ctx.showDialog(R.id.DONATE_DIALOG);
-     }
-   } else {
-     i.setData(Uri.parse(
-         MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
-     if (Utils.isIntentAvailable(ctx,i)) {
-       ctx.startActivity(i);
-     } else {
-       Toast.makeText(
-           ctx,
-           R.string.error_accessing_market,
-           Toast.LENGTH_LONG)
-         .show();
-     }
-   }
-  }
+
   /**
    * @param ctx for retrieving resources
    * @param other if not null, all features except the one provided will be returned
