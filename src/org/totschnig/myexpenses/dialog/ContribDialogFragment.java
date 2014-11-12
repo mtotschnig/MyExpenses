@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
@@ -40,8 +41,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public static final ContribDialogFragment newInstance(Feature feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putSerializable("feature", feature);
-    bundle.putSerializable("tag", tag);
+    bundle.putSerializable(ContribInfoDialogActivity.KEY_FEATURE, feature);
+    bundle.putSerializable(ContribInfoDialogActivity.KEY_TAG, tag);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -49,7 +50,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       final Bundle bundle = getArguments();
-      feature = (Feature) bundle.getSerializable("feature");
+      feature = (Feature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
       usagesLeft = feature.usagesLeft();
   }
   @Override
@@ -87,17 +88,17 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    Context ctx = getActivity();
+    ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
     if (ctx==null) {
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ((MessageDialogListener) ctx).dispatchCommand(R.id.CONTRIB_BUY_COMMAND,null);
+      ctx.contribBuyDo();
     } else {
       if (usagesLeft > 0) {
-        ((ContribIFace)ctx).contribFeatureCalled(feature, getArguments().getSerializable("tag"));
+        ctx.contribFeatureCalled(feature, getArguments().getSerializable(ContribInfoDialogActivity.KEY_TAG));
       } else {
-        ((ContribIFace)ctx).contribFeatureNotCalled();
+        ctx.contribFeatureNotCalled();
       }
     }
   }

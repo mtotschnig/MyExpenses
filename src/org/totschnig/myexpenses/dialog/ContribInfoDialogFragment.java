@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -84,14 +85,13 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
     if (getActivity()==null) {
       return;
     }
-    if (which == AlertDialog.BUTTON_POSITIVE)
-      ((MessageDialogListener) getActivity())
-        .dispatchCommand(R.id.CONTRIB_BUY_COMMAND,null);
-    else if (which == AlertDialog.BUTTON_NEUTRAL)
-      ((MessageDialogListener) getActivity())
-        .dispatchCommand(R.id.REMIND_LATER_COMMAND,"Contrib");
-    else
-      ((MessageDialogListener) getActivity())
-        .dispatchCommand(R.id.REMIND_NO_COMMAND,"Contrib");
+    ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
+    if (which == AlertDialog.BUTTON_POSITIVE) {
+      ctx.contribBuyDo();
+    } else if (which == AlertDialog.BUTTON_NEUTRAL) {
+      ctx.dispatchCommand(R.id.REMIND_LATER_COMMAND,"Contrib");
+    } else {
+      ctx.dispatchCommand(R.id.REMIND_NO_COMMAND,"Contrib");
+    }
   }
 }

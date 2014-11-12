@@ -46,7 +46,6 @@ import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
@@ -58,7 +57,6 @@ import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.xml.sax.SAXException;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -70,7 +68,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings.Secure;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -520,20 +517,14 @@ public class Utils {
         + 0.114 * Color.blue(color));
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
+
   public static boolean verifyLicenceKey (String key) {
     String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
         MyApplication.CONTRIB_SECRET;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     return l.toString().equals(key);
   }
-  public static void contribBuyDo(Activity ctx) {
-      if (ctx instanceof FragmentActivity)
-        DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
-      else {
-        //We are called from MyPreferenceActivity where support fragmentmanager is not available
-        ctx.showDialog(R.id.DONATE_DIALOG);
-      }
-  }
+
   /**
    * @param ctx for retrieving resources
    * @param other if not null, all features except the one provided will be returned

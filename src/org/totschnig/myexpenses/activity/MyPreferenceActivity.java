@@ -263,7 +263,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (preference.getKey().equals(MyApplication.PrefKey.CONTRIB_DONATE.getKey())) {
-      Utils.contribBuyDo(MyPreferenceActivity.this);
+      Intent i = new Intent(this,ContribInfoDialogActivity.class);
+      startActivity(i);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PrefKey.REQUEST_LICENCE.getKey())) {

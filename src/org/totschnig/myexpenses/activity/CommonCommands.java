@@ -80,9 +80,6 @@ public class CommonCommands {
     case R.id.CONTRIB_INFO_COMMAND:
       CommonCommands.showContribInfoDialog((FragmentActivity) ctx,false);
       return true;
-    case R.id.CONTRIB_BUY_COMMAND:
-      Utils.contribBuyDo(ctx);
-      return true;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse(ctx.getString(R.string.website)));
@@ -102,10 +99,15 @@ public class CommonCommands {
    return false;
   }
   public static void showContribDialog(FragmentActivity ctx,Feature feature, Serializable tag) {
-    ContribDialogFragment.newInstance(feature, tag).show(ctx.getSupportFragmentManager(),"CONTRIB");
+    Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
+    i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
+    i.putExtra(ContribInfoDialogActivity.KEY_TAG,tag);
+    ctx.startActivityForResult(i,ProtectedFragmentActivity.CONTRIB_REQUEST);
   }
   public static void showContribInfoDialog(FragmentActivity ctx,boolean reminderP) {
-    ContribInfoDialogFragment.newInstance(reminderP).show(ctx.getSupportFragmentManager(),"CONTRIB_INFO");
+    Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
+    i.putExtra(ContribInfoDialogActivity.KEY_REMINDER, reminderP);
+    ctx.startActivityForResult(i,0);
   }
   /**
    * retrieve information about the current version
