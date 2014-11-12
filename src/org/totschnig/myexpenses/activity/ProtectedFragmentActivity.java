@@ -17,9 +17,17 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 
+import org.onepf.oms.OpenIabHelper;
+import org.onepf.oms.appstore.AmazonAppstore;
+import org.onepf.oms.appstore.googleUtils.IabHelper;
+import org.onepf.oms.appstore.googleUtils.IabResult;
+import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.contrib.Config;
+import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
@@ -37,6 +45,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -68,6 +77,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int SELECT_CATEGORY_REQUEST = 9;
   public static final int EDIT_EVENT_REQUEST = 10;
   public static final int PICK_COLOR_REQUEST = 11;
+  public static final int PURCHASE_PREMIUM_REQUEST = 12;
   public static final int CONTRIB_REQUEST = 13;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
@@ -274,6 +284,99 @@ public class ProtectedFragmentActivity extends ActionBarActivity
           0);
     }
   }
+
+  public void contribBuyDo() {
+    Intent i = new Intent(Intent.ACTION_VIEW);
+    if (MyApplication.getInstance().isContribEnabled()) {
+        DonateDialogFragment.newInstance().show(
+            getSupportFragmentManager(), "CONTRIB");
+    } else {
+//      i.setData(Uri.parse(MyApplication.MARKET_PREFIX
+//          + "org.totschnig.myexpenses.contrib"));
+//      if (Utils.isIntentAvailable(ctx, i)) {
+//        ctx.startActivity(i);
+//      } else {
+//        Toast.makeText(ctx, R.string.error_accessing_market, Toast.LENGTH_LONG)
+//            .show();
+//      }
+      OpenIabHelper.Options.Builder builder =
+          new OpenIabHelper.Options.Builder()
+            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
+            .addStoreKeys(Config.STORE_KEYS_MAP);
+
+      final OpenIabHelper mHelper = new OpenIabHelper(this,builder.build());
+      final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d(MyApplication.TAG, "Purchase finished: " + result + ", purchase: " + purchase);
+            if (result.isFailure()) {
+                complain("Error purchasing: " + result);
+                setWaitScreen(false);
+                return;
+            }
+            if (!verifyDeveloperPayload(purchase)) {
+                complain("Error purchasing. Authenticity verification failed.");
+                setWaitScreen(false);
+                return;
+            }
+
+            Log.d(MyApplication.TAG, "Purchase successful.");
+
+            if (purchase.getSku().equals(Config.SKU_PREMIUM)) {
+                // bought the premium upgrade!
+                Log.d(MyApplication.TAG, "Purchase is premium upgrade. Congratulating user.");
+                //TODO
+                //alert("Thank you for upgrading to premium!");
+                MyApplication.getInstance().setContribEnabled(true);
+                setWaitScreen(false);
+            }
+        }
+
+        private boolean verifyDeveloperPayload(Purchase purchase) {
+          // TODO
+          return true;
+        }
+    };
+
+      final FragmentManager m = getSupportFragmentManager();
+      m.beginTransaction()
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup_purchase),"PROGRESS")
+        .commit();
+      mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+        public void onIabSetupFinished(IabResult result) {
+            Log.d(MyApplication.TAG, "Setup finished.");
+
+            if (!result.isSuccess()) {
+                // Oh noes, there was a problem.
+              Toast.makeText(ProtectedFragmentActivity.this, "Problem setting up in-app billing: ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Hooray, IAB is fully set up. Now, let's get an inventory of stuff we own.
+            Log.d(MyApplication.TAG, "Setup successful. Querying inventory.");
+            m.beginTransaction().remove(m.findFragmentByTag("PROGRESS")).commit();
+            mHelper.launchPurchaseFlow(ProtectedFragmentActivity.this, Config.SKU_PREMIUM, ProtectedFragmentActivity.PURCHASE_PREMIUM_REQUEST, mPurchaseFinishedListener);
+        }
+      });
+    }
+  }
+  private void setWaitScreen(boolean set) {
+    final FragmentManager m = getSupportFragmentManager();
+    if(set) {
+      m.beginTransaction()
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup_purchase),"PROGRESS")
+        .commit();
+    } else {
+      ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+      if (f!=null) {
+          m.beginTransaction().remove(f).commitAllowingStateLoss();
+      }
+    }
+  }
+
+  void complain(String message) {
+    Log.e(MyApplication.TAG, "**** InAppPurchase Error: " + message);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+  }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
@@ -284,5 +387,4 @@ public class ProtectedFragmentActivity extends ActionBarActivity
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
     }
   }
-
 }
