@@ -20,10 +20,10 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
@@ -47,7 +47,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -69,6 +68,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int SELECT_CATEGORY_REQUEST = 9;
   public static final int EDIT_EVENT_REQUEST = 10;
   public static final int PICK_COLOR_REQUEST = 11;
+  public static final int CONTRIB_REQUEST = 13;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -274,4 +274,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
           0);
     }
   }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == CONTRIB_REQUEST && resultCode == RESULT_OK) {
+      ((ContribIFace) this).contribFeatureCalled(
+          (Feature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+          intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+    }
+  }
+
 }
