@@ -404,7 +404,7 @@ public class MyExpenses extends LaunchActivity implements
         nextReminder = 
             MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
-          CommonCommands.showContribInfoDialog(this,true);
+          CommonCommands.showContribInfoDialog(this,sequenceCount);
           return;
         }
       }
@@ -598,16 +598,11 @@ public class MyExpenses extends LaunchActivity implements
       }
       initialSetup();
       return true;*/
-    case R.id.REMIND_NO_COMMAND:
-      PrefKey pref = ((String) tag).equals("Rate") ? PrefKey.NEXT_REMINDER_RATE : PrefKey.NEXT_REMINDER_CONTRIB;
-      pref.putLong(-1);
+    case R.id.REMIND_NO_RATE_COMMAND:
+      PrefKey.NEXT_REMINDER_RATE.putLong(-1);
       return true;
-    case R.id.REMIND_LATER_COMMAND:
-      if (((String) tag).equals("Rate")) {
-        PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount+TRESHOLD_REMIND_RATE);
-      } else {
-        PrefKey.NEXT_REMINDER_CONTRIB.putLong(sequenceCount+TRESHOLD_REMIND_CONTRIB);
-      }
+    case R.id.REMIND_LATER_RATE_COMMAND:
+      PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount+TRESHOLD_REMIND_RATE);
       return true;
     case R.id.HELP_COMMAND:
       setHelpVariant();

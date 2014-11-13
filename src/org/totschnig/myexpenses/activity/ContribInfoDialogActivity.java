@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity;
 import java.io.Serializable;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
@@ -15,17 +16,18 @@ import android.support.v4.app.FragmentActivity;
 
   public class ContribInfoDialogActivity extends FragmentActivity
       implements MessageDialogListener,ContribIFace {
-
+    protected long sequenceCount;
     public final static String KEY_FEATURE = "feature";
     public static final String KEY_TAG = "tag";
-    public static final String KEY_REMINDER = "reminder";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Feature f = (Feature) getIntent().getSerializableExtra(KEY_FEATURE);
+
         if (f==null) {
+          sequenceCount = getIntent().getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
           ContribInfoDialogFragment.newInstance(
-              getIntent().getBooleanExtra(KEY_REMINDER, false))
+              sequenceCount)
             .show(getSupportFragmentManager(),"CONTRIB_INFO");
         } else {
           ContribDialogFragment.newInstance(f,
@@ -35,7 +37,13 @@ import android.support.v4.app.FragmentActivity;
     }
     @Override
     public boolean dispatchCommand(int command, Object tag) {
-      CommonCommands.dispatchCommand(this, command, tag);
+      switch (command) {
+      case R.id.REMIND_LATER_CONTRIB_COMMAND:
+        PrefKey.NEXT_REMINDER_CONTRIB.putLong(sequenceCount+MyExpenses.TRESHOLD_REMIND_CONTRIB);
+        break;
+      case R.id.REMIND_NO_CONTRIB_COMMAND:
+        PrefKey.NEXT_REMINDER_CONTRIB.putLong(-1);
+      }
       finish();
       return true;
     }
