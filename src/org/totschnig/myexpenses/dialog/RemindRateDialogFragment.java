@@ -76,10 +76,10 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
         .dispatchCommand(mRating.getRating() >= POSITIVE_RATING ? R.id.RATE_COMMAND : R.id.FEEDBACK_COMMAND,null);
     } else if (which == AlertDialog.BUTTON_NEUTRAL) {
       ((MessageDialogListener) getActivity())
-        .dispatchCommand(R.id.REMIND_LATER_COMMAND,"Rate");
+        .dispatchCommand(R.id.REMIND_LATER_RATE_COMMAND,null);
     } else {
       ((MessageDialogListener) getActivity())
-        .dispatchCommand(R.id.REMIND_NO_COMMAND,"Rate");
+        .dispatchCommand(R.id.REMIND_NO_RATE_COMMAND,null);
     }
   }
   @Override

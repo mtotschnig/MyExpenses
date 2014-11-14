@@ -30,16 +30,16 @@ import android.text.TextUtils;
 
 public class ContribInfoDialogFragment  extends CommitSafeDialogFragment implements OnClickListener {
 
-  private static final String KEY_REMINDER_P = "reminderP";
+  public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
   /**
-   * @param reminderP yes if we are called from a reminder
+   * @param sequenceCount yes if we are called from a reminder
    * @return
    */
-  public static final ContribInfoDialogFragment newInstance(boolean reminderP) {
+  public static final ContribInfoDialogFragment newInstance(long sequenceCount) {
     ContribInfoDialogFragment dialogFragment = new ContribInfoDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putBoolean(KEY_REMINDER_P, reminderP);
-    if (reminderP) {
+    bundle.putLong(KEY_SEQUENCE_COUNT, sequenceCount);
+    if (sequenceCount!=-1) {
       dialogFragment.setCancelable(false);
     }
     dialogFragment.setArguments(bundle);
@@ -60,7 +60,7 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       .setTitle(R.string.menu_contrib);
       builder.setMessage(message)
         .setPositiveButton(R.string.dialog_contrib_yes, this);
-      if (getArguments().getBoolean(KEY_REMINDER_P)) {
+      if (getArguments().getLong(KEY_SEQUENCE_COUNT)!=-1) {
         builder.setNeutralButton(R.string.dialog_remind_later,this)
           .setNegativeButton(R.string.dialog_remind_no,this);
       } else {
@@ -89,9 +89,9 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
     if (which == AlertDialog.BUTTON_POSITIVE) {
       ctx.contribBuyDo();
     } else if (which == AlertDialog.BUTTON_NEUTRAL) {
-      ctx.dispatchCommand(R.id.REMIND_LATER_COMMAND,"Contrib");
+      ctx.dispatchCommand(R.id.REMIND_LATER_CONTRIB_COMMAND,null);
     } else {
-      ctx.dispatchCommand(R.id.REMIND_NO_COMMAND,"Contrib");
+      ctx.dispatchCommand(R.id.REMIND_NO_CONTRIB_COMMAND,null);
     }
   }
 }

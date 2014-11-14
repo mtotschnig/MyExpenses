@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,10 +30,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -102,32 +105,63 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
           span.setSpan(new ClickableSpan() {
               @Override
               public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(getActivity(), heading);
-                // This activity implements OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+                  onClickLegacy();
+                } else {
+                  onClickHoneycomb();
+                }
+              }
+            private void onClickLegacy() {
+              android.support.v7.widget.PopupMenu popup = new android.support.v7.widget.PopupMenu(getActivity(), heading);
+              popup.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
 
-                  @Override
-                  public boolean onMenuItemClick(MenuItem item) {
-                    String[] postIds = res.getStringArray(resId);
-                    String uri = null;
-                    switch(item.getItemId()) {
-                    case R.id.facebook:
-                      uri = "https://www.facebook.com/MyExpenses/posts/" + postIds[0];
-                      break;
-                    case R.id.google:
-                      uri = "https://plus.google.com/116736113799210525299/posts/" + postIds[1];
-                      break;
-                    }
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(uri));
-                    startActivity(i);
-                    return true;
-                  }
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                  handleMenuClick(item.getItemId());
+                  return true;
+                }
 
-                });
-                popup.inflate(R.menu.version_info);
-                popup.show();
-              } }, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+              });
+              popup.inflate(R.menu.version_info);
+              popup.show();
+            }
+            @SuppressLint("NewApi")
+            private void onClickHoneycomb() {
+              PopupMenu popup = new PopupMenu(getActivity(), heading);
+              popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                  handleMenuClick(item.getItemId());
+                  return true;
+                }
+
+              });
+              popup.inflate(R.menu.version_info);
+              popup.show();
+            }
+            /**
+             * @param res
+             * @param resId
+             * @param item
+             * @throws NotFoundException
+             */
+            protected void handleMenuClick(final int itemId) throws NotFoundException {
+              String[] postIds = res.getStringArray(resId);
+              String uri = null;
+              switch(itemId) {
+              case R.id.facebook:
+                uri = "https://www.facebook.com/MyExpenses/posts/" + postIds[0];
+                break;
+              case R.id.google:
+                uri = "https://plus.google.com/116736113799210525299/posts/" + postIds[1];
+                break;
+              }
+              Intent i = new Intent(Intent.ACTION_VIEW);
+              i.setData(Uri.parse(uri));
+              startActivity(i);
+            }
+          }, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           learn_more.setText(span);
           learn_more.setMovementMethod(LinkMovementMethod.getInstance());
         }

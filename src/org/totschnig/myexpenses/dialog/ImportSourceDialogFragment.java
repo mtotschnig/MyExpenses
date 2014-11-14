@@ -104,6 +104,13 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
     intent.setDataAndType(mUri,getMimeType());
+    
+    if (isKitKat && !Utils.isIntentAvailable(getActivity(), intent)) {
+      //fallback
+      intent = new Intent(Intent.ACTION_GET_CONTENT);
+      intent.addCategory(Intent.CATEGORY_OPENABLE);
+      intent.setDataAndType(mUri,getMimeType());
+    }
   
     try {
         startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);

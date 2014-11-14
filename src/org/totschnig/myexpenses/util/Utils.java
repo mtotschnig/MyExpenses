@@ -312,9 +312,9 @@ public class Utils {
     }
   }
   public static File getCacheDir() {
-    return /*Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO ?
-        MyApplication.getInstance().getCacheDir() :*/
-        MyApplication.getInstance().getExternalCacheDir();
+    File external = MyApplication.getInstance().getExternalCacheDir();
+    return external != null ? external :
+        MyApplication.getInstance().getCacheDir();
   }
   /**
    * @param parentDir
@@ -516,6 +516,7 @@ public class Utils {
         + 0.114 * Color.blue(color));
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
+
 //  public static boolean verifyLicenceKey (String key) {
 //    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
 //        MyApplication.CONTRIB_SECRET;

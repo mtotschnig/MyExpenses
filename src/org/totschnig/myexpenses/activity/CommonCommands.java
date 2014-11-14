@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -78,12 +77,7 @@ public class CommonCommands {
       }
       break;
     case R.id.CONTRIB_INFO_COMMAND:
-      CommonCommands.showContribInfoDialog((FragmentActivity) ctx,false);
-      return true;
-    case R.id.CONTRIB_APP_COMMAND:
-      i = ctx.getPackageManager().getLaunchIntentForPackage("org.totschnig.myexpenses.contrib");
-      if (i != null)
-        ctx.startActivity(i);
+      CommonCommands.showContribInfoDialog((FragmentActivity) ctx,-1);
       return true;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
@@ -109,9 +103,9 @@ public class CommonCommands {
     i.putExtra(ContribInfoDialogActivity.KEY_TAG,tag);
     ctx.startActivityForResult(i,ProtectedFragmentActivity.CONTRIB_REQUEST);
   }
-  public static void showContribInfoDialog(FragmentActivity ctx,boolean reminderP) {
+  public static void showContribInfoDialog(FragmentActivity ctx,long sequenceCount) {
     Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
-    i.putExtra(ContribInfoDialogActivity.KEY_REMINDER, reminderP);
+    i.putExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, sequenceCount);
     ctx.startActivityForResult(i,0);
   }
   /**

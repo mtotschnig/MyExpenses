@@ -62,16 +62,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
-    if (MyApplication.getInstance().showContribRetryLimitReachedInfo) {
-      MessageDialogFragment.newInstance(
-          R.string.app_name_contrib,
-          "The license of your purchase could not be verified. Please check your network connection.",
-          new MessageDialogFragment.Button(R.string.app_contrib_launch, R.id.CONTRIB_APP_COMMAND, null),
-          null,
-          MessageDialogFragment.Button.noButton())
-        .show(getSupportFragmentManager(),"MESSAGE");
-      MyApplication.getInstance().showContribRetryLimitReachedInfo = false;
-    }
   }
   /* (non-Javadoc)
    * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)

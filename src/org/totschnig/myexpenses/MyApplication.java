@@ -189,8 +189,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     private boolean contribEnabled = false;
     
 
-    public boolean  showImportantUpgradeInfo = false,
-        showContribRetryLimitReachedInfo = false;
+    public boolean  showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
 
@@ -314,7 +313,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           }
         }
         else {
-          showContribRetryLimitReachedInfo = true;
+          //showContribRetryLimitReachedInfo = true;
         }
       } else {
         Log.i(TAG,"Contrib status enabled");

@@ -15,9 +15,6 @@
 
 package org.totschnig.myexpenses.test.misc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.*;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
@@ -44,7 +41,6 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     Resources res = ctx.getResources();
     String pack = ctx.getPackageName();
     int menuItemsIdentifier;
-    ArrayList<String> menuItems= new ArrayList<String>();
     Class<?>[] activities = new Class<?>[] {
         ManageParties.class,
         MethodEdit.class,
@@ -61,8 +57,13 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       Assert.assertTrue(org.totschnig.myexpenses.activity.ProtectedFragmentActivity.class.isAssignableFrom(activity));
       int titleIdentifier = res.getIdentifier("help_" +className + "_title", "string", pack);
       menuItemsIdentifier = res.getIdentifier(className+"_menuitems", "array", pack);
-      if (menuItemsIdentifier != 0)
-        menuItems.addAll(Arrays.asList(res.getStringArray(menuItemsIdentifier)));
+      if (menuItemsIdentifier != 0) {
+        testMenuItems(className, null, res.getStringArray(menuItemsIdentifier), "menu");
+      }
+      menuItemsIdentifier = res.getIdentifier(className+"_cabitems", "array", pack);
+      if (menuItemsIdentifier != 0) {
+        testMenuItems(className, null, res.getStringArray(menuItemsIdentifier), "cab");
+      }
       try {
         Class<Enum<?>> variants = (Class<Enum<?>>) Class.forName(activity.getName()+"$"+"HelpVariant");
         for (Enum<?> variant: variants.getEnumConstants()) {
@@ -73,21 +74,20 @@ public class HelpTest extends android.test.InstrumentationTestCase {
           //and its specific info
           Assert.assertTrue("info not defined for "+ className+", variant "+variantName,res.getIdentifier("help_" +className + "_" + variantName + "_info", "string", pack)!=0);
           menuItemsIdentifier = res.getIdentifier(className + "_" + variantName +"_menuitems", "array", pack);
-          if (menuItemsIdentifier != 0)
-            menuItems.addAll(Arrays.asList(res.getStringArray(menuItemsIdentifier)));
+          if (menuItemsIdentifier != 0) {
+            testMenuItems(className, variantName, res.getStringArray(menuItemsIdentifier), "menu");
+          }
+          menuItemsIdentifier = res.getIdentifier(className + "_" + variantName +"_cabitems", "array", pack);
+          if (menuItemsIdentifier != 0) {
+            testMenuItems(className, variantName, res.getStringArray(menuItemsIdentifier), "cab");
+          }
         }
       } catch (ClassNotFoundException e) {
         //title if there are no variants
         Assert.assertTrue("title not defined for "+ className,titleIdentifier!=0);
         //classes with variants can have a generic info that is displayed in all variants, but it is not required
         Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
-
       }
-    }
-    for (String item : menuItems) {
-      Assert.assertTrue(HelpDialogFragment.iconMap.containsKey(item));
-      Assert.assertTrue("title not defined for "+ item,res.getIdentifier("menu_"+item,"string",pack)!=0);
-      Assert.assertTrue("help text not defined for "+ item,res.getIdentifier("menu_"+item+"_help_text","string",pack)!=0);
     }
   }
   public void testVersionCodes() {
@@ -98,6 +98,30 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     for (int i=0;i<versionCodes.length;i++) {
       Assert.assertNotNull("Could not get changes for version " + versionNames[i],
           new VersionDialogFragment.VersionInfo(versionCodes[i], versionNames[i]).getChanges(ctx));
+    }
+  }
+  private void testMenuItems(
+      String activityName,
+      String variant,
+      String[] menuItems,
+      String prefix) {
+    Context ctx =  getInstrumentation().getTargetContext();
+    Resources res = ctx.getResources();
+    String pack = ctx.getPackageName();
+    String resIdString;
+    int resId;
+    for (String item: menuItems) {
+      assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
+      resIdString = "menu_"+item;
+      assertTrue("title not found for " + item,res.getIdentifier(resIdString,"string",pack) != 0);
+      resId = res.getIdentifier(prefix + "_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
+      if (resId == 0) {
+        resId = res.getIdentifier(prefix + "_" +activityName + "_" + item + "_help_text","string",pack);
+        if (resId == 0) {
+          resIdString = prefix + "_"  + item + "_help_text";
+          assertTrue("help text not found for " + item,res.getIdentifier(resIdString,"string",pack)!=0);
+        }
+      }
     }
   }
 }
