@@ -29,11 +29,19 @@ public class Distrib {
   public static int getContribStatusInfo(Context ctx) {
     PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
     int status = Integer.parseInt(p.getString(MyApplication.PrefKey.LICENSE_STATUS.getKey(),"0"));
-    if (status>0)
+    if (status>0) {
       return 0-status;
-    else
+    } else {
       return Integer.parseInt(p.getString(
           MyApplication.PrefKey.LICENSE_RETRY_COUNT.getKey(),"0"));
+    }
+  }
+
+  public static void setContribStatus(Context ctx, boolean enabled) {
+    PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
+    p.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), enabled ? "2" : "0");
+    p.commit();
+    MyApplication.getInstance().setContribEnabled(enabled);
   }
   public static boolean isBatchAvailable() {
     return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
