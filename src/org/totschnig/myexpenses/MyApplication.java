@@ -184,10 +184,18 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         "ifnull(" + Calendars.NAME + ",'') AS path";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
-    private ServiceConnection mConnection;
+    private String contribStatus = Distrib.STATUS_DISABLED;
 
-    private boolean contribEnabled = false;
-    
+    public void setContribStatus(String contribStatus) {
+      this.contribStatus = contribStatus;
+    }
+    public boolean isContribEnabled() {
+      return ! contribStatus.equals(Distrib.STATUS_DISABLED);
+    }
+
+    public String getContribStatus() {
+      return contribStatus;
+    }
 
     public boolean  showImportantUpgradeInfo = false;
     private long mLastPause = 0;
@@ -196,12 +204,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     private boolean isLocked;
     public boolean isLocked() {
       return isLocked;
-    }
-    public void setContribEnabled(boolean contribEnabled) {
-      this.contribEnabled = contribEnabled;
-    }
-    public boolean isContribEnabled() {
-      return contribEnabled;
     }
 
     public void setLocked(boolean isLocked) {
@@ -257,67 +259,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     private void initContribEnabled() {
-      //TODO profile time taken in this function
-      int contribStatusInfo = Distrib.getContribStatusInfo(this);
-      contribEnabled = contribStatusInfo < 0;
-      //we call MyExpensesContrib to check status
-      if (!contribEnabled) {
-        Log.i(TAG,"contribStatusInfo: " + contribStatusInfo);
-        if (contribStatusInfo < RETRY_LIMIT) {
-          try {
-            final Messenger mMessenger = new Messenger(new UnlockHandler() {
-              public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                try {
-                  unbindService(mConnection);
-                  Log.i(TAG,"having handled message; unbinding from service");
-                } catch (IllegalArgumentException e) {
-                  Log.i(TAG,"unbind service during handleMessage lead to IllegalArgumentException");
-                }
-              }
-            });
-            mConnection = new ServiceConnection() {
-              public void onServiceConnected(ComponentName className, IBinder service) {
-                  // This is called when the connection with the service has been
-                  // established, giving us the object we can use to
-                  // interact with the service.  We are communicating with the
-                  // service using a Messenger, so here we get a client-side
-                  // representation of that from the raw IBinder object.
-                  mService = new Messenger(service);
-                  try {
-                    Message msg = Message.obtain();
-                    msg.replyTo = mMessenger;
-                    mService.send(msg);
-                  } catch (RemoteException e) {
-                    Log.w(TAG,"Could not communicate with licence verification service");
-                  }
-              }
-  
-              public void onServiceDisconnected(ComponentName className) {
-                  // This is called when the connection with the service has been
-                  // unexpectedly disconnected -- that is, its process crashed.
-                  mService = null;
-              }
-            };
-            if (!bindService(new Intent("org.totschnig.myexpenses.contrib.MyService"), mConnection,
-                Context.BIND_AUTO_CREATE)) {
-              //showImportantUpgradeInfo = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib");
-              try {
-                //prevent ServiceConnectionLeaked warning
-                unbindService(mConnection);
-              } catch (Throwable t) {}
-            }
-            //TODO implement dialog showing contribupgradeinfo
-          } catch (SecurityException e) {
-            Log.w(TAG,"Could not bind to licence verification service");
-          }
-        }
-        else {
-          //showContribRetryLimitReachedInfo = true;
-        }
-      } else {
-        Log.i(TAG,"Contrib status enabled");
-      }
+      this.contribStatus = Distrib.getContribStatusInfo(this);
     }
 
     public static MyApplication getInstance() {

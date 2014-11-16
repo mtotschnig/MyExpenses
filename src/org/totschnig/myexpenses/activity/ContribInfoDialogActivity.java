@@ -95,6 +95,9 @@ import android.widget.Toast;
               getSupportFragmentManager(), "CONTRIB");
           return;
       }
+      if (mHelper==null) {
+        return;
+      }
       if (!mSetupDone) {
         complain("Billing setup is not completed yet");
         return;
@@ -126,7 +129,7 @@ import android.widget.Toast;
                 complain(Utils.concatResStrings(
                     ContribInfoDialogActivity.this,
                     R.string.premium_unlocked,R.string.thank_you));
-                Distrib.setContribStatus(ContribInfoDialogActivity.this, true);
+                Distrib.registerPurchase(ContribInfoDialogActivity.this);
                 //setWaitScreen(false);
             }
         }
@@ -198,4 +201,15 @@ import android.widget.Toast;
       }
       finish();
     }
+    // We're being destroyed. It's important to dispose of the helper here!
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // very important:
+        Log.d(MyApplication.TAG, "Destroying helper.");
+        if (mHelper != null) mHelper.dispose();
+        mHelper = null;
+    }
+
 }

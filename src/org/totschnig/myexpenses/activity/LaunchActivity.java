@@ -2,19 +2,70 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
+import org.onepf.oms.OpenIabHelper;
+import org.onepf.oms.appstore.googleUtils.IabHelper;
+import org.onepf.oms.appstore.googleUtils.IabHelper.QueryInventoryFinishedListener;
+import org.onepf.oms.appstore.googleUtils.IabResult;
+import org.onepf.oms.appstore.googleUtils.Inventory;
+import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.contrib.Config;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Distrib;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
 import android.util.Log;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
+  
+  private OpenIabHelper mHelper;
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String contribStatus = MyApplication.getInstance().getContribStatus();
+    if (contribStatus.equals(Distrib.STATUS_DISABLED) ||
+        contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
+      OpenIabHelper.Options.Builder builder =
+          new OpenIabHelper.Options.Builder()
+            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
+            .addStoreKeys(Config.STORE_KEYS_MAP);
+
+      mHelper = new OpenIabHelper(this,builder.build());
+      mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+        public void onIabSetupFinished(IabResult result) {
+            Log.d(MyApplication.TAG, "Setup finished.");
+            if (mHelper==null) {
+              return;
+            }
+
+            if (result.isSuccess()) {
+              mHelper.queryInventoryAsync(false,new QueryInventoryFinishedListener() {
+                @Override
+                public void onQueryInventoryFinished(
+                    IabResult result,
+                    Inventory inventory) {
+                  // TODO Auto-generated method stub
+                  if (mHelper==null) {
+                    return;
+                  }
+                  // Do we have the premium upgrade?
+                  Purchase premiumPurchase =
+                      inventory.getPurchase(Config.SKU_PREMIUM);
+                  if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
+                    Distrib.registerPurchase(LaunchActivity.this);
+                  }
+                }
+              });
+            }
+        }
+      });
+    }
+  }
 
   /**
    * check if this is the first invocation of a new version
@@ -79,5 +130,15 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       finish();
       startActivity(i);
     }
+  }
+  // We're being destroyed. It's important to dispose of the helper here!
+  @Override
+  public void onDestroy() {
+      super.onDestroy();
+
+      // very important:
+      Log.d(MyApplication.TAG, "Destroying helper.");
+      if (mHelper != null) mHelper.dispose();
+      mHelper = null;
   }
 }
