@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -32,7 +31,6 @@ import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -187,6 +185,9 @@ public class ExpenseEdit extends AmountActivity implements
     mPayeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
       @SuppressLint("NewApi")
       public Cursor runQuery(CharSequence str) {
+        if (str==null) {
+          return null;
+        }
         String search = Utils.esacapeSqlLikeExpression(Utils.normalize(str.toString()));
         //we accept the string at the beginning of a word
         String selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
