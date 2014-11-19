@@ -512,6 +512,7 @@
     <string name="comparison_operator_between">between</string>
     <string name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
     <string name="premium_unlocked">Premium features unlocked.</string>
+    <string name="premium_failed_or_canceled">Purchasing failed or cancelled.</string>
     <string name="hint_auto_fill">Should amount, category and comment be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
