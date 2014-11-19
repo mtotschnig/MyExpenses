@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 /**
@@ -204,16 +205,25 @@ public class DatabaseConstants {
     "END AS " + KEY_LABEL_SUB;
   /**
    * if transaction is linked to a subcategory
-   * only the label from the subcategory is returned
+   * main and category label are concatenated
    */
-  public static final String SHORT_LABEL = 
-    "CASE WHEN " +
-    "  " + KEY_TRANSFER_PEER + " " +
-    "THEN " +
-    "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
-    "ELSE " +
-    "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-    "END AS  " + KEY_LABEL;
+  public static final String FULL_LABEL =
+      "CASE WHEN " +
+          "  " + KEY_TRANSFER_PEER + " " +
+      " THEN " +
+        "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
+      " ELSE " +
+        " CASE WHEN " +
+            " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+        " THEN " +
+          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
+            " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
+          "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
+          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+        " ELSE" +
+          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+        " END " +
+      " END AS  " + KEY_LABEL;
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID
           + " FROM " + TABLE_TRANSACTIONS + " peer WHERE peer." + KEY_ROWID
