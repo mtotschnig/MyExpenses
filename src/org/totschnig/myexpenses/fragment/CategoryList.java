@@ -248,6 +248,11 @@ public class CategoryList extends ContextualActionBarFragment implements
     case R.id.SELECT_COMMAND:
       if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
         label += TABS + Utils.convAmount(c.getString(c.getColumnIndex(KEY_SUM)),mAccount.currency);
+      } else if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+        mGroupCursor.moveToPosition(group);
+        label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
+            +TransactionList.CATEGORY_SEPARATOR
+            +label;
       }
       doSelection(elcmi.id,label,isMain);
       finishActionMode();
@@ -566,6 +571,11 @@ public class CategoryList extends ContextualActionBarFragment implements
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
+    }  else if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+      mGroupCursor.moveToPosition(groupPosition);
+      label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
+          +TransactionList.CATEGORY_SEPARATOR
+          +label;
     }
     doSelection(id,label,false);
     return true;

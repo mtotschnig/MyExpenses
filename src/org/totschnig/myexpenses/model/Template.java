@@ -50,7 +50,7 @@ public class Template extends Transaction {
       KEY_COMMENT,
       KEY_CATID,
       LABEL_MAIN,
-      SHORT_LABEL,
+      FULL_LABEL,
       "CASE" +
         " WHEN transfer_peer = 0 AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id)" +
         " THEN (SELECT label FROM categories WHERE _id = cat_id)" +
