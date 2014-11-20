@@ -12,6 +12,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.test.util.Fixture;
+import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.activity.MyExpenses;
 
 /**
@@ -124,7 +125,7 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 //      .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
       .commit();
     //not yet tested
-    app.setContribEnabled(true);
+    app.setContribStatus(Distrib.STATUS_ENABLED_PERMANENT);
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
 	}
