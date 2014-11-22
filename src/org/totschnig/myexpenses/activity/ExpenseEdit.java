@@ -1180,7 +1180,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
       else if (mTransaction instanceof Template) {
         mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-        mPlanId = ((Template) mTransaction).planId;
+        if (mPlanId==null) {
+          mPlanId = ((Template) mTransaction).planId;
+        }
       }
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
