@@ -143,7 +143,12 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
           backupFile.delete();
           backupPrefFile.delete();
         }
-        return new Result(true,R.string.restore_preferences_success);
+        publishProgress(R.string.restore_preferences_success);
+        //if a user restores a backup we do not want past plan instances to flood the database
+        MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(System.currentTimeMillis());
+        //now handling plans
+        publishProgress(MyApplication.getInstance().restorePlanner().getMessage());
+        return new Result(true);
       } else {
         return new Result(false,R.string.restore_preferences_failure);
       }

@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.*;
 
@@ -579,17 +580,22 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                 long templateId = planCursor.getLong(0);
                 long planId = planCursor.getLong(1);
                 Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI, planId);
+                String[] projection = new String[android.os.Build.VERSION.SDK_INT>=16?10:8];
+                projection[0] = Events.DTSTART;
+                projection[1] = Events.DTEND;
+                projection[2] = Events.RRULE;
+                projection[3] = Events.TITLE;
+                projection[4] = Events.ALL_DAY;
+                projection[5] = Events.EVENT_TIMEZONE;
+                projection[6] = Events.DURATION;
+                projection[7] = Events.DESCRIPTION;
+                if (android.os.Build.VERSION.SDK_INT>=16) {
+                  projection[8] = Events.CUSTOM_APP_PACKAGE;
+                  projection[9] = Events.CUSTOM_APP_URI;
+                }
                 Cursor eventCursor = cr.query(
                     eventUri,
-                    new String[]{
-                        Events.DTSTART,
-                        Events.DTEND,
-                        Events.RRULE,
-                        Events.TITLE,
-                        Events.ALL_DAY,
-                        Events.EVENT_TIMEZONE,
-                        Events.DURATION,
-                        Events.DESCRIPTION},
+                    projection,
                     Events.CALENDAR_ID + " = ?",
                     new String[] {oldValue},
                     null);
@@ -604,6 +610,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                     eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
                     eventValues.put(Events.DURATION, eventCursor.getString(6));
                     eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
+                    if (android.os.Build.VERSION.SDK_INT>=16) {
+                      eventValues.put(Events.CUSTOM_APP_PACKAGE,eventCursor.getString(8));
+                      eventValues.put(Events.CUSTOM_APP_URI,eventCursor.getString(9));
+                    }
                     uri = cr.insert(Events.CONTENT_URI, eventValues);
                     planId = ContentUris.parseId(uri);
                     Log.i(TAG,"copied event from old to new" + planId);
@@ -646,5 +656,63 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public int getMemoryClass() {
       ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
       return am.getMemoryClass();
+    }
+    public Result restorePlanner() {
+      //1.check if a planner is configured. If no, nothing to do
+      //2.check if the configured planner exists on the device
+      //2.1 if yes go through all events and look for them based on
+      //UID_2445 on API>17, based on ? otherwise
+      //recreate events that we did not find
+      //2.2if no ask user to select a calendar where we will recreate the events
+      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+      if (!mPlannerCalendarId.equals("-1")) {
+        if (!checkPlanner().equals("-1")) {
+          ContentResolver cr = getContentResolver();
+          Cursor planCursor = cr.query(
+              Template.CONTENT_URI,
+              new String[] {
+                  DatabaseConstants.KEY_ROWID,
+                  DatabaseConstants.KEY_ACCOUNTID,
+                  DatabaseConstants.KEY_PLANID,
+                  DatabaseConstants.KEY_UUID},
+              DatabaseConstants.KEY_PLANID + " IS NOT null",
+              null,
+              null);
+          if (planCursor!=null) {
+            if (planCursor.moveToFirst()) {
+              do {
+                String customAppUri = Template.buildCustomAppUri(
+                    planCursor.getLong(1),//acountId
+                    planCursor.getLong(0),//templateId
+                    planCursor.getString(3));//uuid
+                Cursor eventCursor = cr.query(
+                    Events.CONTENT_URI,
+                    new String[]{
+                        Events._ID},
+                    Events.CALENDAR_ID + " = ? AND " + Events.CUSTOM_APP_URI + " = ?",
+                    new String[] {mPlannerCalendarId,customAppUri},
+                    null);
+                if (eventCursor != null) {
+                  if (eventCursor.moveToFirst()) {
+                    Log.d(MyApplication.TAG,
+                        String.format(
+                            "While looking for app with uri %s found event with id %d. " +
+                            "Original event had id %d",
+                            customAppUri,eventCursor.getLong(0),planCursor.getLong(2)));
+                  } else {
+                    Log.d(MyApplication.TAG,
+                        String.format(
+                            "While looking for app with uri %s found no event.",
+                            customAppUri));
+                  }
+                  eventCursor.close();
+                }
+              } while (planCursor.moveToNext());
+            }
+            planCursor.close();
+          }
+        }
+      }
+      return new Result(true,R.string.restore_calendar_success);
     }
 }

@@ -182,7 +182,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     switch (taskId) {
     case TaskExecutionFragment.TASK_RESTORE:
       String msg = r.print(this);
-      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+      if (msg!=null) {
+        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+      }
       if (((Result) result).success) {
         MyApplication.getInstance().resetContribEnabled();
         // if the backup is password protected, we want to force the password

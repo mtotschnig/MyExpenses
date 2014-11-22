@@ -17,13 +17,18 @@ package org.totschnig.myexpenses.provider;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -35,7 +40,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 46;
+  public static final int DATABASE_VERSION = 47;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -149,6 +154,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_USAGES           + " integer default 0, "
       + KEY_PLANID           + " integer, "
       + KEY_PLAN_EXECUTION   + " boolean default 0, "
+      + KEY_UUID             + " text, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
   /**
@@ -712,6 +718,33 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
         }
         c.close();
+      }
+      if (oldVersion < 46) {
+        db.execSQL("ALTER TABLE templates add column uuid text");
+        c = db.query(
+            "templates",
+            new String[]{KEY_ACCOUNTID,KEY_ROWID,KEY_PLANID},
+            null, null, null,null,null);
+        if (c!=null) {
+          if (c.moveToFirst()) {
+            ContentValues templateValues = new ContentValues(),
+                eventValues = new ContentValues();
+            while( c.getPosition() < c.getCount() ) {
+              String uuid = UUID.randomUUID().toString();
+              templateValues.put(DatabaseConstants.KEY_UUID, uuid);
+              eventValues.put(Events.CUSTOM_APP_URI,Template.buildCustomAppUri(
+                  c.getLong(0),//acountId
+                  c.getLong(1),//templateId
+                  uuid));
+              db.update("templates", templateValues, "_id = "+c.getLong(1),null);
+              mCtx.getContentResolver().update(
+                  ContentUris.withAppendedId(Events.CONTENT_URI, c.getLong(2)),
+                  eventValues,null,null);
+              c.moveToNext();
+            }
+          }
+          c.close();
+        }
       }
     }
   }

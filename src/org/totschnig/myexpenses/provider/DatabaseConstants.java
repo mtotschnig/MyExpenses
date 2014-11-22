@@ -142,6 +142,7 @@ public class DatabaseConstants {
   public static final String KEY_SORT_KEY_TYPE = "sort_key_type";
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
+  public static final String KEY_UUID = "uuid";
   /**
    * column alias for the second group (month or week)
    */
