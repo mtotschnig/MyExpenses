@@ -719,32 +719,32 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         }
         c.close();
       }
-      if (oldVersion < 47) {
-        db.execSQL("ALTER TABLE templates add column uuid text");
-        c = db.query(
-            "templates",
-            new String[]{KEY_ACCOUNTID,KEY_ROWID,KEY_PLANID},
-            null, null, null,null,null);
-        if (c!=null) {
-          if (c.moveToFirst()) {
-            ContentValues templateValues = new ContentValues(),
-                eventValues = new ContentValues();
-            while( c.getPosition() < c.getCount() ) {
-              String uuid = UUID.randomUUID().toString();
-              templateValues.put(DatabaseConstants.KEY_UUID, uuid);
-              eventValues.put(Events.CUSTOM_APP_URI,Template.buildCustomAppUri(
-                  c.getLong(0),//acountId
-                  c.getLong(1),//templateId
-                  uuid));
-              db.update("templates", templateValues, "_id = "+c.getLong(1),null);
-              mCtx.getContentResolver().update(
-                  ContentUris.withAppendedId(Events.CONTENT_URI, c.getLong(2)),
-                  eventValues,null,null);
-              c.moveToNext();
-            }
+    }
+    if (oldVersion < 47) {
+      db.execSQL("ALTER TABLE templates add column uuid text");
+      Cursor c = db.query(
+          "templates",
+          new String[]{KEY_ACCOUNTID,KEY_ROWID,KEY_PLANID},
+          null, null, null,null,null);
+      if (c!=null) {
+        if (c.moveToFirst()) {
+          ContentValues templateValues = new ContentValues(),
+              eventValues = new ContentValues();
+          while( c.getPosition() < c.getCount() ) {
+            String uuid = UUID.randomUUID().toString();
+            templateValues.put(DatabaseConstants.KEY_UUID, uuid);
+            eventValues.put(Events.CUSTOM_APP_URI,Template.buildCustomAppUri(
+                c.getLong(0),//acountId
+                c.getLong(1),//templateId
+                uuid));
+            db.update("templates", templateValues, "_id = "+c.getLong(1),null);
+            mCtx.getContentResolver().update(
+                ContentUris.withAppendedId(Events.CONTENT_URI, c.getLong(2)),
+                eventValues,null,null);
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
       }
     }
   }
