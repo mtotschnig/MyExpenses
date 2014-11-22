@@ -719,7 +719,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         }
         c.close();
       }
-      if (oldVersion < 46) {
+      if (oldVersion < 47) {
         db.execSQL("ALTER TABLE templates add column uuid text");
         c = db.query(
             "templates",
