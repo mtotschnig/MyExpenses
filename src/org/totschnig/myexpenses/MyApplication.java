@@ -154,7 +154,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String CALENDAR_FULL_PATH_PROJECTION = 
         "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || '/' ||" +
         "ifnull(" + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" +
-        "ifnull(" + Calendars.NAME + ",'') AS path";
+        "ifnull(" + Calendars.NAME + ",'')";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     private boolean contribEnabled = false, contribEnabledInitialized = false;
@@ -391,7 +391,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     private boolean checkPlannerInternal(String calendarId) {
       ContentResolver cr = getContentResolver();
       Cursor c = cr.query(Calendars.CONTENT_URI,
-            new String[]{CALENDAR_FULL_PATH_PROJECTION},
+            new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path"},
             Calendars._ID + " = ?",
             new String[] {calendarId},
             null);
@@ -544,7 +544,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         //and then accidentally we link to the wrong calendar
         Uri uri= ContentUris.withAppendedId(Calendars.CONTENT_URI, Long.parseLong(mPlannerCalendarId));
         Cursor c = cr.query(uri,
-            new String[]{CALENDAR_FULL_PATH_PROJECTION},
+            new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path"},
                 null, null, null);
         if (c != null && c.moveToFirst()) {
           String path = c.getString(0);
@@ -619,11 +619,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                     Log.i(TAG,"copied event from old to new" + planId);
                     planValues.put(DatabaseConstants.KEY_PLANID, planId);
                     int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
-                    Log.i(TAG,"updated plan id in template:" + updated);
-                    int deleted = cr.delete(eventUri,
-                        null,
-                        null);
-                    Log.i(TAG,"deleted old event: " + deleted);
+                    if (updated>0) {
+                      Log.i(TAG,"updated plan id in template:" + templateId);
+                      int deleted = cr.delete(eventUri,
+                          null,
+                          null);
+                      Log.i(TAG,"deleted old event: " + deleted);
+                    }
                   }
                   eventCursor.close();
                 }
@@ -658,60 +660,90 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return am.getMemoryClass();
     }
     public Result restorePlanner() {
+      String TAG= "restorePlanner";
       //1.check if a planner is configured. If no, nothing to do
       //2.check if the configured planner exists on the device
       //2.1 if yes go through all events and look for them based on
       //UID_2445 on API>17, based on ? otherwise
       //recreate events that we did not find
       //2.2if no ask user to select a calendar where we will recreate the events
-      mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
-      if (!mPlannerCalendarId.equals("-1")) {
-        if (!checkPlanner().equals("-1")) {
-          ContentResolver cr = getContentResolver();
-          Cursor planCursor = cr.query(
-              Template.CONTENT_URI,
-              new String[] {
-                  DatabaseConstants.KEY_ROWID,
-                  DatabaseConstants.KEY_ACCOUNTID,
-                  DatabaseConstants.KEY_PLANID,
-                  DatabaseConstants.KEY_UUID},
-              DatabaseConstants.KEY_PLANID + " IS NOT null",
-              null,
+      String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+      String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
+      Log.d(TAG,
+          String.format(
+              "restorePlaner: calendar stored in backup: id %s and path %s",
+              calendarId,calendarPath));
+      if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
+        ContentResolver cr = getContentResolver();
+        Cursor c = cr.query(Calendars.CONTENT_URI,
+              new String[]{Calendars._ID},
+              CALENDAR_FULL_PATH_PROJECTION  + " = ?",
+              new String[] {calendarPath},
               null);
-          if (planCursor!=null) {
-            if (planCursor.moveToFirst()) {
-              do {
-                String customAppUri = Template.buildCustomAppUri(
-                    planCursor.getLong(1),//acountId
-                    planCursor.getLong(0),//templateId
-                    planCursor.getString(3));//uuid
-                Cursor eventCursor = cr.query(
-                    Events.CONTENT_URI,
-                    new String[]{
-                        Events._ID},
-                    Events.CALENDAR_ID + " = ? AND " + Events.CUSTOM_APP_URI + " = ?",
-                    new String[] {mPlannerCalendarId,customAppUri},
-                    null);
-                if (eventCursor != null) {
-                  if (eventCursor.moveToFirst()) {
-                    Log.d(MyApplication.TAG,
-                        String.format(
-                            "While looking for app with uri %s found event with id %d. " +
-                            "Original event had id %d",
-                            customAppUri,eventCursor.getLong(0),planCursor.getLong(2)));
-                  } else {
-                    Log.d(MyApplication.TAG,
-                        String.format(
-                            "While looking for app with uri %s found no event.",
-                            customAppUri));
+        if (c!=null) {
+          if (c.moveToFirst()) {
+            mPlannerCalendarId = c.getString(0);
+            Log.d(TAG,
+                String.format(
+                    "restorePlaner: found same calendar with id %s",
+                    mPlannerCalendarId));
+            PrefKey.PLANNER_CALENDAR_ID.putString(mPlannerCalendarId);
+            ContentValues planValues = new ContentValues();
+            Cursor planCursor = cr.query(
+                Template.CONTENT_URI,
+                new String[] {
+                    DatabaseConstants.KEY_ROWID,
+                    DatabaseConstants.KEY_PLANID,
+                    DatabaseConstants.KEY_UUID},
+                DatabaseConstants.KEY_PLANID + " IS NOT null",
+                null,
+                null);
+            if (planCursor!=null) {
+              if (planCursor.moveToFirst()) {
+                do {
+                  long templateId = planCursor.getLong(0);
+                  long oldPlanId = planCursor.getLong(1);
+                  String uuid = planCursor.getString(2);
+                  Cursor eventCursor = cr.query(
+                      Events.CONTENT_URI,
+                      new String[]{
+                          Events._ID},
+                      Events.CALENDAR_ID + " = ? AND " + Events.DESCRIPTION + " LIKE ?",
+                      new String[] {mPlannerCalendarId,"%"+uuid+"%"},
+                      null);
+                  if (eventCursor != null) {
+                    if (eventCursor.moveToFirst()) {
+                      long newPlanId = eventCursor.getLong(0);
+                      Log.d(TAG,
+                          String.format(
+                              "Looking for event with uuid %s: found id %d. " +
+                              "Original event had id %d",
+                              uuid,newPlanId,oldPlanId));
+                      if (newPlanId != oldPlanId) {
+                        planValues.put(DatabaseConstants.KEY_PLANID, newPlanId);
+                        int updated = cr.update(
+                            ContentUris.withAppendedId(
+                                Template.CONTENT_URI, templateId),
+                            planValues, null, null);
+                        if (updated>0) {
+                          Log.i(TAG,"updated plan id in template:" + templateId);
+                        }
+                      }
+                    } else {
+                      Log.d(TAG,
+                          String.format(
+                              "Looking for event with uuid %s did not find, now reconstructing from cache",
+                              uuid));
+                    }
+                    eventCursor.close();
                   }
-                  eventCursor.close();
-                }
-              } while (planCursor.moveToNext());
+                } while (planCursor.moveToNext());
+              }
+              planCursor.close();
             }
-            planCursor.close();
           }
         }
+        c.close();
       }
       return new Result(true,R.string.restore_calendar_success);
     }

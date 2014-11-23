@@ -10,6 +10,7 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
@@ -22,14 +23,18 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -229,6 +234,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       if (cacheDir == null) {
         return new Result(false,R.string.external_storage_unavailable);
       }
+      cacheEventData();
       if (MyApplication.getInstance().backup(cacheDir)) {
         result = ZipUtils.zip(cacheDir.listFiles(),backupFile);
         MyApplication.getBackupDbFile(cacheDir).delete();
@@ -263,6 +269,46 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return null;
     }
     return null;
+  }
+
+  private void cacheEventData() {
+    String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    if (plannerCalendarId.equals("-1")) {
+      return;
+    }
+    ContentValues eventValues = new ContentValues();
+    ContentResolver cr = MyApplication.getInstance().getContentResolver();
+    Cursor eventCursor = cr.query(
+        Events.CONTENT_URI,
+        new String[]{
+          Events.DTSTART,
+          Events.DTEND,
+          Events.RRULE,
+          Events.TITLE,
+          Events.ALL_DAY,
+          Events.EVENT_TIMEZONE,
+          Events.DURATION,
+          Events.DESCRIPTION
+       },
+        Events.CALENDAR_ID + " = ?",
+        new String[] {plannerCalendarId},
+        null);
+    if (eventCursor != null) {
+      if (eventCursor.moveToFirst()) {
+        do {
+          eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor,0));
+          eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor,1));
+          eventValues.put(Events.RRULE, eventCursor.getString(2));
+          eventValues.put(Events.TITLE, eventCursor.getString(3));
+          eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
+          eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
+          eventValues.put(Events.DURATION, eventCursor.getString(6));
+          eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
+          cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues);
+        } while (eventCursor.moveToNext());
+      }
+      eventCursor.close();
+    }
   }
 
   @Override

@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
-import java.util.HashMap;
 import java.util.List;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -39,7 +38,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
@@ -91,6 +89,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccountsGroupedByType");
+  public static final Uri EVENT_CACHE_URI = 
+      Uri.parse("content://" + AUTHORITY + "/eventcache");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    */
@@ -142,6 +142,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int MAPPED_METHODS = 31;
   private static final int DUAL = 32;
   private static final int CURRENCIES_CHANGE_FRACTION_DIGITS = 33;
+  private static final int EVENT_CACHE = 34;
   
   @Override
   public boolean onCreate() {
@@ -646,6 +647,11 @@ public class TransactionProvider extends ContentProvider {
       id = db.insertOrThrow(TABLE_PLAN_INSTANCE_STATUS, null, values);
       newUri = PLAN_INSTANCE_STATUS_URI + "/" + id;
       break;
+    case EVENT_CACHE:
+      id = db.insertOrThrow(TABLE_EVENT_CACHE, null, values);
+      newUri = EVENT_CACHE_URI + "/" + id;
+    break;
+      
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -1091,6 +1097,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
+    URI_MATCHER.addURI(AUTHORITY, "eventcache", EVENT_CACHE);
     
   }
   public void resetDatabase() {

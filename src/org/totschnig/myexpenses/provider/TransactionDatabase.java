@@ -157,6 +157,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_UUID             + " text, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
+  private static final String EVENT_CACHE_CREATE = 
+      "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
+          Events.TITLE + " TEXT," +
+          Events.DESCRIPTION + " TEXT," +
+          Events.DTSTART + " INTEGER," +
+          Events.DTEND + " INTEGER," +
+          Events.EVENT_TIMEZONE + " TEXT," +
+          Events.DURATION + " TEXT," +
+          Events.ALL_DAY + " INTEGER NOT NULL DEFAULT 0," +
+          Events.RRULE + " TEXT);";
+
+      
   /**
    * we store a simple row for each time a feature has been accessed,
    * thus speeding up recording and counting 
@@ -241,6 +253,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
+    db.execSQL(EVENT_CACHE_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -722,6 +735,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 47) {
       db.execSQL("ALTER TABLE templates add column uuid text");
+      db.execSQL(EVENT_CACHE_CREATE);
       Cursor c = db.query(
           "templates",
           new String[]{KEY_ACCOUNTID,KEY_ROWID,KEY_PLANID},

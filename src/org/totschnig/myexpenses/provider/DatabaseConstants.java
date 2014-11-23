@@ -173,6 +173,10 @@ public class DatabaseConstants {
   public static final String VIEW_EXTENDED = "transactions_extended";
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
+  /**
+   * used on backup and restore
+   */
+  public static final String TABLE_EVENT_CACHE = "event_cache";
 
   /**
    * an SQL CASE expression for transactions
