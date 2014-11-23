@@ -273,7 +273,9 @@ public class ExpenseEdit extends AmountActivity implements
 
       mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
       mPlan = (Plan) savedInstanceState.getSerializable(KEY_PLAN);
-      if (mPlan != null) {
+      if (mPlan != null &&
+          mPlan.getId() != 0L //ignore the temporary plan we have set up in launchnewPlan
+          ) {
         mPlanId = mPlan.getId();
         configurePlan();
       }
@@ -1519,16 +1521,19 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private void launchNewPlan() {
     if (mTransaction != null) { // might be null if called from onActivityResult
-      String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+      if (mPlan == null) {
+        String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+        mPlan = new Plan(
+            0L,
+            System.currentTimeMillis(),
+            "",
+            ((Template) mTransaction).title,
+            description);
+      }
       startTaskExecution(
           TaskExecutionFragment.TASK_NEW_PLAN,
           new Long[] {0L} ,
-          new Plan(
-              0L,
-              System.currentTimeMillis(),
-              "",
-              ((Template) mTransaction).title,
-              description),
+          mPlan,
           R.string.progress_dialog_create_plan);
     }
   }
