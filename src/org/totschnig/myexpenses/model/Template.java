@@ -230,7 +230,7 @@ public class Template extends Transaction {
         initialValues.put(
             //we encode both account and template into the CUSTOM URI
             Events.CUSTOM_APP_URI,
-            buildCustomAppUri(accountId, getId(),mUuid));
+            buildCustomAppUri(accountId, getId()));
         initialValues.put(Events.CUSTOM_APP_PACKAGE,"org.totschnig.myexpenses");
       }
       initialValues.put(Events.TITLE,title);
@@ -331,10 +331,12 @@ public class Template extends Transaction {
     t.originPlanInstanceId = instanceId;
     return t.save() != null;
   }
-  public static String buildCustomAppUri(long accountId, long templateId, String uuid) {
+  public static String buildCustomAppUri(long accountId, long templateId) {
     return ContentUris.withAppendedId(
-        ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
+        ContentUris.withAppendedId(
+            Template.CONTENT_URI,
+            accountId),
         templateId)
-      .buildUpon().appendPath(uuid).build().toString();
+        .toString();
   }
 }

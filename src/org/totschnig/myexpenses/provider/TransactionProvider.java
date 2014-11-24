@@ -553,6 +553,9 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables("sqlite_master");
       return qb.query(db, projection, selection, selectionArgs, null,
           null, null,"1");
+    case EVENT_CACHE:
+      qb.setTables(TABLE_EVENT_CACHE);
+      break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -782,6 +785,9 @@ public class TransactionProvider extends ContentProvider {
       break;
     case PLANINSTANCE_TRANSACTION_STATUS:
       count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
+      break;
+    case EVENT_CACHE:
+      count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
       break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);

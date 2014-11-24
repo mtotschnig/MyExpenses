@@ -280,30 +280,14 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     ContentResolver cr = MyApplication.getInstance().getContentResolver();
     Cursor eventCursor = cr.query(
         Events.CONTENT_URI,
-        new String[]{
-          Events.DTSTART,
-          Events.DTEND,
-          Events.RRULE,
-          Events.TITLE,
-          Events.ALL_DAY,
-          Events.EVENT_TIMEZONE,
-          Events.DURATION,
-          Events.DESCRIPTION
-       },
+        MyApplication.buildEventProjection(),
         Events.CALENDAR_ID + " = ?",
         new String[] {plannerCalendarId},
         null);
     if (eventCursor != null) {
       if (eventCursor.moveToFirst()) {
         do {
-          eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor,0));
-          eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor,1));
-          eventValues.put(Events.RRULE, eventCursor.getString(2));
-          eventValues.put(Events.TITLE, eventCursor.getString(3));
-          eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
-          eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
-          eventValues.put(Events.DURATION, eventCursor.getString(6));
-          eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
+          MyApplication.copyEventData(eventCursor, eventValues);
           cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues);
         } while (eventCursor.moveToNext());
       }

@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -166,7 +167,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           Events.EVENT_TIMEZONE + " TEXT," +
           Events.DURATION + " TEXT," +
           Events.ALL_DAY + " INTEGER NOT NULL DEFAULT 0," +
-          Events.RRULE + " TEXT);";
+          Events.RRULE + " TEXT," +
+          Events.CUSTOM_APP_PACKAGE + " TEXT," +
+          Events.CUSTOM_APP_URI + " TEXT);";
 
       
   /**
@@ -736,9 +739,41 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 47) {
       db.execSQL("ALTER TABLE templates add column uuid text");
       db.execSQL(EVENT_CACHE_CREATE);
+      //need to inline to protect against later renames
+      String[] projection = new String[] {
+          "_id",
+          "amount",
+          "comment",
+          "cat_id",
+          "CASE WHEN " +
+              "  " + "transfer_peer" + " " +
+          " THEN " +
+            "  (SELECT " + "label" + " FROM " + "accounts" + " WHERE " + "_id" + " = " + "transfer_account" + ") " +
+          " ELSE " +
+            " CASE WHEN " +
+                " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+            " THEN " +
+              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " +
+                " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ")) " +
+              "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
+              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+            " ELSE" +
+              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+            " END " +
+          " END AS  " + "label",
+          "name",
+          "transfer_peer",
+          "transfer_account",
+          "account_id",
+          "method_id",
+          "title",
+          "plan_id",
+          "plan_execution",
+          "uuid"
+        };
       Cursor c = db.query(
           "templates",
-          new String[]{KEY_ACCOUNTID,KEY_ROWID,KEY_PLANID},
+          projection,
           null, null, null,null,null);
       if (c!=null) {
         if (c.moveToFirst()) {
@@ -747,13 +782,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           while( c.getPosition() < c.getCount() ) {
             String uuid = UUID.randomUUID().toString();
             templateValues.put(DatabaseConstants.KEY_UUID, uuid);
-            eventValues.put(Events.CUSTOM_APP_URI,Template.buildCustomAppUri(
-                c.getLong(0),//acountId
-                c.getLong(1),//templateId
-                uuid));
-            db.update("templates", templateValues, "_id = "+c.getLong(1),null);
+            long templateId = c.getLong(c.getColumnIndex("_id"));
+            long planId = c.getLong(c.getColumnIndex("plan_id"));
+            eventValues.put(Events.DESCRIPTION,new Template(c).compileDescription(mCtx));
+            db.update("templates", templateValues, "_id = "+templateId,null);
             mCtx.getContentResolver().update(
-                ContentUris.withAppendedId(Events.CONTENT_URI, c.getLong(2)),
+                ContentUris.withAppendedId(Events.CONTENT_URI, planId),
                 eventValues,null,null);
             c.moveToNext();
           }
