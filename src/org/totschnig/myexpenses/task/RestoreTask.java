@@ -14,8 +14,11 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
 
+import com.android.calendar.CalendarContractCompat.Calendars;
+
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
@@ -83,6 +86,7 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
     if (backupPrefFile == null || !backupPrefFile.exists()) {
       return new Result(false,R.string.restore_backup_file_not_found,MyApplication.BACKUP_PREF_FILE_NAME,workingDir);
     }
+
     //peek into file to inspect version
     try {
       SQLiteDatabase db = SQLiteDatabase.openDatabase(backupFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
@@ -94,6 +98,28 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
       db.close();
     } catch (SQLiteException e) {
       return new Result(false,R.string.restore_db_not_valid);
+    }
+
+    //peek into preferences to see if there is a calendar configured
+    File sharedPrefsDir = new File("/data/data/" + MyApplication.getInstance().getPackageName()
+        + "/shared_prefs/");
+    sharedPrefsDir.mkdir();
+    File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
+    if (!Utils.copy(backupPrefFile,tempPrefFile)) {
+      return new Result(false,R.string.restore_preferences_failure);
+    }
+    SharedPreferences backupPref = MyApplication.getInstance().getSharedPreferences("backup_temp",0);
+    String calendarId = backupPref.getString(PrefKey.PLANNER_CALENDAR_ID.getKey(),"-1");
+    String calendarPath = backupPref.getString(PrefKey.PLANNER_CALENDAR_PATH.getKey(),"");
+    if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
+      Cursor c = MyApplication.getInstance().getContentResolver().query(Calendars.CONTENT_URI,
+          new String[]{Calendars._ID},
+          MyApplication.CALENDAR_FULL_PATH_PROJECTION  + " = ?",
+          new String[] {calendarPath},
+          null);
+      if (c==null || !c.moveToFirst()) {
+        return new Result(false,R.string.restore_not_possible_target_calendar_missing);
+      }
     }
     
     if (DbUtils.restore(backupFile)) {
@@ -107,51 +133,43 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
       //we open the backup file and read every entry
       //getSharedPreferences does not allow to access file if it not in private data directory
       //hence we copy it there first
-      File sharedPrefsDir = new File("/data/data/" + MyApplication.getInstance().getPackageName()
-          + "/shared_prefs/");
       //upon application install does not exist yet
-      sharedPrefsDir.mkdir();
-      File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
       String oldLicenceKey = PrefKey.ENTER_LICENCE.getString("");
-      if (Utils.copy(backupPrefFile,tempPrefFile)) {
-        SharedPreferences backupPref = MyApplication.getInstance().getSharedPreferences("backup_temp",0);
-        Editor edit = MyApplication.getInstance().getSettings().edit().clear();
-        String key;
-        Object val;
-        for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
-          key = entry.getKey();
-          val = entry.getValue();
-          if (val.getClass() == Long.class) {
-            edit.putLong(key,backupPref.getLong(key,0));
-          } else if (val.getClass() == Integer.class) {
-            edit.putInt(key,backupPref.getInt(key,0));
-          } else if (val.getClass() == String.class) {
-            edit.putString(key, backupPref.getString(key,""));
-          } else if (val.getClass() == Boolean.class) {
-            edit.putBoolean(key,backupPref.getBoolean(key,false));
-          } else {
-            Log.i(MyApplication.TAG,"Found: "+key+ " of type "+val.getClass().getName());
-          }
+
+      Editor edit = MyApplication.getInstance().getSettings().edit().clear();
+      String key;
+      Object val;
+      for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
+        key = entry.getKey();
+        val = entry.getValue();
+        if (val.getClass() == Long.class) {
+          edit.putLong(key,backupPref.getLong(key,0));
+        } else if (val.getClass() == Integer.class) {
+          edit.putInt(key,backupPref.getInt(key,0));
+        } else if (val.getClass() == String.class) {
+          edit.putString(key, backupPref.getString(key,""));
+        } else if (val.getClass() == Boolean.class) {
+          edit.putBoolean(key,backupPref.getBoolean(key,false));
+        } else {
+          Log.i(MyApplication.TAG,"Found: "+key+ " of type "+val.getClass().getName());
         }
-        if (!oldLicenceKey.equals("")) {
-          edit.putString(PrefKey.ENTER_LICENCE.getKey(), oldLicenceKey);
-        }
-        SharedPreferencesCompat.apply(edit);
-        backupPref = null;
-        tempPrefFile.delete();
-        if (fileUri != null) {
-          backupFile.delete();
-          backupPrefFile.delete();
-        }
-        publishProgress(R.string.restore_preferences_success);
-        //if a user restores a backup we do not want past plan instances to flood the database
-        MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(System.currentTimeMillis());
-        //now handling plans
-        publishProgress(MyApplication.getInstance().restorePlanner().getMessage());
-        return new Result(true);
-      } else {
-        return new Result(false,R.string.restore_preferences_failure);
       }
+      if (!oldLicenceKey.equals("")) {
+        edit.putString(PrefKey.ENTER_LICENCE.getKey(), oldLicenceKey);
+      }
+      SharedPreferencesCompat.apply(edit);
+      backupPref = null;
+      tempPrefFile.delete();
+      if (fileUri != null) {
+        backupFile.delete();
+        backupPrefFile.delete();
+      }
+      publishProgress(R.string.restore_preferences_success);
+      //if a user restores a backup we do not want past plan instances to flood the database
+      MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(System.currentTimeMillis());
+      //now handling plans
+      publishProgress(MyApplication.getInstance().restorePlanner().getMessage());
+      return new Result(true);
     } else {
       return new Result(false,R.string.restore_db_failure);
     }
