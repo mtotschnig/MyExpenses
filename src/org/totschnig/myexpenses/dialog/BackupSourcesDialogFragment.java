@@ -6,7 +6,13 @@ import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
@@ -17,6 +23,25 @@ DialogInterface.OnClickListener {
   @Override
   protected int getLayoutId() {
     return R.layout.backup_restore_dialog;
+  }
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    Dialog dialog = super.onCreateDialog(savedInstanceState);
+    dialog.setOnShowListener(new ButtonOnShowDisabler());
+    return dialog;
+  }
+  @Override
+  protected void setupDialogView(View view) {
+    super.setupDialogView(view);
+    ((RadioGroup) view.findViewById(R.id.restore_calendar_handling)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+      
+      @Override
+      public void onCheckedChanged(RadioGroup group, int checkedId) {
+        Button b = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
+        b.setEnabled(checkedId!=-1);
+        b.invalidate();
+      }
+    });
   }
   @Override
   protected int getLayoutTitle() {
