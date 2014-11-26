@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.RadioButton;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
@@ -42,6 +44,15 @@ DialogInterface.OnClickListener {
         b.invalidate();
       }
     });
+    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
+    RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
+    if ((calendarId.equals("-1")) || calendarPath.equals("")) {
+      configured.setEnabled(false);
+    } else {
+      configured.setText(configured.getText() + " (" + calendarPath + ")");
+    }
+    
   }
   @Override
   protected int getLayoutTitle() {

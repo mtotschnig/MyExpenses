@@ -35,17 +35,27 @@
 
             <TextView
                 style="@style/dialog_text"
-                android:text="Calendar data" />
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="@string/restore_calendar_handling" />
 
-            <RadioGroup android:orientation="vertical"
-                android:id="@+id/restore_calendar_handling" >
+            <RadioGroup
+                android:id="@+id/restore_calendar_handling"
+                android:layout_width="0dip"
+                android:layout_weight="3"
+                android:orientation="vertical" >
 
-                <RadioButton android:text="Restore to calendar set in backup if available"
-                    android:id="@+id/restore_calendar_handling_backup"/>
-                <RadioButton android:text="Restore to currently configured calendar"
-                    android:id="@+id/restore_calendar_handling_configured"/>
-                <RadioButton android:text="Ignore"
-                    android:id="@+id/restore_calendar_handling_ignore"/>
+                <RadioButton
+                    android:id="@+id/restore_calendar_handling_backup"
+                    android:text="@string/restore_calendar_handling_backup" />
+
+                <RadioButton
+                    android:id="@+id/restore_calendar_handling_configured"
+                    android:text="@string/restore_calendar_handling_configured" />
+
+                <RadioButton
+                    android:id="@+id/restore_calendar_handling_ignore"
+                    android:text="@string/restore_calendar_handling_ignore" />
             </RadioGroup>
         </TableRow>
     </TableLayout>

@@ -14,19 +14,39 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
   Based on Financisto
- -->
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-	<TableRow android:gravity="center_vertical">
-		<TextView android:text="File" style="@style/dialog_text" />
-		<LinearLayout android:orientation="horizontal">
-			<EditText android:layout_weight="1" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/Filename"
-				android:singleLine="true">
-				<requestFocus />
-			</EditText>
-			<ImageButton android:layout_width="wrap_content"
-				android:layout_gravity="center_vertical" android:src="?attr/browseIcon"
-				android:id="@+id/btn_browse" android:layout_height="wrap_content" />
-		</LinearLayout>
-	</TableRow>
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TableRow android:gravity="center_vertical" >
+
+        <TextView
+            style="@style/dialog_text"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:text="@string/import_source_file" />
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_weight="3"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/Filename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
+
+            <ImageButton
+                android:id="@+id/btn_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="?attr/browseIcon" />
+        </LinearLayout>
+    </TableRow>
+
 </merge>
