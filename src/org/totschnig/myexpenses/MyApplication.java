@@ -688,6 +688,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * recreate events that we did not find
      * (2.2 if no, user should have been asked to select a target calendar
      * where we will store the recreated events)
+     * @param calendarId if not null, we restore into this calendar,
+     * and ignore the calendar set in the backup
      * @return Result with success true
      */
     public Result restorePlanner() {
@@ -697,7 +699,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
       Log.d(TAG,
           String.format(
-              "restorePlaner: calendar stored in backup: id %s and path %s",
+              "restore plans to calendar with id %s and path %s",
               calendarId,calendarPath));
       if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
         Cursor c = cr.query(Calendars.CONTENT_URI,
@@ -710,7 +712,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             mPlannerCalendarId = c.getString(0);
             Log.d(TAG,
                 String.format(
-                    "restorePlaner: found same calendar with id %s",
+                    "restorePlaner: found calendar with id %s",
                     mPlannerCalendarId));
             PrefKey.PLANNER_CALENDAR_ID.putString(mPlannerCalendarId);
             ContentValues planValues = new ContentValues(),
@@ -786,9 +788,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         }
         c.close();
       }
-      Log.i(TAG,"now emptying event cache");
-      cr.delete(
-          TransactionProvider.EVENT_CACHE_URI, null, null);
       return new Result(true,R.string.restore_calendar_success);
     }
 }

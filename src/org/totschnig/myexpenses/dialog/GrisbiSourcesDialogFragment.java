@@ -9,7 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
 
-public class GrisbiSourcesDialogFragment extends ImportSourceDialogFragment implements
+public class GrisbiSourcesDialogFragment extends TextSourceDialogFragment implements
 DialogInterface.OnClickListener {
   
   public static final GrisbiSourcesDialogFragment newInstance() {

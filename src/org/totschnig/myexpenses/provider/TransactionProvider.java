@@ -840,6 +840,10 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
       break;
+    case TEMPLATES:
+      //TODO should not support bulk update of categories
+      count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
+      break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
       if (!TextUtils.isEmpty(where)) {

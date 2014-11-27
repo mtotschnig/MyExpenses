@@ -402,7 +402,6 @@
     <string name="restore_db_failure">Database restore failed.</string>
     <string name="restore_db_success">Database has been restored from backup.</string>
     <string name="restore_no_backup_found">No backup found.</string>
-    <string name="restore_not_possible_target_calendar_missing">The plan data found in the backup was stored in a calendar that does not exist locally.</string>
     <string name="restore_preferences_failure">Preferences restore failed</string>
     <string name="restore_backup_archive_not_valid">Archive %1$s is not valid</string>
     <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
@@ -522,7 +521,9 @@
     <string name="learn_more">Learn more</string>
     <string name="import_source_file">File</string>
     <string name="restore_calendar_handling">Calendar data handling</string>
-    <string name="restore_calendar_handling_configured">Restore to currently configured calendar</string>
-    <string name="restore_calendar_handling_backup">Restore to calendar set in backup if available</string>
-    <string name="restore_calendar_handling_ignore">Ignore</string>
+    <string name="restore_calendar_handling_configured">Restore plans to currently configured calendar</string>
+    <string name="restore_calendar_handling_backup">Restore plans to calendar set in backup if available</string>
+    <string name="restore_calendar_handling_ignore">Do not restore plans</string>
+    <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
+    <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
 </resources>

@@ -30,7 +30,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class QifImportDialogFragment extends ImportSourceDialogFragment implements
+public class QifImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
   Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
   private SimpleCursorAdapter mAccountsAdapter;

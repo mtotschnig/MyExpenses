@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
+  RadioGroup mRestorePlanStrategie;
   
   public static final BackupSourcesDialogFragment newInstance() {
     return new BackupSourcesDialogFragment();
@@ -27,21 +28,13 @@ DialogInterface.OnClickListener {
     return R.layout.backup_restore_dialog;
   }
   @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Dialog dialog = super.onCreateDialog(savedInstanceState);
-    dialog.setOnShowListener(new ButtonOnShowDisabler());
-    return dialog;
-  }
-  @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
-    ((RadioGroup) view.findViewById(R.id.restore_calendar_handling)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
-      
+    mRestorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
+    mRestorePlanStrategie.setOnCheckedChangeListener(new OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(RadioGroup group, int checkedId) {
-        Button b = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
-        b.setEnabled(checkedId!=-1);
-        b.invalidate();
+        setButtonState();
       }
     });
     String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
@@ -52,7 +45,6 @@ DialogInterface.OnClickListener {
     } else {
       configured.setText(configured.getText() + " (" + calendarPath + ")");
     }
-    
   }
   @Override
   protected int getLayoutTitle() {
@@ -86,9 +78,19 @@ DialogInterface.OnClickListener {
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
         .putString(getPrefKey(), mUri.toString()));
-      ((BackupRestoreActivity) getActivity()).onSourceSelected(mUri);
+      ((BackupRestoreActivity) getActivity()).onSourceSelected(
+          mUri,
+          mRestorePlanStrategie.getCheckedRadioButtonId());
     } else {
       super.onClick(dialog, id);
+    }
+  }
+  @Override
+  protected boolean isReady() {
+    if (super.isReady()) {
+      return mRestorePlanStrategie.getCheckedRadioButtonId() != -1;
+    } else {
+      return false;
     }
   }
 }

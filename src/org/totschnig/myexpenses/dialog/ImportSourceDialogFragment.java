@@ -23,22 +23,18 @@ import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
-    implements OnClickListener, DialogInterface.OnClickListener, OnCheckedChangeListener  {
+    implements OnClickListener, DialogInterface.OnClickListener  {
 
   public static final int IMPORT_FILENAME_REQUESTCODE = 1;
   protected EditText mFilename;
   protected Uri mUri;
   protected AlertDialog mDialog;
-  protected CheckBox mImportCategories;
-  protected CheckBox mImportParties;
-  protected CheckBox mImportTransactions;
   protected Context wrappedCtx;
   final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
   final static boolean isJellyBean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
@@ -87,14 +83,6 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     mFilename.setEnabled(false);
 
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
-    mImportCategories = (CheckBox) view.findViewById(R.id.import_select_categories);
-    if (mImportCategories != null) {
-      mImportCategories.setOnCheckedChangeListener(this);
-      mImportParties = (CheckBox) view.findViewById(R.id.import_select_parties);
-      mImportParties.setOnCheckedChangeListener(this);
-      mImportTransactions = (CheckBox) view.findViewById(R.id.import_select_transactions);
-      mImportTransactions.setOnCheckedChangeListener(this);
-    }
   }
 
   @SuppressLint("InlinedApi")
@@ -205,10 +193,6 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
 
   @Override
-  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    setButtonState();
-  }
-  @Override
   public void onClick(DialogInterface dialog, int id) {
     if (id == AlertDialog.BUTTON_NEGATIVE) {
       onCancel(dialog);
@@ -231,18 +215,11 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onClick(View v) {
    openBrowse();
   }
-  private void setButtonState() {
-    boolean isReady = false;
-    if (mUri != null) {
-      if (mImportCategories != null) {
-        isReady = (mImportCategories.getVisibility() == View.VISIBLE && mImportCategories.isChecked()) ||
-            (mImportParties.getVisibility() == View.VISIBLE && mImportParties.isChecked()) ||
-            (mImportTransactions.getVisibility() == View.VISIBLE && mImportTransactions.isChecked());
-      } else {
-        isReady = true;
-      }
-    }
-    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady);
+  protected boolean isReady() {
+    return mUri != null;
+  }
+  protected void setButtonState() {
+    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady());
   }
   @Override
   public void onSaveInstanceState(Bundle outState) {
