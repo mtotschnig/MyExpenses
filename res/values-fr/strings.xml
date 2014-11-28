@@ -391,6 +391,7 @@
   <string name="restore_backup_archive_not_valid">Archive %1$s invalide</string>
   <string name="restore_backup_file_not_found">Aucun fichier %1$s trouvé dans l\'archive \"%2$s\"</string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
+  <string name="restore_calendar_success">%d échéances ont été restaurées à partir de la sauvegarde</string>
   <string name="save_transaction_and_new_success">Sauvegardée</string>
   <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée.</string>
   <plurals name="save_transaction_from_template_success">
@@ -495,10 +496,18 @@
   <string name="comparison_operator_between">entre</string>
   <string name="promotion_appgratis_welcome">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
   <string name="premium_unlocked">Fonctions Premium déverrouillées.</string>
+  <string name="premium_failed_or_canceled">Échec ou annulation de l\'achat</string>
   <string name="hint_auto_fill">Voulez-vous remplir automatiquement le commentaire, la catégorie et le montant à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
   <string name="yes">Oui</string>
   <string name="no">Non</string>
   <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrerez immédiatement, soit vous l\'éditerez et le modifierez avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
   <string name="change_fraction_digits_result">%1$d comptes en devise %2$s ont été mis à jour.</string>
   <string name="learn_more">En apprendre plus</string>
+  <string name="import_source_file">Fichier</string>
+  <string name="restore_calendar_handling">Manipulation des données du calendrier</string>
+  <string name="restore_calendar_handling_configured">Restauration des échéances dans le calendrier actuellement configuré</string>
+  <string name="restore_calendar_handling_backup">Restaurer les échéances dans le calendrier si une  sauvegarde est disponible</string>
+  <string name="restore_calendar_handling_ignore">Ne pas restaurer les échéances</string>
+  <string name="restore_not_possible_target_calendar_missing">Le calendrier %s situé dans l\'archive de sauvegarde n\'existe pas localement. La restauration a été abandonnée.</string>
+  <string name="restore_not_possible_local_calendar_missing">Le calendrier actuel d\'échéances n\'est pas disponible.</string>
 </resources>

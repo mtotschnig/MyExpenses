@@ -138,10 +138,10 @@
   <string name="help_heading_whats_new">新着情報</string>
   <string-array name="help_intro">
     <item>あなたの支出および収入を追跡します。</item>
-    <item>スマートフォンでそれを直接管理します。</item>
-    <item>それを Grisbi, GnuCash, Quicken または MS Money のようなデスクトップの金融プログラムにエクスポートします。</item>
+    <item>スマートフォンで直接管理します。</item>
+    <item>Grisbi, GnuCash, Quicken または MS Money などのデスクトップのファイナンス プログラムにエクスポートすることができます。</item>
   </string-array>
-  <string name="help_leading"><i>マイ エクスペンス</i> for Android をインストールしていただきありがとうございます。</string>
+  <string name="help_leading">Android 用 <i>マイ エクスペンス</i> をインストールしていただきありがとうございます。</string>
   <string name="important_upgrade_information_heading">重要な情報</string>
   <string name="important_upgrade_information_1">バックアップおよびエクスポートは、Android/data/org.totschnig.myexpenses の下に格納されます。注意: マイ エクスペンス をアンインストールすると、このディレクトリは削除されます。</string>
   <string name="import_select_transactions">取引</string>
@@ -339,7 +339,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
   <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
-  <string name="pref_request_licence_summary">あなたが貢献してきた場合、メールで Android-Id %1$s の貢献キーをリクエストしてください。</string>
+  <string name="pref_request_licence_summary">あなたが貢献した場合は、メールで Android-Id %1$s の貢献キーをリクエストしてください。</string>
   <string name="pref_request_licence_title">貢献キーをリクエスト</string>
   <string name="pref_restore_legacy_data">レガシー データ</string>
   <string name="pref_restore_summary">データベースとプリファレンスを復元するためのバックアップを選択してください。</string>

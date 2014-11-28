@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_239">
+    <item>Upon database restore, plans are now recreated</item>
+    <item>New translations: Bulgarian and Croatian</item>
+  </string-array>
   <string-array name="whats_new_238">
     <item>Japanese translation</item>
     <item>Transaction groups can be collapsed</item>

@@ -281,6 +281,7 @@
   <string name="pm_type_credit">Kredit</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_neutral">Neutral</string>
+  <string name="pref_account_grouping_title">Pengelompokan akaun</string>
   <string name="pref_app_dir_title">Folder untuk sandar dan eksport</string>
   <string name="pref_auto_fill_title">Transaksi autoisi</string>
   <string name="pref_auto_fill_summary">Isi amaun, kategori dan ulasan dari transaksi terakhir bagi penerima/pembayar yang sama</string>
@@ -491,4 +492,5 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="no">Tidak</string>
   <string name="hint_template_click">Satu ketukan pantas pada masukan dalam senarai ini akan segerakan templat dan sama ada simpan ia serta-merta atau pergi ke bentuk suntingan yang mana anda boleh ubahsuai ia sebelum menyimpan. Anda boleh mengubah kedua-dua tindakan melalui ketukan panjang, dan ubah lalai di dalam tetapan.</string>
   <string name="change_fraction_digits_result">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
+  <string name="learn_more">Ketahui lagi</string>
 </resources>

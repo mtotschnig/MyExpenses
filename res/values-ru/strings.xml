@@ -2,10 +2,15 @@
 <resources>
   <string name="account">Счёт</string>
   <string name="account_type_asset">Счёт активов</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Банковский счёт</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash">Наличный счёт</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard">Кредитная карта</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability">Счёт обязательств</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s уже определен</string>
   <string name="amount">Сумма</string>
   <string name="app_name">Мои расходы</string>
@@ -29,6 +34,7 @@
   <string name="contrib_feature_reset_all_label">Сброс всех счетов</string>
   <string name="contrib_feature_security_question_label">Секретный вопрос</string>
   <string name="contrib_feature_split_transaction_label">Разделение операции</string>
+  <string name="contrib_feature_template_widget_label">Шаблон виджет</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="contrib_key_requires">требуется Мои расходы Contrib-ключ.</string>
   <string name="currency">Валюта</string>
@@ -74,12 +80,15 @@
   <string name="dialog_setup_planner_button_create_new">Создать новый</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Выбрать существующий</string>
+  <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Премиум функция</string>
   <string name="dialog_title_planner_setup_info">Требуется настройка календаря</string>
   <string name="dialog_title_select_account">Выбрать счёт</string>
   <string name="dialog_title_select_grouping">Выбрать группу</string>
   <string name="dialog_title_select_import_source">Выбрать источник для импорта</string>
   <string name="dialog_title_select_template">Выбрать шаблон</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Установить заголовок</string>
   <string name="dialog_title_warning_delete_account">Удалить счёт?</string>
   <string name="dialog_title_warning_delete_main_category">Удалить основную категорию?</string>
@@ -134,6 +143,7 @@
   <string name="menu_apply_template">Применить</string>
   <string name="menu_back">Назад</string>
   <string name="menu_backup">Резервная копия</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Отмена</string>
   <string name="menu_clone_transaction">Дублировать</string>

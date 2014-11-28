@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_239">
+    <item>Veritabanının geri alınmasında planlamalar yeniden oluşturulur</item>
+    <item>Yeni tercümeler: Bulgarca ve Hırvatça</item>
+  </string-array>
   <string-array name="whats_new_238">
     <item>Japonca tercüme</item>
     <item>Muamele grupları küçültülebilir</item>

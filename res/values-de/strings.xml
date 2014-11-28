@@ -391,6 +391,7 @@
   <string name="restore_backup_archive_not_valid">Archiv %1$s ist nicht gültig</string>
   <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv \"%2$s\" gefunden.</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
+  <string name="restore_calendar_success">%d Pläne wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
   <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
   <plurals name="save_transaction_from_template_success">
@@ -495,10 +496,18 @@
   <string name="comparison_operator_between">zwischen</string>
   <string name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
   <string name="premium_unlocked">Premium Funktionen entsperrt.</string>
+  <string name="premium_failed_or_canceled">Einkauf ist gescheitert oder abgebrochen.</string>
   <string name="hint_auto_fill">Sollen Betrag, Kategorie und Kommentar automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
   <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
   <string name="change_fraction_digits_result">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
   <string name="learn_more">Mehr erfahren</string>
+  <string name="import_source_file">Datei</string>
+  <string name="restore_calendar_handling">Verarbeitung der Kalender-Daten</string>
+  <string name="restore_calendar_handling_configured">Pläne werden in dem aktuell konfigurierten Kalender gespeichert</string>
+  <string name="restore_calendar_handling_backup">Pläne werden in dem im Backup festgelegten Kalender gespeichert, falls dieser verfügbar ist</string>
+  <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
+  <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegteKalender %s  ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
+  <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="account">Conto</string>
-  <string name="account_type_asset">Conto di beni</string>
+  <string name="account_type_asset">Patrimonio</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Conti di beni</string>
   <string name="account_type_bank">Conto bancario</string>
@@ -391,6 +391,7 @@
   <string name="restore_backup_archive_not_valid">Archivio %1$s non è valido</string>
   <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.</string>
+  <string name="restore_calendar_success">%d piani sono stati restaurati da backup</string>
   <string name="save_transaction_and_new_success">Salvata con successo</string>
   <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello.</string>
   <plurals name="save_transaction_from_template_success">
@@ -495,10 +496,18 @@
   <string name="comparison_operator_between">tra</string>
   <string name="promotion_appgratis_welcome">Offerta speciale di oggi con AppGratis: caratteristiche Premium sbloccati gratuitamente.</string>
   <string name="premium_unlocked">Caratteristiche Premium sbloccate.</string>
+  <string name="premium_failed_or_canceled">L\'acquisto non riuscito o annullato.</string>
   <string name="hint_auto_fill">Dovrebbe importo, categoria e commento essere compilati automaticamente dall\'ultima operazione beneficiario/ordinante stesso? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
   <string name="yes">Sì</string>
   <string name="no">No</string>
   <string name="hint_template_click">Un breve tasto su una voce in questa lista sarà istanziare il modello e subito o salvarlo o immettere la sua forma modifica dove è possibile modificare prima di salvare. È sempre possibile accedere entrambe le azioni attraverso un tasto lungo e modificare l\'impostazione predefinita nelle impostazioni.</string>
   <string name="change_fraction_digits_result">%1$d conti con valuta %2$s sono state aggiornate.</string>
   <string name="learn_more">Per saperne di più</string>
+  <string name="import_source_file">File</string>
+  <string name="restore_calendar_handling">Gestione dati di calendario</string>
+  <string name="restore_calendar_handling_configured">Ripristinare piani nel calendario attualmente configurato</string>
+  <string name="restore_calendar_handling_backup">Ripristinare nel calendario i piani di backup se disponibile</string>
+  <string name="restore_calendar_handling_ignore">Non ripristinare piani</string>
+  <string name="restore_not_possible_target_calendar_missing">Il calendario %s dell\'archivio di backup non esiste localmente. Ripristino è stata interrotta.</string>
+  <string name="restore_not_possible_local_calendar_missing">Il calendario di pianificazione corrente non è disponibile.</string>
 </resources>
