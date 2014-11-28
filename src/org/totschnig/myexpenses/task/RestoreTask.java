@@ -53,7 +53,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
    * 
    * @see android.os.AsyncTask#onProgressUpdate(Progress[])
    */
-  protected void onProgressUpdate(Integer... values) {
+  @Override
+  protected void onProgressUpdate(Result... values) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onProgressUpdate(values[0]);
     }
