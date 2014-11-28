@@ -20,7 +20,6 @@ package org.totschnig.myexpenses.task;
 import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
@@ -38,7 +37,6 @@ import android.util.Log;
  * 
  */
 public class TaskExecutionFragment<T> extends Fragment {
-  private static final String KEY_STRING_PARAMS = "stringParams";
   private static final String KEY_EXTRA = "extra";
   private static final String KEY_OBJECT_IDS = "objectIds";
   private static final String KEY_RUNNING = "running";

@@ -73,6 +73,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
    * updates the progress dialog
    * @see android.os.AsyncTask#onProgressUpdate(Progress[])
    */
+  @Override
   protected void onProgressUpdate(String... values) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       for (String progress: values) {

@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -33,6 +34,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
@@ -43,6 +45,7 @@ public class Template extends Transaction {
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
+  private String mUuid;
   static {
     PROJECTION_BASE = new String[] {
       KEY_ROWID,
@@ -62,7 +65,8 @@ public class Template extends Transaction {
       KEY_METHODID,
       KEY_TITLE,
       KEY_PLANID,
-      KEY_PLAN_EXECUTION
+      KEY_PLAN_EXECUTION,
+      KEY_UUID
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength+2];
@@ -89,6 +93,11 @@ public class Template extends Transaction {
     //we use KEY_TRANSFER_PEER as boolean
     this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
+    generateUuid();
+  }
+  private void generateUuid() {
+    mUuid = UUID.randomUUID().toString();
+    
   }
   /**
    * @param c Cursor positioned at the row we want to extract into the object
@@ -113,14 +122,17 @@ public class Template extends Transaction {
     title = DbUtils.getString(c,KEY_TITLE);
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
     planExecutionAutomatic = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0;
+    mUuid = DbUtils.getString(c, KEY_UUID);
   }
   public Template(long accountId,Long amount) {
     super(accountId,amount);
     title = "";
+    generateUuid();
   }
   public Template(Account account, long amount) {
     super(account,amount);
     title = "";
+    generateUuid();
   }
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
     Account account = Account.getInstanceFromDb(accountId);
@@ -144,8 +156,8 @@ public class Template extends Transaction {
     Cursor c = cr().query(
         CONTENT_URI,
         null,
-        KEY_PLANID + "= ? AND NOT exists(SELECT 1 from planinstance_transaction WHERE "
-            + KEY_INSTANCEID + " = ?)",
+        KEY_PLANID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
+            + " WHERE " + KEY_INSTANCEID + " = ?)",
         new String[] {String.valueOf(planId),String.valueOf(instanceId)},
         null);
     if (c == null) {
@@ -196,6 +208,7 @@ public class Template extends Transaction {
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (getId() == 0) {
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);
+      initialValues.put(KEY_UUID,mUuid);
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {
@@ -217,10 +230,8 @@ public class Template extends Transaction {
         initialValues.put(
             //we encode both account and template into the CUSTOM URI
             Events.CUSTOM_APP_URI,
-            ContentUris.withAppendedId(
-                ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
-                getId()).toString());
-        initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+            buildCustomAppUri(accountId, getId()));
+        initialValues.put(Events.CUSTOM_APP_PACKAGE,"org.totschnig.myexpenses");
       }
       initialValues.put(Events.TITLE,title);
       initialValues.put(Events.DESCRIPTION, compileDescription(MyApplication.getInstance()));
@@ -308,7 +319,10 @@ public class Template extends Transaction {
       sb.append(ctx.getString(R.string.method));
       sb.append(" : ");
       sb.append(PaymentMethod.getInstanceFromDb(methodId).getLabel());
+      sb.append("\n");
     }
+    sb.append("UUID : ");
+    sb.append(mUuid);
     return sb.toString();
   }
   public boolean applyInstance(long instanceId, long date) {
@@ -316,5 +330,13 @@ public class Template extends Transaction {
     t.setDate(new Date(date));
     t.originPlanInstanceId = instanceId;
     return t.save() != null;
+  }
+  public static String buildCustomAppUri(long accountId, long templateId) {
+    return ContentUris.withAppendedId(
+        ContentUris.withAppendedId(
+            Template.CONTENT_URI,
+            accountId),
+        templateId)
+        .toString();
   }
 }

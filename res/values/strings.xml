@@ -407,6 +407,7 @@
     <string name="restore_backup_archive_not_valid">Archive %1$s is not valid</string>
     <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
     <string name="restore_preferences_success">Preferences have been restored from backup.</string>
+    <string name="restore_calendar_success">%d plans have been restored from backup</string>
     <string name="save_transaction_and_new_success">Successfully saved</string>
     <string name="save_transaction_error">Could not save new transaction from template.</string>
     <plurals name="save_transaction_from_template_success">
@@ -519,4 +520,11 @@
     <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
     <string name="change_fraction_digits_result">%1$d accounts with currency %2$s have been updated.</string>
     <string name="learn_more">Learn more</string>
+    <string name="import_source_file">File</string>
+    <string name="restore_calendar_handling">Calendar data handling</string>
+    <string name="restore_calendar_handling_configured">Restore plans to currently configured calendar</string>
+    <string name="restore_calendar_handling_backup">Restore plans to calendar set in backup if available</string>
+    <string name="restore_calendar_handling_ignore">Do not restore plans</string>
+    <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
+    <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
 </resources>

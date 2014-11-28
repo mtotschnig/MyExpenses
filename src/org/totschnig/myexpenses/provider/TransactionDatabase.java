@@ -17,13 +17,19 @@ package org.totschnig.myexpenses.provider;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -35,7 +41,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 46;
+  public static final int DATABASE_VERSION = 47;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -149,8 +155,23 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_USAGES           + " integer default 0, "
       + KEY_PLANID           + " integer, "
       + KEY_PLAN_EXECUTION   + " boolean default 0, "
+      + KEY_UUID             + " text, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
+  private static final String EVENT_CACHE_CREATE = 
+      "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
+          Events.TITLE + " TEXT," +
+          Events.DESCRIPTION + " TEXT," +
+          Events.DTSTART + " INTEGER," +
+          Events.DTEND + " INTEGER," +
+          Events.EVENT_TIMEZONE + " TEXT," +
+          Events.DURATION + " TEXT," +
+          Events.ALL_DAY + " INTEGER NOT NULL DEFAULT 0," +
+          Events.RRULE + " TEXT," +
+          Events.CUSTOM_APP_PACKAGE + " TEXT," +
+          Events.CUSTOM_APP_URI + " TEXT);";
+
+      
   /**
    * we store a simple row for each time a feature has been accessed,
    * thus speeding up recording and counting 
@@ -235,6 +256,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
+    db.execSQL(EVENT_CACHE_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -708,6 +730,65 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           while( c.getPosition() < c.getCount() ) {
             v.put("name_normalized", Utils.normalize(c.getString(1)));
             db.update("payee", v, "_id = "+c.getLong(0),null);
+            c.moveToNext();
+          }
+        }
+        c.close();
+      }
+    }
+    if (oldVersion < 47) {
+      db.execSQL("ALTER TABLE templates add column uuid text");
+      db.execSQL(EVENT_CACHE_CREATE);
+      //need to inline to protect against later renames
+      String[] projection = new String[] {
+          "_id",
+          "amount",
+          "comment",
+          "cat_id",
+          "CASE WHEN " +
+              "  " + "transfer_peer" + " " +
+          " THEN " +
+            "  (SELECT " + "label" + " FROM " + "accounts" + " WHERE " + "_id" + " = " + "transfer_account" + ") " +
+          " ELSE " +
+            " CASE WHEN " +
+                " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+            " THEN " +
+              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " +
+                " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ")) " +
+              "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
+              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+            " ELSE" +
+              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+            " END " +
+          " END AS  " + "label",
+          "name",
+          "transfer_peer",
+          "transfer_account",
+          "account_id",
+          "method_id",
+          "title",
+          "plan_id",
+          "plan_execution",
+          "uuid"
+        };
+      Cursor c = db.query(
+          "templates",
+          projection,
+          null, null, null,null,null);
+      if (c!=null) {
+        if (c.moveToFirst()) {
+          ContentValues templateValues = new ContentValues(),
+              eventValues = new ContentValues();
+          while( c.getPosition() < c.getCount() ) {
+            String uuid = UUID.randomUUID().toString();
+            templateValues.put(DatabaseConstants.KEY_UUID, uuid);
+            long templateId = c.getLong(c.getColumnIndex("_id"));
+            long planId = c.getLong(c.getColumnIndex("plan_id"));
+            eventValues.put(Events.DESCRIPTION,new Template(c).compileDescription(mCtx));
+            db.update("templates", templateValues, "_id = "+templateId,null);
+            mCtx.getContentResolver().update(
+                ContentUris.withAppendedId(Events.CONTENT_URI, planId),
+                eventValues,null,null);
             c.moveToNext();
           }
         }

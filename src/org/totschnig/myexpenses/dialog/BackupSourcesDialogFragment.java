@@ -2,14 +2,23 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.RadioButton;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment implements
 DialogInterface.OnClickListener {
+  RadioGroup mRestorePlanStrategie;
   
   public static final BackupSourcesDialogFragment newInstance() {
     return new BackupSourcesDialogFragment();
@@ -17,6 +26,25 @@ DialogInterface.OnClickListener {
   @Override
   protected int getLayoutId() {
     return R.layout.backup_restore_dialog;
+  }
+  @Override
+  protected void setupDialogView(View view) {
+    super.setupDialogView(view);
+    mRestorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
+    mRestorePlanStrategie.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(RadioGroup group, int checkedId) {
+        setButtonState();
+      }
+    });
+    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
+    RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
+    if ((calendarId.equals("-1")) || calendarPath.equals("")) {
+      configured.setEnabled(false);
+    } else {
+      configured.setText(configured.getText() + " (" + calendarPath + ")");
+    }
   }
   @Override
   protected int getLayoutTitle() {
@@ -50,9 +78,19 @@ DialogInterface.OnClickListener {
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
         .putString(getPrefKey(), mUri.toString()));
-      ((BackupRestoreActivity) getActivity()).onSourceSelected(mUri);
+      ((BackupRestoreActivity) getActivity()).onSourceSelected(
+          mUri,
+          mRestorePlanStrategie.getCheckedRadioButtonId());
     } else {
       super.onClick(dialog, id);
+    }
+  }
+  @Override
+  protected boolean isReady() {
+    if (super.isReady()) {
+      return mRestorePlanStrategie.getCheckedRadioButtonId() != -1;
+    } else {
+      return false;
     }
   }
 }

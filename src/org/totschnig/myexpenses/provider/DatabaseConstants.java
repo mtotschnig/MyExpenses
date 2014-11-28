@@ -142,6 +142,7 @@ public class DatabaseConstants {
   public static final String KEY_SORT_KEY_TYPE = "sort_key_type";
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
+  public static final String KEY_UUID = "uuid";
   /**
    * column alias for the second group (month or week)
    */
@@ -172,6 +173,10 @@ public class DatabaseConstants {
   public static final String VIEW_EXTENDED = "transactions_extended";
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
+  /**
+   * used on backup and restore
+   */
+  public static final String TABLE_EVENT_CACHE = "event_cache";
 
   /**
    * an SQL CASE expression for transactions

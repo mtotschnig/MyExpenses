@@ -185,6 +185,9 @@ public final class CalendarContractCompat {
         if (android.os.Build.VERSION.SDK_INT>=16) {
           CUSTOM_APP_PACKAGE = CalendarContract.Events.CUSTOM_APP_PACKAGE;
           CUSTOM_APP_URI = CalendarContract.Events.CUSTOM_APP_URI;
+        } else {
+          CUSTOM_APP_PACKAGE = "customAppPackage";
+          CUSTOM_APP_URI = "customAppUri";
         }
       }
     }

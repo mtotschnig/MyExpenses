@@ -391,6 +391,7 @@
   <string name="restore_backup_archive_not_valid">Arquivo %1$s não é válido</string>
   <string name="restore_backup_file_not_found">Nenhum arquivo %1$s encontrado no arquivo \"%2$s\"</string>
   <string name="restore_preferences_success">As preferências foram restauradas a partir do backup.</string>
+  <string name="restore_calendar_success">%d planos foram restaurados do backup</string>
   <string name="save_transaction_and_new_success">Salvo com sucesso</string>
   <string name="save_transaction_error">Não foi possível salvar nova transação do modelo.</string>
   <plurals name="save_transaction_from_template_success">
@@ -495,10 +496,18 @@
   <string name="comparison_operator_between">entre</string>
   <string name="promotion_appgratis_welcome">Oferta especial de hoje com AppGratis: características Premium desbloqueadas gratuitamente.</string>
   <string name="premium_unlocked">Características premium desbloqueadas.</string>
+  <string name="premium_failed_or_canceled">Compra falhou ou cancelado.</string>
   <string name="hint_auto_fill">Devem quantidade, categoria e comentário ser preenchidos automaticamente da última transação para o mesmo beneficiário/pagador? Você sempre pode alterar este comportamento das configurações.</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
   <string name="hint_template_click">Um toque curto em uma entrada nesta lista será instanciar o modelo e quer salvá-lo imediatamente ou insira a sua forma de edição onde você pode modificá-la antes de salvar. Você sempre pode acessar ambas as ações através de um toque longo e alterar o padrão nas configurações.</string>
   <string name="change_fraction_digits_result">%1$d contas com moeda %2$s foram atualizadas.</string>
   <string name="learn_more">Saiba Mais</string>
+  <string name="import_source_file">Arquivo</string>
+  <string name="restore_calendar_handling">Manipulação de dados de calendário</string>
+  <string name="restore_calendar_handling_configured">Restaurar planos para calendário configurado atualmente</string>
+  <string name="restore_calendar_handling_backup">Restaurar planos para calendário conjunto de backup, se disponível</string>
+  <string name="restore_calendar_handling_ignore">Não restaurar planos</string>
+  <string name="restore_not_possible_target_calendar_missing">O calendário %s definido no arquivo de backup não existe localmente. Restauração foi abortada.</string>
+  <string name="restore_not_possible_local_calendar_missing">O calendário atual de planejamento não está disponível.</string>
 </resources>

@@ -391,6 +391,7 @@
   <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
   <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
+  <string name="restore_calendar_success">Yedeklemeden %d planlama geri alınmıştır</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
   <plurals name="save_transaction_from_template_success">
@@ -497,10 +498,18 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="comparison_operator_between">arasında</string>
   <string name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
   <string name="premium_unlocked">Katkı özelliklerinin kilidi kaldırılmıştır.</string>
+  <string name="premium_failed_or_canceled">Satın alma başarısız oldu veya iptal edildi.</string>
   <string name="hint_auto_fill">Aynı alacaklı/ödeyici için meblağ, kategori ve yorum son muameleye dayanılarak otomatik olarak doldurulsun mu? Bunu ayarlardan değiştirebilirsiniz.</string>
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
   <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
   <string name="change_fraction_digits_result">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
   <string name="learn_more">Dahasını öğrenin</string>
+  <string name="import_source_file">Dosya</string>
+  <string name="restore_calendar_handling">Takvim veri yönetimi</string>
+  <string name="restore_calendar_handling_configured">Planlamaları güncel yapılandırılmış takvime geri al</string>
+  <string name="restore_calendar_handling_backup">Planlamaları mevcutsa yedeklemedeki takvim setine geri al</string>
+  <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
+  <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivindeki %s takvim seti yerel olarak mevcut değildir. Geri alma iptal edilmiştir.</string>
+  <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
 </resources>

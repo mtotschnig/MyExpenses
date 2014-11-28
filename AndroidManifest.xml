@@ -9,7 +9,11 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
 	package="org.totschnig.myexpenses" android:versionCode="183"
+=======
+	package="org.totschnig.myexpenses" android:versionCode="184"
+>>>>>>> master
 	android:versionName="2.3.9" android:installLocation="internalOnly">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19"></uses-sdk>
 	<supports-screens android:smallScreens="true"
