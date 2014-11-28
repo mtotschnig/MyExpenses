@@ -701,6 +701,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           String.format(
               "restore plans to calendar with id %s and path %s",
               calendarId,calendarPath));
+      int restoredPlansCount = 0;
       if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
         Cursor c = cr.query(Calendars.CONTENT_URI,
               new String[]{Calendars._ID},
@@ -755,7 +756,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                             planValues, null, null);
                         if (updated>0) {
                           Log.i(TAG,"updated plan id in template:" + templateId);
+                          restoredPlansCount++;
                         }
+                      } else {
+                        restoredPlansCount++;
                       }
                       continue;
                     }
@@ -776,6 +780,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                       copyEventData(eventCursor, eventValues);
                       if (insertEventAndUpdatePlan(eventValues, templateId)) {
                         Log.i(TAG,"updated plan id in template:" + templateId);
+                        restoredPlansCount++;
                       }
                     }
                     eventCursor.close();
@@ -788,6 +793,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         }
         c.close();
       }
-      return new Result(true,R.string.restore_calendar_success);
+      return new Result(true,R.string.restore_calendar_success,restoredPlansCount);
     }
 }

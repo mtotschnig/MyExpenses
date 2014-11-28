@@ -406,7 +406,7 @@
     <string name="restore_backup_archive_not_valid">Archive %1$s is not valid</string>
     <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
     <string name="restore_preferences_success">Preferences have been restored from backup.</string>
-    <string name="restore_calendar_success">Plans have been restored from backup</string>
+    <string name="restore_calendar_success">%d plans have been restored from backup</string>
     <string name="save_transaction_and_new_success">Successfully saved</string>
     <string name="save_transaction_error">Could not save new transaction from template.</string>
     <plurals name="save_transaction_from_template_success">

@@ -33,7 +33,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-public class RestoreTask extends AsyncTask<Void, Integer, Result> {
+public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
@@ -177,7 +177,7 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
     }
     
     if (DbUtils.restore(backupFile)) {
-      publishProgress(R.string.restore_db_success);
+      publishProgress(new Result(true,R.string.restore_db_success));
       
       //since we already started reading settings, we can not just copy the file
       //unless I found a way
@@ -226,13 +226,13 @@ public class RestoreTask extends AsyncTask<Void, Integer, Result> {
         backupFile.delete();
         backupPrefFile.delete();
       }
-      publishProgress(R.string.restore_preferences_success);
+      publishProgress(new Result(true,R.string.restore_preferences_success));
       //if a user restores a backup we do not want past plan instances to flood the database
       MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP
           .putLong(System.currentTimeMillis());
       //now handling plans
       if (restorePlanStrategy!=R.id.restore_calendar_handling_ignore) {
-        publishProgress(MyApplication.getInstance().restorePlanner().getMessage());
+        publishProgress(MyApplication.getInstance().restorePlanner());
       } else {
         //we remove all links to plans we did not restore
         ContentValues planValues = new ContentValues();

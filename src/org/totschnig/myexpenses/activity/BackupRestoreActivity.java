@@ -219,7 +219,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
 
   @Override
   public void onProgressUpdate(Object progress) {
-    Toast.makeText(getBaseContext(), getString((Integer) progress),
+    Toast.makeText(getBaseContext(), ((Result) progress).print(this),
         Toast.LENGTH_LONG).show();
   }
 
