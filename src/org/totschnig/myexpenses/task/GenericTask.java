@@ -126,7 +126,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           Transaction.delete(id);
         }
       } catch (SQLiteConstraintException e) {
-        Utils.reportToAcra(e);
+        Utils.reportToAcraWithDbSchema(e);
         return false;
       }
       return true;
@@ -134,7 +134,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       try {
         Account.delete((Long) ids[0]);
       } catch (Exception e) {
-        Utils.reportToAcra(e);
+        Utils.reportToAcraWithDbSchema(e);
         return false;
       }
       return true;
@@ -144,7 +144,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           PaymentMethod.delete(id);
         }
       } catch (SQLiteConstraintException e) {
-        Utils.reportToAcra(e);
+        Utils.reportToAcraWithDbSchema(e);
         return false;
       }
       return true;
@@ -154,7 +154,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           Payee.delete(id);
         }
       } catch (SQLiteConstraintException e) {
-        Utils.reportToAcra(e);
+        Utils.reportToAcraWithDbSchema(e);
         return false;
       }
       return true;
@@ -164,7 +164,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           Category.delete(id);
         }
       } catch (SQLiteConstraintException e) {
-        Utils.reportToAcra(e);
+        Utils.reportToAcraWithDbSchema(e);
         return false;
       }
       return true;
@@ -174,7 +174,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           Template.delete(id);
         }
       } catch (SQLiteConstraintException e) {
-        Utils.reportToAcra(e);
+        Utils.reportToAcraWithDbSchema(e);
         return false;
       }
       return true;

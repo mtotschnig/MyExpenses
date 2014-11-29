@@ -44,6 +44,7 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
 
+import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -51,6 +52,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -706,6 +708,17 @@ public class Utils {
       }
     }
     return total;
+  }
+
+  public static void reportToAcraWithDbSchema(Exception e) {
+    reportToAcra(e, "DB_SCHEMA", DbUtils.getTableDetails());
+  }
+
+  public static void reportToAcra(Exception e,String key,String data) {
+    ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
+    errorReporter.putCustomData(key, data);
+    errorReporter.handleException(e);
+    errorReporter.removeCustomData(key);
   }
 
   public static void reportToAcra(Exception e) {
