@@ -122,10 +122,10 @@ public class TransactionProvider extends ContentProvider {
   private static final int METHOD_ID = 9;
   private static final int ACCOUNTTYPES_METHODS = 10;
   private static final int TEMPLATES = 11;
-  private static final int TEMPLATES_ID = 12;
+  private static final int TEMPLATE_ID = 12;
   private static final int CATEGORY_ID = 13;
   private static final int CATEGORY_INCREASE_USAGE = 14;
-  private static final int PAYEES_ID = 15;
+  private static final int PAYEE_ID = 15;
   private static final int METHODS_FILTERED = 16;
   private static final int TEMPLATES_INCREASE_USAGE = 17;
   private static final int FEATURE_USED = 18;
@@ -158,12 +158,8 @@ public class TransactionProvider extends ContentProvider {
       String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     SQLiteDatabase db;
-    try {
-      db = mOpenHelper.getReadableDatabase();
-    } catch (SQLiteDowngradeFailedException e) {
-      Utils.reportToAcra(e);
-      throw new IllegalStateException(e);
-    }
+    db = mOpenHelper.getReadableDatabase();
+
     Cursor c;
 
     if (BuildConfig.DEBUG) {
@@ -530,7 +526,7 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = Template.PROJECTION_EXTENDED;
       break;
-    case TEMPLATES_ID:
+    case TEMPLATE_ID:
       qb.setTables(VIEW_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       if (projection == null)
@@ -732,7 +728,7 @@ public class TransactionProvider extends ContentProvider {
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
       break;
-    case TEMPLATES_ID:
+    case TEMPLATE_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -773,7 +769,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_CATEGORIES, "_id=" + segment + whereString,
           whereArgs);
       break;
-    case PAYEES_ID:
+    case PAYEE_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -854,7 +850,7 @@ public class TransactionProvider extends ContentProvider {
       //TODO should not support bulk update of categories
       count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
       break;
-    case TEMPLATES_ID:
+    case TEMPLATE_ID:
       segment = uri.getPathSegments().get(1); 
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -864,7 +860,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
             whereArgs);
       break;
-    case PAYEES_ID:
+    case PAYEE_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -1096,7 +1092,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#/" + URI_SEGMENT_INCREASE_USAGE, ACCOUNT_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
-    URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
+    URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
     URI_MATCHER.addURI(AUTHORITY, "methods/#", METHOD_ID);
     //methods/typeFilter/{TransactionType}/{AccountType}
@@ -1106,7 +1102,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
-    URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
+    URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);

@@ -46,7 +46,9 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -767,21 +769,20 @@ public class MyExpenses extends LaunchActivity implements
         public Cursor loadInBackground() {
           try {
             return super.loadInBackground();
-          } catch (IllegalStateException e) {
-//            runOnUiThread(new Runnable() {
-//              @Override
-//              public void run() {
+          } catch (Exception e) {
+            Utils.reportToAcra(e);
+            String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
+                ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
+                    "before reinstalling, or upgrade to a new version.") :
+                "Database upgrade failed. Please contact support@myexpenses.mobi !";
                 MessageDialogFragment f = MessageDialogFragment.newInstance(
                     0,
-                    "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses," +
-                    "before reinstalling, or upgrade to a new version.",
+                    msg,
                     new MessageDialogFragment.Button(android.R.string.ok,R.id.QUIT_COMMAND,null),
                     null,
                     null);
                 f.setCancelable(false);
                 f.show(getSupportFragmentManager(),"DOWNGRADE"); 
-//              }
-//            });
                 return null;
           }
         }

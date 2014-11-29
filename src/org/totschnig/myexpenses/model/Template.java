@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import java.util.Currency;
 import java.util.Date;
 import java.util.UUID;
 
@@ -45,7 +46,10 @@ public class Template extends Transaction {
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
-  private String mUuid;
+  private String uuid;
+  public String getUuid() {
+    return uuid;
+  }
   static {
     PROJECTION_BASE = new String[] {
       KEY_ROWID,
@@ -96,7 +100,7 @@ public class Template extends Transaction {
     generateUuid();
   }
   private void generateUuid() {
-    mUuid = UUID.randomUUID().toString();
+    uuid = UUID.randomUUID().toString();
     
   }
   /**
@@ -106,9 +110,19 @@ public class Template extends Transaction {
    * @param c
    */
   public Template (Cursor c) {
-    this(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),
-        c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))
-        );
+    this.accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
+    Currency currency;
+    int currencyColumnIndex = c.getColumnIndex(KEY_CURRENCY);
+    //we allow the object to be instantiated without instantiation of
+    //the account, because the latter triggers an error (getDatabase called recursively)
+    //when we need a template instance in database onUpgrade
+    if (currencyColumnIndex!=-1) {
+      currency = Utils.getSaveInstance(c.getString(currencyColumnIndex));
+    } else {
+      currency = Account.getInstanceFromDb(this.accountId).currency;
+    }
+    this.amount = new Money(currency,c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT)));
+    
     if (isTransfer = c.getInt(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER)) > 0) {
       transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     } else {
@@ -122,7 +136,8 @@ public class Template extends Transaction {
     title = DbUtils.getString(c,KEY_TITLE);
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
     planExecutionAutomatic = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0;
-    mUuid = DbUtils.getString(c, KEY_UUID);
+    uuid = DbUtils.getString(c, KEY_UUID);
+    generateUuid();
   }
   public Template(long accountId,Long amount) {
     super(accountId,amount);
@@ -208,7 +223,7 @@ public class Template extends Transaction {
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (getId() == 0) {
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);
-      initialValues.put(KEY_UUID,mUuid);
+      initialValues.put(KEY_UUID,uuid);
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {
@@ -322,7 +337,7 @@ public class Template extends Transaction {
       sb.append("\n");
     }
     sb.append("UUID : ");
-    sb.append(mUuid);
+    sb.append(uuid);
     return sb.toString();
   }
   public boolean applyInstance(long instanceId, long date) {
