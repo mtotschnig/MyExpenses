@@ -17,8 +17,6 @@ package org.totschnig.myexpenses.provider;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.UUID;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -769,10 +767,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "title",
           "plan_id",
           "plan_execution",
-          "uuid"
+          "uuid",
+          "currency"
         };
       Cursor c = db.query(
-          "templates",
+          "templates_extended",
           projection,
           null, null, null,null,null);
       if (c!=null) {
@@ -780,8 +779,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           ContentValues templateValues = new ContentValues(),
               eventValues = new ContentValues();
           while( c.getPosition() < c.getCount() ) {
-            String uuid = UUID.randomUUID().toString();
-            templateValues.put(DatabaseConstants.KEY_UUID, uuid);
+            Template t = new Template(c);
+            templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
             long templateId = c.getLong(c.getColumnIndex("_id"));
             long planId = c.getLong(c.getColumnIndex("plan_id"));
             eventValues.put(Events.DESCRIPTION,new Template(c).compileDescription(mCtx));
@@ -801,5 +800,5 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       throw new SQLiteDowngradeFailedException();
   }
 
-  static class SQLiteDowngradeFailedException extends SQLiteException {}
+  public static class SQLiteDowngradeFailedException extends SQLiteException {}
 }
