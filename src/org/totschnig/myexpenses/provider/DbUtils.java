@@ -16,10 +16,6 @@
 package org.totschnig.myexpenses.provider;
 
 import java.io.File;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -32,7 +28,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
@@ -140,4 +135,20 @@ public class DbUtils {
   public static String weekEndFromGroupSqlExpression(int year, int week) {
     return String.format(Locale.US, COUNT_FROM_WEEK_START_ZERO + " AS " + KEY_WEEK_END,year,week*7+6);
   }
+
+  public static String getTableDetails() {
+    Cursor c = MyApplication.getInstance().getContentResolver()
+        .query(TransactionProvider.DEBUG_SCHEMA_URI, null,null,null,null);
+    StringBuilder sb = new StringBuilder();
+    if (c!= null) {
+      for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+        sb.append(c.getString(0));
+        sb.append(" : ");
+        sb.append(c.getString(1));
+        sb.append("\n");
+      }
+      c.close();
+    }
+    return sb.toString();
+}
 }

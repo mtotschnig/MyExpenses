@@ -91,6 +91,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccountsGroupedByType");
   public static final Uri EVENT_CACHE_URI = 
       Uri.parse("content://" + AUTHORITY + "/eventcache");
+  public static final Uri DEBUG_SCHEMA_URI =
+      Uri.parse("content://" + AUTHORITY + "/debug_schema");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    */
@@ -143,6 +145,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int DUAL = 32;
   private static final int CURRENCIES_CHANGE_FRACTION_DIGITS = 33;
   private static final int EVENT_CACHE = 34;
+  private static final int DEBUG_SCHEMA = 35;
   
   @Override
   public boolean onCreate() {
@@ -556,6 +559,13 @@ public class TransactionProvider extends ContentProvider {
     case EVENT_CACHE:
       qb.setTables(TABLE_EVENT_CACHE);
       break;
+    case DEBUG_SCHEMA:
+      qb.setTables("sqlite_master");
+      return qb.query(
+          db,
+          new String[]{"name","sql"},
+          "type = 'table'",
+          null,null,null,null);
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -1108,6 +1118,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
     URI_MATCHER.addURI(AUTHORITY, "eventcache", EVENT_CACHE);
+    URI_MATCHER.addURI(AUTHORITY, "debug_schema", DEBUG_SCHEMA);
     
   }
   public void resetDatabase() {
