@@ -710,7 +710,15 @@ public class Utils {
   }
 
   public static void reportToAcraWithDbSchema(Exception e) {
-    reportToAcra(e, "DB_SCHEMA", DbUtils.getTableDetails());
+    ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
+    String[][] schema = DbUtils.getTableDetails();
+    for (String[] tableInfo: schema) {
+      errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
+    }
+    errorReporter.handleException(e);
+    for (String[] tableInfo: schema) {
+      errorReporter.removeCustomData(tableInfo[0]);
+    }
   }
 
   public static void reportToAcra(Exception e,String key,String data) {

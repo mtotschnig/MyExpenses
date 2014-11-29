@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -21,9 +20,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
@@ -125,11 +122,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         for (long id : (Long[]) ids) {
           Transaction.delete(id);
         }
+        throw new SQLiteConstraintException();
       } catch (SQLiteConstraintException e) {
         Utils.reportToAcraWithDbSchema(e);
         return false;
       }
-      return true;
+      //return true;
     case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       try {
         Account.delete((Long) ids[0]);
