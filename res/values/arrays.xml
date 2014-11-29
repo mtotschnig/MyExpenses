@@ -219,6 +219,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
+      <item>184</item>
       <item>182</item>
       <item>180</item>
       <item>179</item>
@@ -249,6 +250,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
+      <item>2.3.9</item>
       <item>2.3.8</item>
       <item>2.3.7</item>
       <item>2.3.6</item>
