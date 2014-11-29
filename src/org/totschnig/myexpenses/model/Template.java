@@ -136,8 +136,12 @@ public class Template extends Transaction {
     title = DbUtils.getString(c,KEY_TITLE);
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
     planExecutionAutomatic = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0;
-    uuid = DbUtils.getString(c, KEY_UUID);
-    generateUuid();
+    int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
+    if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
+      generateUuid();
+    } else {
+      uuid = DbUtils.getString(c, KEY_UUID);
+    }
   }
   public Template(long accountId,Long amount) {
     super(accountId,amount);

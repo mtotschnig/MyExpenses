@@ -783,7 +783,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
             long templateId = c.getLong(c.getColumnIndex("_id"));
             long planId = c.getLong(c.getColumnIndex("plan_id"));
-            eventValues.put(Events.DESCRIPTION,new Template(c).compileDescription(mCtx));
+            eventValues.put(Events.DESCRIPTION,t.compileDescription(mCtx));
             db.update("templates", templateValues, "_id = "+templateId,null);
             mCtx.getContentResolver().update(
                 ContentUris.withAppendedId(Events.CONTENT_URI, planId),
