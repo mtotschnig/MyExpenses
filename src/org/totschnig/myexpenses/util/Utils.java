@@ -44,7 +44,7 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
 
-import org.acra.ErrorReporter;
+//import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -711,15 +711,16 @@ public class Utils {
   }
 
   public static void reportToAcraWithDbSchema(Exception e) {
-    reportToAcra(e, "DB_SCHEMA", DbUtils.getTableDetails());
+    //reportToAcra(e, "DB_SCHEMA", DbUtils.getTableDetails());
+    reportToAcra(e);
   }
 
-  public static void reportToAcra(Exception e,String key,String data) {
-    ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
-    errorReporter.putCustomData(key, data);
-    errorReporter.handleException(e);
-    errorReporter.removeCustomData(key);
-  }
+//  public static void reportToAcra(Exception e,String key,String data) {
+//    ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
+//    errorReporter.putCustomData(key, data);
+//    errorReporter.handleException(e);
+//    errorReporter.removeCustomData(key);
+//  }
 
   public static void reportToAcra(Exception e) {
     Log.e(MyApplication.TAG,"Report", e);
