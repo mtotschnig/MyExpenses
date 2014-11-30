@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="Sub_5_1">Darovi</string>
+  <string name="Main_6">Hrana</string>
+  <string name="Sub_6_6">Namirnice</string>
+  <string name="Sub_6_7">Restoran</string>
+  <string name="Sub_7_1">Hrana</string>
+  <string name="Sub_8_1">Automobil</string>
+  <string name="Main_9">Automobil</string>
+  <string name="Sub_9_1">Gorivo</string>
+  <string name="Main_11">Darovi</string>
+  <string name="Sub_14_1">Pokloni</string>
+  <string name="Sub_17_2">Prihod</string>
+  <string name="Main_23">Prijevoz</string>
+  <string name="Sub_23_2">Podzemna željeznica</string>
+</resources>
