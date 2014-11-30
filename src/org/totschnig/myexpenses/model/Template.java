@@ -43,10 +43,11 @@ public class Template extends Transaction {
   public boolean isTransfer;
   public Long planId;
   public boolean planExecutionAutomatic = false;
+  private String uuid;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
-  private String uuid;
+
   public String getUuid() {
     return uuid;
   }
@@ -142,11 +143,7 @@ public class Template extends Transaction {
     } else {
       uuid = DbUtils.getString(c, KEY_UUID);
     }
-  }
-  public Template(long accountId,Long amount) {
-    super(accountId,amount);
-    title = "";
-    generateUuid();
+
   }
   public Template(Account account, long amount) {
     super(account,amount);
@@ -154,6 +151,10 @@ public class Template extends Transaction {
     generateUuid();
   }
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
+    if (mOperationType == MyExpenses.TYPE_SPLIT) {
+      throw new UnsupportedOperationException(
+          "Templates for Split transactions are not yet implemented");
+    }
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       return null;
@@ -357,5 +358,36 @@ public class Template extends Transaction {
             accountId),
         templateId)
         .toString();
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Template other = (Template) obj;
+    if (isTransfer != other.isTransfer)
+      return false;
+    if (planExecutionAutomatic != other.planExecutionAutomatic)
+      return false;
+    if (planId == null) {
+      if (other.planId != null)
+        return false;
+    } else if (!planId.equals(other.planId))
+      return false;
+    if (title == null) {
+      if (other.title != null)
+        return false;
+    } else if (!title.equals(other.title))
+      return false;
+    if (uuid == null) {
+      if (other.uuid != null)
+        return false;
+    } else if (!uuid.equals(other.uuid))
+      return false;
+    return true;
   }
 }
