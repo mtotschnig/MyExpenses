@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="Sub_5_1">Agasallos</string>
+  <string name="Main_6">Alimentación</string>
+  <string name="Sub_6_6">Tenda do barrio</string>
+  <string name="Sub_6_7">Restaurantes</string>
+  <string name="Sub_7_1">Alimentación</string>
+  <string name="Sub_8_1">Coche</string>
+  <string name="Main_9">Coche</string>
+  <string name="Sub_9_1">Combustible</string>
+  <string name="Main_11">Agasallos</string>
+  <string name="Sub_14_1">Agasallos</string>
+  <string name="Sub_17_2">Ingresos</string>
+  <string name="Main_23">Transporte</string>
+  <string name="Sub_23_2">Metro</string>
+</resources>
