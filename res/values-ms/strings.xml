@@ -387,6 +387,7 @@
   <string name="restore_backup_archive_not_valid">Arkib %1$s tidak sah</string>
   <string name="restore_backup_file_not_found">Tiada fail %1$s ditemui dalam arkib \"%2$s\"</string>
   <string name="restore_preferences_success">Keutamaan telah dipulihkan dari sandar.</string>
+  <string name="restore_calendar_success">%d plan telah dipulihkan dari sandar</string>
   <string name="save_transaction_and_new_success">Berjaya disimpan</string>
   <string name="save_transaction_error">Tidak dapat simpan transaksi baharu dari templat.</string>
   <plurals name="save_transaction_from_template_success">
@@ -487,10 +488,18 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="comparison_operator_between">diantara</string>
   <string name="promotion_appgratis_welcome">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
   <string name="premium_unlocked">Fitur premium dibuka.</string>
+  <string name="premium_failed_or_canceled">Pembelian gagal atau dibatalkan.</string>
   <string name="hint_auto_fill">Patutkah amaun, kategori dan ulasan diisi secara automatik dari transaksi terakhir untuk pembayar/penerima yang sama? Anda boleh mengubah kelakuakn ini melalui tetapan.</string>
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
   <string name="hint_template_click">Satu ketukan pantas pada masukan dalam senarai ini akan segerakan templat dan sama ada simpan ia serta-merta atau pergi ke bentuk suntingan yang mana anda boleh ubahsuai ia sebelum menyimpan. Anda boleh mengubah kedua-dua tindakan melalui ketukan panjang, dan ubah lalai di dalam tetapan.</string>
   <string name="change_fraction_digits_result">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
   <string name="learn_more">Ketahui lagi</string>
+  <string name="import_source_file">Fail</string>
+  <string name="restore_calendar_handling">Pengendalian data kalendar</string>
+  <string name="restore_calendar_handling_configured">Pulih plan ke kalender terkonfigur semasa</string>
+  <string name="restore_calendar_handling_backup">Pulihkan plan ke kalendar yang ditetapkan dalam sandar jika tersedia</string>
+  <string name="restore_calendar_handling_ignore">Jangan pulihkan plan</string>
+  <string name="restore_not_possible_target_calendar_missing">Kalendar %s ditetapkan dalam arkib sandar tidak wujud secara setempat. Pemulihan telah dihenti paksa.</string>
+  <string name="restore_not_possible_local_calendar_missing">Kalendar perancangan semasa tidak tersedia.</string>
 </resources>
