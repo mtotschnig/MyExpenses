@@ -21,3 +21,8 @@ file_filter = res/values-<lang>/strings_acra.xml
 source_lang = en
 source_file = res/values/upgrade.xml
 file_filter = res/values-<lang>/upgrade.xml
+
+[my-expenses.categories_sample]
+source_lang = en
+source_file = doc/categories-sample-src/categories_sample-en.xml
+file_filter = doc/categories-sample-src/categories_sample-<lang>.xml
