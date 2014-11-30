@@ -43,26 +43,6 @@ public class TransactionTest extends ModelTest  {
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
       mAccount2.save();
   }
-  public void testTemplate() {
-    Long start = mAccount1.getTotalBalance().getAmountMinor();
-    Long amount = (long) 100;
-    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
-    op1.amount = new Money(mAccount1.currency,amount);
-    op1.comment = "test transaction";
-    op1.save();
-    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+amount);
-    Template t = new Template(op1,"Template");
-    t.save();
-    Transaction op2  = Transaction.getInstanceFromTemplate(t.getId());
-    op2.save();
-    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+2*amount);
-    Transaction restored;
-    restored = Transaction.getInstanceFromDb(op2.getId());
-    assertEquals(op2,restored);
-
-    Template.delete(t.getId());
-    assertNull("Template deleted, but can still be retrieved",Template.getInstanceFromDb(t.getId()));
-  }
   public void testTransaction() {
     String payee = "N.N";
     assertEquals(0L, Transaction.getSequenceCount().longValue());
