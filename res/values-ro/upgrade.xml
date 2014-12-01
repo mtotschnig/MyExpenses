@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_239">
+    <item>La restaurarea bazei de date, scadenţele sunt acum recreate</item>
+    <item>Noi traduceri: Bulgară ,croată şi română</item>
+  </string-array>
+  <string-array name="whats_new_238">
+    <item>Traducere Japoneză</item>
+    <item>Grupurile de tranzactii pot restrânse</item>
+  </string-array>
+  <string-array name="whats_new_237">
+    <item>Metodele de plată sunt sortate alfabetic</item>
+  </string-array>
+  <string-array name="whats_new_236">
+    <item>Particularizarea grupării conturilor în lista de conturi</item>
+    <item> Antetele grupelor acum arată soldul precedent şi câştigul/pierderea netă</item>
+  </string-array>
+  <string-array name="whats_new_235">
+    <item>Din ecranul de distribuţie, se afişează lista de tranzacţilori pe categorie</item>
+    <item>Imbunătăţirea autocompletării platitorilor/beneficiarilor </item>
+  </string-array>
+  <string-array name="whats_new_234">
+    <item>Numărul de  zecimale pentru monede este personalizabil</item>
+    <item>Permite  excluderea  conturile din totaluri</item>
+  </string-array>
+  <string-array name="whats_new_233">
+    <item>Redesign al listei de conturi: Ordinea de sortare definită de utilizator</item>
+    <item>Sume grupate în lista de tranzacţii iau în considerare filtrele</item>
+  </string-array>
+  <string-array name="whats_new_232">
+    <item>Print ân  PDF acum acceptă script-uri non-occidentale</item>
+    <item>Traducere Malaya </item>
+  </string-array>
+  <string-array name="whats_new_231">
+    <item>Autocompletare la ultima tranzacţie pentru același terţ</item>
+    <item>Instanţiere  şablon la click scurt pe intrarea din lista şabloanelor</item>
+    <item>Codificare configurabilă  pentru import QIF</item>
+  </string-array>
+  <string-array name="whats_new_230">
+    <item>Print lista tranzacţii  în fişier PDF (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_220">
+    <item>Căutare tranzacţii după categorie, cantitatea, comentariu, statut, platitor/beneficiar, metoda de plata</item>
+  </string-array>
+  <string-array name="whats_new_149">
+    <item>Traducere Sinhala </item>
+    <item>Suport multi-fereastră pe dispozitive de Samsung</item>
+    <item>Flux de lucru Reconciliere</item>
+  </string-array>
+  <string-array name="whats_new_145">
+    <item>Backup-urile sunt acum stocate în  arhive  ZIP care pot fi partajate (E-Mail, Drive, Dropbox,...) şi restaurate din surse externe</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>Shortcuturi ecranul Home pentru adăugarea de tranzacţii şi transferuri</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>Widgeturi ecran Home pentru introducere rapidp de date</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>Traducere Rusă </item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>Locaţie folderului pentru backup şi exporturi este acum configurabil</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>Multiple backup-uri independente</item>
+    <item>QIF import</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>Traducere Greacă </item>
+    <item>Începutul săptămânii se face depinzând de localizare (de exemplu, duminică pentru SUA)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Îmbunătăţiri UI : #115,#117,#120,#122,#124</item>
+    <item>Data tranzacţiei făcută după fusul orar i</item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>Modernizare UI: panou de navigare şi  bară de acţiune contextuală</item>
+  </string-array>
+  <string-array name="whats_new_116">
+    <item>Îmbunătăţire manager scadenţe: se aplică instanţe viitoare în avans</item>
+    <item>Noi traduceri: Portugheză, Poloneză, Cehă</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Afişare listă de tranzacţii şi distribuţia statistică pentru agregate de conturi multiple</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>Traducere Chineză (tradiţională)</item>
+    <item>Permite selectarea contului în formularul editării tranzacţie </item>
+    <item>UI mai clară pentru transferuri</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>Îmbunătăţiri UI (#94) şi bug fixat (#95, #96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>Soldul curent este afişat mai proeminent din nou şi arată butoanele principale în jos, atunci când orientarea aparatului este portret</item>
+    <item>Bug fixat: probleme #71, #91, #92, #93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>Atunci când lista de tranzacţii este grupată, arată soldul intermediar pentru fiecare perioadă în antetul de grup</item>
+    <item>Bug fixat: problema #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Limba UI  configurabilă</item>
+    <item>Dimensiunea fontului configurabilă</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Scadenţe pentru tranzacţii viitoare şi repetative</item>
+    <item>Traducere Khmeră </item>
+  </string-array>
+</resources>
