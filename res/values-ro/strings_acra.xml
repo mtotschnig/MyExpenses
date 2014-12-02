@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="crash_reports_user_info">My Expenses  va trimite rapoarte despre blocări automat la dezvoltatorii săi ce le permite să remedieze problemele mult mai repede. Puteţi să dezactivaţi acest comportament din Setări.</string>
+  <string name="crash_reports_user_info"> Cheltuielile Mele va trimite rapoarte despre blocări automat la dezvoltatorii săi ce le permite să remedieze problemele mult mai repede. Puteţi să dezactivaţi acest comportament din Setări.</string>
   <string name="pref_category_title_crash_reports">Rapoarte blocare</string>
   <string name="pref_enable_acra">Permite trimiterea automată de rapoarte de blocare</string>
   <string name="pref_acra_enabled">Trimiterea automată este activată</string>
