@@ -18,7 +18,7 @@
   <string name="account_type_liability_plural">Conturi pasiv</string>
   <string name="already_defined">%1$s deja există</string>
   <string name="amount">Valoare</string>
-  <string name="app_name">Cheltuielile mele</string>
+  <string name="app_name">Cheltuielile Mele</string>
   <string name="backup_failure">Backup la \"%1$s\" eşuat.</string>
   <string name="backup_success">Preferinţele şi baza de date au fost salvate la \"%1$s\".</string>
   <string name="category">Categorie</string>
@@ -31,19 +31,19 @@
   <string name="color">Culoare</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
-  <string name="contrib_feature_accounts_unlimited_description">Numărul  coturilor pe care le puteţi crea cu <i>My Expenses</i> este limitat la 5.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Numărul  conturilor pe care le puteţi crea cu <i>Cheltuielile Mele</i> este limitat la 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Număr nelimitat de conturi</string>
   <string name="contrib_feature_aggregate_label">Cumulat pe toate conturile</string>
   <string name="contrib_feature_distribution_label">Repartiţia tranzacţiilor pe categorie</string>
-  <string name="contrib_feature_plans_unlimited_description">Numărul de scadenţe pe care le puteţi crea cu<i>My Expenses</i> este limitat la 3.</string>
+  <string name="contrib_feature_plans_unlimited_description">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Număr nelimitat de scadenţe</string>
   <string name="contrib_feature_print_label">Export listă tranzacţii în PDF</string>
   <string name="contrib_feature_reset_all_label">Reiniţializează toate conturile</string>
-  <string name="contrib_feature_security_question_label">Întrebări securitate</string>
-  <string name="contrib_feature_split_transaction_label">Tranzacţie ventilată</string>
+  <string name="contrib_feature_security_question_label">Întrebare securitate</string>
+  <string name="contrib_feature_split_transaction_label">Tranzacţie  repartizată</string>
   <string name="contrib_feature_template_widget_label">Şablon widget</string>
   <string name="contrib_key">Cheie Contrib</string>
-  <string name="contrib_key_requires">Necesită My Expenses  Cheie Contrib .</string>
+  <string name="contrib_key_requires">Necesită Cheia Contrib  Cheltuielile Mele.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Sold curent</string>
   <string name="date">Data</string>
@@ -54,7 +54,7 @@
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
   <string name="dialog_balance_delete">Şterge tranzacţiile reconciliate</string>
-  <string name="dialog_command_disabled_balance">Nici o tranzacţie de reconciliat</string>
+  <string name="dialog_command_disabled_balance">Nici o tranzacţie punctată de reconciliat</string>
   <string name="dialog_command_disabled_insert_transfer_1">Tranzacţiile de transfer necesită un al doilea cont de  aceasi monedă</string>
   <string name="dialog_command_disabled_insert_transfer_2">Aveţi numai un cont de moneda  %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
@@ -63,10 +63,10 @@
   <string name="dialog_contrib_no_usages_left">Nu mai aveţi utilizare gratuită</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Înlăturaţi  această limitare prin achiziţionarea &lt;&lt;i&gt;My Expenses Cheie Contrib &lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Înlăturaţi  această limitare prin achiziţionarea &lt;&lt;i&gt;Cheltuielile Mele Cheie Contrib &lt;/i&gt;.</string>
   <string name="dialog_contrib_reminder_gain_access">Puteţi avea de asemenea acces nerestricţionat la următoarele funcţionalităţi</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>My Expenses</i>  ă este oferit fără publicitate şi open source. Vă rugăm să contribuiţi prin achiziţionarea <i>My Expenses Contrib Key</i>. Ai avea acces nerestricționat la următoarele funcţionalităţi premium:</string>
+  <string name="dialog_contrib_text"><i>Cheltuielile Mele</i> este oferit fără publicitate şi open source. Vă rugăm să contribuiţi prin achiziţionarea <i>Contrib Key Cheltuielile Mele</i>. Vei avea acces nerestricționat la următoarele funcţionalităţi premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Aveţi o utilizare gratuită rămasă.</item>
     <item quantity="few">Aveţi %1$d utilizari gratuite rămase.</item>
@@ -81,12 +81,12 @@
   <string name="dialog_password_new_password_confirmation">Parolă nouă (confirmare)</string>
   <string name="dialog_remind_later">Mai târziu</string>
   <string name="dialog_remind_no">Nu mulţumesc</string>
-  <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la My Expenses?</string>
-  <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi My Expenses.</string>
+  <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la Cheltuielile Mele?</string>
+  <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi Cheltuielile Mele.</string>
   <string name="dialog_remind_rate_2">Comentariile dvs ne permit să adăugăm permanent  îmbunătăţiri şi perfecţionări.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Vă rugăm să ne  trimiteţi  sugestiile voastre pentru îmbunătăţiri.</string>
   <string name="dialog_remind_rate_yes">De acord</string>
-  <string name="dialog_security_answer">Răsuns</string>
+  <string name="dialog_security_answer">Răspuns</string>
   <string name="dialog_security_question">Întrebare</string>
   <!--Label for button that leads to creation of new local calendar-->
   <string name="dialog_setup_planner_button_create_new">Crează nou</string>
@@ -136,23 +136,23 @@
   <string name="grouping_year">An</string>
   <string name="grouping_yesterday">Ieri</string>
   <string name="help_button_rate">Rata sau revizuirea</string>
-  <string name="help_contextuel_help">Puteţi găsi mai multe informaţii despre funcţionalităţile disponibile ân meniul Ajutor</string>
+  <string name="help_contextuel_help">Puteţi găsi mai multe informaţii despre funcţionalităţile disponibile în meniul Ajutor</string>
   <string name="help_heading_credits">Generic</string>
   <string name="help_heading_license">Licenţă</string>
   <string name="help_heading_whats_new">Noutăţi</string>
   <string-array name="help_intro">
-    <item>Urmăriţi cheltuielile şi de veniturile dvs.</item>
+    <item>Urmăriţi cheltuielile şi veniturile dvs.</item>
     <item>Gestionaţi-le direct pe smartphone-ul dvs.</item>
     <item>Exportaţi-le într-un program de  finanţe de tip desktop ca Grisbi, GnuCash, Quicken or MS Money.</item>
   </string-array>
-  <string name="help_leading">Vă mulţumim pentru instalarea  <i>My Expenses</i> pentru Android.</string>
+  <string name="help_leading">Vă mulţumim pentru instalarea  <i>Cheltuielile Mele</i> pentru Android.</string>
   <string name="important_upgrade_information_heading">Informaţii importante</string>
-  <string name="important_upgrade_information_1">Backup-uri şi exporturile sunt acum stocate în Android/data/org.totschnig.myexpenses .ATENŢIE: Acest director este şters, atunci când dezinstalaţi My Expenses.</string>
+  <string name="important_upgrade_information_1">Backup-uri şi exporturile sunt acum stocate în Android/data/org.totschnig.myexpenses .ATENŢIE: Acest director este şters, atunci când dezinstalaţi Cheltuielile Mele.</string>
   <string name="import_select_transactions">Tranzacţii</string>
   <string name="income">Venituri</string>
   <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>
   <string name="label">Eticheta</string>
-  <string name="licence_validation_failure">Validare imposibilă a Chei licvenţei.</string>
+  <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
   <string name="licence_validation_success">Cheie Licenţă validată: funcţionalităţile Premium au fost deblocate.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
@@ -173,7 +173,7 @@
   <string name="menu_create_main_cat">Categorie principală nouă</string>
   <string name="menu_create_method">Metodă plată nouă</string>
   <string name="menu_create_party">Terţ nou</string>
-  <string name="menu_create_split">Ventilare nouă</string>
+  <string name="menu_create_split">Repartizare nouă</string>
   <string name="menu_create_split_part_category">Categorie nouă repartizare</string>
   <string name="menu_create_split_part_transfer">Transfer nou repartizare</string>
   <string name="menu_create_sub_cat">Subcategorie nouă</string>
@@ -185,7 +185,7 @@
   <string name="menu_create_transfer">Transfer nou</string>
   <string name="menu_delete">Şterge</string>
   <string name="menu_delete_account">Şterge cont</string>
-  <string name="menu_distribution">Repartizare</string>
+  <string name="menu_distribution">Distribuire</string>
   <string name="menu_edit">Editează</string>
   <string name="menu_edit_account">Editează cont</string>
   <string name="menu_edit_cat">Editează categorie</string>
@@ -204,7 +204,7 @@
   <string name="menu_help">Ajutor</string>
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inversează</string>
-  <string name="menu_manage_plans">Şabloane şi planuri</string>
+  <string name="menu_manage_plans">Şabloane şi scadenţe</string>
   <string name="menu_manage_plans_tab_templates">Şabloane</string>
   <string name="menu_manage_plans_tab_plans">Scadenţe</string>
   <string name="menu_open">Deschis</string>
@@ -216,7 +216,7 @@
   <string name="menu_save">Salvează</string>
   <string name="menu_save_and_new">Salvează și nou</string>
   <string name="menu_search">Căutare</string>
-  <string name="menu_settings">Configurare</string>
+  <string name="menu_settings">Setări</string>
   <string name="menu_share">Recomandă</string>
   <string name="menu_set_sort_key">Setează cheia de sortare</string>
   <string name="method">Metoda</string>
@@ -270,8 +270,8 @@
   <string name="plan">Scadenţă</string>
   <string name="plan_automatic">automatic</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Scadenţar  My Expenses</string>
-  <string name="plan_event_deleted">Planul asociat acestui șablon a fost şters din calendar.</string>
+  <string name="plan_calendar_name">Scadenţar Cheltuielile Mele</string>
+  <string name="plan_event_deleted">Scadenţa asociată acestui șablon a fost şters din calendar.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Executarea planului anulată</string>
   <string name="plan_manual">manual</string>
@@ -294,6 +294,7 @@
   <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
   <string name="pref_auto_fill_summary">Completatea valorii, categoriei şi comentariului de la tranzacţia de la acelaşi terţ</string>
   <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
+  <string name="pref_categories_sort_by_usages_summary">Criteriul de ordonare al categoriilor, şabloanelor, conturilor va fi frecvenţa de utilizare în locul celui alfabetic. Această setare este ignorată pentru conturi dacă au o cheie de sortare stabilită.</string>
   <string name="pref_categories_sort_by_usages_title">Sortează după frecvenţa de utilizare</string>
   <string name="pref_category_title_advanced">Avansat</string>
   <string name="pref_category_title_export">Export</string>
@@ -304,13 +305,16 @@
   <string name="pref_category_title_ui">Interfaţa utilizator</string>
   <string name="pref_checkbox_enabled">Activat</string>
   <string name="pref_checkbox_disabled">Dezactivat</string>
+  <string name="pref_contrib_donate_summary">Donaţi prin PayPal, Flattr sau Bitcoin şi veţi avea acces la funcţionalităţile  premium.</string>
+  <string name="pref_contrib_donate_summary_already_contrib">Dacă doriți să aduceţi o contribuție suplimentară, puteţi  flattr Cheltuielile Mele, face o donaţie prin Paypal sau trimite Bitcoins.</string>
   <string name="pref_contrib_donate_title">Trimite donaţie</string>
+  <string name="pref_contrib_install_summary">Instalând  Contrib Key Cheltuielile Mele, veţi avea acces la funcţionalităţile premium.</string>
   <string name="pref_contrib_install_title">Instalaţi Contrib app</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
   <string name="pref_enter_licence_summary">Dacă aţi primit o cheie Contrib, veţi avea acces la funcţionalităţile premium.</string>
   <string name="pref_enter_licence_title">Introduceţi cheia Contrib</string>
   <string name="pref_export_format_title">Format date</string>
-  <string name="pref_follow_gplus_title">Urmăreşte My Expenses pe Google +</string>
+  <string name="pref_follow_gplus_title">Urmăreşte Cheltuielile Mele pe Google +</string>
   <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Import din Grisbi</string>
   <string name="pref_import_qif_summary">Import tranzacţii, categorii şi terţi din fişier QIF </string>
@@ -336,7 +340,7 @@ Tradus de DD</string>
   <string name="pref_perform_share_summaryOff">Fişierele nu vor fi partajate.</string>
   <string name="pref_perform_share_summaryOn">Fişierele vor fi partajate.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Creare calendar de planificare local nou</string>
+  <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>
   <string name="pref_planning_calendar_summary">Selectaţi calendarul unde scadenţele pentru tranzacţiile viitoare si periodice sunt memorate</string>
   <string name="pref_planning_calendar_title">Calendar scadenţar</string>
   <string name="pref_protection_delay_seconds_summary">Durata în secunde de inactivitate înaintea protejării app prin parolă.</string>
@@ -351,8 +355,9 @@ Tradus de DD</string>
   <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
   <string name="pref_restore_title">Restaurare</string>
   <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>
-  <string name="pref_security_question_title">Întrebări securitate</string>
+  <string name="pref_security_question_title">Întrebare securitate</string>
   <string name="pref_send_feedback_title">Trimiteţi feedback</string>
+  <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs,...) sau furnizaţi URL într-una din schemele acceptate</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
   <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
@@ -367,7 +372,7 @@ Tradus de DD</string>
   <string name="pref_ui_language_summary">Setare limbă interfaţă utilizator</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Limba</string>
-  <string name="pref_ui_theme_dark">întunecat</string>
+  <string name="pref_ui_theme_dark">închis</string>
   <string name="pref_ui_theme_light">deschis</string>
   <string name="pref_ui_theme_title">Temă</string>
   <string name="pref_visit_website_summary">Jurnal modificări şi FAQ</string>
@@ -381,7 +386,9 @@ Tradus de DD</string>
   <string name="progress_dialog_setup">Baza de date este iniţializată</string>
   <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
   <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
+  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>
   <string name="reference_number">Număr referință</string>
+  <string name="request_licence_mail_description">Vă rugăm să descrieţi (în engleză, germană sau franceză) contribuţia dumneavoastră la Cheltuielile Mele (ex.: donatie prin intermediul Paypal, raport buguri, testare, traducere).</string>
   <string name="request_licence_mail_head">Trimiteţi-mi vă rog o cheie Contrib pentru  Android-Id %1$s.</string>
   <string name="restore_db_failure">Restaurare  baze de date eşuată.</string>
   <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
@@ -405,16 +412,16 @@ Tradus de DD</string>
   <string name="share_scheme_not_supported">Schema %1$s nesuportată</string>
   <string name="share_sending">Trimite fişier export</string>
   <string name="split_parts_heading">Repartizări</string>
-  <string name="split_transaction">Tranzacţie ventilată</string>
+  <string name="split_transaction">Tranzacţie repartizată</string>
   <string name="status">Status</string>
   <string name="status_cleared">punctată</string>
-  <string name="status_reconciled">împăcat</string>
+  <string name="status_reconciled">reconciliat</string>
   <string name="status_uncreconciled">neconciliată</string>
   <string name="subcategory">Subcategorie</string>
   <string name="sum_expenses">Cheltuieli</string>
   <string name="sum_income">Venituri</string>
   <string name="sum_transfer">Transferuri</string>
-  <string name="tell_a_friend_message">Check out My Expenses, Manager Finanţe  Personale pentru Android, de la http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Check out Cheltuielile Mele, Manager Finanţe  Personale pentru Android, de la http://www.myexpenses.mobi</string>
   <string name="template">Şablon</string>
   <string name="template_create_success">Şablon \"%1$s\" creat</string>
   <string name="template_title_exists">Un şablon cu titlul \"%1$s\" există deja</string>
@@ -433,6 +440,11 @@ Tradus de DD</string>
   <string name="unsplit_amount_greater_than_zero">Există încă unele valori nerepartizate</string>
   <string name="warning_backup">Baza de date si preferinţele vor fi salvate în \"%1$s\". Doriţi să continuaţi?</string>
   <string name="warning_delete_account">Contul \"%1$s\" va fi şters cu toate tranzacţiile sale.</string>
+  <plurals name="warning_delete_main_category">
+    <item quantity="one">O categorie selectată are subcategorii, care vor fi şterse de asemenea.</item>
+    <item quantity="few">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
+    <item quantity="other">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
+  </plurals>
   <plurals name="warning_delete_plan">
     <item quantity="one">Scadenţa selectată va fi ştearsă.</item>
     <item quantity="few">%1$d scadenţe selectate vor fi şterse.</item>
@@ -448,16 +460,23 @@ Tradus de DD</string>
     <item quantity="few">%1$d  tranzacţii selectate vor fi şterse.</item>
     <item quantity="other">%1$d  tranzacţii selectate vor fi şterse.</item>
   </plurals>
+  <string name="warning_delete_reconciled">Ştergerea tranzacţiilor reconciliate va determina ca înregistrările dumneavoastră să difere de cele din extrasul bancar.</string>
+  <string name="warning_balance_account">Comparaţi totalul punctat cu soldul final din extrasul dvs bancar. Dacă veţi continua, tranzacţiile punctate vor fi marcate ca reconciliate.</string>
   <string name="warning_password_protected">App este protejată prin parolă.</string>
   <string name="warning_widget_disabled">Trebuie să activaţi acest widget în setările app.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">Instanţierea rapidă a şabloanelor din acest widget funcţionează numai dacă permiteţi introducerea datelor din  widget-uri fără parolă în setările app.</string>
   <string name="warning_password_contrib">Setarea unei întrebări de securitate vă permite să deblocaţi app, în cazul în care uitaţi parola.</string>
   <string name="warning_password_no_contrib">Dacă setaţi o parolă, aveţi grijă să nu o uitaţi. Nu o veţi putea  recupera, dacă nu aţi stabilit o întrebare de securitate.</string>
   <string name="warning_reset_account">Dacă veţi continua, toate tranzacţiile din acest cont vor fi şterse din baza de date şi nu se vor putea restaura.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
+  <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse. Doriţi să continuaţi?</string>
   <string name="warning_select_account">Selectează un cont, te rog!</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați Cheltuielile Mele.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
   <string name="warning_fraction_digits_out_of_range">Setează un număr între 0 şi 8, te rog</string>
+  <string name="warning_change_fraction_digits">Reduceţi numărul de zecimale pentru moneda  %1$s.
+ Acest lucru va duce la pierdere de informaţii pentru tranzacţiile,  deja introduse, şi nu poate fi refăcute. Doriţi să continuaţi?</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>
@@ -490,9 +509,17 @@ Tradus de DD</string>
   <string name="promotion_appgratis_welcome">Oferta speciala de astăzi cu AppGratis: Funcţionalităţile Premium deblocate gratis.</string>
   <string name="premium_unlocked">Funcţionalităţile Premium  deblocate.</string>
   <string name="premium_failed_or_canceled">Cumpărare eşuată sau anulată.</string>
+  <string name="hint_auto_fill">Cantitatea, categoria şi comentariu se  vor completa automat de la ultima tranzactie pentru același beneficiar/platitor? Puteţi modifica oricând acest comportament din setări.</string>
   <string name="yes">Da</string>
   <string name="no">Nu</string>
+  <string name="hint_template_click">Un click scurt pe o intrare în această listă va instanţia şablonul şi  fie salvaţi-l imediat sau introduceţi-l  în forma de editare unde se poate modifica înainte de salvare. Întotdeauna puteţi accesa ambele acţiuni printr-un click lung, şi schimba setările implicite.</string>
   <string name="change_fraction_digits_result">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
   <string name="learn_more">Învaţă mai mult</string>
   <string name="import_source_file">Fişier</string>
+  <string name="restore_calendar_handling">Manipulare date calendar</string>
+  <string name="restore_calendar_handling_configured">Restaurează scadenţe în calendarul curent configurat</string>
+  <string name="restore_calendar_handling_backup">Restaurează scadenţe în calendar din backup dacă-i disponibil</string>
+  <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
+  <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
+  <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="account">сметка</string>
-  <string name="account_type_asset">Обратна страна на сметка</string>
+  <string name="account_type_asset">актив</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Активи</string>
   <string name="account_type_bank">Банкова сметка</string>
@@ -37,9 +37,9 @@
   <string name="contrib_feature_plans_unlimited_description">Броят на плановете, които можете да създадете с <i>Моите разходи</i> е ограничен до 3.</string>
   <string name="contrib_feature_plans_unlimited_label">неограничен брой планове</string>
   <string name="contrib_feature_print_label">Експортиране на списък на транзакция в PDF</string>
-  <string name="contrib_feature_reset_all_label">Начално състояние на всички акаунти</string>
+  <string name="contrib_feature_reset_all_label">Начално състояние на всички сметки</string>
   <string name="contrib_feature_security_question_label">таен въпрос</string>
-  <string name="contrib_feature_split_transaction_label">Разделена на транзакция</string>
+  <string name="contrib_feature_split_transaction_label">Разделена транзакция</string>
   <string name="contrib_feature_template_widget_label">Шаблон на джаджа</string>
   <string name="contrib_key">Contrib ключ</string>
   <string name="contrib_key_requires">Изисква Моите разходи Contrib ключ.</string>
@@ -52,12 +52,12 @@
   <string name="default_account_description">Тази сметка е съададена автоматично по време на инсталацията</string>
   <string name="default_account_name">бюджетна книга</string>
   <string name="description">описание</string>
-  <string name="dialog_balance_delete">Изтриване на съпоставени сделки</string>
-  <string name="dialog_command_disabled_balance">Не изчиства транзакции да бъдат съпоставени.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Трансфер на транзакции изисква вторa сметка със същата валута.</string>
+  <string name="dialog_balance_delete">Изтриване на съпоставени транзакции</string>
+  <string name="dialog_command_disabled_balance">Няма изчистени транзакции които да бъдат съпоставени.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Трансферни транзакции изискват вторa сметка със същата валута.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Имате само една сметка с валута %1$s.</string>
-  <string name="dialog_command_disabled_reset_account">Няма сделки за износ.</string>
-  <string name="dialog_command_disabled_distribution">Няма сделки нанесени към категории в тази сметка.</string>
+  <string name="dialog_command_disabled_reset_account">Няма транзакции за износ.</string>
+  <string name="dialog_command_disabled_distribution">Няма транзакции нанесени към категории в тази сметка.</string>
   <string name="dialog_contrib_no">Още не</string>
   <string name="dialog_contrib_no_usages_left">Няма свободни употреби.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -65,115 +65,115 @@
   <string name="dialog_contrib_reminder_remove_limitation">Премахнете това ограничение чрез закупуване на <i>Моите разходи Contrib ключ</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Можете да получите неограничен достъп до следните функции:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Моят разходи</i> се предлага реклама свободно и с отворен код. Моля, допринесете като закупите <i>Моите разходи Contrib ключ</i>. Вие получавате неограничен достъп до следните функции премия:</string>
+  <string name="dialog_contrib_text"><i>Моите разходи</i> се предлага свободно от реклами и с отворен достъп. Моля, допринесете като закупите <i>Моите разходи Contrib ключ</i>. Вие получавате неограничен достъп до следните премийни функции:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Имате един свободен отнасяне наляво.</item>
-    <item quantity="other">Имате %1$d свободен отнасяне наляво.</item>
+    <item quantity="other">Имате оснтанали %1$d свободни употреби .</item>
   </plurals>
   <string name="dialog_contrib_yes">купи сега</string>
-  <string name="dialog_export_delete">Изтриете експортираните транзакции</string>
-  <string name="dialog_export_not_yet_exported">Само сделки все още не са изнесени за износ</string>
+  <string name="dialog_export_delete">Изтрийте експортираните транзакции</string>
+  <string name="dialog_export_not_yet_exported">Изнесете само транзакции, които не са изнасяни досега</string>
   <string name="dialog_password_activate_protection">активирай защита на паролата</string>
   <string name="dialog_password_change_password">смени парола</string>
   <string name="dialog_password_new_password">нова парола</string>
   <string name="dialog_password_new_password_confirmation">нова парола (потвърждение)</string>
   <string name="dialog_remind_later">по-късно</string>
   <string name="dialog_remind_no">не благодаря</string>
-  <string name="dialog_remind_rate_how_many_stars">Колко звезди ще ви даде моите разходи?</string>
-  <string name="dialog_remind_rate_1">Моля отделете време да оцените и преглед на моите разходи.</string>
-  <string name="dialog_remind_rate_2">Вашите коментари ни позволяват да постоянно добавяне на подобрения и подобрения.</string>
+  <string name="dialog_remind_rate_how_many_stars">Колко звезди ще ви даде Моите разходи?</string>
+  <string name="dialog_remind_rate_1">Моля отделете време да оцените и дадете обратна връзка на Моите разходи.</string>
+  <string name="dialog_remind_rate_2">Вашите коментари ни позволяват да добавяме постоянно подобрения и оптимизиране.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Моля отделете време да ни изпратите вашите предложения за подобрения.</string>
-  <string name="dialog_remind_rate_yes">Скорост сега</string>
+  <string name="dialog_remind_rate_yes">Оценете сега</string>
   <string name="dialog_security_answer">Отговор</string>
   <string name="dialog_security_question">Въпрос</string>
   <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Създаване на нов</string>
+  <string name="dialog_setup_planner_button_create_new">Създай нов</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Изберете съществуващи</string>
   <string name="dialog_title_attention">Внимание</string>
   <string name="dialog_title_information">Информация</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Баланс %1$s</string>
-  <string name="dialog_title_contrib_feature">Премия черта</string>
+  <string name="dialog_title_contrib_feature">Премийна черта</string>
   <string name="dialog_title_planner_setup_info">Изисква инсталиране на календар</string>
-  <string name="dialog_title_select_account">Избиране на акаунт</string>
+  <string name="dialog_title_select_account">Избиране на сметка</string>
   <string name="dialog_title_select_grouping">Изберете група</string>
-  <string name="dialog_title_select_import_source">Изберете източник за импортиране</string>
+  <string name="dialog_title_select_import_source">Изберете източник за внасяне</string>
   <string name="dialog_title_select_template">Изберете шаблон</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Задаване на броя на фракция цифри</string>
+  <string name="dialog_title_set_fraction_digits">Задайте броя на дробни числа</string>
   <string name="dialog_title_template_title">Задаване на заглавие</string>
-  <string name="dialog_title_warning_delete_account">Изтриване акаунт?</string>
+  <string name="dialog_title_warning_delete_account">Изтрийте сметка?</string>
   <string name="dialog_title_warning_delete_main_category">Изтриване на основна категория?</string>
   <string name="dialog_title_warning_delete_plan">Изтриване план?</string>
   <string name="dialog_title_warning_delete_template">Изтриване на шаблон?</string>
-  <string name="dialog_title_warning_delete_transaction">Изтриване на сделката?</string>
+  <string name="dialog_title_warning_delete_transaction">Изтриване на транзакция?</string>
   <string name="dialog_title_welcome">Добре дошли!</string>
   <string name="donate">Дари</string>
-  <string name="donate_dialog_text">Моля дарения чрез PayPal, Flattr или Bitcoin и след това да поиска contrib ключ от настройките на екрана.</string>
-  <string name="expense">Разходи</string>
+  <string name="donate_dialog_text">Моля дарете чрез PayPal, Flattr или Bitcoin и след това поискайте contrib ключ от настройките на екрана.</string>
+  <string name="expense">Разход</string>
   <string name="export_expenses">Разходи за износ</string>
-  <string name="export_expenses_sdcard_failure">Разходи експортиране в \"%1$s\" е неуспешно: %2$s</string>
-  <string name="export_expenses_sdcard_success">Разходи изнасяни за файл \"%1$s\"</string>
-  <string name="external_storage_unavailable">Външна памет (sdcard) не са налични</string>
+  <string name="export_expenses_sdcard_failure">Разходи износ в \"%1$s\" са неуспешни: %2$s</string>
+  <string name="export_expenses_sdcard_success">Разходи изнесени за файл \"%1$s\"</string>
+  <string name="external_storage_unavailable">Външна памет (sdcard) не е налична</string>
   <string name="feedback">Обратна връзка</string>
-  <string name="feedback_email_message">Изпратете вашата обратна информация, на английски, френски или немски, моля!</string>
+  <string name="feedback_email_message">Моля, изпратете вашата обратна връзка на английски, френски или немски!</string>
   <string name="ftp_uri_malformed">Деформиран URI %1$s</string>
   <string name="grisbi_import_categories_loading">Зареждане на категории от %1$s</string>
-  <string name="grisbi_import_default_source">Категориите по подразбиране Българските</string>
+  <string name="grisbi_import_default_source">Български липсващи категории</string>
   <string name="grisbi_import_parsing">Разбор %1$s</string>
   <string name="grisbi_import_parties_loading">Зареждане на страните от %1$s</string>
   <string name="grouping_day">Ден</string>
   <string name="grouping_last_week">Миналата седмица</string>
   <string name="grouping_month">Месец</string>
-  <string name="grouping_none">Разгрупирана</string>
+  <string name="grouping_none">негрупиран</string>
   <string name="grouping_this_week">Тази седмица</string>
   <string name="grouping_today">Днес</string>
   <string name="grouping_week">Седмица</string>
   <string name="grouping_year">Година</string>
   <string name="grouping_yesterday">Вчера</string>
-  <string name="help_button_rate">Процент или преглед</string>
-  <string name="help_contextuel_help">Моля, Вижте повече информация за наличните функционалност чрез запис на менюто помощ.</string>
+  <string name="help_button_rate">дайте оценка или критика</string>
+  <string name="help_contextuel_help">Моля, намерете повече информация за наличната функционалност чрез менюто помощ.</string>
   <string name="help_heading_credits">Кредити</string>
   <string name="help_heading_license">Лиценз</string>
   <string name="help_heading_whats_new">Какво ново</string>
   <string-array name="help_intro">
-    <item>Да следите на вашите разходи и приходи.</item>
-    <item>Ги управлявате директно на вашия смартфон.</item>
-    <item>Ги експортирате в работния плот финансиране програма като Grisbi, GnuCash, Quicken или MS пари.</item>
+    <item>Следете вашите разходи и приходи.</item>
+    <item>Управлявайте директно на вашия смартфон.</item>
+    <item>Експортирате ги във финансова програма на персоналния си компютър като Grisbi, GnuCash, Quicken или MS пари.</item>
   </string-array>
-  <string name="help_leading">Thanks for installing <i>My Expenses</i> for Android.</string>
-  <string name="important_upgrade_information_heading">Important information</string>
-  <string name="important_upgrade_information_1">Под Android/data/org.totschnig.myexpenses сега се съхраняват резервни копия и износа. ВНИМАНИЕ: Тази директория се изтрива, когато деинсталирате моите разходи.</string>
+  <string name="help_leading">Благодаря ви, че инсталирахте  <i>My Expenses</i> за  Андроид.</string>
+  <string name="important_upgrade_information_heading">Важна информация</string>
+  <string name="important_upgrade_information_1">Rезервнo копиe и износа сега се съхраняват под Android/data/org.totschnig.myexpenses  ВНИМАНИЕ: Тази директория се изтрива, когато деинсталирате Моите разходи.</string>
   <string name="import_select_transactions">Транзакции</string>
   <string name="income">Доход</string>
-  <string name="invalid_number_format">Десетичен формат не regognized от your мастен. Моля, използвайте %1$s</string>
+  <string name="invalid_number_format">Десетичен формат, който не се разпознава от вашето място. Моля, използвайте %1$s</string>
   <string name="label">Етикет</string>
-  <string name="licence_validation_failure">Не може да валидира позволение ключ.</string>
-  <string name="licence_validation_success">Позволение ключ успешно утвърдено: Premium-features са отключени.</string>
+  <string name="licence_validation_failure">Не може да валидира ключ за позволение.</string>
+  <string name="licence_validation_success">Ключ позволение е успешно валидиран: премийните характеристики са отключени.</string>
   <string name="menu_aggregates">Общо</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Приложи</string>
   <string name="menu_back">Назад</string>
   <string name="menu_backup">Архивиране</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Балансовата сметка</string>
+  <string name="menu_balance">сметка баланс</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Отказ</string>
-  <string name="menu_clone_transaction">Войната на клонингите</string>
-  <string name="menu_contrib">Допринасят</string>
+  <string name="menu_clone_transaction">клониране</string>
+  <string name="menu_contrib">Допринеси</string>
   <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Създаване на</string>
-  <string name="menu_create_account">Нов акаунт</string>
-  <string name="menu_create_instance_edit">Прилага и редактиране</string>
-  <string name="menu_create_instance_save">Прилага и записване</string>
+  <string name="menu_create">Създай</string>
+  <string name="menu_create_account">Нова сметка</string>
+  <string name="menu_create_instance_edit">Приложи и редактирай</string>
+  <string name="menu_create_instance_save">Приложи и запиши</string>
   <string name="menu_create_main_cat">Нова основна категория</string>
   <string name="menu_create_method">Нов начин на плащане</string>
-  <string name="menu_create_party">Нова партия</string>
+  <string name="menu_create_party">Нова страна</string>
   <string name="menu_create_split">Нови раздели</string>
-  <string name="menu_create_split_part_category">Нова категория разделят част</string>
-  <string name="menu_create_split_part_transfer">Ново прехвърляне разделят част</string>
+  <string name="menu_create_split_part_category">Нова категория разделена част</string>
+  <string name="menu_create_split_part_transfer">Ново прехвърляне разделена част</string>
   <string name="menu_create_sub_cat">Нова подкатегория</string>
   <string name="menu_create_template">Нов шаблон</string>
   <string name="menu_create_template_from_transaction">Запиши като шаблон</string>
@@ -181,21 +181,21 @@
   <string name="menu_create_template_for_transfer">Нов шаблон за прехвърляне</string>
   <string name="menu_create_transaction">Нова транзакция</string>
   <string name="menu_create_transfer">Ново прехвърляне</string>
-  <string name="menu_delete">Изтриване</string>
-  <string name="menu_delete_account">Изтриване на акаунт</string>
+  <string name="menu_delete">Изтрий</string>
+  <string name="menu_delete_account">Изтрий сметка</string>
   <string name="menu_distribution">Разпределение</string>
-  <string name="menu_edit">Редактиране</string>
-  <string name="menu_edit_account">Редактиране на профила</string>
-  <string name="menu_edit_cat">Редактиране на категория</string>
-  <string name="menu_edit_method">Редактиране на метод на плащане</string>
-  <string name="menu_edit_party">Редактиране на партия</string>
-  <string name="menu_edit_plan_instance">Редактиране на единен план за поява</string>
-  <string name="menu_edit_split">Редактиране на раздели</string>
-  <string name="menu_edit_split_part_category">Редактиране на категория Сплит част</string>
-  <string name="menu_edit_split_part_transfer">Редактиране на прехвърляне разделят част</string>
-  <string name="menu_edit_template">Редактиране на шаблон</string>
-  <string name="menu_edit_transaction">Редактиране на транзакция</string>
-  <string name="menu_edit_transfer">Редактиране на превод</string>
+  <string name="menu_edit">Редактирай</string>
+  <string name="menu_edit_account">Редактирай сметката</string>
+  <string name="menu_edit_cat">Редактирай категория</string>
+  <string name="menu_edit_method">Редактирай метода на плащане</string>
+  <string name="menu_edit_party">Редактирай страната</string>
+  <string name="menu_edit_plan_instance">Редактирай на единен план за поява</string>
+  <string name="menu_edit_split">Редактирай разделяне</string>
+  <string name="menu_edit_split_part_category">Редактирай категория на разделена част</string>
+  <string name="menu_edit_split_part_transfer">Редактирай прехвърляне на разделена част</string>
+  <string name="menu_edit_template">Редактирай шаблон</string>
+  <string name="menu_edit_transaction">Редактирай транзакция</string>
+  <string name="menu_edit_transfer">Редактирай  прехвърляне</string>
   <string name="menu_exclude_from_totals">Изключи от общи суми</string>
   <string name="menu_forward">Напред</string>
   <string name="menu_grouping">Групиране</string>
@@ -206,9 +206,9 @@
   <string name="menu_manage_plans_tab_templates">Шаблони</string>
   <string name="menu_manage_plans_tab_plans">Планове</string>
   <string name="menu_open">Отворен</string>
-  <string name="menu_print">Печат</string>
-  <string name="menu_reset">Износ и проучване</string>
-  <string name="menu_reset_all">Износ и всички в начално състояние</string>
+  <string name="menu_print">Разпечатай</string>
+  <string name="menu_reset">Износ и започване отначало</string>
+  <string name="menu_reset_all">Износ и всичко в начално състояние</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
   <string name="menu_reset_plan_instance">Начално състояние</string>
   <string name="menu_save">Запиши</string>
@@ -219,27 +219,27 @@
   <string name="menu_set_sort_key">Задаване на ключ за сортиране</string>
   <string name="method">Метод</string>
   <string name="new_version">Нова версия</string>
-  <string name="no_accounts">Няма акаунти!</string>
+  <string name="no_accounts">Няма сметки!</string>
   <string name="no_amount_given">Не сте въвели никаква сума.</string>
-  <string name="no_app_handling_email_available">Няма ап обработка на електронна поща на разположение.</string>
-  <string name="no_app_handling_ftp_available">Ап обработка ftp наличен. Инсталирайте <i>Send With FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Ап PDF файлове налични за обработка.</string>
+  <string name="no_app_handling_email_available">Няма приложение обработка на електронна поща на разположение.</string>
+  <string name="no_app_handling_ftp_available">Няма проложение обработка ftp наличен. Инсталирайте <i>Send With FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Няма приложение за обработка налични PDF файлове.</string>
   <string name="no_categories">Няма категории.</string>
-  <string name="no_category_assigned">Без категория присвоени</string>
+  <string name="no_category_assigned">Няма приписани категории</string>
   <string name="no_details">Без подробни данни.</string>
-  <string name="no_expenses">Не разходи, все още!</string>
-  <string name="no_exportable_expenses">Няма никакви сделки, които все още не са били изнесени.</string>
-  <string name="no_filemanager_installed">Няма filemanager инсталирани</string>
-  <string name="no_mapped_transactions">Никакви сделки са били нанесени категории през този период.</string>
-  <string name="no_methods">Не методи на плащане.</string>
-  <string name="no_parties">Нито една страна.</string>
+  <string name="no_expenses">Все още без разходи!</string>
+  <string name="no_exportable_expenses">Няма транзакции, които да не са били изнесени досега.</string>
+  <string name="no_filemanager_installed">Няма инсталиран filemanager</string>
+  <string name="no_mapped_transactions">Никакви транзакции не са били нанесени по категории през този период.</string>
+  <string name="no_methods">Няма методи на плащане.</string>
+  <string name="no_parties">Няма страни.</string>
   <string name="no_plans">Няма планове.</string>
-  <string name="no_split_parts">Няма разделяне части.</string>
+  <string name="no_split_parts">Няма разделени части.</string>
   <string name="no_templates">Няма шаблони.</string>
-  <string name="no_title_given">Не сте въвели никакви заглавие.</string>
+  <string name="no_title_given">Не сте въвели заглавие.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Избраният обект е mapped към транзакция и не може да бъде изтрит.</item>
-    <item quantity="other">%1$d обекти се нанасят сделки и не може да бъде изтрит.</item>
+    <item quantity="other">%1$d обекта са нанесени като транзакции и не могат да бъдат изтрити.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">Избраният обект е свързан с шаблон и не може да бъде изтрит.</item>
@@ -323,6 +323,7 @@
   <string name="pref_manage_methods_title">Начини на плащане</string>
   <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на страните (данъкоплатците и бенефициенти).</string>
   <string name="pref_manage_parties_title">Страните</string>
+  <string name="pref_more_info_dialog_summary">Превод на български: Диана Карa</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
   <string name="pref_password_empty">Парола не трябва да е празен</string>

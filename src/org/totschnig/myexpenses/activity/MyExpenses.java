@@ -49,7 +49,6 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -828,7 +827,6 @@ public class MyExpenses extends LaunchActivity implements
         mAccountGrouping = Account.AccountGrouping.valueOf(
             MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
       } catch (IllegalArgumentException e) {
-        // TODO Auto-generated catch block
         mAccountGrouping = Account.AccountGrouping.TYPE;
       }
       ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);

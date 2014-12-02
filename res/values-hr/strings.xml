@@ -58,7 +58,7 @@
   <string name="dialog_command_disabled_insert_transfer_1">Za transakcije za prijenos potreban je drugi račun sa istom valutom.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Postoji samo jedan račun s valutom %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Ne postoje transakcije za eksport.</string>
-  <string name="dialog_command_disabled_distribution">Nema transakcija vezanih uz kategorije unutar ovog računa.</string>
+  <string name="dialog_command_disabled_distribution">Nema transakcija označenih uz kategorije unutar ovog računa.</string>
   <string name="dialog_contrib_no">Još ne</string>
   <string name="dialog_contrib_no_usages_left">Ne postoji više besplatnih uporaba.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -173,6 +173,8 @@
   <string name="menu_create_main_cat">Nova osnovna kategorija</string>
   <string name="menu_create_method">Novi način plaćanja</string>
   <string name="menu_create_party">Nova stranka</string>
+  <string name="menu_create_split">Nova odvojena transakcija</string>
+  <string name="menu_create_split_part_category">Nova kategorija za odvojene dijelove transakcija</string>
   <string name="menu_create_split_part_transfer">Novi odvojenio dio transakcije za doznaku</string>
   <string name="menu_create_sub_cat">Pova podkategorija</string>
   <string name="menu_create_template">Novi predložak</string>
@@ -197,8 +199,11 @@
   <string name="menu_edit_transaction">Uredi transakciju</string>
   <string name="menu_edit_transfer">Uredi doznaku</string>
   <string name="menu_exclude_from_totals">Isključi iz ukupnoj zbroja</string>
+  <string name="menu_forward">Naprijed</string>
+  <string name="menu_grouping">Grupiranje</string>
   <string name="menu_help">Pomoć</string>
   <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">Zamijeni</string>
   <string name="menu_manage_plans">Predlošci i planovi</string>
   <string name="menu_manage_plans_tab_templates">Predlošci</string>
   <string name="menu_manage_plans_tab_plans">Planovi</string>
@@ -234,6 +239,16 @@
   <string name="no_split_parts">Nema transakcija s odvojenim dijelovima.</string>
   <string name="no_templates">Nema predložaka.</string>
   <string name="no_title_given">Molimo unesite naslov.</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">Odabrani objekt se nalazi u transakciji, te ne može biti obrisan.</item>
+    <item quantity="few">%1$d objekti se nalaze u transakcijama, te ne mogu biti obrisani.</item>
+    <item quantity="other">%1$d objekti se nalaze u transakcijama, te ne mogu biti obrisani.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">Odabarani objekt se nalazi u predlošku, te ne može biti obrisan.</item>
+    <item quantity="few">%1$d objekti se nalaze u predlošcima, te ne mogu biti obrisani.</item>
+    <item quantity="other">%1$d objekti se nalaze u predlošcima, te ne mogu biti obrisani.</item>
+  </plurals>
   <string name="numbered">brojčano</string>
   <string name="oi_pick_colors_info">Instaliraj OI Color Picker za više mogućnosti</string>
   <string name="opening_balance">Početni saldo</string>
@@ -260,12 +275,26 @@
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Izvedba plana je otkazana</string>
   <string name="plan_manual">ručno</string>
+  <string name="planner_create_calendar_failure">Greška u izradi lokalnog kalendara za planove</string>
+  <string name="planner_create_calendar_success">Lokalni kalendar za planove uspješno kreiran</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
+  <string name="planner_setup_info_jb">Možete ili kreirati lokalni kalendar ili odabrati postojeći iz postavki.</string>
+  <string name="planner_setup_info_create_new_warning">Oprez: Na nekim uređajima lokalni kalendari neće raditi. Ako vaši planovi neće raditi s lokalnim kalendarom, molimo odaberite kalendar kojeg ste postavili u Kalendar aplikaciji.</string>
+  <string name="planner_setup_info">Molimo odaberite kalendar za pohranu planova u postavkama.</string>
   <!--payment methods-->
   <string name="pm_cheque">Ček</string>
   <string name="pm_creditcard">Kreditna kartica</string>
+  <string name="pm_deposit">Polog</string>
+  <string name="pm_directdebit">Direktno dugovanje</string>
+  <string name="pm_type_credit">Potraživanje</string>
+  <string name="pm_type_debit">Dugovanje</string>
+  <string name="pm_type_neutral">Neutralno</string>
+  <string name="pref_account_grouping_title">Grupirani računi</string>
   <string name="pref_app_dir_title">Mapa za sigurnosne kopije i eksporte</string>
+  <string name="pref_auto_fill_title">Automatski popuni transacije</string>
+  <string name="pref_auto_fill_summary">Unesi količinu, kategoriju i komentar od zadnje transakcije za istog platitelja / primaoca</string>
   <string name="pref_backup_summary">Kreiraj sigurnosnu kopiju baze podataka i preferencija.</string>
+  <string name="pref_categories_sort_by_usages_summary">Želite li da kategorije, predlošci i računi budu složeni po kriteriju koliko često se koriste umjesto abecednim redom? Ova postavka se zanemaruje u računima koji imaju postavljeni ključ za sortiranje. </string>
   <string name="pref_categories_sort_by_usages_title">Sortiraj po broju korištenja</string>
   <string name="pref_category_title_advanced">Napredno</string>
   <string name="pref_category_title_export">Eksportiraj</string>
@@ -372,6 +401,11 @@
   <string name="restore_calendar_success">%d planovi su obnovljeni sa sigurnosne kopije</string>
   <string name="save_transaction_and_new_success">Spremljeno</string>
   <string name="save_transaction_error">Greška u spremanju nove transakcije iz predloška</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">Nova transakcija uspješno spremljena iz predloška.</item>
+    <item quantity="few">%1$d nove transakcije su uspješno spremljene iz predložaka.</item>
+    <item quantity="other">%1$d nove transakcije su uspješno spremljene iz predložaka.</item>
+  </plurals>
   <string name="save_transaction_template_deleted">Predložak izbrisan</string>
   <string name="select">Odaberi</string>
   <string name="select_category">Odaberi kategoriju</string>
@@ -403,11 +437,38 @@
   <string name="transfer_to_account">Prima</string>
   <string name="tutorial">Priručnik</string>
   <string name="type">Oblik</string>
+  <string name="unsplit_amount">Neodvojena količina transakcije</string>
+  <string name="unsplit_amount_greater_than_zero">Dio iznosa je još neodvojen.</string>
+  <string name="warning_backup">Baza podataka i preferencije će biti pohranjene u  \"%1$s\". Želite li nastaviti?</string>
   <string name="warning_delete_account">Račun \"%1$s\" će biti obrisan sa svim svojim transakcijama.</string>
+  <plurals name="warning_delete_main_category">
+    <item quantity="one">Odabrana kategorija sadrži podkategorije, koje će također biti obrisane.</item>
+    <item quantity="few">%1$d Odabrane kategorije sadrže podkategorije, koje će također biti obrisane.</item>
+    <item quantity="other">%1$d Odabrane kategorije sadrže podkategorije, koje će također biti obrisane.</item>
+  </plurals>
+  <plurals name="warning_delete_plan">
+    <item quantity="one">Odabrani plan će biti obrisan.</item>
+    <item quantity="few">%1$d odabrani planovi će biti obrisani.</item>
+    <item quantity="other">%1$d odabrani planovi će biti obrisani.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">Odabrani predložak će biti obrisan.</item>
+    <item quantity="few">%1$d odabrani predlošci će biti obrisani.</item>
+    <item quantity="other">%1$d odabrani predlošci će biti obrisani.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">Odabrana transakcija će biti obrisana</item>
+    <item quantity="few">%1$d odabrane transakcije će biti obrisane.</item>
+    <item quantity="other">%1$d odabrane transakcije će biti obrisane.</item>
+  </plurals>
+  <string name="warning_delete_reconciled">Brisanjem usklađenih transakcija će se vaši zapisi razlikovati od bankovnih izvještaja.</string>
+  <string name="warning_balance_account">Molimo usporedite odobrene ukupne vrijednosti sa završnim saldom vašeg bankovnog izvještaja. Nastavite li, odobrene transakcije će biti označene kao usklađene.</string>
   <string name="warning_password_protected">Aplikacija je zaštićena lozinkom.</string>
   <string name="warning_widget_disabled">Molimo dozvolite rad widget-a u postavkama aplikacije.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">Brzo instanciranje predložaka iz ovog widgeta radi jedino ako dopustite unos podataka iz widgeta bez lozinke. Ovo možete podesiti u postavkama.</string>
   <string name="warning_password_contrib">Postavljanje sigurnosnog pitanja omogućuje otključavanje aplikacije u slučaju da zaboravite lozinku.</string>
   <string name="warning_password_no_contrib">Zapamtite svoju lozinku. Nećete ju moći obnoviti bez postavljanja sigurnosnog pitanja.</string>
+  <string name="warning_reset_account">Nastavite li, sve transakciije na ovom računu biti će obrisane iz baze podataka i neće se moći vratiti.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Nastavite li, transakcije će biti obrisane za SVE račune%1$s i neće se moći obnoviti.</string>
   <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani. Želite li nastaviti?</string>
@@ -415,6 +476,8 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
   <string name="warning_fraction_digits_out_of_range">Molimo odaberite broj između 0 i 8</string>
+  <string name="warning_change_fraction_digits">Smanjujete broj razlomačkih znamenki za valutu %1$s.
+Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne može poništiti. Želite li nastaviti?</string>
   <string name="import_categories_success">%1$s kategorije uspješno unesene</string>
   <string name="import_parties_success">%1$s stranke uspješno unesene</string>
   <string name="import_accounts_success">%1$s računi uspješno uneseni</string>
@@ -453,7 +516,11 @@
   <string name="hint_template_click">Kratak dodir na unos u ovoj listi će otvoriti predložak i odmah ga spremiti ili ući u mod za oblikovanje gdje ga možete urediti prije spremanja. Dugim dodirom možete pristupiti obama akcijama, ili promijeniti zadane akcije u postavkama.</string>
   <string name="change_fraction_digits_result">%1$d računi sa valutom %2$s su ažurirani.</string>
   <string name="learn_more">Saznaj više</string>
+  <string name="import_source_file">Datoteka</string>
   <string name="restore_calendar_handling">Upravljanje podacima u kalendarima</string>
+  <string name="restore_calendar_handling_configured">Obnovi planove za trenutačno postavljeni kalendar</string>
+  <string name="restore_calendar_handling_backup">Obnovi planove za kalendar postavljen u sigurnosnoj kopiji (ako postoji)</string>
   <string name="restore_calendar_handling_ignore">Ne obnavljaj planove</string>
+  <string name="restore_not_possible_target_calendar_missing">Kalendar %s postavljen u arhivi sigurnosne kopije nije pronađen. Obnavljanje je prekinuto.</string>
   <string name="restore_not_possible_local_calendar_missing">Trenutačni kalendar za planiranje nije dostupan.</string>
 </resources>
