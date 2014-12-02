@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Alte venituri"/>
+<Sub_category Nbc="1" Nb="1" Na="Ajutor de şomaj"/>
+<Sub_category Nbc="1" Nb="2" Na="Alocația de familie"/>
+<Sub_category Nbc="1" Nb="3" Na="Taxe Credit "/>
+<Sub_category Nbc="1" Nb="4" Na="Jocuri de noroc"/>
+<Sub_category Nbc="1" Nb="5" Na="Asigurare mutuală"/>
+<Sub_category Nbc="1" Nb="6" Na="Asigurare socială"/>
+<Category Nb="2" Na="Pensia"/>
+<Sub_category Nbc="2" Nb="1" Na="Fond de pensii"/>
+<Sub_category Nbc="2" Nb="2" Na="Pensiunea"/>
+<Sub_category Nbc="2" Nb="3" Na="Pensie suplimentară"/>
+<Category Nb="3" Na="Venituri din investiții"/>
+<Sub_category Nbc="3" Nb="1" Na="Dividende"/>
+<Sub_category Nbc="3" Nb="2" Na="Dobîndă"/>
+<Sub_category Nbc="3" Nb="3" Na="Câştiguri din capital"/>
+<Category Nb="4" Na="Salariu"/>
+<Sub_category Nbc="4" Nb="1" Na="Ore suplimentare"/>
+<Sub_category Nbc="4" Nb="2" Na="Alocaţia de plecare"/>
+<Sub_category Nbc="4" Nb="3" Na="Prime diverse"/>
+<Sub_category Nbc="4" Nb="4" Na="Onorariu de succes"/>
+<Sub_category Nbc="4" Nb="5" Na="Salariul net"/>
+<Category Nb="5" Na="Diverse venituri"/>
+<Sub_category Nbc="5" Nb="1" Na="Cadouri"/>
+<Sub_category Nbc="5" Nb="2" Na="Restituiri"/>
+<Sub_category Nbc="5" Nb="3" Na="Vânzări second hand "/>
+<Category Nb="6" Na="Mâncare"/>
+<Sub_category Nbc="6" Nb="1" Na="Bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Brutărie"/>
+<Sub_category Nbc="6" Nb="3" Na="Cantina"/>
+<Sub_category Nbc="6" Nb="4" Na="Dulciuri"/>
+<Sub_category Nbc="6" Nb="5" Na="Diverse"/>
+<Sub_category Nbc="6" Nb="6" Na="Macelărie"/>
+<Sub_category Nbc="6" Nb="7" Na="Restaurant"/>
+<Sub_category Nbc="6" Nb="8" Na="Autoservire"/>
+<Sub_category Nbc="6" Nb="9" Na="Supermarket"/>
+<Category Nb="7" Na="Animale de companie"/>
+<Sub_category Nbc="7" Nb="1" Na="Produse alimentare"/>
+<Sub_category Nbc="7" Nb="2" Na="Diverse consumabile"/>
+<Sub_category Nbc="7" Nb="3" Na="Îngrijirea"/>
+<Sub_category Nbc="7" Nb="4" Na="Medic veterinar"/>
+<Category Nb="8" Na="Asigurări"/>
+<Sub_category Nbc="8" Nb="1" Na="Maşina"/>
+<Sub_category Nbc="8" Nb="2" Na="Sănătate"/>
+<Sub_category Nbc="8" Nb="3" Na="Casa"/>
+<Sub_category Nbc="8" Nb="4" Na="Răspundere civilă"/>
+<Sub_category Nbc="8" Nb="5" Na="Viata"/>
+<Category Nb="9" Na="Masina"/>
+<Sub_category Nbc="9" Nb="1" Na="Combustibil"/>
+<Sub_category Nbc="9" Nb="2" Na="Reparatii"/>
+<Sub_category Nbc="9" Nb="3" Na="Revizie"/>
+<Sub_category Nbc="9" Nb="4" Na="Parcare"/>
+<Sub_category Nbc="9" Nb="5" Na="Amenzi"/>
+<Category Nb="11" Na="Cadouri"/>
+<Category Nb="12" Na="Copii"/>
+<Sub_category Nbc="12" Nb="1" Na="Asistentă medicală"/>
+<Sub_category Nbc="12" Nb="2" Na="Diverse"/>
+<Sub_category Nbc="12" Nb="3" Na="Studii"/>
+<Category Nb="13" Na="Studii"/>
+<Sub_category Nbc="13" Nb="1" Na="Lecţii"/>
+<Sub_category Nbc="13" Nb="2" Na="Taxe  şcoală"/>
+<Sub_category Nbc="13" Nb="3" Na="Carti"/>
+<Category Nb="14" Na="Diverse"/>
+<Sub_category Nbc="14" Nb="1" Na="Cadouri"/>
+<Category Nb="15" Na="Cheltuieli financiare"/>
+<Sub_category Nbc="15" Nb="1" Na="Diverse"/>
+<Sub_category Nbc="15" Nb="2" Na="Spezele bancare"/>
+<Sub_category Nbc="15" Nb="3" Na="Împrumut/Ipoteca"/>
+<Sub_category Nbc="15" Nb="4" Na="Taxe"/>
+<Sub_category Nbc="15" Nb="5" Na="Rambursare"/>
+<Category Nb="16" Na="Cheltuieli profesionale"/>
+<Sub_category Nbc="16" Nb="1" Na="Non rambursabil"/>
+<Sub_category Nbc="16" Nb="2" Na="Rambursabil"/>
+<Category Nb="17" Na="Impozite"/>
+<Sub_category Nbc="17" Nb="1" Na="Diverse"/>
+<Sub_category Nbc="17" Nb="2" Na="Venituri"/>
+<Sub_category Nbc="17" Nb="3" Na="Teren"/>
+<Category Nb="18" Na="Locuinţe"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Chirie"/>
+<Sub_category Nbc="18" Nb="3" Na="TV"/>
+<Sub_category Nbc="18" Nb="4" Na="Mobila"/>
+<Sub_category Nbc="18" Nb="5" Na="Taxe"/>
+<Sub_category Nbc="18" Nb="6" Na="Încălzire"/>
+<Sub_category Nbc="18" Nb="7" Na="Decorare"/>
+<Sub_category Nbc="18" Nb="8" Na="Apă"/>
+<Sub_category Nbc="18" Nb="9" Na="Energie electrică"/>
+<Sub_category Nbc="18" Nb="10" Na="Electrocasnice"/>
+<Sub_category Nbc="18" Nb="11" Na="Echipamente"/>
+<Sub_category Nbc="18" Nb="12" Na="Gaz"/>
+<Sub_category Nbc="18" Nb="13" Na="Gradina"/>
+<Sub_category Nbc="18" Nb="14" Na="Portar"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefon"/>
+<Sub_category Nbc="18" Nb="16" Na="Telefon mobil"/>
+<Category Nb="19" Na="Timp liber"/>
+<Sub_category Nbc="19" Nb="1" Na="Snooker"/>
+<Sub_category Nbc="19" Nb="2" Na="Bowling"/>
+<Sub_category Nbc="19" Nb="3" Na="Filme"/>
+<Sub_category Nbc="19" Nb="4" Na="Club de noapte"/>
+<Sub_category Nbc="19" Nb="5" Na="IT"/>
+<Sub_category Nbc="19" Nb="6" Na="Jocuri"/>
+<Sub_category Nbc="19" Nb="7" Na="Carti"/>
+<Sub_category Nbc="19" Nb="8" Na="Parcuri"/>
+<Sub_category Nbc="19" Nb="9" Na="Concerte"/>
+<Sub_category Nbc="19" Nb="10" Na="Sport"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Călătorii"/>
+<Sub_category Nbc="19" Nb="13" Na="Echipamente"/>
+<Sub_category Nbc="19" Nb="14" Na="Muzee/expozitii"/>
+<Category Nb="20" Na="Împrumut/Ipoteca"/>
+<Sub_category Nbc="20" Nb="1" Na="Capital"/>
+<Category Nb="21" Na="Sănătate"/>
+<Sub_category Nbc="21" Nb="1" Na="Asigurări"/>
+<Sub_category Nbc="21" Nb="2" Na="Dentist"/>
+<Sub_category Nbc="21" Nb="3" Na="Spital"/>
+<Sub_category Nbc="21" Nb="4" Na="Kinezioterapist"/>
+<Sub_category Nbc="21" Nb="5" Na="Doctor"/>
+<Sub_category Nbc="21" Nb="6" Na="Oftalmolog"/>
+<Sub_category Nbc="21" Nb="7" Na="Osteopat"/>
+<Sub_category Nbc="21" Nb="8" Na="Chimist"/>
+<Sub_category Nbc="21" Nb="9" Na="Asigurare socială"/>
+<Category Nb="22" Na="Îngrijire"/>
+<Sub_category Nbc="22" Nb="1" Na="Coafor"/>
+<Sub_category Nbc="22" Nb="2" Na="Îmbrăcăminte"/>
+<Category Nb="23" Na="Transport"/>
+<Sub_category Nbc="23" Nb="1" Na="Autobuz"/>
+<Sub_category Nbc="23" Nb="2" Na="Metrou"/>
+<Sub_category Nbc="23" Nb="3" Na="Taxă drum"/>
+<Sub_category Nbc="23" Nb="4" Na="Tren"/>
+<Sub_category Nbc="23" Nb="5" Na="Tramvai"/>
+<Sub_category Nbc="23" Nb="6" Na="Călătorii"/>
+<Sub_category Nbc="23" Nb="7" Na="Avion"/>
+<Category Nb="24" Na="Sarbatori"/>
+<Sub_category Nbc="24" Nb="1" Na="Locuinţe"/>
+<Sub_category Nbc="24" Nb="2" Na="Vizite"/>
+<Sub_category Nbc="24" Nb="3" Na="Călătorii"/></Grisbi_categ>
