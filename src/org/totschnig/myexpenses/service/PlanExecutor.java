@@ -84,7 +84,7 @@ public class PlanExecutor extends IntentService {
                 " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
             null,
             null);
-      } catch (SecurityException e) {
+      } catch (SecurityException | IllegalArgumentException e) {
         Utils.reportToAcra(e);
         //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing
         return;
