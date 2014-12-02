@@ -202,11 +202,15 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onResume() {
     super.onResume();
     if (mUri==null) {
-      String storedUri = MyApplication.getInstance().getSettings()
+      String restoredUriString = MyApplication.getInstance().getSettings()
           .getString(getPrefKey(), "");
-      if (!storedUri.equals("")) {
-        mUri = Uri.parse(storedUri);
-        mFilename.setText(getDisplayName(mUri));
+      if (!restoredUriString.equals("")) {
+        Uri restoredUri = Uri.parse(restoredUriString);
+        String displayName = getDisplayName(restoredUri);
+        if (displayName != null) {
+          mUri = restoredUri;
+          mFilename.setText(displayName);
+        }
       }
     }
     setButtonState();
@@ -232,10 +236,14 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     if (savedInstanceState != null) {
-      String restoredUri = savedInstanceState.getString(getPrefKey());
-      if (restoredUri != null) {
-        mUri = Uri.parse(restoredUri);
-        mFilename.setText(getDisplayName(mUri));
+      String restoredUriString = savedInstanceState.getString(getPrefKey());
+      if (restoredUriString != null) {
+        Uri restoredUri = Uri.parse(restoredUriString);
+        String displayName = getDisplayName(restoredUri);
+        if (displayName != null) {
+          mUri = restoredUri;
+          mFilename.setText(displayName);
+        }
       }
     }
   }
