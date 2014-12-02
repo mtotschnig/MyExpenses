@@ -84,9 +84,12 @@ public class PlanExecutor extends IntentService {
                 " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
             null,
             null);
-      } catch (SecurityException | IllegalArgumentException e) {
+      } catch (Exception e) {
+        //} catch (SecurityException | IllegalArgumentException e) {
         Utils.reportToAcra(e);
-        //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing
+        //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing (SecurityException)
+        //buggy calendar provider implementation on Sony (IllegalArgumentException)
+        //sqlite database not yet available observed on samsung GT-N7100 (SQLiteException)
         return;
       }
       if (cursor != null) {
