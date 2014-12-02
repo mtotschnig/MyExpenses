@@ -238,7 +238,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     getSupportFragmentManager().beginTransaction()
     .add(DbWriteFragment.newInstance(returnSequenceCount), "SAVE_TASK")
     .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
-    .commit();
+    .commitAllowingStateLoss();
   }
   
   /**
