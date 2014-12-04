@@ -3,14 +3,19 @@
   <string name="account">គណនី</string>
   <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_asset_plural">គណនីទ្រព្យសកម្ម</string>
   <string name="account_type_bank">គណនីធនាគារ</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">គណនីធនាគារ</string>
   <string name="account_type_cash">គណនីសាច់ប្រាក់</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">គណនីសាច់ប្រាក់</string>
   <string name="account_type_ccard">កាតឥណទាន</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_ccard_plural">កាតឥណទាន</string>
   <string name="account_type_liability">គណនីទ្រព្យ​អសកម្ម</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_liability_plural">គណនីអសកម្ម</string>
   <string name="already_defined">%1$s កំណត់​ហើយ</string>
   <string name="amount">ចំនួនទឹកប្រាក់</string>
   <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
@@ -80,6 +85,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">ជ្រើសរើស​អ្វី​ដែល​មានស្រាប់</string>
   <string name="dialog_title_attention">ប្រុង​ប្រយ័ត្ន</string>
+  <string name="dialog_title_information">ព័ត៌មាន</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
@@ -190,6 +196,8 @@
   <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
   <string name="menu_manage_plans_tab_templates">ពុម្ព</string>
   <string name="menu_manage_plans_tab_plans">គម្រោង</string>
+  <string name="menu_open">បើក</string>
+  <string name="menu_print">ព្រីន</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
   <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -199,6 +207,7 @@
   <string name="menu_search">ស្វែងរក</string>
   <string name="menu_settings">ការកំណត់</string>
   <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
+  <string name="menu_set_sort_key">ដាក់សោមេ​​ដើម្បីតម្រៀប</string>
   <string name="method">វិធីសាស្ត្រ</string>
   <string name="new_version">កំណែថ្មី</string>
   <string name="no_accounts">គ្មាន​គណនី!</string>
