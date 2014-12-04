@@ -1,5 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_238">
+    <item>Terjemahan bahasa Jepun</item>
+    <item>Kumpulan transaksi boleh dikuncupkan</item>
+  </string-array>
+  <string-array name="whats_new_237">
+    <item>Kaedah pembayaran diisih secara berabjad</item>
+  </string-array>
+  <string-array name="whats_new_236">
+    <item>Suaikan pengumpulan akaun dalam senarai akaun</item>
+    <item>Tajuk kumpulan kini papar baki terdahulu dan untung/rugi bersih</item>
+  </string-array>
   <string-array name="whats_new_235">
     <item>Dari skrin agihan, papar senarai transaksi per kategori</item>
     <item>auto-lengkap pembayar/penerima yang ditambahbaik</item>

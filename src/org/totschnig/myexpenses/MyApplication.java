@@ -820,8 +820,10 @@ public class MyApplication extends Application implements
                 eventCursor = cr.query(TransactionProvider.EVENT_CACHE_URI,
                     buildEventProjection(), Events.DESCRIPTION + " LIKE ?",
                     new String[] { "%" + uuid + "%" }, null);
+                boolean found = false;
                 if (eventCursor != null) {
                   if (eventCursor.moveToFirst()) {
+                    found = true;
                     copyEventData(eventCursor, eventValues);
                     if (insertEventAndUpdatePlan(eventValues, templateId)) {
                       Log.i(TAG, "updated plan id in template:" + templateId);
@@ -829,6 +831,13 @@ public class MyApplication extends Application implements
                     }
                   }
                   eventCursor.close();
+                }
+                if (!found) {
+                  //need to set eventId to null
+                  planValues.putNull(DatabaseConstants.KEY_PLANID);
+                  getContentResolver().update(
+                      ContentUris.withAppendedId(Template.CONTENT_URI, templateId),
+                      planValues, null, null);
                 }
               } while (planCursor.moveToNext());
             }

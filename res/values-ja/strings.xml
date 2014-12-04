@@ -387,6 +387,7 @@
   <string name="restore_backup_archive_not_valid">アーカイブ %1$s が正しくありません</string>
   <string name="restore_backup_file_not_found">アーカイブ \"%2$s\" に、ファイル %1$s が見つかりません</string>
   <string name="restore_preferences_success">バックアップからプリファレンスが復元されました。</string>
+  <string name="restore_calendar_success">%d の計画がバックアップから復元されました</string>
   <string name="save_transaction_and_new_success">正常に保存されました。</string>
   <string name="save_transaction_error">テンプレートから新しい取引を保存することができません。</string>
   <plurals name="save_transaction_from_template_success">
@@ -487,10 +488,18 @@
   <string name="comparison_operator_between">間</string>
   <string name="promotion_appgratis_welcome">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
   <string name="premium_unlocked">プレミアム機能のロック解除。</string>
+  <string name="premium_failed_or_canceled">購入が失敗またはキャンセルされました。</string>
   <string name="hint_auto_fill">金額、分類、およびコメントを、同じ受取人/支払人に対する最後のトランザクションから自動的に入力しますか? いつでも設定からこの動作を変更することができます。</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="hint_template_click">このリストのエントリで短くタップすると、テンプレートをインスタンス化して、それをすぐに保存したり、あるいは保存する前にその編集フォームの入力項目に入力することができます。長くタップして、いつでも両方のアクションにアクセスすることができます。設定でデフォルトを変更することができます。</string>
   <string name="change_fraction_digits_result">通貨 %2$s の %1$d 勘定が更新されました。</string>
   <string name="learn_more">さらに詳しく</string>
+  <string name="import_source_file">ファイル</string>
+  <string name="restore_calendar_handling">カレンダーデータの利用</string>
+  <string name="restore_calendar_handling_configured">現在設定されたカレンダーに計画を復元する</string>
+  <string name="restore_calendar_handling_backup">利用可能な場合、バックアップに設定されたカレンダーに計画を復元する</string>
+  <string name="restore_calendar_handling_ignore">計画を復元しない</string>
+  <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
+  <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
 </resources>

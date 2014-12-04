@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_239">
+    <item>データベースの復元時に、計画が再作成されるようになりました</item>
+    <item>新しい翻訳: ブルガリア語、クロアチア語、ルーマニア語</item>
+  </string-array>
   <string-array name="whats_new_238">
     <item>日本語翻訳</item>
     <item>取引のグループを折りたたむことができます</item>
