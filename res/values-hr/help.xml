@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Naredbe u meniju</string>
+  <string name="help_contextual_actions">Kontekstualne radnje</string>
+  <string name="cab_delete_help_text">Obriši označene stavke.</string>
+  <string name="cab_edit_help_text">Uredi označenu stavku.</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Popis transakcija</string>
+  <string name="help_MyExpenses_info">Ovaj zaslon sadrži sve transakcije za trenutačno odabrani račun. Korištenjem trake za navigiranje, možete vidjeti popis svih računa ili odabrati drugi račun.
+Za uređivanje stavke, odaberite ju na popisu.</string>
+  <string name="help_MyExpenses_crStatus_info">Status transakcije je određen obojenim pravokutnikom: sivim za neusklađenu, plavim za odobrenu, zelenim za usklađenu. Klikom na pravokutnik mijenjate njegovu boju, odnosno, status transakcije.</string>
+  <string name="menu_create_transaction_help_text">Otvara obrazac za kreiranje nove transakcije.</string>
+  <string name="menu_create_transfer_help_text">Prebaci novac na drugi račun. Ova naredba je dostupna samo ako posjedujete barem još jedan račun sa istom valutom kao na postojećem.</string>
+  <string name="menu_create_split_help_text">Odvojena transakcija vam omogućava da parcijalne iznose pridružite različitim kategorijama ili da budu doznake različitim računima.</string>
+  <string name="menu_reset_help_text">Korištenjem ove naredbe ćete eksportirati sve transakcije trenutačnog računa na SD karticu u QIF ili CSV formatu. Eksportirane transakcije možete obrisati, no u tom slučaju početni saldo se automatski prilagođava. Ako transakcije nisu obrisane, biti će označene kao eksportirane. My Expenses pruža mogućnost dijeljenja eksportirane datoteke putem FTP-a, e-maila ili bilo koje druge aplikacije za dijenjenje podataka koje možete podesiti u postvakama.</string>
+  <string name="menu_edit_account_help_text">Izmijeni svojstva trentačnog računa (naziv, opis, početni saldo, vrsta računa, valuta, boja).</string>
+  <string name="menu_grouping_help_text">Transakcije se mogu grupirati po danu, tjednu, mjesecu ili godini. Zbroj prihoda, troškova i plaćanja je izračunat i prikazan za svaku grupu.Klikom na zaglavlje određene grupe sažet ćete sve njene transakcije, te će samo zaglavlje biti prikazano. Kliknite ponovno kako bi izlistali sve transakcije u grupi.</string>
+  <string name="menu_distribution_help_text">Prikaži distribuciju troškova po kategoriji. Dugim klikom na zaglavlje grupe možete vidjeti distribuciju za određeni period.</string>
+  <string name="menu_manage_plans_help_text">Otvara listu predložaka i planova za trenutačni račun gdje ih možete primjeniti, urediti ili obrisati, te također definirati planove za buduće i periodične transakcije. </string>
+  <string name="menu_create_account_help_text">Otvara obrazac za kreiranje novog računa.</string>
+  <!--ManageMethods title is in keys-->
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <!--ManageCategories_* titles are in keys-->
+  <!--ExpenseEdit-->
+  <!--AccountEdit-->
+  <!--MethodEdit-->
+  <!--ManageCurrencies-->
+</resources>
