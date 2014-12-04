@@ -156,6 +156,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           R.string.restore_not_possible_local_calendar_missing);
       }
     } else if (restorePlanStrategy == R.id.restore_calendar_handling_backup) {
+      boolean found =false;
       String calendarId = backupPref
           .getString(PrefKey.PLANNER_CALENDAR_ID.getKey(),"-1");
       String calendarPath = backupPref
@@ -168,12 +169,15 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
                 MyApplication.CALENDAR_FULL_PATH_PROJECTION  + " = ?",
                 new String[] {calendarPath},
                 null);
-        if (c==null || !c.moveToFirst()) {
-          return new Result(
-              false,
-              R.string.restore_not_possible_target_calendar_missing,
-              calendarPath);
+        if (c!=null && c.moveToFirst()) {
+          found = true;
         }
+      }
+      if (!found) {
+        return new Result(
+            false,
+            R.string.restore_not_possible_target_calendar_missing,
+            calendarPath);
       }
     }
     
