@@ -191,6 +191,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       //upon application install does not exist yet
       String oldLicenceKey = PrefKey.ENTER_LICENCE.getString("");
 
+      MyApplication.getInstance().getSettings()
+          .unregisterOnSharedPreferenceChangeListener(MyApplication.getInstance());
       Editor edit = MyApplication.getInstance().getSettings().edit().clear();
       String key;
       Object val;
@@ -214,13 +216,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         edit.putString(PrefKey.ENTER_LICENCE.getKey(), oldLicenceKey);
       }
       if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
-        //need to set path first, otherwise setting id will be blocked in
-        //MyApplication#onSharedPreferenceChanged
         edit.putString(PrefKey.PLANNER_CALENDAR_PATH.getKey(), currentPlannerPath);
         edit.putString(PrefKey.PLANNER_CALENDAR_ID.getKey(),currentPlannerId);
       }
       
       SharedPreferencesCompat.apply(edit);
+      MyApplication.getInstance().getSettings()
+        .registerOnSharedPreferenceChangeListener(MyApplication.getInstance());
       backupPref = null;
       tempPrefFile.delete();
       if (fileUri != null) {
