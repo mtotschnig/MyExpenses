@@ -17,6 +17,8 @@ package org.totschnig.myexpenses.provider;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -778,6 +780,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
           ContentValues templateValues = new ContentValues(),
               eventValues = new ContentValues();
+          String planCalendarId = MyApplication.getInstance().checkPlanner();
           while( c.getPosition() < c.getCount() ) {
             Template t = new Template(c);
             templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
@@ -785,9 +788,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             long planId = c.getLong(c.getColumnIndex("plan_id"));
             eventValues.put(Events.DESCRIPTION,t.compileDescription(mCtx));
             db.update("templates", templateValues, "_id = "+templateId,null);
-            mCtx.getContentResolver().update(
-                ContentUris.withAppendedId(Events.CONTENT_URI, planId),
-                eventValues,null,null);
+            mCtx.getContentResolver().update(Events.CONTENT_URI,
+                eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
+                new String[]{String.valueOf(planId),planCalendarId});
             c.moveToNext();
           }
         }
