@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_239">
+    <item>Prilikom obnavljanja baze podataka, planovi su ponovno kreirani</item>
+    <item>Novi prijevodi: bugarski, hrvatski i rumunjski</item>
+  </string-array>
+  <string-array name="whats_new_238">
+    <item>Japanski prijevod</item>
+    <item>Grupe transakcija se mogu sažeti</item>
+  </string-array>
+  <string-array name="whats_new_237">
+    <item>Načini plaćanja sortirani su po abecedi</item>
+  </string-array>
+  <string-array name="whats_new_236">
+    <item>Prilagodite grupirane račune u popisu s računima</item>
+    <item>Zaglavlja grupa sada prikazuju prethodni saldo i neto dobit/gubitak</item>
+  </string-array>
+  <string-array name="whats_new_235">
+    <item>Sa zaslona za distribuciju, moguć je prikaz transakcija po kategoriji</item>
+    <item>Poboljšano automatsko dopunjavanje za platitelje/primaoce</item>
+  </string-array>
+  <string-array name="whats_new_234">
+    <item>Podesiv broj razlomačkih znamenaka za valute</item>
+    <item>Omogućeno isključivanje računa iz totala</item>
+  </string-array>
+  <string-array name="whats_new_233">
+    <item>Redizajnirana lista računa: Način sortiranja po korisnikovom kriteriju</item>
+    <item>Zbrojevi grupa u popisu transakcija sada uzimaju filtere u obzir</item>
+  </string-array>
+  <string-array name="whats_new_232">
+    <item>Ispis u PDF-u sada podržava nezapadnjačko pismo</item>
+    <item>Malezijski prijevod</item>
+  </string-array>
+  <string-array name="whats_new_231">
+    <item>Automatsko dopunjavanje iz zadnje transakcije za istog platitelja/primaoca</item>
+    <item>Prikaz primjera predloška kratkim dodirom na unos u listi predložaka</item>
+    <item>Podesivo kodiranje za QIF unos</item>
+  </string-array>
+  <string-array name="whats_new_230">
+    <item>Ispis liste transakcija u PDF datoteci (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_220">
+    <item>Pretražite transakcije po kategoriji, iznosu, komentaru, statusu, platitelju/primaocu, načinu plaćanja</item>
+  </string-array>
+  <string-array name="whats_new_149">
+    <item>Sinhala prijevod</item>
+    <item>Podrška za \"multi-window\" na Samsung uređajima</item>
+    <item>Radni slijed usklađivanja</item>
+  </string-array>
+  <string-array name="whats_new_145">
+    <item>Sigurnosne kopije su pohranjene u ZIP arhivama koje se mogu dijeliti (E-mail, Dropbox,...) i obnavljati iz vanjskih izvora</item>
+  </string-array>
+  <string-array name="whats_new_143">
+    <item>Prečaci na početnom zaslonu za dodavanje transakcija i plaćanja</item>
+  </string-array>
+  <string-array name="whats_new_142">
+    <item>Widgeti na početnom zaslonu za brzi unos podataka</item>
+  </string-array>
+  <string-array name="whats_new_138">
+    <item>Ruski prijevod</item>
+  </string-array>
+  <string-array name="whats_new_136">
+    <item>Lokacija mape za sigurnosne kopije i eksporte je sada podesiva</item>
+  </string-array>
+  <string-array name="whats_new_133">
+    <item>Mogućnost stvaranja više neovisnih sigurnosnih kopija</item>
+    <item>QIF unos</item>
+  </string-array>
+  <string-array name="whats_new_130">
+    <item>Grčki prijevod</item>
+    <item>Početak tjedna sada ovisi o mjestu (npr. nedjelja za SAD)</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>UI poboljšanja: #115,#117,#120,#122,#124</item>
+    <item>Datumi transakcija usklađeni se sa vremenskim zonama </item>
+  </string-array>
+  <string-array name="whats_new_118">
+    <item>Modernizirani UI: ladica za navigaciju i kontekstualna radna traka</item>
+  </string-array>
+  <string-array name="whats_new_116">
+    <item>Poboljšano upravljanje planovima: Unaprijed primjenjeni budući slučajevi </item>
+    <item>Novi prijevodi: portugalski, poljski, češki</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Prikaži listu transakcija i statističku distribuciju za skup više računa</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>(Tradicionalni) Kineski prijevod</item>
+    <item>Dostupan odabir računa u obrascu za uređivanje transakcije</item>
+    <item>Jasniji UI za plaćanja</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>UI poboljšanja (#94) i popravci grešaka (#95,#96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>Trenutačni saldo je ponovno istaknutiji i prikazuje glavne tipke na dnu ekrana kada je orijentacija uređaja  u portretskom modu</item>
+    <item>Popravci grešaka: Problemi #71,#91,#92,#93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>Kada je popis transakcija grupiran, u zaglavlju su prikazana prijelazna salda za svaki period </item>
+    <item>Ispravak greške: Problem #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Podesiv jezik korisničkog sučelja</item>
+    <item>Podesiva veličina slova</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Planovi za buduće i periodične transakcije</item>
+    <item>Khmerski prijevod</item>
+  </string-array>
+</resources>

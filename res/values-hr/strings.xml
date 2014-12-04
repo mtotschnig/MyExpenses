@@ -223,7 +223,7 @@
   <string name="new_version">Nova verzija</string>
   <string name="no_accounts">Ne postoji račun!</string>
   <string name="no_amount_given">Molimo unesi iznos</string>
-  <string name="no_app_handling_email_available">Ne postoji email za rad s aplikacijom.</string>
+  <string name="no_app_handling_email_available">Ne postoji e-mail za rad s aplikacijom.</string>
   <string name="no_app_handling_ftp_available">Ne postoji ftp za rad s aplikacijom. Instaliraj <i>Send With FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Ne postoji PDF file za rad s aplikacijom.</string>
   <string name="no_categories">Nema kategorija.</string>
@@ -327,10 +327,7 @@
   <string name="pref_manage_methods_title">Načini plaćanja</string>
   <string name="pref_manage_parties_summary">Dodaj, uredi, briši stranke (platitelji i primaoce).</string>
   <string name="pref_manage_parties_title">Stranke</string>
-  <string name="pref_more_info_dialog_summary">
-
-<!-- this is empty for English and gives credit to translators in the other languages -->
-</string>
+  <string name="pref_more_info_dialog_summary">Preveo: Mihovil Nakić-Vojnović</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence i zasluge</string>
   <string name="pref_password_empty">Lozinka ne smije biti prazna</string>
@@ -350,7 +347,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dozvoljeno bez lozinke.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Potrebna lozinka.</string>
   <string name="pref_qif_export_file_encoding_title">Kodiranje znakova</string>
-  <string name="pref_request_licence_summary">Ako ste pridonijeli, zatražite Contrib ključ za Android-ld %1$s putem emaila.</string>
+  <string name="pref_request_licence_summary">Ako ste pridonijeli, zatražite Contrib ključ za Android-ld %1$s putem e-maila.</string>
   <string name="pref_request_licence_title">Zatraži Contrib ključ</string>
   <string name="pref_restore_legacy_data">Naslijeđeni podaci</string>
   <string name="pref_restore_summary">Odaberi sigurnosnu kopiju za obnavljanje baze podataka i preferencija.</string>
@@ -358,7 +355,7 @@
   <string name="pref_security_question_summary">Omogućava otključavanje aplikacije u slučaju da ste zaboravili lozinku.</string>
   <string name="pref_security_question_title">Sigurnosno pitanje</string>
   <string name="pref_send_feedback_title">Pošalji povratnu informaciju</string>
-  <string name="pref_share_target_summary">Ostavite prazno ako želite odabrati između jednu od odgovarajućih aplikacija (Email, Dropbox, Google Docs, ... ), ili unesite URL.</string>
+  <string name="pref_share_target_summary">Ostavite prazno ako želite odabrati između jednu od odgovarajućih aplikacija (E-mail, Dropbox, Google Docs, ... ), ili unesite URL.</string>
   <string name="pref_share_target_title">Uploadaj URL</string>
   <string name="pref_shortcut_added">Prečac je kreiran na početnom zaslonu</string>
   <string name="pref_shortcut_not_added">Nema dostupnog početnog zaslona za kreiranje prečaca</string>
