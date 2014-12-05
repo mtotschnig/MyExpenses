@@ -740,9 +740,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         c.close();
       }
     }
-    if (oldVersion < 48) {
+    if (oldVersion < 47) {
       db.execSQL("ALTER TABLE templates add column uuid text");
       db.execSQL(EVENT_CACHE_CREATE);
+    }
+    if (oldVersion < 48) {
       //added method_label to extended view
       //do not comment out, since it is needed by the uuid update
       db.execSQL("DROP VIEW IF EXISTS transactions_extended");
@@ -753,69 +755,70 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP VIEW IF EXISTS templates_all");
       db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
-      db.execSQL("DROP VIEW IF EXISTS transactions_committed");
       String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
       db.execSQL("CREATE VIEW transactions_committed "  + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS +  " = " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
       db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
       //need to inline to protect against later renames
-      String[] projection = new String[] {
-          "_id",
-          "amount",
-          "comment",
-          "cat_id",
-          "CASE WHEN " +
-              "  " + "transfer_peer" + " " +
-          " THEN " +
-            "  (SELECT " + "label" + " FROM " + "accounts" + " WHERE " + "_id" + " = " + "transfer_account" + ") " +
-          " ELSE " +
-            " CASE WHEN " +
-                " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+      if (oldVersion < 47) {
+        String[] projection = new String[] {
+            "_id",
+            "amount",
+            "comment",
+            "cat_id",
+            "CASE WHEN " +
+                "  " + "transfer_peer" + " " +
             " THEN " +
-              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " +
-                " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ")) " +
-              "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
-              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
-            " ELSE" +
-              " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
-            " END " +
-          " END AS  " + "label",
-          "name",
-          "transfer_peer",
-          "transfer_account",
-          "account_id",
-          "method_id",
-          "method_label",
-          "title",
-          "plan_id",
-          "plan_execution",
-          "uuid",
-          "currency"
-        };
-      Cursor c = db.query(
-          "templates_extended",
-          projection,
-          null, null, null,null,null);
-      if (c!=null) {
-        if (c.moveToFirst()) {
-          ContentValues templateValues = new ContentValues(),
-              eventValues = new ContentValues();
-          String planCalendarId = MyApplication.getInstance().checkPlanner();
-          while( c.getPosition() < c.getCount() ) {
-            Template t = new Template(c);
-            templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
-            long templateId = c.getLong(c.getColumnIndex("_id"));
-            long planId = c.getLong(c.getColumnIndex("plan_id"));
-            eventValues.put(Events.DESCRIPTION,t.compileDescription(mCtx));
-            db.update("templates", templateValues, "_id = "+templateId,null);
-            mCtx.getContentResolver().update(Events.CONTENT_URI,
-                eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
-                new String[]{String.valueOf(planId),planCalendarId});
-            c.moveToNext();
+              "  (SELECT " + "label" + " FROM " + "accounts" + " WHERE " + "_id" + " = " + "transfer_account" + ") " +
+            " ELSE " +
+              " CASE WHEN " +
+                  " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+              " THEN " +
+                " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " +
+                  " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ")) " +
+                "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
+                " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+              " ELSE" +
+                " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
+              " END " +
+            " END AS  " + "label",
+            "name",
+            "transfer_peer",
+            "transfer_account",
+            "account_id",
+            "method_id",
+            "method_label",
+            "title",
+            "plan_id",
+            "plan_execution",
+            "uuid",
+            "currency"
+          };
+        Cursor c = db.query(
+            "templates_extended",
+            projection,
+            null, null, null,null,null);
+        if (c!=null) {
+          if (c.moveToFirst()) {
+            ContentValues templateValues = new ContentValues(),
+                eventValues = new ContentValues();
+            String planCalendarId = MyApplication.getInstance().checkPlanner();
+            while( c.getPosition() < c.getCount() ) {
+              Template t = new Template(c);
+              templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
+              long templateId = c.getLong(c.getColumnIndex("_id"));
+              long planId = c.getLong(c.getColumnIndex("plan_id"));
+              eventValues.put(Events.DESCRIPTION,t.compileDescription(mCtx));
+              db.update("templates", templateValues, "_id = "+templateId,null);
+              mCtx.getContentResolver().update(Events.CONTENT_URI,
+                  eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
+                  new String[]{String.valueOf(planId),planCalendarId});
+              c.moveToNext();
+            }
           }
+          c.close();
         }
-        c.close();
       }
     }
   }
