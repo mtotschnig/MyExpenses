@@ -527,10 +527,10 @@ public class TransactionProvider extends ContentProvider {
         projection = Template.PROJECTION_EXTENDED;
       break;
     case TEMPLATE_ID:
-      qb.setTables(VIEW_TEMPLATES);
+      qb.setTables(VIEW_TEMPLATES_EXTENDED);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       if (projection == null)
-        projection = Template.PROJECTION_BASE;
+        projection = Template.PROJECTION_EXTENDED;
       break;
     case FEATURE_USED:
       qb.setTables(TABLE_FEATURE_USED);

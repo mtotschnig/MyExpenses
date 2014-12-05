@@ -50,6 +50,7 @@ public class Transaction extends Model {
   public Long transfer_peer;
   public Long transfer_account;
   public Long methodId;
+  public String methodLabel="";
   public Long parentId = null;
   /**
    * id of the template which defines the plan for which this transaction has been created
@@ -78,6 +79,7 @@ public class Transaction extends Model {
         KEY_PAYEE_NAME,
         KEY_TRANSFER_PEER,
         KEY_METHODID,
+        KEY_METHOD_LABEL,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
         YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
@@ -153,7 +155,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         FULL_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER};
+        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -186,6 +188,7 @@ public class Transaction extends Model {
       t.crStatus = CrStatus.UNRECONCILED;
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+    t.methodLabel =  DbUtils.getString(c,KEY_METHOD_LABEL);
     t.setCatId(catId);
     t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
@@ -212,6 +215,7 @@ public class Transaction extends Model {
     else {
       tr = new Transaction(te.accountId,te.amount);
       tr.methodId = te.methodId;
+      tr.methodLabel = te.methodLabel;
       tr.setCatId(te.getCatId());
     }
     tr.comment = te.comment;

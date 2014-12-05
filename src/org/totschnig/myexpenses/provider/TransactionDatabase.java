@@ -41,7 +41,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 47;
+  public static final int DATABASE_VERSION = 48;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -76,17 +76,21 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String VIEW_DEFINITION(String tableName) {
     return " AS SELECT " +
-      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME +
+      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
+        TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL +
       " FROM " + tableName +
-      " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID;
+      " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
+      " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID;
   }
   private static final String VIEW_DEFINITION_EXTENDED(String tableName) {
     return " AS SELECT " +
       tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
-        KEY_COLOR + ", " + KEY_CURRENCY + ", " + KEY_EXCLUDE_FROM_TOTALS +
+        KEY_COLOR + ", " + KEY_CURRENCY + ", " + KEY_EXCLUDE_FROM_TOTALS + ", " +
+        TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL +
       " FROM " + tableName +
       " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
-      " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
+      " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID +
+      " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID;
 }
   /**
    * SQL statement for accounts TABLE
@@ -232,6 +236,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   public void onCreate(SQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(PAYEE_CREATE);
+    db.execSQL(PAYMENT_METHODS_CREATE);
     String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED   + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
@@ -243,7 +248,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED   + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     insertDefaultAccount(db);
-    db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
     db.execSQL(FEATURE_USED_CREATE);
@@ -570,17 +574,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE templates add column plan_execution boolean default 0");
     }
     if (oldVersion < 39) {
-      //db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      //db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
       db.execSQL("CREATE TABLE currency (_id integer primary key autoincrement, code text unique not null);");
       insertCurrencies(db);
     }
     if (oldVersion < 40) {
       //added currency to extended view
-      //db.execSQL("DROP VIEW transactions_extended");
-      //db.execSQL("DROP VIEW templates_extended");
-      //db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      //db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      db.execSQL("DROP VIEW transactions_extended");
+      db.execSQL("DROP VIEW templates_extended");
+      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
     if (oldVersion < 41) {
       db.execSQL("CREATE TABLE planinstance_transaction " +
@@ -736,9 +740,25 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         c.close();
       }
     }
-    if (oldVersion < 47) {
+    if (oldVersion < 48) {
       db.execSQL("ALTER TABLE templates add column uuid text");
       db.execSQL(EVENT_CACHE_CREATE);
+      //added method_label to extended view
+      //do not comment out, since it is needed by the uuid update
+      db.execSQL("DROP VIEW IF EXISTS transactions_extended");
+      db.execSQL("DROP VIEW IF EXISTS templates_extended");
+      db.execSQL("DROP VIEW IF EXISTS transactions_committed");
+      db.execSQL("DROP VIEW IF EXISTS transactions_uncommitted");
+      db.execSQL("DROP VIEW IF EXISTS transactions_all");
+      db.execSQL("DROP VIEW IF EXISTS templates_all");
+      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      db.execSQL("DROP VIEW IF EXISTS transactions_committed");
+      String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
+      db.execSQL("CREATE VIEW transactions_committed "  + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS +  " = " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
+      db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
       //need to inline to protect against later renames
       String[] projection = new String[] {
           "_id",
@@ -766,6 +786,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "transfer_account",
           "account_id",
           "method_id",
+          "method_label",
           "title",
           "plan_id",
           "plan_execution",

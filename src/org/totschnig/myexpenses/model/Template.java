@@ -74,10 +74,11 @@ public class Template extends Transaction {
       KEY_UUID
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength+2];
+    PROJECTION_EXTENDED = new String[baseLength+3];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     PROJECTION_EXTENDED[baseLength+1] = KEY_CURRENCY;
+    PROJECTION_EXTENDED[baseLength+2] = KEY_METHOD_LABEL;
   }
   /**
    * derives a new template from an existing Transaction
@@ -92,6 +93,7 @@ public class Template extends Transaction {
     this.setCatId(t.getCatId());
     this.comment = t.comment;
     this.methodId = t.methodId;
+    this.methodLabel = t.methodLabel;
     this.payee = t.payee;
     //we are not interested in which was the transfer_peer of the transfer
     //from which the template was derived;
@@ -130,6 +132,7 @@ public class Template extends Transaction {
       methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
       setCatId(DbUtils.getLongOrNull(c, KEY_CATID));
       payee = DbUtils.getString(c,KEY_PAYEE_NAME);
+      methodLabel =  DbUtils.getString(c,KEY_METHOD_LABEL);
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     comment = DbUtils.getString(c,KEY_COMMENT);
@@ -338,7 +341,7 @@ public class Template extends Transaction {
     if (methodId != null) {
       sb.append(ctx.getString(R.string.method));
       sb.append(" : ");
-      sb.append(PaymentMethod.getInstanceFromDb(methodId).getLabel());
+      sb.append(methodLabel);
       sb.append("\n");
     }
     sb.append("UUID : ");
