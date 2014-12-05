@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2391">
+  <string-array name="whats_new_2392">
     <item>Database upgrade hotfix</item>
   </string-array>
   <string-array name="whats_new_239">
