@@ -811,9 +811,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               long planId = c.getLong(c.getColumnIndex("plan_id"));
               eventValues.put(Events.DESCRIPTION,t.compileDescription(mCtx));
               db.update("templates", templateValues, "_id = "+templateId,null);
-              mCtx.getContentResolver().update(Events.CONTENT_URI,
-                  eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
-                  new String[]{String.valueOf(planId),planCalendarId});
+              try {
+                mCtx.getContentResolver().update(Events.CONTENT_URI,
+                    eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
+                    new String[]{String.valueOf(planId),planCalendarId});
+              } catch (Exception e) {
+                //could fail with IllegalArgumentException, probably also SecurityException
+                Utils.reportToAcra(e);
+              }
               c.moveToNext();
             }
           }
