@@ -49,8 +49,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 public void onQueryInventoryFinished(
                     IabResult result,
                     Inventory inventory) {
-                  // TODO Auto-generated method stub
-                  if (mHelper==null) {
+                  if (mHelper==null || inventory==null) {
                     return;
                   }
                   // Do we have the premium upgrade?
