@@ -44,7 +44,7 @@
     <string-array name="pref_ui_language_entries">
     	<item>@string/pref_ui_language_default</item>
       <item>العربية</item>
-      <!-- <item>български</item> -->
+      <item>български</item>
       <item>català</item>
       <item>čeština</item>
       <item>Deutsch</item>
@@ -70,7 +70,7 @@
     <string-array name="pref_ui_language_values">
     	<item>default</item>
       <item>ar</item>
-      <!-- <item>bg-BG</item> -->
+      <item>bg-BG</item>
       <item>ca-ES</item>
       <item>cs-CZ</item>
       <item>de-DE</item>
