@@ -24,6 +24,7 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
  * this handler is subclassed in MyApplication, so that we can handle unbinding from the service there
  */
 public class UnlockHandler extends Handler {
+  private static final int STATUS_TEMPORARY = 3;
   private static final int STATUS_PERMANENT = 4;
   
   @Override
@@ -33,7 +34,7 @@ public class UnlockHandler extends Handler {
       return;
     }
     Log.i(MyApplication.TAG,"Now handling answer from license verification service; got status "+msg.what);
-    if (msg.what == STATUS_PERMANENT) {
+    if (msg.what == STATUS_PERMANENT || msg.what == STATUS_TEMPORARY) {
       PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
       app.setContribStatus(Distrib.STATUS_ENABLED_LEGACY_SECOND);
       mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), String.valueOf(Distrib.STATUS_ENABLED_LEGACY_SECOND));
