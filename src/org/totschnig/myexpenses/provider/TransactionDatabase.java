@@ -37,6 +37,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -811,15 +812,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               long planId = c.getLong(c.getColumnIndex("plan_id"));
               eventValues.put(Events.DESCRIPTION,t.compileDescription(mCtx));
               db.update("templates", templateValues, "_id = "+templateId,null);
-              try {
-                mCtx.getContentResolver().update(Events.CONTENT_URI,
-                    eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
-                    new String[]{String.valueOf(planId),planCalendarId});
-              } catch (Exception e) {
-                //fails with IllegalArgumentException on 2 devices, I do not know why,
-                //since the same uri works 
-                //probably SecurityException could arise here
-                Utils.reportToAcra(e);
+              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                try {
+                  mCtx.getContentResolver().update(Events.CONTENT_URI,
+                      eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
+                      new String[]{String.valueOf(planId),planCalendarId});
+                } catch (Exception e) {
+                  //fails with IllegalArgumentException on 2.x devices,
+                  //since the same uri works for inserting and querying
+                  //but also on HUAWEI Y530-U00 with 4.3
+                  //probably SecurityException could arise here
+                }
               }
               c.moveToNext();
             }
@@ -827,10 +830,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
-      if (oldVersion < 49) {
-        //forgotten to drop in previous upgrade
-        db.execSQL("DROP TABLE templates_old");
-      }
+    }
+    if (oldVersion < 49) {
+      //forgotten to drop in previous upgrade
+      db.execSQL("DROP TABLE IF EXISTS templates_old");
     }
   }
   @Override
