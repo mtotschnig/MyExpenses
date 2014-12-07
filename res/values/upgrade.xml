@@ -18,8 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2393">
-    <item>Fix upgrade problem for Android 2.x devices</item>
+  <string-array name="whats_new_2394">
+    <item>Bulgarian translation</item>
+    <item>Fix handling of unlock via legacy contrib app</item>
   </string-array>
   <string-array name="whats_new_239">
     <item>Upon database restore, plans are now recreated</item>
