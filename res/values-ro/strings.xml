@@ -53,8 +53,8 @@
   <string name="default_account_description">Acest cont a fost creat automat în timpul instalării</string>
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
-  <string name="dialog_balance_delete">Şterge tranzacţiile reconciliate</string>
-  <string name="dialog_command_disabled_balance">Nici o tranzacţie punctată de reconciliat</string>
+  <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
+  <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
   <string name="dialog_command_disabled_insert_transfer_1">Tranzacţiile de transfer necesită un al doilea cont de  aceasi monedă</string>
   <string name="dialog_command_disabled_insert_transfer_2">Aveţi numai un cont de moneda  %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
@@ -414,9 +414,9 @@ Tradus de DD</string>
   <string name="split_parts_heading">Repartizări</string>
   <string name="split_transaction">Tranzacţie repartizată</string>
   <string name="status">Status</string>
-  <string name="status_cleared">punctată</string>
-  <string name="status_reconciled">reconciliat</string>
-  <string name="status_uncreconciled">neconciliată</string>
+  <string name="status_cleared">procesată</string>
+  <string name="status_reconciled">decontată</string>
+  <string name="status_uncreconciled">nedecontată</string>
   <string name="subcategory">Subcategorie</string>
   <string name="sum_expenses">Cheltuieli</string>
   <string name="sum_income">Venituri</string>
@@ -428,8 +428,8 @@ Tradus de DD</string>
   <string name="thank_you">Mulţumim pentru suportul dvs!</string>
   <string name="time">Timp</string>
   <string name="title">Titlu</string>
-  <string name="total_cleared">Total punctate</string>
-  <string name="total_reconciled">Total Reconciliate</string>
+  <string name="total_cleared">Total procesate</string>
+  <string name="total_reconciled">Total Decontate</string>
   <string name="transaction">Tranzacţie</string>
   <string name="transfer">Transfer</string>
   <string name="transfer_from_account">De la</string>
@@ -460,8 +460,8 @@ Tradus de DD</string>
     <item quantity="few">%1$d  tranzacţii selectate vor fi şterse.</item>
     <item quantity="other">%1$d  tranzacţii selectate vor fi şterse.</item>
   </plurals>
-  <string name="warning_delete_reconciled">Ştergerea tranzacţiilor reconciliate va determina ca înregistrările dumneavoastră să difere de cele din extrasul bancar.</string>
-  <string name="warning_balance_account">Comparaţi totalul punctat cu soldul final din extrasul dvs bancar. Dacă veţi continua, tranzacţiile punctate vor fi marcate ca reconciliate.</string>
+  <string name="warning_delete_reconciled">Ştergerea tranzacţiilor decontate va determina ca înregistrările dumneavoastră să difere de cele din extrasul bancar.</string>
+  <string name="warning_balance_account">Comparaţi totalul procesat cu soldul final din extrasul dvs bancar. Dacă veţi continua, tranzacţiile procesate vor fi marcate ca decontate.</string>
   <string name="warning_password_protected">App este protejată prin parolă.</string>
   <string name="warning_widget_disabled">Trebuie să activaţi acest widget în setările app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Instanţierea rapidă a şabloanelor din acest widget funcţionează numai dacă permiteţi introducerea datelor din  widget-uri fără parolă în setările app.</string>
