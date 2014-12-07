@@ -247,8 +247,11 @@ public class CategoryList extends ContextualActionBarFragment implements
       return true;
     case R.id.SELECT_COMMAND:
       if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-        label += TABS + Utils.convAmount(c.getString(c.getColumnIndex(KEY_SUM)),mAccount.currency);
-      } else if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+        label += TABS + Utils.convAmount(
+            c.getString(c.getColumnIndex(KEY_SUM)),
+            mAccount.currency);
+      } else if (!isMain &&
+          ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
         mGroupCursor.moveToPosition(group);
         label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
             +TransactionList.CATEGORY_SEPARATOR
