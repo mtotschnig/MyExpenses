@@ -77,8 +77,10 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version < current_version) {
       MyApplication.PrefKey.CURRENT_VERSION.putInt(current_version);
-      if (prev_version == -1)
+      if (prev_version == -1) {
+        MyApplication.PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
         return;
+      }
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       Editor edit = settings.edit();
       if (prev_version < 19) {
