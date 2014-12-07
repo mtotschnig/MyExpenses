@@ -7,7 +7,7 @@
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista tranzacţii</string>
   <string name="help_MyExpenses_info">Acest ecran afişează toate tranzacţiile pentru contul curent. Din bara de navigare, puteţi naviga la lista de conturi sau selectaţi un cont diferit. Faceţi clic pe o intrare în lista pentru a edita elementul.</string>
-  <string name="help_MyExpenses_crStatus_info">Statutul  tranzacției este indicată printr-un dreptunghi de culoare: gri pentru nereconciliat, albastru pentru punctat, verde pentru reconciliat. Faceţi clic pe dreptunghi, pentru a modifica startutul.</string>
+  <string name="help_MyExpenses_crStatus_info">Statutul  tranzacției este indicată printr-un dreptunghi de culoare: gri pentru nedecontat, albastru pentru procesat, verde pentru decontat. Faceţi clic pe dreptunghi, pentru a modifica statutul.</string>
   <string name="menu_create_transaction_help_text">Deschide  formularul pentru a crea o nouă tranzacţie.</string>
   <string name="menu_create_transfer_help_text">Transfer de bani între conturi. Această comandă este activată doar dacă aveţi cel puţin un alt cont cu aceeaşi monedă ca cea actuală.</string>
   <string name="menu_create_split_help_text">O tranzacţie repartizabilă vă permite să atribuiţi sumele parțiale pentru diferite categorii sau ca transferuri în diferite conturi.</string>
@@ -17,7 +17,7 @@
   <string name="menu_distribution_help_text">Afişează distribuţia cheltuielilor pe categorii. De asemenea, clic  lung pe un antet de grup pentru a inspecta distribuţia pe o anumită perioadă de timp.</string>
   <string name="menu_manage_plans_help_text">Deschide lista de şabloane şi scadenţe pentru contul curent, de unde le puteţi aplica, edita sau şterge, sau defini scadenţe  pentru tranzacţii viitoare şi periodice.</string>
   <string name="menu_create_account_help_text">Deschide formularul pentru crearea unui cont nou .</string>
-  <string name="menu_balance_help_text">Această comandă deschide o fereastra de dialog care afişează ultimul sold reconciliat şi soldul punctatl. Puteţi compara aceasta cu extrasul dvs bancar, şi marca toate  tranzacţiile punctate ca reconciliate. Opţional puteţi decide să ştergeţi tranzacţii reconciliate.</string>
+  <string name="menu_balance_help_text">Această comandă deschide o fereastra de dialog care afişează ultimul sold decontat şi soldul procesat. Puteţi compara aceasta cu extrasul dvs bancar, şi marca toate  tranzacţiile procesate ca decontate. Opţional puteţi decide să ştergeţi tranzacţii decontate.</string>
   <string name="menu_print_help_text">Generează o vedere imprimabilă  a tranzacţiilor afişate în momentul respectiv.</string>
   <string name="menu_search_help_text">Această intrare deschide un submeniu care vă permite să definiţi criterii de căutare bazat pe categoria, valoarea, comentariu, statutul,  terţ si metoda de plata. Atunci când un filtru de căutare este activ, pur şi simplu faceţi clic pe intrarea din submeniul pentru a-l dezactiva.</string>
   <string name="cab_create_template_from_transaction_help_text">Definiţi un şablon nou bazat pe tranzacţia selectată. Vă va solicita titlul pentru şablon.</string>

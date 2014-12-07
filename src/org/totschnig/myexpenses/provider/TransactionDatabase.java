@@ -41,7 +41,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 48;
+  public static final int DATABASE_VERSION = 49;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -816,7 +816,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
                     eventValues,Events._ID + "= ? AND " + Events.CALENDAR_ID + " = ?",
                     new String[]{String.valueOf(planId),planCalendarId});
               } catch (Exception e) {
-                //could fail with IllegalArgumentException, probably also SecurityException
+                //fails with IllegalArgumentException on 2 devices, I do not know why,
+                //since the same uri works 
+                //probably SecurityException could arise here
                 Utils.reportToAcra(e);
               }
               c.moveToNext();
@@ -824,6 +826,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+      }
+      if (oldVersion < 49) {
+        //forgotten to drop in previous upgrade
+        db.execSQL("DROP TABLE templates_old");
       }
     }
   }
