@@ -38,28 +38,31 @@ import android.widget.Toast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!MyApplication.getInstance().isContribEnabled()) {
-          OpenIabHelper.Options.Builder builder =
-              new OpenIabHelper.Options.Builder()
-                .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
-                .addStoreKeys(Config.STORE_KEYS_MAP);
-  
-          mHelper = new OpenIabHelper(this,builder.build());
-          mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                Log.d(MyApplication.TAG, "Setup finished.");
-  
-                if (!result.isSuccess()) {
-                  mSetupDone = false;
-                    // Oh noes, there was a problem.
-                  complain("Problem setting up in-app billing: " + result);
-                  return;
-                }
-                mSetupDone = true;
-                Log.d(MyApplication.TAG, "Setup successful.");
-            }
-          });
-        }
+        if (MyApplication.getInstance().isContribEnabled()) {
+          DonateDialogFragment.newInstance().show(
+              getSupportFragmentManager(), "CONTRIB");
+          return;
+      }
+        OpenIabHelper.Options.Builder builder =
+            new OpenIabHelper.Options.Builder()
+              .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
+              .addStoreKeys(Config.STORE_KEYS_MAP);
+
+        mHelper = new OpenIabHelper(this,builder.build());
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+          public void onIabSetupFinished(IabResult result) {
+              Log.d(MyApplication.TAG, "Setup finished.");
+
+              if (!result.isSuccess()) {
+                mSetupDone = false;
+                  // Oh noes, there was a problem.
+                complain("Problem setting up in-app billing: " + result);
+                return;
+              }
+              mSetupDone = true;
+              Log.d(MyApplication.TAG, "Setup successful.");
+          }
+        });
 
         Feature f = (Feature) getIntent().getSerializableExtra(KEY_FEATURE);
 
@@ -126,10 +129,14 @@ import android.widget.Toast;
                 // bought the premium upgrade!
                 Log.d(MyApplication.TAG,
                     "Purchase is premium upgrade. Congratulating user.");
-                complain(Utils.concatResStrings(
+                Toast.makeText(
                     ContribInfoDialogActivity.this,
-                    R.string.premium_unlocked,R.string.thank_you));
+                    Utils.concatResStrings(
+                        ContribInfoDialogActivity.this,
+                        R.string.premium_unlocked,R.string.thank_you),
+                    Toast.LENGTH_SHORT).show();
                 Distrib.registerPurchase(ContribInfoDialogActivity.this);
+                finish();
                 //setWaitScreen(false);
             }
         }
@@ -191,7 +198,7 @@ import android.widget.Toast;
           " resultCode: " + resultCode + " data: " + data);
 
       // Pass on the activity result to the helper for handling
-      if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+      if (mHelper==null || !mHelper.handleActivityResult(requestCode, resultCode, data)) {
           // not handled, so handle it ourselves (here's where you'd
           // perform any handling of activity results not related to in-app
           // billing...
@@ -199,7 +206,6 @@ import android.widget.Toast;
       } else {
           Log.d(MyApplication.TAG, "onActivityResult handled by IABUtil.");
       }
-      finish();
     }
     // We're being destroyed. It's important to dispose of the helper here!
     @Override
