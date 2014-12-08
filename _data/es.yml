@@ -46,8 +46,7 @@ es:
       intro: |
         Usted tiene las siguientes opciones para adquirir la licencia de Contrib:
       gplay: |
-        Si ha instalado Mis Gastos de Google Play, instalar
-        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mis gastos Contrib</a>.
+        Si ha instalado Mis Gastos de Google Play, está disponible como compra integrada en la aplicación.
       amazon: |
         Si ha instalado Mis Gastos de Amazon App Store, instalar
         <a class="track" id="amazon-contrib" href="http://www.amazon.es/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mis Gastos Contrib</a>.

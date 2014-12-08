@@ -46,8 +46,7 @@ en:
       intro: |
         You have the following options for purchasing the Contrib licence:
       gplay: |
-        If you have installed My Expenses from Google Play, install
-        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
+        If you have installed My Expenses from Google Play, it is available as in-app purchase.
       amazon: |
         If you have installed My Expenses from Amazon App Store, install
         <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.

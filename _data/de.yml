@@ -46,7 +46,7 @@ de:
       intro: |
         Die Contrib Lizenz kann auf folgenden Wegen erworben werden:
       gplay: |
-        Wenn Sie Meine Ausgaben von Google Play installiert haben, installieren Sie auch <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Meine Ausgaben Contrib</a>.
+        Wenn Sie Meine Ausgaben von Google Play installiert haben, steht diese als In-App-Kauf zur Verfügung.
       amazon: |
         Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://www.amazon.de/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Meine Ausgaben Contrib</a>.
       other: |

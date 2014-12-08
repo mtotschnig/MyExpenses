@@ -47,8 +47,7 @@ it:
       intro: |
         Opzioni per attivare la licenza Contrib:
       gplay: |+
-        Se avete installato Le Mie Spese da Google Play, installate
-        <a  class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Le Mie Spese Contrib</a>.
+        Se avete installato Le Mie Spese da Google Play, è disponibile come acquisto in-app.
       amazon: |
         Se avete installato Le Mie Spese da Amazon App Store, installate
         <a class="track" id="amazon-contrib" href="http://www.amazon.it/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Le Mie Spese Contrib</a>.
