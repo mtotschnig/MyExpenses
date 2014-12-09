@@ -42,13 +42,9 @@ import android.widget.Toast;
           DonateDialogFragment.newInstance().show(
               getSupportFragmentManager(), "CONTRIB");
           return;
-      }
-        OpenIabHelper.Options.Builder builder =
-            new OpenIabHelper.Options.Builder()
-              .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
-              .addStoreKeys(Config.STORE_KEYS_MAP);
+        }
 
-        mHelper = new OpenIabHelper(this,builder.build());
+        mHelper = Distrib.getIabHelper(this);
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
           public void onIabSetupFinished(IabResult result) {
               Log.d(MyApplication.TAG, "Setup finished.");
@@ -99,10 +95,12 @@ import android.widget.Toast;
           return;
       }
       if (mHelper==null) {
+        finish();
         return;
       }
       if (!mSetupDone) {
         complain("Billing setup is not completed yet");
+        finish();
         return;
       }
       final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener =
@@ -111,38 +109,39 @@ import android.widget.Toast;
           Log.d(MyApplication.TAG,
               "Purchase finished: " + result + ", purchase: " + purchase);
           if (result.isFailure()) {
-              Log.w(MyApplication.TAG,
-                  "Purchase failed: " + result + ", purchase: " + purchase);
-                complain(getString(R.string.premium_failed_or_canceled));
-                //setWaitScreen(false);
-                return;
-            }
-            if (!verifyDeveloperPayload(purchase)) {
-                complain("Error purchasing. Authenticity verification failed.");
-                //setWaitScreen(false);
-                return;
-            }
-
+            Log.w(MyApplication.TAG,
+                "Purchase failed: " + result + ", purchase: " + purchase);
+            complain(getString(R.string.premium_failed_or_canceled));
+          } else if (!verifyDeveloperPayload(purchase)) {
+            complain("Error purchasing. Authenticity verification failed.");
+          } else {
             Log.d(MyApplication.TAG, "Purchase successful.");
 
             if (purchase.getSku().equals(Config.SKU_PREMIUM)) {
-                // bought the premium upgrade!
-                Log.d(MyApplication.TAG,
-                    "Purchase is premium upgrade. Congratulating user.");
-                Toast.makeText(
-                    ContribInfoDialogActivity.this,
-                    Utils.concatResStrings(
-                        ContribInfoDialogActivity.this,
-                        R.string.premium_unlocked,R.string.thank_you),
-                    Toast.LENGTH_SHORT).show();
-                Distrib.registerPurchase(ContribInfoDialogActivity.this);
-                finish();
-                //setWaitScreen(false);
+              // bought the premium upgrade!
+              Log.d(MyApplication.TAG,
+                  "Purchase is premium upgrade. Congratulating user.");
+              Toast.makeText(
+                  ContribInfoDialogActivity.this,
+                  Utils.concatResStrings(
+                      ContribInfoDialogActivity.this,
+                      R.string.premium_unlocked,R.string.thank_you),
+                      Toast.LENGTH_SHORT).show();
+              Distrib.registerPurchase(ContribInfoDialogActivity.this);
             }
+          }
+          finish();
         }
 
         private boolean verifyDeveloperPayload(Purchase purchase) {
-          return purchase.getDeveloperPayload().equals(mPayload);
+          if (mPayload==null) {
+            return true;
+          }
+          String payload = purchase.getDeveloperPayload();
+          if (payload==null) {
+            return false;
+          }
+          return payload.equals(mPayload);
         }
     };
     //setWaitScreen(true);

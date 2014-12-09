@@ -1,7 +1,14 @@
 package org.totschnig.myexpenses.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.onepf.oms.Appstore;
+import org.onepf.oms.OpenIabHelper;
+import org.onepf.oms.appstore.AmazonAppstore;
 import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.contrib.Config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -86,6 +93,16 @@ public class Distrib {
     p.commit();
     MyApplication.getInstance().setContribStatus(status);
   }
+
+  public static OpenIabHelper getIabHelper(Context ctx) {
+    OpenIabHelper.Options.Builder builder =
+        new OpenIabHelper.Options.Builder()
+           .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
+           .addStoreKeys(Config.STORE_KEYS_MAP);
+
+    return new OpenIabHelper(ctx,builder.build());
+  }
+
   public static boolean isBatchAvailable() {
     return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
     }

@@ -30,12 +30,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     String contribStatus = MyApplication.getInstance().getContribStatus();
     if (contribStatus.equals(Distrib.STATUS_DISABLED) ||
         contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
-      OpenIabHelper.Options.Builder builder =
-          new OpenIabHelper.Options.Builder()
-            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
-            .addStoreKeys(Config.STORE_KEYS_MAP);
 
-      mHelper = new OpenIabHelper(this,builder.build());
+      mHelper = Distrib.getIabHelper(this);
       mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
         public void onIabSetupFinished(IabResult result) {
             Log.d(MyApplication.TAG, "Setup finished.");
