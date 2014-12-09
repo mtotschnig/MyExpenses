@@ -284,8 +284,6 @@
   <string name="pref_checkbox_disabled">បិទ</string>
   <string name="pref_contrib_donate_summary">ផ្តល់​ជំនួយ​តាម​រយៈ PayPal, Flattr ឬ Bitcoin និង​ដើម្បីទទួល​ផ្នែក​ ពិសេសៗនៃកម្មវិធី។</string>
   <string name="pref_contrib_donate_title">ផ្តល់​ជំនួយ</string>
-  <string name="pref_contrib_install_summary">តាមរយះការតម្លើង My Expenses Contrib Key អ្នកអាចនឹងទទួលបាន​លក្ខណៈពិសេស​​របស់​កម្មវិធីនេះ</string>
-  <string name="pref_contrib_install_title">តម្លើងកម្មវិធី Contrib</string>
   <string name="pref_enter_licence_summary">ប្រសិនបើអ្នកបានទទួលគន្លឹះ Contrib, នឹងទទួលបាននូវដំណើរការដែលមានលក្ខណៈពិសេសល្អជាងគេ </string>
   <string name="pref_enter_licence_title">បញ្ចូលគន្លឹះ Contrib</string>
   <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>

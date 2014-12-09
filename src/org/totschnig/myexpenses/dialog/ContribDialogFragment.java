@@ -51,7 +51,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       super.onCreate(savedInstanceState);
       final Bundle bundle = getArguments();
       feature = (Feature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
-      usagesLeft = feature.usagesLeft();
+      usagesLeft = feature.usagesLeft(); //TODO Strict mode
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {

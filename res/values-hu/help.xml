@@ -8,8 +8,6 @@
   <string name="menu_create_transfer_help_text">Átvezetés/átutalás számlák között. Ez a parancs csak akkor aktív és elérhető, ha az adott pénznemben legalább két számlája van.</string>
   <string name="menu_create_split_help_text">Az osztott tranzakció lehetővé teszi, hogy egy adott kifizetést több kategóriához rendelje, vagy különböző számlákhoz átutalás/átvezetés esetén.</string>
   <string name="menu_edit_account_help_text">Az aktuális számla beállításainak szerkesztése (elnevezés, leírás, nyitó egyenleg, számla típus, pénznem, szín).</string>
-  <string name="menu_grouping_help_text">Tranzakciók csoportosítása napok, hetek, hónapok vagy évek szerint. Minden csoportban megjelenik az adott időszakra vonatkozó összesítés bevétel/kiadás és egyéb kifizetések szerint.</string>
-  <string name="menu_distribution_help_text">A kiadások megjelenítése kategóriánként. Az adott tételre kattintva kibontható, milyen további elemekből áll az adott csoport.</string>
   <string name="menu_create_account_help_text">Megnyit egy űrlapot új számla készítéséhez.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Ezen a képernyőn láthatóak az előre definiált fizetési módok (Csekk, Hitelkártya, Előleg, Csoportos beszedés) és itt van lehetőség új módok hozzáadására. Bármely elemre kattintva beállítható az összerendelés a fizetési mód és a számla típusa között.</string>

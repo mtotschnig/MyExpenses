@@ -274,8 +274,6 @@
   <string name="pref_contrib_donate_summary">දායකත්වය  PayPal, Flattr or Bitcoin හරහා ලබාදී පාරිතෝෂික අංග පරිශීලනයට හැකියාව ලබාගන්න </string>
   <string name="pref_contrib_donate_summary_already_contrib">ඔබ අතිරේක දයජත්වයක් කිරමට කැමතිනම් ඔබට  Paypal හෝ  Bitcoins හරහා දායකත්වයක් ලබාදිය හැක </string>
   <string name="pref_contrib_donate_title">දායකත්වය යවන්න </string>
-  <string name="pref_contrib_install_summary">මි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර පිහිටුවීමෙන් ඔබට පාරිතෝෂික අංග පාවිචි කිරීමේ ඉඩ ලබාදෙ </string>
-  <string name="pref_contrib_install_title">කොන්ට්‍රිබ් ඇප් එක පිටුවන්න </string>
   <string name="pref_enter_licence_summary">ඔබට කොන්ට්‍රිබ් යතුර හමුවුයේනම් පාර්තොශික අංග පරිශීලනයට අවස්ථාව ලැබේ </string>
   <string name="pref_enter_licence_title">කොන්ට්‍රිබ් යතුර ඇතුළු කරන්න </string>
   <string name="pref_export_format_title">දත්ත ආකෘතිය</string>

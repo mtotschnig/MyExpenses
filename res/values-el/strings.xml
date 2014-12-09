@@ -263,8 +263,6 @@
   <string name="pref_category_title_ui">Σύνδεση, διεπαφή με τον χρήστη</string>
   <string name="pref_contrib_donate_summary">Κάνετε δωρεά μέσω PayPal, Flattr ή Bitcoin και αποκτήστε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
   <string name="pref_contrib_donate_title">Στείλτε δωρεά</string>
-  <string name="pref_contrib_install_summary">Με την εγκατάσταση Έξοδα μου Contrib κλειδί, μπορείτε να αποκτήσετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
-  <string name="pref_contrib_install_title">Εγκαταστήσετε Contrib app</string>
   <string name="pref_enter_licence_summary">Εάν λάβατε ένα κλειδί Contrib, έχετε πρόσβαση σε χαρακτηριστικά γνωρίσματα ασφαλίστρου.</string>
   <string name="pref_enter_licence_title">Εισάγετε το κλειδί Contrib</string>
   <string name="pref_export_format_title"> Μορφή δεδομένων</string>

@@ -12,8 +12,6 @@
   <string name="menu_create_transfer_help_text">Transferiu diners entre comptes. Aquesta ordre està disponible només si teniu al menys un altre compte amb la mateixa moneda.</string>
   <string name="menu_create_split_help_text">Una operació repartida us permet assignar imports parcials a diferents categories o transferir-los a diferents comptes.</string>
   <string name="menu_edit_account_help_text">Modifiqueu les propietats del compte actual (títol, descripció, saldo inicial, tipus de compte, moneda, color).</string>
-  <string name="menu_grouping_help_text">Podeu agrupar les operacions per dia, setmana, mes o any. Per a cada grup, es calcularà i mostrarà la suma dels ingressos, despeses i transferències.</string>
-  <string name="menu_distribution_help_text">Mostra la distribució de les vostres despeses per categoria. També podeu clicar a la capçalera d\'un grup per a veure la distribució d\'un grup en particular.</string>
   <string name="menu_manage_plans_help_text">Obre la llista de plantilles i planificacions del compte actual, que us permet aplicar, modificar o suprimir-les, i també definir planificacions de les operacions futures i recurrents.</string>
   <string name="menu_create_account_help_text">Obre la pantalla per obrir un nou compte.</string>
   <!--ManageMethods title is in keys-->

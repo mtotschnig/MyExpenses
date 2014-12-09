@@ -275,8 +275,6 @@
   <string name="pref_category_title_ui">Пользовательский интерфейс</string>
   <string name="pref_contrib_donate_summary">Пожертвовать через PayPal, Flattr или Bitcoin и получить доступ к премиум функциям.</string>
   <string name="pref_contrib_donate_title">Отправить пожертвование</string>
-  <string name="pref_contrib_install_summary">Установив Мои расходы Contrib-ключ, вы получаете доступ к премиум функциям.</string>
-  <string name="pref_contrib_install_title">Установить Contrib-приложение</string>
   <string name="pref_enter_licence_summary">Если вы получили ключ Contrib, получите доступ к премиум функциям.</string>
   <string name="pref_enter_licence_title">Ввести Contrib-ключ</string>
   <string name="pref_export_format_title">Формат даты</string>

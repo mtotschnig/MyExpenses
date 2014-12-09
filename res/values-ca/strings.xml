@@ -275,8 +275,6 @@
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
   <string name="pref_contrib_donate_summary">Accediu a les característiques premium fent  una donació amb Paypal, Flattr o Bitcoin.</string>
   <string name="pref_contrib_donate_title">Envieu una donació</string>
-  <string name="pref_contrib_install_summary">Instal·lant Les meves despeses Clau Contrib, tindreu accés a funcions avançades.</string>
-  <string name="pref_contrib_install_title">Instal·la l\'aplicació Contrib</string>
   <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>
   <string name="pref_enter_licence_title">Entreu la clau del Contribuïdor</string>
   <string name="pref_export_format_title">Format de les dades</string>
