@@ -304,8 +304,8 @@
   <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
   <string name="pref_contrib_donate_summary_already_contrib">İlâve bir katkıda bulunmak istiyorsanız, Harcamalarımı flattr\'layabilir, PayPal vasıtasıyla bağışta bulunabilir ya da Bitcoin yollayabilirsiniz.</string>
   <string name="pref_contrib_donate_title">Bağışı gönder</string>
-  <string name="pref_contrib_install_summary">Harcamalarım Katkı Anahtarı uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
-  <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
+  <string name="pref_contrib_install_summary">Harcamalarım Katkı Anahtarı uygulamasını satın alarak tüm işlevlere erişebilirsiniz.</string>
+  <string name="pref_contrib_install_title">Katkı Anahtarını Satın Al (Uygulama içi ödeme)</string>
   <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>

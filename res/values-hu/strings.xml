@@ -239,8 +239,6 @@
   <string name="pref_category_title_ui">Felhasználói felület</string>
   <string name="pref_contrib_donate_summary">Támogasd a projektet PayPal, Flatter vagy Bitcoin segítségével és szerezz prémium hozzáférést az összes szolgáltatáshoz.</string>
   <string name="pref_contrib_donate_title">Támogatás küldése</string>
-  <string name="pref_contrib_install_summary">A prémium funkciók a Kiadásaim Contrib kulcs változatának telepítésével érhetők el.</string>
-  <string name="pref_contrib_install_title">Contrib app telepítése</string>
   <string name="pref_enter_licence_summary">Ha megkapta a Contrib kulcsot, hozzáférhet a Prémium szolgáltatásokhoz.</string>
   <string name="pref_enter_licence_title">Contrib kulcs megadása</string>
   <string name="pref_export_format_title">Adat formátum</string>

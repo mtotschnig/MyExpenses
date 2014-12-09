@@ -235,8 +235,6 @@
   <string name="pref_category_title_ui">用戶界面</string>
   <string name="pref_contrib_donate_summary">通過PayPal、Flattr或Bitcoin捐款，並獲得高級功能。</string>
   <string name="pref_contrib_donate_title">送上捐款</string>
-  <string name="pref_contrib_install_summary">通過安裝 開支助手 的貢獻補丁，您可以使用高級功能。</string>
-  <string name="pref_contrib_install_title">安裝貢獻補丁程式</string>
   <string name="pref_enter_licence_summary">如果你已收到貢獻密鑰並輸入，馬上就可以獲得高級功能。</string>
   <string name="pref_enter_licence_title">輸入貢獻密鑰</string>
   <string name="pref_export_format_title">日期格式</string>

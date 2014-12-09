@@ -300,8 +300,6 @@
   <string name="pref_contrib_donate_summary">Derma melalui PayPal, Flattr atau Bitcoin dan dapatkan capaian ke fitur premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Jika anda mahu memberi lagi sumbangan, anda boleh flattr Perbelanjaan Saya, beri derma melalui Paypal atau hantar Bitcoin.</string>
   <string name="pref_contrib_donate_title">Hantar derma</string>
-  <string name="pref_contrib_install_summary">Dengan memasang Kunci Contrib Perbelanjaan Saya, anda memperoleh capaian ke fitur premium.</string>
-  <string name="pref_contrib_install_title">Pasang apl Contrib</string>
   <string name="pref_custom_currency_title">Suaikan matawang</string>
   <string name="pref_enter_licence_summary">Jika ana menerima kunci Contrib, akan peroleh capaian ke fitur premium.</string>
   <string name="pref_enter_licence_title">Masukkan kunci Contrib</string>

@@ -208,8 +208,6 @@
   <string name="pref_category_title_more_information">Thêm thông tin</string>
   <string name="pref_category_title_security">An ninh</string>
   <string name="pref_category_title_ui">Giao diện người dùng</string>
-  <string name="pref_contrib_install_summary">Khi cài đặt chế độ cống hiến của Chi Tiêu Của Tôi, bạn được quyền truy cập các tính năng nâng cao</string>
-  <string name="pref_contrib_install_title">Cài đặt ứng dụng cống hiến</string>
   <string name="pref_enter_licence_summary">Khi cài đặt chế độ cống hiến của Chi Tiêu Của Tôi, bạn được quyền truy cập các tính năng nâng cao</string>
   <string name="pref_enter_licence_title">Điền vào mã cống hiến</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>

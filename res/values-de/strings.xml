@@ -304,8 +304,6 @@
   <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Wenn Sie einen zusätzlichen Beitrag leisten möchten, können Sie Meine Ausgaben flattren, mittels Paypal spenden oder Bitcoins senden.</string>
   <string name="pref_contrib_donate_title">Spenden</string>
-  <string name="pref_contrib_install_summary">Durch die Installation von Meine Ausgaben Contrib-Schlüssel erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
-  <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>

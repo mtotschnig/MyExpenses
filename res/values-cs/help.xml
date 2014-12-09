@@ -9,8 +9,6 @@
   <string name="menu_create_transfer_help_text">Převod peněz mezi účty. Tento příkaz je povolena pouze v případě, že máte alespoň jeden další účet se stejnou měnou, jako je ta současná.</string>
   <string name="menu_create_split_help_text">Rozdělení transakce umožňuje přiřadit dílčí částky pro různé kategorie nebo jako transfery na různé účty.</string>
   <string name="menu_edit_account_help_text">Upraví vlastnosti běžného účtu (název, popis, počáteční zůstatek, typ účtu, měna a barva).</string>
-  <string name="menu_grouping_help_text">Transakce lze seskupit pro den, týden, měsíc nebo rok. Pro každou skupinu je vypočítán a zobrazen součet příjmů, výdajů a převody  .</string>
-  <string name="menu_distribution_help_text">Zobrazí rozdělení nákladů podle jednotlivých kategorií. Můžete také klepnout na záhlaví skupiny pro kontrolu distribuce pro konkrétní skupiny.</string>
   <string name="menu_manage_plans_help_text">Otevře seznam šablon a plánů pro běžný účet, kde můžete použít, upravit nebo odstranit a také definovat plány pro budoucí a opakující se transakce.</string>
   <string name="menu_create_account_help_text">Otevře formulář pro vytvoření nového účtu.</string>
   <!--ManageMethods title is in keys-->

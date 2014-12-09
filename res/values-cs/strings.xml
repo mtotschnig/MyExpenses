@@ -248,8 +248,6 @@
   <string name="pref_category_title_ui">Uživatelské rozhraní</string>
   <string name="pref_contrib_donate_summary">Darujte přes PayPal, Flattr nebo Bitcoin a získat přístup k nadstandardním funkcím.</string>
   <string name="pref_contrib_donate_title">Odeslat příspěvek</string>
-  <string name="pref_contrib_install_summary">Instalací Moje výdaje Klíč Contrib, získáte přístup k nadstandardním funkcím.</string>
-  <string name="pref_contrib_install_title">Nainstalovat Contrib aplikaci </string>
   <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč pro Contrib verzi programu, získejte přístup k nadstandardním funkcím.</string>
   <string name="pref_enter_licence_title">Vložte klíč pro Contrib verzi programu</string>
   <string name="pref_export_format_title">Formát dat</string>
