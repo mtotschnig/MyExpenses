@@ -72,6 +72,64 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.3.9
+    - "2014-12-04"
+    -
+      en: |
+        Upon database restore, plans are now recreated. New translations: Bulgarian, Croatian and Romanian.
+      fr: |
+        A partir de la base de données de restauration, les échéances sont maintenant recréées . Nouvelles traductions: bulgare. croate et roumain.
+      de: |
+        Nach Wiederherstellung der Datenbank werden Pläne jetzt neu erstellt. Neue Übersetzungen: Bulgarisch, Kroatisch und Rumänisch.
+      it: |
+        Al ripristino del database, i piani sono ora ricreati. Nuove traduzioni: bulgaro, croato e rumeno.
+      es: |
+        Sobre restaurar base de datos, ahora se recrean los planes. Nuevas traducciones: búlgaro, croata y rumano.
+      pt: |
+        Após a restauração do banco de dados, planos agora são recriados. Novas traduções: Búlgaro, croata e romeno.
+      tr: |
+        Veritabanının geri alınmasında planlamalar yeniden oluşturulur. Yeni tercümeler: Bulgarca, Hırvatça ve Rumence.
+  -
+    - 2.3.8
+    - "2014-10-31"
+    -
+      en: |
+        Japanese translation. Transaction groups can be collapsed.
+      fr: |
+        Traduction en japonais. Les groupes d'opérations peuvent être réduits.
+      de: |
+        Japanische Übersetzung. Buchungsgruppen können ausgeblendet werden.
+      it: |
+        Traduzione giapponese. Gruppi di transazione possono essere compressi.
+      es: |
+        Traducción en japonés. Grupos de transacciones pueden ser derrumbados.
+      pt: |
+        Tradução em Japonês. Grupos de transação podem ser recolhidos.
+      tr: |
+        Japonca tercüme. Muamele grupları küçültülebilir.
+      ms: |
+        Terjemahan bahasa Jepun. Kumpulan transaksi boleh dikuncupkan.
+  -
+    - 2.3.7
+    - "2014-10-25"
+    -
+      en: |
+        Payment methods are sorted alphabetically.
+      fr: |
+        Les modes de paiement sont triés par ordre alphabétique.
+      de: |
+        Zahlungsmethoden werden alphabetisch sortiert.
+      it: |
+        Metodi di pagamento sono ordinati alfabeticamente.
+      es: |
+        Métodos de pago están ordenados por orden alfabético.
+      pt: |
+        Métodos de pagamento são classificados em ordem alfabética.
+      tr: |
+        Ödeme metotları alfabetik olarak sıralanır.
+      ms: |
+        Kaedah pembayaran diisih secara berabjad.
+  -
     - 2.3.6
     - "2014-10-21"
     -
