@@ -62,6 +62,7 @@
     licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_itext">iText from http://itextpdf.com, licensed under Affero General Public License .</string>
   <string name="help_licence_acra">Includes Acra from http://acra.ch/, licensed under Apache License, Version 2.0 .</string>
+  <string name="help_licence_openiab">Includes OpenIAB from https://github.com/onepf/OpenIAB, licensed under Apache License, Version 2.0 .</string>
 
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
