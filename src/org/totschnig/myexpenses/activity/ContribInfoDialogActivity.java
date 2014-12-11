@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -45,20 +46,22 @@ import android.widget.Toast;
         }
 
         mHelper = Distrib.getIabHelper(this);
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-          public void onIabSetupFinished(IabResult result) {
-              Log.d(MyApplication.TAG, "Setup finished.");
-
-              if (!result.isSuccess()) {
-                mSetupDone = false;
-                  // Oh noes, there was a problem.
-                complain("Problem setting up in-app billing: " + result);
-                return;
-              }
-              mSetupDone = true;
-              Log.d(MyApplication.TAG, "Setup successful.");
-          }
-        });
+        if (mHelper!=null) {
+          mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                Log.d(MyApplication.TAG, "Setup finished.");
+  
+                if (!result.isSuccess()) {
+                  mSetupDone = false;
+                    // Oh noes, there was a problem.
+                  complain("Problem setting up in-app billing: " + result);
+                  return;
+                }
+                mSetupDone = true;
+                Log.d(MyApplication.TAG, "Setup successful.");
+            }
+          });
+        }
 
         Feature f = (Feature) getIntent().getSerializableExtra(KEY_FEATURE);
 
@@ -88,11 +91,29 @@ import android.widget.Toast;
       return true;
     }
 
+    private void contribBuyBlackBerry() {
+      Intent i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("appworld://content/57168887"));
+      if (Utils.isIntentAvailable(this,i)) {
+        startActivity(i);
+      } else {
+        Toast.makeText(
+            this,
+            R.string.error_accessing_market,
+            Toast.LENGTH_LONG)
+            .show();
+      }
+    }
+    
     public void contribBuyDo() {
       if (MyApplication.getInstance().isContribEnabled()) {
           DonateDialogFragment.newInstance().show(
               getSupportFragmentManager(), "CONTRIB");
           return;
+      }
+      if (MyApplication.market.equals(Distrib.Market.BLACKBERRY)) {
+        contribBuyBlackBerry();
+        return;
       }
       if (mHelper==null) {
         finish();

@@ -65,6 +65,7 @@ import android.util.Log;
     )
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
+  public static final Distrib.Market market = Distrib.Market.BLACKBERRY;
   private static final int RETRY_LIMIT = 20;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
@@ -185,12 +186,10 @@ public class MyApplication extends Application implements
   public static final String KEY_OPERATION_TYPE = "operationType";
 
   public static String CONTRIB_SECRET = "RANDOM_SECRET";
-  public static String MARKET_PREFIX = "market://details?id=";
   public static String CALENDAR_FULL_PATH_PROJECTION = "ifnull("
       + Calendars.ACCOUNT_NAME + ",'') || '/' ||" + "ifnull("
       + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
       + ",'')";
-  // public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
   public boolean showImportantUpgradeInfo = false;
   private long mLastPause = 0;
@@ -850,6 +849,14 @@ public class MyApplication extends Application implements
     }
     return new Result(true, R.string.restore_calendar_success,
         restoredPlansCount);
+  }
+  public static String getMarketPrefix() {
+    switch(market) {
+    case AMAZON:
+      return "amzn://apps/android?p=";
+    default:
+      return "market://details?id=";
+    }
   }
 }
 

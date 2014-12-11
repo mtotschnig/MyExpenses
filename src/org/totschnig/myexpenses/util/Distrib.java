@@ -1,12 +1,6 @@
 package org.totschnig.myexpenses.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.onepf.oms.Appstore;
 import org.onepf.oms.OpenIabHelper;
-import org.onepf.oms.appstore.AmazonAppstore;
-import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.contrib.Config;
 
@@ -19,6 +13,10 @@ import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 public class Distrib {
+  
+  public enum Market {
+    PLAY,AMAZON,BLACKBERRY
+  }
   
   public static String STATUS_DISABLED = "0";
   
@@ -95,6 +93,9 @@ public class Distrib {
   }
 
   public static OpenIabHelper getIabHelper(Context ctx) {
+    if (MyApplication.market.equals(Distrib.Market.BLACKBERRY)) {
+      return null;
+    }
     OpenIabHelper.Options.Builder builder =
         new OpenIabHelper.Options.Builder()
            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)

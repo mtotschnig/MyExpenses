@@ -32,8 +32,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
 
       mHelper = Distrib.getIabHelper(this);
-      mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-        public void onIabSetupFinished(IabResult result) {
+      if (mHelper!=null) {
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+          public void onIabSetupFinished(IabResult result) {
             Log.d(MyApplication.TAG, "Setup finished.");
             if (mHelper==null) {
               return;
@@ -57,8 +58,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 }
               });
             }
-        }
-      });
+          }
+        });
+      }
     }
   }
 
