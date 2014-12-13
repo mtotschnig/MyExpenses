@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

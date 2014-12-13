@@ -30,4 +30,10 @@
     android:showAsAction="always"
     android:title="@string/menu_clone_transaction">
   </item>
+  <item
+    android:id="@id/SPLIT_TRANSACTION_COMMAND"
+    android:icon="@drawable/ic_menu_split"
+    android:showAsAction="always"
+    android:title="@string/menu_split_transaction">
+  </item>
 </menu>
