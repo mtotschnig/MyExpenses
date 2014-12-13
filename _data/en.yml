@@ -45,11 +45,11 @@ en:
     licence-howto-buy:
       intro: |
         You have the following options for purchasing the Contrib licence:
-      gplay: |
-        If you have installed My Expenses from Google Play, it is available as in-app purchase.
-      amazon: |
-        If you have installed My Expenses from Amazon App Store, install
-        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+      in-app: |
+        If you have installed My Expenses from Google Play or Amazon App Store, it is available as in-app purchase.
+      blackberry: |
+        If you have installed My Expenses from Blackberry World, install
+        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
       other: |
         If you have downloaded My Expenses from F-Droid, Androidpit or Github,
         send a donation via one of the following:
@@ -58,30 +58,6 @@ en:
       key: |
         and then request the licence key from the settings screen.
         Once you receive it by email, enter it also from the settings screen.
-      outro: |
-        Google and Amazon charge 30% of the transaction amount, Flattr 10%, Paypal approximately 0,45€.
-        So if it is convenient for you, I encourage you to install My Expenses from F-Droid, Androidpit
-        or Github and send your donation by money transfer, Paypal or Flattr.
-  participate:
-    intro: |
-      With your support, <span class="application">My Expenses</span> keeps growing in functionality, while being distributed
-      ad free and Open Source.
-    submit_issue: |
-      <span class="application">My Expenses</span> evolves through your reports and suggestions.
-      If you find a problem or think of an improvement,
-      create a <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>, in Github's Issue Tracker.
-    test: |
-      If you are interested in helping to test upcoming versions, please join the
-      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> Google
-      Group.
-    translate: |
-      You can also help <a class="intern" href="#translate">translate</a> <span class="application">My Expenses</span> into new languages.
-    premium: |
-      Please consider purchasing a <a class="intern" href="#premium">Contrib licence</a> for unrestricted access to all Premium features.
-  google-play:
-    - "Keep track of your expenses and incomes."
-    - "Manage them directly on your smartphone." 
-    - "Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or  MS Money."
   permissions-heading: |
     My Expenses requires the following permissions
   permissions-calendar: |

@@ -45,10 +45,10 @@ de:
     licence-howto-buy:
       intro: |
         Die Contrib Lizenz kann auf folgenden Wegen erworben werden:
-      gplay: |
-        Wenn Sie Meine Ausgaben von Google Play installiert haben, steht diese als In-App-Kauf zur Verfügung.
-      amazon: |
-        Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://www.amazon.de/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Meine Ausgaben Contrib</a>.
+      in-app: |
+        Wenn Sie Meine Ausgaben von Google Play oder Amazon AppStore installiert haben, steht diese als In-App-Kauf zur Verfügung.
+      blackberry: |
+        Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
       other: |
         Wenn Sie meine Ausgaben von F-Droid, Androidpit oder Github bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
       transfer: |
