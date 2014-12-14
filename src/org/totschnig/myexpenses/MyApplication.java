@@ -65,7 +65,7 @@ import android.util.Log;
     )
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
-  public static final Distrib.Market market = Distrib.Market.BLACKBERRY;
+  public static final Distrib.Market market = Distrib.Market.PLAY;
   private static final int RETRY_LIMIT = 20;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
