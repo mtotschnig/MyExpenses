@@ -75,9 +75,29 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_CLONE:
       for (long id : (Long[]) ids) {
         t = Transaction.getInstanceFromDb(id);
-        t.crStatus = CrStatus.UNRECONCILED;
-        if (t != null && t.saveAsNew() != null)
-          successCount++;
+        if (t!=null) {
+          t.crStatus = CrStatus.UNRECONCILED;
+          if (t.saveAsNew() != null)
+            successCount++;
+        }
+      }
+      return successCount;
+    case TaskExecutionFragment.TASK_SPLIT:
+      for (long id : (Long[]) ids) {
+        t = Transaction.getInstanceFromDb(id);
+        if (t!=null  && !(t instanceof SplitTransaction)) {
+          SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId,false);
+          parent.amount = t.amount;
+          parent.save();
+          cr = MyApplication.getInstance().getContentResolver();
+          values = new ContentValues();
+          values.put(DatabaseConstants.KEY_PARENTID, parent.getId());
+          if (cr.update(
+              TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+              values,null,null)>0) {
+            successCount++;
+          }
+        }
       }
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:

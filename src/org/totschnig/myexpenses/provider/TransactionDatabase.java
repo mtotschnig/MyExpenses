@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -37,6 +36,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -453,8 +453,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 30) {
       db.execSQL("ALTER TABLE transactions add column parent_id integer references transactions (_id)");
-      db.execSQL("CREATE VIEW committed AS SELECT * FROM transactions WHERE status != 2;");
-      db.execSQL("CREATE VIEW uncommitted AS SELECT * FROM transactions WHERE status = 2;");
+//      db.execSQL("CREATE VIEW committed AS SELECT * FROM transactions WHERE status != 2;");
+//      db.execSQL("CREATE VIEW uncommitted AS SELECT * FROM transactions WHERE status = 2;");
       ContentValues initialValues = new ContentValues();
       initialValues.put("_id", 0);
       initialValues.put("parent_id", 0);
@@ -557,11 +557,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP VIEW IF EXISTS uncommitted");
       //for the definition of the view, it is safe to rely on the constants,
       //since we will not alter the view, but drop it, and recreate it, if needed
-      String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
-      db.execSQL("CREATE VIEW transactions_committed "  + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS +  " = " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
-      db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
+//      String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
+//      db.execSQL("CREATE VIEW transactions_committed "  + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+//      db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS +  " = " + STATUS_UNCOMMITTED + ";");
+//      db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
+//      db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
     }
     if (oldVersion < 37) {
       db.execSQL("ALTER TABLE transactions add column number text");
@@ -575,17 +575,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE templates add column plan_execution boolean default 0");
     }
     if (oldVersion < 39) {
-      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+//      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+//      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
       db.execSQL("CREATE TABLE currency (_id integer primary key autoincrement, code text unique not null);");
       insertCurrencies(db);
     }
     if (oldVersion < 40) {
       //added currency to extended view
-      db.execSQL("DROP VIEW transactions_extended");
-      db.execSQL("DROP VIEW templates_extended");
-      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      db.execSQL("DROP VIEW IF EXISTS transactions_extended");
+      db.execSQL("DROP VIEW IF EXISTS templates_extended");
+//      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+//      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
     if (oldVersion < 41) {
       db.execSQL("CREATE TABLE planinstance_transaction " +
@@ -723,8 +723,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       //added  to extended view
       db.execSQL("DROP VIEW IF EXISTS transactions_extended");
       db.execSQL("DROP VIEW IF EXISTS templates_extended");
-      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+//      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+//      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
     if (oldVersion < 46) {
       db.execSQL("ALTER TABLE payee add column name_normalized text");
@@ -764,7 +764,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       //need to inline to protect against later renames
       if (oldVersion < 47) {
         String[] projection = new String[] {
-            "_id",
+            "templates._id",
             "amount",
             "comment",
             "cat_id",
@@ -789,17 +789,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "transfer_account",
             "account_id",
             "method_id",
-            "method_label",
+            "paymentmethods.label AS method_label",
             "title",
             "plan_id",
             "plan_execution",
             "uuid",
             "currency"
           };
-        Cursor c = db.query(
-            "templates_extended",
-            projection,
-            null, null, null,null,null);
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables("templates LEFT JOIN payee ON payee_id = payee._id" +
+          " LEFT JOIN accounts ON account_id = accounts._id" +
+          " LEFT JOIN paymentmethods ON method_id = paymentmethods._id");
+        Cursor c = qb.query(db, projection, null, null, null, null, null);
         if (c!=null) {
           if (c.moveToFirst()) {
             ContentValues templateValues = new ContentValues(),

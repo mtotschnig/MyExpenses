@@ -26,3 +26,13 @@ file_filter = res/values-<lang>/upgrade.xml
 source_lang = en
 source_file = doc/categories-sample-src/categories_sample-en.xml
 file_filter = doc/categories-sample-src/categories_sample-<lang>.xml
+
+[my-expenses.contrib]
+source_lang = en
+source_file = ../../workspace/MyExpensesContrib/res/values/strings.xml
+file_filter = ../../workspace/MyExpensesContrib/res/values-<lang>/strings.xml
+
+[my-expenses.website]
+source_lang = en
+source_file = ../MyExpenses.pages/_data/en.yml
+file_filter = ../MyExpenses.pages/_data/<lang>.yml

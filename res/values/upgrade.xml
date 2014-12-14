@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_240">
+    <item>Transform normal transaction into split transaction</item>
+  </string-array>
   <string-array name="whats_new_239">
     <item>Upon database restore, plans are now recreated</item>
     <item>New translations: Bulgarian, Croatian and Romanian</item>

@@ -89,4 +89,5 @@
   <item type="id" name="SET_SORT_KEY_COMMAND"/>
   <item type="id" name="EXCLUDE_FROM_TOTALS_COMMAND"/>
   <item type="id" name="QUIT_COMMAND" />
+  <item type="id" name="SPLIT_TRANSACTION_COMMAND" />
 </resources>

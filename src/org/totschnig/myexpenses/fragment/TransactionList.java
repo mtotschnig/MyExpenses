@@ -295,6 +295,13 @@ public class TransactionList extends ContextualActionBarFragment implements
           null,
           0);
       break;
+    case R.id.SPLIT_TRANSACTION_COMMAND:
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          TaskExecutionFragment.TASK_SPLIT,
+          itemIds,
+          null,
+          0);
+      break;
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
@@ -649,28 +656,34 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu,info.position);
+    configureMenuInternal(menu,isSplitAtPosition(info.position));
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
     super.configureMenu11(menu, count);
-    if (count==1) {
-      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-      for (int i=0; i<checkedItemPositions.size(); i++) {
-        if (checkedItemPositions.valueAt(i)) {
-          configureMenuInternal(menu,checkedItemPositions.keyAt(i));
-          break;
-        }
+    SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+    boolean hasSplit = false;
+    for (int i=0; i<checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i) && isSplitAtPosition(checkedItemPositions.keyAt(i))) {
+        hasSplit = true;
+        break;
       }
     }
+    configureMenuInternal(menu, hasSplit);
   }
-  private void configureMenuInternal(Menu menu, int position) {
+  private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
       //templates for splits is not yet implemented
       if (mTransactionsCursor.moveToPosition(position) &&
-          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
-        menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(false);
+          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
+        return true;
+      }
     }
+    return false;
+  }
+  private void configureMenuInternal(Menu menu, boolean hasSplit) {
+    menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(!hasSplit);
+    menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit);
   }
   @SuppressLint("NewApi")
   public void onDrawerOpened() {
