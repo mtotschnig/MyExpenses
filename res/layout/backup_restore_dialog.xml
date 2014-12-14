@@ -20,17 +20,12 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/general_padding"
         android:paddingRight="@dimen/general_padding"
-        android:shrinkColumns="1"
-        android:stretchColumns="1" >
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
 
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/filename" />
+        <include layout="@layout/filename" />
 
         <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:gravity="center_vertical" >
 
             <TextView
