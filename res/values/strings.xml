@@ -41,6 +41,11 @@
 	    <item quantity="one">Transaction successfully cloned.</item>
 	    <item quantity="other">%1$d transactions were successfully cloned.</item>
     </plurals>
+    <string name="split_transaction_error">Could not transform transaction to split.</string>
+    <plurals name="split_transaction_success">
+      <item quantity="one">Transaction successfully transformed to split.</item>
+      <item quantity="other">%1$d transactions were successfully transformed to splits.</item>
+    </plurals>
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>

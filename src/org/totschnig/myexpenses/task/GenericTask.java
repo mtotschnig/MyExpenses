@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -83,11 +84,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return successCount;
     case TaskExecutionFragment.TASK_SPLIT:
-      for (long id : (Long[]) ids) {
-        t = Transaction.getInstanceFromDb(id);
+      //ids could have been passed through bundle to ContribInfoDialog
+      //and in bundle uses its type as long array (becomes object array)
+      //https://code.google.com/p/android/issues/detail?id=3847
+      for (T id : ids) {
+        t = Transaction.getInstanceFromDb((Long) id);
         if (t!=null  && !(t instanceof SplitTransaction)) {
           SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId,false);
           parent.amount = t.amount;
+          parent.setDate(t.getDate());
           parent.save();
           cr = MyApplication.getInstance().getContentResolver();
           values = new ContentValues();
@@ -99,6 +104,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
       }
+      ContribFeature.Feature.SPLIT_TRANSACTION.recordUsage();
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:

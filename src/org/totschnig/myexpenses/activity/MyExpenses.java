@@ -740,7 +740,15 @@ public class MyExpenses extends LaunchActivity implements
       startActivity(i);
       break;
     case SPLIT_TRANSACTION:
-      createRow(TYPE_SPLIT);
+      if (tag==null) {
+        createRow(TYPE_SPLIT);
+      } else {
+        startTaskExecution(
+            TaskExecutionFragment.TASK_SPLIT,
+            (Object[]) tag,
+            null,
+            0);
+      }
       break;
     case RESET_ALL:
       DialogUtils.showWarningResetDialog(this, mAccountId);
@@ -917,6 +925,12 @@ public class MyExpenses extends LaunchActivity implements
       Integer successCount = (Integer) o;
       String msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
         getResources().getQuantityString(R.plurals.clone_transaction_success, successCount, successCount);
+      Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
+      break;
+    case TaskExecutionFragment.TASK_SPLIT:
+      successCount = (Integer) o;
+      msg = successCount == 0 ?  getString(R.string.split_transaction_error) :
+        getResources().getQuantityString(R.plurals.split_transaction_success, successCount, successCount);
       Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
       break;
     case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:

@@ -256,7 +256,8 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
-    FragmentManager fm = getActivity().getSupportFragmentManager();
+    MyExpenses ctx = (MyExpenses) getActivity();
+    FragmentManager fm = ctx.getSupportFragmentManager();
     switch(command) {
     case R.id.DELETE_COMMAND:
       boolean hasReconciled = false;
@@ -289,18 +290,19 @@ public class TransactionList extends ContextualActionBarFragment implements
         .show(fm,"DELETE_TRANSACTION");
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+      ctx.startTaskExecution(
           TaskExecutionFragment.TASK_CLONE,
           itemIds,
           null,
           0);
       break;
     case R.id.SPLIT_TRANSACTION_COMMAND:
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-          TaskExecutionFragment.TASK_SPLIT,
-          itemIds,
-          null,
-          0);
+      if (MyApplication.getInstance().isContribEnabled()) {
+        ctx.contribFeatureCalled(Feature.SPLIT_TRANSACTION, itemIds);
+      }
+      else {
+        CommonCommands.showContribDialog(ctx,Feature.SPLIT_TRANSACTION, itemIds);
+      }
       break;
       //super is handling deactivation of mActionMode
     }
