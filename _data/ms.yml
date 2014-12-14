@@ -1,0 +1,64 @@
+ms_MY:
+  imprint: Imprint
+  hero_main: "Pengurus kewangan persendirian untuk Android"
+  hero_sub:
+    use: "Mudah digunakan"
+    functionality: "Penuh kefungsian"
+    source: "Sumber Terbuka"
+  menu_title:
+    more_information: Lagi maklumat
+  sections:
+    features: Fitur
+    premium: Dapatkan Premium
+    participate: Sertai
+    faq: FAQ
+    versionlist: Log perubahan
+    credits: Penghargaan
+    licence: Lesen
+    sourcecode: Kod sumber
+    links: Pautan
+  features:
+    manage_accounts: Sehingga lima akaun dengan pemindahan
+    plans: Takrif templat dan pelan untuk transaksi akan datang dan berulang
+    grouped_list: Transaksi kelompok per hari, minggu, bulan, tahun dan papar jumlah per kumpulan
+    distribution: Dua aras kategori (import dari XML Grisbi)
+    split: Transaksi pisah (Versi Contrib)
+    calculator: Kalkulator
+    export: Eksport ke QIF dan CSV (MS Excel), boleh dikongsi secara automatik (melalui emel, FTP, Dropbox, ...)
+    password: Perlindungan kata laluan
+    help: Bantuan Bersepadu
+    backup: Sandar dan pulih data
+    light_theme: "Dua tema: cerah dan gelap"
+  contrib:
+    thank_you: |
+      Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
+    feature-list-title: |
+      Fitur Premium berikut boleh dibuka dengan mendapatkan lesen Contrib:
+    feature:
+      accounts_unlimited: Bilangan akaun tidak terhad
+      plans_unlimited: Bilang pelan tidak terhad
+      distribution: Agihan transaksi per kategori
+      split_transaction: Transaksi pisah
+      security_question: Soalan keselamatan
+      reset_all: Tetap semula semua akaun
+      template_widget: Widget  templat
+      print: Eksport senarai transaksi menjadi PDF
+    licence-howto-buy:
+      intro: |
+        Anda mempunyai pilihan berikut untuk membeli lesen Contrib:
+      other: |
+        Jika anda telah memuat turun My Expenses dari F-Droid, Androidpit atau Github,
+        hantar derma melalui salah satu berikut:
+      transfer: |
+        Selain itu, pindah wang ke maklumat akaun berikut:
+      key: |
+        dan kemudian pohon kunci lesen dari skrin tetapan.
+        Bilamana anda menerimanya dari emel, masukkannya juga dari skrin tetapan.
+  permissions-heading: |
+    My Expenses memerlukan keizinan berikut
+  permissions-calendar: |
+    Membaca dan menulis kalendar: Pelan unutk transaksi akan datang dan berulang disimpan sama ada dalam kalendar setempat khas atau mana-mana kalendar lain yang anda tentukan.
+  permissions-external-storage: |
+    Penulisan storan USB: Storan fail eksport dan sandar QIF dan CSV
+  permissions-internet: |
+    Komunikasi rangkaian: Laporan kerosakan dihantar secara automatik kepada pembanguna melainkan ia dimatikan oleh pengguna dalam keutamaan apl.

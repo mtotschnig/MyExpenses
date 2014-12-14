@@ -21,15 +21,18 @@ tr:
     manage_accounts: Transferleri dikkate alan 5 hesap
     plans: Gelecekteki ve tekrar eden muameleler için plan tanımlaması
     grouped_list: Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle
-    distribution: İki kategori seviyesi (Grisbi XML dosyalarından içe aktarım)
+    distribution: İki kategori seviyesi (Grisbi XML ve QIF dosyalarından içeri aktarım)
     split: Bölünmüş muameleler (Ücretli işlev)
     calculator: Hesap makinesi
     export: QIF ve CSV (MS Excel) dosyası olarak dışa aktarma, Dışa aktarım dosyalarının FTP ya da e-posta ile yedeklenmeleri
+    import: QIF verilerinin içe aktarımı
     password: Parola ile güvenlik
     help: Entegre yardım
     backup: Veri yedekleme ve geri yükleme
     light_theme: "İki tema: karanlık ve aydınlık"
   contrib:
+    thank_you: |
+      Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
     feature-list-title: |
       Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
       edersiniz:
@@ -45,12 +48,10 @@ tr:
     licence-howto-buy:
       intro: |
         Katkı lisansını satın almak için şu seçenekler mevcuttur:
-      gplay: |
-        Eğer Harcamalarımı Google Play'den indirdiyseniz,
-        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Harcamalarım Katkı sürümünü</a> kurunuz.
-      amazon: |
-        Eğer Harcamalarımı Amazon App Store'dan indirdiyseniz,
-        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Harcamalarım Katkı sürümünü</a> kurunuz.
+      in-app: |
+        Eğer Harcamalarımı Google Play ya da Amazon App Store'dan kurduysanız, uygulama içi satın almak mümkündür.
+      blackberry: |
+        Eğer Harcamalarımı Blackberry World'dan indirdiyseniz, <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Harcamalarım Katkı sürümünü</a> kurunuz.
       other: |
         Eğer Harcamalarımı F-Droid, Androidpit ya da Github'dan indirdiyseniz,
         aşağıdaki seçeneklerden biriyle bağış gönderiniz:
@@ -59,29 +60,6 @@ tr:
       key: |
         ve bunun ardından ayarlar ekranından bir lisans anahtarı talep ediniz.
         E-posta ile anahtarı aldıktan sonra yine ayarlar ekranından onu giriniz.
-      outro: |
-        Google ve Amazon muamele meblağının %30'unu ücret olarak alırlar, Flattr %10'unu, Paypal ise yaklaşık 0,45€ alır.
-        Dolayısıyla sizin için kolaysa Harcamalarımı F-Droid, Androidpit ya da Github'dan inidirip
-        ödemeyi Paypal, Flattr ya da banka virmanı ile yapmanızı teşvik ederim.
-  participate:
-    intro: |
-      Desteğiniz sayesinde <span class="application">Harcamalarım</span> yeni özellikler kazanmakta ve
-      reklamsız, özgür ve açık kaynak olarak yayınlanmaktadır.
-    submit_issue: |
-      <span class="application">Harcamalarım</span> raporlarınız ve önerileriniz sayesinde gelişmektedir.
-      Bir sorun bulursanız ya da geliştirme öneriniz varsa,
-      Github'ın Hata izleyicisinde <a href="https://github.com/mtotschnig/MyExpenses/issues/new">yeni bir hata</a> oluşturunuz.
-    test: |
-      Gelecek sürümleri denemek istiyorsanız, lütfen
-      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">Harcamalarımı Deneme</a> Googe Grubuna üye olunuz.
-    translate: |
-      <span class="application">Harcamalarımı</span> yeni dillere <a class="intern" href="#translate">tercüme ederek</a> de yardımda bulunabilirsiniz.
-    premium: |
-      Tüm ücretli sınırsızca işlevlere erişebilmek için <a class="intern" href="#premium">Katkı lisansı</a> almayı değerlendiriniz.
-  google-play:
-  - Gelirleriniz ve harcamalarınızı takip edin.
-  - Akıllı telefonunuzda doğrudan yönetin.
-  - Grisbi (Open Source), Gnucash (Open Source), Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.
   permissions-heading: |
     Harcamalarım aşağıdaki izinlere ihtiyaç duyar:
   permissions-calendar: |

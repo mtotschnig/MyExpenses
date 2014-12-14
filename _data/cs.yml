@@ -30,6 +30,8 @@ cs:
     backup: Obnovení a zálohování dat
     light_theme: "Dvě témata: světlé a tmavé"
   contrib:
+    thank_you: |
+      Váš příspěvek podporuje další rozvoj Moje výdaje. Děkuji!
     feature-list-title: |
       Následující prémiové funkce, mohou být odemknuty získáním Contrib licence:
     feature:
@@ -44,10 +46,8 @@ cs:
       intro: |+
         Máte následující možnosti pro nákup Contrib licence:
 
-      gplay: |
-        Pokud jste nainstalovali Moje výdaje ze služby Google Play, nainstalujte si <a  class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib"> My Expenses Contrib </a>.
-      amazon: |
-        Pokud jste nainstalovali Moje výdaje z Amazon App Store, nainstalujte si<a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib"> Moje výdaje Contrib </a>.
+      blackberry: |
+        Pokud jste nainstalovali Moje výdaje ze služby Blackberry World, nainstalujte si <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887"> My Expenses Contrib </a>.
       other: |
         Pokud jste si stáhli Moje výdaje z F-Droid, Androidpit nebo Github, pošlete svůj dar pomocí jedné z následujících cest:
       transfer: |
@@ -55,25 +55,6 @@ cs:
       key: |
         a poté požádejte o licenční klíč z obrazovky nastavení.
         Jakmile jej obdržíte prostřednictvím e-mailu, zadejte ho také z obrazovky nastavení.
-      outro: |
-        Google a Amazon si účtují 30 % z transakce, Flattr 10 %, Paypal cca 0,45€.
-        Takže pokud je pro vás možné, doporučujeme vám nainstalovat My výdaje z F-Droid, Androidpit nebo Github a poslat váš dar převodem z Paypal nebo Flattr.
-  participate:
-    intro: |
-      S vaší podporou a <span class="application"> Moje výdaje</span> neustále rošiřují svoje funkce a mohou být distribuovány zdarma a mít otevřený vývoj.
-    submit_issue: |
-      <span class="application"> Moje výdaje</span> se vyvíjí prostřednictvím vašich zpráv a návrhů.
-      Pokud najdete problém nebo máte nápad na zlepšení, vytvořte na <a href="https://github.com/mtotschnig/MyExpenses/issues/new"> nové téma</a>, Github Issue Tracker.
-    test: |
-      Pokud máte zájem pomoci nám při testování připravovaných verzích, připjte se prosím do<a href="https://groups.google.com/forum/#!forum/my-expenses-testing"> My Expenses testování</a> Google skupina.
-    translate: |
-      Můžete také pomoci <a class="intern" href="#translate"> přeložit</a> <span class="application"> My expenses</span> do nových jazyků.
-    premium: |
-      Prosím, zvažte nákup <a class="intern" href="#premium"> Contrib licenci</a> pro neomezený přístup ke všem funkcím Premium.
-  google-play:
-  - Sledujte své výdaje a příjmy.
-  - Spravujte je přímo na vašem smartphone.
-  - Exportujte je do finančního programu ve vašem PC jako jsou Grisbi, GnuCash, Quicken nebo MS Money.
   permissions-heading: |+
     Moje výdaje vyžadují následující oprávnění:
 

@@ -31,6 +31,8 @@ en:
     backup: Data backup and restore
     light_theme: "Two themes: light and dark"
   contrib:
+    thank_you: |
+      Your contribution supports the further development of My Expenses. Thank you!
     feature-list-title: |
       The following Premium features can be unlocked by acquiring a Contrib licence:
     feature:

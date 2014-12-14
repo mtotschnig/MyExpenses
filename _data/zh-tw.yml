@@ -37,9 +37,6 @@ zh-tw:
     licence-howto-buy:
       intro: |
         你有以下選擇來購買高級功能的授權：
-  participate:
-    translate: |
-      你可以幫助 <a class="intern" href="#translate">translate</a> <span class="application">我的帳簿</span> 的翻譯工作。
   permissions-heading: |
     My Expenses 需要以下權限
   permissions-calendar: |

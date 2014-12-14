@@ -21,16 +21,18 @@ fr:
     manage_accounts: Jusqu'à cinq comptes avec virements
     plans: Définir des modèles et un échéancier pour les opérations futures et périodiques
     grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
-    distribution: Deux niveaux de catégories (importation de Grisbi XML et QIF)
+    distribution: Deux niveaux de catégories (importable à partir du fichier Grisbi)
     split: Opérations ventilées
     calculator: Calculatrice
     export: Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...)
-    import: Importation de QIF
+    import: Importer des données QIF
     password: Protection par mot de passe
     help: Aide integrée
     backup: Sauvegarde et restauration de données
     light_theme: "Deux thèmes: clair et sombre"
   contrib:
+    thank_you: |
+      Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
     feature-list-title: |
       Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
     feature:
@@ -45,11 +47,10 @@ fr:
     licence-howto-buy:
       intro: |
         Vous avez les options suivantes pour l'achat de la licence de Contrib :
-      gplay: |
-        Si vous avez installé Mes Dépenses depuis Google Play, elle est disponible en tant qu'achat via l'application.
-      amazon: |
-        Si vous avez installé Mes Dépenses depuis Amazon App Store, installez
-        <a class="track" id="amazon-contrib" href="http://www.amazon.fr/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mes Dépenses Contrib</a>.
+      in-app: |
+        Si vous avez installé Mes Dépenses depuis Google Play ou Amazon App Store, elle est disponible en tant qu'achat via l'application.
+      blackberry: |2
+         Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
       other: |
         Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Androidpit ou Github, envoyez un don par l'une des opérations suivantes :
       transfer: |
@@ -57,28 +58,6 @@ fr:
       key: |
         et ensuite demandez la clé de licence dans l'écran Paramètres.
         Une fois reçue par courriel, entrez-la également dans l'écran Paramètres.
-      outro: |
-        Google et Amazon prennent des frais d'un montant de 30%  de la transaction, Flattr de 10%, Paypal d'environ 0,45€.
-        Donc s'il vous est possible, je vous encourage à installer Mes Dépenses à partir de F-Droid, Androidpit
-        ou Github et d'envoyer votre don par virement, Paypal ou Flattr.
-  participate:
-    intro: |
-      Avec votre soutien, <span class="application">Mes dépenses</span> ne cesse de croître en fonctionnalités, tout en étant distribué sans publicité et Open Source.
-    submit_issue: |
-      <span class="application">My Expenses</span> évolue à travers votre retour d'expérience et vos
-      suggestions. Si vous rencontrez un problème ou imaginez une amélioration, ajoutez une
-      <a href="https://github.com/mtotschnig/MyExpenses/issues/new">entrée</a> dans le Issue Tracker de Github.
-    test: |
-      Si vous êtes intéressé à tester les versions futures, rejoignez le Google groupe
-      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
-    translate: |
-      Vous pouvez aussi aider à <a class="intern" href="#translate">traduire</a> <span class="application">My Expenses</span> dans d'autres langues.
-    premium: |
-      S'il vous plaît envisager l'achat d'une <a class="intern" href="#premium">licence Contrib</a> pour un accès illimité à toutes les fonctions Premium.
-  google-play:
-  - Gardez une trace de vos dépenses et revenus.
-  - Gérez-les directement sur votre smartphone.
-  - Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.
   permissions-heading: |
     Mes Dépenses demande les permissions suivantes :
   permissions-calendar: |

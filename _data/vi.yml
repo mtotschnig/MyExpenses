@@ -1,9 +1,10 @@
 vi:
+  imprint: Imprint
   hero_main: "Quản lý tài chính cá nhân trên Android"
   hero_sub:
-    use:           "Dễ dàng sử dụng"
+    use: "Dễ dàng sử dụng"
     functionality: "Sở hữu nhiều chức năng"
-    source:        "Mã nguồn mở"
+    source: "Mã nguồn mở"
   menu_title:
     more_information: Thêm thông tin
   sections:
@@ -17,12 +18,13 @@ vi:
   features:
     manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính
     grouped_list: Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
-    distribution: Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi)
     split: Phân tích giao dịch (Tính năng nâng cao)
     calculator: Máy tính hỗ trợ
-    export: |
-      Xuất sang định dạng QIF hoặc CSV (dùng cho Excel), Chia sẻ các tập tin dữ liệu được xuất ra
+    export: 'Xuất sang định dạng QIF hoặc CSV (dùng cho Excel), Chia sẻ các tập tin dữ liệu được xuất ra
+
       (thông qua email, FTP, Dropbox...)
+
+      '
     password: Bảo vệ bởi mật khẩu an toàn
     help: Trợ giúp tích hợp
     backup: Sao lưu và phục hồi dữ liệu
@@ -33,12 +35,8 @@ vi:
       tính năng của phiên bản nâng cao:
     feature:
       accounts_unlimited: Không giới hạn số lượng các tài khoản
-      plans_unlimited:    Unlimited number of plans
-      distribution:       Tác động phân phối các giao dịch cho mỗi phân loại
-      split_transaction:  Phân tích giao dịch
-      security_question:  Câu hỏi an ninh
-      reset_all:          Thiết đặt lại tất cả tài khoản
-  google-play:
-    - Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.
-    - Quản lý tài chính thông qua điện thoại của bạn.
-    - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.
+      plans_unlimited: Unlimited number of plans
+      distribution: Tác động phân phối các giao dịch cho mỗi phân loại
+      split_transaction: Phân tích giao dịch
+      security_question: Câu hỏi an ninh
+      reset_all: Thiết đặt lại tất cả tài khoản

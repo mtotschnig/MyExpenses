@@ -1,0 +1,63 @@
+ja:
+  imprint: 印象
+  hero_main: "Android 用、パーソナル ファイナンス マネージャー"
+  hero_sub:
+    use: "使いやすい"
+    functionality: "豊富な機能"
+    source: "オープンソース"
+  menu_title:
+    more_information: 詳細な情報
+  sections:
+    features: 特長
+    premium: プレミアムに移動
+    participate: 参加
+    faq: FAQ
+    versionlist: 変更履歴
+    credits: クレジット
+    licence: ライセンス
+    sourcecode: ソースコード
+    links: リンク
+  features:
+    manage_accounts: 転記できる最大5つの勘定
+    plans: 将来の繰り返し取引用のテンプレートと計画を定義
+    grouped_list: 日、週、月、年ごとの取引をグループ化、グループごとの合計を表示
+    distribution: 2つのレベルの分類 (Grisbi XML からインポート)
+    split: 取引の分割 (貢献版)
+    calculator: 電卓
+    export: QIF と CSV (MS Excel) へのエクスポートは、自動的に共有することができます (Eメール、FTP、Dropbox ... 経由)
+    password: パスワード保護
+    help: 統合されたヘルプ
+    backup: データバックアップおよび復元
+    light_theme: "2つのテーマ: ライトおよびダーク"
+  contrib:
+    thank_you: |
+      あなたの貢献は、マイ エクスペンス のさらなる開発を支援します。ありがとうございます!
+    feature-list-title: |
+      次のプレミアム機能は、貢献ライセンスを取得するとロック解除できます:
+    feature:
+      accounts_unlimited: 無制限の勘定数
+      plans_unlimited: 無制限の計画数
+      distribution: 分類ごとの仕訳の分布
+      split_transaction: 仕訳を分割
+      security_question: セキュリティの質問
+      reset_all: すべての勘定をリセット
+      template_widget: テンプレート ウィジェット
+      print: 取引リストを PDF にエクスポート
+    licence-howto-buy:
+      intro: |
+        貢献ライセンスを購入するには、次のオプションがあります:
+      other: |
+        F-Droid、Androidpit、またはGithub から My Expenses をダウンロードしている場合は、次の方法で寄付を送ってください:
+      transfer: |
+        別の方法としては、次のアカウント情報にお金を送ってください:
+      key: |
+        その後、設定画面からライセンスキーをリクエストしてください。
+        Eメールでライセンスキーを受け取ったら、設定画面から入力してください。
+  permissions-heading: |
+    My Expenses は次のアクセス許可が必要です
+  permissions-calendar: |
+    カレンダーの読み込みと書き込み: 将来の繰り返しの取引の計画は、特別なローカル カレンダーか、自分で割り当てた他のカレンダーのいずれかに保存されます。
+  permissions-external-storage: |
+    USB ストレージへの書き込み: QIF および CSV のエクスポートやバックアップ ファイルを保存します
+  permissions-internet: |
+    ネットワーク通信: アプリのプリファレンスで、ユーザーが非アクティブにしない限り、クラッシュ レポートが自動的に開発者に送信されます。

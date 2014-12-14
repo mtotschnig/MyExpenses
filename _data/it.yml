@@ -1,5 +1,5 @@
 it:
-  imprint: Colophon
+  imprint: Imprint
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
     use: "Facile da usare"
@@ -8,83 +8,65 @@ it:
   menu_title:
     more_information: Maggiori informazioni
   sections:
-    features: Funzionalità
-    premium: Vai Premium
+    features: Funzioni
+    premium: Passa a Premium
     participate: Partecipare
     faq: FAQ
-    versionlist: Aggiornamenti
-    credits: Generico
+    versionlist: Registro delle modifiche (changelog)
+    credits: Credits
     licence: Licenza
-    sourcecode: Codice sorgente
+    sourcecode: Codice fonte
     links: Collegamenti
   features:
     manage_accounts: Fino a cinque conti con trasferimenti
-    plans: Modelli e scadenze per le transazioni future e ripetute
-    grouped_list: Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo
-    distribution: Due livelli di categorie (importazione da Grisbi XML e QIF)
-    split: Operazioni suddivise (versione Contrib)
+    plans: Modelli e scadenze per le transazioni future e ricorrenti
+    grouped_list: Raggruppare le transazioni per giorno, settimana, mese, anno e visualizzarne l'importo per gruppo
+    distribution: Due livelli di categorie (importazione da Grisbi XML)
+    split: Transazioni frazionate (versione Contrib)
     calculator: Calcolatrice
     export: 'Formati di esportazione: QIF e CSV (MS Excel), caricare file export via FTP, e-mail o Dropbox, ...'
-    import: Importatzione da QIF
+    import: Importazione di dati QIF
     password: Protezione con password
     help: Aiuto integrato
     backup: Backup e ripristino di dati
-    light_theme: "Due stili: buio e chiaro"
+    light_theme: "Due temi: chiaro e scuro"
   contrib:
+    thank_you: |
+      Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
     feature-list-title: |
       Installando Le Mie Spese Contrib, ottiene l’accesso illimitato alle
       seguenti funzionalità speciali:
     feature:
       accounts_unlimited: Numero illimitato di conti
-      plans_unlimited: Numero illimitato di scadenze
+      plans_unlimited: Numero illimitato di piani
       distribution: Distribuzione di transazioni per categoria
-      split_transaction: Operazione suddivisa
+      split_transaction: Operazione frazionata
       security_question: Domanda di sicurezza
-      reset_all: Reinizializzare tutti i conti
+      reset_all: Resettare tutti i conti
       template_widget: Widget modelli
       print: Esportazione dell'elenco delle transazioni in PDF
     licence-howto-buy:
       intro: |
-        Opzioni per attivare la licenza Contrib:
-      gplay: |+
-        Se avete installato Le Mie Spese da Google Play, è disponibile come acquisto in-app.
-      amazon: |
-        Se avete installato Le Mie Spese da Amazon App Store, installate
-        <a class="track" id="amazon-contrib" href="http://www.amazon.it/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Le Mie Spese Contrib</a>.
+        Opzioni per acquistare la licenza Contrib:
+      in-app: |
+        Se avete installato Le Mie Spese da Google Play o Amazon App Store, è disponibile come acquisto in-app.
+      blackberry: |+
+        Se avete installato Le Mie Spese da Blackberry World, installate
+        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Le Mie Spese Contrib</a>.
+
       other: |
-        Se avete scaricato Le Mie Spese da F-Droid, Androidpit o Github,
-        inviate una donazione tramite uno dei seguenti:
+        Se hai scaricato Le Mie Spese da F-Droid, Androidpit o Github,
+        invia una donazione tramite uno dei seguenti:
       transfer: |
-        In alternativa, inviate una donazione al seguente account:
+        In alternativa fai un trasferimento sul seguente account:
       key: |
-        e successivamente richiedete la chiave di licenza dalla schermata di impostazioni.
-        Una volta ricevuta via mail, dovrà essere inserita nella schermata di impostazioni.
-      outro: |
-        Google e Amazon addebitano il 30% sull'importo della transazione , Flattr il 10%, PayPal circa 0,45€.
-        Se vi è più comodo, vi consiglio di installare Le Mie Spese da F-Droid, Androidpit
-        o Github a inviare una donazione tramite PayPal o Flattr.
-  participate:
-    intro: |
-      Con il vostro sostegno, <span class="application">Le mie spese</span> continua a crescere in termini di funzionalità, pur essendo distribuite senza pubblicità e Open Source.
-    submit_issue: |
-      <span class="application">Le Mie Spese</span> si evolve per i suoi rapporti e incitamenti. Se trova un problema o
-      pensa a un miglioramento, crea un <a href="https://github.com/mtotschnig/MyExpenses/issues/new">nuovo tema</a>, in Github's Issue Tracker.
-    test: |
-      Se siete interessati ad aiutare a testare prossime versioni, si prega di aderire al Google
-      Gruppo <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
-    translate: |
-      Essi possono anche aiutare a <a class="intern" href="#translate">traduire</a> in altre lingue.
-    premium: |
-      Si prega di considerare l'acquisto di una <a class="intern" href="#premium">licenza Contrib</a> per un accesso illimitato a tutte le funzionalità Premium.
-  google-play:
-  - Tenere traccia delle tue spese e redditi.
-  - Gestire direttamente sul vostro smartphone.
-  - Esportarli in un programma di finanza Desktop come Grisbi, GnuCash, Quicken o MS Money.
+        e successivamente richiedi la chiave di licenza dalla schermata delle impostazioni.
+        Una volta ricevuta via mail, dovrà essere inserita nella schermata delle impostazioni.
   permissions-heading: |
     Le mie spese richiede le seguenti autorizzazioni
   permissions-calendar: |
-    Lettura e scrittura del calendario: scadenze per le futuri e ricorrenti operazioni sono memorizzate sia in un apposito calendario locale o in qualsiasi altro calendario si assegna.
+    Lettura e aggiornamento del calendario: piani futuri e transazioni ricorrenti sono memorizzate o in un apposito calendario locale o in qualsiasi altro calendario venga assegnato.
   permissions-external-storage: |
     Scrittura USB: Stoccaggio di QIF e CSV esportazioni e file di backup
   permissions-internet: |
-    Comunicazione di rete: Crash report vengono inviati automaticamente a sviluppatori se non disattivata dall'utente nelle preferenze di app.
+    Comunicazione di rete: Crash report vengono inviati automaticamente agli sviluppatori, se non l'opzione non viene disattivata dall'utente nelle preferenze di app.

@@ -1,4 +1,4 @@
-ca:
+ca_ES:
   imprint: Impressió
   hero_main: "Gestor de finances personals per Android "
   hero_sub:
@@ -25,18 +25,21 @@ ca:
     split: Repartiment d'operacions (a la versió pels contribuïdors)
     calculator: Calculadora
     export: Exporteu al format QIF i al CSV (MS Excel), es pot compartir de forma automàtica (per correu, per FTP, pel Dropbox, ...)
+    import: Importar dades QIF
     password: Protecció amb contrasenya
     help: Ajuda integrada
     backup: Còpia de seguretat i restauració
     light_theme: "Dos temes: clar i fosc"
   contrib:
+    thank_you: |
+      La vostra contribució ens permet seguir desenvolupant Les meves despeses. Gràcies!
     feature-list-title: |
       Les meves despeses Contrib us dona accés sense restriccions a les següents característiques Premium:
     feature:
       accounts_unlimited: Nombre de comptes il·limitat
       plans_unlimited: Nombre de planificacions il·limitat
       distribution: Distribució d'operacions per categoria
-      split_transaction: Repartiment d'operacions
+      split_transaction: 'Repartiment d''operacions '
       security_question: Pregunta de seguretat
       reset_all: Reinicieu tots els comptes
       template_widget: Widget de plantilla
@@ -44,13 +47,6 @@ ca:
     licence-howto-buy:
       intro: |
         Teniu les següents opcions per adquirir una llicència Contrib:
-      gplay: |
-        Si heu instal·lat Les meves despeses a Play Store, instal·leu
-        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Les meves despeses Contrib</a>.
-      amazon: |+
-        Si heu instal·lat Les meves despeses a Amazon App Store, instal·leu
-        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Les meves despeses Contrib</a>.
-
       other: |
         Si heu baixat Les meves despeses de F-Droid, Androidpit o Github,
         envieu una donació amb alguna de les següents opcions:
@@ -59,29 +55,6 @@ ca:
       key: |
         i llavors demaneu una clau de llicència a Preferències.
         Un cop la rebeu per correu, entreu-la també a les Preferències.
-      outro: |
-        Google i Amazon carreguen un 30% de l'import de l'operació, Flattr un 10%, Paypal aproximadament un 0,45€.
-        Així que si us va bé, us animo a instal·lar Les meves despeses des de F-Droid, Androidpit
-        o Github i a enviar la vostra donació amb una transferència, Paypal o Flattr.
-  participate:
-    intro: |
-      Amb la vostra ajuda, <span class="application">Les meves despeses</span> pot seguir creixent en funcionalitat, i continuar distribuïnt-se
-      sense publicitat i en Codi Obert.
-    submit_issue: |
-      <span class="application">Les meves despeses</span> evoluciona gràcies als vostres informes i suggeriments.
-      Si veieu algun problema o penseu en alguna millora,
-      obriu un <a href="https://github.com/mtotschnig/MyExpenses/issues/new">nou tema</a>, al Gestor de temes del Github.
-    test: |
-      Si voleu ajudar a provar les properes versions, uniu-vos al Grup de Google
-      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>
-    translate: |
-      També podeu ajudar a <a class="intern" href="#translate">traduir</a> <span class="application">Les meves despeses</span> a nous idiomes.
-    premium: |
-      Si us plau, considereu adquirir una <a class="intern" href="#premium">llicència Contrib</a> per disposar sense restriccions de totes les característiques Premium.
-  google-play:
-  - Feu el seguiment de les vostres despeses i ingressos.
-  - Gestioneu-les directament des del vostre telèfon.
-  - Exporteu-les a un programa financer de l'escriptori com ara Grisbi, GnuCash, Quicken o MS Money.
   permissions-heading: |
     Les meves despeses necessita els següents permisos
   permissions-calendar: |

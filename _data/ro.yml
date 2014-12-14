@@ -1,0 +1,63 @@
+ro:
+  imprint: Imprint
+  hero_main: "Manager finanţe personale pentru Android"
+  hero_sub:
+    use: "Uşor dr utilizat"
+    functionality: "Bogat în funcţionalităţi"
+    source: "Open Source"
+  menu_title:
+    more_information: Mai multe informaţii
+  sections:
+    features: Funcţionalităţi
+    premium: Go Premium
+    participate: Participă
+    faq: FAQ
+    versionlist: Modificări
+    credits: Generic
+    licence: Licență
+    sourcecode: Codul sursă
+    links: Link-uri
+  features:
+    manage_accounts: Până la cinci conturi cu transferuri
+    plans: Definire şabloane şi planuri pentru tranzacţiile viitoare şi periodice
+    grouped_list: Grupare tranzacţii pe zile, săptămâni, ani şi afişare total pe grup
+    distribution: Două niveluri de categorii (import din Grisbi XML)
+    split: Split tranzacţii (Contrib versiune)
+    calculator: Calculator
+    export: Export către QIF şi CSV (MS Excel), pot fi partajate automat (prin e-mail, FTP, Dropbox,...)
+    password: Protecţie parolă
+    help: Ajutor integrat
+    backup: Date de backup şi restaurare
+    light_theme: "Doua teme: deschis şi întunecat"
+  contrib:
+    thank_you: |
+      Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
+    feature-list-title: |
+      Următoarele funcţionalităţi Premium pot fi deblocate prin achiziţionarea une Licenţe Contrib:
+    feature:
+      accounts_unlimited: Număr nelimitat de conturi
+      plans_unlimited: Număr nelimitat de planuri
+      distribution: Repartiţia tranzacţiilor pe categorie
+      split_transaction: Tranzacţie ventilată
+      security_question: Întrebări securitate
+      reset_all: Reiniţializează toate conturile
+      template_widget: Şablon widget
+      print: Export listă tranzacţii în PDF
+    licence-howto-buy:
+      intro: |
+        Aveţi următoarele opţiuni pentru achiziţionarea licenţei Contrib:
+      other: "Dacă aţi descărcat Cheltuielile Mele de la F-Droid, Androidpit sau Github, \ntrimiteţi o donaţie prin una din următoarele:\n"
+      transfer: |
+        Alternativ, transfer bancar în următorul contul :
+      key: |+
+        şi apoi cereţi cheia licenţei din ecranul setări.
+        Odată ce-l primiţi prin e-mail, introduceţi-l, de asemenea, din ecranul Setări.
+
+  permissions-heading: |
+    Cheltuielile Mele necesită următoarele permisiuni
+  permissions-calendar: |
+    Citieşte şi scrie în calendar: Planurile pentru tranzacţiile viitoare şi periodice sunt stocate într-un calendar special local  sau în orice alt calendar atribuit dvs.
+  permissions-external-storage: |
+    Scriere memorie  USB: Stocarea fişierelor de export şi backup QIF şi CSV
+  permissions-internet: |
+    Comunicare de reţea: Rapoartele  de blocare sunt automat trimise pentru dezvoltatori doar dacă nu s-a dezactivat de utilizator în  preferinţe aplicaţie.

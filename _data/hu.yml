@@ -2,13 +2,14 @@ hu:
   imprint: Impresszum
   hero_main: "A személyes pénzügyi nyilvántartás - Android"
   hero_sub:
-    use:           Egyszerű használat
-    functionality: Sok szolgáltatás
-    source:        Nyílt forráskód
+    use: "Egyszerű használat"
+    functionality: "Sok szolgáltatás"
+    source: "Nyílt forráskód"
   menu_title:
     more_information: További információ
   sections:
     features: Features
+    premium: Válts a Prémium változatra
     participate: Támogatás
     faq: GYIK
     versionlist: Újdonságok
@@ -20,7 +21,7 @@ hu:
     manage_accounts: Akár öt számla kezelése, számlák közötti átvezetéssel
     plans: Tervek készítése a jövőbeli események, vagy ismétlődő tranzakciók kezelése érdekében
     grouped_list: Tranzakciók csoportosítása napi, heti, havi, éves összesítéssel - kategóriánként
-    distribution: Két szintű kategorizálás (a Grisbi XML-nek megfelelően)
+    distribution: Két szintű kategorizálás (Grisbi XML import és QIF)
     split: Megosztott tranzakciók (a Contrib verzióban)
     calculator: Számológép
     export: Adatok exportálása QIF és CSV (MS Excel) formátumban, amely automatikusan megosztható emailben, FTP-n, Dropbox-on, stb...
@@ -29,20 +30,24 @@ hu:
     backup: Adat mentés és visszaállítás
     light_theme: "Két háttértéma: világos és sötét"
   contrib:
+    thank_you: |
+      Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
     feature-list-title: |
       A My Expenses Contrib (Prémium) verzió kiterjesztett, megkötések nélkül használható lehetőségei:
     feature:
       accounts_unlimited: Korlátlan számú számla kezelése
-      plans_unlimited:    Korlátlan számú terv
-      distribution:       Tranzakciók kategóriánkénti felosztása
-      split_transaction:  Tranzakciók megosztása a számlák között
-      security_question:  Biztonsági kérdés - jelszó visszaállításhoz
-      reset_all:          Az összes számla alaphelyzetbe állítása
-      template_widget:    Sablon widget
-  google-play:
-  - Kövesse nyomon kiadásait/bevételeit
-  - Tartsa nyilván közvetlenül a telefonja segítségével
-  - 'Exportálhatja az adatokat az alábbi asztali alkalmazásokba: Grisbi, GnuCash, Quicken vagy MS Money.'
+      plans_unlimited: Korlátlan számú terv
+      distribution: Tranzakciók kategóriánkénti felosztása
+      split_transaction: Tranzakciók megosztása a számlák között
+      security_question: Biztonsági kérdés - jelszó visszaállításhoz
+      reset_all: Az összes számla alaphelyzetbe állítása
+      template_widget: Sablon widget
+    licence-howto-buy:
+      intro: |+
+        A következő lehetőségek válnak elérhetővé a Contrib licensz megvásárlásával:
+
+      other: |
+        Amennyiben a Kiadásaim (My Expenses) az F-Droid, Androidpit vagy Githubról került letöltésre, akkor a támogatást az alábbiak segítségével küldhet:
   permissions-heading: |
     A Kiadásaim (My Expenses) a következőkhöz kér hozzáférést:
   permissions-calendar: |

@@ -1,4 +1,5 @@
 pl:
+  imprint: Stopka
   hero_main: "Personalny menadżer finansów dla systemu Android"
   hero_sub:
     use: "Łatwy w użyciu"
@@ -12,7 +13,7 @@ pl:
     participate: Współuczestnicz
     faq: Często zadawane pytania
     versionlist: Dziennik zmian
-    credits: O programie
+    credits: Autorzy
     licence: Licencja
     sourcecode: Kod źródłowy
     links: Linki
@@ -20,7 +21,7 @@ pl:
     manage_accounts: Do pięciu kont z przelewami
     plans: Definiuj szablony i plany dla przyszłych i powtarzalnych transakcji
     grouped_list: Grupuj transakcje na dni, tygodnie, miesiące, lata i wyświetl kwoty dla każdej z grup
-    distribution: Dwa poziomy kategorii (import z Grisbi XML)
+    distribution: Dwa poziomy kategorii (import z Grisbi XML i QIF)
     split: Podziela transakcje (wersja Contrib)
     calculator: Kalkulator
     export: Eksport do QIF i CSV (Microsoft Excel), może być automatycznie udostępniany (przez E-mail, FTP, Dropbox, ...)
@@ -29,6 +30,8 @@ pl:
     backup: Kopia zapasowa oraz przywracanie danych
     light_theme: "Dwa motywy: jasny i ciemny"
   contrib:
+    thank_you: |
+      Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
     feature-list-title: |
       Następujące funkcje Premium zostaną odblokowane poprzez nabycie licencji Contrib:
     feature:
@@ -42,12 +45,10 @@ pl:
     licence-howto-buy:
       intro: |
         Masz następujące opcje dla nabycia licencji Contrib:
-      gplay: |
-        Jeżeli zainstalowałeś Moje Wydatki z Google Play, Zainstaluj
-        <a class="track" id="gplay-contrib" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
-      amazon: |
-        Jeżeli zainstalowałeś Moje Wydatki z Amazon App Store, Zainstaluj
-        <a class="track" id="amazon-contrib" href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+      blackberry: |+
+        Jeżeli zainstalowałeś Moje Wydatki z Blackberry World, Zainstaluj
+        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
+
       other: |
         Jeżeli pobrałeś Moje Wydatki z F-Droid, AndroidPit lub Github,
         wyślij datek przez jedno z poniższych:
@@ -56,32 +57,11 @@ pl:
       key: |
         i wtedy zażądaj klucz licencyjny przez ekran ustawień.
         Po otrzymaniu go na e-mail, wprowadź go także z ekranu ustawień.
-      outro: |
-        Google i Amazon pobiera 30% kwoty transakcji, Flattr 10%, PayPal w przybliżeniu 0,45€.
-        Więc jeżeli jest to wygodne dla Ciebie, polecam Ci instalację Moich Wydatków z F-Droid, lub Github i wysłanie datku przez przelew na Paypal lub Flattr.
-  participate:
-    intro: |
-      Z twoim wsparciem, <span class="application">Moje Wydatki</span> będą rosnąć w funkcjonalności, podczas byciem dystrybuowanym
-      bez reklam oraz Open Source.
-    submit_issue: |
-      <span class="application">Moje Wydatki</span> rozwija się poprzez twoje raporty i sugestje.
-      Jeżeli znajdziesz problem lub myślisz o udoskonaleniu,
-      utwórz <a href="https://github.com/mtotschnig/MyExpenses/issues/new">nowy problem</a>, w Github's Issue Tracker.
-    test: |
-      Jeżeli jesteś zainteresowany w pomocy testując nadchodzące wersje, proszę dołączyć się do
-      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> Google
-      Group.
-    translate: |
-      Możesz także pomóc <a class="intern" href="#translate">tłumaczyć</a> <span class="application">Moje Wydatki</span> na nowe języki.
-    premium: |
-      Proszę rozważyć kupno <a class="intern" href="#premium">licencję Contrib</a> dla nieograniczonego dostępu do wszystkich funkcji Premium.
-  google-play:
-  - Śledź swoje wydatki i przychody.
-  - Zarządzaj nimi bezpośrednio na swoim smartfonie.
-  - Eksportuj je do finansowego programu komputerowego t.j. Grisbi, GnuCash, Quicken lub Microsoft Money.
   permissions-heading: |
     Moje Wydatki potrzebują następujących uprawnień
   permissions-calendar: |
     Czytanie i zapisywanie kalendarza: Plany na przyszłość i powtarzalne transakcje są przechowywane albo w specjalnym lokalnym kalendarza albo w każdym innym kalendarzu jaki wybierzesz.
+  permissions-external-storage: |
+    Zapisywanie na pamięci USB: Przechowywanie plików QIF oraz CSV oraz kopii zapasowych
   permissions-internet: |
     Komunikacja w sieci: Raporty o awariach są automatycznie wysyłane do twórców chyba że są wyłączone przez użytkownika w preferencjach aplikacji.

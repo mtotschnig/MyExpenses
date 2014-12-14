@@ -21,16 +21,18 @@ es:
     manage_accounts: Hasta cinco cuentas con transferencias
     plans: Plantillas y planes para las transacciones futuras y recurrentes
     grouped_list: Agrupamiento por día, semana, mes, año y visualización sumas por grupo
-    distribution: Dos niveles de categorías (de importación de Grisbi XML y QIF)
+    distribution: Dos niveles de categorías (de importación de Grisbi XML)
     split: Asientos divididos (versión Contrib)
     calculator: Calculadora
     export: 'Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo electrónico, Dropbox, ...)'
-    import: Importación de QIF
+    import: Datos de importación QIF
     password: Protección por contraseña
     help: Ayuda integrada
     backup: Backup y Restauración
     light_theme: "Dos temas: oscuro y claro"
   contrib:
+    thank_you: |
+      Su contribución apoya el desarrollo de Mis gastos. Gracias!
     feature-list-title: |
       Instalando Mis Gastos Contrib, Usted va a obtener acceso ilimitado a las siguientes características premium:
     feature:
@@ -45,11 +47,11 @@ es:
     licence-howto-buy:
       intro: |
         Usted tiene las siguientes opciones para adquirir la licencia de Contrib:
-      gplay: |
-        Si ha instalado Mis Gastos de Google Play, está disponible como compra integrada en la aplicación.
-      amazon: |
-        Si ha instalado Mis Gastos de Amazon App Store, instalar
-        <a class="track" id="amazon-contrib" href="http://www.amazon.es/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mis Gastos Contrib</a>.
+      in-app: |
+        Si ha instalado Mis Gastos de Google Play o Amazon App Store, está disponible como compra integrada en la aplicación.
+      blackberry: |
+        Si ha instalado Mis Gastos de Blackberry World, instalar
+        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mis Gastos Contrib</a>.
       other: |
         Si ha descargado Mis Gastos de F-Droid, Androidpit o Github, enviar una donación a través de uno de los siguientes:
       transfer: |
@@ -57,26 +59,6 @@ es:
       key: |
         y luego solicitar la clave de licencia en la pantalla Configuración.
         Una vez que usted lo recibe por correo electrónico, entra también en la pantalla Configuración.
-      outro: |
-        Google y Amazon carga cantidad 30% de la transacción, Flattr 10%, Paypal aproximadamente 0,45€. Si es conveniente para usted, le animo a que instale Mis gastos de F-Droid, AndroidPIT o Github y enviar su donación por transferencia bancaria, Paypal o Flattr.
-  participate:
-    intro: |
-      Con su apoyo, <span class="application">Mis Gastos</span> sigue creciendo en funcionalidad, al tiempo que se distribuye sin publicidad y de código abierto.
-    submit_issue: |
-      <span class="application">Mis Gastos</span> se desarrolla a través de sus informes y sugerencias.
-      Si usted encuentra un problema o piensa en una mejora, cree un <a href="https://github.com/mtotschnig/MyExpenses/issues/new">tema</a>
-      nuevo en el Issue Tracker de Github.
-    test: |
-      Si usted está interesado en ayudar a probar las próximas versiones, por favor únase a la Google
-      Grupo <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
-    translate: |
-      También pueden ayudar en la <a class="intern" href="#translate">traducción</a> a otros idiomas.
-    premium: |
-      Por favor considerar la compra de una <a class="intern" href="#premium">licencia Contrib</a> para el acceso sin restricciones a todas las características premium.
-  google-play:
-  - Lleva contabilidad sobre sus gastos y ingresos.
-  - Administrar directamente en tu móvil.
-  - Exportarlos a un programa de escritorio de finanzas como Grisbi, Gnucash, Quicken o MS Money.
   permissions-heading: |
     Mis gastos requiere los siguientes permisos
   permissions-calendar: |
@@ -85,4 +67,3 @@ es:
     Writing USB storage: Almacenamiento de las exportaciones QIF y CSV y archivos de copia de seguridad
   permissions-internet: |
     Comunicación de la red: accidente de informes se envían automáticamente a desarrolladores a menos desactivada por el usuario en las preferencias de la aplicación.
-
