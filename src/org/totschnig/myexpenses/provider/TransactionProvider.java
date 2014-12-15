@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentProvider;
@@ -715,11 +714,13 @@ public class TransactionProvider extends ContentProvider {
             args,
             KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
             new String[] {segment});
-        //we delete the transaction, and its transfer peers,
+        //we delete the transaction, and its transfer peers, and transfer peers of its children
         //children are deleted through ON DELETE CASCADE
         count = db.delete(TABLE_TRANSACTIONS,
-            KEY_ROWID + " = ?  OR " + KEY_TRANSFER_PEER + " = ?",
-           new String[] {segment,segment});
+            KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+                + KEY_ROWID + " IN "
+                + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
+           new String[] {segment,segment,segment});
         db.setTransactionSuccessful();
       } finally {
         db.endTransaction();
