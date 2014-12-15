@@ -811,6 +811,9 @@ public class ExpenseEdit extends AmountActivity implements
       setDateTime(mTransaction.getDate());
 
     fillAmount(mTransaction.amount.getAmountMajor());
+    if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+      mPayeeText.requestFocus();
+    }
   }
   protected void fillAmount(BigDecimal amount) {
     int signum = amount.signum();
