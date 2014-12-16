@@ -27,6 +27,11 @@
     <item quantity="one">Muamele başarıyla klonlandı.</item>
     <item quantity="other">%1$d muamele başarıyla klonlandı.</item>
   </plurals>
+  <string name="split_transaction_error">Muamele bölünmüşe dönüştürülemedi.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">Muamele başarıyla bölünmüşe dönüştürüldü.</item>
+    <item quantity="other">%1$d muamele başarıyla bölünmüşe dönüştürüldü.</item>
+  </plurals>
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
@@ -217,6 +222,7 @@
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_share">Bir arkadaşa bahset</string>
   <string name="menu_set_sort_key">Sırlama anahtarını belirle</string>
+  <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
   <string name="method">Metot</string>
   <string name="new_version">Yeni sürüm</string>
   <string name="no_accounts">Hesap yok!</string>

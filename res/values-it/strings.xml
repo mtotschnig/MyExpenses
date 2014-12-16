@@ -27,6 +27,11 @@
     <item quantity="one">Operazione ricopiata con successo.</item>
     <item quantity="other">%1$d operazioni sono state ricopiate con successo.</item>
   </plurals>
+  <string name="split_transaction_error">Impossibile frazionare transazione.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">Transazione frazionata con successo.</item>
+    <item quantity="other">%1$d transazioni sono state frazionate con successo.</item>
+  </plurals>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
@@ -217,6 +222,7 @@
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_share">Dillo a un amico</string>
   <string name="menu_set_sort_key">Impostare la chiave di ordinamento</string>
+  <string name="menu_split_transaction">Frazionare</string>
   <string name="method">Modo</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">Nessun conto !</string>

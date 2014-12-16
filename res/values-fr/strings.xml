@@ -27,6 +27,11 @@
     <item quantity="one">Opération clonée avec succès.</item>
     <item quantity="other">%1$d opérations clonées avec succès.</item>
   </plurals>
+  <string name="split_transaction_error">Impossible de ventiler l\'opération.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">L\'opération a été ventilée avec succès.</item>
+    <item quantity="other">%1$d opérations ont été ventilées avec succès.</item>
+  </plurals>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
   <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
@@ -217,6 +222,7 @@
   <string name="menu_settings">Paramètres</string>
   <string name="menu_share">Recommander</string>
   <string name="menu_set_sort_key">Fixer l\'ordre de tri</string>
+  <string name="menu_split_transaction">Ventiler</string>
   <string name="method">Méthode</string>
   <string name="new_version">Nouvelle version</string>
   <string name="no_accounts">Aucun compte!</string>

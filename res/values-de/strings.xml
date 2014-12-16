@@ -27,6 +27,11 @@
     <item quantity="one">Buchung wurde erfolgreich geklont.</item>
     <item quantity="other">%1$d Buchungen wurde erfolgreich geklont.</item>
   </plurals>
+  <string name="split_transaction_error">Die Buchung konnte nicht gesplittet werden. </string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">Die Buchung wurde erfolgreich gesplittet.</item>
+    <item quantity="other">%1$d Buchungen wurden erfolgreich gesplittet.</item>
+  </plurals>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
@@ -217,6 +222,7 @@
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_share">Weiterempfehlen</string>
   <string name="menu_set_sort_key">Sortierschlüssel festlegen</string>
+  <string name="menu_split_transaction">Splitten</string>
   <string name="method">Zahlungsweise</string>
   <string name="new_version">Neue Version</string>
   <string name="no_accounts">Keine Konten</string>
@@ -304,6 +310,8 @@
   <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Wenn Sie einen zusätzlichen Beitrag leisten möchten, können Sie Meine Ausgaben flattren, mittels Paypal spenden oder Bitcoins senden.</string>
   <string name="pref_contrib_donate_title">Spenden</string>
+  <string name="pref_contrib_install_summary">Durch den Kauf von Meine Ausgaben Contrib-Schlüssel erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
+  <string name="pref_contrib_install_title">Contrib Key kaufen (In-App Bezahlung)</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>

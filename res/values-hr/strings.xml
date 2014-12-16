@@ -308,6 +308,8 @@
   <string name="pref_contrib_donate_summary">Donirajte putem PayPal-a, Flattr-a ili Bitcoin-a i otključajte pristup premium opcijama.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Ako želite dodatno pridonijeti, učinite to putem flattr-a, donirajte putam Paypala ili pošaljite Bitcoinse.</string>
   <string name="pref_contrib_donate_title">Doniraj</string>
+  <string name="pref_contrib_install_summary">Kupnjom My Expenses Contrib Ključa, otključan vam je pristup premium opcijama.</string>
+  <string name="pref_contrib_install_title">Kupi Contrib Ključ (plaćanje unutar aplikacije)</string>
   <string name="pref_custom_currency_title">Prilagodi valute</string>
   <string name="pref_enter_licence_summary">Ako ste primili Contrib Ključ, omogućen je pristup premium opcijama.</string>
   <string name="pref_enter_licence_title">Unesi Contrib ključ</string>

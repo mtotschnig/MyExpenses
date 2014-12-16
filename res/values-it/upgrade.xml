@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_240">
+    <item>Trasformare normali operazione nella operazione frazionate</item>
+  </string-array>
   <string-array name="whats_new_239">
     <item>Al ripristino del database, i piani sono ora ricreati</item>
     <item>Nuove traduzioni: bulgaro, croato e rumeno</item>
