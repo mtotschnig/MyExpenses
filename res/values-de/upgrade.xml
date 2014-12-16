@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_240">
+    <item>Normale Buchungen in Splittbuchungen verwandeln</item>
+  </string-array>
   <string-array name="whats_new_239">
     <item>Nach Wiederherstellung der Datenbank werden Pläne jetzt neu erstellt</item>
     <item>Neue Übersetzungen: Bulgarisch, Kroatisch und Rumänisch</item>

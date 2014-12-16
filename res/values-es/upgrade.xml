@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_240">
+    <item>Transformar el asiento normal en asiento dividido</item>
+  </string-array>
   <string-array name="whats_new_239">
     <item>Sobre restaurar base de datos, ahora se recrean los planes</item>
     <item>Nuevas traducciones: búlgaro, croata y rumano</item>

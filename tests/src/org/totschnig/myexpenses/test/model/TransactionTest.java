@@ -21,8 +21,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitPartCategory;
+import org.totschnig.myexpenses.model.SplitPartTransfer;
 import org.totschnig.myexpenses.model.SplitTransaction;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
@@ -88,7 +88,7 @@ public class TransactionTest extends ModelTest  {
    * we test if split parts get the date of their parent
    */
   public void testSplit() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId());
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(),false);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
@@ -115,6 +115,16 @@ public class TransactionTest extends ModelTest  {
       //splits should not be touched by simply saving the parent
     assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split1.getId()));
     assertNotNull("Split parts deleted after saving parent",Transaction.getInstanceFromDb(split2.getId()));
+  }
+  
+  public void testDeleteSplitWithPartTransfer() {
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(),false);
+    op1.amount = new Money(mAccount1.currency,100L);
+    op1.save();
+    Transaction split1 = new SplitPartTransfer(mAccount1, 100L, op1.getId(), mAccount2.getId());
+    split1.save();
+    Transaction.delete(op1.getId());
+    assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op1.getId()));
   }
   
   public void testIncreaseCatUsage() {

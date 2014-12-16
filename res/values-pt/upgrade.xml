@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_240">
+    <item>Transformar a transação normal, a transação de divisão</item>
+  </string-array>
   <string-array name="whats_new_239">
     <item>Após a restauração do banco de dados, planos agora são recriados</item>
     <item>Novas traduções: Búlgaro, croata e romeno</item>

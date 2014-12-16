@@ -85,7 +85,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return successCount;
     case TaskExecutionFragment.TASK_SPLIT:
       //ids could have been passed through bundle to ContribInfoDialog
-      //and in bundle uses its type as long array (becomes object array)
+      //and in bundle looses its type as long array (becomes object array)
       //https://code.google.com/p/android/issues/detail?id=3847
       for (T id : ids) {
         t = Transaction.getInstanceFromDb((Long) id);

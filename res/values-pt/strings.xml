@@ -27,6 +27,11 @@
     <item quantity="one">Operações foram clonados com sucesso.</item>
     <item quantity="other">As operações %1$d foram clonadas com sucesso.</item>
   </plurals>
+  <string name="split_transaction_error">Não poderia dividir a transação.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">Transação com sucesso transformada para dividir.</item>
+    <item quantity="other">%1$d transações com êxito foram transformadas para divisões.</item>
+  </plurals>
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
@@ -217,6 +222,7 @@
   <string name="menu_settings">Configurações</string>
   <string name="menu_share">Indique a um amigo</string>
   <string name="menu_set_sort_key">Definir a chave de classificação</string>
+  <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="new_version">Nova versão</string>
   <string name="no_accounts">Não há contas!</string>
@@ -304,6 +310,8 @@
   <string name="pref_contrib_donate_summary">Doar via PayPal, Flattr ou Bitcoin e obter acesso a recursos.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Se você gostaria de fazer uma contribuição adicional, você pode flattr Minhas Despesas, ou fazer uma doação através do Paypal ou Bitcoins.</string>
   <string name="pref_contrib_donate_title">Enviar doação</string>
+  <string name="pref_contrib_install_summary">Ao comprar Minhas despesas Chave Contrib, você ganha acesso a recursos premium.</string>
+  <string name="pref_contrib_install_title">Compra Chave Contrib (pagamento no App)</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
   <string name="pref_enter_licence_summary">Se você tiver recebido uma licença do Contrib, obtenha acesso aos recursos Premium.</string>
   <string name="pref_enter_licence_title">Digitar licença do Contrib</string>

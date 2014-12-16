@@ -5,6 +5,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import java.util.Currency;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -84,6 +85,20 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     //wait for adapter to have updated
     sleep();
     assertEquals(itemsInList-1, mList.getAdapter().getCount());
+  }
+  public void testE_Split() {
+    setSelection();
+    mInstrumentation.waitForIdleSync();
+    invokeContextAction("SPLIT_TRANSACTION");
+    if (!MyApplication.getInstance().isContribEnabled()) {
+      assertTrue("Contrib Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_contrib_feature)));
+      mSolo.clickOnText(mContext.getString(R.string.dialog_contrib_no));
+    }
+    mInstrumentation.waitForIdleSync();
+    //wait for adapter to have updated
+    sleep();
+    assertTrue("Split transaction without effect",mSolo.searchText(mContext.getString(R.string.split_transaction)));
+    
   }
   private void setSelection() {
     mActivity

@@ -27,6 +27,11 @@
     <item quantity="one">Operazione ricopiata con successo.</item>
     <item quantity="other">%1$d operazioni sono state ricopiate con successo.</item>
   </plurals>
+  <string name="split_transaction_error">Impossibile frazionare transazione.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">Transazione frazionata con successo.</item>
+    <item quantity="other">%1$d transazioni sono state frazionate con successo.</item>
+  </plurals>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
@@ -217,6 +222,7 @@
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_share">Dillo a un amico</string>
   <string name="menu_set_sort_key">Impostare la chiave di ordinamento</string>
+  <string name="menu_split_transaction">Frazionare</string>
   <string name="method">Modo</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">Nessun conto !</string>
@@ -304,6 +310,8 @@
   <string name="pref_contrib_donate_summary">Dona tramite PayPal, Flattr o Bitcoin e ottieni l\'accesso a funzioni premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Se vuoi dare un contributo aggiuntivo, si può dare un Flattr a Le mie spese, fare una donazione tramite Paypal o invia Bitcoins.</string>
   <string name="pref_contrib_donate_title">Invia donazione</string>
+  <string name="pref_contrib_install_summary">Con l\'acquisto della chiave Le Mie Spese Contrib, ottiene accesso a funzionalità speciali.</string>
+  <string name="pref_contrib_install_title">Acquisto la chiave Contrib  (pagamento nel applicazione)</string>
   <string name="pref_custom_currency_title">Personalizzare le valute</string>
   <string name="pref_enter_licence_summary">Se avete ricevuto una chiave Contrib, otterete accesso a funzionalità speciali.</string>
   <string name="pref_enter_licence_title">Inserisci la chiave Contrib</string>
