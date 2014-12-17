@@ -1,6 +1,10 @@
 package org.totschnig.myexpenses.util;
 
+import java.util.ArrayList;
+
+import org.onepf.oms.Appstore;
 import org.onepf.oms.OpenIabHelper;
+import org.onepf.oms.appstore.AmazonAppstore;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.contrib.Config;
 
@@ -100,6 +104,15 @@ public class Distrib {
         new OpenIabHelper.Options.Builder()
            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
            .addStoreKeys(Config.STORE_KEYS_MAP);
+    if (MyApplication.market.equals(Distrib.Market.AMAZON)) {
+           ArrayList<Appstore> stores = new ArrayList<Appstore>();
+           stores.add(new AmazonAppstore(ctx) {
+             public boolean isBillingAvailable(String packageName) {
+               return true;
+             }
+           });
+           builder.addAvailableStores(stores);
+    }
 
     return new OpenIabHelper(ctx,builder.build());
   }
