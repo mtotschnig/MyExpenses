@@ -92,6 +92,7 @@ public class TransactionTest extends ModelTest  {
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
+    op1.save();
     assertTrue(op1.getId() > 0);
     Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.getId(),op1.getId());
     split1.amount = new Money(mAccount1.currency,50L);
@@ -108,8 +109,8 @@ public class TransactionTest extends ModelTest  {
     op1.save();
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.getId());
-    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.getId()).getDate()));
-    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.getId()).getDate()));
+    assertEquals(restored.getDate(), Transaction.getInstanceFromDb(split1.getId()).getDate());
+    assertEquals(restored.getDate(), Transaction.getInstanceFromDb(split2.getId()).getDate());
     restored.crStatus = CrStatus.CLEARED;
     restored.save();
       //splits should not be touched by simply saving the parent

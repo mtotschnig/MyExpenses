@@ -45,6 +45,7 @@ public class SplitTransaction extends Transaction {
   }
   /**
    * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
+   * @param forEdit if true transaction is immediately persisted to DB in uncommited state
    * @return new SplitTransactionw with Account set to accountId
    */
   public static SplitTransaction getNewInstance(long accountId,boolean forEdit) {
@@ -77,30 +78,30 @@ public class SplitTransaction extends Transaction {
    * existing parts are deleted and the uncommitted ones are committed
    */
   public void commit() {
-    if (!inEditState)
-      return;
     String idStr = String.valueOf(getId());
-    cr().delete(CONTENT_URI,PART_OR_PEER_SELECT + "  AND " + KEY_STATUS + " != ?",
-        new String[] { idStr, idStr, String.valueOf(STATUS_UNCOMMITTED) });
     ContentValues initialValues = new ContentValues();
-    if (status==STATUS_UNCOMMITTED)
-      ContribFeature.Feature.SPLIT_TRANSACTION.recordUsage();
-    initialValues.put(KEY_STATUS, 0);
-    //for a new split, both the parent and the parts are in state uncommitted
-    //when we edit a split only the parts are in state uncommitted,
-    //in any case we only update the state for rows that are uncommitted, to
-    //prevent altering the state of a parent (e.g. from exported to non-exported)
-    cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ? AND "+ KEY_ROWID + " = ?",
-        new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr});
-    cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
-        new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr,idStr});
-    initialValues.clear();
+    if (inEditState) {
+      cr().delete(CONTENT_URI,PART_OR_PEER_SELECT + "  AND " + KEY_STATUS + " != ?",
+          new String[] { idStr, idStr, String.valueOf(STATUS_UNCOMMITTED) });
+      if (status==STATUS_UNCOMMITTED)
+        ContribFeature.Feature.SPLIT_TRANSACTION.recordUsage();
+      initialValues.put(KEY_STATUS, 0);
+      //for a new split, both the parent and the parts are in state uncommitted
+      //when we edit a split only the parts are in state uncommitted,
+      //in any case we only update the state for rows that are uncommitted, to
+      //prevent altering the state of a parent (e.g. from exported to non-exported)
+      cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ? AND "+ KEY_ROWID + " = ?",
+          new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr});
+      cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
+          new String[] {String.valueOf(STATUS_UNCOMMITTED),idStr,idStr});
+      initialValues.clear();
+      inEditState = false;
+    }
     //make sure that parts have the same date as their parent,
     //otherwise they might be incorrectly counted in groups
     initialValues.put(KEY_DATE, date.getTime()/1000);
     cr().update(CONTENT_URI,initialValues,PART_OR_PEER_SELECT,
         new String[] {idStr,idStr});
-    inEditState = false;
   }
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
