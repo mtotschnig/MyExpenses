@@ -321,6 +321,10 @@
         <item>1489972704597536</item>
         <item>8L87ma4hAL7</item>
     </string-array>
+    <string-array name="version_more_info_240">
+        <item>1508659049395568</item>
+        <item>eeAevd25T73</item>
+    </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
       <item>@string/comparison_operator_greater_than</item>
