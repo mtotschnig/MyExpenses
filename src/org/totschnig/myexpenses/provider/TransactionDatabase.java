@@ -230,7 +230,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (!db.isReadOnly()) {
           db.execSQL("PRAGMA foreign_keys=ON;");
       }
-      db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
+      try {
+        db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
+      } catch (SQLiteConstraintException e) {
+        Utils.reportToAcraWithDbSchema(e);
+      }
   }
 
   @Override
