@@ -139,16 +139,23 @@ public class DbUtils {
   public static String[][] getTableDetails() {
     Cursor c = MyApplication.getInstance().getContentResolver()
         .query(TransactionProvider.DEBUG_SCHEMA_URI, null,null,null,null);
-    if (c!= null) {
-      String[][] result = new String[c.getCount()][2];
-      for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-        int pos = c.getPosition();
-        result[pos][0] = c.getString(0);
-        result[pos][1] = c.getString(1);
-      }
-      c.close();
-      return result;
-    }
-    return null;
+    return getTableDetails(c);
 }
+  /**
+   * @param c
+   * @return
+   */
+  public static String[][] getTableDetails(Cursor c) {
+    if (c==null) {
+      return null;
+    }
+    String[][] result = new String[c.getCount()][2];
+    for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+      int pos = c.getPosition();
+      result[pos][0] = c.getString(0);
+      result[pos][1] = c.getString(1);
+    }
+    c.close();
+    return result;
+  }
 }

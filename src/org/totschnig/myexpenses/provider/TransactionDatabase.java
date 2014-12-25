@@ -232,8 +232,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       try {
         db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
-      } catch (SQLiteConstraintException e) {
-        Utils.reportToAcraWithDbSchema(e);
+      } catch (SQLiteException e) {
+        Utils.reportToAcraWithDbSchema(e,
+            DbUtils.getTableDetails(
+                db.query("sqlite_master",
+                    new String[]{"name","sql"},
+                    "type = 'table'",
+                    null, null, null, null)));
       }
   }
 
