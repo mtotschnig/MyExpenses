@@ -1464,14 +1464,15 @@ public class ExpenseEdit extends AmountActivity implements
   private int setTransferAccountFilterMap() {
     Account fromAccount = mAccounts[mAccountSpinner.getSelectedItemPosition()];
     ArrayList<Integer> list = new ArrayList<Integer>();
-    int selectedPosition = 0;
+    int position = 0,selectedPosition = 0;
     for (int i = 0; i < mAccounts.length; i++) {
       if (fromAccount.getId() != mAccounts[i].getId() &&
           fromAccount.currency.equals(mAccounts[i].currency)) {
         list.add(i);
         if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].getId()) {
-          selectedPosition = i;
+          selectedPosition = position;
         }
+        position++;
       }
     }
     mTransferAccountCursor.setFilterMap(list);
