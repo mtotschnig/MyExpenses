@@ -1189,8 +1189,9 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanId = ((Template) mTransaction).planId;
         }
       }
-      else
+      else {
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+      }
       //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
       if (mCatId == null) {
         mCatId = mTransaction.getCatId();
