@@ -30,14 +30,24 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.fragment.PieChartFragment;
+
+import com.github.mikephil.charting.charts.PieChart;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -61,6 +71,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private CategoryList mListFragment;
+    private PieChartFragment mChartFragment;
 
     public CategoryList getListFragment() {
       return mListFragment;
@@ -72,6 +83,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       Intent intent = getIntent();
       String action = intent.getAction();
+      int layoutId = R.layout.select_category;
       if (action == null) {
         helpVariant = HelpVariant.select_mapping;
         getSupportActionBar().setTitle(R.string.select_category);
@@ -81,6 +93,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
       } else if (action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
+        layoutId = R.layout.distribution;
         //title is set in categories list
         DisplayMetrics dm = getResources().getDisplayMetrics();
 
@@ -113,8 +126,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         helpVariant = HelpVariant.select_filter;
         getSupportActionBar().setTitle(R.string.search_category);
       }
-      setContentView(R.layout.select_category);
-      mListFragment = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
+      setContentView(layoutId);
+      FragmentManager fm = getSupportFragmentManager();
+      mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
+      if (helpVariant == HelpVariant.distribution) {
+        mChartFragment = (PieChartFragment) fm.findFragmentById(R.id.piechart);
+        boolean chartShown = fm.getBackStackEntryCount()>0;
+        fm.beginTransaction()
+          .hide(chartShown ? mListFragment : mChartFragment)
+          .commit();
+        mChartFragment.setData();
+      }
     }
 
     @Override
@@ -122,10 +144,22 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       MenuInflater inflater = getMenuInflater();
       if (helpVariant.equals(HelpVariant.distribution)) {
         inflater.inflate(R.menu.distribution, menu);
+        
       } else if (!helpVariant.equals(HelpVariant.select_filter)) {
         inflater.inflate(R.menu.categories, menu);
       }
       super.onCreateOptionsMenu(menu);
+      return true;
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+      super.onPrepareOptionsMenu(menu);
+      Drawable chartIcon = menu.findItem(R.id.CHART_COMMAND).getIcon();
+      if (getSupportFragmentManager().getBackStackEntryCount()>0) {
+        chartIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+      } else {
+        chartIcon.setColorFilter(null);
+      }
       return true;
     }
 
@@ -156,7 +190,18 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
         importCats();
         return true;
-        
+      case R.id.CHART_COMMAND:
+        supportInvalidateOptionsMenu();
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount()>0) {
+          fm.popBackStack();
+        } else {
+          fm.beginTransaction()
+            .show(mChartFragment).hide(mListFragment)
+            .addToBackStack(null)
+            .commit();
+        }
+        return true;
       }
       return super.dispatchCommand(command, tag);
      }
