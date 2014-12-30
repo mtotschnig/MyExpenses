@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -50,7 +51,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -135,7 +139,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         fm.beginTransaction()
           .hide(chartShown ? mListFragment : mChartFragment)
           .commit();
-        mChartFragment.setData();
       }
     }
 
@@ -144,6 +147,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       MenuInflater inflater = getMenuInflater();
       if (helpVariant.equals(HelpVariant.distribution)) {
         inflater.inflate(R.menu.distribution, menu);
+
+        ToggleButton typeButton = (ToggleButton)
+            MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
+            .findViewById(R.id.TaType);
+
+        typeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            mListFragment.setType(isChecked);
+          }
+        });
         
       } else if (!helpVariant.equals(HelpVariant.select_filter)) {
         inflater.inflate(R.menu.categories, menu);
@@ -154,11 +168,14 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
       super.onPrepareOptionsMenu(menu);
-      Drawable chartIcon = menu.findItem(R.id.CHART_COMMAND).getIcon();
-      if (getSupportFragmentManager().getBackStackEntryCount()>0) {
-        chartIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-      } else {
-        chartIcon.setColorFilter(null);
+      MenuItem menuItem = menu.findItem(R.id.CHART_COMMAND);
+      if (menuItem!=null) {
+        Drawable chartIcon = menuItem.getIcon();
+        if (getSupportFragmentManager().getBackStackEntryCount()>0) {
+          chartIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+        } else {
+          chartIcon.setColorFilter(null);
+        }
       }
       return true;
     }

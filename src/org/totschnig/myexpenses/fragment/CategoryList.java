@@ -16,7 +16,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
+import static org.totschnig.myexpenses.activity.AmountActivity.EXPENSE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -43,7 +43,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -88,6 +87,8 @@ public class CategoryList extends ContextualActionBarFragment implements
 
   private Account mAccount;
   private Cursor mGroupCursor;
+
+  protected boolean mType = EXPENSE;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -409,7 +410,9 @@ public class CategoryList extends ContextualActionBarFragment implements
         selection = " = ?";
         accountSelector = String.valueOf(mAccount.getId());
       }
-      String catFilter = "FROM " + VIEW_COMMITTED + " WHERE " + KEY_ACCOUNTID + selection;
+      String catFilter = "FROM " + VIEW_COMMITTED +
+          " WHERE " + KEY_ACCOUNTID + selection + 
+          " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
@@ -459,7 +462,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (getActivity()==null)
       return;
     int id = loader.getId();
-    ActionBarActivity ctx = (ActionBarActivity) getActivity();
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     ActionBar actionBar =  ctx.getSupportActionBar();
     switch(id) {
     case SUM_CURSOR:
@@ -489,6 +492,10 @@ public class CategoryList extends ContextualActionBarFragment implements
       break;
     case CATEGORY_CURSOR:
       mGroupCursor=c;
+      if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+        ((PieChartFragment) getFragmentManager().findFragmentById(R.id.piechart))
+          .setData(c);
+      }
       mAdapter.setGroupCursor(c);
       if (mAccount != null) {
         actionBar.setTitle(mAccount.label);
@@ -688,5 +695,10 @@ public class CategoryList extends ContextualActionBarFragment implements
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && !ctx.helpVariant.equals(HelpVariant.manage));
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
+  }
+
+  public void setType(boolean isChecked) {
+    mType = isChecked;
+    reset();
   }
 }

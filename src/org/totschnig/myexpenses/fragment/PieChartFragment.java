@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -11,6 +12,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,45 +34,39 @@ public class PieChartFragment extends Fragment {
     
     //mChart.setValueTypeface(tf);
     //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
-    mChart.setUsePercentValues(true);
-    mChart.setCenterText("Quarterly\nRevenue");
-    mChart.setCenterTextSize(22f);
+    //mChart.setUsePercentValues(true);
+    //mChart.setCenterText("Quarterly\nRevenue");
+    //mChart.setCenterTextSize(22f);
      
     // radius of the center hole in percent of maximum radius
-    mChart.setHoleRadius(45f); 
-    mChart.setTransparentCircleRadius(50f);
+    mChart.setHoleRadius(0f); 
+    mChart.setTransparentCircleRadius(0f);
     
     // enable / disable drawing of x- and y-values
   //  mChart.setDrawYValues(false);
   //  mChart.setDrawXValues(false);
     return v;
   }
-  public void setData() {
-    mChart.setData(generatePieData());
-  }
-  protected PieData generatePieData() {
-    
-    int count = 4;
-    
+  public void setData(Cursor c) {
     ArrayList<Entry> entries1 = new ArrayList<Entry>();
     ArrayList<String> xVals = new ArrayList<String>();
-    
-    xVals.add("Quarter 1");
-    xVals.add("Quarter 2");
-    xVals.add("Quarter 3");
-    xVals.add("Quarter 4");
-    
-    for(int i = 0; i < count; i++) {
-        xVals.add("entry" + (i+1));
-
-        entries1.add(new Entry((float) (Math.random() * 60) + 40, i));
+    if (c!= null && c.moveToFirst()) {
+      do {
+        xVals.add(c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)));
+        entries1.add(
+            new Entry(
+                (float) c.getLong(c.getColumnIndex(DatabaseConstants.KEY_SUM)),
+                c.getPosition()));
+      } while (c.moveToNext());
+      PieDataSet ds1 = new PieDataSet(entries1, "");
+      ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+      ds1.setSliceSpace(0f);
+      mChart.setData(new PieData(xVals, ds1));
+      // undo all highlights
+      mChart.highlightValues(null);
+      mChart.invalidate();
+    } else {
+      mChart.clear();
     }
-    
-    PieDataSet ds1 = new PieDataSet(entries1, "Quarterly Revenues 2014");
-    ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
-    ds1.setSliceSpace(2f);
-    
-    PieData d = new PieData(xVals, ds1);
-    return d;
   }
 }
