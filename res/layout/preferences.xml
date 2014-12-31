@@ -76,7 +76,7 @@
          android:key="@string/pref_shortcut_create_split_key"/>
     </PreferenceScreen>
     <CheckBoxPreference android:key="@string/pref_auto_fill_key"
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:title="@string/pref_auto_fill_title"
         android:summary="@string/pref_auto_fill_summary" />
     <ListPreference android:key="@string/pref_template_click_default_key"
