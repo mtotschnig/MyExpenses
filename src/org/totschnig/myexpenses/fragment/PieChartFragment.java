@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class PieChartFragment extends Fragment {  
   private PieChart mChart;
@@ -41,6 +43,19 @@ public class PieChartFragment extends Fragment {
     // radius of the center hole in percent of maximum radius
     mChart.setHoleRadius(0f); 
     mChart.setTransparentCircleRadius(0f);
+    mChart.setDrawLegend(false);
+    mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+
+      @Override
+      public void onValueSelected(Entry e, int dataSetIndex) {
+        Toast.makeText(getActivity(),"Selected index " + e.getXIndex(),Toast.LENGTH_LONG).show();
+      }
+
+      @Override
+      public void onNothingSelected() {
+        Toast.makeText(getActivity(),"Unselected",Toast.LENGTH_LONG).show();
+      }
+    });
     
     // enable / disable drawing of x- and y-values
   //  mChart.setDrawYValues(false);
@@ -59,7 +74,7 @@ public class PieChartFragment extends Fragment {
                 c.getPosition()));
       } while (c.moveToNext());
       PieDataSet ds1 = new PieDataSet(entries1, "");
-      ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+      ds1.setColors(ColorTemplate.PASTEL_COLORS);
       ds1.setSliceSpace(0f);
       mChart.setData(new PieData(xVals, ds1));
       // undo all highlights
