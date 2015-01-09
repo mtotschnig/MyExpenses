@@ -301,6 +301,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     }
     ContentValues eventValues = new ContentValues();
     ContentResolver cr = MyApplication.getInstance().getContentResolver();
+    //remove old cache
+    cr.delete(
+        TransactionProvider.EVENT_CACHE_URI, null, null);
     Cursor eventCursor = cr.query(
         Events.CONTENT_URI,
         MyApplication.buildEventProjection(),
