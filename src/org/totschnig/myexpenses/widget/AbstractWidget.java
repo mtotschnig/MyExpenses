@@ -20,7 +20,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -50,6 +49,8 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   protected static final int REQUEST_CODE_ADD_TRANSFER = 1;
   protected static final int REQUEST_CODE_INSTANCE_EDIT = 2;
   
+  protected static final String TAG = AbstractWidget.class.getSimpleName();
+  
   protected static HandlerThread sWorkerThread;
   protected static Handler sWorkerQueue;
 
@@ -78,7 +79,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
       String action) {
-    Log.d("DEBUG", "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
+    Log.d(TAG, "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
     boolean isProtected = isProtected();
     for (int id : appWidgetIds) {
         AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
@@ -89,7 +90,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
           } else {
             int layoutId = appWidgetInfo.initialLayout;
             long objectId = loadForWidget(context, id);
-            Log.d("DEBUG", "loaded object id " + objectId);
+            Log.d(TAG, "loaded object id " + objectId);
             remoteViews = buildUpdate(context, id, layoutId, objectId, action);
           }
           manager.updateAppWidget(id, remoteViews);
@@ -99,7 +100,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   @Override
   public void onReceive(Context context, Intent intent) {
-      Log.d("DEBUG", "onReceive intent "+intent);
+      Log.d(TAG, "onReceive intent "+intent);
       String action = intent.getAction();
       if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
           int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
@@ -137,13 +138,14 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   RemoteViews buildUpdate(Context context,
       int widgetId, int layoutId, long objectId, String action) {
+    Log.d(TAG,action);
     Cursor c = getCursor(context);
     T o;
     try {
       int count = c.getCount();
-      Log.d("AbstractWidget", "count " + count);
+      Log.d(TAG, "count " + count);
       if (count > 0) {
-        Log.d("AbstractWidget", "buildUpdateForOther " + widgetId
+        Log.d(TAG, "buildUpdateForOther " + widgetId
             + " -> " + objectId);
         if (count == 1 || objectId == -1) {
           if (c.moveToNext()) {
@@ -152,18 +154,18 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
           }
         } else {
           boolean found = false;
-          Log.d("AbstractWidget", "looking for " + objectId);
+          Log.d(TAG, "looking for " + objectId);
           while (c.moveToNext()) {
             o = getObject(c);
-            Log.d("AbstractWidget", "looking at " + o.getId());
+            Log.d(TAG, "looking at " + o.getId());
             if (o.getId() == objectId) {
               found = true;
-              Log.d("AbstractWidget", "buildUpdateForOther found -> "
+              Log.d(TAG, "buildUpdateForOther found -> "
                   + objectId);
-              if (action == WIDGET_NEXT_ACTION) {
+              if (action.equals(WIDGET_NEXT_ACTION)) {
                 continue;
               }
-              if (action == WIDGET_PREVIOUS_ACTION) {
+              if (action.equals(WIDGET_PREVIOUS_ACTION)) {
                 if (!c.moveToPrevious()) {
                   c.moveToLast();
                 }
@@ -172,7 +174,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
               return updateWidgetFrom(context, widgetId, layoutId, o);
             } else {
               if (found) {
-                Log.d("AbstractWidget",
+                Log.d(TAG,
                     "buildUpdateForOther building update for -> " + o.getId());
                 return updateWidgetFrom(context, widgetId, layoutId, o);
               }
@@ -180,7 +182,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
           }
           c.moveToFirst();
           o = getObject(c);
-          Log.d("AbstractWidget",
+          Log.d(TAG,
               "buildUpdateForOther not found, taking the first one -> "
                   + o.getId());
           return updateWidgetFrom(context, widgetId, layoutId, o);
