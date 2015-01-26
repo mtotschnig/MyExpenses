@@ -47,7 +47,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   protected static final String PREF_PREFIX_KEY = "prefix_";
   protected static final int REQUEST_CODE_ADD_TRANSACTION = 0;
   protected static final int REQUEST_CODE_ADD_TRANSFER = 1;
-  protected static final int REQUEST_CODE_INSTANCE_EDIT = 2;
   
   protected static final String TAG = AbstractWidget.class.getSimpleName();
   

@@ -91,7 +91,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     pendingIntent = PendingIntent.getActivity(
         context,
-        REQUEST_CODE_INSTANCE_EDIT,
+        widgetId,
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
