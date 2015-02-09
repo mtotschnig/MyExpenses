@@ -1231,6 +1231,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case R.id.Account:
+      mTransaction.accountId = mAccounts[position].getId();
       mAmountLabel.setText(getString(R.string.amount) + " ("+mAccounts[position].currency.getSymbol()+")");
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         setTransferAccountFilterMap();
