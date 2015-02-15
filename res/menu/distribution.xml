@@ -36,10 +36,4 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="@string/menu_grouping"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@id/CHART_COMMAND"
-        android:icon="@android:drawable/ic_menu_gallery"
-        android:title="Chart"
-        app:showAsAction="always"/>
-
 </menu>
