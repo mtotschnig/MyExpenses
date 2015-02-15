@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.fragment.PieChartFragment;
 
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -75,7 +74,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private CategoryList mListFragment;
-    private PieChartFragment mChartFragment;
 
     public CategoryList getListFragment() {
       return mListFragment;
@@ -133,13 +131,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       setContentView(layoutId);
       FragmentManager fm = getSupportFragmentManager();
       mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
-      if (helpVariant == HelpVariant.distribution) {
-        mChartFragment = (PieChartFragment) fm.findFragmentById(R.id.piechart);
-        boolean chartShown = fm.getBackStackEntryCount()>0;
-        fm.beginTransaction()
-          .hide(chartShown ? mListFragment : mChartFragment)
-          .commit();
-      }
     }
 
     @Override
@@ -163,20 +154,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         inflater.inflate(R.menu.categories, menu);
       }
       super.onCreateOptionsMenu(menu);
-      return true;
-    }
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-      super.onPrepareOptionsMenu(menu);
-      MenuItem menuItem = menu.findItem(R.id.CHART_COMMAND);
-      if (menuItem!=null) {
-        Drawable chartIcon = menuItem.getIcon();
-        if (getSupportFragmentManager().getBackStackEntryCount()>0) {
-          chartIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        } else {
-          chartIcon.setColorFilter(null);
-        }
-      }
       return true;
     }
 
@@ -206,18 +183,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         return true;
       case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
         importCats();
-        return true;
-      case R.id.CHART_COMMAND:
-        supportInvalidateOptionsMenu();
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount()>0) {
-          fm.popBackStack();
-        } else {
-          fm.beginTransaction()
-            .show(mChartFragment).hide(mListFragment)
-            .addToBackStack(null)
-            .commit();
-        }
         return true;
       }
       return super.dispatchCommand(command, tag);
