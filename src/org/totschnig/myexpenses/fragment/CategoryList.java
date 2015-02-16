@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.ThemeType;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -73,8 +75,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Legend;
-import com.github.mikephil.charting.utils.Legend.LegendPosition;
 
 public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
@@ -171,11 +171,14 @@ public class CategoryList extends ContextualActionBarFragment implements
           int index = e.getXIndex();
           long packedPosition = (lastExpandedPosition==-1) ?
               ExpandableListView.getPackedPositionForGroup(index) :
-                ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
-          mListView.setItemChecked(mListView.getFlatListPosition(packedPosition),true);
+              ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition,true);
+          mListView.smoothScrollToPosition(flatPosition);
         }
         @Override
         public void onNothingSelected() {
+          mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
         }
       });
     } else {
@@ -219,8 +222,26 @@ public class CategoryList extends ContextualActionBarFragment implements
           lastExpandedPosition = -1;
           setData(mGroupCursor,mMainColors);
           mChart.highlightValue(groupPosition, 0);
+          long packedPosition = 
+              ExpandableListView.getPackedPositionForGroup(groupPosition);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition,true);
         }
       });
+      mListView.setOnChildClickListener(new OnChildClickListener() {
+        
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v,
+            int groupPosition, int childPosition, long id) {
+          long packedPosition = 
+              ExpandableListView.getPackedPositionForChild(groupPosition, childPosition);
+          mChart.highlightValue(childPosition, 0);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition,true);
+          return true;
+        }
+      });
+      //the following is relevant when not in touch mode
       mListView.setOnItemSelectedListener(new OnItemSelectedListener() {
 
         @Override
@@ -245,6 +266,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           
         }
       });
+
       mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
       registerForContextMenu(mListView);
     } else {
@@ -431,7 +453,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       convertView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
       View colorView = convertView.findViewById(R.id.color1);
       if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-        colorView.setBackgroundColor(mMainColors.get(groupPosition));
+        colorView.setBackgroundColor(mMainColors.get(groupPosition%mMainColors.size()));
       } else {
         colorView.setVisibility(View.GONE);
       }
@@ -445,7 +467,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           convertView, parent);
       View colorView = convertView.findViewById(R.id.color1);
       if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-        colorView.setBackgroundColor(mSubColors.get(childPosition));
+        colorView.setBackgroundColor(mSubColors.get(childPosition%mSubColors.size()));
       } else {
         colorView.setVisibility(View.GONE);
       }
@@ -636,8 +658,20 @@ public class CategoryList extends ContextualActionBarFragment implements
       if (mAdapter.getGroupId(id) != 0) {
           mAdapter.setChildrenCursor(id, c);
           if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-            mSubColors = getSubColors(mMainColors.get(id));
-            setData(c,mSubColors);
+            long packedPosition;
+            if (c.getCount()>0) {
+              mSubColors = getSubColors(mMainColors.get(id));
+              setData(c,mSubColors);
+              mChart.highlightValue(0, 0);
+              packedPosition = 
+                  ExpandableListView.getPackedPositionForChild(id,0);
+            } else {
+              packedPosition = 
+                  ExpandableListView.getPackedPositionForGroup(id);
+              mChart.highlightValue(id, 0);
+            }
+            int flatPosition = mListView.getFlatListPosition(packedPosition);
+            mListView.setItemChecked(flatPosition,true);
           }
       }
     }
@@ -862,13 +896,63 @@ public class CategoryList extends ContextualActionBarFragment implements
     }
   }
   private ArrayList<Integer> getSubColors(int color) {
+    //inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
+    return MyApplication.getThemeType().equals(ThemeType.DARK) ?
+        getTints(color) : getShades(color);
+    
+  }
+
+  private ArrayList<Integer> getShades(int color) {
     ArrayList<Integer> result = new ArrayList<Integer>();
-    float[] hsv = new float[3];
-    Color.colorToHSV(color, hsv);
-    for (float f=0.1f;f<0.9f;f+=0.1f) {
-      hsv[2] = f;
-      result.add(Color.HSVToColor(hsv));
+    int red = Color.red(color);
+    int redDecrement = (int) Math.round(red*0.1);
+    int green = Color.green(color);
+    int greenDecrement = (int) Math.round(green*0.1);
+    int blue = Color.blue(color);
+    int blueDecrement = (int) Math.round(blue*0.1);
+    for (int i = 0; i < 10; i++) {
+      red = red - redDecrement;
+      if (red <= 0) {
+        red = 0;
+      }
+      green = green - greenDecrement;
+      if (green <= 0) {
+        green = 0;
+      }
+      blue = blue - blueDecrement;
+      if (blue <= 0) {
+        blue = 0;
+      }
+      result.add(Color.rgb(red, green, blue));
     }
+    result.add(Color.BLACK);
+    return result;
+  }
+
+  private ArrayList<Integer> getTints(int color) {
+    ArrayList<Integer> result = new ArrayList<Integer>();
+    int red = Color.red(color);
+    int redIncrement = (int) Math.round((255 - red)*0.1);
+    int green = Color.green(color);
+    int greenIncrement = (int) Math.round((255 - green)*0.1);
+    int blue = Color.blue(color);
+    int blueIncrement = (int) Math.round((255 - blue)*0.1);
+    for (int i = 0; i < 10; i++) {
+      red = red + redIncrement;
+      if (red >= 255) {
+        red = 255;
+      }
+      green = green + greenIncrement;
+      if (green >= 255) {
+        red = 255;
+      }
+      blue = blue + blueIncrement;
+      if (blue>= 255) {
+        red = 255;
+      }
+      result.add(Color.rgb(red, green, blue));
+    }
+    result.add(Color.WHITE);
     return result;
   }
 }
