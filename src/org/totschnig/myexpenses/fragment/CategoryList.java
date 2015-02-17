@@ -16,11 +16,13 @@
 package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
+import static org.totschnig.myexpenses.activity.AmountActivity.EXPENSE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.ThemeType;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -37,13 +39,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -53,7 +55,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -61,6 +68,14 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Highlight;
 
 public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
@@ -81,6 +96,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   private LoaderManager mManager;
   private TextView incomeSumTv,expenseSumTv;
   private View bottomLine;
+  private PieChart mChart;
   public Grouping mGrouping;
   int mGroupingYear;
   int mGroupingSecond;
@@ -88,6 +104,10 @@ public class CategoryList extends ContextualActionBarFragment implements
 
   private Account mAccount;
   private Cursor mGroupCursor;
+
+  protected boolean mType = EXPENSE;
+  private ArrayList<Integer> mMainColors,mSubColors;
+  private int lastExpandedPosition = -1;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -98,11 +118,20 @@ public class CategoryList extends ContextualActionBarFragment implements
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final ManageCategories ctx = (ManageCategories) getActivity();
-    int viewResource;
+    View v;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      viewResource = R.layout.distribution_list;
+
+      mMainColors = new ArrayList<Integer>();
+      for (int col : ColorTemplate.PASTEL_COLORS)
+          mMainColors.add(col);
+      for (int col : ColorTemplate.JOYFUL_COLORS)
+        mMainColors.add(col);
+      for (int col : ColorTemplate.LIBERTY_COLORS)
+        mMainColors.add(col);
+      mMainColors.add(ColorTemplate.getHoloBlue());
+
       mAccount = Account.getInstanceFromDb(extras.getLong(KEY_ACCOUNTID));
       if (mAccount == null) {
         TextView tv = new TextView(ctx);
@@ -118,10 +147,48 @@ public class CategoryList extends ContextualActionBarFragment implements
       getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
+      v = inflater.inflate( R.layout.distribution_list,null,false);
+      mChart = (PieChart) v.findViewById(R.id.chart1);
+      mChart.setDescription("");
+      
+      //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
+      
+      //mChart.setValueTypeface(tf);
+      //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
+      //mChart.setUsePercentValues(true);
+      //mChart.setCenterText("Quarterly\nRevenue");
+      //mChart.setCenterTextSize(22f);
+       
+      // radius of the center hole in percent of maximum radius
+      //mChart.setHoleRadius(60f); 
+      //mChart.setTransparentCircleRadius(0f);
+      mChart.setDrawLegend(false);
+      mChart.setDrawYValues(false);
+      mChart.setDrawXValues(false);
+      mChart.setDrawHoleEnabled(true);
+      mChart.setDrawCenterText(true);
+      mChart.setRotationEnabled(false);
+      mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+
+        @Override
+        public void onValueSelected(Entry e, int dataSetIndex) {
+          int index = e.getXIndex();
+          long packedPosition = (lastExpandedPosition==-1) ?
+              ExpandableListView.getPackedPositionForGroup(index) :
+              ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition,true);
+          mListView.smoothScrollToPosition(flatPosition);
+          setCenterText(index);
+        }
+        @Override
+        public void onNothingSelected() {
+          mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
+        }
+      });
     } else {
-      viewResource = R.layout.categories_list;
+      v = inflater.inflate(R.layout.categories_list,null,false);
     }
-    View v = inflater.inflate(viewResource, null, false);
     incomeSumTv = (TextView) v.findViewById(R.id.sum_income);
     expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
     bottomLine = v.findViewById(R.id.BottomLine);
@@ -143,7 +210,73 @@ public class CategoryList extends ContextualActionBarFragment implements
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     mListView.setAdapter(mAdapter);
-    registerForContextualActionBar(mListView);
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+        @Override
+        public void onGroupExpand(int groupPosition) {
+          if (lastExpandedPosition != -1
+              && groupPosition != lastExpandedPosition) {
+            mListView.collapseGroup(lastExpandedPosition);
+          }
+          lastExpandedPosition = groupPosition;
+        }
+      });
+      mListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+        @Override
+        public void onGroupCollapse(int groupPosition) {
+          lastExpandedPosition = -1;
+          setData(mGroupCursor,mMainColors);
+          highlight(groupPosition);
+          long packedPosition = 
+              ExpandableListView.getPackedPositionForGroup(groupPosition);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition,true);
+        }
+      });
+      mListView.setOnChildClickListener(new OnChildClickListener() {
+        
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v,
+            int groupPosition, int childPosition, long id) {
+          long packedPosition = 
+              ExpandableListView.getPackedPositionForChild(groupPosition, childPosition);
+          highlight(childPosition);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition,true);
+          return true;
+        }
+      });
+      //the following is relevant when not in touch mode
+      mListView.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view,
+            int position, long id) {
+          long pos = mListView.getExpandableListPosition(position);
+          int type = ExpandableListView.getPackedPositionType(pos);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
+          int highlightedPos;
+          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+             highlightedPos = lastExpandedPosition == -1 ? group : -1;
+          } else {
+            highlightedPos = child;
+          }
+          highlight(highlightedPos);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+          // TODO Auto-generated method stub
+          
+        }
+      });
+
+      mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+      registerForContextMenu(mListView);
+    } else {
+      registerForContextualActionBar(mListView);
+    }
     return v;
   }
 
@@ -319,6 +452,32 @@ public class CategoryList extends ContextualActionBarFragment implements
       }
       super.setViewText(v, text);
     }
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+        View convertView, ViewGroup parent) {
+      convertView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
+      View colorView = convertView.findViewById(R.id.color1);
+      if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+        colorView.setBackgroundColor(mMainColors.get(groupPosition%mMainColors.size()));
+      } else {
+        colorView.setVisibility(View.GONE);
+      }
+      return convertView;
+    }
+    @Override
+    public View getChildView(int groupPosition, int childPosition,
+        boolean isLastChild, View convertView, ViewGroup parent) {
+      // TODO Auto-generated method stub
+      convertView = super.getChildView(groupPosition, childPosition, isLastChild,
+          convertView, parent);
+      View colorView = convertView.findViewById(R.id.color1);
+      if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+        colorView.setBackgroundColor(mSubColors.get(childPosition%mSubColors.size()));
+      } else {
+        colorView.setVisibility(View.GONE);
+      }
+      return convertView;
+    }
   }
   private String buildGroupingClause() {
     String year = YEAR + " = " + mGroupingYear;
@@ -409,7 +568,9 @@ public class CategoryList extends ContextualActionBarFragment implements
         selection = " = ?";
         accountSelector = String.valueOf(mAccount.getId());
       }
-      String catFilter = "FROM " + VIEW_COMMITTED + " WHERE " + KEY_ACCOUNTID + selection;
+      String catFilter = "FROM " + VIEW_COMMITTED +
+          " WHERE " + KEY_ACCOUNTID + selection + 
+          " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
@@ -459,7 +620,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (getActivity()==null)
       return;
     int id = loader.getId();
-    ActionBarActivity ctx = (ActionBarActivity) getActivity();
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     ActionBar actionBar =  ctx.getSupportActionBar();
     switch(id) {
     case SUM_CURSOR:
@@ -490,14 +651,41 @@ public class CategoryList extends ContextualActionBarFragment implements
     case CATEGORY_CURSOR:
       mGroupCursor=c;
       mAdapter.setGroupCursor(c);
+      if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+        if (c.getCount()>0) {
+          mChart.setVisibility(View.VISIBLE);
+          setData(c,mMainColors);
+          highlight(0);
+          mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)),true);
+        } else {
+          mChart.setVisibility(View.GONE);
+        }
+      }
       if (mAccount != null) {
         actionBar.setTitle(mAccount.label);
       }
       break;
     default:
       //check if group still exists
-      if (mAdapter.getGroupId(id) != 0)
+      if (mAdapter.getGroupId(id) != 0) {
           mAdapter.setChildrenCursor(id, c);
+          if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+            long packedPosition;
+            if (c.getCount()>0) {
+              mSubColors = getSubColors(mMainColors.get(id));
+              setData(c,mSubColors);
+              highlight(0);
+              packedPosition = 
+                  ExpandableListView.getPackedPositionForChild(id,0);
+            } else {
+              packedPosition = 
+                  ExpandableListView.getPackedPositionForGroup(id);
+              highlight(id);
+            }
+            int flatPosition = mListView.getFlatListPosition(packedPosition);
+            mListView.setItemChecked(flatPosition,true);
+          }
+      }
     }
   }
   @Override
@@ -594,7 +782,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     }
     long cat_id = id;
     mGroupCursor.moveToPosition(groupPosition);
-    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0)
+    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0) 
       return false;
     String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
@@ -688,5 +876,113 @@ public class CategoryList extends ContextualActionBarFragment implements
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && !ctx.helpVariant.equals(HelpVariant.manage));
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
+  }
+
+  public void setType(boolean isChecked) {
+    mType = isChecked;
+    reset();
+  }
+  private void setData(Cursor c, ArrayList<Integer> colors) {
+    ArrayList<Entry> entries1 = new ArrayList<Entry>();
+    ArrayList<String> xVals = new ArrayList<String>();
+    if (c!= null && c.moveToFirst()) {
+      do {
+        long sum = c.getLong(c.getColumnIndex(DatabaseConstants.KEY_SUM));
+        xVals.add(c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)));
+        entries1.add(
+            new Entry(
+                (float) sum,
+                c.getPosition()));
+      } while (c.moveToNext());
+      PieDataSet ds1 = new PieDataSet(entries1, "");
+
+      ds1.setColors(colors);
+      ds1.setSliceSpace(0f);
+      mChart.setData(new PieData(xVals, ds1));
+      // undo all highlights
+      mChart.highlightValues(null);
+      mChart.invalidate();
+    } else {
+      mChart.clear();
+    }
+  }
+  private ArrayList<Integer> getSubColors(int color) {
+    //inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
+    return MyApplication.getThemeType().equals(ThemeType.DARK) ?
+        getTints(color) : getShades(color);
+    
+  }
+
+  private ArrayList<Integer> getShades(int color) {
+    ArrayList<Integer> result = new ArrayList<Integer>();
+    int red = Color.red(color);
+    int redDecrement = (int) Math.round(red*0.1);
+    int green = Color.green(color);
+    int greenDecrement = (int) Math.round(green*0.1);
+    int blue = Color.blue(color);
+    int blueDecrement = (int) Math.round(blue*0.1);
+    for (int i = 0; i < 10; i++) {
+      red = red - redDecrement;
+      if (red <= 0) {
+        red = 0;
+      }
+      green = green - greenDecrement;
+      if (green <= 0) {
+        green = 0;
+      }
+      blue = blue - blueDecrement;
+      if (blue <= 0) {
+        blue = 0;
+      }
+      result.add(Color.rgb(red, green, blue));
+    }
+    result.add(Color.BLACK);
+    return result;
+  }
+
+  private ArrayList<Integer> getTints(int color) {
+    ArrayList<Integer> result = new ArrayList<Integer>();
+    int red = Color.red(color);
+    int redIncrement = (int) Math.round((255 - red)*0.1);
+    int green = Color.green(color);
+    int greenIncrement = (int) Math.round((255 - green)*0.1);
+    int blue = Color.blue(color);
+    int blueIncrement = (int) Math.round((255 - blue)*0.1);
+    for (int i = 0; i < 10; i++) {
+      red = red + redIncrement;
+      if (red >= 255) {
+        red = 255;
+      }
+      green = green + greenIncrement;
+      if (green >= 255) {
+        red = 255;
+      }
+      blue = blue + blueIncrement;
+      if (blue>= 255) {
+        red = 255;
+      }
+      result.add(Color.rgb(red, green, blue));
+    }
+    result.add(Color.WHITE);
+    return result;
+  }
+  private void highlight(int position) {
+    Highlight h = new Highlight(position, 0);
+    mChart.highlightValues(new Highlight[] {h});
+    setCenterText(position);
+  }
+  private void setCenterText(int position) {
+    PieData data = (PieData) mChart.getData();
+
+    String description = data.getXVals().get(position);
+
+    String value = mChart.getValueFormatter().getFormattedValue(
+        Math.abs(mChart.getPercentOfTotal(data.getDataSet().getEntryForXIndex(position).getVal())))
+        + " %";
+
+    mChart.setCenterText(
+        description+"\n"+
+        value
+        );
   }
 }

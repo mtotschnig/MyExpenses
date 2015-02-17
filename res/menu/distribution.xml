@@ -13,22 +13,27 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-  <item
-    android:id="@+id/BACK_COMMAND"
-    android:title="@string/menu_back"
-    android:icon="@drawable/ic_menu_back"
-    app:showAsAction="never"/>
-  <item
-    android:id="@+id/FORWARD_COMMAND"
-    android:icon="@drawable/ic_menu_forward"
-    android:title="@string/menu_forward"
-    app:showAsAction="never"/>
-  <item
-    android:id="@id/GROUPING_COMMAND"
-    android:icon="@android:drawable/ic_menu_sort_by_size"
-    app:showAsAction="ifRoom"
-    android:title="@string/menu_grouping"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/switchId"
+        android:title=""
+        app:showAsAction="always"
+        app:actionLayout="@layout/switch_layout"/>
+    <item
+        android:id="@+id/BACK_COMMAND"
+        android:icon="@drawable/ic_menu_back"
+        android:title="@string/menu_back"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/FORWARD_COMMAND"
+        android:icon="@drawable/ic_menu_forward"
+        android:title="@string/menu_forward"
+        app:showAsAction="never"/>
+    <item
+        android:id="@id/GROUPING_COMMAND"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/menu_grouping"
+        app:showAsAction="ifRoom"/>
 </menu>

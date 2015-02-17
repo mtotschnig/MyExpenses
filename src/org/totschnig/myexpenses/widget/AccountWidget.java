@@ -62,6 +62,7 @@ public class AccountWidget extends AbstractWidget<Account> {
   };
   private Money mCurrentBalance;
 
+  @Override
   RemoteViews updateWidgetFrom(Context context,
       int widgetId, int layoutId, Account a) {
     Log.d("MyExpensesWidget", "updating account " + a.getId());
@@ -75,7 +76,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     setBackgroundColorSave(updateViews,R.id.divider3,a.color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews, a.getId());
-    addButtonsClick(context, updateViews, a.getId());
+    addButtonsClick(context, updateViews, widgetId, a.getId());
     saveForWidget(context, widgetId, a.getId());
     int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
         : View.VISIBLE;
@@ -97,14 +98,14 @@ public class AccountWidget extends AbstractWidget<Account> {
   }
 
   private void addButtonsClick(Context context, RemoteViews updateViews,
-      long accountId) {
+      int widgetId, long accountId) {
     Intent intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     PendingIntent pendingIntent = PendingIntent.getActivity(
         context,
-        REQUEST_CODE_ADD_TRANSACTION,
+        2*widgetId,
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
@@ -116,7 +117,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     pendingIntent = PendingIntent.getActivity(
         context,
-        REQUEST_CODE_ADD_TRANSFER,
+        2*widgetId+1,
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
