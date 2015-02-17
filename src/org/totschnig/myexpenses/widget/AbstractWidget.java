@@ -48,8 +48,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   
   protected static final String TAG = AbstractWidget.class.getSimpleName();
   
-  protected static final String TAG = AbstractWidget.class.getSimpleName();
-  
   protected static HandlerThread sWorkerThread;
   protected static Handler sWorkerQueue;
 
