@@ -34,11 +34,7 @@ public class FolderBrowser extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       setContentView(R.layout.folder_browser);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    // TODO overriden because help menu is not defined
-    return true;
-    }
+
     @Override
     public void onFinishEditDialog(Bundle args) {
       ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
