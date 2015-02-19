@@ -262,8 +262,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (preference.getKey().equals(MyApplication.PrefKey.CONTRIB_INSTALL.getKey())) {
-      Intent i = new Intent(this,ContribInfoDialogActivity.class);
-      startActivity(i);
+      if (MyApplication.getInstance().isContribEnabled()) {
+        showDialog(R.id.DONATE_DIALOG);
+      } else {
+        Intent i = new Intent(this,ContribInfoDialogActivity.class);
+        startActivity(i);
+      }
       return true;
     }
     if (preference.getKey().equals(MyApplication.PrefKey.REQUEST_LICENCE.getKey())) {

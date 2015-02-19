@@ -89,6 +89,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("set_sort_key", android.R.drawable.ic_menu_sort_by_size);
     iconMap.put("print", R.drawable.print_icon);
     iconMap.put("create_template_from_transaction", R.drawable.create_template_from_transaction_icon);
+    iconMap.put("create_folder", android.R.drawable.ic_menu_add);
+    iconMap.put("select_folder", R.drawable.ic_menu_goto);
+    iconMap.put("up",R.drawable.ic_action_up);
   }
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();

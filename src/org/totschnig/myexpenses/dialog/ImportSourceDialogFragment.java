@@ -142,7 +142,11 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
           if (isKitKat && mUri != null) {
             final int takeFlags = data.getFlags()
                 & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-            getActivity().getContentResolver().takePersistableUriPermission(mUri, takeFlags);
+            try {
+              getActivity().getContentResolver().takePersistableUriPermission(mUri, takeFlags);
+            } catch (SecurityException e) {
+              Utils.reportToAcra(e);
+            }
           }
         }
       }

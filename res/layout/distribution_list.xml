@@ -18,12 +18,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-  <ExpandableListView
-      android:id="@+id/list"
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:drawSelectorOnTop="false" />
+  <include layout="@layout/distribution_list_inner" />
   <TextView android:id="@+id/empty"
       android:gravity="center"
       android:layout_width="fill_parent"

@@ -31,16 +31,29 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
+import com.github.mikephil.charting.charts.PieChart;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -72,6 +85,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       Intent intent = getIntent();
       String action = intent.getAction();
+      int layoutId = R.layout.select_category;
       if (action == null) {
         helpVariant = HelpVariant.select_mapping;
         getSupportActionBar().setTitle(R.string.select_category);
@@ -81,6 +95,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
       } else if (action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
+        layoutId = R.layout.distribution;
         //title is set in categories list
         DisplayMetrics dm = getResources().getDisplayMetrics();
 
@@ -113,8 +128,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         helpVariant = HelpVariant.select_filter;
         getSupportActionBar().setTitle(R.string.search_category);
       }
-      setContentView(R.layout.select_category);
-      mListFragment = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
+      setContentView(layoutId);
+      FragmentManager fm = getSupportFragmentManager();
+      mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
     }
 
     @Override
@@ -122,6 +138,18 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       MenuInflater inflater = getMenuInflater();
       if (helpVariant.equals(HelpVariant.distribution)) {
         inflater.inflate(R.menu.distribution, menu);
+
+        ToggleButton typeButton = (ToggleButton)
+            MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
+            .findViewById(R.id.TaType);
+
+        typeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            mListFragment.setType(isChecked);
+          }
+        });
+        
       } else if (!helpVariant.equals(HelpVariant.select_filter)) {
         inflater.inflate(R.menu.categories, menu);
       }
@@ -156,7 +184,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
         importCats();
         return true;
-        
       }
       return super.dispatchCommand(command, tag);
      }

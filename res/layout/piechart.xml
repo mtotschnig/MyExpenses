@@ -13,25 +13,10 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-	  <item
-	    android:id="@id/CREATE_COMMAND"
-	    android:icon="@android:drawable/ic_menu_add"
-	    app:showAsAction="always"
-	    android:title="@string/menu_create_folder"/>
-	  
-	  <item
-	    android:id="@id/SELECT_COMMAND"
-	    android:icon="@drawable/ic_menu_goto"
-	    app:showAsAction="always"
-	    android:title="@string/menu_select_folder"/>
-
-	  <item
-	  	android:id="@id/UP_COMMAND"
-      android:icon="@drawable/ic_action_up"
-	    app:showAsAction="always"
-	    android:title="@string/menu_up"/>
-	  	
-</menu>
+-->
+<com.github.mikephil.charting.charts.PieChart
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chart1"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" />

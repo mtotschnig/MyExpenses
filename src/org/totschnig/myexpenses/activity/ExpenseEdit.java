@@ -1189,8 +1189,9 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanId = ((Template) mTransaction).planId;
         }
       }
-      else
+      else {
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+      }
       //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
       if (mCatId == null) {
         mCatId = mTransaction.getCatId();
@@ -1230,6 +1231,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case R.id.Account:
+      mTransaction.accountId = mAccounts[position].getId();
       mAmountLabel.setText(getString(R.string.amount) + " ("+mAccounts[position].currency.getSymbol()+")");
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         setTransferAccountFilterMap();
@@ -1463,14 +1465,15 @@ public class ExpenseEdit extends AmountActivity implements
   private int setTransferAccountFilterMap() {
     Account fromAccount = mAccounts[mAccountSpinner.getSelectedItemPosition()];
     ArrayList<Integer> list = new ArrayList<Integer>();
-    int selectedPosition = 0;
+    int position = 0,selectedPosition = 0;
     for (int i = 0; i < mAccounts.length; i++) {
       if (fromAccount.getId() != mAccounts[i].getId() &&
           fromAccount.currency.equals(mAccounts[i].currency)) {
         list.add(i);
         if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].getId()) {
-          selectedPosition = i;
+          selectedPosition = position;
         }
+        position++;
       }
     }
     mTransferAccountCursor.setFilterMap(list);
