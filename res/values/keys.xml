@@ -54,7 +54,9 @@
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto ,
     licensed under GPL v2.0 .</string>
-  <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
+  <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders,
+    licensed under Apache License, Version 2.0 .</string>
+  <string name="help_licence_mpandroidchart">MPAndroidChart from https://github.com/PhilJay/MPAndroidChart,
     licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_grisbi">Category definitions from http://www.grisbi.org,
     licensed under GPL v2.0 .</string>

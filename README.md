@@ -31,6 +31,7 @@ Dependencies
 *My Expenses* depends on:
 - Emil Sjölander's <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
 - <a href="http://itextpdf.com/">Itext</a>
+- Philipp Jahoda's <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
 
 
 Build
@@ -57,6 +58,7 @@ echo "sdk.dir={sdk-dir}">local.properties
 cp -R {sdk-dir}/extras/android/support/v7/appcompat .
 android update lib-project --path ./appcompat
 android update lib-project --path ./StickyListHeaders/library/
+android update lib-project --path ./MPAndroidChart/MPChartLib/
 mkdir libs
 wget http://sourceforge.net/projects/itext/files/iText/iText5.5.2/itext-5.5.2.zip
 unzip itext-5.5.2.zip itextpdf-5.5.2.jar -d libs
