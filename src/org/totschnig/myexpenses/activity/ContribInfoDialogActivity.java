@@ -165,7 +165,6 @@ import android.widget.Toast;
           return payload.equals(mPayload);
         }
     };
-    //setWaitScreen(true);
     mHelper.launchPurchaseFlow(
         ContribInfoDialogActivity.this,
         Config.SKU_PREMIUM,
@@ -174,19 +173,6 @@ import android.widget.Toast;
         mPayload
         );
     }
-//    private void setWaitScreen(boolean set) {
-//      final FragmentManager m = getSupportFragmentManager();
-//      if(set) {
-//        m.beginTransaction()
-//          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup_purchase),"PROGRESS")
-//          .commit();
-//      } else {
-//        ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
-//        if (f!=null) {
-//            m.beginTransaction().remove(f).commitAllowingStateLoss();
-//        }
-//      }
-//    }
 
     void complain(String message) {
       Log.e(MyApplication.TAG, "**** InAppPurchase Error: " + message);
