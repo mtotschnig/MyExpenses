@@ -28,6 +28,12 @@
     <item quantity="few">%1$d  tranzacţii s-au clonat cu succes.</item>
     <item quantity="other">%1$d  tranzacţii s-au clonat cu succes.</item>
   </plurals>
+  <string name="split_transaction_error">Imposibil de transformat tranzacţia în repartizare.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">Tranzactia s-a transformat în repartizare.</item>
+    <item quantity="few">%1$d tranzactii s-au transformat în repartizari.</item>
+    <item quantity="other">%1$d tranzactii s-au transformat în repartizari.</item>
+  </plurals>
   <string name="color">Culoare</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
@@ -219,6 +225,7 @@
   <string name="menu_settings">Setări</string>
   <string name="menu_share">Recomandă</string>
   <string name="menu_set_sort_key">Setează cheia de sortare</string>
+  <string name="menu_split_transaction">Transformă in repartizare</string>
   <string name="method">Metoda</string>
   <string name="new_version">Versiune nouă</string>
   <string name="no_accounts">Nici un cont!</string>
@@ -308,6 +315,8 @@
   <string name="pref_contrib_donate_summary">Donaţi prin PayPal, Flattr sau Bitcoin şi veţi avea acces la funcţionalităţile  premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Dacă doriți să aduceţi o contribuție suplimentară, puteţi  flattr Cheltuielile Mele, face o donaţie prin Paypal sau trimite Bitcoins.</string>
   <string name="pref_contrib_donate_title">Trimite donaţie</string>
+  <string name="pref_contrib_install_summary">Prin achiziţionarea Contrib Key Cheltuielile Mele, veţi avea acces la funcţionalităţile premium.</string>
+  <string name="pref_contrib_install_title">Cumpăraţi Contrib Key (In-App plată)</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
   <string name="pref_enter_licence_summary">Dacă aţi primit o cheie Contrib, veţi avea acces la funcţionalităţile premium.</string>
   <string name="pref_enter_licence_title">Introduceţi cheia Contrib</string>

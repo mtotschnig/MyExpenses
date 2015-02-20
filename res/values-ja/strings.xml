@@ -24,7 +24,11 @@
   <string name="category">分類</string>
   <string name="clone_transaction_error">取引を複製できませんでした。</string>
   <plurals name="clone_transaction_success">
-    <item quantity="other">%1$d の取引の複製されました。</item>
+    <item quantity="other">%1$d の取引が複製されました。</item>
+  </plurals>
+  <string name="split_transaction_error">処理を変換して分割することができませんでした。</string>
+  <plurals name="split_transaction_success">
+    <item quantity="other">%1$d の処理を変換して分割しました。</item>
   </plurals>
   <string name="color">色</string>
   <string name="comment">メモ</string>
@@ -215,6 +219,7 @@
   <string name="menu_settings">設定</string>
   <string name="menu_share">友達に教える</string>
   <string name="menu_set_sort_key">ソートキーを設定</string>
+  <string name="menu_split_transaction">変換して分割</string>
   <string name="method">方法</string>
   <string name="new_version">新しいバージョン</string>
   <string name="no_accounts">勘定がありません!</string>
@@ -300,6 +305,8 @@
   <string name="pref_contrib_donate_summary">PayPal、Flattr、またはBitcoin 経由で寄付をして、プレミアム機能へのアクセスを入手します。</string>
   <string name="pref_contrib_donate_summary_already_contrib">追加の貢献をしたい場合、あなたは マイ エクスペンス を Flattr、Paypal を通じて寄付、または Bitcoin を送ることができます。</string>
   <string name="pref_contrib_donate_title">寄付を送る</string>
+  <string name="pref_contrib_install_summary">マイ エクスペンス 貢献キーを購入することにより、プレミアム機能へアクセスすることができます。</string>
+  <string name="pref_contrib_install_title">貢献キーを購入 (アプリ内支払)</string>
   <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
   <string name="pref_enter_licence_summary">あなたが貢献キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
   <string name="pref_enter_licence_title">貢献キーを入力</string>

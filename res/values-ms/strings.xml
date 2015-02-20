@@ -26,6 +26,10 @@
   <plurals name="clone_transaction_success">
     <item quantity="other">Transaksi %1$d berjaya diklonkan.</item>
   </plurals>
+  <string name="split_transaction_error">Tidak dapat ubah transaksi menjadi pisah.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="other">%1$d transaksi berjaya diubah menjadi pisah.</item>
+  </plurals>
   <string name="color">Warna</string>
   <string name="comment">Nota</string>
   <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>
@@ -215,6 +219,7 @@
   <string name="menu_settings">Tetapan</string>
   <string name="menu_share">Beritahu rakan</string>
   <string name="menu_set_sort_key">Tetapkan kekunci isih</string>
+  <string name="menu_split_transaction">Ubah untuk pisah</string>
   <string name="method">Kaedah</string>
   <string name="new_version">Versi baharu</string>
   <string name="no_accounts">Tiada Akaun!</string>
@@ -300,6 +305,8 @@
   <string name="pref_contrib_donate_summary">Derma melalui PayPal, Flattr atau Bitcoin dan dapatkan capaian ke fitur premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Jika anda mahu memberi lagi sumbangan, anda boleh flattr Perbelanjaan Saya, beri derma melalui Paypal atau hantar Bitcoin.</string>
   <string name="pref_contrib_donate_title">Hantar derma</string>
+  <string name="pref_contrib_install_summary">Dengan membeli Kunci My Expenses Contrib, anda mendapat fitur premium.</string>
+  <string name="pref_contrib_install_title">Beli Kunci Contrib (Pembayaran In-App)</string>
   <string name="pref_custom_currency_title">Suaikan matawang</string>
   <string name="pref_enter_licence_summary">Jika ana menerima kunci Contrib, akan peroleh capaian ke fitur premium.</string>
   <string name="pref_enter_licence_title">Masukkan kunci Contrib</string>

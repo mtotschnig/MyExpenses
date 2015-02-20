@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_240">
+    <item>Ubah transaksi bias menjadi transaksi pisah</item>
+  </string-array>
+  <string-array name="whats_new_239">
+    <item>Ketika pemulihan pangkalan data, pelan kini dicipta semula</item>
+    <item>Terjemahan baharu: Bahasa Bulgaria, Croatia dan Romania</item>
+  </string-array>
   <string-array name="whats_new_238">
     <item>Terjemahan bahasa Jepun</item>
     <item>Kumpulan transaksi boleh dikuncupkan</item>
