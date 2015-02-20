@@ -420,6 +420,7 @@
     <item quantity="other">%1$d new transactions were successfully saved from templates.</item>
   </plurals>
     <string name="save_transaction_template_deleted">Template has been deleted</string>
+    <string name="select">Select</string>
     <string name="select_category">Select category</string>
     <string name="menu_select_category">Select this category</string>
     <string name="menu_select_folder">Select this folder</string>
