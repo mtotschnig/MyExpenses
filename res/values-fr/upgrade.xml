@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_241">
+    <item>Diagramme en camembert de la répartition par catégorie</item>
+  </string-array>
   <string-array name="whats_new_240">
     <item>Transformer une transaction normale en opération ventilée</item>
   </string-array>
