@@ -766,7 +766,11 @@ public class Utils {
       if (configuredDir == null) {
         return true;
       }
-      URI defaultDir = MyApplication.getInstance().getExternalFilesDir(null)
+      File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
+      if (externalFilesDir==null) {
+        return true;
+      }
+      URI defaultDir = externalFilesDir
           .getParentFile().getCanonicalFile().toURI();
       return defaultDir.relativize(configuredDir.getCanonicalFile().toURI())
           .isAbsolute();
