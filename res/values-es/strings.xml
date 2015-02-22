@@ -408,6 +408,7 @@
   <string name="select">Seleccionar</string>
   <string name="select_category">Seleccionar una categoría</string>
   <string name="menu_select_category">Seleccionar esta categoría</string>
+  <string name="menu_select_folder">Seleccione esta carpeta</string>
   <string name="share_scheme_not_supported">Esquema %1$s no está apoyado.</string>
   <string name="share_sending">Enviar el archivo</string>
   <string name="split_parts_heading">Fracciones</string>

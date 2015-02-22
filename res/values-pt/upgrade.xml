@@ -59,11 +59,21 @@
   <string-array name="whats_new_142">
     <item>Widgets para entrada de dados rápida</item>
   </string-array>
+  <string-array name="whats_new_138">
+    <item>Tradução russa</item>
+  </string-array>
   <string-array name="whats_new_136">
     <item>A localização da pasta para backups e exportações é agora configurável</item>
   </string-array>
   <string-array name="whats_new_133">
     <item>Vários backups independentes</item>
     <item>Importar QIF</item>
+  </string-array>
+  <string-array name="whats_new_125">
+    <item>Aperfeiçoamentos IU: #115,#117,#120,#122,#124</item>
+    <item>Informa fusos horários das datas de transação</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>Aperfeiçoamentos IU (#94) e correções de bugs (#95,#96)</item>
   </string-array>
 </resources>
