@@ -557,12 +557,13 @@ public class CategoryList extends ContextualActionBarFragment implements
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES
         + "." + KEY_ROWID + " OR " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
-    String CHILD_COUNT_SELECT = "(select count(*) FROM categories subtree where parent_id = categories._id) as "
+    String CHILD_COUNT_SELECT = "(select count(*) FROM " + TABLE_CATEGORIES
+        + " subtree where " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ") as "
         + KEY_CHILD_COUNT;
     if (mAccount != null) {
       if (mAccount.getId() < 0) {
         selection = " IN " +
-            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+            "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
         accountSelector = mAccount.currency.getCurrencyCode();
       } else {
         selection = " = ?";
