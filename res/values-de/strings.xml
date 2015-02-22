@@ -58,10 +58,10 @@
   <string name="default_account_name">Haushaltsbuch</string>
   <string name="description">Beschreibung</string>
   <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
-  <string name="dialog_command_disabled_balance">Keine verrechnete Buchungen zum Abstimmen.</string>
+  <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Umbuchungen benötigen ein zweites Konto mit derselben Währung.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Sie haben nur ein Konto in %1$s angelegt.</string>
-  <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
+  <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_contrib_no">Noch nicht</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
@@ -515,6 +515,6 @@
   <string name="restore_calendar_handling_configured">Pläne werden in dem aktuell konfigurierten Kalender gespeichert</string>
   <string name="restore_calendar_handling_backup">Pläne werden in dem im Backup festgelegten Kalender gespeichert, falls dieser verfügbar ist</string>
   <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
-  <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegteKalender %s  ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
+  <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
   <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
 </resources>
