@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
@@ -13,6 +13,7 @@ apply plugin: 'android'
 
 repositories {
   mavenCentral()
+  maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -20,6 +21,7 @@ dependencies {
   compile 'com.android.support:appcompat-v7:19.0.1'
   compile 'com.itextpdf:itextpdf:5.5.2'
   compile project(':StickyListHeaders:library')
+  compile 'com.github.PhilJay:MPAndroidChart:v1.7.4'
 }
 
 android {
