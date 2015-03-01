@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.*;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -823,21 +824,29 @@ public class TransactionList extends ContextualActionBarFragment implements
       return true;
     case R.id.PRINT_COMMAND:
       MyExpenses ctx = (MyExpenses) getActivity();
-      if (hasItems) {
-        if (MyApplication.getInstance().isContribEnabled()) {
-          ctx.contribFeatureCalled(Feature.PRINT, null);
+      Result appDirStatus = Utils.checkAppDir();
+        if (hasItems) {
+          if (appDirStatus.success) {
+            if (MyApplication.getInstance().isContribEnabled()) {
+              ctx.contribFeatureCalled(Feature.PRINT, null);
+            }
+            else {
+              CommonCommands.showContribDialog(ctx,Feature.PRINT, null);
+            }
+          } else {
+            Toast.makeText(getActivity(),
+                appDirStatus.print(getActivity()),
+                Toast.LENGTH_LONG)
+                .show();
+          }
+        } else {
+          MessageDialogFragment.newInstance(
+              0,
+              R.string.dialog_command_disabled_reset_account,
+              MessageDialogFragment.Button.okButton(),
+              null,null)
+           .show(ctx.getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
         }
-        else {
-          CommonCommands.showContribDialog(ctx,Feature.PRINT, null);
-        }
-      } else {
-        MessageDialogFragment.newInstance(
-            0,
-            R.string.dialog_command_disabled_reset_account,
-            MessageDialogFragment.Button.okButton(),
-            null,null)
-         .show(ctx.getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
-      }
       return true;
     default:
       return super.onOptionsItemSelected(item);
