@@ -166,14 +166,12 @@ public class CategoryList extends ContextualActionBarFragment implements
       TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
       int textSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
       a.recycle();
-      mChart.setCenterTextPixel(textSize);
+      mChart.setCenterTextSizePixels(textSize);
        
       // radius of the center hole in percent of maximum radius
       //mChart.setHoleRadius(60f); 
       //mChart.setTransparentCircleRadius(0f);
-      mChart.setDrawLegend(false);
-      mChart.setDrawYValues(false);
-      mChart.setDrawXValues(false);
+      mChart.setDrawSliceText(false);
       mChart.setDrawHoleEnabled(true);
       mChart.setDrawCenterText(true);
       mChart.setRotationEnabled(false);
@@ -907,8 +905,10 @@ public class CategoryList extends ContextualActionBarFragment implements
       PieDataSet ds1 = new PieDataSet(entries1, "");
 
       ds1.setColors(colors);
-      ds1.setSliceSpace(0f);
+      ds1.setSliceSpace(2f);
+      ds1.setDrawValues(false);
       mChart.setData(new PieData(xVals, ds1));
+      mChart.getLegend().setEnabled(false);
       // undo all highlights
       mChart.highlightValues(null);
       mChart.invalidate();
@@ -986,7 +986,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 
     String description = data.getXVals().get(position);
 
-    String value = mChart.getValueFormatter().getFormattedValue(
+    String value = data.getDataSet().getValueFormatter().getFormattedValue(
         Math.abs(mChart.getPercentOfTotal(data.getDataSet().getEntryForXIndex(position).getVal())))
         + " %";
 
