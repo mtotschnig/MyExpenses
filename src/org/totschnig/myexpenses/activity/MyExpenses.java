@@ -748,7 +748,6 @@ public class MyExpenses extends LaunchActivity implements
     case PRINT:
       TransactionList tl = getCurrentFragment();
       if (tl != null)  {
-        feature.recordUsage();
         Bundle args = new Bundle();
         args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
         args.putLong(KEY_ROWID, mAccountId);
@@ -946,6 +945,7 @@ public class MyExpenses extends LaunchActivity implements
     case TaskExecutionFragment.TASK_PRINT:
       Result result = (Result) o;
       if (result.success) {
+        Feature.PRINT.recordUsage();
         MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
             result.print(this),
