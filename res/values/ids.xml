@@ -90,4 +90,5 @@
   <item type="id" name="EXCLUDE_FROM_TOTALS_COMMAND"/>
   <item type="id" name="QUIT_COMMAND" />
   <item type="id" name="SPLIT_TRANSACTION_COMMAND" />
+  <item type="id" name="TOGGLE_CHART_COMMAND" />
 </resources>

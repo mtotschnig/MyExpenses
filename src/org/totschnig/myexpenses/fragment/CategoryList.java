@@ -110,6 +110,8 @@ public class CategoryList extends ContextualActionBarFragment implements
   protected boolean mType = EXPENSE;
   private ArrayList<Integer> mMainColors,mSubColors;
   private int lastExpandedPosition = -1;
+  
+  boolean showChart;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
@@ -151,6 +154,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       mManager.initLoader(DATEINFO_CURSOR, null, this);
       v = inflater.inflate( R.layout.distribution_list,null,false);
       mChart = (PieChart) v.findViewById(R.id.chart1);
+      mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
       mChart.setDescription("");
       
       //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
@@ -221,9 +225,11 @@ public class CategoryList extends ContextualActionBarFragment implements
       mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
         @Override
         public void onGroupExpand(int groupPosition) {
-          if (lastExpandedPosition != -1
-              && groupPosition != lastExpandedPosition) {
-            mListView.collapseGroup(lastExpandedPosition);
+          if (showChart) {
+            if (lastExpandedPosition != -1
+                && groupPosition != lastExpandedPosition) {
+              mListView.collapseGroup(lastExpandedPosition);
+            }
           }
           lastExpandedPosition = groupPosition;
         }
@@ -231,13 +237,15 @@ public class CategoryList extends ContextualActionBarFragment implements
       mListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
         @Override
         public void onGroupCollapse(int groupPosition) {
-          lastExpandedPosition = -1;
-          setData(mGroupCursor,mMainColors);
-          highlight(groupPosition);
-          long packedPosition = 
-              ExpandableListView.getPackedPositionForGroup(groupPosition);
-          int flatPosition = mListView.getFlatListPosition(packedPosition);
-          mListView.setItemChecked(flatPosition,true);
+          if (showChart) {
+            lastExpandedPosition = -1;
+            setData(mGroupCursor, mMainColors);
+            highlight(groupPosition);
+            long packedPosition = ExpandableListView
+                .getPackedPositionForGroup(groupPosition);
+            int flatPosition = mListView.getFlatListPosition(packedPosition);
+            mListView.setItemChecked(flatPosition, true);
+          }
         }
       });
       mListView.setOnChildClickListener(new OnChildClickListener() {
@@ -245,12 +253,15 @@ public class CategoryList extends ContextualActionBarFragment implements
         @Override
         public boolean onChildClick(ExpandableListView parent, View v,
             int groupPosition, int childPosition, long id) {
-          long packedPosition = 
-              ExpandableListView.getPackedPositionForChild(groupPosition, childPosition);
-          highlight(childPosition);
-          int flatPosition = mListView.getFlatListPosition(packedPosition);
-          mListView.setItemChecked(flatPosition,true);
-          return true;
+          if (showChart) {
+            long packedPosition = ExpandableListView.getPackedPositionForChild(
+                groupPosition, childPosition);
+            highlight(childPosition);
+            int flatPosition = mListView.getFlatListPosition(packedPosition);
+            mListView.setItemChecked(flatPosition, true);
+            return true;
+          }
+          return false;
         }
       });
       //the following is relevant when not in touch mode
@@ -259,17 +270,19 @@ public class CategoryList extends ContextualActionBarFragment implements
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
             int position, long id) {
-          long pos = mListView.getExpandableListPosition(position);
-          int type = ExpandableListView.getPackedPositionType(pos);
-          int group = ExpandableListView.getPackedPositionGroup(pos),
-              child = ExpandableListView.getPackedPositionChild(pos);
-          int highlightedPos;
-          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-             highlightedPos = lastExpandedPosition == -1 ? group : -1;
-          } else {
-            highlightedPos = child;
+          if (showChart) {
+            long pos = mListView.getExpandableListPosition(position);
+            int type = ExpandableListView.getPackedPositionType(pos);
+            int group = ExpandableListView.getPackedPositionGroup(pos), child = ExpandableListView
+                .getPackedPositionChild(pos);
+            int highlightedPos;
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+              highlightedPos = lastExpandedPosition == -1 ? group : -1;
+            } else {
+              highlightedPos = child;
+            }
+            highlight(highlightedPos);
           }
-          highlight(highlightedPos);
         }
 
         @Override
@@ -661,10 +674,11 @@ public class CategoryList extends ContextualActionBarFragment implements
       mAdapter.setGroupCursor(c);
       if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
         if (c.getCount()>0) {
-          mChart.setVisibility(View.VISIBLE);
+          mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
           setData(c,mMainColors);
           highlight(0);
-          mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)),true);
+          if (showChart)
+            mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)),true);
         } else {
           mChart.setVisibility(View.GONE);
         }
@@ -690,8 +704,8 @@ public class CategoryList extends ContextualActionBarFragment implements
                   ExpandableListView.getPackedPositionForGroup(id);
               highlight(id);
             }
-            int flatPosition = mListView.getFlatListPosition(packedPosition);
-            mListView.setItemChecked(flatPosition,true);
+            if (showChart)
+              mListView.setItemChecked(mListView.getFlatListPosition(packedPosition),true);
           }
       }
     }
@@ -717,7 +731,12 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (mGrouping != null) {
       boolean grouped = !mGrouping.equals(Grouping.NONE);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);    }
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
+    }
+    MenuItem m = menu.findItem(R.id.TOGGLE_CHART_COMMAND);
+    if (m!=null) {
+      m.setChecked(showChart);
+    }
   }
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))
@@ -752,6 +771,17 @@ public class CategoryList extends ContextualActionBarFragment implements
     case R.id.FORWARD_COMMAND:
       forward();
       return true;
+    case R.id.TOGGLE_CHART_COMMAND:
+      showChart=!showChart;
+      MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
+      mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
+      if (showChart) {
+        int count = mAdapter.getGroupCount();
+        for (int i = 0; i < count; i++)
+          mListView.collapseGroup(i);
+      } else {
+        mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
+      }
     }
     return super.onOptionsItemSelected(item);
   }

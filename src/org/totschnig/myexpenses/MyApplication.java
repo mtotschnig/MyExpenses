@@ -102,7 +102,8 @@ public class MyApplication extends Application implements
     TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
     TEMPLATE_CLICK_HINT_SHOWN("template_click_hint_shown"),
     NEXT_REMINDER_RATE("nextReminderRate"),
-    NEXT_REMINDER_CONTRIB("nextReminderContrib");
+    NEXT_REMINDER_CONTRIB("nextReminderContrib"),
+    DISTRIBUTION_SHOW_CHART("distributionShowChart");
 
     private int resId = 0;
     private String key = null;
