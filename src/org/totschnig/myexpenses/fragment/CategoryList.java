@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri.Builder;
@@ -48,6 +49,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -157,7 +159,14 @@ public class CategoryList extends ContextualActionBarFragment implements
       //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
       //mChart.setUsePercentValues(true);
       //mChart.setCenterText("Quarterly\nRevenue");
-      //mChart.setCenterTextSize(22f);
+      TypedValue typedValue = new TypedValue(); 
+      getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, typedValue, true);
+      int[] textSizeAttr = new int[] { android.R.attr.textSize };
+      int indexOfAttrTextSize = 0;
+      TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
+      int textSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
+      a.recycle();
+      mChart.setCenterTextPixel(textSize);
        
       // radius of the center hole in percent of maximum radius
       //mChart.setHoleRadius(60f); 
