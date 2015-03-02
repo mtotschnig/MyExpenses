@@ -41,4 +41,9 @@
         app:showAsAction="never"
         android:checkable="true"
         android:title="Show pie chart"/>
+    <item
+        android:id="@id/TOGGLE_AGGREGATE_TYPES"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="Aggregate expenses and income"/>
 </menu>

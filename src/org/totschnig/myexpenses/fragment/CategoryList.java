@@ -112,6 +112,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   private int lastExpandedPosition = -1;
   
   boolean showChart;
+  boolean aggregateTypes;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
+    aggregateTypes = MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
@@ -590,8 +592,10 @@ public class CategoryList extends ContextualActionBarFragment implements
         accountSelector = String.valueOf(mAccount.getId());
       }
       String catFilter = "FROM " + VIEW_COMMITTED +
-          " WHERE " + KEY_ACCOUNTID + selection + 
-          " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
+          " WHERE " + KEY_ACCOUNTID + selection;
+      if (!aggregateTypes) { 
+          catFilter += " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
+      }
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
@@ -737,6 +741,11 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (m!=null) {
       m.setChecked(showChart);
     }
+    m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
+    if (m!=null) {
+      m.setChecked(aggregateTypes);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
+    }
   }
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))
@@ -782,6 +791,12 @@ public class CategoryList extends ContextualActionBarFragment implements
       } else {
         mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
       }
+      return true;
+    case R.id.TOGGLE_AGGREGATE_TYPES:
+      aggregateTypes=!aggregateTypes;
+      MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
+      getActivity().supportInvalidateOptionsMenu();
+      reset();
     }
     return super.onOptionsItemSelected(item);
   }
