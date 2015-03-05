@@ -137,6 +137,10 @@ public class CategoryList extends ContextualActionBarFragment implements
         mMainColors.add(col);
       for (int col : ColorTemplate.LIBERTY_COLORS)
         mMainColors.add(col);
+      for (int col : ColorTemplate.VORDIPLOM_COLORS)
+        mMainColors.add(col);
+      for (int col : ColorTemplate.COLORFUL_COLORS)
+        mMainColors.add(col);
       mMainColors.add(ColorTemplate.getHoloBlue());
 
       mAccount = Account.getInstanceFromDb(extras.getLong(KEY_ACCOUNTID));
@@ -275,10 +279,13 @@ public class CategoryList extends ContextualActionBarFragment implements
           if (showChart) {
             long pos = mListView.getExpandableListPosition(position);
             int type = ExpandableListView.getPackedPositionType(pos);
-            int group = ExpandableListView.getPackedPositionGroup(pos), child = ExpandableListView
-                .getPackedPositionChild(pos);
+            int group = ExpandableListView.getPackedPositionGroup(pos),
+                child = ExpandableListView.getPackedPositionChild(pos);
             int highlightedPos;
             if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+              if (lastExpandedPosition!=group) {
+                mListView.collapseGroup(lastExpandedPosition);
+              }
               highlightedPos = lastExpandedPosition == -1 ? group : -1;
             } else {
               highlightedPos = child;
@@ -698,7 +705,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
             long packedPosition;
             if (c.getCount()>0) {
-              mSubColors = getSubColors(mMainColors.get(id));
+              mSubColors = getSubColors(mMainColors.get(id%mMainColors.size()));
               setData(c,mSubColors);
               highlight(0);
               packedPosition = 
@@ -1022,9 +1029,9 @@ public class CategoryList extends ContextualActionBarFragment implements
     return result;
   }
   private void highlight(int position) {
-    Highlight h = new Highlight(position, 0);
-    mChart.highlightValues(new Highlight[] {h});
-    setCenterText(position);
+    mChart.highlightValue(position,0);
+    if (position != -1)
+      setCenterText(position);
   }
   private void setCenterText(int position) {
     PieData data = (PieData) mChart.getData();
