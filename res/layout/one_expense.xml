@@ -95,16 +95,19 @@
         <TextView style="@style/form_label"
             android:text="@string/comment" />
         <LinearLayout android:orientation="horizontal">
-        <EditText 
+        <EditText
+            android:layout_gravity="bottom"
             android:id="@+id/Comment"
             android:singleLine="true"
 			      android:layout_width="0dp"
 			      android:layout_weight="1"
             android:layout_height="wrap_content" />
           <Spinner android:id="@+id/Status"
+              android:layout_gravity="center"
               android:prompt="@string/status"
               android:layout_width="wrap_content"
-              android:layout_height="fill_parent" />
+              android:layout_height="wrap_content" />
+          <include layout="@layout/attach_image_button"/>
           </LinearLayout>
       </TableRow>
 
