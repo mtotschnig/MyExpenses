@@ -17,6 +17,8 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -49,6 +51,7 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
@@ -60,8 +63,12 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
@@ -78,6 +85,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -87,6 +95,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
@@ -120,6 +129,7 @@ public class ExpenseEdit extends AmountActivity implements
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel, mAmountLabel;
   private ToggleButton mPlanToggleButton;
+  private ImageButton mAttachPictureButton;
   public Long mRowId = 0L;
   private Long mTemplateId;
   private Account[] mAccounts;
@@ -150,6 +160,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final int EVENT_CURSOR = 4;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
+  private static final int THUMBSIZE = 96;
   
   private LoaderManager mManager;
 
@@ -174,6 +185,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTitleText = (EditText) findViewById(R.id.Title);
     mReferenceNumberText = (EditText) findViewById(R.id.Number);
     mDateButton = (Button) findViewById(R.id.Date);
+    mAttachPictureButton = (ImageButton) findViewById(R.id.AttachImage);
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
@@ -943,17 +955,39 @@ public class ExpenseEdit extends AmountActivity implements
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
    */
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
+  protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == SELECT_CATEGORY_REQUEST && intent != null) {
-      mCatId = intent.getLongExtra("cat_id",0);
+      mCatId = intent.getLongExtra("cat_id", 0);
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
     }
     if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_OK) {
-      //returned from setting up calendar
+      // returned from setting up calendar
       launchNewPlan();
+    }
+    if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
+      Uri uri;
+      if (intent == null) {
+        uri = getCameraUri();
+      } else if (intent.getData() != null) {
+        uri = intent.getData();
+      } else {
+        uri = getCameraUri();
+      }
+      if (uri != null) {
+        mAttachPictureButton.setImageURI(uri);
+        try {
+          mAttachPictureButton.setImageBitmap(
+             ThumbnailUtils.extractThumbnail(
+                 BitmapFactory.decodeStream(
+                     getContentResolver().openInputStream(uri)),
+                     THUMBSIZE, THUMBSIZE));
+          return;
+        } catch (FileNotFoundException e) {
+        }
+      }
+      Toast.makeText(this, "Error",Toast.LENGTH_LONG).show();
     }
   }
   @Override
@@ -1578,5 +1612,26 @@ public class ExpenseEdit extends AmountActivity implements
   }
   protected SplitPartList findSplitPartList() {
     return (SplitPartList) getSupportFragmentManager().findFragmentByTag(SPLIT_PART_LIST);
+  }
+  
+  public void startMediaChooser(View v) {
+
+    Uri outputMediaUri = getCameraUri();
+    Intent gallIntent = new Intent(Utils.getContentIntent());
+    gallIntent.setType("image/*");
+    Intent chooserIntent = Intent.createChooser(gallIntent, null);
+
+    //if external storage is not available, camera capture won't work
+    if (outputMediaUri != null) {
+        Intent camIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+        camIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputMediaUri);
+
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                new Intent[]{camIntent});
+    }
+    startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
+  }
+  private Uri getCameraUri() {
+    return Uri.fromFile(new File(getExternalCacheDir(),"beleg.png"));
   }
 }

@@ -69,6 +69,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int EDIT_EVENT_REQUEST = 10;
   public static final int PICK_COLOR_REQUEST = 11;
   public static final int CONTRIB_REQUEST = 13;
+  public static final int PICTURE_REQUEST_CODE = 14;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;

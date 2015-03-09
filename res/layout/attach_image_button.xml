@@ -4,6 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:onClick="attachimage"
+    android:onClick="startMediaChooser"
     android:padding="3dp"
     android:src="@android:drawable/ic_menu_camera" />

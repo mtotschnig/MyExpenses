@@ -85,10 +85,9 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
   }
 
-  @SuppressLint("InlinedApi")
   public void openBrowse() {
   
-    Intent intent = new Intent(isKitKat ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT);
+    Intent intent = new Intent(Utils.getContentIntent());
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
     intent.setDataAndType(mUri,getMimeType());

@@ -875,4 +875,11 @@ public class Utils {
     }
     return result;
   }
+
+  @SuppressLint("InlinedApi")
+  public static String getContentIntent() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ?
+        Intent.ACTION_OPEN_DOCUMENT :
+          Intent.ACTION_GET_CONTENT;
+  }
 }
