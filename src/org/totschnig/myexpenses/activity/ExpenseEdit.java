@@ -96,6 +96,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
@@ -130,6 +131,7 @@ public class ExpenseEdit extends AmountActivity implements
   private TextView mPayeeLabel, mAmountLabel;
   private ToggleButton mPlanToggleButton;
   private ImageButton mAttachPictureButton;
+  private ImageView mPictureView;
   public Long mRowId = 0L;
   private Long mTemplateId;
   private Account[] mAccounts;
@@ -144,6 +146,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Transaction mTransaction;
   private Cursor mMethodsCursor;
   private Plan mPlan;
+  private Uri mPictureUri;
 
   private long mPlanInstanceId,mPlanInstanceDate;
   /**
@@ -160,7 +163,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final int EVENT_CURSOR = 4;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
-  private static final int THUMBSIZE = 96;
+  public static final int THUMBSIZE = 96;
   
   private LoaderManager mManager;
 
@@ -186,6 +189,7 @@ public class ExpenseEdit extends AmountActivity implements
     mReferenceNumberText = (EditText) findViewById(R.id.Number);
     mDateButton = (Button) findViewById(R.id.Date);
     mAttachPictureButton = (ImageButton) findViewById(R.id.AttachImage);
+    mPictureView = (ImageView) findViewById(R.id.picture);
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
@@ -282,6 +286,10 @@ public class ExpenseEdit extends AmountActivity implements
     if (savedInstanceState != null) {
       mSavedInstance = true;
       mRowId = savedInstanceState.getLong(KEY_ROWID);
+      mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
+      if (mPictureUri!=null) {
+       setPicture();
+      }
 
       mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
       mPlan = (Plan) savedInstanceState.getSerializable(KEY_PLAN);
@@ -491,6 +499,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
+      mAttachPictureButton.setVisibility(View.GONE);
       setTitle(
           getString(mTransaction.getId() == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
           + " ("
@@ -949,6 +958,8 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
     }
     mTransaction.crStatus = (Transaction.CrStatus) mStatusSpinner.getSelectedItem();
+    
+    mTransaction.pictureUri = mPictureUri;
     return validP;
   }
   /* (non-Javadoc)
@@ -976,19 +987,31 @@ public class ExpenseEdit extends AmountActivity implements
         uri = getCameraUri();
       }
       if (uri != null) {
-        mAttachPictureButton.setImageURI(uri);
-        try {
-          mAttachPictureButton.setImageBitmap(
-             ThumbnailUtils.extractThumbnail(
-                 BitmapFactory.decodeStream(
-                     getContentResolver().openInputStream(uri)),
-                     THUMBSIZE, THUMBSIZE));
-          return;
-        } catch (FileNotFoundException e) {
-        }
+        Log.d(MyApplication.TAG,uri.toString());
+        mPictureUri = uri;
+        setPicture();
+        return;
       }
       Toast.makeText(this, "Error",Toast.LENGTH_LONG).show();
     }
+  }
+  /**
+   * @param uri
+   * @throws FileNotFoundException
+   */
+  protected void setPicture() {
+    try {
+      mPictureView.setImageBitmap(
+         ThumbnailUtils.extractThumbnail(
+             BitmapFactory.decodeStream(
+                 getContentResolver().openInputStream(mPictureUri)),
+                 THUMBSIZE, THUMBSIZE));
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    mPictureView.setVisibility(View.VISIBLE);
+    mAttachPictureButton.setVisibility(View.GONE);
   }
   @Override
   public void onBackPressed() {
@@ -1065,6 +1088,9 @@ public class ExpenseEdit extends AmountActivity implements
     outState.putString(KEY_LABEL, mLabel);
     if (mPlan != null) {
       outState.putSerializable(KEY_PLAN,mPlan);
+    }
+    if (mPictureUri != null) {
+      outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
     }
     long methodId = mMethodSpinner.getSelectedItemId();
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
@@ -1222,9 +1248,12 @@ public class ExpenseEdit extends AmountActivity implements
         if (mPlanId==null) {
           mPlanId = ((Template) mTransaction).planId;
         }
-      }
-      else {
+      } else {
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+        mPictureUri = mTransaction.pictureUri;
+        if (mPictureUri!=null) {
+          setPicture();
+        }
       }
       //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
       if (mCatId == null) {
@@ -1617,7 +1646,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void startMediaChooser(View v) {
 
     Uri outputMediaUri = getCameraUri();
-    Intent gallIntent = new Intent(Utils.getContentIntent());
+    Intent gallIntent = new Intent(Intent.ACTION_GET_CONTENT);
     gallIntent.setType("image/*");
     Intent chooserIntent = Intent.createChooser(gallIntent, null);
 

@@ -42,7 +42,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 49;
+  public static final int DATABASE_VERSION = 50;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -73,7 +73,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
     + KEY_STATUS           + " integer default 0, "
     + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "',"
-    + KEY_REFERENCE_NUMBER + " text);";
+    + KEY_REFERENCE_NUMBER + " text, "
+    + KEY_PICTURE_URI      + " text);";
 
   private static final String VIEW_DEFINITION(String tableName) {
     return " AS SELECT " +
@@ -839,6 +840,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 49) {
       //forgotten to drop in previous upgrade
       db.execSQL("DROP TABLE IF EXISTS templates_old");
+    }
+    if (oldVersion < 50) {
+      db.execSQL("ALTER TABLE transactions add column picture_uri text");
     }
   }
   @Override

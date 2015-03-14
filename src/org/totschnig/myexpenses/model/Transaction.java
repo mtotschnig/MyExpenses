@@ -82,6 +82,7 @@ public class Transaction extends Model {
         KEY_METHOD_LABEL,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
+        KEY_PICTURE_URI,
         YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
         YEAR + " AS " + KEY_YEAR,
         MONTH + " AS " + KEY_MONTH,
@@ -144,6 +145,7 @@ public class Transaction extends Model {
 
   public CrStatus crStatus;
   public long payeeId = 0;
+  public Uri pictureUri;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -155,7 +157,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         FULL_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_METHOD_LABEL};
+        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_URI,KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -199,6 +201,11 @@ public class Transaction extends Model {
     t.comment = DbUtils.getString(c,KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
+    int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
+    t.pictureUri = 
+        c.isNull(pictureUriColumnIndex) ?
+            null :
+            Uri.parse(c.getString(pictureUriColumnIndex));
     c.close();
     return t;
   }
@@ -347,6 +354,9 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
+    if (pictureUri!=null) {
+      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
+    }
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);

@@ -19,6 +19,8 @@ package org.totschnig.myexpenses.dialog;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 
 import org.totschnig.myexpenses.R;
@@ -46,12 +48,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -85,6 +93,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     mLayout = li.inflate(R.layout.transaction_detail, null);
     AlertDialog dialog = new AlertDialog.Builder(getActivity())
       .setTitle(R.string.progress_dialog_loading)
+      .setIcon(android.R.color.transparent)
       .setView(mLayout)
       .setNegativeButton(android.R.string.ok,this)
       .setPositiveButton(R.string.menu_edit,this)
@@ -260,5 +269,17 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     getDialog().setTitle(title);
+    if (mTransaction.pictureUri!=null) {
+      try {
+        dlg.setIcon(new BitmapDrawable(getResources(),
+            ThumbnailUtils.extractThumbnail(
+              BitmapFactory.decodeStream(
+                  getActivity().getContentResolver().openInputStream(mTransaction.pictureUri)),
+                ExpenseEdit.THUMBSIZE, ExpenseEdit.THUMBSIZE)));
+      } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
   }
 }
