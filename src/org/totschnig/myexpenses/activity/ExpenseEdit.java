@@ -15,9 +15,26 @@
 
 package org.totschnig.myexpenses.activity;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,10 +46,25 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.fragment.SplitPartList;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.SplitPartCategory;
+import org.totschnig.myexpenses.model.SplitPartTransfer;
+import org.totschnig.myexpenses.model.SplitTransaction;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -42,19 +74,10 @@ import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.fragment.SplitPartList;
-
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Events;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.ContentUris;
@@ -83,13 +106,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -98,11 +122,15 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Events;
 
 /**
  * Activity for editing a transaction
@@ -1002,12 +1030,13 @@ public class ExpenseEdit extends AmountActivity implements
    * @throws FileNotFoundException
    */
   protected void setPicture() {
+    int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
     try {
       mPictureView.setImageBitmap(
          ThumbnailUtils.extractThumbnail(
              BitmapFactory.decodeStream(
                  getContentResolver().openInputStream(mPictureUri)),
-                 THUMBSIZE, THUMBSIZE));
+                 thumbsize, thumbsize));
     } catch (FileNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -1647,7 +1676,53 @@ public class ExpenseEdit extends AmountActivity implements
   protected SplitPartList findSplitPartList() {
     return (SplitPartList) getSupportFragmentManager().findFragmentByTag(SPLIT_PART_LIST);
   }
+
+  @SuppressLint("NewApi")
+  public void showPicturePopupMenu(final View v) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+      android.support.v7.widget.PopupMenu popup = new android.support.v7.widget.PopupMenu(this, v);
+      popup.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+          handlePicturePopupMenuClick(item.getItemId());
+          return true;
+        }
+      });
+      popup.inflate(R.menu.picture_popup);
+      popup.show();
+    } else {
+      PopupMenu popup = new PopupMenu(this, v);
+      popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+          handlePicturePopupMenuClick(item.getItemId());
+          return true;
+        }
+      });
+      popup.inflate(R.menu.picture_popup);
+      popup.show();
+    }
+  }
   
+  private void handlePicturePopupMenuClick(int command) {
+    switch(command) {
+    case R.id.DELETE_COMMAND:
+      mPictureUri = null;
+      mAttachPictureButton.setVisibility(View.VISIBLE);
+      mPictureView.setVisibility(View.GONE);
+      break;
+    case R.id.VIEW_COMMAND:
+      Intent intent = new Intent(Intent.ACTION_VIEW, mPictureUri);
+      intent.putExtra(Intent.EXTRA_STREAM, mPictureUri);
+      intent.setDataAndType(mPictureUri, "image/jpeg");
+      startActivity(intent);
+      break;
+    case R.id.CHANGE_COMMAND:
+      startMediaChooser(null);
+      break;
+    }
+  }
+
   public void startMediaChooser(View v) {
 
     Uri outputMediaUri = getCameraUri();

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@id/VIEW_COMMAND" android:title="@string/menu_view_picture" />
+    <item android:id="@id/DELETE_COMMAND" android:title="@string/menu_delete_picture"/>
+    <item android:id="@id/CHANGE_COMMAND" android:title="@string/menu_change_picture"/>
+</menu>

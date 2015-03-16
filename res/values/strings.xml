@@ -533,4 +533,7 @@
     <string name="restore_calendar_handling_ignore">Do not restore plans</string>
     <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
     <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
+    <string name="menu_view_picture">View picture</string>
+    <string name="menu_delete_picture">Delete picture</string>
+    <string name="menu_change_picture">Attach different picture</string>
 </resources>

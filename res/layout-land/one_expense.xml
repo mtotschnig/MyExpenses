@@ -132,6 +132,7 @@
               android:visibility="gone"
               android:clickable="true"
               android:focusable="true"
+              android:onClick="showPicturePopupMenu"
               android:padding="2dp" />
           </LinearLayout>
       </TableRow>
