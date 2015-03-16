@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -146,7 +147,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Transaction mTransaction;
   private Cursor mMethodsCursor;
   private Plan mPlan;
-  private Uri mPictureUri;
+  private Uri mPictureUri, mPictureUriTemp;
 
   private long mPlanInstanceId,mPlanInstanceDate;
   /**
@@ -287,6 +288,7 @@ public class ExpenseEdit extends AmountActivity implements
       mSavedInstance = true;
       mRowId = savedInstanceState.getLong(KEY_ROWID);
       mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
+      mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI+"temp");
       if (mPictureUri!=null) {
        setPicture();
       }
@@ -1092,6 +1094,9 @@ public class ExpenseEdit extends AmountActivity implements
     if (mPictureUri != null) {
       outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
     }
+    if (mPictureUriTemp != null) {
+      outState.putParcelable(KEY_PICTURE_URI+"temp", mPictureUriTemp);
+    }
     long methodId = mMethodSpinner.getSelectedItemId();
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_METHODID, methodId);
@@ -1661,6 +1666,11 @@ public class ExpenseEdit extends AmountActivity implements
     startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
   }
   private Uri getCameraUri() {
-    return Uri.fromFile(new File(getExternalCacheDir(),"beleg.png"));
+    if (mPictureUriTemp == null) {
+      String fileName = new SimpleDateFormat("yyyyMMddHHmmssS").
+          format(new Date())+".jpg";
+      mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile());
+    }
+    return mPictureUriTemp;
   }
 }

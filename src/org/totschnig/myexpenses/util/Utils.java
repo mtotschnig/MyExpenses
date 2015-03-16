@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -391,6 +392,60 @@ public class Utils {
       try { dstStream.close(); } catch (Exception e) {}
     }
   }
+  /** Create a File for saving an image or video */
+  //Source http://developer.android.com/guide/topics/media/camera.html#saving-media
+  
+  public static File getOutputMediaFile() {
+      // To be safe, you should check that the SDCard is mounted
+      // using Environment.getExternalStorageState() before doing this.
+
+      File mediaStorageDir = MyApplication.getInstance().getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES);
+
+      // Create a media file name
+      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+      return new File(mediaStorageDir,timeStamp + ".jpg");
+  }
+  /**
+   * copy the content accessible through uri to the applications
+   * external files directory
+   * @param uri
+   * @return
+   */
+  public static Uri copyToHome(Uri uri) {
+    InputStream input = null;
+    OutputStream output = null;
+    try {
+      input = MyApplication.getInstance().getContentResolver().openInputStream(uri);
+      File outputFile = getOutputMediaFile();
+      output = new FileOutputStream(outputFile);
+      final byte[] buffer = new byte[1024];
+      int read;
+
+      while ((read = input.read(buffer)) != -1) {
+        output.write(buffer, 0, read);
+      }
+
+      output.flush();
+
+      return Uri.fromFile(outputFile);
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } finally {
+        try {
+          input.close();
+        } catch(IOException e) {}
+        try {
+          output.close();
+        } catch(IOException e) {}
+    }
+    return null;
+  }
+
   public static void share(
       Context ctx,
       ArrayList<File> files,

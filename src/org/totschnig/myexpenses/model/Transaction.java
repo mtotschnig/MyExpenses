@@ -30,6 +30,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -356,6 +357,14 @@ public class Transaction extends Model {
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (pictureUri!=null) {
       initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
+      if (pictureUri.getScheme().equals("file") &&
+          pictureUri.getPath().startsWith(
+              MyApplication.getInstance().getExternalFilesDir(
+                  android.os.Environment.DIRECTORY_PICTURES).getAbsolutePath())) {
+        Log.d("DEBUG","got Uri in our home space, nothing todo");
+      } else {
+        pictureUri = Utils.copyToHome(pictureUri);
+      }
     }
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
