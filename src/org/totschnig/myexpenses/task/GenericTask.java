@@ -259,7 +259,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       cacheEventData();
       if (MyApplication.getInstance().backup(cacheDir)) {
-        result = ZipUtils.zip(cacheDir.listFiles(),backupFile);
+        try {
+          ZipUtils.zipFolder(cacheDir,backupFile);
+          result  = true;
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }

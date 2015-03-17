@@ -399,12 +399,15 @@ public class Utils {
       // To be safe, you should check that the SDCard is mounted
       // using Environment.getExternalStorageState() before doing this.
 
-      File mediaStorageDir = MyApplication.getInstance().getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES);
+      File mediaStorageDir = getPictureDir();
 
       // Create a media file name
       String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
       return new File(mediaStorageDir,timeStamp + ".jpg");
+  }
+  public static File getPictureDir() {
+    return MyApplication.getInstance().getExternalFilesDir(
+        Environment.DIRECTORY_PICTURES);
   }
   /**
    * copy the content accessible through uri to the applications

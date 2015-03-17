@@ -82,6 +82,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (workingDir == null) {
         return new Result(false,R.string.external_storage_unavailable);
       }
+      workingDir = new File(workingDir,"tmp");
+      workingDir.mkdir();
       try {
         if (!ZipUtils.unzip(
             cr

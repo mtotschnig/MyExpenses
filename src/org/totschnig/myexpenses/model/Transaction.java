@@ -359,8 +359,7 @@ public class Transaction extends Model {
       initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
       if (pictureUri.getScheme().equals("file") &&
           pictureUri.getPath().startsWith(
-              MyApplication.getInstance().getExternalFilesDir(
-                  android.os.Environment.DIRECTORY_PICTURES).getAbsolutePath())) {
+              Utils.getPictureDir().getAbsolutePath())) {
         Log.d("DEBUG","got Uri in our home space, nothing todo");
       } else {
         pictureUri = Utils.copyToHome(pictureUri);
