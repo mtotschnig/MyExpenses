@@ -31,6 +31,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -147,7 +148,12 @@ public class Transaction extends Model {
 
   public CrStatus crStatus;
   public long payeeId = 0;
-  public Uri pictureUri;
+  protected Uri pictureUri;
+  /**
+   * if user deletes or changes the picture, we remember the previous uri
+   * so that we can move it away
+   */
+  private Uri pictureUriStale;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -204,10 +210,9 @@ public class Transaction extends Model {
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
     int pictureIdColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_ID);
-    t.pictureUri = 
-        c.isNull(pictureIdColumnIndex) ?
-            null :
-            Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg"));
+    t.setPictureUri(c.isNull(pictureIdColumnIndex) ?
+        null :
+        Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg")));
     c.close();
     return t;
   }
@@ -356,17 +361,31 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
+
+    if (pictureUriStale!=null && !pictureUriStale.equals(pictureUri)) {
+      //we do not throw away the stale file, but backup it.
+      String stalePath = pictureUriStale.getPath();
+      File staleFile = new File(stalePath);
+      File backupDir = new File(
+          MyApplication.getInstance().getExternalFilesDir(null),
+          Environment.DIRECTORY_PICTURES + ".bak");
+      backupDir.mkdir();
+      staleFile.renameTo(new File(backupDir,staleFile.getName()));
+    }
+
     if (pictureUri!=null) {
       if (pictureUri.getScheme().equals("file") &&
           pictureUri.getPath().startsWith(
               Utils.getPictureDir().getAbsolutePath())) {
         Log.d("DEBUG","got Uri in our home space, nothing todo");
       } else {
-        pictureUri = Utils.copyToHome(pictureUri);
+        setPictureUri(Utils.copyToHome(pictureUri));
       }
       String path = pictureUri.getPath();
       String id = path.substring(path.lastIndexOf('/')+1,path.lastIndexOf('.'));
       initialValues.put(KEY_PICTURE_ID,id);
+    } else {
+      initialValues.putNull(KEY_PICTURE_ID);
     }
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
@@ -545,5 +564,14 @@ public class Transaction extends Model {
     } else if (!transfer_peer.equals(other.transfer_peer))
       return false;
     return true;
+  }
+  public Uri getPictureUri() {
+    return pictureUri;
+  }
+  public void setPictureUri(Uri pictureUri) {
+    if (pictureUriStale==null && !pictureUri.equals(pictureUriStale)) {
+      pictureUriStale = pictureUri;
+    }
+    this.pictureUri = pictureUri;
   }
 }

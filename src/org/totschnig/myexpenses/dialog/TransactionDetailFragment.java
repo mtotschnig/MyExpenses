@@ -269,13 +269,13 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     getDialog().setTitle(title);
-    if (mTransaction.pictureUri!=null) {
+    if (mTransaction.getPictureUri()!=null) {
       int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
       try {
         dlg.setIcon(new BitmapDrawable(getResources(),
             ThumbnailUtils.extractThumbnail(
               BitmapFactory.decodeStream(
-                  getActivity().getContentResolver().openInputStream(mTransaction.pictureUri)),
+                  getActivity().getContentResolver().openInputStream(mTransaction.getPictureUri())),
                   thumbsize, thumbsize)));
       } catch (FileNotFoundException e) {
         // TODO Auto-generated catch block

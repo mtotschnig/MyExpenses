@@ -990,7 +990,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     mTransaction.crStatus = (Transaction.CrStatus) mStatusSpinner.getSelectedItem();
     
-    mTransaction.pictureUri = mPictureUri;
+    mTransaction.setPictureUri(mPictureUri);
     return validP;
   }
   /* (non-Javadoc)
@@ -1285,7 +1285,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       } else {
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-        mPictureUri = mTransaction.pictureUri;
+        mPictureUri = mTransaction.getPictureUri();
         if (mPictureUri!=null) {
           setPicture();
         }
