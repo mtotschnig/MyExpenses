@@ -97,12 +97,17 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       .setView(mLayout)
       .setNegativeButton(android.R.string.ok,this)
       .setPositiveButton(R.string.menu_edit,this)
+      .setNeutralButton(R.string.menu_view_picture, this)
       .create();
     dialog.setOnShowListener(new ButtonOnShowDisabler(){
       @Override
       public void onShow(DialogInterface dialog) {
         if (mTransaction==null) {
           super.onShow(dialog);
+          Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEUTRAL);
+          if (button != null) {
+            button.setVisibility(View.GONE);
+          }
         }
       }
     });
@@ -140,7 +145,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (ctx == null || mTransaction == null) {
       return;
     }
-    if (which == AlertDialog.BUTTON_POSITIVE) {
+    switch(which) {
+    case AlertDialog.BUTTON_POSITIVE:
       if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
         Toast.makeText(ctx, getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
         return;
@@ -150,7 +156,14 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-    } else {
+      break;
+    case AlertDialog.BUTTON_NEUTRAL:
+      Intent intent = new Intent(Intent.ACTION_VIEW, mTransaction.getPictureUri());
+      intent.putExtra(Intent.EXTRA_STREAM, mTransaction.getPictureUri());
+      intent.setDataAndType(mTransaction.getPictureUri(), "image/jpeg");
+      startActivity(intent); 
+      break;
+    case AlertDialog.BUTTON_NEGATIVE:
       dismiss();
     }
   }
@@ -169,6 +182,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
       if (btn!=null) {
         btn.setEnabled(true);
+      }
+      btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL);
+      if (btn!=null && mTransaction.getPictureUri()!=null) {
+        btn.setVisibility(View.VISIBLE);
       }
     }
     mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
