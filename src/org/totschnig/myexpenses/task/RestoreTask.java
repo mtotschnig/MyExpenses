@@ -255,14 +255,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       
       //now handling pictures
       //1.step move all existing pictures to backup
-      File backupDir = new File(
-          MyApplication.getInstance().getExternalFilesDir(null),
-          Environment.DIRECTORY_PICTURES + ".bak");
-      backupDir.mkdir();
       File pictureDir = Utils.getPictureDir();
-      for (File f: pictureDir.listFiles()) {
-        f.renameTo(new File(backupDir,f.getName()));
-      }
+      Utils.moveToBackup(pictureDir);
       //2.delete now empty dir
       pictureDir.delete();
       //3.move backup picture dir to picturedir

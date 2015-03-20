@@ -210,9 +210,9 @@ public class Transaction extends Model {
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
     int pictureIdColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_ID);
-    t.setPictureUri(c.isNull(pictureIdColumnIndex) ?
+    t.pictureUri = c.isNull(pictureIdColumnIndex) ?
         null :
-        Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg")));
+        Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg"));
     c.close();
     return t;
   }
@@ -265,6 +265,18 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        new String[]{KEY_PICTURE_ID},
+        null, null, null);
+    if (c!=null) {
+      if (c.moveToFirst()) {
+        if (!c.isNull(0)) {
+          Utils.moveToBackup(new File(Utils.getPictureDir(),c.getString(0)+".jpg"));
+        }
+      }
+      c.close();
+    }
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
@@ -366,11 +378,7 @@ public class Transaction extends Model {
       //we do not throw away the stale file, but backup it.
       String stalePath = pictureUriStale.getPath();
       File staleFile = new File(stalePath);
-      File backupDir = new File(
-          MyApplication.getInstance().getExternalFilesDir(null),
-          Environment.DIRECTORY_PICTURES + ".bak");
-      backupDir.mkdir();
-      staleFile.renameTo(new File(backupDir,staleFile.getName()));
+      Utils.moveToBackup(staleFile);
     }
 
     if (pictureUri!=null) {
@@ -568,10 +576,12 @@ public class Transaction extends Model {
   public Uri getPictureUri() {
     return pictureUri;
   }
-  public void setPictureUri(Uri pictureUri) {
-    if (pictureUriStale==null && !pictureUri.equals(pictureUriStale)) {
-      pictureUriStale = pictureUri;
+  public void setPictureUri(Uri pictureUriIn) {
+    if (pictureUriStale==null &&
+        this.pictureUri != null &&
+        !this.pictureUri.equals(pictureUriIn)) {
+      pictureUriStale = this.pictureUri;
     }
-    this.pictureUri = pictureUri;
+    this.pictureUri = pictureUriIn;
   }
 }

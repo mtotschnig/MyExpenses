@@ -409,6 +409,18 @@ public class Utils {
     return MyApplication.getInstance().getExternalFilesDir(
         Environment.DIRECTORY_PICTURES);
   }
+  public static void moveToBackup(File staleFile) {
+    File backupDir = new File(
+        MyApplication.getInstance().getExternalFilesDir(null),
+        Environment.DIRECTORY_PICTURES + ".bak");
+    backupDir.mkdir();
+    if (staleFile.isDirectory()) {
+      for (File f: staleFile.listFiles()) {
+        f.renameTo(new File(backupDir,f.getName()));
+      }
+    }
+    staleFile.renameTo(new File(backupDir,staleFile.getName()));
+  }
   /**
    * copy the content accessible through uri to the applications
    * external files directory
