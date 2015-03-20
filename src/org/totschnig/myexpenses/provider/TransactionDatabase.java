@@ -74,7 +74,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_STATUS           + " integer default 0, "
     + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "',"
     + KEY_REFERENCE_NUMBER + " text, "
-    + KEY_PICTURE_URI      + " text);";
+    + KEY_PICTURE_ID      + " text);";
 
   private static final String VIEW_DEFINITION(String tableName) {
     return " AS SELECT " +
@@ -842,7 +842,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS templates_old");
     }
     if (oldVersion < 50) {
-      db.execSQL("ALTER TABLE transactions add column picture_uri text");
+      db.execSQL("ALTER TABLE transactions add column picture_id text");
     }
   }
   @Override

@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import java.io.File;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -83,7 +84,7 @@ public class Transaction extends Model {
         KEY_METHOD_LABEL,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
-        KEY_PICTURE_URI,
+        KEY_PICTURE_ID,
         YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
         YEAR + " AS " + KEY_YEAR,
         MONTH + " AS " + KEY_MONTH,
@@ -158,7 +159,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         FULL_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_URI,KEY_METHOD_LABEL};
+        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_ID,KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -202,11 +203,11 @@ public class Transaction extends Model {
     t.comment = DbUtils.getString(c,KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
-    int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
+    int pictureIdColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_ID);
     t.pictureUri = 
-        c.isNull(pictureUriColumnIndex) ?
+        c.isNull(pictureIdColumnIndex) ?
             null :
-            Uri.parse(c.getString(pictureUriColumnIndex));
+            Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg"));
     c.close();
     return t;
   }
@@ -356,7 +357,6 @@ public class Transaction extends Model {
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (pictureUri!=null) {
-      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
       if (pictureUri.getScheme().equals("file") &&
           pictureUri.getPath().startsWith(
               Utils.getPictureDir().getAbsolutePath())) {
@@ -364,6 +364,9 @@ public class Transaction extends Model {
       } else {
         pictureUri = Utils.copyToHome(pictureUri);
       }
+      String path = pictureUri.getPath();
+      String id = path.substring(path.lastIndexOf('/')+1,path.lastIndexOf('.'));
+      initialValues.put(KEY_PICTURE_ID,id);
     }
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);

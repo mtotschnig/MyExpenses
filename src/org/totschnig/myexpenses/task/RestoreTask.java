@@ -31,6 +31,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
@@ -82,7 +83,6 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (workingDir == null) {
         return new Result(false,R.string.external_storage_unavailable);
       }
-      workingDir = new File(workingDir,"tmp");
       workingDir.mkdir();
       try {
         if (!ZipUtils.unzip(
@@ -252,6 +252,21 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       Log.i(MyApplication.TAG,"now emptying event cache");
       cr.delete(
           TransactionProvider.EVENT_CACHE_URI, null, null);
+      
+      //now handling pictures
+      //1.step move all existing pictures to backup
+      File backupDir = new File(
+          MyApplication.getInstance().getExternalFilesDir(null),
+          Environment.DIRECTORY_PICTURES + ".bak");
+      backupDir.mkdir();
+      File pictureDir = Utils.getPictureDir();
+      for (File f: pictureDir.listFiles()) {
+        f.renameTo(new File(backupDir,f.getName()));
+      }
+      //2.delete now empty dir
+      pictureDir.delete();
+      //3.move backup picture dir to picturedir
+      new File(workingDir,Environment.DIRECTORY_PICTURES).renameTo(pictureDir);
       return new Result(true);
     } else {
       return new Result(false,R.string.restore_db_failure);

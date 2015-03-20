@@ -144,7 +144,7 @@ public class DatabaseConstants {
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
-  public static final String KEY_PICTURE_URI = "picture_uri";
+  public static final String KEY_PICTURE_ID = "picture_id";
   /**
    * column alias for the second group (month or week)
    */

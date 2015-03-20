@@ -26,7 +26,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
@@ -193,6 +192,8 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
   public static final int THUMBSIZE = 96;
+  private static final String KEY_PICTURE_URI = "picture_uri";
+  private static final String KEY_PICTURE_URI_TMP = "picture_uri_tmp";
   
   private LoaderManager mManager;
 
@@ -316,7 +317,7 @@ public class ExpenseEdit extends AmountActivity implements
       mSavedInstance = true;
       mRowId = savedInstanceState.getLong(KEY_ROWID);
       mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
-      mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI+"temp");
+      mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI_TMP);
       if (mPictureUri!=null) {
        setPicture();
       }
@@ -1124,7 +1125,7 @@ public class ExpenseEdit extends AmountActivity implements
       outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
     }
     if (mPictureUriTemp != null) {
-      outState.putParcelable(KEY_PICTURE_URI+"temp", mPictureUriTemp);
+      outState.putParcelable(KEY_PICTURE_URI_TMP, mPictureUriTemp);
     }
     long methodId = mMethodSpinner.getSelectedItemId();
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
@@ -1727,7 +1728,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     Uri outputMediaUri = getCameraUri();
     Intent gallIntent = new Intent(Intent.ACTION_GET_CONTENT);
-    gallIntent.setType("image/*");
+    gallIntent.setType("image/jpeg");
     Intent chooserIntent = Intent.createChooser(gallIntent, null);
 
     //if external storage is not available, camera capture won't work
@@ -1742,8 +1743,6 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private Uri getCameraUri() {
     if (mPictureUriTemp == null) {
-      String fileName = new SimpleDateFormat("yyyyMMddHHmmssS").
-          format(new Date())+".jpg";
       mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile());
     }
     return mPictureUriTemp;

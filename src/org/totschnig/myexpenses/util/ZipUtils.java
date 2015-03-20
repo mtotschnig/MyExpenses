@@ -1,4 +1,3 @@
-//Credits: http://www.jondev.net/articles/Zipping_Files_with_Android_%28Programmatically%29
 package org.totschnig.myexpenses.util;
 
 import android.util.Log;
@@ -13,6 +12,34 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipUtils {
 
+  
+  /**
+   * convenience method that allows to store the pictures into the backup
+   * without copying them first
+   * @param cacheDir
+   * @param pictureDir
+   * @throws Exception
+   */
+  public static void zipBackup(File cacheDir, File pictureDir, File destZipFile) throws Exception {
+    ZipOutputStream zip = null;
+    FileOutputStream fileWriter = null;
+    /*
+     * create the output stream to zip file result
+     */
+    fileWriter = new FileOutputStream(destZipFile);
+    zip = new ZipOutputStream(fileWriter);
+    /*
+     * add the folder to the zip
+     */
+    addFolderToZip("", cacheDir, zip,true);
+    addFolderToZip("", pictureDir, zip,false);
+    /*
+     * close the zip objects
+     */
+    zip.flush();
+    zip.close();
+  }
+  
   /*
    * zip the folders
    */
@@ -65,7 +92,7 @@ public class ZipUtils {
       /*
        * check the empty folder
        */
-      if (srcFolder.list().length == 0 || !path.equals("")) {
+      if (srcFolder.list().length == 0) {
           zip.putNextEntry(new ZipEntry(path + "/" + srcFolder.getName() + "/"));
       } else {
           /*

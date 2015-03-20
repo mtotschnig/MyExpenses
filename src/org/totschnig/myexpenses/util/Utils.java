@@ -402,7 +402,7 @@ public class Utils {
       File mediaStorageDir = getPictureDir();
 
       // Create a media file name
-      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.US).format(new Date());
       return new File(mediaStorageDir,timeStamp + ".jpg");
   }
   public static File getPictureDir() {

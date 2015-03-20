@@ -276,23 +276,7 @@ public class MyApplication extends Application implements
           return false;
         }
       }
-      if (Utils.copy(sharedPrefFile, backupPrefFile)) {
-        File pictureDir = Utils.getPictureDir();
-        String[] children = pictureDir.list();
-        if (children.length>0) {
-          File pictureBackupDir = new File(backupDir,"media");
-          pictureBackupDir.mkdir();
-          if (pictureBackupDir.isDirectory()) {
-            for (int i=0; i<children.length; i++) {
-              if (!Utils.copy(new File(pictureDir, children[i]),
-                  new File(pictureBackupDir, children[i]))) {
-                return false;
-              }
-            }
-            return true;
-          }
-        }
-      }
+      return Utils.copy(sharedPrefFile, backupPrefFile);
     }
     return false;
   }

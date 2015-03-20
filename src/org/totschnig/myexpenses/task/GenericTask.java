@@ -260,7 +260,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       cacheEventData();
       if (MyApplication.getInstance().backup(cacheDir)) {
         try {
-          ZipUtils.zipFolder(cacheDir,backupFile);
+          ZipUtils.zipBackup(
+              cacheDir,
+              Utils.getPictureDir(),
+              backupFile);
           result  = true;
         } catch (Exception e) {
           // TODO Auto-generated catch block
