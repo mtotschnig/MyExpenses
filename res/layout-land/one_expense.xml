@@ -125,15 +125,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
           <include layout="@layout/attach_image_button"/>
-          <ImageView
-              android:id="@+id/picture"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:visibility="gone"
-              android:clickable="true"
-              android:focusable="true"
-              android:onClick="showPicturePopupMenu"
-              android:padding="2dp" />
+          <include layout="@layout/picture_view" />
           </LinearLayout>
       </TableRow>
 
