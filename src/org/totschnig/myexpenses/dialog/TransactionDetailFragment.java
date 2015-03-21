@@ -21,6 +21,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 
 import org.totschnig.myexpenses.R;
@@ -289,12 +291,16 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (mTransaction.getPictureUri()!=null) {
       int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
       try {
+        InputStream is = getActivity().getContentResolver().openInputStream(mTransaction.getPictureUri());
         dlg.setIcon(new BitmapDrawable(getResources(),
             ThumbnailUtils.extractThumbnail(
-              BitmapFactory.decodeStream(
-                  getActivity().getContentResolver().openInputStream(mTransaction.getPictureUri())),
+              BitmapFactory.decodeStream(is),
                   thumbsize, thumbsize)));
+        is.close();
       } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
