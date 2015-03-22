@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.annotation.TargetApi;

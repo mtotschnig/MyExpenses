@@ -242,7 +242,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     .commitAllowingStateLoss();
   }
   public void recordUsage(ContribFeature f) {
-    getProtection().startTaskExecution(TaskExecutionFragment.TASK_RECORD_USAGE, null, f, 0);
+    f.recordUsage();
   }
   
   /**

@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +22,7 @@ import android.support.v4.app.FragmentActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Feature f = (Feature) getIntent().getSerializableExtra(KEY_FEATURE);
+        ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
         if (f==null) {
           sequenceCount = getIntent().getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
@@ -58,7 +58,7 @@ import android.support.v4.app.FragmentActivity;
     }
 
     @Override
-    public void contribFeatureCalled(Feature feature, Serializable tag) {
+    public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
       Intent i = new Intent();
       i.putExtra(KEY_FEATURE, feature);
       i.putExtra(KEY_TAG,tag);

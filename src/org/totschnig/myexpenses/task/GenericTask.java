@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -300,9 +299,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
           values,null,null);
       return null;
-    case TaskExecutionFragment.TASK_RECORD_USAGE:
-      Feature f = (Feature) mExtra;
-      f.recordUsage();
     }
     return null;
   }

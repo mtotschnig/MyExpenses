@@ -44,7 +44,7 @@ import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -469,10 +469,10 @@ public class MyExpenses extends LaunchActivity implements
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled()) {
-          contribFeatureCalled(Feature.DISTRIBUTION, null);
+          contribFeatureCalled(ContribFeature.DISTRIBUTION, null);
         }
         else {
-          CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
+          CommonCommands.showContribDialog(this,ContribFeature.DISTRIBUTION, null);
         }
       } else {
         MessageDialogFragment.newInstance(
@@ -524,10 +524,10 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.CREATE_SPLIT_COMMAND:
       if (MyApplication.getInstance().isContribEnabled()) {
-        contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
+        contribFeatureCalled(ContribFeature.SPLIT_TRANSACTION, null);
       }
       else {
-        CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
+        CommonCommands.showContribDialog(this,ContribFeature.SPLIT_TRANSACTION, null);
       }
       return true;
     case R.id.BALANCE_COMMAND:
@@ -629,7 +629,7 @@ public class MyExpenses extends LaunchActivity implements
         startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
       }
       else {
-        CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
+        CommonCommands.showContribDialog(this,ContribFeature.ACCOUNTS_UNLIMITED, null);
       }
       return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
@@ -708,7 +708,7 @@ public class MyExpenses extends LaunchActivity implements
   }
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void contribFeatureCalled(Feature feature, Serializable tag) {
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     switch(feature){
     case DISTRIBUTION:
       Account a = Account.getInstanceFromDb(mAccountId);
@@ -938,7 +938,7 @@ public class MyExpenses extends LaunchActivity implements
     case TaskExecutionFragment.TASK_PRINT:
       Result result = (Result) o;
       if (result.success) {
-        recordUsage(Feature.PRINT);
+        recordUsage(ContribFeature.PRINT);
         MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
             result.print(this),

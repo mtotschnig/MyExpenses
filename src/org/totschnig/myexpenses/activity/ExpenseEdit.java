@@ -1193,9 +1193,6 @@ public class ExpenseEdit extends AmountActivity implements
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
-    case TaskExecutionFragment.TASK_RECORD_USAGE:
-      TemplateWidget.showContribMessage(this);
-      break;
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
       //unable to create new plan, inform user
@@ -1388,6 +1385,7 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       if (mRecordTemplateWidget) {
         recordUsage(ContribFeature.TEMPLATE_WIDGET);
+        TemplateWidget.showContribMessage(this);
       }
       if (mCreateNew) {
         mCreateNew = false;

@@ -48,7 +48,7 @@ import java.util.Map;
 //import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
@@ -618,11 +618,11 @@ public class Utils {
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx,
-      Feature other) {
+      ContribFeature other) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
-    Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
+    Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class).iterator();
     while (iterator.hasNext()) {
-      Feature f = iterator.next();
+      ContribFeature f = iterator.next();
       if (!f.equals(other)) {
         result = TextUtils.concat(result,
             ctx.getText(ctx.getResources().getIdentifier(
