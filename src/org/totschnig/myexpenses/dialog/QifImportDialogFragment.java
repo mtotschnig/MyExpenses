@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -129,7 +130,8 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
     mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
-    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,
+    Context wrappedCtx = view.getContext();
+    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);

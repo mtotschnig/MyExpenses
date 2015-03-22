@@ -50,6 +50,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
@@ -71,6 +72,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
   View mLayout;
+  protected Bitmap mThumbnail;
   
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
@@ -114,6 +116,15 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       }
     });
     return dialog;
+  }
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    if (mThumbnail!=null) {
+      mThumbnail.recycle();
+      mThumbnail = null;
+      System.gc();
+    }
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
@@ -292,10 +303,11 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
       try {
         InputStream is = getActivity().getContentResolver().openInputStream(mTransaction.getPictureUri());
+        mThumbnail = ThumbnailUtils.extractThumbnail(
+          BitmapFactory.decodeStream(is),
+              thumbsize, thumbsize);
         dlg.setIcon(new BitmapDrawable(getResources(),
-            ThumbnailUtils.extractThumbnail(
-              BitmapFactory.decodeStream(is),
-                  thumbsize, thumbsize)));
+            mThumbnail));
         is.close();
       } catch (FileNotFoundException e) {
         // TODO Auto-generated catch block

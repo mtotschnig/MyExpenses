@@ -35,6 +35,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -86,6 +88,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -812,6 +815,7 @@ public class ExpenseEdit extends AmountActivity implements
       setTime();
     }
   };
+  private Bitmap mThumbnail;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -1033,12 +1037,15 @@ public class ExpenseEdit extends AmountActivity implements
   protected void setPicture() {
     int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
     try {
-      mPictureView.setImageBitmap(
-         ThumbnailUtils.extractThumbnail(
-             BitmapFactory.decodeStream(
-                 getContentResolver().openInputStream(mPictureUri)),
-                 thumbsize, thumbsize));
+      InputStream is = getContentResolver().openInputStream(mPictureUri);
+      mThumbnail = ThumbnailUtils.extractThumbnail(
+        BitmapFactory.decodeStream(is),thumbsize, thumbsize);
+      mPictureView.setImageBitmap(mThumbnail);
+      is.close();
     } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
@@ -1746,5 +1753,14 @@ public class ExpenseEdit extends AmountActivity implements
       mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile(true));
     }
     return mPictureUriTemp;
+  }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (mThumbnail!=null) {
+      mThumbnail.recycle();
+      mThumbnail = null;
+      System.gc();
+    }
   }
 }

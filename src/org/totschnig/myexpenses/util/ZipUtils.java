@@ -125,9 +125,19 @@ public class ZipUtils {
           newFile.mkdir();
         } else {
           FileOutputStream fout = new FileOutputStream(newFile);
-          for (int c = zin.read(); c != -1; c = zin.read()) {
-            fout.write(c);
+          long startTime = System.currentTimeMillis();
+
+//          for (int c = zin.read(); c != -1; c = zin.read()) {
+//            fout.write(c);
+
+          byte[] buffer = new byte[1024];
+          int count;
+          while ((count = zin.read(buffer)) != -1) {
+              fout.write(buffer, 0, count);
           }
+          long endTime = System.currentTimeMillis();
+
+          Log.d("DEBUG","That took " + (endTime - startTime) + " milliseconds");
           zin.closeEntry();
           fout.close();
         }

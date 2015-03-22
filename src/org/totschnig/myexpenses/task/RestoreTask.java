@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.task;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -85,10 +87,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       }
       workingDir.mkdir();
       try {
-        if (!ZipUtils.unzip(
-            cr
-              .openInputStream(fileUri),
-            workingDir)) {
+        InputStream is = cr.openInputStream(fileUri);
+        boolean zipResult = ZipUtils.unzip(is,workingDir);
+        try {
+          is.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        if (!zipResult) {
           return new Result(
               false,
               R.string.restore_backup_archive_not_valid,
