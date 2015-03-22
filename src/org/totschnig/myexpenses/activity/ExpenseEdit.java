@@ -1743,7 +1743,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private Uri getCameraUri() {
     if (mPictureUriTemp == null) {
-      mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile());
+      mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile(true));
     }
     return mPictureUriTemp;
   }

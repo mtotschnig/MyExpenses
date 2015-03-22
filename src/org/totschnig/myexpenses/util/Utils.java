@@ -395,11 +395,18 @@ public class Utils {
   /** Create a File for saving an image or video */
   //Source http://developer.android.com/guide/topics/media/camera.html#saving-media
   
-  public static File getOutputMediaFile() {
+  /**
+   * create a File object for storage of picture data
+   * @param temp if true the returned file is suitable
+   * for temporary storage while the user is editing the transaction
+   * if false the file will serve as permanent storage
+   * @return a file on the external storage
+   */
+  public static File getOutputMediaFile(boolean temp) {
       // To be safe, you should check that the SDCard is mounted
       // using Environment.getExternalStorageState() before doing this.
 
-      File mediaStorageDir = getPictureDir();
+      File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
 
       // Create a media file name
       String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.US).format(new Date());
@@ -430,9 +437,16 @@ public class Utils {
   public static Uri copyToHome(Uri uri) {
     InputStream input = null;
     OutputStream output = null;
+    File outputFile = getOutputMediaFile(false);
+    
+    if (uri.getScheme().equals("file")) {
+      if (new File(uri.getPath()).renameTo(outputFile)) {
+        return Uri.fromFile(outputFile);
+      }
+    }
+    
     try {
       input = MyApplication.getInstance().getContentResolver().openInputStream(uri);
-      File outputFile = getOutputMediaFile();
       output = new FileOutputStream(outputFile);
       final byte[] buffer = new byte[1024];
       int read;
