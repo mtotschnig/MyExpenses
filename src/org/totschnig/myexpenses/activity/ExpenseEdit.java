@@ -55,7 +55,6 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
@@ -635,7 +634,7 @@ public class ExpenseEdit extends AmountActivity implements
               launchNewPlan();
             }
           } else {
-            CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
+            CommonCommands.showContribDialog(ExpenseEdit.this,ContribFeature.PLANS_UNLIMITED, null);
           }
           return;
        }
@@ -1194,6 +1193,9 @@ public class ExpenseEdit extends AmountActivity implements
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
+    case TaskExecutionFragment.TASK_RECORD_USAGE:
+      TemplateWidget.showContribMessage(this);
+      break;
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
       //unable to create new plan, inform user
@@ -1385,8 +1387,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       if (mRecordTemplateWidget) {
-        ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
-        TemplateWidget.showContribMessage(this);
+        recordUsage(ContribFeature.TEMPLATE_WIDGET);
       }
       if (mCreateNew) {
         mCreateNew = false;
@@ -1623,7 +1624,7 @@ public class ExpenseEdit extends AmountActivity implements
     ((Template) mTransaction).planExecutionAutomatic = ((ToggleButton) view).isChecked();
   }
   @Override
-  public void contribFeatureCalled(Feature feature, Serializable tag) {
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     // not used
   }
   @Override

@@ -563,11 +563,7 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && tl.hasItems) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled()) {
-            contribFeatureCalled(Feature.RESET_ALL, null);
-          } else {
-            CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
-          }
+          DialogUtils.showWarningResetDialog(this, mAccountId);
         } else {
           Toast.makeText(getBaseContext(),
               appDirStatus.print(this),
@@ -716,7 +712,7 @@ public class MyExpenses extends LaunchActivity implements
     switch(feature){
     case DISTRIBUTION:
       Account a = Account.getInstanceFromDb(mAccountId);
-      feature.recordUsage();
+      recordUsage(feature);
       Intent i = new Intent(this, ManageCategories.class);
       i.setAction("myexpenses.intent.distribution");
       i.putExtra(KEY_ACCOUNTID, mAccountId);
@@ -741,9 +737,6 @@ public class MyExpenses extends LaunchActivity implements
             null,
             0);
       }
-      break;
-    case RESET_ALL:
-      DialogUtils.showWarningResetDialog(this, mAccountId);
       break;
     case PRINT:
       TransactionList tl = getCurrentFragment();
@@ -945,7 +938,7 @@ public class MyExpenses extends LaunchActivity implements
     case TaskExecutionFragment.TASK_PRINT:
       Result result = (Result) o;
       if (result.success) {
-        Feature.PRINT.recordUsage();
+        recordUsage(Feature.PRINT);
         MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
             result.print(this),

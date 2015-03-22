@@ -84,7 +84,7 @@ public class SplitTransaction extends Transaction {
       cr().delete(CONTENT_URI,PART_OR_PEER_SELECT + "  AND " + KEY_STATUS + " != ?",
           new String[] { idStr, idStr, String.valueOf(STATUS_UNCOMMITTED) });
       if (status==STATUS_UNCOMMITTED)
-        ContribFeature.Feature.SPLIT_TRANSACTION.recordUsage();
+        ContribFeature.SPLIT_TRANSACTION.recordUsage();
       initialValues.put(KEY_STATUS, 0);
       //for a new split, both the parent and the parts are in state uncommitted
       //when we edit a split only the parts are in state uncommitted,

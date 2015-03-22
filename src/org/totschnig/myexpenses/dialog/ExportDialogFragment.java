@@ -211,11 +211,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
           R.id.START_EXPORT_COMMAND);
       if (accountId == null) {
-        Feature.RESET_ALL.recordUsage();
       } else if (accountId>0) {
         b.putLong(KEY_ROWID, accountId);
       } else {
-        Feature.RESET_ALL.recordUsage();
         b.putString(KEY_CURRENCY, currency);
       }
       b.putString(ExportTask.KEY_FORMAT, format);

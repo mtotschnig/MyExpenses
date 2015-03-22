@@ -177,13 +177,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           Events.CUSTOM_APP_PACKAGE + " TEXT," +
           Events.CUSTOM_APP_URI + " TEXT);";
 
-      
-  /**
-   * we store a simple row for each time a feature has been accessed,
-   * thus speeding up recording and counting 
-   */
-  private static final String FEATURE_USED_CREATE =
-      "CREATE TABLE " + TABLE_FEATURE_USED + " (feature text not null);";
 
   /**
    * stores payees and payers
@@ -256,7 +249,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     insertDefaultAccount(db);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
-    db.execSQL(FEATURE_USED_CREATE);
     db.execSQL(CURRENCY_CREATE);
     //category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();
@@ -843,6 +835,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 50) {
       db.execSQL("ALTER TABLE transactions add column picture_id text");
+      db.execSQL("DROP TABLE IF EXISTS feature_used");
     }
   }
   @Override

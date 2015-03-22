@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
@@ -241,6 +241,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
     .commitAllowingStateLoss();
   }
+  public void recordUsage(ContribFeature f) {
+    getProtection().startTaskExecution(TaskExecutionFragment.TASK_RECORD_USAGE, null, f, 0);
+  }
   
   /**
    * Workaround for broken {@link NavUtils#shouldUpRecreateTask(android.app.Activity, Intent)}
@@ -281,7 +284,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == CONTRIB_REQUEST && resultCode == RESULT_OK) {
       ((ContribIFace) this).contribFeatureCalled(
-          (Feature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+          (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
     }
   }
