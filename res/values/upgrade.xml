@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_242">
+    <item>Attach picture to transaction</item>
+  </string-array>
   <string-array name="whats_new_241">
     <item>Pie chart visualizing distribution per category</item>
   </string-array>
