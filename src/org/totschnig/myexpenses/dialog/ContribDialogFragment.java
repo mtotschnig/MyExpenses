@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -35,10 +35,10 @@ import android.text.Html;
 import android.text.TextUtils;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener{
-  Feature feature;
+  ContribFeature feature;
   int usagesLeft;
 
-  public static final ContribDialogFragment newInstance(Feature feature, Serializable tag) {
+  public static final ContribDialogFragment newInstance(ContribFeature feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putSerializable(ContribInfoDialogActivity.KEY_FEATURE, feature);
@@ -50,7 +50,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       final Bundle bundle = getArguments();
-      feature = (Feature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
+      feature = (ContribFeature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
       usagesLeft = feature.usagesLeft(); //TODO Strict mode
   }
   @Override

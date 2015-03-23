@@ -34,10 +34,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public static final int IMPORT_FILENAME_REQUESTCODE = 1;
   protected EditText mFilename;
   protected Uri mUri;
-  protected AlertDialog mDialog;
-  protected Context wrappedCtx;
   final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-  final static boolean isJellyBean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 
   public ImportSourceDialogFragment() {
     super();
@@ -65,17 +62,22 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    wrappedCtx = DialogUtils.wrapContext2(getActivity());
+    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(getLayoutId(), null);
     setupDialogView(view);
-    mDialog = new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(wrappedCtx)
       .setTitle(getLayoutTitle())
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,this)
       .create();
-    return mDialog;
+  }
+  @Override
+  public void onDestroyView() {
+    // TODO Auto-generated method stub
+    super.onDestroyView();
+    mFilename = null;
   }
 
   protected void setupDialogView(View view) {
@@ -85,10 +87,9 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
   }
 
-  @SuppressLint("InlinedApi")
   public void openBrowse() {
   
-    Intent intent = new Intent(isKitKat ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT);
+    Intent intent = new Intent(Utils.getContentIntentAction());
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
     intent.setDataAndType(mUri,getMimeType());
@@ -160,7 +161,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @SuppressLint("NewApi")
   public static String getDisplayName(Uri uri) {
 
-    if (isJellyBean) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       // The query, since it only applies to a single document, will only return
       // one row. There's no need to filter, sort, or select fields, since we want
       // all fields for one document.
@@ -227,7 +228,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     return mUri != null;
   }
   protected void setButtonState() {
-    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady());
+    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady());
   }
   @Override
   public void onSaveInstanceState(Bundle outState) {

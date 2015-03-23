@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri.Builder;
@@ -48,6 +49,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -108,6 +110,9 @@ public class CategoryList extends ContextualActionBarFragment implements
   protected boolean mType = EXPENSE;
   private ArrayList<Integer> mMainColors,mSubColors;
   private int lastExpandedPosition = -1;
+  
+  boolean showChart;
+  boolean aggregateTypes;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +122,8 @@ public class CategoryList extends ContextualActionBarFragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
+    aggregateTypes = MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
@@ -129,6 +136,10 @@ public class CategoryList extends ContextualActionBarFragment implements
       for (int col : ColorTemplate.JOYFUL_COLORS)
         mMainColors.add(col);
       for (int col : ColorTemplate.LIBERTY_COLORS)
+        mMainColors.add(col);
+      for (int col : ColorTemplate.VORDIPLOM_COLORS)
+        mMainColors.add(col);
+      for (int col : ColorTemplate.COLORFUL_COLORS)
         mMainColors.add(col);
       mMainColors.add(ColorTemplate.getHoloBlue());
 
@@ -149,6 +160,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       mManager.initLoader(DATEINFO_CURSOR, null, this);
       v = inflater.inflate( R.layout.distribution_list,null,false);
       mChart = (PieChart) v.findViewById(R.id.chart1);
+      mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
       mChart.setDescription("");
       
       //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
@@ -157,14 +169,19 @@ public class CategoryList extends ContextualActionBarFragment implements
       //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
       //mChart.setUsePercentValues(true);
       //mChart.setCenterText("Quarterly\nRevenue");
-      //mChart.setCenterTextSize(22f);
+      TypedValue typedValue = new TypedValue(); 
+      getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, typedValue, true);
+      int[] textSizeAttr = new int[] { android.R.attr.textSize };
+      int indexOfAttrTextSize = 0;
+      TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
+      int textSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
+      a.recycle();
+      mChart.setCenterTextSizePixels(textSize);
        
       // radius of the center hole in percent of maximum radius
       //mChart.setHoleRadius(60f); 
       //mChart.setTransparentCircleRadius(0f);
-      mChart.setDrawLegend(false);
-      mChart.setDrawYValues(false);
-      mChart.setDrawXValues(false);
+      mChart.setDrawSliceText(false);
       mChart.setDrawHoleEnabled(true);
       mChart.setDrawCenterText(true);
       mChart.setRotationEnabled(false);
@@ -214,9 +231,11 @@ public class CategoryList extends ContextualActionBarFragment implements
       mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
         @Override
         public void onGroupExpand(int groupPosition) {
-          if (lastExpandedPosition != -1
-              && groupPosition != lastExpandedPosition) {
-            mListView.collapseGroup(lastExpandedPosition);
+          if (showChart) {
+            if (lastExpandedPosition != -1
+                && groupPosition != lastExpandedPosition) {
+              mListView.collapseGroup(lastExpandedPosition);
+            }
           }
           lastExpandedPosition = groupPosition;
         }
@@ -224,13 +243,15 @@ public class CategoryList extends ContextualActionBarFragment implements
       mListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
         @Override
         public void onGroupCollapse(int groupPosition) {
-          lastExpandedPosition = -1;
-          setData(mGroupCursor,mMainColors);
-          highlight(groupPosition);
-          long packedPosition = 
-              ExpandableListView.getPackedPositionForGroup(groupPosition);
-          int flatPosition = mListView.getFlatListPosition(packedPosition);
-          mListView.setItemChecked(flatPosition,true);
+          if (showChart) {
+            lastExpandedPosition = -1;
+            setData(mGroupCursor, mMainColors);
+            highlight(groupPosition);
+            long packedPosition = ExpandableListView
+                .getPackedPositionForGroup(groupPosition);
+            int flatPosition = mListView.getFlatListPosition(packedPosition);
+            mListView.setItemChecked(flatPosition, true);
+          }
         }
       });
       mListView.setOnChildClickListener(new OnChildClickListener() {
@@ -238,12 +259,15 @@ public class CategoryList extends ContextualActionBarFragment implements
         @Override
         public boolean onChildClick(ExpandableListView parent, View v,
             int groupPosition, int childPosition, long id) {
-          long packedPosition = 
-              ExpandableListView.getPackedPositionForChild(groupPosition, childPosition);
-          highlight(childPosition);
-          int flatPosition = mListView.getFlatListPosition(packedPosition);
-          mListView.setItemChecked(flatPosition,true);
-          return true;
+          if (showChart) {
+            long packedPosition = ExpandableListView.getPackedPositionForChild(
+                groupPosition, childPosition);
+            highlight(childPosition);
+            int flatPosition = mListView.getFlatListPosition(packedPosition);
+            mListView.setItemChecked(flatPosition, true);
+            return true;
+          }
+          return false;
         }
       });
       //the following is relevant when not in touch mode
@@ -252,17 +276,22 @@ public class CategoryList extends ContextualActionBarFragment implements
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
             int position, long id) {
-          long pos = mListView.getExpandableListPosition(position);
-          int type = ExpandableListView.getPackedPositionType(pos);
-          int group = ExpandableListView.getPackedPositionGroup(pos),
-              child = ExpandableListView.getPackedPositionChild(pos);
-          int highlightedPos;
-          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-             highlightedPos = lastExpandedPosition == -1 ? group : -1;
-          } else {
-            highlightedPos = child;
+          if (showChart) {
+            long pos = mListView.getExpandableListPosition(position);
+            int type = ExpandableListView.getPackedPositionType(pos);
+            int group = ExpandableListView.getPackedPositionGroup(pos),
+                child = ExpandableListView.getPackedPositionChild(pos);
+            int highlightedPos;
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+              if (lastExpandedPosition!=group) {
+                mListView.collapseGroup(lastExpandedPosition);
+              }
+              highlightedPos = lastExpandedPosition == -1 ? group : -1;
+            } else {
+              highlightedPos = child;
+            }
+            highlight(highlightedPos);
           }
-          highlight(highlightedPos);
         }
 
         @Override
@@ -570,8 +599,10 @@ public class CategoryList extends ContextualActionBarFragment implements
         accountSelector = String.valueOf(mAccount.getId());
       }
       String catFilter = "FROM " + VIEW_COMMITTED +
-          " WHERE " + KEY_ACCOUNTID + selection + 
-          " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
+          " WHERE " + KEY_ACCOUNTID + selection;
+      if (!aggregateTypes) { 
+          catFilter += " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
+      }
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
@@ -654,10 +685,11 @@ public class CategoryList extends ContextualActionBarFragment implements
       mAdapter.setGroupCursor(c);
       if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
         if (c.getCount()>0) {
-          mChart.setVisibility(View.VISIBLE);
+          mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
           setData(c,mMainColors);
           highlight(0);
-          mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)),true);
+          if (showChart)
+            mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)),true);
         } else {
           mChart.setVisibility(View.GONE);
         }
@@ -673,7 +705,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
             long packedPosition;
             if (c.getCount()>0) {
-              mSubColors = getSubColors(mMainColors.get(id));
+              mSubColors = getSubColors(mMainColors.get(id%mMainColors.size()));
               setData(c,mSubColors);
               highlight(0);
               packedPosition = 
@@ -683,8 +715,8 @@ public class CategoryList extends ContextualActionBarFragment implements
                   ExpandableListView.getPackedPositionForGroup(id);
               highlight(id);
             }
-            int flatPosition = mListView.getFlatListPosition(packedPosition);
-            mListView.setItemChecked(flatPosition,true);
+            if (showChart)
+              mListView.setItemChecked(mListView.getFlatListPosition(packedPosition),true);
           }
       }
     }
@@ -710,7 +742,17 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (mGrouping != null) {
       boolean grouped = !mGrouping.equals(Grouping.NONE);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);    }
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
+    }
+    MenuItem m = menu.findItem(R.id.TOGGLE_CHART_COMMAND);
+    if (m!=null) {
+      m.setChecked(showChart);
+    }
+    m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
+    if (m!=null) {
+      m.setChecked(aggregateTypes);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
+    }
   }
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))
@@ -745,6 +787,23 @@ public class CategoryList extends ContextualActionBarFragment implements
     case R.id.FORWARD_COMMAND:
       forward();
       return true;
+    case R.id.TOGGLE_CHART_COMMAND:
+      showChart=!showChart;
+      MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
+      mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
+      if (showChart) {
+        int count = mAdapter.getGroupCount();
+        for (int i = 0; i < count; i++)
+          mListView.collapseGroup(i);
+      } else {
+        mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
+      }
+      return true;
+    case R.id.TOGGLE_AGGREGATE_TYPES:
+      aggregateTypes=!aggregateTypes;
+      MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
+      getActivity().supportInvalidateOptionsMenu();
+      reset();
     }
     return super.onOptionsItemSelected(item);
   }
@@ -898,8 +957,10 @@ public class CategoryList extends ContextualActionBarFragment implements
       PieDataSet ds1 = new PieDataSet(entries1, "");
 
       ds1.setColors(colors);
-      ds1.setSliceSpace(0f);
+      ds1.setSliceSpace(2f);
+      ds1.setDrawValues(false);
       mChart.setData(new PieData(xVals, ds1));
+      mChart.getLegend().setEnabled(false);
       // undo all highlights
       mChart.highlightValues(null);
       mChart.invalidate();
@@ -968,16 +1029,16 @@ public class CategoryList extends ContextualActionBarFragment implements
     return result;
   }
   private void highlight(int position) {
-    Highlight h = new Highlight(position, 0);
-    mChart.highlightValues(new Highlight[] {h});
-    setCenterText(position);
+    mChart.highlightValue(position,0);
+    if (position != -1)
+      setCenterText(position);
   }
   private void setCenterText(int position) {
     PieData data = (PieData) mChart.getData();
 
     String description = data.getXVals().get(position);
 
-    String value = mChart.getValueFormatter().getFormattedValue(
+    String value = data.getDataSet().getValueFormatter().getFormattedValue(
         Math.abs(mChart.getPercentOfTotal(data.getDataSet().getEntryForXIndex(position).getVal())))
         + " %";
 

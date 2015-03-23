@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_241">
+    <item>分類ごとの分布を可視化する円グラフ</item>
+  </string-array>
   <string-array name="whats_new_240">
     <item>通常の処理を分割処理に変換します</item>
   </string-array>

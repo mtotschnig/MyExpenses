@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.*;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -298,10 +299,10 @@ public class TransactionList extends ContextualActionBarFragment implements
       break;
     case R.id.SPLIT_TRANSACTION_COMMAND:
       if (MyApplication.getInstance().isContribEnabled()) {
-        ctx.contribFeatureCalled(Feature.SPLIT_TRANSACTION, itemIds);
+        ctx.contribFeatureCalled(ContribFeature.SPLIT_TRANSACTION, itemIds);
       }
       else {
-        CommonCommands.showContribDialog(ctx,Feature.SPLIT_TRANSACTION, itemIds);
+        CommonCommands.showContribDialog(ctx,ContribFeature.SPLIT_TRANSACTION, itemIds);
       }
       break;
       //super is handling deactivation of mActionMode
@@ -643,10 +644,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     MyExpenses ctx = (MyExpenses) getActivity();
     if (mappedCategoriesPerGroup.get(itemPosition)) {
       if (MyApplication.getInstance().isContribEnabled()) {
-        ctx.contribFeatureCalled(Feature.DISTRIBUTION, headerId);
+        ctx.contribFeatureCalled(ContribFeature.DISTRIBUTION, headerId);
       }
       else {
-        CommonCommands.showContribDialog(ctx,Feature.DISTRIBUTION, headerId);
+        CommonCommands.showContribDialog(ctx,ContribFeature.DISTRIBUTION, headerId);
       }
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
@@ -823,21 +824,29 @@ public class TransactionList extends ContextualActionBarFragment implements
       return true;
     case R.id.PRINT_COMMAND:
       MyExpenses ctx = (MyExpenses) getActivity();
-      if (hasItems) {
-        if (MyApplication.getInstance().isContribEnabled()) {
-          ctx.contribFeatureCalled(Feature.PRINT, null);
+      Result appDirStatus = Utils.checkAppDir();
+        if (hasItems) {
+          if (appDirStatus.success) {
+            if (MyApplication.getInstance().isContribEnabled()) {
+              ctx.contribFeatureCalled(ContribFeature.PRINT, null);
+            }
+            else {
+              CommonCommands.showContribDialog(ctx,ContribFeature.PRINT, null);
+            }
+          } else {
+            Toast.makeText(getActivity(),
+                appDirStatus.print(getActivity()),
+                Toast.LENGTH_LONG)
+                .show();
+          }
+        } else {
+          MessageDialogFragment.newInstance(
+              0,
+              R.string.dialog_command_disabled_reset_account,
+              MessageDialogFragment.Button.okButton(),
+              null,null)
+           .show(ctx.getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
         }
-        else {
-          CommonCommands.showContribDialog(ctx,Feature.PRINT, null);
-        }
-      } else {
-        MessageDialogFragment.newInstance(
-            0,
-            R.string.dialog_command_disabled_reset_account,
-            MessageDialogFragment.Button.okButton(),
-            null,null)
-         .show(ctx.getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
-      }
       return true;
     default:
       return super.onOptionsItemSelected(item);

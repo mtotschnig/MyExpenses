@@ -182,7 +182,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
                   context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
                   Toast.LENGTH_LONG).show();
               if (!MyApplication.getInstance().isContribEnabled()) {
-                ContribFeature.Feature.TEMPLATE_WIDGET.recordUsage();
+                ContribFeature.TEMPLATE_WIDGET.recordUsage();
                 showContribMessage(context);
               }
             }
@@ -210,7 +210,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     super.onEnabled(context);
   }
   public static void showContribMessage(Context context) {
-    int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
+    int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft();
     String message = context.getString(
         R.string.dialog_contrib_premium_feature,
         context.getString(R.string.contrib_feature_template_widget_label)) +
@@ -229,7 +229,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     Log.d("DEBUG", "updating TemplateWidget");
     if (!isProtected() && !MyApplication.getInstance().isContribEnabled()) {
       Log.d("TemplateWidget", "not contrib enabled");
-      int usagesLeft = ContribFeature.Feature.TEMPLATE_WIDGET.usagesLeft();
+      int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft();
       if (usagesLeft < 1) {
         Log.d("TemplateWidget", "no usages left");
         for (int id : appWidgetIds) {

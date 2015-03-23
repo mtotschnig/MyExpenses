@@ -36,4 +36,14 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="@string/menu_grouping"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@id/TOGGLE_CHART_COMMAND"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/menu_distribution_show_pie_char"/>
+    <item
+        android:id="@id/TOGGLE_AGGREGATE_TYPES"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/menu_distribution_aggreate"/>
 </menu>

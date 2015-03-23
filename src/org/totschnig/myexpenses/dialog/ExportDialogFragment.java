@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.annotation.TargetApi;
@@ -211,11 +210,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
           R.id.START_EXPORT_COMMAND);
       if (accountId == null) {
-        Feature.RESET_ALL.recordUsage();
       } else if (accountId>0) {
         b.putLong(KEY_ROWID, accountId);
       } else {
-        Feature.RESET_ALL.recordUsage();
         b.putString(KEY_CURRENCY, currency);
       }
       b.putString(ExportTask.KEY_FORMAT, format);

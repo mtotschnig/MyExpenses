@@ -144,6 +144,7 @@ public class DatabaseConstants {
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
+  public static final String KEY_PICTURE_ID = "picture_id";
   /**
    * column alias for the second group (month or week)
    */
@@ -166,7 +167,6 @@ public class DatabaseConstants {
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_CURRENCIES = "currency";
-  public static final String TABLE_FEATURE_USED = "feature_used";
   public static final String VIEW_COMMITTED = "transactions_committed";
   public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";
   public static final String VIEW_ALL = "transactions_all";

@@ -51,12 +51,11 @@
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>
     <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
     <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
-    <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
+    <string name="contrib_feature_attach_picture_label">Attach image to transaction</string>
     <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
     <string name="contrib_feature_plans_unlimited_description">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
     <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
     <string name="contrib_feature_print_label">Export transaction list to PDF</string>
-    <string name="contrib_feature_reset_all_label">Reset all accounts</string>
     <string name="contrib_feature_security_question_label">Security question</string>
     <string name="contrib_feature_split_transaction_label">Split transaction</string>
     <string name="contrib_feature_template_widget_label">Template widget</string>
@@ -533,4 +532,9 @@
     <string name="restore_calendar_handling_ignore">Do not restore plans</string>
     <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
     <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
+    <string name="menu_view_picture">View picture</string>
+    <string name="menu_delete_picture">Delete picture</string>
+    <string name="menu_change_picture">Attach different picture</string>
+    <string name="menu_distribution_show_pie_char">Show pie chart</string>
+    <string name="menu_distribution_aggreate">Aggregate expenses and income</string>
 </resources>

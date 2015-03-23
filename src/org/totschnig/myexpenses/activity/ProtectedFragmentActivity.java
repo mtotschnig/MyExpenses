@@ -31,7 +31,7 @@ import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
@@ -79,6 +79,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int PICK_COLOR_REQUEST = 11;
   public static final int PURCHASE_PREMIUM_REQUEST = 12;
   public static final int CONTRIB_REQUEST = 13;
+  public static final int PICTURE_REQUEST_CODE = 14;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -250,6 +251,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
     .commitAllowingStateLoss();
   }
+  public void recordUsage(ContribFeature f) {
+    f.recordUsage();
+  }
   
   /**
    * Workaround for broken {@link NavUtils#shouldUpRecreateTask(android.app.Activity, Intent)}
@@ -291,7 +295,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == CONTRIB_REQUEST && resultCode == RESULT_OK) {
       ((ContribIFace) this).contribFeatureCalled(
-          (Feature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+          (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
     }
   }

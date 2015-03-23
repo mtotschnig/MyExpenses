@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -63,7 +63,7 @@ import android.widget.Toast;
           });
         }
 
-        Feature f = (Feature) getIntent().getSerializableExtra(KEY_FEATURE);
+        ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
         if (f==null) {
           sequenceCount = getIntent().getLongExtra(
@@ -185,7 +185,7 @@ import android.widget.Toast;
     }
 
     @Override
-    public void contribFeatureCalled(Feature feature, Serializable tag) {
+    public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
       Intent i = new Intent();
       i.putExtra(KEY_FEATURE, feature);
       i.putExtra(KEY_TAG,tag);

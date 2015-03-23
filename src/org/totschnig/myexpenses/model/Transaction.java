@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import java.io.File;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -30,6 +31,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -82,6 +85,7 @@ public class Transaction extends Model {
         KEY_METHOD_LABEL,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
+        KEY_PICTURE_ID,
         YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
         YEAR + " AS " + KEY_YEAR,
         MONTH + " AS " + KEY_MONTH,
@@ -144,6 +148,12 @@ public class Transaction extends Model {
 
   public CrStatus crStatus;
   public long payeeId = 0;
+  protected Uri pictureUri;
+  /**
+   * if user deletes or changes the picture, we remember the previous uri
+   * so that we can move it away
+   */
+  private Uri pictureUriStale;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -155,7 +165,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         FULL_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_METHOD_LABEL};
+        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_ID,KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -199,6 +209,10 @@ public class Transaction extends Model {
     t.comment = DbUtils.getString(c,KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
+    int pictureIdColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_ID);
+    t.pictureUri = c.isNull(pictureIdColumnIndex) ?
+        null :
+        Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg"));
     c.close();
     return t;
   }
@@ -251,6 +265,18 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        new String[]{KEY_PICTURE_ID},
+        null, null, null);
+    if (c!=null) {
+      if (c.moveToFirst()) {
+        if (!c.isNull(0)) {
+          Utils.moveToBackup(new File(Utils.getPictureDir(),c.getString(0)+".jpg"));
+        }
+      }
+      c.close();
+    }
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
@@ -347,12 +373,37 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
+
+    if (pictureUriStale!=null && !pictureUriStale.equals(pictureUri)) {
+      //we do not throw away the stale file, but backup it.
+      String stalePath = pictureUriStale.getPath();
+      File staleFile = new File(stalePath);
+      Utils.moveToBackup(staleFile);
+    }
+
+    if (pictureUri!=null) {
+      if (pictureUri.getScheme().equals("file") &&
+          pictureUri.getPath().startsWith(
+              Utils.getPictureDir().getAbsolutePath())) {
+        Log.d("DEBUG","got Uri in our home space, nothing todo");
+      } else {
+        setPictureUri(Utils.copyToHome(pictureUri));
+      }
+      String path = pictureUri.getPath();
+      String id = path.substring(path.lastIndexOf('/')+1,path.lastIndexOf('.'));
+      initialValues.put(KEY_PICTURE_ID,id);
+    } else {
+      initialValues.putNull(KEY_PICTURE_ID);
+    }
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri==null) {
         return null;
+      }
+      if (pictureUri!=null) {
+        ContribFeature.ATTACH_PICTURE.recordUsage();
       }
       setId(ContentUris.parseId(uri));
       if (parentId == null)
@@ -524,5 +575,16 @@ public class Transaction extends Model {
     } else if (!transfer_peer.equals(other.transfer_peer))
       return false;
     return true;
+  }
+  public Uri getPictureUri() {
+    return pictureUri;
+  }
+  public void setPictureUri(Uri pictureUriIn) {
+    if (pictureUriStale==null &&
+        this.pictureUri != null &&
+        !this.pictureUri.equals(pictureUriIn)) {
+      pictureUriStale = this.pictureUri;
+    }
+    this.pictureUri = pictureUriIn;
   }
 }

@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.util;
 
@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -47,7 +48,7 @@ import java.util.Map;
 import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
@@ -64,6 +65,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -83,8 +86,9 @@ import android.widget.Toast;
 
 /**
  * Util class with helper methods
+ * 
  * @author Michael Totschnig
- *
+ * 
  */
 public class Utils {
   public final static int DIR_STATUS_OK = 0;
@@ -93,34 +97,35 @@ public class Utils {
     char sep = '.';
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();
     if (nfDLocal instanceof DecimalFormat) {
-      DecimalFormatSymbols symbols =
-          ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
-      sep=symbols.getDecimalSeparator();
+      DecimalFormatSymbols symbols = ((DecimalFormat) nfDLocal)
+          .getDecimalFormatSymbols();
+      sep = symbols.getDecimalSeparator();
     }
     return sep;
   }
-  
+
   /**
    * <a href="http://www.ibm.com/developerworks/java/library/j-numberformat/">
    * http://www.ibm.com/developerworks/java/library/j-numberformat/</a>
-   * @param strFloat parsed as float with the number format defined in the locale
-   * @return the float retrieved from the string or null if parse did not succeed
+   * 
+   * @param strFloat
+   *          parsed as float with the number format defined in the locale
+   * @return the float retrieved from the string or null if parse did not
+   *         succeed
    */
   public static BigDecimal validateNumber(DecimalFormat df, String strFloat) {
     ParsePosition pp;
-    pp = new ParsePosition( 0 );
-    pp.setIndex( 0 );
+    pp = new ParsePosition(0);
+    pp.setIndex(0);
     df.setParseBigDecimal(true);
-    BigDecimal n = (BigDecimal) df.parse(strFloat,pp);
-    if( strFloat.length() != pp.getIndex() || 
-        n == null )
-    {
+    BigDecimal n = (BigDecimal) df.parse(strFloat, pp);
+    if (strFloat.length() != pp.getIndex() || n == null) {
       return null;
     } else {
       return n;
     }
   }
-  
+
   public static URI validateUri(String target) {
     boolean targetParsable;
     URI uri = null;
@@ -128,10 +133,10 @@ public class Utils {
       try {
         uri = new URI(target);
         String scheme = uri.getScheme();
-        //strangely for mailto URIs getHost returns null,
-        //so we make sure that mailto URIs handled as valid
-        targetParsable = scheme != null &&
-            (scheme.equals("mailto") || uri.getHost() != null);
+        // strangely for mailto URIs getHost returns null,
+        // so we make sure that mailto URIs handled as valid
+        targetParsable = scheme != null
+            && (scheme.equals("mailto") || uri.getHost() != null);
       } catch (URISyntaxException e1) {
         targetParsable = false;
       }
@@ -142,9 +147,10 @@ public class Utils {
     }
     return null;
   }
-  
+
   /**
    * formats an amount with a currency
+   * 
    * @param amount
    * @param currency
    * @return formated string
@@ -152,8 +158,9 @@ public class Utils {
   public static String formatCurrency(Money money) {
     BigDecimal amount = money.getAmountMajor();
     Currency currency = money.getCurrency();
-    return formatCurrency(amount,currency);
+    return formatCurrency(amount, currency);
   }
+
   static String formatCurrency(BigDecimal amount, Currency currency) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     int fractionDigits = Money.fractionDigits(currency);
@@ -166,6 +173,7 @@ public class Utils {
     }
     return nf.format(amount);
   }
+
   public static Date dateFromSQL(String dateString) {
     try {
       return TransactionDatabase.dateFormat.parse(dateString);
@@ -173,16 +181,15 @@ public class Utils {
       return null;
     }
   }
+
   /**
    * @param currency
    * @param separator
    * @return a Decimalformat with the number of fraction digits appropriate for
-   * currency, and with the given separator, but without the currency symbol
-   * appropriate for CSV and QIF export
+   *         currency, and with the given separator, but without the currency
+   *         symbol appropriate for CSV and QIF export
    */
-  public static DecimalFormat getDecimalFormat(
-      Currency currency,
-      char separator) {
+  public static DecimalFormat getDecimalFormat(Currency currency, char separator) {
     DecimalFormat nf = new DecimalFormat();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
@@ -200,6 +207,7 @@ public class Utils {
 
   /**
    * utility method that calls formatters for date
+   * 
    * @param text
    * @return formated string
    */
@@ -213,19 +221,21 @@ public class Utils {
 
   /**
    * utility method that calls formatters for date
-   * @param text unixEpochAsString
+   * 
+   * @param text
+   *          unixEpochAsString
    * @return formated string
    */
   public static String convDateTime(String text, DateFormat format) {
-    if (text== null) {
+    if (text == null) {
       return "???";
     }
     Date date;
     try {
-      date = new Date(Long.valueOf(text)*1000L);
+      date = new Date(Long.valueOf(text) * 1000L);
     } catch (NumberFormatException e) {
-      //legacy, the migration from date string to unix timestamp
-      //might have gone wrong for some users
+      // legacy, the migration from date string to unix timestamp
+      // might have gone wrong for some users
       try {
         date = TransactionDatabase.dateTimeFormat.parse(text);
       } catch (ParseException e1) {
@@ -234,10 +244,13 @@ public class Utils {
     }
     return format.format(date);
   }
+
   /**
-   * utility method that calls formatters for amount
-   * this method is called from adapters that give us the amount as String
-   * @param text amount as String
+   * utility method that calls formatters for amount this method is called from
+   * adapters that give us the amount as String
+   * 
+   * @param text
+   *          amount as String
    * @param currency
    * @return formated string
    */
@@ -250,37 +263,43 @@ public class Utils {
     }
     return convAmount(amount, currency);
   }
+
   public static Currency getSaveInstance(String strCurrency) {
     Currency c;
     try {
       c = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
+      Log.e("MyExpenses", strCurrency + " is not defined in ISO 4217");
       c = Currency.getInstance(Locale.getDefault());
     }
     return getSaveInstance(c);
   }
+
   public static Currency getSaveInstance(Currency currency) {
-    try  {
+    try {
       Account.CurrencyEnum.valueOf(currency.getCurrencyCode());
       return currency;
     } catch (IllegalArgumentException e) {
       return Currency.getInstance("EUR");
     }
   }
+
   /**
-   * utility method that calls formatters for amount
-   * this method can be called directly with Long values retrieved from db
-   * @param text amount as String
+   * utility method that calls formatters for amount this method can be called
+   * directly with Long values retrieved from db
+   * 
+   * @param text
+   *          amount as String
    * @param currency
    * @return formated string
    */
   public static String convAmount(Long amount, Currency currency) {
-    return formatCurrency(new Money(currency,amount));
+    return formatCurrency(new Money(currency, amount));
   }
+
   /**
-   * @return directory for storing backups and exports,
-   * null if external storage is not available
+   * @return directory for storing backups and exports, null if external storage
+   *         is not available
    */
   public static File requireAppDir() {
     File result = getAppDir();
@@ -289,12 +308,14 @@ public class Utils {
     }
     return result;
   }
+
   /**
-   * @return if external storage is not available returns null
-   * if user has configured app dir, return this value
-   * on Gingerbread and above returns
-   * {@link android.content.ContextWrapper.getExternalFilesDir(null)}
-   * <STRIKE>on Froyo returns folder "myexpenses" on root of sdcard.</STRIKE>
+   * @return if external storage is not available returns null if user has
+   *         configured app dir, return this value on Gingerbread and above
+   *         returns {@link
+   *         android.content.ContextWrapper.getExternalFilesDir(null)}
+   *         <STRIKE>on Froyo returns folder "myexpenses" on root of
+   *         sdcard.</STRIKE>
    */
   @SuppressLint("NewApi")
   public static File getAppDir() {
@@ -303,97 +324,187 @@ public class Utils {
     }
     String pref = MyApplication.PrefKey.APP_DIR.getString(null);
     if (pref == null) {
-//      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-//        File sd = Environment.getExternalStorageDirectory();
-//        File appDir = new File(sd, "myexpenses");
-//        return appDir;
-//      }
-      return  MyApplication.getInstance().getExternalFilesDir(null);
+      // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+      // File sd = Environment.getExternalStorageDirectory();
+      // File appDir = new File(sd, "myexpenses");
+      // return appDir;
+      // }
+      return MyApplication.getInstance().getExternalFilesDir(null);
     } else {
       return new File(pref);
     }
   }
+
   public static File getCacheDir() {
     File external = MyApplication.getInstance().getExternalCacheDir();
-    return external != null ? external :
-        MyApplication.getInstance().getCacheDir();
+    return external != null ? external : MyApplication.getInstance()
+        .getCacheDir();
   }
+
   /**
    * @param parentDir
    * @param prefix
-   * @return creates a file object in parentDir,
-   * with a timestamp appended to prefix as name
+   * @return creates a file object in parentDir, with a timestamp appended to
+   *         prefix as name
    */
-  public static File timeStampedFile(
-      File parentDir,
-      String prefix,
+  public static File timeStampedFile(File parentDir, String prefix,
       String extension) {
-    String now = new SimpleDateFormat(
-        "yyyMMdd-HHmmss",Locale.US)
-      .format(new Date());
+    String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+        .format(new Date());
     extension = TextUtils.isEmpty(extension) ? "" : "." + extension;
-    return new File(parentDir,prefix+"-" + now + extension);
+    return new File(parentDir, prefix + "-" + now + extension);
   }
+
   /**
    * Helper Method to Test if external Storage is Available from
    * http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
    */
   public static boolean isExternalStorageAvailable() {
-      boolean state = false;
-      String extStorageState = Environment.getExternalStorageState();
-      if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
-          state = true;
-      }
-      return state;
+    boolean state = false;
+    String extStorageState = Environment.getExternalStorageState();
+    if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+      state = true;
+    }
+    return state;
   }
-  
+
   public static Result checkAppDir() {
     File appdir = getAppDir();
     if (appdir == null) {
-      return new Result(
-          false,
-          R.string.external_storage_unavailable);
+      return new Result(false, R.string.external_storage_unavailable);
     }
     if (!appdir.exists()) {
-      return new Result(
-          false,
-          R.string.app_dir_does_not_exist,appdir.getAbsolutePath());
+      return new Result(false, R.string.app_dir_does_not_exist,
+          appdir.getAbsolutePath());
     }
     if (!appdir.canWrite()) {
-      return new Result(
-          false,
-          R.string.app_dir_read_only,
+      return new Result(false, R.string.app_dir_read_only,
           appdir.getAbsolutePath());
     }
     return new Result(true);
   }
-  
+
   public static boolean copy(File src, File dst) {
     FileInputStream srcStream = null;
     FileOutputStream dstStream = null;
     try {
       srcStream = new FileInputStream(src);
       dstStream = new FileOutputStream(dst);
-      dstStream.getChannel().transferFrom(
-          srcStream.getChannel(),
-          0,
+      dstStream.getChannel().transferFrom(srcStream.getChannel(), 0,
           srcStream.getChannel().size());
       return true;
     } catch (FileNotFoundException e) {
-      Log.e("MyExpenses",e.getLocalizedMessage());
+      Log.e("MyExpenses", e.getLocalizedMessage());
       return false;
     } catch (IOException e) {
-      Log.e("MyExpenses",e.getLocalizedMessage());
+      Log.e("MyExpenses", e.getLocalizedMessage());
       return false;
     } finally {
-      try { srcStream.close(); } catch (Exception e) {}
-      try { dstStream.close(); } catch (Exception e) {}
+      try {
+        srcStream.close();
+      } catch (Exception e) {
+      }
+      try {
+        dstStream.close();
+      } catch (Exception e) {
+      }
     }
   }
-  public static void share(
-      Context ctx,
-      ArrayList<File> files,
-      String target,
+
+  /** Create a File for saving an image or video */
+  // Source
+  // http://developer.android.com/guide/topics/media/camera.html#saving-media
+
+  /**
+   * create a File object for storage of picture data
+   * 
+   * @param temp
+   *          if true the returned file is suitable for temporary storage while
+   *          the user is editing the transaction if false the file will serve
+   *          as permanent storage
+   * @return a file on the external storage
+   */
+  public static File getOutputMediaFile(boolean temp) {
+    // To be safe, you should check that the SDCard is mounted
+    // using Environment.getExternalStorageState() before doing this.
+
+    File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
+
+    // Create a media file name
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+        .format(new Date());
+    return new File(mediaStorageDir, timeStamp + ".jpg");
+  }
+
+  public static File getPictureDir() {
+    return MyApplication.getInstance().getExternalFilesDir(
+        Environment.DIRECTORY_PICTURES);
+  }
+
+  public static void moveToBackup(File staleFile) {
+    File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
+        null), Environment.DIRECTORY_PICTURES + ".bak");
+    backupDir.mkdir();
+    if (staleFile.isDirectory()) {
+      for (File f : staleFile.listFiles()) {
+        f.renameTo(new File(backupDir, f.getName()));
+      }
+    }
+    staleFile.renameTo(new File(backupDir, staleFile.getName()));
+  }
+
+  /**
+   * copy the content accessible through uri to the applications external files
+   * directory
+   * 
+   * @param uri
+   * @return
+   */
+  public static Uri copyToHome(Uri uri) {
+    InputStream input = null;
+    OutputStream output = null;
+    File outputFile = getOutputMediaFile(false);
+
+    if (uri.getScheme().equals("file")) {
+      if (new File(uri.getPath()).renameTo(outputFile)) {
+        return Uri.fromFile(outputFile);
+      }
+    }
+
+    try {
+      input = MyApplication.getInstance().getContentResolver()
+          .openInputStream(uri);
+      output = new FileOutputStream(outputFile);
+      final byte[] buffer = new byte[1024];
+      int read;
+
+      while ((read = input.read(buffer)) != -1) {
+        output.write(buffer, 0, read);
+      }
+
+      output.flush();
+
+      return Uri.fromFile(outputFile);
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } finally {
+      try {
+        input.close();
+      } catch (IOException e) {
+      }
+      try {
+        output.close();
+      } catch (IOException e) {
+      }
+    }
+    return null;
+  }
+
+  public static void share(Context ctx, ArrayList<File> files, String target,
       String mimeType) {
     URI uri = null;
     Intent intent;
@@ -402,38 +513,30 @@ public class Utils {
     if (!target.equals("")) {
       uri = Utils.validateUri(target);
       if (uri == null) {
-        Toast.makeText(
-            ctx,
-            ctx.getString(R.string.ftp_uri_malformed,target),
-            Toast.LENGTH_LONG)
-          .show();
+        Toast.makeText(ctx, ctx.getString(R.string.ftp_uri_malformed, target),
+            Toast.LENGTH_LONG).show();
         return;
       }
       scheme = uri.getScheme();
     }
-    //if we get a String that does not include a scheme,
-    //we interpret it as a mail address
+    // if we get a String that does not include a scheme,
+    // we interpret it as a mail address
     if (scheme == null) {
       scheme = "mailto";
     }
     if (scheme.equals("ftp")) {
       if (multiple) {
-        Toast.makeText(
-            ctx,
+        Toast.makeText(ctx,
             "sending multiple file through ftp is not supported",
-            Toast.LENGTH_LONG)
-          .show();
+            Toast.LENGTH_LONG).show();
         return;
       }
       intent = new Intent(android.content.Intent.ACTION_SENDTO);
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
-      intent.setDataAndType(android.net.Uri.parse(target),mimeType);
-      if (!isIntentAvailable(ctx,intent)) {
-        Toast.makeText(
-            ctx,
-            R.string.no_app_handling_ftp_available,
-            Toast.LENGTH_LONG)
-          .show();
+      intent.setDataAndType(android.net.Uri.parse(target), mimeType);
+      if (!isIntentAvailable(ctx, intent)) {
+        Toast.makeText(ctx, R.string.no_app_handling_ftp_available,
+            Toast.LENGTH_LONG).show();
         return;
       }
       ctx.startActivity(intent);
@@ -441,7 +544,7 @@ public class Utils {
       if (multiple) {
         intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
         ArrayList<Uri> uris = new ArrayList<Uri>();
-        for(File file : files) {
+        for (File file : files) {
           uris.add(Uri.fromFile(file));
         }
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -452,100 +555,102 @@ public class Utils {
       intent.setType(mimeType);
       if (uri != null) {
         String address = uri.getSchemeSpecificPart();
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
       }
-      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
-      if (!isIntentAvailable(ctx,intent)) {
-        Toast.makeText(
-            ctx,
-            R.string.no_app_handling_email_available,
-            Toast.LENGTH_LONG)
-          .show();
+      intent.putExtra(Intent.EXTRA_SUBJECT, R.string.export_expenses);
+      if (!isIntentAvailable(ctx, intent)) {
+        Toast.makeText(ctx, R.string.no_app_handling_email_available,
+            Toast.LENGTH_LONG).show();
         return;
       }
-      //if we got mail address, we launch the default application
-      //if we are called without target, we launch the chooser
-      //in order to make action more explicit
+      // if we got mail address, we launch the default application
+      // if we are called without target, we launch the chooser
+      // in order to make action more explicit
       if (uri != null) {
         ctx.startActivity(intent);
       } else {
-        ctx.startActivity(Intent.createChooser(
-            intent,ctx.getString(R.string.share_sending)));
+        ctx.startActivity(Intent.createChooser(intent,
+            ctx.getString(R.string.share_sending)));
       }
     } else {
-      Toast.makeText(
-          ctx,
-          ctx.getString(R.string.share_scheme_not_supported,scheme),
-          Toast.LENGTH_LONG)
-        .show();
+      Toast.makeText(ctx,
+          ctx.getString(R.string.share_scheme_not_supported, scheme),
+          Toast.LENGTH_LONG).show();
       return;
     }
   }
+
   public static void setBackgroundFilter(View v, int c) {
-    v.getBackground().setColorFilter(c,PorterDuff.Mode.MULTIPLY);
+    v.getBackground().setColorFilter(c, PorterDuff.Mode.MULTIPLY);
   }
+
   /**
    * Indicates whether the specified action can be used as an intent. This
-   * method queries the package manager for installed packages that can
-   * respond to an intent with the specified action. If no suitable package is
-   * found, this method returns false.
-   *
-   * From http://android-developers.blogspot.fr/2009/01/can-i-use-this-intent.html
-   *
-   * @param context The application's environment.
-   * @param action The Intent action to check for availability.
-   *
+   * method queries the package manager for installed packages that can respond
+   * to an intent with the specified action. If no suitable package is found,
+   * this method returns false.
+   * 
+   * From
+   * http://android-developers.blogspot.fr/2009/01/can-i-use-this-intent.html
+   * 
+   * @param context
+   *          The application's environment.
+   * @param action
+   *          The Intent action to check for availability.
+   * 
    * @return True if an Intent with the specified action can be sent and
    *         responded to, false otherwise.
    */
   public static boolean isIntentAvailable(Context context, Intent intent) {
-      final PackageManager packageManager = context.getPackageManager();
-      List<ResolveInfo> list =
-              packageManager.queryIntentActivities(intent,
-                      PackageManager.MATCH_DEFAULT_ONLY);
-      return list.size() > 0;
+    final PackageManager packageManager = context.getPackageManager();
+    List<ResolveInfo> list = packageManager.queryIntentActivities(intent,
+        PackageManager.MATCH_DEFAULT_ONLY);
+    return list.size() > 0;
   }
+
   public static boolean isIntentReceiverAvailable(Context context, Intent intent) {
     final PackageManager packageManager = context.getPackageManager();
-    List<ResolveInfo> list =
-            packageManager.queryBroadcastReceivers(intent,0);
+    List<ResolveInfo> list = packageManager.queryBroadcastReceivers(intent, 0);
     return list.size() > 0;
-}
+  }
 
   public static int getTextColorForBackground(int color) {
-    int greyLevel = (int) (0.299 * Color.red(color)
-        + 0.587 * Color.green(color)
-        + 0.114 * Color.blue(color));
+    int greyLevel = (int) (0.299 * Color.red(color) + 0.587
+        * Color.green(color) + 0.114 * Color.blue(color));
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
 
-//  public static boolean verifyLicenceKey (String key) {
-//    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
-//        MyApplication.CONTRIB_SECRET;
+//  public static boolean verifyLicenceKey(String key) {
+//    String s = Secure.getString(MyApplication.getInstance()
+//        .getContentResolver(), Secure.ANDROID_ID)
+//        + MyApplication.CONTRIB_SECRET;
 //    Long l = (s.hashCode() & 0x00000000ffffffffL);
 //    return l.toString().equals(key);
 //  }
 
   /**
-   * @param ctx for retrieving resources
-   * @param other if not null, all features except the one provided will be returned
-   * @return construct a list of all contrib features to be included into a TextView
+   * @param ctx
+   *          for retrieving resources
+   * @param other
+   *          if not null, all features except the one provided will be returned
+   * @return construct a list of all contrib features to be included into a
+   *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx,
-      Feature other) {
+      Context ctx, ContribFeature other) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
-    Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
+    Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
+        .iterator();
     while (iterator.hasNext()) {
-      Feature f = iterator.next();
+      ContribFeature f = iterator.next();
       if (!f.equals(other)) {
-        result = TextUtils.concat(result,
+        result = TextUtils.concat(
+            result,
             ctx.getText(ctx.getResources().getIdentifier(
-                "contrib_feature_" + f.toString() + "_label",
-                "string",
+                "contrib_feature_" + f.toString() + "_label", "string",
                 ctx.getPackageName())));
         if (iterator.hasNext())
-          result = TextUtils.concat(result,linefeed);
+          result = TextUtils.concat(result, linefeed);
       }
     }
     return result;
@@ -553,44 +658,51 @@ public class Utils {
 
   public static String md5(String s) {
     try {
-        // Create MD5 Hash
-        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-        digest.update(s.getBytes());
-        byte messageDigest[] = digest.digest();
+      // Create MD5 Hash
+      MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+      digest.update(s.getBytes());
+      byte messageDigest[] = digest.digest();
 
-        // Create Hex String
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0; i<messageDigest.length; i++)
-            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-        return hexString.toString();
+      // Create Hex String
+      StringBuffer hexString = new StringBuffer();
+      for (int i = 0; i < messageDigest.length; i++)
+        hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+      return hexString.toString();
 
     } catch (NoSuchAlgorithmException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
     return "";
   }
+
   public static class StringBuilderWrapper {
     public StringBuilderWrapper() {
       this.sb = new StringBuilder();
     }
+
     private StringBuilder sb;
+
     public StringBuilderWrapper append(String s) {
       sb.append(s);
       return this;
     }
+
     public StringBuilderWrapper appendQ(String s) {
       sb.append(s.replace("\"", "\"\""));
       return this;
     }
+
     public String toString() {
       return sb.toString();
     }
+
     public void clear() {
       sb = new StringBuilder();
     }
   }
-  public static <E extends Enum<E>> String joinEnum(Class<E> enumClass)  {
-    String result ="";
+
+  public static <E extends Enum<E>> String joinEnum(Class<E> enumClass) {
+    String result = "";
     Iterator<E> iterator = EnumSet.allOf(enumClass).iterator();
     while (iterator.hasNext()) {
       result += "'" + iterator.next().name() + "'";
@@ -599,63 +711,56 @@ public class Utils {
     }
     return result;
   }
+
   /**
-   * Credit: https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock/Z8Ic8djq-3o
+   * Credit:
+   * https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock
+   * /Z8Ic8djq-3o
+   * 
    * @param item
    * @param enabled
    */
-  public static void menuItemSetEnabledAndVisible(
-      MenuItem item,
-      boolean enabled) {
+  public static void menuItemSetEnabledAndVisible(MenuItem item, boolean enabled) {
     item.setEnabled(enabled).setVisible(enabled);
   }
 
-  public static boolean doesPackageExist(Context context,String targetPackage) {
+  public static boolean doesPackageExist(Context context, String targetPackage) {
     try {
-      context.getPackageManager().getPackageInfo(
-          targetPackage,
+      context.getPackageManager().getPackageInfo(targetPackage,
           PackageManager.GET_META_DATA);
-        } catch (NameNotFoundException e) {
-     return false;
-     }
-     return true;
+    } catch (NameNotFoundException e) {
+      return false;
+    }
+    return true;
   }
 
   public static DateFormat localizedYearlessDateFormat() {
     Locale l = Locale.getDefault();
-    String yearlessPattern =
-        ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
-        .toPattern().replaceAll("\\W?[Yy]+\\W?", "");
+    String yearlessPattern = ((SimpleDateFormat) DateFormat.getDateInstance(
+        DateFormat.SHORT, l)).toPattern().replaceAll("\\W?[Yy]+\\W?", "");
     return new SimpleDateFormat(yearlessPattern, l);
   }
 
   public static Result analyzeGrisbiFileWithSAX(InputStream is) {
     GrisbiHandler handler = new GrisbiHandler();
     try {
-        Xml.parse(is, Xml.Encoding.UTF_8, handler);
-    }  catch (IOException e) {
-      return new Result(
-          false,
-          R.string.parse_error_other_exception,
+      Xml.parse(is, Xml.Encoding.UTF_8, handler);
+    } catch (IOException e) {
+      return new Result(false, R.string.parse_error_other_exception,
           e.getMessage());
     } catch (GrisbiHandler.FileVersionNotSupportedException e) {
-      return new Result(
-          false,
-          R.string.parse_error_grisbi_version_not_supported,
-          e.getMessage());
+      return new Result(false,
+          R.string.parse_error_grisbi_version_not_supported, e.getMessage());
     } catch (SAXException e) {
-      return new Result(
-          false,
-          R.string.parse_error_parse_exception);
+      return new Result(false, R.string.parse_error_parse_exception);
     }
     return handler.getResult();
   }
 
-  public static int importParties(
-      ArrayList<String> partiesList,
+  public static int importParties(ArrayList<String> partiesList,
       GrisbiImportTask task) {
     int total = 0;
-    for (int i=0;i<partiesList.size();i++){
+    for (int i = 0; i < partiesList.size(); i++) {
       if (Payee.maybeWrite(partiesList.get(i)) != -1) {
         total++;
       }
@@ -665,41 +770,41 @@ public class Utils {
     }
     return total;
   }
-  public static int importCats(CategoryTree catTree,GrisbiImportTask task) {
+
+  public static int importCats(CategoryTree catTree, GrisbiImportTask task) {
     int count = 0, total = 0;
     String label;
     long main_id, sub_id;
 
-    for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
+    for (Map.Entry<Integer, CategoryTree> main : catTree.children().entrySet()) {
       CategoryTree mainCat = main.getValue();
       label = mainCat.getLabel();
       count++;
       main_id = Category.find(label, null);
       if (main_id != -1) {
-        Log.i("MyExpenses","category with label" + label + " already defined");
+        Log.i("MyExpenses", "category with label" + label + " already defined");
       } else {
-        main_id = Category.write(0L,label,null);
+        main_id = Category.write(0L, label, null);
         if (main_id != -1) {
           total++;
           if (task != null && count % 10 == 0) {
             task.publishProgress(count);
           }
         } else {
-          //this should not happen
-          Log.w(
-              "MyExpenses",
-              "could neither retrieve nor store main category " + label);
+          // this should not happen
+          Log.w("MyExpenses", "could neither retrieve nor store main category "
+              + label);
           continue;
         }
       }
-      for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
+      for (Map.Entry<Integer, CategoryTree> sub : mainCat.children().entrySet()) {
         label = sub.getValue().getLabel();
         count++;
-        sub_id = Category.write(0L,label,main_id);
+        sub_id = Category.write(0L, label, main_id);
         if (sub_id != -1) {
           total++;
         } else {
-          Log.i("MyExpenses","could not store sub category " + label);
+          Log.i("MyExpenses", "could not store sub category " + label);
         }
         if (task != null && count % 10 == 0) {
           task.publishProgress(count);
@@ -739,9 +844,9 @@ public class Utils {
     String result = "";
     Iterator<Integer> itemIterator = Arrays.asList(resIds).iterator();
     if (itemIterator.hasNext()) {
-      result+=ctx.getString(itemIterator.next());
+      result += ctx.getString(itemIterator.next());
       while (itemIterator.hasNext()) {
-        result+=" "+ctx.getString(itemIterator.next());
+        result += " " + ctx.getString(itemIterator.next());
       }
     }
     return result;
@@ -749,15 +854,15 @@ public class Utils {
 
   /**
    * @return false if the configured folder is inside the application folder
-   * that will be deleted upon app uninstall
-   * and hence user should be warned about the situation,
-   * unless he already has opted to no longer see this warning
+   *         that will be deleted upon app uninstall and hence user should be
+   *         warned about the situation, unless he already has opted to no
+   *         longer see this warning
    */
   @SuppressLint("NewApi")
   public static boolean checkAppFolderWarning() {
-//    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-//      return true;
-//    }
+    // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+    // return true;
+    // }
     if (MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getBoolean(false)) {
       return true;
     }
@@ -766,12 +871,13 @@ public class Utils {
       if (configuredDir == null) {
         return true;
       }
-      File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
-      if (externalFilesDir==null) {
+      File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(
+          null);
+      if (externalFilesDir == null) {
         return true;
       }
-      URI defaultDir = externalFilesDir
-          .getParentFile().getCanonicalFile().toURI();
+      URI defaultDir = externalFilesDir.getParentFile().getCanonicalFile()
+          .toURI();
       return defaultDir.relativize(configuredDir.getCanonicalFile().toURI())
           .isAbsolute();
     } catch (IOException e) {
@@ -779,79 +885,73 @@ public class Utils {
     }
   }
 
-  //From Financisto
+  // From Financisto
   public static String[] joinArrays(String[] a1, String[] a2) {
-    if (a1==null||a1.length == 0) {
+    if (a1 == null || a1.length == 0) {
       return a2;
     }
-    if (a2==null||a2.length==0) {
+    if (a2 == null || a2.length == 0) {
       return a1;
     }
-    String[] a = new String[a1.length+a2.length];
+    String[] a = new String[a1.length + a2.length];
     System.arraycopy(a1, 0, a, 0, a1.length);
     System.arraycopy(a2, 0, a, a1.length, a2.length);
     return a;
   }
 
-  public static void configDecimalSeparator(
-      final EditText editText,
-      final char decimalSeparator,
-      final int fractionDigits) {
-    //mAmountText.setInputType(
-    //  InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    //due to bug in Android platform
-    //http://code.google.com/p/android/issues/detail?id=2626
-    //the soft keyboard if it occupies full screen in horizontal orientation
-    //does not display the , as comma separator
-    //TODO we should take into account the arab separator as well
+  public static void configDecimalSeparator(final EditText editText,
+      final char decimalSeparator, final int fractionDigits) {
+    // mAmountText.setInputType(
+    // InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    // due to bug in Android platform
+    // http://code.google.com/p/android/issues/detail?id=2626
+    // the soft keyboard if it occupies full screen in horizontal orientation
+    // does not display the , as comma separator
+    // TODO we should take into account the arab separator as well
     final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
     editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-    editText.setFilters(new InputFilter[] {
-        new InputFilter() {
-          @Override
-          public CharSequence filter(CharSequence source, int start, int end,
-              Spanned dest, int dstart, int dend) {
-            int separatorPosition = dest.toString().indexOf(decimalSeparator);
-            if (fractionDigits>0) {
-              int minorUnits = separatorPosition==-1 ?
-                  0 :
-                  dest.length()-(separatorPosition+1);
-              if (dstart > separatorPosition && dend > separatorPosition) {
-                //filter is only needed if we are past the separator
-                //and the change increases length of string
-                if (dend-dstart<end-start && minorUnits>=fractionDigits)
-                  return "";
-              }
-            }
-            for (int i = start; i < end; i++) {
-              if (source.charAt(i) == otherSeparator ||
-                  source.charAt(i) == decimalSeparator) {
-                char[] v = new char[end - start];
-                TextUtils.getChars(source, start, end, v, 0);
-                String s = new String(v).replace(otherSeparator,decimalSeparator);
-                if (fractionDigits==0 || //no separator allowed
-                    separatorPosition>-1 || //we already have a separator
-                    dest.length()-dend>fractionDigits) //the separator would be 
-                      //positioned so that we have too many fraction digits
-                  return s.replace(String.valueOf(decimalSeparator),"");
-                else
-                  return s;
-                }
-              }
-            return null; // keep original
+    editText.setFilters(new InputFilter[] { new InputFilter() {
+      @Override
+      public CharSequence filter(CharSequence source, int start, int end,
+          Spanned dest, int dstart, int dend) {
+        int separatorPosition = dest.toString().indexOf(decimalSeparator);
+        if (fractionDigits > 0) {
+          int minorUnits = separatorPosition == -1 ? 0 : dest.length()
+              - (separatorPosition + 1);
+          if (dstart > separatorPosition && dend > separatorPosition) {
+            // filter is only needed if we are past the separator
+            // and the change increases length of string
+            if (dend - dstart < end - start && minorUnits >= fractionDigits)
+              return "";
           }
-        },
-        new InputFilter.LengthFilter(16)
-    });
+        }
+        for (int i = start; i < end; i++) {
+          if (source.charAt(i) == otherSeparator
+              || source.charAt(i) == decimalSeparator) {
+            char[] v = new char[end - start];
+            TextUtils.getChars(source, start, end, v, 0);
+            String s = new String(v).replace(otherSeparator, decimalSeparator);
+            if (fractionDigits == 0 || // no separator allowed
+                separatorPosition > -1 || // we already have a separator
+                dest.length() - dend > fractionDigits) // the separator would be
+              // positioned so that we have too many fraction digits
+              return s.replace(String.valueOf(decimalSeparator), "");
+            else
+              return s;
+          }
+        }
+        return null; // keep original
+      }
+    }, new InputFilter.LengthFilter(16) });
   }
 
   /**
    * @param str
-   * @return a representation of str converted to lower case,
-   * Unicode normalization applied and markers removed
-   * this allows case-insentive comparison for non-ascii and non-latin strings
-   * works only above Gingerbread,
-   * on Froyo only lower case transformation is performed
+   * @return a representation of str converted to lower case, Unicode
+   *         normalization applied and markers removed this allows
+   *         case-insentive comparison for non-ascii and non-latin strings works
+   *         only above Gingerbread, on Froyo only lower case transformation is
+   *         performed
    */
   @SuppressLint({ "NewApi", "DefaultLocale" })
   public static String normalize(String str) {
@@ -859,28 +959,112 @@ public class Utils {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
       return str;
     }
-    //Credits: http://stackoverflow.com/a/3322174/1199911
-    return Normalizer.normalize(str, Normalizer.Form.NFD)
-        .replaceAll("\\p{M}", "");
+    // Credits: http://stackoverflow.com/a/3322174/1199911
+    return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("\\p{M}",
+        "");
   }
+
   public static String esacapeSqlLikeExpression(String str) {
     return str
         .replace(WhereFilter.LIKE_ESCAPE_CHAR,
-            WhereFilter.LIKE_ESCAPE_CHAR+ WhereFilter.LIKE_ESCAPE_CHAR)
-        .replace("%", WhereFilter.LIKE_ESCAPE_CHAR+"%")
-        .replace("_", WhereFilter.LIKE_ESCAPE_CHAR+"_");
+            WhereFilter.LIKE_ESCAPE_CHAR + WhereFilter.LIKE_ESCAPE_CHAR)
+        .replace("%", WhereFilter.LIKE_ESCAPE_CHAR + "%")
+        .replace("_", WhereFilter.LIKE_ESCAPE_CHAR + "_");
   }
 
   public static String printDebug(Object[] objects) {
-    if (objects==null) {
+    if (objects == null) {
       return "null";
     }
-    String result ="";
+    String result = "";
     for (Object object : objects) {
       if (!result.equals(""))
-        result+=",";
-      result+=object.toString();
+        result += ",";
+      result += object.toString();
     }
     return result;
+  }
+
+  @SuppressLint("InlinedApi")
+  public static String getContentIntentAction() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? Intent.ACTION_OPEN_DOCUMENT
+        : Intent.ACTION_GET_CONTENT;
+  }
+
+  public static Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
+      int reqHeight) {
+
+    // First decode with inJustDecodeBounds=true to check dimensions
+    final BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inJustDecodeBounds = true;
+
+    if (uri.getScheme().equals("file")) {
+      String filePath = uri.getPath();
+      BitmapFactory.decodeFile(filePath, options);
+
+      // Calculate inSampleSize
+      options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+      // Decode bitmap with inSampleSize set
+      options.inJustDecodeBounds = false;
+      return BitmapFactory.decodeFile(filePath, options);
+    } else {
+      InputStream is = null;
+      try {
+        is = MyApplication.getInstance().getContentResolver()
+            .openInputStream(uri);
+        BitmapFactory.decodeStream(is, null, options);
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth,
+            reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        is.close();
+        is = MyApplication.getInstance().getContentResolver()
+            .openInputStream(uri);
+        return BitmapFactory.decodeStream(is, null, options);
+      } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } finally {
+        if (is != null) {
+          try {
+            is.close();
+          } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  public static int calculateInSampleSize(BitmapFactory.Options options,
+      int reqWidth, int reqHeight) {
+    // Raw height and width of image
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+
+    if (height > reqHeight || width > reqWidth) {
+
+      final int halfHeight = height / 2;
+      final int halfWidth = width / 2;
+
+      // Calculate the largest inSampleSize value that is a power of 2 and keeps
+      // both
+      // height and width larger than the requested height and width.
+      while ((halfHeight / inSampleSize) > reqHeight
+          && (halfWidth / inSampleSize) > reqWidth) {
+        inSampleSize *= 2;
+      }
+    }
+
+    return inSampleSize;
   }
 }

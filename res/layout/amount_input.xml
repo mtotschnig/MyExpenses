@@ -17,7 +17,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
     <include layout="@layout/type_switch"/>
   <EditText
-      android:layout_gravity="center"
+      android:layout_gravity="bottom"
       android:id="@+id/Amount"
       android:layout_weight="2"
       android:layout_width="0dp"

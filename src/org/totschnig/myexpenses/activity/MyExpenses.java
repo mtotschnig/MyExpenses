@@ -45,7 +45,7 @@ import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -477,10 +477,10 @@ public class MyExpenses extends LaunchActivity implements
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled()) {
-          contribFeatureCalled(Feature.DISTRIBUTION, null);
+          contribFeatureCalled(ContribFeature.DISTRIBUTION, null);
         }
         else {
-          CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
+          CommonCommands.showContribDialog(this,ContribFeature.DISTRIBUTION, null);
         }
       } else {
         MessageDialogFragment.newInstance(
@@ -532,10 +532,10 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.CREATE_SPLIT_COMMAND:
       if (MyApplication.getInstance().isContribEnabled()) {
-        contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
+        contribFeatureCalled(ContribFeature.SPLIT_TRANSACTION, null);
       }
       else {
-        CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
+        CommonCommands.showContribDialog(this,ContribFeature.SPLIT_TRANSACTION, null);
       }
       return true;
     case R.id.BALANCE_COMMAND:
@@ -571,11 +571,7 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && tl.hasItems) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled()) {
-            contribFeatureCalled(Feature.RESET_ALL, null);
-          } else {
-            CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
-          }
+          DialogUtils.showWarningResetDialog(this, mAccountId);
         } else {
           Toast.makeText(getBaseContext(),
               appDirStatus.print(this),
@@ -641,7 +637,7 @@ public class MyExpenses extends LaunchActivity implements
         startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
       }
       else {
-        CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
+        CommonCommands.showContribDialog(this,ContribFeature.ACCOUNTS_UNLIMITED, null);
       }
       return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
@@ -720,11 +716,11 @@ public class MyExpenses extends LaunchActivity implements
   }
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void contribFeatureCalled(Feature feature, Serializable tag) {
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     switch(feature){
     case DISTRIBUTION:
       Account a = Account.getInstanceFromDb(mAccountId);
-      feature.recordUsage();
+      recordUsage(feature);
       Intent i = new Intent(this, ManageCategories.class);
       i.setAction("myexpenses.intent.distribution");
       i.putExtra(KEY_ACCOUNTID, mAccountId);
@@ -750,13 +746,9 @@ public class MyExpenses extends LaunchActivity implements
             0);
       }
       break;
-    case RESET_ALL:
-      DialogUtils.showWarningResetDialog(this, mAccountId);
-      break;
     case PRINT:
       TransactionList tl = getCurrentFragment();
       if (tl != null)  {
-        feature.recordUsage();
         Bundle args = new Bundle();
         args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
         args.putLong(KEY_ROWID, mAccountId);
@@ -954,6 +946,7 @@ public class MyExpenses extends LaunchActivity implements
     case TaskExecutionFragment.TASK_PRINT:
       Result result = (Result) o;
       if (result.success) {
+        recordUsage(ContribFeature.PRINT);
         MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
             result.print(this),

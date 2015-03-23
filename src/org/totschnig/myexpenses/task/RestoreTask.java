@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.task;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -31,6 +33,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
@@ -82,11 +85,16 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (workingDir == null) {
         return new Result(false,R.string.external_storage_unavailable);
       }
+      workingDir.mkdir();
       try {
-        if (!ZipUtils.unzip(
-            cr
-              .openInputStream(fileUri),
-            workingDir)) {
+        InputStream is = cr.openInputStream(fileUri);
+        boolean zipResult = ZipUtils.unzip(is,workingDir);
+        try {
+          is.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        if (!zipResult) {
           return new Result(
               false,
               R.string.restore_backup_archive_not_valid,
@@ -250,6 +258,15 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       Log.i(MyApplication.TAG,"now emptying event cache");
       cr.delete(
           TransactionProvider.EVENT_CACHE_URI, null, null);
+      
+      //now handling pictures
+      //1.step move all existing pictures to backup
+      File pictureDir = Utils.getPictureDir();
+      Utils.moveToBackup(pictureDir);
+      //2.delete now empty dir
+      pictureDir.delete();
+      //3.move backup picture dir to picturedir
+      new File(workingDir,Environment.DIRECTORY_PICTURES).renameTo(pictureDir);
       return new Result(true);
     } else {
       return new Result(false,R.string.restore_db_failure);

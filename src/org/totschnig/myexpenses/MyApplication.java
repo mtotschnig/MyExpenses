@@ -124,7 +124,9 @@ public class MyApplication extends Application implements
     NEXT_REMINDER_CONTRIB("nextReminderContrib"),
     LICENSE_STATUS("licenseStatus"),
     LICENSE_RETRY_COUNT("retryCount"),
-    LICENSE_INITIAL_TIMESTAMP("licenseInitialTimeStamp");
+    LICENSE_INITIAL_TIMESTAMP("licenseInitialTimeStamp"),
+    DISTRIBUTION_SHOW_CHART("distributionShowChart"),
+    DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes");
 
     private int resId = 0;
     private String key = null;
@@ -302,8 +304,8 @@ public class MyApplication extends Application implements
         }
       }
       return Utils.copy(sharedPrefFile, backupPrefFile);
-    } else
-      return false;
+    }
+    return false;
   }
 
   public static int getThemeId() {

@@ -78,8 +78,6 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/methods_transactions");
   public static final Uri ACCOUNTTYPES_METHODS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounttypes_methods");
-  public static final Uri FEATURE_USED_URI =
-      Uri.parse("content://" + AUTHORITY + "/feature_used");
   public static final Uri SQLITE_SEQUENCE_TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
   public static final Uri PLAN_INSTANCE_STATUS_URI = 
@@ -127,7 +125,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int PAYEE_ID = 15;
   private static final int METHODS_FILTERED = 16;
   private static final int TEMPLATES_INCREASE_USAGE = 17;
-  private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
   private static final int AGGREGATE_ID = 20;
   private static final int UNCOMMITTED = 21;
@@ -531,9 +528,6 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = Template.PROJECTION_EXTENDED;
       break;
-    case FEATURE_USED:
-      qb.setTables(TABLE_FEATURE_USED);
-      break;
     case SQLITE_SEQUENCE_TABLE:
       qb.setTables("SQLITE_SEQUENCE");
       projection = new String[] {"seq"};
@@ -646,10 +640,6 @@ public class TransactionProvider extends ContentProvider {
     case PAYEES:
       id = db.insertOrThrow(TABLE_PAYEES, null, values);
       newUri = PAYEES_URI + "/" + id;
-      break;
-    case FEATURE_USED:
-      id = db.insertOrThrow(TABLE_FEATURE_USED, null, values);
-      newUri = FEATURE_USED_URI + "/" + id;
       break;
     case PLANINSTANCE_TRANSACTION_STATUS:
       id = db.insertOrThrow(TABLE_PLAN_INSTANCE_STATUS, null, values);
@@ -1105,7 +1095,6 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
-    URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);

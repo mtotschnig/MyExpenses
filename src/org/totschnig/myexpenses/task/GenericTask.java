@@ -104,7 +104,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
       }
-      ContribFeature.Feature.SPLIT_TRANSACTION.recordUsage();
+      ContribFeature.SPLIT_TRANSACTION.recordUsage();
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
@@ -259,7 +259,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       cacheEventData();
       if (MyApplication.getInstance().backup(cacheDir)) {
-        result = ZipUtils.zip(cacheDir.listFiles(),backupFile);
+        try {
+          ZipUtils.zipBackup(
+              cacheDir,
+              Utils.getPictureDir(),
+              backupFile);
+          result  = true;
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }

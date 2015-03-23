@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.task;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import java.io.File;
-import java.io.IOException;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;

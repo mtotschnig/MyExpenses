@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.util.Utils;
 
 public class FolderList extends ListFragment {
 
@@ -121,6 +122,7 @@ public class FolderList extends ListFragment {
       newFolder = new File(selectedFolder, name);
       result = newFolder.mkdirs();
     } catch (Exception e) {
+      Utils.reportToAcra(e);
       result = false;
     } finally {
       if (!result) {

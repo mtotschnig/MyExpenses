@@ -18,66 +18,50 @@ package org.totschnig.myexpenses.model;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
+public enum ContribFeature  {
+  ACCOUNTS_UNLIMITED(false),
+  PLANS_UNLIMITED(false),
+  SECURITY_QUESTION,
+  SPLIT_TRANSACTION,
+  DISTRIBUTION,
+  TEMPLATE_WIDGET,
+  PRINT,
+  ATTACH_PICTURE;
 
-public class ContribFeature extends Model {
-
-  public enum Feature {
-    ACCOUNTS_UNLIMITED(false),
-    PLANS_UNLIMITED(false),
-    RESET_ALL,
-    SECURITY_QUESTION,
-    SPLIT_TRANSACTION,
-    DISTRIBUTION,
-    TEMPLATE_WIDGET,
-    PRINT;
-
-    private Feature() {
-      this(true);
-    }
-    private Feature(boolean hasTrial) {
-      this.hasTrial = hasTrial;
-    }
-    public boolean hasTrial;
-    public static final Uri CONTENT_URI = TransactionProvider.FEATURE_USED_URI;    /**
-     * how many times contrib features can be used for free
-     */
-    public static int USAGES_LIMIT = 5;
-    public String toString() {
-      return name().toLowerCase(Locale.US);
-    }
-    public int countUsages() {
-      int result = 0;
-      Cursor mCursor = cr().query(CONTENT_URI,new String[] {"count(*)"},
-          "feature = ?", new String[] {toString()}, null);
-      if (mCursor != null) {
-        if (mCursor.moveToFirst()) {
-          result = mCursor.getInt(0);
-        }
-        mCursor.close();
-      }
-      return result;
-    }
-    public void recordUsage() {
-      if (!MyApplication.getInstance().isContribEnabled()) {
-        //TODO strict mode background task
-        ContentValues initialValues = new ContentValues();
-        initialValues.put("feature", toString());
-        cr().insert(CONTENT_URI, initialValues);
-      }
-    }
-    public int usagesLeft() {
-      return hasTrial ? USAGES_LIMIT - countUsages() : 0;
-    }
+  private ContribFeature() {
+    this(true);
   }
-
-  @Override
-  public Uri save() {
-    // TODO Auto-generated method stub
-    return null;
+  private ContribFeature(boolean hasTrial) {
+    this.hasTrial = hasTrial;
+  }
+  public boolean hasTrial;
+  /**
+   * how many times contrib features can be used for free
+   */
+  public static int USAGES_LIMIT = 5;
+  public String toString() {
+    return name().toLowerCase(Locale.US);
+  }
+  public int getUsages() {
+    return MyApplication.getInstance().getSettings()
+      .getInt(getPrefKey(), 0);
+  }
+  public int recordUsage() {
+    if (!MyApplication.getInstance().isContribEnabled()) {
+      int usages = getUsages()+1;
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings()
+            .edit().putInt(getPrefKey(), usages));
+      return USAGES_LIMIT - usages;
+    }
+    return USAGES_LIMIT;
+  }
+  private String getPrefKey() {
+    return "FEATURE_USAGES_"+name();
+  }
+  public int usagesLeft() {
+    return hasTrial ? USAGES_LIMIT - getUsages() : 0;
   }
 }

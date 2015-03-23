@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -97,7 +97,7 @@ public class CommonCommands {
     }
    return false;
   }
-  public static void showContribDialog(FragmentActivity ctx,Feature feature, Serializable tag) {
+  public static void showContribDialog(FragmentActivity ctx,ContribFeature feature, Serializable tag) {
     Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
     i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG,tag);

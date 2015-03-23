@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_241">
+    <item>Visualização de distribuição por categoria em gráfico de pizza</item>
+  </string-array>
   <string-array name="whats_new_240">
     <item>Transformar a transação normal, a transação de divisão</item>
   </string-array>
@@ -73,7 +76,20 @@
     <item>Aperfeiçoamentos IU: #115,#117,#120,#122,#124</item>
     <item>Informa fusos horários das datas de transação</item>
   </string-array>
+  <string-array name="whats_new_108">
+    <item>Tradução em Chinês (Tradicional)</item>
+    <item>Permite seleção de conta em formulário de edição da transação</item>
+    <item>Interfaces de usuário (U.I.) mais claras para transferências</item>
+  </string-array>
   <string-array name="whats_new_104">
     <item>Aperfeiçoamentos IU (#94) e correções de bugs (#95,#96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>O balanço atual é exibido novamente de forma mais proeminente e mostra os botões principais na porção inferior, quando a orientação do dispositivo é retrato</item>
+    <item>Correções de erros: Chamados #71,#91,#92,#93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>Quando a lista de transação é agrupada, mostra-se balanço intermediário para cada período no cabeçalho de grupo</item>
+    <item>Correção de erro: Chamado #90</item>
   </string-array>
 </resources>

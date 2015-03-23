@@ -19,6 +19,10 @@ package org.totschnig.myexpenses.dialog;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 
 import org.totschnig.myexpenses.R;
@@ -35,6 +39,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -43,9 +48,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -85,20 +94,27 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     mLayout = li.inflate(R.layout.transaction_detail, null);
     AlertDialog dialog = new AlertDialog.Builder(getActivity())
       .setTitle(R.string.progress_dialog_loading)
+      .setIcon(android.R.color.transparent)
       .setView(mLayout)
       .setNegativeButton(android.R.string.ok,this)
       .setPositiveButton(R.string.menu_edit,this)
+      .setNeutralButton(R.string.menu_view_picture, this)
       .create();
     dialog.setOnShowListener(new ButtonOnShowDisabler(){
       @Override
       public void onShow(DialogInterface dialog) {
         if (mTransaction==null) {
           super.onShow(dialog);
+          Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEUTRAL);
+          if (button != null) {
+            button.setVisibility(View.GONE);
+          }
         }
       }
     });
     return dialog;
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     if (getActivity()==null) {
@@ -131,7 +147,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (ctx == null || mTransaction == null) {
       return;
     }
-    if (which == AlertDialog.BUTTON_POSITIVE) {
+    switch(which) {
+    case AlertDialog.BUTTON_POSITIVE:
       if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
         Toast.makeText(ctx, getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
         return;
@@ -141,7 +158,14 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-    } else {
+      break;
+    case AlertDialog.BUTTON_NEUTRAL:
+      Intent intent = new Intent(Intent.ACTION_VIEW, mTransaction.getPictureUri());
+      intent.putExtra(Intent.EXTRA_STREAM, mTransaction.getPictureUri());
+      intent.setDataAndType(mTransaction.getPictureUri(), "image/jpeg");
+      startActivity(intent); 
+      break;
+    case AlertDialog.BUTTON_NEGATIVE:
       dismiss();
     }
   }
@@ -160,6 +184,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
       if (btn!=null) {
         btn.setEnabled(true);
+      }
+      btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL);
+      if (btn!=null && mTransaction.getPictureUri()!=null) {
+        btn.setVisibility(View.VISIBLE);
       }
     }
     mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
@@ -259,6 +287,11 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       tv.setText(mTransaction.crStatus.toString());
     }
 
-    getDialog().setTitle(title);
+    dlg.setTitle(title);
+    if (mTransaction.getPictureUri()!=null) {
+      int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
+      BitmapWorkerTask task = new BitmapWorkerTask(dlg,thumbsize);
+      task.execute(mTransaction.getPictureUri());
+    }
   }
 }
