@@ -89,7 +89,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
 
   public void openBrowse() {
   
-    Intent intent = new Intent(Utils.getContentIntent());
+    Intent intent = new Intent(Utils.getContentIntentAction());
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
     intent.setDataAndType(mUri,getMimeType());

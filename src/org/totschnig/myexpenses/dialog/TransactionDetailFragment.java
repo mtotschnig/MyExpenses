@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -47,22 +48,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -72,7 +70,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
   View mLayout;
-  protected Bitmap mThumbnail;
   
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
@@ -117,15 +114,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     });
     return dialog;
   }
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    if (mThumbnail!=null) {
-      mThumbnail.recycle();
-      mThumbnail = null;
-      System.gc();
-    }
-  }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     if (getActivity()==null) {
@@ -298,24 +287,11 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       tv.setText(mTransaction.crStatus.toString());
     }
 
-    getDialog().setTitle(title);
+    dlg.setTitle(title);
     if (mTransaction.getPictureUri()!=null) {
       int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
-      try {
-        InputStream is = getActivity().getContentResolver().openInputStream(mTransaction.getPictureUri());
-        mThumbnail = ThumbnailUtils.extractThumbnail(
-          BitmapFactory.decodeStream(is),
-              thumbsize, thumbsize);
-        dlg.setIcon(new BitmapDrawable(getResources(),
-            mThumbnail));
-        is.close();
-      } catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+      BitmapWorkerTask task = new BitmapWorkerTask(dlg,thumbsize);
+      task.execute(mTransaction.getPictureUri());
     }
   }
 }

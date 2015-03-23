@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
@@ -814,7 +815,7 @@ public class ExpenseEdit extends AmountActivity implements
       setTime();
     }
   };
-  private Bitmap mThumbnail;
+
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -1035,19 +1036,8 @@ public class ExpenseEdit extends AmountActivity implements
    */
   protected void setPicture() {
     int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
-    try {
-      InputStream is = getContentResolver().openInputStream(mPictureUri);
-      mThumbnail = ThumbnailUtils.extractThumbnail(
-        BitmapFactory.decodeStream(is),thumbsize, thumbsize);
-      mPictureView.setImageBitmap(mThumbnail);
-      is.close();
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    BitmapWorkerTask task = new BitmapWorkerTask(mPictureView,thumbsize);
+    task.execute(mPictureUri);
     mPictureView.setVisibility(View.VISIBLE);
     mAttachPictureButton.setVisibility(View.GONE);
   }
@@ -1733,7 +1723,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void startMediaChooser(View v) {
 
     Uri outputMediaUri = getCameraUri();
-    Intent gallIntent = new Intent(Intent.ACTION_GET_CONTENT);
+    Intent gallIntent = new Intent( Utils.getContentIntentAction());
     gallIntent.setType("image/jpeg");
     Intent chooserIntent = Intent.createChooser(gallIntent, null);
 
@@ -1752,14 +1742,5 @@ public class ExpenseEdit extends AmountActivity implements
       mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile(true));
     }
     return mPictureUriTemp;
-  }
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    if (mThumbnail!=null) {
-      mThumbnail.recycle();
-      mThumbnail = null;
-      System.gc();
-    }
   }
 }
