@@ -1613,7 +1613,9 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
-    // not used
+    if (feature==ContribFeature.ATTACH_PICTURE) {
+      startMediaChooserDo();
+    }
   }
   @Override
   public void contribFeatureNotCalled() {
@@ -1715,12 +1717,21 @@ public class ExpenseEdit extends AmountActivity implements
       startActivity(intent);
       break;
     case R.id.CHANGE_COMMAND:
-      startMediaChooser(null);
+      startMediaChooserDo();
       break;
     }
   }
 
   public void startMediaChooser(View v) {
+    if (MyApplication.getInstance().isContribEnabled()) {
+      contribFeatureCalled(ContribFeature.ATTACH_PICTURE, null);
+    }
+    else {
+      CommonCommands.showContribDialog(this,ContribFeature.ATTACH_PICTURE, null);
+    }
+  }
+  
+  public void startMediaChooserDo() {
 
     Uri outputMediaUri = getCameraUri();
     Intent gallIntent = new Intent( Utils.getContentIntentAction());

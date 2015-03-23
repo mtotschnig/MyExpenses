@@ -27,7 +27,8 @@ public enum ContribFeature  {
   SPLIT_TRANSACTION,
   DISTRIBUTION,
   TEMPLATE_WIDGET,
-  PRINT;
+  PRINT,
+  ATTACH_PICTURE;
 
   private ContribFeature() {
     this(true);

@@ -402,6 +402,9 @@ public class Transaction extends Model {
       if (uri==null) {
         return null;
       }
+      if (pictureUri!=null) {
+        ContribFeature.ATTACH_PICTURE.recordUsage();
+      }
       setId(ContentUris.parseId(uri));
       if (parentId == null)
         cr().update(
