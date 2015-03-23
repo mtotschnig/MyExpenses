@@ -535,4 +535,6 @@
     <string name="menu_view_picture">View picture</string>
     <string name="menu_delete_picture">Delete picture</string>
     <string name="menu_change_picture">Attach different picture</string>
+    <string name="menu_distribution_show_pie_char">Show pie chart</string>
+    <string name="menu_distribution_aggreate">Aggregate expenses and income</string>
 </resources>

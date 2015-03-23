@@ -40,10 +40,10 @@
         android:id="@id/TOGGLE_CHART_COMMAND"
         app:showAsAction="never"
         android:checkable="true"
-        android:title="Show pie chart"/>
+        android:title="@string/menu_distribution_show_pie_char"/>
     <item
         android:id="@id/TOGGLE_AGGREGATE_TYPES"
         app:showAsAction="never"
         android:checkable="true"
-        android:title="Aggregate expenses and income"/>
+        android:title="@string/menu_distribution_aggreate"/>
 </menu>
