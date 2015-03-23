@@ -37,12 +37,10 @@
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
   <string name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
   <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
-  <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
   <string name="contrib_feature_plans_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
   <string name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_print_label">Buchungsliste als PDF-Datei drucken</string>
-  <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
   <string name="contrib_feature_template_widget_label">Vorlagen Widget</string>

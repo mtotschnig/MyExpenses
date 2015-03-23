@@ -33,12 +33,10 @@
   <string name="confirmation_dialog_dont_show_again">Ne prikazuj ponovno</string>
   <string name="contrib_feature_accounts_unlimited_description">Broj računa koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 5</string>
   <string name="contrib_feature_accounts_unlimited_label">Neograničeni broj računa</string>
-  <string name="contrib_feature_aggregate_label">Zbrojeno na više računa</string>
   <string name="contrib_feature_distribution_label">Pregled transakcija po kategoriji.</string>
   <string name="contrib_feature_plans_unlimited_description">Broj planova koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Neograničeni broj planova</string>
   <string name="contrib_feature_print_label">Eksportiraj listu transakcija u PDF</string>
-  <string name="contrib_feature_reset_all_label">Izbriši sve račune</string>
   <string name="contrib_feature_security_question_label">Sigurnosno pitanje</string>
   <string name="contrib_feature_split_transaction_label">Dijeljena transakcija</string>
   <string name="contrib_feature_template_widget_label">Widget za predložak</string>

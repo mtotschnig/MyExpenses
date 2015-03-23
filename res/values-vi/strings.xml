@@ -21,10 +21,8 @@
   <string name="comment">Ghi chú</string>
   <string name="contrib_feature_accounts_unlimited_description">Số lượng tài khoản bạn có thể tạo trong <i>Chi Tiêu Của Tôi</i> bị giới hạn bởi 5 tài khoản.</string>
   <string name="contrib_feature_accounts_unlimited_label">Số lượng không giới hạn các tài khoản</string>
-  <string name="contrib_feature_aggregate_label">Gom nhóm nhiều dạng tài khoản</string>
   <string name="contrib_feature_distribution_label">Tác động phân phối các giao dịch cho mỗi phân loại</string>
   <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
-  <string name="contrib_feature_reset_all_label">Thiết đặt lại tất cả tài khoản</string>
   <string name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
   <string name="contrib_feature_split_transaction_label">Phân tách giao dịch</string>
   <string name="contrib_key">Khóa cống hiến</string>

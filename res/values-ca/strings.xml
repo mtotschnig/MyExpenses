@@ -32,12 +32,10 @@
   <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
   <string name="contrib_feature_accounts_unlimited_description">El nombre de comptes que podeu obrir amb <i>Les meves despeses</i> es limita a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre il·limitat de comptes</string>
-  <string name="contrib_feature_aggregate_label">Consolidació de més d\'un compte</string>
   <string name="contrib_feature_distribution_label">Distribució de les operacions per categoria</string>
   <string name="contrib_feature_plans_unlimited_description">Amb <i>Les meves despeses</i> podeu generar 3 planificacions.</string>
   <string name="contrib_feature_plans_unlimited_label">Nombre de planificacions il·limitat</string>
   <string name="contrib_feature_print_label">Exporta la llista de transaccions en PDF</string>
-  <string name="contrib_feature_reset_all_label">Reinicieu tots els comptes</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguretat</string>
   <string name="contrib_feature_split_transaction_label">Operació repartida</string>
   <string name="contrib_feature_template_widget_label">Widget de plantilla</string>

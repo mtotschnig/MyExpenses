@@ -39,12 +39,10 @@
   <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
   <string name="contrib_feature_accounts_unlimited_description">Numărul  conturilor pe care le puteţi crea cu <i>Cheltuielile Mele</i> este limitat la 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Număr nelimitat de conturi</string>
-  <string name="contrib_feature_aggregate_label">Cumulat pe toate conturile</string>
   <string name="contrib_feature_distribution_label">Repartiţia tranzacţiilor pe categorie</string>
   <string name="contrib_feature_plans_unlimited_description">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Număr nelimitat de scadenţe</string>
   <string name="contrib_feature_print_label">Export listă tranzacţii în PDF</string>
-  <string name="contrib_feature_reset_all_label">Reiniţializează toate conturile</string>
   <string name="contrib_feature_security_question_label">Întrebare securitate</string>
   <string name="contrib_feature_split_transaction_label">Tranzacţie  repartizată</string>
   <string name="contrib_feature_template_widget_label">Şablon widget</string>

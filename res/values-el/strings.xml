@@ -26,11 +26,9 @@
   <string name="comment">Σημειώσεις</string>
   <string name="contrib_feature_accounts_unlimited_description">Ο αριθμός των λογαριασμών που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Απεριόριστος αριθμός λογαριασμών</string>
-  <string name="contrib_feature_aggregate_label">Αθροίσματα από πολλαπλούς λογαριασμούς</string>
   <string name="contrib_feature_distribution_label">Κατανομή των συναλλαγών ανά κατηγορία</string>
   <string name="contrib_feature_plans_unlimited_description">Ο αριθμός των σχεδίων που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Απεριόριστος αριθμός σχεδίων</string>
-  <string name="contrib_feature_reset_all_label">Επαναφέρετε όλους τους λογαριασμούς</string>
   <string name="contrib_feature_security_question_label">Ερώτηση ασφαλείας</string>
   <string name="contrib_feature_split_transaction_label">Διαιρεμένη συναλλαγή</string>
   <string name="contrib_key">Contrib κλειδί</string>

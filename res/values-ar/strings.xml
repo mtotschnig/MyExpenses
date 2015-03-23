@@ -28,11 +28,9 @@
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
   <string name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
   <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
-  <string name="contrib_feature_aggregate_label">إجمالي الحسابات المتعددة</string>
   <string name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
   <string name="contrib_feature_plans_unlimited_description">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
   <string name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
-  <string name="contrib_feature_reset_all_label">إعادة تعيين كل الحسابات</string>
   <string name="contrib_feature_security_question_label">السؤال السري</string>
   <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
   <string name="contrib_key">مفتاح المساهمة</string>

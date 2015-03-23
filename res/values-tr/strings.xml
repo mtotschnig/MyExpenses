@@ -37,12 +37,10 @@
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
-  <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
   <string name="contrib_feature_plans_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
   <string name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>
   <string name="contrib_feature_print_label">Muamele listesini PDF dosyasına aktar</string>
-  <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
   <string name="contrib_feature_template_widget_label">Şablon widget\'i</string>
