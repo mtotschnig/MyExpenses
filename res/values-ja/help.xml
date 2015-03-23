@@ -32,7 +32,7 @@
   <string name="help_ManageTemplates_templates_info">このタブには、使用可能なすべてのテンプレートが一覧表示されます。テンプレートは、取引のコンテキストメニューから派生させることができますが、ここでは最初から (取引または転記用の) 新しいテンプレートを作成することができます。リストのエントリーをクリックすると、テンプレートをインスタンス化することができます。</string>
   <string name="help_ManageTemplates_plans_info"><![CDATA[計画は、プランナー カレンダーに (1回または繰り返しの) イベントを作成するテンプレートです。このタブにすべての計画が一覧表示されます。リスト内の計画のエントリを展開すると、計画の今後のインスタンスが一覧表示されます。インスタンスが発生したときに、通知を受け取るのを待つ代わりに、ここでこれらの将来の発生を事前に適用することを指定できます。取引リスト内でそれらが見えるようにするためには、コンテキストメニューから各コマンドを呼び出します。インスタンスの状態は以下のアイコンで示されます:<br><img src=\"ic_stat_open\"> インスタンスはまだ適用されていません。<br><img src=\"ic_stat_applied\"> インスタンスは適用済です。<br><img src=\"ic_stat_cancelled\"> インスタンスはキャンセルされました。すなわち、スキップするようにフラグが付けられています。取引はこのインスタンスに作成されません。]]></string>
   <string name="menu_create_template_for_transaction_help_text">取引用の新しいテンプレートや計画を作成します。</string>
-  <string name="menu_create_template_for_transfer_help_text">転送用の新しいテンプレートや計画を作成します。</string>
+  <string name="menu_create_template_for_transfer_help_text">転記用の新しいテンプレートや計画を作成します。少なくとも2つ同じ通貨のアカウントが存在しない場合は、このコマンドは使用できません。</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">選択したテンプレートをインスタンス化し、すぐに保存します。</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">選択したテンプレートをインスタンス化し、保存する前にその編集フォームの入力項目に入力することができます。</string>
   <string name="cab_ManageTemplates_delete_help_text">選択したテンプレートおよびすべての関連した計画を削除します。</string>
@@ -43,7 +43,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">選択されたイベントのインスタンスに対して取引が作成されている場合、それらは削除されます。キャンセル済としてフラグが設定されている場合、フラグは削除されます。</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">選択された計画のインスタンスに対して作成された取引を編集します。</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。副分類をクリックすると、それに対して記録された取引を表示します。この機能は、主分類に対して、コンテキストメニューから利用可能です。</string>
+  <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。リスト内の主分類を展開すると、その副分類の分布が円グラフで表示されます。リストで分類を選択した場合は、円グラフが強調表示されます。その逆もできます。</string>
   <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。副分類をクリックすることで、現在の取引に割り当てる副分類を選択します。主分類を配置するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_select_filter_info">取引リストをフィルタリングする分類を選択します。主分類を検索するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。設定で、分類をプレーンなアルファベット順にソートすることを選ぶことができます。主分類をクリックすると、その副分類を開きます。主分類のコンテキストメニューから、新しい副分類を追加、分類を削除または編集することができます。副分類にも削除や編集のコンテキストメニューがあります。</string>
@@ -85,4 +85,9 @@
   <string name="help_MethodEdit_info">この画面では、勘定の種類と支払方法を関連付けます。また、ラベルを定義することもできます (編集できない固定されたラベルの事前定義された方法を除く)。方法の種類により、それが支出 (借方)、収入 (貸方) または両方 (中性) に適用可能であるかを判断します。この方法を使用している取引に番号が付けられている場合 (例えば小切手番号)、フラグを設定することもできます。</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">各通貨に対して、使用される小数点以下の桁数を変更することができます。例えばユーロで、1 ¢ の 1/10、すなわち 1/1000 を処理する必要がある場合は、番号に 3 を設定します。通貨を使用する既存の勘定は、新しい設定に切り替わります。</string>
+  <!--FolderBrowser title is in keys-->
+  <string name="help_FolderBrowser_info">ここで選択したフォルダーは、バックアップやエクスポートを保存するために使用されます。目的のフォルダに到達するまで、フォルダーの階層を移動してください。</string>
+  <string name="menu_create_folder_help_text">現在のフォルダーの中に新しいフォルダーを作成します。</string>
+  <string name="menu_select_folder_help_text">エクスポートやバックアップ用の対象ストレージとして現在のフォルダを選択します。</string>
+  <string name="menu_up_help_text">現在のフォルダーの親に移動します。</string>
 </resources>

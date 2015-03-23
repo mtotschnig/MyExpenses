@@ -402,6 +402,7 @@
   <string name="select">Pilih</string>
   <string name="select_category">Pilih kategori</string>
   <string name="menu_select_category">Pilih kategori ini</string>
+  <string name="menu_select_folder">Pilih folder ini</string>
   <string name="share_scheme_not_supported">Skema %1$s tidak disokong</string>
   <string name="share_sending">Hantar fail eksport</string>
   <string name="split_parts_heading">Bahagian pisah</string>

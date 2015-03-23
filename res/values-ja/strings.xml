@@ -402,6 +402,7 @@
   <string name="select">選択</string>
   <string name="select_category">分類の選択</string>
   <string name="menu_select_category">この分類を選択</string>
+  <string name="menu_select_folder">このフォルダーを選択</string>
   <string name="share_scheme_not_supported">スキーム %1$s はサポートされていません</string>
   <string name="share_sending">エクスポートファイルを送信</string>
   <string name="split_parts_heading">分割パート</string>
