@@ -134,9 +134,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       ((PreferenceCategory) findPreference(MyApplication.PrefKey.CATEGORY_CONTRIB.getKey())).removePreference(pref1);
       pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
     } else {
-      pref1.setOnPreferenceClickListener(this);
-      pref1.setSummary(getString(R.string.pref_request_licence_summary,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
-      pref2.setSummary(R.string.pref_contrib_donate_summary);
+      if (pref1!=null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
+        pref1.setOnPreferenceClickListener(this);
+        pref1.setSummary(getString(R.string.pref_request_licence_summary,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
+        pref2.setSummary(R.string.pref_contrib_donate_summary);
+      }
     }
     pref2.setOnPreferenceClickListener(this);
     findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
