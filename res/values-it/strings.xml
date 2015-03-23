@@ -37,12 +37,10 @@
   <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
   <string name="contrib_feature_accounts_unlimited_description">Il numero dei conti che si possono creare con <i>Le mie spese</i> è limitata a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Numero illimitato di conti</string>
-  <string name="contrib_feature_aggregate_label">Somma piu conti</string>
   <string name="contrib_feature_distribution_label">Distribuzione di transazioni per categoria</string>
   <string name="contrib_feature_plans_unlimited_description">Il numero di scadenze che si possono creare con <i>Le mie spese</i> è limitata a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Numero illimitato di scadenze</string>
   <string name="contrib_feature_print_label">Esportazione dell\'elenco delle transazioni in PDF</string>
-  <string name="contrib_feature_reset_all_label">Resetta tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_split_transaction_label">Operazione frazionata</string>
   <string name="contrib_feature_template_widget_label">Widget modelli</string>

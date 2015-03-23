@@ -37,12 +37,10 @@
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
   <string name="contrib_feature_accounts_unlimited_description">O número de contas, que você pode criar com <i>Minhas despesas</i> é limitado a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
-  <string name="contrib_feature_aggregate_label">Agregar várias contas</string>
   <string name="contrib_feature_distribution_label">Distribuição de transações por categoria</string>
   <string name="contrib_feature_plans_unlimited_description">O número de planos que você pode criar com <i>Minhas despesas</i> é limitado a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Número ilimitado de planos</string>
   <string name="contrib_feature_print_label">Exportar lista de transações para PDF</string>
-  <string name="contrib_feature_reset_all_label">Reiniciar todas as contas</string>
   <string name="contrib_feature_security_question_label">Pergunta de segurança</string>
   <string name="contrib_feature_split_transaction_label">Transação de divisão</string>
   <string name="contrib_feature_template_widget_label">Widget de modelos</string>

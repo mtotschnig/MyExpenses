@@ -35,12 +35,10 @@
   <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>
   <string name="contrib_feature_accounts_unlimited_description">Bilangan akaun yang anda boleh cipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Bilangan akaun tidak terhad</string>
-  <string name="contrib_feature_aggregate_label">Agregat menerusi akaun berbilang</string>
   <string name="contrib_feature_distribution_label">Agihan transaksi per kategori</string>
   <string name="contrib_feature_plans_unlimited_description">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Bilang pelan tidak terhad</string>
   <string name="contrib_feature_print_label">Eksport senarai transaksi menjadi PDF</string>
-  <string name="contrib_feature_reset_all_label">Tetap semula semua akaun</string>
   <string name="contrib_feature_security_question_label">Soalan keselamatan</string>
   <string name="contrib_feature_split_transaction_label">Transaksi pisah</string>
   <string name="contrib_feature_template_widget_label">Widget  templat</string>

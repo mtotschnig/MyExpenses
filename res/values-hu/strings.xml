@@ -21,11 +21,9 @@
   <string name="comment">Megjegyzés</string>
   <string name="contrib_feature_accounts_unlimited_description">A <i>Kiadásaim</i> alap változatában maximum 5 számlát kezelhet.</string>
   <string name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
-  <string name="contrib_feature_aggregate_label">Több számla összesítése</string>
   <string name="contrib_feature_distribution_label">A tranzakciók kategóriánkénti eloszlása</string>
   <string name="contrib_feature_plans_unlimited_description">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
   <string name="contrib_feature_plans_unlimited_label">Korlátlan számú terv</string>
-  <string name="contrib_feature_reset_all_label">Minden számla visszaállítása</string>
   <string name="contrib_feature_security_question_label">Biztonsági kérdés</string>
   <string name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
   <string name="contrib_feature_template_widget_label">Sablon widget</string>

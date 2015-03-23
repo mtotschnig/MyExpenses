@@ -21,11 +21,9 @@
   <string name="comment">附註</string>
   <string name="contrib_feature_accounts_unlimited_description">你可以在 <i>開支助手</i> 中創建賬戶的數目僅限5個。</string>
   <string name="contrib_feature_accounts_unlimited_label">帳戶數量不限</string>
-  <string name="contrib_feature_aggregate_label">綜合了多個帳戶</string>
   <string name="contrib_feature_distribution_label">每個類別的交易分佈</string>
   <string name="contrib_feature_plans_unlimited_description">你可以在 <i>開支助手</i> 中創建計劃的數目僅限3個。</string>
   <string name="contrib_feature_plans_unlimited_label">計劃數量不限</string>
-  <string name="contrib_feature_reset_all_label">重設全部帳戶</string>
   <string name="contrib_feature_security_question_label">安全問題</string>
   <string name="contrib_feature_split_transaction_label">分割交易</string>
   <string name="contrib_key">貢獻密鑰</string>

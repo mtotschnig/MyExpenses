@@ -37,12 +37,10 @@
   <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec <i>Mes dépenses</i> est limité à 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
-  <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_distribution_label">Répartition des transactions par catégorie</string>
   <string name="contrib_feature_plans_unlimited_description">Le nombre d\'échéances que vous pouvez créer avec <i>Mes dépenses</i> est limité à 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Nombre d\'échéances illimité</string>
   <string name="contrib_feature_print_label">Export de la liste des opérations au format PDF</string>
-  <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string name="contrib_feature_template_widget_label">Widget de modèles</string>

@@ -35,12 +35,10 @@
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
   <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
-  <string name="contrib_feature_aggregate_label">複数の勘定を集約</string>
   <string name="contrib_feature_distribution_label">分類ごとの取引の分布</string>
   <string name="contrib_feature_plans_unlimited_description"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
   <string name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
   <string name="contrib_feature_print_label">取引リストを PDF にエクスポート</string>
-  <string name="contrib_feature_reset_all_label">すべての勘定をリセット</string>
   <string name="contrib_feature_security_question_label">セキュリティの質問</string>
   <string name="contrib_feature_split_transaction_label">取引を分割</string>
   <string name="contrib_feature_template_widget_label">テンプレート ウィジェット</string>

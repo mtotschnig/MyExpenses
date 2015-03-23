@@ -31,11 +31,9 @@
   <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
   <string name="contrib_feature_accounts_unlimited_description">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
   <string name="contrib_feature_accounts_unlimited_label">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
-  <string name="contrib_feature_aggregate_label">កម្មវិធីប្រមូលផ្ដុំនៅលើគណនីច្រើន</string>
   <string name="contrib_feature_distribution_label">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
   <string name="contrib_feature_plans_unlimited_description">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
   <string name="contrib_feature_plans_unlimited_label">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
-  <string name="contrib_feature_reset_all_label">កំណត់គណនីយទាំងអស់ឡើងវិញ</string>
   <string name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
   <string name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
   <string name="contrib_feature_template_widget_label">ប្រអប់​ធាតុពុម្ព</string>

@@ -27,11 +27,9 @@
   <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
   <string name="contrib_feature_accounts_unlimited_description">ඔබට <i>මයි එක්ස්පෙන්සස්</i> හි නිර්මාණය කළහැකි ගිනුම් ගනන 5කි.</string>
   <string name="contrib_feature_accounts_unlimited_label">සීමා රහිත ගිණුම් ගණනක්</string>
-  <string name="contrib_feature_aggregate_label">ගිණුම් රාශියක් වෙත සමුහනය වේ </string>
   <string name="contrib_feature_distribution_label">කාණ්ඩයක ගනුදෙනු විභාජනය</string>
   <string name="contrib_feature_plans_unlimited_description"><i>මයි එක්ස්පෙන්සසි</i> හි ඔබට නිර්මාණය කළහැකි උපරිම  සැලසුම් ගණන 3කි.</string>
   <string name="contrib_feature_plans_unlimited_label">සීමා රහිත ක්‍රම ගණනක්</string>
-  <string name="contrib_feature_reset_all_label">සෑම ගිණුමක්ම යළි පිහිටුවීම</string>
   <string name="contrib_feature_security_question_label">සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය</string>
   <string name="contrib_feature_split_transaction_label">විභේදනය වූ ගනුදෙනු</string>
   <string name="contrib_feature_template_widget_label">විජට් අච්චුව </string>
