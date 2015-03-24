@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="account">Sąskaita</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank">Banko sąskaita</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">Banko sąskaitos</string>
+  <string name="account_type_cash">Grynųjų pinigų sąskaita</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">Grynųjų pinigų sąskaitos</string>
+  <string name="account_type_ccard">Kreditinė kortelė</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_ccard_plural">Kreditinės kortelės</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="amount">Suma</string>
+  <string name="app_name">Mano išlaidos</string>
+  <string name="category">Kategorija</string>
+  <string name="color">Spalva</string>
+  <string name="comment">Pastabos</string>
+  <string name="confirmation_dialog_dont_show_again">Neberodyti daugiau</string>
+  <string name="contrib_feature_accounts_unlimited_description">Sąskaitų kiekis programoje <i>Mano išlaidos</i> yra apribotas iki 5.</string>
+  <string name="contrib_feature_print_label">Eksportuoti operacijų sąrašą į PDF dokumentą</string>
+  <string name="currency">Valiuta</string>
+  <string name="date">Data</string>
+  <string name="date_format">Datos formatas</string>
+  <string name="date_format_illegal">Netinkamas datos formatas</string>
+  <string name="description">Aprašymas</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholders: 1 is feature list-->
+  <string name="dialog_contrib_yes">Pirkti dabar</string>
+  <string name="dialog_password_change_password">Keisti slaptažodį</string>
+  <string name="dialog_password_new_password">Naujas slaptažodis</string>
+  <string name="dialog_password_new_password_confirmation">Naujas slaptažodis (patvirtinimui)</string>
+  <string name="dialog_remind_later">Vėliau</string>
+  <string name="dialog_remind_no">Ne, ačiū</string>
+  <string name="dialog_security_question">Klausimas</string>
+  <!--Label for button that leads to creation of new local calendar-->
+  <!--Label for button that opens preferences for selecting an existing calendar-->
+  <string name="dialog_title_information">Informacija</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_select_template">Pasirinkite šabloną</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_template_title">Įrašykite pavadinimą</string>
+  <string name="dialog_title_warning_delete_account">Ištrinti sąskaitą?</string>
+  <string name="dialog_title_warning_delete_template">Ištrinti šabloną?</string>
+  <string name="dialog_title_welcome">Sveiki!</string>
+  <string name="grouping_day">Diena</string>
+  <string name="grouping_month">Mėnuo</string>
+  <string name="grouping_today">Šiandien</string>
+  <string name="grouping_week">Savaitė</string>
+  <string name="grouping_year">Metai</string>
+  <string name="grouping_yesterday">Vakar</string>
+  <string name="help_heading_credits">Padėkos</string>
+  <string name="help_heading_license">Licencija</string>
+  <string name="help_heading_whats_new">Kas naujo</string>
+  <string name="important_upgrade_information_heading">Svarbi informacija</string>
+  <string name="import_select_transactions">Operacijos</string>
+  <string name="income">Pajamos</string>
+  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
+  <string name="menu_apply_template">Taikyti</string>
+  <string name="menu_back">Atgal</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">Atsisakyti</string>
+  <string name="menu_clone_transaction">Klonuoti</string>
+  <!--Currently used on button for creating a new plan-->
+  <string name="menu_create">Sukurti</string>
+  <string name="menu_create_account">Nauja sąskaita</string>
+  <string name="menu_create_template">Naujas šablonas</string>
+  <string name="menu_create_template_for_transaction">Naujas operacijos šablonas</string>
+  <string name="menu_create_transaction">Nauja operacija</string>
+  <string name="menu_delete">Ištrinti</string>
+  <string name="menu_delete_account">Ištrinti sąskaitą</string>
+  <string name="menu_edit">Keisti</string>
+  <string name="menu_edit_account">Keisti sąskaitą</string>
+  <string name="menu_edit_method">Keisti mokėjimo būdą</string>
+  <string name="menu_edit_template">Keisti šabloną</string>
+  <string name="menu_edit_transaction">Keisti operaciją</string>
+  <string name="menu_help">Pagalba</string>
+  <!--This command inverts the direction of a transfer-->
+  <string name="menu_manage_plans_tab_templates">Šablonai</string>
+  <string name="menu_open">Atverti</string>
+  <string name="menu_print">Spausdinti</string>
+  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_save">Įrašyti</string>
+  <string name="menu_settings">Nustatymai</string>
+  <string name="method">Būdas</string>
+  <string name="new_version">Nauja versija</string>
+  <string name="no_methods">Nėra mokėjimo būdų.</string>
+  <string name="payee">Gavėjas</string>
+  <string name="payer">Mokėtojas</string>
+  <string name="payer_or_payee">Gavėjas/mokėtojas</string>
+  <!--Plan for future and recurring transactions-->
+  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
+  <!--This message is shown, after a user decides to not apply a manual plan-->
+  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
+  <!--payment methods-->
+  <string name="pm_creditcard">Kreditinė kortelė</string>
+  <string name="pref_category_title_more_information">Daugiau informacijos</string>
+  <string name="pref_export_format_title">Duomenų formatas</string>
+  <string name="pref_manage_accounts_title">Sąskaitos</string>
+  <string name="pref_manage_categories_summary">Pridėti, keisti ar trinti kategorijas.</string>
+  <string name="pref_manage_categories_title">Kategorijos</string>
+  <string name="pref_manage_methods_title">Mokėjimo būdai</string>
+  <string name="pref_more_info_dialog_summary">
+Mantas Kriaučiūnas &lt;paslaugos@bonamens.lt&gt;</string>
+  <!--this is empty for English and gives credit to translators in the other languages-->
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
+  <string name="pref_qif_export_file_encoding_title">Rašmenų koduotė</string>
+  <!--This preference presents a slider where the user selects a value from 0 to 4-->
+  <string name="pref_ui_fontsize_title">Padidinti šriftą</string>
+  <!--Title of the preference for selecting the UI language-->
+  <string name="pref_ui_language_title">Kalba</string>
+  <string name="pref_ui_theme_dark">tamsi</string>
+  <string name="pref_ui_theme_light">šviesi</string>
+  <string name="pref_ui_theme_title">Tema</string>
+  <string name="restore_no_backup_found">Nerasta atsarginių kopijų</string>
+  <string name="save_transaction_and_new_success">Sėkmingai įrašyta</string>
+  <string name="select">Pasirinkite</string>
+  <string name="select_category">Pasirinkite kategoriją</string>
+  <string name="menu_select_category">Pasirinkti šią kategoriją</string>
+  <string name="menu_select_folder">Pasirinkti šį aplanką</string>
+  <string name="status">Būsena</string>
+  <string name="sum_expenses">Išlaidos</string>
+  <string name="sum_income">Pajamos</string>
+  <string name="template">Šablonas</string>
+  <string name="time">Laikas</string>
+  <string name="transaction">Operacija</string>
+  <string name="type">Tipas</string>
+  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
+  <string name="warning_select_account">Pasirinkite sąskaitą!</string>
+  <string name="menu_create_folder">Naujas aplankas</string>
+  <string name="widget_title_accounts">Mano sąskaitos</string>
+  <string name="widget_title_templates">Mano šablonai</string>
+  <string name="yes">Taip</string>
+  <string name="no">Ne</string>
+</resources>
