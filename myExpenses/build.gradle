@@ -30,8 +30,12 @@ android {
 dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
+    compile project(':PlayLicensingOrig')
     compile 'com.android.support:appcompat-v7:19.0.0'
     compile 'com.itextpdf:itextpdf:5.5.2'
+    compile 'ch.acra:acra:4.5.0'
+    compile 'org.onepf:openiab:0.9.7.2' //TODO upgrade
+
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }
 def getDate() {
