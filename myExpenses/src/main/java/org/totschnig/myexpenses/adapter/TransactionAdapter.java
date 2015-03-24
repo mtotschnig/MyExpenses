@@ -78,7 +78,8 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.amount = (TextView) v.findViewById(R.id.amount);
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
-    holder.date = (TextView) v.findViewById(R.id.date);
+    TextView tv = (TextView) v.findViewById(R.id.date);
+    holder.date = tv;
     if (mAccount.type.equals(Type.CASH)) {
       colorContainer.setVisibility(View.GONE);
     }
@@ -86,7 +87,6 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       colorAccount.setLayoutParams(
           new LayoutParams(4, LayoutParams.FILL_PARENT));
     }
-    TextView tv = (TextView) v.findViewById(R.id.date);
     tv.setEms(dateEms);
     v.setTag(holder);
     return v;

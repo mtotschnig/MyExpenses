@@ -29,12 +29,14 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
@@ -87,18 +89,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (BuildConfig.DEBUG) {
-      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-      .detectDiskReads()
-      .detectDiskWrites()
-      .detectNetwork()   // or .detectAll() for all detectable problems
-      .penaltyLog()
-      .build());
-      StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-      .detectLeakedSqlLiteObjects()
-      //.detectLeakedClosableObjects()
-      .penaltyLog()
-      .penaltyDeath()
-      .build());
+        enableStrictMode();
     }
 
     super.onCreate(savedInstanceState);
@@ -113,8 +104,25 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
   }
+    @TargetApi(9)
+    private void enableStrictMode() {
+        if (Build.VERSION.SDK_INT >= 9) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                            //.detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
+    }
 
-  private ProtectionDelegate getProtection() {
+    private ProtectionDelegate getProtection() {
     if (protection == null) {
       protection = new ProtectionDelegate(this);
     }
@@ -131,6 +139,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
   }
   @Override
+  @TargetApi(11)
   protected void onResume() {
     Log.d("DEBUG","ProtectedFragmentActivity onResume");
     super.onResume();

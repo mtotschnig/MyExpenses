@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,6 +112,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     return super.dispatchCommandMultiple(command, positions,itemIds);
   }
   @Override
+  @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.parties_list, null, false);
     

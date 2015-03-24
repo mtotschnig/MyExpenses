@@ -17,6 +17,7 @@
 package org.totschnig.myexpenses.ui;
 
 
+import android.annotation.SuppressLint;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,6 +42,7 @@ import android.view.ViewGroup;
  * does in super. A subclass thus can remove an item from the adapter, when it is no longer valid.</li>
  * </ol>
  */
+@SuppressLint("CommitTransaction")
 public abstract class FragmentPagerAdapter extends PagerAdapter {
     private static final String TAG = "FragmentPagerAdapter";
     private static final boolean DEBUG = false;
