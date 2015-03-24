@@ -37,6 +37,7 @@
   <string name="confirmation_dialog_dont_show_again">No mostrar de nuevo</string>
   <string name="contrib_feature_accounts_unlimited_description">El número de cuentas que se pueden crear con <i>Mis gastos</i> se limita a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Cuentas sin límite</string>
+  <string name="contrib_feature_attach_picture_label">Adjuntar imagen de transacción</string>
   <string name="contrib_feature_distribution_label">Distribución de las transacciones por categoría</string>
   <string name="contrib_feature_plans_unlimited_description">El número de planes que se pueden crear con <i>Mis gastos</i> se limita a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Planes sin límite</string>
@@ -516,4 +517,9 @@
   <string name="restore_calendar_handling_ignore">No restaura los planes</string>
   <string name="restore_not_possible_target_calendar_missing">El calendario %s establece en el archivo de copia de seguridad no existe localmente. Restauración ha sido abortada.</string>
   <string name="restore_not_possible_local_calendar_missing">El calendario de planificación actual no está disponible.</string>
+  <string name="menu_view_picture">Ver imagen</string>
+  <string name="menu_delete_picture">Borrar imagen</string>
+  <string name="menu_change_picture">Adjuntar imagen diferente</string>
+  <string name="menu_distribution_show_pie_char">Mostrar el gráfico de tarta</string>
+  <string name="menu_distribution_aggreate">Agregar ingresos y gastos</string>
 </resources>
