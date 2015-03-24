@@ -37,6 +37,7 @@
   <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
   <string name="contrib_feature_accounts_unlimited_description">Il numero dei conti che si possono creare con <i>Le mie spese</i> è limitata a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Numero illimitato di conti</string>
+  <string name="contrib_feature_attach_picture_label">Allegare immagine per transazione</string>
   <string name="contrib_feature_distribution_label">Distribuzione di transazioni per categoria</string>
   <string name="contrib_feature_plans_unlimited_description">Il numero di scadenze che si possono creare con <i>Le mie spese</i> è limitata a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Numero illimitato di scadenze</string>
@@ -515,4 +516,9 @@
   <string name="restore_calendar_handling_ignore">Non ripristinare piani</string>
   <string name="restore_not_possible_target_calendar_missing">Il calendario %s dell\'archivio di backup non esiste localmente. Ripristino è stata interrotta.</string>
   <string name="restore_not_possible_local_calendar_missing">Il calendario di pianificazione corrente non è disponibile.</string>
+  <string name="menu_view_picture">Vedere foto</string>
+  <string name="menu_delete_picture">Eliminare foto</string>
+  <string name="menu_change_picture">Allegare foto diversa</string>
+  <string name="menu_distribution_show_pie_char">Visualizza il grafico a torta</string>
+  <string name="menu_distribution_aggreate">Aggregare redditi e spese</string>
 </resources>

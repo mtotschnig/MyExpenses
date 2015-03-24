@@ -37,6 +37,7 @@
   <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec <i>Mes dépenses</i> est limité à 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
+  <string name="contrib_feature_attach_picture_label">Lier une image avec une transaction</string>
   <string name="contrib_feature_distribution_label">Répartition des transactions par catégorie</string>
   <string name="contrib_feature_plans_unlimited_description">Le nombre d\'échéances que vous pouvez créer avec <i>Mes dépenses</i> est limité à 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Nombre d\'échéances illimité</string>
@@ -515,4 +516,9 @@
   <string name="restore_calendar_handling_ignore">Ne pas restaurer les échéances</string>
   <string name="restore_not_possible_target_calendar_missing">Le calendrier %s situé dans l\'archive de sauvegarde n\'existe pas localement. La restauration a été abandonnée.</string>
   <string name="restore_not_possible_local_calendar_missing">Le calendrier actuel d\'échéances n\'est pas disponible.</string>
+  <string name="menu_view_picture">Voir la photo</string>
+  <string name="menu_delete_picture">Effacer la photo</string>
+  <string name="menu_change_picture">Lier une photo différente</string>
+  <string name="menu_distribution_show_pie_char">Voir le graphique camembert</string>
+  <string name="menu_distribution_aggreate">Totaliser les recettes et dépenses</string>
 </resources>

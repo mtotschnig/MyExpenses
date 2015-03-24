@@ -1,1 +1,3 @@
-include ":StickyListHeaders:library"
+include ':MPAndroidChart:MPChartLib'
+include ':StickyListHeaders:library'
+include ':myExpenses'
