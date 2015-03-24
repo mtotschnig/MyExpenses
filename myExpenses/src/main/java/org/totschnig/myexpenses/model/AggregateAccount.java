@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -23,7 +24,7 @@ public class AggregateAccount extends Account {
     accounts.put(getId(), this);
   }
   public static AggregateAccount getInstanceFromDb (long id) {
-    assert id < 0;
+    if (BuildConfig.DEBUG && !(id < 0)) { throw new AssertionError(); }
     AggregateAccount aa = (AggregateAccount) accounts.get(id);
     if (aa != null) {
       return aa;

@@ -25,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
     }
+    lintOptions {
+        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
+    }
 }
 
 dependencies {

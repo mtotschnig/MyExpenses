@@ -20,14 +20,14 @@
   <item
     android:id="@id/CREATE_COMMAND"
     android:icon="@android:drawable/ic_menu_add"
-    android:showAsAction="always"
+    app:showAsAction="always"
     android:orderInCategory="1"
     android:title="@string/menu_create_sub_cat">
   </item>
   <item
     android:id="@id/SELECT_COMMAND"
     android:icon="@drawable/ic_menu_goto"
-    android:showAsAction="always"
+    app:showAsAction="always"
     android:orderInCategory="0"
     android:title="@string/menu_select_category">
   </item>
