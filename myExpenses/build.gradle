@@ -58,12 +58,16 @@ def getDate() {
     def formattedDate = date.format('yyyyMMdd-HHmm')
     return formattedDate
 }
-task copyTask(type: Copy) {
+task copyTask(type: Copy) { //why doesn't Gradle allow to force overwrite?
     from 'template/app.properties'
     into 'src/main/res/raw'
     filter(ReplaceTokens, tokens: ["build.date": getDate()])
 }
+task removeTask(type: Delete) {
+    delete 'src/main/res/raw/app.properties'
+}
 project.afterEvaluate{
     compileDebugJava.dependsOn("copyTask")
     compileReleaseJava.dependsOn("copyTask")
+    clean.dependsOn("removeTask")
 }
