@@ -3,13 +3,13 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 22
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -33,7 +33,7 @@ android {
 dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
-    compile 'com.android.support:appcompat-v7:19.0.0'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.itextpdf:itextpdf:5.5.2'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }

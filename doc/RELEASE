@@ -3,16 +3,16 @@ Steps for preparing a new release
 * Set version info in Manifest
 * Check that master is merged into distribution branch
 * check if version_codes, version_names, upgrade.xml use the correction version code
-* * Run unit tests (with the testdevice connceted in adb, testdevice locale should be set to en_US)
+* if applicable publish announcement on Google+ and Facebook and add links
+* * Run unit tests (with the testdevice connceted in adb)
   - adb uninstall org.totschnig.myexpenses
   - adb uninstall org.totschnig.myexpenses.test
-  - cd tests
-  - ant clean
-  - ant debug install
-  - script/runAllTests.sh
-* cd ..
-* ant clean
-* ant release
+  . ./gradlew clean
+  - ./gradlew assemble
+  - ./gradlew assembleDebugAndroidTest
+  - adb install myExpenses/build/outputs/apk/myExpenses-debug.apk
+  - add install myExpenses/build/outputs/apk/myExpenses-debug-androidTest-unaligned.apk
+  - tests/script/runAllTests.sh
 * test upgrade mechanism
 * Create release tag in GIT (git checkout master;git tag r39; git push origin r39)
 * mv APK and proguard folder into a new folder in releases
