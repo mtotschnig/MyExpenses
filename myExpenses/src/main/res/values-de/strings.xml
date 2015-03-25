@@ -37,6 +37,7 @@
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
   <string name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
   <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
+  <string name="contrib_feature_attach_picture_label">Bildanhang für Buchung</string>
   <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
   <string name="contrib_feature_plans_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
   <string name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
@@ -515,4 +516,9 @@
   <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
   <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
   <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
+  <string name="menu_view_picture">Bild anzeigen</string>
+  <string name="menu_delete_picture">Bild löschen</string>
+  <string name="menu_change_picture">Anderes Bild anfügen</string>
+  <string name="menu_distribution_show_pie_char">Tortendiagramm anzeigen</string>
+  <string name="menu_distribution_aggreate">Ausgaben und Einnahmen zusammen zählen</string>
 </resources>

@@ -57,7 +57,6 @@
       <item>italiano</item>
       <item>日本語</item>
       <item>ខ្មែរ (Khmer)</item>
-      <item>Lietuvių</item>
       <item>Bahasa Melayu</item>
       <item>polski</item>
       <item>português</item>
@@ -84,7 +83,6 @@
       <item>it-IT</item>
       <item>ja-JP</item>
       <item>km-KH</item>
-      <item>lt-LT</item>
       <item>ms-MY</item>
       <item>pl-PL</item>
       <item>pt-BR</item>
@@ -232,7 +230,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>194</item>
+      <item>195</item>
       <item>193</item>
       <item>191</item>
       <item>185</item>
