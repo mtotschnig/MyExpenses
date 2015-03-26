@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion 8
-        targetSdkVersion 22
+        targetSdkVersion 19
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -46,7 +46,7 @@ dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
     compile project(':PlayLicensingOrig')
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.itextpdf:itextpdf:5.5.2'
     compile 'ch.acra:acra:4.5.0'
     compile 'org.onepf:openiab:0.9.7.2' //TODO upgrade
