@@ -37,6 +37,7 @@
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
+  <string name="contrib_feature_attach_picture_label">Muameleye resim ekle</string>
   <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
   <string name="contrib_feature_plans_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
   <string name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>
@@ -517,4 +518,9 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
   <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivindeki %s takvim seti yerel olarak mevcut değildir. Geri alma iptal edilmiştir.</string>
   <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
+  <string name="menu_view_picture">Resmi görüntüle</string>
+  <string name="menu_delete_picture">Resmi sil</string>
+  <string name="menu_change_picture">Değişik bir resim ekle</string>
+  <string name="menu_distribution_show_pie_char">Grafiği göster</string>
+  <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
 </resources>
