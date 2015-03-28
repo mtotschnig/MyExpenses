@@ -160,10 +160,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       break;
     case AlertDialog.BUTTON_NEUTRAL:
-      Intent intent = new Intent(Intent.ACTION_VIEW, mTransaction.getPictureUri());
-      intent.putExtra(Intent.EXTRA_STREAM, mTransaction.getPictureUri());
-      intent.setDataAndType(mTransaction.getPictureUri(), "image/jpeg");
-      startActivity(intent); 
+      startActivity(Transaction.getViewIntent(mTransaction.getPictureUri()));
       break;
     case AlertDialog.BUTTON_NEGATIVE:
       dismiss();
