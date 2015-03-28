@@ -433,8 +433,7 @@ public class Utils {
     return new File(mediaStorageDir, getOutputMediaFileName());
   }
   public static Uri getOutputMediaUri(boolean temp) {
-      boolean secure = true;
-      if (secure && !temp) {
+      if (MyApplication.getInstance().isProtected() && !temp) {
            return FileProvider.getUriForFile(MyApplication.getInstance(),
                    "org.totschnig.myexpenses.fileprovider",
                    getOutputMediaFile(false));
