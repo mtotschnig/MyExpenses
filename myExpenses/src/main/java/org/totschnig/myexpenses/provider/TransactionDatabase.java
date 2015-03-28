@@ -20,7 +20,6 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -37,12 +36,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 50;
+  public static final int DATABASE_VERSION = 51;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -775,7 +775,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               " THEN " +
                 " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " +
                   " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ")) " +
-                "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
+                "  || ' : ' || " +
                 " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
               " ELSE" +
                 " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
@@ -837,6 +837,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE transactions add column picture_id text");
       db.execSQL("DROP TABLE IF EXISTS feature_used");
     }
+      if (oldVersion < 51) {
+          String prefix = Uri.fromFile(Utils.getPictureDir(false)).toString()+"/";
+          String postfix = ".jpg";
+        db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
+      }
   }
   @Override
   public final void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

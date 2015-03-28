@@ -28,6 +28,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.text.InputFilter;
@@ -41,7 +42,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.acra.ErrorReporter;
+//import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -451,9 +452,11 @@ public class Utils {
               .format(new Date());
       return timeStamp + ".jpg";
   }
-
-  public static File getPictureDir() {
-      File result = MyApplication.getInstance().isProtected() ?
+    public static File getPictureDir() {
+        return getPictureDir(MyApplication.getInstance().isProtected());
+    }
+  public static File getPictureDir(boolean secure) {
+      File result =  secure ?
             new File (MyApplication.getInstance().getFilesDir(),
                 "images") :
             MyApplication.getInstance().getExternalFilesDir(
@@ -656,8 +659,8 @@ public class Utils {
   }
 
   public static boolean verifyLicenceKey(String key) {
-    String s = Secure.getString(MyApplication.getInstance()
-        .getContentResolver(), Secure.ANDROID_ID)
+    String s = Settings.Secure.getString(MyApplication.getInstance()
+            .getContentResolver(), Settings.Secure.ANDROID_ID)
         + MyApplication.CONTRIB_SECRET;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     return l.toString().equals(key);
