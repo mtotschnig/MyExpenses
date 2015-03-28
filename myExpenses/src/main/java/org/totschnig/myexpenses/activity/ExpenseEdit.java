@@ -1710,7 +1710,7 @@ public class ExpenseEdit extends AmountActivity implements
       mPictureView.setVisibility(View.GONE);
       break;
     case R.id.VIEW_COMMAND:
-a      startActivity(Transaction.getViewIntent(mPictureUri));
+      startActivity(Transaction.getViewIntent(mPictureUri));
       break;
     case R.id.CHANGE_COMMAND:
       startMediaChooserDo();
