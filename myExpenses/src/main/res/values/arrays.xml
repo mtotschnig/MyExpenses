@@ -299,40 +299,44 @@
     </string-array>
     <!-- first member is Facebook post id, second Google+ post id -->
     <string-array name="version_more_info_231">
-        <item>1464897740438366</item>
+        <item>posts/1464897740438366</item>
         <item>ernTPUcN4fy</item>
     </string-array>
     <string-array name="version_more_info_232">
-        <item>1466255806969226</item>
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1466255806969226</item>
         <item>aUXDn7qHp1E</item>
     </string-array>
     <string-array name="version_more_info_233">
-        <item>1470350743226399</item>
+        <item>posts/1470350743226399</item>
         <item>gYVRpHMrbTi</item>
     </string-array>
     <string-array name="version_more_info_234">
-        <item>1476254905969316</item>
+        <item>posts/1476254905969316</item>
         <item>UcC1kZbdEpE</item>
     </string-array>
     <string-array name="version_more_info_235">
-        <item>1483023585292448</item>
+        <item>posts/1483023585292448</item>
         <item>K1qgfKdvodM</item>
     </string-array>
     <string-array name="version_more_info_236">
-        <item>1485758261685647</item>
+        <item>posts/1485758261685647</item>
         <item>6xukdJk2owx</item>
     </string-array>
     <string-array name="version_more_info_237">
-        <item>1487156704879136</item>
+        <item>posts/1487156704879136</item>
         <item>HZKFCr2cZAL</item>
     </string-array>
     <string-array name="version_more_info_238">
-        <item>1489972704597536</item>
+        <item>posts/1489972704597536</item>
         <item>8L87ma4hAL7</item>
     </string-array>
     <string-array name="version_more_info_240">
-        <item>1508659049395568</item>
+        <item>posts/1508659049395568</item>
         <item>eeAevd25T73</item>
+    </string-array>
+    <string-array name="version_more_info_242">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1549092402018899</item>
+        <item>SHZ6XMNUNkT</item>
     </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
