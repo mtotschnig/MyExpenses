@@ -179,6 +179,15 @@
             android:name=".provider.TransactionProvider"
             android:authorities="org.totschnig.myexpenses"
             android:exported="false" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="org.totschnig.myexpenses.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_path" />
+        </provider>
 
         <service android:name=".service.PlanExecutor" />
         <service android:name=".service.PlanNotificationClickHandler" />

@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -85,7 +86,7 @@ public class Transaction extends Model {
         KEY_METHOD_LABEL,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
-        KEY_PICTURE_ID,
+        KEY_PICTURE_URI,
         YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
         YEAR + " AS " + KEY_YEAR,
         MONTH + " AS " + KEY_MONTH,
@@ -157,7 +158,6 @@ public class Transaction extends Model {
 
   /**
    * factory method for retrieving an instance from the db with the given id
-   * @param mDbHelper
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer} or null if not found
    */
@@ -165,7 +165,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         FULL_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_ID,KEY_METHOD_LABEL};
+        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_URI,KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -209,10 +209,10 @@ public class Transaction extends Model {
     t.comment = DbUtils.getString(c,KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
-    int pictureIdColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_ID);
-    t.pictureUri = c.isNull(pictureIdColumnIndex) ?
+    int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
+    t.pictureUri = c.isNull(pictureUriColumnIndex) ?
         null :
-        Uri.fromFile(new File(Utils.getPictureDir(),c.getString(pictureIdColumnIndex)+".jpg"));
+        Uri.parse(c.getString(pictureUriColumnIndex));
     c.close();
     return t;
   }
@@ -249,7 +249,6 @@ public class Transaction extends Model {
   /**
    * factory method for creating an object of the correct type and linked to a given account
    * @param accountId the account the transaction belongs to if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
-   * @param parentId if != 0L this is the id of a split part's parent
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
@@ -267,12 +266,12 @@ public class Transaction extends Model {
   public static void delete(long id) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        new String[]{KEY_PICTURE_ID},
+        new String[]{KEY_PICTURE_URI},
         null, null, null);
     if (c!=null) {
       if (c.moveToFirst()) {
         if (!c.isNull(0)) {
-          Utils.moveToBackup(new File(Utils.getPictureDir(),c.getString(0)+".jpg"));
+            disposeStaleFile(Uri.parse(c.getString(0)));
         }
       }
       c.close();
@@ -328,7 +327,7 @@ public class Transaction extends Model {
   }
   /**
    * Saves the transaction, creating it new if necessary
-   * as a side effect calls {@link Payee#create(long, String)}
+   * as a side effect calls {@link Payee#require(String)}
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public Uri save() {
@@ -374,26 +373,19 @@ public class Transaction extends Model {
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
 
-    if (pictureUriStale!=null && !pictureUriStale.equals(pictureUri)) {
-      //we do not throw away the stale file, but backup it.
-      String stalePath = pictureUriStale.getPath();
-      File staleFile = new File(stalePath);
-      Utils.moveToBackup(staleFile);
+    if (pictureUriStale!=null  && !pictureUriStale.equals(pictureUri)) {
+      disposeStaleFile(pictureUriStale);
     }
 
     if (pictureUri!=null) {
-      if (pictureUri.getScheme().equals("file") &&
-          pictureUri.getPath().startsWith(
-              Utils.getPictureDir().getAbsolutePath())) {
+      if (pictureUri.toString().startsWith(Utils.getPictureUriBase())) {
         Log.d("DEBUG","got Uri in our home space, nothing todo");
       } else {
         setPictureUri(Utils.copyToHome(pictureUri));
       }
-      String path = pictureUri.getPath();
-      String id = path.substring(path.lastIndexOf('/')+1,path.lastIndexOf('.'));
-      initialValues.put(KEY_PICTURE_ID,id);
+      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
     } else {
-      initialValues.putNull(KEY_PICTURE_ID);
+      initialValues.putNull(KEY_PICTURE_URI);
     }
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
@@ -586,5 +578,24 @@ public class Transaction extends Model {
       pictureUriStale = this.pictureUri;
     }
     this.pictureUri = pictureUriIn;
+  }
+  private static void disposeStaleFile(Uri fileUri) {
+      if (fileUri.getScheme().equals("file")) {
+          File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
+                  null), Environment.DIRECTORY_PICTURES + ".bak");
+          backupDir.mkdir();
+          File staleFile = new File(fileUri.getPath());
+          staleFile.renameTo(new File(backupDir, staleFile.getName()));
+      } else {
+          MyApplication.getInstance().getContentResolver()
+                  .delete(fileUri,null,null);
+      }
+  }
+  public static Intent getViewIntent(Uri pictureUri) {
+      Intent intent = new Intent(Intent.ACTION_VIEW, pictureUri);
+      intent.putExtra(Intent.EXTRA_STREAM, pictureUri);
+      intent.setDataAndType(pictureUri, "image/jpeg");
+      intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      return intent;
   }
 }

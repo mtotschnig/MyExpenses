@@ -15,6 +15,46 @@
 
 package org.totschnig.myexpenses.util;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
+import android.text.Html;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Xml;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import org.acra.ErrorReporter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.task.GrisbiImportTask;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,50 +79,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
-
-import org.acra.ErrorReporter;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.task.GrisbiImportTask;
-import org.xml.sax.SAXException;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.text.Html;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Xml;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * Util class with helper methods
@@ -151,8 +152,7 @@ public class Utils {
   /**
    * formats an amount with a currency
    * 
-   * @param amount
-   * @param currency
+   * @param money
    * @return formated string
    */
   public static String formatCurrency(Money money) {
@@ -288,8 +288,7 @@ public class Utils {
    * utility method that calls formatters for amount this method can be called
    * directly with Long values retrieved from db
    * 
-   * @param text
-   *          amount as String
+   * @param amount
    * @param currency
    * @return formated string
    */
@@ -313,7 +312,7 @@ public class Utils {
    * @return if external storage is not available returns null if user has
    *         configured app dir, return this value on Gingerbread and above
    *         returns {@link
-   *         android.content.ContextWrapper.getExternalFilesDir(null)}
+   *         android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
    *         <STRIKE>on Froyo returns folder "myexpenses" on root of
    *         sdcard.</STRIKE>
    */
@@ -430,27 +429,62 @@ public class Utils {
 
     File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
 
-    // Create a media file name
-    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-        .format(new Date());
-    return new File(mediaStorageDir, timeStamp + ".jpg");
+    return new File(mediaStorageDir, getOutputMediaFileName());
+  }
+  public static Uri getOutputMediaUri(boolean temp) {
+      boolean secure = true;
+      if (secure && !temp) {
+           return FileProvider.getUriForFile(MyApplication.getInstance(),
+                   "org.totschnig.myexpenses.fileprovider",
+                   getOutputMediaFile(false));
+      } else {
+          return Uri.fromFile(getOutputMediaFile(temp));
+      }
+  }
+    public static String getPictureUriBase() {
+       String sampleUri = getOutputMediaUri(false).toString();
+       return sampleUri.substring(0,sampleUri.lastIndexOf('/'));
+    }
+
+  private static String getOutputMediaFileName() {
+      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+              .format(new Date());
+      return timeStamp + ".jpg";
   }
 
   public static File getPictureDir() {
-    return MyApplication.getInstance().getExternalFilesDir(
-        Environment.DIRECTORY_PICTURES);
+      File result = MyApplication.getInstance().isProtected() ?
+            new File (MyApplication.getInstance().getFilesDir(),
+                "images") :
+            MyApplication.getInstance().getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES);
+      result.mkdir();
+      return result;
   }
 
+    /**
+     * The file is only moved to
+     * @param staleFile
+     */
   public static void moveToBackup(File staleFile) {
-    File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
-        null), Environment.DIRECTORY_PICTURES + ".bak");
-    backupDir.mkdir();
-    if (staleFile.isDirectory()) {
-      for (File f : staleFile.listFiles()) {
-        f.renameTo(new File(backupDir, f.getName()));
+      if (MyApplication.getInstance().isProtected()) {
+          if (staleFile.isDirectory()) {
+              for (File f : staleFile.listFiles()) {
+                  f.delete();
+              }
+          }
+          staleFile.delete();
+      } else {
+          File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
+                  null), Environment.DIRECTORY_PICTURES + ".bak");
+          backupDir.mkdir();
+          if (staleFile.isDirectory()) {
+              for (File f : staleFile.listFiles()) {
+                  f.renameTo(new File(backupDir, f.getName()));
+              }
+          }
+          staleFile.renameTo(new File(backupDir, staleFile.getName()));
       }
-    }
-    staleFile.renameTo(new File(backupDir, staleFile.getName()));
   }
 
   /**
@@ -463,18 +497,19 @@ public class Utils {
   public static Uri copyToHome(Uri uri) {
     InputStream input = null;
     OutputStream output = null;
-    File outputFile = getOutputMediaFile(false);
+    Uri outputUri = getOutputMediaUri(false);
 
-    if (uri.getScheme().equals("file")) {
-      if (new File(uri.getPath()).renameTo(outputFile)) {
-        return Uri.fromFile(outputFile);
+    if (uri.getScheme().equals("file") && outputUri.getScheme().equals("file")) {
+      if (new File(uri.getPath()).renameTo(new File(outputUri.getPath()))) {
+        return outputUri;
       }
     }
 
     try {
       input = MyApplication.getInstance().getContentResolver()
           .openInputStream(uri);
-      output = new FileOutputStream(outputFile);
+      output = MyApplication.getInstance().getContentResolver()
+              .openOutputStream(outputUri);
       final byte[] buffer = new byte[1024];
       int read;
 
@@ -484,7 +519,7 @@ public class Utils {
 
       output.flush();
 
-      return Uri.fromFile(outputFile);
+      return outputUri;
     } catch (FileNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -595,7 +630,7 @@ public class Utils {
    * 
    * @param context
    *          The application's environment.
-   * @param action
+   * @param intent
    *          The Intent action to check for availability.
    * 
    * @return True if an Intent with the specified action can be sent and

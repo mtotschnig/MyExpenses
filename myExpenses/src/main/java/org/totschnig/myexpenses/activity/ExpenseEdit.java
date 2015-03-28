@@ -1031,7 +1031,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
   /**
-   * @param uri
    * @throws FileNotFoundException
    */
   protected void setPicture() {
@@ -1711,10 +1710,7 @@ public class ExpenseEdit extends AmountActivity implements
       mPictureView.setVisibility(View.GONE);
       break;
     case R.id.VIEW_COMMAND:
-      Intent intent = new Intent(Intent.ACTION_VIEW, mPictureUri);
-      intent.putExtra(Intent.EXTRA_STREAM, mPictureUri);
-      intent.setDataAndType(mPictureUri, "image/jpeg");
-      startActivity(intent);
+a      startActivity(Transaction.getViewIntent(mPictureUri));
       break;
     case R.id.CHANGE_COMMAND:
       startMediaChooserDo();
@@ -1740,7 +1736,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     //if external storage is not available, camera capture won't work
     if (outputMediaUri != null) {
-        Intent camIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+        Intent camIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         camIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputMediaUri);
 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
@@ -1750,7 +1746,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private Uri getCameraUri() {
     if (mPictureUriTemp == null) {
-      mPictureUriTemp = Uri.fromFile(Utils.getOutputMediaFile(true));
+      mPictureUriTemp = Utils.getOutputMediaUri(true);
     }
     return mPictureUriTemp;
   }
