@@ -840,6 +840,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 51) {
           String prefix = Uri.fromFile(Utils.getPictureDir(false)).toString()+"/";
           String postfix = ".jpg";
+          //if picture_id concat expression will also be null
         db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
       }
   }
