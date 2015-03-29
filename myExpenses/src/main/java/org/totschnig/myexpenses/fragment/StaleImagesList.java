@@ -31,6 +31,8 @@ import android.support.v4.content.Loader;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,23 +58,31 @@ import java.util.ArrayList;
 public class StaleImagesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   private Cursor mImagesCursor;
-  @Override
-  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
-    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
-    switch(command) {
-      case R.id.VIEW_COMMAND:
-      return true;
-    }
-    return super.dispatchCommandSingle(command, info);
-  }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
+    int taskId=0, progressMessage = 0;
     switch(command) {
+      case R.id.SAVE_COMMAND:
+        taskId = TaskExecutionFragment.TASK_SAVE_IMAGES;
+        progressMessage= R.string.progress_dialog_deleting;
+        break;
       case R.id.DELETE_COMMAND:
-        return true;
+        taskId = TaskExecutionFragment.TASK_DELETE_IMAGES;
+        progressMessage= R.string.progress_dialog_saving;
+        break;
     }
-    return super.dispatchCommandMultiple(command, positions,itemIds);
+    if (taskId==0) {
+      return super.dispatchCommandMultiple(command,positions,itemIds);
+    }
+    finishActionMode();
+    ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+      taskId,
+      itemIds,
+      null,
+      progressMessage);
+    return true;
   }
   @Override
   @SuppressLint("InlinedApi")
@@ -96,7 +106,16 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
         to,
         0) {
       @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        return super.getView(position, convertView, parent);
+      }
+
+      @Override
       public void setViewImage(ImageView v, String value) {
+        if (v.getTag()!=null && v.getTag().equals(value)) {
+          //already dealing with value; nothing to do
+          return;
+        }
         int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size_grid);
         Uri data = Uri.parse(value);
         if (BitmapWorkerTask.cancelPotentialWork(data, v)) {
@@ -108,6 +127,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
                   task);
           v.setImageDrawable(asyncDrawable);
           task.execute(Uri.parse(value));
+          v.setTag(value);
         }
       }
     };
@@ -144,5 +164,11 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   public void onLoaderReset(Loader<Cursor> arg0) {
     mImagesCursor = null;
     mAdapter.swapCursor(null);
+  }
+
+  @Override
+  protected void inflateHelper(Menu menu) {
+    MenuInflater inflater = getActivity().getMenuInflater();
+    inflater.inflate(R.menu.stale_images_context, menu);
   }
 }

@@ -84,6 +84,8 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
   public static final int TASK_HAS_STALE_IMAGES = 31;
+  public static final int TASK_DELETE_IMAGES = 32;
+  public static final int TASK_SAVE_IMAGES = 33;
 
 
   /**

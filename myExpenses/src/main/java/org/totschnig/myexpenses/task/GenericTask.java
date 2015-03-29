@@ -300,18 +300,24 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
           values,null,null);
       return null;
-      case TaskExecutionFragment.TASK_HAS_STALE_IMAGES:
-        Cursor c = MyApplication.getInstance().getContentResolver().query(
-            TransactionProvider.STALE_IMAGES_URI,
-            new String[] {"count(*)"},
-            null,null,null);
-        if (c==null)
-          return false;
-        boolean hasImages = false;
-        if (c.moveToFirst() &&  c.getInt(0) >0)
-          hasImages = true;
-        c.close();
-        return hasImages;
+    case TaskExecutionFragment.TASK_HAS_STALE_IMAGES:
+      Cursor c = MyApplication.getInstance().getContentResolver().query(
+          TransactionProvider.STALE_IMAGES_URI,
+          new String[] {"count(*)"},
+          null,null,null);
+      if (c==null)
+        return false;
+      boolean hasImages = false;
+      if (c.moveToFirst() &&  c.getInt(0) >0)
+        hasImages = true;
+      c.close();
+      return hasImages;
+      case TaskExecutionFragment.TASK_DELETE_IMAGES:
+        //TODO
+        return null;
+      case TaskExecutionFragment.TASK_SAVE_IMAGES:
+        //TODO
+        return null;
     }
     return null;
   }
