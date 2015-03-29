@@ -305,7 +305,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             TransactionProvider.STALE_IMAGES_URI,
             new String[] {"count(*)"},
             null,null,null);
-        return c!=null && c.moveToFirst() && c.getInt(0) >0;
+        if (c==null)
+          return false;
+        boolean hasImages = false;
+        if (c.moveToFirst() &&  c.getInt(0) >0)
+          hasImages = true;
+        c.close();
+        return hasImages;
     }
     return null;
   }

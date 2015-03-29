@@ -210,8 +210,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + " ( " + KEY_PICTURE_URI + " text);";
 
   private static final String STALE_URI_TRIGGER_CREATE =
-      "CREATE TRIGGER cache_stale_uri BEFORE DELETE ON " + TABLE_TRANSACTIONS + " WHEN " + KEY_PICTURE_URI + " NOT NULL"
-      + "BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
+      "CREATE TRIGGER cache_stale_uri BEFORE DELETE ON " + TABLE_TRANSACTIONS + " WHEN old." + KEY_PICTURE_URI + " NOT NULL "
+      + " BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
@@ -852,8 +852,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       String postfix = ".jpg";
       //if picture_id concat expression will also be null
       db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
-      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN picture_id NOT NULL"
-          + "BEGIN INSERT INTO stale_uris VALUES (old.picture_uri); END");
+      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL"
+          + "BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
     }
   }
   @Override

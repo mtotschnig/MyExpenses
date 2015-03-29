@@ -16,7 +16,13 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -27,18 +33,24 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class StaleImagesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -67,28 +79,51 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.images_list, null, false);
     
-    final ListView lv = (ListView) v.findViewById(R.id.list);
+    final GridView lv = (GridView) v.findViewById(R.id.grid);
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{DatabaseConstants.KEY_PICTURE_URI};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{android.R.id.text1};
+    int[] to = new int[]{R.id.image};
 
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(
         getActivity(), 
-        Build.VERSION.SDK_INT >= 11 ?
-            android.R.layout.simple_list_item_activated_1 :
-            android.R.layout.simple_list_item_1,
+        R.layout.image_view,
         null,
         from,
         to,
-        0);
-
+        0) {
+      @Override
+      public void setViewImage(ImageView v, String value) {
+        int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size_grid);
+        Uri data = Uri.parse(value);
+        if (BitmapWorkerTask.cancelPotentialWork(data, v)) {
+          final BitmapWorkerTask task = new BitmapWorkerTask(v,thumbsize);
+          final BitmapWorkerTask.AsyncDrawable asyncDrawable =
+              new BitmapWorkerTask.AsyncDrawable(
+                  getResources(),
+                  BitmapFactory.decodeResource(getResources(),R.drawable.empty_photo),
+                  task);
+          v.setImageDrawable(asyncDrawable);
+          task.execute(Uri.parse(value));
+        }
+      }
+    };
+    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mImagesCursor.moveToPosition(position);
+        startActivity(
+            Transaction.getViewIntent(
+                Uri.parse(
+                    mImagesCursor.getString(
+                        mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI)))));
+      }
+    });
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
-    lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
     return v;
   }
