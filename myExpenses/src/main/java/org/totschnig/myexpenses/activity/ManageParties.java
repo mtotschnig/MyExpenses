@@ -34,8 +34,6 @@ import android.widget.Toast;
 
 public class ManageParties extends ProtectedFragmentActivity implements
     EditTextDialogListener, DbWriteFragment.TaskCallbacks {
-  Cursor mPartiesCursor;
-  Button mDeleteButton;
   Payee mParty;
 
   
