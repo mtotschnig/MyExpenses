@@ -204,7 +204,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
       KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
       "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
-  
+
+  private static final String STALE_URIS_CREATE =
+      "CREATE TABLE " + TABLE_STALE_URIS
+      + " ( " + KEY_PICTURE_URI + " text);";
+
+  private static final String STALE_URI_TRIGGER_CREATE =
+      "CREATE TRIGGER cache_stale_uri BEFORE DELETE ON " + TABLE_TRANSACTIONS + " WHEN " + KEY_PICTURE_URI + " NOT NULL"
+      + "BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
@@ -259,6 +267,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     insertCurrencies(db);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(EVENT_CACHE_CREATE);
+    db.execSQL(STALE_URIS_CREATE);
+    db.execSQL(STALE_URI_TRIGGER_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -837,12 +847,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE transactions add column picture_id text");
       db.execSQL("DROP TABLE IF EXISTS feature_used");
     }
-      if (oldVersion < 51) {
-          String prefix = Uri.fromFile(Utils.getPictureDir(false)).toString()+"/";
-          String postfix = ".jpg";
-          //if picture_id concat expression will also be null
-        db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
-      }
+    if (oldVersion < 51) {
+      String prefix = Uri.fromFile(Utils.getPictureDir(false)).toString()+"/";
+      String postfix = ".jpg";
+      //if picture_id concat expression will also be null
+      db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
+      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN picture_id NOT NULL"
+          + "BEGIN INSERT INTO stale_uris VALUES (old.picture_uri); END");
+    }
   }
   @Override
   public final void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
