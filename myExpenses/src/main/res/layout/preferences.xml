@@ -17,6 +17,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
   <PreferenceCategory
+      android:key="@string/pref_category_manage_key"
       android:title="@string/pref_category_title_manage">
     <PreferenceScreen
         android:title="@string/pref_manage_categories_title"
@@ -36,6 +37,12 @@
     <org.totschnig.myexpenses.preference.CalendarListPreference android:key="@string/pref_planner_calendar_id_key"
         android:title="@string/pref_planning_calendar_title"
         android:summary="@string/pref_planning_calendar_summary"/>
+    <PreferenceScreen
+        android:title="Stale images"
+        android:key="@string/pref_manage_stale_images_key"
+        android:summary="Manage images left over from deleted transactions">
+        <intent android:action="myexpenses.intent.manage.stale_images"/>
+        </PreferenceScreen>
   </PreferenceCategory>
   <PreferenceCategory
       android:title="@string/pref_category_title_ui">

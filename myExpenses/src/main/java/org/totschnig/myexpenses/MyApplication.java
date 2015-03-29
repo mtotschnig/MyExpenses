@@ -90,6 +90,7 @@ public class MyApplication extends Application implements
     UI_LANGUAGE(R.string.pref_ui_language_key),
     APP_DIR(R.string.pref_app_dir_key),
     CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
+    CATEGORY_MANAGE(R.string.pref_category_manage_key),
     ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
     PLANNER_CALENDAR_PATH("planner_calendar_path"),
     CURRENT_VERSION("currentversion"),
@@ -104,7 +105,8 @@ public class MyApplication extends Application implements
     NEXT_REMINDER_RATE("nextReminderRate"),
     NEXT_REMINDER_CONTRIB("nextReminderContrib"),
     DISTRIBUTION_SHOW_CHART("distributionShowChart"),
-    DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes");
+    DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
+    MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key);
 
     private int resId = 0;
     private String key = null;

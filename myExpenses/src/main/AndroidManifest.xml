@@ -119,6 +119,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ManageStaleImages" >
+            <intent-filter>
+                <action android:name="myexpenses.intent.manage.stale_images" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.ManageTemplates"
             android:parentActivityName=".activity.MyExpenses" >

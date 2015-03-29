@@ -90,6 +90,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/eventcache");
   public static final Uri DEBUG_SCHEMA_URI =
       Uri.parse("content://" + AUTHORITY + "/debug_schema");
+  public static final Uri STALE_IMAGES_URI =
+      Uri.parse("content://" + AUTHORITY + "/stale_images");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    */
@@ -142,6 +144,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CURRENCIES_CHANGE_FRACTION_DIGITS = 33;
   private static final int EVENT_CACHE = 34;
   private static final int DEBUG_SCHEMA = 35;
+  private static final int STALE_IMAGES = 36;
   
   @Override
   public boolean onCreate() {
@@ -555,6 +558,11 @@ public class TransactionProvider extends ContentProvider {
           new String[]{"name","sql"},
           "type = 'table'",
           null,null,null,null);
+    case STALE_IMAGES:
+      qb.setTables(TABLE_STALE_URIS);
+      if (projection == null)
+        projection = new String[] {"rowid as _id",KEY_PICTURE_URI};
+      break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -1105,6 +1113,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
     URI_MATCHER.addURI(AUTHORITY, "eventcache", EVENT_CACHE);
     URI_MATCHER.addURI(AUTHORITY, "debug_schema", DEBUG_SCHEMA);
+    URI_MATCHER.addURI(AUTHORITY, "stale_images", STALE_IMAGES);
     
   }
   public void resetDatabase() {

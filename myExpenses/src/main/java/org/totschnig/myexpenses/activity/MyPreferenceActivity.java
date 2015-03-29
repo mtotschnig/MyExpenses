@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.File;
 import java.net.URI;
+import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -26,6 +27,8 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.GenericTask;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -44,8 +47,10 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.provider.Settings.Secure;
 import android.text.TextUtils;
 import android.util.Log;
@@ -67,6 +72,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
+
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +132,28 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         Utils.concatResStrings(this, R.string.pref_security_question_summary,R.string.contrib_key_requires));
     findPreference(MyApplication.PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
         Utils.concatResStrings(this, R.string.pref_shortcut_summary,R.string.contrib_key_requires));
+
+    final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
+    final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
+    categoryManage.removePreference(prefStaleImages);
+
+
+    new GenericTask<Void>(new TaskExecutionFragment.TaskCallbacks() {
+      @Override
+      public void onPreExecute() {}
+
+      @Override
+      public void onProgressUpdate(Object progress) {}
+
+      @Override
+      public void onCancelled() {}
+
+      @Override
+      public void onPostExecute(int taskId, Object o) {
+        if (!isFinishing() && (boolean) o)
+          categoryManage.addPreference(prefStaleImages);
+      }
+    },TaskExecutionFragment.TASK_HAS_STALE_IMAGES,null).execute();
   }
   private void configureContribPrefs() {
     Preference pref1 = findPreference(MyApplication.PrefKey.REQUEST_LICENCE.getKey()),

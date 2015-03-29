@@ -44,20 +44,21 @@ import android.os.AsyncTask;
  * have been called.
  */
 public class GenericTask<T> extends AsyncTask<T, Void, Object> {
-  private final TaskExecutionFragment taskExecutionFragment;
+  private final TaskExecutionFragment.TaskCallbacks callback;
   private int mTaskId;
   private Serializable mExtra;
 
-  public GenericTask(TaskExecutionFragment taskExecutionFragment, int taskId, Serializable extra) {
-    this.taskExecutionFragment = taskExecutionFragment;
+  public GenericTask(TaskExecutionFragment.TaskCallbacks taskExecutionFragment,
+                     int taskId, Serializable extra) {
+    this.callback = taskExecutionFragment;
     mTaskId = taskId;
     mExtra = extra;
   }
 
   @Override
   protected void onPreExecute() {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onPreExecute();
+    if (this.callback != null) {
+      this.callback.onPreExecute();
     }
   }
   /**
@@ -299,6 +300,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
           values,null,null);
       return null;
+      case TaskExecutionFragment.TASK_HAS_STALE_IMAGES:
+        Cursor c = MyApplication.getInstance().getContentResolver().query(
+            TransactionProvider.STALE_IMAGES_URI,
+            new String[] {"count(*)"},
+            null,null,null);
+        return c!=null && c.moveToFirst() && c.getInt(0) >0;
     }
     return null;
   }
@@ -339,15 +346,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @Override
   protected void onCancelled() {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onCancelled();
+    if (this.callback != null) {
+      this.callback.onCancelled();
     }
   }
 
   @Override
   protected void onPostExecute(Object result) {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onPostExecute(mTaskId, result);
+    if (this.callback != null) {
+      this.callback.onPostExecute(mTaskId, result);
     }
   }
 }
