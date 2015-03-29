@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.task;
 
 import java.lang.ref.WeakReference;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
@@ -11,6 +12,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
   private final WeakReference<ImageView> imageViewReference;
@@ -42,18 +44,22 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
   // Once complete, see if ImageView is still around and set bitmap.
   @Override
   protected void onPostExecute(Bitmap bitmap) {
-    if (bitmap != null) {
-      if (imageViewReference != null) {
-        final ImageView imageView = imageViewReference.get();
-        if (imageView != null) {
+    if (imageViewReference != null) {
+      final ImageView imageView = imageViewReference.get();
+      if (imageView != null) {
+        if (bitmap!=null)
           imageView.setImageBitmap(bitmap);
-        }
-      } else if (dialogWeekReference !=null) {
-        final AlertDialog dialog = dialogWeekReference.get();
-        if (dialog != null) {
+        else
+          Toast.makeText(imageView.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG);
+      }
+    } else if (dialogWeekReference !=null) {
+      final AlertDialog dialog = dialogWeekReference.get();
+      if (dialog != null) {
+        if (bitmap!=null)
           dialog.setIcon(new BitmapDrawable(dialog.getContext().getResources(),
               bitmap));
-        }
+        else
+          Toast.makeText(dialog.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG);
       }
     }
   }
