@@ -145,6 +145,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int EVENT_CACHE = 34;
   private static final int DEBUG_SCHEMA = 35;
   private static final int STALE_IMAGES = 36;
+  private static final int STALE_IMAGES_ID = 37;
   
   @Override
   public boolean onCreate() {
@@ -563,6 +564,11 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = new String[] {"rowid as _id",KEY_PICTURE_URI};
       break;
+    case STALE_IMAGES_ID:
+      qb.setTables(TABLE_STALE_URIS);
+      qb.appendWhere("rowid = " + uri.getPathSegments().get(1));
+      projection = new String[] {KEY_PICTURE_URI};
+      break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -793,6 +799,10 @@ public class TransactionProvider extends ContentProvider {
       break;
     case EVENT_CACHE:
       count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
+      break;
+    case STALE_IMAGES_ID:
+      segment = uri.getPathSegments().get(1);
+      count = db.delete(TABLE_STALE_URIS, "rowid=" + segment,null);
       break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
@@ -1114,6 +1124,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "eventcache", EVENT_CACHE);
     URI_MATCHER.addURI(AUTHORITY, "debug_schema", DEBUG_SCHEMA);
     URI_MATCHER.addURI(AUTHORITY, "stale_images", STALE_IMAGES);
+    URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
     
   }
   public void resetDatabase() {

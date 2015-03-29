@@ -360,7 +360,8 @@ public class Transaction extends Model {
       if (pictureUri.toString().startsWith(Utils.getPictureUriBase())) {
         Log.d("DEBUG","got Uri in our home space, nothing todo");
       } else {
-        setPictureUri(Utils.copyToHome(pictureUri));
+        Uri homeUri = Utils.getOutputMediaUri(false);
+        setPictureUri(Utils.copy(pictureUri,homeUri)?homeUri:null);
       }
       initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
     } else {

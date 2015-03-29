@@ -490,28 +490,27 @@ public class Utils {
   }
 
   /**
-   * copy the content accessible through uri to the applications external files
-   * directory
+   * copy the content accessible through src to the applications files
+   * directory (internal if app is protected)
    * 
-   * @param uri
+   * @param src
    * @return
    */
-  public static Uri copyToHome(Uri uri) {
+  public static boolean copy(Uri src, Uri dest) {
     InputStream input = null;
     OutputStream output = null;
-    Uri outputUri = getOutputMediaUri(false);
 
-    if (uri.getScheme().equals("file") && outputUri.getScheme().equals("file")) {
-      if (new File(uri.getPath()).renameTo(new File(outputUri.getPath()))) {
-        return outputUri;
+    if (src.getScheme().equals("file") && dest.getScheme().equals("file")) {
+      if (new File(src.getPath()).renameTo(new File(dest.getPath()))) {
+        return true;
       }
     }
 
     try {
       input = MyApplication.getInstance().getContentResolver()
-          .openInputStream(uri);
+          .openInputStream(src);
       output = MyApplication.getInstance().getContentResolver()
-              .openOutputStream(outputUri);
+              .openOutputStream(dest);
       final byte[] buffer = new byte[1024];
       int read;
 
@@ -521,7 +520,7 @@ public class Utils {
 
       output.flush();
 
-      return outputUri;
+      return true;
     } catch (FileNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -538,7 +537,7 @@ public class Utils {
       } catch (IOException e) {
       }
     }
-    return null;
+    return false;
   }
 
   public static void share(Context ctx, ArrayList<File> files, String target,
