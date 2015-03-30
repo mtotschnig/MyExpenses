@@ -421,7 +421,8 @@ public class Utils {
    * @param temp
    *          if true the returned file is suitable for temporary storage while
    *          the user is editing the transaction if false the file will serve
-   *          as permanent storage
+   *          as permanent storage,
+   *          care is taken that the file does not yet exist
    * @return a file on the external storage
    */
   public static File getOutputMediaFile(boolean temp) {
@@ -429,8 +430,13 @@ public class Utils {
     // using Environment.getExternalStorageState() before doing this.
 
     File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
-
-    return new File(mediaStorageDir, getOutputMediaFileName());
+    int postfix = 0;
+    File result;
+    do {
+      result = new File(mediaStorageDir, getOutputMediaFileName(postfix));
+      postfix++;
+    } while (result.exists());
+    return result;
   }
   public static Uri getOutputMediaUri(boolean temp) {
       if (MyApplication.getInstance().isProtected() && !temp) {
@@ -446,9 +452,12 @@ public class Utils {
        return sampleUri.substring(0,sampleUri.lastIndexOf('/'));
     }
 
-  private static String getOutputMediaFileName() {
+  private static String getOutputMediaFileName(int postfix) {
       String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
               .format(new Date());
+      if (postfix>0) {
+        timeStamp+= "_"+postfix;
+      }
       return timeStamp + ".jpg";
   }
     public static File getPictureDir() {
