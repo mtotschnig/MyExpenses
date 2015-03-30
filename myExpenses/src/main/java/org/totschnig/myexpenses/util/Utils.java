@@ -441,8 +441,8 @@ public class Utils {
           return Uri.fromFile(getOutputMediaFile(temp));
       }
   }
-    public static String getPictureUriBase() {
-       String sampleUri = getOutputMediaUri(false).toString();
+    public static String getPictureUriBase(boolean temp) {
+       String sampleUri = getOutputMediaUri(temp).toString();
        return sampleUri.substring(0,sampleUri.lastIndexOf('/'));
     }
 
@@ -496,15 +496,9 @@ public class Utils {
    * @param src
    * @return
    */
-  public static boolean copy(Uri src, Uri dest) {
+  public static void copy(Uri src, Uri dest) throws IOException {
     InputStream input = null;
     OutputStream output = null;
-
-    if (src.getScheme().equals("file") && dest.getScheme().equals("file")) {
-      if (new File(src.getPath()).renameTo(new File(dest.getPath()))) {
-        return true;
-      }
-    }
 
     try {
       input = MyApplication.getInstance().getContentResolver()
@@ -520,13 +514,6 @@ public class Utils {
 
       output.flush();
 
-      return true;
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     } finally {
       try {
         input.close();
@@ -537,7 +524,6 @@ public class Utils {
       } catch (IOException e) {
       }
     }
-    return false;
   }
 
   public static void share(Context ctx, ArrayList<File> files, String target,

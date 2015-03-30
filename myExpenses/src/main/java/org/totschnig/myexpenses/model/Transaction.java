@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -357,11 +358,29 @@ public class Transaction extends Model {
     initialValues.put(KEY_ACCOUNTID, accountId);
 
     if (pictureUri!=null) {
-      if (pictureUri.toString().startsWith(Utils.getPictureUriBase())) {
+      if (pictureUri.toString().startsWith(Utils.getPictureUriBase(false))) {
         Log.d("DEBUG","got Uri in our home space, nothing todo");
       } else {
+        boolean isInTempFolder = pictureUri.toString().startsWith(Utils.getPictureUriBase(true));
         Uri homeUri = Utils.getOutputMediaUri(false);
-        setPictureUri(Utils.copy(pictureUri,homeUri)?homeUri:null);
+        if (isInTempFolder && homeUri.getScheme().equals("file")) {
+          if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
+            setPictureUri(homeUri);
+          } else {
+            Utils.reportToAcra(new Exception(String.format(
+                "Could not rename %s to %s", pictureUri.getPath(), homeUri.getPath())));
+          }
+        } else {
+          try {
+            Utils.copy(pictureUri,homeUri);
+            if (isInTempFolder) {
+              new File(pictureUri.getPath()).delete();
+            }
+            setPictureUri(homeUri);
+          } catch (IOException e) {
+            Utils.reportToAcra(e);
+          }
+        }
       }
       initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
     } else {
