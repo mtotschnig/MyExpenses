@@ -66,11 +66,11 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
     switch(command) {
       case R.id.SAVE_COMMAND:
         taskId = TaskExecutionFragment.TASK_SAVE_IMAGES;
-        progressMessage= R.string.progress_dialog_deleting;
+        progressMessage= R.string.progress_dialog_saving;
         break;
       case R.id.DELETE_COMMAND:
         taskId = TaskExecutionFragment.TASK_DELETE_IMAGES;
-        progressMessage= R.string.progress_dialog_saving;
+        progressMessage= R.string.progress_dialog_deleting;
         break;
     }
     if (taskId==0) {

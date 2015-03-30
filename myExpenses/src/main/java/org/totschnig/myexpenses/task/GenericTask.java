@@ -319,13 +319,20 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (c.moveToFirst()) {
             boolean success = false;
             Uri imageFileUri = Uri.parse(c.getString(0));
-            if (imageFileUri.getScheme().equals("file")) {
-              success = new File(imageFileUri.getPath()).delete();
+            if (checkImagePath(imageFileUri.getLastPathSegment())) {
+              if (imageFileUri.getScheme().equals("file")) {
+                success = new File(imageFileUri.getPath()).delete();
+              } else {
+                success = cr.delete(imageFileUri, null, null) > 0;
+              }
+              if (success) {
+                Log.d(MyApplication.TAG, "Successfully deleted file " + imageFileUri.toString());
+              }
             } else {
-              success = cr.delete(imageFileUri,null,null)>0;
+              success = true; //we do not delete the file but remove its uri from the table
+              Log.d(MyApplication.TAG, imageFileUri.toString() + " not deleted since it might still be in use");
             }
             if (success) {
-              Log.d(MyApplication.TAG,"Successfully deleted file "+imageFileUri.toString());
               cr.delete(staleImageUri,null,null);
             } else {
               Log.e(MyApplication.TAG,"Unable to delete file "+imageFileUri.toString());
@@ -351,19 +358,26 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (c.moveToFirst()) {
             boolean success = false;
             Uri imageFileUri = Uri.parse(c.getString(0));
-            if (imageFileUri.getScheme().equals("file")) {
-              File staleFile = new File(imageFileUri.getPath());
-              success = staleFile.renameTo(new File(staleFileDir,staleFile.getName()));
-            } else {
-              try {
-                Utils.copy(imageFileUri,Uri.fromFile(new File(staleFileDir,imageFileUri.getLastPathSegment())));
-                success = cr.delete(imageFileUri,null,null)>0;
-              } catch (IOException e) {
-                e.printStackTrace();
+            if (checkImagePath(imageFileUri.getLastPathSegment())) {
+              if (imageFileUri.getScheme().equals("file")) {
+                File staleFile = new File(imageFileUri.getPath());
+                success = staleFile.renameTo(new File(staleFileDir, staleFile.getName()));
+              } else {
+                try {
+                  Utils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
+                  success = cr.delete(imageFileUri, null, null) > 0;
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
               }
+              if (success) {
+                Log.d(MyApplication.TAG, "Successfully moved file " + imageFileUri.toString());
+              }
+            } else {
+              success = true; //we do not move the file but remove its uri from the table
+              Log.d(MyApplication.TAG, imageFileUri.toString() + " not moved since it might still be in use");
             }
             if (success) {
-              Log.d(MyApplication.TAG,"Successfully moved file "+imageFileUri.toString());
               cr.delete(staleImageUri,null,null);
             } else {
               Log.e(MyApplication.TAG,"Unable to move file "+imageFileUri.toString());
@@ -374,6 +388,21 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return null;
     }
     return null;
+  }
+
+  private boolean checkImagePath(String lastPathSegment) {
+    boolean result = false;
+    Cursor c = MyApplication.getInstance().getContentResolver().query(
+        TransactionProvider.TRANSACTIONS_URI,
+        new String[]{"count(*)"},
+        DatabaseConstants.KEY_PICTURE_URI + " LIKE '%"+lastPathSegment+"'",null,null);
+    if (c!=null) {
+      if (c.moveToFirst() && c.getInt(0) == 0) {
+        result = true;
+      }
+      c.close();
+    }
+    return result;
   }
 
   private void cacheEventData() {
