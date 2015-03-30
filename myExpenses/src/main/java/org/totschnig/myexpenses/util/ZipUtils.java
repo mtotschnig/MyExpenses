@@ -1,9 +1,17 @@
 package org.totschnig.myexpenses.util;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -12,15 +20,16 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipUtils {
 
-  
+
+  public static final String PICTURES = "pictures";
+
   /**
    * convenience method that allows to store the pictures into the backup
    * without copying them first
    * @param cacheDir
-   * @param pictureDir
    * @throws Exception
    */
-  public static void zipBackup(File cacheDir, File pictureDir, File destZipFile) throws Exception {
+  public static void zipBackup(File cacheDir, File destZipFile) throws IOException {
     ZipOutputStream zip = null;
     FileOutputStream fileWriter = null;
     /*
@@ -31,8 +40,31 @@ public class ZipUtils {
     /*
      * add the folder to the zip
      */
-    addFolderToZip("", cacheDir, zip,true);
-    addFolderToZip("", pictureDir, zip,false);
+    addFileToZip("", MyApplication.getBackupDbFile(cacheDir), zip);
+    addFileToZip("", MyApplication.getBackupPrefFile(cacheDir), zip);
+    Cursor c= MyApplication.getInstance().getContentResolver()
+        .query(TransactionProvider.TRANSACTIONS_URI,
+            new String[]{DatabaseConstants.KEY_PICTURE_URI},
+            DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL",
+            null,null);
+    if (c!=null) {
+      if (c.moveToFirst()) {
+        do {
+          Uri imageFileUri = Uri.parse(c.getString(0));
+          if (imageFileUri.getScheme().equals("file")) {
+            File imageFile = new File(imageFileUri.getPath());
+            addFileToZip(PICTURES,imageFile,zip);
+          } else {
+            InputStream in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
+            addInputStreamToZip(PICTURES+"/"+imageFileUri.getLastPathSegment(),
+                in,
+                zip);
+            in.close();
+          }
+        } while (c.moveToNext());
+      }
+      c.close();
+    }
     /*
      * close the zip objects
      */
@@ -66,28 +98,36 @@ public class ZipUtils {
    * recursively add files to the zip files
    */
   private static void addFileToZip(String path, File srcFile,
-      ZipOutputStream zip) throws Exception {
+      ZipOutputStream zip) throws IOException {
+
+    FileInputStream in = new FileInputStream(srcFile);
+    String filePath = path + (path.equals("") ? "" : "/") + srcFile.getName();
+    addInputStreamToZip(filePath,in,zip);
+    in.close();
+  }
+
+  private static void addInputStreamToZip(String path, InputStream in,
+                                   ZipOutputStream zip) throws IOException {
 
     /*
      * write the file to the output
      */
     byte[] buf = new byte[1024];
     int len;
-    FileInputStream in = new FileInputStream(srcFile);
-    String filePath = path + (path.equals("") ? "" : "/") + srcFile.getName();
-    zip.putNextEntry(new ZipEntry(filePath));
+    zip.putNextEntry(new ZipEntry(path));
     while ((len = in.read(buf)) > 0) {
       /*
        * Write the Result
        */
       zip.write(buf, 0, len);
     }
+    in.close();
   }
 
   /*
    * add folder to the zip file
    */
-  private static void addFolderToZip(String path, File srcFolder, ZipOutputStream zip, boolean strip) throws Exception {
+  private static void addFolderToZip(String path, File srcFolder, ZipOutputStream zip, boolean strip) throws IOException {
 
       /*
        * check the empty folder

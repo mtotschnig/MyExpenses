@@ -5,6 +5,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -262,12 +263,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           ZipUtils.zipBackup(
               cacheDir,
-              Utils.getPictureDir(),
               backupFile);
           result  = true;
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+        } catch (IOException e) {
+          Utils.reportToAcra(e);
         }
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
