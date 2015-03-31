@@ -537,4 +537,7 @@
     <string name="menu_change_picture">Attach different picture</string>
     <string name="menu_distribution_show_pie_char">Show pie chart</string>
     <string name="menu_distribution_aggreate">Aggregate expenses and income</string>
+    <string name="pref_manage_stale_images_title">Stale images</string>
+    <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
 </resources>
+

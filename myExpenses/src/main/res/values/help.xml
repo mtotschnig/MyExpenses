@@ -111,4 +111,6 @@
   <string name="menu_create_folder_help_text">Create a new folder inside the current folder.</string>
   <string name="menu_select_folder_help_text">Select the current folder as storage target for exports and backups.</string>
   <string name="menu_up_help_text">Navigate to the parent of the current folder.</string>
+  <!-- StaleImages -->
+  <string name="help_ManageStaleImages_info">This screen allows you to deal with image files that have been left over from deleted transactions. Long click on entries in ordert to either delete them, or move them out of the (possibly internal) storage folder to a backup folder (Android/data/org.totschnig.mxexpenses/files/images.old) on external storage.</string>
 </resources>

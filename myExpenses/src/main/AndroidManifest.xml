@@ -13,8 +13,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses"
     android:installLocation="internalOnly"
-    android:versionCode="195"
-    android:versionName="2.4.2" >
+    android:versionCode="196"
+    android:versionName="2.4.3" >
 
     <uses-sdk
         android:minSdkVersion="8"

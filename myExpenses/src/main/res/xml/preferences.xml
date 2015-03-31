@@ -38,9 +38,9 @@
         android:title="@string/pref_planning_calendar_title"
         android:summary="@string/pref_planning_calendar_summary"/>
     <PreferenceScreen
-        android:title="Stale images"
+        android:title="@string/pref_manage_stale_images_title"
         android:key="@string/pref_manage_stale_images_key"
-        android:summary="Manage images left over from deleted transactions">
+        android:summary="@string/pref_manage_stale_images_summary">
         <intent android:action="myexpenses.intent.manage.stale_images"/>
         </PreferenceScreen>
   </PreferenceCategory>
