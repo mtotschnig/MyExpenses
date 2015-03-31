@@ -178,7 +178,7 @@ public class MyExpenses extends LaunchActivity implements
     int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
-      PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
+      PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     super.onCreate(savedInstanceState);

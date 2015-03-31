@@ -79,7 +79,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
     super.onCreate(savedInstanceState);
     setTitle(Utils.concatResStrings(this,R.string.app_name,R.string.menu_settings));
-    addPreferencesFromResource(R.layout.preferences);
+    addPreferencesFromResource(R.xml.preferences);
     Preference pref = findPreference(MyApplication.PrefKey.SHARE_TARGET.getKey());
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
