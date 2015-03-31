@@ -1,10 +1,19 @@
 package org.totschnig.myexpenses.task;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
+
+import com.android.calendar.CalendarContractCompat.Calendars;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
@@ -20,21 +29,11 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
 
-import com.android.calendar.CalendarContractCompat.Calendars;
-
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
@@ -85,7 +84,6 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (workingDir == null) {
         return new Result(false,R.string.external_storage_unavailable);
       }
-      workingDir.mkdir();
       try {
         InputStream is = cr.openInputStream(fileUri);
         boolean zipResult = ZipUtils.unzip(is,workingDir);
@@ -235,7 +233,6 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       SharedPreferencesCompat.apply(edit);
       MyApplication.getInstance().getSettings()
         .registerOnSharedPreferenceChangeListener(MyApplication.getInstance());
-      backupPref = null;
       tempPrefFile.delete();
       if (fileUri != null) {
         backupFile.delete();
@@ -260,16 +257,69 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           TransactionProvider.EVENT_CACHE_URI, null, null);
       
       //now handling pictures
-      //1.step move all existing pictures to backup
-      File pictureDir = Utils.getPictureDir();
-      Utils.moveToBackup(pictureDir);
-      //2.delete now empty dir
-      pictureDir.delete();
-      //3.move backup picture dir to picturedir
-      new File(workingDir,Environment.DIRECTORY_PICTURES).renameTo(pictureDir);
+      //1.stale uris in the backup can be ignored1
+      //delete from db
+      cr.delete(
+          TransactionProvider.STALE_IMAGES_URI, null, null);
+      //2. all images that are left over in external and
+      //internal picture dir are now stale
+      registerAsStale(false);
+      registerAsStale(true);
+
+      //3. move pictures home and update uri
+      File backupPictureDir = new File(workingDir,ZipUtils.PICTURES);
+      Cursor c = cr.query(TransactionProvider.TRANSACTIONS_URI,
+          new String[]{DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_PICTURE_URI},
+          DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL",null,null);
+      if (c==null)
+        return new Result(false,R.string.restore_db_failure);
+      if (c.moveToFirst()) {
+        do {
+          ContentValues uriValues = new ContentValues();
+          Uri fromBackup = Uri.parse(c.getString(1));
+          String fileName = fromBackup.getLastPathSegment();
+          File backupImage = new File(backupPictureDir,fileName);
+          Uri restored = null;
+          if (backupImage.exists()) {
+            File restoredImage = Utils.getOutputMediaFile(fileName.substring(0,fileName.lastIndexOf('.')),false);
+            if (!Utils.copy(backupImage,restoredImage)) {
+              Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
+            }
+            restored = MyApplication.getInstance().isProtected() ?
+                FileProvider.getUriForFile(MyApplication.getInstance(),
+                "org.totschnig.myexpenses.fileprovider",restoredImage) :
+                Uri.fromFile(restoredImage);
+          } else {
+            Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
+          }
+          if (restored!=null) {
+            uriValues.put(DatabaseConstants.KEY_PICTURE_URI, restored.toString());
+          } else {
+            uriValues.putNull(DatabaseConstants.KEY_PICTURE_URI);
+          }
+          cr.update(
+              TransactionProvider.TRANSACTIONS_URI,
+              uriValues,
+              DatabaseConstants.KEY_PICTURE_URI + " = "+c.getInt(0),null);
+        } while (c.moveToNext());
+        c.close();
+      }
       return new Result(true);
     } else {
       return new Result(false,R.string.restore_db_failure);
+    }
+  }
+
+  private void registerAsStale(boolean secure) {
+    File dir = Utils.getPictureDir(secure);
+    ContentValues values = new ContentValues();
+    for (File file: dir.listFiles()) {
+      Uri uri = secure ? FileProvider.getUriForFile(MyApplication.getInstance(),
+          "org.totschnig.myexpenses.fileprovider",file) :
+          Uri.fromFile(file);
+      values.put(DatabaseConstants.KEY_PICTURE_URI,uri.toString());
+      MyApplication.getInstance().getContentResolver().insert(
+          TransactionProvider.STALE_IMAGES_URI,values);
     }
   }
 }

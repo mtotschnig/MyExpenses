@@ -662,8 +662,11 @@ public class TransactionProvider extends ContentProvider {
     case EVENT_CACHE:
       id = db.insertOrThrow(TABLE_EVENT_CACHE, null, values);
       newUri = EVENT_CACHE_URI + "/" + id;
-    break;
-      
+      break;
+    case STALE_IMAGES:
+      id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
+      newUri = TABLE_STALE_URIS + "/" + id;
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -803,6 +806,9 @@ public class TransactionProvider extends ContentProvider {
     case STALE_IMAGES_ID:
       segment = uri.getPathSegments().get(1);
       count = db.delete(TABLE_STALE_URIS, "rowid=" + segment,null);
+      break;
+    case STALE_IMAGES:
+      count = db.delete(TABLE_STALE_URIS, where, whereArgs);
       break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);

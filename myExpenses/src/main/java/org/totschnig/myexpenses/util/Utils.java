@@ -425,7 +425,7 @@ public class Utils {
    *          care is taken that the file does not yet exist
    * @return a file on the external storage
    */
-  public static File getOutputMediaFile(boolean temp) {
+  public static File getOutputMediaFile(String fileName, boolean temp) {
     // To be safe, you should check that the SDCard is mounted
     // using Environment.getExternalStorageState() before doing this.
 
@@ -433,18 +433,22 @@ public class Utils {
     int postfix = 0;
     File result;
     do {
-      result = new File(mediaStorageDir, getOutputMediaFileName(postfix));
+      result = new File(mediaStorageDir, getOutputMediaFileName(
+          fileName,
+          postfix));
       postfix++;
     } while (result.exists());
     return result;
   }
   public static Uri getOutputMediaUri(boolean temp) {
+    String fileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+        .format(new Date());
       if (MyApplication.getInstance().isProtected() && !temp) {
            return FileProvider.getUriForFile(MyApplication.getInstance(),
                    "org.totschnig.myexpenses.fileprovider",
-                   getOutputMediaFile(false));
+                   getOutputMediaFile(fileName,false));
       } else {
-          return Uri.fromFile(getOutputMediaFile(temp));
+          return Uri.fromFile(getOutputMediaFile(fileName,temp));
       }
   }
     public static String getPictureUriBase(boolean temp) {
@@ -452,13 +456,11 @@ public class Utils {
        return sampleUri.substring(0,sampleUri.lastIndexOf('/'));
     }
 
-  private static String getOutputMediaFileName(int postfix) {
-      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-              .format(new Date());
+  private static String getOutputMediaFileName(String base,int postfix) {
       if (postfix>0) {
-        timeStamp+= "_"+postfix;
+        base+= "_"+postfix;
       }
-      return timeStamp + ".jpg";
+      return base + ".jpg";
   }
     public static File getPictureDir() {
         return getPictureDir(MyApplication.getInstance().isProtected());
@@ -473,36 +475,11 @@ public class Utils {
       return result;
   }
 
-    /**
-     * The file is only moved to
-     * @param staleFile
-     */
-  public static void moveToBackup(File staleFile) {
-      if (MyApplication.getInstance().isProtected()) {
-          if (staleFile.isDirectory()) {
-              for (File f : staleFile.listFiles()) {
-                  f.delete();
-              }
-          }
-          staleFile.delete();
-      } else {
-          File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
-                  null), Environment.DIRECTORY_PICTURES + ".bak");
-          backupDir.mkdir();
-          if (staleFile.isDirectory()) {
-              for (File f : staleFile.listFiles()) {
-                  f.renameTo(new File(backupDir, f.getName()));
-              }
-          }
-          staleFile.renameTo(new File(backupDir, staleFile.getName()));
-      }
-  }
-
   /**
-   * copy the content accessible through src to the applications files
-   * directory (internal if app is protected)
+   * copy src uri to dest uri
    * 
    * @param src
+   * @param dest
    * @return
    */
   public static void copy(Uri src, Uri dest) throws IOException {
