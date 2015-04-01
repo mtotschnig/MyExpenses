@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -21,7 +22,7 @@ import java.util.zip.ZipOutputStream;
 public class ZipUtils {
 
 
-  public static final String PICTURES = "pictures";
+  public static final String PICTURES = Environment.DIRECTORY_PICTURES;
 
   /**
    * convenience method that allows to store the pictures into the backup
