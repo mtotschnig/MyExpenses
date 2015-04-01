@@ -852,8 +852,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       String postfix = ".jpg";
       //if picture_id concat expression will also be null
       db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
-      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL"
-          + "BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
+      db.execSQL("CREATE TABLE stale_uris ( picture_id text);");
+      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
+          + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
     }
   }
   @Override
