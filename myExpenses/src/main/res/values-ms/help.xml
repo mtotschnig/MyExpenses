@@ -90,4 +90,6 @@
   <string name="menu_create_folder_help_text">Cipta folder baharu di dalam folder semasa.</string>
   <string name="menu_select_folder_help_text">Pilih folder semasa sebagai sasaran stroan untuk eksport dan sandar.</string>
   <string name="menu_up_help_text">Navigasi induk folder semasa.</string>
+  <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">Skrin ini membolehkan anda mengurus fail imej tertinggal daripada transaksi yang telah dipadam. Klik lama pada masukan untuk memadam ia, atau mengalih ia keluar dari (berkemungkinan dalaman) folder storan ke folder sandar (Android/data/org.totschnig.mxexpenses/files/images.old) di dalam storan luaran.</string>
 </resources>

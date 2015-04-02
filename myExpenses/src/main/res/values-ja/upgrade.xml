@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_243">
+    <item>アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます</item>
+  </string-array>
+  <string-array name="whats_new_242">
+    <item>取引に写真を添付</item>
+  </string-array>
   <string-array name="whats_new_241">
     <item>分類ごとの分布を可視化する円グラフ</item>
   </string-array>

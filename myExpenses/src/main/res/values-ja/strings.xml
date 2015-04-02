@@ -35,6 +35,7 @@
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
   <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
+  <string name="contrib_feature_attach_picture_label">取引に画像を添付</string>
   <string name="contrib_feature_distribution_label">分類ごとの取引の分布</string>
   <string name="contrib_feature_plans_unlimited_description"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
   <string name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
@@ -506,4 +507,11 @@
   <string name="restore_calendar_handling_ignore">計画を復元しない</string>
   <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
   <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
+  <string name="menu_view_picture">写真を表示</string>
+  <string name="menu_delete_picture">写真を削除</string>
+  <string name="menu_change_picture">別の写真を添付</string>
+  <string name="menu_distribution_show_pie_char">パイチャートを表示</string>
+  <string name="menu_distribution_aggreate">支出と収入を集計</string>
+  <string name="pref_manage_stale_images_title">古くなった画像</string>
+  <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
 </resources>

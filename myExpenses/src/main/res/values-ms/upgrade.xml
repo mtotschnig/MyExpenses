@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_243">
+    <item>Jika aplikasi dilindungi kata laluan, gambar disimpan secara selamat di dalam storan luaran</item>
+  </string-array>
+  <string-array name="whats_new_242">
+    <item>Lampir gambar ke dalam transaksi</item>
+  </string-array>
   <string-array name="whats_new_241">
     <item>Carta pai mengvisualkan agihan per katagori</item>
   </string-array>

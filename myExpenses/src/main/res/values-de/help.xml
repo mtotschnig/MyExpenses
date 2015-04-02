@@ -90,4 +90,6 @@
   <string name="menu_create_folder_help_text">Erstellen Sie einen neuen Ordner im aktuellen Ordner.</string>
   <string name="menu_select_folder_help_text">Wählen Sie den aktuellen Ordner als Speicherziel für Exporte und Sicherungen.</string>
   <string name="menu_up_help_text">Navigieren Sie zu dem übergeordneten Ordner.</string>
+  <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">In diesem Fenster können Sie Bild-Dateien verwalten, die von gelöschten Buchungen übrig geblieben sind. Indem Sie lange auf Einträge klicken, können Sie die Bilder löschen oder aus dem (möglicherweise internen) Speicherordner in einen Sicherungsordner (Android/data/org.totschnig.mxexpenses/files/images.old) auf dem externen Speicher verschieben.</string>
 </resources>

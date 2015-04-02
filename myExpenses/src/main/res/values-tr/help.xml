@@ -90,4 +90,6 @@
   <string name="menu_create_folder_help_text">Güncel klasörün içinde yeni klasör oluştur.</string>
   <string name="menu_select_folder_help_text">Güncel klasörü dışa aktarmalar ve yedeklemeler için hedef olarak seç.</string>
   <string name="menu_up_help_text">Bu klasörün üst klasörüne git.</string>
+  <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">Bu ekran silinmiş muamelelerden kalan resim dosyalarını yönetmenize izin verir. Silmek ya da (muhtemelen dahili) depolamadan harici depolamada bir yedekleme klasörüne (Android/data/org.totschnig.mxexpenses/files/images.old) taşımak için unsurlara uzun süre dokununuz.</string>
 </resources>

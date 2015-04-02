@@ -523,4 +523,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_change_picture">Değişik bir resim ekle</string>
   <string name="menu_distribution_show_pie_char">Grafiği göster</string>
   <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
+  <string name="pref_manage_stale_images_title">Eski resimler</string>
+  <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
 </resources>

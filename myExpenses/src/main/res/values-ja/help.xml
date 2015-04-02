@@ -90,4 +90,6 @@
   <string name="menu_create_folder_help_text">現在のフォルダーの中に新しいフォルダーを作成します。</string>
   <string name="menu_select_folder_help_text">エクスポートやバックアップ用の対象ストレージとして現在のフォルダを選択します。</string>
   <string name="menu_up_help_text">現在のフォルダーの親に移動します。</string>
+  <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">この画面は、削除された取引から残っている画像ファイルを扱うことができます。エントリー上で長押しして、削除するか、または (おそらく内部) ストレージフォルダーから、外部ストレージのバックアップフォルダー (Android/data/org.totschnig.mxexpenses/files/images.old) に移動します。</string>
 </resources>
