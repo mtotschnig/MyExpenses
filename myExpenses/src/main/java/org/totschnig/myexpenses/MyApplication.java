@@ -405,7 +405,7 @@ public class MyApplication extends Application implements
    *          Activity that should be password protected, can be null if called
    *          from widget provider
    * @return true if password protection is set, and we have paused for at least
-   *         {@link #passwordCheckDelayNanoSeconds} seconds unless we are called
+   *         {@link PrefKey#PROTECTION_DELAY_SECONDS} seconds unless we are called
    *         from widget or from an activity called from widget and passwordless
    *         data entry from widget is allowed sets isLocked as a side effect
    */
@@ -434,7 +434,7 @@ public class MyApplication extends Application implements
   /**
    * @param calendarId
    * @return verifies if the passed in calendarid exists and is the one stored
-   *         in {@link PREFKEY_PLANNER_CALENDAR_PATH}
+   *         in {@link PrefKey#PLANNER_CALENDAR_PATH}
    */
   private boolean checkPlannerInternal(String calendarId) {
     ContentResolver cr = getContentResolver();
@@ -478,9 +478,9 @@ public class MyApplication extends Application implements
   }
 
   /**
-   * check if we already have a calendar in Account {@link PLANNER_ACCOUNT_NAME}
-   * of type {@link CalendarContractCompat.ACCOUNT_TYPE_LOCAL} with name
-   * {@link PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
+   * check if we already have a calendar in Account {@link #PLANNER_ACCOUNT_NAME}
+   * of type {@link CalendarContractCompat#ACCOUNT_TYPE_LOCAL} with name
+   * {@link #PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
    * 
    * @return true if we have configured a useable calendar
    */
@@ -722,10 +722,7 @@ public class MyApplication extends Application implements
    * and look for them based on UUID added to description recreate events that
    * we did not find (2.2 if no, user should have been asked to select a target
    * calendar where we will store the recreated events)
-   * 
-   * @param calendarId
-   *          if not null, we restore into this calendar, and ignore the
-   *          calendar set in the backup
+   *
    * @return Result with success true
    */
   public Result restorePlanner() {
