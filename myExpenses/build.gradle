@@ -18,7 +18,6 @@ android {
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
-
     signingConfigs {
         release {
             storeFile file(RELEASE_STORE_FILE)
@@ -27,12 +26,12 @@ android {
             keyPassword RELEASE_KEY_PASSWORD
         }
     }
-
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.release
+
         }
     }
 

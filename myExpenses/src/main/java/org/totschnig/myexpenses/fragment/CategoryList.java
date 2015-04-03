@@ -113,6 +113,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   
   boolean showChart;
   boolean aggregateTypes;
+  boolean chartDisplaysSubs;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -713,10 +714,15 @@ public class CategoryList extends ContextualActionBarFragment implements
             } else {
               packedPosition = 
                   ExpandableListView.getPackedPositionForGroup(id);
-              highlight(id);
+              if (!chartDisplaysSubs) {//check if a loader running concurrently has already switched to subs
+                highlight(id);
+              }
             }
-            if (showChart)
-              mListView.setItemChecked(mListView.getFlatListPosition(packedPosition),true);
+            if (showChart && id == lastExpandedPosition) {
+              //if user has expanded a new group before loading is finished, getFlatListPosition
+              //would run in an NPE
+              mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
+            }
           }
       }
     }
@@ -943,6 +949,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     reset();
   }
   private void setData(Cursor c, ArrayList<Integer> colors) {
+    chartDisplaysSubs = c != mGroupCursor;
     ArrayList<Entry> entries1 = new ArrayList<Entry>();
     ArrayList<String> xVals = new ArrayList<String>();
     if (c!= null && c.moveToFirst()) {
@@ -1034,7 +1041,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       setCenterText(position);
   }
   private void setCenterText(int position) {
-    PieData data = (PieData) mChart.getData();
+    PieData data = mChart.getData();
 
     String description = data.getXVals().get(position);
 

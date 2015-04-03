@@ -94,4 +94,5 @@
   <item type="id" name="TOGGLE_AGGREGATE_TYPES" />
   <item type="id" name="VIEW_COMMAND" />
   <item type="id" name="CHANGE_COMMAND" />
+  <item type="id" name="SAVE_COMMAND" />
 </resources>

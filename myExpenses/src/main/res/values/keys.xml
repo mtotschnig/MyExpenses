@@ -17,6 +17,7 @@
 <resources>
   <string name="pref_category_export_key">category_export</string>
   <string name="pref_category_contrib_key">category_contrib</string>
+  <string name="pref_category_manage_key">category_manage</string>
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_custom_currency_key">custom_currency</string>
   <string name="pref_perform_share_key">perform_share</string>
@@ -50,6 +51,7 @@
   <string name="pref_protection_enable_template_widget_key">enable_template_widget</string>
   <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
   <string name="pref_account_grouping_key">account_grouping</string>
+  <string name="pref_manage_stale_images_key">manage_stale_images</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto ,
@@ -89,8 +91,5 @@
   <string name="help_ManageCategories_select_filter_title">@string/search_category</string>
   <string name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
   <string name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
-
-  <string name="app_name_contrib">My Expenses Contrib</string>
-  <string name="app_contrib_launch">Launch My Expenses Contrib</string>
-
+  <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
 </resources>

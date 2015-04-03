@@ -90,4 +90,6 @@
   <string name="menu_create_folder_help_text">Creare una nuova cartella all\'interno della cartella corrente.</string>
   <string name="menu_select_folder_help_text">Selezionare la cartella corrente come destinazione di archiviazione per i backup e le esportazioni.</string>
   <string name="menu_up_help_text">Passare al padre della cartella corrente.</string>
+  <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">Questa schermata consente di trattare con i file di immagine che sono stati lasciati da transazioni eliminate. Lungo Clicca sulle voci al fine di eliminarli o spostarli fuori dalla cartella di archiviazione (possibilmente interna) una cartella di backup (Android/data/org.totschnig.mxexpenses/files/images.old) archiviazione esterna.</string>
 </resources>

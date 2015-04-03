@@ -144,7 +144,7 @@ public class DatabaseConstants {
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
-  public static final String KEY_PICTURE_URI = "picture_uri";
+  public static final String KEY_PICTURE_URI = "picture_id";//historical reasons
   /**
    * column alias for the second group (month or week)
    */
@@ -174,6 +174,7 @@ public class DatabaseConstants {
   public static final String VIEW_EXTENDED = "transactions_extended";
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
+  public static final String TABLE_STALE_URIS = "stale_uris";
   /**
    * used on backup and restore
    */

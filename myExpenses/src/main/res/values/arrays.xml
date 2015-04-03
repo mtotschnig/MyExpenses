@@ -230,6 +230,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
+      <item>196</item>
       <item>195</item>
       <item>193</item>
       <item>191</item>
@@ -264,6 +265,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
+      <item>2.4.3</item>
       <item>2.4.2</item>
       <item>2.4.1</item>
       <item>2.4.0</item>
@@ -337,6 +339,10 @@
     <string-array name="version_more_info_242">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1549092402018899</item>
         <item>SHZ6XMNUNkT</item>
+    </string-array>
+    <string-array name="version_more_info_243">
+        <item>posts/1552400511688088</item>
+        <item>XBQX31Sqvi8</item>
     </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>

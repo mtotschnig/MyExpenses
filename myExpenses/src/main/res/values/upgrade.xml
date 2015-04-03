@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_243">
+    <item>If application is password protected, pictures are stored securely in internal storage</item>
+  </string-array>
   <string-array name="whats_new_242">
     <item>Attach picture to transaction</item>
   </string-array>

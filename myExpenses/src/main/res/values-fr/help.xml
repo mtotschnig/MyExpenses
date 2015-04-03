@@ -90,4 +90,6 @@
   <string name="menu_create_folder_help_text">Créez un nouveau dossier dans le dossier actuel.</string>
   <string name="menu_select_folder_help_text">Sélectionnez le dossier actuel comme cible de stockage pour les sauvegardes et exportations.</string>
   <string name="menu_up_help_text">Naviguez vers le dossier parent du dossier actuel.</string>
+  <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">Cet écran vous permet de traiter des fichiers d\'images qui ont fait partie des transactions supprimées. Cliquez longuement sur une entrée afin de la supprimer ou la déplacer hors du dossier de stockage (éventuellement interne) vers un dossier de sauvegarde (Android/data/org.totschnig.mxexpenses/files/images.old) sur le stockage externe.</string>
 </resources>

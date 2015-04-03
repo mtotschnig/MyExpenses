@@ -20,7 +20,6 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -37,12 +36,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 50;
+  public static final int DATABASE_VERSION = 51;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -204,7 +204,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
       KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
       "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
-  
+
+  private static final String STALE_URIS_CREATE =
+      "CREATE TABLE " + TABLE_STALE_URIS
+      + " ( " + KEY_PICTURE_URI + " text);";
+
+  private static final String STALE_URI_TRIGGER_CREATE =
+      "CREATE TRIGGER cache_stale_uri BEFORE DELETE ON " + TABLE_TRANSACTIONS + " WHEN old." + KEY_PICTURE_URI + " NOT NULL "
+      + " BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
@@ -264,6 +272,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     insertCurrencies(db);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(EVENT_CACHE_CREATE);
+    db.execSQL(STALE_URIS_CREATE);
+    db.execSQL(STALE_URI_TRIGGER_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -780,7 +790,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               " THEN " +
                 " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " +
                   " (SELECT " + "parent_id" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ")) " +
-                "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
+                "  || ' : ' || " +
                 " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
               " ELSE" +
                 " (SELECT " + "label" + " FROM " + "categories" + " WHERE " + "_id" + " = " + "cat_id" + ") " +
@@ -841,6 +851,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 50) {
       db.execSQL("ALTER TABLE transactions add column picture_id text");
       db.execSQL("DROP TABLE IF EXISTS feature_used");
+    }
+    if (oldVersion < 51) {
+      String prefix = Uri.fromFile(Utils.getPictureDir(false)).toString()+"/";
+      String postfix = ".jpg";
+      //if picture_id concat expression will also be null
+      db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
+      db.execSQL("CREATE TABLE stale_uris ( picture_id text);");
+      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
+          + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
     }
   }
   @Override

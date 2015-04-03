@@ -522,4 +522,6 @@
   <string name="menu_change_picture">Adjuntar imagen diferente</string>
   <string name="menu_distribution_show_pie_char">Mostrar el gráfico de tarta</string>
   <string name="menu_distribution_aggreate">Agregar ingresos y gastos</string>
+  <string name="pref_manage_stale_images_title">Imágenes rancios</string>
+  <string name="pref_manage_stale_images_summary">Administrar imágenes de transacciones eliminadas</string>
 </resources>

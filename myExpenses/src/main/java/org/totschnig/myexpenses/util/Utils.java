@@ -28,6 +28,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.text.InputFilter;
@@ -42,6 +43,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.acra.ErrorReporter;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -420,40 +422,52 @@ public class Utils {
    * @param temp
    *          if true the returned file is suitable for temporary storage while
    *          the user is editing the transaction if false the file will serve
-   *          as permanent storage
+   *          as permanent storage,
+   *          care is taken that the file does not yet exist
    * @return a file on the external storage
    */
-  public static File getOutputMediaFile(boolean temp) {
+  public static File getOutputMediaFile(String fileName, boolean temp) {
     // To be safe, you should check that the SDCard is mounted
     // using Environment.getExternalStorageState() before doing this.
 
     File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
-
-    return new File(mediaStorageDir, getOutputMediaFileName());
+    int postfix = 0;
+    File result;
+    do {
+      result = new File(mediaStorageDir, getOutputMediaFileName(
+          fileName,
+          postfix));
+      postfix++;
+    } while (result.exists());
+    return result;
   }
   public static Uri getOutputMediaUri(boolean temp) {
-      boolean secure = true;
-      if (secure && !temp) {
+    String fileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+        .format(new Date());
+      if (MyApplication.getInstance().isProtected() && !temp) {
            return FileProvider.getUriForFile(MyApplication.getInstance(),
                    "org.totschnig.myexpenses.fileprovider",
-                   getOutputMediaFile(false));
+                   getOutputMediaFile(fileName,false));
       } else {
-          return Uri.fromFile(getOutputMediaFile(temp));
+          return Uri.fromFile(getOutputMediaFile(fileName,temp));
       }
   }
-    public static String getPictureUriBase() {
-       String sampleUri = getOutputMediaUri(false).toString();
+    public static String getPictureUriBase(boolean temp) {
+       String sampleUri = getOutputMediaUri(temp).toString();
        return sampleUri.substring(0,sampleUri.lastIndexOf('/'));
     }
 
-  private static String getOutputMediaFileName() {
-      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-              .format(new Date());
-      return timeStamp + ".jpg";
+  private static String getOutputMediaFileName(String base,int postfix) {
+      if (postfix>0) {
+        base+= "_"+postfix;
+      }
+      return base + ".jpg";
   }
-
-  public static File getPictureDir() {
-      File result = MyApplication.getInstance().isProtected() ?
+    public static File getPictureDir() {
+        return getPictureDir(MyApplication.getInstance().isProtected());
+    }
+  public static File getPictureDir(boolean secure) {
+      File result =  secure ?
             new File (MyApplication.getInstance().getFilesDir(),
                 "images") :
             MyApplication.getInstance().getExternalFilesDir(
@@ -462,54 +476,22 @@ public class Utils {
       return result;
   }
 
-    /**
-     * The file is only moved to
-     * @param staleFile
-     */
-  public static void moveToBackup(File staleFile) {
-      if (MyApplication.getInstance().isProtected()) {
-          if (staleFile.isDirectory()) {
-              for (File f : staleFile.listFiles()) {
-                  f.delete();
-              }
-          }
-          staleFile.delete();
-      } else {
-          File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
-                  null), Environment.DIRECTORY_PICTURES + ".bak");
-          backupDir.mkdir();
-          if (staleFile.isDirectory()) {
-              for (File f : staleFile.listFiles()) {
-                  f.renameTo(new File(backupDir, f.getName()));
-              }
-          }
-          staleFile.renameTo(new File(backupDir, staleFile.getName()));
-      }
-  }
-
   /**
-   * copy the content accessible through uri to the applications external files
-   * directory
+   * copy src uri to dest uri
    * 
-   * @param uri
+   * @param src
+   * @param dest
    * @return
    */
-  public static Uri copyToHome(Uri uri) {
+  public static void copy(Uri src, Uri dest) throws IOException {
     InputStream input = null;
     OutputStream output = null;
-    Uri outputUri = getOutputMediaUri(false);
-
-    if (uri.getScheme().equals("file") && outputUri.getScheme().equals("file")) {
-      if (new File(uri.getPath()).renameTo(new File(outputUri.getPath()))) {
-        return outputUri;
-      }
-    }
 
     try {
       input = MyApplication.getInstance().getContentResolver()
-          .openInputStream(uri);
+          .openInputStream(src);
       output = MyApplication.getInstance().getContentResolver()
-              .openOutputStream(outputUri);
+              .openOutputStream(dest);
       final byte[] buffer = new byte[1024];
       int read;
 
@@ -519,13 +501,6 @@ public class Utils {
 
       output.flush();
 
-      return outputUri;
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     } finally {
       try {
         input.close();
@@ -536,7 +511,6 @@ public class Utils {
       } catch (IOException e) {
       }
     }
-    return null;
   }
 
   public static void share(Context ctx, ArrayList<File> files, String target,
@@ -655,13 +629,13 @@ public class Utils {
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
 
-//  public static boolean verifyLicenceKey(String key) {
-//    String s = Secure.getString(MyApplication.getInstance()
-//        .getContentResolver(), Secure.ANDROID_ID)
-//        + MyApplication.CONTRIB_SECRET;
-//    Long l = (s.hashCode() & 0x00000000ffffffffL);
-//    return l.toString().equals(key);
-//  }
+  public static boolean verifyLicenceKey(String key) {
+    String s = Settings.Secure.getString(MyApplication.getInstance()
+            .getContentResolver(), Settings.Secure.ANDROID_ID)
+        + MyApplication.CONTRIB_SECRET;
+    Long l = (s.hashCode() & 0x00000000ffffffffL);
+    return l.toString().equals(key);
+  }
 
   /**
    * @param ctx

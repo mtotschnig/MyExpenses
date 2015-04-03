@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -150,11 +151,6 @@ public class Transaction extends Model {
   public CrStatus crStatus;
   public long payeeId = 0;
   protected Uri pictureUri;
-  /**
-   * if user deletes or changes the picture, we remember the previous uri
-   * so that we can move it away
-   */
-  private Uri pictureUriStale;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -264,18 +260,6 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
-    Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        new String[]{KEY_PICTURE_URI},
-        null, null, null);
-    if (c!=null) {
-      if (c.moveToFirst()) {
-        if (!c.isNull(0)) {
-            disposeStaleFile(Uri.parse(c.getString(0)));
-        }
-      }
-      c.close();
-    }
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
@@ -373,15 +357,30 @@ public class Transaction extends Model {
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
 
-    if (pictureUriStale!=null  && !pictureUriStale.equals(pictureUri)) {
-      disposeStaleFile(pictureUriStale);
-    }
-
     if (pictureUri!=null) {
-      if (pictureUri.toString().startsWith(Utils.getPictureUriBase())) {
+      if (pictureUri.toString().startsWith(Utils.getPictureUriBase(false))) {
         Log.d("DEBUG","got Uri in our home space, nothing todo");
       } else {
-        setPictureUri(Utils.copyToHome(pictureUri));
+        boolean isInTempFolder = pictureUri.toString().startsWith(Utils.getPictureUriBase(true));
+        Uri homeUri = Utils.getOutputMediaUri(false);
+        if (isInTempFolder && homeUri.getScheme().equals("file")) {
+          if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
+            setPictureUri(homeUri);
+          } else {
+            Utils.reportToAcra(new Exception(String.format(
+                "Could not rename %s to %s", pictureUri.getPath(), homeUri.getPath())));
+          }
+        } else {
+          try {
+            Utils.copy(pictureUri,homeUri);
+            if (isInTempFolder) {
+              new File(pictureUri.getPath()).delete();
+            }
+            setPictureUri(homeUri);
+          } catch (IOException e) {
+            Utils.reportToAcra(e);
+          }
+        }
       }
       initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
     } else {
@@ -572,25 +571,9 @@ public class Transaction extends Model {
     return pictureUri;
   }
   public void setPictureUri(Uri pictureUriIn) {
-    if (pictureUriStale==null &&
-        this.pictureUri != null &&
-        !this.pictureUri.equals(pictureUriIn)) {
-      pictureUriStale = this.pictureUri;
-    }
     this.pictureUri = pictureUriIn;
   }
-  private static void disposeStaleFile(Uri fileUri) {
-      if (fileUri.getScheme().equals("file")) {
-          File backupDir = new File(MyApplication.getInstance().getExternalFilesDir(
-                  null), Environment.DIRECTORY_PICTURES + ".bak");
-          backupDir.mkdir();
-          File staleFile = new File(fileUri.getPath());
-          staleFile.renameTo(new File(backupDir, staleFile.getName()));
-      } else {
-          MyApplication.getInstance().getContentResolver()
-                  .delete(fileUri,null,null);
-      }
-  }
+
   public static Intent getViewIntent(Uri pictureUri) {
       Intent intent = new Intent(Intent.ACTION_VIEW, pictureUri);
       intent.putExtra(Intent.EXTRA_STREAM, pictureUri);

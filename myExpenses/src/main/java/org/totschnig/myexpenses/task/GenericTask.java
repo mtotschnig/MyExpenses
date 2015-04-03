@@ -5,6 +5,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,6 +37,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * 
@@ -44,20 +47,21 @@ import android.os.AsyncTask;
  * have been called.
  */
 public class GenericTask<T> extends AsyncTask<T, Void, Object> {
-  private final TaskExecutionFragment taskExecutionFragment;
+  private final TaskExecutionFragment.TaskCallbacks callback;
   private int mTaskId;
   private Serializable mExtra;
 
-  public GenericTask(TaskExecutionFragment taskExecutionFragment, int taskId, Serializable extra) {
-    this.taskExecutionFragment = taskExecutionFragment;
+  public GenericTask(TaskExecutionFragment.TaskCallbacks taskExecutionFragment,
+                     int taskId, Serializable extra) {
+    this.callback = taskExecutionFragment;
     mTaskId = taskId;
     mExtra = extra;
   }
 
   @Override
   protected void onPreExecute() {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onPreExecute();
+    if (this.callback != null) {
+      this.callback.onPreExecute();
     }
   }
   /**
@@ -69,8 +73,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Transaction t;
     Long transactionId;
     Long[][] extraInfo2d;
-    ContentResolver cr;
+    ContentResolver cr = MyApplication.getInstance().getContentResolver();
     ContentValues values;
+    Cursor c;
     int successCount = 0;
     switch (mTaskId) {
     case TaskExecutionFragment.TASK_CLONE:
@@ -94,7 +99,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           parent.amount = t.amount;
           parent.setDate(t.getDate());
           parent.save();
-          cr = MyApplication.getInstance().getContentResolver();
           values = new ContentValues();
           values.put(DatabaseConstants.KEY_PARENTID, parent.getId());
           if (cr.update(
@@ -202,7 +206,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return true;
     case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
-      cr = MyApplication.getInstance().getContentResolver();
       cr.update(
           TransactionProvider.TRANSACTIONS_URI
             .buildUpon()
@@ -220,7 +223,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
       return MyApplication.getInstance().createPlanner();
     case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
-      cr = MyApplication.getInstance().getContentResolver();
       for (int i = 0; i < ids.length; i++) {
         extraInfo2d = (Long[][]) mExtra;
         transactionId = extraInfo2d[i][1];
@@ -240,7 +242,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return null;
     case TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE:
-      cr = MyApplication.getInstance().getContentResolver();
       for (int i = 0; i < ids.length; i++) {
         transactionId = ((Long[]) mExtra)[i];
         if (transactionId != null && transactionId > 0L) {
@@ -262,12 +263,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           ZipUtils.zipBackup(
               cacheDir,
-              Utils.getPictureDir(),
               backupFile);
           result  = true;
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+        } catch (IOException e) {
+          Utils.reportToAcra(e);
         }
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
@@ -277,7 +276,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;
     case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
-      cr = MyApplication.getInstance().getContentResolver();
       values = new ContentValues();
       values.put(DatabaseConstants.KEY_SORT_KEY, (Integer) mExtra);
       cr.update(
@@ -285,22 +283,126 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           values,null,null);
       return null;
     case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
-      cr = MyApplication.getInstance().getContentResolver();
       return cr.update(TransactionProvider.CURRENCIES_URI.buildUpon()
           .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
           .appendPath((String) ids[0])
           .appendPath(String.valueOf((Integer)mExtra))
           .build(),null,null, null);
     case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
-      cr = MyApplication.getInstance().getContentResolver();
       values = new ContentValues();
       values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean)mExtra);
       cr.update(
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
           values,null,null);
       return null;
+    case TaskExecutionFragment.TASK_HAS_STALE_IMAGES:
+      c = cr.query(
+          TransactionProvider.STALE_IMAGES_URI,
+          new String[] {"count(*)"},
+          null,null,null);
+      if (c==null)
+        return false;
+      boolean hasImages = false;
+      if (c.moveToFirst() &&  c.getInt(0) >0)
+        hasImages = true;
+      c.close();
+      return hasImages;
+      case TaskExecutionFragment.TASK_DELETE_IMAGES:
+        for (long id : (Long[]) ids) {
+          Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
+          c = cr.query(
+              staleImageUri,
+              null,
+              null,null,null);
+          if (c==null)
+            continue;
+          if (c.moveToFirst()) {
+            boolean success = false;
+            Uri imageFileUri = Uri.parse(c.getString(0));
+            if (checkImagePath(imageFileUri.getLastPathSegment())) {
+              if (imageFileUri.getScheme().equals("file")) {
+                success = new File(imageFileUri.getPath()).delete();
+              } else {
+                success = cr.delete(imageFileUri, null, null) > 0;
+              }
+              if (success) {
+                Log.d(MyApplication.TAG, "Successfully deleted file " + imageFileUri.toString());
+              }
+            } else {
+              success = true; //we do not delete the file but remove its uri from the table
+              Log.d(MyApplication.TAG, imageFileUri.toString() + " not deleted since it might still be in use");
+            }
+            if (success) {
+              cr.delete(staleImageUri,null,null);
+            } else {
+              Log.e(MyApplication.TAG,"Unable to delete file "+imageFileUri.toString());
+            }
+          }
+          c.close();
+        }
+        return null;
+      case TaskExecutionFragment.TASK_SAVE_IMAGES:
+        File staleFileDir = new File(MyApplication.getInstance().getExternalFilesDir(null),"images.old");
+        staleFileDir.mkdir();
+        if (!staleFileDir.isDirectory()) {
+          return null;
+        }
+        for (long id : (Long[]) ids) {
+          Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
+          c = cr.query(
+              staleImageUri,
+              null,
+              null,null,null);
+          if (c==null)
+            continue;
+          if (c.moveToFirst()) {
+            boolean success = false;
+            Uri imageFileUri = Uri.parse(c.getString(0));
+            if (checkImagePath(imageFileUri.getLastPathSegment())) {
+              if (imageFileUri.getScheme().equals("file")) {
+                File staleFile = new File(imageFileUri.getPath());
+                success = staleFile.renameTo(new File(staleFileDir, staleFile.getName()));
+              } else {
+                try {
+                  Utils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
+                  success = cr.delete(imageFileUri, null, null) > 0;
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              }
+              if (success) {
+                Log.d(MyApplication.TAG, "Successfully moved file " + imageFileUri.toString());
+              }
+            } else {
+              success = true; //we do not move the file but remove its uri from the table
+              Log.d(MyApplication.TAG, imageFileUri.toString() + " not moved since it might still be in use");
+            }
+            if (success) {
+              cr.delete(staleImageUri,null,null);
+            } else {
+              Log.e(MyApplication.TAG,"Unable to move file "+imageFileUri.toString());
+            }
+          }
+          c.close();
+        }
+        return null;
     }
     return null;
+  }
+
+  private boolean checkImagePath(String lastPathSegment) {
+    boolean result = false;
+    Cursor c = MyApplication.getInstance().getContentResolver().query(
+        TransactionProvider.TRANSACTIONS_URI,
+        new String[]{"count(*)"},
+        DatabaseConstants.KEY_PICTURE_URI + " LIKE '%"+lastPathSegment+"'",null,null);
+    if (c!=null) {
+      if (c.moveToFirst() && c.getInt(0) == 0) {
+        result = true;
+      }
+      c.close();
+    }
+    return result;
   }
 
   private void cacheEventData() {
@@ -339,15 +441,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @Override
   protected void onCancelled() {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onCancelled();
+    if (this.callback != null) {
+      this.callback.onCancelled();
     }
   }
 
   @Override
   protected void onPostExecute(Object result) {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onPostExecute(mTaskId, result);
+    if (this.callback != null) {
+      this.callback.onPostExecute(mTaskId, result);
     }
   }
 }

@@ -521,4 +521,6 @@
   <string name="menu_change_picture">Lier une photo différente</string>
   <string name="menu_distribution_show_pie_char">Voir le graphique camembert</string>
   <string name="menu_distribution_aggreate">Totaliser les recettes et dépenses</string>
+  <string name="pref_manage_stale_images_title">Images non utilisées</string>
+  <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>
 </resources>

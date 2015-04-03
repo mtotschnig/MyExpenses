@@ -13,8 +13,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses"
     android:installLocation="internalOnly"
-    android:versionCode="195"
-    android:versionName="2.4.2" >
+    android:versionCode="196"
+    android:versionName="2.4.3" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -122,6 +122,13 @@
         <activity android:name=".activity.ManageParties" >
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.parties" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.ManageStaleImages" >
+            <intent-filter>
+                <action android:name="myexpenses.intent.manage.stale_images" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

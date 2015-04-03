@@ -83,7 +83,10 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_CHANGE_FRACTION_DIGITS = 28;
   public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
-  
+  public static final int TASK_HAS_STALE_IMAGES = 31;
+  public static final int TASK_DELETE_IMAGES = 32;
+  public static final int TASK_SAVE_IMAGES = 33;
+
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -99,7 +102,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     /**
      * @param taskId
      *          with which TaskExecutionFragment was created
-     * @param an
+     * @param o
      *          object that the activity expects from the task, for example an
      *          instantiated DAO
      */
@@ -229,7 +232,7 @@ public class TaskExecutionFragment<T> extends Fragment {
         new PrintTask(this,args).execute();
         break;
       default:
-        new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
+        new GenericTask<T>(mCallbacks, taskId, args.getSerializable(KEY_EXTRA))
             .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
       }
     } catch (ClassCastException e) {
