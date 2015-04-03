@@ -11,7 +11,7 @@ Steps for preparing a new release
   - ./gradlew assemble
   - ./gradlew assembleDebugAndroidTest
   - adb install myExpenses/build/outputs/apk/myExpenses-debug.apk
-  - add install myExpenses/build/outputs/apk/myExpenses-debug-androidTest-unaligned.apk
+  - adb install myExpenses/build/outputs/apk/myExpenses-debug-androidTest-unaligned.apk
   - tests/script/runAllTests.sh
 * test upgrade mechanism
 * Create release tag in GIT (git checkout master;git tag r39; git push origin r39)
