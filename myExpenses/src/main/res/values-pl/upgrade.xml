@@ -66,4 +66,5 @@
     <item>Plany na przyszłość i cykliczne transakcje</item>
     <item>Tłumaczenie w języku Khmer</item>
   </string-array>
+  <string name="bug_fixes">Poprawki błędów</string>
 </resources>

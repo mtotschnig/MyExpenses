@@ -85,4 +85,5 @@
     <item>Planificacions per operacions futures i recurrents</item>
     <item>Traducció al Khmer</item>
   </string-array>
+  <string name="bug_fixes">Correccions</string>
 </resources>

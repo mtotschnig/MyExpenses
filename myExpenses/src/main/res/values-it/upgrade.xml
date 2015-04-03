@@ -120,4 +120,5 @@
     <item>Piani per il futuro e operazioni ricorrenti</item>
     <item>Traduzione Khmer </item>
   </string-array>
+    <string name="bug_fixes">Correzione di errori</string>
 </resources>

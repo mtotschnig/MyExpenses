@@ -92,4 +92,5 @@
     <item>Quando a lista de transação é agrupada, mostra-se balanço intermediário para cada período no cabeçalho de grupo</item>
     <item>Correção de erro: Chamado #90</item>
   </string-array>
+  <string name="bug_fixes">Correções de erros</string>
 </resources>

@@ -120,4 +120,5 @@
     <item>将来および繰り返し取引の計画</item>
     <item>クメール語翻訳</item>
   </string-array>
+  <string name="bug_fixes">バグ修正</string>
 </resources>

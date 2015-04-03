@@ -111,4 +111,5 @@
     <item>Scadenţe pentru tranzacţii viitoare şi repetative</item>
     <item>Traducere Khmeră </item>
   </string-array>
+  <string name="bug_fixes">Bug fixat</string>
 </resources>

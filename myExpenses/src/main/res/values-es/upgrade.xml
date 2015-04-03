@@ -120,4 +120,5 @@
     <item>Planes par las transacciones futuras y recurrentes</item>
     <item>Khmer traducción</item>
   </string-array>
+    <string name="bug_fixes">Corrección de errores</string>
 </resources>

@@ -31,4 +31,5 @@
     <item>Plány pro budoucí a opakované transakce</item>
     <item>Khmerské¨ý překlad</item>
   </string-array>
+    <string name="bug_fixes">Opravy chyb</string>
 </resources>
