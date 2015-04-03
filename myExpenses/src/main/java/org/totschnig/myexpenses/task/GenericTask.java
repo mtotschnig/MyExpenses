@@ -47,21 +47,23 @@ import android.util.Log;
  * have been called.
  */
 public class GenericTask<T> extends AsyncTask<T, Void, Object> {
-  private final TaskExecutionFragment.TaskCallbacks callback;
+  private final TaskExecutionFragment taskExecutionFragment;
   private int mTaskId;
   private Serializable mExtra;
 
-  public GenericTask(TaskExecutionFragment.TaskCallbacks taskExecutionFragment,
-                     int taskId, Serializable extra) {
-    this.callback = taskExecutionFragment;
+  public GenericTask(TaskExecutionFragment taskExecutionFragment, int taskId, Serializable extra) {
+    this.taskExecutionFragment = taskExecutionFragment;
+
     mTaskId = taskId;
     mExtra = extra;
   }
 
   @Override
   protected void onPreExecute() {
-    if (this.callback != null) {
-      this.callback.onPreExecute();
+    if (this.taskExecutionFragment.mCallbacks != null) {
+      this.taskExecutionFragment.mCallbacks.onPreExecute();
+
+
     }
   }
   /**
@@ -295,18 +297,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
           values,null,null);
       return null;
-    case TaskExecutionFragment.TASK_HAS_STALE_IMAGES:
-      c = cr.query(
-          TransactionProvider.STALE_IMAGES_URI,
-          new String[] {"count(*)"},
-          null,null,null);
-      if (c==null)
-        return false;
-      boolean hasImages = false;
-      if (c.moveToFirst() &&  c.getInt(0) >0)
-        hasImages = true;
-      c.close();
-      return hasImages;
       case TaskExecutionFragment.TASK_DELETE_IMAGES:
         for (long id : (Long[]) ids) {
           Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
@@ -317,9 +307,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (c==null)
             continue;
           if (c.moveToFirst()) {
-            boolean success = false;
             Uri imageFileUri = Uri.parse(c.getString(0));
             if (checkImagePath(imageFileUri.getLastPathSegment())) {
+              boolean success = false;
               if (imageFileUri.getScheme().equals("file")) {
                 success = new File(imageFileUri.getPath()).delete();
               } else {
@@ -327,16 +317,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               }
               if (success) {
                 Log.d(MyApplication.TAG, "Successfully deleted file " + imageFileUri.toString());
+              } else {
+                Log.e(MyApplication.TAG,"Unable to delete file "+imageFileUri.toString());
               }
             } else {
-              success = true; //we do not delete the file but remove its uri from the table
               Log.d(MyApplication.TAG, imageFileUri.toString() + " not deleted since it might still be in use");
             }
-            if (success) {
-              cr.delete(staleImageUri,null,null);
-            } else {
-              Log.e(MyApplication.TAG,"Unable to delete file "+imageFileUri.toString());
-            }
+            cr.delete(staleImageUri,null,null);
           }
           c.close();
         }
@@ -441,15 +428,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @Override
   protected void onCancelled() {
-    if (this.callback != null) {
-      this.callback.onCancelled();
+    if (this.taskExecutionFragment.mCallbacks != null) {
+      this.taskExecutionFragment.mCallbacks.onCancelled();
     }
   }
 
   @Override
   protected void onPostExecute(Object result) {
-    if (this.callback != null) {
-      this.callback.onPostExecute(mTaskId, result);
+    if (this.taskExecutionFragment.mCallbacks != null) {
+      this.taskExecutionFragment.mCallbacks.onPostExecute(mTaskId, result);
     }
   }
 }
