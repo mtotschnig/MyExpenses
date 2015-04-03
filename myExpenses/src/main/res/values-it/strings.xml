@@ -521,4 +521,6 @@
   <string name="menu_change_picture">Allegare foto diversa</string>
   <string name="menu_distribution_show_pie_char">Visualizza il grafico a torta</string>
   <string name="menu_distribution_aggreate">Aggregare redditi e spese</string>
+  <string name="pref_manage_stale_images_title">Immagini stantii</string>
+  <string name="pref_manage_stale_images_summary">Gestire immagini lasciati da transazioni eliminate</string>
 </resources>

@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_243">
+    <item>Se l\'applicazione è protetto da password, le immagini sono memorizzate in modo sicuro nella memoria interna</item>
+  </string-array>
   <string-array name="whats_new_242">
     <item>Allegare immagine per transazione</item>
   </string-array>
