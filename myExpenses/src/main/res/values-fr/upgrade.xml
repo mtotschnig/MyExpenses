@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_243">
+    <item>Si l\'application est protégée par mot de passe, les photos sont stockées en toute sécurité dans le stockage interne</item>
+  </string-array>
   <string-array name="whats_new_242">
     <item>Lier une image avec une transaction</item>
   </string-array>
