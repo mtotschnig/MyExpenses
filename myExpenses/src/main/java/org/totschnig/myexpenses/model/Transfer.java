@@ -74,6 +74,7 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
+    savePicture(initialValues);
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
