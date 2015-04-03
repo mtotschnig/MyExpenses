@@ -42,6 +42,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -141,24 +143,30 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
     categoryManage.removePreference(prefStaleImages);
 
-
-    new GenericTask<Void>(new TaskExecutionFragment.TaskCallbacks() {
+    new AsyncTask<Void, Void, Boolean>(){
       @Override
-      public void onPreExecute() {}
+      protected Boolean doInBackground(Void... params) {
+        Cursor c = getContentResolver().query(
+            TransactionProvider.STALE_IMAGES_URI,
+            new String[]{"count(*)"},
+            null, null, null);
+        if (c==null)
+          return false;
+        boolean hasImages = false;
+        if (c.moveToFirst() &&  c.getInt(0) >0)
+          hasImages = true;
+        c.close();
+        return hasImages;
+      }
 
       @Override
-      public void onProgressUpdate(Object progress) {}
-
-      @Override
-      public void onCancelled() {}
-
-      @Override
-      public void onPostExecute(int taskId, Object o) {
-        if (!isFinishing() && (boolean) o)
+      protected void onPostExecute(Boolean result) {
+        if (!isFinishing() && result)
           categoryManage.addPreference(prefStaleImages);
       }
-    },TaskExecutionFragment.TASK_HAS_STALE_IMAGES,null).execute();
+    }.execute();
   }
+
   private void configureContribPrefs() {
     Preference pref1 = findPreference(MyApplication.PrefKey.CONTRIB_INSTALL.getKey());
     if (MyApplication.getInstance().isContribEnabled()) {

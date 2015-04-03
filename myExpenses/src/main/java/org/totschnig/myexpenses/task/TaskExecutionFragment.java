@@ -232,7 +232,7 @@ public class TaskExecutionFragment<T> extends Fragment {
         new PrintTask(this,args).execute();
         break;
       default:
-        new GenericTask<T>(mCallbacks, taskId, args.getSerializable(KEY_EXTRA))
+        new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
             .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
       }
     } catch (ClassCastException e) {
