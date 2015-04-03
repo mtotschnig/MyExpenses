@@ -19,11 +19,6 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
   private long accountId;
   private WhereFilter filter;
 
-  /**
-   * @param args 
-   * @param context
-   * @param source Source for the import
-   */
   public PrintTask(TaskExecutionFragment taskExecutionFragment, Bundle extras) {
     this.taskExecutionFragment = taskExecutionFragment;
     accountId = extras.getLong(KEY_ROWID);
