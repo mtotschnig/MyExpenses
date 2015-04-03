@@ -28,8 +28,10 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.database.Cursor;
+import android.net.Uri;
 
 public class TransactionTest extends ModelTest  {
   private Account mAccount1;
@@ -49,6 +51,7 @@ public class TransactionTest extends ModelTest  {
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
+    op1.setPictureUri(Utils.getOutputMediaUri(false));//we need an uri that is considered "home"
     op1.payee = payee;
     op1.save();
     assertTrue(op1.getId() > 0);
@@ -74,8 +77,11 @@ public class TransactionTest extends ModelTest  {
     Transfer peer;
     op.amount = new Money(mAccount1.currency,(long) 100);
     op.comment = "test transfer";
+    op.setPictureUri(Utils.getOutputMediaUri(false));
     op.save();
     assertTrue(op.getId() > 0);
+    Transaction restored = Transaction.getInstanceFromDb(op.getId());
+    assertEquals(op,restored);
     peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
     assertEquals(peer.getId(),op.transfer_peer);
     assertEquals(op.getId(), peer.transfer_peer);
@@ -91,6 +97,7 @@ public class TransactionTest extends ModelTest  {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(),false);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
+    op1.setPictureUri(Utils.getOutputMediaUri(false));
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
     op1.save();
     assertTrue(op1.getId() > 0);
@@ -109,6 +116,7 @@ public class TransactionTest extends ModelTest  {
     op1.save();
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.getId());
+    assertEquals(op1,restored);
     assertEquals(restored.getDate(), Transaction.getInstanceFromDb(split1.getId()).getDate());
     assertEquals(restored.getDate(), Transaction.getInstanceFromDb(split2.getId()).getDate());
     restored.crStatus = CrStatus.CLEARED;

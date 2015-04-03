@@ -357,35 +357,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
 
-    if (pictureUri!=null) {
-      if (pictureUri.toString().startsWith(Utils.getPictureUriBase(false))) {
-        Log.d("DEBUG","got Uri in our home space, nothing todo");
-      } else {
-        boolean isInTempFolder = pictureUri.toString().startsWith(Utils.getPictureUriBase(true));
-        Uri homeUri = Utils.getOutputMediaUri(false);
-        if (isInTempFolder && homeUri.getScheme().equals("file")) {
-          if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
-            setPictureUri(homeUri);
-          } else {
-            Utils.reportToAcra(new Exception(String.format(
-                "Could not rename %s to %s", pictureUri.getPath(), homeUri.getPath())));
-          }
-        } else {
-          try {
-            Utils.copy(pictureUri,homeUri);
-            if (isInTempFolder) {
-              new File(pictureUri.getPath()).delete();
-            }
-            setPictureUri(homeUri);
-          } catch (IOException e) {
-            Utils.reportToAcra(e);
-          }
-        }
-      }
-      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
-    } else {
-      initialValues.putNull(KEY_PICTURE_URI);
-    }
+    savePicture(initialValues);
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
@@ -427,6 +399,39 @@ public class Transaction extends Model {
     }
     return uri;
   }
+
+  protected void savePicture(ContentValues initialValues) {
+    if (pictureUri!=null) {
+      if (pictureUri.toString().startsWith(Utils.getPictureUriBase(false))) {
+        Log.d("DEBUG", "got Uri in our home space, nothing todo");
+      } else {
+        boolean isInTempFolder = pictureUri.toString().startsWith(Utils.getPictureUriBase(true));
+        Uri homeUri = Utils.getOutputMediaUri(false);
+        if (isInTempFolder && homeUri.getScheme().equals("file")) {
+          if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
+            setPictureUri(homeUri);
+          } else {
+            Utils.reportToAcra(new Exception(String.format(
+                "Could not rename %s to %s", pictureUri.getPath(), homeUri.getPath())));
+          }
+        } else {
+          try {
+            Utils.copy(pictureUri,homeUri);
+            if (isInTempFolder) {
+              new File(pictureUri.getPath()).delete();
+            }
+            setPictureUri(homeUri);
+          } catch (IOException e) {
+            Utils.reportToAcra(e);
+          }
+        }
+      }
+      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
+    } else {
+      initialValues.putNull(KEY_PICTURE_URI);
+    }
+  }
+
   public Uri saveAsNew() {
     setId(0L);
     setDate(new Date());
@@ -540,11 +545,14 @@ public class Transaction extends Model {
         return false;
     } else if (!getId().equals(other.getId()))
       return false;
-    if (label == null) {
+    //label is constructed on hoc by database as a consquence of transfer_account and category
+    //and is not yet set when transaction is not saved, hence we do not consider it relevant
+    //here for equality
+/*    if (label == null) {
       if (other.label != null)
         return false;
     } else if (!label.equals(other.label))
-      return false;
+      return false;*/
     if (methodId == null) {
       if (other.methodId != null)
         return false;
@@ -564,6 +572,11 @@ public class Transaction extends Model {
       if (other.transfer_peer != null)
         return false;
     } else if (!transfer_peer.equals(other.transfer_peer))
+      return false;
+    if (pictureUri == null) {
+      if (other.pictureUri != null)
+        return false;
+    } else if (!pictureUri.equals(other.pictureUri))
       return false;
     return true;
   }
