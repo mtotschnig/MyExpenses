@@ -340,6 +340,10 @@
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1549092402018899</item>
         <item>SHZ6XMNUNkT</item>
     </string-array>
+    <string-array name="version_more_info_243">
+        <item>posts/1552400511688088</item>
+        <item>XBQX31Sqvi8</item>
+    </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
       <item>@string/comparison_operator_greater_than</item>
