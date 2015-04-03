@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
@@ -135,7 +136,7 @@ public class CommonCommands {
     } catch (IOException e) {
       Log.w(MyApplication.TAG,"Failed to open property file");
     }
-    return versionname + version  + buildDate + "-GP";
+    return versionname + version  + buildDate + "-"+ BuildConfig.FLAVOR;
   }
   /**
    * @return version name

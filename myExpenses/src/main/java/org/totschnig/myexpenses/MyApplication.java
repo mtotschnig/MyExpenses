@@ -21,6 +21,7 @@ import java.util.Locale;
 import org.acra.*;
 import org.acra.annotation.*;
 
+import org.onepf.oms.BuildConfig;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -65,7 +66,6 @@ import android.util.Log;
     )
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
-  public static final Distrib.Market market = Distrib.Market.PLAY;
   private static final int RETRY_LIMIT = 20;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
@@ -852,8 +852,8 @@ public class MyApplication extends Application implements
         restoredPlansCount);
   }
   public static String getMarketPrefix() {
-    switch(market) {
-    case AMAZON:
+    switch(BuildConfig.FLAVOR) {
+    case "amazon":
       return "amzn://apps/android?p=";
     default:
       return "market://details?id=";

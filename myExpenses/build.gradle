@@ -26,6 +26,7 @@ android {
             keyPassword RELEASE_KEY_PASSWORD
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -33,6 +34,12 @@ android {
             signingConfig signingConfigs.release
 
         }
+    }
+
+    productFlavors {
+        play {}
+        amazon {}
+        blackberry {}
     }
 
     lintOptions {
@@ -65,8 +72,9 @@ task copyTask(type: Copy) { //why doesn't Gradle allow to force overwrite?
 task removeTask(type: Delete) {
     delete 'src/main/res/raw/app.properties'
 }
-project.afterEvaluate{
-    compileDebugJava.dependsOn("copyTask")
-    compileReleaseJava.dependsOn("copyTask")
+project.afterEvaluate {
+    android.applicationVariants.all { variant ->
+        variant.outputs[0].processResources.dependsOn("copyTask")
+    }
     clean.dependsOn("removeTask")
 }

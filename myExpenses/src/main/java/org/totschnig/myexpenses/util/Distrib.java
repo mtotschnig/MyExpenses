@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.onepf.oms.Appstore;
 import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.AmazonAppstore;
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.contrib.Config;
 
@@ -17,10 +18,6 @@ import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 public class Distrib {
-  
-  public enum Market {
-    PLAY,AMAZON,BLACKBERRY
-  }
   
   public static String STATUS_DISABLED = "0";
   
@@ -72,7 +69,6 @@ public class Distrib {
   /**
    * this is used from in-app billing
    * @param ctx
-   * @param enabled
    */
   public static void registerPurchase(Context ctx) {
     PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
@@ -97,14 +93,14 @@ public class Distrib {
   }
 
   public static OpenIabHelper getIabHelper(Context ctx) {
-    if (MyApplication.market.equals(Distrib.Market.BLACKBERRY)) {
+    if (BuildConfig.FLAVOR.equals("blackberry")) {
       return null;
     }
     OpenIabHelper.Options.Builder builder =
         new OpenIabHelper.Options.Builder()
            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
            .addStoreKeys(Config.STORE_KEYS_MAP);
-    if (MyApplication.market.equals(Distrib.Market.AMAZON)) {
+    if (BuildConfig.FLAVOR.equals("amazon")) {
            ArrayList<Appstore> stores = new ArrayList<Appstore>();
            stores.add(new AmazonAppstore(ctx) {
              public boolean isBillingAvailable(String packageName) {

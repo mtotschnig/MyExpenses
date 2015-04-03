@@ -7,6 +7,7 @@ import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.googleUtils.IabHelper;
 import org.onepf.oms.appstore.googleUtils.IabResult;
 import org.onepf.oms.appstore.googleUtils.Purchase;
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
@@ -33,7 +34,7 @@ import android.widget.Toast;
     public static final String KEY_TAG = "tag";
     private OpenIabHelper mHelper;
     private boolean mSetupDone;
-    private String mPayload = UUID.randomUUID().toString();
+    private String mPayload = BuildConfig.FLAVOR.equals("amazon") ? null : UUID.randomUUID().toString();
 
 
     @Override
@@ -111,7 +112,7 @@ import android.widget.Toast;
               getSupportFragmentManager(), "CONTRIB");
           return;
       }
-      if (MyApplication.market.equals(Distrib.Market.BLACKBERRY)) {
+      if (BuildConfig.FLAVOR.equals("blackberry")) {
         contribBuyBlackBerry();
         return;
       }
