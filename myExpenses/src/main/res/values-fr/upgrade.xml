@@ -120,4 +120,5 @@
     <item>Échéancier de transactions futures et périodiques</item>
     <item>Traduction en Khmer</item>
   </string-array>
+    <string name="bug_fixes">Corrections des bogues</string>
 </resources>

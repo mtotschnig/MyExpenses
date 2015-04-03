@@ -108,4 +108,5 @@
     <item>Planovi za buduće i periodične transakcije</item>
     <item>Khmerski prijevod</item>
   </string-array>
+    <string name="bug_fixes">Popravci grešaka</string>
 </resources>

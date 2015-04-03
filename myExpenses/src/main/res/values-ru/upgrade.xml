@@ -52,4 +52,5 @@
     <item>Планы на будущее и повторяющиеся транзакции</item>
     <item>Кхмерский перевод</item>
   </string-array>
+    <string name="bug_fixes">Исправления ошибок</string>
 </resources>
