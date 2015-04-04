@@ -430,6 +430,7 @@ public class Utils {
     // using Environment.getExternalStorageState() before doing this.
 
     File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
+    if (mediaStorageDir==null) return null;
     int postfix = 0;
     File result;
     do {
@@ -443,18 +444,26 @@ public class Utils {
   public static Uri getOutputMediaUri(boolean temp) {
     String fileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
         .format(new Date());
-      if (MyApplication.getInstance().isProtected() && !temp) {
-           return FileProvider.getUriForFile(MyApplication.getInstance(),
-                   "org.totschnig.myexpenses.fileprovider",
-                   getOutputMediaFile(fileName,false));
-      } else {
-          return Uri.fromFile(getOutputMediaFile(fileName,temp));
-      }
-  }
-    public static String getPictureUriBase(boolean temp) {
-       String sampleUri = getOutputMediaUri(temp).toString();
-       return sampleUri.substring(0,sampleUri.lastIndexOf('/'));
+    File outputMediaFile;
+    if (MyApplication.getInstance().isProtected() && !temp) {
+      outputMediaFile = getOutputMediaFile(fileName, false);
+      if (outputMediaFile==null) return null;
+      return FileProvider.getUriForFile(MyApplication.getInstance(),
+                 "org.totschnig.myexpenses.fileprovider",
+          outputMediaFile);
+    } else {
+      outputMediaFile = getOutputMediaFile(fileName,temp);
+      if (outputMediaFile==null) return null;
+      return Uri.fromFile(outputMediaFile);
     }
+  }
+
+  public static String getPictureUriBase(boolean temp) {
+    Uri sampleUri = getOutputMediaUri(temp);
+    if (sampleUri==null) return null;
+    String uriString = sampleUri.toString();
+    return uriString.substring(0,uriString.lastIndexOf('/'));
+  }
 
   private static String getOutputMediaFileName(String base,int postfix) {
       if (postfix>0) {
@@ -466,13 +475,17 @@ public class Utils {
         return getPictureDir(MyApplication.getInstance().isProtected());
     }
   public static File getPictureDir(boolean secure) {
-      File result =  secure ?
-            new File (MyApplication.getInstance().getFilesDir(),
-                "images") :
-            MyApplication.getInstance().getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES);
-      result.mkdir();
-      return result;
+    File result;
+    if (secure) {
+      result = new File (MyApplication.getInstance().getFilesDir(),
+          "images");
+    } else {
+      result = MyApplication.getInstance().getExternalFilesDir(
+          Environment.DIRECTORY_PICTURES);
+    }
+    if (result==null) return null;
+    result.mkdir();
+    return result.exists() ? result : null;
   }
 
   /**
@@ -482,33 +495,36 @@ public class Utils {
    * @param dest
    * @return
    */
-  public static void copy(Uri src, Uri dest) throws IOException {
+  public static boolean copy(Uri src, Uri dest) throws IOException {
     InputStream input = null;
     OutputStream output = null;
+    boolean success = false;
 
     try {
       input = MyApplication.getInstance().getContentResolver()
           .openInputStream(src);
       output = MyApplication.getInstance().getContentResolver()
               .openOutputStream(dest);
-      final byte[] buffer = new byte[1024];
-      int read;
+      if (input!=null && output!=null) {
+        final byte[] buffer = new byte[1024];
+        int read;
 
-      while ((read = input.read(buffer)) != -1) {
-        output.write(buffer, 0, read);
+        while ((read = input.read(buffer)) != -1) {
+          output.write(buffer, 0, read);
+        }
+        output.flush();
+        success = true;
       }
-
-      output.flush();
-
     } finally {
       try {
-        input.close();
+        if (input!=null) input.close();
       } catch (IOException e) {
       }
       try {
-        output.close();
+        if (output!=null) output.close();
       } catch (IOException e) {
       }
+      return success;
     }
   }
 

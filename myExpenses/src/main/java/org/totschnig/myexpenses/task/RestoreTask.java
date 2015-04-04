@@ -282,13 +282,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           Uri restored = null;
           if (backupImage.exists()) {
             File restoredImage = Utils.getOutputMediaFile(fileName.substring(0,fileName.lastIndexOf('.')),false);
-            if (!Utils.copy(backupImage,restoredImage)) {
+            if (restoredImage == null || !Utils.copy(backupImage,restoredImage)) {
               Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
+            } else {
+              restored = MyApplication.getInstance().isProtected() ?
+                  FileProvider.getUriForFile(MyApplication.getInstance(),
+                      "org.totschnig.myexpenses.fileprovider", restoredImage) :
+                  Uri.fromFile(restoredImage);
             }
-            restored = MyApplication.getInstance().isProtected() ?
-                FileProvider.getUriForFile(MyApplication.getInstance(),
-                "org.totschnig.myexpenses.fileprovider",restoredImage) :
-                Uri.fromFile(restoredImage);
           } else {
             Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
           }
@@ -312,6 +313,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
 
   private void registerAsStale(boolean secure) {
     File dir = Utils.getPictureDir(secure);
+    if (dir==null) return;
     ContentValues values = new ContentValues();
     for (File file: dir.listFiles()) {
       Uri uri = secure ? FileProvider.getUriForFile(MyApplication.getInstance(),

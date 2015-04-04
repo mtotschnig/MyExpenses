@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -1358,7 +1359,7 @@ public class ExpenseEdit extends AmountActivity implements
       return;
     }
     Long sequenceCount = (Long) result;
-    if (sequenceCount == -1L) {
+    if (sequenceCount < 0L) {
       if (mTransaction instanceof Template) {
         //for the moment, the only case where saving will fail
         //if the unique constraint for template titles is violated
@@ -1366,10 +1367,22 @@ public class ExpenseEdit extends AmountActivity implements
         mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
         mCreateNew = false;
       } else {
-        //possibly the selected category has been deleted
-        mCatId = null;
-        mCategoryButton.setText(R.string.select);
-        Toast.makeText(this, "Error while saving transaction. Try again", Toast.LENGTH_SHORT).show();
+        String errorMsg;
+        switch(sequenceCount.intValue()) {
+          case  DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
+            errorMsg=getString(R.string.external_storage_unavailable);
+            break;
+          case DbWriteFragment.ERROR_UNKNOWN:
+            errorMsg="Error while saving picture";
+            break;
+          default:
+            //possibly the selected category has been deleted
+            mCatId = null;
+            mCategoryButton.setText(R.string.select);
+
+            errorMsg="Error while saving transaction";
+        }
+          Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
       }
     } else {
       if (mRecordTemplateWidget) {

@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -38,6 +39,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -848,10 +850,24 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS feature_used");
     }
     if (oldVersion < 51) {
-      String prefix = Uri.fromFile(Utils.getPictureDir(false)).toString()+"/";
+      File pictureDir = Utils.getPictureDir(false);
+      //fallback if not mounted
+      if (pictureDir==null) {
+        pictureDir = new File(
+            Environment.getExternalStorageDirectory().getPath() +
+                "/Android/data/"+MyApplication.getInstance().getPackageName()+"/files",
+            Environment.DIRECTORY_PICTURES);
+      }
+      if (!pictureDir.exists()) {
+        Utils.reportToAcra(new Exception("Unable to calculate pictureDir during upgrade"));
+      }
+      //if pictureDir does not exist, we use its URI nonetheless, in order to have the data around
+      //for potential trouble handling
+      String prefix = Uri.fromFile(pictureDir).toString() + "/";
       String postfix = ".jpg";
       //if picture_id concat expression will also be null
-      db.execSQL("UPDATE transactions set picture_id = '"+prefix+"'||picture_id||'"+postfix+"'");
+      db.execSQL("UPDATE transactions set picture_id = '" + prefix + "'||picture_id||'" + postfix + "'");
+
       db.execSQL("CREATE TABLE stale_uris ( picture_id text);");
       db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
           + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
