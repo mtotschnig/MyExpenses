@@ -72,6 +72,92 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.4.3
+    - "2015-04-03"
+    -
+      en: |
+        If application is password protected, pictures are stored securely in internal storage.
+      fr: |
+        Si l'application est protégée par mot de passe, les photos sont stockées en toute sécurité dans le stockage interne.
+      de: |
+        Wenn die Anwendung passwortgeschützt ist, werden Bilder nun sicher im internen Speicher gespeichert.
+      it: |
+        Se l'applicazione è protetto da password, le immagini sono memorizzate in modo sicuro nella memoria interna.
+      es: |
+        Si la aplicación esta protegida por contraseña , fotos se almacenan en almacenamiento interno.
+      tr: |
+        Eğer uygulama bir parola ile korunmuşsa, resimler dahili depolamada güvenli olarak saklanır.
+      ms: |
+        Jika aplikasi dilindungi kata laluan, gambar disimpan secara selamat di dalam storan luaran.
+      ja: |
+        アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます.
+  -
+    - 2.4.2
+    - "2015-03-26"
+    -
+      en: |
+        Attach picture to transaction.
+      fr: |
+        Lier une image avec une transaction.
+      de: |
+        Bildanhänge für Buchungen.
+      it: |
+        Allegare immagine per transazione.
+      es: |
+        Adjuntar imagen de transacción.
+      tr: |
+        Muameleye resim ekleme.
+      ms: |
+        Lampir gambar ke dalam transaksi.
+      ja: |
+        取引に写真を添付.
+  -
+    - 2.4.1
+    - "2015-02-23"
+    -
+      en: |
+        Pie chart visualizing distribution per category.
+      fr: |
+        Diagramme en camembert de la répartition par catégorie.
+      de: |
+        Kreisdiagramm zeigt Verteilung pro Kategorie.
+      it: |
+        Grafico a torta visualizzando la distribuzione per categoria.
+      es: |
+        Diagrama circular de la distribución por categoría.
+      pt: |
+        Visualização de distribuição por categoria em gráfico de pizza.
+      tr: |
+        Kategori başına dağılımı grafik olarak görüntüle.
+      ms: |
+        Carta pai mengvisualkan agihan per katagori.
+      ja: |
+        分類ごとの分布を可視化する円グラフ.
+  -
+    - 2.4.0
+    - "2014-12-16"
+    -
+      en: |
+        Transform normal transaction into split transaction.
+      fr: |
+        Transformer une transaction normale en opération ventilée.
+      de: |
+        Normale Buchungen in Splittbuchungen verwandeln.
+      it: |
+        Trasformare normali operazione nella operazione frazionate.
+      es: |
+        Transformar el asiento normal en asiento dividido.
+      pt: |
+        Transformar a transação normal, a transação de divisão.
+      tr: |
+        Normal muamelelerin bölünmüş muamelelere dönüştürülmesi.
+      ms: |
+        Ubah transaksi bias menjadi transaksi pisah.
+      ja: |
+        通常の処理を分割処理に変換します.
+      ro: |
+        Transformă tranzacţia normală în tranzacţie repartizată.
+  -
     - 2.3.9
     - "2014-12-04"
     -
@@ -188,11 +274,11 @@ versions:
       en: |
         Redesign of account list: User-defined sort order. Group sums in transaction list takes filters into account.
       fr: |
-        Refonte de la liste des comptes : ordre de tri défini par l\'utilisateur. Les totaux de groupes dans la liste des opérations prend en compte les filtres.
+        Refonte de la liste des comptes : ordre de tri défini par l'utilisateur. Les totaux de groupes dans la liste des opérations prend en compte les filtres.
       de: |
         Neugestaltung der Kontenliste: benutzerdefinierte Sortierreihenfolge. In der Buchungsliste berücksichtigen die Gruppensummen jetzt die Filter.
       it: |
-        Riprogettazione dell\'elenco dei conti: ordinamento definito dall\'utente. Somme di gruppo nell\'elenco delle transazioni accetta filtri in considerazione.
+        Riprogettazione dell'elenco dei conti: ordinamento definito dall'utente. Somme di gruppo nell'elenco delle transazioni accetta filtri in considerazione.
       es: |
         Rediseño de lista de cuentas: orden definido por el usuario. Sumas de grupo en la lista de transacciones toma en cuenta los filtros.
       pt: |
@@ -261,7 +347,7 @@ versions:
       en: |
         Search for transactions per category, amount, comment, status, payee/payer, payment method.
       fr: |
-         Recherche d\'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement .
+         Recherche d'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement .
       de: |
         Suche nach Buchungen pro Kategorie, Betrag, Notiz, Status, Empfänger/Zahler, Zahlungsweise.
       it: |
@@ -279,7 +365,7 @@ versions:
       en: |
         Sinhala translation. Multi-window support on Samsung devices. Reconciliation workflow.
       fr: |
-        Traduction en Sinhala. Fenêtre multiples sur les appareils Samsung. Procédure de rapprochement.
+        Traduction en Sinhala. Fenêtres multiples sur les appareils Samsung. Procédure de rapprochement.
       de: |
         Singhalesische Übersetzung. Multi-Fenster Unterstützung auf Samsung-Geräten. Abstimmung mit Kontoauszug.
       it: |
@@ -290,6 +376,18 @@ versions:
         Tradução de cingalês. Suporte a várias janelas em dispositivos Samsung. Fluxo de trabalho de reconciliação.
       tr: |
         Seylanca tercüme. Samsung cihazlarında çoklu pencere desteği. Uzlaşma çalışma akışı.
+      ca: |
+        Traducció al Sinhala. Suport multi-finestra en dispositius Samsung. Flux de treball de reconciliació.
+      pl: |
+        Tłumaczenie w języku Sinhala. Wsparcie dla trybu kilku-okienkowego na urządzeniach Samsung. Pojednanie postępu pracy.
+      hr: |
+        Sinhala prijevod. Podrška za "multi-window" na Samsung uređajima. Radni slijed usklađivanja.
+      ms: |
+        Terjemahan bahasa Sinhala. Sokongan tetingkap-berbilang pada peranti Samsung. Aliran kerja penyesuaian.
+      ja: |
+        シンハラ語翻訳. Samsung のデバイスでマルチウィンドウをサポート. 照合ワークフロー.
+      ro: |
+        Traducere Sinhala . Suport multi-fereastră pe dispozitive de Samsung. Flux de lucru Reconciliere.
   -
     - 2.1.5
     - "2014-06-02"
@@ -297,17 +395,31 @@ versions:
       en: |
         Backups are now stored in ZIP archives that can be shared (E-Mail, Drive, Dropbox, …) and restored from external sources.
       fr: |
-        Maintenant, les sauvegardes sont stockées dans des archives ZIP qui peuvent être partagées (E-Mail, Drive, Dropbox,…) et restaurées à partir de sources externes.
+        Maintenant, les sauvegardes sont stockées dans des archives ZIP qui peuvent être partagées (E-Mail, Drive, Dropbox,...) et restaurées à partir de sources externes.
       de: |
-        Sicherungskopien werden jetzt in ZIP Archiven gespeichert; diese können geteilt (E-Mail, Drive, Dropbox,…) und aus externen Quellen wiederhergestellt werden.
+        Sicherungskopien werden jetzt in ZIP Archiven gespeichert; diese können geteilt (E-Mail, Drive, Dropbox,...) und aus externen Quellen wiederhergestellt werden.
       it: |
-        i backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,…) e restaurata da fonti esterne.
+        I backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,...) e restaurata da fonti esterne.
       es: |
-        Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,…) y restaurados a partir de fuentes externas.
+        Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,...) y restaurados a partir de fuentes externas.
       pt: |
-        Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,…) e restaurado a partir de fontes externas.
+        Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,...) e restaurado a partir de fontes externas.
       tr: |
-        Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir.
+        Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir..
+      ca: |
+        Les còpies de seguretat es troben actualment emmagatzemades en arxius ZIP que es poden compartir (correu electrònic, Drive, Dropbox,...) i restaurar des de fonts externes.
+      pl: |
+        Kopie zapasowe są teraz przechowywane w formacie ZIP, które mogą być udostępniane (przez E-Mail, Dysk Google, Dropbox itp.) i przywracane z zewnętrznych źródeł.
+      hr: |
+        Sigurnosne kopije su pohranjene u ZIP arhivama koje se mogu dijeliti (E-mail, Dropbox,...) i obnavljati iz vanjskih izvora.
+      ms: |
+        Sandar kini disimpan dalam arkib ZIP yang boleh dikongsi (E-Mel, Pemacu, Dropbox, …) dan dipulihkan melalui sumber luaran.
+      ja: |
+        バックアップが共有 (Eメール、Drive、Dropbox …)、および外部ソースから復元できるように、ZIP アーカイブになりました.
+      ro: |
+        Backup-urile sunt acum stocate în  arhive  ZIP care pot fi partajate (E-Mail, Drive, Dropbox,...) şi restaurate din surse externe.
+      si: |
+        ZIP ලේඛනාගාරයෙහි උපස්ථ ගබඩා කර ඇති අතර එය දැන් බෙදා හැරිය හැක.(විද්‍යුත්-තැපෑල , ඩ්‍රයිව්, ඩ්‍රොප් බොක්ස්, ...) සහ මෙය බාහිර ප්‍රභවයන්හි නැවත ගබඩා කල හැක.
   -
     - 2.1.4
     - "2014-05-29"
@@ -326,6 +438,20 @@ versions:
         Atalhos de tela inicial para criar transacções e transferências.
       tr: |
         Virman ve muamele eklemek için ana ekran kısayolları.
+      ca: |
+        Dreceres de la pantalla inicial per a afegir moviments i transferències.
+      pl: |
+        Skróty do dodawania transakcji oraz transferów.
+      hr: |
+        Prečaci na početnom zaslonu za dodavanje transakcija i plaćanja.
+      ms: |
+        Pintasan skrin rumah untuk penambahan transaksi dan pemindahan.
+      ja: |
+        取引および転記を追加する、ホーム画面のショートカット.
+      ro: |
+        Shortcuturi ecranul Home pentru adăugarea de tranzacţii şi transferuri.
+      si: |
+        ගණුදෙනු එකතුකිරීම් සහ මාරුකිරීම් සඳහා හෝම් තිරයේ කෙටි ක්‍රම.
   -
     - 2.1.3
     - "2014-05-25"
@@ -344,6 +470,21 @@ versions:
         Widgets para entrada de dados rápida.
       tr: |
         Çabuk veri girişi için ana ekran widget'leri.
+      ca: |
+        Ginys de pantalla inicial per a l'entrada ràpida de dades.
+      pl: |
+        Widżety do szybkiego wprowadzania danych.
+      hr: |
+        Widgeti na početnom zaslonu za brzi unos podataka.
+      ms: |
+        Widget skrin rumah untuk masukan data pantas.
+      ja: |
+        クイック データ入力用のホーム画面のウィジェット.
+      ro: |
+        Widgeturi ecran Home pentru introducere rapidp de date.
+      si: |
+        ඉක්මන් දත්ත ඇතුලත් කිරිම සඳහා හෝම් තිරයේ මෙවලම්.
+
   -
     - 2.1.2
     - "2014-04-26"
@@ -351,17 +492,33 @@ versions:
       en: |
         Russian translation.
       fr: |
-        Traduction russe.
+        Traduction en russe.
       de: |
         Russische Übersetzung.
       it: |
-        Traduzione russa.
+        Traduzione russo.
       es: |
-        Traducción al Ruso.
+        Traducción al ruso.
       pt: |
-        Tradução para o russo.
+        Tradução russa.
+      tr: |
+        Rusça tercüme.
+      ca: |
+        Traducció al rus.
+      pl: |
+        Tłumaczenie rosyjskie.
       ru: |
         Перевод на русский язык.
+      hr: |
+        Ruski prijevod.
+      ms: |
+        Terjemahan bahasa Rusia.
+      ja: |
+        ロシア語翻訳.
+      ro: |
+        Traducere Rusă .
+      si: |
+        රුසියානු පරිවර්තනය
   -
     - 2.1.1
     - "2014-04-21"
@@ -380,8 +537,22 @@ versions:
         A localização da pasta para backups e exportações é agora configurável.
       tr: |
         Yedekleme ve dışa aktarmalar için klasör konumu artık ayarlanabilir.
+      ca: |
+        La localització de la carpeta de còpies de seguretat i exportacions ara és configurable.
+      pl: |
+        Od teraz ścieżka zapisu kopii zapasowych może być dowolnie zmieniana.
       ru: |
         Расположение папки для резервного копирования и экспорта теперь настраивается.
+      hr: |
+        Lokacija mape za sigurnosne kopije i eksporte je sada podesiva.
+      ms: |
+        Lokasi folder untuk sandar dan eksport kini boleh dikonfigur.
+      ja: |
+        バックアップとエクスポート用のフォルダの場所が設定できるようになりました.
+      ro: |
+        Locaţie folderului pentru backup şi exporturi este acum configurabil.
+      si: |
+        උපස්ථ සහ නිර්යාත සඳහා වන ෆෝල්ඩරය තිබෙන ස්ථානය දැන් සකස් කල හැකිය
   -
     - 2.1.0
     - "2014-04-16"
@@ -396,10 +567,26 @@ versions:
         Backup indipendenti multiple. Importazione QIF.
       es: |
         Múltiples copias de seguridad independientes. Importación QIF.
+      pt: |
+        Vários backups independentes. Importar QIF.
       tr: |
         Birden fazla bağımsız yedeklemeler. QIF içe aktarımı.
+      ca: |
+        Còpies de seguretat mindependents. Importació QIF.
+      pl: |
+        Wiele niezależnych kopii zapasowych. Import QIF.
       ru: |
         Несколько независимых резервных копий. Импорт QIF.
+      hr: |
+        Mogućnost stvaranja više neovisnih sigurnosnih kopija. QIF unos.
+      ms: |
+        Sandar bebas berbilang. Import QIF.
+      ja: |
+        複数の独立したバックアップ. QIF インポート.
+      ro: |
+        Multiple backup-uri independente. QIF import.
+      si: |
+        විවිධ ස්වාධීන උපස්ථ. QIF ආයාතය.
   -
     - 2.0.2
     - "2014-02-23"
@@ -411,15 +598,27 @@ versions:
       de: |
         Griechische Übersetzung. Wochenstart abhängig von Lokale (z.B. Sonntag für USA).
       it: |
-        Traduzione greca. Inizio settimana subordinata locale (ad es Domenica per gli USA).
+        Traduzione greca. Inizio settimana dipendente dal paese (ad es. domenica per gli USA).
       es: |
         Traducción griega . Inicio de semana hizo dependiente de la configuración regional (por ejemplo, el domingo para EE.UU.).
       tr: |
         Yunanca tercüme. Hafta başı yerel ayarlara bağlı hale getirildi (mesela ABD için pazar günü).
+      ca: |
+        Traducció al grec. Inici de setmana que depengui del lloc (p. ex. diumenge per als EUA).
       pl: |
         Tłumaczenie w języku greckim. Początek tygodnia zależny od lokalizacji (np. Niedziela dla Stanów Zjednoczonych).
       ru: |
         Греческий перевод. Начало недели зависит от языковых стандартов (например, воскресенье для США).
+      hr: |
+        Grčki prijevod. Početak tjedna sada ovisi o mjestu (npr. nedjelja za SAD).
+      ms: |
+        Terjemahan bahasa Yunani. Permulaan minggu menjadi bebas pada lokal (iaitu Ahad untuk AS).
+      ja: |
+        ギリシャ語翻訳. ロケールに従った週の開始 (例 米国は日曜日).
+      ro: |
+        Traducere Greacă . Începutul săptămânii se face depinzând de localizare (de exemplu, duminică pentru SUA).
+      si: |
+        ග්‍රීක පරිවර්තන. සතිය පටන් ගැන්ම රඳාපවතින්නේ ලොකාලේ මතය (උදාහරණ: ඉරිදා දිනය යූඑස් සඳහාය).
   -
     - 2.0.1
     - "2014-02-12"
@@ -427,19 +626,33 @@ versions:
       en: |
         UI improvements: #115,#117,#120,#122,#124. Made transaction dates timezone aware.
       fr: |
-        Améliorations de l\'interface utilisateur: #115,#117,#120,#122,#124. Les dates des transactions prennent en considération le fuseau horaire.
+        Améliorations de l'interface utilisateur: #115,#117,#120,#122,#124. Les dates des transactions prennent en considération le fuseau horaire.
       de: |
         UI Verbesserungen: #115,#117,#120,#122,#124. Buchungsdaten berücksichtigen Zeitzone.
       it: |
-        Miglioramenti dell\'UI: #115,#117,#120,#122,#124. Date transazioni tengono conto del fusorario.
+        Miglioramenti dell'UI: #115,#117,#120,#122,#124. Le date delle transazioni avvenute tengono conto del fuso orario.
       es: |
         Mejoras de interfaz de usuario: #115,#117,#120,#122,#124. Fechas de transacción son ahora conscientes de zona horaria.
+      pt: |
+        Aperfeiçoamentos IU: #115,#117,#120,#122,#124. Informa fusos horários das datas de transação.
       tr: |
         Arayüz iyileştirmeleri: #115,#117,#120,#122,#124. Muamele tarihleri zaman dilimlerini dikkate alacak.
+      ca: |
+        Millores d'interfície d'usuari: #115, #117, #120, #122, #124. Activa la transacció de dates segons el fus horari.
       pl: |
         Ulepszenia interfejsu użytkownika: #115,#117,#120,#122,#124. Daty transakcji świadome strefy czasowej.
       ru: |
         Улучшения пользовательского интерфейса: #115, #117, #120, #122, #124. Дата транзакции зависит от часового пояса.
+      hr: |
+        UI poboljšanja: #115,#117,#120,#122,#124. Datumi transakcija usklađeni se sa vremenskim zonama .
+      ms: |
+        Penambahbaikan UI: #115,#117,#120,#122,#124. Jadikan zon waktu tarikh transaksi disedari.
+      ja: |
+        UI の改善: #115,#117,#120,#122,#124. タイムゾーンに従った取引の日付.
+      ro: |
+        Îmbunătăţiri UI : #115,#117,#120,#122,#124. Data tranzacţiei făcută după fusul orar i.
+      si: |
+        යූඅයි වැඩිදියුණු කිරීම්: #115,#117,#120,#122,#124. ගණුදෙනු කල දිනයන්හි කලාපවේලාව  දැනසිටින්න.
   -
     - 2.0
     - "2014-01-31"
@@ -447,19 +660,31 @@ versions:
       en: |
         Modernized UI: navigation drawer and contextual action bar.
       fr: |
-        Interface d\'utilisateur modernisée : panneau de navigation et barre d\'action contextuelle.
+        Interface d'utilisateur modernisée : panneau de navigation et barre d'action contextuelle.
       de: |
         Modernisierte Benutzeroberfläche: Navigationsleiste und kontextbezogene Aktionsleiste.
       it: |
-        Interfaccia utente modernizzato: riquadro di navigazione e barra delle azioni contestuali.
+        Interfaccia utente modernizzata: riquadro di navigazione e barra delle azioni contestuali.
       es: |
         Interfaz de usuario modernizada: control de navegación y barra de acción contextual.
       tr: |
         Modernleştirilmiş arayüz: tarama çekmecesi ve bağlamsal eylem çubuğu .
+      ca: |
+        UI modernitzat: calaix de navegació i barra d'acció contextual.
       pl: |
         Zmodernizowany Interfejs Użytkownika: Szuflada nawigacji i kontekstowy pasek akcji.
       ru: |
         Модернизация UI: секция навигации и панель контекстных действий.
+      hr: |
+        Modernizirani UI: ladica za navigaciju i kontekstualna radna traka.
+      ms: |
+        UI dimodernkan: laci navigasi dan palang tindakan konteksual.
+      ja: |
+        モダン UI: ナビゲーション ドロワーとコンテキスト アクションバー.
+      ro: |
+        Modernizare UI: panou de navigare şi  bară de acţiune contextuală.
+      si: |
+        නවීකරණය කරන ලද යූඅයි : නැවිගේෂණ අදිනය සහ පද සම්බන්දතා ක්‍රියාකාරී බාරය.
   -
     - 1.11.5
     - "2014-01-12"
@@ -467,11 +692,11 @@ versions:
       en: |
         Improved handling of plans: Apply upcoming instances in advance. New translations: Portuguese, Polish, Czech.
       fr: |
-        Traitement des échéances amélioré : appliquez des instances à venir à l\'avance. Nouvelles traductions : portugais, polonais, tchèque.
+        Traitement des échéances amélioré : appliquez des instances à venir à l'avance. Nouvelles traductions : portugais, polonais, tchèque.
       de: |
         Erweiterung der Einsatzmöglichkeit von Plänen: Zukünftige Termine können im Voraus in die Buchungsliste kopiert werden. Neue Übersetzungen: Portugiesisch, Polnisch, Tschechisch.
       it: |
-        Gestione migliorata dei piani: applicare istanze imminente in anticipo. Nuove traduzioni: portoghese, polacco, ceco.
+        Gestione dei piani migliorata: applicare in anticipo istanze prossime. Nuove traduzioni: portoghese, polacco, ceco.
       es: |
         Mejorado manejo de planes: próximas instancias se aplican por adelantado. Nuevas traducciones: Portugués, Polaco, Checo.
       tr: |
@@ -484,9 +709,21 @@ versions:
         Usprawniona obsługa planów: Z góry zastosowanie nadchodzących instancji. Nowe tłumaczenia: Portugalski, Polski, Czeski.
       ru: |
         Улучшена обработка планов: примение предстоящих планов заранее. Новые переводы: Португальский, польский, чешский.
+      hr: |
+        Poboljšano upravljanje planovima: Unaprijed primjenjeni budući slučajevi . Novi prijevodi: portugalski, poljski, češki.
+      ms: |
+        Pengendalian pelan dipertingkat: Laksana kejadian akan datang terlebih dahulu. Terjemahan baharu: Portugis, Poland, Czech.
+      ja: |
+        計画の処理を改善: 事前にこれからのインスタンスを適用. 新しい翻訳: ポルトガル語、ポーランド語、チェコ語.
+      ro: |
+        Îmbunătăţire manager scadenţe: se aplică instanţe viitoare în avans. Noi traduceri: Portugheză, Poloneză, Cehă.
+      si: |
+        වැඩිදියුණු කරන ලද පරිහරණ සැලසුම්: ඉදිරියට පැමිණෙන උදාහරණ කලින් යොදන්න. නවතම පරිවර්තන: පෘතුග්‍රීසි, පොලිෂ්, චෙකොස්ලොවැකියානු.
   -
     - 1.11.0
     - "2013-12-31"
+    - 2.x.x
+    - "2014-xx-xx"
     -
       en: |
         Display transaction list and statistical distribution for aggregates of multiple accounts.
@@ -498,6 +735,8 @@ versions:
         Visualizza la lista delle transazioni e la distribuzione statistica per gli aggregati di più conti.
       es: |
         Mostrar la lista de transacciones y la distribución estadística de los agregados de varias cuentas.
+      tr: |
+        Muamele listesini ve birden çok hesapların agregalarının istatistiksel dağılımını görüntüleme.
       ca: |
         Mostra la llista d'operacions i la distribució estadística agrupada dels diferents comptes.
       cs: |
@@ -506,6 +745,16 @@ versions:
         Wyświetlanie listy transakcji i statystyczną dystrybucję dla sum wielu kont.
       ru: |
         Отображение списка транзакций и статистическое распределение для объединения нескольких счетов.
+      hr: |
+        Prikaži listu transakcija i statističku distribuciju za skup više računa.
+      ms: |
+        Papar senarai transaksi dan distribusi statistik untuk aggregat akaun berbilang.
+      ja: |
+        取引リストと、複数の勘定を集約する統計分布の表示.
+      ro: |
+        Afişare listă de tranzacţii şi distribuţia statistică pentru agregate de conturi multiple.
+      si: |
+        විවිධ ගිණුම් වල ගනුදෙනු ලැයිස්තුව සහ සන්ඛයාන දායකත්වය පෙන්වන්න.
   -
     - 1.10.5
     - "2013-12-24"
@@ -513,15 +762,17 @@ versions:
       en: |
         (Traditional) Chinese translation. Allow selection of account in transaction editing form. Clearer UI for transfers.
       fr: |
-        Traduction en Chinois (traditionnel). Autoriser la sélection de compte dans l'édition de l'opération. interface plus claire pour les transferts.
+        Traduction en Chinois (traditionnel). Autoriser la sélection de compte dans l'édition de l'opération. Interface plus claire pour les transferts.
       de: |
         Übersetzung ins (traditionelle) Chinesische. Im Buchungsformular kann nun das Konto ausgewählt werden. UI für Umbuchungen verbessert.
       it: |
-        Traduzione Cinese (tradizionale) . Consenti selezionando conto nell'edizione dell'operazione . Interfaccia più chiara per i trasferimenti .
+        Traduzione Cinese (tradizionale) . Consentire la selezione del conto nel formato per la modifica della transazione . Interfaccia più chiara per i trasferimenti .
       es: |
         Traducción Chino (tradicional) . Permitir la selección de la cuenta en la edición de la operación. Interfaz más clara para las transferencias.
+      pt: |
+        Tradução em Chinês (Tradicional). Permite seleção de conta em formulário de edição da transação. Interfaces de usuário (U.I.) mais claras para transferências.
       tr: |
-        (Geleneksel) Çince çeviri. Muamele düzenleme formunda hesap seçimi. Transferler için daha temiz arayüz. 
+        (Geleneksel) Çince çeviri. Muamele düzenleme formunda hesap seçimi. Transferler için daha temiz arayüz.
       ca: |
         Traducció al Xinès (Tradicional). El formulari d'operacions ara permet triar el compte. La interfície de les transferències ara és més clara.
       cs: |
@@ -530,6 +781,16 @@ versions:
         Tłumaczenie w języku tradycyjnym chińskim. Możliwość wyboru konta w formularzu edytowania transakcji. Bardziej przejrzysty interfejs użytkownika dla przelewów.
       ru: |
         Перевод на китайский язык (традиционный). Разрешить выбор счета в форме редактирования транзакции. Яснее пользовательский интерфейс для переводов.
+      hr: |
+        (Tradicionalni) Kineski prijevod. Dostupan odabir računa u obrascu za uređivanje transakcije. Jasniji UI za plaćanja.
+      ms: |
+        Terjemahan Bahasa Cina (Traditsonal). Membolehkan pemilihan akaun dalam bentuk penyuntingan transaksi. UI lebih jelas dalam pemindahan.
+      ja: |
+        (繁体) 中国語訳. 取引編集フォームで勘定の選択が可能. 転記用のより明確な UI.
+      ro: |
+        Traducere Chineză (tradiţională). Permite selectarea contului în formularul editării tranzacţie . UI mai clară pentru transferuri.
+      si: |
+        (පරණ) චීන පරිවර්තන. ගනුදෙනු සංස්කරණය කරන ගිණුම් තෝරාගැනීමට ඉඩදෙන්න. මාරුකිරීම් සඳහා වඩා නිදහස් යූඅයි.
   -
     - 1.10.4
     - "2013-12-16"
@@ -544,6 +805,8 @@ versions:
         Miglioramenti dell'UI (#94) e correzione di errori (#95,#96).
       es: |
         Mejoras de interfaz de usuario (#94) y corrección de errores (#95,#96).
+      pt: |
+        Aperfeiçoamentos IU (#94) e correções de bugs (#95,#96).
       tr: |
         Gelişmiş kullanıcı arayüzü (#94) ve hata düzeltmeleri (#95,#96).
       ca: |
@@ -554,6 +817,16 @@ versions:
         Ulepszenia interfejsu użytkownika (#94) i poprawki błędów (#95,#96).
       ru: |
         Усовершенствования пользовательского интерфейса (#94) и исправления (#95, #96).
+      hr: |
+        UI poboljšanja (#94) i popravci grešaka (#95,#96).
+      ms: |
+        Penambahbaikan UI (#94) dan pembaikan pepijat (#95,#96).
+      ja: |
+        UI の改善 (#94) とバグ修正 fixes (#95,#96).
+      ro: |
+        Îmbunătăţiri UI (#94) şi bug fixat (#95, #96).
+      si: |
+        යූඅයි දියුණු කිරීම් (#94) සහ දෝෂ නිවැරදි කිරීම් (#95,#96).
   -
     - 1.10.3
     - "2013-12-14"
@@ -561,23 +834,35 @@ versions:
       en: |
         Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait. Bug fixes: Issues #71,#91,#92,#93.
       fr: |
-        Le solde courant est de nouveau mis en évidence et les boutons principaux sont apparaissent en bas, lorsque l'orientation de l'appareil est en mode portrait. Correction des bogues #71,#91,#92,#93.
+        Le solde courant est de nouveau mis plus en évidence et les boutons principaux sont apparents en bas, lorsque l'orientation de l'appareil est en mode portrait.. Corrections des bogues n° 71, 91, 92 et 93.
       de: |
         Kontostand wird wieder deutlicher angezeigt; die wichtigsten Schaltflächen werden im Porträt-Modus am unteren Bildschirmrand angezeigt. Bugs #71,#91,#92,#93 behoben.
       it: |
-        Saldo corrente viene visualizzata in maniera più evidente di nuovo e mostrare i tasti principali, in fondo, quando l'orientamento del dispositivo è verticale. Correzione di errori  #71,#91,#92,#93.
+        Il saldo corrente viene visualizzato di nuovo in maniera più evidente e mostrare i tasti principali in fondo, quando l'orientamento del dispositivo è verticale. Correzione di errori #71,#91,#92,#93.
       es: |
         Se muestra de manera más prominente de nuevo el equilibrio actual y mostrar los botones principales en el fondo, cuando la orientación del dispositivo es el retrato. Corrección de errores #71,#91,#92,#93.
+      pt: |
+        O balanço atual é exibido novamente de forma mais proeminente e mostra os botões principais na porção inferior, quando a orientação do dispositivo é retrato. Correções de erros: Chamados #71,#91,#92,#93.
       tr: |
         Güncel bakiye gene daha belirgin olarak görüntülenir ve cihaz portre yönünde kullanıldığında ana düğmeler aşağıda konumlanır. Hata düzeltmeleri: hata #71,#91,#92,#93.
       ca: |
-        Ara el saldo actual es torna a mostrar de forma més destacada  i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical. Correccions: Problemes #71,#91,#92,#93.
+        Ara el saldo actual es torna a mostrar de forma més destacada i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical. Correccions: Problemes #71,#91,#92,#93.
       cs: |
         Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.. Opravy chyb: otázky #71, #91, #92, #93.
       pl: |
         Bieżący balans jest wyświetlany bardziej widoczny ponownie i wyświetla główne przyciski na dole, kiedy orientacja urządzenia jest ustawiona pionowo. Poprawki błędów: Issues #71,#91,#92,#93.
       ru: |
         Текущий баланс отображается снова на более видном месте, показ основных кнопок в нижней части, когда устройство в портретной ориентации. Исправления ошибок: вопросы #71, #91, #92, #93.
+      hr: |
+        Trenutačni saldo je ponovno istaknutiji i prikazuje glavne tipke na dnu ekrana kada je orijentacija uređaja  u portretskom modu. Popravci grešaka: Problemi #71,#91,#92,#93.
+      ms: |
+        Baki semasa dipaparkan lebih jelas dan tunjukkan butang utama di bahagian bawah, bila orientasi peranti adalah potret. Pembaikan pepijat: Isu #71,#91,#92,#93.
+      ja: |
+        現在の残高を再度より目立つように表示、デバイスの向きが縦の場合にメインボタンを下部に表示. バグ修正: 問題 #71,#91,#92,#93.
+      ro: |
+        Soldul curent este afişat mai proeminent din nou şi arată butoanele principale în jos, atunci când orientarea aparatului este portret. Bug fixat: probleme #71, #91, #92, #93.
+      si: |
+        උපකරණ පෙළගැස්ම පිලිබිගු වී ඇති විට, ජංගම ශේෂය වඩා ප්‍රමුකව නැවත පෙන්වනු ලබන අතර ප්‍රධාන බොත්තම් පහළින් දැක්වේ. දෝෂ නිවැරදි කිරීම්: ප්‍රශ්න #71,#91,#92,#93.
   -
     - 1.10.2
     - "2013-12-12"
@@ -585,15 +870,19 @@ versions:
       en: |
         When transaction list is grouped, show intermediate balance for each period in group header. Bug fix: Issue #90.
       fr: |
-        Lorsque la liste des transactions est groupée, afficher le solde intermédiaire pour chaque période dans l\'en-tête du groupe. Correction de bogue : Bogue #90.
+        Lorsque la liste des transactions est groupée, afficher le solde intermédiaire pour chaque période dans l'en-tête du groupe. Correction de bogue #90.
       de: |
-        Wenn die Buchungsliste gruppiert angezeigt wird, erscheint in der Kopfzeile jeder Gruppe der Zwischenstand für den jeweiligen Zeitraum.. Bug fix: Issue #90.
+        Wenn die Buchungsliste gruppiert angezeigt wird, erscheint in der Kopfzeile jeder Gruppe der Zwischenstand für den jeweiligen Zeitraum. Bug #90 behoben.
       it: |
-        Quando la lista delle transazioni è raggruppato, mostra equilibrio intermedio per ciascun periodo in un\'intestazione di gruppo. Correzione di errori #90.
+        Quando la lista delle transazioni è raggruppata, mostrare il bilancio intermedio per ciascun periodo nell'intestazione del gruppo. Correzione di errori #90.
       es: |
         Cuando la lista de transacciones se agrupa, mostrar equilibrio intermedio para cada periodo en el encabezado de grupo. Corrección de errores #90.
+      pt: |
+        Quando a lista de transação é agrupada, mostra-se balanço intermediário para cada período no cabeçalho de grupo. Correção de erro: Chamado #90.
       tr: |
         Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster. Hata düzeltmesi: Hata #90.
+      hu: |
+        A tranzakcós listán csoportosított kiválasztás során az aktuális egyenleg megjelenik a kiválasztás időszakra vonatkozóan a fejlécben.. Bug fix: #90-es ügy.
       ca: |
         Quan la llista d'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup. Correcció: Problema #90.
       cs: |
@@ -602,6 +891,16 @@ versions:
         Kiedy lista transakcji jest pogroupowana, wyświetla pośredni balans dla każdego z okresu w nagłówku grupy. Poprawa błędu: Issue #90.
       ru: |
         При группировке списка транзакций показывать промежуточный баланс для каждого периода в верхнем колонтитуле группы. Багфикс: проблема #90.
+      hr: |
+        Kada je popis transakcija grupiran, u zaglavlju su prikazana prijelazna salda za svaki period . Ispravak greške: Problem #90.
+      ms: |
+        Bila drnstsi transaksi dikumpulkan, tunjuk baki pertengahan bagi setiap tempoh dalam pengepala kumpulan. Pembaikan pepijat: Isu #90.
+      ja: |
+        取引リストがグループ化されている場合、グループヘッダーに各期間の中間の残高を表示. バグ修正: 問題 #90.
+      ro: |
+        Atunci când lista de tranzacţii este grupată, arată soldul intermediar pentru fiecare perioadă în antetul de grup. Bug fixat: problema #90.
+      si: |
+        ගණුදෙනු ලැයිස්තුව සමූහික වී ඇති විට, සෑම කාලසීමාවක් සඳහාම අතරමැදි ශේෂය කණ්ඩායම් ශීර්ෂකය තුල පෙන්වන්න.  දෝෂ නිවැරදි කිරීම්: ප්‍රශ්නය #90.
   -
     - 1.10.1
     - "2013-12-06"
@@ -618,6 +917,8 @@ versions:
         Idioma de interfaz de usuario configurable. Tamaño de fuente configurable.
       tr: |
         Değiştirilebilir arayüz dili. Değiştirilebilir yazı boyutu.
+      hu: |
+        Kezelőfelület nyelve választható. Betűméret változtatható.
       ca: |
         Idioma configurable. Tipus de lletra configurable.
       cs: |
@@ -626,6 +927,16 @@ versions:
         Możliwość zmiany języka interfejsu użytkownika. Możliwość zmiany rozmiaru czcionki.
       ru: |
         Настраиваемый язык пользовательского интерфейса. Настраиваемый размер шрифта.
+      hr: |
+        Podesiv jezik korisničkog sučelja. Podesiva veličina slova.
+      ms: |
+        UI bahasa boleh dikonfigur. Saiz fon boleh dikonfigur.
+      ja: |
+        UI の言語を設定可能. フォントサイズを設定可能.
+      ro: |
+        Limba UI  configurabilă. Dimensiunea fontului configurabilă.
+      si: |
+        යූඅයි භාෂාව සකස් කල හැකිය. මුද්‍රණ අකුරු ප්‍රමාණය සකස් කල හැකිය.
   -
     - 1.10.0
     - "2013-12-01"
@@ -637,7 +948,7 @@ versions:
       de: |
         Pläne für zukünftige und wiederkehrende Ausgaben. Khmer Übersetzung.
       it: |
-        Scadenze per il futuro e operazioni ricorrenti. Traduzione Khmer.
+        Piani per il futuro e operazioni ricorrenti. Traduzione Khmer .
       es: |
         Planes par las transacciones futuras y recurrentes. Khmer traducción.
       tr: |
@@ -652,6 +963,16 @@ versions:
         Plany na przyszłość i cykliczne transakcje. Tłumaczenie w języku Khmer.
       ru: |
         Планы на будущее и повторяющиеся транзакции. Кхмерский перевод.
+      hr: |
+        Planovi za buduće i periodične transakcije. Khmerski prijevod.
+      ms: |
+        Pelan untuk transaksi akan datang dan berulang. Terjemahan bahasa Khmer.
+      ja: |
+        将来および繰り返し取引の計画. クメール語翻訳.
+      ro: |
+        Scadenţe pentru tranzacţii viitoare şi repetative. Traducere Khmeră .
+      si: |
+        අනාගත සැලසුම් සහ සමාවර්ත ගණුදෙනු. ඛ්මෙර් පරිවර්තන.
   -
     - 1.9.7
     - "2013-11-07"
@@ -751,7 +1072,7 @@ versions:
       hu: |
         Bug fix: #69-es ügy. Arab nyelv.
       ca: |
-        Correcció: Problema #69. Traducció a l\'àrab.
+        Correcció: Problema #69. Traducció a l'àrab.
       cs: |
         Oprava:chyba #69. Arabský překlad.
       pl: |
@@ -775,7 +1096,7 @@ versions:
       it: |
         Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo.
         I beneficiari sono visualizzati nell'elenco delle transazioni.
-        L'elenco dei conti è ordinato (per frequenza d\'uso di default)
+        L'elenco dei conti è ordinato (per frequenza d'uso di default)
       es: |
         Agrupamiento por día, semana, mes, año y visualización sumas por grupo.
         Beneficiario se muestra en la lista de transacciones.
@@ -793,7 +1114,7 @@ versions:
       hu: |
         Tranzakciók összesítése napi, heti, havi és éves viszonylatban. A kedvezményezett a tranzakciós listában megjelenik. A számlák sorrendben látszanak (alapértelmezetten a leggyakrabban használt elöl).
       ca: |
-        Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup. A la llista d\'operacions es mostra el beneficiari. La llista de comptes està ordenada (per freqüència d\'ús per omissió).
+        Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup. A la llista d'operacions es mostra el beneficiari. La llista de comptes està ordenada (per freqüència d'ús per omissió).
       cs: |
         Skupina transakcí za den, týden, měsíc, rok a zobrazení součtu za skupinu. Příjemce se zobrazí v seznamu transakcí. Seznam účtů je seřazený (podle četnosti použití ve výchozím nastavení).
       pl: |
@@ -882,7 +1203,7 @@ versions:
         Suport a Android 1.6.
       fr: |
         Exporter au format CSV.
-        Déclarer explicitement le support pour les grands écrans pour rendre l\'app à nouveau disponible pour les tablettes sur Google Play.
+        Déclarer explicitement le support pour les grands écrans pour rendre l'app à nouveau disponible pour les tablettes sur Google Play.
         Support pour Android 1.6.
       de: |
         CSV Export.
@@ -983,7 +1304,7 @@ versions:
         Arreglat el problema amb el maneig de la data en alguns idiomes (àrab, bengalí, persa, hindi, marathi, pashto, tamil).
       fr: |
         Protection par mot de passe.
-        Correction d\'un problème avec la manipulation de dates dans certaines languages (arabe, bengali, persan, hindi, marathi, pachto, tamoul).
+        Correction d'un problème avec la manipulation de dates dans certaines languages (arabe, bengali, persan, hindi, marathi, pachto, tamoul).
       de: |
         Passwortschutz.
         Problem bei Verarbeitung der Zeitangaben in manchen Sprachen (Arabisch, Bengali, Persisch, Hindi, Marathi, Pashto, Tamil) behoben.
