@@ -1,35 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_116">
-    <item>Lepší zpracování plánů: možnost plánovat události do budoucna</item>
-    <item>Nové překlady: portugalština, polština, čestina</item>
-  </string-array>
-  <string-array name="whats_new_110">
-    <item>Zobrazit seznam transakcí a statistické rozdělení pro seskupení více účtů</item>
-  </string-array>
-  <string-array name="whats_new_108">
-    <item>Překlad čínština (tradiční)</item>
-    <item>Povolit výběr účtu ve formuláři úprav transakcí</item>
-    <item>Jasnější uživatelské rozhraní pro převody</item>
-  </string-array>
-  <string-array name="whats_new_104">
-    <item>Vylepšení uživatelského rozhraní (#94) a opravy chyb (#95, #96)</item>
-  </string-array>
-  <string-array name="whats_new_102">
-    <item>Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.</item>
-    <item>Opravy chyb: otázky #71, #91, #92, #93</item>
-  </string-array>
-  <string-array name="whats_new_100">
-    <item>Když je seznam transakcí seskupen zobrazit průběžnou bilanci za každé období v záhlaví skupiny</item>
-    <item>Oprava: chyb #90</item>
-  </string-array>
-  <string-array name="whats_new_95">
-    <item>Jazyk uživatelského rozhraní lze konfigurovat</item>
-    <item>Konfigurovatelná velikost písma</item>
-  </string-array>
-  <string-array name="whats_new_93">
-    <item>Plány pro budoucí a opakované transakce</item>
-    <item>Khmerské¨ý překlad</item>
-  </string-array>
     <string name="bug_fixes">Opravy chyb</string>
 </resources>
