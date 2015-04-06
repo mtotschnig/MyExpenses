@@ -282,12 +282,17 @@
 
 <div class="block" id="participate" style="display:none">
   <h2>{% if msg.sections.participate %}{{msg.sections.participate}}{% else %}{{site.data.en.en.sections.participate}}{% endif %}</h2>
-  <p>{% if msg.participate.intro %}{{msg.participate.intro}}{% else %}{{site.data.en.en.participate.intro}}{% endif %}</p>
+  <p>With your support, <span class="application">My Expenses</span> keeps growing in functionality, while being distributed
+      ad free and Open Source.</p>
   <ul>
-    <li>{% if msg.participate.submit_issue %}{{msg.participate.submit_issue}}{% else %}{{site.data.en.en.participate.submit_issue}}{% endif %}</li>
-    <li>{% if msg.participate.test %}{{msg.participate.test}}{% else %}{{site.data.en.en.participate.test}}{% endif %}</li>
-    <li>{% if msg.participate.translate %}{{msg.participate.translate}}{% else %}{{site.data.en.en.participate.translate}}{% endif %}</li>
-    <li>{% if msg.participate.premium %}{{msg.participate.premium}}{% else %}{{site.data.en.en.participate.premium}}{% endif %}</li>
+    <li><span class="application">My Expenses</span> evolves through your reports and suggestions.
+      If you find a problem or think of an improvement,
+      create a <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>, in Github's Issue Tracker.</li>
+    <li>If you are interested in helping to test upcoming versions, please join the
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> Google
+      Group.</li>
+    <li>You can also help <a class="intern" href="#translate">translate</a> <span class="application">My Expenses</span> into new languages.</li>
+    <li>Please consider purchasing a <a class="intern" href="#premium">Contrib licence</a> for unrestricted access to all Premium features.</li>
   </ul>
 </div>
 
