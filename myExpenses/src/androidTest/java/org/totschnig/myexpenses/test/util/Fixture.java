@@ -72,12 +72,11 @@ public class Fixture {
     Context appContext = inst.getTargetContext().getApplicationContext(); 
     Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
 
-    account1 = new Account(
-        testContext.getString(R.string.testData_account1Label),
-        defaultCurrency,
-        2000,
-        testContext.getString(R.string.testData_account1Description), Type.BANK, Account.defaultColor
-    );
+    account1 = Account.getInstanceFromDb(0);
+    account1.currency = defaultCurrency;
+    account1.description = testContext.getString(R.string.testData_account1Description);
+    account1.label = testContext.getString(R.string.testData_account1Label);
+    account1.openingBalance = new Money(defaultCurrency,2000L);
     account1.grouping = Account.Grouping.DAY;
     account1.save();
     //Transaction 0 for D_ContextActionTest

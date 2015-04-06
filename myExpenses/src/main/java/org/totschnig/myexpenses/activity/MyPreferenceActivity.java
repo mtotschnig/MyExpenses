@@ -192,6 +192,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   protected void onResume() {
     super.onResume();
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    if (getIntent()!=null && getIntent().getAction() != null &&
+        getIntent().getAction().equals("myexpenses.intent.preference.password")) {
+      //only used for screenshot generation
+      setPreferenceScreen((PreferenceScreen)findPreference(getString(R.string.pref_screen_protection)));
+    }
   }
   @Override
   protected void onPause() {

@@ -108,7 +108,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MyPreferenceActivity" />
+        <activity android:name=".activity.MyPreferenceActivity">
+            <intent-filter>
+                <action android:name="myexpenses.intent.preference.password" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+         </activity>
         <activity
             android:name=".activity.Help"
             android:theme="@style/Translucent.NoTitleBar" />

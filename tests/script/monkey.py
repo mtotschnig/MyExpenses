@@ -1,3 +1,4 @@
+#this script currently is designed for being run on Nexus S
 import sys
 
 if (len(sys.argv) < 3):
@@ -69,10 +70,20 @@ def finalize():
   back()
   back()
 
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
+device = MonkeyRunner.waitForConnection()
+
+# start
+package = 'org.totschnig.myexpenses'
+activity = 'org.totschnig.myexpenses.activity.MyExpenses'
+runComponent = package + '/' + activity
+device.startActivity(component=runComponent)
+
 def main():
   #1 ManageAccounts
   toTopLeft()
   enter()
+  sleep()
   down()
   down()
   down()
@@ -108,16 +119,15 @@ def main():
   sleep()
   up()
   up()
-  right()
   up()
   left()
   enter() #apply instance
-  sleep()
+  sleep(4)
   snapshot("plans")
   
   #5 ExportAndReset
   back()
-  menu(0)
+  menu(1)
   snapshot("export")
   
   #6 Calculator
@@ -140,6 +150,7 @@ def main():
   down()
   down()#split is second, first is the transaction created from plan
   enter()
+  sleep(2)
   right()
   enter()
   
@@ -150,7 +161,7 @@ def main():
   
   #8 Distribution
   back()
-  menu(1)
+  menu(2)
   right()
   right()
   enter()
@@ -158,33 +169,23 @@ def main():
   down()
   down()
   enter()
-  down()
-  enter()
+  sleep()
   snapshot("distribution")
   
   #9 Backup
-  back()
-  menu(6)
-  if lang == 'zh':
-    distance = 14
-  else:
-    distance = 16
-  for _ in range(distance):
-    down()
-  enter()
+  package = 'org.totschnig.myexpenses'
+  activity = 'org.totschnig.myexpenses.activity.BackupRestoreActivity'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent,action="myexpenses.intent.backup")
   snapshot("backup")
   
   #10 Password
   back()
-  back()
-  menu(6)
-  if lang == 'zh':
-    distance = 20
-  else:
-    distance = 22
-  for _ in range(distance):
-    down()
-  enter()
+  package = 'org.totschnig.myexpenses'
+  activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent,action="myexpenses.intent.preference.password")
+  down()
   enter()
   enter()
   snapshot("password")
@@ -192,8 +193,7 @@ def main():
   #10 Light Theme
   back()
   back()
-  back()
-  menu(6)
+  menu(7)
   for _ in range(4):
     down()
   enter()
@@ -203,18 +203,10 @@ def main():
   snapshot("light_theme")
   
   #11 Help
-  menu(7)
+  menu(8)
   snapshot("help")
   finalize()
 
-from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
-device = MonkeyRunner.waitForConnection()
-
-# start
-package = 'org.totschnig.myexpenses'
-activity = 'org.totschnig.myexpenses.activity.MyExpenses'
-runComponent = package + '/' + activity
-device.startActivity(component=runComponent)
 main()
 
 
