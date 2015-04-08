@@ -20,25 +20,22 @@ def sleep(duration=1):
   MonkeyRunner.sleep(duration)
   print "sleeping"
 
-def down_and_up(key):
-  device.press(key,MonkeyDevice.DOWN_AND_UP)
-
 def back():
-  down_and_up('KEYCODE_BACK')
+  device.press('KEYCODE_BACK')
   sleep()
 
 def down():
-  down_and_up('KEYCODE_DPAD_DOWN')
+  device.press('KEYCODE_DPAD_DOWN')
 
 def right():
-  down_and_up('KEYCODE_DPAD_RIGHT')
+  device.press('KEYCODE_DPAD_RIGHT')
 
 def left():
-  down_and_up('KEYCODE_DPAD_LEFT')
+  device.press('KEYCODE_DPAD_LEFT')
 
 #select the nth item from menu (0 indexed)
 def menu(n):
-  down_and_up('KEYCODE_MENU')
+  device.press('KEYCODE_MENU')
   sleep()
   for _ in range(10):
     up() #make sure we start from top
@@ -47,11 +44,11 @@ def menu(n):
   enter()
 
 def enter():
-  down_and_up('KEYCODE_ENTER')
+  device.press('KEYCODE_ENTER')
   sleep()
 
 def up():
-  down_and_up('KEYCODE_DPAD_UP')
+  device.press('KEYCODE_DPAD_UP')
 
 def toTopLeft():
   for _ in range(10):
@@ -80,6 +77,8 @@ runComponent = package + '/' + activity
 device.startActivity(component=runComponent)
 
 def main():
+  package = 'org.totschnig.myexpenses'
+
   #1 ManageAccounts
   toTopLeft()
   enter()
@@ -153,11 +152,37 @@ def main():
   sleep(2)
   right()
   enter()
-  
   #give time for loading
   sleep(2)
   back()#close virtual keyboard
   snapshot("split")
+  
+  #8 Attach picture
+  back()
+  toTopLeft()
+  down()
+  down()
+  down() #third in list
+  enter()
+  sleep(2)
+  right()
+  right()
+  enter()
+  #give time for loading
+  sleep(2)
+  back()#close virtual keyboard
+  #navigate to imageView
+  toTopLeft()
+  down()
+  down()
+  down()
+  down()
+  down()
+  down()
+  right()
+  right()
+  enter()
+  snapshot("attach_picture")
   
   #8 Distribution
   back()
@@ -173,7 +198,6 @@ def main():
   snapshot("distribution")
   
   #9 Backup
-  package = 'org.totschnig.myexpenses'
   activity = 'org.totschnig.myexpenses.activity.BackupRestoreActivity'
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent,action="myexpenses.intent.backup")
@@ -181,7 +205,6 @@ def main():
   
   #10 Password
   back()
-  package = 'org.totschnig.myexpenses'
   activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent,action="myexpenses.intent.preference.password")

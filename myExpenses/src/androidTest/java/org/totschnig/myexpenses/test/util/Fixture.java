@@ -132,6 +132,7 @@ public class Fixture {
     op1.amount = new Money(defaultCurrency,-1200L);
     op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
     op1.setDate(new Date( now - 300000 ));
+    op1.setPictureUri(Uri.parse("file:///sdcard/myexpenses/screenshot.jpg"));
     op1.save();
 
     //Transaction 2
