@@ -186,6 +186,7 @@ def main():
   
   #8 Distribution
   back()
+  back()
   menu(2)
   right()
   right()
@@ -196,38 +197,42 @@ def main():
   enter()
   sleep()
   snapshot("distribution")
+
+  #11 Help
+  back()
+  activity = 'org.totschnig.myexpenses.activity.Help'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent)
+  snapshot("help")
   
   #9 Backup
+  back()
   activity = 'org.totschnig.myexpenses.activity.BackupRestoreActivity'
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent,action="myexpenses.intent.backup")
   snapshot("backup")
-  
+    
   #10 Password
   back()
-  activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
-  runComponent = package + '/' + activity
   device.startActivity(component=runComponent,action="myexpenses.intent.preference.password")
   down()
   enter()
   enter()
   snapshot("password")
-  
+
   #10 Light Theme
   back()
-  back()
-  menu(7)
-  for _ in range(4):
+  activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent)
+  for _ in range(5):
     down()
   enter()
   down()
   enter()
   back()
   snapshot("light_theme")
-  
-  #11 Help
-  menu(8)
-  snapshot("help")
+
   finalize()
 
 main()
