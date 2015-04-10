@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">Dompet saya</string>
+  <string name="testData_account1Description">Perbelanjaan harian</string>
+  <string name="testData_account2Label">hujung minggu di Paris</string>
+  <string name="testData_account2Description">Ogos 2012</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">Akaun bank</string>
+  <string name="testData_account3Description">Bank of America</string>
+  <string name="testData_transaction1SubCat">Metro</string>
+  <string name="testData_transaction1MainCat">Pengangkutan</string>
+  <string name="testData_transaction2SubCat">Barang Runcit</string>
+  <string name="testData_transaction2MainCat">Makanan</string>
+  <string name="testData_transaction2Comment">Buah-buahan &amp; Sayuran</string>
+  <string name="testData_transaction3SubCat">Bahan Api</string>
+  <string name="testData_transaction3MainCat">Kereta</string>
+  <string name="testData_transaction4SubCat">Restoran</string>
+  <string name="testData_transaction4MainCat">Makanan</string>
+  <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+  <string name="testData_transaction6MainCat">Hadiah</string>
+</resources>

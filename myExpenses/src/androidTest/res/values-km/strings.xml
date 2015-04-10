@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">កាបូបលុយខ្ញុំ</string>
+  <string name="testData_account1Description">ការចំណាយ​ប្រចាំថ្ងៃ</string>
+  <string name="testData_account2Label">ចុងសប្តាហ៍​នៅប៉ារីស</string>
+  <string name="testData_account2Description">សីហា 2012</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">គណនីធនាគារ</string>
+  <string name="testData_account3Description">ធនាគាអាមេរិក</string>
+  <string name="testData_transaction1SubCat">រថភ្លើងក្រោមដី</string>
+  <string name="testData_transaction1MainCat">ដឹកជញ្ជូន</string>
+  <string name="testData_transaction2SubCat">គ្រឿងទេស</string>
+  <string name="testData_transaction2MainCat">ម្ហូបអាហារ</string>
+  <string name="testData_transaction2Comment">ផ្លែឈើ &amp; បន្លែ</string>
+  <string name="testData_transaction3SubCat">ប្រងឥន្ធនៈ</string>
+  <string name="testData_transaction3MainCat">រថយន្ត</string>
+  <string name="testData_transaction4SubCat">ភោជនីយដ្ឋាន</string>
+  <string name="testData_transaction4MainCat">ម្ហូបអាហារ</string>
+  <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+  <string name="testData_transaction6MainCat">អំណោយ</string>
+</resources>

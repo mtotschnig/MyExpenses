@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">マイ ウォレット</string>
+  <string name="testData_account1Description">毎日の支出</string>
+  <string name="testData_account2Label">パリの週末</string>
+  <string name="testData_account2Description">2012年8月</string>
+  <string name="testData_account2Currency">ユーロ</string>
+  <string name="testData_account3Label">銀行口座</string>
+  <string name="testData_account3Description">バンク オブ アメリカ</string>
+  <string name="testData_transaction1SubCat">メトロ</string>
+  <string name="testData_transaction1MainCat">交通費</string>
+  <string name="testData_transaction2SubCat">食料品店</string>
+  <string name="testData_transaction2MainCat">食品</string>
+  <string name="testData_transaction2Comment">果物 &amp; 野菜</string>
+  <string name="testData_transaction3SubCat">燃料</string>
+  <string name="testData_transaction3MainCat">自動車</string>
+  <string name="testData_transaction4SubCat">レストラン</string>
+  <string name="testData_transaction4MainCat">食品</string>
+  <string name="testData_transaction4Payee">ピッツェリア アントネッラ</string>
+  <string name="testData_transaction6MainCat">贈答品</string>
+</resources>
