@@ -15,7 +15,6 @@
     <string name="testData_transaction3SubCat">Benzin</string>
     <string name="testData_transaction3MainCat">Otomobil</string>
     <string name="testData_transaction4SubCat">Lokanta</string>
-    <string name="testData_transaction4MainCat">Gıda</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Hediyeler</string>
     <string name="testData_templateMainCat">Konut</string>

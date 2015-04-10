@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">ប្រងឥន្ធនៈ</string>
   <string name="testData_transaction3MainCat">រថយន្ត</string>
   <string name="testData_transaction4SubCat">ភោជនីយដ្ឋាន</string>
-  <string name="testData_transaction4MainCat">ម្ហូបអាហារ</string>
   <string name="testData_transaction4Payee">Pizzeria Antonella</string>
   <string name="testData_transaction6MainCat">អំណោយ</string>
 </resources>

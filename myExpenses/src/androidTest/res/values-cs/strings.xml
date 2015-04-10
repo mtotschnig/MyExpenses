@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">Palivo</string>
   <string name="testData_transaction3MainCat">Auto</string>
   <string name="testData_transaction4SubCat">Restaurace</string>
-  <string name="testData_transaction4MainCat">Jídlo</string>
   <string name="testData_transaction4Payee">Pizzerie Antonella</string>
   <string name="testData_transaction6MainCat">Dárky</string>
     <string name="testData_templateMainCat">Bydlení</string>

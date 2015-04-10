@@ -15,7 +15,6 @@
     <string name="testData_transaction3SubCat">Kraftstoff</string>
     <string name="testData_transaction3MainCat">Kfzkosten</string>
     <string name="testData_transaction4SubCat">Restaurant</string>
-    <string name="testData_transaction4MainCat">Lebensmittel</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Geschenke</string>
     <string name="testData_templateMainCat">Wohnung</string>

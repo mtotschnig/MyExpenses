@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">Üzemanyag</string>
   <string name="testData_transaction3MainCat">Autó</string>
   <string name="testData_transaction4SubCat">Étterem</string>
-  <string name="testData_transaction4MainCat">Étel</string>
   <string name="testData_transaction4Payee">Antonella Pizzéria</string>
   <string name="testData_transaction6MainCat">Ajándékok</string>
     <string name="testData_templateMainCat">Lakhatás</string>

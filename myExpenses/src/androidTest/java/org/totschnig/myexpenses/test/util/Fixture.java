@@ -155,8 +155,7 @@ public class Fixture {
     //Transaction 4 Cleared
     Transaction op4 = Transaction.getNewInstance(account3.getId());
     op4.amount = new Money(defaultCurrency,-5000L);
-    op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat),
-        findCat(testContext.getString(R.string.testData_transaction4MainCat), null)));
+    op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat), mainCat2));
     op4.payee = testContext.getString(R.string.testData_transaction4Payee);
     op4.setDate(new Date( now - 98030000 ));
     op4.crStatus = CrStatus.CLEARED;

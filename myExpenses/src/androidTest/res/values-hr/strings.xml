@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">Gorivo</string>
   <string name="testData_transaction3MainCat">Automobil</string>
   <string name="testData_transaction4SubCat">Restoran</string>
-  <string name="testData_transaction4MainCat">Hrana</string>
   <string name="testData_transaction4Payee">Pizzeria Antonella</string>
   <string name="testData_transaction6MainCat">Darovi</string>
 </resources>

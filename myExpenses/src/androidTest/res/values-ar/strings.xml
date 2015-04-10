@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">وقود</string>
   <string name="testData_transaction3MainCat">سيارة</string>
   <string name="testData_transaction4SubCat">مطعم</string>
-  <string name="testData_transaction4MainCat">طعام</string>
   <string name="testData_transaction4Payee">مطعم Pizzeria Antonella</string>
   <string name="testData_transaction6MainCat">هدايا</string>
     <string name="testData_templateMainCat">سكن</string>

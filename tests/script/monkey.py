@@ -50,16 +50,16 @@ def enter():
 def up():
   device.press('KEYCODE_DPAD_UP')
 
-def toTopLeft():
-  for _ in range(10):
+def toTopLeft(force=5):
+  for _ in range(force*2):
     up()
-  for _ in range(5):
+  for _ in range(force):
     left()
 
-def toBottomLeft():
-  for _ in range(10):
+def toBottomLeft(force=5):
+  for _ in range(force*2):
     down()
-  for _ in range(5):
+  for _ in range(force):
     left()
 
 def finalize():
@@ -74,10 +74,11 @@ device = MonkeyRunner.waitForConnection()
 package = 'org.totschnig.myexpenses'
 activity = 'org.totschnig.myexpenses.activity.MyExpenses'
 runComponent = package + '/' + activity
-device.startActivity(component=runComponent)
+#we start with the third account set up in fixture
+extra = {'_id': "3"}
+device.startActivity(component=runComponent,extras=extra)
 
 def main():
-  package = 'org.totschnig.myexpenses'
 
   #1 ManageAccounts
   toTopLeft()
@@ -86,7 +87,8 @@ def main():
   down()
   down()
   down()
-  toTopLeft()
+  sleep()
+  toTopLeft(8)
   snapshot("manage_accounts")
   
   if (stage == "1"):
@@ -94,9 +96,8 @@ def main():
     return
   
   #3 GrooupedList
-  down()
-  down()
-  down()
+  #back() does not close drawer but finishes activity?
+  toTopLeft()
   enter()
   snapshot("grouped_list")
     
@@ -211,9 +212,11 @@ def main():
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent,action="myexpenses.intent.backup")
   snapshot("backup")
-    
+  
   #10 Password
   back()
+  activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
+  runComponent = package + '/' + activity
   device.startActivity(component=runComponent,action="myexpenses.intent.preference.password")
   down()
   enter()
@@ -222,8 +225,7 @@ def main():
 
   #10 Light Theme
   back()
-  activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
-  runComponent = package + '/' + activity
+  back()
   device.startActivity(component=runComponent)
   for _ in range(5):
     down()

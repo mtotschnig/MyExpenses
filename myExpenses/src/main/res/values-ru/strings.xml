@@ -237,7 +237,7 @@
   <string name="password_not_valid">Пароль неверный. Повторите!</string>
   <string name="password_prompt">Введите ваш пароль</string>
   <string name="password_security_answer_not_valid">Не верный ответ. Повторите!</string>
-  <string name="payee">Получатель платежа</string>
+  <string name="payee">Получатель</string>
   <string name="payer">Плательщик</string>
   <string name="peer_transaction_deleted">Данная операция ссылается на исправительную запись (счёт %1$s) которая была удалена</string>
   <!--Plan for future and recurring transactions-->

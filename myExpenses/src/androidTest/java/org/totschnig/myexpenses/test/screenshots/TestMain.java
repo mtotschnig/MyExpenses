@@ -103,6 +103,26 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     defaultCurrency = Currency.getInstance("RUB");
     helperTestLang("ru","RU");
   }
+  public void testLang_hr() {
+    defaultCurrency = Currency.getInstance("HRK");
+    helperTestLang("hr","HR");
+  }
+  public void testLang_ja() {
+    defaultCurrency = Currency.getInstance("JPY");
+    helperTestLang("ja","JA");
+  }
+  public void testLang_ms() {
+    defaultCurrency = Currency.getInstance("MYR");
+    helperTestLang("ms","MY");
+  }
+  public void testLang_ro() {
+    defaultCurrency = Currency.getInstance("RON");
+    helperTestLang("ro","RO");
+  }
+  public void testLang_si() {
+    defaultCurrency = Currency.getInstance("LKR");
+    helperTestLang("si","SI");
+  }
 	private void helperTestLang(String lang, String country) {
 	  this.locale = new Locale(lang,country);
 	  Locale.setDefault(locale); 
@@ -120,11 +140,14 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     if (pref==null)
       Assert.fail("Could not find prefs");
     pref.edit()
-      .putString(MyApplication.PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
-      .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
-      .commit();
+        .putString(MyApplication.PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
+        .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
+        .commit();
     
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
+    pref.edit()
+        .putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(),Fixture.getAccount3().getId())
+        .commit();
 	}
 }

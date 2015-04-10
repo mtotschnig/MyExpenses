@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">Combustível</string>
   <string name="testData_transaction3MainCat">Carro</string>
   <string name="testData_transaction4SubCat">Restaurante</string>
-  <string name="testData_transaction4MainCat">Alimentação</string>
   <string name="testData_transaction4Payee">Pizzaria Antonella</string>
   <string name="testData_transaction6MainCat">Presentes</string>
   <string name="testData_templateMainCat">Habitação</string>

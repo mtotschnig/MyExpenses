@@ -4,7 +4,7 @@
   <string name="testData_account1Description">දෛනික වියදම් </string>
   <string name="testData_account2Label"> පැරිසියේ සති අන්තය</string>
   <string name="testData_account2Description">2012 අගෝස්තු</string>
-  <string name="testData_account2Currency">යුරෝ </string>
+  <string name="testData_account2Currency">EUR</string>
   <string name="testData_account3Label">බැංකු ගිණුම </string>
   <string name="testData_account3Description">අමෙරිකානු බැංකුව</string>
   <string name="testData_transaction1SubCat">මීටරය </string>
@@ -15,7 +15,6 @@
   <string name="testData_transaction3SubCat">ඉන්ධන </string>
   <string name="testData_transaction3MainCat">රථය </string>
   <string name="testData_transaction4SubCat">අවන්හල </string>
-  <string name="testData_transaction4MainCat">ආහාර </string>
   <string name="testData_transaction4Payee">Pizzeria Antonella</string>
   <string name="testData_transaction6MainCat">තෑගි </string>
 </resources>
