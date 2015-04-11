@@ -31,9 +31,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
- */
 public class SingleCategoryCriteria extends IdCriteria {
 
   public SingleCategoryCriteria(long categoryId, String label) {

@@ -25,9 +25,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
- */
 public class PayeeCriteria extends IdCriteria {
 
   public PayeeCriteria(long id, String label) {

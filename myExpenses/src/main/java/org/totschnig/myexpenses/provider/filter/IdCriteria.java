@@ -21,9 +21,6 @@ package org.totschnig.myexpenses.provider.filter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
- */
 public class IdCriteria extends Criteria {
 
   protected final String label;

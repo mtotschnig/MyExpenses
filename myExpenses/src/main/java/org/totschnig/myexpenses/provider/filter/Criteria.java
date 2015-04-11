@@ -32,9 +32,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-/**
- * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
- */
 @SuppressLint("ParcelCreator")
 public class Criteria implements Parcelable {
 
