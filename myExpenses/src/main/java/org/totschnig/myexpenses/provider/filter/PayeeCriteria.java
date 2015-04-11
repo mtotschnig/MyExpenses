@@ -51,4 +51,9 @@ public class PayeeCriteria extends IdCriteria {
     String label = extra.substring(sepIndex+1);
     return new PayeeCriteria(id,label);
   }
+
+  @Override
+  protected boolean shouldApplyToParts() {
+    return false;
+  }
 }

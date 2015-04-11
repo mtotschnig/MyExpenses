@@ -51,4 +51,9 @@ public class MethodCriteria extends IdCriteria {
     String label = extra.substring(sepIndex+1);
     return new MethodCriteria(id,label);
   }
+
+  @Override
+  protected boolean shouldApplyToParts() {
+    return false;
+  }
 }

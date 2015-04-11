@@ -82,9 +82,13 @@ public class WhereFilter {
   public String[] getSelectionArgs() {
     String[] args = new String[0];
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      String critArgs[] = criterias.valueAt(i).getSelectionArgs();
+      Criteria c = criterias.valueAt(i);
+      String critArgs[] = c.getSelectionArgs();
+      if (c.shouldApplyToParts()) {
+        critArgs = Utils.joinArrays(critArgs, critArgs);
+      }
       //we need to double each criteria since it is applied to parents and parts
-      args = Utils.joinArrays(args,Utils.joinArrays(critArgs, critArgs));
+      args = Utils.joinArrays(args,critArgs);
     }
     return args;
   }

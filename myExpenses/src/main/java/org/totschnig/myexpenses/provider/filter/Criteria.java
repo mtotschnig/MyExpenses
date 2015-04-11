@@ -122,6 +122,9 @@ public class Criteria implements Parcelable {
    * that are matched by the critera
    */
   protected String applyToSplitParts(String selection) {
+    if (!shouldApplyToParts()) {
+      return selection;
+    }
     return "(" + selection + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID //maybe the check for split catId is not needed
         + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
         + " WHERE children." + KEY_PARENTID
@@ -136,10 +139,15 @@ public class Criteria implements Parcelable {
    * matched by the criteria
    */
   protected String applyToSplitParents(String selection) {
-    return "(" + selection + " OR "
-        + " exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
+    String parentSelect = " exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
         + " WHERE parents." + KEY_ROWID
-        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + "))";
+        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + ")";
+
+    if (!shouldApplyToParts()) {
+      return parentSelect;
+    }
+    return "(" + selection + " OR "
+        + parentSelect + ")";
   }
 
   public String getSelectionForParts() {
@@ -147,6 +155,10 @@ public class Criteria implements Parcelable {
   }
   public String getSelectionForParents() {
     return applyToSplitParts(getSelection());
+  }
+
+  protected boolean shouldApplyToParts() {
+    return true;
   }
   
 }

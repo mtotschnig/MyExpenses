@@ -56,5 +56,10 @@ public class CrStatusCriteria extends Criteria {
   }
   public static CrStatusCriteria fromStringExtra(String filter) {
     return new CrStatusCriteria(Integer.parseInt(filter));
-  };
+  }
+
+  @Override
+  protected boolean shouldApplyToParts() {
+    return false;
+  }
 }
