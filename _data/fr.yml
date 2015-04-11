@@ -30,6 +30,7 @@ fr:
     help: Aide integrée
     backup: Sauvegarde et restauration de données
     light_theme: "Deux thèmes: clair et sombre"
+    attach_picture: Lier une image avec une transaction
   contrib:
     thank_you: |
       Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
@@ -41,10 +42,12 @@ fr:
       distribution: Répartition des transactions par catégorie
       split_transaction: Opération de répartition
       security_question: Question de sécurité
-      reset_all: Réinitialiser tous les comptes
       template_widget: Widget de modèles
       print: Export de la liste des opérations au format PDF
+      attach_picture: Lier une image avec une transaction
     licence-howto-buy:
+      deprecated: |
+        NOTE: Depuis la version 2.3.9, la Clé Contrib pour déverrouiller les fonctionnalités Premium de Mes Dépenses peut être facilement achetée par un paiement dans l'application, et vous n'avez plus besoin d'installer l'application "Mes dépenses Clé Contrib".
       intro: |
         Vous avez les options suivantes pour l'achat de la licence de Contrib :
       in-app: |

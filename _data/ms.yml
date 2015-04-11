@@ -29,6 +29,7 @@ ms_MY:
     help: Bantuan Bersepadu
     backup: Sandar dan pulih data
     light_theme: "Dua tema: cerah dan gelap"
+    attach_picture: Lampir imej ke dalam transaksi
   contrib:
     thank_you: |
       Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
@@ -40,10 +41,11 @@ ms_MY:
       distribution: Agihan transaksi per kategori
       split_transaction: Transaksi pisah
       security_question: Soalan keselamatan
-      reset_all: Tetap semula semua akaun
       template_widget: Widget  templat
       print: Eksport senarai transaksi menjadi PDF
+      attach_picture: Lampir imej ke dalam transaksi
     licence-howto-buy:
+      deprecated: "__NOT_NEEDED__"
       intro: |
         Anda mempunyai pilihan berikut untuk membeli lesen Contrib:
       other: |

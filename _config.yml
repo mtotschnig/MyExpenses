@@ -10,17 +10,18 @@ sections:
   - sourcecode
   - links
 features:
-  - manage_accounts
-  - plans
   - grouped_list
+  - manage_accounts
   - distribution
-  - split
   - calculator
-  - export
+  - split
+  - plans
   - password
-  - help
+  - attach_picture
+  - export
   - backup
   - light_theme
+  - help
 contrib:
   - accounts_unlimited
   - distribution
@@ -28,8 +29,8 @@ contrib:
   - plans_unlimited
   - template_widget
   - split_transaction
-  - reset_all
   - security_question
+  - attach_picture
 title:
   ar: مصروفاتي
   en: My Expenses
@@ -46,22 +47,28 @@ title:
   pl: Moje Wydatki
   cs: Moje výdaje
   ru: Мои расходы
+  ro: Cheltuielile Mele
+  ja: マイ エクスペンス
+  ms: Perbelanjaan Saya
 langs:
-  it: Italiano
   de: Deutsch
   en: English
-  es: Español
+  it: Italiano
   fr: Français
-  pl: Polski
   pt: Português
-  vi: Tiếng Việt
-  tr: Türkçe
-  cs: Čeština
-  ar: العربية
-  hu: Magyar
-  zh-tw: 中文 (繁體)
+  es: Español
+  pl: Polski
   ru: русский
+  ar: العربية
+  cs: Čeština
+  vi: Tiếng Việt
+  hu: Magyar
+  tr: Türkçe
+  zh-tw: 中文 (繁體)
   ca: Català
+  ro: Română
+  ja: 日本語
+  ms: Bahasa Melayu
 support-email: "support@myexpenses.mobi"
 amazon:
   de: "www.amazon.de"

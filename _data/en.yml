@@ -30,6 +30,7 @@ en:
     help: Integrated Help
     backup: Data backup and restore
     light_theme: "Two themes: light and dark"
+    attach_picture: Attach image to transaction
   contrib:
     thank_you: |
       Your contribution supports the further development of My Expenses. Thank you!
@@ -41,10 +42,12 @@ en:
       distribution:       Distribution of transactions per category
       split_transaction:  Split transaction
       security_question:  Security question
-      reset_all:          Reset all accounts
       template_widget:    Template widget
       print: Export transaction list to PDF
+      attach_picture: Attach image to transaction
     licence-howto-buy:
+      deprecated: |
+        NOTE: Since version 2.3.9 the Contrib Key for unlocking My Expenses premium functionality can be more easily purchased through In-App Payement, and you no longer need to install the "My Expenses Contrib Key" app.
       intro: |
         You have the following options for purchasing the Contrib licence:
       in-app: |

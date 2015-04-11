@@ -40,7 +40,6 @@ pl:
       distribution: Dystrybucja tranakcji na kategorię.
       split_transaction: Podział transakcji
       security_question: Pytanie bezpieczeństwa
-      reset_all: Resetuj wszystkie konta
       template_widget: Szablon widget
     licence-howto-buy:
       intro: |

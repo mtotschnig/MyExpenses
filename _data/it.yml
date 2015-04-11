@@ -30,6 +30,7 @@ it:
     help: Aiuto integrato
     backup: Backup e ripristino di dati
     light_theme: "Due temi: chiaro e scuro"
+    attach_picture: Allegare immagine per transazione
   contrib:
     thank_you: |
       Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
@@ -42,10 +43,12 @@ it:
       distribution: Distribuzione di transazioni per categoria
       split_transaction: Operazione frazionata
       security_question: Domanda di sicurezza
-      reset_all: Resettare tutti i conti
       template_widget: Widget modelli
       print: Esportazione dell'elenco delle transazioni in PDF
+      attach_picture: Allegare immagine per transazione
     licence-howto-buy:
+      deprecated: |
+        NOTA: Dalla versione 2.3.9 il Chiave Contrib per sbloccare funzionalità premium di Le mie spese più facilmente acquistabili tramite pagamento In-App, e non è più necessario installare l'app "Le mie spese Chiave Contrib".
       intro: |
         Opzioni per acquistare la licenza Contrib:
       in-app: |

@@ -39,10 +39,10 @@ bg:
       distribution: Разпределяне на транзакции по категория
       split_transaction: Разбита транзакция
       security_question: въпрос за сигурност
-      reset_all: Начално състояние на всички акаунти
       template_widget: темплейт на уиджет
       print: Експортиране на списък на транзакция в PDF
     licence-howto-buy:
+      deprecated: "__NOT_NEEDED__"
       intro: |
         Имате следните опции за закупуване на Contrib лиценз:
       in-app: |

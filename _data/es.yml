@@ -30,6 +30,7 @@ es:
     help: Ayuda integrada
     backup: Backup y Restauración
     light_theme: "Dos temas: oscuro y claro"
+    attach_picture: Adjuntar imagen de transacción
   contrib:
     thank_you: |
       Su contribución apoya el desarrollo de Mis gastos. Gracias!
@@ -41,10 +42,12 @@ es:
       distribution: Distribución de las transacciones por categoría
       split_transaction: Asiento dividido
       security_question: Pregunta de seguridad
-      reset_all: Restablecer todas las cuentas
       template_widget: Widget de plantillas
       print: Lista de transacciones de exportación a PDF
+      attach_picture: Adjuntar imagen de transacción
     licence-howto-buy:
+      deprecated: |
+        NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium mis gastos puede adquirirse más fácilmente a través de pago en la aplicación, y ya no tienes que instalar la aplicación "Mis gastos Clave Contrib".
       intro: |
         Usted tiene las siguientes opciones para adquirir la licencia de Contrib:
       in-app: |

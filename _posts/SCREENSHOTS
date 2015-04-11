@@ -1,0 +1,9 @@
+SCREENSHOTS
+
+mkdir visuals/screenshots/blog/{date}/orig
+mkdir visuals/screenshots/blog/{date}/large
+#Move screenshots to orig
+cd visuals/screenshots/blog/{date}/orig
+for i in *.png; do base=${i%.png}; convert ${i} -resize 80%  ${base}_klein.png; pngnq ${base}_klein.png; mv ${base}_klein-nq8.png ../large/${i}; rm ${base}_klein.png; done
+for i in *.png; do base=${i%.png}; convert ${i} -resize 40%  ${base}_klein.png; pngnq ${base}_klein.png; mv ${base}_klein-nq8.png ../${i}; rm ${base}_klein.png; done
+

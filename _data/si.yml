@@ -40,9 +40,9 @@ si:
       distribution: කාණ්ඩයක ගනුදෙනු විභාජනය
       split_transaction: විභේදනය වූ ගනුදෙනු
       security_question: සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය
-      reset_all: සෑම ගිණුමක්ම යළි පිහිටුවීම
       template_widget: 'විජට් අච්චුව '
     licence-howto-buy:
+      deprecated: "__NOT_NEEDED__"
       intro: |
         කොන්ට්‍රිබ් බලපත්‍රයක් ගැනීමට පහත විකල්ප තිබේ
       other: |

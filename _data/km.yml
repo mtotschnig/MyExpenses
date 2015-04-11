@@ -37,9 +37,9 @@ km:
       distribution: ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់
       split_transaction: ញែក​​ប្រតិបត្តិការ
       security_question: សំណួរសន្តិសុខ
-      reset_all: កំណត់គណនីយទាំងអស់ឡើងវិញ
       template_widget: ប្រអប់​ធាតុពុម្ព
     licence-howto-buy:
+      deprecated: "__NOT_NEEDED__"
       intro: |
         អ្នកមាន​ជម្រើស​ខាងក្រោម ដើម្បី​ទិញ​យក​អាជ្ញាបណ្ណរបស់ Contrib ៖
       other: |

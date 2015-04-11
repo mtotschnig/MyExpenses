@@ -40,7 +40,6 @@ ru:
       distribution: Распределение операций по категориям
       split_transaction: Разделённая операция
       security_question: Секретный вопрос
-      reset_all: Сброс всех счетов
       template_widget: Шаблон виджет
     licence-howto-buy:
       intro: |

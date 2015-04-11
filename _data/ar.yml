@@ -17,4 +17,5 @@ ar:
       distribution: توزيع العمليات لكل تصنيف
       split_transaction: تقسيم العمليات
       security_question: السؤال السري
-      reset_all: إعادة تعيين كل الحسابات
+    licence-howto-buy:
+      deprecated: "__NOT_NEEDED__"

@@ -27,6 +27,8 @@ pt_BR:
       distribution: Distribuição de transações por categoria
       split_transaction: Transação de divisão
       security_question: Pergunta de segurança
-      reset_all: Reiniciar todas as contas
       template_widget: Widget de modelos
       print: Exportar lista de transações para PDF
+    licence-howto-buy:
+      deprecated: |
+        NOTA: Desde a versão 2.3.9 a Chave Contrib para desbloqueio funcionalidade premium de Minhas Despesas podem ser mais facilmente adquirido através de pagamento no App, e você já não precisa instalar o app "Minhas despesas Chave Contrib".

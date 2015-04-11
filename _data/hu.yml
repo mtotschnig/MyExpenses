@@ -40,7 +40,6 @@ hu:
       distribution: Tranzakciók kategóriánkénti felosztása
       split_transaction: Tranzakciók megosztása a számlák között
       security_question: Biztonsági kérdés - jelszó visszaállításhoz
-      reset_all: Az összes számla alaphelyzetbe állítása
       template_widget: Sablon widget
     licence-howto-buy:
       intro: |+

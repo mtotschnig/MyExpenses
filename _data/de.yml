@@ -30,6 +30,7 @@ de:
     help: Integrierte Hilfe
     backup: Daten Backup und Wiederherstellung
     light_theme: "Zwei Themen: hell und dunkel"
+    attach_picture: Bildanhang für Buchung
   contrib:
     thank_you: |
       Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
@@ -41,10 +42,12 @@ de:
       distribution: Verteilung der Buchungen auf Kategorien
       split_transaction: Splitbuchung
       security_question: Sicherheitsfrage
-      reset_all: Alle Konten zurücksetzen
       template_widget: Vorlagen Widget
       print: Buchungsliste als PDF-Datei drucken
+      attach_picture: Bildanhang für Buchung
     licence-howto-buy:
+      deprecated: |
+        HINWEIS: Seit Version 2.3.9 kann der Contrib Schlüssel zur Freischaltung der Premium-Funktionalität von Meine Ausgaben einfacher durch eine In-App Bezahlung erworben werden, und Sie müssen daher die "Meine Ausgaben Contrib Schlüssel" App nicht mehr installieren.
       intro: |
         Die Contrib Lizenz kann auf folgenden Wegen erworben werden:
       in-app: |
