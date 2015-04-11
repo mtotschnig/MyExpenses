@@ -520,6 +520,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       } else {
         holder = (HeaderViewHolder) convertView.getTag();
       }
+      holder.interimBalance.setVisibility(mFilter.isEmpty()?View.VISIBLE:View.GONE);
 
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -597,9 +598,6 @@ public class TransactionList extends ContextualActionBarFragment implements
                 Long.signum(delta) > -1 ? "+" : "-",
                 Utils.convAmount(Math.abs(delta), mAccount.currency),
                 Utils.convAmount(interimBalance, mAccount.currency)));
-        holder.interimBalance.setVisibility(View.VISIBLE);
-      } else {
-        holder.interimBalance.setVisibility(View.GONE);
       }
     }
     @Override
