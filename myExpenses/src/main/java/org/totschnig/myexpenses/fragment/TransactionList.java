@@ -378,14 +378,15 @@ public class TransactionList extends ContextualActionBarFragment implements
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
+      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       if (!mFilter.isEmpty()) {
         selection = mFilter.getSelectionForParts();
         selectionArgs = mFilter.getSelectionArgs();
+        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_IS_FILTERED,"1");
       } else {
         selection = null;
         selectionArgs = null;
       }
-      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
         .appendPath(mAccount.grouping.name());
       if (mAccount.getId() < 0) {
@@ -587,14 +588,19 @@ public class TransactionList extends ContextualActionBarFragment implements
           sumTransfer,
           mAccount.currency));
       Long delta = sumIncome - sumExpense +  sumTransfer;
-      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
-      Long previousBalance = interimBalance - delta;
-      holder.interimBalance.setText(
-          String.format("%s %s %s = %s",
-              Utils.convAmount(previousBalance,mAccount.currency),
-              Long.signum(delta) >-1 ? "+" : "-",
-              Utils.convAmount(Math.abs(delta),mAccount.currency),
-              Utils.convAmount(interimBalance,mAccount.currency)));
+      if (mFilter.isEmpty()) {
+        Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
+        Long previousBalance = interimBalance - delta;
+        holder.interimBalance.setText(
+            String.format("%s %s %s = %s",
+                Utils.convAmount(previousBalance, mAccount.currency),
+                Long.signum(delta) > -1 ? "+" : "-",
+                Utils.convAmount(Math.abs(delta), mAccount.currency),
+                Utils.convAmount(interimBalance, mAccount.currency)));
+        holder.interimBalance.setVisibility(View.VISIBLE);
+      } else {
+        holder.interimBalance.setVisibility(View.GONE);
+      }
     }
     @Override
     public long getHeaderId(int position) {
@@ -716,7 +722,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
   /**
    * Removes a given filter
-   * @param column
+   * @param id
    * @return true if the filter was set and succesfully removed, false otherwise
    */
   public boolean removeFilter(Integer id) {
