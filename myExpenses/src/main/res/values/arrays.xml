@@ -354,6 +354,12 @@
       <item>@string/comparison_operator_lesser_than</item>
       <item>@string/comparison_operator_between</item>
     </string-array>
+    <string-array name="comparison_operator_date_entries">
+        <item>@string/comparison_operator_date_on</item>
+        <item>@string/comparison_operator_date_after</item>
+        <item>@string/comparison_operator_date_before</item>
+        <item>@string/comparison_operator_date_between</item>
+    </string-array>
     <string-array name="comparison_operator_values">
       <item>EQ</item>
       <item>GTE</item>

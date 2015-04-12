@@ -62,12 +62,12 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
       }
     });
 
-    mDate1 = (DatePicker) view.findViewById(R.id.amount1);
-    mDate2 = (DatePicker) view.findViewById(R.id.amount2);
+    mDate1 = (DatePicker) view.findViewById(R.id.date1);
+    mDate2 = (DatePicker) view.findViewById(R.id.date2);
 
 
     return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.search_amount)
+      .setTitle(R.string.search_date)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,null)

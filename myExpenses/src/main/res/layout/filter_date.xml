@@ -25,33 +25,38 @@
             android:id="@+id/Operator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/comparison_operator_entries"
-            android:entryValues="@array/comparison_operator_values"/>
+            android:entries="@array/comparison_operator_date_entries"
+            android:entryValues="@array/comparison_operator_values"
+            android:layout_gravity="center_horizontal"/>
 
         <DatePicker
             android:id="@+id/date1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:layout_gravity="center_horizontal"/>
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/Date2Row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
+                style="@style/dialog_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/dialog_text"
-                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/and"/>
 
             <DatePicker
                 android:id="@+id/date2"
+                android:calendarViewShown="false"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
