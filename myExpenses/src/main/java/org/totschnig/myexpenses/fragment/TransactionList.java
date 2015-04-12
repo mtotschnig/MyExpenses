@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
@@ -798,6 +799,12 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (!removeFilter(command)) {
         AmountFilterDialog.newInstance(mAccount.currency)
         .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
+      }
+      return true;
+    case R.id.FILTER_DATE_COMMAND:
+      if (!removeFilter(command)) {
+        DateFilterDialog.newInstance()
+            .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
       }
       return true;
     case R.id.FILTER_COMMENT_COMMAND:
