@@ -517,10 +517,8 @@
     <string name="comparison_operator_greater_than">greater than</string>
     <string name="comparison_operator_lesser_than">lesser than</string>
     <string name="comparison_operator_between">between</string>
-    <string name="comparison_operator_date_on">on</string>
     <string name="comparison_operator_date_before">before</string>
     <string name="comparison_operator_date_after">after</string>
-    <string name="comparison_operator_date_between">between</string>
     <string name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
     <string name="premium_unlocked">Premium features unlocked.</string>
     <string name="premium_failed_or_canceled">Purchasing failed or cancelled.</string>

@@ -892,6 +892,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (filter!=null) {
       mFilter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(filter));
     }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_DATE+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_DATE_COMMAND, DateCriteria.fromStringExtra(filter));
+    }
   }
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {

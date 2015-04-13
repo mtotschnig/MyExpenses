@@ -11,25 +11,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AmountActivity;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.filter.AmountCriteria;
+import org.totschnig.myexpenses.provider.filter.DateCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.util.Utils;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Currency;
-import java.util.Date;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import java.util.Calendar;
 
 public class DateFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
   private DatePicker mDate1;
@@ -76,26 +65,27 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
+    Long date1, date2 = null;
+    DateCriteria c;
     if (ctx==null) {
       return;
     }
-    Date date1 = new Date();//mDate1.getDate();
-    Date date2 = new Date();//mDate1.getDate();
-    String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)
+    Calendar cal = Calendar.getInstance();
+    cal.set(mDate1.getYear(),mDate1.getMonth(),mDate1.getDayOfMonth(),0,0,0);
+    date1 = cal.getTimeInMillis()/1000;
+    String selectedOp = getResources().getStringArray(R.array.comparison_operator_date_values)
         [mOperatorSpinner.getSelectedItemPosition()];
-    if (date1.equals("")) {
-      return;
+    if (selectedOp.equals("BTW")) {
+      //advance to end of day
+      cal.set(mDate2.getYear(),mDate2.getMonth(),mDate2.getDayOfMonth(),23,59,59);
+      date2 = cal.getTimeInMillis()/1000+1;
+      c=new DateCriteria(date1,date2);
+    } else {
+      c = new DateCriteria(
+          WhereFilter.Operation.valueOf(selectedOp),
+          date1);
     }
 
-    if (selectedOp.equals("BTW")) {
-      if (date2.equals("")) {
-        return;
-      }
-    }
-//    ctx.addFilterCriteria(R.id.FILTER_AMOUNT_COMMAND,new AmountCriteria(
-//        WhereFilter.Operation.valueOf(selectedOp),
-//        currency,
-//        type,
-//        bdAmount1,bdAmount2));
+    ctx.addFilterCriteria(R.id.FILTER_DATE_COMMAND,c);
   }
 }
