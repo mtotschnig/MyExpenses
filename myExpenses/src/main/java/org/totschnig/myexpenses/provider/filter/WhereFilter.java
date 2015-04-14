@@ -79,12 +79,12 @@ public class WhereFilter {
     return sb.toString().trim();
   }
 
-  public String[] getSelectionArgs() {
+  public String[] getSelectionArgs(boolean queryParts) {
     String[] args = new String[0];
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
       String critArgs[] = c.getSelectionArgs();
-      if (c.shouldApplyToParts()) {
+      if (queryParts || c.shouldApplyToParts()) {
         critArgs = Utils.joinArrays(critArgs, critArgs);
       }
       //we need to double each criteria since it is applied to parents and parts

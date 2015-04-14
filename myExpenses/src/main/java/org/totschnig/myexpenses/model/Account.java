@@ -756,7 +756,7 @@ public class Account extends Model {
   }
 
   /**
-   * calls {@link #exportAll(File, ExportFormat, boolean, String)} with
+   * calls {@link #exportAll(File, ExportFormat, boolean)} with
    * * date format "dd/MM/yyyy"
    * * encoding UTF-8
    * * decimal separator '.'
@@ -1119,7 +1119,7 @@ public class Account extends Model {
     }
     if (!filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents();
-      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs());
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     Cursor transactionCursor;
@@ -1205,7 +1205,7 @@ public class Account extends Model {
     String[] selectionArgs;
     if (!filter.isEmpty()) {
       selection = filter.getSelectionForParts();
-      selectionArgs = filter.getSelectionArgs();
+      selectionArgs = filter.getSelectionArgs(true);
     } else {
       selection = null;
       selectionArgs = null;

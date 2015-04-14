@@ -132,22 +132,23 @@ public class Criteria implements Parcelable {
   }
   
   /**
-   * the sums are calculated based on split parts, hence here we must apply the reverse method
+   * the sums are calculated based on split parts, hence here we must take care to select parts
+   * where the parents match
    * of {@link #applyToSplitParts(String)}
    * @param selection
    * @return selection wrapped in a way that is also finds split parts where parents are
    * matched by the criteria
    */
   protected String applyToSplitParents(String selection) {
-    String parentSelect = " exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
-        + " WHERE parents." + KEY_ROWID
-        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + ")";
-
+    String selectParents;
     if (!shouldApplyToParts()) {
-      return parentSelect;
+      selectParents = "(" + selection + " AND " + KEY_PARENTID + " IS NULL)";
+    } else {
+      selectParents = selection;
     }
-    return "(" + selection + " OR "
-        + parentSelect + ")";
+    return "(" + selectParents + " OR  exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
+        + " WHERE parents." + KEY_ROWID
+        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + "))";
   }
 
   public String getSelectionForParts() {
