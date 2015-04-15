@@ -40,6 +40,10 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckedTextView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
@@ -56,14 +60,32 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Context wrappedCtx = DialogUtils.wrapContext1(getActivity());
-    mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_single_choice, null,
+    mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_multiple_choice, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
-    return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(getDialogTitle())
-      .setSingleChoiceItems(mAdapter, -1, this)
+    final AlertDialog dialog = new AlertDialog.Builder(wrappedCtx)
+        .setTitle(getDialogTitle())
+      .setAdapter(mAdapter,null)
       .create();
+    dialog.getListView().setItemsCanFocus(false);
+    dialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    dialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view,
+                              int position, long id) {
+        // Manage selected items here
+        System.out.println("clicked" + position);
+        CheckedTextView textView = (CheckedTextView) view;
+        if(textView.isChecked()) {
+
+        } else {
+
+        }
+      }
+    });
+    return dialog;
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
     if (getActivity()==null || mCursor == null) {
