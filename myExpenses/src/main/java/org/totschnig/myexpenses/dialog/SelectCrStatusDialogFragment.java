@@ -32,7 +32,6 @@ import android.os.Bundle;
  */
 public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   /**
-   * @param account_id
    * @return
    */
   public static final SelectCrStatusDialogFragment newInstance() {
