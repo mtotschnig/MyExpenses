@@ -41,7 +41,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
           int position, long id) {
-        String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)[position];
+        String selectedOp = getResources().getStringArray(R.array.comparison_operator_date_values)[position];
         date2Row.setVisibility(selectedOp.equals("BTW") ? View.VISIBLE : View.GONE);
       }
 
@@ -71,10 +71,16 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
       return;
     }
     Calendar cal = Calendar.getInstance();
-    cal.set(mDate1.getYear(),mDate1.getMonth(),mDate1.getDayOfMonth(),0,0,0);
-    date1 = cal.getTimeInMillis()/1000;
     String selectedOp = getResources().getStringArray(R.array.comparison_operator_date_values)
         [mOperatorSpinner.getSelectedItemPosition()];
+    if (selectedOp.equals("GTE")) {
+      //advance to end of day
+      cal.set(mDate1.getYear(),mDate1.getMonth(),mDate1.getDayOfMonth(),23,59,59);
+      date1 = cal.getTimeInMillis()/1000+1;
+      } else {
+      cal.set(mDate1.getYear(), mDate1.getMonth(), mDate1.getDayOfMonth(), 0, 0, 0);
+      date1 = cal.getTimeInMillis() / 1000;
+    }
     if (selectedOp.equals("BTW")) {
       //advance to end of day
       cal.set(mDate2.getYear(),mDate2.getMonth(),mDate2.getDayOfMonth(),23,59,59);
@@ -85,7 +91,6 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
           WhereFilter.Operation.valueOf(selectedOp),
           date1);
     }
-
     ctx.addFilterCriteria(R.id.FILTER_DATE_COMMAND,c);
   }
 }
