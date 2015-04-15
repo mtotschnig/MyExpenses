@@ -18,10 +18,12 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.SparseArray;
 
 public class WhereFilter {
@@ -135,12 +137,28 @@ public class WhereFilter {
 
   public static enum Operation {
     NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW(
-        "BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ? ESCAPE '" + LIKE_ESCAPE_CHAR + "'");
+        "BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ? ESCAPE '" + LIKE_ESCAPE_CHAR + "'"),
+    IN(null);
 
     public final String op;
 
     private Operation(String op) {
       this.op = op;
+    }
+
+    public String getOp(int length) {
+      switch(this) {
+        case IN:
+          StringBuilder sb = new StringBuilder();
+          sb.append("IN (");
+          for (int i = 0; i < length-1; i++) {
+            sb.append("?,");
+          }
+          sb.append("?)");
+          return sb.toString();
+        default:
+          return op;
+      }
     }
   }
 

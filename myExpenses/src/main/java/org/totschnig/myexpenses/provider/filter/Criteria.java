@@ -83,7 +83,7 @@ public class Criteria implements Parcelable {
   }
 
   public String getSelection() {
-    return columnName + " " + operation.op;
+    return columnName + " " + operation.getOp(values.length);
   }
 
   public int size() {

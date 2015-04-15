@@ -45,6 +45,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.itextpdf:itextpdf:5.5.2'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    testCompile 'junit:junit:4.12'
 }
 def getDate() {
     def date = new Date()
