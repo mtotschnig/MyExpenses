@@ -26,20 +26,27 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.base.Joiner;
+
 public class CrStatusCriteria extends Criteria {
-  private int searchIndex;
-  public CrStatusCriteria(int searchIndex) {
-    super(DatabaseConstants.KEY_CR_STATUS, WhereFilter.Operation.EQ,
-        CrStatus.values()[searchIndex].name());
-    this.searchIndex = searchIndex;
+  public CrStatusCriteria(String... values) {
+    super(DatabaseConstants.KEY_CR_STATUS, WhereFilter.Operation.IN,values);
     this.title = MyApplication.getInstance().getString(R.string.status);
   }
+
   public CrStatusCriteria(Parcel in) {
     super(in);
   }
   @Override
   public String prettyPrint() {
-    return prettyPrintInternal(CrStatus.values()[searchIndex].toString());
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < values.length; i++) {
+      sb.append(CrStatus.valueOf(values[i]).toString());
+      if (i<values.length-1) {
+        sb.append(",");
+      }
+    }
+    return sb.toString();
   }
   public static final Parcelable.Creator<CrStatusCriteria> CREATOR = new Parcelable.Creator<CrStatusCriteria>() {
     public CrStatusCriteria createFromParcel(Parcel in) {
@@ -52,10 +59,10 @@ public class CrStatusCriteria extends Criteria {
   };
   @Override
   public String toStringExtra() {
-    return String.valueOf(searchIndex);
+    return Joiner.on(EXTRA_SEPARATOR).join(values);
   }
-  public static CrStatusCriteria fromStringExtra(String filter) {
-    return new CrStatusCriteria(Integer.parseInt(filter));
+  public static CrStatusCriteria fromStringExtra(String extra) {
+    return new CrStatusCriteria(extra.split(EXTRA_SEPARATOR));
   }
 
   @Override

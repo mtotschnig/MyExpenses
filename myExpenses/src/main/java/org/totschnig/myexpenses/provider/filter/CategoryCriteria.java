@@ -57,10 +57,6 @@ public class CategoryCriteria extends IdCriteria {
     return Utils.joinArrays(values,values);
   }
 
-  @Override
-  public String prettyPrint() {
-    return prettyPrintInternal(label);
-  }
   public static final Parcelable.Creator<CategoryCriteria> CREATOR = new Parcelable.Creator<CategoryCriteria>() {
     public CategoryCriteria createFromParcel(Parcel in) {
         return new CategoryCriteria(in);
