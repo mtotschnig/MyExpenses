@@ -26,18 +26,18 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+//TODO extend to allow multi select
 public class SingleCategoryCriteria extends IdCriteria {
 
   public SingleCategoryCriteria(long categoryId, String label) {
     super(MyApplication.getInstance().getString(R.string.category),
         KEY_CATID,
-        categoryId,
-        label);
+        label, categoryId
+    );
   }
 
   public SingleCategoryCriteria(Parcel in) {
@@ -71,8 +71,8 @@ public class SingleCategoryCriteria extends IdCriteria {
   
   public static SingleCategoryCriteria fromStringExtra(String extra) {
     int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    long id = Long.parseLong(extra.substring(0, sepIndex));
-    String label = extra.substring(sepIndex+1);
+    long id = Long.parseLong(extra.substring(sepIndex+1));
+    String label = extra.substring(0, sepIndex);
     return new SingleCategoryCriteria(id, label);
   }
 }

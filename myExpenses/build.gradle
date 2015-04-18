@@ -44,6 +44,7 @@ dependencies {
     compile project(':MPAndroidChart:MPChartLib')
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.itextpdf:itextpdf:5.5.2'
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }

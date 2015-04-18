@@ -51,7 +51,7 @@ public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragme
     return dialogFragment;
   }
   @Override
-  Criteria makeCriteria(long id, String label) {
-    return new PayeeCriteria(id,label);
+  Criteria makeCriteria(String label, long... ids) {
+    return new PayeeCriteria(label, ids);
   }
 }

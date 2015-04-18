@@ -21,15 +21,26 @@ package org.totschnig.myexpenses.provider.filter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.base.Joiner;
+
 public class IdCriteria extends Criteria {
 
   protected final String label;
 
-  public IdCriteria(String title, String column, long id, String label) {
-    super(column, WhereFilter.Operation.EQ, String
-        .valueOf(id));
+  public IdCriteria(String title, String column, String label, long... ids) {
+    this(title,column,label,longArrayToStringArray(ids));
+  }
+  public IdCriteria(String title, String column, String label, String... ids) {
+    super(column, WhereFilter.Operation.IN, ids);
     this.label = label;
     this.title = title;
+  }
+  private static String[] longArrayToStringArray(long[] in) {
+    String[] out = new String[in.length];
+    for (int i = 0; i < in.length; i++) {
+      out[i] = String.valueOf(in[i]);
+    }
+    return out;
   }
 
   public IdCriteria(Parcel in) {
@@ -39,7 +50,7 @@ public class IdCriteria extends Criteria {
 
   @Override
   public String prettyPrint() {
-    return prettyPrintInternal(label);
+    return label;
   }
   @Override
   public void writeToParcel(Parcel dest, int flags) {
@@ -49,6 +60,6 @@ public class IdCriteria extends Criteria {
   
   @Override
   public String toStringExtra() {
-    return getStringValue() + EXTRA_SEPARATOR + label;
+    return label + EXTRA_SEPARATOR + Joiner.on(EXTRA_SEPARATOR).join(values);
   };
 }

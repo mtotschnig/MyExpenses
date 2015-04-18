@@ -27,9 +27,13 @@ import android.os.Parcelable;
 
 public class PayeeCriteria extends IdCriteria {
 
-  public PayeeCriteria(long id, String label) {
+  public PayeeCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.payer_or_payee),
-        DatabaseConstants.KEY_PAYEEID, id, label);
+        DatabaseConstants.KEY_PAYEEID, label, ids);
+  }
+  public PayeeCriteria(String label, String... ids) {
+    super(MyApplication.getInstance().getString(R.string.payer_or_payee),
+        DatabaseConstants.KEY_PAYEEID, label, ids);
   }
 
   public PayeeCriteria(Parcel in) {
@@ -47,9 +51,9 @@ public class PayeeCriteria extends IdCriteria {
   };
   public static PayeeCriteria fromStringExtra(String extra) {
     int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    long id = Long.parseLong(extra.substring(0, sepIndex));
-    String label = extra.substring(sepIndex+1);
-    return new PayeeCriteria(id,label);
+    String ids[] = extra.substring(sepIndex+1).split(EXTRA_SEPARATOR);
+    String label = extra.substring(0, sepIndex);
+    return new PayeeCriteria(label, ids);
   }
 
   @Override
