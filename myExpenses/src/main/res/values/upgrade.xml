@@ -18,11 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2432">
-    <item>Handle external storage not available for pictures</item>
-  </string-array>
-  <string-array name="whats_new_2431">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_244">
+    <item>Search filter for duration</item>
+    <item>Filters for method, payee, status and category now allow multiple selection.</item>
+    <item>Basque translation</item>
   </string-array>
   <string-array name="whats_new_243">
     <item>If application is password protected, pictures are stored securely in internal storage</item>
