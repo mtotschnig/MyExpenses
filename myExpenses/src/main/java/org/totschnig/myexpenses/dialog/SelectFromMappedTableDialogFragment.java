@@ -88,16 +88,20 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
     ListView listView = ((AlertDialog) getDialog()).getListView();
     SparseBooleanArray positions = listView.getCheckedItemPositions();
 
-    ArrayList<String> labelList = new ArrayList<>();
-    for (int i=0; i<positions.size(); i++) {
-      if (positions.valueAt(i)) {
-        mCursor.moveToPosition(positions.keyAt(i));
-        labelList.add(mCursor.getString(mCursor.getColumnIndex(KEY_LABEL)));
+    long[] itemIds = listView.getCheckedItemIds();
+
+    if (itemIds.length>0 && itemIds.length<mCursor.getCount()) {
+      ArrayList<String> labelList = new ArrayList<>();
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          mCursor.moveToPosition(positions.keyAt(i));
+          labelList.add(mCursor.getString(mCursor.getColumnIndex(KEY_LABEL)));
+        }
       }
+      ((MyExpenses) getActivity()).addFilterCriteria(
+          getCommand(),
+          makeCriteria(Joiner.on(",").join(labelList), itemIds));
     }
-    ((MyExpenses) getActivity()).addFilterCriteria(
-        getCommand(),
-        makeCriteria(Joiner.on(",").join(labelList), listView.getCheckedItemIds()));
     dismiss();
   }
   @Override
