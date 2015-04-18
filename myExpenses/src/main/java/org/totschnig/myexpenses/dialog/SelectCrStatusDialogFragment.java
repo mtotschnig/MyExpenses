@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 
 import android.app.AlertDialog;
@@ -25,6 +26,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 /**
  * uses {@link MessageDialogFragment.MessageDialogListener} to dispatch result back to activity
@@ -32,7 +37,6 @@ import android.os.Bundle;
  */
 public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   /**
-   * @param account_id
    * @return
    */
   public static final SelectCrStatusDialogFragment newInstance() {
@@ -45,7 +49,9 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     return new AlertDialog.Builder(getActivity())
       .setTitle(R.string.search_status)
-      .setSingleChoiceItems(R.array.crstatus_entries,-1,this)
+      .setMultiChoiceItems(R.array.crstatus_entries,null,null)
+        .setPositiveButton(android.R.string.ok, this)
+        .setNegativeButton(android.R.string.cancel, null)
       .create();
   }
   @Override
@@ -53,9 +59,22 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
     if (getActivity()==null) {
       return;
     }
-    ((MyExpenses) getActivity()).addFilterCriteria(
-        R.id.FILTER_STATUS_COMMAND,
-        new CrStatusCriteria(which));
+
+    ListView listView = ((AlertDialog) getDialog()).getListView();
+
+    SparseBooleanArray positions = listView.getCheckedItemPositions();
+
+    ArrayList<String> statusList = new ArrayList<>();
+    for (int i = 0; i < positions.size(); i++) {
+      if (positions.valueAt(i)) {
+        statusList.add(Transaction.CrStatus.values()[positions.keyAt(i)].name());
+      }
+    }
+    if (statusList.size()>0 && statusList.size()<Transaction.CrStatus.values().length ) {
+      ((MyExpenses) getActivity()).addFilterCriteria(
+          R.id.FILTER_STATUS_COMMAND,
+          new CrStatusCriteria(statusList.toArray(new String[statusList.size()])));
+    }
     dismiss();
   }
 }

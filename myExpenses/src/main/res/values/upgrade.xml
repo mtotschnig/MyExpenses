@@ -18,8 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2431">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_244">
+    <item>Search filter for duration</item>
+    <item>Filters for method, payee, status and category now allow multiple selection.</item>
+    <item>Basque translation</item>
   </string-array>
   <string-array name="whats_new_243">
     <item>If application is password protected, pictures are stored securely in internal storage</item>
@@ -75,71 +77,5 @@
   <string-array name="whats_new_220">
     <item>Search for transactions per category, amount, comment, status, payee/payer, payment method</item>
   </string-array>
-  <string-array name="whats_new_149">
-    <item>Sinhala translation</item>
-    <item>Multi-window support on Samsung devices</item>
-    <item>Reconciliation workflow</item>
-  </string-array>
-  <string-array name="whats_new_145">
-    <item>Backups are now stored in ZIP archives that can be shared (E-Mail, Drive, Dropbox, &#8230;) and restored from external sources</item>
-  </string-array>
-  <string-array name="whats_new_143">
-    <item>Home screen shortcuts for adding transactions and transfers</item>
-  </string-array>
-  <string-array name="whats_new_142">
-    <item>Home screen widgets for quick data entry</item>
-  </string-array>
-  <string-array name="whats_new_138">
-    <item>Russian translation</item>
-  </string-array>
-  <string-array name="whats_new_136">
-    <item>Folder location for backups and exports is now configurable</item>
-  </string-array>
-  <string-array name="whats_new_133">
-    <item>Multiple independent backups</item>
-    <item>QIF import</item>
-  </string-array>
-  <string-array name="whats_new_130">
-    <item>Greek translation</item>
-    <item>Week start made dependent on locale (e.g. Sunday for US)</item>
- </string-array>
- <string-array name="whats_new_125">
-    <item>UI improvements: #115,#117,#120,#122,#124</item>
-    <item>Made transaction dates timezone aware</item>
-  </string-array>
-  <string-array name="whats_new_118">
-    <item>Modernized UI: navigation drawer and contextual action bar</item>
-  </string-array>
-  <string-array name="whats_new_116">
-    <item>Improved handling of plans: Apply upcoming instances in advance</item>
-    <item>New translations: Portuguese, Polish, Czech</item>
-  </string-array>
-	<string-array name="whats_new_110">
-		<item>Display transaction list and statistical distribution for aggregates of multiple accounts</item>
-	</string-array>
-  <string-array name="whats_new_108">
-    <item>(Traditional) Chinese translation</item>
-    <item>Allow selection of account in transaction editing form</item>
-    <item>Clearer UI for transfers</item>
-  </string-array>
-  <string-array name="whats_new_104">
-    <item>UI improvements (#94) and bug fixes (#95,#96)</item>
-  </string-array>
-  <string-array name="whats_new_102">
-    <item>Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait</item>
-    <item>Bug fixes: Issues #71,#91,#92,#93</item>
-  </string-array>
-  <string-array name="whats_new_100">
-    <item>When transaction list is grouped, show intermediate balance for each period in group header</item>
-    <item>Bug fix: Issue #90</item>
-  </string-array>
-  <string-array name="whats_new_95">
-    <item>UI language configurable</item>
-    <item>Font size configurable</item>
-  </string-array>
-	<string-array name="whats_new_93">
-		<item>Plans for future and recurring transactions</item>
-		<item>Khmer translation</item>
-	</string-array>
     <string name="bug_fixes">Bug fixes</string>
 </resources>

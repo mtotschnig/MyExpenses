@@ -76,7 +76,7 @@ public class AmountCriteria extends Criteria {
       String amount2 = Utils.formatCurrency(new Money(currency,origValue2.abs()));
       result += MyApplication.getInstance().getString(R.string.between_and,amount1,amount2);
     }
-    return prettyPrintInternal(result);
+    return result;
   }
   private static Criteria transformCriteria(Operation operation, Currency currency, boolean type,BigDecimal... values) {
     switch(operation) {

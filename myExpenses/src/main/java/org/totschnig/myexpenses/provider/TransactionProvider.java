@@ -104,6 +104,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits"; 
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
+  public static final String QUERY_PARAMETER_IS_FILTERED = "isFiltered";
 
   
   static final String TAG = "TransactionProvider";
@@ -218,9 +219,8 @@ public class TransactionProvider extends ContentProvider {
         accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         accountSelectionQueryOpeningBalance = KEY_ROWID + " = ?";
       }
-      
-      String openingBalanceSubQuery =
-          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance  + ")";
+      boolean isFiltered = uri.getQueryParameter(QUERY_PARAMETER_IS_FILTERED)!=null;
+
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -278,28 +278,36 @@ public class TransactionProvider extends ContentProvider {
             + " WHERE " + accountSelectionQuery
             + (selection!=null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
-      String deltaExpr = "(SELECT sum(amount) FROM "
-                          + VIEW_EXTENDED
-                          + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT
-                          + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
-                          + "(" + yearExpression + " = " + KEY_YEAR + " AND "
-                          + secondDef + " <= " + KEY_SECOND_GROUP + ")))";
-      projection = new String[] {
-            KEY_YEAR,
-            KEY_SECOND_GROUP,
-            KEY_SUM_INCOME,
-            KEY_SUM_EXPENSES,
-            KEY_SUM_TRANSFERS,
-            KEY_MAPPED_CATEGORIES,
-            openingBalanceSubQuery + " + " + deltaExpr + " AS " + KEY_INTERIM_BALANCE
-            };
+      projection = new String[7];
+      projection[0] = KEY_YEAR;
+      projection[1] = KEY_SECOND_GROUP;
+      projection[2] = KEY_SUM_INCOME;
+      projection[3] = KEY_SUM_EXPENSES;
+      projection[4] = KEY_SUM_TRANSFERS;
+      projection[5] = KEY_MAPPED_CATEGORIES;
+      String[] accountArgs;
+      if (!isFiltered) {
+        String openingBalanceSubQuery =
+            "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance + ")";
+        String deltaExpr = "(SELECT sum(amount) FROM "
+            + VIEW_EXTENDED
+            + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT
+            + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
+            + "(" + yearExpression + " = " + KEY_YEAR + " AND "
+            + secondDef + " <= " + KEY_SECOND_GROUP + ")))";
+        projection[6] = openingBalanceSubQuery + " + " + deltaExpr + " AS " + KEY_INTERIM_BALANCE;
+        accountArgs = new String[]{accountSelector,accountSelector,accountSelector};
+      } else {
+        projection[6] = "0 AS " + KEY_INTERIM_BALANCE;//ignored
+        accountArgs = new String[]{accountSelector};
+      }
         defaultOrderBy = KEY_YEAR + " DESC," + KEY_SECOND_GROUP + " DESC";
         //CAST(strftime('%Y',date) AS integer)
-        //the accountId is used three times , once in the table subquery, twice in the column subquery
+        //the accountId is used three times , once in the table subquery, twice in the KEY_INTERIM_BALANCE subquery
         //(first in the where clause, second in the subselect for the opening balance),
         Log.d(TAG, "SelectionArgs before join : " + Arrays.toString(selectionArgs));
         selectionArgs = Utils.joinArrays(
-            new String[]{accountSelector,accountSelector,accountSelector},
+            accountArgs,
             selectionArgs);
         //selection is used in the inner table, needs to be set to null for outer query
         selection=null;

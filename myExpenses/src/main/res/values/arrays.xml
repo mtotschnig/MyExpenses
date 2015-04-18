@@ -230,7 +230,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>197</item>
+      <item>199</item>
       <item>196</item>
       <item>195</item>
       <item>193</item>
@@ -266,7 +266,7 @@
       <item>93</item>
     </integer-array>
     <string-array name="version_names">
-      <item>2.4.3.1</item>
+      <item>2.4.4</item>
       <item>2.4.3</item>
       <item>2.4.2</item>
       <item>2.4.1</item>
@@ -352,10 +352,20 @@
       <item>@string/comparison_operator_lesser_than</item>
       <item>@string/comparison_operator_between</item>
     </string-array>
+    <string-array name="comparison_operator_date_entries">
+        <item>@string/comparison_operator_date_after</item>
+        <item>@string/comparison_operator_date_before</item>
+        <item>@string/comparison_operator_between</item>
+    </string-array>
     <string-array name="comparison_operator_values">
       <item>EQ</item>
       <item>GTE</item>
       <item>LTE</item>
       <item>BTW</item>
+    </string-array>
+    <string-array name="comparison_operator_date_values">
+        <item>GTE</item>
+        <item>LTE</item>
+        <item>BTW</item>
     </string-array>
 </resources>

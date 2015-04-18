@@ -156,7 +156,9 @@
       -->
    </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_security">
-    <PreferenceScreen android:title="@string/pref_perform_protection_title">
+    <PreferenceScreen
+        android:key="@string/pref_screen_protection"
+        android:title="@string/pref_perform_protection_title">
      <org.totschnig.myexpenses.preference.PasswordPreference
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"

@@ -1129,9 +1129,9 @@ public class MyExpenses extends LaunchActivity implements
       setConvertedAmount((TextView)row.findViewById(R.id.total), currency);
       setConvertedAmount((TextView)row.findViewById(R.id.reconciled_total), currency);
       setConvertedAmount((TextView)row.findViewById(R.id.cleared_total), currency);
-      String description = c.getString(columnIndexDescription);
-      if (description.equals(""))
-        row.findViewById(R.id.description).setVisibility(View.GONE);
+      row.findViewById(R.id.description).setVisibility(
+          c.getString(columnIndexDescription).equals("") ?
+              View.GONE : View.VISIBLE);
       return row;
     }
   }

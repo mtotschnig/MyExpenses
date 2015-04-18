@@ -72,12 +72,11 @@ public class Fixture {
     Context appContext = inst.getTargetContext().getApplicationContext(); 
     Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
 
-    account1 = new Account(
-        testContext.getString(R.string.testData_account1Label),
-        defaultCurrency,
-        2000,
-        testContext.getString(R.string.testData_account1Description), Type.BANK, Account.defaultColor
-    );
+    account1 = Account.getInstanceFromDb(0);
+    account1.currency = defaultCurrency;
+    account1.description = testContext.getString(R.string.testData_account1Description);
+    account1.label = testContext.getString(R.string.testData_account1Label);
+    account1.openingBalance = new Money(defaultCurrency,2000L);
     account1.grouping = Account.Grouping.DAY;
     account1.save();
     //Transaction 0 for D_ContextActionTest
@@ -133,6 +132,7 @@ public class Fixture {
     op1.amount = new Money(defaultCurrency,-1200L);
     op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
     op1.setDate(new Date( now - 300000 ));
+    op1.setPictureUri(Uri.parse("file:///sdcard/myexpenses/screenshot.jpg"));
     op1.save();
 
     //Transaction 2
@@ -155,8 +155,7 @@ public class Fixture {
     //Transaction 4 Cleared
     Transaction op4 = Transaction.getNewInstance(account3.getId());
     op4.amount = new Money(defaultCurrency,-5000L);
-    op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat),
-        findCat(testContext.getString(R.string.testData_transaction4MainCat), null)));
+    op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat), mainCat2));
     op4.payee = testContext.getString(R.string.testData_transaction4Payee);
     op4.setDate(new Date( now - 98030000 ));
     op4.crStatus = CrStatus.CLEARED;

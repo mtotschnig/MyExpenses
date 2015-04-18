@@ -39,7 +39,12 @@ import android.util.Log;
  * the later is only implemented for transactions
  */
 public class DbWriteFragment extends Fragment {
-  
+
+  public static final int ERROR_UNKNOWN = -1;
+  public static final int ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2;
+  public static final int ERROR_PICTURE_SAVE_UNKNOWN = -3;
+
+
   /**
    * Callback interface through which the fragment will report the
    * task's progress and results back to the Activity.
@@ -130,18 +135,27 @@ public class DbWriteFragment extends Fragment {
      */
     @Override
     protected Object doInBackground(Model... object) {
+      long error = ERROR_UNKNOWN;
       if (object[0] == null) {
         Log.w(MyApplication.TAG, "DbWriteFragment called from an activity that did not provide an object");
         return null;
       }
       Uri uri = null;
+
       try {
         uri = object[0].save();
-      } catch (Exception e) {
+      } catch (Transaction.ExternalStorageNotAvailableException e) {
+        error = ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE;
+      }
+      catch (Transaction.UnknownPictureSaveException e) {
+        Utils.reportToAcra(e);
+        error = ERROR_PICTURE_SAVE_UNKNOWN;
+      }
+      catch (Exception e) {
           Utils.reportToAcra(e);
       }
       if (returnSequenceCount && object[0] instanceof Transaction)
-        return uri == null ? -1 : Transaction.getSequenceCount();
+        return uri == null ? error : Transaction.getSequenceCount();
       else
         return uri;
     }

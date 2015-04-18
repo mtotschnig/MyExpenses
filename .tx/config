@@ -36,3 +36,8 @@ file_filter = ../../workspace/MyExpensesContrib/res/values-<lang>/strings.xml
 source_lang = en
 source_file = ../MyExpenses.pages/_data/en.yml
 file_filter = ../MyExpenses.pages/_data/<lang>.yml
+
+[my-expenses.screenshots]
+source_lang = en
+source_file = myExpenses/src/androidTest/res/values/strings.xml
+file_filter = myExpenses/src/androidTest/res/values-<lang>/strings.xml

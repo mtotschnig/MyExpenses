@@ -20,7 +20,6 @@
     <string name="testData_transaction3SubCat">Carburant</string>
     <string name="testData_transaction3MainCat">Automòbil</string>
     <string name="testData_transaction4SubCat">Restaurant</string>
-    <string name="testData_transaction4MainCat">Alimentació</string>
     <!-- should be the name of a typical restaurant -->
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Donacions</string>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Menuko komandoak</string>
+  <string name="help_contextual_actions">Testuinguruko ekintzak</string>
+  <string name="cab_delete_help_text">Ezabatu aukeratutako elementuak.</string>
+  <string name="cab_edit_help_text">Editatu aukeratutako elementua.</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Transakzioen zerrenda</string>
+  <string name="help_MyExpenses_info">Pantaila honek uneko kontuaren transakzio guztiak bistaratzen ditu. Nabigazio barratik, kontuen zerrendara joan zaitezke edo beste kontu bat aukeratu. Sakatu zerrendako sarrera batean elementua editatzeko.</string>
+  <string name="help_MyExpenses_crStatus_info">Transakzioaren egoera kolorezko lauki baten bidez adierazten da: grisa berdikatu gabea, urdina kitatua, berdea berdinkatuta. Sakatu laukia egoera aldatzeko.</string>
+  <string name="menu_create_transaction_help_text">Transakzio berri bat sortzeko formularioa irekitzen du.</string>
+  <string name="menu_create_transfer_help_text">Egin kontuen arteko transferentzia bat. Komando hau dago  moneta bereko beste kontu bat gutxienez baduzu gaituta dago.</string>
+  <string name="menu_create_split_help_text">Banatutako transakzio batek kopuru partzialak kategoria ezberdinetara esleitzea edo kontu ezberdinetara transferitzea ahalbidetzen dizu</string>
+  <string name="menu_reset_help_text">Komando honek uneko kontuaren transakzio guztiak SD txarteleko fitxategi batetara esportatzen ditu QIF edo CSV formatuan. Esportatutako transakzioak ezabatzea aukeratu dezakezu, kasu horretan irekiera saldoa automatikoki doituko da. Ordea, transakzioak ez badira ezabatzen esportatuta gisa markatuko dira. Nire Gastuak esportatu eta jarraian fitxategia elkarbanatu dezake FTP, posta elektronikoa edo fitxategiak elkarbanatzeko bestelako edozein aplikazio erabilita, horrela egin dezan konfiguratzen baduzu ezarpenetan.</string>
+  <string name="menu_edit_account_help_text">Doitu uneko kontuaren ezarpenak (izena, azalpena, hasierako saldoa, kontu mota, moneta, kolorea).</string>
+  <string name="menu_grouping_help_text">Transakzioak taldekatu ditzakezu eguneko, asteko, hilabeteko eta urteko. Talde bakoitzean diru-sarreren, gastuen eta transferentzien guztirakoa kalkulatzen eta bistaratzen da. Taldearen goiburuan sakatzean transakzio taldea tolestu egiten da eta soilik goiburua erakusten da. Sakatu berriro taldea destolesteko.</string>
+  <string name="menu_distribution_help_text">Bistaratu zure gastuen distribuzioa kategoriako. Luze sakatu dezakezu talde goiburu batean epe zehatz horren distribuzioa ikuskatzeko.</string>
+  <string name="menu_manage_plans_help_text">Uneko kontuaren txantiloi eta planen zerrenda irekitzen du, han aplikatu, editatu edo ezabatu ditzakezu, bai eta etorkizunerako planak eta transakzio errepikakorrak zehaztu. </string>
+  <string name="menu_create_account_help_text">Kontu berri bat sortzeko formularioa irekitzen du.</string>
+  <string name="menu_balance_help_text">Komando honek berdinkatutako azken saldoa eta kitatutako saldoa bistaratzen dien elkarrizketa-koadro bat irekitzen du. Zure bankuko saldoarekin konparatu dezakezu eta kitatutako transakzioak berdinkatuta gisa markatu. Aukeran berdinkatutako transakzioak ezabatzea erabaki dezakezu.</string>
+  <string name="menu_print_help_text">Unean bistaratuta dauden transakzioen inprimatzeko ikuspegi bat sortzen du.</string>
+  <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
+  <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
+  <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira.</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txeke, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. zerrendako elementu batean sakatuz metodoa eta kontu moten arteko lotura aldatu dezakezu.</string>
+  <string name="menu_create_method_help_text">Ordainketa metodo berri bat sortzeko formularioa irekitzen du.</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Pantaila honek Onuradun/Ordaintzaile eremua automatikoki betetzeko erabilitako balioak zerrendatzen ditu.</string>
+  <string name="menu_create_party_help_text">Onuradun edo ordaintzailearen izena zehazteko elkarrizketa-koadroa irekitzen du.</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">Fitxa honek eskuragarri dauden txantiloi guztiak zerrendatzen ditu. Transakzioak txantiloi bihurtu badaiteke ere, hemen txantiloiak hutsetik sortu ditzakezu (transakzio edo transferentzietarako). Zerrendako sarrera batean sakatuz txantiloiaren instantzia bat sortu dezakezu.</string>
+  <string name="menu_create_template_for_transaction_help_text">Sortu txantiloi edo plan berria transakzio batentzat.</string>
+  <string name="menu_create_template_for_transfer_help_text">Sortu transferentzia baten plan edo txantiloi berria. Komando hau ez dago erabilgarri gutxienez moneta bereko kontu bi ez badaude.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Aukeratutako txantiloien instantziak sortu eta gorde berehala. </string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Aukeratutako txantiloiaren instantzia bat sortu eta sartu edizio formularioan gorde aurretik aldatzeko.</string>
+  <string name="cab_ManageTemplates_delete_help_text">Ezabatu aukeratutako txantiloiak eta hauei lotutako planak.</string>
+  <string name="cab_ManageTemplates_edit_help_text">Editatu aukeratutako txantiloia eta sortu edo editatu honi lotutako plana.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Sortu transakzioak aukeratutako gertakarien instantzien unean eta gorde berehala.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Sortu transakzio bat aukeratutako gertaeraren instantziaren unean eta sartu bere edizio formularioan gorde aurretik aldatzeko. </string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Adierazi aukeratutako gertakarien instantzietan, transakziorik sortu behar ez dela.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Aukeratutako gertaeren instantzietatik transakzioak sortu badira, hauek ezabatu egingo dira, ezeztatuta gisa markatu badira, marka kenduko zaie.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editatu sortutako transakzioa aukeratutako planaren instantziatik.</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_select_filter_info">Aukeratu kategoria transakzio zerrenda iragazteko . Kategoria nagusi bat hautatzeko bere testuinguru menua deitu behar duzu.</string>
+  <string name="menu_create_main_cat_help_text">Kategoria nagusi berri baten izena zehazteko elkarrizketa-koadroa irekitzen du.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Ezarri taldekatze mota eta eguneko, asteko, hileko edo urteko distribuzioa bistaratu</string>
+  <string name="menu_back_help_text">Joan aurreko taldera. Hatza ezkerretik eskumara pasatuz ere egin daiteke.</string>
+  <string name="menu_forward_help_text">Joan hurrengo taldera. Hatza eskumatik ezkerrera pasatuz ere egin daiteke.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">Kategoria honen azpi-kategoria berri baten izena zehazteko elkarrizketa-koadroa irekitzen du.</string>
+  <string name="cab_ManageCategories_select_category_help_text">Lotu aukeratutako kategoria transakziora eta itzuli transakzioaren formulariora.</string>
+  <string name="menu_categories_setup_default_help_text">Lehenetsitako kategoria multzo bat inportatuko da.</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">Aukeratutako kategoria transakzioen zerrenda iragazteko erabiliko da.</string>
+  <string name="cab_ManageCategories_distribution_select_category_help_text">Bistaratu aukeratutako kategoriara agregatutako transakzio indibidualak.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">Transakzioen formularioa</string>
+  <string name="help_ExpenseEdit_transfer_title">Transferentzien formularioa</string>
+  <string name="help_ExpenseEdit_template_title">Txantiloien formularioa</string>
+  <string name="help_ExpenseEdit_split_title">Banaketen formularioa</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Kategoria banaketen zatien formularioa</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Transferentzia banaketen zatien formularioa</string>
+  <string name="help_ExpenseEdit_info">Sakatu = botoia kalkulagailua irekitzeko</string>
+  <string name="help_ExpenseEdit_transfer_info">Aukeratu transferentziaren kontua zerrendatik</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Aukeratu kategoria bat banaketaren zatiarentzat.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Esleitu transferentzia kontu bat banaketaren zatiari.</string>
+  <string name="menu_create_split_part_category_help_text">Banaketaren zati bat kategoria batetara esleitzeko formularioa irekitzen du.</string>
+  <string name="menu_create_split_part_transfer_help_text">Banaketaren zati bat beste kontu batetara transferentzia gisa definitzeko formularioa irekitzen du.</string>
+  <string name="menu_save_help_text">Gorde datuak eta itxi formularioa.</string>
+  <string name="menu_save_and_new_help_text">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>
+  <string name="menu_invert_transfer_help_text">Alderantzikatu transferentziaren norabidea \'Nondik\' eta \'Nora\' kontuak txandakatuz</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Kontuen formularioa</string>
+  <string name="menu_exclude_from_totals_help_text">Aukera hau markatzen baduzu, kontu hau ez da monetako guztirakoetan agregatuko.</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Ordainketa metodoen formularioa</string>
+  <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <string name="help_FolderBrowser_info">Hemen aukeratzen duzun karpeta segurtasun kopiak eta esportazioak gordetzeko erabiliko da. Nabigatu karpeten hierarkian zehar nahi duzun karpeta aurkitu arte.</string>
+  <string name="menu_create_folder_help_text">Sortu karpeta bat karpeta honen barruan.</string>
+  <string name="menu_select_folder_help_text">Aukeratu uneko karpeta esportazio eta segurtasun kopien biltegiratze helburu gisa.</string>
+  <string name="menu_up_help_text">Joan karpeta honen karpeta gurasora.</string>
+  <!--StaleImages-->
+</resources>

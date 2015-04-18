@@ -48,49 +48,5 @@
   <string-array name="whats_new_220">
     <item>Busca de transações por categoria, quantidade, comentário, status, beneficiário/pagador, método de pagamento</item>
   </string-array>
-  <string-array name="whats_new_149">
-    <item>Tradução de cingalês</item>
-    <item>Suporte a várias janelas em dispositivos Samsung</item>
-    <item>Fluxo de trabalho de reconciliação</item>
-  </string-array>
-  <string-array name="whats_new_145">
-    <item>Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,...) e restaurado a partir de fontes externas</item>
-  </string-array>
-  <string-array name="whats_new_143">
-    <item>Atalhos de tela inicial para criar transacções e transferências</item>
-  </string-array>
-  <string-array name="whats_new_142">
-    <item>Widgets para entrada de dados rápida</item>
-  </string-array>
-  <string-array name="whats_new_138">
-    <item>Tradução russa</item>
-  </string-array>
-  <string-array name="whats_new_136">
-    <item>A localização da pasta para backups e exportações é agora configurável</item>
-  </string-array>
-  <string-array name="whats_new_133">
-    <item>Vários backups independentes</item>
-    <item>Importar QIF</item>
-  </string-array>
-  <string-array name="whats_new_125">
-    <item>Aperfeiçoamentos IU: #115,#117,#120,#122,#124</item>
-    <item>Informa fusos horários das datas de transação</item>
-  </string-array>
-  <string-array name="whats_new_108">
-    <item>Tradução em Chinês (Tradicional)</item>
-    <item>Permite seleção de conta em formulário de edição da transação</item>
-    <item>Interfaces de usuário (U.I.) mais claras para transferências</item>
-  </string-array>
-  <string-array name="whats_new_104">
-    <item>Aperfeiçoamentos IU (#94) e correções de bugs (#95,#96)</item>
-  </string-array>
-  <string-array name="whats_new_102">
-    <item>O balanço atual é exibido novamente de forma mais proeminente e mostra os botões principais na porção inferior, quando a orientação do dispositivo é retrato</item>
-    <item>Correções de erros: Chamados #71,#91,#92,#93</item>
-  </string-array>
-  <string-array name="whats_new_100">
-    <item>Quando a lista de transação é agrupada, mostra-se balanço intermediário para cada período no cabeçalho de grupo</item>
-    <item>Correção de erro: Chamado #90</item>
-  </string-array>
   <string name="bug_fixes">Correções de erros</string>
 </resources>

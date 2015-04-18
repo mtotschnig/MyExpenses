@@ -83,6 +83,7 @@
   <item type="id" name="FILTER_STATUS_COMMAND" />
   <item type="id" name="FILTER_PAYEE_COMMAND" />
   <item type="id" name="FILTER_METHOD_COMMAND" />
+  <item type="id" name="FILTER_DATE_COMMAND" />
   <item type="id" name="PRINT_COMMAND" />
   <item type="id" name="OPEN_PDF_COMMAND" />
   <item type="id" name="AUTO_FILL_COMMAND" />
@@ -95,4 +96,5 @@
   <item type="id" name="VIEW_COMMAND" />
   <item type="id" name="CHANGE_COMMAND" />
   <item type="id" name="SAVE_COMMAND" />
+    <item name="SELECT_COMMAND_MULTIPLE" type="id"/>
 </resources>

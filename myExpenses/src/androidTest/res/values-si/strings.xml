@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">මාගේ පසුම්බිය </string>
+  <string name="testData_account1Description">දෛනික වියදම් </string>
+  <string name="testData_account2Label"> පැරිසියේ සති අන්තය</string>
+  <string name="testData_account2Description">2012 අගෝස්තු</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">බැංකු ගිණුම </string>
+  <string name="testData_account3Description">අමෙරිකානු බැංකුව</string>
+  <string name="testData_transaction1SubCat">මීටරය </string>
+  <string name="testData_transaction1MainCat">ගමනාගමනය </string>
+  <string name="testData_transaction2SubCat">සිල්ලර භාණ්ඩ </string>
+  <string name="testData_transaction2MainCat">ආහාර </string>
+  <string name="testData_transaction2Comment">පලතුරු සහ එළවලු</string>
+  <string name="testData_transaction3SubCat">ඉන්ධන </string>
+  <string name="testData_transaction3MainCat">රථය </string>
+  <string name="testData_transaction4SubCat">අවන්හල </string>
+  <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+  <string name="testData_transaction6MainCat">තෑගි </string>
+</resources>

@@ -399,14 +399,28 @@ public class Transaction extends Model {
     }
     return uri;
   }
+  private void throwExternalNotAvailable() {
+    throw new ExternalStorageNotAvailableException();
+  }
 
   protected void savePicture(ContentValues initialValues) {
     if (pictureUri!=null) {
-      if (pictureUri.toString().startsWith(Utils.getPictureUriBase(false))) {
+      String pictureUriBase = Utils.getPictureUriBase(false);
+      if (pictureUriBase==null) {
+        throwExternalNotAvailable();
+      }
+      if (pictureUri.toString().startsWith(pictureUriBase)) {
         Log.d("DEBUG", "got Uri in our home space, nothing todo");
       } else {
-        boolean isInTempFolder = pictureUri.toString().startsWith(Utils.getPictureUriBase(true));
+        pictureUriBase = Utils.getPictureUriBase(true);
+        if (pictureUriBase==null) {
+          throwExternalNotAvailable();
+        }
+        boolean isInTempFolder = pictureUri.toString().startsWith(pictureUriBase);
         Uri homeUri = Utils.getOutputMediaUri(false);
+        if (homeUri==null) {
+          throwExternalNotAvailable();
+        }
         if (isInTempFolder && homeUri.getScheme().equals("file")) {
           if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
             setPictureUri(homeUri);
@@ -416,13 +430,15 @@ public class Transaction extends Model {
           }
         } else {
           try {
-            Utils.copy(pictureUri,homeUri);
+            if (!Utils.copy(pictureUri,homeUri)) {
+              throw new IOException("Copy to homeUri "+homeUri.getPath()+" failed");
+            }
             if (isInTempFolder) {
               new File(pictureUri.getPath()).delete();
             }
             setPictureUri(homeUri);
           } catch (IOException e) {
-            Utils.reportToAcra(e);
+            throw new UnknownPictureSaveException(e);
           }
         }
       }
@@ -593,5 +609,12 @@ public class Transaction extends Model {
       intent.setDataAndType(pictureUri, "image/jpeg");
       intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       return intent;
+  }
+  public static class ExternalStorageNotAvailableException extends IllegalStateException {
+  }
+  public static class UnknownPictureSaveException extends IllegalStateException {
+    public UnknownPictureSaveException(IOException e) {
+      super(e);
+    }
   }
 }

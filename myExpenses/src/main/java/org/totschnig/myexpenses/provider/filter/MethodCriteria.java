@@ -25,14 +25,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
- */
 public class MethodCriteria extends IdCriteria {
 
-  public MethodCriteria(long id, String label) {
+  public MethodCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.method),
-        DatabaseConstants.KEY_METHODID, id, label);
+        DatabaseConstants.KEY_METHODID, label, ids);
+  }
+  public MethodCriteria(String label, String... ids) {
+    super(MyApplication.getInstance().getString(R.string.method),
+        DatabaseConstants.KEY_METHODID, label, ids);
   }
 
   public MethodCriteria(Parcel in) {
@@ -50,8 +51,13 @@ public class MethodCriteria extends IdCriteria {
   };
   public static MethodCriteria fromStringExtra(String extra) {
     int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    long id = Long.parseLong(extra.substring(0, sepIndex));
-    String label = extra.substring(sepIndex+1);
-    return new MethodCriteria(id,label);
+    String ids[] = extra.substring(sepIndex+1).split(EXTRA_SEPARATOR);
+    String label = extra.substring(0, sepIndex);
+    return new MethodCriteria(label, ids);
+  }
+
+  @Override
+  protected boolean shouldApplyToParts() {
+    return false;
   }
 }

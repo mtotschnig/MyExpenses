@@ -1,7 +1,7 @@
 #!/bin/bash
 #Prerequisites: run test project first on Eclipse, install Contrib app
 #in MyExpenses.pages/{lang}/screenshots/orig verschieben
-#for lang in ca cs de en es fr hu it pl pt tr vi zh-tv; do (echo $lang;cd ${lang}/screenshots/orig/;for image in *;do echo $image; convert $image -resize 60% ../$image;done;);done
+#for lang in ca cs de en es fr hu it pl pt tr vi zh-tw; do (echo $lang;cd ${lang}/screenshots/orig/;for image in *;do echo $image; convert $image -resize 60% ../$image;done;);done
 
 
 if [ $# -lt 1 ]

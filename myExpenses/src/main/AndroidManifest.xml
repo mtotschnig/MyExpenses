@@ -13,8 +13,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses"
     android:installLocation="internalOnly"
-    android:versionCode="197"
-    android:versionName="2.4.3.1" >
+    android:versionCode="199"
+    android:versionName="2.4.4" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -115,10 +115,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MyPreferenceActivity" />
+        <activity android:name=".activity.MyPreferenceActivity">
+            <intent-filter>
+                <action android:name="myexpenses.intent.help" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+         </activity>
         <activity
             android:name=".activity.Help"
-            android:theme="@style/Translucent.NoTitleBar" />
+            android:theme="@style/Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="myexpenses.intent.import_qif" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>    
+        </activity>
         <activity android:name=".activity.ManageParties" >
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.parties" />

@@ -1,3 +1,4 @@
+#this script currently is designed for being run on Nexus S
 import sys
 
 if (len(sys.argv) < 3):
@@ -19,25 +20,22 @@ def sleep(duration=1):
   MonkeyRunner.sleep(duration)
   print "sleeping"
 
-def down_and_up(key):
-  device.press(key,MonkeyDevice.DOWN_AND_UP)
-
 def back():
-  down_and_up('KEYCODE_BACK')
+  device.press('KEYCODE_BACK')
   sleep()
 
 def down():
-  down_and_up('KEYCODE_DPAD_DOWN')
+  device.press('KEYCODE_DPAD_DOWN')
 
 def right():
-  down_and_up('KEYCODE_DPAD_RIGHT')
+  device.press('KEYCODE_DPAD_RIGHT')
 
 def left():
-  down_and_up('KEYCODE_DPAD_LEFT')
+  device.press('KEYCODE_DPAD_LEFT')
 
 #select the nth item from menu (0 indexed)
 def menu(n):
-  down_and_up('KEYCODE_MENU')
+  device.press('KEYCODE_MENU')
   sleep()
   for _ in range(10):
     up() #make sure we start from top
@@ -46,22 +44,22 @@ def menu(n):
   enter()
 
 def enter():
-  down_and_up('KEYCODE_ENTER')
+  device.press('KEYCODE_ENTER')
   sleep()
 
 def up():
-  down_and_up('KEYCODE_DPAD_UP')
+  device.press('KEYCODE_DPAD_UP')
 
-def toTopLeft():
-  for _ in range(10):
+def toTopLeft(force=5):
+  for _ in range(force*2):
     up()
-  for _ in range(5):
+  for _ in range(force):
     left()
 
-def toBottomLeft():
-  for _ in range(10):
+def toBottomLeft(force=5):
+  for _ in range(force*2):
     down()
-  for _ in range(5):
+  for _ in range(force):
     left()
 
 def finalize():
@@ -69,14 +67,28 @@ def finalize():
   back()
   back()
 
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
+device = MonkeyRunner.waitForConnection()
+
+# start
+package = 'org.totschnig.myexpenses'
+activity = 'org.totschnig.myexpenses.activity.MyExpenses'
+runComponent = package + '/' + activity
+#we start with the third account set up in fixture
+extra = {'_id': "3"}
+device.startActivity(component=runComponent,extras=extra)
+
 def main():
+
   #1 ManageAccounts
   toTopLeft()
   enter()
+  sleep()
   down()
   down()
   down()
-  toTopLeft()
+  sleep()
+  toTopLeft(8)
   snapshot("manage_accounts")
   
   if (stage == "1"):
@@ -84,9 +96,8 @@ def main():
     return
   
   #3 GrooupedList
-  down()
-  down()
-  down()
+  #back() does not close drawer but finishes activity?
+  toTopLeft()
   enter()
   snapshot("grouped_list")
     
@@ -108,16 +119,15 @@ def main():
   sleep()
   up()
   up()
-  right()
   up()
   left()
   enter() #apply instance
-  sleep()
+  sleep(4)
   snapshot("plans")
   
   #5 ExportAndReset
   back()
-  menu(0)
+  menu(1)
   snapshot("export")
   
   #6 Calculator
@@ -140,17 +150,45 @@ def main():
   down()
   down()#split is second, first is the transaction created from plan
   enter()
+  sleep(2)
   right()
   enter()
-  
   #give time for loading
   sleep(2)
   back()#close virtual keyboard
   snapshot("split")
   
+  #8 Attach picture
+  back()
+  toTopLeft()
+  down()
+  down()
+  down() #third in list
+  enter()
+  sleep(2)
+  right()
+  right()
+  enter()
+  #give time for loading
+  sleep(2)
+  back()#close virtual keyboard
+  #navigate to imageView
+  toTopLeft()
+  down()
+  down()
+  down()
+  down()
+  down()
+  down()
+  right()
+  right()
+  enter()
+  snapshot("attach_picture")
+  
   #8 Distribution
   back()
-  menu(1)
+  back()
+  menu(2)
   right()
   right()
   enter()
@@ -158,63 +196,47 @@ def main():
   down()
   down()
   enter()
-  down()
-  enter()
+  sleep()
   snapshot("distribution")
+
+  #11 Help
+  back()
+  activity = 'org.totschnig.myexpenses.activity.Help'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent)
+  snapshot("help")
   
   #9 Backup
   back()
-  menu(6)
-  if lang == 'zh':
-    distance = 14
-  else:
-    distance = 16
-  for _ in range(distance):
-    down()
-  enter()
+  activity = 'org.totschnig.myexpenses.activity.BackupRestoreActivity'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent,action="myexpenses.intent.backup")
   snapshot("backup")
   
   #10 Password
   back()
-  back()
-  menu(6)
-  if lang == 'zh':
-    distance = 20
-  else:
-    distance = 22
-  for _ in range(distance):
-    down()
-  enter()
+  activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent,action="myexpenses.intent.preference.password")
+  down()
   enter()
   enter()
   snapshot("password")
-  
+
   #10 Light Theme
   back()
   back()
-  back()
-  menu(6)
-  for _ in range(4):
+  device.startActivity(component=runComponent)
+  for _ in range(5):
     down()
   enter()
   down()
   enter()
   back()
   snapshot("light_theme")
-  
-  #11 Help
-  menu(7)
-  snapshot("help")
+
   finalize()
 
-from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
-device = MonkeyRunner.waitForConnection()
-
-# start
-package = 'org.totschnig.myexpenses'
-activity = 'org.totschnig.myexpenses.activity.MyExpenses'
-runComponent = package + '/' + activity
-device.startActivity(component=runComponent)
 main()
 
 

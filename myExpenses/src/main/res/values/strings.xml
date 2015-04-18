@@ -507,15 +507,20 @@
     <string name="search_amount">Search for amount</string>
     <string name="search_category">Search for category</string>
     <string name="search_comment">Search for notes</string>
+    <string name="search_date">Search for date</string>
     <string name="search_status">Search for status</string>
     <string name="search_payee">Search for payee/payer</string>
     <string name="search_method">Search for method</string>
     <string name="and">and</string>
     <string name="between_and">between %1$s and %2$s</string>
+    <string name="before">before %s</string>
+    <string name="after">after %s</string>
     <string name="comparison_operator_equal">equal to</string>
     <string name="comparison_operator_greater_than">greater than</string>
     <string name="comparison_operator_lesser_than">lesser than</string>
     <string name="comparison_operator_between">between</string>
+    <string name="comparison_operator_date_before">before</string>
+    <string name="comparison_operator_date_after">after</string>
     <string name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
     <string name="premium_unlocked">Premium features unlocked.</string>
     <string name="premium_failed_or_canceled">Purchasing failed or cancelled.</string>
@@ -539,5 +544,6 @@
     <string name="menu_distribution_aggreate">Aggregate expenses and income</string>
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
+    <string name="menu_select_categories">Select checked categories</string>
 </resources>
 

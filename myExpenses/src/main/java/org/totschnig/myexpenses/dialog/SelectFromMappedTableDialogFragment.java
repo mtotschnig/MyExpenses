@@ -40,7 +40,15 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.widget.TextView;
+import android.util.SparseBooleanArray;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckedTextView;
+import android.widget.ListView;
+
+import com.google.common.base.Joiner;
+
+import java.util.ArrayList;
 
 public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
     LoaderManager.LoaderCallbacks<Cursor>
@@ -49,32 +57,51 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
   protected Cursor mCursor;
   
   abstract int getDialogTitle();
-  abstract Criteria makeCriteria(long id, String label);
+  abstract Criteria makeCriteria(String label, long... id);
   abstract int getCommand();
   abstract Uri getUri();
+
+  SparseBooleanArray ids = new SparseBooleanArray();
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Context wrappedCtx = DialogUtils.wrapContext1(getActivity());
-    mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_single_choice, null,
+    mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_multiple_choice, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
-    return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(getDialogTitle())
-      .setSingleChoiceItems(mAdapter, -1, this)
-      .create();
+    final AlertDialog dialog = new AlertDialog.Builder(wrappedCtx)
+        .setTitle(getDialogTitle())
+        .setAdapter(mAdapter,null)
+        .setPositiveButton(android.R.string.ok,this)
+        .setNegativeButton(android.R.string.cancel,null)
+        .create();
+    dialog.getListView().setItemsCanFocus(false);
+    dialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    return dialog;
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null || mCursor == null) {
+    if (getActivity()==null || mCursor ==null) {
       return;
     }
-    mCursor.moveToPosition(which);
-    ((MyExpenses) getActivity()).addFilterCriteria(
-        getCommand(),
-        makeCriteria(
-            mCursor.getLong(mCursor.getColumnIndex(KEY_ROWID)),
-            mCursor.getString(mCursor.getColumnIndex(KEY_LABEL))));
+    ListView listView = ((AlertDialog) getDialog()).getListView();
+    SparseBooleanArray positions = listView.getCheckedItemPositions();
+
+    long[] itemIds = listView.getCheckedItemIds();
+
+    if (itemIds.length>0 && itemIds.length<mCursor.getCount()) {
+      ArrayList<String> labelList = new ArrayList<>();
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          mCursor.moveToPosition(positions.keyAt(i));
+          labelList.add(mCursor.getString(mCursor.getColumnIndex(KEY_LABEL)));
+        }
+      }
+      ((MyExpenses) getActivity()).addFilterCriteria(
+          getCommand(),
+          makeCriteria(Joiner.on(",").join(labelList), itemIds));
+    }
     dismiss();
   }
   @Override

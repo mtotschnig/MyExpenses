@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
@@ -91,6 +92,8 @@ import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
@@ -362,7 +365,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     case TRANSACTION_CURSOR:
       if (!mFilter.isEmpty()) {
         selection += " AND " + mFilter.getSelectionForParents();
-        selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs());
+        selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
       }
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
@@ -378,14 +381,15 @@ public class TransactionList extends ContextualActionBarFragment implements
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
+      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       if (!mFilter.isEmpty()) {
         selection = mFilter.getSelectionForParts();
-        selectionArgs = mFilter.getSelectionArgs();
+        selectionArgs = mFilter.getSelectionArgs(true);
+        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_IS_FILTERED,"1");
       } else {
         selection = null;
         selectionArgs = null;
       }
-      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
         .appendPath(mAccount.grouping.name());
       if (mAccount.getId() < 0) {
@@ -519,6 +523,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       } else {
         holder = (HeaderViewHolder) convertView.getTag();
       }
+      holder.interimBalance.setVisibility(mFilter.isEmpty()?View.VISIBLE:View.GONE);
 
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -587,14 +592,16 @@ public class TransactionList extends ContextualActionBarFragment implements
           sumTransfer,
           mAccount.currency));
       Long delta = sumIncome - sumExpense +  sumTransfer;
-      Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
-      Long previousBalance = interimBalance - delta;
-      holder.interimBalance.setText(
-          String.format("%s %s %s = %s",
-              Utils.convAmount(previousBalance,mAccount.currency),
-              Long.signum(delta) >-1 ? "+" : "-",
-              Utils.convAmount(Math.abs(delta),mAccount.currency),
-              Utils.convAmount(interimBalance,mAccount.currency)));
+      if (mFilter.isEmpty()) {
+        Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
+        Long previousBalance = interimBalance - delta;
+        holder.interimBalance.setText(
+            String.format("%s %s %s = %s",
+                Utils.convAmount(previousBalance, mAccount.currency),
+                Long.signum(delta) > -1 ? "+" : "-",
+                Utils.convAmount(Math.abs(delta), mAccount.currency),
+                Utils.convAmount(interimBalance, mAccount.currency)));
+      }
     }
     @Override
     public long getHeaderId(int position) {
@@ -716,7 +723,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
   /**
    * Removes a given filter
-   * @param column
+   * @param id
    * @return true if the filter was set and succesfully removed, false otherwise
    */
   public boolean removeFilter(Integer id) {
@@ -796,6 +803,12 @@ public class TransactionList extends ContextualActionBarFragment implements
         .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
       }
       return true;
+    case R.id.FILTER_DATE_COMMAND:
+      if (!removeFilter(command)) {
+        DateFilterDialog.newInstance()
+            .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
+      }
+      return true;
     case R.id.FILTER_COMMENT_COMMAND:
       if (!removeFilter(command)) {
         Bundle args = new Bundle();
@@ -859,7 +872,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     SharedPreferences settings = MyApplication.getInstance().getSettings();
     String filter = settings.getString(KEY_FILTER + "_"+KEY_CATID+"_"+mAccount.getId(),null);
     if (filter!=null) {
-      mFilter.put(R.id.FILTER_CATEGORY_COMMAND, SingleCategoryCriteria.fromStringExtra(filter));
+      mFilter.put(R.id.FILTER_CATEGORY_COMMAND, CategoryCriteria.fromStringExtra(filter));
     }
     filter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
     if (filter!=null) {
@@ -881,13 +894,24 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (filter!=null) {
       mFilter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(filter));
     }
+    filter = settings.getString(KEY_FILTER + "_"+KEY_DATE+"_"+mAccount.getId(),null);
+    if (filter!=null) {
+      mFilter.put(R.id.FILTER_DATE_COMMAND, DateCriteria.fromStringExtra(filter));
+    }
   }
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
-      long catId = intent.getLongExtra(KEY_CATID,0);
+    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST &&
+        resultCode != Activity.RESULT_CANCELED) {
       String label = intent.getStringExtra(KEY_LABEL);
-      addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
+      if (resultCode == Activity.RESULT_OK) {
+        long catId = intent.getLongExtra(KEY_CATID, 0);
+        addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, new CategoryCriteria(label, catId));
+      }
+      if (resultCode == Activity.RESULT_FIRST_USER) {
+        long[] catIds = intent.getLongArrayExtra(KEY_CATID);
+        addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, new CategoryCriteria(label, catIds));
+      }
     }
   }
 }

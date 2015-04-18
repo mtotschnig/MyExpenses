@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
@@ -55,7 +54,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
     return dialogFragment;
   }
   @Override
-  Criteria makeCriteria(long id, String label) {
-    return new MethodCriteria(id,label);
+  Criteria makeCriteria(String label, long... ids) {
+    return new MethodCriteria(label, ids);
   }
 }

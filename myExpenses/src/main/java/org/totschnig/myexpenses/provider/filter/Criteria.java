@@ -32,9 +32,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-/**
- * Created by IntelliJ IDEA. User: denis.solonenko Date: 12/17/12 9:06 PM
- */
 @SuppressLint("ParcelCreator")
 public class Criteria implements Parcelable {
 
@@ -86,7 +83,7 @@ public class Criteria implements Parcelable {
   }
 
   public String getSelection() {
-    return columnName + " " + operation.op;
+    return columnName + " " + operation.getOp(values.length);
   }
 
   public int size() {
@@ -125,6 +122,9 @@ public class Criteria implements Parcelable {
    * that are matched by the critera
    */
   protected String applyToSplitParts(String selection) {
+    if (!shouldApplyToParts()) {
+      return selection;
+    }
     return "(" + selection + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID //maybe the check for split catId is not needed
         + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
         + " WHERE children." + KEY_PARENTID
@@ -132,15 +132,21 @@ public class Criteria implements Parcelable {
   }
   
   /**
-   * the sums are calculated based on split parts, hence here we must apply the reverse method
+   * the sums are calculated based on split parts, hence here we must take care to select parts
+   * where the parents match
    * of {@link #applyToSplitParts(String)}
    * @param selection
    * @return selection wrapped in a way that is also finds split parts where parents are
    * matched by the criteria
    */
   protected String applyToSplitParents(String selection) {
-    return "(" + selection + " OR "
-        + " exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
+    String selectParents;
+    if (!shouldApplyToParts()) {
+      selectParents = "(" + selection + " AND " + KEY_PARENTID + " IS NULL)";
+    } else {
+      selectParents = selection;
+    }
+    return "(" + selectParents + " OR  exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
         + " WHERE parents." + KEY_ROWID
         + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + "))";
   }
@@ -150,6 +156,10 @@ public class Criteria implements Parcelable {
   }
   public String getSelectionForParents() {
     return applyToSplitParts(getSelection());
+  }
+
+  protected boolean shouldApplyToParts() {
+    return true;
   }
   
 }
