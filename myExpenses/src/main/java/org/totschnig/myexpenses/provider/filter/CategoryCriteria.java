@@ -21,6 +21,7 @@ package org.totschnig.myexpenses.provider.filter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -31,48 +32,49 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 //TODO extend to allow multi select
-public class SingleCategoryCriteria extends IdCriteria {
+public class CategoryCriteria extends IdCriteria {
 
-  public SingleCategoryCriteria(long categoryId, String label) {
+  public CategoryCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.category),
         KEY_CATID,
-        label, categoryId
+        label, ids
     );
   }
 
-  public SingleCategoryCriteria(Parcel in) {
+  public CategoryCriteria(Parcel in) {
     super(in);
   }
 
   @Override
   public String getSelection() {
+    String selection = WhereFilter.Operation.IN.getOp(values.length);
     return KEY_CATID +" IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
-        + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
-        + KEY_ROWID + " = ?)";
+        + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " " + selection + " OR "
+        + KEY_ROWID + " " + selection + ")";
   }
   @Override
   public String[] getSelectionArgs() {
-    return new String[] {values[0],values[0]};
+    return Utils.joinArrays(values,values);
   }
 
   @Override
   public String prettyPrint() {
     return prettyPrintInternal(label);
   }
-  public static final Parcelable.Creator<SingleCategoryCriteria> CREATOR = new Parcelable.Creator<SingleCategoryCriteria>() {
-    public SingleCategoryCriteria createFromParcel(Parcel in) {
-        return new SingleCategoryCriteria(in);
+  public static final Parcelable.Creator<CategoryCriteria> CREATOR = new Parcelable.Creator<CategoryCriteria>() {
+    public CategoryCriteria createFromParcel(Parcel in) {
+        return new CategoryCriteria(in);
     }
 
-    public SingleCategoryCriteria[] newArray(int size) {
-        return new SingleCategoryCriteria[size];
+    public CategoryCriteria[] newArray(int size) {
+        return new CategoryCriteria[size];
     }
   };
   
-  public static SingleCategoryCriteria fromStringExtra(String extra) {
+  public static CategoryCriteria fromStringExtra(String extra) {
     int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
     long id = Long.parseLong(extra.substring(sepIndex+1));
     String label = extra.substring(0, sepIndex);
-    return new SingleCategoryCriteria(id, label);
+    return new CategoryCriteria(label, id);
   }
 }

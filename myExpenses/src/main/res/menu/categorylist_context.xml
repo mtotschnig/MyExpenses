@@ -32,4 +32,13 @@
     android:title="@string/menu_select_category">
   </item>
   </group>
+    <group android:id="@+id/MenuBulk">
+        <item
+            android:id="@id/SELECT_COMMAND_MULTIPLE"
+            android:icon="@drawable/ic_menu_goto"
+            app:showAsAction="always"
+            android:orderInCategory="20"
+            android:title="@string/menu_select_categories">
+        </item>
+    </group>
 </menu>

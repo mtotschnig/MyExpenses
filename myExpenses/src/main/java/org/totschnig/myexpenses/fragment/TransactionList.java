@@ -93,6 +93,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
@@ -870,7 +872,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     SharedPreferences settings = MyApplication.getInstance().getSettings();
     String filter = settings.getString(KEY_FILTER + "_"+KEY_CATID+"_"+mAccount.getId(),null);
     if (filter!=null) {
-      mFilter.put(R.id.FILTER_CATEGORY_COMMAND, SingleCategoryCriteria.fromStringExtra(filter));
+      mFilter.put(R.id.FILTER_CATEGORY_COMMAND, CategoryCriteria.fromStringExtra(filter));
     }
     filter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
     if (filter!=null) {
@@ -899,10 +901,17 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode == Activity.RESULT_OK) {
-      long catId = intent.getLongExtra(KEY_CATID,0);
+    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST &&
+        resultCode != Activity.RESULT_CANCELED) {
       String label = intent.getStringExtra(KEY_LABEL);
-      addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND,new SingleCategoryCriteria(catId, label));
+      if (resultCode == Activity.RESULT_OK) {
+        long catId = intent.getLongExtra(KEY_CATID, 0);
+        addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, new CategoryCriteria(label, catId));
+      }
+      if (resultCode == Activity.RESULT_FIRST_USER) {
+        long[] catIds = intent.getLongArrayExtra(KEY_CATID);
+        addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, new CategoryCriteria(label, catIds));
+      }
     }
   }
 }

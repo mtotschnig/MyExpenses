@@ -78,6 +78,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Highlight;
+import com.google.common.base.Joiner;
 
 public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
@@ -380,6 +381,35 @@ public class CategoryList extends ContextualActionBarFragment implements
         Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
       }
       return true;
+      case R.id.SELECT_COMMAND_MULTIPLE:
+        ArrayList<String> labelList = new ArrayList<>();
+        for (int i=0; i<positions.size(); i++) {
+          Cursor c;
+          if (positions.valueAt(i)) {
+            int position = positions.keyAt(i);
+            long pos = mListView.getExpandableListPosition(position);
+            int type = ExpandableListView.getPackedPositionType(pos);
+            int group = ExpandableListView.getPackedPositionGroup(pos),
+                child = ExpandableListView.getPackedPositionChild(pos);
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+              c = (Cursor) mAdapter.getChild(group, child);
+              c.moveToPosition(child);
+            } else {
+              c = mGroupCursor;
+              c.moveToPosition(group);
+            }
+            labelList.add(c.getString(c.getColumnIndex(KEY_LABEL)));
+          }
+        }
+        Intent intent=new Intent();
+        long[] itemIdsPrim = new long[itemIds.length];
+        for (int i = 0; i < itemIds.length; i++) {
+          itemIdsPrim[i] = itemIds[i];
+        }
+        intent.putExtra(KEY_CATID,itemIdsPrim);
+        intent.putExtra(KEY_LABEL, Joiner.on(",").join(labelList));
+        ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
+        ctx.finish();
     }
     return false;
   }
@@ -940,7 +970,9 @@ public class CategoryList extends ContextualActionBarFragment implements
         ctx.helpVariant.equals(HelpVariant.distribution);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
-    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 && !ctx.helpVariant.equals(HelpVariant.manage));
+    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 &&
+        (ctx.helpVariant.equals(HelpVariant.distribution) || ctx.helpVariant.equals(HelpVariant.select_mapping)));
+    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(ctx.helpVariant.equals(HelpVariant.select_filter));
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
   }
 
