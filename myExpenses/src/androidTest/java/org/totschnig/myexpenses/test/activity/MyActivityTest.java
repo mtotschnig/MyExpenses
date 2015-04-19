@@ -56,7 +56,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   }
   /**
    * Clicks a visible ActionBarItem matching the specified resource id.
-   * @param resourceId
+   * @param command
    */
   protected void clickOnActionBarItem(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
