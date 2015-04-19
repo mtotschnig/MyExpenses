@@ -90,7 +90,7 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
 
     long[] itemIds = listView.getCheckedItemIds();
 
-    if (itemIds.length>0 && itemIds.length<mCursor.getCount()) {
+    if (itemIds.length>0) {
       ArrayList<String> labelList = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {
         if (positions.valueAt(i)) {
