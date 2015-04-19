@@ -36,9 +36,12 @@ public class CategoryCriteria extends IdCriteria {
 
   public CategoryCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.category),
-        KEY_CATID,
-        label, ids
+        KEY_CATID,label, ids
     );
+  }
+  public CategoryCriteria(String label, String... ids) {
+    super(MyApplication.getInstance().getString(R.string.method),
+        DatabaseConstants.KEY_CATID, label, ids);
   }
 
   public CategoryCriteria(Parcel in) {
@@ -69,8 +72,8 @@ public class CategoryCriteria extends IdCriteria {
   
   public static CategoryCriteria fromStringExtra(String extra) {
     int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    long id = Long.parseLong(extra.substring(sepIndex+1));
+    String ids[] = extra.substring(sepIndex+1).split(EXTRA_SEPARATOR);
     String label = extra.substring(0, sepIndex);
-    return new CategoryCriteria(label, id);
+    return new CategoryCriteria(label, ids);
   }
 }
