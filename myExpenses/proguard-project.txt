@@ -62,3 +62,8 @@
 
 #FORTUMO
 -keep class mp.** { *; }
+
+#Guava
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+-dontwarn sun.misc.Unsafe
