@@ -7,3 +7,9 @@
 -keep class com.itextpdf.** { *; }
 -dontwarn org.bouncycastle.**
 -dontwarn com.itextpdf.**
+
+#Guava
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+-dontwarn sun.misc.Unsafe
+
