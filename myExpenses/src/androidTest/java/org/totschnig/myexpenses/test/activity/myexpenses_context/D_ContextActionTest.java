@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 
@@ -42,21 +43,18 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
     mSolo.waitForActivity(MyExpenses.class);
-    mList =  (StickyListHeadersListView) mActivity.getCurrentFragment().getView().findViewById(R.id.list);
   }
   public void testA_Clone() {
-    int itemsInList = mList.getAdapter().getCount();
+    int itemsInList = requireList().getAdapter().getCount();
     setSelection();
-    mInstrumentation.waitForIdleSync();
     invokeContextAction("CLONE_TRANSACTION");
     mInstrumentation.waitForIdleSync();
     //wait for adapter to have updated
     sleep();
-    assertEquals(itemsInList+1, mList.getAdapter().getCount());
+    assertEquals(itemsInList+1, requireList().getAdapter().getCount());
   }
   public void testB_Edit() {
     setSelection();
-    mInstrumentation.waitForIdleSync();
     invokeContextAction("EDIT");
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
   }
@@ -64,7 +62,6 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   public void testC_CreateTemplate() {
     String templateTitle = "Robotium Template Test";
     setSelection();
-    mInstrumentation.waitForIdleSync();
     invokeContextAction("CREATE_TEMPLATE");
     assertTrue("Edit Title dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_template_title)));
     mSolo.enterText(0, templateTitle);
@@ -75,20 +72,18 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     assertTrue(mSolo.searchText(templateTitle));
   }
   public void testD_Delete() {
-    int itemsInList = mList.getAdapter().getCount();
+    int itemsInList = requireList().getAdapter().getCount();
     setSelection();
-    mInstrumentation.waitForIdleSync();
     invokeContextAction("DELETE");
     assertTrue("Delete confirmation not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_warning_delete_transaction)));
     mSolo.clickOnButton(mContext.getString(R.string.menu_delete));
     mInstrumentation.waitForIdleSync();
     //wait for adapter to have updated
     sleep();
-    assertEquals(itemsInList-1, mList.getAdapter().getCount());
+    assertEquals(itemsInList-1, requireList().getAdapter().getCount());
   }
   public void testE_Split() {
     setSelection();
-    mInstrumentation.waitForIdleSync();
     invokeContextAction("SPLIT_TRANSACTION");
     if (!MyApplication.getInstance().isContribEnabled()) {
       assertTrue("Contrib Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_contrib_feature)));
@@ -101,13 +96,16 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     
   }
   private void setSelection() {
+    final StickyListHeadersListView listView = requireList();
     mActivity
     .runOnUiThread(new Runnable() {
-      public void run() { 
-        mList.requestFocus();
-        mList.getWrappedList().setSelection(3);
+      public void run() {
+        listView.requestFocus();
+        listView.getWrappedList().setSelection(3);
       }
       });
+    mInstrumentation.waitForIdleSync();
+    sleep();
   }
   private void sleep() {
     try {
@@ -116,5 +114,18 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+  }
+
+  public StickyListHeadersListView requireList() {
+    if (mList == null) {
+      TransactionList currentFragment;
+      while(true) {
+        currentFragment = mActivity.getCurrentFragment();
+        if (currentFragment!=null) break;
+        sleep();
+      }
+      mList = (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
+    }
+    return mList;
   }
 }

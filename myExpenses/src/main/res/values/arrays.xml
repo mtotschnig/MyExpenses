@@ -248,24 +248,6 @@
       <item>164</item>
       <item>159</item>
       <item>155</item>
-      <item>149</item>
-      <item>145</item>
-      <item>143</item>
-      <item>142</item>
-      <item>138</item>
-      <item>136</item>
-      <item>133</item>
-      <item>130</item>
-      <item>125</item>
-      <item>118</item>
-      <item>116</item>
-      <item>110</item>
-      <item>108</item>
-      <item>104</item>
-      <item>102</item>
-      <item>100</item>
-      <item>95</item>
-      <item>93</item>
     </integer-array>
     <string-array name="version_names">
       <item>2.4.4</item>
@@ -284,24 +266,6 @@
       <item>2.3.1</item>
       <item>2.3.0</item>
       <item>2.2.0</item>
-      <item>2.1.6</item>
-      <item>2.1.5</item>
-      <item>2.1.4</item>
-      <item>2.1.3</item>
-      <item>2.1.2</item>
-      <item>2.1.1</item>
-      <item>2.1.0</item>
-      <item>2.0.2</item>
-      <item>2.0.1</item>
-      <item>2.0</item>
-      <item>1.11.5</item>
-      <item>1.11.0</item>
-      <item>1.10.5</item>
-      <item>1.10.4</item>
-      <item>1.10.3</item>
-      <item>1.10.2</item>
-      <item>1.10.1</item>
-      <item>1.10.0</item>
     </string-array>
     <!-- first member is Facebook post id, second Google+ post id -->
     <string-array name="version_more_info_231">

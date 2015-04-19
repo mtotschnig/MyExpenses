@@ -19,14 +19,14 @@
 	  <item
 	    android:id="@id/DELETE_COMMAND"
 	    android:icon="@android:drawable/ic_menu_delete"
-	    app:showAsAction="always"
+        android:showAsAction="always"
         android:orderInCategory="20"
 	    android:title="@string/menu_delete">
 	  </item>
 	  <item
 	    android:id="@id/SAVE_COMMAND"
 	    android:icon="@android:drawable/ic_menu_save"
-	    app:showAsAction="always"
+        android:showAsAction="always"
         android:orderInCategory="10"
 	    android:title="@string/menu_save">
 	  </item>
