@@ -20,14 +20,14 @@
   <item
     android:id="@id/CREATE_COMMAND"
     android:icon="@android:drawable/ic_menu_add"
-    app:showAsAction="always"
+    android:showAsAction="always"
     android:orderInCategory="1"
     android:title="@string/menu_create_sub_cat">
   </item>
   <item
     android:id="@id/SELECT_COMMAND"
     android:icon="@drawable/ic_menu_goto"
-    app:showAsAction="always"
+    android:showAsAction="always"
     android:orderInCategory="0"
     android:title="@string/menu_select_category">
   </item>
@@ -36,7 +36,7 @@
         <item
             android:id="@id/SELECT_COMMAND_MULTIPLE"
             android:icon="@drawable/ic_menu_goto"
-            app:showAsAction="always"
+            android:showAsAction="always"
             android:orderInCategory="20"
             android:title="@string/menu_select_categories">
         </item>

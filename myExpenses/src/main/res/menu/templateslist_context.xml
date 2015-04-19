@@ -19,7 +19,7 @@
   <item
     android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
     android:icon="@drawable/create_instance_save_icon"
-    app:showAsAction="always"
+    android:showAsAction="always"
     android:orderInCategory="0"
     android:title="@string/menu_create_instance_save">
   </item>
@@ -27,7 +27,7 @@
 	  <item
 	    android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
         android:icon="@drawable/create_instance_edit_icon"
-        app:showAsAction="always"
+        android:showAsAction="always"
         android:orderInCategory="1"
 	    android:title="@string/menu_create_instance_edit">
 	  </item>

@@ -20,20 +20,20 @@
   <item
     android:id="@id/CREATE_TEMPLATE_COMMAND"
     android:icon="@drawable/create_template_from_transaction_icon"
-    app:showAsAction="always"
+    android:showAsAction="always"
     android:title="@string/menu_create_template_from_transaction">
   </item>
   </group>
   <item
     android:id="@id/CLONE_TRANSACTION_COMMAND"
     android:icon="@drawable/ic_menu_copy"
-    app:showAsAction="always"
+    android:showAsAction="always"
     android:title="@string/menu_clone_transaction">
   </item>
   <item
     android:id="@id/SPLIT_TRANSACTION_COMMAND"
     android:icon="@drawable/ic_menu_split"
-    app:showAsAction="always"
+    android:showAsAction="always"
     android:title="@string/menu_split_transaction">
   </item>
 </menu>
