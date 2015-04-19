@@ -23,6 +23,10 @@ import android.os.Parcelable;
 
 import com.google.common.base.Joiner;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 public class IdCriteria extends Criteria {
 
   protected final String label;
@@ -60,6 +64,23 @@ public class IdCriteria extends Criteria {
   
   @Override
   public String toStringExtra() {
-    return label + EXTRA_SEPARATOR + Joiner.on(EXTRA_SEPARATOR).join(values);
+    return escapeSeparator(label) + EXTRA_SEPARATOR + Joiner.on(EXTRA_SEPARATOR).join(values);
   };
+  public static<T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {
+    String[] extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP);
+    String ids[] = Arrays.asList(extraParts).subList(1,extraParts.length).toArray(new String[extraParts.length-1]);
+    String label = unescapeSeparator(extraParts[0]);
+    try {
+      return clazz.getConstructor(String.class,String[].class).newInstance(label, ids);
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }

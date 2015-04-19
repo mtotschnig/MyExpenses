@@ -50,10 +50,7 @@ public class MethodCriteria extends IdCriteria {
     }
   };
   public static MethodCriteria fromStringExtra(String extra) {
-    int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    String ids[] = extra.substring(sepIndex+1).split(EXTRA_SEPARATOR);
-    String label = extra.substring(0, sepIndex);
-    return new MethodCriteria(label, ids);
+    return IdCriteria.fromStringExtra(extra,MethodCriteria.class);
   }
 
   @Override
