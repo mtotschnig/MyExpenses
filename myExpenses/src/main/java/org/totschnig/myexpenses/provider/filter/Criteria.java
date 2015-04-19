@@ -36,6 +36,13 @@ import android.text.TextUtils;
 public class Criteria implements Parcelable {
 
   protected static final String EXTRA_SEPARATOR = ";";
+  protected static final String EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;";
+  public static String escapeSeparator(String in) {
+    return in.replace(";","\\;");
+  }
+  public static String unescapeSeparator(String in) {
+    return in.replace("\\;",";");
+  }
   public String title;
   public final String columnName;
   public final WhereFilter.Operation operation;

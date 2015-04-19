@@ -31,6 +31,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORI
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+import java.util.List;
+
 //TODO extend to allow multi select
 public class CategoryCriteria extends IdCriteria {
 
@@ -71,9 +74,6 @@ public class CategoryCriteria extends IdCriteria {
   };
   
   public static CategoryCriteria fromStringExtra(String extra) {
-    int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    String ids[] = extra.substring(sepIndex+1).split(EXTRA_SEPARATOR);
-    String label = extra.substring(0, sepIndex);
-    return new CategoryCriteria(label, ids);
+    return IdCriteria.fromStringExtra(extra,CategoryCriteria.class);
   }
 }

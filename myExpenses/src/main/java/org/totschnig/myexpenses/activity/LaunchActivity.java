@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.contrib.Config;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.util.Distrib;
 
 import android.content.Intent;
@@ -20,6 +21,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
+
+import java.util.Map;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
   
@@ -101,13 +104,35 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         //  DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
-        settings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
+        edit.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23).commit();
       }
       if (prev_version < 132) {
         MyApplication.getInstance().showImportantUpgradeInfo = true;
       }
       if (prev_version < 163) {
-        settings.edit().remove("qif_export_file_encoding").commit();
+       edit.remove("qif_export_file_encoding").commit();
+      }
+      if (prev_version < 199) {
+        //filter serialization format has changed
+        for (Map.Entry<String, ?> entry : settings.getAll().entrySet()) {
+          String key = entry.getKey();
+          String[] keyParts = key.split("_");
+          if (keyParts[0].equals("filter")) {
+            String val = settings.getString(key,"");
+            switch (keyParts[1]) {
+              case "method":
+              case "payee":
+              case "cat":
+                int sepIndex = val.indexOf(";");
+                edit.putString(key,val.substring(sepIndex+1)+";"+Criteria.escapeSeparator(val.substring(0, sepIndex)));
+                break;
+              case "cr":
+                edit.putString(key, Transaction.CrStatus.values()[Integer.parseInt(val)].name());
+                break;
+            }
+          }
+        }
+        edit.commit();
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");

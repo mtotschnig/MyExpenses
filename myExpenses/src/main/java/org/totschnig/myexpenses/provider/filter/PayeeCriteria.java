@@ -50,10 +50,7 @@ public class PayeeCriteria extends IdCriteria {
     }
   };
   public static PayeeCriteria fromStringExtra(String extra) {
-    int sepIndex = extra.indexOf(EXTRA_SEPARATOR);
-    String ids[] = extra.substring(sepIndex+1).split(EXTRA_SEPARATOR);
-    String label = extra.substring(0, sepIndex);
-    return new PayeeCriteria(label, ids);
+    return IdCriteria.fromStringExtra(extra,PayeeCriteria.class);
   }
 
   @Override
