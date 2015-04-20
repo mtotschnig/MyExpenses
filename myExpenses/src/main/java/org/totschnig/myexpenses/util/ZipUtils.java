@@ -44,27 +44,32 @@ public class ZipUtils {
     addFileToZip("", MyApplication.getBackupDbFile(cacheDir), zip);
     addFileToZip("", MyApplication.getBackupPrefFile(cacheDir), zip);
     Cursor c= MyApplication.getInstance().getContentResolver()
-        .query(TransactionProvider.TRANSACTIONS_URI,
+        .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("distinct","1").build(),
             new String[]{DatabaseConstants.KEY_PICTURE_URI},
             DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL",
             null,null);
     if (c!=null) {
       if (c.moveToFirst()) {
-        do {
-          Uri imageFileUri = Uri.parse(c.getString(0));
-          if (imageFileUri.getScheme().equals("file")) {
-            File imageFile = new File(imageFileUri.getPath());
-            if (imageFile.exists()) {
-              addFileToZip(PICTURES, imageFile, zip);
+        try {
+          do {
+            Uri imageFileUri = Uri.parse(c.getString(0));
+            if (imageFileUri.getScheme().equals("file")) {
+              File imageFile = new File(imageFileUri.getPath());
+              if (imageFile.exists()) {
+                addFileToZip(PICTURES, imageFile, zip);
+              }
+            } else {
+              InputStream in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
+              addInputStreamToZip(PICTURES + "/" + imageFileUri.getLastPathSegment(),
+                  in,
+                  zip);
+              in.close();
             }
-          } else {
-            InputStream in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
-            addInputStreamToZip(PICTURES+"/"+imageFileUri.getLastPathSegment(),
-                in,
-                zip);
-            in.close();
-          }
-        } while (c.moveToNext());
+          } while (c.moveToNext());
+        } catch (IOException e) {
+          c.close();
+          throw e;
+        }
       }
       c.close();
     }

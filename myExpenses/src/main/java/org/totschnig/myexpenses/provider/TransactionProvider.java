@@ -177,6 +177,9 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       boolean extended = uri.getQueryParameter("extended") != null;
       qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
+      if (uri.getQueryParameter("distinct") != null) {
+        qb.setDistinct(true);
+      }
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
         projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
