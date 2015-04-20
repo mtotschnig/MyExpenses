@@ -45,8 +45,12 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
   @Override
   protected Bitmap doInBackground(Uri... params) {
     data = params[0];
+    Bitmap source = Utils.decodeSampledBitmapFromUri(data, thumbSize, thumbSize);
+    if (source==null) {
+      return null;
+    }
     return ThumbnailUtils.extractThumbnail(
-        Utils.decodeSampledBitmapFromUri(data, thumbSize, thumbSize),
+        source,
         thumbSize, thumbSize);
   }
 

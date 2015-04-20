@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.io.File;
 import java.text.DateFormat;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -169,6 +170,16 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       error.setText("Transaction has been deleted");
       return;
     }
+    boolean doShowPicture = false;
+    if (mTransaction.getPictureUri()!=null) {
+      doShowPicture = true;
+      if (mTransaction.getPictureUri().getScheme().equals("file")) {
+        if (!new File(mTransaction.getPictureUri().getPath()).exists()) {
+          Toast.makeText(getActivity(), R.string.image_deleted, Toast.LENGTH_SHORT).show();
+          doShowPicture = false;
+        }
+      }
+    }
     AlertDialog dlg = (AlertDialog) getDialog();
     if (dlg!=null) {
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -176,7 +187,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         btn.setEnabled(true);
       }
       btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL);
-      if (btn!=null && mTransaction.getPictureUri()!=null) {
+      if (btn!=null && doShowPicture) {
         btn.setVisibility(View.VISIBLE);
       }
     }
@@ -278,9 +289,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     dlg.setTitle(title);
-    if (mTransaction.getPictureUri()!=null) {
+    if (doShowPicture) {
       int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
-      BitmapWorkerTask task = new BitmapWorkerTask(dlg,thumbsize);
+      BitmapWorkerTask task = new BitmapWorkerTask(dlg, thumbsize);
       task.execute(mTransaction.getPictureUri());
     }
   }

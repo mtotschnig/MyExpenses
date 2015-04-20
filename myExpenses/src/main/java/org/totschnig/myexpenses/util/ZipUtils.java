@@ -54,7 +54,9 @@ public class ZipUtils {
           Uri imageFileUri = Uri.parse(c.getString(0));
           if (imageFileUri.getScheme().equals("file")) {
             File imageFile = new File(imageFileUri.getPath());
-            addFileToZip(PICTURES,imageFile,zip);
+            if (imageFile.exists()) {
+              addFileToZip(PICTURES, imageFile, zip);
+            }
           } else {
             InputStream in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
             addInputStreamToZip(PICTURES+"/"+imageFileUri.getLastPathSegment(),

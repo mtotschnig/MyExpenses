@@ -34,6 +34,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -1031,9 +1032,7 @@ public class ExpenseEdit extends AmountActivity implements
       Toast.makeText(this, "Error",Toast.LENGTH_LONG).show();
     }
   }
-  /**
-   * @throws FileNotFoundException
-   */
+
   protected void setPicture() {
     int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
     BitmapWorkerTask task = new BitmapWorkerTask(mPictureView,thumbsize);
@@ -1283,7 +1282,16 @@ public class ExpenseEdit extends AmountActivity implements
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
         mPictureUri = mTransaction.getPictureUri();
         if (mPictureUri!=null) {
-          setPicture();
+          boolean doShowPicture = true;
+          if (mTransaction.getPictureUri().getScheme().equals("file")) {
+            if (!new File(mTransaction.getPictureUri().getPath()).exists()) {
+              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
+              doShowPicture = false;
+            }
+          }
+          if (doShowPicture) {
+            setPicture();
+          }
         }
       }
       //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
