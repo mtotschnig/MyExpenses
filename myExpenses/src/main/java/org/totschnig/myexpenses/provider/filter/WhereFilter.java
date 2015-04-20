@@ -63,20 +63,26 @@ public class WhereFilter {
   public String getSelectionForParents() {
     StringBuilder sb = new StringBuilder();
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      if (sb.length() > 0) {
-        sb.append(" AND ");
+      Criteria c = criterias.valueAt(i);
+      if (c != null) {
+        if (sb.length() > 0) {
+          sb.append(" AND ");
+        }
+        sb.append(c.getSelectionForParents());
       }
-      sb.append(criterias.valueAt(i).getSelectionForParents());
     }
     return sb.toString().trim();
   }
   public String getSelectionForParts() {
     StringBuilder sb = new StringBuilder();
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      if (sb.length() > 0) {
-        sb.append(" AND ");
+      Criteria c = criterias.valueAt(i);
+      if (c != null) {
+        if (sb.length() > 0) {
+          sb.append(" AND ");
+        }
+        sb.append(c.getSelectionForParts());
       }
-      sb.append(criterias.valueAt(i).getSelectionForParts());
     }
     return sb.toString().trim();
   }
@@ -85,12 +91,14 @@ public class WhereFilter {
     String[] args = new String[0];
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
-      String critArgs[] = c.getSelectionArgs();
-      if (queryParts || c.shouldApplyToParts()) {
-        critArgs = Utils.joinArrays(critArgs, critArgs);
+      if (c!=null) {
+        String critArgs[] = c.getSelectionArgs();
+        if (queryParts || c.shouldApplyToParts()) {
+          critArgs = Utils.joinArrays(critArgs, critArgs);
+        }
+        //we need to double each criteria since it is applied to parents and parts
+        args = Utils.joinArrays(args, critArgs);
       }
-      //we need to double each criteria since it is applied to parents and parts
-      args = Utils.joinArrays(args,critArgs);
     }
     return args;
   }
