@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import org.acra.ErrorReporter;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -843,26 +844,37 @@ public class Utils {
     reportToAcraWithDbSchema(e,DbUtils.getTableDetails());
   }
   public static void reportToAcraWithDbSchema(Exception e,String[][] schema) {
-    ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
-    for (String[] tableInfo: schema) {
-      errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
+    if (BuildConfig.DEBUG) {
+      Log.e(MyApplication.TAG, "ACRA", e);
+    } else {
+      ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
+      for (String[] tableInfo : schema) {
+        errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
+      }
+      errorReporter.handleException(e);
+      for (String[] tableInfo : schema) {
+        errorReporter.removeCustomData(tableInfo[0]);
+      }
     }
-    errorReporter.handleException(e);
-    for (String[] tableInfo: schema) {
-      errorReporter.removeCustomData(tableInfo[0]);
-    }
-    
   }
 
   public static void reportToAcra(Exception e,String key,String data) {
-    ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
-    errorReporter.putCustomData(key, data);
-    errorReporter.handleException(e);
-    errorReporter.removeCustomData(key);
+    if (BuildConfig.DEBUG) {
+      Log.e(MyApplication.TAG, "ACRA: "+ key+ " : "+ data, e);
+    } else {
+      ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
+      errorReporter.putCustomData(key, data);
+      errorReporter.handleException(e);
+      errorReporter.removeCustomData(key);
+    }
   }
 
   public static void reportToAcra(Exception e) {
-    org.acra.ACRA.getErrorReporter().handleSilentException(e);
+    if (BuildConfig.DEBUG) {
+      Log.e(MyApplication.TAG, "ACRA", e);
+    } else {
+      org.acra.ACRA.getErrorReporter().handleSilentException(e);
+    }
   }
 
   public static String concatResStrings(Context ctx, Integer... resIds) {

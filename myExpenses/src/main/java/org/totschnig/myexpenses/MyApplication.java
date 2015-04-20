@@ -21,7 +21,6 @@ import java.util.Locale;
 import org.acra.*;
 import org.acra.annotation.*;
 
-import org.onepf.oms.BuildConfig;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -241,9 +240,10 @@ public class MyApplication extends Application implements
   @Override
   public void onCreate() {
     super.onCreate();
-    ACRA.init(this);
-    //ACRA.getErrorReporter().putCustomData("Distribution", "Google Play");
-
+    if (!BuildConfig.DEBUG) {
+      ACRA.init(this);
+      ACRA.getErrorReporter().putCustomData("Distribution", BuildConfig.FLAVOR);
+    }
     mSelf = this;
     // sets up mSettings
     getSettings().registerOnSharedPreferenceChangeListener(this);
