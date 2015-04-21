@@ -47,6 +47,10 @@
 -dontwarn org.bouncycastle.**
 -dontwarn com.itextpdf.**
 
+-keepclassmembers class org.totschnig.myexpenses.provider.filter.** {
+ public <init>(java.lang.String,java.lang.String[]);
+}
+
 -keep class com.android.vending.billing.**
 # AMAZON
 -dontwarn com.amazon.**
@@ -67,4 +71,3 @@
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
-
