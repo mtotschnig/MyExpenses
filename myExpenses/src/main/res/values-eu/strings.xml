@@ -19,7 +19,7 @@
   <string name="already_defined">%1$s badago definituta</string>
   <string name="amount">Kopurua</string>
   <string name="app_name">Nire gastuak</string>
-  <string name="backup_failure">Huts egin du \"%1$s\"-ra segurtasun kopiak.</string>
+  <string name="backup_failure">Huts egin du \"%1$s\"-ra babeskopiak.</string>
   <string name="backup_success">Datu-basea eta hobespenak ondo idatzi dira \"%1$s\"-ra.</string>
   <string name="category">Kategoria</string>
   <string name="clone_transaction_error">Ezin izan da transakzioa klonatu</string>
@@ -149,7 +149,7 @@
   </string-array>
   <string name="help_leading">Eskerrik asko Androiderako <i>Nire Gastuak</i> instalatzeagatik.</string>
   <string name="important_upgrade_information_heading">Informazio garrantzitsua</string>
-  <string name="important_upgrade_information_1">Segurtasun kopiak eta esportazioak orain Android/data/org.totschnig.myexpenses direktorioan gordeko dira. ADI: Direktorio hau ezabatu egingo da Nire gastuak desinstalatzen bvaduzu.</string>
+  <string name="important_upgrade_information_1">Babeskopiak eta esportazioak orain Android/data/org.totschnig.myexpenses direktorioan gordeko dira. ADI: Direktorio hau ezabatu egingo da Nire gastuak desinstalatzen baduzu.</string>
   <string name="import_select_transactions">Transakzioak</string>
   <string name="income">Diru-sarrera</string>
   <string name="invalid_number_format">Formatu dezimala ezin da ulertu zure hizkuntzan. Erabili %1$s</string>
@@ -160,7 +160,7 @@
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplikatu</string>
   <string name="menu_back">Atzera</string>
-  <string name="menu_backup">Segurtasun kopia</string>
+  <string name="menu_backup">Babeskopia</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <string name="menu_balance">Balantze kontua</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -291,10 +291,10 @@
   <string name="pm_type_debit">Zordunketa</string>
   <string name="pm_type_neutral">Neutrala</string>
   <string name="pref_account_grouping_title">Kontuen taldekatzea</string>
-  <string name="pref_app_dir_title">Segurtasun kopia eta esportazioetarako karpeta</string>
+  <string name="pref_app_dir_title">Babeskopia eta esportazioetarako karpeta</string>
   <string name="pref_auto_fill_title">Automatikoki bete transakzioak</string>
   <string name="pref_auto_fill_summary">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile berdinaren aurreko transakziotik</string>
-  <string name="pref_backup_summary">Sortu datu-base eta hobespenen segurtasun kopia bat.</string>
+  <string name="pref_backup_summary">Sortu datu-base eta hobespenen babeskopia bat.</string>
   <string name="pref_categories_sort_by_usages_summary">Kategoriak, txantiloiak eta kontuak erabilera maiztasunaren arabera ordenatu eta ez alfabetikoki? Ezarpen hau ezikusi egingo da ordenatzeko gako bat duten kontuetan.</string>
   <string name="pref_categories_sort_by_usages_title">Ordenatu erabilera kopuruaren arabera</string>
   <string name="pref_category_title_advanced">Aurreratua</string>
@@ -336,7 +336,7 @@ Librezale.eus</string>
   <string name="pref_password_not_equal">Pasahitzak ez datoz bat</string>
   <string name="pref_perform_protection_summary">Aplikazioa abiatzea eta berrekitea babestu?</string>
   <string name="pref_perform_protection_title">Pasahitz bidezko babesa</string>
-  <string name="pref_perform_share_title">Elkarbanatu esportazioak eta segurtasun kopiak</string>
+  <string name="pref_perform_share_title">Elkarbanatu esportazioak eta babeskopiak</string>
   <string name="pref_perform_share_summaryOff">Fitxategiak ez dira elkarbanatuko.</string>
   <string name="pref_perform_share_summaryOn">Fitxategiak elkarbanatuko dira.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
@@ -352,7 +352,7 @@ Librezale.eus</string>
   <string name="pref_request_licence_summary">Kontribuzioa egin baduzu, eskatu Kontribuzio gakoa %1$s Android-IDarentzat posta elektroniko bidez.</string>
   <string name="pref_request_licence_title">Eskatu Kontribuzio gakoa</string>
   <string name="pref_restore_legacy_data">Datu zaharrak</string>
-  <string name="pref_restore_summary">Aukeratu segurtasun kopia bat datu-basea eta hobespenak berreskuratzeko.</string>
+  <string name="pref_restore_summary">Aukeratu babeskopia bat datu-basea eta hobespenak berreskuratzeko.</string>
   <string name="pref_restore_title">Berreskuratu</string>
   <string name="pref_security_question_summary">Aplikazioa desblokeatzea ahalbidetzen du pasahitza ahaztu baduzu.</string>
   <string name="pref_security_question_title">Segurtasun galdera</string>
@@ -391,13 +391,13 @@ Librezale.eus</string>
   <string name="request_licence_mail_description">Mesedez azaldu (Ingelesez, Alemanez edo Frantsesez) Nire gastuak aplikazioari egin diozun kontribuzioa (Adib. Paypal bidezko dohaintza, arazketa, beta bertsioa frogatzea, itzultzea)</string>
   <string name="request_licence_mail_head">Mesedez bidali niri Kontribuzio gako bat %1$s Android-IDrako</string>
   <string name="restore_db_failure">Huts egin du datu-basea berreskuratzean.</string>
-  <string name="restore_db_success">Datu-basea berreskuratu da segurtasun kopiatik.</string>
-  <string name="restore_no_backup_found">Ez da segurtasun kopiarik aurkitu.</string>
+  <string name="restore_db_success">Datu-basea berreskuratu da babeskopiatik.</string>
+  <string name="restore_no_backup_found">Ez da babeskopiarik aurkitu.</string>
   <string name="restore_preferences_failure">Huts egin du hobespenak berreskuratzean</string>
   <string name="restore_backup_archive_not_valid">%1$s artxiboa baliogabea da</string>
   <string name="restore_backup_file_not_found">Ez da %1$s fitxategia aurkitu \"%2$s\" artxiboan</string>
-  <string name="restore_preferences_success">Hobespenak berreskuratu dira segurtasun kopiatik.</string>
-  <string name="restore_calendar_success">%d plan berreskuratu dira segurtasun kopiatik</string>
+  <string name="restore_preferences_success">Hobespenak berreskuratu dira babeskopiatik.</string>
+  <string name="restore_calendar_success">%d plan berreskuratu dira babeskopiatik</string>
   <string name="save_transaction_and_new_success">Ondo gorde da</string>
   <string name="save_transaction_error">Ezin izan da transakzio berria gorde txantiloitik</string>
   <plurals name="save_transaction_from_template_success">
@@ -468,7 +468,7 @@ Librezale.eus</string>
   <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
   <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira. Jarraitu nahi duzu?</string>
   <string name="warning_select_account">Aukeratu kontu bat</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Segurtasun kopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du Nire Gastuak desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du Nire Gastuak desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
   <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
   <string name="warning_fraction_digits_out_of_range">Ezarri 0 eta 8 bitarteko zenbaki bat</string>
   <string name="warning_change_fraction_digits">%1$s monetaren frakzio zenbakiak gutxiagotzera zoaz.
@@ -488,20 +488,25 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="create_new_folder_fail">Huts egin du karpeta sortzean</string>
   <string name="widget_title_accounts">Nire kontuak</string>
   <string name="widget_title_templates">Nire txantiloiak</string>
-  <string name="app_dir_does_not_exist">Segurtasun kopiak eta esportazioetarako aukeratuta dagoen karpeta  (%1$s) ez dago erabilgarri</string>
-  <string name="app_dir_read_only">Segurtasun kopiak eta esportazioetarako aukeratuta dagoen karpeta  (%1$s) soilik irakurtzeko da</string>
+  <string name="app_dir_does_not_exist">Babeskopiak eta esportazioetarako aukeratuta dagoen karpeta  (%1$s) ez dago erabilgarri</string>
+  <string name="app_dir_read_only">Babeskopiak eta esportazioetarako aukeratuta dagoen karpeta  (%1$s) soilik irakurtzeko da</string>
   <string name="search_amount">Bilatu kopurua</string>
   <string name="search_category">Bilatu kategoria</string>
   <string name="search_comment">Bilatu oharrak</string>
+  <string name="search_date">Bilatu data</string>
   <string name="search_status">Bilatu egoera</string>
   <string name="search_payee">Bilatu onuraduna/ordaintzailea</string>
   <string name="search_method">Bilatu metodoa</string>
   <string name="and">eta</string>
   <string name="between_and">%1$s eta %2$s bitartean</string>
+  <string name="before">%s baino lehenago</string>
+  <string name="after">%s baino beranduago</string>
   <string name="comparison_operator_equal">=</string>
   <string name="comparison_operator_greater_than">&gt;</string>
   <string name="comparison_operator_lesser_than">&lt;</string>
   <string name="comparison_operator_between">&gt; x &lt;</string>
+  <string name="comparison_operator_date_before">lehenago</string>
+  <string name="comparison_operator_date_after">beranduago</string>
   <string name="promotion_appgratis_welcome">Gaurko eskaintza berezia AppGratis bitartez: Premium ezaugarriak doan desblokeatuta.</string>
   <string name="premium_unlocked">Premium ezaugarriak desblokeatuta.</string>
   <string name="premium_failed_or_canceled">Erosketak huts egin du eta bertan behera utzi da.</string>
@@ -514,9 +519,9 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="import_source_file">Fitxategia</string>
   <string name="restore_calendar_handling">Egutegiko datuen kudeaketa</string>
   <string name="restore_calendar_handling_configured">Berreskuratu planak orain konfiguratuta dagoen egutegira</string>
-  <string name="restore_calendar_handling_backup">Berreskuratu planak segurtasun kopian ezarrita dagoen egutegira baldin eta badago</string>
+  <string name="restore_calendar_handling_backup">Berreskuratu planak babeskopian ezarrita dagoen egutegira, baldin eta badago</string>
   <string name="restore_calendar_handling_ignore">Ez berreskuratu planak</string>
-  <string name="restore_not_possible_target_calendar_missing">Segurtasun kopian ezarritako %s egutegia ez dago zure gailuan. Berreskuratzea bertan behera utzi da.</string>
+  <string name="restore_not_possible_target_calendar_missing">Babeskopian ezarritako %s egutegia ez dago zure gailuan. Berreskuratzea bertan behera utzi da.</string>
   <string name="restore_not_possible_local_calendar_missing">Oraingo planifikazio egutegia ez dago erabilgarri.</string>
   <string name="menu_view_picture">Ikusi irudia</string>
   <string name="menu_delete_picture">Ezabatu irudia</string>
@@ -525,4 +530,6 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="menu_distribution_aggreate">Agregatu gatuak eta diru-sarrerak</string>
   <string name="pref_manage_stale_images_title">Irudi soilak</string>
   <string name="pref_manage_stale_images_summary">Kudeatu ezabatutako transakzioetatik soberan geratu diren irudiak</string>
+  <string name="menu_select_categories">Aukeratu markatutako kategoria</string>
+  <string name="image_deleted">Irudia ezabatu da</string>
 </resources>

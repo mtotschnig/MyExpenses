@@ -37,6 +37,7 @@
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
   <string name="contrib_feature_accounts_unlimited_description">O número de contas, que você pode criar com <i>Minhas despesas</i> é limitado a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
+  <string name="contrib_feature_attach_picture_label">Anexar imagem à transação</string>
   <string name="contrib_feature_distribution_label">Distribuição de transações por categoria</string>
   <string name="contrib_feature_plans_unlimited_description">O número de planos que você pode criar com <i>Minhas despesas</i> é limitado a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Número ilimitado de planos</string>
@@ -406,6 +407,7 @@
   <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
   <string name="menu_select_category">Selecionar esta categoria</string>
+  <string name="menu_select_folder">Selecionar esta pasta</string>
   <string name="share_scheme_not_supported">Não há suporte ao esquema %1$s</string>
   <string name="share_sending">Enviar o arquivo de exportação</string>
   <string name="split_parts_heading">Dividir partes</string>
@@ -514,4 +516,9 @@
   <string name="restore_calendar_handling_ignore">Não restaurar planos</string>
   <string name="restore_not_possible_target_calendar_missing">O calendário %s definido no arquivo de backup não existe localmente. Restauração foi abortada.</string>
   <string name="restore_not_possible_local_calendar_missing">O calendário atual de planejamento não está disponível.</string>
+  <string name="menu_view_picture">Ver imagem</string>
+  <string name="menu_delete_picture">Excluir imagem</string>
+  <string name="menu_change_picture">Anexar imagem diferente</string>
+  <string name="menu_distribution_show_pie_char">Mostrar gráfico de pizza</string>
+  <string name="menu_distribution_aggreate">Agregar despesas e receitas</string>
 </resources>

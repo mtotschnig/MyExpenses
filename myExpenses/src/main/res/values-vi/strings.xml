@@ -184,8 +184,8 @@
   <string name="password_not_valid">Mật khẩu không hợp lệ. Xin thử lại lần nữa!</string>
   <string name="password_prompt">Điền vào mật khẩu của bạn</string>
   <string name="password_security_answer_not_valid">Câu trả lời sai. Thử lại lần nữa!</string>
-  <string name="payee">Người trả tiền</string>
-  <string name="payer">Người trả tiền</string>
+  <string name="payee">Người được trả tiền</string>
+  <string name="payer">Người trả</string>
   <string name="peer_transaction_deleted">Phần giao dịch này có tham chiếu tới tài khoản điều chỉnh (tài khoản %1$s) đã bị xóa</string>
   <!--Plan for future and recurring transactions-->
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->

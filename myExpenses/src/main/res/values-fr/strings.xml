@@ -407,7 +407,7 @@
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
   <string name="menu_select_category">Choisir cette catégorie</string>
-  <string name="menu_select_folder">Sélectionnez ce dossier</string>
+  <string name="menu_select_folder">Sélectionner ce dossier</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="split_parts_heading">Sous-opérations</string>
@@ -491,15 +491,20 @@
   <string name="search_amount">Recherche de montant</string>
   <string name="search_category">Recherche de catégorie</string>
   <string name="search_comment">Recherche par commentaires</string>
+  <string name="search_date">Recherche par date</string>
   <string name="search_status">Recherche d\'état</string>
   <string name="search_payee">Recherche par tiers</string>
   <string name="search_method">Recherche par méthode de paiement</string>
   <string name="and">et</string>
   <string name="between_and">entre %1$s et %2$s</string>
+  <string name="before">avant %s</string>
+  <string name="after">après %s</string>
   <string name="comparison_operator_equal">égal à</string>
   <string name="comparison_operator_greater_than">supérieur à</string>
   <string name="comparison_operator_lesser_than">inférieur à</string>
   <string name="comparison_operator_between">entre</string>
+  <string name="comparison_operator_date_before">avant</string>
+  <string name="comparison_operator_date_after">après</string>
   <string name="promotion_appgratis_welcome">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
   <string name="premium_unlocked">Fonctions Premium déverrouillées.</string>
   <string name="premium_failed_or_canceled">Échec ou annulation de l\'achat.</string>
@@ -519,8 +524,10 @@
   <string name="menu_view_picture">Voir la photo</string>
   <string name="menu_delete_picture">Effacer la photo</string>
   <string name="menu_change_picture">Lier une photo différente</string>
-  <string name="menu_distribution_show_pie_char">Voir le graphique camembert</string>
+  <string name="menu_distribution_show_pie_char">Voir le graphique en secteurs</string>
   <string name="menu_distribution_aggreate">Totaliser les recettes et dépenses</string>
   <string name="pref_manage_stale_images_title">Images non utilisées</string>
   <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>
+  <string name="menu_select_categories">Sélectionner les catégories cochées</string>
+  <string name="image_deleted">La photo a été supprimé</string>
 </resources>

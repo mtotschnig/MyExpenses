@@ -493,15 +493,20 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="search_amount">Meblağ ara</string>
   <string name="search_category">Kategori ara</string>
   <string name="search_comment">Not ara</string>
+  <string name="search_date">Tarih ara</string>
   <string name="search_status">Durum ara</string>
   <string name="search_payee">Alacaklı/mükellef ara</string>
   <string name="search_method">Metot ara</string>
   <string name="and">ve</string>
   <string name="between_and">%1$s ilâ %2$s arasında</string>
+  <string name="before">şundan önce: %s</string>
+  <string name="after">şundan sonra: %s</string>
   <string name="comparison_operator_equal">şuna eşit</string>
   <string name="comparison_operator_greater_than">şundan büyük</string>
   <string name="comparison_operator_lesser_than">şundan küçük</string>
   <string name="comparison_operator_between">arasında</string>
+  <string name="comparison_operator_date_before">önce</string>
+  <string name="comparison_operator_date_after">sonra</string>
   <string name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
   <string name="premium_unlocked">Katkı özelliklerinin kilidi kaldırılmıştır.</string>
   <string name="premium_failed_or_canceled">Satın alma başarısız oldu veya iptal edildi.</string>
@@ -525,4 +530,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
   <string name="pref_manage_stale_images_title">Eski resimler</string>
   <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
+  <string name="menu_select_categories">İşaretlenen kategorileri seç</string>
+  <string name="image_deleted">Resim silinmiştir</string>
 </resources>
