@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_244">
+    <item>Suchfilter für Dauer</item>
+    <item>Filter für Methode, Zahlungsempfänger, Status und Kategorie lässt nun Mehrfachauswahl zu.</item>
+    <item>Baskische Übersetzung</item>
+  </string-array>
   <string-array name="whats_new_243">
     <item>Wenn die Anwendung passwortgeschützt ist, werden Bilder nun sicher im internen Speicher gespeichert</item>
   </string-array>

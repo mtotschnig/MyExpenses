@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_244">
+    <item>Filtre de recherche pour une durée</item>
+    <item>Les filtres de méthode, bénéficiaire, statut et catégorie sont maintenant permis pour la sélection multiple.</item>
+    <item>Traduction en basque</item>
+  </string-array>
   <string-array name="whats_new_243">
-    <item>Si l\'application est protégée par mot de passe, les photos sont stockées en toute sécurité dans le stockage interne</item>
+    <item>Si l\'application est protégée par mot de passe, les photos seront stockées en toute sécurité dans le stockage interne</item>
   </string-array>
   <string-array name="whats_new_242">
     <item>Lier une image avec une transaction</item>
   </string-array>
   <string-array name="whats_new_241">
-    <item>Diagramme en camembert de la répartition par catégorie</item>
+    <item>Diagramme en secteurs de la répartition par catégorie</item>
   </string-array>
   <string-array name="whats_new_240">
-    <item>Transformer une transaction normale en opération ventilée</item>
+    <item>Transformer une opération normale en ventilée</item>
   </string-array>
   <string-array name="whats_new_239">
     <item>A partir de la base de données de restauration, les échéances sont maintenant recréées </item>
@@ -54,5 +59,5 @@
   <string-array name="whats_new_220">
     <item> Recherche d\'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement </item>
   </string-array>
-    <string name="bug_fixes">Corrections des bogues</string>
+  <string name="bug_fixes">Corrections des erreurs</string>
 </resources>

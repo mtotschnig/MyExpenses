@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="bug_fixes">Исправления ошибок</string>
+  <string name="bug_fixes">Исправления ошибок</string>
 </resources>

@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_244">
+    <item>Zaman aralığı için arama filtresi</item>
+    <item>Metot, alacaklı, durum ve kategori filtreleri artık çoklu seçimleri desteklemektedir.</item>
+    <item>Baskça tercüme</item>
+  </string-array>
   <string-array name="whats_new_243">
     <item>Eğer uygulama bir parola ile korunmuşsa, resimler dahili depolamada güvenli olarak saklanır</item>
   </string-array>
@@ -54,5 +59,5 @@
   <string-array name="whats_new_220">
     <item>Muameleleri kategori, meblağ, yorum, durum, alacaklı/mükellef veya ödeme metoduna dayanarak ara</item>
   </string-array>
-    <string name="bug_fixes">Hata düzeltmeleri</string>
+  <string name="bug_fixes">Hata düzeltmeleri</string>
 </resources>
