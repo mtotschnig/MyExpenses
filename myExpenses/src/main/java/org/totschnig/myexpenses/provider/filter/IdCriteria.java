@@ -71,16 +71,9 @@ public class IdCriteria extends Criteria {
     String ids[] = Arrays.asList(extraParts).subList(1,extraParts.length).toArray(new String[extraParts.length-1]);
     String label = unescapeSeparator(extraParts[0]);
     try {
-      return clazz.getConstructor(String.class,String[].class).newInstance(label, ids);
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
+      return clazz.getConstructor(String.class,String[].class).newInstance(label, (Object) ids);
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to find constructor for class "+clazz.getName());
     }
-    return null;
   }
 }

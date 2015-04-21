@@ -31,6 +31,8 @@ public class MethodCriteria extends IdCriteria {
     super(MyApplication.getInstance().getString(R.string.method),
         DatabaseConstants.KEY_METHODID, label, ids);
   }
+
+  @SuppressWarnings("unused")
   public MethodCriteria(String label, String... ids) {
     super(MyApplication.getInstance().getString(R.string.method),
         DatabaseConstants.KEY_METHODID, label, ids);

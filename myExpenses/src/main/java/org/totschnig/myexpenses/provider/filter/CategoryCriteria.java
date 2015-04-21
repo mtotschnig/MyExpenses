@@ -34,7 +34,6 @@ import android.os.Parcelable;
 import java.util.Arrays;
 import java.util.List;
 
-//TODO extend to allow multi select
 public class CategoryCriteria extends IdCriteria {
 
   public CategoryCriteria(String label, long... ids) {
@@ -42,6 +41,8 @@ public class CategoryCriteria extends IdCriteria {
         KEY_CATID,label, ids
     );
   }
+
+  @SuppressWarnings("unused")
   public CategoryCriteria(String label, String... ids) {
     super(MyApplication.getInstance().getString(R.string.method),
         DatabaseConstants.KEY_CATID, label, ids);
