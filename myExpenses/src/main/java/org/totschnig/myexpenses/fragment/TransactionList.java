@@ -364,8 +364,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     switch(id) {
     case TRANSACTION_CURSOR:
       if (!mFilter.isEmpty()) {
-        selection += " AND " + mFilter.getSelectionForParents();
-        selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
+        String selectionForParents = mFilter.getSelectionForParents();
+        if (!selectionForParents.equals("")) {
+          selection += " AND " + selectionForParents;
+          selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
+        }
       }
       Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
@@ -381,14 +384,15 @@ public class TransactionList extends ContextualActionBarFragment implements
           selectionArgs, null);
       break;
     case GROUPING_CURSOR:
+      selection = null;
+      selectionArgs = null;
       Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       if (!mFilter.isEmpty()) {
         selection = mFilter.getSelectionForParts();
-        selectionArgs = mFilter.getSelectionArgs(true);
-        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_IS_FILTERED,"1");
-      } else {
-        selection = null;
-        selectionArgs = null;
+        if (!selection.equals("")) {
+          selectionArgs = mFilter.getSelectionArgs(true);
+          builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_IS_FILTERED, "1");
+        }
       }
       builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
         .appendPath(mAccount.grouping.name());

@@ -31,6 +31,8 @@ public class PayeeCriteria extends IdCriteria {
     super(MyApplication.getInstance().getString(R.string.payer_or_payee),
         DatabaseConstants.KEY_PAYEEID, label, ids);
   }
+
+  @SuppressWarnings("unused")
   public PayeeCriteria(String label, String... ids) {
     super(MyApplication.getInstance().getString(R.string.payer_or_payee),
         DatabaseConstants.KEY_PAYEEID, label, ids);
