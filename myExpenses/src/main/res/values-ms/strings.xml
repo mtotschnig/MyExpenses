@@ -482,15 +482,20 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="search_amount">Gelintar amaun</string>
   <string name="search_category">Gelintar kategori</string>
   <string name="search_comment">Gelintar nota</string>
+  <string name="search_date">Gelintar tarikh</string>
   <string name="search_status">Gelintar status</string>
   <string name="search_payee">Gelintar penerima/pembayar</string>
   <string name="search_method">Gelintar kaedah</string>
   <string name="and">dan</string>
   <string name="between_and">diantara %1$s hingga %2$s</string>
+  <string name="before">sebelum %s</string>
+  <string name="after">selepas %s</string>
   <string name="comparison_operator_equal">sama dengan</string>
   <string name="comparison_operator_greater_than">lebih besar dari</string>
   <string name="comparison_operator_lesser_than">lebih kurang dari</string>
   <string name="comparison_operator_between">diantara</string>
+  <string name="comparison_operator_date_before">sebelum</string>
+  <string name="comparison_operator_date_after">selepas</string>
   <string name="promotion_appgratis_welcome">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
   <string name="premium_unlocked">Fitur premium dibuka.</string>
   <string name="premium_failed_or_canceled">Pembelian gagal atau dibatalkan.</string>
@@ -514,4 +519,5 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="menu_distribution_aggreate">Perbelanjaan dan pendapatan aggregat</string>
   <string name="pref_manage_stale_images_title">Imej kaku</string>
   <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
+  <string name="menu_select_categories">Pilih kategori ditanda</string>
 </resources>

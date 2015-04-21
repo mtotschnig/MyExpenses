@@ -42,5 +42,5 @@
   <string-array name="whats_new_220">
     <item>Pretražite transakcije po kategoriji, iznosu, komentaru, statusu, platitelju/primaocu, načinu plaćanja</item>
   </string-array>
-    <string name="bug_fixes">Popravci grešaka</string>
+  <string name="bug_fixes">Popravci grešaka</string>
 </resources>

@@ -492,15 +492,20 @@
   <string name="search_amount">Búsqueda por importe</string>
   <string name="search_category">Búsqueda por categoría</string>
   <string name="search_comment">Buscar por apuntes</string>
+  <string name="search_date">Búsqueda por fecha</string>
   <string name="search_status">Buscar por estado</string>
   <string name="search_payee">Buscar para beneficiario/pagador</string>
   <string name="search_method">Buscar por método</string>
   <string name="and">y</string>
   <string name="between_and">entre %1$s y %2$s</string>
+  <string name="before">antes de %s</string>
+  <string name="after">después de %s</string>
   <string name="comparison_operator_equal">igual a</string>
   <string name="comparison_operator_greater_than">mayor que</string>
   <string name="comparison_operator_lesser_than">menor que</string>
   <string name="comparison_operator_between">entre</string>
+  <string name="comparison_operator_date_before">antes</string>
+  <string name="comparison_operator_date_after">después</string>
   <string name="promotion_appgratis_welcome">Oferta especial de hoy con AppGratis: Características Premium desbloqueadas totalmente gratis.</string>
   <string name="premium_unlocked">Características Premium desbloqueadas.</string>
   <string name="premium_failed_or_canceled">Compra fallado o cancelado.</string>
@@ -524,4 +529,6 @@
   <string name="menu_distribution_aggreate">Agregar ingresos y gastos</string>
   <string name="pref_manage_stale_images_title">Imágenes rancios</string>
   <string name="pref_manage_stale_images_summary">Administrar imágenes de transacciones eliminadas</string>
+  <string name="menu_select_categories">Seleccionar las categorías marcadas</string>
+  <string name="image_deleted">Foto ha sido borrado</string>
 </resources>

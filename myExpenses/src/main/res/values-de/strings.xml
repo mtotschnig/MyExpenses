@@ -491,15 +491,20 @@
   <string name="search_amount">Suche nach Betrag</string>
   <string name="search_category">Suche nach Kategorie</string>
   <string name="search_comment">Suche nach Notizen</string>
+  <string name="search_date">Suche nach Datum</string>
   <string name="search_status">Suche nach Status</string>
   <string name="search_payee">Suche nach Empfänger/Zahler</string>
   <string name="search_method">Suche nach Zahlungsweise</string>
   <string name="and">und</string>
   <string name="between_and">zwischen %1$s und %2$s</string>
+  <string name="before">vor %s</string>
+  <string name="after">nach %s</string>
   <string name="comparison_operator_equal">gleich</string>
   <string name="comparison_operator_greater_than">größer als</string>
   <string name="comparison_operator_lesser_than">kleiner als</string>
   <string name="comparison_operator_between">zwischen</string>
+  <string name="comparison_operator_date_before">vor</string>
+  <string name="comparison_operator_date_after">nach</string>
   <string name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
   <string name="premium_unlocked">Premium Funktionen entsperrt.</string>
   <string name="premium_failed_or_canceled">Einkauf ist gescheitert oder abgebrochen.</string>
@@ -523,4 +528,6 @@
   <string name="menu_distribution_aggreate">Ausgaben und Einnahmen zusammen zählen</string>
   <string name="pref_manage_stale_images_title">Veraltete Bilder</string>
   <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
+  <string name="menu_select_categories">Angehackten Kategorien auswählen</string>
+  <string name="image_deleted">Bild wurde gelöscht</string>
 </resources>
