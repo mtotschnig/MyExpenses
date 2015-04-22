@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 
 public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
   public static final String KEY_FORMAT = "format";
@@ -39,9 +40,9 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
   private String encoding;
 
   /**
-   * @param args 
-   * @param context
-   * @param source Source for the import
+   *
+   * @param taskExecutionFragment
+   * @param extras
    */
   public ExportTask(TaskExecutionFragment taskExecutionFragment, Bundle extras) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -113,19 +114,18 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       c.close();
     }
     Account account;
-    File destDir;
-    File appDir = Utils.requireAppDir();
+    DocumentFile destDir;
+    DocumentFile appDir = Utils.getAppDir();
     if (appDir == null) {
       publishProgress(MyApplication.getInstance().getString(R.string.external_storage_unavailable));
       return(null);
     }
     if (accountIds.length > 1) {
-      destDir = Utils.timeStampedFile(appDir,"export","");
+      destDir = Utils.timeStampedDirectory(appDir, "export");
       if (destDir.exists()) {
-        publishProgress(String.format(MyApplication.getInstance().getString(R.string.export_expenses_outputfile_exists), destDir.getAbsolutePath()));
+        publishProgress(String.format(MyApplication.getInstance().getString(R.string.export_expenses_outputfile_exists), destDir.getName()));
         return(null);
       }
-      destDir.mkdir();
     } else
       destDir = appDir;
     ArrayList<Account> successfullyExported = new ArrayList<Account>();
@@ -152,7 +152,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       } catch (IOException e) {
         publishProgress("... " + MyApplication.getInstance().getString(
             R.string.export_expenses_sdcard_failure,
-            appDir.getAbsolutePath(),
+            appDir.getName(),
             e.getMessage()));
       }
     }

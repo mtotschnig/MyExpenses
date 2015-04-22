@@ -11,6 +11,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -63,7 +64,7 @@ public class FolderList extends ListFragment {
     FolderBrowser ctx = (FolderBrowser) getActivity();
     switch (item.getItemId()) {
     case R.id.SELECT_COMMAND:
-      MyApplication.PrefKey.APP_DIR.putString(selectedFolder.getAbsolutePath());
+      MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
       ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();
       break;

@@ -43,6 +43,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.Settings.Secure;
+import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -350,14 +352,19 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(MyApplication.PrefKey.APP_DIR.getKey())) {
-      File appDir = Utils.requireAppDir();
+      DocumentFile appDir = Utils.getAppDir();
       if (appDir == null) {
         preference.setSummary(R.string.external_storage_unavailable);
         preference.setEnabled(false);
       } else {
-        Intent intent = new Intent(this, FolderBrowser.class);
-        intent.putExtra(FolderBrowser.PATH, appDir.getPath());
-        startActivityForResult(intent,PICK_FOLDER_REQUEST);
+        Intent intent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        } else {
+          intent = new Intent(this, FolderBrowser.class);
+          intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
+        }
+        startActivityForResult(intent, PICK_FOLDER_REQUEST);
       }
       return true;
     }
@@ -392,18 +399,25 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
       setResult(resultCode);
       finish();
-    } else if (requestCode == PICK_FOLDER_REQUEST) {
+    } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        Uri dir = intent.getData();
+        getContentResolver().takePersistableUriPermission(dir,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        MyApplication.PrefKey.APP_DIR.putString(intent.getData().toString());
+      }
       setAppDirSummary();
     }
   }
   private void setAppDirSummary() {
-    File appDir = Utils.requireAppDir();
+    DocumentFile appDir = Utils.getAppDir();
     Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.getKey());
     if (appDir == null) {
       pref.setSummary(R.string.external_storage_unavailable);
       pref.setEnabled(false);
     } else {
-      pref.setSummary(appDir.getPath());
+      pref.setSummary(appDir.getName());
     }
   }
 

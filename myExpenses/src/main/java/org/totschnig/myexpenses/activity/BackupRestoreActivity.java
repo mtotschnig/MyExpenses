@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -44,54 +45,48 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     implements ConfirmationDialogListener {
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
 
-  private File backupFile;
-
-  public static final String KEY_BACKUPFILE = "backupFile";
+  private DocumentFile backupFile;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
-    if (savedInstanceState == null) {
-      String action = getIntent().getAction();
-      if (action != null && action.equals("myexpenses.intent.backup")) {
+    String action = getIntent().getAction();
+    if (action != null && action.equals("myexpenses.intent.backup")) {
+      Result appDirStatus = Utils.checkAppDir();
+      if (appDirStatus.success) {
+        backupFile = MyApplication.requireBackupFile();
+        if (backupFile == null) {
+          // normally should not happen since we have just checked status
+          abort(getString(R.string.external_storage_unavailable));
+          return;
+        }
+      } else {
+        abort(appDirStatus.print(this));
+        return;
+      }
+      if (backupFile.exists()) {
+        abort("Backup folder " + backupFile.getName() + "already exists.");
+        return;
+      }
+      MessageDialogFragment.newInstance(
+          R.string.menu_backup,
+          getString(R.string.warning_backup, backupFile.getName()),
+          new MessageDialogFragment.Button(android.R.string.yes,
+              R.id.BACKUP_COMMAND, null), null,
+          MessageDialogFragment.Button.noButton()).show(
+          getSupportFragmentManager(), "BACKUP");
+    } else {
+      if (getIntent().getBooleanExtra("legacy", false)) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          backupFile = MyApplication.requireBackupFile();
-          if (backupFile == null) {
-            // normally should not happen since we have just checked status
-            abort(getString(R.string.external_storage_unavailable));
-            return;
-          }
+          openBrowse();
         } else {
           abort(appDirStatus.print(this));
-          return;
         }
-        if (backupFile.exists()) {
-          abort("Backup folder " + backupFile.getPath() + "already exists.");
-          return;
-        }
-        MessageDialogFragment.newInstance(
-            R.string.menu_backup,
-            getString(R.string.warning_backup, backupFile.getAbsolutePath()),
-            new MessageDialogFragment.Button(android.R.string.yes,
-                R.id.BACKUP_COMMAND, null), null,
-            MessageDialogFragment.Button.noButton()).show(
-            getSupportFragmentManager(), "BACKUP");
       } else {
-        if (getIntent().getBooleanExtra("legacy", false)) {
-          Result appDirStatus = Utils.checkAppDir();
-          if (appDirStatus.success) {
-            openBrowse();
-          } else {
-            abort(appDirStatus.print(this));
-          }
-        } else {
-          BackupSourcesDialogFragment.newInstance().show(
-              getSupportFragmentManager(), "GRISBI_SOURCES");
-        }
+        BackupSourcesDialogFragment.newInstance().show(
+            getSupportFragmentManager(), "GRISBI_SOURCES");
       }
-    } else {
-      backupFile = (File) savedInstanceState.getSerializable(KEY_BACKUPFILE);
     }
   }
 
@@ -100,12 +95,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     setResult(RESULT_CANCELED);
     finish();
   }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putSerializable(KEY_BACKUPFILE, backupFile);
-  };
 
   private void showRestoreDialog(Uri fileUri, int restorePlanStrategie) {
     Bundle b = new Bundle();
@@ -169,7 +158,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   protected void doBackup() {
     Result appDirStatus = Utils.checkAppDir();
     if (appDirStatus.success) {
-      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, backupFile,
+      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, new String[] {backupFile.getName()}, null,
           R.string.menu_backup);
     } else {
       Toast.makeText(getBaseContext(), appDirStatus.print(this),
@@ -203,15 +192,15 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       break;
     case TaskExecutionFragment.TASK_BACKUP:
       Toast.makeText(getBaseContext(),
-          getString(r.getMessage(), backupFile.getPath()), Toast.LENGTH_LONG)
+          getString(r.getMessage(), backupFile.getName()), Toast.LENGTH_LONG)
           .show();
       if (((Result) result).success
           && MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
-        ArrayList<File> files = new ArrayList<File>();
-        files.add((File) backupFile);
-        Utils.share(this, files,
-            MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
-            "application/zip");
+//        ArrayList<File> files = new ArrayList<File>();
+//        files.add((File) backupFile);
+//        Utils.share(this, files,
+//            MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+//            "application/zip");
       }
     }
     finish();
@@ -231,7 +220,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
    * Legacy callback from BackupListDialogFragment for backups stored in
    * application directory
    * 
-   * @param string
+   * @param dir
    */
   public void onSourceSelected(String dir) {
     showRestoreDialog(dir);
@@ -268,26 +257,27 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
 
   // inspired by Financisto
   public static String[] listBackups() {
-    File appDir = Utils.requireAppDir();
-    String[] files = appDir.list(new FilenameFilter() {
-      @Override
-      public boolean accept(File dir, String filename) {
-        // backup-yyyMMdd-HHmmss
-        return filename
-            .matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d");
-      }
-    });
-    if (files != null) {
-      Arrays.sort(files, new Comparator<String>() {
+    DocumentFile appDir = Utils.getAppDir();
+    if (appDir.getUri().getScheme().equals("file")) {
+      String[] files = new File(appDir.getUri().getPath()).list(new FilenameFilter() {
         @Override
-        public int compare(String s1, String s2) {
-          return s2.compareTo(s1);
+        public boolean accept(File dir, String filename) {
+          // backup-yyyMMdd-HHmmss
+          return filename
+              .matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d");
         }
       });
-      return files;
-    } else {
-      return new String[0];
+      if (files != null) {
+        Arrays.sort(files, new Comparator<String>() {
+          @Override
+          public int compare(String s1, String s2) {
+            return s2.compareTo(s1);
+          }
+        });
+        return files;
+      }
     }
+    return new String[0];
   }
 
   @Override

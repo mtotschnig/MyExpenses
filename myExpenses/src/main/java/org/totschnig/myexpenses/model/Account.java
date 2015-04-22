@@ -57,6 +57,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.RemoteException;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -137,7 +138,10 @@ public class Account extends Model {
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
-    QIF,CSV
+    QIF,CSV;
+    public String getMimeType() {
+      return "application/"+name().toLowerCase(Locale.US);
+    }
   }
   
   public enum Type {
@@ -756,7 +760,7 @@ public class Account extends Model {
   }
 
   /**
-   * calls {@link #exportAll(File, ExportFormat, boolean)} with
+   * calls {@link #exportAll(DocumentFile, ExportFormat, boolean)} with
    * * date format "dd/MM/yyyy"
    * * encoding UTF-8
    * * decimal separator '.'
@@ -766,7 +770,7 @@ public class Account extends Model {
    * @return Result object
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
+  public Result exportAll(DocumentFile destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
     return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8");
   }
   /**
@@ -775,12 +779,12 @@ public class Account extends Model {
    * @param format QIF or CSV
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
-   * @param decimalSeparator 
+   * @param decimalSeparator
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
   public Result exportAll(
-      File destDir,
+      DocumentFile destDir,
       ExportFormat format,
       boolean notYetExportedP,
       String dateFormat,
@@ -799,9 +803,9 @@ public class Account extends Model {
     if (c.getCount() == 0)
       return new Result(false,R.string.no_exportable_expenses);
     //then we check if the filename we construct already exists
-    File outputFile = new File(destDir,
-        label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + "." + format.name().toLowerCase(Locale.US));
+    DocumentFile outputFile = destDir.createFile(
+        format.getMimeType(),
+        label.replaceAll("\\W","") + "-" + now.format(new Date()));
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
@@ -809,7 +813,7 @@ public class Account extends Model {
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
-        new FileOutputStream(outputFile),
+       cr().openOutputStream(outputFile.getUri()),
         encoding);
     switch (format) {
     case CSV:
@@ -1102,7 +1106,7 @@ public class Account extends Model {
     }
   }
 
-  public Result print(File destDir, WhereFilter filter) throws IOException, DocumentException {
+  public Result print(DocumentFile destDir, WhereFilter filter) throws IOException, DocumentException {
     long start = System.currentTimeMillis();
     Log.d("MyExpenses","Print start "+start);
     PdfHelper helper = new PdfHelper();
@@ -1124,9 +1128,9 @@ public class Account extends Model {
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     Cursor transactionCursor;
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
-    File outputFile = new File(destDir,
-        label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + ".pdf");
+    DocumentFile outputFile = destDir.createFile(
+        "application/pdf",
+        label.replaceAll("\\W","") + "-" + now.format(new Date()));
     Document document = new Document();
     transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
@@ -1140,7 +1144,7 @@ public class Account extends Model {
       transactionCursor.close();
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
-    PdfWriter.getInstance(document, new FileOutputStream(outputFile));
+    PdfWriter.getInstance(document, cr().openOutputStream(outputFile.getUri()));
     Log.d("MyExpenses","All setup "+(System.currentTimeMillis()-start));
     document.open();
     Log.d("MyExpenses","Document open "+(System.currentTimeMillis()-start));

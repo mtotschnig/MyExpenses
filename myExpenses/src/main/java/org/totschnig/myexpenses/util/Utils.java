@@ -30,6 +30,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.content.FileProvider;
+import android.support.v4.provider.DocumentFile;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -93,7 +94,6 @@ import java.util.Map;
  * 
  */
 public class Utils {
-  public final static int DIR_STATUS_OK = 0;
 
   public static char getDefaultDecimalSeparator() {
     char sep = '.';
@@ -298,40 +298,30 @@ public class Utils {
   }
 
   /**
-   * @return directory for storing backups and exports, null if external storage
-   *         is not available
-   */
-  public static File requireAppDir() {
-    File result = getAppDir();
-    if (result != null) {
-      result.mkdir();
-    }
-    return result;
-  }
-
-  /**
    * @return if external storage is not available returns null if user has
    *         configured app dir, return this value on Gingerbread and above
    *         returns {@link
    *         android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
-   *         <STRIKE>on Froyo returns folder "myexpenses" on root of
-   *         sdcard.</STRIKE>
    */
-  @SuppressLint("NewApi")
-  public static File getAppDir() {
+  public static DocumentFile getAppDir() {
     if (!isExternalStorageAvailable()) {
       return null;
     }
-    String pref = MyApplication.PrefKey.APP_DIR.getString(null);
+    Uri pref = Uri.parse(MyApplication.PrefKey.APP_DIR.getString(null));
     if (pref == null) {
-      // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-      // File sd = Environment.getExternalStorageDirectory();
-      // File appDir = new File(sd, "myexpenses");
-      // return appDir;
-      // }
-      return MyApplication.getInstance().getExternalFilesDir(null);
+      return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
     } else {
-      return new File(pref);
+      if (pref.getScheme().equals("file")) {
+        File appDir = new File(pref.getPath());
+        if (appDir.mkdir() || appDir.isDirectory()) {
+          return DocumentFile.fromFile(new File(pref.getPath()));
+        } else {
+          return null;
+        }
+      } else {
+        //this will return null, if called on a pre-Lolipop device
+        return DocumentFile.fromTreeUri(MyApplication.getInstance(),pref);
+      }
     }
   }
 
@@ -347,12 +337,17 @@ public class Utils {
    * @return creates a file object in parentDir, with a timestamp appended to
    *         prefix as name
    */
-  public static File timeStampedFile(File parentDir, String prefix,
-      String extension) {
+  public static DocumentFile timeStampedFile(DocumentFile parentDir, String prefix,
+      String mimeType) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    extension = TextUtils.isEmpty(extension) ? "" : "." + extension;
-    return new File(parentDir, prefix + "-" + now + extension);
+    return parentDir.createFile(mimeType,prefix + "-" + now);
+  }
+
+  public static DocumentFile timeStampedDirectory(DocumentFile parentDir, String prefix) {
+    String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+        .format(new Date());
+    return parentDir.createDirectory(prefix + "-" + now);
   }
 
   /**
@@ -369,17 +364,17 @@ public class Utils {
   }
 
   public static Result checkAppDir() {
-    File appdir = getAppDir();
+    DocumentFile appdir = getAppDir();
     if (appdir == null) {
       return new Result(false, R.string.external_storage_unavailable);
     }
     if (!appdir.exists()) {
       return new Result(false, R.string.app_dir_does_not_exist,
-          appdir.getAbsolutePath());
+          appdir.getName());
     }
     if (!appdir.canWrite()) {
       return new Result(false, R.string.app_dir_read_only,
-          appdir.getAbsolutePath());
+          appdir.getName());
     }
     return new Result(true);
   }
@@ -882,7 +877,7 @@ public class Utils {
       return true;
     }
     try {
-      File configuredDir = Utils.getAppDir();
+      DocumentFile configuredDir = Utils.getAppDir();
       if (configuredDir == null) {
         return true;
       }
@@ -891,9 +886,13 @@ public class Utils {
       if (externalFilesDir == null) {
         return true;
       }
+      Uri dirUri = configuredDir.getUri();
+      if (!dirUri.getScheme().equals("file")) {
+        return true; //nothing we can do if we can not compare paths
+      }
       URI defaultDir = externalFilesDir.getParentFile().getCanonicalFile()
           .toURI();
-      return defaultDir.relativize(configuredDir.getCanonicalFile().toURI())
+      return defaultDir.relativize(new File(dirUri.getPath()).getCanonicalFile().toURI())
           .isAbsolute();
     } catch (IOException e) {
       return true;

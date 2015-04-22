@@ -44,6 +44,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 public class MyApplication extends Application implements
@@ -361,11 +362,11 @@ public class MyApplication extends Application implements
     }
   }
 
-  public static File requireBackupFile() {
-    File appDir = Utils.requireAppDir();
+  public static DocumentFile requireBackupFile() {
+    DocumentFile appDir = Utils.getAppDir();
     if (appDir == null)
       return null;
-    File dir = Utils.timeStampedFile(appDir, "backup", "zip");
+    DocumentFile dir = Utils.timeStampedFile(appDir, "backup", "application/zip");
     return dir;
   }
 
