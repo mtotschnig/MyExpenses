@@ -482,15 +482,20 @@
   <string name="search_amount">金額の検索</string>
   <string name="search_category">分類の</string>
   <string name="search_comment">メモの検索</string>
+  <string name="search_date">日付の検索</string>
   <string name="search_status">ステータスの検索</string>
   <string name="search_payee">受取人/支払人の検索</string>
   <string name="search_method">方法の検索</string>
   <string name="and">かつ</string>
   <string name="between_and">%1$s から %2$s の間</string>
+  <string name="before">%s 以降</string>
+  <string name="after">%s 以前</string>
   <string name="comparison_operator_equal">等しい</string>
   <string name="comparison_operator_greater_than">より大きい</string>
   <string name="comparison_operator_lesser_than">より小さい</string>
   <string name="comparison_operator_between">間</string>
+  <string name="comparison_operator_date_before">以前</string>
+  <string name="comparison_operator_date_after">以降</string>
   <string name="promotion_appgratis_welcome">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
   <string name="premium_unlocked">プレミアム機能のロック解除。</string>
   <string name="premium_failed_or_canceled">購入が失敗またはキャンセルされました。</string>
@@ -514,4 +519,6 @@
   <string name="menu_distribution_aggreate">支出と収入を集計</string>
   <string name="pref_manage_stale_images_title">古くなった画像</string>
   <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
+  <string name="menu_select_categories">チェックした分類を選択</string>
+  <string name="image_deleted">写真が削除されました</string>
 </resources>

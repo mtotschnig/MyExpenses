@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_244">
+    <item>期間の検索フィルター</item>
+    <item>方法、支払先、ステータス、および分類のフィルターが、複数選択できるようになりました。</item>
+    <item>バスク翻訳</item>
+  </string-array>
   <string-array name="whats_new_243">
     <item>アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます</item>
   </string-array>
