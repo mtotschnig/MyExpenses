@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_244">
+    <item>Filtro de pesquisa para a duração</item>
+    <item>Filtros para método, beneficiário, status e categoria agora permitem a seleção múltipla.</item>
+    <item>Tradução Basco</item>
+  </string-array>
   <string-array name="whats_new_241">
     <item>Visualização de distribuição por categoria em gráfico de pizza</item>
   </string-array>
