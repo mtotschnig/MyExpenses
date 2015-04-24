@@ -231,7 +231,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
    * Legacy callback from BackupListDialogFragment for backups stored in
    * application directory
    * 
-   * @param string
+   * @param dir
    */
   public void onSourceSelected(String dir) {
     showRestoreDialog(dir);
