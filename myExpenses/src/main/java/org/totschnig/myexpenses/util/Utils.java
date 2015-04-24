@@ -350,10 +350,11 @@ public class Utils {
       if (postfix>0) {
         name += "_"+postfix;
       }
-      result = parentDir.createFile(mimeType, name);
+      if (parentDir.findFile(name)==null) {
+          return parentDir.createFile(mimeType, name);
+      }
       postfix++;
-    } while (result.exists());
-    return result;
+    } while (true);
   }
 
   public static DocumentFile timeStampedDirectory(DocumentFile parentDir, String prefix) {
@@ -367,10 +368,11 @@ public class Utils {
       if (postfix>0) {
         name += "_"+postfix;
       }
-      result = parentDir.createDirectory(name);
+      if (parentDir.findFile(name)==null) {
+        return parentDir.createDirectory(name);
+      }
       postfix++;
-    } while (result.exists());
-    return result;
+    } while (true);
   }
 
   /**
