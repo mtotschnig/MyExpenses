@@ -38,6 +38,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 /**
@@ -255,9 +256,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return null;
     case TaskExecutionFragment.TASK_BACKUP:
       boolean result = false;
-      File backupFile = (File) mExtra;
+      DocumentFile backupFile = MyApplication.requireBackupFile();
       File cacheDir = Utils.getCacheDir();
-      if (cacheDir == null) {
+      if (cacheDir == null || backupFile == null) {
         return new Result(false,R.string.external_storage_unavailable);
       }
       cacheEventData();
@@ -273,7 +274,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }
-      return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
+      return new Result(result,result ? R.string.backup_success : R.string.backup_failure,backupFile.getName());
     case TaskExecutionFragment.TASK_BALANCE:
       Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;

@@ -45,32 +45,19 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     implements ConfirmationDialogListener {
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
 
-  private DocumentFile backupFile;
-
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     String action = getIntent().getAction();
     if (action != null && action.equals("myexpenses.intent.backup")) {
       Result appDirStatus = Utils.checkAppDir();
-      if (appDirStatus.success) {
-        backupFile = MyApplication.requireBackupFile();
-        if (backupFile == null) {
-          // normally should not happen since we have just checked status
-          abort(getString(R.string.external_storage_unavailable));
-          return;
-        }
-      } else {
+      if (!appDirStatus.success) {
         abort(appDirStatus.print(this));
-        return;
-      }
-      if (backupFile.exists()) {
-        abort("Backup folder " + backupFile.getName() + "already exists.");
         return;
       }
       MessageDialogFragment.newInstance(
           R.string.menu_backup,
-          getString(R.string.warning_backup, backupFile.getName()),
+          getString(R.string.warning_backup, Utils.getAppDir().getName()),
           new MessageDialogFragment.Button(android.R.string.yes,
               R.id.BACKUP_COMMAND, null), null,
           MessageDialogFragment.Button.noButton()).show(
@@ -158,7 +145,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   protected void doBackup() {
     Result appDirStatus = Utils.checkAppDir();
     if (appDirStatus.success) {
-      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, new String[] {backupFile.getName()}, null,
+      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
           R.string.menu_backup);
     } else {
       Toast.makeText(getBaseContext(), appDirStatus.print(this),
@@ -192,7 +179,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       break;
     case TaskExecutionFragment.TASK_BACKUP:
       Toast.makeText(getBaseContext(),
-          getString(r.getMessage(), backupFile.getName()), Toast.LENGTH_LONG)
+          r.print(this), Toast.LENGTH_LONG)
           .show();
       if (((Result) result).success
           && MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {

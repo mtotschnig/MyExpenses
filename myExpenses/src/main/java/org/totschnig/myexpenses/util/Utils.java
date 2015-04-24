@@ -341,13 +341,35 @@ public class Utils {
       String mimeType) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    return parentDir.createFile(mimeType,prefix + "-" + now);
+    int postfix = 0;
+    DocumentFile result;
+    String base = prefix + "-" + now;
+    do {
+      String name = base;
+      if (postfix>0) {
+        name += "_"+postfix;
+      }
+      result = parentDir.createFile(mimeType, name);
+      postfix++;
+    } while (result.exists());
+    return result;
   }
 
   public static DocumentFile timeStampedDirectory(DocumentFile parentDir, String prefix) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    return parentDir.createDirectory(prefix + "-" + now);
+    int postfix = 0;
+    DocumentFile result;
+    String base = prefix + "-" + now;
+    do {
+      String name = base;
+      if (postfix>0) {
+        name += "_"+postfix;
+      }
+      result = parentDir.createDirectory(name);
+      postfix++;
+    } while (result.exists());
+    return result;
   }
 
   /**
