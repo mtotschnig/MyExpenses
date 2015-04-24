@@ -307,11 +307,12 @@ public class Utils {
     if (!isExternalStorageAvailable()) {
       return null;
     }
-    Uri pref = Uri.parse(MyApplication.PrefKey.APP_DIR.getString(null));
-    if (pref == null) {
+    String prefString = MyApplication.PrefKey.APP_DIR.getString(null);
+    if (prefString == null) {
       return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
     } else {
-      if (pref.getScheme().equals("file")) {
+        Uri pref = Uri.parse(prefString);
+        if (pref.getScheme().equals("file")) {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
           return DocumentFile.fromFile(new File(pref.getPath()));
