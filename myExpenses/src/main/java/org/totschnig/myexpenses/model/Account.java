@@ -806,7 +806,7 @@ public class Account extends Model {
     DocumentFile outputFile = destDir.createFile(
         format.getMimeType(),
         label.replaceAll("\\W","") + "-" + now.format(new Date()));
-    if (outputFile.exists()) {
+    if (outputFile == null) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
     c.moveToFirst();
@@ -1140,7 +1140,7 @@ public class Account extends Model {
       return new Result(false,R.string.no_exportable_expenses);
     }
     //then we check if the filename we construct already exists
-    if (outputFile.exists()) {
+    if (outputFile==null) {
       transactionCursor.close();
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
