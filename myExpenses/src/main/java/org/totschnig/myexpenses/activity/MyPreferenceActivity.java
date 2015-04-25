@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -417,7 +418,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       pref.setSummary(R.string.external_storage_unavailable);
       pref.setEnabled(false);
     } else {
-      pref.setSummary(appDir.getName());
+      pref.setSummary(FileUtils.getPath(this,appDir.getUri()));
     }
   }
 
