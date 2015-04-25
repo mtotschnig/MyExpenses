@@ -311,8 +311,8 @@ public class Utils {
     if (prefString == null) {
       return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
     } else {
-        Uri pref = Uri.parse(prefString);
-        if (pref.getScheme().equals("file")) {
+      Uri pref = Uri.parse(prefString);
+      if (pref.getScheme().equals("file")) {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
           return DocumentFile.fromFile(new File(pref.getPath()));
