@@ -366,7 +366,7 @@ public class MyApplication extends Application implements
     DocumentFile appDir = Utils.getAppDir();
     if (appDir == null)
       return null;
-    DocumentFile dir = Utils.timeStampedFile(appDir, "backup", "application/zip");
+    DocumentFile dir = Utils.timeStampedFile(appDir, "backup", "application/zip", false);
     return dir;
   }
 

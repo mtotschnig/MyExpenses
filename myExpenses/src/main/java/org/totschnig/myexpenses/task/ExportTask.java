@@ -134,18 +134,17 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<File>> {
       publishProgress(account.label + " ...");
       try {
         Result result = account.exportAll(destDir,format,notYetExportedP,dateFormat,decimalSeparator,encoding);
-        File output = null;
         String progressMsg;
         if (result.extra != null) {
-          output = (File) result.extra[0];
-          progressMsg = MyApplication.getInstance().getString(result.getMessage(), output.getAbsolutePath());
+          progressMsg = MyApplication.getInstance().getString(result.getMessage(), result.extra);
         } else {
           progressMsg = MyApplication.getInstance().getString(result.getMessage());
         }
         publishProgress("... " + progressMsg);
         if (result.success) {
           if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
-            addResult(output);
+            //TODO
+            //addResult(output);
           }
           successfullyExported.add(account);
         }

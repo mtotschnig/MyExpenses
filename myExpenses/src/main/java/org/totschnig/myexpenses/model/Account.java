@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
@@ -37,6 +35,7 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -140,7 +139,11 @@ public class Account extends Model {
   public enum ExportFormat {
     QIF,CSV;
     public String getMimeType() {
-      return "application/"+name().toLowerCase(Locale.US);
+      return "text/"+ getExtension();
+    }
+
+    public String getExtension() {
+      return name().toLowerCase(Locale.US);
     }
   }
   
@@ -800,14 +803,18 @@ public class Account extends Model {
     if (notYetExportedP)
       selection += " AND " + KEY_STATUS + " = 0";
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
-    if (c.getCount() == 0)
-      return new Result(false,R.string.no_exportable_expenses);
-    //then we check if the filename we construct already exists
-    DocumentFile outputFile = destDir.createFile(
-        format.getMimeType(),
-        label.replaceAll("\\W","") + "-" + now.format(new Date()));
+    if (c.getCount() == 0) {
+      c.close();
+      return new Result(false, R.string.no_exportable_expenses);
+    }
+    //then we check if the destDir is writable
+    DocumentFile outputFile = Utils.timeStampedFile(
+        destDir,
+        label.replaceAll("\\W", ""),
+        format.getMimeType(), true);
     if (outputFile == null) {
-      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
+      c.close();
+      return new Result(false,R.string.app_dir_read_only, FileUtils.getPath(ctx,destDir.getUri()));
     }
     c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
@@ -1006,7 +1013,7 @@ public class Account extends Model {
     }
     out.close();
     c.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
+    return new Result(true,R.string.export_expenses_sdcard_success,FileUtils.getPath(ctx,outputFile.getUri()));
   }
   
   /**
@@ -1128,9 +1135,10 @@ public class Account extends Model {
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     Cursor transactionCursor;
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
-    DocumentFile outputFile = destDir.createFile(
-        "application/pdf",
-        label.replaceAll("\\W","") + "-" + now.format(new Date()));
+    DocumentFile outputFile = Utils.timeStampedFile(
+        destDir,
+        label.replaceAll("\\W", ""),
+        "application/pdf", false);
     Document document = new Document();
     transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
@@ -1142,7 +1150,8 @@ public class Account extends Model {
     //then we check if the filename we construct already exists
     if (outputFile==null) {
       transactionCursor.close();
-      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
+      return new Result(false,R.string.app_dir_read_only,
+          FileUtils.getPath(MyApplication.getInstance(),destDir.getUri()));
     }
     PdfWriter.getInstance(document, cr().openOutputStream(outputFile.getUri()));
     Log.d("MyExpenses","All setup "+(System.currentTimeMillis()-start));

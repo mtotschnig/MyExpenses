@@ -11,8 +11,10 @@ import org.totschnig.myexpenses.provider.filter.Criteria;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.util.Log;
 
+import java.io.File;
 import java.util.Map;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
@@ -83,6 +85,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           }
         }
         edit.commit();
+      }
+      if (prev_version < 202) {
+        String appDir = MyApplication.PrefKey.APP_DIR.getString(null);
+        if (appDir!=null) {
+          MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(new File(appDir)).toString());
+        }
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
