@@ -292,10 +292,17 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }
-      return new Result(
-          result,
-          result ? R.string.backup_success : R.string.backup_failure,
-          FileUtils.getPath(MyApplication.getInstance(),backupFile.getUri()));
+      if (result) {
+        return new Result(
+            true,
+            R.string.backup_success,
+            backupFile.getUri());
+      } else {
+        return new Result(
+            false,
+            R.string.backup_failure,
+            FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
+      }
     case TaskExecutionFragment.TASK_BALANCE:
       Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;

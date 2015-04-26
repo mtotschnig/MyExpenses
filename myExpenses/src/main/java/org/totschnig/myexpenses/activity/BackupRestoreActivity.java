@@ -166,7 +166,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       if (msg!=null) {
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
       }
-      if (((Result) result).success) {
+      if (r.success) {
         MyApplication.getInstance().resetContribEnabled();
         // if the backup is password protected, we want to force the password
         // check
@@ -180,16 +180,22 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       }
       break;
     case TaskExecutionFragment.TASK_BACKUP:
-      Toast.makeText(getBaseContext(),
-          r.print(this), Toast.LENGTH_LONG)
-          .show();
-      if (((Result) result).success
-          && MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
-//        ArrayList<File> files = new ArrayList<File>();
-//        files.add((File) backupFile);
-//        Utils.share(this, files,
-//            MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
-//            "application/zip");
+      if (!r.success) {
+        Toast.makeText(getBaseContext(),
+            r.print(this), Toast.LENGTH_LONG)
+            .show();
+      } else {
+        Uri backupFileUri = (Uri) r.extra[0];
+        Toast.makeText(getBaseContext(),
+            getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)), Toast.LENGTH_LONG)
+            .show();
+        if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
+        ArrayList<Uri> uris = new ArrayList<>();
+        uris.add(backupFileUri);
+        Utils.share(this, uris,
+            MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+            "application/zip");
+        }
       }
     }
     finish();

@@ -552,12 +552,12 @@ public class Utils {
     }
   }
 
-  public static void share(Context ctx, ArrayList<File> files, String target,
+  public static void share(Context ctx, ArrayList<Uri> fileUris, String target,
       String mimeType) {
     URI uri = null;
     Intent intent;
     String scheme = "mailto";
-    boolean multiple = files.size() > 1;
+    boolean multiple = fileUris.size() > 1;
     if (!target.equals("")) {
       uri = Utils.validateUri(target);
       if (uri == null) {
@@ -580,7 +580,7 @@ public class Utils {
         return;
       }
       intent = new Intent(android.content.Intent.ACTION_SENDTO);
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
+      intent.putExtra(Intent.EXTRA_STREAM, fileUris.get(0));
       intent.setDataAndType(android.net.Uri.parse(target), mimeType);
       if (!isIntentAvailable(ctx, intent)) {
         Toast.makeText(ctx, R.string.no_app_handling_ftp_available,
@@ -592,13 +592,13 @@ public class Utils {
       if (multiple) {
         intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
         ArrayList<Uri> uris = new ArrayList<Uri>();
-        for (File file : files) {
-          uris.add(Uri.fromFile(file));
+        for (Uri fileUri : fileUris) {
+          uris.add(fileUri);
         }
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
       } else {
         intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
+        intent.putExtra(Intent.EXTRA_STREAM, fileUris.get(0));
       }
       intent.setType(mimeType);
       if (uri != null) {

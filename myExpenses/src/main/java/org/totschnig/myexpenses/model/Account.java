@@ -783,7 +783,7 @@ public class Account extends Model {
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
    * @param decimalSeparator
-   * @return Result object indicating success, message and output file
+   * @return Result object indicating success, message, extra if not null contains uri
    * @throws IOException
    */
   public Result exportAll(
@@ -814,7 +814,7 @@ public class Account extends Model {
         format.getMimeType(), true);
     if (outputFile == null) {
       c.close();
-      return new Result(false,R.string.app_dir_read_only, FileUtils.getPath(ctx,destDir.getUri()));
+      return new Result(false,R.string.app_dir_read_only, destDir.getUri());
     }
     c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
@@ -1013,7 +1013,7 @@ public class Account extends Model {
     }
     out.close();
     c.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,FileUtils.getPath(ctx,outputFile.getUri()));
+    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
   }
   
   /**

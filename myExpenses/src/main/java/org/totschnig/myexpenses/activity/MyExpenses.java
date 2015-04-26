@@ -934,7 +934,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       break;
     case TaskExecutionFragment.TASK_EXPORT:
-      ArrayList<File> files = (ArrayList<File>) o;
+      ArrayList<Uri> files = (ArrayList<Uri>) o;
       if (files != null && files.size() >0)
         Utils.share(this,files,
             MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
