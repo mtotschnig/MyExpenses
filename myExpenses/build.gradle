@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 ext {
  versionNumber1 = 2
  versionNumber2 = 4
- versionNumber3 = 4
+ versionNumber3 = 5
  versionNumber4 = 0
 }
 
@@ -22,18 +22,18 @@ def buildVersionNumberBlackBerry() {
   return result
 }
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 21
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 201
+        versionCode 202
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"
@@ -65,6 +65,7 @@ dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
     compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:support-v4:21.0.3'
     compile 'com.itextpdf:itextpdf:5.5.2'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'

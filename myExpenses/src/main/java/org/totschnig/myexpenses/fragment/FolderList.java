@@ -11,6 +11,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -78,7 +79,7 @@ public class FolderList extends ListFragment {
           break;
         }
       }
-      MyApplication.PrefKey.APP_DIR.putString(selectedFolder.getAbsolutePath());
+      MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
       ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();
       break;
