@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -38,6 +39,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 /**
@@ -255,10 +257,27 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return null;
     case TaskExecutionFragment.TASK_BACKUP:
       boolean result = false;
-      File backupFile = (File) mExtra;
+      if (!Utils.isExternalStorageAvailable()) {
+        return new Result(false,R.string.external_storage_unavailable);
+      }
+      DocumentFile backupFile = MyApplication.requireBackupFile();
+      if (backupFile == null) {
+        DocumentFile appDir = Utils.getAppDir();
+        if (appDir!=null) {
+          return new Result(false, R.string.app_dir_read_only, FileUtils.getPath(
+              MyApplication.getInstance(), appDir.getUri()));
+        }
+        else {
+          Utils.reportToAcra(new Exception(
+              MyApplication.getInstance().getString(R.string.io_error_appdir_null)));
+          return new Result(false,R.string.io_error_appdir_null);
+        }
+      }
       File cacheDir = Utils.getCacheDir();
       if (cacheDir == null) {
-        return new Result(false,R.string.external_storage_unavailable);
+        Utils.reportToAcra(new Exception(
+            MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
+        return new Result(false,R.string.io_error_cachedir_null);
       }
       cacheEventData();
       if (MyApplication.getInstance().backup(cacheDir)) {
@@ -273,7 +292,17 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }
-      return new Result(result,result ? R.string.backup_success : R.string.backup_failure);
+      if (result) {
+        return new Result(
+            true,
+            R.string.backup_success,
+            backupFile.getUri());
+      } else {
+        return new Result(
+            false,
+            R.string.backup_failure,
+            FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
+      }
     case TaskExecutionFragment.TASK_BALANCE:
       Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;

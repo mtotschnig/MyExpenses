@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -70,6 +71,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -654,7 +657,9 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.OPEN_PDF_COMMAND:
         i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
-        i.setDataAndType(Uri.fromFile((File) tag), "application/pdf");
+        Uri data = Uri.parse((String) tag);
+        Log.d("DEBUG", data.toString());
+        i.setDataAndType(data, "application/pdf");
         if (!Utils.isIntentAvailable(this,i)) {
           Toast.makeText(this,R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
         } else {
@@ -929,7 +934,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       break;
     case TaskExecutionFragment.TASK_EXPORT:
-      ArrayList<File> files = (ArrayList<File>) o;
+      ArrayList<Uri> files = (ArrayList<Uri>) o;
       if (files != null && files.size() >0)
         Utils.share(this,files,
             MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
@@ -941,8 +946,8 @@ public class MyExpenses extends LaunchActivity implements
         recordUsage(ContribFeature.PRINT);
         MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
-            result.print(this),
-            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,(File) result.extra[0]),
+            getString(result.getMessage(), FileUtils.getPath(this, (Uri) result.extra[0])),
+            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,((Uri) result.extra[0]).toString()),
             null,
             MessageDialogFragment.Button.nullButton(android.R.string.cancel));
         f.setCancelable(false);
