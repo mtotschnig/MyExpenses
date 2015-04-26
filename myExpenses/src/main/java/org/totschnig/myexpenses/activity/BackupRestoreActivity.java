@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -57,7 +58,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       }
       MessageDialogFragment.newInstance(
           R.string.menu_backup,
-          getString(R.string.warning_backup, Utils.getAppDir().getName()),
+          getString(R.string.warning_backup,
+              FileUtils.getPath(this,Utils.getAppDir().getUri())),
           new MessageDialogFragment.Button(android.R.string.yes,
               R.id.BACKUP_COMMAND, null), null,
           MessageDialogFragment.Button.noButton()).show(

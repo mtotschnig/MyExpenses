@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -256,10 +257,27 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return null;
     case TaskExecutionFragment.TASK_BACKUP:
       boolean result = false;
-      DocumentFile backupFile = MyApplication.requireBackupFile();
-      File cacheDir = Utils.getCacheDir();
-      if (cacheDir == null || backupFile == null) {
+      if (!Utils.isExternalStorageAvailable()) {
         return new Result(false,R.string.external_storage_unavailable);
+      }
+      DocumentFile backupFile = MyApplication.requireBackupFile();
+      if (backupFile == null) {
+        DocumentFile appDir = Utils.getAppDir();
+        if (appDir!=null) {
+          return new Result(false, R.string.app_dir_read_only, FileUtils.getPath(
+              MyApplication.getInstance(), appDir.getUri()));
+        }
+        else {
+          Utils.reportToAcra(new Exception(
+              MyApplication.getInstance().getString(R.string.io_error_appdir_null)));
+          return new Result(false,R.string.io_error_appdir_null);
+        }
+      }
+      File cacheDir = Utils.getCacheDir();
+      if (cacheDir == null) {
+        Utils.reportToAcra(new Exception(
+            MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
+        return new Result(false,R.string.io_error_cachedir_null);
       }
       cacheEventData();
       if (MyApplication.getInstance().backup(cacheDir)) {
@@ -274,7 +292,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         MyApplication.getBackupDbFile(cacheDir).delete();
         MyApplication.getBackupPrefFile(cacheDir).delete();
       }
-      return new Result(result,result ? R.string.backup_success : R.string.backup_failure,backupFile.getName());
+      return new Result(
+          result,
+          result ? R.string.backup_success : R.string.backup_failure,
+          FileUtils.getPath(MyApplication.getInstance(),backupFile.getUri()));
     case TaskExecutionFragment.TASK_BALANCE:
       Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;
