@@ -1436,4 +1436,27 @@ public class Account extends Model {
     grouping=value;
     save();
   }
+
+  /**
+   * Looks for an account with a label. WARNING: If several accounts have the same account, this
+   * method fill return the first account retrieved in the cursor, order is undefined
+   * @param label
+   * @return id or -1 if not found
+   */
+  public static long findAny(String label) {
+    String selection = KEY_LABEL + " = ?";
+    String[] selectionArgs = new String[]{label};
+
+    Cursor mCursor = cr().query(CONTENT_URI,
+        new String[] {KEY_ROWID}, selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
+    }
+  }
 }
