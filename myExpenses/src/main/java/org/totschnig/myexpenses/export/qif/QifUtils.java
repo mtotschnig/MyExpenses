@@ -105,15 +105,14 @@ public class QifUtils {
     /**
      * Adopted from http://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
      */
-    public static long parseMoney(String money) {
+    public static BigDecimal parseMoney(String money) {
         String sMoney = money;
 
         if (sMoney != null) {
             BigDecimal bdMoney;
             sMoney = sMoney.trim(); // to be safe
             try {
-                bdMoney = new BigDecimal(sMoney);
-                return moneyAsLong(bdMoney);
+                return new BigDecimal(sMoney);
             } catch (NumberFormatException e) {
                 /* there must be commas, etc in the number.  Need to look for them
                  * and remove them first, and then try BigDecimal again.  If that
@@ -131,8 +130,8 @@ public class QifUtils {
                     buf.append('.');
                     buf.append(split[split.length - 1]);
                     try {
-                        bdMoney = new BigDecimal(buf.toString());
-                        return moneyAsLong(bdMoney);
+                        return new BigDecimal(buf.toString());
+
                     } catch (final NumberFormatException e2) {
                         Log.e("QifUtils", "Second parse attempt failed, falling back to rounding");
                     }
@@ -140,17 +139,13 @@ public class QifUtils {
                 NumberFormat formatter = NumberFormat.getNumberInstance();
                 try {
                     Number num = formatter.parse(sMoney);
-                    BigDecimal bd = new BigDecimal(num.floatValue());
-                    if (bd.scale() > 6) {
-                        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
-                    }
-                    return moneyAsLong(bd);
+                    return new BigDecimal(num.floatValue());
                 } catch (ParseException ignored) {
                 }
                 Log.e("QifUtils", "Could not parse money " + sMoney);
             }
         }
-        return 0;
+        return new BigDecimal(0);
     }
 
     private static long moneyAsLong(BigDecimal bd) {
