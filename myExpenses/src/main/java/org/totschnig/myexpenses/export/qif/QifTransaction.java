@@ -4,11 +4,14 @@
 
 package org.totschnig.myexpenses.export.qif;
 
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +25,7 @@ public class QifTransaction {
 
   public long id;
   public Date date;
-  public long amount;
+  public BigDecimal amount;
   public String payee;
   public String memo;
   public String category;
@@ -133,14 +136,15 @@ public class QifTransaction {
   // return qifTransaction;
   // }
 
-  public Transaction toTransaction(long accountId) {
+  public Transaction toTransaction(Account a) {
     Transaction t;
+    Money m = new Money(a.currency,amount);
     if (isSplit()) {
-      t = new SplitTransaction(accountId, amount);
+      t = new SplitTransaction(a.getId(), m);
     } else if (isTransfer()) {
-      t = new Transfer(accountId, amount);
+      t = new Transfer(a.getId(), m);
     } else {
-      t = new Transaction(accountId, amount);
+      t = new Transaction(a.getId(), m);
     }
     if (date!=null) {
       t.setDate(date);

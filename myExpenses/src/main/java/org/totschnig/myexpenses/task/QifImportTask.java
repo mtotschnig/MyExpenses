@@ -366,7 +366,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private void reduceTransfers(QifAccount fromAccount,
       List<QifTransaction> transactions) {
     for (QifTransaction fromTransaction : transactions) {
-      if (fromTransaction.isTransfer() && fromTransaction.amount < 0) {
+      if (fromTransaction.isTransfer() && fromTransaction.amount.signum() == -1) {
         boolean found = false;
         if (!fromTransaction.toAccount.equals(fromAccount.memo)) {
           QifAccount toAccount = accountTitleToAccount
@@ -405,7 +405,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private void convertUnknownTransfers(QifAccount fromAccount,
       List<QifTransaction> transactions) {
     for (QifTransaction transaction : transactions) {
-      if (transaction.isTransfer() && transaction.amount >= 0) {
+      if (transaction.isTransfer() && transaction.amount.signum() >= 0) {
         convertIntoRegularTransaction(transaction);
       }
       if (transaction.splits != null) {
@@ -435,13 +435,13 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         && toTransaction.toAccount.equals(fromAccount.memo)
         && fromTransaction.toAccount.equals(toAccount.memo)
         && fromTransaction.date.equals(toTransaction.date)
-        && fromTransaction.amount == -toTransaction.amount;
+        && fromTransaction.amount == toTransaction.amount.negate();
   }
 
   private int insertTransactions(Account a, List<QifTransaction> transactions) {
     int count = 0;
     for (QifTransaction transaction : transactions) {
-      Transaction t = transaction.toTransaction(a.getId());
+      Transaction t = transaction.toTransaction(a);
       t.payeeId = findPayee(transaction.payee);
       // t.projectId = findProject(transaction.categoryClass);
       findToAccount(transaction, t);
@@ -449,7 +449,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
        if (transaction.splits != null) {
          ((SplitTransaction) t).persistForEdit();
          for (QifTransaction split : transaction.splits) {
-           Transaction s = split.toTransaction(a.getId());
+           Transaction s = split.toTransaction(a);
            s.parentId = t.getId();
            s.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
            findToAccount(split, s);
