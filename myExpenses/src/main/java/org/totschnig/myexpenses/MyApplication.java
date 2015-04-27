@@ -859,5 +859,12 @@ public class MyApplication extends Application implements
       return "market://details?id=";
     }
   }
+  public static String getMarketSelfUri() {
+    if (BuildConfig.FLAVOR.equals("blackberry")) {
+      return "appworld://content/54472888";
+    } else {
+      return getMarketPrefix() + "org.totschnig.myexpenses";
+    }
+  }
 }
 

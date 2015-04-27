@@ -43,7 +43,7 @@ public class CommonCommands {
     switch(command) {
     case R.id.RATE_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(MyApplication.getMarketPrefix() + "org.totschnig.myexpenses"));
+      i.setData(Uri.parse(MyApplication.getMarketSelfUri()));
       if (Utils.isIntentAvailable(ctx,i)) {
         ctx.startActivity(i);
       } else {
