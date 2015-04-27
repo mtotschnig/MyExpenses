@@ -192,23 +192,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
     if (withTransactionsP) {
       if (accountId == 0) {
-        if (!MyApplication.getInstance().isContribEnabled()
-            && parser.accounts.size() + Account.count(null, null) > 5) {
-          publishProgress(
-              MyApplication.getInstance()
-                .getString(R.string.qif_parse_failure_found_multiple_accounts)
-              + " "
-              + MyApplication.getInstance()
-                .getText(R.string.contrib_feature_accounts_unlimited_description)
-              + " "
-              + MyApplication.getInstance()
-                .getText(R.string.dialog_contrib_reminder_remove_limitation));
-          return;
-        }
-        int totalAccounts = insertAccounts(parser.accounts);
-        publishProgress(totalAccounts == 0 ? 
+        int importedAccounts = insertAccounts(parser.accounts);
+        publishProgress(importedAccounts == 0 ?
           MyApplication.getInstance().getString(R.string.import_accounts_none):
-          MyApplication.getInstance().getString(R.string.import_accounts_success,totalAccounts));
+          MyApplication.getInstance().getString(R.string.import_accounts_success,importedAccounts));
       } else {
         if (parser.accounts.size() > 1) {
           publishProgress(
@@ -310,15 +297,35 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   }
 
   private int insertAccounts(List<QifAccount> accounts) {
-    int count = 0;
+    int nrOfAccounts = Account.count(null, null);
+
+    int importCount = 0;
     for (QifAccount account : accounts) {
-      Account a = account.toAccount(mCurrency);
-      if (a.save() != null)
-        count++;
-      account.dbAccount = a;
+      if (!MyApplication.getInstance().isContribEnabled()
+          && nrOfAccounts + importCount > 5) {
+        publishProgress(
+            MyApplication.getInstance()
+                .getString(R.string.qif_parse_failure_found_multiple_accounts)
+                + " "
+                + MyApplication.getInstance()
+                .getText(R.string.contrib_feature_accounts_unlimited_description)
+                + " "
+                + MyApplication.getInstance()
+                .getText(R.string.dialog_contrib_reminder_remove_limitation));
+        break;
+      }
+      long dbAccountId = Account.findAny(account.memo);
+      if (dbAccountId!=-1) {
+        account.dbAccount = Account.getInstanceFromDb(dbAccountId);
+      } else {
+        Account a = account.toAccount(mCurrency);
+        if (a.save() != null)
+          importCount++;
+        account.dbAccount = a;
+      }
       accountTitleToAccount.put(account.memo, account);
     }
-    return count;
+    return importCount;
   }
 
   private void insertTransactions(List<QifAccount> accounts) {
