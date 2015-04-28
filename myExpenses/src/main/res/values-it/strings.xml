@@ -420,7 +420,7 @@
   <string name="sum_expenses">Spese</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_transfer">Trasferimenti</string>
-  <string name="tell_a_friend_message">Le mie spese, Gestione delle finanze personali per Android, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Le mie spese, Gestione delle finanze personali per %s, http://www.myexpenses.mobi</string>
   <string name="template">Modello</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="template_title_exists">Un modello con il nome \"%1$s\" già esiste</string>

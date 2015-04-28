@@ -368,7 +368,7 @@
   <string name="sum_expenses">Расходы</string>
   <string name="sum_income">Прибыль</string>
   <string name="sum_transfer">Переводы</string>
-  <string name="tell_a_friend_message">Просмотрите Мои расходы, персональный финансовый менеджер для Android, на http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Просмотрите Мои расходы, персональный финансовый менеджер для %s, на http://www.myexpenses.mobi</string>
   <string name="template">Шаблон</string>
   <string name="template_create_success">Шаблон \"%1$s\" успешно создан</string>
   <string name="template_title_exists">Шаблон с заголовком \"%1$s\" уже существует</string>

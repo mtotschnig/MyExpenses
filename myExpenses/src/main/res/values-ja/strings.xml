@@ -414,7 +414,7 @@
   <string name="sum_expenses">支出</string>
   <string name="sum_income">収入</string>
   <string name="sum_transfer">転記</string>
-  <string name="tell_a_friend_message">マイ エクスペンス: Android用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
   <string name="template">テンプレート</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
   <string name="template_title_exists">タイトル \"%1$s\" のテンプレートは既に存在します</string>
