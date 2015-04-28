@@ -38,6 +38,8 @@ android {
 
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+
+        buildConfigField "String", "PLATTFORM", "\"Android\""
     }
     signingConfigs {
         release {

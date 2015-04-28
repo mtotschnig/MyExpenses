@@ -420,7 +420,7 @@
   <string name="sum_expenses">Gastos</string>
   <string name="sum_income">Ingresos</string>
   <string name="sum_transfer">Traslados</string>
-  <string name="tell_a_friend_message">Probar Mis Gastos, Gestión de las finanzas personales para Android, desde http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Probar Mis Gastos, Gestión de las finanzas personales para %s, desde http://www.myexpenses.mobi</string>
   <string name="template">Plantilla</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>

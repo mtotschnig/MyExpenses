@@ -420,7 +420,7 @@
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_income">Einnahmen</string>
   <string name="sum_transfer">Umbuchungen</string>
-  <string name="tell_a_friend_message">Probiere Meine Ausgaben, Persönliches Finanz-Management für Android, von http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Probiere Meine Ausgaben, Persönliches Finanz-Management für %s, von http://www.myexpenses.mobi</string>
   <string name="template">Vorlage</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>

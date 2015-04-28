@@ -421,7 +421,7 @@ Librezale.eus</string>
   <string name="sum_expenses">Gastuak</string>
   <string name="sum_income">Diru-sarrerak</string>
   <string name="sum_transfer">Tranferentziak</string>
-  <string name="tell_a_friend_message">Frogatu Nire Gastuak, Finantza pertsonalak kudeatzeko Android aplikazioa, hau da: http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Frogatu Nire Gastuak, Finantza pertsonalak kudeatzeko %s aplikazioa, hau da: http://www.myexpenses.mobi</string>
   <string name="template">Txantiloia</string>
   <string name="template_create_success">\"%1$s\" txantiloia ondo gorde da</string>
   <string name="template_title_exists">Badago aurretik \"%1$s\" izeneko txantiloi bat</string>
