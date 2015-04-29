@@ -49,8 +49,8 @@ public class Category extends Model {
   /**
    * inserts a new category if id = 0, or alters an existing one if id != 0
    * @param id 0 if a new instance, database id otherwise
-   * @param name
-   * @param parent_id a new instance is created under this parent, ignored for existing instances
+   * @param label
+   * @param parentId a new instance is created under this parent, ignored for existing instances
    * @return id of new record, or -1, if it already exists
    */
   public static long write(long id, String label, Long parentId) {

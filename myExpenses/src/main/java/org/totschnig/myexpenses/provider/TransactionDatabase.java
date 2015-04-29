@@ -44,7 +44,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 51;
+  public static final int DATABASE_VERSION = 52;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -271,6 +271,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
     db.execSQL(STALE_URI_TRIGGER_CREATE);
+    db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
+    db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -871,6 +873,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE TABLE stale_uris ( picture_id text);");
       db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
           + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
+    }
+    if (oldVersion < 52) {
+      db.execSQL("create index transactions_cat_id_index on transactions(cat_id)");
+      db.execSQL("create index templates_cat_id_index on templates(cat_id)");
     }
   }
   @Override
