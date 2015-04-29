@@ -303,8 +303,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               uriValues,
               DatabaseConstants.KEY_PICTURE_URI + " = "+c.getInt(0),null);
         } while (c.moveToNext());
-        c.close();
       }
+      c.close();
       return new Result(true);
     } else {
       return new Result(false,R.string.restore_db_failure);
