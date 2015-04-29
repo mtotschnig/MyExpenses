@@ -6,7 +6,7 @@ ext {
  versionNumber1 = 2
  versionNumber2 = 4
  versionNumber3 = 4
- versionNumber4 = 0
+ versionNumber4 = 1
 }
 
 def buildVersionNumber() {
@@ -64,6 +64,7 @@ android {
         amazon {}
         blackberry {
           versionName buildVersionNumberBlackBerry()
+          buildConfigField "String", "PLATTFORM", "\"Blackberry\""
         }
     }
 
