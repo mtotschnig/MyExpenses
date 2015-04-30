@@ -58,6 +58,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExportDialogFragment extends CommitSafeDialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
+  private static final String KEY_IS_FILTERED = "is_filtered";
   CheckBox notYetExportedCB,deleteCB;
   RadioButton formatRB, separatorRB;
   TextView warningTV;
@@ -68,11 +69,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
   static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
   static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
   
-  public static final ExportDialogFragment newInstance(Long accountId) {
+  public static final ExportDialogFragment newInstance(Long accountId,boolean isFiltered) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
     if (accountId != null) {
       Bundle bundle = new Bundle();
       bundle.putLong(KEY_ACCOUNTID, accountId);
+      bundle.putBoolean(KEY_IS_FILTERED,isFiltered);
       dialogFragment.setArguments(bundle);
     }
     return dialogFragment;
@@ -87,6 +89,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
     boolean allP = false, hasExported;
     String warningText;
+
     if (accountId == null) {
       allP = true;
       warningText = getString(R.string.warning_reset_account_all);
@@ -106,6 +109,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
 
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
+
+
+    if (!args.getBoolean(KEY_IS_FILTERED)) {
+      view.findViewById(R.id.with_filter).setVisibility(View.GONE);
+    }
 
     dateFormatET = (EditText) view.findViewById(R.id.date_format);
     String dateFormatDefault =

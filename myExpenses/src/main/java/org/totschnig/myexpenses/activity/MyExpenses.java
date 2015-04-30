@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
@@ -566,7 +567,8 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && tl.hasItems) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          DialogUtils.showWarningResetDialog(this, mAccountId);
+          ExportDialogFragment.newInstance(mAccountId,tl.isFiltered())
+              .show(this.getSupportFragmentManager(),"WARNING_RESET");
         } else {
           Toast.makeText(getBaseContext(),
               appDirStatus.print(this),

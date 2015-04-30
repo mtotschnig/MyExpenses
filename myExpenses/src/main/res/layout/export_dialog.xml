@@ -24,6 +24,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
+        <RadioGroup
+            android:id="@+id/with_filter"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/no"
+                android:checked="true"
+                android:text="All" />
+
+            <RadioButton
+                android:id="@+id/yes"
+                android:text="Only matched by current filter" />
+        </RadioGroup>
+
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -31,6 +47,7 @@
             android:paddingRight="@dimen/general_padding"
             android:shrinkColumns="*"
             android:stretchColumns="*" >
+
 
             <TableRow android:gravity="center_vertical" >
 

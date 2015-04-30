@@ -472,6 +472,11 @@ public class TransactionList extends ContextualActionBarFragment implements
       mGroupingCursor = null;
     }
   }
+
+  public boolean isFiltered() {
+    return !mFilter.isEmpty();
+  }
+
   class AccountObserver extends ContentObserver {
     public AccountObserver(Handler handler) {
        super(handler);
