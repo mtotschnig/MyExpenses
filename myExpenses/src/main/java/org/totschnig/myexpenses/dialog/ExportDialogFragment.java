@@ -59,8 +59,9 @@ import android.widget.Toast;
 
 public class ExportDialogFragment extends CommitSafeDialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
   private static final String KEY_IS_FILTERED = "is_filtered";
+  RadioGroup handleDeletedGroup;
   CheckBox notYetExportedCB,deleteCB;
-  RadioButton formatRB, separatorRB;
+  RadioButton formatRBCSV, separatorRBComma, handleDeletedRBUpdateBalance;
   TextView warningTV;
   EditText dateFormatET;
   AlertDialog mDialog;
@@ -68,6 +69,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
   static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
   static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
+  static final String PREFKEY_EXPORT_HANDLE_DELETED = "handle_deleted";
+  static final int PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
+  static final int PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
   
   public static final ExportDialogFragment newInstance(Long accountId,boolean isFiltered) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -155,19 +159,26 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
           .indexOf(encoding));
 
-    formatRB = (RadioButton) view.findViewById(R.id.csv);
+    formatRBCSV = (RadioButton) view.findViewById(R.id.csv);
     String format = MyApplication.PrefKey.EXPORT_FORMAT.getString("QIF");
     if (format.equals("CSV")) {
-      formatRB.setChecked(true);
+      formatRBCSV.setChecked(true);
     }
 
-    separatorRB = (RadioButton) view.findViewById(R.id.comma);
+    separatorRBComma = (RadioButton) view.findViewById(R.id.comma);
     char separator = (char) MyApplication.getInstance().getSettings()
         .getInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
     if (separator==',') {
-      separatorRB.setChecked(true);
+      separatorRBComma.setChecked(true);
     }
-      
+
+    handleDeletedGroup = (RadioGroup) view.findViewById(R.id.handle_deleted);
+    handleDeletedRBUpdateBalance =(RadioButton) view.findViewById(R.id.update_balance);
+    int handleDeletedPref = MyApplication.getInstance().getSettings()
+        .getInt(PREFKEY_EXPORT_HANDLE_DELETED, PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER);
+    if (handleDeletedPref==PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+      handleDeletedRBUpdateBalance.setChecked(true);
+    }
 
     deleteCB.setOnCheckedChangeListener(this);
     if (hasExported) {
@@ -203,13 +214,16 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
     char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
         '.' : ',';
+    int handleDeleted = handleDeletedGroup.getCheckedRadioButtonId() == R.id.update_balance ?
+        PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE : PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER;
     String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
     SharedPreferencesCompat.apply(
       MyApplication.getInstance().getSettings().edit()
         .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
         .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
         .putString(PREFKEY_EXPORT_ENCODING, encoding)
-        .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
+        .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator)
+        .putInt(PREFKEY_EXPORT_HANDLE_DELETED,handleDeleted));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     Result appDirStatus = Utils.checkAppDir();
@@ -267,10 +281,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       notYetExportedCB.setEnabled(false);
       notYetExportedCB.setChecked(false);
       warningTV.setVisibility(View.VISIBLE);
+      handleDeletedGroup.setVisibility(View.VISIBLE);
     } else {
       notYetExportedCB.setEnabled(true);
       notYetExportedCB.setChecked(true);
       warningTV.setVisibility(View.GONE);
+      handleDeletedGroup.setVisibility(View.GONE);
     }
   }
 
