@@ -470,7 +470,7 @@ public class Account extends Model {
 
   public static int defaultColor = 0xff99CC00;
 
-  static HashMap<Long,Account> accounts = new HashMap<Long,Account>();
+  static HashMap<Long,Account> accounts = new HashMap<>();
   
   public static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
@@ -482,11 +482,10 @@ public class Account extends Model {
         new Exception("Error instantiating account "+id));*/
   }
   /**
-   * @param id
-   * @return Account object, if id == 0, the first entry in the accounts cache will be returned or
+   * @param id id of account to be retrieved, if id == 0, the first entry in the accounts cache will be returned or
    * if it is empty the account with the lowest id will be fetched from db,
    * if id < 0 we forward to AggregateAccount
-   * return null if no account with id exists in db
+   * @return Account object or null if no account with id exists in db
    */
   public static Account getInstanceFromDb(long id) {
     if (id < 0)
@@ -535,7 +534,7 @@ public class Account extends Model {
     if (account == null) {
       return;
     }
-    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ops.add(account.updateTransferPeersForTransactionDelete(
         buildTransactionRowSelect(null),
         new String[] { String.valueOf(account.getId()) }));
@@ -562,10 +561,10 @@ public class Account extends Model {
     }
   }
   /**
-   * @param label
-   * @param openingBalance
-   * @param description
-   * @return Account with currency from locale, of type CASH and with defaultColor
+   * Account with currency from locale, of type CASH and with defaultColor
+   * @param label the label
+   * @param openingBalance the opening balance
+   * @param description the description
    */
   public Account(String label, long openingBalance, String description) {
     this(label,getLocaleCurrency(),openingBalance,description,Type.CASH,defaultColor);
@@ -590,7 +589,7 @@ public class Account extends Model {
   }
   /**
    * extract information from Cursor and populate fields
-   * @param c
+   * @param c a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
    */
   protected void extract(Cursor c) {
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
@@ -648,12 +647,9 @@ public class Account extends Model {
    * @return the sum of opening balance and all reconciled transactions for the account
    */
   public Money getReconciledBalance() {
-    WhereFilter filter = WhereFilter.empty();
-    filter.put(R.id.FILTER_STATUS_COMMAND,
-        new CrStatusCriteria(CrStatus.RECONCILED.name()));
     return new Money(currency,
         openingBalance.getAmountMinor() +
-            getTransactionSum(filter));
+            getTransactionSum(reconciledFilter()));
   }
   /**
    * @param filter if not null only transactions matched by current filter will be taken into account
@@ -690,7 +686,7 @@ public class Account extends Model {
    * @param filter if not null only expenses matched by filter will be deleted
    */
   public void reset(WhereFilter filter) {
-    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long currentBalance = (filter!=null ? getFilteredBalance(filter) : getTotalBalance())
         .getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
@@ -726,7 +722,7 @@ public class Account extends Model {
   }
 
   /**
-   * @param accountId
+   * @param accountId id of account or null
    * @return true if the account with id accountId has transactions marked as exported
    * if accountId is null returns true if any account has transactions marked as exported
    */
@@ -739,6 +735,9 @@ public class Account extends Model {
         AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);
         selection = KEY_ACCOUNTID +  " IN " +
             "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        if (aa == null) {
+          return false;
+        }
         selectionArgs = new String[]{aa.currency.getCurrencyCode()};
       } else {
         selection = KEY_ACCOUNTID + " = ?";
@@ -784,15 +783,11 @@ public class Account extends Model {
   }
 
   /**
-   * calls {@link #exportAll(DocumentFile, ExportFormat, boolean)} with
+   * calls {@link #exportAll(DocumentFile, ExportFormat, boolean, String, char, String, WhereFilter)} with
    * * date format "dd/MM/yyyy"
    * * encoding UTF-8
    * * decimal separator '.'
-   * @param destDir
-   * @param format
-   * @param notYetExportedP
-   * @return Result object
-   * @throws IOException
+   * * WhereFilter null
    */
   public Result exportAll(DocumentFile destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
     return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8", null);
@@ -803,8 +798,8 @@ public class Account extends Model {
    * @param format QIF or CSV
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
-   * @param decimalSeparator
-   * @param filter
+   * @param decimalSeparator , or .
+   * @param filter only transactions matched by filter will be considered
    * @return Result object indicating success, message, extra if not null contains uri
    * @throws IOException
    */
@@ -817,7 +812,6 @@ public class Account extends Model {
       String encoding,
       WhereFilter filter)
       throws IOException {
-    SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
@@ -883,7 +877,7 @@ public class Account extends Model {
         //split transactions take their full_label from the first split part
         splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
             KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        if (splits.moveToFirst()) {
+        if (splits != null && splits.moveToFirst()) {
           readCat = splits;
         } else {
           readCat = c;
@@ -924,6 +918,7 @@ public class Account extends Model {
       case CSV:
         //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+        PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
         sb.append("\n\"\";\"")
           .append(dateStr)
           .append("\";\"")
@@ -939,7 +934,7 @@ public class Account extends Model {
           .append("\";\"")
           .appendQ(comment)
           .append("\";\"")
-          .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getLabel())
+          .appendQ(method == null ? "" : method.getLabel())
           .append("\";\"")
           .append(status.symbol)
           .append("\";\"")
@@ -972,7 +967,7 @@ public class Account extends Model {
           }
       }
       out.write(sb.toString());
-      if (SPLIT_CATID.equals(catId)) {
+      if (SPLIT_CATID.equals(catId) && splits != null) {
         while( splits.getPosition() < splits.getCount() ) {
           transfer_peer = DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER);
           comment = DbUtils.getString(splits, KEY_COMMENT);
@@ -1002,6 +997,7 @@ public class Account extends Model {
           case CSV:
             //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
             Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+            PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
             sb.append("\n\"B\";\"")
               .append(dateStr)
               .append("\";\"")
@@ -1017,7 +1013,7 @@ public class Account extends Model {
               .append("\";\"")
               .appendQ(comment)
               .append("\";\"")
-              .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getLabel())
+              .appendQ(method == null ? "" : method.getLabel())
               .append("\";");
             break;
           //QIF  
@@ -1110,7 +1106,7 @@ public class Account extends Model {
         return false;
     } else if (!description.equals(other.description))
       return false;
-    if (getId() != other.getId())
+    if (!getId().equals(other.getId()))
       return false;
     if (label == null) {
       if (other.label != null)
@@ -1139,8 +1135,15 @@ public class Account extends Model {
             KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
         new String[] { String.valueOf(getId()) });
     if (resetP) {
-      reset(true);
+      reset(reconciledFilter());
     }
+  }
+
+  private WhereFilter reconciledFilter() {
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(R.id.FILTER_STATUS_COMMAND,
+        new CrStatusCriteria(CrStatus.RECONCILED.name()));
+    return filter;
   }
 
   public Result print(DocumentFile destDir, WhereFilter filter) throws IOException, DocumentException {
@@ -1164,7 +1167,6 @@ public class Account extends Model {
     }
     Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     Cursor transactionCursor;
-    SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     DocumentFile outputFile = Utils.timeStampedFile(
         destDir,
         label.replaceAll("\\W", ""),
@@ -1483,7 +1485,7 @@ public class Account extends Model {
   /**
    * Looks for an account with a label. WARNING: If several accounts have the same account, this
    * method fill return the first account retrieved in the cursor, order is undefined
-   * @param label
+   * @param label label of the account we want to retrieve
    * @return id or -1 if not found
    */
   public static long findAny(String label) {
