@@ -243,7 +243,7 @@ public class ExportTest extends ModelTest  {
       insertData1();
       Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
-      account1.markAsExported();
+      account1.markAsExported(null);
       export = (Uri) result.extra[0];
       new File(export.getPath()).delete();
       insertData2();

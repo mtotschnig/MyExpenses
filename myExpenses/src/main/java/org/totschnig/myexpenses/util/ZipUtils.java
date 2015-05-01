@@ -44,7 +44,8 @@ public class ZipUtils {
     addFileToZip("", MyApplication.getBackupDbFile(cacheDir), zip);
     addFileToZip("", MyApplication.getBackupPrefFile(cacheDir), zip);
     Cursor c= MyApplication.getInstance().getContentResolver()
-        .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("distinct","1").build(),
+        .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_DISTINCT,"1").build(),
             new String[]{DatabaseConstants.KEY_PICTURE_URI},
             DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL",
             null,null);

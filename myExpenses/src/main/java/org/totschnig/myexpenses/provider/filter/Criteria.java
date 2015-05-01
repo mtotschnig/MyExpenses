@@ -128,25 +128,24 @@ public class Criteria implements Parcelable {
    * @return selection wrapped in a way that it also finds split transactions with parts
    * that are matched by the critera
    */
-  protected String applyToSplitParts(String selection) {
+  protected String applyToSplitParts(String selection,String tableName) {
     if (!shouldApplyToParts()) {
       return selection;
     }
     return "(" + selection + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID //maybe the check for split catId is not needed
         + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
         + " WHERE children." + KEY_PARENTID
-        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_ROWID + " AND children." + selection + ")))";
+        + " = " + tableName + "." + KEY_ROWID + " AND children." + selection + ")))";
   }
   
   /**
    * the sums are calculated based on split parts, hence here we must take care to select parts
    * where the parents match
-   * of {@link #applyToSplitParts(String)}
    * @param selection
    * @return selection wrapped in a way that is also finds split parts where parents are
    * matched by the criteria
    */
-  protected String applyToSplitParents(String selection) {
+  protected String applyToSplitParents(String selection, String tableName) {
     String selectParents;
     if (!shouldApplyToParts()) {
       selectParents = "(" + selection + " AND " + KEY_PARENTID + " IS NULL)";
@@ -155,14 +154,14 @@ public class Criteria implements Parcelable {
     }
     return "(" + selectParents + " OR  exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
         + " WHERE parents." + KEY_ROWID
-        + " = " + DatabaseConstants.VIEW_EXTENDED + "." + KEY_PARENTID + " AND parents." + selection + "))";
+        + " = " + tableName + "." + KEY_PARENTID + " AND parents." + selection + "))";
   }
 
-  public String getSelectionForParts() {
-    return applyToSplitParents(getSelection());
+  public String getSelectionForParts(String tableName) {
+    return applyToSplitParents(getSelection(),tableName);
   }
-  public String getSelectionForParents() {
-    return applyToSplitParts(getSelection());
+  public String getSelectionForParents(String tableName) {
+    return applyToSplitParts(getSelection(),tableName);
   }
 
   protected boolean shouldApplyToParts() {

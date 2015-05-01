@@ -170,7 +170,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
         a.reset(filter);
       }
       else {
-        a.markAsExported();
+        a.markAsExported(filter);
       }
     }
     return getResult();

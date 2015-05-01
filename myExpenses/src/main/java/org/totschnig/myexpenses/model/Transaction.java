@@ -109,12 +109,15 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED[baseLength+1] = TRANSFER_PEER_PARENT +" AS transfer_peer_parent";
   }
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
+  public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(
+      TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
+
 
   public enum CrStatus {
     UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
     public int color;
     public String symbol;
-    private CrStatus(int color,String symbol) {
+    CrStatus(int color,String symbol) {
       this.color = color;
       this.symbol = symbol;
     }

@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
@@ -668,10 +669,10 @@ public class Account extends Model {
     String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
     String[] selectionArgs = new String[] { String.valueOf(getId()) };
     if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents();
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
+    Cursor c = cr().query(Transaction.CONTENT_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"},
         selection,
         selectionArgs,
@@ -701,7 +702,7 @@ public class Account extends Model {
     }
     ops.add(updateTransferPeersForTransactionDelete(rowSelect,selectionArgs));
     ops.add(ContentProviderOperation.newDelete(
-        TransactionProvider.TRANSACTIONS_URI)
+        Transaction.CONTENT_URI)
         .withSelection(
               KEY_ROWID + " IN (" + rowSelect + ")",
               selectionArgs)
@@ -713,12 +714,18 @@ public class Account extends Model {
       e.printStackTrace();
     }
   }
-  public void markAsExported() {
+  public void markAsExported(WhereFilter filter) {
+    String selection = KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null";
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+    }
     ContentValues args = new ContentValues();
     args.put(KEY_STATUS, STATUS_EXPORTED);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null",
-        new String[] { String.valueOf(getId()) });
+    cr().update(Transaction.CONTENT_URI, args,
+        selection,
+        selectionArgs);
   }
 
   /**
@@ -744,7 +751,7 @@ public class Account extends Model {
         selectionArgs  = new String[] { String.valueOf(accountId) };
       }
     }
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
+    Cursor c = cr().query(Transaction.CONTENT_URI,
         new String[] {"max(" + KEY_STATUS + ")"}, selection, selectionArgs, null);
     c.moveToFirst();
     long result = c.getLong(0);
@@ -764,7 +771,7 @@ public class Account extends Model {
   private static String buildTransactionRowSelect(WhereFilter filter) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
     if (filter != null && !filter.isEmpty()) {
-      rowSelect += " AND " + filter.getSelectionForParents();
+      rowSelect += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
     }
     return rowSelect;
   }
@@ -774,7 +781,7 @@ public class Account extends Model {
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
-    return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+    return ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
         .withValues(args)
         .withSelection(
             KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
@@ -821,11 +828,11 @@ public class Account extends Model {
     if (notYetExportedP)
       selection += " AND " + KEY_STATUS + " = 0";
     if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents();
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     Cursor c = cr().query(
-        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build(),
+        Transaction.EXTENDED_URI,
         null,selection, selectionArgs, KEY_DATE);
     if (c.getCount() == 0) {
       c.close();
@@ -875,7 +882,7 @@ public class Account extends Model {
       Cursor splits = null, readCat;
       if (SPLIT_CATID.equals(catId)) {
         //split transactions take their full_label from the first split part
-        splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+        splits = cr().query(Transaction.CONTENT_URI,null,
             KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
         if (splits != null && splits.moveToFirst()) {
           readCat = splits;
@@ -1130,7 +1137,7 @@ public class Account extends Model {
   public void balance(boolean resetP) {
     ContentValues args = new ContentValues();
     args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
+    cr().update(Transaction.CONTENT_URI, args,
         KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
             KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
         new String[] { String.valueOf(getId()) });
@@ -1162,17 +1169,16 @@ public class Account extends Model {
       selectionArgs = new String[] { String.valueOf(getId()) };
     }
     if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents();
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
-    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     Cursor transactionCursor;
     DocumentFile outputFile = Utils.timeStampedFile(
         destDir,
         label.replaceAll("\\W", ""),
         "application/pdf", false);
     Document document = new Document();
-    transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
+    transactionCursor = cr().query(Transaction.EXTENDED_URI, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (transactionCursor.getCount() == 0) {
@@ -1249,13 +1255,13 @@ public class Account extends Model {
     String selection;
     String[] selectionArgs;
     if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts();
+      selection = filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
       selectionArgs = filter.getSelectionArgs(true);
     } else {
       selection = null;
       selectionArgs = null;
     }
-    Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+    Builder builder = Transaction.CONTENT_URI.buildUpon();
     builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
       .appendPath(grouping.name());
     if (getId() < 0) {
@@ -1400,7 +1406,7 @@ public class Account extends Model {
       } else {
         Long catId = DbUtils.getLongOrNull(transactionCursor,KEY_CATID);
         if (SPLIT_CATID.equals(catId)) {
-          Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+          Cursor splits = cr().query(Transaction.CONTENT_URI,null,
               KEY_PARENTID + " = "+transactionCursor.getLong(columnIndexRowId), null, null);
           splits.moveToFirst();
           catText = "";

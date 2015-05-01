@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -364,15 +365,14 @@ public class TransactionList extends ContextualActionBarFragment implements
     switch(id) {
     case TRANSACTION_CURSOR:
       if (!mFilter.isEmpty()) {
-        String selectionForParents = mFilter.getSelectionForParents();
+        String selectionForParents = mFilter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
         if (!selectionForParents.equals("")) {
           selection += " AND " + selectionForParents;
           selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
         }
       }
-      Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
       cursorLoader = new CursorLoader(getActivity(),
-          uri, null, selection + " AND " + KEY_PARENTID + " is null",
+          Transaction.EXTENDED_URI, null, selection + " AND " + KEY_PARENTID + " is null",
           selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
@@ -388,7 +388,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       selectionArgs = null;
       Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
       if (!mFilter.isEmpty()) {
-        selection = mFilter.getSelectionForParts();
+        selection = mFilter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
         if (!selection.equals("")) {
           selectionArgs = mFilter.getSelectionArgs(true);
           builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_IS_FILTERED, "1");
