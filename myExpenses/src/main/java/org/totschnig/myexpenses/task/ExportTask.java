@@ -167,7 +167,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     }
     for (Account a : successfullyExported) {
       if (deleteP) {
-        a.reset(false);
+        a.reset(filter);
       }
       else {
         a.markAsExported();
