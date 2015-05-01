@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
@@ -27,9 +28,10 @@ import android.support.v4.provider.DocumentFile;
 
 public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   public static final String KEY_FORMAT = "format";
-  public static final String KEY_DECIMAL_SEPARATOR = "decimalSeparator";
+  public static final String KEY_DECIMAL_SEPARATOR = "export_decimal_separator";
   public static final String KEY_NOT_YET_EXPORTED_P = "notYetExportedP";
   public static final String KEY_DELETE_P = "deleteP";
+  public static final String KEY_EXPORT_HANDLE_DELETED = "export_handle_deleted";
   private final TaskExecutionFragment taskExecutionFragment;
   //we store the label of the account as progress
   private String progress ="";
@@ -42,6 +44,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   private long accountId;
   private String currency;
   private String encoding;
+  private int handleDelete;
   private WhereFilter filter;
 
   /**
@@ -57,6 +60,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     decimalSeparator = extras.getChar(KEY_DECIMAL_SEPARATOR);
     encoding = extras.getString(TaskExecutionFragment.KEY_ENCODING);
     currency = extras.getString(KEY_CURRENCY);
+    handleDelete = extras.getInt(KEY_EXPORT_HANDLE_DELETED);
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");

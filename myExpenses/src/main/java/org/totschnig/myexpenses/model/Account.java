@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
@@ -535,7 +536,9 @@ public class Account extends Model {
       return;
     }
     ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-    ops.add(account.updateTransferPeersForTransactionDelete(buildTransactionRowSelect(false)));
+    ops.add(account.updateTransferPeersForTransactionDelete(
+        buildTransactionRowSelect(null),
+        new String[] { String.valueOf(account.getId()) }));
     ops.add(ContentProviderOperation.newDelete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
         .build());
@@ -547,7 +550,7 @@ public class Account extends Model {
    * returns an empty Account instance
    */
   public Account() {
-    this("",(long)0,"");
+    this("", (long) 0, "");
   }
   public static Currency getLocaleCurrency() {
     try {
@@ -631,38 +634,51 @@ public class Account extends Model {
     );
   }
   /**
-   * @return the sum of opening balance and all transactions for the account
+   * @return the sum of opening balance and all cleared and reconciled transactions for the account
    */
   public Money getClearedBalance() {
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(R.id.FILTER_STATUS_COMMAND,
+        new CrStatusCriteria(CrStatus.RECONCILED.name(),CrStatus.CLEARED.name()));
     return new Money(currency,
         openingBalance.getAmountMinor() +
-          getTransactionSum(
-              KEY_CR_STATUS + " IN " +
-                  "('" + CrStatus.RECONCILED.name() + "','" + CrStatus.CLEARED.name() + "')")
-    );
+          getTransactionSum(filter));
   }
   /**
-   * @return the sum of opening balance and all transactions for the account
+   * @return the sum of opening balance and all reconciled transactions for the account
    */
   public Money getReconciledBalance() {
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(R.id.FILTER_STATUS_COMMAND,
+        new CrStatusCriteria(CrStatus.RECONCILED.name()));
     return new Money(currency,
         openingBalance.getAmountMinor() +
-          getTransactionSum(
-              KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'")
-    );
+            getTransactionSum(filter));
+  }
+  /**
+   * @param filter if not null only transactions matched by current filter will be taken into account
+   *               if null all transactions are taken into account
+   * @return the sum of opening balance and all transactions for the account
+   */
+  public Money getFilteredBalance(WhereFilter filter) {
+    return new Money(currency,
+        openingBalance.getAmountMinor() +
+          getTransactionSum(filter));
   }
   /**
    * @return sum of all transcations
    */
-  public long getTransactionSum(String condition) {
+  public long getTransactionSum(WhereFilter filter) {
     String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
-    if (condition != null) {
-      selection += " AND " + condition;
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents();
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"},
         selection,
-        new String[] { String.valueOf(getId()) },
+        selectionArgs,
         null);
     c.moveToFirst();
     long result = c.getLong(0);
@@ -671,24 +687,28 @@ public class Account extends Model {
   }
   /**
    * deletes all expenses and set the new opening balance to the current balance
-   * @param reconciled if true only reconciled expenses will be deleted
+   * @param filter if not null only expenses matched by filter will be deleted
    */
-  public void reset(boolean reconciled) {
+  public void reset(WhereFilter filter) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-    long currentBalance = (reconciled ? getReconciledBalance() : getTotalBalance())
+    long currentBalance = (filter!=null ? getFilteredBalance(filter) : getTotalBalance())
         .getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
     ops.add(ContentProviderOperation.newUpdate(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
         .withValue(KEY_OPENING_BALANCE,currentBalance)
         .build());
-    String rowSelect = buildTransactionRowSelect(reconciled);
-    ops.add(updateTransferPeersForTransactionDelete(rowSelect));
+    String rowSelect = buildTransactionRowSelect(filter);
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
+    if (filter != null && !filter.isEmpty()) {
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+    }
+    ops.add(updateTransferPeersForTransactionDelete(rowSelect,selectionArgs));
     ops.add(ContentProviderOperation.newDelete(
         TransactionProvider.TRANSACTIONS_URI)
         .withSelection(
               KEY_ROWID + " IN (" + rowSelect + ")",
-              new String[] { String.valueOf(getId()) })
+              selectionArgs)
          .build());
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
@@ -742,14 +762,15 @@ public class Account extends Model {
     return result;
   }
 
-  private static String buildTransactionRowSelect(boolean reconciled) {
+  private static String buildTransactionRowSelect(WhereFilter filter) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
-    if (reconciled) {
-      rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    if (filter != null && !filter.isEmpty()) {
+      rowSelect += " AND " + filter.getSelectionForParents();
     }
     return rowSelect;
   }
-  private ContentProviderOperation updateTransferPeersForTransactionDelete(String rowSelect) {
+  private ContentProviderOperation updateTransferPeersForTransactionDelete(
+      String rowSelect,String[] selectionArgs) {
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
@@ -758,7 +779,7 @@ public class Account extends Model {
         .withValues(args)
         .withSelection(
             KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
-            new String[] { String.valueOf(getId()) })
+            selectionArgs)
         .build();
   }
 
@@ -1137,7 +1158,7 @@ public class Account extends Model {
       selection = KEY_ACCOUNTID + " = ?";
       selectionArgs = new String[] { String.valueOf(getId()) };
     }
-    if (!filter.isEmpty()) {
+    if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents();
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }

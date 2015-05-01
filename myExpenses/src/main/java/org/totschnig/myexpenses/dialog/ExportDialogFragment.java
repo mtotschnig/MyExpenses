@@ -67,9 +67,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
   AlertDialog mDialog;
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
-  static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
   static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
-  static final String PREFKEY_EXPORT_HANDLE_DELETED = "handle_deleted";
   static final int PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   static final int PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
   
@@ -167,7 +165,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
 
     separatorRBComma = (RadioButton) view.findViewById(R.id.comma);
     char separator = (char) MyApplication.getInstance().getSettings()
-        .getInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
+        .getInt(ExportTask.KEY_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
     if (separator==',') {
       separatorRBComma.setChecked(true);
     }
@@ -175,7 +173,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     handleDeletedGroup = (RadioGroup) view.findViewById(R.id.handle_deleted);
     handleDeletedRBUpdateBalance =(RadioButton) view.findViewById(R.id.update_balance);
     int handleDeletedPref = MyApplication.getInstance().getSettings()
-        .getInt(PREFKEY_EXPORT_HANDLE_DELETED, PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER);
+        .getInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER);
     if (handleDeletedPref==PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
       handleDeletedRBUpdateBalance.setChecked(true);
     }
@@ -222,8 +220,8 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
         .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
         .putString(PREFKEY_EXPORT_ENCODING, encoding)
-        .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator)
-        .putInt(PREFKEY_EXPORT_HANDLE_DELETED,handleDeleted));
+        .putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
+        .putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED,handleDeleted));
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     Result appDirStatus = Utils.checkAppDir();
@@ -240,9 +238,10 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putString(ExportTask.KEY_FORMAT, format);
       b.putBoolean(ExportTask.KEY_DELETE_P, deleteP);
       b.putBoolean(ExportTask.KEY_NOT_YET_EXPORTED_P,notYetExportedP);
-      b.putString(TaskExecutionFragment.KEY_DATE_FORMAT,dateFormat);
-      b.putChar(ExportTask.KEY_DECIMAL_SEPARATOR,decimalSeparator);
-      b.putString(TaskExecutionFragment.KEY_ENCODING,encoding);
+      b.putString(TaskExecutionFragment.KEY_DATE_FORMAT, dateFormat);
+      b.putChar(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator);
+      b.putString(TaskExecutionFragment.KEY_ENCODING, encoding);
+      b.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED,handleDeleted);
       if (Utils.checkAppFolderWarning()) {
         ((ConfirmationDialogListener) getActivity())
         .onPositive(b);
