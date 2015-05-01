@@ -26,10 +26,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.util.Result;
 
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 
@@ -162,7 +162,7 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.QIF, false);
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.QIF, false);
       assertTrue(result.success);
       export = (File) result.extra[0];
       compare(export,linesQIF);
@@ -170,6 +170,11 @@ public class ExportTest extends ModelTest  {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
   }
+
+  private DocumentFile getOutDir() {
+    return DocumentFile.fromFile(getContext().getCacheDir());
+  }
+
   //TODO: add split lines
   public void testExportCSV() {
     String[] linesCSV = new String[] {
@@ -190,7 +195,7 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
       assertTrue(result.success);
       export = (File) result.extra[0];
       compare(export,linesCSV);
@@ -218,7 +223,7 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',',"UTF-8");
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',',"UTF-8", null);
       assertTrue(result.success);
       export = (File) result.extra[0];
       compare(export,linesCSV);
@@ -235,13 +240,13 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       account1.markAsExported();
       export = (File) result.extra[0];
       export.delete();
       insertData2();
-      result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, true);
+      result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, true);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       export = (File) result.extra[0];
       compare(export,linesCSV);
