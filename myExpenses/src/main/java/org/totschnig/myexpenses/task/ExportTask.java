@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -40,6 +42,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   private long accountId;
   private String currency;
   private String encoding;
+  private WhereFilter filter;
 
   /**
    *
@@ -63,6 +66,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       format = ExportFormat.QIF;
     }
     accountId = extras.getLong(KEY_ROWID);
+    filter = new WhereFilter(extras.getSparseParcelableArray(TransactionList.KEY_FILTER));
     
   }
   String getProgress() {
@@ -135,7 +139,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       account = Account.getInstanceFromDb(id);
       publishProgress(account.label + " ...");
       try {
-        Result result = account.exportAll(destDir,format,notYetExportedP,dateFormat,decimalSeparator,encoding);
+        Result result = account.exportAll(destDir,format,notYetExportedP,dateFormat,decimalSeparator,encoding,filter);
         String progressMsg;
         if (result.extra != null) {
           progressMsg = MyApplication.getInstance().getString(result.getMessage(),

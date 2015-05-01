@@ -1205,6 +1205,8 @@ public class MyExpenses extends LaunchActivity implements
    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
    case R.id.START_EXPORT_COMMAND:
      mExportFormat = args.getString("format");
+     args.putSparseParcelableArray(TransactionList.KEY_FILTER,
+         getCurrentFragment().getFilterCriteria());
      getSupportFragmentManager().beginTransaction()
        .add(TaskExecutionFragment.newInstanceExport(args),
            "ASYNC_TASK")

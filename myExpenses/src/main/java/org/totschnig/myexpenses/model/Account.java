@@ -774,7 +774,7 @@ public class Account extends Model {
    * @throws IOException
    */
   public Result exportAll(DocumentFile destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8");
+    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8", null);
   }
   /**
    * writes transactions to export file
@@ -783,6 +783,7 @@ public class Account extends Model {
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
    * @param decimalSeparator
+   * @param filter
    * @return Result object indicating success, message, extra if not null contains uri
    * @throws IOException
    */
@@ -792,17 +793,25 @@ public class Account extends Model {
       boolean notYetExportedP,
       String dateFormat,
       char decimalSeparator,
-      String encoding)
+      String encoding,
+      WhereFilter filter)
       throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
-    String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
+    String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null";
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
     if (notYetExportedP)
       selection += " AND " + KEY_STATUS + " = 0";
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents();
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+    }
+    Cursor c = cr().query(
+        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build(),
+        null,selection, selectionArgs, KEY_DATE);
     if (c.getCount() == 0) {
       c.close();
       return new Result(false, R.string.no_exportable_expenses);
