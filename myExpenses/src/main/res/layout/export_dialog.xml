@@ -43,6 +43,7 @@
 
                 <TextView
                     style="@style/dialog_text"
+                    android:id="@+id/file_name_label"
                     android:layout_width="0dip"
                     android:layout_weight="1"
                     android:gravity="center_vertical"

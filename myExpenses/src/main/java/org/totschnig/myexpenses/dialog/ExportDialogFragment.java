@@ -215,6 +215,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     }
 
     warningTV.setText(warningText);
+    if (allP) {
+      ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
+    }
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
