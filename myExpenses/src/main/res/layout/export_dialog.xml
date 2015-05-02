@@ -46,6 +46,20 @@
                     android:layout_width="0dip"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:text="@string/file_name"/>
+
+                <EditText
+                    android:id="@+id/file_name"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/dialog_text"
+                    android:layout_width="0dip"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="@string/pref_export_format_title"/>
 
                 <RadioGroup

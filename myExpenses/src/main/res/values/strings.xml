@@ -549,5 +549,6 @@
   <string name="dialog_export_applied_to_filter">Only transactions matched by the current filter will be considered.</string>
   <string name="export_handle_deleted_update_balance">Create helper transaction</string>
   <string name="export_handle_deleted_create_helper">Update opening balance</string>
+  <string name="file_name">Filename</string>
 </resources>
 

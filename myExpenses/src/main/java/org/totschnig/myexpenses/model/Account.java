@@ -790,14 +790,16 @@ public class Account extends Model {
   }
 
   /**
-   * calls {@link #exportAll(DocumentFile, ExportFormat, boolean, String, char, String, WhereFilter)} with
+   * calls {@link #exportAll(DocumentFile, String, ExportFormat, boolean, String, char, String, WhereFilter)} with
+   * * fileName TEST
    * * date format "dd/MM/yyyy"
    * * encoding UTF-8
    * * decimal separator '.'
    * * WhereFilter null
+   * should only be used from unit tests
    */
   public Result exportAll(DocumentFile destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8", null);
+    return exportAll(destDir, "TEST",format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8", null);
   }
   /**
    * writes transactions to export file
@@ -812,6 +814,7 @@ public class Account extends Model {
    */
   public Result exportAll(
       DocumentFile destDir,
+      String fileName,
       ExportFormat format,
       boolean notYetExportedP,
       String dateFormat,
@@ -839,9 +842,9 @@ public class Account extends Model {
       return new Result(false, R.string.no_exportable_expenses);
     }
     //then we check if the destDir is writable
-    DocumentFile outputFile = Utils.timeStampedFile(
+    DocumentFile outputFile = Utils.newFile(
         destDir,
-        label.replaceAll("\\W", ""),
+        fileName,
         format.getMimeType(), true);
     if (outputFile == null) {
       c.close();

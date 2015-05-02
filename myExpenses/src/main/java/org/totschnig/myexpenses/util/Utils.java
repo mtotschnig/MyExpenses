@@ -337,15 +337,19 @@ public class Utils {
    * @param prefix
    * @param addExtension
    * @return creates a file object in parentDir, with a timestamp appended to
-   *         prefix as name
+   *         prefix as name, if the file already exists it appends a numeric
+   *         postfix
    */
   public static DocumentFile timeStampedFile(DocumentFile parentDir, String prefix,
                                              String mimeType, boolean addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
+    return newFile(parentDir,prefix + "-" + now,mimeType,addExtension);
+  }
+
+  public static DocumentFile newFile(DocumentFile parentDir, String base,
+                                             String mimeType, boolean addExtension) {
     int postfix = 0;
-    DocumentFile result;
-    String base = prefix + "-" + now;
     do {
       String name = base;
       if (postfix>0) {
@@ -355,18 +359,15 @@ public class Utils {
         name+="."+mimeType.split("/")[1];
       }
       if (parentDir.findFile(name)==null) {
-          return parentDir.createFile(mimeType, name);
+        return parentDir.createFile(mimeType, name);
       }
       postfix++;
     } while (true);
   }
 
-  public static DocumentFile timeStampedDirectory(DocumentFile parentDir, String prefix) {
-    String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
-        .format(new Date());
+
+  public static DocumentFile newDirectory(DocumentFile parentDir, String base) {
     int postfix = 0;
-    DocumentFile result;
-    String base = prefix + "-" + now;
     do {
       String name = base;
       if (postfix>0) {

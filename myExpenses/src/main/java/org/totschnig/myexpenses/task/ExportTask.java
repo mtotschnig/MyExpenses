@@ -3,12 +3,10 @@ package org.totschnig.myexpenses.task;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
@@ -32,6 +30,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   public static final String KEY_NOT_YET_EXPORTED_P = "notYetExportedP";
   public static final String KEY_DELETE_P = "deleteP";
   public static final String KEY_EXPORT_HANDLE_DELETED = "export_handle_deleted";
+  public static final String KEY_FILE_NAME = "file_name";
   private final TaskExecutionFragment taskExecutionFragment;
   //we store the label of the account as progress
   private String progress ="";
@@ -46,6 +45,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   private String encoding;
   private int handleDelete;
   private WhereFilter filter;
+  private String fileName;
 
   /**
    *
@@ -60,6 +60,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     decimalSeparator = extras.getChar(KEY_DECIMAL_SEPARATOR);
     encoding = extras.getString(TaskExecutionFragment.KEY_ENCODING);
     currency = extras.getString(KEY_CURRENCY);
+    fileName = extras.getString(KEY_FILE_NAME);
     handleDelete = extras.getInt(KEY_EXPORT_HANDLE_DELETED);
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
@@ -131,19 +132,17 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       return(null);
     }
     if (accountIds.length > 1) {
-      destDir = Utils.timeStampedDirectory(appDir, "export");
-      if (destDir.exists()) {
-        publishProgress(String.format(MyApplication.getInstance().getString(R.string.export_expenses_outputfile_exists), destDir.getName()));
-        return(null);
-      }
-    } else
+      destDir = Utils.newDirectory(appDir, fileName);
+    } else {
       destDir = appDir;
+    }
     ArrayList<Account> successfullyExported = new ArrayList<Account>();
     for (Long id : accountIds) {
       account = Account.getInstanceFromDb(id);
       publishProgress(account.label + " ...");
       try {
-        Result result = account.exportAll(destDir,format,notYetExportedP,dateFormat,decimalSeparator,encoding,filter);
+        String fileNameForAccount = accountIds.length > 1 ? account.label : fileName;
+        Result result = account.exportAll(destDir,fileNameForAccount,format,notYetExportedP,dateFormat,decimalSeparator,encoding,filter);
         String progressMsg;
         if (result.extra != null) {
           progressMsg = MyApplication.getInstance().getString(result.getMessage(),
