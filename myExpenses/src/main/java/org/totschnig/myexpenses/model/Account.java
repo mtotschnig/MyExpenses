@@ -691,9 +691,9 @@ public class Account extends Model {
    * @param handleDelete if equals {@link #EXPORT_HANDLE_DELETED_UPDATE_BALANCE} opening balance will
    *                     be adjusted to account for the deleted expenses,
    *                     if equals {@link #EXPORT_HANDLE_DELETED_CREATE_HELPER} a helper transaction
-   *                     will be created aggregating their value
+   * @param helperComment
    */
-  public void reset(WhereFilter filter, int handleDelete) {
+  public void reset(WhereFilter filter, int handleDelete, String helperComment) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentProviderOperation handleDeleteOperation;
     if (handleDelete==EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
@@ -705,7 +705,8 @@ public class Account extends Model {
           .build();
     } else {
       Transaction helper = new Transaction(this,getTransactionSum(filter));
-      helper.comment = "TODO";
+      helper.comment = helperComment;
+      helper.status = STATUS_HELPER;
       handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
         .withValues(helper.buildInitialValues()).build();
     }
@@ -1161,7 +1162,7 @@ public class Account extends Model {
             KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
         new String[] { String.valueOf(getId()) });
     if (resetP) {
-      reset(reconciledFilter(),EXPORT_HANDLE_DELETED_UPDATE_BALANCE);
+      reset(reconciledFilter(),EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     }
   }
 

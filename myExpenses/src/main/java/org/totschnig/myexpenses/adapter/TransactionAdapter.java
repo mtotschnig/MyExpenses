@@ -6,9 +6,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -145,7 +147,9 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       if (SPLIT_CATID.equals(catId))
         catText = MyApplication.getInstance().getString(R.string.split_transaction);
       else if (catId == null) {
-        catText = MyApplication.getInstance().getString(R.string.no_category_assigned);
+        if (c.getInt(c.getColumnIndex(KEY_STATUS)) != STATUS_HELPER) {
+          catText = MyApplication.getInstance().getString(R.string.no_category_assigned);
+        }
       } else {
         catText = getCatText(catText,c.getString(c.getColumnIndex(KEY_LABEL_SUB)));
       }
