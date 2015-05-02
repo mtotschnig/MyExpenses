@@ -520,4 +520,5 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_manage_stale_images_title">Imej kaku</string>
   <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
   <string name="menu_select_categories">Pilih kategori ditanda</string>
+  <string name="image_deleted">Gambar telah dipadamkan</string>
 </resources>
