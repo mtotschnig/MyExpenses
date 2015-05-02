@@ -69,8 +69,6 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
   static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
-  static final int PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
-  static final int PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
   
   public static final ExportDialogFragment newInstance(Long accountId,boolean isFiltered) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -204,8 +202,8 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     handleDeletedGroup = (RadioGroup) view.findViewById(R.id.handle_deleted);
     handleDeletedRBUpdateBalance =(RadioButton) view.findViewById(R.id.update_balance);
     int handleDeletedPref = MyApplication.getInstance().getSettings()
-        .getInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER);
-    if (handleDeletedPref==PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+        .getInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER);
+    if (handleDeletedPref==Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
       handleDeletedRBUpdateBalance.setChecked(true);
     }
 
@@ -247,7 +245,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
         '.' : ',';
     int handleDeleted = handleDeletedGroup.getCheckedRadioButtonId() == R.id.update_balance ?
-        PREFVALUE_EXPORT_HANDLE_DELETED_UPDATE_BALANCE : PREFVALUE_EXPORT_HANDLE_DELETED_CREATE_HELPER;
+        Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE : Account.EXPORT_HANDLE_DELETED_CREATE_HELPER;
     String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
     SharedPreferencesCompat.apply(
       MyApplication.getInstance().getSettings().edit()

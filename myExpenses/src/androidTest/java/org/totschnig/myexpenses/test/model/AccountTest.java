@@ -191,7 +191,7 @@ public class AccountTest extends ModelTest  {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6,count(account1.getId(),null));
-    account1.reset(null);
+    account1.reset(null,Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE);
     Account.clear();
     assertEquals(0,count(account1.getId(),null));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());

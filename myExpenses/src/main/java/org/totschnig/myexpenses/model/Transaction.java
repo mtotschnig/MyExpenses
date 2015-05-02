@@ -330,6 +330,7 @@ public class Transaction extends Model {
         if (c!=null) {
           if (c.moveToFirst()) {
             if (c.getLong(0) != catId) {
+              //category has been changed
               needIncreaseUsage = true;
             }
           }
@@ -338,32 +339,8 @@ public class Transaction extends Model {
       }
     }
     Uri uri;
-    Long payeeStore;
-    if (payeeId > 0) {
-      payeeStore = payeeId;
-    } else {
-      payeeStore = 
-        (payee != null && !payee.equals("")) ?
-        Payee.require(payee) :
-        null;
-    }
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_COMMENT, comment);
-    initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
-    //store in UTC
-    initialValues.put(KEY_DATE, date.getTime()/1000);
-
-    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
-    initialValues.put(KEY_CATID, getCatId());
-    initialValues.put(KEY_PAYEEID, payeeStore);
-    initialValues.put(KEY_METHODID, methodId);
-    initialValues.put(KEY_CR_STATUS,crStatus.name());
-    initialValues.put(KEY_ACCOUNTID, accountId);
-
-    savePicture(initialValues);
+    ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
-      initialValues.put(KEY_PARENTID, parentId);
-      initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri==null) {
         return null;
@@ -402,6 +379,39 @@ public class Transaction extends Model {
     }
     return uri;
   }
+
+  ContentValues buildInitialValues() {
+    ContentValues initialValues = new ContentValues();
+
+    Long payeeStore;
+    if (payeeId > 0) {
+      payeeStore = payeeId;
+    } else {
+      payeeStore =
+          (payee != null && !payee.equals("")) ?
+              Payee.require(payee) :
+              null;
+    }
+    initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
+    //store in UTC
+    initialValues.put(KEY_DATE, date.getTime()/1000);
+
+    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    initialValues.put(KEY_CATID, getCatId());
+    initialValues.put(KEY_PAYEEID, payeeStore);
+    initialValues.put(KEY_METHODID, methodId);
+    initialValues.put(KEY_CR_STATUS,crStatus.name());
+    initialValues.put(KEY_ACCOUNTID, accountId);
+
+    savePicture(initialValues);
+    if (getId() == 0) {
+      initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_STATUS, status);
+    }
+    return initialValues;
+  }
+
   private void throwExternalNotAvailable() {
     throw new ExternalStorageNotAvailableException();
   }

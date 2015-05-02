@@ -71,6 +71,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Account extends Model {
 
+  public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
+  public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
+
   public String label;
 
   public Money openingBalance;
@@ -683,18 +686,29 @@ public class Account extends Model {
     return result;
   }
   /**
-   * deletes all expenses and set the new opening balance to the current balance
+   * deletes all expenses and updates account according to value of handleDelete
    * @param filter if not null only expenses matched by filter will be deleted
+   * @param handleDelete if equals {@link #EXPORT_HANDLE_DELETED_UPDATE_BALANCE} opening balance will
+   *                     be adjusted to account for the deleted expenses,
+   *                     if equals {@link #EXPORT_HANDLE_DELETED_CREATE_HELPER} a helper transaction
+   *                     will be created aggregating their value
    */
-  public void reset(WhereFilter filter) {
+  public void reset(WhereFilter filter, int handleDelete) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    long currentBalance = (filter!=null ? getFilteredBalance(filter) : getTotalBalance())
-        .getAmountMinor();
-    openingBalance.setAmountMinor(currentBalance);
-    ops.add(ContentProviderOperation.newUpdate(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
-        .withValue(KEY_OPENING_BALANCE,currentBalance)
-        .build());
+    ContentProviderOperation handleDeleteOperation;
+    if (handleDelete==EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+      long currentBalance = getFilteredBalance(filter).getAmountMinor();
+      openingBalance.setAmountMinor(currentBalance);
+      handleDeleteOperation = ContentProviderOperation.newUpdate(
+          CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .withValue(KEY_OPENING_BALANCE, currentBalance)
+          .build();
+    } else {
+      Transaction helper = new Transaction(this,getTransactionSum(filter));
+      helper.comment = "TODO";
+      handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
+        .withValues(helper.buildInitialValues()).build();
+    }
     String rowSelect = buildTransactionRowSelect(filter);
     String[] selectionArgs = new String[] { String.valueOf(getId()) };
     if (filter != null && !filter.isEmpty()) {
@@ -707,6 +721,8 @@ public class Account extends Model {
               KEY_ROWID + " IN (" + rowSelect + ")",
               selectionArgs)
          .build());
+    //needs to be last, otherwise helper transaction would be deleted
+    ops.add(handleDeleteOperation);
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
@@ -1145,7 +1161,7 @@ public class Account extends Model {
             KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
         new String[] { String.valueOf(getId()) });
     if (resetP) {
-      reset(reconciledFilter());
+      reset(reconciledFilter(),EXPORT_HANDLE_DELETED_UPDATE_BALANCE);
     }
   }
 
