@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
@@ -34,9 +32,12 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -57,6 +58,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.RemoteException;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -68,6 +70,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Account extends Model {
+
+  public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
+  public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
 
   public String label;
 
@@ -137,7 +142,14 @@ public class Account extends Model {
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
-    QIF,CSV
+    QIF,CSV;
+    public String getMimeType() {
+      return "text/"+ getExtension();
+    }
+
+    public String getExtension() {
+      return name().toLowerCase(Locale.US);
+    }
   }
   
   public enum Type {
@@ -462,7 +474,7 @@ public class Account extends Model {
 
   public static int defaultColor = 0xff99CC00;
 
-  static HashMap<Long,Account> accounts = new HashMap<Long,Account>();
+  static HashMap<Long,Account> accounts = new HashMap<>();
   
   public static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
@@ -474,11 +486,10 @@ public class Account extends Model {
         new Exception("Error instantiating account "+id));*/
   }
   /**
-   * @param id
-   * @return Account object, if id == 0, the first entry in the accounts cache will be returned or
+   * @param id id of account to be retrieved, if id == 0, the first entry in the accounts cache will be returned or
    * if it is empty the account with the lowest id will be fetched from db,
    * if id < 0 we forward to AggregateAccount
-   * return null if no account with id exists in db
+   * @return Account object or null if no account with id exists in db
    */
   public static Account getInstanceFromDb(long id) {
     if (id < 0)
@@ -527,8 +538,10 @@ public class Account extends Model {
     if (account == null) {
       return;
     }
-    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-    ops.add(account.updateTransferPeersForTransactionDelete(buildTransactionRowSelect(false)));
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ops.add(account.updateTransferPeersForTransactionDelete(
+        buildTransactionRowSelect(null),
+        new String[] { String.valueOf(account.getId()) }));
     ops.add(ContentProviderOperation.newDelete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
         .build());
@@ -540,7 +553,7 @@ public class Account extends Model {
    * returns an empty Account instance
    */
   public Account() {
-    this("",(long)0,"");
+    this("", (long) 0, "");
   }
   public static Currency getLocaleCurrency() {
     try {
@@ -552,10 +565,10 @@ public class Account extends Model {
     }
   }
   /**
-   * @param label
-   * @param openingBalance
-   * @param description
-   * @return Account with currency from locale, of type CASH and with defaultColor
+   * Account with currency from locale, of type CASH and with defaultColor
+   * @param label the label
+   * @param openingBalance the opening balance
+   * @param description the description
    */
   public Account(String label, long openingBalance, String description) {
     this(label,getLocaleCurrency(),openingBalance,description,Type.CASH,defaultColor);
@@ -580,7 +593,7 @@ public class Account extends Model {
   }
   /**
    * extract information from Cursor and populate fields
-   * @param c
+   * @param c a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
    */
   protected void extract(Cursor c) {
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
@@ -624,38 +637,48 @@ public class Account extends Model {
     );
   }
   /**
-   * @return the sum of opening balance and all transactions for the account
+   * @return the sum of opening balance and all cleared and reconciled transactions for the account
    */
   public Money getClearedBalance() {
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(R.id.FILTER_STATUS_COMMAND,
+        new CrStatusCriteria(CrStatus.RECONCILED.name(),CrStatus.CLEARED.name()));
     return new Money(currency,
         openingBalance.getAmountMinor() +
-          getTransactionSum(
-              KEY_CR_STATUS + " IN " +
-                  "('" + CrStatus.RECONCILED.name() + "','" + CrStatus.CLEARED.name() + "')")
-    );
+          getTransactionSum(filter));
   }
   /**
-   * @return the sum of opening balance and all transactions for the account
+   * @return the sum of opening balance and all reconciled transactions for the account
    */
   public Money getReconciledBalance() {
     return new Money(currency,
         openingBalance.getAmountMinor() +
-          getTransactionSum(
-              KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'")
-    );
+            getTransactionSum(reconciledFilter()));
+  }
+  /**
+   * @param filter if not null only transactions matched by current filter will be taken into account
+   *               if null all transactions are taken into account
+   * @return the sum of opening balance and all transactions for the account
+   */
+  public Money getFilteredBalance(WhereFilter filter) {
+    return new Money(currency,
+        openingBalance.getAmountMinor() +
+          getTransactionSum(filter));
   }
   /**
    * @return sum of all transcations
    */
-  public long getTransactionSum(String condition) {
+  public long getTransactionSum(WhereFilter filter) {
     String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
-    if (condition != null) {
-      selection += " AND " + condition;
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
+    Cursor c = cr().query(Transaction.CONTENT_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"},
         selection,
-        new String[] { String.valueOf(getId()) },
+        selectionArgs,
         null);
     c.moveToFirst();
     long result = c.getLong(0);
@@ -663,26 +686,44 @@ public class Account extends Model {
     return result;
   }
   /**
-   * deletes all expenses and set the new opening balance to the current balance
-   * @param reconciled if true only reconciled expenses will be deleted
+   * deletes all expenses and updates account according to value of handleDelete
+   * @param filter if not null only expenses matched by filter will be deleted
+   * @param handleDelete if equals {@link #EXPORT_HANDLE_DELETED_UPDATE_BALANCE} opening balance will
+   *                     be adjusted to account for the deleted expenses,
+   *                     if equals {@link #EXPORT_HANDLE_DELETED_CREATE_HELPER} a helper transaction
+   * @param helperComment
    */
-  public void reset(boolean reconciled) {
-    ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-    long currentBalance = (reconciled ? getReconciledBalance() : getTotalBalance())
-        .getAmountMinor();
-    openingBalance.setAmountMinor(currentBalance);
-    ops.add(ContentProviderOperation.newUpdate(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
-        .withValue(KEY_OPENING_BALANCE,currentBalance)
-        .build());
-    String rowSelect = buildTransactionRowSelect(reconciled);
-    ops.add(updateTransferPeersForTransactionDelete(rowSelect));
+  public void reset(WhereFilter filter, int handleDelete, String helperComment) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ContentProviderOperation handleDeleteOperation;
+    if (handleDelete==EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+      long currentBalance = getFilteredBalance(filter).getAmountMinor();
+      openingBalance.setAmountMinor(currentBalance);
+      handleDeleteOperation = ContentProviderOperation.newUpdate(
+          CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .withValue(KEY_OPENING_BALANCE, currentBalance)
+          .build();
+    } else {
+      Transaction helper = new Transaction(this,getTransactionSum(filter));
+      helper.comment = helperComment;
+      helper.status = STATUS_HELPER;
+      handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
+        .withValues(helper.buildInitialValues()).build();
+    }
+    String rowSelect = buildTransactionRowSelect(filter);
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
+    if (filter != null && !filter.isEmpty()) {
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+    }
+    ops.add(updateTransferPeersForTransactionDelete(rowSelect,selectionArgs));
     ops.add(ContentProviderOperation.newDelete(
-        TransactionProvider.TRANSACTIONS_URI)
+        Transaction.CONTENT_URI)
         .withSelection(
               KEY_ROWID + " IN (" + rowSelect + ")",
-              new String[] { String.valueOf(getId()) })
+              selectionArgs)
          .build());
+    //needs to be last, otherwise helper transaction would be deleted
+    ops.add(handleDeleteOperation);
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
@@ -690,16 +731,22 @@ public class Account extends Model {
       e.printStackTrace();
     }
   }
-  public void markAsExported() {
+  public void markAsExported(WhereFilter filter) {
+    String selection = KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null";
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+    }
     ContentValues args = new ContentValues();
     args.put(KEY_STATUS, STATUS_EXPORTED);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null",
-        new String[] { String.valueOf(getId()) });
+    cr().update(Transaction.CONTENT_URI, args,
+        selection,
+        selectionArgs);
   }
 
   /**
-   * @param accountId
+   * @param accountId id of account or null
    * @return true if the account with id accountId has transactions marked as exported
    * if accountId is null returns true if any account has transactions marked as exported
    */
@@ -712,13 +759,16 @@ public class Account extends Model {
         AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);
         selection = KEY_ACCOUNTID +  " IN " +
             "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        if (aa == null) {
+          return false;
+        }
         selectionArgs = new String[]{aa.currency.getCurrencyCode()};
       } else {
         selection = KEY_ACCOUNTID + " = ?";
         selectionArgs  = new String[] { String.valueOf(accountId) };
       }
     }
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
+    Cursor c = cr().query(Transaction.CONTENT_URI,
         new String[] {"max(" + KEY_STATUS + ")"}, selection, selectionArgs, null);
     c.moveToFirst();
     long result = c.getLong(0);
@@ -735,39 +785,38 @@ public class Account extends Model {
     return result;
   }
 
-  private static String buildTransactionRowSelect(boolean reconciled) {
+  private static String buildTransactionRowSelect(WhereFilter filter) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
-    if (reconciled) {
-      rowSelect += " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'";
+    if (filter != null && !filter.isEmpty()) {
+      rowSelect += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
     }
     return rowSelect;
   }
-  private ContentProviderOperation updateTransferPeersForTransactionDelete(String rowSelect) {
+  private ContentProviderOperation updateTransferPeersForTransactionDelete(
+      String rowSelect,String[] selectionArgs) {
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
-    return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+    return ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
         .withValues(args)
         .withSelection(
             KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
-            new String[] { String.valueOf(getId()) })
+            selectionArgs)
         .build();
   }
 
   /**
-   * calls {@link #exportAll(File, ExportFormat, boolean)} with
+   * calls {@link #exportAll(DocumentFile, String, ExportFormat, boolean, String, char, String, WhereFilter)} with
+   * * fileName TEST
    * * date format "dd/MM/yyyy"
    * * encoding UTF-8
    * * decimal separator '.'
-   * @param destDir
-   * @param format
-   * @param notYetExportedP
-   * @return Result object
-   * @throws IOException
+   * * WhereFilter null
+   * should only be used from unit tests
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8");
+  public Result exportAll(DocumentFile destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
+    return exportAll(destDir, "TEST",format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8", null);
   }
   /**
    * writes transactions to export file
@@ -775,41 +824,54 @@ public class Account extends Model {
    * @param format QIF or CSV
    * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @param dateFormat format parseable by SimpleDateFormat class
-   * @param decimalSeparator 
-   * @return Result object indicating success, message and output file
+   * @param decimalSeparator , or .
+   * @param filter only transactions matched by filter will be considered
+   * @return Result object indicating success, message, extra if not null contains uri
    * @throws IOException
    */
   public Result exportAll(
-      File destDir,
+      DocumentFile destDir,
+      String fileName,
       ExportFormat format,
       boolean notYetExportedP,
       String dateFormat,
       char decimalSeparator,
-      String encoding)
+      String encoding,
+      WhereFilter filter)
       throws IOException {
-    SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat =  Utils.getDecimalFormat(currency, decimalSeparator);
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
-    String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
+    String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null";
+    String[] selectionArgs = new String[] { String.valueOf(getId()) };
     if (notYetExportedP)
       selection += " AND " + KEY_STATUS + " = 0";
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
-    if (c.getCount() == 0)
-      return new Result(false,R.string.no_exportable_expenses);
-    //then we check if the filename we construct already exists
-    File outputFile = new File(destDir,
-        label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + "." + format.name().toLowerCase(Locale.US));
-    if (outputFile.exists()) {
-      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
+      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+    }
+    Cursor c = cr().query(
+        Transaction.EXTENDED_URI,
+        null,selection, selectionArgs, KEY_DATE);
+    if (c.getCount() == 0) {
+      c.close();
+      return new Result(false, R.string.no_exportable_expenses);
+    }
+    //then we check if the destDir is writable
+    DocumentFile outputFile = Utils.newFile(
+        destDir,
+        fileName,
+        format.getMimeType(), true);
+    if (outputFile == null) {
+      c.close();
+      return new Result(false,R.string.app_dir_read_only, destDir.getUri());
     }
     c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
-        new FileOutputStream(outputFile),
+       cr().openOutputStream(outputFile.getUri()),
         encoding);
     switch (format) {
     case CSV:
@@ -840,9 +902,9 @@ public class Account extends Model {
       Cursor splits = null, readCat;
       if (SPLIT_CATID.equals(catId)) {
         //split transactions take their full_label from the first split part
-        splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+        splits = cr().query(Transaction.CONTENT_URI,null,
             KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        if (splits.moveToFirst()) {
+        if (splits != null && splits.moveToFirst()) {
           readCat = splits;
         } else {
           readCat = c;
@@ -883,6 +945,7 @@ public class Account extends Model {
       case CSV:
         //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+        PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
         sb.append("\n\"\";\"")
           .append(dateStr)
           .append("\";\"")
@@ -898,7 +961,7 @@ public class Account extends Model {
           .append("\";\"")
           .appendQ(comment)
           .append("\";\"")
-          .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getLabel())
+          .appendQ(method == null ? "" : method.getLabel())
           .append("\";\"")
           .append(status.symbol)
           .append("\";\"")
@@ -931,7 +994,7 @@ public class Account extends Model {
           }
       }
       out.write(sb.toString());
-      if (SPLIT_CATID.equals(catId)) {
+      if (SPLIT_CATID.equals(catId) && splits != null) {
         while( splits.getPosition() < splits.getCount() ) {
           transfer_peer = DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER);
           comment = DbUtils.getString(splits, KEY_COMMENT);
@@ -961,6 +1024,7 @@ public class Account extends Model {
           case CSV:
             //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
             Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+            PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
             sb.append("\n\"B\";\"")
               .append(dateStr)
               .append("\";\"")
@@ -976,7 +1040,7 @@ public class Account extends Model {
               .append("\";\"")
               .appendQ(comment)
               .append("\";\"")
-              .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getLabel())
+              .appendQ(method == null ? "" : method.getLabel())
               .append("\";");
             break;
           //QIF  
@@ -1002,7 +1066,7 @@ public class Account extends Model {
     }
     out.close();
     c.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
+    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
   }
   
   /**
@@ -1069,7 +1133,7 @@ public class Account extends Model {
         return false;
     } else if (!description.equals(other.description))
       return false;
-    if (getId() != other.getId())
+    if (!getId().equals(other.getId()))
       return false;
     if (label == null) {
       if (other.label != null)
@@ -1093,16 +1157,23 @@ public class Account extends Model {
   public void balance(boolean resetP) {
     ContentValues args = new ContentValues();
     args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
+    cr().update(Transaction.CONTENT_URI, args,
         KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
             KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
         new String[] { String.valueOf(getId()) });
     if (resetP) {
-      reset(true);
+      reset(reconciledFilter(),EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     }
   }
 
-  public Result print(File destDir, WhereFilter filter) throws IOException, DocumentException {
+  private WhereFilter reconciledFilter() {
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(R.id.FILTER_STATUS_COMMAND,
+        new CrStatusCriteria(CrStatus.RECONCILED.name()));
+    return filter;
+  }
+
+  public Result print(DocumentFile destDir, WhereFilter filter) throws IOException, DocumentException {
     long start = System.currentTimeMillis();
     Log.d("MyExpenses","Print start "+start);
     PdfHelper helper = new PdfHelper();
@@ -1117,18 +1188,17 @@ public class Account extends Model {
       selection = KEY_ACCOUNTID + " = ?";
       selectionArgs = new String[] { String.valueOf(getId()) };
     }
-    if (!filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents();
+    if (filter != null && !filter.isEmpty()) {
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
-    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     Cursor transactionCursor;
-    SimpleDateFormat now = new SimpleDateFormat("yyyMMdd-HHmmss",Locale.US);
-    File outputFile = new File(destDir,
-        label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + ".pdf");
+    DocumentFile outputFile = Utils.timeStampedFile(
+        destDir,
+        label.replaceAll("\\W", ""),
+        "application/pdf", false);
     Document document = new Document();
-    transactionCursor = cr().query(uri, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
+    transactionCursor = cr().query(Transaction.EXTENDED_URI, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (transactionCursor.getCount() == 0) {
@@ -1136,11 +1206,12 @@ public class Account extends Model {
       return new Result(false,R.string.no_exportable_expenses);
     }
     //then we check if the filename we construct already exists
-    if (outputFile.exists()) {
+    if (outputFile==null) {
       transactionCursor.close();
-      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
+      return new Result(false,R.string.app_dir_read_only,
+          FileUtils.getPath(MyApplication.getInstance(),destDir.getUri()));
     }
-    PdfWriter.getInstance(document, new FileOutputStream(outputFile));
+    PdfWriter.getInstance(document, cr().openOutputStream(outputFile.getUri()));
     Log.d("MyExpenses","All setup "+(System.currentTimeMillis()-start));
     document.open();
     Log.d("MyExpenses","Document open "+(System.currentTimeMillis()-start));
@@ -1152,7 +1223,7 @@ public class Account extends Model {
     Log.d("MyExpenses","List "+(System.currentTimeMillis()-start));
     transactionCursor.close();
     document.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
+    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
   }
 
   private void addMetaData(Document document) {
@@ -1204,13 +1275,13 @@ public class Account extends Model {
     String selection;
     String[] selectionArgs;
     if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts();
+      selection = filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
       selectionArgs = filter.getSelectionArgs(true);
     } else {
       selection = null;
       selectionArgs = null;
     }
-    Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+    Builder builder = Transaction.CONTENT_URI.buildUpon();
     builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
       .appendPath(grouping.name());
     if (getId() < 0) {
@@ -1355,7 +1426,7 @@ public class Account extends Model {
       } else {
         Long catId = DbUtils.getLongOrNull(transactionCursor,KEY_CATID);
         if (SPLIT_CATID.equals(catId)) {
-          Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+          Cursor splits = cr().query(Transaction.CONTENT_URI,null,
               KEY_PARENTID + " = "+transactionCursor.getLong(columnIndexRowId), null, null);
           splits.moveToFirst();
           catText = "";
@@ -1440,7 +1511,7 @@ public class Account extends Model {
   /**
    * Looks for an account with a label. WARNING: If several accounts have the same account, this
    * method fill return the first account retrieved in the cursor, order is undefined
-   * @param label
+   * @param label label of the account we want to retrieve
    * @return id or -1 if not found
    */
   public static long findAny(String label) {

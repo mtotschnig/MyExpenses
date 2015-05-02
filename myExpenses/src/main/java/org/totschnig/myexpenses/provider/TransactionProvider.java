@@ -45,7 +45,6 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
-  
 
   protected static TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
@@ -105,6 +104,8 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_IS_FILTERED = "isFiltered";
+  public static final String QUERY_PARAMETER_EXTENDED = "extended";
+  public static final String QUERY_PARAMETER_DISTINCT = "distinct";
 
   
   static final String TAG = "TransactionProvider";
@@ -175,9 +176,9 @@ public class TransactionProvider extends ContentProvider {
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
     case TRANSACTIONS:
-      boolean extended = uri.getQueryParameter("extended") != null;
+      boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
       qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
-      if (uri.getQueryParameter("distinct") != null) {
+      if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
         qb.setDistinct(true);
       }
       defaultOrderBy = KEY_DATE + " DESC";

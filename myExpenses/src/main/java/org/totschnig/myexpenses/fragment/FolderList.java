@@ -11,6 +11,8 @@ package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -18,18 +20,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.util.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FolderList extends ListFragment {
 
@@ -63,7 +69,17 @@ public class FolderList extends ListFragment {
     FolderBrowser ctx = (FolderBrowser) getActivity();
     switch (item.getItemId()) {
     case R.id.SELECT_COMMAND:
-      MyApplication.PrefKey.APP_DIR.putString(selectedFolder.getAbsolutePath());
+      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        try {
+          //on Kitkat secondary storage is reported as writable by File.canWrite(),
+          //although in fact it is not
+          File.createTempFile("test", null, selectedFolder).delete();
+        } catch (IOException e) {
+          Toast.makeText(ctx,getString(R.string.app_dir_read_only,selectedFolder.getPath()),Toast.LENGTH_SHORT).show();
+          break;
+        }
+      }
+      MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
       ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();
       break;

@@ -614,9 +614,10 @@ public class CategoryList extends ContextualActionBarFragment implements
     long parentId;
     String selection = "",accountSelector="",sortOrder=null;
     String[] selectionArgs,projection = null;
-    String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM "
-        + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES
-        + "." + KEY_ROWID + " OR " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
+    String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (" +
+        TABLE_CATEGORIES + "." + KEY_ROWID + ", " +
+        "(SELECT " + KEY_ROWID + " FROM "
+        + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + "))";
     String CHILD_COUNT_SELECT = "(select count(*) FROM " + TABLE_CATEGORIES
         + " subtree where " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ") as "
         + KEY_CHILD_COUNT;
@@ -659,8 +660,8 @@ public class CategoryList extends ContextualActionBarFragment implements
           KEY_LABEL,
           KEY_PARENTID,
           CHILD_COUNT_SELECT,
-          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+          "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+          "(select 1 FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
     }
     if (bundle == null) {

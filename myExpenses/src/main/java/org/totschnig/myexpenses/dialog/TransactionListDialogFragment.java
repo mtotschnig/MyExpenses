@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -124,9 +125,8 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     if (groupingClause!= null) {
       selection += " AND " + groupingClause;
     }
-    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build();
     return new CursorLoader(getActivity(),
-        uri, null, selection,
+        Transaction.EXTENDED_URI, null, selection,
         selectionArgs, null);
   }
 

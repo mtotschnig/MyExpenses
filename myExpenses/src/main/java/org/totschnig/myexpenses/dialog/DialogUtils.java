@@ -73,14 +73,6 @@ public class DialogUtils {
       }
     }).create();
   }
-  /**
-   * @param ctx
-   * @param accountId if null all accounts will be reset
-   */
-  public static void showWarningResetDialog(FragmentActivity ctx,Long accountId) {
-    ExportDialogFragment.newInstance(accountId)
-      .show(ctx.getSupportFragmentManager(),"WARNING_RESET");
-  }
 
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
     ctx.findViewById(android.R.id.content).setVisibility(View.GONE);

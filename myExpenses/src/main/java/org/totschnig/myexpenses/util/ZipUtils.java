@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -14,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -28,23 +30,22 @@ public class ZipUtils {
    * convenience method that allows to store the pictures into the backup
    * without copying them first
    * @param cacheDir
+   * @param destZipFile
    * @throws Exception
    */
-  public static void zipBackup(File cacheDir, File destZipFile) throws IOException {
-    ZipOutputStream zip = null;
-    FileOutputStream fileWriter = null;
+  public static void zipBackup(File cacheDir, DocumentFile destZipFile) throws IOException {
     /*
      * create the output stream to zip file result
      */
-    fileWriter = new FileOutputStream(destZipFile);
-    zip = new ZipOutputStream(fileWriter);
+    ZipOutputStream zip = new ZipOutputStream(MyApplication.getInstance().getContentResolver().openOutputStream(destZipFile.getUri()));
     /*
      * add the folder to the zip
      */
     addFileToZip("", MyApplication.getBackupDbFile(cacheDir), zip);
     addFileToZip("", MyApplication.getBackupPrefFile(cacheDir), zip);
     Cursor c= MyApplication.getInstance().getContentResolver()
-        .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("distinct","1").build(),
+        .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_DISTINCT,"1").build(),
             new String[]{DatabaseConstants.KEY_PICTURE_URI},
             DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL",
             null,null);

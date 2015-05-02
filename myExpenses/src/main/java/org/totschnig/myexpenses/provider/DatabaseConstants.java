@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 /**
@@ -158,6 +159,12 @@ public class DatabaseConstants {
    * split transaction (and its parts) that are currently edited
    */
   public static final int STATUS_UNCOMMITTED = 2;
+
+  /**
+   * a transaction that has been created as a result of an export
+   * with {@link Account#EXPORT_HANDLE_DELETED_CREATE_HELPER}
+   */
+  public static final int STATUS_HELPER = 3;
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";

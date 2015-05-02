@@ -102,12 +102,12 @@ public class QifParserTest extends AndroidTestCase {
       assertEquals(2, a.transactions.size());
       QifTransaction t = a.transactions.get(0);
       assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
-      assertEquals(1000, t.amount);
+      assertEquals(10.00F, t.amount.floatValue());
       assertEquals("P1", t.category);
 
       t = a.transactions.get(1);
       assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
-      assertEquals(-2056, t.amount);
+      assertEquals(-20.56F, t.amount.floatValue());
       assertEquals("P1:c1", t.category);
       assertEquals("Payee 1", t.payee);
       assertEquals("Some note here...", t.memo);
@@ -160,12 +160,12 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals(2, a.transactions.size());
         QifTransaction t = a.transactions.get(0);
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
-        assertEquals(1000, t.amount);
+        assertEquals(10.00F, t.amount.floatValue());
         assertEquals("P1", t.category);
 
         t = a.transactions.get(1);
         assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
-        assertEquals(-2056, t.amount);
+        assertEquals(-20.56F, t.amount.floatValue());
         assertEquals("P1:c1", t.category);
         assertEquals("Payee 1", t.payee);
         assertEquals("Some note here...", t.memo);
@@ -285,12 +285,12 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals(2, a.transactions.size());
         QifTransaction t = a.transactions.get(0);
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
-        assertEquals(1000, t.amount);
+        assertEquals(10.00F, t.amount.floatValue());
         assertEquals("P1", t.category);
 
         t = a.transactions.get(1);
         assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
-        assertEquals(-2056, t.amount);
+        assertEquals(-20.56F, t.amount.floatValue());
         assertEquals("P1:c1", t.category);
         assertEquals("Payee 1", t.payee);
         assertEquals("Some note here...", t.memo);
@@ -334,15 +334,15 @@ public class QifParserTest extends AndroidTestCase {
 
         QifTransaction t = a.transactions.get(0);
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
-        assertEquals(1000, t.amount);
+        assertEquals(10.00F, t.amount.floatValue());
 
         t = a.transactions.get(1);
         assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
-        assertEquals(-2345, t.amount);
+        assertEquals(-23.45F, t.amount.floatValue());
 
         t = a.transactions.get(2);
         assertEquals(DateTime.date(2011, 1, 1).atMidnight().asDate(), t.date);
-        assertEquals(-6780, t.amount);
+        assertEquals(-67.80F, t.amount.floatValue());
 
         a = p.accounts.get(1);
         assertEquals("My Bank Account", a.memo);
@@ -350,11 +350,11 @@ public class QifParserTest extends AndroidTestCase {
 
         t = a.transactions.get(0);
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
-        assertEquals(-2000, t.amount);
+        assertEquals(-20.00F, t.amount.floatValue());
 
         t = a.transactions.get(1);
         assertEquals(DateTime.date(2011, 1, 2).atMidnight().asDate(), t.date);
-        assertEquals(5400, t.amount);
+        assertEquals(54.00F, t.amount.floatValue());
     }
 
     public void test_should_parse_categories_directly_from_transactions() throws Exception {
@@ -428,25 +428,25 @@ public class QifParserTest extends AndroidTestCase {
 
         QifTransaction t = a.transactions.get(0);
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
-        assertEquals(1000, t.amount);
+        assertEquals(10.00F, t.amount.floatValue());
         assertEquals("P1", t.category);
         assertEquals("Class1", t.categoryClass);
 
         t = a.transactions.get(1);
         assertEquals(DateTime.date(2011, 2, 7).atMidnight().asDate(), t.date);
-        assertEquals(-2345, t.amount);
+        assertEquals(-23.45F, t.amount.floatValue());
         assertEquals("P1:c1", t.category);
         assertEquals("Class1", t.categoryClass);
 
         t = a.transactions.get(2);
         assertEquals(DateTime.date(2011, 1, 1).atMidnight().asDate(), t.date);
-        assertEquals(-6780, t.amount);
+        assertEquals(-67.80F, t.amount.floatValue());
         assertEquals("P1:c1", t.category);
         assertEquals("Class1:Subclass1", t.categoryClass);
 
         t = a.transactions.get(3);
         assertEquals(DateTime.date(2010, 1, 1).atMidnight().asDate(), t.date);
-        assertEquals(-120, t.amount);
+        assertEquals(-1.20F, t.amount.floatValue());
         assertEquals("Class2", t.categoryClass);
 
         assertEquals(3, p.classes.size());
@@ -484,7 +484,7 @@ public class QifParserTest extends AndroidTestCase {
         QifTransaction t = a.transactions.get(0);
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
         assertEquals("My Bank Account", t.toAccount);
-        assertEquals(2000, t.amount);
+        assertEquals(20.00F, t.amount.floatValue());
         assertNull(t.category);
 
         a = p.accounts.get(1);
@@ -497,7 +497,7 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date);
         assertEquals("My Cash Account", t.toAccount);
         assertEquals("Vacation", t.categoryClass);
-        assertEquals(-2000, t.amount);
+        assertEquals(-20.00F, t.amount.floatValue());
         assertNull(t.category);
 
         assertEquals(1, p.classes.size());
@@ -529,24 +529,24 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals(1, a.transactions.size());
 
         QifTransaction t = a.transactions.get(0);
-        assertEquals(-260066, t.amount);
+        assertEquals(-2600.66F, t.amount.floatValue());
         assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), t.date);
         assertEquals(3, t.splits.size());
 
         QifTransaction s = t.splits.get(0);
         assertEquals("A:A1", s.category);
-        assertEquals(-110056, s.amount);
+        assertEquals(-1100.56F, s.amount.floatValue());
         assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date);
         assertEquals("Note on first split", s.memo);
 
         s = t.splits.get(1);
         assertEquals("A:A2", s.category);
-        assertEquals(-100000, s.amount);
+        assertEquals(-1000.00F, s.amount.floatValue());
         assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date);
 
         s = t.splits.get(2);
         assertEquals("<NO_CATEGORY>", s.category);
-        assertEquals(50010, s.amount);
+        assertEquals(500.10F, s.amount.floatValue());
         assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date);
         assertEquals("Note on third split", s.memo);
     }
@@ -585,18 +585,18 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals(1, a.transactions.size());
 
         QifTransaction t = a.transactions.get(0);
-        assertEquals(-210000, t.amount);
+        assertEquals(-2100.00F, t.amount.floatValue());
         assertEquals(2, t.splits.size());
 
         QifTransaction s = t.splits.get(0);
         assertEquals("A:A1", s.category);
-        assertEquals(-110000, s.amount);
+        assertEquals(-1100.00F, s.amount.floatValue());
         assertEquals("Note on first split", s.memo);
 
         s = t.splits.get(1);
         assertTrue(s.isTransfer());
         assertEquals("My Bank Account", s.toAccount);
-        assertEquals(-100000, s.amount);
+        assertEquals(-1000.00F, s.amount.floatValue());
 
         a = p.accounts.get(1);
         assertEquals("My Bank Account", a.memo);
@@ -606,7 +606,7 @@ public class QifParserTest extends AndroidTestCase {
         t = a.transactions.get(0);
         assertTrue(t.isTransfer());
         assertEquals("My Cash Account", t.toAccount);
-        assertEquals(100000, t.amount);
+        assertEquals(1000.00F, t.amount.floatValue());
     }
     public void test_should_not_add_cat_if_cat_list_is_empty() throws Exception {
       parseQif(

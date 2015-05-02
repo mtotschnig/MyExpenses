@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
@@ -56,7 +57,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-//import org.totschnig.myexpenses.util.Distrib;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -78,6 +79,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -572,7 +575,8 @@ public class MyExpenses extends LaunchActivity implements
       if (tl != null && tl.hasItems) {
         Result appDirStatus = Utils.checkAppDir();
         if (appDirStatus.success) {
-          DialogUtils.showWarningResetDialog(this, mAccountId);
+          ExportDialogFragment.newInstance(mAccountId,tl.isFiltered())
+              .show(this.getSupportFragmentManager(),"WARNING_RESET");
         } else {
           Toast.makeText(getBaseContext(),
               appDirStatus.print(this),
@@ -663,7 +667,9 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.OPEN_PDF_COMMAND:
         i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
-        i.setDataAndType(Uri.fromFile((File) tag), "application/pdf");
+        Uri data = Uri.parse((String) tag);
+        Log.d("DEBUG", data.toString());
+        i.setDataAndType(data, "application/pdf");
         if (!Utils.isIntentAvailable(this,i)) {
           Toast.makeText(this,R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
         } else {
@@ -938,7 +944,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       break;
     case TaskExecutionFragment.TASK_EXPORT:
-      ArrayList<File> files = (ArrayList<File>) o;
+      ArrayList<Uri> files = (ArrayList<Uri>) o;
       if (files != null && files.size() >0)
         Utils.share(this,files,
             MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
@@ -950,8 +956,8 @@ public class MyExpenses extends LaunchActivity implements
         recordUsage(ContribFeature.PRINT);
         MessageDialogFragment f = MessageDialogFragment.newInstance(
             0,
-            result.print(this),
-            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,(File) result.extra[0]),
+            getString(result.getMessage(), FileUtils.getPath(this, (Uri) result.extra[0])),
+            new MessageDialogFragment.Button(R.string.menu_open,R.id.OPEN_PDF_COMMAND,((Uri) result.extra[0]).toString()),
             null,
             MessageDialogFragment.Button.nullButton(android.R.string.cancel));
         f.setCancelable(false);
@@ -1207,6 +1213,8 @@ public class MyExpenses extends LaunchActivity implements
    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
    case R.id.START_EXPORT_COMMAND:
      mExportFormat = args.getString("format");
+     args.putSparseParcelableArray(TransactionList.KEY_FILTER,
+         getCurrentFragment().getFilterCriteria());
      getSupportFragmentManager().beginTransaction()
        .add(TaskExecutionFragment.newInstanceExport(args),
            "ASYNC_TASK")

@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -58,21 +59,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExportDialogFragment extends CommitSafeDialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
+  private static final String KEY_IS_FILTERED = "is_filtered";
+  RadioGroup handleDeletedGroup;
   CheckBox notYetExportedCB,deleteCB;
-  RadioButton formatRB, separatorRB;
+  RadioButton formatRBCSV, separatorRBComma, handleDeletedRBUpdateBalance;
   TextView warningTV;
-  EditText dateFormatET;
+  EditText dateFormatET, fileNameET;
   AlertDialog mDialog;
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
-  static final String PREFKEY_EXPORT_DECIMAL_SEPARATOR = "export_decimal_separator";
   static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
   
-  public static final ExportDialogFragment newInstance(Long accountId) {
+  public static final ExportDialogFragment newInstance(Long accountId,boolean isFiltered) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
     if (accountId != null) {
       Bundle bundle = new Bundle();
       bundle.putLong(KEY_ACCOUNTID, accountId);
+      bundle.putBoolean(KEY_IS_FILTERED,isFiltered);
       dialogFragment.setArguments(bundle);
     }
     return dialogFragment;
@@ -87,25 +90,38 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
     boolean allP = false, hasExported;
     String warningText;
+    String fileName;
+    String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+        .format(new Date());
+
     if (accountId == null) {
       allP = true;
       warningText = getString(R.string.warning_reset_account_all);
       //potential Strict mode violation (currently exporting all accounts with different currencies is not active in the UI)
       hasExported = Account.getHasExported(null);
+      fileName = "export" + "-" + now;
     } else {
       Account a = Account.getInstanceFromDb(accountId);
       hasExported = ctx.hasExported();
       if (accountId < 0L) {
         allP = true;
         currency = a.currency.getCurrencyCode();
+        fileName = "export" + "-" + currency + "-" + now;
         warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
       } else {
+        fileName = a.label + "-" + now;
         warningText = getString(R.string.warning_reset_account);
       }
     }
 
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
+
+
+    if (args.getBoolean(KEY_IS_FILTERED)) {
+      view.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
+      warningText = getString(R.string.warning_reset_account_matched);
+    }
 
     dateFormatET = (EditText) view.findViewById(R.id.date_format);
     String dateFormatDefault =
@@ -122,18 +138,41 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       }
     }
     dateFormatET.setText(dateFormat);
-    dateFormatET.addTextChangedListener(new TextWatcher(){
+    dateFormatET.addTextChangedListener(new TextWatcher() {
       public void afterTextChanged(Editable s) {
         try {
-          new SimpleDateFormat(s.toString(),Locale.US);
+          new SimpleDateFormat(s.toString(), Locale.US);
           mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
         } catch (IllegalArgumentException e) {
           dateFormatET.setError(getString(R.string.date_format_illegal));
           mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         }
       }
-      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-      public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
+
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      }
+    });
+
+    fileNameET = (EditText) view.findViewById(R.id.file_name);
+    fileNameET.setText(fileName);
+    fileNameET.addTextChangedListener(new TextWatcher() {
+      public void afterTextChanged(Editable s) {
+        if (s.toString().length() > 0) {
+          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+        } else {
+          fileNameET.setError(getString(R.string.no_title_given));
+          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        }
+      }
+
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
+
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      }
     });
 
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
@@ -147,19 +186,26 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
           .indexOf(encoding));
 
-    formatRB = (RadioButton) view.findViewById(R.id.csv);
+    formatRBCSV = (RadioButton) view.findViewById(R.id.csv);
     String format = MyApplication.PrefKey.EXPORT_FORMAT.getString("QIF");
     if (format.equals("CSV")) {
-      formatRB.setChecked(true);
+      formatRBCSV.setChecked(true);
     }
 
-    separatorRB = (RadioButton) view.findViewById(R.id.comma);
+    separatorRBComma = (RadioButton) view.findViewById(R.id.comma);
     char separator = (char) MyApplication.getInstance().getSettings()
-        .getInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
+        .getInt(ExportTask.KEY_DECIMAL_SEPARATOR,Utils.getDefaultDecimalSeparator());
     if (separator==',') {
-      separatorRB.setChecked(true);
+      separatorRBComma.setChecked(true);
     }
-      
+
+    handleDeletedGroup = (RadioGroup) view.findViewById(R.id.handle_deleted);
+    handleDeletedRBUpdateBalance =(RadioButton) view.findViewById(R.id.update_balance);
+    int handleDeletedPref = MyApplication.getInstance().getSettings()
+        .getInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER);
+    if (handleDeletedPref==Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+      handleDeletedRBUpdateBalance.setChecked(true);
+    }
 
     deleteCB.setOnCheckedChangeListener(this);
     if (hasExported) {
@@ -168,6 +214,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     }
 
     warningTV.setText(warningText);
+    if (allP) {
+      ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
+    }
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
@@ -192,18 +241,22 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     AlertDialog dlg = (AlertDialog) dialog;
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
         "CSV" : "QIF";
-    String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
+    String dateFormat = dateFormatET.getText().toString();
     char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
         '.' : ',';
+    int handleDeleted = handleDeletedGroup.getCheckedRadioButtonId() == R.id.update_balance ?
+        Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE : Account.EXPORT_HANDLE_DELETED_CREATE_HELPER;
     String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
     SharedPreferencesCompat.apply(
       MyApplication.getInstance().getSettings().edit()
         .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
         .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
         .putString(PREFKEY_EXPORT_ENCODING, encoding)
-        .putInt(PREFKEY_EXPORT_DECIMAL_SEPARATOR, decimalSeparator));
-    boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
-    boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
+        .putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
+        .putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED,handleDeleted));
+    boolean deleteP = deleteCB.isChecked();
+    boolean notYetExportedP =  notYetExportedCB.isChecked();
+    String fileName = fileNameET.getText().toString();
     Result appDirStatus = Utils.checkAppDir();
     if (appDirStatus.success) {
       Bundle b = new Bundle();
@@ -218,9 +271,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putString(ExportTask.KEY_FORMAT, format);
       b.putBoolean(ExportTask.KEY_DELETE_P, deleteP);
       b.putBoolean(ExportTask.KEY_NOT_YET_EXPORTED_P,notYetExportedP);
-      b.putString(TaskExecutionFragment.KEY_DATE_FORMAT,dateFormat);
-      b.putChar(ExportTask.KEY_DECIMAL_SEPARATOR,decimalSeparator);
-      b.putString(TaskExecutionFragment.KEY_ENCODING,encoding);
+      b.putString(TaskExecutionFragment.KEY_DATE_FORMAT, dateFormat);
+      b.putChar(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator);
+      b.putString(TaskExecutionFragment.KEY_ENCODING, encoding);
+      b.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
+      b.putString(ExportTask.KEY_FILE_NAME,fileName);
       if (Utils.checkAppFolderWarning()) {
         ((ConfirmationDialogListener) getActivity())
         .onPositive(b);
@@ -259,10 +314,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       notYetExportedCB.setEnabled(false);
       notYetExportedCB.setChecked(false);
       warningTV.setVisibility(View.VISIBLE);
+      handleDeletedGroup.setVisibility(View.VISIBLE);
     } else {
       notYetExportedCB.setEnabled(true);
       notYetExportedCB.setChecked(true);
       warningTV.setVisibility(View.GONE);
+      handleDeletedGroup.setVisibility(View.GONE);
     }
   }
 

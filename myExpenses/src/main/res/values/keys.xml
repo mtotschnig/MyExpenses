@@ -93,4 +93,6 @@
   <string name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
   <string name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
   <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
+    <string name="io_error_appdir_null">No folder for storing backup found</string>
+    <string name="io_error_cachedir_null">Cache directory not found</string>
 </resources>

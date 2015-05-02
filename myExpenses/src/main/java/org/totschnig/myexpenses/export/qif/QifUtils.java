@@ -109,7 +109,6 @@ public class QifUtils {
         String sMoney = money;
 
         if (sMoney != null) {
-            BigDecimal bdMoney;
             sMoney = sMoney.trim(); // to be safe
             try {
                 return new BigDecimal(sMoney);

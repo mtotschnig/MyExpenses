@@ -101,20 +101,24 @@ public class Transaction extends Model {
         WEEK_END +" AS " + KEY_WEEK_END
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength+2];
+    PROJECTION_EXTENDED = new String[baseLength+3];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
     //thus can not be used in PROJECTION_BASE
     PROJECTION_EXTENDED[baseLength+1] = TRANSFER_PEER_PARENT +" AS transfer_peer_parent";
+    PROJECTION_EXTENDED[baseLength+2] = KEY_STATUS;
   }
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
+  public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(
+      TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
+
 
   public enum CrStatus {
     UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
     public int color;
     public String symbol;
-    private CrStatus(int color,String symbol) {
+    CrStatus(int color,String symbol) {
       this.color = color;
       this.symbol = symbol;
     }
@@ -327,6 +331,7 @@ public class Transaction extends Model {
         if (c!=null) {
           if (c.moveToFirst()) {
             if (c.getLong(0) != catId) {
+              //category has been changed
               needIncreaseUsage = true;
             }
           }
@@ -335,32 +340,8 @@ public class Transaction extends Model {
       }
     }
     Uri uri;
-    Long payeeStore;
-    if (payeeId > 0) {
-      payeeStore = payeeId;
-    } else {
-      payeeStore = 
-        (payee != null && !payee.equals("")) ?
-        Payee.require(payee) :
-        null;
-    }
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_COMMENT, comment);
-    initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
-    //store in UTC
-    initialValues.put(KEY_DATE, date.getTime()/1000);
-
-    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
-    initialValues.put(KEY_CATID, getCatId());
-    initialValues.put(KEY_PAYEEID, payeeStore);
-    initialValues.put(KEY_METHODID, methodId);
-    initialValues.put(KEY_CR_STATUS,crStatus.name());
-    initialValues.put(KEY_ACCOUNTID, accountId);
-
-    savePicture(initialValues);
+    ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
-      initialValues.put(KEY_PARENTID, parentId);
-      initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri==null) {
         return null;
@@ -399,6 +380,39 @@ public class Transaction extends Model {
     }
     return uri;
   }
+
+  ContentValues buildInitialValues() {
+    ContentValues initialValues = new ContentValues();
+
+    Long payeeStore;
+    if (payeeId > 0) {
+      payeeStore = payeeId;
+    } else {
+      payeeStore =
+          (payee != null && !payee.equals("")) ?
+              Payee.require(payee) :
+              null;
+    }
+    initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
+    //store in UTC
+    initialValues.put(KEY_DATE, date.getTime()/1000);
+
+    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    initialValues.put(KEY_CATID, getCatId());
+    initialValues.put(KEY_PAYEEID, payeeStore);
+    initialValues.put(KEY_METHODID, methodId);
+    initialValues.put(KEY_CR_STATUS,crStatus.name());
+    initialValues.put(KEY_ACCOUNTID, accountId);
+
+    savePicture(initialValues);
+    if (getId() == 0) {
+      initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_STATUS, status);
+    }
+    return initialValues;
+  }
+
   private void throwExternalNotAvailable() {
     throw new ExternalStorageNotAvailableException();
   }

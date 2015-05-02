@@ -26,10 +26,11 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.util.Result;
 
+import android.net.Uri;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 
@@ -50,7 +51,7 @@ public class ExportTest extends ModelTest  {
       
   Long cat1Id, cat2Id;
   String date = new SimpleDateFormat("dd/MM/yyyy",Locale.US).format(new Date());
-  File export;
+  Uri export;
   private void insertData1() {
     Transaction op;
     account1 = new Account("Account 1",openingBalance,"Account 1");
@@ -162,14 +163,19 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.QIF, false);
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.QIF, false);
       assertTrue(result.success);
-      export = (File) result.extra[0];
-      compare(export,linesQIF);
+      export = (Uri) result.extra[0];
+      compare(new File(export.getPath()),linesQIF);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
   }
+
+  private DocumentFile getOutDir() {
+    return DocumentFile.fromFile(getContext().getCacheDir());
+  }
+
   //TODO: add split lines
   public void testExportCSV() {
     String[] linesCSV = new String[] {
@@ -190,10 +196,10 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
       assertTrue(result.success);
-      export = (File) result.extra[0];
-      compare(export,linesCSV);
+      export = (Uri) result.extra[0];
+      compare(new File(export.getPath()),linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
@@ -218,10 +224,10 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',',"UTF-8");
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',',"UTF-8", null);
       assertTrue(result.success);
-      export = (File) result.extra[0];
-      compare(export,linesCSV);
+      export = (Uri) result.extra[0];
+      compare(new File(export.getPath()),linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
@@ -235,16 +241,16 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
+      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
-      account1.markAsExported();
-      export = (File) result.extra[0];
-      export.delete();
+      account1.markAsExported(null);
+      export = (Uri) result.extra[0];
+      new File(export.getPath()).delete();
       insertData2();
-      result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, true);
+      result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, true);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
-      export = (File) result.extra[0];
-      compare(export,linesCSV);
+      export = (Uri) result.extra[0];
+      compare(new File(export.getPath()),linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
@@ -290,7 +296,7 @@ public class ExportTest extends ModelTest  {
   protected void tearDown() throws Exception {
     super.tearDown();
     if (export!=null) {
-      export.delete();
+      new File(export.getPath()).delete();
     }
   }
 }

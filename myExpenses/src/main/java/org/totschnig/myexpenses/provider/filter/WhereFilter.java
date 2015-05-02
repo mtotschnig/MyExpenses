@@ -28,14 +28,6 @@ import android.util.SparseArray;
 
 public class WhereFilter {
 
-  public static final String FILTER_EXTRA = "filter";
-  public static final String ID_EXTRA = "id";
-  public static final String SORT_ORDER_EXTRA = "sort_order";
-
-  public static final String FILTER_TITLE_PREF = "filterTitle";
-  public static final String FILTER_LENGTH_PREF = "filterLength";
-  public static final String FILTER_CRITERIA_PREF = "filterCriteria";
-  public static final String FILTER_SORT_ORDER_PREF = "filterSortOrder";
   public static final String LIKE_ESCAPE_CHAR = "\\";
 
   private SparseArray<Criteria> criterias= new SparseArray<Criteria>();
@@ -60,7 +52,7 @@ public class WhereFilter {
     return this;
   }
 
-  public String getSelectionForParents() {
+  public String getSelectionForParents(String tableName) {
     StringBuilder sb = new StringBuilder();
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
@@ -68,12 +60,12 @@ public class WhereFilter {
         if (sb.length() > 0) {
           sb.append(" AND ");
         }
-        sb.append(c.getSelectionForParents());
+        sb.append(c.getSelectionForParents(tableName));
       }
     }
     return sb.toString().trim();
   }
-  public String getSelectionForParts() {
+  public String getSelectionForParts(String tableName) {
     StringBuilder sb = new StringBuilder();
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
@@ -81,7 +73,7 @@ public class WhereFilter {
         if (sb.length() > 0) {
           sb.append(" AND ");
         }
-        sb.append(c.getSelectionForParts());
+        sb.append(c.getSelectionForParts(tableName));
       }
     }
     return sb.toString().trim();

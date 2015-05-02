@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 public class PrintTask extends AsyncTask<Void, String, Result> {
@@ -46,7 +47,7 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
   @Override
   protected Result doInBackground(Void... ignored) {
     Account account;
-    File appDir = Utils.requireAppDir();
+    DocumentFile appDir = Utils.getAppDir();
     if (appDir == null) {
       return new Result(false,R.string.external_storage_unavailable);
     }
@@ -57,7 +58,7 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
       Log.e("DEBUG","Error while printing",e);
       return new Result(false,
           R.string.export_expenses_sdcard_failure,
-          appDir.getAbsolutePath(),e.getMessage());
+          appDir.getName(),e.getMessage());
     }
   }
 }

@@ -115,7 +115,7 @@
         </activity>
         <activity android:name=".activity.MyPreferenceActivity">
             <intent-filter>
-                <action android:name="myexpenses.intent.help" />
+                <action android:name="myexpenses.intent.preference.password" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
          </activity>
@@ -123,9 +123,7 @@
             android:name=".activity.Help"
             android:theme="@style/Translucent.NoTitleBar">
             <intent-filter>
-                <action android:name="myexpenses.intent.import_qif" />
-
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>    
         </activity>
         <activity android:name=".activity.ManageParties" >
