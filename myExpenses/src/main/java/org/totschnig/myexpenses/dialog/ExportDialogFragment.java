@@ -120,8 +120,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     View view = li.inflate(R.layout.export_dialog, null);
 
 
-    if (!args.getBoolean(KEY_IS_FILTERED)) {
-      view.findViewById(R.id.with_filter).setVisibility(View.GONE);
+    if (args.getBoolean(KEY_IS_FILTERED)) {
+      view.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
+      warningText = getString(R.string.warning_reset_account_matched);
     }
 
     dateFormatET = (EditText) view.findViewById(R.id.date_format);
