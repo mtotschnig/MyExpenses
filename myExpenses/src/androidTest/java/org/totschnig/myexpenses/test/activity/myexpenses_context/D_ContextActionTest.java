@@ -11,29 +11,34 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.activity.MyExpensesTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 
 import com.robotium.solo.Solo;
 
 public class D_ContextActionTest extends MyExpensesTest {
+  Account account1;
 
-  public void setUp() throws Exception { 
+  public void setUp() throws Exception {
     super.setUp();
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
     
-    Fixture.setup(getInstrumentation(), Locale.getDefault(), Currency.getInstance("USD"),1);
+    setup(Locale.getDefault(), Currency.getInstance("USD"));
     setActivity(null);
     setActivityInitialTouchMode(false);
-    long accountId = Fixture.getAccount1().getId();
     Intent i = new Intent()
-      .putExtra(KEY_ROWID,accountId)
+      .putExtra(KEY_ROWID,account1.getId())
       .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses")
       ;
     setActivityIntent(i);
@@ -93,6 +98,7 @@ public class D_ContextActionTest extends MyExpensesTest {
     
   }
   private void setSelection() {
+    getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
     final StickyListHeadersListView listView = requireList();
     mActivity
     .runOnUiThread(new Runnable() {
@@ -104,5 +110,26 @@ public class D_ContextActionTest extends MyExpensesTest {
     getInstrumentation().waitForIdleSync();
     sleep();
   }
+  public void setup(Locale locale, Currency defaultCurrency) {
+    Context testContext = getInstrumentation().getContext();
+    Context appContext = getInstrumentation().getTargetContext().getApplicationContext();
+    Fixture.setUpCategories(locale,appContext);
 
+    account1 = new Account("TEST",0,"D_ContextActionTest");
+    account1.save();
+    Transaction op0 = Transaction.getNewInstance(account1.getId());
+    op0.amount = new Money(defaultCurrency,-1200L);
+    op0.save();
+    op0.saveAsNew();
+    op0.saveAsNew();
+    op0.saveAsNew();
+    op0.saveAsNew();
+    op0.saveAsNew();
+  }
+
+  @Override
+  public void tearDown() throws Exception {
+    Account.delete(account1.getId());
+    super.tearDown();
+  }
 }
