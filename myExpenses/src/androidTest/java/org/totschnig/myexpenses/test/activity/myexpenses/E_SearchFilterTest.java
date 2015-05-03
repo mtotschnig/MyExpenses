@@ -90,6 +90,7 @@ public class E_SearchFilterTest extends MyExpensesTest {
     mSolo.clickOnView(mSolo.getView(R.id.SELECT_COMMAND_MULTIPLE));
     assertTrue(mSolo.waitForActivity(MyExpenses.class.getSimpleName()));
     getInstrumentation().waitForIdleSync();
+    sleep();
     //after setting the filter only first category is visible
     assertEquals(1,list.getAdapter().getCount());
     assertTrue(searchInList(list, catLabel1));
