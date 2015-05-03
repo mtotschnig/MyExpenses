@@ -8,6 +8,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
@@ -63,45 +65,55 @@ public class E_SearchFilterTest extends MyActivityTest<MyExpenses> {
   }
   public void setUp() throws Exception {
     super.setUp();
-    app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
     setup(Locale.getDefault(), Currency.getInstance("USD"));
-    android.content.SharedPreferences pref = app.getSettings();
-    //make sure we have no filters sticking around
-    pref.edit().clear().commit();
-    getInstrumentation().waitForIdleSync();
-  }
-
-  public void testCatFilter() {
+    setActivity(null);
+    setActivityInitialTouchMode(false);
     Intent i = new Intent()
-        .putExtra(KEY_ROWID, account1.getId())
+        .putExtra(KEY_ROWID,account1.getId())
         .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses")
         ;
     setActivityIntent(i);
     mActivity = getActivity();
-    dismissWelcomeScreen();
-    //before setting the filter both categories are visible
-    assertTrue(mSolo.searchText(catLabel1));
-    assertTrue(mSolo.searchText(catLabel2));
+    mSolo = new Solo(getInstrumentation(), mActivity);
+    mSolo.waitForActivity(MyExpenses.class);
+  }
+
+  public void testCatFilter() {
+    StickyListHeadersListView list = ((StickyListHeadersListView) mActivity.getCurrentFragment().getView().findViewById(R.id.list));
+    assertEquals(2, list.getAdapter().getCount());
+    assertTrue(searchInList(list,catLabel1));
+    assertTrue(searchInList(list, catLabel2));
     clickOnActionBarItem("SEARCH");
     mSolo.clickOnText(mActivity.getString(R.string.category));
     assertTrue(mSolo.waitForActivity(ManageCategories.class.getSimpleName()));
     mSolo.clickLongOnText(catLabel1);
     mSolo.clickOnView(mSolo.getView(R.id.SELECT_COMMAND_MULTIPLE));
     assertTrue(mSolo.waitForActivity(MyExpenses.class.getSimpleName()));
+    getInstrumentation().waitForIdleSync();
     //after setting the filter only first category is visible
-    assertTrue(mSolo.searchText(catLabel1));
-    assertFalse(mSolo.searchText(catLabel2));
+    assertEquals(1,list.getAdapter().getCount());
+    assertTrue(searchInList(list, catLabel1));
+    assertFalse(searchInList(list, catLabel2));
+  }
+
+  private boolean searchInList(ViewGroup list,String text) {
+    for (TextView tv: mSolo.getCurrentViews(TextView.class,list)) {
+      if (tv.getText().toString().contains(text)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public void setup(Locale locale, Currency defaultCurrency) {
-    Context testContext = mInstrumentation.getContext();
-    Context appContext = mInstrumentation.getTargetContext().getApplicationContext();
+    Context testContext = getInstrumentation().getContext();
+    Context appContext = getInstrumentation().getTargetContext().getApplicationContext();
     Fixture.setUpCategories(locale,appContext);
 
-    account1 = Account.getInstanceFromDb(0);
-    account1.reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
+    account1 = new Account("TEST",0,"SearchFilterTest");
+    account1.save();
     catLabel1 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1MainCat);
     catLabel2 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction2MainCat);
     //Transaction 0 for D_ContextActionTest
