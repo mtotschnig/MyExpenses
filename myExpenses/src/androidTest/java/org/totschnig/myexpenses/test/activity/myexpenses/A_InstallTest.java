@@ -31,9 +31,7 @@ public class A_InstallTest extends MyActivityTest<MyExpenses> {
     mPager = (ViewPager) mActivity.findViewById(R.id.viewpager);
   }
   public void testDatabaseIsCreatedAndWelcomeDialogIsShown() {
-    assertTrue("Welcome Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_welcome)));
-    assertTrue("Close button not show",mSolo.searchButton(mContext.getString(android.R.string.ok), true));
-    mSolo.clickOnButton(mContext.getString(android.R.string.ok));
+    dismissWelcomeScreen();
     assertTrue("Empty view not shown", mSolo.searchText(mContext.getString(R.string.no_expenses)));
     mAdapter = (FragmentPagerAdapter) mPager.getAdapter();
     assertTrue(mAdapter != null);

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.activity.myexpenses;
 import android.app.Instrumentation;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
@@ -41,6 +42,8 @@ import java.util.Locale;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 
 /**
  * @author Michael Totschnig
@@ -53,18 +56,30 @@ public class E_SearchFilterTest extends MyActivityTest<MyExpenses> {
 
   Account account1;
   private String catLabel1, catLabel2;
+  private MyApplication app;
 
   public E_SearchFilterTest() {
     super(MyExpenses.class);
   }
   public void setUp() throws Exception {
     super.setUp();
+    app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
     setup(Locale.getDefault(), Currency.getInstance("USD"));
+    android.content.SharedPreferences pref = app.getSettings();
+    //make sure we have no filters sticking around
+    pref.edit().clear().commit();
   }
 
   public void testCatFilter() {
+    Intent i = new Intent()
+        .putExtra(KEY_ROWID, account1.getId())
+        .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses")
+        ;
+    setActivityIntent(i);
+    mActivity = getActivity();
+    dismissWelcomeScreen();
     //before setting the filter both categories are visible
     assertTrue(mSolo.searchText(catLabel1));
     assertTrue(mSolo.searchText(catLabel2));
@@ -85,6 +100,7 @@ public class E_SearchFilterTest extends MyActivityTest<MyExpenses> {
     Fixture.setUpCategories(locale,appContext);
 
     account1 = Account.getInstanceFromDb(0);
+    account1.reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     catLabel1 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1MainCat);
     catLabel2 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction2MainCat);
     //Transaction 0 for D_ContextActionTest
