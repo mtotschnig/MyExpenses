@@ -499,7 +499,9 @@ public class Account extends Model {
     if (id == 0) {
       if (accounts.size() > 0) {
         for (long _id: accounts.keySet()) {
-          return accounts.get(_id);
+          if (_id>0) {
+            return accounts.get(_id);
+          }
         }
       }
       selection += "(SELECT min(" + KEY_ROWID + ") FROM accounts)";
