@@ -62,9 +62,9 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   protected void clickOnActionBarItem(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
     assertTrue(command + " not found", resourceId!=0);
-    if (Build.VERSION.SDK_INT > 13) {
-      mSolo.clickOnActionBarItem(resourceId);
-    } else {
+//    if (Build.VERSION.SDK_INT > 13) {
+//      mSolo.clickOnActionBarItem(resourceId);
+//    } else {
       if (mSolo.waitForView(resourceId)) {
         mSolo.clickOnView(mSolo.getView(resourceId));
       } else {
@@ -72,7 +72,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
         mSolo.clickOnText(mContext.getString(
             mContext.getResources().getIdentifier("menu_"+command.toLowerCase(), "string", mContext.getPackageName())));
       }
-    }
+//    }
   }
   protected void invokeContextAction(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
