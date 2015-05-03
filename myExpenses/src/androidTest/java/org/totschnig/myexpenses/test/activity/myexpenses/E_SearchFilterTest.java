@@ -70,6 +70,7 @@ public class E_SearchFilterTest extends MyActivityTest<MyExpenses> {
     android.content.SharedPreferences pref = app.getSettings();
     //make sure we have no filters sticking around
     pref.edit().clear().commit();
+    getInstrumentation().waitForIdleSync();
   }
 
   public void testCatFilter() {
