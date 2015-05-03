@@ -22,6 +22,7 @@ import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
@@ -110,16 +111,7 @@ public class Fixture {
     account4 = new Account("ignored",foreignCurrency,0,"",Type.BANK,Account.defaultColor);
     account4.save();
     //set up categories
-    int sourceRes = appContext.getResources().getIdentifier("cat_"+locale.getLanguage(), "raw", appContext.getPackageName());
-    InputStream catXML;
-    try {
-      catXML = appContext.getResources().openRawResource(sourceRes);
-    } catch (NotFoundException e) {
-      catXML = appContext.getResources().openRawResource(org.totschnig.myexpenses.R.raw.cat_en);
-    }
-
-    Result result = Utils.analyzeGrisbiFileWithSAX(catXML);
-    Utils.importCats((CategoryTree) result.extra[0], null);
+    setUpCategories(locale, appContext);
     //set up transactions
     long now = System.currentTimeMillis();
     //are used twice
@@ -223,6 +215,20 @@ public class Fixture {
     if (templateuri == null)
       throw new RuntimeException("Could not save template");
   }
+
+  public static void setUpCategories(Locale locale, Context appContext) {
+    int sourceRes = appContext.getResources().getIdentifier("cat_"+locale.getLanguage(), "raw", appContext.getPackageName());
+    InputStream catXML;
+    try {
+      catXML = appContext.getResources().openRawResource(sourceRes);
+    } catch (NotFoundException e) {
+      catXML = appContext.getResources().openRawResource(org.totschnig.myexpenses.R.raw.cat_en);
+    }
+
+    Result result = Utils.analyzeGrisbiFileWithSAX(catXML);
+    Utils.importCats((CategoryTree) result.extra[0], null);
+  }
+
   public static long findCat(String label, Long parent) {
    Long result = Category.find(label,parent);
    if (result == -1) {

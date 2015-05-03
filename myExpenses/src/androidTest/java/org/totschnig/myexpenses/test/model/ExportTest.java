@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Result;
 
 import android.net.Uri;
@@ -35,6 +36,7 @@ import android.util.Log;
 
 
 public class ExportTest extends ModelTest  {
+  public static final String FILE_NAME = "TEST";
   Account account1, account2;
   Long openingBalance = 100L,
       expense1 = 10L, //status cleared
@@ -52,6 +54,14 @@ public class ExportTest extends ModelTest  {
   Long cat1Id, cat2Id;
   String date = new SimpleDateFormat("dd/MM/yyyy",Locale.US).format(new Date());
   Uri export;
+  private DocumentFile outDir;
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    outDir = DocumentFile.fromFile(getContext().getCacheDir());
+  }
+
   private void insertData1() {
     Transaction op;
     account1 = new Account("Account 1",openingBalance,"Account 1");
@@ -163,17 +173,13 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.QIF, false);
+      Result result = exportAll(account1, Account.ExportFormat.QIF, false);
       assertTrue(result.success);
       export = (Uri) result.extra[0];
       compare(new File(export.getPath()),linesQIF);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
-  }
-
-  private DocumentFile getOutDir() {
-    return DocumentFile.fromFile(getContext().getCacheDir());
   }
 
   //TODO: add split lines
@@ -196,7 +202,7 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
+      Result result = exportAll(account1, Account.ExportFormat.CSV, false);
       assertTrue(result.success);
       export = (Uri) result.extra[0];
       compare(new File(export.getPath()),linesCSV);
@@ -224,7 +230,8 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false, "M/d/yyyy",',',"UTF-8", null);
+      Result result = account1.exportWithFilter(outDir, FILE_NAME, Account.ExportFormat.CSV, false,
+          "M/d/yyyy", ',', "UTF-8", null);
       assertTrue(result.success);
       export = (Uri) result.extra[0];
       compare(new File(export.getPath()),linesCSV);
@@ -241,13 +248,13 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, false);
+      Result result = exportAll(account1,Account.ExportFormat.CSV, false);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       account1.markAsExported(null);
       export = (Uri) result.extra[0];
       new File(export.getPath()).delete();
       insertData2();
-      result = account1.exportAll(getOutDir(),Account.ExportFormat.CSV, true);
+      result = exportAll(account1,Account.ExportFormat.CSV, true);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       export = (Uri) result.extra[0];
       compare(new File(export.getPath()),linesCSV);
@@ -298,5 +305,17 @@ public class ExportTest extends ModelTest  {
     if (export!=null) {
       new File(export.getPath()).delete();
     }
+  }
+  /**
+   * calls {@link Account#exportWithFilter(DocumentFile, String, Account.ExportFormat, boolean, String, char, String, WhereFilter)} with
+   * * fileName TEST
+   * * date format "dd/MM/yyyy"
+   * * encoding UTF-8
+   * * decimal separator '.'
+   * * WhereFilter null
+   * should only be used from unit tests
+   */
+  private Result exportAll(Account account, Account.ExportFormat format, boolean notYetExportedP) throws IOException {
+    return account.exportWithFilter(outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", null);
   }
 }

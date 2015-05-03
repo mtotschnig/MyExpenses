@@ -96,5 +96,6 @@
   <item type="id" name="VIEW_COMMAND" />
   <item type="id" name="CHANGE_COMMAND" />
   <item type="id" name="SAVE_COMMAND" />
-    <item name="SELECT_COMMAND_MULTIPLE" type="id"/>
+  <item type="id" name="SEARCH_COMMAND" />
+  <item name="SELECT_COMMAND_MULTIPLE" type="id"/>
 </resources>
