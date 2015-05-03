@@ -142,7 +142,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       publishProgress(account.label + " ...");
       try {
         String fileNameForAccount = accountIds.length > 1 ? account.label : fileName;
-        Result result = account.exportAll(destDir,fileNameForAccount,format,notYetExportedP,dateFormat,decimalSeparator,encoding,filter);
+        Result result = account.exportWithFilter(destDir, fileNameForAccount, format, notYetExportedP, dateFormat, decimalSeparator, encoding, filter);
         String progressMsg;
         if (result.extra != null) {
           progressMsg = MyApplication.getInstance().getString(result.getMessage(),
