@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 
 
 /**
@@ -60,9 +61,9 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
   protected void clickOnActionBarItem(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
     assertTrue(command + " not found", resourceId!=0);
-//    if (Build.VERSION.SDK_INT > 13) {
-//      mSolo.clickOnActionBarItem(resourceId);
-//    } else {
+    if (Build.VERSION.SDK_INT > 14 && !ViewConfiguration.get(mContext).hasPermanentMenuKey()) {
+      mSolo.clickOnActionBarItem(resourceId);
+    } else {
       if (mSolo.waitForView(resourceId)) {
         mSolo.clickOnView(mSolo.getView(resourceId));
       } else {
