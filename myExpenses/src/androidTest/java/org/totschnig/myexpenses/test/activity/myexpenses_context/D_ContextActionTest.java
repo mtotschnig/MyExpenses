@@ -29,9 +29,9 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
-    mSolo = new Solo(mInstrumentation, mActivity);
+    mSolo = new Solo(getInstrumentation(), mActivity);
     
-    Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"),1);
+    Fixture.setup(getInstrumentation(), Locale.getDefault(), Currency.getInstance("USD"),1);
     setActivity(null);
     setActivityInitialTouchMode(false);
     long accountId = Fixture.getAccount1().getId();
@@ -48,7 +48,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     int itemsInList = requireList().getAdapter().getCount();
     setSelection();
     invokeContextAction("CLONE_TRANSACTION");
-    mInstrumentation.waitForIdleSync();
+    getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
     assertEquals(itemsInList+1, requireList().getAdapter().getCount());
@@ -77,7 +77,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     invokeContextAction("DELETE");
     assertTrue("Delete confirmation not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_warning_delete_transaction)));
     mSolo.clickOnButton(mContext.getString(R.string.menu_delete));
-    mInstrumentation.waitForIdleSync();
+    getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
     assertEquals(itemsInList-1, requireList().getAdapter().getCount());
@@ -89,7 +89,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
       assertTrue("Contrib Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_contrib_feature)));
       mSolo.clickOnText(mContext.getString(R.string.dialog_contrib_no));
     }
-    mInstrumentation.waitForIdleSync();
+    getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
     assertTrue("Split transaction without effect",mSolo.searchText(mContext.getString(R.string.split_transaction)));
@@ -104,16 +104,8 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
         listView.getWrappedList().setSelection(3);
       }
       });
-    mInstrumentation.waitForIdleSync();
+    getInstrumentation().waitForIdleSync();
     sleep();
-  }
-  private void sleep() {
-    try {
-      Thread.sleep(1500);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
   }
 
   public StickyListHeadersListView requireList() {

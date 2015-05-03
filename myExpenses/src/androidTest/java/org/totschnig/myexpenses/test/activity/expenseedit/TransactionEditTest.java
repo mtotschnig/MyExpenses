@@ -24,7 +24,7 @@ public class TransactionEditTest extends MyActivityTest<ExpenseEdit> {
     super.setUp();
     //mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
-    Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"));
+    Fixture.setup(getInstrumentation(), Locale.getDefault(), Currency.getInstance("USD"));
   }
   public void testTransaction() {
     setActivity(null);

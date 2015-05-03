@@ -38,7 +38,7 @@ public class D_NavDrawerTest extends MyActivityTest<MyExpenses> {
     super.setUp();
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
-    Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"),2);
+    Fixture.setup(getInstrumentation(), Locale.getDefault(), Currency.getInstance("USD"),2);
   }
   public void testEditAccount() {
     clickOnActionBarHomeButton();

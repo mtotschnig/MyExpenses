@@ -19,7 +19,7 @@ public class ImportStandardCategoriesTest extends MyActivityTest<ManageCategorie
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
-    mSolo = new Solo(mInstrumentation, mActivity);
+    mSolo = new Solo(getInstrumentation(), mActivity);
     mSolo.waitForActivity(ManageCategories.class);
     mList = (ListView) mActivity.getListFragment().getView().findViewById(R.id.list);
   }
