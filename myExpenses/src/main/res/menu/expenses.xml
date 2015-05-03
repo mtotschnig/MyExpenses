@@ -41,7 +41,7 @@
     android:title="@string/menu_manage_plans">
   </item>
   <item android:checkable="true"
-    android:id="@+id/SEARCH_MENU"
+    android:id="@id/SEARCH_COMMAND"
     android:title="@string/menu_search"
     android:icon="@android:drawable/ic_menu_search"
   	app:showAsAction="ifRoom">

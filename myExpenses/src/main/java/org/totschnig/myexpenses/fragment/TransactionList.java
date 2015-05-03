@@ -756,7 +756,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       //seen in report 3331195c529454ca6b25a4c5d403beda
       return;
     }
-    MenuItem searchMenu = menu.findItem(R.id.SEARCH_MENU);
+    MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (!mFilter.isEmpty()) {
       searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
       searchMenu.setChecked(true);
