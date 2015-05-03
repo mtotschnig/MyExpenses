@@ -30,13 +30,13 @@ public class C_IntentTest extends MyActivityTest<MyExpenses> {
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
-    mSolo = new Solo(mInstrumentation, mActivity);
+    mSolo = new Solo(getInstrumentation(), mActivity);
     
-    Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"));
+    Fixture.setup(getInstrumentation(), Locale.getDefault(), Currency.getInstance("USD"));
   }
   public void testNavigateToAccountReceivedThroughIntent() {
     setActivity(null);
-    Cursor cursor = mInstrumentation.getContext().getContentResolver().query(
+    Cursor cursor = getInstrumentation().getContext().getContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         new String[] {KEY_ROWID,KEY_LABEL},                       // no projection, get all columns
         null,                       // no selection criteria, get all records

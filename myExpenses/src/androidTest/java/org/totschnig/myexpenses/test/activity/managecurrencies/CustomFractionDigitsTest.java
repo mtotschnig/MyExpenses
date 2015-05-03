@@ -30,13 +30,13 @@ public class CustomFractionDigitsTest extends MyActivityTest<ManageCurrencies> {
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
-    mSolo = new Solo(mInstrumentation, mActivity);
+    mSolo = new Solo(getInstrumentation(), mActivity);
     String currencyToTest = CurrencyEnum.values()[0].name();
     //we start from 2
     SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
         .putInt(currencyToTest+Money.KEY_CUSTOM_FRACTION_DIGITS,2));
-    Fixture.setup(mInstrumentation, Locale.getDefault(),
+    Fixture.setup(getInstrumentation(), Locale.getDefault(),
         Currency.getInstance(currencyToTest),1);
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
@@ -45,7 +45,7 @@ public class CustomFractionDigitsTest extends MyActivityTest<ManageCurrencies> {
   public void testChangeOfFractionDigitsShouldKeepTransactionSum() {
     Account account = Fixture.getAccount1();
     Money before = account.getTotalBalance();
-    mInstrumentation.waitForIdleSync();
+    getInstrumentation().waitForIdleSync();
     mSolo.clickInList(0);
     assertTrue(mSolo.waitForText(mActivity.getString(R.string.dialog_title_set_fraction_digits)));
     mSolo.clearEditText(0);

@@ -26,7 +26,7 @@ public class A_InstallTest extends MyActivityTest<MyExpenses> {
   public void setUp() throws Exception {
     super.setUp();
     mActivity = getActivity();
-    mSolo = new Solo(mInstrumentation, mActivity);
+    mSolo = new Solo(getInstrumentation(), mActivity);
   }
   /**
    * on Android 4 the installation is not done without a test

@@ -23,7 +23,6 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
 
   protected T mActivity;
   protected Solo mSolo;
-  protected Instrumentation mInstrumentation;
   protected Context mContext;
   ViewPager mPager;
   protected FragmentPagerAdapter mAdapter;
@@ -34,8 +33,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
 
   public void setUp() throws Exception { 
     super.setUp();
-    mInstrumentation = getInstrumentation();
-    mContext = mInstrumentation.getTargetContext();
+    mContext = getInstrumentation().getTargetContext();
     setActivityInitialTouchMode(false);
   }
   @Override
@@ -72,19 +70,19 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
         mSolo.clickOnText(mContext.getString(
             mContext.getResources().getIdentifier("menu_"+command.toLowerCase(), "string", mContext.getPackageName())));
       }
-//    }
+    }
   }
   protected void invokeContextAction(String command) {
     int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
     assertTrue(command + " not found", resourceId!=0);
     if (Build.VERSION.SDK_INT > 13) {
       final KeyEvent downEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_CENTER);
-      mInstrumentation.sendKeySync(downEvent);
+      getInstrumentation().sendKeySync(downEvent);
       // Need to wait for long press
-      mInstrumentation.waitForIdleSync();
+      getInstrumentation().waitForIdleSync();
       mSolo.clickOnView(mSolo.getView(resourceId));
     } else {
-      mInstrumentation.invokeContextMenuAction(mActivity, resourceId, 0);
+      getInstrumentation().invokeContextMenuAction(mActivity, resourceId, 0);
     }
   }
   /**
@@ -95,7 +93,7 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
    * we need the additional check
    */
   protected boolean actionBarItemVisible(int resourceId) {
-    boolean invocable = mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0);
+    boolean invocable = getInstrumentation().invokeMenuActionSync(mActivity, resourceId, 0);
     //if (invocable || Build.VERSION.SDK_INT > 13)
       return invocable;
     //return mSolo.actionBarItemEnabled(resourceId);
@@ -106,5 +104,14 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
     assertTrue("Close button not show",mSolo.searchButton(mContext.getString(android.R.string.ok), true));
     mSolo.clickOnButton(mContext.getString(android.R.string.ok));
 
+  }
+
+  protected void sleep() {
+    try {
+      Thread.sleep(1500);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }
