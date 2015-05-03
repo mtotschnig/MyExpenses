@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
+import org.totschnig.myexpenses.test.activity.MyExpensesTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
@@ -54,15 +55,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
  * are not part of the visible action bar, but in the menu
  * on a fresh install A_InstallTest has to be run first
  */
-public class E_SearchFilterTest extends MyActivityTest<MyExpenses> {
+public class E_SearchFilterTest extends MyExpensesTest {
 
   Account account1;
   private String catLabel1, catLabel2;
   private MyApplication app;
 
-  public E_SearchFilterTest() {
-    super(MyExpenses.class);
-  }
   public void setUp() throws Exception {
     super.setUp();
     mActivity = getActivity();
@@ -81,9 +79,9 @@ public class E_SearchFilterTest extends MyActivityTest<MyExpenses> {
   }
 
   public void testCatFilter() {
-    StickyListHeadersListView list = ((StickyListHeadersListView) mActivity.getCurrentFragment().getView().findViewById(R.id.list));
+    StickyListHeadersListView list = requireList();
     assertEquals(2, list.getAdapter().getCount());
-    assertTrue(searchInList(list,catLabel1));
+    assertTrue(searchInList(list, catLabel1));
     assertTrue(searchInList(list, catLabel2));
     clickOnActionBarItem("SEARCH");
     mSolo.clickOnText(mActivity.getString(R.string.category));

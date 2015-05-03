@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
+import org.totschnig.myexpenses.test.activity.MyExpensesTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -20,12 +21,8 @@ import android.content.Intent;
 
 import com.robotium.solo.Solo;
 
-public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
-  private StickyListHeadersListView mList;
+public class D_ContextActionTest extends MyExpensesTest {
 
-  public D_ContextActionTest() {
-    super(MyExpenses.class);
-  }
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
@@ -51,7 +48,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
-    assertEquals(itemsInList+1, requireList().getAdapter().getCount());
+    assertEquals(itemsInList + 1, requireList().getAdapter().getCount());
   }
   public void testB_Edit() {
     setSelection();
@@ -80,7 +77,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
-    assertEquals(itemsInList-1, requireList().getAdapter().getCount());
+    assertEquals(itemsInList - 1, requireList().getAdapter().getCount());
   }
   public void testE_Split() {
     setSelection();
@@ -92,7 +89,7 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
     getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
-    assertTrue("Split transaction without effect",mSolo.searchText(mContext.getString(R.string.split_transaction)));
+    assertTrue("Split transaction without effect", mSolo.searchText(mContext.getString(R.string.split_transaction)));
     
   }
   private void setSelection() {
@@ -103,21 +100,9 @@ public class D_ContextActionTest extends MyActivityTest<MyExpenses> {
         listView.requestFocus();
         listView.getWrappedList().setSelection(3);
       }
-      });
+    });
     getInstrumentation().waitForIdleSync();
     sleep();
   }
 
-  public StickyListHeadersListView requireList() {
-    if (mList == null) {
-      TransactionList currentFragment;
-      while(true) {
-        currentFragment = mActivity.getCurrentFragment();
-        if (currentFragment!=null) break;
-        sleep();
-      }
-      mList = (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
-    }
-    return mList;
-  }
 }
