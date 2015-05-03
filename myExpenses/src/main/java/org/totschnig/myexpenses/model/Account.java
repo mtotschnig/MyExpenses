@@ -676,7 +676,7 @@ public class Account extends Model {
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     Cursor c = cr().query(Transaction.CONTENT_URI,
-        new String[] {"sum(" + KEY_AMOUNT + ")"},
+        new String[]{"sum(" + KEY_AMOUNT + ")"},
         selection,
         selectionArgs,
         null);
@@ -719,9 +719,9 @@ public class Account extends Model {
     ops.add(ContentProviderOperation.newDelete(
         Transaction.CONTENT_URI)
         .withSelection(
-              KEY_ROWID + " IN (" + rowSelect + ")",
-              selectionArgs)
-         .build());
+            KEY_ROWID + " IN (" + rowSelect + ")",
+            selectionArgs)
+        .build());
     //needs to be last, otherwise helper transaction would be deleted
     ops.add(handleDeleteOperation);
     try {
@@ -807,18 +807,6 @@ public class Account extends Model {
   }
 
   /**
-   * calls {@link #exportAll(DocumentFile, String, ExportFormat, boolean, String, char, String, WhereFilter)} with
-   * * fileName TEST
-   * * date format "dd/MM/yyyy"
-   * * encoding UTF-8
-   * * decimal separator '.'
-   * * WhereFilter null
-   * should only be used from unit tests
-   */
-  public Result exportAll(DocumentFile destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return exportAll(destDir, "TEST",format, notYetExportedP, "dd/MM/yyyy",'.', "UTF-8", null);
-  }
-  /**
    * writes transactions to export file
    * @param destDir destination directory
    * @param format QIF or CSV
@@ -829,7 +817,7 @@ public class Account extends Model {
    * @return Result object indicating success, message, extra if not null contains uri
    * @throws IOException
    */
-  public Result exportAll(
+  public Result exportWithFilter(
       DocumentFile destDir,
       String fileName,
       ExportFormat format,

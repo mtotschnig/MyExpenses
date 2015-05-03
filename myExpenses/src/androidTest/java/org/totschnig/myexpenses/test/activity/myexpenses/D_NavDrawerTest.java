@@ -27,6 +27,7 @@ import com.robotium.solo.Solo;
  * It is run on a Nexus S in portrait mode, and on a Android x86 VM, in landscape mode
  * It operates on the assumption that on pre-ICS device, keys invoked with invokeMenuActionSync
  * are not part of the visible action bar, but in the menu
+ * on a fresh install A_InstallTest has to be run first
  */
 public class D_NavDrawerTest extends MyActivityTest<MyExpenses> {
   

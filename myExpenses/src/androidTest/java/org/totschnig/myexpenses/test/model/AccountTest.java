@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -24,12 +25,15 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.RemoteException;
 
 public class AccountTest extends ModelTest  {
+  public static final String TEST_CAT = "TestCat";
   Account account1, account2;
   Long openingBalance = 100L,
       expense1 = 10L,
@@ -38,12 +42,15 @@ public class AccountTest extends ModelTest  {
       income2 = 40L,
       transferP = 50L,
       transferN = 60L;
+  private long catId;
+
   private void insertData() {
     Transaction op;
     account1 = new Account("Account 1",openingBalance,"Account 1");
     account1.save();
     account2 = new Account("Account 2",openingBalance,"Account 2");
     account2.save();
+    catId = Category.write(0, TEST_CAT, null);
     op = Transaction.getNewInstance(account1.getId());
     op.amount = new Money(account1.currency,-expense1);
     op.crStatus = CrStatus.CLEARED;
@@ -53,6 +60,7 @@ public class AccountTest extends ModelTest  {
     op.amount = new Money(account1.currency,income1);
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
+    op.setCatId(catId);
     op.saveAsNew();
     op = Transfer.getNewInstance(account1.getId(),account2.getId());
     op.amount = new Money(account1.currency,transferP);
@@ -71,7 +79,7 @@ public class AccountTest extends ModelTest  {
     account.save();
     assertTrue(account.getId() > 0);
     restored = Account.getInstanceFromDb(account.getId());
-    assertEquals(account,restored);
+    assertEquals(account, restored);
     Long trAmount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(account.getId());
     op1.amount = new Money(account.currency,trAmount);
@@ -80,7 +88,7 @@ public class AccountTest extends ModelTest  {
     assertEquals(account.getTotalBalance().getAmountMinor().longValue(),openingBalance+trAmount);
     Account.delete(account.getId());
     assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.getId()));
-    assertNull("Account delete should delete transaction, but operation can still be retrieved",Transaction.getInstanceFromDb(op1.getId()));
+    assertNull("Account delete should delete transaction, but operation can still be retrieved", Transaction.getInstanceFromDb(op1.getId()));
   }
   /**
    * we test if the db calculates the aggregate sums correctly
@@ -138,8 +146,8 @@ public class AccountTest extends ModelTest  {
     assertTrue(cursor.moveToFirst());
     assertEquals(0L, cursor.getLong(incomeIndex));
     assertEquals(0L, cursor.getLong(expensesIndex));
-    assertEquals(transferN-transferP, cursor.getLong(transferIndex));
-    assertEquals(openingBalance+transferN-transferP, cursor.getLong(balanceIndex));
+    assertEquals(transferN - transferP, cursor.getLong(transferIndex));
+    assertEquals(openingBalance + transferN - transferP, cursor.getLong(balanceIndex));
   }
   public void testGetInstanceZeroReturnsAccount () {
     //even without inserting, there should be always an account in the database
@@ -161,17 +169,17 @@ public class AccountTest extends ModelTest  {
     c.close();
     AggregateAccount aa =  (AggregateAccount) Account.getInstanceFromDb(id);
     assertEquals(currency,aa.currency.getCurrencyCode());
-    assertEquals(openingBalance.longValue()*2,aa.openingBalance.getAmountMinor().longValue());
+    assertEquals(openingBalance.longValue() * 2, aa.openingBalance.getAmountMinor().longValue());
   }
   public void testBalanceWithoutReset() {
     insertData();
     Money initialclearedBalance = account1.getClearedBalance();
     assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
-    assertEquals(4,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(4, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
     assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     account1.balance(false);
-    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(4,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(0, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(4,count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     assertEquals(initialclearedBalance,account1.getReconciledBalance());
   }
 
@@ -191,9 +199,40 @@ public class AccountTest extends ModelTest  {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6,count(account1.getId(),null));
-    account1.reset(null,Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
+    account1.reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     Account.clear();
     assertEquals(0,count(account1.getId(),null));
+    Account resetAccount = Account.getInstanceFromDb(account1.getId());
+    assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
+  }
+
+  public void testResetWithFilterUpdateBalance() {
+    insertData();
+    Money initialtotalBalance = account1.getTotalBalance();
+    assertEquals(6, count(account1.getId(), null));
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(0, new CategoryCriteria(TEST_CAT, catId));
+    account1.reset(filter,Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
+    Account.clear();
+    assertEquals(5,count(account1.getId(),null));//1 Transaction deleted
+    Account resetAccount = Account.getInstanceFromDb(account1.getId());
+    assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
+  }
+
+
+  public void testResetWithFilterCreateHelper() {
+    insertData();
+    Money initialtotalBalance = account1.getTotalBalance();
+    assertEquals(6,count(account1.getId(),null));
+    assertEquals(1,count(account1.getId(),KEY_CATID + "=" + catId));
+    assertEquals(0,count(account1.getId(),KEY_STATUS + "=" + STATUS_HELPER));
+    WhereFilter filter = WhereFilter.empty();
+    filter.put(0,new CategoryCriteria(TEST_CAT, catId));
+    account1.reset(filter, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER, null);
+    Account.clear();
+    assertEquals(6, count(account1.getId(), null));//-1 Transaction deleted;+1 helper
+    assertEquals(0,count(account1.getId(),KEY_CATID + "=" + catId));
+    assertEquals(1,count(account1.getId(),KEY_STATUS + "=" + STATUS_HELPER));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
   }
