@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.activity;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
 import com.robotium.solo.Solo;
@@ -98,5 +99,12 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
     //if (invocable || Build.VERSION.SDK_INT > 13)
       return invocable;
     //return mSolo.actionBarItemEnabled(resourceId);
+  }
+
+  protected void dismissWelcomeScreen() {
+    assertTrue("Welcome Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_welcome)));
+    assertTrue("Close button not show",mSolo.searchButton(mContext.getString(android.R.string.ok), true));
+    mSolo.clickOnButton(mContext.getString(android.R.string.ok));
+
   }
 }
