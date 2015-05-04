@@ -737,7 +737,7 @@ public class Account extends Model {
     String selection = KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null";
     String[] selectionArgs = new String[] { String.valueOf(getId()) };
     if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
+      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     ContentValues args = new ContentValues();
