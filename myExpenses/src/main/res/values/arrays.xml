@@ -232,7 +232,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>203</item>
+      <item>204</item>
       <item>201</item>
       <item>196</item>
       <item>195</item>
@@ -317,6 +317,10 @@
     <string-array name="version_more_info_244">
         <item>posts/1559432147651591</item>
         <item>gb5JD8PkZVS</item>
+    </string-array>
+    <string-array name="version_more_info_245">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1565450997049706</item>
+        <item>Za61biN2Z5C</item>
     </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
