@@ -411,7 +411,7 @@
   <string name="sum_expenses">Разходи</string>
   <string name="sum_income">Доход</string>
   <string name="sum_transfer">Трансфери</string>
-  <string name="tell_a_friend_message">Вижте Mоите разходи, личен финансов мениджър за андроид, на http://www.myexpenses.mobi</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="template">Темплейт</string>
   <string name="template_create_success">Tемплейт \"%1$s\" създаден успешно</string>
   <string name="template_title_exists">Темплейт със заглавие \"%1$s\" вече съществува</string>

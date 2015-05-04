@@ -1,8 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_245">
+    <item>La funcionalidade \"Exportação e reset\" agora pode ser aplicada a transações correspondidas pelo filtro de pesquisa</item>
+  </string-array>
   <string-array name="whats_new_244">
     <item>Filtro de pesquisa para a duração</item>
-    <item>Filtros para método, beneficiário, status e categoria agora permitem a seleção múltipla.</item>
+    <item>Filtros para método, beneficiário, status e categoria agora permitem a seleção múltipla</item>
     <item>Tradução Basco</item>
   </string-array>
   <string-array name="whats_new_241">

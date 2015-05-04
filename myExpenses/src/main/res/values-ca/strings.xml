@@ -358,6 +358,7 @@
   <string name="sum_expenses">Despeses</string>
   <string name="sum_income">Ingressos</string>
   <string name="sum_transfer">Transferèncias</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="template">Plantilla</string>
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>

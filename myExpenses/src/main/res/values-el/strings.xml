@@ -346,6 +346,7 @@
   <string name="sum_expenses">Έξοδα</string>
   <string name="sum_income">Εισόδημα</string>
   <string name="sum_transfer">Μεταφορές</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="template">Πρότυπο</string>
   <string name="template_create_success">Πρότυπο \"%1$s\" δημιουργήθηκε με επιτυχία</string>
   <string name="template_title_exists">Ένα πρότυπο με τίτλο \"%1$s\" υπάρχει ήδη</string>
