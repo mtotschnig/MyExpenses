@@ -35,6 +35,7 @@ import android.widget.Toast;
     private OpenIabHelper mHelper;
     private boolean mSetupDone;
     private String mPayload = BuildConfig.FLAVOR.equals("amazon") ? null : UUID.randomUUID().toString();
+    private String tag = ContribInfoDialogActivity.class.getName();
 
 
     @Override
@@ -50,7 +51,7 @@ import android.widget.Toast;
         if (mHelper!=null) {
           mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {
-                Log.d(MyApplication.TAG, "Setup finished.");
+                Log.d(tag, "Setup finished.");
   
                 if (!result.isSuccess()) {
                   mSetupDone = false;
@@ -59,7 +60,7 @@ import android.widget.Toast;
                   return;
                 }
                 mSetupDone = true;
-                Log.d(MyApplication.TAG, "Setup successful.");
+                Log.d(tag, "Setup successful.");
             }
           });
         }
@@ -128,20 +129,20 @@ import android.widget.Toast;
       final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener =
           new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-          Log.d(MyApplication.TAG,
+          Log.d(tag,
               "Purchase finished: " + result + ", purchase: " + purchase);
           if (result.isFailure()) {
-            Log.w(MyApplication.TAG,
+            Log.w(tag,
                 "Purchase failed: " + result + ", purchase: " + purchase);
             complain(getString(R.string.premium_failed_or_canceled));
           } else if (!verifyDeveloperPayload(purchase)) {
             complain("Error purchasing. Authenticity verification failed.");
           } else {
-            Log.d(MyApplication.TAG, "Purchase successful.");
+            Log.d(tag, "Purchase successful.");
 
             if (purchase.getSku().equals(Config.SKU_PREMIUM)) {
               // bought the premium upgrade!
-              Log.d(MyApplication.TAG,
+              Log.d(tag,
                   "Purchase is premium upgrade. Congratulating user.");
               Toast.makeText(
                   ContribInfoDialogActivity.this,
@@ -176,7 +177,7 @@ import android.widget.Toast;
     }
 
     void complain(String message) {
-      Log.e(MyApplication.TAG, "**** InAppPurchase Error: " + message);
+      Log.e(tag, "**** InAppPurchase Error: " + message);
       Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
@@ -200,7 +201,7 @@ import android.widget.Toast;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      Log.d(MyApplication.TAG,
+      Log.d(tag,
           "onActivityResult() requestCode: " + requestCode +
           " resultCode: " + resultCode + " data: " + data);
 
@@ -211,7 +212,7 @@ import android.widget.Toast;
           // billing...
           super.onActivityResult(requestCode, resultCode, data);
       } else {
-          Log.d(MyApplication.TAG, "onActivityResult handled by IABUtil.");
+          Log.d(tag, "onActivityResult handled by IABUtil.");
       }
     }
     // We're being destroyed. It's important to dispose of the helper here!
@@ -220,7 +221,7 @@ import android.widget.Toast;
         super.onDestroy();
 
         // very important:
-        Log.d(MyApplication.TAG, "Destroying helper.");
+        Log.d(tag, "Destroying helper.");
         if (mHelper != null) mHelper.dispose();
         mHelper = null;
     }

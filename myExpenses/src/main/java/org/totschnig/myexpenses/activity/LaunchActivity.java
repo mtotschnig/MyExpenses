@@ -29,6 +29,7 @@ import java.util.Map;
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
   
   private OpenIabHelper mHelper;
+  private String tag = LaunchActivity.class.getName();
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (mHelper!=null) {
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
           public void onIabSetupFinished(IabResult result) {
-            Log.d(MyApplication.TAG, "Setup finished.");
+            Log.d(tag, "Setup finished.");
             if (mHelper==null) {
               return;
             }
@@ -169,7 +170,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       super.onDestroy();
 
       // very important:
-      Log.d(MyApplication.TAG, "Destroying helper.");
+      Log.d(tag, "Destroying helper.");
       if (mHelper != null) mHelper.dispose();
       mHelper = null;
   }
