@@ -22,11 +22,10 @@ public abstract class MyExpensesTest extends MyActivityTest<MyExpenses> {
       while(true) {
         currentFragment = mActivity.getCurrentFragment();
         if (currentFragment!=null) break;
-        sleep();
       }
       mList = (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
     }
-    getInstrumentation().waitForIdleSync();
+    sleep();
     return mList;
   }
 }

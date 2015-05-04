@@ -80,15 +80,6 @@ public class Fixture {
     account1.openingBalance = new Money(defaultCurrency,2000L);
     account1.grouping = Account.Grouping.DAY;
     account1.save();
-    //Transaction 0 for D_ContextActionTest
-    Transaction op0 = Transaction.getNewInstance(account1.getId());
-    op0.amount = new Money(defaultCurrency,-1200L);
-    op0.save();
-    op0.saveAsNew();
-    op0.saveAsNew();
-    op0.saveAsNew();
-    op0.saveAsNew();
-    op0.saveAsNew();
     if (stage ==1) return;
     account2 = new Account(
         testContext.getString(R.string.testData_account2Label),

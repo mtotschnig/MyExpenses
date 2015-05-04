@@ -90,6 +90,7 @@ public class E_SearchFilterTest extends MyExpensesTest {
     mSolo.clickOnView(mSolo.getView(R.id.SELECT_COMMAND_MULTIPLE));
     assertTrue(mSolo.waitForActivity(MyExpenses.class.getSimpleName()));
     getInstrumentation().waitForIdleSync();
+    sleep();
     //after setting the filter only first category is visible
     assertEquals(1,list.getAdapter().getCount());
     assertTrue(searchInList(list, catLabel1));
@@ -114,7 +115,6 @@ public class E_SearchFilterTest extends MyExpensesTest {
     account1.save();
     catLabel1 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1MainCat);
     catLabel2 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction2MainCat);
-    //Transaction 0 for D_ContextActionTest
     Transaction op = Transaction.getNewInstance(account1.getId());
     op.amount = new Money(defaultCurrency,-1200L);
     op.setCatId(Fixture.findCat(catLabel1, null));
