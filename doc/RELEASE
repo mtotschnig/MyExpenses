@@ -8,10 +8,10 @@ Steps for preparing a new release
   - adb uninstall org.totschnig.myexpenses
   - adb uninstall org.totschnig.myexpenses.test
   . ./gradlew clean
-  - ./gradlew assemble
-  - ./gradlew assembleDebugAndroidTest
-  - adb install myExpenses/build/outputs/apk/myExpenses-debug.apk
-  - adb install myExpenses/build/outputs/apk/myExpenses-debug-androidTest-unaligned.apk
+  - ./gradlew assemblePlay
+  - ./gradlew assemblePlayDebugAndroidTest
+  - adb install myExpenses/build/outputs/apk/myExpenses-play-debug.apk
+  - adb install myExpenses/build/outputs/apk/myExpenses-play-debug-androidTest-unaligned.apk
   - tests/script/runAllTests.sh (test requires a file /sdcard/myexpenses/screenshot.jpg to exist on device)
 * test upgrade mechanism
 * Create release tag in GIT (git checkout master;git tag r39; git push origin r39)
