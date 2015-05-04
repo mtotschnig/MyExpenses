@@ -869,7 +869,7 @@ public class ExpenseEdit extends AmountActivity implements
       setDateTime(mTransaction.getDate());
 
     fillAmount(mTransaction.amount.getAmountMajor());
-    if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+    if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(false)) {
       mPayeeText.requestFocus();
     }
   }
@@ -1667,6 +1667,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
     case R.id.AUTO_FILL_COMMAND:
       startAutoFill(args.getLong(KEY_ROWID));
+      MyApplication.PrefKey.AUTO_FILL.putBoolean(true);
       break;
     }
   }
