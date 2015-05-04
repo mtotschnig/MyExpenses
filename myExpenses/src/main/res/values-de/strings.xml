@@ -420,6 +420,7 @@
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_income">Einnahmen</string>
   <string name="sum_transfer">Umbuchungen</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Probiere Meine Ausgaben, Persönliches Finanz-Management für %s, von http://www.myexpenses.mobi</string>
   <string name="template">Vorlage</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
@@ -464,7 +465,8 @@
   <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen.</string>
   <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten%1$s von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
@@ -530,4 +532,9 @@
   <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
   <string name="menu_select_categories">Angehackten Kategorien auswählen</string>
   <string name="image_deleted">Bild wurde gelöscht</string>
+  <string name="dialog_export_applied_to_filter">Nur Buchungen, die mit dem aktuellen Suchfilter übereinstimmen, werden berücksichtigt.</string>
+  <string name="export_handle_deleted_update_balance">Hilfsbuchung erstellen</string>
+  <string name="export_handle_deleted_create_helper">Anfangssaldo aktualisieren</string>
+  <string name="file_name">Dateiname</string>
+  <string name="folder_name">Ordnername</string>
 </resources>

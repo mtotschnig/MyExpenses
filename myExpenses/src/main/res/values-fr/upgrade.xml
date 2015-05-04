@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_245">
+    <item>La fonction \"Exporter et réinitialiser\" peut maintenant être appliquée aux opérations correspondant aux filtres de recherche.</item>
+  </string-array>
   <string-array name="whats_new_244">
     <item>Filtre de recherche pour une durée</item>
     <item>Les filtres de méthode, bénéficiaire, statut et catégorie sont maintenant permis pour la sélection multiple</item>

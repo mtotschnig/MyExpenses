@@ -1,9 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_245">
+    <item>Esportatu eta leheneratu funtzioak bilaketa iragazkiarekin bat datozen transakzioetan aplikatu daitezke orain</item>
+  </string-array>
   <string-array name="whats_new_244">
-    <item>Iraupena bilaketa iragazkia</item>
-    <item>Metodoa, onuraduna, egoera eta kategoria iragazkiek aukera anitza baimentzen dute</item>
-    <item>Euskarara itzulpena</item>
+    <item>Iraupenerako bilaketa iragazkia</item>
+    <item>Metodoa, ordaintzailea, egoera eta kategoriaren arabera bilatzeko iragazkiek hainbat aukera onartzen dituzte orain</item>
+    <item>Euskarara itzulpena!</item>
   </string-array>
   <string-array name="whats_new_243">
     <item>Aplikazioa pasahitzez babestuta badago, irudiak barne biltegiratzean gordeko dira modu seguruan</item>

@@ -374,8 +374,7 @@
   <string name="sum_expenses">වියදම් </string>
   <string name="sum_income">ආදායම</string>
   <string name="sum_transfer">මාරු කිරීම් </string>
-  <string name="tell_a_friend_message">මයි එක්ස්පෙසස් බලන්න පුද්ගලික මුල්‍ය කළමනාකරණ අන්ඩ්රෝයිඩ්  වැඩසටහන 
-http://www.myexpenses.mobi</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="template">අච්චුව </string>
   <string name="template_create_success">\"%1$s\" අච්චුව නිමවීම සාර්ථකයි </string>
   <string name="template_title_exists"> \"%1$s\"  නම සහිත අච්චුව මේ වන විටත් පවතී </string>

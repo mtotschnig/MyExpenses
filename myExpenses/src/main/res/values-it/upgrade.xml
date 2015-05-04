@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_245">
+    <item>La funzionalità \"Esportare e reinizializzare\" ora può essere applicato alle transazioni rilevate dal filtro di ricerca</item>
+  </string-array>
   <string-array name="whats_new_244">
     <item>Filtro di ricerca per la durata</item>
     <item>Filtri per metodo, beneficiario, status e categoria ora consentono la selezione multipla</item>

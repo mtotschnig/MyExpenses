@@ -420,6 +420,7 @@
   <string name="sum_expenses">Despesas</string>
   <string name="sum_income">Renda</string>
   <string name="sum_transfer">Transferências</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Minhas despesas, Gerenciador de finanças pessoais para o %s, http://www.myexpenses.mobi</string>
   <string name="template">Modelo</string>
   <string name="template_create_success">Modelo \"%1$s\" criado com sucesso.</string>
@@ -465,6 +466,7 @@
   <string name="warning_reset_account">Se você prosseguir, todas as transações desta conta são excluídas do banco de dados e não podem ser restauradas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>
+  <string name="warning_reset_account_matched">Se você prosseguir, transações correspondidas pelo filtro atual serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_restore">Banco de dados e preferências serão restauradas do backup. Os dados atuais serão excluídos. Você quer continuar?</string>
   <string name="warning_select_account">Por favor, selecione uma conta!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
@@ -491,15 +493,20 @@
   <string name="search_amount">Busca por quantidade</string>
   <string name="search_category">Busca por categoria</string>
   <string name="search_comment">Busca por notas</string>
+  <string name="search_date">Busca por data</string>
   <string name="search_status">Busca por status</string>
   <string name="search_payee">Busca por beneficiário/pagador</string>
   <string name="search_method">Busca por método</string>
   <string name="and">e</string>
   <string name="between_and">entre %1$s e %2$s</string>
+  <string name="before">antes de %s</string>
+  <string name="after">Depois de %s</string>
   <string name="comparison_operator_equal">igual a</string>
   <string name="comparison_operator_greater_than">maior que</string>
   <string name="comparison_operator_lesser_than">menor do que</string>
   <string name="comparison_operator_between">entre</string>
+  <string name="comparison_operator_date_before">antes</string>
+  <string name="comparison_operator_date_after">após</string>
   <string name="promotion_appgratis_welcome">Oferta especial de hoje com AppGratis: características Premium desbloqueadas gratuitamente.</string>
   <string name="premium_unlocked">Características premium desbloqueadas.</string>
   <string name="premium_failed_or_canceled">Compra falhou ou cancelado.</string>
@@ -521,4 +528,13 @@
   <string name="menu_change_picture">Anexar imagem diferente</string>
   <string name="menu_distribution_show_pie_char">Mostrar gráfico de pizza</string>
   <string name="menu_distribution_aggreate">Agregar despesas e receitas</string>
+  <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
+  <string name="pref_manage_stale_images_summary">Gerenciar fotos que sobraram de transações excluídas</string>
+  <string name="menu_select_categories">Selecione as categorias verificadas</string>
+  <string name="image_deleted">Imagens foi excluída</string>
+  <string name="dialog_export_applied_to_filter">Serão consideradas apenas as transações correspondidas com o filtro atual.</string>
+  <string name="export_handle_deleted_update_balance">Criar transações de auxiliar</string>
+  <string name="export_handle_deleted_create_helper">Atualizar o saldo de abertura</string>
+  <string name="file_name">Nome do arquivo</string>
+  <string name="folder_name">Nome da pasta</string>
 </resources>

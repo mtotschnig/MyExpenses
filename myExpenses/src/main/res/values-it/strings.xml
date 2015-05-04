@@ -420,6 +420,7 @@
   <string name="sum_expenses">Spese</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_transfer">Trasferimenti</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Le mie spese, Gestione delle finanze personali per %s, http://www.myexpenses.mobi</string>
   <string name="template">Modello</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
@@ -465,6 +466,7 @@
   <string name="warning_reset_account">Se si continua, tutte le operazioni di questo conto vengono eliminati dal database e non possono essere ripristinati.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti gli conti%1$s vengono eliminati dal database e non possono essere ripristinati.</string>
+  <string name="warning_reset_account_matched">Se si continua, transazioni di pari passo con il filtro corrente verranno eliminate dal database e non possono essere ripristinate.</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati attuali verranno cancellati. Vuoi continuare?</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla My spese. È possibile impedire questo accadere selezionando una cartella diversa dalla schermata impostazioni.</string>
@@ -530,4 +532,9 @@
   <string name="pref_manage_stale_images_summary">Gestire immagini lasciati da transazioni eliminate</string>
   <string name="menu_select_categories">Selezionare categorie controllate</string>
   <string name="image_deleted">Foto cancellata</string>
+  <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni di pari passo con il filtro corrente.</string>
+  <string name="export_handle_deleted_update_balance">Creare transazione ausiliario</string>
+  <string name="export_handle_deleted_create_helper">Aggiornare il saldo iniziale</string>
+  <string name="file_name">Nome del file</string>
+  <string name="folder_name">Nome della cartella</string>
 </resources>

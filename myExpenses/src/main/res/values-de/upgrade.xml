@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_245">
+    <item>Die Funktion \"Exportieren und zurücksetzen\" kann jetzt auf Buchungen, die durch Suchfilter ausgewählt werden, eingeschränkt werden</item>
+  </string-array>
   <string-array name="whats_new_244">
     <item>Suchfilter für Dauer</item>
     <item>Filter für Methode, Zahlungsempfänger, Status und Kategorie lässt nun Mehrfachauswahl zu</item>
