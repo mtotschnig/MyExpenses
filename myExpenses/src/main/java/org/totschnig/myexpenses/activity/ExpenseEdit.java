@@ -715,7 +715,7 @@ public class ExpenseEdit extends AmountActivity implements
           NavUtils.navigateUpTo(this, upIntent);
       }
       return true;
-    case R.id.Confirm:
+    case R.id.SAVE_COMMAND:
       if (mTransaction instanceof SplitTransaction &&
         !findSplitPartList().splitComplete()) {
           Toast.makeText(this,getString(R.string.unsplit_amount_greater_than_zero),Toast.LENGTH_SHORT).show();
