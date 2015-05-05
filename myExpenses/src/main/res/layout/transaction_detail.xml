@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/AccountLabel"
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/account" />
 
             <TextView
@@ -61,7 +61,7 @@
 
             <TextView
                 android:id="@+id/CategoryLabel"
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/category" />
 
             <TextView
@@ -72,7 +72,7 @@
         <TableRow android:id="@+id/DateRow" >
 
             <TextView
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/date" />
 
             <TextView
@@ -83,7 +83,7 @@
         <TableRow>
 
             <TextView
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/amount" />
 
             <TextView
@@ -94,7 +94,7 @@
         <TableRow android:id="@+id/CommentRow" >
 
             <TextView
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/comment" />
 
             <TextView
@@ -106,7 +106,7 @@
 
             <TextView
                 android:id="@+id/PayeeLabel"
-                style="@style/form_label_dialog" />
+                style="@style/form_label.dialog" />
 
             <TextView
                 android:id="@+id/Payee"
@@ -116,7 +116,7 @@
         <TableRow android:id="@+id/MethodRow" >
 
             <TextView
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/method" />
 
             <TextView
@@ -127,7 +127,7 @@
         <TableRow android:id="@+id/NumberRow" >
 
             <TextView
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/reference_number" />
 
             <TextView
@@ -139,7 +139,7 @@
 
             <TextView
                 android:id="@+id/StatusLabel"
-                style="@style/form_label_dialog"
+                style="@style/form_label.dialog"
                 android:text="@string/status" />
 
             <LinearLayout>
@@ -165,7 +165,7 @@
         android:orientation="vertical" >
 
         <TextView
-            style="@style/headingStyle"
+            style="@style/headingStyle.WithBorder"
             android:text="@string/split_parts_heading" />
 
         <ListView

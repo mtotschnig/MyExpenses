@@ -21,11 +21,11 @@
     android:orientation="vertical" >
   <TextView android:id="@+id/ImportantUpgradeInfoHeading"
       android:text="@string/important_upgrade_information_heading"
-      style="@style/headingStyle"
+      style="@style/headingStyle.WithBorder"
       android:visibility="gone"/>
   <TextView android:id="@+id/ImportantUpgradeInfoBody"
       android:text="@string/important_upgrade_information_1"
-      style="@style/about_text2" android:visibility="gone"/>
+      style="@style/about_text.white" android:visibility="gone"/>
   <ListView
       android:listSelector="@android:color/transparent"
       android:id="@+id/list"

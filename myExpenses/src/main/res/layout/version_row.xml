@@ -5,10 +5,10 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
   <TextView android:id="@+id/versionInfoName"
-    style="@style/headingStyle" />
+    style="@style/headingStyle.WithBorder" />
   <TextView android:id="@+id/versionInfoChanges"
       android:paddingBottom="2dp"
-      style="@style/about_text2"/>
+      style="@style/about_text.white"/>
   <TextView android:id="@+id/versionInfoLearnMore"
       android:clickable="true"
       android:layout_width="match_parent"

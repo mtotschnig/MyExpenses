@@ -15,13 +15,13 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="headingStyleNoBorder">
+  <style name="headingStyle">
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
        <!-- <item name="android:textAllCaps">true</item> -->
     <item name="android:textColor">@color/emphasis</item>
   </style>
-  <style name="headingStyle" parent="headingStyleNoBorder">
+  <style name="headingStyle.WithBorder">
     <item name="android:layout_marginTop">8dp</item>
     <item name="android:paddingLeft">@dimen/general_padding</item>
     <item name="android:paddingRight">@dimen/general_padding</item>
@@ -47,17 +47,17 @@
       <item name="android:layout_gravity">center_vertical</item>
   </style>
   <!-- needed in version dialog and more info in API 10 and lower -->
-  <style name="about_text2" parent="about_text">
+  <style name="about_text.white">
     <item name="android:textColor">#ffffff</item>
   </style>
-  <style name="form_label_dialog" parent="form_label">
+  <style name="form_label.dialog">
     <item name="android:textColor">#ffffff</item>
   </style>
   <style name="dialog_text">
     <item name="android:textColor">#ffffff</item>
   </style>
   <!-- in the export_dialog, the bold TextView is cut on 2.3. if we do not make sure it has at least x lines -->
-  <style name="dialog_text_bold" parent="dialog_text">
+  <style name="dialog_text.bold">
   	<item name="android:textStyle">bold</item>
   </style>
   <style name="titleTextStyle">
