@@ -49,7 +49,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
-    case R.id.Confirm:
+    case R.id.SAVE_COMMAND:
       if (!mIsSaving) {
         saveState();
       }

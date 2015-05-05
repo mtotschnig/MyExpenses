@@ -127,7 +127,7 @@ public class MyExpenses extends LaunchActivity implements
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final long TRESHOLD_REMIND_RATE = 47L;
+  public static long TRESHOLD_REMIND_RATE = 47L;
   static final long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR=-1;

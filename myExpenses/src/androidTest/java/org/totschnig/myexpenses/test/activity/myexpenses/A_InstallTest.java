@@ -11,8 +11,8 @@ import android.support.v4.view.ViewPager;
 
 
 /**
- * This class runs first and tests if the database is initialized
- * welcome dialog shown and adapter set up 
+ * This class runs first and tests if the database is initialized,
+ * welcome dialog shown and adapter set up
  * 
  * @author Michael Totschnig
  */
