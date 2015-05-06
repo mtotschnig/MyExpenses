@@ -77,7 +77,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Highlight;
 import com.google.common.base.Joiner;
 
 public class CategoryList extends ContextualActionBarFragment implements
@@ -1010,7 +1009,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   }
   private ArrayList<Integer> getSubColors(int color) {
     //inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
-    return MyApplication.getThemeType().equals(ThemeType.DARK) ?
+    return MyApplication.getThemeType().equals(ThemeType.dark) ?
         getTints(color) : getShades(color);
     
   }

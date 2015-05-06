@@ -51,14 +51,14 @@
         <TextView
             style="@style/headingStyle.WithBorder"
             android:text="@string/menu_help" />
-
         <TextView
             android:id="@+id/help_quick_guide"
             style="@style/about_text"
             android:text="@string/help_contextuel_help" />
         <TextView
             style="@style/headingStyle.WithBorder"
-            android:text="@string/menu_help" />
+            android:text="@string/pref_ui_theme_title" />
+        <include layout="@layout/type_switch"/>
     </LinearLayout>
 
 </ScrollView>
