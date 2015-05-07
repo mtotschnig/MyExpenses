@@ -232,10 +232,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
-<<<<<<< HEAD
-=======
       <item>205</item>
->>>>>>> master
       <item>204</item>
       <item>201</item>
       <item>196</item>
