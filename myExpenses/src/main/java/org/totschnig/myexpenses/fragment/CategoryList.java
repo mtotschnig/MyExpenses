@@ -111,7 +111,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   private ArrayList<Integer> mMainColors,mSubColors;
   private int lastExpandedPosition = -1;
   
-  boolean showChart;
+  boolean showChart = false;
   boolean aggregateTypes;
   boolean chartDisplaysSubs;
 
@@ -123,14 +123,13 @@ public class CategoryList extends ContextualActionBarFragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
     aggregateTypes = MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-
+      showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<Integer>();
       for (int col : ColorTemplate.PASTEL_COLORS)
           mMainColors.add(col);
@@ -514,7 +513,7 @@ public class CategoryList extends ContextualActionBarFragment implements
         View convertView, ViewGroup parent) {
       convertView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
       View colorView = convertView.findViewById(R.id.color1);
-      if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      if (showChart) {
         colorView.setBackgroundColor(mMainColors.get(groupPosition%mMainColors.size()));
       } else {
         colorView.setVisibility(View.GONE);
@@ -527,7 +526,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       convertView = super.getChildView(groupPosition, childPosition, isLastChild,
           convertView, parent);
       View colorView = convertView.findViewById(R.id.color1);
-      if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      if (showChart) {
         colorView.setBackgroundColor(mSubColors.get(childPosition%mSubColors.size()));
       } else {
         colorView.setVisibility(View.GONE);
