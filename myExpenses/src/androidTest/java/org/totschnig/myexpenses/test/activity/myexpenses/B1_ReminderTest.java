@@ -39,7 +39,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     reminderHelper();
     if (!BuildConfig.FLAVOR.equals("")) {//remind rate is only used on versions built for Markets
       assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_remind_rate_1)));
-      mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_later));
+      mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
     }
     reminderHelper();
     assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_contrib_text)));
@@ -60,7 +60,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
 
   @Override
   public void tearDown() throws Exception {
-    Account.getInstanceFromDb(0).reset(null,Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE,null);
+    Account.getInstanceFromDb(0).reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     super.tearDown();
   }
 }
