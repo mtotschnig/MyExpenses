@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
@@ -42,7 +43,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     }
     reminderHelper();
     assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_contrib_text)));
-    mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_later));
+    mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
   }
 
   private void reminderHelper() {
@@ -55,5 +56,11 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     mSolo.typeText(((EditText) mSolo.getView(R.id.Amount)), "1");
     clickOnActionBarItem("SAVE");
     assertTrue(mSolo.waitForActivity(MyExpenses.class.getSimpleName()));
+  }
+
+  @Override
+  public void tearDown() throws Exception {
+    Account.getInstanceFromDb(0).reset(null,Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE,null);
+    super.tearDown();
   }
 }
