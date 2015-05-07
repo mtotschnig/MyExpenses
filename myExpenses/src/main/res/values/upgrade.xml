@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2451">
+    <item>@string/bug_fixes</item>
+  </string-array>
   <string-array name="whats_new_245">
     <item>Export and reset functionality can now be applied to transactions matched by search filter</item>
   </string-array>
