@@ -13,7 +13,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/aboutscrollview"
     android:layout_width="fill_parent"
-    android:layout_height="0dp"
+    android:layout_height="wrap_content"
     android:layout_weight="1"
     android:orientation="vertical" >
 
@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/help_leading"
-                style="@style/headingStyle"
+                style="@style/headingStyle.WithBorder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -49,9 +49,8 @@
         <!-- Quick Guide -->
 
         <TextView
-            style="@style/headingStyle"
+            style="@style/headingStyle.WithBorder"
             android:text="@string/menu_help" />
-
         <TextView
             android:id="@+id/help_quick_guide"
             style="@style/about_text"
@@ -60,6 +59,10 @@
         <TextView
             style="@style/about_text"
             android:text="@string/crash_reports_user_info" />
+        <TextView
+            style="@style/headingStyle.WithBorder"
+            android:text="@string/pref_ui_theme_title" />
+        <include layout="@layout/type_switch"/>
     </LinearLayout>
 
 </ScrollView>

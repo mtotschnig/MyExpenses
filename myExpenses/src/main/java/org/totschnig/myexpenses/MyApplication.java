@@ -47,6 +47,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -316,12 +317,15 @@ public class MyApplication extends Application implements
   }
 
   public enum ThemeType {
-    DARK, LIGHT
+    dark, light
   }
 
   public static ThemeType getThemeType() {
-    return PrefKey.UI_THEME_KEY.getString("dark").equals("light") ? ThemeType.LIGHT
-        : ThemeType.DARK;
+    try {
+      return ThemeType.valueOf(PrefKey.UI_THEME_KEY.getString(ThemeType.dark.name()));
+    } catch (IllegalArgumentException e) {
+      return ThemeType.dark;
+    }
   }
 
   public static int getThemeId(boolean legacyPreferenceActivity) {
@@ -335,7 +339,7 @@ public class MyApplication extends Application implements
     }
     int resId;
     String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
-    if (getThemeType() == ThemeType.LIGHT) {
+    if (getThemeType() == ThemeType.light) {
       if (fontScale < 1 || fontScale > 3)
         return legacyPreferenceActivity ? R.style.ThemeLight_LegacyPreferenceActivity
             : R.style.ThemeLight;

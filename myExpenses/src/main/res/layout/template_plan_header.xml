@@ -20,7 +20,7 @@
     android:background="@android:drawable/list_selector_background">
 	  <TextView
         android:paddingLeft="@dimen/general_padding"
-	      style="@style/headingStyleNoBorder"
+	      style="@style/headingStyle"
 	      android:text="GROUP_TITLE"
 	      android:id="@+id/text"
 	      android:layout_width="wrap_content"

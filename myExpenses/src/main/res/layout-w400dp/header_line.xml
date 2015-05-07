@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/text"
-        style="@style/headingStyleNoBorder"
+        style="@style/headingStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/interim_balance"
-        style="@style/headingStyleNoBorder"
+        style="@style/headingStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

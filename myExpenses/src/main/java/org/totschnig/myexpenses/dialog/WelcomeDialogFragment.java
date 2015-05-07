@@ -15,22 +15,30 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
-public class WelcomeDialogFragment extends CommitSafeDialogFragment {
+public class WelcomeDialogFragment extends CommitSafeDialogFragment
+    implements DialogInterface.OnClickListener {
   private static final String KEY_SETUP_COMPLETED = "taskCompleted";
   private AlertDialog mDialog;
   private ProgressBar mProgress;
@@ -83,11 +91,31 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment {
     mProgress = (ProgressBar) view.findViewById(R.id.progress);
     ((TextView) view.findViewById(R.id.help_intro))
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
+    CompoundButton themeSwitch = (CompoundButton) view.findViewById(R.id.TaType);
+    if (Build.VERSION.SDK_INT>=14) {
+      ((Switch) themeSwitch).setTextOn(getString(R.string.pref_ui_theme_light));
+      ((Switch) themeSwitch).setTextOff(getString(R.string.pref_ui_theme_dark));
+    } else {
+      ((ToggleButton) themeSwitch).setTextOn(getString(R.string.pref_ui_theme_light));
+      ((ToggleButton) themeSwitch).setTextOff(getString(R.string.pref_ui_theme_dark));
+    }
+    themeSwitch.setChecked(MyApplication.getThemeType().equals(MyApplication.ThemeType.light));
+    themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        MyApplication.PrefKey.UI_THEME_KEY.putString(
+            (isChecked ? MyApplication.ThemeType.light : MyApplication.ThemeType.dark).name());
+        Intent intent = getActivity().getIntent();
+        getActivity().finish();
+        startActivity(intent);
+      }
+    });
     mDialog = new AlertDialog.Builder(ctx)
       .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.dialog_title_welcome))
       .setIcon(R.drawable.myexpenses)
       .setView(view)
-      .setPositiveButton(android.R.string.ok,null)
+      .setPositiveButton(android.R.string.ok,this)
       .create();
     return mDialog;
   }
@@ -116,4 +144,10 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment {
     }
   }
 
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    int current_version = CommonCommands.getVersionNumber(getActivity());
+    MyApplication.PrefKey.CURRENT_VERSION.putInt(current_version);
+    MyApplication.PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
+  }
 }

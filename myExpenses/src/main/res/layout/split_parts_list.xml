@@ -20,7 +20,7 @@
     android:layout_weight="1"
     android:orientation="vertical">
   <TextView
-      style="@style/headingStyle"
+      style="@style/headingStyle.WithBorder"
       android:text="@string/split_parts_heading"/>  
   <ListView
       android:id="@+id/list"

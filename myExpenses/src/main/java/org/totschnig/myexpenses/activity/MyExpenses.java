@@ -129,13 +129,9 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
   public static final int TYPE_SPLIT = 2;
-  public static final boolean ACCOUNT_BUTTON_CYCLE = false;
-  public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
-  public static final String TRANSFER_EXPENSE = "=> ";
-  public static final String TRANSFER_INCOME = "<= ";
   
   public static long TRESHOLD_REMIND_RATE = 47L;
-  static final long TRESHOLD_REMIND_CONTRIB = 113L;
+  public static long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR=-1;
   public static final int SPLIT_PART_CURSOR=3;

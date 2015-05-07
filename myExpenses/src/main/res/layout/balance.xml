@@ -29,16 +29,16 @@
         android:stretchColumns="1"
         android:shrinkColumns="1">
       <TableRow>
-        <TextView style="@style/form_label_dialog" android:text="@string/total_reconciled"/>
+        <TextView style="@style/form_label.dialog" android:text="@string/total_reconciled"/>
         <TextView android:id="@+id/TotalReconciled" style="@style/dialog_text"/>
       </TableRow>
       <TableRow>
-        <TextView style="@style/form_label_dialog" android:text="@string/total_cleared" />
+        <TextView style="@style/form_label.dialog" android:text="@string/total_cleared" />
         <TextView android:id="@+id/TotalCleared"  style="@style/dialog_text"/>
       </TableRow>
     </TableLayout>
     <TextView
-        style="@style/dialog_text_bold"
+        style="@style/dialog_text.bold"
         android:layout_margin="@dimen/general_padding"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"

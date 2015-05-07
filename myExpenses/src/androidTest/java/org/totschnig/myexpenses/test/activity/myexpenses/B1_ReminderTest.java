@@ -5,6 +5,7 @@ import android.widget.EditText;
 
 import com.robotium.solo.Solo;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -30,9 +31,21 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     super.setUp();
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
-    MyExpenses.TRESHOLD_REMIND_RATE = 3L;
   }
   public void testRatingDialogIsShown() {
+    MyExpenses.TRESHOLD_REMIND_RATE = 3L;
+    MyExpenses.TRESHOLD_REMIND_CONTRIB = 6L;
+    reminderHelper();
+    if (!BuildConfig.FLAVOR.equals("")) {//remind rate is only used on versions built for Markets
+      assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_remind_rate_1)));
+      mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_later));
+    }
+    reminderHelper();
+    assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_contrib_text)));
+    mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_later));
+  }
+
+  private void reminderHelper() {
     clickOnActionBarItem("CREATE_TRANSACTION");
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
     mSolo.typeText(((EditText) mSolo.getView(R.id.Amount)), "1");
@@ -42,6 +55,5 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     mSolo.typeText(((EditText) mSolo.getView(R.id.Amount)), "1");
     clickOnActionBarItem("SAVE");
     assertTrue(mSolo.waitForActivity(MyExpenses.class.getSimpleName()));
-    assertTrue("Rating dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_remind_rate_1)));
   }
 }

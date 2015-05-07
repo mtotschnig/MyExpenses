@@ -232,6 +232,10 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
+<<<<<<< HEAD
+=======
+      <item>205</item>
+>>>>>>> master
       <item>204</item>
       <item>201</item>
       <item>196</item>
@@ -251,6 +255,7 @@
       <item>155</item>
     </integer-array>
     <string-array name="version_names">
+      <item>2.4.5.1</item>
       <item>2.4.5</item>
       <item>2.4.4</item>
       <item>2.4.3</item>

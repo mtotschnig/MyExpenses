@@ -22,7 +22,7 @@
                     android:id="@+id/label"
                     android:layout_marginTop="14dp"
                     android:drawablePadding="10dp"
-                    style="@style/headingStyle"
+                    style="@style/headingStyle.WithBorder"
                     android:layout_alignParentLeft="true"
                     android:text="LABEL" />
                 <LinearLayout

@@ -182,7 +182,7 @@
 
         <TextView
             android:id="@+id/warning_reset"
-            style="@style/dialog_text_bold"
+            style="@style/dialog_text.bold"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_padding"
