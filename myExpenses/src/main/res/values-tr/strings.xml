@@ -420,6 +420,7 @@
   <string name="sum_expenses">Harcamalar</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_transfer">Transferler</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">%s için kişisel finans yöneticisi olan Harcamalarıma http://www.myexpenses.mobi adresinde göz atın</string>
   <string name="template">Şablon</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
@@ -465,6 +466,7 @@
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
+  <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler
 	silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
@@ -532,4 +534,9 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
   <string name="menu_select_categories">İşaretlenen kategorileri seç</string>
   <string name="image_deleted">Resim silinmiştir</string>
+  <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
+  <string name="export_handle_deleted_update_balance">Yardımcı muamele oluştur</string>
+  <string name="export_handle_deleted_create_helper">Açılış bakiyesini güncelle</string>
+  <string name="file_name">Dosya ismi</string>
+  <string name="folder_name">Klasör ismi</string>
 </resources>
