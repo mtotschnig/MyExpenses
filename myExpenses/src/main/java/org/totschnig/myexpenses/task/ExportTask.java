@@ -4,7 +4,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -141,7 +145,10 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       account = Account.getInstanceFromDb(id);
       publishProgress(account.label + " ...");
       try {
-        String fileNameForAccount = accountIds.length > 1 ? account.label : fileName;
+        String fileNameForAccount = accountIds.length > 1 ?
+            account.label + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+                .format(new Date()) :
+            fileName;
         Result result = account.exportWithFilter(destDir, fileNameForAccount, format, notYetExportedP, dateFormat, decimalSeparator, encoding, filter);
         String progressMsg;
         if (result.extra != null) {
