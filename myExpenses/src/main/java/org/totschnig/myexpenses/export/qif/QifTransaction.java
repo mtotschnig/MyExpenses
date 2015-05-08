@@ -25,7 +25,7 @@ public class QifTransaction {
 
   public long id;
   public Date date;
-  public BigDecimal amount;
+  public BigDecimal amount = new BigDecimal(0);
   public String payee;
   public String memo;
   public String category;

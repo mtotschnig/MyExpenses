@@ -147,10 +147,6 @@ public class QifUtils {
         return new BigDecimal(0);
     }
 
-    private static long moneyAsLong(BigDecimal bd) {
-        return bd.multiply(HUNDRED).intValue();
-    }
-
     public static boolean isTransferCategory(String category) {
         return !TextUtils.isEmpty(category) && category.startsWith("[") && category.endsWith("]");
     }
