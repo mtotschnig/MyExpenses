@@ -174,8 +174,9 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
             cursor.close();
           }
         }
-      } catch (Exception e) {
-        Utils.reportToAcra(e);
+      } catch (SecurityException e) {
+        //this can happen if the user has restored a backup and
+        //we do not have a persistable permision
         return null;
       }
     }
