@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -22,6 +23,7 @@ import android.support.v4.app.FragmentActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+      setTheme(MyApplication.getThemeId());
         ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
         if (f==null) {
