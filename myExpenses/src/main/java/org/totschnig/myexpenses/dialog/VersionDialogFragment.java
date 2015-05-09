@@ -141,9 +141,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
               popup.show();
             }
             /**
-             * @param res
-             * @param resId
-             * @param item
+             * @param itemId
              * @throws NotFoundException
              */
             protected void handleMenuClick(final int itemId) throws NotFoundException {
