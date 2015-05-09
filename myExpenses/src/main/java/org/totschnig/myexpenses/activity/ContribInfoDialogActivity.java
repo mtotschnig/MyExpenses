@@ -22,20 +22,19 @@ import android.support.v4.app.FragmentActivity;
     public static final String KEY_TAG = "tag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+      super.onCreate(savedInstanceState);
       setTheme(MyApplication.getThemeId());
-        ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+      ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
-        if (f==null) {
-          sequenceCount = getIntent().getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
-          ContribInfoDialogFragment.newInstance(
-              sequenceCount)
+      if (f==null) {
+        sequenceCount = getIntent().getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
+        ContribInfoDialogFragment.newInstance(sequenceCount)
             .show(getSupportFragmentManager(),"CONTRIB_INFO");
-        } else {
-          ContribDialogFragment.newInstance(f,
-              getIntent().getSerializableExtra(KEY_TAG))
+      } else {
+        ContribDialogFragment.newInstance(
+            f,getIntent().getSerializableExtra(KEY_TAG))
             .show(getSupportFragmentManager(),"CONTRIB");
-        }
+      }
     }
     @Override
     public boolean dispatchCommand(int command, Object tag) {
