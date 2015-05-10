@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">Nire diru-zorroa</string>
+  <string name="testData_account1Description">Eguneroko gastuak</string>
+  <string name="testData_account2Label">asteburua Parisen</string>
+  <string name="testData_account2Description">2012ko Abuztua</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">Banku kontua</string>
+  <string name="testData_account3Description">Bank of America</string>
+  <string name="testData_transaction2Comment">Frutak eta barazkiak</string>
+  <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="testData_transaction1SubCat">Bahnkarten</string>
+    <string name="testData_transaction1MainCat">Urlaub</string>
+    <string name="testData_transaction2SubCat">Supermarkt</string>
+    <string name="testData_transaction2MainCat">Lebensmittel</string>
+    <string name="testData_transaction3SubCat">Kraftstoff</string>
+    <string name="testData_transaction3MainCat">Kfzkosten</string>
+    <string name="testData_transaction4SubCat">Restaurant</string>
+    <string name="testData_transaction6MainCat">Geschenke</string>
+    <string name="testData_templateMainCat">Wohnung</string>
+    <string name="testData_templateSubCat">Miete</string>
+</resources>

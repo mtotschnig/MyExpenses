@@ -7,18 +7,8 @@
   <string name="testData_account2Currency">EUR</string>
   <string name="testData_account3Label">銀行口座</string>
   <string name="testData_account3Description">バンク オブ アメリカ</string>
-  <string name="testData_transaction1SubCat">メトロ</string>
-  <string name="testData_transaction1MainCat">交通費</string>
-  <string name="testData_transaction2SubCat">食料品店</string>
-  <string name="testData_transaction2MainCat">食品</string>
   <string name="testData_transaction2Comment">果物 &amp; 野菜</string>
-  <string name="testData_transaction3SubCat">燃料</string>
-  <string name="testData_transaction3MainCat">自動車</string>
-  <string name="testData_transaction4SubCat">レストラン</string>
   <string name="testData_transaction4Payee">ピッツェリア アントネッラ</string>
-  <string name="testData_transaction6MainCat">贈答品</string>
-  <string name="testData_templateMainCat">住宅</string>
-  <string name="testData_templateSubCat">家賃</string>
   <!-- a name typically used as example name -->
   <string name="testData_templatePayee">だれだれ</string>
 </resources>
