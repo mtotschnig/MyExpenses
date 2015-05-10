@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Sub_category Nbc="5" Nb="1" Na="Darovi"/>
+<Category Nb="6" Na="Hrana"/>
+<Sub_category Nbc="6" Nb="6" Na="Namirnice"/>
+<Sub_category Nbc="6" Nb="7" Na="Restoran"/>
+<Sub_category Nbc="7" Nb="1" Na="Hrana"/>
+<Sub_category Nbc="8" Nb="1" Na="Automobil"/>
+<Category Nb="9" Na="Automobil"/>
+<Sub_category Nbc="9" Nb="1" Na="Gorivo"/>
+<Category Nb="11" Na="Darovi"/>
+<Sub_category Nbc="14" Nb="1" Na="Pokloni"/>
+<Sub_category Nbc="17" Nb="2" Na="Prihod"/>
+<Category Nb="23" Na="Prijevoz"/>
+<Sub_category Nbc="23" Nb="2" Na="Podzemna željeznica"/></Grisbi_categ>

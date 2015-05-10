@@ -21,7 +21,7 @@
 <Sub_category Nbc="4" Nb="3" Na="その他保険料"/>
 <Sub_category Nbc="4" Nb="4" Na="成功報酬"/>
 <Sub_category Nbc="4" Nb="5" Na="正味給与"/>
-<Category Nb="5" Na="その他収入"/>
+<Category Nb="5" Na="雑所得"/>
 <Sub_category Nbc="5" Nb="1" Na="贈答品"/>
 <Sub_category Nbc="5" Nb="2" Na="払い戻し"/>
 <Sub_category Nbc="5" Nb="3" Na="中古品販売"/>
@@ -44,12 +44,12 @@
 <Sub_category Nbc="8" Nb="1" Na="自動車"/>
 <Sub_category Nbc="8" Nb="2" Na="健康"/>
 <Sub_category Nbc="8" Nb="3" Na="住居"/>
-<Sub_category Nbc="8" Nb="4" Na="民事責任"/>
+<Sub_category Nbc="8" Nb="4" Na="損害"/>
 <Sub_category Nbc="8" Nb="5" Na="生活"/>
 <Category Nb="9" Na="自動車"/>
 <Sub_category Nbc="9" Nb="1" Na="燃料"/>
-<Sub_category Nbc="9" Nb="2" Na="修繕"/>
-<Sub_category Nbc="9" Nb="3" Na="維持"/>
+<Sub_category Nbc="9" Nb="2" Na="修理"/>
+<Sub_category Nbc="9" Nb="3" Na="メンテナンス"/>
 <Sub_category Nbc="9" Nb="4" Na="駐車代"/>
 <Sub_category Nbc="9" Nb="5" Na="罰金"/>
 <Category Nb="11" Na="贈答品"/>
