@@ -39,7 +39,8 @@ km:
       security_question: សំណួរសន្តិសុខ
       template_widget: ប្រអប់​ធាតុពុម្ព
     licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
+      deprecated: |-
+        __NOT_NEEDED__
       intro: |
         អ្នកមាន​ជម្រើស​ខាងក្រោម ដើម្បី​ទិញ​យក​អាជ្ញាបណ្ណរបស់ Contrib ៖
       other: |

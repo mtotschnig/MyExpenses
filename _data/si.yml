@@ -42,7 +42,8 @@ si:
       security_question: සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය
       template_widget: 'විජට් අච්චුව '
     licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
+      deprecated: |-
+        __NOT_NEEDED__
       intro: |
         කොන්ට්‍රිබ් බලපත්‍රයක් ගැනීමට පහත විකල්ප තිබේ
       other: |
