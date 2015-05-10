@@ -21,7 +21,7 @@
   <string name="Sub_4_3">その他保険料</string>
   <string name="Sub_4_4">成功報酬</string>
   <string name="Sub_4_5">正味給与</string>
-  <string name="Main_5">その他収入</string>
+  <string name="Main_5">雑所得</string>
   <string name="Sub_5_1">贈答品</string>
   <string name="Sub_5_2">払い戻し</string>
   <string name="Sub_5_3">中古品販売</string>
@@ -44,12 +44,12 @@
   <string name="Sub_8_1">自動車</string>
   <string name="Sub_8_2">健康</string>
   <string name="Sub_8_3">住居</string>
-  <string name="Sub_8_4">民事責任</string>
+  <string name="Sub_8_4">損害</string>
   <string name="Sub_8_5">生活</string>
   <string name="Main_9">自動車</string>
   <string name="Sub_9_1">燃料</string>
-  <string name="Sub_9_2">修繕</string>
-  <string name="Sub_9_3">維持</string>
+  <string name="Sub_9_2">修理</string>
+  <string name="Sub_9_3">メンテナンス</string>
   <string name="Sub_9_4">駐車代</string>
   <string name="Sub_9_5">罰金</string>
   <string name="Main_11">贈答品</string>
