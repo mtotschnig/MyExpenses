@@ -1,0 +1,72 @@
+eu:
+  imprint: Ardura
+  hero_main: "Finantza pertsonalen kudeatzailea Androiderako"
+  hero_sub:
+    use: "Erabilterraza"
+    functionality: "Funtziotan aberatsa"
+    source: "Librea"
+  menu_title:
+    more_information: Informazio gehiago
+  sections:
+    features: Ezaugarriak
+    premium: Izan Premium
+    participate: Parte hartu
+    faq: FAQ
+    versionlist: Aldaketen erregistroa
+    credits: Kredituak
+    licence: Lizentzia
+    sourcecode: Iturburu kodea
+    links: Estekak
+  features:
+    manage_accounts: gehienez 5 kontu transferentziekin
+    plans: Zehaztu txantiloiak eta etorkizunerako planak zein transakzio errepikakorrak
+    grouped_list: Taldekatu transakzioak eguneko, asteko, hileko, urteko eta taldearen baturak bistaratu.
+    distribution: Bi kategoria maila (Grisbi XML eta QIF inportazioa)
+    split: Banatu transakzioak (Kontribuzio bertsioa)
+    calculator: Kalkulagailua
+    export: Esportatu QIF eta CSV (MS Excel) formatuetara, automatikoki partekatu daiteke (e-posta, FTP, Dropbox... bidez)
+    import: Inportatu QIF datuak
+    password: Pasahitz bidezko babesa
+    help: Laguntza integratua
+    backup: Datuen babeskopia egin eta berreskuratu
+    light_theme: "Bi gai: Argia eta iluna"
+    attach_picture: Erantsi irudia transakzioari
+  contrib:
+    thank_you: |
+      Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
+    feature-list-title: |
+      Honako Premium ezaugarri hauek desblokeatu daitezke Kontribuzio lizentzia bat erosita:
+    feature:
+      accounts_unlimited: Kontu kopuru mugagabea
+      plans_unlimited: Plan kopuru mugagabea
+      distribution: Transakzioen banaketa kategoriako
+      split_transaction: Banatu transakzioa
+      security_question: Segurtasun galdera
+      template_widget: Trepeta txantiloia
+      print: Esportatu transakzio zerrenda PDFra
+      attach_picture: Erantsi irudia transakzioari
+    licence-howto-buy:
+      deprecated: |
+        OHARRA: 2.3.9 bertsiotik Nire Gastuak aplikazioko premium funtzionalitatea desblokeatzeko kontribuzio gakoa errazago lortu daiteke aplikazio barneko ordainketaren bidez, ez duzu "My Expenses Contrib Key" aplikazioa instalatzeko beharrik.
+      intro: |
+        Honako aukera hauek dituzu Kontribuzio lizentzia erosteko:
+      in-app: |
+        Nire gastuak Google Play edo Amazon bitartez instalatu baduzu, aplikazio barneko erosketa gisa dago eskuragarri:
+      blackberry: |
+        Nire Gastuak Blakberry World bidez instalatu baduzu, instalatu
+        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
+      other: |
+        Nire Gastuak F-Droid, Androidpit edo GitHub bidez deskargatu baduzu, egin dohaintza bat hauetakoren baten bidez:
+      transfer: |
+        Edo diru transferentzia bat egin dezakezu hurrengo kontura:
+      key: |
+        eta lizentziaren gakoa eskatu ezarpenak pantailatik.
+        Behin e-posta bidez jaso duzula, aplikazioan sartu ezarpen pantailatik ere.
+  permissions-heading: |
+    Nire Gastuak honako baimen hauek behar ditu:
+  permissions-calendar: |
+    Egutegian irakurri eta idatzi: Etorkizunerako planak eta transakzio errepikakorrak tokiko egutegi berezi batetara edo zuk aukeratutako egutegira esleitzen dira.
+  permissions-external-storage: |
+    USB biltegiratzera idatzi: QIF eta CSV esportazioak eta babeskopiak gordetzeko.
+  permissions-internet: |
+    Sare komunikazioa: Kraskatze txostenak garatzaileari automatiko bidaltzen zaizkio erabiltzaileak aplikazioaren hobespenetan ezgaitzen ez badu.
