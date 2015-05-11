@@ -44,7 +44,7 @@
     android:id="@id/SEARCH_COMMAND"
     android:title="@string/menu_search"
     android:icon="@android:drawable/ic_menu_search"
-  	app:showAsAction="ifRoom">
+  	app:showAsAction="@integer/search_showAsAction">
   	<menu>
   	  <group android:checkableBehavior="all">
           <item android:id="@id/FILTER_CATEGORY_COMMAND" android:title="@string/category"/>
