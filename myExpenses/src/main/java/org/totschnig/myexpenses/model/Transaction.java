@@ -115,7 +115,7 @@ public class Transaction extends Model {
 
 
   public enum CrStatus {
-    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
+    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X"),VOID(Color.RED,null);
     public int color;
     public String symbol;
     CrStatus(int color,String symbol) {
