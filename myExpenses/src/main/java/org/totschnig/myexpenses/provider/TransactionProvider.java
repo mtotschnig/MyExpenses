@@ -206,7 +206,7 @@ public class TransactionProvider extends ContentProvider {
         accountSelectionQuery = " = ?";
       }
       qb.setTables(VIEW_COMMITTED);
-      projection = new String[] {"amount>0 as type","abs(sum(amount)) as  " + KEY_SUM};
+      projection = new String[] {"amount>0 as " + KEY_TYPE,"abs(sum(amount)) as  " + KEY_SUM};
       groupBy = KEY_TYPE;
       qb.appendWhere(WHERE_TRANSACTION);
       qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
@@ -280,6 +280,7 @@ public class TransactionProvider extends ContentProvider {
             + MAPPED_CATEGORIES
             + " FROM " + VIEW_EXTENDED
             + " WHERE " + accountSelectionQuery
+            + " AND " + WHERE_NOT_VOID
             + (selection!=null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
       projection = new String[7];
@@ -295,7 +296,7 @@ public class TransactionProvider extends ContentProvider {
             "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance + ")";
         String deltaExpr = "(SELECT sum(amount) FROM "
             + VIEW_EXTENDED
-            + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT
+            + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID
             + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
             + "(" + yearExpression + " = " + KEY_YEAR + " AND "
             + secondDef + " <= " + KEY_SECOND_GROUP + ")))";

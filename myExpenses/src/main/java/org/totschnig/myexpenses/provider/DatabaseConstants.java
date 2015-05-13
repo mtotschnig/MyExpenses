@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 /**
@@ -249,6 +250,8 @@ public class DatabaseConstants {
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
       KEY_PARENTID + " IS null";
+  public static final String WHERE_NOT_VOID =
+      KEY_CR_STATUS + " != '" + Transaction.CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
       WHERE_NOT_SPLIT + " AND " + KEY_TRANSFER_PEER + " is null";
   public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;
@@ -272,7 +275,8 @@ public class DatabaseConstants {
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND date(" + KEY_DATE + ",'unixepoch') > date('now')  LIMIT 1)) AS " + KEY_HAS_FUTURE;
   public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
       + VIEW_COMMITTED
-      + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " ";
+      + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID
+      + " AND " + WHERE_NOT_VOID;
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
       "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
