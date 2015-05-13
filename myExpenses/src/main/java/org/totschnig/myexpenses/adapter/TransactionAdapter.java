@@ -39,6 +39,7 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -80,6 +81,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.amount = (TextView) v.findViewById(R.id.amount);
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
+    holder.voidMarker = (ImageView) v.findViewById(R.id.voidMarker);
     TextView tv = (TextView) v.findViewById(R.id.date);
     holder.date = tv;
     if (mAccount.getId() < 0) {
@@ -199,11 +201,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     } else {
       viewHolder.colorContainer.setVisibility(View.GONE);
     }
-    if (status.equals(CrStatus.VOID)) {
-      convertView.setBackgroundResource(R.drawable.voided_x);
-    } else {
-      convertView.setBackgroundDrawable(null);
-    }
+    viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
     return convertView;
   }
   public void refreshDateFormat() {
@@ -229,5 +227,6 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     View color1;
     View colorContainer;
     TextView date;
+    ImageView voidMarker;
   }
 }
