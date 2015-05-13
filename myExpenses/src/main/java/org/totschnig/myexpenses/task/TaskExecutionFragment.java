@@ -38,7 +38,7 @@ import android.util.Log;
  */
 public class TaskExecutionFragment<T> extends Fragment {
   private static final String KEY_EXTRA = "extra";
-  private static final String KEY_OBJECT_IDS = "objectIds";
+  public static final String KEY_OBJECT_IDS = "objectIds";
   private static final String KEY_RUNNING = "running";
   private static final String KEY_TASKID = "taskId";
   public static final String KEY_WITH_PARTIES = "withParties";

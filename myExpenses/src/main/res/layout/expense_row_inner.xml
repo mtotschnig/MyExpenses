@@ -58,11 +58,12 @@
             android:layout_centerVertical="true"
             android:text="AMOUNT"/>
 
-        <ImageView
+        <View
             android:id="@+id/voidMarker"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/voided_x"
+            android:layout_height="2px"
+            android:layout_centerInParent="true"
+            android:background="#FFFF0000"
             android:visibility="gone"
             tools:visibility="visible"/>
     </RelativeLayout>

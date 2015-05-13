@@ -431,6 +431,7 @@
     <string name="status_cleared">cleared</string>
     <string name="status_reconciled">reconciled</string>
     <string name="status_uncreconciled">unreconciled</string>
+    <string name="status_void">void</string>
     <string name="subcategory">Subcategory</string>
     <string name="sum_expenses">Expenses</string>
     <string name="sum_income">Income</string>
@@ -553,5 +554,6 @@
   <string name="export_handle_deleted_create_helper">Update opening balance</string>
   <string name="file_name">File name</string>
   <string name="folder_name">Folder name</string>
+  <string name="mark_void_instead_of_delete">Do not delete transaction, mark as void instead.</string>
 </resources>
 

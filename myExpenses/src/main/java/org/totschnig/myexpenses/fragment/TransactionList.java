@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -283,16 +284,21 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (hasReconciled) {
         message += " " + getString(R.string.warning_delete_reconciled);
       }
-      MessageDialogFragment.newInstance(
-          R.string.dialog_title_warning_delete_transaction,
-          message,
-          new MessageDialogFragment.Button(
-              R.string.menu_delete,
-              R.id.DELETE_COMMAND_DO,
-              itemIds),
-          null,
-          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
-        .show(fm,"DELETE_TRANSACTION");
+      Bundle b = new Bundle();
+      b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+          R.string.dialog_title_warning_delete_transaction);
+      b.putString(
+          ConfirmationDialogFragment.KEY_MESSAGE, message);
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+          R.id.DELETE_COMMAND_DO);
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+          R.id.CANCEL_CALLBACK_COMMAND);
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.menu_delete);
+      b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+          R.string.mark_void_instead_of_delete);
+      b.putSerializable(TaskExecutionFragment.KEY_OBJECT_IDS,itemIds);
+      ConfirmationDialogFragment.newInstance(b)
+          .show(getFragmentManager(), "DELETE_TRANSACTION");
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       ctx.startTaskExecution(

@@ -81,7 +81,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.amount = (TextView) v.findViewById(R.id.amount);
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
-    holder.voidMarker = (ImageView) v.findViewById(R.id.voidMarker);
+    holder.voidMarker = (View) v.findViewById(R.id.voidMarker);
     TextView tv = (TextView) v.findViewById(R.id.date);
     holder.date = tv;
     if (mAccount.getId() < 0) {
@@ -198,6 +198,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     if (!mAccount.type.equals(Type.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
+      viewHolder.colorContainer.setVisibility(View.VISIBLE);
     } else {
       viewHolder.colorContainer.setVisibility(View.GONE);
     }
@@ -227,6 +228,6 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     View color1;
     View colorContainer;
     TextView date;
-    ImageView voidMarker;
+    View voidMarker;
   }
 }

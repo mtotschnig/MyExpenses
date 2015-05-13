@@ -38,7 +38,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
@@ -154,7 +153,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       try {
         for (long id : (Long[]) ids) {
-          Transaction.delete(id);
+          Transaction.delete(id,(boolean)mExtra);
         }
       } catch (SQLiteConstraintException e) {
         Utils.reportToAcraWithDbSchema(e);
@@ -232,7 +231,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         transactionId = extraInfo2d[i][1];
         Long templateId = extraInfo2d[i][0];
         if (transactionId != null && transactionId > 0L) {
-          Transaction.delete(transactionId);
+          Transaction.delete(transactionId, false);
         } else {
           cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
               KEY_INSTANCEID + " = ?",
@@ -249,7 +248,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       for (int i = 0; i < ids.length; i++) {
         transactionId = ((Long[]) mExtra)[i];
         if (transactionId != null && transactionId > 0L) {
-          Transaction.delete(transactionId);
+          Transaction.delete(transactionId, false);
         }
         cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
             KEY_INSTANCEID + " = ?", new String[] { String.valueOf(ids[i]) });

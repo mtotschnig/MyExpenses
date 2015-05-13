@@ -125,12 +125,14 @@ public class Transaction extends Model {
     public String toString() {
       Context ctx = MyApplication.getInstance();
       switch (this) {
-      case CLEARED:
-        return ctx.getString(R.string.status_cleared);
-      case RECONCILED:
-        return ctx.getString(R.string.status_reconciled);
-      case UNRECONCILED:
-        return ctx.getString(R.string.status_uncreconciled);
+        case CLEARED:
+          return ctx.getString(R.string.status_cleared);
+        case RECONCILED:
+          return ctx.getString(R.string.status_reconciled);
+        case UNRECONCILED:
+          return ctx.getString(R.string.status_uncreconciled);
+        case VOID:
+          return ctx.getString(R.string.status_void);
       }
       return super.toString();
     }
@@ -263,8 +265,15 @@ public class Transaction extends Model {
     return new Transaction(account,0L);
   }
   
-  public static void delete(long id) {
-    cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
+  public static void delete(long id, boolean markAsVoid) {
+    Uri itemUri = ContentUris.appendId(CONTENT_URI.buildUpon(), id).build();
+    if (markAsVoid) {
+      ContentValues v = new ContentValues();
+      v.put(KEY_CR_STATUS,CrStatus.VOID.name());
+      cr().update(itemUri,v,null,null);
+    } else {
+      cr().delete(itemUri, null, null);
+    }
   }
   //needed for Template subclass
   protected Transaction() {
@@ -275,7 +284,7 @@ public class Transaction extends Model {
    * new empty transaction
    */
   public Transaction(long accountId,Long amount) {
-    this(Account.getInstanceFromDb(accountId),amount);
+    this(Account.getInstanceFromDb(accountId), amount);
   }
   public Transaction(long accountId,Money amount) {
     this();
