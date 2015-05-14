@@ -98,4 +98,5 @@
   <item type="id" name="SAVE_COMMAND" />
   <item type="id" name="SEARCH_COMMAND" />
   <item name="SELECT_COMMAND_MULTIPLE" type="id"/>
+  <item name="UNDELETE_COMMAND" type="id"/>
 </resources>

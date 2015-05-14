@@ -555,5 +555,6 @@
   <string name="file_name">File name</string>
   <string name="folder_name">Folder name</string>
   <string name="mark_void_instead_of_delete">Do not delete transaction, mark as void instead.</string>
+  <string name="menu_undelete_transaction">Undelete</string>
 </resources>
 

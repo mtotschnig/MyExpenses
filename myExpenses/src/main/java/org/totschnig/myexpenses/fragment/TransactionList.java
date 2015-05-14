@@ -681,20 +681,26 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu,isSplitAtPosition(info.position));
+    configureMenuInternal(menu,isSplitAtPosition(info.position),isNotVoidAtPosition(info.position));
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
     super.configureMenu11(menu, count);
     SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-    boolean hasSplit = false;
+    boolean hasSplit = false, hasNotVoid = false;
     for (int i=0; i<checkedItemPositions.size(); i++) {
       if (checkedItemPositions.valueAt(i) && isSplitAtPosition(checkedItemPositions.keyAt(i))) {
         hasSplit = true;
         break;
       }
     }
-    configureMenuInternal(menu, hasSplit);
+    for (int i=0; i<checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i) && isNotVoidAtPosition(checkedItemPositions.keyAt(i))) {
+        hasNotVoid = true;
+        break;
+      }
+    }
+    configureMenuInternal(menu, hasSplit, hasNotVoid);
   }
   private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
@@ -706,9 +712,27 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     return false;
   }
-  private void configureMenuInternal(Menu menu, boolean hasSplit) {
+  private boolean isNotVoidAtPosition(int position) {
+    if (mTransactionsCursor != null) {
+      //templates for splits is not yet implemented
+      if (mTransactionsCursor.moveToPosition(position)) {
+        CrStatus status;
+        try {
+          status = CrStatus.valueOf(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_CR_STATUS)));
+        } catch (IllegalArgumentException ex) {
+          status = CrStatus.UNRECONCILED;
+        }
+        if (!status.equals(CrStatus.VOID)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasNotVoid) {
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(!hasSplit);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit);
+    menu.findItem(R.id.UNDELETE_COMMAND).setVisible(!hasNotVoid);
   }
   @SuppressLint("NewApi")
   public void onDrawerOpened() {
