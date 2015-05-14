@@ -267,24 +267,22 @@ public class TransactionList extends ContextualActionBarFragment implements
     switch(command) {
     case R.id.DELETE_COMMAND:
       boolean hasReconciled = false, hasNotVoid = false;
-      if (mAccount.type != Type.CASH) {
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            mTransactionsCursor.moveToPosition(positions.keyAt(i));
-            CrStatus status;
-            try {
-              status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
-            } catch (IllegalArgumentException ex) {
-              status = CrStatus.UNRECONCILED;
-            }
-            if (status == CrStatus.RECONCILED) {
-              hasReconciled = true;
-            }
-            if (status != CrStatus.VOID) {
-              hasNotVoid = true;
-            }
-            if (hasNotVoid && hasReconciled) break;
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          mTransactionsCursor.moveToPosition(positions.keyAt(i));
+          CrStatus status;
+          try {
+            status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
+          } catch (IllegalArgumentException ex) {
+            status = CrStatus.UNRECONCILED;
           }
+          if (status == CrStatus.RECONCILED) {
+            hasReconciled = true;
+          }
+          if (status != CrStatus.VOID) {
+            hasNotVoid = true;
+          }
+          if (hasNotVoid && hasReconciled) break;
         }
       }
       String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
@@ -535,7 +533,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     LayoutInflater inflater;
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
-      super(mAccount,context, layout, c, from, to, flags);
+      super(mAccount, context, layout, c, from, to, flags);
       inflater = LayoutInflater.from(getActivity());
     }
     @SuppressWarnings("incomplete-switch")
