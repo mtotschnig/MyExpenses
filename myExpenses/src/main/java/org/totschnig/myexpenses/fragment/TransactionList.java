@@ -315,6 +315,13 @@ public class TransactionList extends ContextualActionBarFragment implements
         CommonCommands.showContribDialog(ctx,ContribFeature.SPLIT_TRANSACTION, itemIds);
       }
       break;
+      case R.id.UNDELETE_COMMAND:
+        ctx.startTaskExecution(
+            TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
+            itemIds,
+            null,
+            0);
+        break;
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);

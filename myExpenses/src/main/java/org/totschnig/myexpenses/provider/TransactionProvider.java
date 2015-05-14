@@ -98,6 +98,7 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/dual");
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
+  public static final String URI_SEGMENT_UNDELETE = "undelete";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
   public static final String URI_SEGMENT_GROUPS = "groups";
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits"; 
@@ -149,6 +150,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int DEBUG_SCHEMA = 35;
   private static final int STALE_IMAGES = 36;
   private static final int STALE_IMAGES_ID = 37;
+  private static final int TRANSACTION_UNDELETE = 38;
   
   @Override
   public boolean onCreate() {
@@ -735,17 +737,15 @@ public class TransactionProvider extends ContentProvider {
             args,
             KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
             new String[] {segment});
-        //we delete the transaction, and its transfer peer, and transfer peers of its children
-        String whereClause = KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
-            + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
-            + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
+        //we delete the transaction, its children (in case of delete they are also handled by
+        //ON DELETE CASCADE, but not in case of mark void and its transfer peer, and transfer peers of its children
         whereArgs = new String[] {segment,segment, segment, segment};
         if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
-          count = db.delete(TABLE_TRANSACTIONS, whereClause, whereArgs);
+          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, whereArgs);
         } else {
           ContentValues v = new ContentValues();
           v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
-          count = db.update(TABLE_TRANSACTIONS,v,whereClause,whereArgs);
+          count = db.update(TABLE_TRANSACTIONS,v,WHERE_DEPENDENT,whereArgs);
         }
         db.setTransactionSuccessful();
       }    finally {
@@ -866,6 +866,13 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
           whereArgs);
+      break;
+    case TRANSACTION_UNDELETE:
+      segment = uri.getPathSegments().get(1);
+      whereArgs = new String[] {segment,segment, segment, segment};
+      ContentValues v = new ContentValues();
+      v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+      count = db.update(TABLE_TRANSACTIONS,v,WHERE_DEPENDENT,whereArgs);
       break;
     case ACCOUNTS:
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
@@ -1118,6 +1125,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories/#/" + URI_SEGMENT_INCREASE_USAGE, CATEGORY_INCREASE_USAGE);

@@ -284,4 +284,9 @@ public class DatabaseConstants {
       "count(CASE WHEN  " + KEY_PAYEEID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_PAYEES;
   public static final String MAPPED_METHODS =
       "count(CASE WHEN  " + KEY_METHODID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
+
+  public static final String WHERE_DEPENDENT =
+      KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+          + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
+          + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
 }

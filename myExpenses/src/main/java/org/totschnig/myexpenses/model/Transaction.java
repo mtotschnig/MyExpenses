@@ -272,6 +272,11 @@ public class Transaction extends Model {
     }
     cr().delete(builder.build(),null,null);
   }
+  public static void undelete(long id) {
+    Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
+        .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();
+    cr().update(uri,null,null,null);
+  }
   //needed for Template subclass
   protected Transaction() {
     setDate(new Date());

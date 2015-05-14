@@ -86,6 +86,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_HAS_STALE_IMAGES = 31;
   public static final int TASK_DELETE_IMAGES = 32;
   public static final int TASK_SAVE_IMAGES = 33;
+  public static final int TASK_UNDELETE_TRANSACTION = 34;
 
 
   /**
