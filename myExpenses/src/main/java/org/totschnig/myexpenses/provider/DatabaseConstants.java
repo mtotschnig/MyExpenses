@@ -253,11 +253,11 @@ public class DatabaseConstants {
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + Transaction.CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
-      WHERE_NOT_SPLIT + " AND " + KEY_TRANSFER_PEER + " is null";
+      WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is null";
   public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_EXPENSE = KEY_AMOUNT + "<0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_TRANSFER =
-      WHERE_NOT_SPLIT+ " AND " + KEY_TRANSFER_PEER + " is not null";
+      WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
   public static final String INCOME_SUM = 
     "sum(CASE WHEN " + WHERE_INCOME + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   public static final String EXPENSE_SUM = 

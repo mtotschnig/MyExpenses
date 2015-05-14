@@ -283,7 +283,6 @@ public class TransactionProvider extends ContentProvider {
             + MAPPED_CATEGORIES
             + " FROM " + VIEW_EXTENDED
             + " WHERE " + accountSelectionQuery
-            + " AND " + WHERE_NOT_VOID
             + (selection!=null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
       projection = new String[7];
