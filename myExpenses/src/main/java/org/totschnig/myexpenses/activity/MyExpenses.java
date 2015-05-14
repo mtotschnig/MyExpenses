@@ -1211,6 +1211,9 @@ public class MyExpenses extends LaunchActivity implements
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
      break;
+   case R.id.DELETE_COMMAND_DO:
+     //Confirmation dialog was shown without Checkbox, because it was called with only void transactions
+     onPositive(args,false);
    }
   }
   @Override

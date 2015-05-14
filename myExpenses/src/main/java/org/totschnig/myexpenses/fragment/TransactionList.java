@@ -266,21 +266,28 @@ public class TransactionList extends ContextualActionBarFragment implements
     FragmentManager fm = ctx.getSupportFragmentManager();
     switch(command) {
     case R.id.DELETE_COMMAND:
-      boolean hasReconciled = false;
+      boolean hasReconciled = false, hasNotVoid = false;
       if (mAccount.type != Type.CASH) {
-        for (int i=0; i<positions.size(); i++) {
-          mTransactionsCursor.moveToPosition(i);
-          try {
-            if (CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus))==CrStatus.RECONCILED) {
-              hasReconciled = true;
-              break;
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            mTransactionsCursor.moveToPosition(positions.keyAt(i));
+            CrStatus status;
+            try {
+              status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
+            } catch (IllegalArgumentException ex) {
+              status = CrStatus.UNRECONCILED;
             }
-          } catch (IllegalArgumentException ex) {
-            continue;
+            if (status == CrStatus.RECONCILED) {
+              hasReconciled = true;
+            }
+            if (status != CrStatus.VOID) {
+              hasNotVoid = true;
+            }
+            if (hasNotVoid && hasReconciled) break;
           }
         }
       }
-      String message = getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length);
+      String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
       if (hasReconciled) {
         message += " " + getString(R.string.warning_delete_reconciled);
       }
@@ -293,9 +300,11 @@ public class TransactionList extends ContextualActionBarFragment implements
           R.id.DELETE_COMMAND_DO);
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
           R.id.CANCEL_CALLBACK_COMMAND);
-      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.menu_delete);
-      b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-          R.string.mark_void_instead_of_delete);
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
+      if (hasNotVoid) {
+        b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+            R.string.mark_void_instead_of_delete);
+      }
       b.putSerializable(TaskExecutionFragment.KEY_OBJECT_IDS,itemIds);
       ConfirmationDialogFragment.newInstance(b)
           .show(getFragmentManager(), "DELETE_TRANSACTION");
