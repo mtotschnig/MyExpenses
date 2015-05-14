@@ -106,6 +106,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_IS_FILTERED = "isFiltered";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
+  public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
 
   
   static final String TAG = "TransactionProvider";
@@ -734,15 +735,20 @@ public class TransactionProvider extends ContentProvider {
             args,
             KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
             new String[] {segment});
-        //we delete the transaction, and its transfer peers, and transfer peers of its children
-        //children are deleted through ON DELETE CASCADE
-        count = db.delete(TABLE_TRANSACTIONS,
-            KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
-                + KEY_ROWID + " IN "
-                + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
-           new String[] {segment,segment,segment});
+        //we delete the transaction, and its transfer peer, and transfer peers of its children
+        String whereClause = KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+            + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
+            + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
+        whereArgs = new String[] {segment,segment, segment, segment};
+        if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
+          count = db.delete(TABLE_TRANSACTIONS, whereClause, whereArgs);
+        } else {
+          ContentValues v = new ContentValues();
+          v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
+          count = db.update(TABLE_TRANSACTIONS,v,whereClause,whereArgs);
+        }
         db.setTransactionSuccessful();
-      } finally {
+      }    finally {
         db.endTransaction();
       }
       break;

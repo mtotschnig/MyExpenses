@@ -266,14 +266,11 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id, boolean markAsVoid) {
-    Uri itemUri = ContentUris.appendId(CONTENT_URI.buildUpon(), id).build();
+    Uri.Builder builder = ContentUris.appendId(CONTENT_URI.buildUpon(), id);
     if (markAsVoid) {
-      ContentValues v = new ContentValues();
-      v.put(KEY_CR_STATUS,CrStatus.VOID.name());
-      cr().update(itemUri,v,null,null);
-    } else {
-      cr().delete(itemUri, null, null);
+      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID,"1");
     }
+    cr().delete(builder.build(),null,null);
   }
   //needed for Template subclass
   protected Transaction() {

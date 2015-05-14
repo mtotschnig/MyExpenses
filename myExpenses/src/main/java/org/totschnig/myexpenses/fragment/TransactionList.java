@@ -681,7 +681,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu,isSplitAtPosition(info.position),isNotVoidAtPosition(info.position));
+    configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position));
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
@@ -695,7 +695,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       }
     }
     for (int i=0; i<checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i) && isNotVoidAtPosition(checkedItemPositions.keyAt(i))) {
+      if (checkedItemPositions.valueAt(i) && isVoidAtPosition(checkedItemPositions.keyAt(i))) {
         hasNotVoid = true;
         break;
       }
@@ -712,27 +712,27 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     return false;
   }
-  private boolean isNotVoidAtPosition(int position) {
+  private boolean isVoidAtPosition(int position) {
     if (mTransactionsCursor != null) {
-      //templates for splits is not yet implemented
       if (mTransactionsCursor.moveToPosition(position)) {
         CrStatus status;
         try {
-          status = CrStatus.valueOf(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_CR_STATUS)));
+          status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
         } catch (IllegalArgumentException ex) {
           status = CrStatus.UNRECONCILED;
         }
-        if (!status.equals(CrStatus.VOID)) {
+        if (status.equals(CrStatus.VOID)) {
           return true;
         }
       }
     }
     return false;
   }
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasNotVoid) {
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid) {
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(!hasSplit);
-    menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit);
-    menu.findItem(R.id.UNDELETE_COMMAND).setVisible(!hasNotVoid);
+    menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
+    menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(!hasVoid);
   }
   @SuppressLint("NewApi")
   public void onDrawerOpened() {
