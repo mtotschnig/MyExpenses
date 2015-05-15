@@ -913,10 +913,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "parent_id," +
           "status," +
           "cr_status, " +
-          "number " +
-          "picture_id "
+          "number, " +
+          "picture_id " +
           "FROM transactions_old");
       db.execSQL("DROP TABLE transactions_old");
+      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
+          + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
+      db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
     }
   }
   @Override
