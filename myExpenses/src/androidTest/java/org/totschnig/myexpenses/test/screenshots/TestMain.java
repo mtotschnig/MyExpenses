@@ -11,6 +11,7 @@ import android.provider.Settings.Secure;
 import android.test.ActivityInstrumentationTestCase2;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.test.util.Fixture;
 import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -41,7 +42,7 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	}
 	public void testLang_en() {
     defaultCurrency = Currency.getInstance("USD");
-	  helperTestLang("en","US");
+	  helperTestLang("en", "US");
 	}
   public void testLang_fr() {
     defaultCurrency = Currency.getInstance("EUR");
@@ -124,6 +125,10 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     defaultCurrency = Currency.getInstance("LKR");
     helperTestLang("si","SI");
   }
+  public void testLang_eu() {
+    defaultCurrency = Currency.getInstance("EUR");
+    helperTestLang("eu","ES");
+  }
 	private void helperTestLang(String lang, String country) {
 	  this.locale = new Locale(lang,country);
 	  Locale.setDefault(locale); 
@@ -148,8 +153,11 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
+    int current_version = CommonCommands.getVersionNumber(getActivity());
     pref.edit()
-        .putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(),Fixture.getAccount3().getId())
+        .putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(), Fixture.getAccount3().getId())
+        .putInt(MyApplication.PrefKey.CURRENT_VERSION.getKey(), current_version)
+        .putInt(MyApplication.PrefKey.FIRST_INSTALL_VERSION.getKey(),current_version)
         .commit();
 	}
 }

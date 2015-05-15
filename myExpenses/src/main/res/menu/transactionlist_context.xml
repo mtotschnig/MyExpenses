@@ -36,4 +36,10 @@
     android:showAsAction="always"
     android:title="@string/menu_split_transaction">
   </item>
+  <item
+      android:id="@id/UNDELETE_COMMAND"
+      android:icon="@drawable/ic_menu_undelete"
+      android:showAsAction="always"
+      android:title="@string/menu_undelete_transaction">
+  </item>
 </menu>

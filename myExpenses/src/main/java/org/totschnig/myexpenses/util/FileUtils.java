@@ -33,6 +33,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import org.totschnig.myexpenses.BuildConfig;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.text.DecimalFormat;
@@ -49,7 +51,7 @@ public class FileUtils {
 
   /** TAG for log messages. */
   static final String TAG = "FileUtils";
-  private static final boolean DEBUG = false; // Set to true to enable logging
+  private static final boolean DEBUG = BuildConfig.DEBUG; // Set to true to enable logging
 
   public static final String MIME_TYPE_AUDIO = "audio/*";
   public static final String MIME_TYPE_TEXT = "text/*";
@@ -270,7 +272,11 @@ public class FileUtils {
         final String type = split[0];
 
         if ("primary".equalsIgnoreCase(type)) {
-          return Environment.getExternalStorageDirectory() + "/" + split[1];
+          String path = Environment.getExternalStorageDirectory().getPath();
+          if (split.length > 1) {
+            path += "/" + split[1];
+          }
+          return path;
         }
 
         // TODO handle non-primary volumes

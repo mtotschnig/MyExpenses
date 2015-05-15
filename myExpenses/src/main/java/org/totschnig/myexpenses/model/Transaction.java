@@ -115,7 +115,7 @@ public class Transaction extends Model {
 
 
   public enum CrStatus {
-    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
+    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X"),VOID(Color.RED,null);
     public int color;
     public String symbol;
     CrStatus(int color,String symbol) {
@@ -125,12 +125,14 @@ public class Transaction extends Model {
     public String toString() {
       Context ctx = MyApplication.getInstance();
       switch (this) {
-      case CLEARED:
-        return ctx.getString(R.string.status_cleared);
-      case RECONCILED:
-        return ctx.getString(R.string.status_reconciled);
-      case UNRECONCILED:
-        return ctx.getString(R.string.status_uncreconciled);
+        case CLEARED:
+          return ctx.getString(R.string.status_cleared);
+        case RECONCILED:
+          return ctx.getString(R.string.status_reconciled);
+        case UNRECONCILED:
+          return ctx.getString(R.string.status_uncreconciled);
+        case VOID:
+          return ctx.getString(R.string.status_void);
       }
       return super.toString();
     }
@@ -263,8 +265,17 @@ public class Transaction extends Model {
     return new Transaction(account,0L);
   }
   
-  public static void delete(long id) {
-    cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
+  public static void delete(long id, boolean markAsVoid) {
+    Uri.Builder builder = ContentUris.appendId(CONTENT_URI.buildUpon(), id);
+    if (markAsVoid) {
+      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID,"1");
+    }
+    cr().delete(builder.build(),null,null);
+  }
+  public static void undelete(long id) {
+    Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
+        .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();
+    cr().update(uri,null,null,null);
   }
   //needed for Template subclass
   protected Transaction() {
@@ -275,7 +286,7 @@ public class Transaction extends Model {
    * new empty transaction
    */
   public Transaction(long accountId,Long amount) {
-    this(Account.getInstanceFromDb(accountId),amount);
+    this(Account.getInstanceFromDb(accountId), amount);
   }
   public Transaction(long accountId,Money amount) {
     this();

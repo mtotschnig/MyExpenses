@@ -40,44 +40,45 @@ import android.widget.Toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (MyApplication.getInstance().isContribEnabled()) {
-          DonateDialogFragment.newInstance().show(
-              getSupportFragmentManager(), "CONTRIB");
-          return;
-        }
+      super.onCreate(savedInstanceState);
+      setTheme(MyApplication.getThemeId());
+      if (MyApplication.getInstance().isContribEnabled()) {
+        DonateDialogFragment.newInstance().show(
+            getSupportFragmentManager(), "CONTRIB");
+        return;
+      }
 
-        mHelper = Distrib.getIabHelper(this);
-        if (mHelper!=null) {
-          mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                Log.d(tag, "Setup finished.");
-  
-                if (!result.isSuccess()) {
-                  mSetupDone = false;
-                    // Oh noes, there was a problem.
-                  complain("Problem setting up in-app billing: " + result);
-                  return;
-                }
-                mSetupDone = true;
-                Log.d(tag, "Setup successful.");
-            }
-          });
-        }
+      mHelper = Distrib.getIabHelper(this);
+      if (mHelper!=null) {
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+          public void onIabSetupFinished(IabResult result) {
+              Log.d(tag, "Setup finished.");
 
-        ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+              if (!result.isSuccess()) {
+                mSetupDone = false;
+                  // Oh noes, there was a problem.
+                complain("Problem setting up in-app billing: " + result);
+                return;
+              }
+              mSetupDone = true;
+              Log.d(tag, "Setup successful.");
+          }
+        });
+      }
 
-        if (f==null) {
-          sequenceCount = getIntent().getLongExtra(
-              ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
-          ContribInfoDialogFragment.newInstance(
-              sequenceCount)
-            .show(getSupportFragmentManager(),"CONTRIB_INFO");
-        } else {
-          ContribDialogFragment.newInstance(f,
-              getIntent().getSerializableExtra(KEY_TAG))
+      ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+
+      if (f==null) {
+        sequenceCount = getIntent().getLongExtra(
+            ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
+        ContribInfoDialogFragment.newInstance(
+            sequenceCount)
+          .show(getSupportFragmentManager(),"CONTRIB_INFO");
+      } else {
+        ContribDialogFragment.newInstance(
+            f,getIntent().getSerializableExtra(KEY_TAG))
             .show(getSupportFragmentManager(),"CONTRIB");
-        }
+      }
     }
     @Override
     public boolean dispatchCommand(int command, Object tag) {

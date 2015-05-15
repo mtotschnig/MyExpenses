@@ -122,7 +122,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    EditTextDialogListener, ConfirmationDialogListener,
+    EditTextDialogListener, ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
+    ConfirmationDialogListener,
     ContribIFace {
 
   private static final int VIEWPAGER = R.id.viewpager;
@@ -145,6 +146,8 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private long mAccountId = 0;
   int mAccountCount = 0;
+
+
   public enum HelpVariant {
     crStatus
   }
@@ -615,16 +618,8 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
-      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,transferEnabledGlobal());
+      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, transferEnabledGlobal());
       startActivity(i);
-      return true;
-    case R.id.DELETE_COMMAND_DO:
-      finishActionMode();
-      startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-          (Long[])tag,
-          null,
-          R.string.progress_dialog_deleting);
       return true;
     case R.id.CREATE_ACCOUNT_COMMAND:
       if (mAccountCount == 0) {
@@ -1223,6 +1218,9 @@ public class MyExpenses extends LaunchActivity implements
          new Long[]{args.getLong(KEY_ROWID)},
          args.getBoolean("deleteP"), 0);
      break;
+   case R.id.DELETE_COMMAND_DO:
+     //Confirmation dialog was shown without Checkbox, because it was called with only void transactions
+     onPositive(args,false);
    }
   }
 /*  @Override
@@ -1290,7 +1288,23 @@ public class MyExpenses extends LaunchActivity implements
      }
    }
   @Override
+  public void onPositive(Bundle args, boolean checked) {
+    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+      case R.id.DELETE_COMMAND_DO:
+        finishActionMode();
+        startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+            (Long[])args.getSerializable(TaskExecutionFragment.KEY_OBJECT_IDS),
+            new Boolean(checked),
+            R.string.progress_dialog_deleting);
+    }
+  }
+  @Override
   public void onNegative(Bundle args) {
+    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
+    if (command!=0) {
+      dispatchCommand(command,null);
+    }
   }
   @Override
   public void onDismissOrCancel(Bundle args) {

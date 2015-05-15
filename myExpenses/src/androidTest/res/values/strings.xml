@@ -12,20 +12,10 @@
     <string name="testData_account3Label">Bank account</string>
     <string name="testData_account3Description">Bank of America</string>
     <!-- the cats must exist in the categories of the locale -->
-    <string name="testData_transaction1SubCat">Metro</string>
-    <string name="testData_transaction1MainCat">Transport</string>
-    <string name="testData_transaction2SubCat">Grocery</string>
-    <string name="testData_transaction2MainCat">Food</string>
     <!-- just an example of how one could describe by a comment a specific purchase -->
     <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
-    <string name="testData_transaction3SubCat">Fuel</string>
-    <string name="testData_transaction3MainCat">Car</string>
-    <string name="testData_transaction4SubCat">Restaurant</string>
     <!-- should be the name of a typical restaurant -->
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
-    <string name="testData_transaction6MainCat">Gifts</string>
-    <string name="testData_templateMainCat">Housing</string>
-    <string name="testData_templateSubCat">Rent</string>
     <!-- a name typically used as example name -->
     <string name="testData_templatePayee">John Doe</string>
 </resources>

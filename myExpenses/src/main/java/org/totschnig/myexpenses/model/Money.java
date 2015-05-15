@@ -61,14 +61,10 @@ public class Money implements Serializable {
     this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10,fractionDigits))).longValue();
   }
   public BigDecimal getAmountMajor() {
-    BigDecimal bd = new BigDecimal(amountMinor);
-    try {
-      return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)));
-    } catch (ArithmeticException e) {
-      Utils.reportToAcra(new RuntimeException(
-          "Error calculating amount major for : "+amountMinor+" with "+fractionDigits + "fraction digits.",e));
-      return bd.divide(new BigDecimal(Math.pow(10,fractionDigits)),fractionDigits,RoundingMode.DOWN);
-    }
+    return new BigDecimal(amountMinor).divide(
+        new BigDecimal(Math.pow(10, fractionDigits)),
+        fractionDigits,
+        RoundingMode.DOWN);
   }
   @Override
   public boolean equals(Object obj) {

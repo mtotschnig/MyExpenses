@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -265,34 +266,46 @@ public class TransactionList extends ContextualActionBarFragment implements
     FragmentManager fm = ctx.getSupportFragmentManager();
     switch(command) {
     case R.id.DELETE_COMMAND:
-      boolean hasReconciled = false;
-      if (mAccount.type != Type.CASH) {
-        for (int i=0; i<positions.size(); i++) {
-          mTransactionsCursor.moveToPosition(i);
+      boolean hasReconciled = false, hasNotVoid = false;
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          mTransactionsCursor.moveToPosition(positions.keyAt(i));
+          CrStatus status;
           try {
-            if (CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus))==CrStatus.RECONCILED) {
-              hasReconciled = true;
-              break;
-            }
+            status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
           } catch (IllegalArgumentException ex) {
-            continue;
+            status = CrStatus.UNRECONCILED;
           }
+          if (status == CrStatus.RECONCILED) {
+            hasReconciled = true;
+          }
+          if (status != CrStatus.VOID) {
+            hasNotVoid = true;
+          }
+          if (hasNotVoid && hasReconciled) break;
         }
       }
-      String message = getResources().getQuantityString(R.plurals.warning_delete_transaction,itemIds.length,itemIds.length);
+      String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
       if (hasReconciled) {
         message += " " + getString(R.string.warning_delete_reconciled);
       }
-      MessageDialogFragment.newInstance(
-          R.string.dialog_title_warning_delete_transaction,
-          message,
-          new MessageDialogFragment.Button(
-              R.string.menu_delete,
-              R.id.DELETE_COMMAND_DO,
-              itemIds),
-          null,
-          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
-        .show(fm,"DELETE_TRANSACTION");
+      Bundle b = new Bundle();
+      b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+          R.string.dialog_title_warning_delete_transaction);
+      b.putString(
+          ConfirmationDialogFragment.KEY_MESSAGE, message);
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+          R.id.DELETE_COMMAND_DO);
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+          R.id.CANCEL_CALLBACK_COMMAND);
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
+      if (hasNotVoid) {
+        b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+            R.string.mark_void_instead_of_delete);
+      }
+      b.putSerializable(TaskExecutionFragment.KEY_OBJECT_IDS,itemIds);
+      ConfirmationDialogFragment.newInstance(b)
+          .show(getFragmentManager(), "DELETE_TRANSACTION");
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       ctx.startTaskExecution(
@@ -309,6 +322,13 @@ public class TransactionList extends ContextualActionBarFragment implements
         CommonCommands.showContribDialog(ctx,ContribFeature.SPLIT_TRANSACTION, itemIds);
       }
       break;
+      case R.id.UNDELETE_COMMAND:
+        ctx.startTaskExecution(
+            TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
+            itemIds,
+            null,
+            0);
+        break;
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
@@ -513,7 +533,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     LayoutInflater inflater;
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
-      super(mAccount,context, layout, c, from, to, flags);
+      super(mAccount, context, layout, c, from, to, flags);
       inflater = LayoutInflater.from(getActivity());
     }
     @SuppressWarnings("incomplete-switch")
@@ -675,20 +695,26 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu,isSplitAtPosition(info.position));
+    configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position));
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
     super.configureMenu11(menu, count);
     SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-    boolean hasSplit = false;
+    boolean hasSplit = false, hasNotVoid = false;
     for (int i=0; i<checkedItemPositions.size(); i++) {
       if (checkedItemPositions.valueAt(i) && isSplitAtPosition(checkedItemPositions.keyAt(i))) {
         hasSplit = true;
         break;
       }
     }
-    configureMenuInternal(menu, hasSplit);
+    for (int i=0; i<checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i) && isVoidAtPosition(checkedItemPositions.keyAt(i))) {
+        hasNotVoid = true;
+        break;
+      }
+    }
+    configureMenuInternal(menu, hasSplit, hasNotVoid);
   }
   private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
@@ -700,9 +726,27 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     return false;
   }
-  private void configureMenuInternal(Menu menu, boolean hasSplit) {
+  private boolean isVoidAtPosition(int position) {
+    if (mTransactionsCursor != null) {
+      if (mTransactionsCursor.moveToPosition(position)) {
+        CrStatus status;
+        try {
+          status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
+        } catch (IllegalArgumentException ex) {
+          status = CrStatus.UNRECONCILED;
+        }
+        if (status.equals(CrStatus.VOID)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid) {
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(!hasSplit);
-    menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit);
+    menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
+    menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(!hasVoid);
   }
   @SuppressLint("NewApi")
   public void onDrawerOpened() {

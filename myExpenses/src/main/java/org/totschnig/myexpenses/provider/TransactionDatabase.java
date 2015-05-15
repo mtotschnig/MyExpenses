@@ -44,7 +44,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 52;
+  public static final int DATABASE_VERSION = 53;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -880,8 +880,51 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
     }
     if (oldVersion < 52) {
-      db.execSQL("create index transactions_cat_id_index on transactions(cat_id)");
-      db.execSQL("create index templates_cat_id_index on templates(cat_id)");
+      db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
+      db.execSQL("CREATE INDEX templates_cat_id_index on templates(cat_id)");
+    }
+    if (oldVersion < 53) {
+      //add VOID status
+      db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
+      db.execSQL("CREATE TABLE " + "transactions" +  "( "
+      + "_id" + " integer primary key autoincrement, "
+      + "comment" + " text, "
+      + "date" + " DATETIME not null, "
+      + "amount" + " integer not null, "
+      + "cat_id" + " integer references " + "categories" + "(" + "_id" + "), "
+      + "account_id" + " integer not null references " + "accounts" + "(" + "_id" + ") ON DELETE CASCADE,"
+      + "payee_id" + " integer references " + "payee" + "(" + "_id" + "), "
+      + "transfer_peer" + " integer references " + "transactions" + "(" + "_id" + "), "
+      + "transfer_account" + " integer references " + "accounts" + "(" + "_id" + "),"
+      + "method_id" + " integer references " + "paymentmethods" + "(" + "_id" + "),"
+      + "parent_id" + " integer references " + "transactions" + "(" + "_id" + ") ON DELETE CASCADE, "
+      + "status" + " integer default 0, "
+      + "cr_status" + " text not null check (" + "cr_status" + " in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', "
+      + "number" + " text, "
+      + "picture_id" + " text);");
+      db.execSQL("INSERT INTO transactions " +
+          "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,picture_id) " +
+          "SELECT " +
+          "_id, " +
+          "comment, " +
+          "date, " +
+          "amount, "+
+          "cat_id, " +
+          "account_id, " +
+          "payee_id, " +
+          "transfer_peer, " +
+          "transfer_account, " +
+          "method_id," +
+          "parent_id," +
+          "status," +
+          "cr_status, " +
+          "number, " +
+          "picture_id " +
+          "FROM transactions_old");
+      db.execSQL("DROP TABLE transactions_old");
+      db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
+          + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
+      db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
     }
   }
   @Override

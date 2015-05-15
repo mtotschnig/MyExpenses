@@ -7,14 +7,6 @@
   <string name="testData_account2Currency">EUR</string>
   <string name="testData_account3Label">Bankovni račun</string>
   <string name="testData_account3Description">Bank of America</string>
-  <string name="testData_transaction1SubCat">Podzemna željeznica</string>
-  <string name="testData_transaction1MainCat">Prijevoz</string>
-  <string name="testData_transaction2SubCat">Namirnice</string>
-  <string name="testData_transaction2MainCat">Hrana</string>
   <string name="testData_transaction2Comment">Voće i povrće</string>
-  <string name="testData_transaction3SubCat">Gorivo</string>
-  <string name="testData_transaction3MainCat">Automobil</string>
-  <string name="testData_transaction4SubCat">Restoran</string>
   <string name="testData_transaction4Payee">Pizzeria Antonella</string>
-  <string name="testData_transaction6MainCat">Darovi</string>
 </resources>

@@ -43,9 +43,6 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   abstract int getLayoutTitle();
   abstract String getTypeName();
   abstract String getPrefKey();
-  protected String getMimeType() {
-    return "*/*";
-  }
   protected boolean checkTypeParts(String[] typeParts) {
     return typeParts[0].equals("*") || 
     typeParts[0].equals("text") || 
@@ -89,17 +86,10 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
 
   public void openBrowse() {
   
-    Intent intent = new Intent(Utils.getContentIntentAction());
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
     intent.addCategory(Intent.CATEGORY_OPENABLE);
   
-    intent.setDataAndType(mUri,getMimeType());
-    
-    if (isKitKat && !Utils.isIntentAvailable(getActivity(), intent)) {
-      //fallback
-      intent = new Intent(Intent.ACTION_GET_CONTENT);
-      intent.addCategory(Intent.CATEGORY_OPENABLE);
-      intent.setDataAndType(mUri,getMimeType());
-    }
+    intent.setDataAndType(mUri,"*/*");
   
     try {
         startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
@@ -184,8 +174,9 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
             cursor.close();
           }
         }
-      } catch (Exception e) {
-        Utils.reportToAcra(e);
+      } catch (SecurityException e) {
+        //this can happen if the user has restored a backup and
+        //we do not have a persistable permision
         return null;
       }
     }

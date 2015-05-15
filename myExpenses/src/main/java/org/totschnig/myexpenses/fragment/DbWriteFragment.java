@@ -146,12 +146,10 @@ public class DbWriteFragment extends Fragment {
         uri = object[0].save();
       } catch (Transaction.ExternalStorageNotAvailableException e) {
         error = ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE;
-      }
-      catch (Transaction.UnknownPictureSaveException e) {
+      } catch (Transaction.UnknownPictureSaveException e) {
         Utils.reportToAcra(e);
         error = ERROR_PICTURE_SAVE_UNKNOWN;
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
           Utils.reportToAcra(e);
       }
       if (returnSequenceCount && object[0] instanceof Transaction)

@@ -30,17 +30,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
+/**
+ * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
+ * present a checkbox that allows user to provide some secondary decision. If the Bundle provided
+ * in {@link #newInstance(Bundle)} provides an entry with key {@link #KEY_PREFKEY}, the value of the
+ * checkbox will be stored in a preference with this key, and R.string.confirmation_dialog_dont_show_again
+ * will be set as text for the checkbox.
+ */
 public class ConfirmationDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
+
+
+  CheckBox checkBox;
   
-  CheckBox dontShowAgain;
-  
-  public static String KEY_TITLE = "title";
-  public static String KEY_MESSAGE = "message";
-  public static String KEY_COMMAND_POSITIVE = "positiveCommand";
-  public static String KEY_COMMAND_NEGATIVE = "negativeCommand";
-  public static String KEY_PREFKEY = "prefKey";
-  public static String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
-  public static String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
+  public static final String KEY_TITLE = "title";
+  public static final String KEY_MESSAGE = "message";
+  public static final String KEY_COMMAND_POSITIVE = "positiveCommand";
+  public static final String KEY_COMMAND_NEGATIVE = "negativeCommand";
+  public static final String KEY_PREFKEY = "prefKey";
+  public static final String KEY_CHECKBOX_LABEL = "checkboxLabel";
+  public static final String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
+  public static final String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
 
   public static final ConfirmationDialogFragment newInstance(Bundle args) {
     ConfirmationDialogFragment dialogFragment = new ConfirmationDialogFragment();
@@ -56,10 +65,14 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(bundle.getInt(KEY_TITLE))
       .setMessage(bundle.getCharSequence(KEY_MESSAGE));
-    if (bundle.getString(KEY_PREFKEY) != null) {
+    int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL,0);
+    if (bundle.getString(KEY_PREFKEY) != null ||
+        checkboxLabel != 0) {
       View cb = LayoutInflater.from(wrappedCtx).inflate(R.layout.checkbox, null);
-      dontShowAgain = (CheckBox) cb.findViewById(R.id.skip);
-      dontShowAgain.setText(R.string.confirmation_dialog_dont_show_again);
+      checkBox = (CheckBox) cb.findViewById(R.id.checkbox);
+      checkBox.setText(
+          checkboxLabel != 0 ? checkboxLabel :
+          R.string.confirmation_dialog_dont_show_again);
       builder.setView(cb);
     }
     int positiveLabel = bundle.getInt(KEY_POSITIVE_BUTTON_LABEL);
@@ -77,18 +90,23 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
+    ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
     if (ctx == null)  {
       return;
     }
     Bundle bundle = getArguments();
-    if (dontShowAgain != null && dontShowAgain.isChecked()) {
+    String prefKey = bundle.getString(KEY_PREFKEY);
+    if (prefKey != null && checkBox.isChecked()) {
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
-        .putBoolean(bundle.getString(KEY_PREFKEY), true));
+        .putBoolean(prefKey, true));
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ctx.onPositive(bundle);
+      if (checkBox==null) {
+        ((ConfirmationDialogListener) ctx).onPositive(bundle);
+      } else {
+        ((ConfirmationDialogCheckedListener) ctx).onPositive(bundle,checkBox.isChecked());
+      }
     } else {
       int negativeCommand = getArguments().getInt(KEY_COMMAND_NEGATIVE);
       if (negativeCommand != 0) {
@@ -98,9 +116,15 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
       }
     }
   }
-  public interface ConfirmationDialogListener {
-    void onPositive(Bundle args);
+  public interface ConfirmationDialogBaseListener {
     void onNegative(Bundle args);
     void onDismissOrCancel(Bundle args);
+  }
+  public interface ConfirmationDialogListener extends ConfirmationDialogBaseListener {
+    void onPositive(Bundle args);
+
+  }
+  public interface ConfirmationDialogCheckedListener extends ConfirmationDialogBaseListener {
+    void onPositive(Bundle args,boolean checked);
   }
 }

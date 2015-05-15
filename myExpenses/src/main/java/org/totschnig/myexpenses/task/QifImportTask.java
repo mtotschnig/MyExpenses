@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -209,7 +210,12 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         if (parser.accounts.size() == 0) {
           return;
         }
-        parser.accounts.get(0).dbAccount = Account.getInstanceFromDb(accountId);
+        Account dbAccount = Account.getInstanceFromDb(accountId);
+        parser.accounts.get(0).dbAccount = dbAccount;
+        if (dbAccount==null) {
+          Utils.reportToAcra(new Exception(
+              "Exception during QIF import. Did not get instance from DB for id " +accountId));
+        }
       }
       insertTransactions(parser.accounts);
     }
@@ -264,7 +270,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private Long insertRootCategory(String name) {
     Long id = categoryToId.get(name);
     if (id == null) {
-      id = maybeWriteCategory(name,null);
+      id = maybeWriteCategory(name, null);
       if (id != -1)
         categoryToId.put(name, id);
     }
@@ -316,7 +322,12 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       }
       long dbAccountId = Account.findAny(account.memo);
       if (dbAccountId!=-1) {
-        account.dbAccount = Account.getInstanceFromDb(dbAccountId);
+        Account dbAccount = Account.getInstanceFromDb(accountId);
+        account.dbAccount = dbAccount;
+        if (dbAccount==null) {
+          Utils.reportToAcra(new Exception(
+              "Exception during QIF import. Did not get instance from DB for id " +accountId));
+        }
       } else {
         Account a = account.toAccount(mCurrency);
         if (a.save() != null)
@@ -343,10 +354,14 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       long t3 = System.currentTimeMillis();
       QifAccount account = accounts.get(i);
       Account a = account.dbAccount;
-      int countTransactions = insertTransactions(a, account.transactions);
-      publishProgress(countTransactions == 0 ? 
-          MyApplication.getInstance().getString(R.string.import_transactions_none,a.label):
-          MyApplication.getInstance().getString(R.string.import_transactions_success,countTransactions,a.label));
+      if (a!=null) {
+        int countTransactions = insertTransactions(a, account.transactions);
+        publishProgress(countTransactions == 0 ?
+            MyApplication.getInstance().getString(R.string.import_transactions_none, a.label) :
+            MyApplication.getInstance().getString(R.string.import_transactions_success, countTransactions, a.label));
+      } else {
+        publishProgress("Unable to import into QIF account "+account.memo+ ". No matching database account found");
+      }
       // this might help GC
       account.transactions.clear();
       long t4 = System.currentTimeMillis();

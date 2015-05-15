@@ -409,14 +409,16 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     }
   }
   private void setAppDirSummary() {
-    DocumentFile appDir = Utils.getAppDir();
     Preference pref = findPreference(MyApplication.PrefKey.APP_DIR.getKey());
-    if (appDir == null) {
-      pref.setSummary(R.string.external_storage_unavailable);
-      pref.setEnabled(false);
-    } else {
-      pref.setSummary(FileUtils.getPath(this,appDir.getUri()));
+    if (Utils.isExternalStorageAvailable()) {
+      DocumentFile appDir = Utils.getAppDir();
+      if (appDir != null) {
+        pref.setSummary(FileUtils.getPath(this,appDir.getUri()));
+        return;
+      }
     }
+    pref.setSummary(R.string.external_storage_unavailable);
+    pref.setEnabled(false);
   }
 
   // credits Financisto

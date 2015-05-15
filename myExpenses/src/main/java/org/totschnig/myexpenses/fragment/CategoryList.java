@@ -616,17 +616,20 @@ public class CategoryList extends ContextualActionBarFragment implements
     String CHILD_COUNT_SELECT = "(select count(*) FROM " + TABLE_CATEGORIES
         + " subtree where " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ") as "
         + KEY_CHILD_COUNT;
+    String catFilter;
     if (mAccount != null) {
+      //Distribution
+      String accountSelection;
       if (mAccount.getId() < 0) {
-        selection = " IN " +
+        accountSelection = " IN " +
             "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
         accountSelector = mAccount.currency.getCurrencyCode();
       } else {
-        selection = " = ?";
+        accountSelection = " = ?";
         accountSelector = String.valueOf(mAccount.getId());
       }
-      String catFilter = "FROM " + VIEW_COMMITTED +
-          " WHERE " + KEY_ACCOUNTID + selection;
+      catFilter = "FROM " + VIEW_COMMITTED +
+          " WHERE " + WHERE_NOT_VOID + " AND " + KEY_ACCOUNTID + accountSelection;
       if (!aggregateTypes) { 
           catFilter += " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
       }
@@ -649,7 +652,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       };
       sortOrder="abs(" + KEY_SUM + ") DESC";
     } else {
-      String catFilter;
+      //manage, select
       if (bundle == null) {
         catFilter = CATTREE_WHERE_CLAUSE;
       }
@@ -660,6 +663,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           KEY_ROWID,
           KEY_LABEL,
           CHILD_COUNT_SELECT,
+          //here we do not filter out void transactinos since they need to be considered as mapped
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select 1 FROM " + TABLE_TEMPLATES    + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };

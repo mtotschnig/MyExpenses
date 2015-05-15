@@ -7,18 +7,8 @@
     <string name="testData_account2Currency">GBP</string>
     <string name="testData_account3Label">Bankkonto</string>
     <string name="testData_account3Description">Deutsche Bank</string>
-    <string name="testData_transaction1SubCat">Bahnkarten</string>
-    <string name="testData_transaction1MainCat">Urlaub</string>
-    <string name="testData_transaction2SubCat">Supermarkt</string>
-    <string name="testData_transaction2MainCat">Lebensmittel</string>
     <string name="testData_transaction2Comment">Obst und Gemüse</string>
-    <string name="testData_transaction3SubCat">Kraftstoff</string>
-    <string name="testData_transaction3MainCat">Kfzkosten</string>
-    <string name="testData_transaction4SubCat">Restaurant</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
-    <string name="testData_transaction6MainCat">Geschenke</string>
-    <string name="testData_templateMainCat">Wohnung</string>
-    <string name="testData_templateSubCat">Miete</string>
     <!-- a name typically used as example name -->
     <string name="testData_templatePayee">Erika Musterfrau</string>
 </resources>

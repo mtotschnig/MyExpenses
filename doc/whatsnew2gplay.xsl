@@ -5,8 +5,7 @@
 		version="1.0"
 		>
   <xsl:output method="text" encoding="UTF-8"/>
-	<xsl:param name="versionCode" />
-	<xsl:param name="versionName" />
+	<xsl:param name="version" />
 	<xsl:param name="langs" select="'en ca cs de es fr hr hu it ja ms pl pt ro ru si tr'"/>
 
   <xsl:template match="/">
@@ -33,19 +32,24 @@
     <xsl:if test="$changelog != ''">    
     <xsl:value-of select="$lang"/><xsl:text>:
 </xsl:text>
-    <xsl:value-of select="$versionName"/><xsl:text>
+    <xsl:value-of select="$version"/><xsl:text>
 </xsl:text>
 <xsl:value-of select="$changelog"/>
   </xsl:if>        
   </xsl:template>
 
   <xsl:template match="string-array">
-    <xsl:if test="@name=concat('whats_new_',$versionCode)">
+    <xsl:variable name="version_short" select="str:replace($version,'.','')"/>
+    <xsl:if test="@name=concat('whats_new_',$version_short)">
      <xsl:apply-templates select='item'/>
     </xsl:if>
   </xsl:template>
+  
   <xsl:template match="item">
-    <xsl:value-of select="concat('- ',.,'.')" /><xsl:text>
+  <xsl:variable name="apos">'</xsl:variable>
+  <xsl:variable name="quote">"</xsl:variable>
+    <xsl:value-of select="concat(' ',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),'.')" /><xsl:text>
 </xsl:text>
   </xsl:template>
-</xsl:stylesheet>
+
+  </xsl:stylesheet>

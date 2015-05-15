@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 /**
@@ -249,12 +250,14 @@ public class DatabaseConstants {
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
       KEY_PARENTID + " IS null";
+  public static final String WHERE_NOT_VOID =
+      KEY_CR_STATUS + " != '" + Transaction.CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
-      WHERE_NOT_SPLIT + " AND " + KEY_TRANSFER_PEER + " is null";
+      WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is null";
   public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_EXPENSE = KEY_AMOUNT + "<0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_TRANSFER =
-      WHERE_NOT_SPLIT+ " AND " + KEY_TRANSFER_PEER + " is not null";
+      WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
   public static final String INCOME_SUM = 
     "sum(CASE WHEN " + WHERE_INCOME + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   public static final String EXPENSE_SUM = 
@@ -272,12 +275,18 @@ public class DatabaseConstants {
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND date(" + KEY_DATE + ",'unixepoch') > date('now')  LIMIT 1)) AS " + KEY_HAS_FUTURE;
   public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
       + VIEW_COMMITTED
-      + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " ";
+      + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID
+      + " AND " + WHERE_NOT_VOID;
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
-      "count(CASE WHEN  " + KEY_CATID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
+      "count(CASE WHEN  " + KEY_CATID + ">0 AND " + WHERE_NOT_VOID + " THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
   public static final String MAPPED_PAYEES =
-      "count(CASE WHEN  " + KEY_PAYEEID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_PAYEES;
+      "count(CASE WHEN  " + KEY_PAYEEID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_PAYEES;
   public static final String MAPPED_METHODS =
-      "count(CASE WHEN  " + KEY_METHODID + ">0 THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
+      "count(CASE WHEN  " + KEY_METHODID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
+
+  public static final String WHERE_DEPENDENT =
+      KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+          + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
+          + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
 }

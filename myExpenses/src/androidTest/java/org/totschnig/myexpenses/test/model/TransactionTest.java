@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.database.Cursor;
-import android.net.Uri;
 
 public class TransactionTest extends ModelTest  {
   private Account mAccount1;
@@ -62,7 +61,7 @@ public class TransactionTest extends ModelTest  {
     assertEquals(op1,restored);
 
     Long id = op1.getId();
-    Transaction.delete(id);
+    Transaction.delete(id, false);
     //Transaction sequence should report on the number of transactions that have been created
     assertEquals(1L, Transaction.getSequenceCount().longValue());
     assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(id));
@@ -86,7 +85,7 @@ public class TransactionTest extends ModelTest  {
     assertEquals(peer.getId(),op.transfer_peer);
     assertEquals(op.getId(), peer.transfer_peer);
     assertEquals(op.transfer_account, peer.accountId);
-    Transaction.delete(op.getId());
+    Transaction.delete(op.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op.getId()));
     assertNull("Transfer delete should delete peer, but peer can still be retrieved",Transaction.getInstanceFromDb(peer.getId()));
   }
@@ -132,7 +131,7 @@ public class TransactionTest extends ModelTest  {
     op1.save();
     Transaction split1 = new SplitPartTransfer(mAccount1, 100L, op1.getId(), mAccount2.getId());
     split1.save();
-    Transaction.delete(op1.getId());
+    Transaction.delete(op1.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op1.getId()));
   }
   

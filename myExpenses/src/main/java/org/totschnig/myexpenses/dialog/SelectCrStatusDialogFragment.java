@@ -47,9 +47,13 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    String[] items = new String[Transaction.CrStatus.values().length];
+    for (int i = 0; i<Transaction.CrStatus.values().length;i++) {
+      items[i] = Transaction.CrStatus.values()[i].toString();
+    }
     return new AlertDialog.Builder(getActivity())
       .setTitle(R.string.search_status)
-      .setMultiChoiceItems(R.array.crstatus_entries,null,null)
+      .setMultiChoiceItems(items,null,null)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null)
       .create();

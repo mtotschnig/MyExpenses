@@ -3,6 +3,6 @@
 	android:id="@+id/layout_root" android:orientation="horizontal"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:padding="10dp">
-	<CheckBox android:text="@string/confirmation_dialog_dont_show_again" android:id="@+id/skip"
+	<CheckBox android:id="@+id/checkbox"
 		android:layout_width="wrap_content" android:layout_height="wrap_content" />
 </LinearLayout>

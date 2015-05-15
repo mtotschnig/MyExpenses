@@ -59,10 +59,7 @@ DialogInterface.OnClickListener {
   String getPrefKey() {
     return "backup_restore_file_uri";
   }
-  @Override
-  protected String getMimeType() {
-    return "application/zip";
-  }
+
   @Override
   protected boolean checkTypeParts(String[] typeParts) {
     return typeParts[0].equals("application") && 

@@ -39,6 +39,7 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -80,11 +81,9 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.amount = (TextView) v.findViewById(R.id.amount);
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
+    holder.voidMarker = (View) v.findViewById(R.id.voidMarker);
     TextView tv = (TextView) v.findViewById(R.id.date);
     holder.date = tv;
-    if (mAccount.type.equals(Type.CASH)) {
-      colorContainer.setVisibility(View.GONE);
-    }
     if (mAccount.getId() < 0) {
       colorAccount.setLayoutParams(
           new LayoutParams(4, LayoutParams.FILL_PARENT));
@@ -109,7 +108,8 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     super.setViewText(v, text);
   }
   /**
-   * @param c
+   * @param catText
+   * @param label_sub
    * @return extracts the information that should
    * be displayed about the mapped category, can be overridden by subclass
    * should not be used for handle transfers
@@ -187,17 +187,22 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       }
     }
     tv2.setText(catText);
+
+    CrStatus status;
+    try {
+      status = CrStatus.valueOf(c.getString(c.getColumnIndex(KEY_CR_STATUS)));
+    } catch (IllegalArgumentException ex) {
+      status = CrStatus.UNRECONCILED;
+    }
     
-    if (!mAccount.type.equals(Type.CASH)) {
-      CrStatus status;
-      try {
-        status = CrStatus.valueOf(c.getString(c.getColumnIndex(KEY_CR_STATUS)));
-      } catch (IllegalArgumentException ex) {
-        status = CrStatus.UNRECONCILED;
-      }
+    if (!mAccount.type.equals(Type.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
+      viewHolder.colorContainer.setVisibility(View.VISIBLE);
+    } else {
+      viewHolder.colorContainer.setVisibility(View.GONE);
     }
+    viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
     return convertView;
   }
   public void refreshDateFormat() {
@@ -223,5 +228,6 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     View color1;
     View colorContainer;
     TextView date;
+    View voidMarker;
   }
 }

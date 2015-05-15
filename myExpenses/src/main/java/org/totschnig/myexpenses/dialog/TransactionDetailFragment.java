@@ -184,7 +184,11 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (dlg!=null) {
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
       if (btn!=null) {
-        btn.setEnabled(true);
+        if (mTransaction.crStatus!= Transaction.CrStatus.VOID) {
+          btn.setEnabled(true);
+        } else {
+          btn.setVisibility(View.GONE);
+        }
       }
       btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL);
       if (btn!=null && doShowPicture) {

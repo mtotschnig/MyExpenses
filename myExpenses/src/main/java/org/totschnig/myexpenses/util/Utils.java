@@ -300,32 +300,28 @@ public class Utils {
   }
 
   /**
-   * @return if external storage is not available returns null if user has
-   *         configured app dir, return this value on Gingerbread and above
-   *         returns {@link
-   *         android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
+   * @return the directory user has configured in the settings, if not configured yet
+   * returns {@link android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
    */
   public static DocumentFile getAppDir() {
-    if (!isExternalStorageAvailable()) {
-      return null;
-    }
     String prefString = MyApplication.PrefKey.APP_DIR.getString(null);
-    if (prefString == null) {
-      return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
-    } else {
+    if (prefString != null) {
       Uri pref = Uri.parse(prefString);
       if (pref.getScheme().equals("file")) {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
           return DocumentFile.fromFile(new File(pref.getPath()));
         } else {
-          return null;
+          Utils.reportToAcra(new Exception("Found invalid preference value " + prefString));
         }
       } else {
-        //this will return null, if called on a pre-Lolipop device
-        return DocumentFile.fromTreeUri(MyApplication.getInstance(),pref);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          //this will return null, if called on a pre-Lolipop device
+          return DocumentFile.fromTreeUri(MyApplication.getInstance(), pref);
+        }
       }
     }
+    return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
   }
 
   public static File getCacheDir() {
