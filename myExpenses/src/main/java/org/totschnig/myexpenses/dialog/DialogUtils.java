@@ -171,7 +171,7 @@ public class DialogUtils {
    */
   public static Context wrapContext1(Context ctx) {
     return Build.VERSION.SDK_INT < 11 ?
-        new ContextThemeWrapper(ctx, R.style.AboutDialog) : ctx;
+        wrapDialogTheme(ctx) : ctx;
   }
   /**
    * @param ctx
@@ -182,6 +182,25 @@ public class DialogUtils {
    */
   public static Context wrapContext2(Context ctx) {
     return Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
+        wrapAppTheme(ctx) : ctx;
+  }
+
+  /**
+   *
+   * @param ctx
+   * @return for API 10 and lower, Context is wrapped as in {@link #wrapContext1(Context)}, for 11 and higher
+   * as in {@link #wrapContext2(Context)}. This is needed for Dialogs that both are used in a transparent
+   * activity, and have checkboxes
+   */
+  public static Context wrapContext12(Context ctx) {
+    return Build.VERSION.SDK_INT < 11 ?
+        wrapDialogTheme(ctx) : wrapAppTheme(ctx);
+  }
+
+  private static ContextThemeWrapper wrapAppTheme(Context ctx) {
+    return new ContextThemeWrapper(ctx, MyApplication.getThemeId());
+  }
+  private static ContextThemeWrapper wrapDialogTheme(Context ctx) {
+    return new ContextThemeWrapper(ctx, R.style.AboutDialog);
   }
 }

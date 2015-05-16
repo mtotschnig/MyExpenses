@@ -61,7 +61,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext1(ctx);
+    Context wrappedCtx = DialogUtils.wrapContext12(ctx);
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(bundle.getInt(KEY_TITLE))
       .setMessage(bundle.getCharSequence(KEY_MESSAGE));
