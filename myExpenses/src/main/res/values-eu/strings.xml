@@ -124,7 +124,7 @@
   <string name="feedback">Iruzkina</string>
   <string name="feedback_email_message">Idatzi zure iruzkina ingelesez, frantsesez edo alemanez, mesedez! </string>
   <string name="ftp_uri_malformed">Gaizki osatutako URIa %1$s</string>
-  <string name="grisbi_import_categories_loading">Kategoriak kargatzek %1$s-tik</string>
+  <string name="grisbi_import_categories_loading">Kategoriak kargatzen hemendik: %1$s</string>
   <string name="grisbi_import_default_source">Ingelesezko lehenetsitako kategoriak</string>
   <string name="grisbi_import_parsing">Aztertzen: %1$s</string>
   <string name="grisbi_import_parties_loading">Onuradun/ordaintzaileak %1$s(e)tik kargatzen</string>
@@ -356,9 +356,9 @@ Librezale.eus</string>
   <string name="pref_restore_title">Berreskuratu</string>
   <string name="pref_security_question_summary">Aplikazioa desblokeatzea ahalbidetzen du pasahitza ahaztu baduzu.</string>
   <string name="pref_security_question_title">Segurtasun galdera</string>
-  <string name="pref_send_feedback_title">Bidali iruzkina</string>
+  <string name="pref_send_feedback_title">Bidali iruzkina egileari</string>
   <string name="pref_share_target_summary">Laga hutsik aplikazio egokien artean aukeratu nahi baduzu (Posta, DropBox, Google Docs, …), ala URL helbide bat eman onartutako eskema batean</string>
-  <string name="pref_share_target_title">Igo URLa</string>
+  <string name="pref_share_target_title">Igoera URLa</string>
   <string name="pref_shortcut_added">Laster-bidea hasiera pantailara gehitu da</string>
   <string name="pref_shortcut_not_added">Ez dago laster-bideak onartzen dituen hasiera pantailarik erabilgarri.</string>
   <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
@@ -421,7 +421,8 @@ Librezale.eus</string>
   <string name="sum_expenses">Gastuak</string>
   <string name="sum_income">Diru-sarrerak</string>
   <string name="sum_transfer">Tranferentziak</string>
-  <string name="tell_a_friend_message">Frogatu Nire Gastuak, Finantza pertsonalak kudeatzeko %s aplikazioa, hau da: http://www.myexpenses.mobi</string>
+  <!--%s is replaced with Android or Blackberry-->
+  <string name="tell_a_friend_message">Egiaztatu Nire gastuak %s plataformarako http://www.myexpenses.mobi helbidean</string>
   <string name="template">Txantiloia</string>
   <string name="template_create_success">\"%1$s\" txantiloia ondo gorde da</string>
   <string name="template_title_exists">Badago aurretik \"%1$s\" izeneko txantiloi bat</string>
@@ -466,6 +467,7 @@ Librezale.eus</string>
   <string name="warning_reset_account">Jarraitzen baduzu, kontu honetako transakzio guztiak datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
+  <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
   <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira. Jarraitu nahi duzu?</string>
   <string name="warning_select_account">Aukeratu kontu bat</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du Nire Gastuak desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
@@ -532,4 +534,9 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="pref_manage_stale_images_summary">Kudeatu ezabatutako transakzioetatik soberan geratu diren irudiak</string>
   <string name="menu_select_categories">Aukeratu markatutako kategoria</string>
   <string name="image_deleted">Irudia ezabatu da</string>
+  <string name="dialog_export_applied_to_filter">Oraingo iragazkiarekin bat datozen transakzioak besterik ez dira aintzat hartuko.</string>
+  <string name="export_handle_deleted_update_balance">Sortu transakzio laguntzailea</string>
+  <string name="export_handle_deleted_create_helper">Eguneratu hasierako saldoa</string>
+  <string name="file_name">Fitxategi izena</string>
+  <string name="folder_name">Karpeta izena</string>
 </resources>
