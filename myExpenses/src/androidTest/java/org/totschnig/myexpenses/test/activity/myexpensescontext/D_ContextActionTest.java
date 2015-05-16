@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.activity.myexpenses_context;
+package org.totschnig.myexpenses.test.activity.myexpensescontext;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
@@ -10,11 +10,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.activity.MyExpensesTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 
