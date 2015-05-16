@@ -426,6 +426,7 @@ Tradus de DD</string>
   <string name="sum_expenses">Cheltuieli</string>
   <string name="sum_income">Venituri</string>
   <string name="sum_transfer">Transferuri</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Check out Cheltuielile Mele, Manager Finanţe  Personale pentru %s, de la http://www.myexpenses.mobi</string>
   <string name="template">Şablon</string>
   <string name="template_create_success">Şablon \"%1$s\" creat</string>

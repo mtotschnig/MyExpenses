@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_246">
+    <item>Las transacciones se pueden establecer en estado \"Inválida\"</item>
+  </string-array>
   <string-array name="whats_new_245">
     <item>La función \"Exportar y restablecer\" ahora puede ser aplicada a las transacciones igualadas por filtro de búsqueda</item>
   </string-array>

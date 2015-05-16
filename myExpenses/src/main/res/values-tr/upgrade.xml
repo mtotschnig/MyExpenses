@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_246">
+    <item>Muameleler \"Hükümsüz\" durumuna ayarlanabilir</item>
+  </string-array>
   <string-array name="whats_new_245">
     <item>Dışa aktarma ve sıfırlama işlevi artık arama filtresi ile eşleşen muamelelere uygulanabilir</item>
   </string-array>

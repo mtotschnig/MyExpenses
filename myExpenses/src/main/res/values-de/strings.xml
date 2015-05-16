@@ -416,6 +416,7 @@
   <string name="status_cleared">verrechnet</string>
   <string name="status_reconciled">abgestimmt</string>
   <string name="status_uncreconciled">nicht abgestimmt</string>
+  <string name="status_void">ungültig</string>
   <string name="subcategory">Unterkategorie</string>
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_income">Einnahmen</string>
@@ -537,4 +538,6 @@
   <string name="export_handle_deleted_create_helper">Anfangssaldo aktualisieren</string>
   <string name="file_name">Dateiname</string>
   <string name="folder_name">Ordnername</string>
+  <string name="mark_void_instead_of_delete">Buchung nicht löschen, stattdessen als ungültig kennzeichnen.</string>
+  <string name="menu_undelete_transaction">Das Löschen rückgängig machen</string>
 </resources>

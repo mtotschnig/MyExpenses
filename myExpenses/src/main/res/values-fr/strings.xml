@@ -416,6 +416,7 @@
   <string name="status_cleared">pointée</string>
   <string name="status_reconciled">rapproché</string>
   <string name="status_uncreconciled">non-rapprochée</string>
+  <string name="status_void">invalide</string>
   <string name="subcategory">Sous-catégorie</string>
   <string name="sum_expenses">Dépenses</string>
   <string name="sum_income">Revenus</string>
@@ -537,4 +538,6 @@
   <string name="export_handle_deleted_create_helper">Mise à jour du solde initiale</string>
   <string name="file_name">Nom de fichier</string>
   <string name="folder_name">Nom de dossier</string>
+  <string name="mark_void_instead_of_delete">Ne pas supprimer la transaction, marquer comme invalide à la place.</string>
+  <string name="menu_undelete_transaction">Annuler la suppression</string>
 </resources>
