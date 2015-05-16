@@ -612,12 +612,17 @@ public class MyApplication extends Application implements
    */
   public static void copyEventData(Cursor eventCursor, ContentValues eventValues) {
     eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor, 0));
-    eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor, 1));
+    Long dtEnd = DbUtils.getLongOrNull(eventCursor, 1);
+    eventValues.put(Events.DTEND, dtEnd);
     eventValues.put(Events.RRULE, eventCursor.getString(2));
     eventValues.put(Events.TITLE, eventCursor.getString(3));
     eventValues.put(Events.ALL_DAY, eventCursor.getInt(4));
     eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
-    eventValues.put(Events.DURATION, eventCursor.getString(6));
+    if (dtEnd==null) {
+      //older Android versions have populated both dtend and duration
+      //restoring those on newer versions leads to IllegalArgumentexception
+      eventValues.put(Events.DURATION, eventCursor.getString(6));
+    }
     eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
     if (android.os.Build.VERSION.SDK_INT >= 16) {
       eventValues.put(Events.CUSTOM_APP_PACKAGE, eventCursor.getString(8));
@@ -687,7 +692,7 @@ public class MyApplication extends Application implements
       if (oldValue.equals("-1")) {
         initPlanner();
       } else if (safeToMovePlans) {
-        ContentValues eventValues = new ContentValues(), planValues = new ContentValues();
+        ContentValues eventValues = new ContentValues();
         eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
         Cursor planCursor = cr.query(Template.CONTENT_URI, new String[] {
             DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID },

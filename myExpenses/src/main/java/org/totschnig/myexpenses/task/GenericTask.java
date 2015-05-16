@@ -440,20 +440,30 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     //remove old cache
     cr.delete(
         TransactionProvider.EVENT_CACHE_URI, null, null);
-    Cursor eventCursor = cr.query(
-        Events.CONTENT_URI,
-        MyApplication.buildEventProjection(),
-        Events.CALENDAR_ID + " = ?",
-        new String[] {plannerCalendarId},
-        null);
-    if (eventCursor != null) {
-      if (eventCursor.moveToFirst()) {
+
+    Cursor planCursor = cr.query(Template.CONTENT_URI, new String[]{
+            DatabaseConstants.KEY_PLANID},
+        DatabaseConstants.KEY_PLANID + " IS NOT null", null, null);
+    if (planCursor != null) {
+      if (planCursor.moveToFirst()) {
+        String[] projection = MyApplication.buildEventProjection();
         do {
-          MyApplication.copyEventData(eventCursor, eventValues);
-          cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues);
-        } while (eventCursor.moveToNext());
+          long planId = planCursor.getLong(0);
+          Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI,
+              planId);
+
+          Cursor eventCursor = cr.query(eventUri, projection,
+              Events.CALENDAR_ID + " = ?", new String[]{plannerCalendarId}, null);
+          if (eventCursor != null) {
+            if (eventCursor.moveToFirst()) {
+              MyApplication.copyEventData(eventCursor, eventValues);
+              cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues);
+            }
+            eventCursor.close();
+          }
+        } while (planCursor.moveToNext());
       }
-      eventCursor.close();
+      planCursor.close();
     }
   }
 

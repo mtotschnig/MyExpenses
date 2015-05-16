@@ -35,13 +35,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,9 +86,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -203,7 +196,7 @@ public class ExpenseEdit extends AmountActivity implements
   private LoaderManager mManager;
 
   private boolean mNewInstance = true,
-      mCreateNew, mLaunchPlanView,
+      mCreateNew, mLaunchPlanView, mIsMainTransactionOrTemplate,
       mSavedInstance, mRecordTemplateWidget;
 
   public enum HelpVariant {
@@ -314,9 +307,7 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingRight());
 
     mRowId = getIntent().getLongExtra(KEY_ROWID,0);
-    if (mRowId != 0L) {
-      mNewInstance = false;
-    }
+
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
       mSavedInstance = true;
@@ -388,6 +379,7 @@ public class ExpenseEdit extends AmountActivity implements
     
     //1. fetch the transaction or create a new instance
     if (mRowId != 0 || mTemplateId != 0) {
+      mNewInstance = false;
       int taskId;
       Long objectId;
       if (mRowId != 0) {
@@ -487,8 +479,9 @@ public class ExpenseEdit extends AmountActivity implements
         disableAccountSpinner();
     }
     mAccountSpinner.setOnItemSelectedListener(this);
+    mIsMainTransactionOrTemplate = mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory);
 
-    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+    if (mIsMainTransactionOrTemplate) {
 
       // Spinner for methods
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
@@ -651,7 +644,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void onTypeChanged(boolean isClicked) {
     super.onTypeChanged(isClicked);
-    if (mTransaction != null && mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+    if (mTransaction != null && mIsMainTransactionOrTemplate) {
       mTransaction.methodId = null;
       if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
         mManager.restartLoader(METHODS_CURSOR, null, this);
@@ -848,7 +841,7 @@ public class ExpenseEdit extends AmountActivity implements
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
-      if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+      if (mIsMainTransactionOrTemplate) {
         mPayeeText.setText(mTransaction.payee);
       }
     }
@@ -861,16 +854,21 @@ public class ExpenseEdit extends AmountActivity implements
         mManager.initLoader(EVENT_CURSOR, null, this);
       }
       mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
-    } else
+    } else {
       mReferenceNumberText.setText(mTransaction.referenceNumber);
+    }
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
       setDateTime(mTransaction.getDate());
 
     fillAmount(mTransaction.amount.getAmountMajor());
-    if (mNewInstance && MyApplication.PrefKey.AUTO_FILL.getBoolean(false)) {
-      mPayeeText.requestFocus();
+    if (mNewInstance) {
+      if (mTransaction instanceof Template) {
+        mTitleText.requestFocus();
+      } else if (mIsMainTransactionOrTemplate && MyApplication.PrefKey.AUTO_FILL.getBoolean(false)) {
+        mPayeeText.requestFocus();
+      }
     }
   }
   protected void fillAmount(BigDecimal amount) {
@@ -985,7 +983,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setCatId(mCatId);
     }
-    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+    if (mIsMainTransactionOrTemplate) {
         mTransaction.setPayee(mPayeeText.getText().toString());
         long selected = mMethodSpinner.getSelectedItemId();
         mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
