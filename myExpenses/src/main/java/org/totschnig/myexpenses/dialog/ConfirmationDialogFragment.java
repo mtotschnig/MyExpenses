@@ -32,10 +32,13 @@ import android.widget.CheckBox;
 
 /**
  * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
- * present a checkbox that allows user to provide some secondary decision. If the Bundle provided
+ * present a checkbox that allows user to provide some secondary decision. If the Bundle provides
  * in {@link #newInstance(Bundle)} provides an entry with key {@link #KEY_PREFKEY}, the value of the
  * checkbox will be stored in a preference with this key, and R.string.confirmation_dialog_dont_show_again
- * will be set as text for the checkbox.
+ * will be set as text for the checkbox. If the Bunded provides {@link #KEY_CHECKBOX_LABEL}, this will
+ * be used as as resource identifier for the checkbox label. In that case, the calling activity
+ * must implement {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener}
+ * and handle {@link #KEY_COMMAND_POSITIVE} in {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener#onPositive(Bundle, boolean)}
  */
 public class ConfirmationDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
@@ -102,7 +105,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
         .putBoolean(prefKey, true));
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      if (checkBox==null) {
+      if (bundle.getInt(KEY_CHECKBOX_LABEL,0)==0) {
         ((ConfirmationDialogListener) ctx).onPositive(bundle);
       } else {
         ((ConfirmationDialogCheckedListener) ctx).onPositive(bundle,checkBox.isChecked());
