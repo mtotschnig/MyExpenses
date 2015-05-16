@@ -660,7 +660,7 @@ public class MyApplication extends Application implements
       if (oldValue.equals("-1")) {
         initPlanner();
       } else if (safeToMovePlans) {
-        ContentValues eventValues = new ContentValues(), planValues = new ContentValues();
+        ContentValues eventValues = new ContentValues();
         eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
         Cursor planCursor = cr.query(Template.CONTENT_URI, new String[] {
             DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID },
