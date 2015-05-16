@@ -55,7 +55,7 @@ public class CustomFractionDigitsTest extends MyActivityTest<ManageCurrencies> {
     //refetch account
     account = Account.getInstanceFromDb(account.getId());
     Money after = account.getTotalBalance();
-    assertEquals(before.getAmountMajor(),after.getAmountMajor());
+    assertEquals(0,before.getAmountMajor().compareTo(after.getAmountMajor()));
     assertEquals(before.getAmountMinor()*10,after.getAmountMinor().longValue());
   }
 }
