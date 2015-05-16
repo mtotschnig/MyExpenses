@@ -417,6 +417,7 @@ Librezale.eus</string>
   <string name="status_cleared">kitatuta</string>
   <string name="status_reconciled">berdinkatuta</string>
   <string name="status_uncreconciled">berdinkatu gabe</string>
+  <string name="status_void">indargabetua</string>
   <string name="subcategory">Azpi-kategoria</string>
   <string name="sum_expenses">Gastuak</string>
   <string name="sum_income">Diru-sarrerak</string>
@@ -539,4 +540,6 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="export_handle_deleted_create_helper">Eguneratu hasierako saldoa</string>
   <string name="file_name">Fitxategi izena</string>
   <string name="folder_name">Karpeta izena</string>
+  <string name="mark_void_instead_of_delete">Ez ezabatu transakzioa, indargabetua gisa markatu ordez</string>
+  <string name="menu_undelete_transaction">Desezabatu</string>
 </resources>

@@ -416,6 +416,7 @@
   <string name="status_cleared">liquidato</string>
   <string name="status_reconciled">riconciliato</string>
   <string name="status_uncreconciled">non riconciliato</string>
+  <string name="status_void">invalido</string>
   <string name="subcategory">Sottocategoria</string>
   <string name="sum_expenses">Spese</string>
   <string name="sum_income">Redditi</string>
@@ -537,4 +538,6 @@
   <string name="export_handle_deleted_create_helper">Aggiornare il saldo iniziale</string>
   <string name="file_name">Nome del file</string>
   <string name="folder_name">Nome della cartella</string>
+  <string name="mark_void_instead_of_delete">Non eliminare la transazione, contrassegnare come invalido invece.</string>
+  <string name="menu_undelete_transaction">Annullare l\'eliminazione</string>
 </resources>

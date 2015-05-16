@@ -414,6 +414,7 @@
   <string name="sum_expenses">支出</string>
   <string name="sum_income">収入</string>
   <string name="sum_transfer">転記</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
   <string name="template">テンプレート</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
@@ -455,6 +456,7 @@
   <string name="warning_reset_account">続行すると、この勘定のすべての取引がデータベースから削除され、復元することはできません。</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
+  <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
   <string name="warning_select_account">勘定を選択してください!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
@@ -521,4 +523,9 @@
   <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
   <string name="menu_select_categories">チェックした分類を選択</string>
   <string name="image_deleted">写真が削除されました</string>
+  <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
+  <string name="export_handle_deleted_update_balance">ヘルパー取引を作成</string>
+  <string name="export_handle_deleted_create_helper">期首残高を更新</string>
+  <string name="file_name">ファイル名</string>
+  <string name="folder_name">フォルダー名</string>
 </resources>

@@ -417,6 +417,7 @@
   <string name="sum_expenses">Troškovi</string>
   <string name="sum_income">Prihod</string>
   <string name="sum_transfer">Doznake</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Posjeti My Expenses, Osobni Financijski Menadžer za %s, na http://www.myexpenses.mobi</string>
   <string name="template">Predložak</string>
   <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>

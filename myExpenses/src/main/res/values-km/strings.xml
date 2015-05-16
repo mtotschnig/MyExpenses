@@ -376,6 +376,7 @@
   <string name="sum_expenses">ចំណាយ</string>
   <string name="sum_income">ចំណូល</string>
   <string name="sum_transfer">ការបញ្ជូនចេញ</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">ការចំណាយរបស់ខ្ញុំ, កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ %s, http://www.myexpenses.mobi</string>
   <string name="template">ទិន្ន​ន័យ​គំរូ</string>
   <string name="template_create_success">ទិន្នន័យ​គំរូ \"%1$s\" បង្កើត​បានជោគជ័យ</string>

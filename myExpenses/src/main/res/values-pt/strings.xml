@@ -416,6 +416,7 @@
   <string name="status_cleared">desmarcada</string>
   <string name="status_reconciled">reconciliados</string>
   <string name="status_uncreconciled">não reconciliadas</string>
+  <string name="status_void">vazio</string>
   <string name="subcategory">Subcategoria</string>
   <string name="sum_expenses">Despesas</string>
   <string name="sum_income">Renda</string>
@@ -537,4 +538,6 @@
   <string name="export_handle_deleted_create_helper">Atualizar o saldo de abertura</string>
   <string name="file_name">Nome do arquivo</string>
   <string name="folder_name">Nome da pasta</string>
+  <string name="mark_void_instead_of_delete">Não exclua transação, marcar como vazio em seu lugar.</string>
+  <string name="menu_undelete_transaction">Cancelar a eliminação</string>
 </resources>

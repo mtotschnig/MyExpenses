@@ -416,6 +416,7 @@
   <string name="status_cleared">despejado</string>
   <string name="status_reconciled">reconciliado</string>
   <string name="status_uncreconciled">no reconciliado</string>
+  <string name="status_void">Inválida</string>
   <string name="subcategory">Subcategoría</string>
   <string name="sum_expenses">Gastos</string>
   <string name="sum_income">Ingresos</string>
@@ -538,4 +539,6 @@
   <string name="export_handle_deleted_create_helper">Actualizar saldo inicial</string>
   <string name="file_name">Nombre de archivo</string>
   <string name="folder_name">Nombre de la carpeta</string>
+  <string name="mark_void_instead_of_delete">No elimine transacción, marcar como inválida en su lugar.</string>
+  <string name="menu_undelete_transaction">Cancelar la eliminación</string>
 </resources>

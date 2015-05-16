@@ -416,6 +416,7 @@
   <string name="status_cleared">temizlendi</string>
   <string name="status_reconciled">uzlaşmış</string>
   <string name="status_uncreconciled">uzlaşmamış</string>
+  <string name="status_void">hükümsüz</string>
   <string name="subcategory">Alt kategori</string>
   <string name="sum_expenses">Harcamalar</string>
   <string name="sum_income">Gelirler</string>
@@ -539,4 +540,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="export_handle_deleted_create_helper">Açılış bakiyesini güncelle</string>
   <string name="file_name">Dosya ismi</string>
   <string name="folder_name">Klasör ismi</string>
+  <string name="mark_void_instead_of_delete">Muameleyi silme, bunun yerine hükümsüz olarak işaretle.</string>
+  <string name="menu_undelete_transaction">Silmeyi geri al</string>
 </resources>
