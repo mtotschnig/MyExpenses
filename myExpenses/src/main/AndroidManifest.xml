@@ -14,11 +14,6 @@
     package="org.totschnig.myexpenses"
     android:installLocation="internalOnly">
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" >
-    </uses-sdk>
-
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
