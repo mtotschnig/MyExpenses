@@ -556,5 +556,7 @@
   <string name="folder_name">Folder name</string>
   <string name="mark_void_instead_of_delete">Do not delete transaction, mark as void instead.</string>
   <string name="menu_undelete_transaction">Undelete</string>
+  <string name="slash_forbidden_in_filename">/ character is not allowed in filenames</string>
+  <string name="io_error_unable_to_create_file">Unable to create file %1$s in folder %2$s</string>
 </resources>
 

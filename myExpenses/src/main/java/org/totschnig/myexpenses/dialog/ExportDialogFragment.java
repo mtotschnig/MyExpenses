@@ -90,7 +90,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
     boolean allP = false, hasExported;
     String warningText;
-    String fileName;
+    final String fileName;
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
 
@@ -109,7 +109,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         fileName = "export" + "-" + currency + "-" + now;
         warningText = getString(R.string.warning_reset_account_all," ("+currency+")");
       } else {
-        fileName = a.label + "-" + now;
+        fileName = Utils.escapeForFileName(a.label) + "-" + now;
         warningText = getString(R.string.warning_reset_account);
       }
     }
@@ -160,11 +160,17 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     fileNameET.setText(fileName);
     fileNameET.addTextChangedListener(new TextWatcher() {
       public void afterTextChanged(Editable s) {
+        int error = 0;
         if (s.toString().length() > 0) {
-          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+          if (s.toString().indexOf('/')>-1) {
+            error = R.string.slash_forbidden_in_filename;
+          }
         } else {
-          fileNameET.setError(getString(R.string.no_title_given));
-          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+          error = R.string.no_title_given;
+        }
+        mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(error==0);
+        if (error!=0) {
+          fileNameET.setError(getString(error));
         }
       }
 

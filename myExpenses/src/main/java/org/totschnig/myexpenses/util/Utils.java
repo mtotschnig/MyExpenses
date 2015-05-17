@@ -390,9 +390,12 @@ public class Utils {
   }
 
   public static Result checkAppDir() {
+    if (!Utils.isExternalStorageAvailable()) {
+      return new Result(false, R.string.external_storage_unavailable);
+    }
     DocumentFile appdir = getAppDir();
     if (appdir == null) {
-      return new Result(false, R.string.external_storage_unavailable);
+      return new Result(false, R.string.io_error_appdir_null);
     }
     if (!appdir.exists()) {
       return new Result(false, R.string.app_dir_does_not_exist,
@@ -1106,5 +1109,9 @@ public class Utils {
     }
 
     return inSampleSize;
+  }
+
+  public static String escapeForFileName(String in) {
+    return in.replace("/","");
   }
 }
