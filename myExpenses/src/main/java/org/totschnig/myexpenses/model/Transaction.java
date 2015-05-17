@@ -33,21 +33,21 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
  * Domain class for transactions
- * @author Michael Totschnig
  *
+ * @author Michael Totschnig
  */
 public class Transaction extends Model {
-  public String comment="",payee = "",referenceNumber="";
+  public String comment = "", payee = "", referenceNumber = "";
   /**
    * stores a short label of the category or the account the transaction is linked to
    */
-  public String label="";
+  public String label = "";
   protected Date date;
   public Money amount;
   private Long catId;
@@ -55,7 +55,7 @@ public class Transaction extends Model {
   public Long transfer_peer;
   public Long transfer_account;
   public Long methodId;
-  public String methodLabel="";
+  public String methodLabel = "";
   public Long parentId = null;
   /**
    * id of the template which defines the plan for which this transaction has been created
@@ -72,6 +72,7 @@ public class Transaction extends Model {
    */
   public int status = 0;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
+
   static {
     PROJECTION_BASE = new String[]{
         KEY_ROWID,
@@ -97,31 +98,34 @@ public class Transaction extends Model {
         THIS_YEAR + " AS " + KEY_THIS_YEAR,
         THIS_WEEK + " AS " + KEY_THIS_WEEK,
         THIS_DAY + " AS " + KEY_THIS_DAY,
-        WEEK_START+ " AS " + KEY_WEEK_START,
-        WEEK_END +" AS " + KEY_WEEK_END
+        WEEK_START + " AS " + KEY_WEEK_START,
+        WEEK_END + " AS " + KEY_WEEK_END
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength+3];
+    PROJECTION_EXTENDED = new String[baseLength + 3];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
     //thus can not be used in PROJECTION_BASE
-    PROJECTION_EXTENDED[baseLength+1] = TRANSFER_PEER_PARENT +" AS transfer_peer_parent";
-    PROJECTION_EXTENDED[baseLength+2] = KEY_STATUS;
+    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS transfer_peer_parent";
+    PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
   }
+
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(
       TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
 
 
   public enum CrStatus {
-    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X"),VOID(Color.RED,null);
+    UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, null);
     public int color;
     public String symbol;
-    CrStatus(int color,String symbol) {
+
+    CrStatus(int color, String symbol) {
       this.color = color;
       this.symbol = symbol;
     }
+
     public String toString() {
       Context ctx = MyApplication.getInstance();
       switch (this) {
@@ -136,12 +140,14 @@ public class Transaction extends Model {
       }
       return super.toString();
     }
+
     public static final String JOIN;
+
     static {
       JOIN = Utils.joinEnum(CrStatus.class);
     }
 
-    public static CrStatus fromQifName (String qifName) {
+    public static CrStatus fromQifName(String qifName) {
       if (qifName == null)
         return UNRECONCILED;
       if (qifName.equals("*")) {
@@ -160,17 +166,18 @@ public class Transaction extends Model {
 
   /**
    * factory method for retrieving an instance from the db with the given id
+   *
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer} or null if not found
    */
-  public static Transaction getInstanceFromDb(long id)  {
+  public static Transaction getInstanceFromDb(long id) {
     Transaction t;
-    String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        FULL_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,KEY_PICTURE_URI,KEY_METHOD_LABEL};
+    String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
+        FULL_LABEL, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_ACCOUNTID, KEY_METHODID,
+        KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_PICTURE_URI, KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
     if (c == null) {
       return null;
     }
@@ -185,13 +192,12 @@ public class Transaction extends Model {
     Long parent_id = DbUtils.getLongOrNull(c, KEY_PARENTID);
     Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      t = parent_id != null ? new SplitPartTransfer(account_id,amount,parent_id) : new Transfer(account_id,amount);
-    }
-    else {
+      t = parent_id != null ? new SplitPartTransfer(account_id, amount, parent_id) : new Transfer(account_id, amount);
+    } else {
       if (catId == DatabaseConstants.SPLIT_CATID) {
-        t = new SplitTransaction(account_id,amount);
+        t = new SplitTransaction(account_id, amount);
       } else {
-        t = parent_id != null ? new SplitPartCategory(account_id,amount,parent_id) : new Transaction(account_id,amount);
+        t = parent_id != null ? new SplitPartCategory(account_id, amount, parent_id) : new Transaction(account_id, amount);
       }
     }
     try {
@@ -200,17 +206,17 @@ public class Transaction extends Model {
       t.crStatus = CrStatus.UNRECONCILED;
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-    t.methodLabel =  DbUtils.getString(c,KEY_METHOD_LABEL);
+    t.methodLabel = DbUtils.getString(c, KEY_METHOD_LABEL);
     t.setCatId(catId);
-    t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
+    t.payee = DbUtils.getString(c, KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.setId(id);
     t.setDate(c.getLong(
-        c.getColumnIndexOrThrow(KEY_DATE))*1000L);
-    t.comment = DbUtils.getString(c,KEY_COMMENT);
+        c.getColumnIndexOrThrow(KEY_DATE)) * 1000L);
+    t.comment = DbUtils.getString(c, KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
-    t.label = DbUtils.getString(c,KEY_LABEL);
+    t.label = DbUtils.getString(c, KEY_LABEL);
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
     t.pictureUri = c.isNull(pictureUriColumnIndex) ?
         null :
@@ -218,18 +224,19 @@ public class Transaction extends Model {
     c.close();
     return t;
   }
+
   public static Transaction getInstanceFromTemplate(long id) {
     Template te = Template.getInstanceFromDb(id);
     return te == null ? null : getInstanceFromTemplate(te);
   }
+
   public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
     if (te.isTransfer) {
-      tr = new Transfer(te.accountId,te.amount);
+      tr = new Transfer(te.accountId, te.amount);
       tr.transfer_account = te.transfer_account;
-    }
-    else {
-      tr = new Transaction(te.accountId,te.amount);
+    } else {
+      tr = new Transaction(te.accountId, te.amount);
       tr.methodId = te.methodId;
       tr.methodLabel = te.methodLabel;
       tr.setCatId(te.getCatId());
@@ -240,16 +247,17 @@ public class Transaction extends Model {
     tr.originTemplateId = te.getId();
     cr().update(
         TransactionProvider.TEMPLATES_URI
-          .buildUpon()
-          .appendPath(String.valueOf(te.getId()))
-          .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-          .build(),
+            .buildUpon()
+            .appendPath(String.valueOf(te.getId()))
+            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+            .build(),
         null, null, null);
     return tr;
   }
 
   /**
    * factory method for creating an object of the correct type and linked to a given account
+   *
    * @param accountId the account the transaction belongs to if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
@@ -262,71 +270,82 @@ public class Transaction extends Model {
     if (account == null) {
       return null;
     }
-    return new Transaction(account,0L);
+    return new Transaction(account, 0L);
   }
-  
+
   public static void delete(long id, boolean markAsVoid) {
     Uri.Builder builder = ContentUris.appendId(CONTENT_URI.buildUpon(), id);
     if (markAsVoid) {
-      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID,"1");
+      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID, "1");
     }
-    cr().delete(builder.build(),null,null);
+    cr().delete(builder.build(), null, null);
   }
+
   public static void undelete(long id) {
     Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
         .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();
-    cr().update(uri,null,null,null);
+    cr().update(uri, null, null, null);
   }
+
   //needed for Template subclass
   protected Transaction() {
     setDate(new Date());
     this.crStatus = CrStatus.UNRECONCILED;
   }
+
   /**
    * new empty transaction
    */
-  public Transaction(long accountId,Long amount) {
+  public Transaction(long accountId, Long amount) {
     this(Account.getInstanceFromDb(accountId), amount);
   }
-  public Transaction(long accountId,Money amount) {
+
+  public Transaction(long accountId, Money amount) {
     this();
     this.accountId = accountId;
     this.amount = amount;
   }
+
   public Transaction(Account account, long amount) {
     this();
     this.accountId = account.getId();
-    this.amount = new Money(account.currency,amount);
+    this.amount = new Money(account.currency, amount);
   }
+
   public Long getCatId() {
     return catId;
   }
+
   public void setCatId(Long catId) {
     this.catId = catId;
   }
-  public void setDate(Date date){
-    if (date==null) {
+
+  public void setDate(Date date) {
+    if (date == null) {
       throw new RuntimeException("Transaction date cannot be set to null");
     }
     this.date = date;
   }
+
   private void setDate(Long unixEpoch) {
     this.date = new Date(unixEpoch);
   }
+
   public Date getDate() {
     return date;
   }
 
   /**
-   * 
    * @param payee
    */
   public void setPayee(String payee) {
     this.payee = payee;
   }
+
   /**
    * Saves the transaction, creating it new if necessary
    * as a side effect calls {@link Payee#require(String)}
+   *
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public Uri save() {
@@ -339,7 +358,7 @@ public class Transaction extends Model {
             CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
             new String[]{KEY_CATID},
             null, null, null);
-        if (c!=null) {
+        if (c != null) {
           if (c.moveToFirst()) {
             if (c.getLong(0) != catId) {
               //category has been changed
@@ -354,20 +373,20 @@ public class Transaction extends Model {
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
-      if (uri==null) {
+      if (uri == null) {
         return null;
       }
-      if (pictureUri!=null) {
+      if (pictureUri != null) {
         ContribFeature.ATTACH_PICTURE.recordUsage();
       }
       setId(ContentUris.parseId(uri));
       if (parentId == null)
         cr().update(
             TransactionProvider.ACCOUNTS_URI
-              .buildUpon()
-              .appendPath(String.valueOf(accountId))
-              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-              .build(),
+                .buildUpon()
+                .appendPath(String.valueOf(accountId))
+                .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+                .build(),
             null, null, null);
       if (originPlanInstanceId != null) {
         ContentValues values = new ContentValues();
@@ -378,15 +397,15 @@ public class Transaction extends Model {
       }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
-      cr().update(uri,initialValues,null,null);
+      cr().update(uri, initialValues, null, null);
     }
     if (needIncreaseUsage) {
       cr().update(
           TransactionProvider.CATEGORIES_URI
-            .buildUpon()
-            .appendPath(String.valueOf(catId))
-            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-            .build(),
+              .buildUpon()
+              .appendPath(String.valueOf(catId))
+              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
+              .build(),
           null, null, null);
     }
     return uri;
@@ -407,13 +426,13 @@ public class Transaction extends Model {
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
     //store in UTC
-    initialValues.put(KEY_DATE, date.getTime()/1000);
+    initialValues.put(KEY_DATE, date.getTime() / 1000);
 
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, getCatId());
     initialValues.put(KEY_PAYEEID, payeeStore);
     initialValues.put(KEY_METHODID, methodId);
-    initialValues.put(KEY_CR_STATUS,crStatus.name());
+    initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
 
     savePicture(initialValues);
@@ -429,48 +448,52 @@ public class Transaction extends Model {
   }
 
   protected void savePicture(ContentValues initialValues) {
-    if (pictureUri!=null) {
+    if (pictureUri != null) {
       String pictureUriBase = Utils.getPictureUriBase(false);
-      if (pictureUriBase==null) {
+      if (pictureUriBase == null) {
         throwExternalNotAvailable();
       }
       if (pictureUri.toString().startsWith(pictureUriBase)) {
         Log.d("DEBUG", "got Uri in our home space, nothing todo");
       } else {
         pictureUriBase = Utils.getPictureUriBase(true);
-        if (pictureUriBase==null) {
+        if (pictureUriBase == null) {
           throwExternalNotAvailable();
         }
         boolean isInTempFolder = pictureUri.toString().startsWith(pictureUriBase);
         Uri homeUri = Utils.getOutputMediaUri(false);
-        if (homeUri==null) {
+        if (homeUri == null) {
           throwExternalNotAvailable();
         }
-        if (isInTempFolder && homeUri.getScheme().equals("file")) {
-          if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
-            setPictureUri(homeUri);
+        try {
+          if (isInTempFolder && homeUri.getScheme().equals("file")) {
+            if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
+              setPictureUri(homeUri);
+            } else {
+              //fallback
+              copyPictureHelper(isInTempFolder, homeUri);
+            }
           } else {
-            Utils.reportToAcra(new Exception(String.format(
-                "Could not rename %s to %s", pictureUri.getPath(), homeUri.getPath())));
+            copyPictureHelper(isInTempFolder, homeUri);
           }
-        } else {
-          try {
-            if (!Utils.copy(pictureUri,homeUri)) {
-              throw new IOException("Copy to homeUri "+homeUri.getPath()+" failed");
-            }
-            if (isInTempFolder) {
-              new File(pictureUri.getPath()).delete();
-            }
-            setPictureUri(homeUri);
-          } catch (IOException e) {
-            throw new UnknownPictureSaveException(e);
-          }
+        } catch (IOException e) {
+          throw new UnknownPictureSaveException(e);
         }
       }
-      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
+      initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
     } else {
       initialValues.putNull(KEY_PICTURE_URI);
     }
+  }
+
+  private void copyPictureHelper(boolean delete, Uri homeUri) throws IOException {
+    if (!Utils.copy(pictureUri, homeUri)) {
+      throw new IOException("Copy to homeUri " + homeUri.getPath() + " failed");
+    }
+    if (delete) {
+      new File(pictureUri.getPath()).delete();
+    }
+    setPictureUri(homeUri);
   }
 
   public Uri saveAsNew() {
@@ -480,20 +503,21 @@ public class Transaction extends Model {
     setId(ContentUris.parseId(result));
     return result;
   }
+
   /**
    * @param whichTransactionId
    * @param whereAccountId
-   * 
    */
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
     cr().update(Uri.parse(
-        CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
-        null,null,null);
+            CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
+        null, null, null);
   }
-  public static int count(Uri uri,String selection,String[] selectionArgs) {
-    Cursor cursor = cr().query(uri,new String[] {"count(*)"},
+
+  public static int count(Uri uri, String selection, String[] selectionArgs) {
+    Cursor cursor = cr().query(uri, new String[]{"count(*)"},
         selection, selectionArgs, null);
     if (cursor.getCount() == 0) {
       cursor.close();
@@ -505,30 +529,39 @@ public class Transaction extends Model {
       return result;
     }
   }
+
   public static int countAll(Uri uri) {
-    return count(uri,null,null);
+    return count(uri, null, null);
   }
-  public static int countPerCategory(Uri uri,long catId) {
-    return count(uri, KEY_CATID + " = ?",new String[] {String.valueOf(catId)});
+
+  public static int countPerCategory(Uri uri, long catId) {
+    return count(uri, KEY_CATID + " = ?", new String[]{String.valueOf(catId)});
   }
-  public static int countPerMethod(Uri uri,long methodId) {
-    return count(uri, KEY_METHODID + " = ?",new String[] {String.valueOf(methodId)});
+
+  public static int countPerMethod(Uri uri, long methodId) {
+    return count(uri, KEY_METHODID + " = ?", new String[]{String.valueOf(methodId)});
   }
-  public static int countPerAccount(Uri uri,long accountId) {
-    return count(uri, KEY_ACCOUNTID + " = ?",new String[] {String.valueOf(accountId)});
+
+  public static int countPerAccount(Uri uri, long accountId) {
+    return count(uri, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(accountId)});
   }
+
   public static int countPerCategory(long catId) {
-    return countPerCategory(CONTENT_URI,catId);
+    return countPerCategory(CONTENT_URI, catId);
   }
+
   public static int countPerMethod(long methodId) {
-    return countPerMethod(CONTENT_URI,methodId);
+    return countPerMethod(CONTENT_URI, methodId);
   }
+
   public static int countPerAccount(long accountId) {
-    return countPerAccount(CONTENT_URI,accountId);
+    return countPerAccount(CONTENT_URI, accountId);
   }
+
   public static int countAll() {
     return countAll(CONTENT_URI);
   }
+
   /**
    * @return the number of transactions that have been created since creation of the db based on sqllite sequence
    */
@@ -547,6 +580,7 @@ public class Transaction extends Model {
     mCursor.close();
     return result;
   }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -579,7 +613,7 @@ public class Transaction extends Model {
     if (date == null) {
       if (other.date != null)
         return false;
-    } else if (Math.abs(date.getTime()-other.date.getTime())>30000) //30 seconds tolerance
+    } else if (Math.abs(date.getTime() - other.date.getTime()) > 30000) //30 seconds tolerance
       return false;
     if (getId() == null) {
       if (other.getId() != null)
@@ -621,22 +655,26 @@ public class Transaction extends Model {
       return false;
     return true;
   }
+
   public Uri getPictureUri() {
     return pictureUri;
   }
+
   public void setPictureUri(Uri pictureUriIn) {
     this.pictureUri = pictureUriIn;
   }
 
   public static Intent getViewIntent(Uri pictureUri) {
-      Intent intent = new Intent(Intent.ACTION_VIEW, pictureUri);
-      intent.putExtra(Intent.EXTRA_STREAM, pictureUri);
-      intent.setDataAndType(pictureUri, "image/jpeg");
-      intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-      return intent;
+    Intent intent = new Intent(Intent.ACTION_VIEW, pictureUri);
+    intent.putExtra(Intent.EXTRA_STREAM, pictureUri);
+    intent.setDataAndType(pictureUri, "image/jpeg");
+    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    return intent;
   }
+
   public static class ExternalStorageNotAvailableException extends IllegalStateException {
   }
+
   public static class UnknownPictureSaveException extends IllegalStateException {
     public UnknownPictureSaveException(IOException e) {
       super(e);
