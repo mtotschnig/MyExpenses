@@ -111,6 +111,10 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.util.TypedValue;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -194,6 +198,11 @@ public class MyExpenses extends LaunchActivity implements
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    AdView mAdView = (AdView) findViewById(R.id.adView);
+    AdRequest adRequest = new AdRequest.Builder().build();
+    mAdView.loadAd(adRequest);
+
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);

@@ -14,6 +14,10 @@
     package="org.totschnig.myexpenses"
     android:installLocation="internalOnly">
 
+    <uses-sdk
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:overrideLibrary="com.google.android.gms,com.google.android.gms.ads,com.google.android.gms.analytics"/>
+
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -32,6 +36,8 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
     <application
         android:name="org.totschnig.myexpenses.MyApplication"
@@ -53,6 +59,7 @@
             <meta-data
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
+
         </activity>
         <activity
             android:name=".activity.ExpenseEdit"
@@ -176,6 +183,11 @@
             android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
         <activity android:name=".activity.ManageCurrencies" />
 
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+                  android:theme="@android:style/Theme.Translucent" />
+
+
         <service
             android:name=".service.MyService"
             android:permission="org.totschnig.myexpenses.UNLOCK_PREMIUM" >
@@ -244,6 +256,9 @@
     <meta-data
         android:name="android.support.UI_OPTIONS"
         android:value="splitActionBarWhenNarrow" />
+
+    <meta-data android:name="com.google.android.gms.version"
+               android:value="@integer/google_play_services_version" />
 
 </manifest>
 
