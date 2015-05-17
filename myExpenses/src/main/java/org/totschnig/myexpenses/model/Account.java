@@ -855,7 +855,11 @@ public class Account extends Model {
         format.getMimeType(), true);
     if (outputFile == null) {
       c.close();
-      return new Result(false,R.string.app_dir_read_only, destDir.getUri());
+      return new Result(
+          false,
+          R.string.io_error_unable_to_create_file,
+          fileName,
+          FileUtils.getPath(MyApplication.getInstance(),destDir.getUri()));
     }
     c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
@@ -1183,9 +1187,10 @@ public class Account extends Model {
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     Cursor transactionCursor;
+    String fileName = label.replaceAll("\\W", "");
     DocumentFile outputFile = Utils.timeStampedFile(
         destDir,
-        label.replaceAll("\\W", ""),
+        fileName,
         "application/pdf", false);
     Document document = new Document();
     transactionCursor = cr().query(Transaction.EXTENDED_URI, null,selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
@@ -1198,7 +1203,10 @@ public class Account extends Model {
     //then we check if the filename we construct already exists
     if (outputFile==null) {
       transactionCursor.close();
-      return new Result(false,R.string.app_dir_read_only,
+      return new Result(
+          false,
+          R.string.io_error_unable_to_create_file,
+          fileName,
           FileUtils.getPath(MyApplication.getInstance(),destDir.getUri()));
     }
     PdfWriter.getInstance(document, cr().openOutputStream(outputFile.getUri()));

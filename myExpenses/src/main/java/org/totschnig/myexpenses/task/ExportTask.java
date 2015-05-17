@@ -146,16 +146,16 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       publishProgress(account.label + " ...");
       try {
         String fileNameForAccount = accountIds.length > 1 ?
-            account.label + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+            Utils.escapeForFileName(account.label) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                 .format(new Date()) :
             fileName;
         Result result = account.exportWithFilter(destDir, fileNameForAccount, format, notYetExportedP, dateFormat, decimalSeparator, encoding, filter);
         String progressMsg;
-        if (result.extra != null) {
+        if (result.success) {
           progressMsg = MyApplication.getInstance().getString(result.getMessage(),
               FileUtils.getPath(MyApplication.getInstance(), (Uri) result.extra[0]));
         } else {
-          progressMsg = MyApplication.getInstance().getString(result.getMessage());
+          progressMsg = MyApplication.getInstance().getString(result.getMessage(),result.extra);
         }
         publishProgress("... " + progressMsg);
         if (result.success) {
