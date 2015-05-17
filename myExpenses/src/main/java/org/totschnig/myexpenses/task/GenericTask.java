@@ -271,16 +271,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       DocumentFile backupFile = MyApplication.requireBackupFile();
       if (backupFile == null) {
-        DocumentFile appDir = Utils.getAppDir();
-        if (appDir!=null) {
-          return new Result(false, R.string.app_dir_read_only, FileUtils.getPath(
-              MyApplication.getInstance(), appDir.getUri()));
-        }
-        else {
-          Utils.reportToAcra(new Exception(
-              MyApplication.getInstance().getString(R.string.io_error_appdir_null)));
-          return new Result(false,R.string.io_error_appdir_null);
-        }
+        Utils.reportToAcra(new Exception(
+            MyApplication.getInstance().getString(R.string.io_error_appdir_null)));
+        return new Result(false,R.string.io_error_appdir_null);
       }
       File cacheDir = Utils.getCacheDir();
       if (cacheDir == null) {
