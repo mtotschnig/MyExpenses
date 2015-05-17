@@ -429,48 +429,52 @@ public class Transaction extends Model {
   }
 
   protected void savePicture(ContentValues initialValues) {
-    if (pictureUri!=null) {
+    if (pictureUri != null) {
       String pictureUriBase = Utils.getPictureUriBase(false);
-      if (pictureUriBase==null) {
+      if (pictureUriBase == null) {
         throwExternalNotAvailable();
       }
       if (pictureUri.toString().startsWith(pictureUriBase)) {
         Log.d("DEBUG", "got Uri in our home space, nothing todo");
       } else {
         pictureUriBase = Utils.getPictureUriBase(true);
-        if (pictureUriBase==null) {
+        if (pictureUriBase == null) {
           throwExternalNotAvailable();
         }
         boolean isInTempFolder = pictureUri.toString().startsWith(pictureUriBase);
         Uri homeUri = Utils.getOutputMediaUri(false);
-        if (homeUri==null) {
+        if (homeUri == null) {
           throwExternalNotAvailable();
         }
-        if (isInTempFolder && homeUri.getScheme().equals("file")) {
-          if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
-            setPictureUri(homeUri);
+        try {
+          if (isInTempFolder && homeUri.getScheme().equals("file")) {
+            if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
+              setPictureUri(homeUri);
+            } else {
+              //fallback
+              copyPictureHelper(isInTempFolder, homeUri);
+            }
           } else {
-            Utils.reportToAcra(new Exception(String.format(
-                "Could not rename %s to %s", pictureUri.getPath(), homeUri.getPath())));
+            copyPictureHelper(isInTempFolder, homeUri);
           }
-        } else {
-          try {
-            if (!Utils.copy(pictureUri,homeUri)) {
-              throw new IOException("Copy to homeUri "+homeUri.getPath()+" failed");
-            }
-            if (isInTempFolder) {
-              new File(pictureUri.getPath()).delete();
-            }
-            setPictureUri(homeUri);
-          } catch (IOException e) {
-            throw new UnknownPictureSaveException(e);
-          }
+        } catch (IOException e) {
+          throw new UnknownPictureSaveException(e);
         }
       }
-      initialValues.put(KEY_PICTURE_URI,pictureUri.toString());
+      initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
     } else {
       initialValues.putNull(KEY_PICTURE_URI);
     }
+  }
+
+  private void copyPictureHelper(boolean delete, Uri homeUri) throws IOException {
+    if (!Utils.copy(pictureUri, homeUri)) {
+      throw new IOException("Copy to homeUri " + homeUri.getPath() + " failed");
+    }
+    if (delete) {
+      new File(pictureUri.getPath()).delete();
+    }
+    setPictureUri(homeUri);
   }
 
   public Uri saveAsNew() {
