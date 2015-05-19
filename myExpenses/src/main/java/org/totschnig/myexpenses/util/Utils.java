@@ -309,9 +309,9 @@ public class Utils {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
           return DocumentFile.fromFile(new File(pref.getPath()));
-        } else {
+        }/* else {
           Utils.reportToAcra(new Exception("Found invalid preference value " + prefString));
-        }
+        }*/
       } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           //this will return null, if called on a pre-Lolipop device
