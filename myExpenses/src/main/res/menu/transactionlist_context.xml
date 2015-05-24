@@ -23,13 +23,13 @@
     android:showAsAction="always"
     android:title="@string/menu_create_template_from_transaction">
   </item>
+    <item
+        android:id="@id/CLONE_TRANSACTION_COMMAND"
+        android:icon="@drawable/ic_menu_copy"
+        android:showAsAction="always"
+        android:title="@string/menu_clone_transaction">
+    </item>
   </group>
-  <item
-    android:id="@id/CLONE_TRANSACTION_COMMAND"
-    android:icon="@drawable/ic_menu_copy"
-    android:showAsAction="always"
-    android:title="@string/menu_clone_transaction">
-  </item>
   <item
     android:id="@id/SPLIT_TRANSACTION_COMMAND"
     android:icon="@drawable/ic_menu_split"

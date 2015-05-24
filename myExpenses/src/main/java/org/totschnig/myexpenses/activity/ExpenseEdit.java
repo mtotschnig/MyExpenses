@@ -140,6 +140,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
+  public static final String KEY_CLONE = "clone";
   private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
   private static final String PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET = "transactionLastAccountFromWidget";
@@ -195,7 +196,7 @@ public class ExpenseEdit extends AmountActivity implements
   
   private LoaderManager mManager;
 
-  private boolean mNewInstance = true,
+  private boolean mNewInstance = true, mClone = false,
       mCreateNew, mLaunchPlanView, mIsMainTransactionOrTemplate,
       mSavedInstance, mRecordTemplateWidget;
 
@@ -574,6 +575,9 @@ public class ExpenseEdit extends AmountActivity implements
         helpVariant = HelpVariant.transaction;
       }
     }
+    if (mClone) {
+      setTitle(R.string.menu_clone_transaction);
+    }
 
     if (mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -837,7 +841,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   private void populateFields() {
     mStatusSpinner.setSelection(mTransaction.crStatus.ordinal());
-    if (mRowId != 0 || mTemplateId != 0) {
+    if (mClone || mRowId != 0 || mTemplateId != 0) {
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
@@ -1297,6 +1301,11 @@ public class ExpenseEdit extends AmountActivity implements
         mCatId = mTransaction.getCatId();
         mLabel =  mTransaction.label;
       }
+      if (getIntent().getBooleanExtra(KEY_CLONE,false)) {
+        mTransaction.setId(0L);
+        mRowId = 0L;
+        mClone = true;
+      }
       setup();
       supportInvalidateOptionsMenu();
       break;
@@ -1400,6 +1409,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction.setId(0L);
         mRowId = 0L;
         mNewInstance = true;
+        mClone = false;
         if (mTransaction instanceof Template) {
           setTitle(R.string.menu_create_template);
           mTitleText.setText("");

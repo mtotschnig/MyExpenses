@@ -307,13 +307,13 @@ public class TransactionList extends ContextualActionBarFragment implements
       ConfirmationDialogFragment.newInstance(b)
           .show(getFragmentManager(), "DELETE_TRANSACTION");
       return true;
-    case R.id.CLONE_TRANSACTION_COMMAND:
+/*    case R.id.CLONE_TRANSACTION_COMMAND:
       ctx.startTaskExecution(
           TaskExecutionFragment.TASK_CLONE,
           itemIds,
           null,
           0);
-      break;
+      break;*/
     case R.id.SPLIT_TRANSACTION_COMMAND:
       if (MyApplication.getInstance().isContribEnabled()) {
         ctx.contribFeatureCalled(ContribFeature.SPLIT_TRANSACTION, itemIds);
@@ -339,6 +339,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     MyExpenses ctx = (MyExpenses) getActivity();
     switch(command) {
     case R.id.EDIT_COMMAND:
+    case R.id.CLONE_TRANSACTION_COMMAND:
       mTransactionsCursor.moveToPosition(acmi.position);
       if (DbUtils.getLongOrNull(mTransactionsCursor, "transfer_peer_parent") != null) {
         Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
@@ -346,6 +347,9 @@ public class TransactionList extends ContextualActionBarFragment implements
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, acmi.id);
         i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
+        if (command==R.id.CLONE_TRANSACTION_COMMAND) {
+          i.putExtra(ExpenseEdit.KEY_CLONE,true);
+        }
         ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       }
       //super is handling deactivation of mActionMode
