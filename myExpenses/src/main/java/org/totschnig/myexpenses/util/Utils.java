@@ -308,7 +308,7 @@ public class Utils {
       if (pref.getScheme().equals("file")) {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
-          return DocumentFile.fromFile(new File(pref.getPath()));
+          return DocumentFile.fromFile(appDir);
         }/* else {
           Utils.reportToAcra(new Exception("Found invalid preference value " + prefString));
         }*/
@@ -319,7 +319,8 @@ public class Utils {
         }
       }
     }
-    return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
+    File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
+    return externalFilesDir != null ? DocumentFile.fromFile(externalFilesDir) : null;
   }
 
   public static File getCacheDir() {
