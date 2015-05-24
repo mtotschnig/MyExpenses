@@ -319,7 +319,8 @@ public class Utils {
         }
       }
     }
-    return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
+    File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
+    return externalFilesDir != null ? DocumentFile.fromFile(externalFilesDir) : null;
   }
 
   public static File getCacheDir() {
