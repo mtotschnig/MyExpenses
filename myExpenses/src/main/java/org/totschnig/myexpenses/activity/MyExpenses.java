@@ -911,6 +911,8 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
+    Integer successCount;
+    String msg;
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
@@ -920,12 +922,12 @@ public class MyExpenses extends LaunchActivity implements
         tdf.fillData((Transaction) o);
       }
       break;
-    case TaskExecutionFragment.TASK_CLONE:
-      Integer successCount = (Integer) o;
-      String msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
+/*    case TaskExecutionFragment.TASK_CLONE:
+      successCount = (Integer) o;
+      msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
         getResources().getQuantityString(R.plurals.clone_transaction_success, successCount, successCount);
       Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
-      break;
+      break;*/
     case TaskExecutionFragment.TASK_SPLIT:
       successCount = (Integer) o;
       msg = successCount == 0 ?  getString(R.string.split_transaction_error) :

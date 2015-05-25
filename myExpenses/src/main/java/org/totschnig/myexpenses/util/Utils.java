@@ -310,10 +310,10 @@ public class Utils {
       if (pref.getScheme().equals("file")) {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
-          return DocumentFile.fromFile(new File(pref.getPath()));
-        } else {
+          return DocumentFile.fromFile(appDir);
+        }/* else {
           Utils.reportToAcra(new Exception("Found invalid preference value " + prefString));
-        }
+        }*/
       } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           //this will return null, if called on a pre-Lolipop device
@@ -321,7 +321,8 @@ public class Utils {
         }
       }
     }
-    return DocumentFile.fromFile(MyApplication.getInstance().getExternalFilesDir(null));
+    File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
+    return externalFilesDir != null ? DocumentFile.fromFile(externalFilesDir) : null;
   }
 
   public static File getCacheDir() {

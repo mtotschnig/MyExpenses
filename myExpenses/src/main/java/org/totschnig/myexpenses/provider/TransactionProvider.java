@@ -167,9 +167,7 @@ public class TransactionProvider extends ContentProvider {
 
     Cursor c;
 
-    if (BuildConfig.DEBUG) {
-      Log.d(TAG, "Query for URL: " + uri);
-    }
+    log("Query for URL: " + uri);
     String defaultOrderBy = null;
     String groupBy = null;
     String having = null;
@@ -312,7 +310,7 @@ public class TransactionProvider extends ContentProvider {
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the KEY_INTERIM_BALANCE subquery
         //(first in the where clause, second in the subselect for the opening balance),
-        Log.d(TAG, "SelectionArgs before join : " + Arrays.toString(selectionArgs));
+        log("SelectionArgs before join : " + Arrays.toString(selectionArgs));
         selectionArgs = Utils.joinArrays(
             accountArgs,
             selectionArgs);
@@ -418,9 +416,8 @@ public class TransactionProvider extends ContentProvider {
             sortOrder,
             null);
         c = db.rawQuery(sql, null);
-        if (BuildConfig.DEBUG) {
-          Log.d(TAG, "Query : " + sql);
-        }
+        log("Query : " + sql);
+
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
       }
@@ -598,12 +595,14 @@ public class TransactionProvider extends ContentProvider {
       @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
-      Log.d(TAG, "Query : " + qs);
-      Log.d(TAG, "SelectionArgs : " + Arrays.toString(selectionArgs));
+      log("Query : " + qs);
+      log("SelectionArgs : " + Arrays.toString(selectionArgs));
     }
-
+    //long startTime = System.nanoTime();
     c = qb.query(db, projection, selection, selectionArgs, groupBy,
         having, orderBy);
+    //long endTime = System.nanoTime();
+    //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
   }
@@ -614,9 +613,7 @@ public class TransactionProvider extends ContentProvider {
   }
   @Override
   public Uri insert(Uri uri, ContentValues values) {
-    if (BuildConfig.DEBUG) {
-      Log.d(TAG,values.toString());
-    }
+    log(values.toString());
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id = 0;
     String newUri;
@@ -699,8 +696,7 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public int delete(Uri uri, String where, String[] whereArgs) {
-    if (BuildConfig.DEBUG)
-      Log.d(TAG, "Delete for URL: " + uri);
+    log("Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
     String whereString;
@@ -1173,6 +1169,12 @@ public class TransactionProvider extends ContentProvider {
    */
   public TransactionDatabase getOpenHelperForTest() {
       return mOpenHelper;
+  }
+
+  private void log(String message) {
+    if (BuildConfig.DEBUG) {
+      Log.d(TAG,message);
+    }
   }
   
 }

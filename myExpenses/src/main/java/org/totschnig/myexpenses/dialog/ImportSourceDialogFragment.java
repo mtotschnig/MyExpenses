@@ -134,9 +134,10 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
             final int takeFlags = data.getFlags()
                 & Intent.FLAG_GRANT_READ_URI_PERMISSION;
             try {
+              //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
               getActivity().getContentResolver().takePersistableUriPermission(mUri, takeFlags);
             } catch (SecurityException e) {
-              Utils.reportToAcra(e);
+              //Utils.reportToAcra(e);
             }
           }
         }
@@ -151,7 +152,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @SuppressLint("NewApi")
   public static String getDisplayName(Uri uri) {
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+    if (!"file".equalsIgnoreCase(uri.getScheme()) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       // The query, since it only applies to a single document, will only return
       // one row. There's no need to filter, sort, or select fields, since we want
       // all fields for one document.
