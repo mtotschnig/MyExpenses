@@ -697,6 +697,7 @@ public class Utils {
       if (!f.equals(other)) {
         result = TextUtils.concat(
             result,
+            "\u25b6 ",
             ctx.getText(ctx.getResources().getIdentifier(
                 "contrib_feature_" + f.toString() + "_label", "string",
                 ctx.getPackageName())));
