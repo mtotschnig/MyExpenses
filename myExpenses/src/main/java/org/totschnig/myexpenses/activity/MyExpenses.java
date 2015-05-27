@@ -134,7 +134,8 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
   public static final int TYPE_SPLIT = 2;
-  
+  public static final int TIME_UNKNOWN = -1;
+
   public static long TRESHOLD_REMIND_RATE = 47L;
   public static long TRESHOLD_REMIND_CONTRIB = 113L;
 
@@ -200,8 +201,15 @@ public class MyExpenses extends LaunchActivity implements
     setContentView(R.layout.activity_main);
 
     AdView mAdView = (AdView) findViewById(R.id.adView);
-    AdRequest adRequest = new AdRequest.Builder().build();
-    mAdView.loadAd(adRequest);
+
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO ||
+        MyApplication.getInstance().isContribEnabled() ||
+        isInInitialGracePeriod()) {
+      mAdView.setVisibility(View.GONE);
+    } else {
+      AdRequest adRequest = new AdRequest.Builder().build();
+      mAdView.loadAd(adRequest);
+    }
 
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -344,6 +352,19 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.getLong(0L);
     setup();
   }
+
+
+  @SuppressLint("NewApi")
+  private boolean isInInitialGracePeriod() {
+    try {
+      return System.currentTimeMillis() -
+          getPackageManager().getPackageInfo("org.totschnig.myexpenses", 0)
+              .firstInstallTime < 86400000 * 5; //5 Tage
+    } catch (PackageManager.NameNotFoundException e) {
+      return false;
+    }
+  }
+
   private void initialSetup() {
     FragmentManager fm = getSupportFragmentManager();
     if (fm.findFragmentByTag("ASYNC_TASK") == null) {
