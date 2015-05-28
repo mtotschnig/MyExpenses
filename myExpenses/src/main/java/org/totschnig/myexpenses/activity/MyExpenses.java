@@ -112,6 +112,7 @@ import android.util.TypedValue;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -133,7 +134,7 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
   public static final int TYPE_SPLIT = 2;
-  public static final int TIME_UNKNOWN = -1;
+  public static final int DAY_IN_MILLIS = 86400000;
 
   public static long TRESHOLD_REMIND_RATE = 47L;
   public static long TRESHOLD_REMIND_CONTRIB = 113L;
@@ -178,6 +179,9 @@ public class MyExpenses extends LaunchActivity implements
   public boolean setupComplete;
   private Account.AccountGrouping mAccountGrouping;
 
+  InterstitialAd mInterstitialAd;
+
+
   /* (non-Javadoc)
    * Called when the activity is first created.
    * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -200,14 +204,14 @@ public class MyExpenses extends LaunchActivity implements
     setContentView(R.layout.activity_main);
 
     AdView mAdView = (AdView) findViewById(R.id.adView);
+    long now = System.currentTimeMillis();
 
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO ||
-        MyApplication.getInstance().isContribEnabled() ||
-        isInInitialGracePeriod()) {
+    if (isAdDisabled(now)) {
       mAdView.setVisibility(View.GONE);
     } else {
       AdRequest adRequest = new AdRequest.Builder().build();
       mAdView.loadAd(adRequest);
+      maybeRequestNewInterstitial(now);
     }
 
 
@@ -352,17 +356,39 @@ public class MyExpenses extends LaunchActivity implements
     setup();
   }
 
+  private boolean isAdDisabled(long now) {
+    return Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO ||
+        MyApplication.getInstance().isContribEnabled() ||
+        isInInitialGracePeriod(now);
+  }
+
 
   @SuppressLint("NewApi")
-  private boolean isInInitialGracePeriod() {
+  private boolean isInInitialGracePeriod(long now) {
     try {
-      return System.currentTimeMillis() -
+      return now -
           getPackageManager().getPackageInfo("org.totschnig.myexpenses", 0)
-              .firstInstallTime < 86400000 * 5; //5 Tage
+              .firstInstallTime < DAY_IN_MILLIS * 1; //5 Tage
     } catch (PackageManager.NameNotFoundException e) {
       return false;
     }
   }
+
+  private void maybeRequestNewInterstitial(long now) {
+    if (now - PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > DAY_IN_MILLIS &&
+        PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)>9) {
+      //last ad shown more than 24h and at least five expense entries ago,
+      if (mInterstitialAd == null) {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+      }
+      AdRequest adRequest = new AdRequest.Builder()
+          //.addTestDevice("YOUR_DEVICE_HASH")
+          .build();
+      mInterstitialAd.loadAd(adRequest);
+    }
+  }
+
 
   private void initialSetup() {
     FragmentManager fm = getSupportFragmentManager();
@@ -448,6 +474,20 @@ public class MyExpenses extends LaunchActivity implements
           CommonCommands.showContribInfoDialog(this,sequenceCount);
           return;
         }
+      }
+      long now = System.currentTimeMillis();
+      if (!isAdDisabled(now)) {
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+          mInterstitialAd.show();
+          PrefKey.INTERSTITIAL_LAST_SHOWN.putLong(now);
+          PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(0);
+        } else {
+          PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(
+              PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)+1
+          );
+          maybeRequestNewInterstitial(now);
+        }
+        return;
       }
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {

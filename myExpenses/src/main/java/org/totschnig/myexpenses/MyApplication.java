@@ -129,7 +129,9 @@ public class MyApplication extends Application implements
     LICENSE_INITIAL_TIMESTAMP("licenseInitialTimeStamp"),
     DISTRIBUTION_SHOW_CHART("distributionShowChart"),
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
-    MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key);
+    MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
+    INTERSTITIAL_LAST_SHOWN("interstitialLastShown"),
+    ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL("entriesCreatedSinceLastInterstitial");
 
     private int resId = 0;
     private String key = null;
