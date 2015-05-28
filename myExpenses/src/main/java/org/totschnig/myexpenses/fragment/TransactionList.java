@@ -77,6 +77,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -805,12 +806,16 @@ public class TransactionList extends ContextualActionBarFragment implements
       return;
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
+    TextView title = (TextView) ((ActionBarActivity) getActivity()).getSupportActionBar()
+        .getCustomView().findViewById(R.id.action_bar_title);
     if (!mFilter.isEmpty()) {
       searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
       searchMenu.setChecked(true);
+      title.setText(mAccount.label + " ( " + mFilter.prettyPrint() + " )");
     } else {
       searchMenu.getIcon().setColorFilter(null);
       searchMenu.setChecked(false);
+      title.setText(mAccount.label);
     }
     SubMenu filterMenu = searchMenu.getSubMenu();
     for (int i = 0; i < filterMenu.size(); i++) {
