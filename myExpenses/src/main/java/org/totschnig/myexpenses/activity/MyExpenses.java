@@ -1085,8 +1085,6 @@ public class MyExpenses extends LaunchActivity implements
 
   private void setCustomTitle() {
     View titleBar = getSupportActionBar().getCustomView();
-    ((TextView) titleBar.findViewById(android.R.id.text1)).setText(
-        mAccountsCursor.getString(columnIndexLabel));
     ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
         new Money(
             Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency)),
