@@ -49,6 +49,7 @@
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>
+    <string name="contrib_feature_ad_free_label">No ads</string>
     <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
     <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
     <string name="contrib_feature_attach_picture_label">Attach image to transaction</string>
@@ -83,7 +84,7 @@
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by purchasing <i>My Expenses Contrib Key</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
     <!-- Placeholders: 1 is feature list -->
-    <string name="dialog_contrib_text"><i>My Expenses</i> is offered ad free and open source. Please contribute by purchasing <i>My Expenses Contrib Key</i>. You gain unrestricted access to the following premium features:</string>
+    <string name="dialog_contrib_text">Purchasing <i>My Expenses Contrib Key</i> gives you unrestricted access to the following premium features:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">You have one free usage left.</item>
     <item quantity="other">You have %1$d free usages left.</item>

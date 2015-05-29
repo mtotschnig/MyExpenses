@@ -28,7 +28,8 @@ public enum ContribFeature  {
   DISTRIBUTION,
   TEMPLATE_WIDGET,
   PRINT,
-  ATTACH_PICTURE;
+  ATTACH_PICTURE,
+  AD_FREE(false);
 
   private ContribFeature() {
     this(true);

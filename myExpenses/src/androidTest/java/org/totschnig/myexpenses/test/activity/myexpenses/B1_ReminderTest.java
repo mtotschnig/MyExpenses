@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.util.Utils;
 
 
 /**
@@ -37,7 +38,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     MyExpenses.TRESHOLD_REMIND_RATE = 3L;
     MyExpenses.TRESHOLD_REMIND_CONTRIB = 6L;
     reminderHelper();
-    if (!BuildConfig.FLAVOR.equals("")) {//remind rate is only used on versions built for Markets
+    if (Utils.IS_FLAVOURED) {//remind rate is only used on versions built for Markets
       assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_remind_rate_1)));
       mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
     }
