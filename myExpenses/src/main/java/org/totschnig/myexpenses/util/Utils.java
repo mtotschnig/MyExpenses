@@ -97,6 +97,8 @@ import java.util.Map;
  */
 public class Utils {
 
+  public static final boolean IS_FLAVOURED = !BuildConfig.FLAVOR.equals("");
+
   public static char getDefaultDecimalSeparator() {
     char sep = '.';
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();
@@ -694,7 +696,8 @@ public class Utils {
         .iterator();
     while (iterator.hasNext()) {
       ContribFeature f = iterator.next();
-      if (!f.equals(other)) {
+      if (!f.equals(other) &&
+          (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
         result = TextUtils.concat(
             result,
             "\u25b6 ",
