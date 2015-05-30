@@ -1,10 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_247">
+    <item>La commande de clonage ouvre le formulaire d\'édition</item>
+  </string-array>
   <string-array name="whats_new_246">
-    <item>Les opérations peuvent être définies à l\'état « invalide »</item>
+    <item>Les opérations peuvent être mises en état « invalide »</item>
   </string-array>
   <string-array name="whats_new_245">
-    <item>La fonction \"Exporter et réinitialiser\" peut maintenant être appliquée aux opérations correspondant aux filtres de recherche</item>
+    <item>La fonction \"Exporter et réinitialiser\" peut maintenant être appliquée aux opérations correspondantes des filtres de recherche</item>
   </string-array>
   <string-array name="whats_new_244">
     <item>Filtre de recherche pour une durée</item>

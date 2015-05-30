@@ -30,6 +30,7 @@
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
+  <string name="contrib_feature_ad_free_label">Ohne Werbung</string>
   <string name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
   <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_attach_picture_label">Bildanhang für Buchung</string>
@@ -535,4 +536,6 @@
   <string name="folder_name">Ordnername</string>
   <string name="mark_void_instead_of_delete">Buchung nicht löschen, stattdessen als ungültig kennzeichnen.</string>
   <string name="menu_undelete_transaction">Das Löschen rückgängig machen</string>
+  <string name="slash_forbidden_in_filename">Das Zeichen / ist in Dateinamen nicht zulässig</string>
+  <string name="io_error_unable_to_create_file">Konnte Datei %1$s im Ordner %2$s nicht erstellen</string>
 </resources>

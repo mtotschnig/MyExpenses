@@ -30,6 +30,7 @@
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
   <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
+  <string name="contrib_feature_ad_free_label">Sans publicité</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec <i>Mes dépenses</i> est limité à 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
   <string name="contrib_feature_attach_picture_label">Lier une image avec une transaction</string>
@@ -417,7 +418,7 @@
   <string name="sum_income">Revenus</string>
   <string name="sum_transfer">Transferts</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Essaie Mes dépenses, Gestionnaire de finances personnelles pour %s, de http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Essayez Mes dépenses, Gestionnaire de finances personnelles pour %s, de http://www.myexpenses.mobi</string>
   <string name="template">Modèle</string>
   <string name="template_create_success">Modèle \"%1$s\" créé avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
@@ -527,12 +528,14 @@
   <string name="pref_manage_stale_images_title">Images non utilisées</string>
   <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>
   <string name="menu_select_categories">Sélectionner les catégories cochées</string>
-  <string name="image_deleted">La photo a été supprimé</string>
+  <string name="image_deleted">La photo a été supprimée</string>
   <string name="dialog_export_applied_to_filter">Seules les transactions qui correspondent au filtre actuel seront pris en considération.</string>
-  <string name="export_handle_deleted_update_balance">Créer une transaction auxiliaire</string>
-  <string name="export_handle_deleted_create_helper">Mise à jour du solde initiale</string>
+  <string name="export_handle_deleted_update_balance">Créer une aide opératoire</string>
+  <string name="export_handle_deleted_create_helper">Mise à jour du solde initial</string>
   <string name="file_name">Nom de fichier</string>
   <string name="folder_name">Nom de dossier</string>
-  <string name="mark_void_instead_of_delete">Ne pas supprimer la transaction, marquer comme invalide à la place.</string>
+  <string name="mark_void_instead_of_delete">Ne pas supprimer l\'opération, la marquer comme invalide à la place.</string>
   <string name="menu_undelete_transaction">Annuler la suppression</string>
+  <string name="slash_forbidden_in_filename">Le caractère / n\'est pas autorisé dans les noms de fichiers</string>
+  <string name="io_error_unable_to_create_file">Impossible de créer le fichier %1$s dans le dossier %2$s</string>
 </resources>
