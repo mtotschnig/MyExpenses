@@ -22,11 +22,6 @@
   <string name="backup_failure">Falha ao efetuar backup para \"%1$s\".</string>
   <string name="backup_success">Banco de dados e preferências gravados com sucesso para \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="clone_transaction_error">Não foi possível clonar transação.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Operações foram clonados com sucesso.</item>
-    <item quantity="other">As operações %1$d foram clonadas com sucesso.</item>
-  </plurals>
   <string name="split_transaction_error">Não poderia dividir a transação.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Transação com sucesso transformada para dividir.</item>

@@ -17,11 +17,6 @@
   <string name="backup_failure">Απέτυχε η δημιουργία αντιγράφων ασφαλείας σε sdcard.</string>
   <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard.</string>
   <string name="category">Κατηγορία</string>
-  <string name="clone_transaction_error">Δεν μπορεί να γίνει \"αναπαραγωγή\" της συναλλαγής.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Συναλλαγή αναπαράχθηκε με επιτυχία.</item>
-    <item quantity="other">%1$d συναλλαγές αναπαράχθηκαν με επιτυχία.</item>
-  </plurals>
   <string name="color">Χρώμα</string>
   <string name="comment">Σημειώσεις</string>
   <string name="contrib_feature_accounts_unlimited_description">Ο αριθμός των λογαριασμών που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 5.</string>

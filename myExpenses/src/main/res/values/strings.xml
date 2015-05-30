@@ -36,11 +36,6 @@
     <string name="backup_failure">Backup to \"%1$s\" failed.</string>
     <string name="backup_success">Database and preferences successfully written to \"%1$s\".</string>
     <string name="category">Category</string>
-    <string name="clone_transaction_error">Could not clone transaction.</string>
-    <plurals name="clone_transaction_success">
-	    <item quantity="one">Transaction successfully cloned.</item>
-	    <item quantity="other">%1$d transactions were successfully cloned.</item>
-    </plurals>
     <string name="split_transaction_error">Could not transform transaction to split.</string>
     <plurals name="split_transaction_success">
       <item quantity="one">Transaction successfully transformed to split.</item>

@@ -22,11 +22,6 @@
   <string name="backup_failure">Бекъп за \"%1$s\" е неуспешeн.</string>
   <string name="backup_success">База данни и предпочитания сполучливo вкарани до \"%1$s\".</string>
   <string name="category">категория</string>
-  <string name="clone_transaction_error">Не може да клонирa транзакция.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Транзакция успешно клонирани.</item>
-    <item quantity="other">%1$d транзакции са успешно клонирани.</item>
-  </plurals>
   <string name="color">цвят</string>
   <string name="comment">бележки</string>
   <string name="confirmation_dialog_dont_show_again">Не показвай отново</string>

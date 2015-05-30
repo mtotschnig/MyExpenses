@@ -22,11 +22,6 @@
   <string name="backup_failure">La copia de seguridad en \"%1$s\" ha fallado.</string>
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en \"%1$s\".</string>
   <string name="category">Categoría</string>
-  <string name="clone_transaction_error">No se podría clonar transacción.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Transacción clonado con éxito.</item>
-    <item quantity="other">Las %1$d transacciones se clonaron con éxito.</item>
-  </plurals>
   <string name="split_transaction_error">No podría dividir la transacción.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Transacción dividida con éxito.</item>

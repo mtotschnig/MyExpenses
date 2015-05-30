@@ -22,10 +22,6 @@
   <string name="backup_failure">បម្រុងទុកក្នុង sdcard បានបរាជ័យ។</string>
   <string name="backup_success">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត​ បានស្តុក ដោយជោគជ័យទៅ sdcard ។</string>
   <string name="category">ចំណាត់ថ្នាក់</string>
-  <string name="clone_transaction_error">អ្នក​មិន​អាច​ចម្លង​ប្រតិបត្តិការ​ដើម​បានទេ</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="other">%1$d ប្រតិបត្តិ​ការ​បាន​ចម្លង​យក​ដោយ​ជោគ​ជ័យ។</item>
-  </plurals>
   <string name="color">ពណ៌</string>
   <string name="comment">សម្គាល់</string>
   <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>

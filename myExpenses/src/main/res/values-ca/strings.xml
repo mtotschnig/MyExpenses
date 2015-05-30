@@ -22,11 +22,6 @@
   <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a \"%1$s\".</string>
   <string name="backup_success">La base de dades i les preferències s\'han desat a \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="clone_transaction_error">No ha estat possible clonar l\'operació.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Transacció s\'ha desat correctament.</item>
-    <item quantity="other">%1$d transaccions s\'han desat correctament.</item>
-  </plurals>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
   <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
