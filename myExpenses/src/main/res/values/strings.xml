@@ -83,8 +83,8 @@
     <string name="dialog_contrib_premium_feature">%1$s is a premium feature.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by purchasing <i>My Expenses Contrib Key</i>.</string>
     <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
-    <!-- Placeholders: 1 is feature list -->
-    <string name="dialog_contrib_text">Purchasing <i>My Expenses Contrib Key</i> gives you unrestricted access to the following premium features:</string>
+    <string name="dialog_contrib_text_1"><i>My Expenses</i> is offered ad free and open source.</string>
+    <string name="dialog_contrib_text_2">Please contribute by purchasing <i>My Expenses Contrib Key</i>. You gain unrestricted access to the following premium features:</string>
     <plurals name="dialog_contrib_usage_count">
     <item quantity="one">You have one free usage left.</item>
     <item quantity="other">You have %1$d free usages left.</item>

@@ -50,11 +50,12 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
     CharSequence
       linefeed = Html.fromHtml("<br><br>"),
       message = TextUtils.concat(
-        getText(R.string.dialog_contrib_text),
-        linefeed,
-        Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null),
-        linefeed,
-        getString(R.string.thank_you));
+          Utils.IS_FLAVOURED ? "" : getText(R.string.dialog_contrib_text_1),
+          getText(R.string.dialog_contrib_text_2),
+          linefeed,
+          Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null),
+          linefeed,
+          getString(R.string.thank_you));
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);
