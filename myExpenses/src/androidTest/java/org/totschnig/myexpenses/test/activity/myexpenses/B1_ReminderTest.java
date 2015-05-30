@@ -43,7 +43,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
       mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
     }
     reminderHelper();
-    assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_contrib_text)));
+    assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_contrib_text_2)));
     mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
   }
 
@@ -52,8 +52,10 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
     mSolo.typeText(((EditText) mSolo.getView(R.id.Amount)), "1");
     clickOnActionBarItem("SAVE_AND_NEW");
+    getInstrumentation().waitForIdleSync();
     mSolo.typeText(((EditText) mSolo.getView(R.id.Amount)), "1");
     clickOnActionBarItem("SAVE_AND_NEW");
+    getInstrumentation().waitForIdleSync();
     mSolo.typeText(((EditText) mSolo.getView(R.id.Amount)), "1");
     clickOnActionBarItem("SAVE");
     assertTrue(mSolo.waitForActivity(MyExpenses.class.getSimpleName()));

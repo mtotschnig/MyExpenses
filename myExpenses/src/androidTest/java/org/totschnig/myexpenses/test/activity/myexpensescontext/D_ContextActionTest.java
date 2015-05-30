@@ -56,9 +56,15 @@ public class D_ContextActionTest extends MyExpensesTest {
     assertEquals(itemsInList + 1, requireList().getAdapter().getCount());
   }
   public void testB_Edit() {
+    int itemsInList = requireList().getAdapter().getCount();
     setSelection();
     invokeContextAction("EDIT");
     assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
+    clickOnActionBarItem("SAVE");
+    getInstrumentation().waitForIdleSync();
+    //wait for adapter to have updated
+    sleep();
+    assertEquals(itemsInList, requireList().getAdapter().getCount());
   }
 
   public void testC_CreateTemplate() {
