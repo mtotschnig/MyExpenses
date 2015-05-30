@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_247">
+    <item>Der Befehl Klonen öffnet das Bearbeitungsformular</item>
+  </string-array>
   <string-array name="whats_new_246">
     <item>Buchungen können als \"ungültig\" gekennzeichnet werden</item>
   </string-array>

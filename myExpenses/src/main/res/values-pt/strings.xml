@@ -30,6 +30,7 @@
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
+  <string name="contrib_feature_ad_free_label">Sem anúncios</string>
   <string name="contrib_feature_accounts_unlimited_description">O número de contas, que você pode criar com <i>Minhas despesas</i> é limitado a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
   <string name="contrib_feature_attach_picture_label">Anexar imagem à transação</string>
@@ -535,4 +536,6 @@
   <string name="folder_name">Nome da pasta</string>
   <string name="mark_void_instead_of_delete">Não exclua transação, marcar como vazio em seu lugar.</string>
   <string name="menu_undelete_transaction">Cancelar a eliminação</string>
+  <string name="slash_forbidden_in_filename">/ caractere não é permitido em nomes de arquivos</string>
+  <string name="io_error_unable_to_create_file">Não é possível criar arquivo %1$s na pasta %2$s</string>
 </resources>
