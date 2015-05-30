@@ -46,8 +46,8 @@
   <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás.</string>
   <string name="dialog_contrib_reminder_remove_limitation">A korlátozás megszűntethető a <i>Kiadásaim Contrib kulcs</i> telepítésével.</string>
   <string name="dialog_contrib_reminder_gain_access">Az alábbi szolgáltatások is elérhetővé válnak:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Kiadásaim</i> reklám mentes és nyitott forráskódú. Kérjük, ha elégedett a termékkel, járuljon hozzá <i>Kiadásaim Contrib kulcs</i>. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
+  <string name="dialog_contrib_text_1"><i>Kiadásaim</i> reklám mentes és nyitott forráskódú.</string>
+  <string name="dialog_contrib_text_2">Kérjük, ha elégedett a termékkel, járuljon hozzá <i>Kiadásaim Contrib kulcs</i>. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
   <string name="dialog_contrib_yes">Vásárolja meg most</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>

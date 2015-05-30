@@ -50,8 +50,8 @@
   <string name="dialog_contrib_premium_feature">%1$s είναι ένα στοιχείο του ασφαλίστρου.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Καταργήστε αυτόν τον περιορισμό με την <i>Έξοδα μου Contrib κλειδί</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Μπορείτε επίσης να αποκτήσετε απεριόριστη πρόσβαση σε τις ακόλουθες δυνατότητες:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Έξοδα μου</i> προσφέρεται δωρεάν και μέσω ανοικτού κώδικα. Παρακαλούμε για τη συνεισφορά σας  με την εγκατάσταση <i>Έξοδα μου Contrib κλειδί</i>. Μπορείτε να αποκτήσετε απεριόριστη πρόσβαση για τα ακόλουθα χαρακτηριστικά ασφαλίστρου:</string>
+  <string name="dialog_contrib_text_1"><i>Έξοδα μου</i> προσφέρεται δωρεάν και μέσω ανοικτού κώδικα.</string>
+  <string name="dialog_contrib_text_2">Παρακαλούμε για τη συνεισφορά σας  με την εγκατάσταση <i>Έξοδα μου Contrib κλειδί</i>. Μπορείτε να αποκτήσετε απεριόριστη πρόσβαση για τα ακόλουθα χαρακτηριστικά ασφαλίστρου:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Έχετε μία δωρεάν χρήση ακόμη.</item>
     <item quantity="other">Έχετε ακόμη %1$d δωρεάν χρήσεις.</item>

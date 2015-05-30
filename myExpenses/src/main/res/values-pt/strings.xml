@@ -68,8 +68,8 @@
   <string name="dialog_contrib_premium_feature">%1$s é uma característica premium.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação comprando <i>Minhas despesas Chave Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Você também ganha acesso ilimitado para os seguintes recursos:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Minhas despesas</i> é oferecido sem anúncios e open source. Por favor, contribua, comprando <i>Minhas despesas Chave Contrib</i>. Você terá acesso ilimitado para os seguintes recursos premium:</string>
+  <string name="dialog_contrib_text_1"><i>Minhas despesas</i> é oferecido sem anúncios e open source.</string>
+  <string name="dialog_contrib_text_2">Por favor, contribua, comprando <i>Minhas despesas Chave Contrib</i>. Você terá acesso ilimitado para os seguintes recursos premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Você tem un livre usos esquerda.</item>
     <item quantity="other">Você tem %1$d livre usos esquerda.</item>

@@ -66,8 +66,8 @@
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です。</string>
   <string name="dialog_contrib_reminder_remove_limitation"><i>マイ エクスペンス 貢献キー</i> を購入することで、この制限を解除します。</string>
   <string name="dialog_contrib_reminder_gain_access">次の機能に無制限にアクセスすることができます:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。 <i>マイ エクスペンス 貢献キー</i> を購入して、貢献してください。 次のプレミアム機能に無制限にアクセスすることができます:</string>
+  <string name="dialog_contrib_text_1"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。</string>
+  <string name="dialog_contrib_text_2"><i>マイ エクスペンス 貢献キー</i> を購入して、貢献してください。 次のプレミアム機能に無制限にアクセスすることができます:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">%1$d の無料の使用が残っています。</item>
   </plurals>
@@ -410,6 +410,7 @@
   <string name="status_cleared">消去済</string>
   <string name="status_reconciled">照合済</string>
   <string name="status_uncreconciled">未照合</string>
+  <string name="status_void">無効</string>
   <string name="subcategory">副分類</string>
   <string name="sum_expenses">支出</string>
   <string name="sum_income">収入</string>
@@ -528,4 +529,6 @@
   <string name="export_handle_deleted_create_helper">期首残高を更新</string>
   <string name="file_name">ファイル名</string>
   <string name="folder_name">フォルダー名</string>
+  <string name="mark_void_instead_of_delete">取引を削除しないでください。代わりに無効としてマークしてください。</string>
+  <string name="menu_undelete_transaction">削除の取消</string>
 </resources>

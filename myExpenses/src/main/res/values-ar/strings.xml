@@ -51,8 +51,6 @@
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
   <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت <i>مصروفاتي Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>مصروفاتي</i> تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية:</string>
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>

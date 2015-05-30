@@ -53,8 +53,8 @@
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, установив <i>Мои расходы Contrib-ключ</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Вы получите неограниченный доступ к следующим функциям:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом. Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум функциям:</string>
+  <string name="dialog_contrib_text_1"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом.</string>
+  <string name="dialog_contrib_text_2">Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум функциям:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one"> У вас осталось одно бесплатное использование.</item>
     <item quantity="few"> У вас осталось %1$d бесплатных использований.</item>

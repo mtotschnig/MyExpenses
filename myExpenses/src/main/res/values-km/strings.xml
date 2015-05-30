@@ -59,8 +59,6 @@
   <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។</string>
   <string name="dialog_contrib_reminder_remove_limitation">ដក​ការ​កំណត់​ព្រំដែន​នេះ ដោយ​បញ្ចូល <i>ការចំណាយរបស់ខ្ញុំ Contrib Key</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">អ្នក​អាច​ចូល​ទៅកាន់​ផ្នែក​ពិសេស​ដែលហាម​ឃាត់​ ដូចខាងក្រោម៖</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>ការចំណាយរបស់ខ្ញុំ</i> ផ្តល់​ដោយ​គ្មាន​ការផ្សាយ​ពាណិជ្ជកម្ម ហើយ​ជាកម្មវិធី​បើក​ចំហមួយ។ ហេតុ​នេះ​សូម​រួម​ចំណែក ដោយ​ការ​បញ្ចូល​កម្មវិធី​បង់​ថ្លៃ Contrib Key ។ អ្នក​អាច​ចូល​ទៅ​កាន់​ផ្នែក​ពិសេស​ ដែល​បាន​ហាមឃាត់​ដូចជា៖</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</item>
   </plurals>

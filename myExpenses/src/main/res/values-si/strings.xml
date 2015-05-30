@@ -53,8 +53,8 @@
   <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි </string>
   <string name="dialog_contrib_reminder_remove_limitation">සිමාකිරිම ඉවත් කිරීමට <i>මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර</i> මිලදී ගන්න </string>
   <string name="dialog_contrib_reminder_gain_access">ඔබට පහත සදහන් අංග සදහාත් සීමාකිරීම් වලින් තොර පරිශීලන හැකියාව ලැබී ඇත </string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>මයි එක්ස්පෙන්සස් </i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.කරුනාකර මිලදීගෙන දායකවන්න  <i>මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර </i>. ඔබ පහත සදහන් පාරිතෝෂික අංග සදහා සිමාකිර්ම් වලින් තොර පරිශීලන හැකියාව හිමිකරගෙන තිබේ.</string>
+  <string name="dialog_contrib_text_1"><i>මයි එක්ස්පෙන්සස් </i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
+  <string name="dialog_contrib_text_2">කරුනාකර මිලදීගෙන දායකවන්න  <i>මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර </i>. ඔබ පහත සදහන් පාරිතෝෂික අංග සදහා සිමාකිර්ම් වලින් තොර පරිශීලන හැකියාව හිමිකරගෙන තිබේ.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">ඔබට එක නිදහස්  පවිච්චි කිරීමක්  ඉතිරිව ඇත </item>
     <item quantity="other">ඔබට %1$d නිදහස්  පවිච්චි කිරීම්  ඉතිරිව ඇත </item>

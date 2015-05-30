@@ -62,8 +62,8 @@
   <string name="dialog_contrib_premium_feature">%1$s е премийна функция.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Премахнете това ограничение чрез закупуване на <i>Моите разходи Contrib ключ</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Можете да получите неограничен достъп до следните функции:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Моите разходи</i> се предлага свободно от реклами и с отворен достъп. Моля, допринесете като закупите <i>Моите разходи Contrib ключ</i>. Вие получавате неограничен достъп до следните премийни функции:</string>
+  <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага свободно от реклами и с отворен достъп.</string>
+  <string name="dialog_contrib_text_2">Моля, допринесете като закупите <i>Моите разходи Contrib ключ</i>. Вие получавате неограничен достъп до следните премийни функции:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Имате един свободен отнасяне наляво.</item>
     <item quantity="other">Имате оснтанали %1$d свободни употреби .</item>

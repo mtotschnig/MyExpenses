@@ -61,8 +61,8 @@
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la compra de <i>Les meves despeses Clau Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu mitjançant la compra de <i>Les meves despeses Clau Contrib</i>. Obtindreu accés il·limitat a les següents característiques premium:</string>
+  <string name="dialog_contrib_text_1"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert.</string>
+  <string name="dialog_contrib_text_2">Si us plau contribuiu mitjançant la compra de <i>Les meves despeses Clau Contrib</i>. Obtindreu accés il·limitat a les següents característiques premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Us queden encara 1 us disponible.</item>
     <item quantity="other">Us queden encara %1$d usos disponibles.</item>

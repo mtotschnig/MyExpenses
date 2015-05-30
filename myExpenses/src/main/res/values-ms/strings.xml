@@ -66,8 +66,8 @@
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Buang batasan ini dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Anda juga mendapat capaian tanpa had pada fitur berikut:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka. Sila beri sumbangan dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>. Anda akan mendapat capaian tanpa had pada fitur premium berikut:</string>
+  <string name="dialog_contrib_text_1"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
+  <string name="dialog_contrib_text_2">Sila beri sumbangan dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>. Anda akan mendapat capaian tanpa had pada fitur premium berikut:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">Anda mempunyai %1$d penggunaan percuma berbaki.</item>
   </plurals>
@@ -410,6 +410,7 @@
   <string name="status_cleared">selesai</string>
   <string name="status_reconciled">disesuaikan</string>
   <string name="status_uncreconciled">belum disesuaikan</string>
+  <string name="status_void">tidak sah</string>
   <string name="subcategory">Subkategori</string>
   <string name="sum_expenses">Perbelanjaan</string>
   <string name="sum_income">Pendapatan</string>
@@ -456,6 +457,7 @@
   <string name="warning_reset_account">Jika anda teruskan, semua transaksi akaun ini dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
+  <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam, Anda mahu teruskan?</string>
   <string name="warning_select_account">Sila pilih satu akaun!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
@@ -522,4 +524,11 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
   <string name="menu_select_categories">Pilih kategori ditanda</string>
   <string name="image_deleted">Gambar telah dipadamkan</string>
+  <string name="dialog_export_applied_to_filter">Hanya transaksi yang sepadan dengan penapis semasa akan diambilkira.</string>
+  <string name="export_handle_deleted_update_balance">Cipta transaksi pembantu</string>
+  <string name="export_handle_deleted_create_helper">Kemaskini baki mula</string>
+  <string name="file_name">Nama fail</string>
+  <string name="folder_name">Nama folder</string>
+  <string name="mark_void_instead_of_delete">Jangan padam transaksi, tanda sebagai tidak sah.</string>
+  <string name="menu_undelete_transaction">Nyahpadam</string>
 </resources>
