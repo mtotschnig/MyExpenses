@@ -135,6 +135,7 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_TRANSFER = 1;
   public static final int TYPE_SPLIT = 2;
   public static final int DAY_IN_MILLIS = 86400000;
+  public static final int INITIAL_GRACE_DAYS = 5;
 
   public static long TRESHOLD_REMIND_RATE = 47L;
   public static long TRESHOLD_REMIND_CONTRIB = 113L;
@@ -368,7 +369,7 @@ public class MyExpenses extends LaunchActivity implements
     try {
       return now -
           getPackageManager().getPackageInfo("org.totschnig.myexpenses", 0)
-              .firstInstallTime < DAY_IN_MILLIS * 1; //5 Tage
+              .firstInstallTime < DAY_IN_MILLIS * INITIAL_GRACE_DAYS;
     } catch (PackageManager.NameNotFoundException e) {
       return false;
     }
@@ -380,7 +381,7 @@ public class MyExpenses extends LaunchActivity implements
       //last ad shown more than 24h and at least five expense entries ago,
       if (mInterstitialAd == null) {
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.admob_unitid_interstitial));
       }
       AdRequest adRequest = new AdRequest.Builder()
           //.addTestDevice("YOUR_DEVICE_HASH")
