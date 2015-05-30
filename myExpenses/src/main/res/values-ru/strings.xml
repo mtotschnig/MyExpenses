@@ -21,6 +21,7 @@
   <plurals name="clone_transaction_success">
     <item quantity="one">Операция успешно склонирована.</item>
     <item quantity="few">%1$d операций успешо склонированы.</item>
+    <item quantity="many">%1$d операций успешо склонированы.</item>
     <item quantity="other">%1$d операций успешо склонированы.</item>
   </plurals>
   <string name="color">Цвет</string>
@@ -58,6 +59,7 @@
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one"> У вас осталось одно бесплатное использование.</item>
     <item quantity="few"> У вас осталось %1$d бесплатных использований.</item>
+    <item quantity="many"> У вас осталось %1$d бесплатных использований.</item>
     <item quantity="other"> У вас осталось %1$d бесплатных использований.</item>
   </plurals>
   <string name="dialog_contrib_yes">Купить сейчас</string>
@@ -217,11 +219,13 @@
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Выбранный объект связан с операцией и не может быть удален.</item>
     <item quantity="few">%1$d объектов связаны с операциями и не могут быть удалены.</item>
+    <item quantity="many">%1$d объектов связаны с операциями и не могут быть удалены.</item>
     <item quantity="other">%1$d объектов связаны с операциями и не могут быть удалены.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">Выбранный объект связан с шаблоном и не может быть удален.</item>
     <item quantity="few">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
+    <item quantity="many">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
     <item quantity="other">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
   </plurals>
   <string name="numbered">пронумерованный</string>
@@ -350,6 +354,7 @@
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">Новая операция успешно сохранена из шаблона.</item>
     <item quantity="few">%1$d новых операций успешно сохранены из шаблонов.</item>
+    <item quantity="many">%1$d новых операций успешно сохранены из шаблонов.</item>
     <item quantity="other">%1$d новых операций успешно сохранены из шаблонов.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Шаблон удалён</string>
@@ -368,6 +373,7 @@
   <string name="sum_expenses">Расходы</string>
   <string name="sum_income">Прибыль</string>
   <string name="sum_transfer">Переводы</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Просмотрите Мои расходы, персональный финансовый менеджер для %s, на http://www.myexpenses.mobi</string>
   <string name="template">Шаблон</string>
   <string name="template_create_success">Шаблон \"%1$s\" успешно создан</string>
@@ -388,21 +394,25 @@
   <plurals name="warning_delete_main_category">
     <item quantity="one">В одной из выбранной категории есть подкатегории, которые также будут удалены.</item>
     <item quantity="few"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
+    <item quantity="many"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
     <item quantity="other"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
   </plurals>
   <plurals name="warning_delete_plan">
     <item quantity="one">Выбранный план будет удалён.</item>
     <item quantity="few">%1$d выбранных планов будут удалены.</item>
+    <item quantity="many">%1$d выбранных планов будут удалены.</item>
     <item quantity="other">%1$d выбранных планов будут удалены.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Выбранный шаблон будет удалён</item>
     <item quantity="few">%1$d выбранных шаблонов будут удалены.</item>
+    <item quantity="many">%1$d выбранных шаблонов будут удалены.</item>
     <item quantity="other">%1$d выбранных шаблонов будут удалены.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
     <item quantity="one">Выбранная операций будет удалена.</item>
     <item quantity="few">%1$d выбранных операций будут удалены.</item>
+    <item quantity="many">%1$d выбранных операций будут удалены.</item>
     <item quantity="other">%1$d выбранных операций будут удалены.</item>
   </plurals>
   <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
