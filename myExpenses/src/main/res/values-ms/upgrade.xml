@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_246">
+    <item>Transaksi boleh ditetapkan dalam keadaan \"Tidak Sah\"</item>
+  </string-array>
+  <string-array name="whats_new_245">
+    <item>Kefungsian eksport dan tetap semula kini boleh dilaksana ke transaksi yang dipadankan dengan penapis gelintar</item>
+  </string-array>
   <string-array name="whats_new_244">
     <item>Gelintar penapis untuk tempoh</item>
     <item>Tapis kaedah, penerima, status dan kategori sekarang untuk membenarkan pemilihan berbilang</item>
