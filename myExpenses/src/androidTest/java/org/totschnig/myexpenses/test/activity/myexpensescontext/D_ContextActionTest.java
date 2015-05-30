@@ -48,6 +48,8 @@ public class D_ContextActionTest extends MyExpensesTest {
     int itemsInList = requireList().getAdapter().getCount();
     setSelection();
     invokeContextAction("CLONE_TRANSACTION");
+    assertTrue(mSolo.waitForActivity(ExpenseEdit.class.getSimpleName()));
+    clickOnActionBarItem("SAVE");
     getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
