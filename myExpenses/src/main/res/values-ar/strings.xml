@@ -22,7 +22,6 @@
   <string name="backup_failure">فشلت عملية النسخ الاحتياطي للذاكرة.</string>
   <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح.</string>
   <string name="category">التصنيف</string>
-  <string name="clone_transaction_error">لم يتم استنساخ العملية.</string>
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>

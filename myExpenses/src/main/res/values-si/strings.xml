@@ -17,11 +17,6 @@
   <string name="backup_failure"> \"%1$s\"ට උපස්ථ කිරීම අසමත් වෙයි</string>
   <string name="backup_success">පරිගණක දත්ත ගබඩාව සහ අභිමත සාර්ථක ලෙස  \"%1$s\" ට ලියන ලදී </string>
   <string name="category">ප්‍රබේදය </string>
-  <string name="clone_transaction_error">ගනුදෙනු ක්ලෝන කිරීමට නොහැකි විය </string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">ගනුදෙනුව  සාර්ථකව ක්ලෝන කරන ලදී </item>
-    <item quantity="other">%1$d ගනුදෙනු සාර්ථකව ක්ලෝන කරන ලදී </item>
-  </plurals>
   <string name="color">පාට </string>
   <string name="comment">සටහන් </string>
   <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>

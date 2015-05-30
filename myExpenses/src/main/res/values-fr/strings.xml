@@ -22,11 +22,6 @@
   <string name="backup_failure">La sauvegarde sur \"%1$s\" a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur \"%1$s\".</string>
   <string name="category">Catégorie</string>
-  <string name="clone_transaction_error">Impossible de  cloner l\'opération.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Opération clonée avec succès.</item>
-    <item quantity="other">%1$d opérations clonées avec succès.</item>
-  </plurals>
   <string name="split_transaction_error">Impossible de ventiler l\'opération.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">L\'opération a été ventilée avec succès.</item>

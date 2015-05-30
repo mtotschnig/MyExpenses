@@ -17,12 +17,6 @@
   <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się.</string>
   <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie.</string>
   <string name="category">Kategoria</string>
-  <string name="clone_transaction_error">Nie można sklonować transakcji.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Transakcja została sklonowana pomyślnie.</item>
-    <item quantity="few">%1$d transakcje zostały sklonowane pomyślnie.</item>
-    <item quantity="other">%1$d transakcji zostało sklonowano pomyślnie.</item>
-  </plurals>
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
   <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>

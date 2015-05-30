@@ -22,11 +22,6 @@
   <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate su \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="clone_transaction_error">Non è possibile ricopiare l\'operazione.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Operazione ricopiata con successo.</item>
-    <item quantity="other">%1$d operazioni sono state ricopiate con successo.</item>
-  </plurals>
   <string name="split_transaction_error">Impossibile frazionare transazione.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Transazione frazionata con successo.</item>

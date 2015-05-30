@@ -22,12 +22,6 @@
   <string name="backup_failure">Backup la \"%1$s\" eşuat.</string>
   <string name="backup_success">Preferinţele şi baza de date au fost salvate la \"%1$s\".</string>
   <string name="category">Categorie</string>
-  <string name="clone_transaction_error">Imposibil de clonat tranzacţia</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Tranzacţie clonată cu succes.</item>
-    <item quantity="few">%1$d  tranzacţii s-au clonat cu succes.</item>
-    <item quantity="other">%1$d  tranzacţii s-au clonat cu succes.</item>
-  </plurals>
   <string name="split_transaction_error">Imposibil de transformat tranzacţia în repartizare.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Tranzactia s-a transformat în repartizare.</item>

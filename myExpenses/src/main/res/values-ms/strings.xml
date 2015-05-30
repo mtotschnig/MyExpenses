@@ -22,10 +22,6 @@
   <string name="backup_failure">Sandar ke \"%1$s\" mengalami kegagalan.</string>
   <string name="backup_success">Pengkalan data dan keutamaan berjaya ditulis ke \"%1$s\".</string>
   <string name="category">Kategori</string>
-  <string name="clone_transaction_error">Tidak dapat klonkan transaksi</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="other">Transaksi %1$d berjaya diklonkan.</item>
-  </plurals>
   <string name="split_transaction_error">Tidak dapat ubah transaksi menjadi pisah.</string>
   <plurals name="split_transaction_success">
     <item quantity="other">%1$d transaksi berjaya diubah menjadi pisah.</item>

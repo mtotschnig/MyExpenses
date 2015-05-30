@@ -22,12 +22,6 @@
   <string name="backup_failure">Kreiranje sigurnosne kopije na \"%1$s\" nije uspjelo</string>
   <string name="backup_success">Podaci uspješno spremljeni na \"%1$s\".</string>
   <string name="category">Kategorija</string>
-  <string name="clone_transaction_error">Kopiranje transakcije nije uspjelo</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Transakcija uspješno kopirana</item>
-    <item quantity="few">%1$d transakcije su uspješno kopirane</item>
-    <item quantity="other">%1$d transakcije su uspješno kopirane.</item>
-  </plurals>
   <string name="color">Boja</string>
   <string name="comment">Bilješke</string>
   <string name="confirmation_dialog_dont_show_again">Ne prikazuj ponovno</string>

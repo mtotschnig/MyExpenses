@@ -22,11 +22,6 @@
   <string name="backup_failure">Das Backup nach \"%1$s\" ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach \"%1$s\" gesichert.</string>
   <string name="category">Kategorie</string>
-  <string name="clone_transaction_error">Buchung konnte nicht geklont werden.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Buchung wurde erfolgreich geklont.</item>
-    <item quantity="other">%1$d Buchungen wurde erfolgreich geklont.</item>
-  </plurals>
   <string name="split_transaction_error">Die Buchung konnte nicht gesplittet werden. </string>
   <plurals name="split_transaction_success">
     <item quantity="one">Die Buchung wurde erfolgreich gesplittet.</item>

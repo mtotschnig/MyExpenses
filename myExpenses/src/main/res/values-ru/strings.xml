@@ -17,13 +17,6 @@
   <string name="backup_failure">Резервная копия в \"%1$s\" не удалась.</string>
   <string name="backup_success">БД и настройки успешно сохранены в \"%1$s\".</string>
   <string name="category">Категория</string>
-  <string name="clone_transaction_error">Не удалось клонировать операцию.</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Операция успешно склонирована.</item>
-    <item quantity="few">%1$d операций успешо склонированы.</item>
-    <item quantity="many">%1$d операций успешо склонированы.</item>
-    <item quantity="other">%1$d операций успешо склонированы.</item>
-  </plurals>
   <string name="color">Цвет</string>
   <string name="comment">Заметки</string>
   <string name="contrib_feature_accounts_unlimited_description">Количество счетов, которые можно создать с <i>Мои расходы</i> ограничено 5.</string>

@@ -22,11 +22,6 @@
   <string name="backup_failure">Huts egin du \"%1$s\"-ra babeskopiak.</string>
   <string name="backup_success">Datu-basea eta hobespenak ondo idatzi dira \"%1$s\"-ra.</string>
   <string name="category">Kategoria</string>
-  <string name="clone_transaction_error">Ezin izan da transakzioa klonatu</string>
-  <plurals name="clone_transaction_success">
-    <item quantity="one">Transakzioa ondo klonatu da</item>
-    <item quantity="other">%1$d transakzio ondo klonatu dira</item>
-  </plurals>
   <string name="split_transaction_error">Ezin izan da transakzioa banaketara bihurtu</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Transakzioa ondo bihurtu da banaketara.</item>
