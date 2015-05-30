@@ -68,8 +68,8 @@
   <string name="dialog_contrib_premium_feature">%1$s è una funzionalità speciale.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione acquistando <i>Le Mie Spese Chiave Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">È inoltre acquisire accesso illimitato ai seguenti caratteristiche:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>My spese</i> è offerta senza pubblicità e open source. Si prega di contribuire acquistando <i>Le Mie Spese Chiave Contrib</i>. Si guadagna l\'accesso illimitato alle seguenti caratteristiche premium:</string>
+  <string name="dialog_contrib_text_1"><i>Le mie spese</i> è offerta senza pubblicità e open source.</string>
+  <string name="dialog_contrib_text_2">Si prega di contribuire acquistando <i>Le Mie Spese Chiave Contrib</i>. Si guadagna l\'accesso illimitato alle seguenti caratteristiche premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Avete uno utilizzo gratuito.</item>
     <item quantity="other">Restano %1$d utilizzi gratuiti.</item>

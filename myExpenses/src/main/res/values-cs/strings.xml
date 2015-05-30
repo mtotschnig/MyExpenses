@@ -46,8 +46,8 @@
   <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Odstraňte toto omezení instalací <i>Moje výdaje Klíč Contrib</i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Můžete také získat neomezený přístup k následujícím funkcím:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj. Prosím přispějte instalací <i>Moje výdaje Klíč Contrib</i>. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
+  <string name="dialog_contrib_text_1"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj.</string>
+  <string name="dialog_contrib_text_2">Prosím přispějte instalací <i>Moje výdaje Klíč Contrib</i>. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Máte jedno použití zdarma.</item>
     <item quantity="few">Máte %1$d použití zdarma.</item>

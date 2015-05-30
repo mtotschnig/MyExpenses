@@ -69,8 +69,8 @@
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Înlăturaţi  această limitare prin achiziţionarea &lt;&lt;i&gt;Cheltuielile Mele Cheie Contrib &lt;/i&gt;.</string>
   <string name="dialog_contrib_reminder_gain_access">Puteţi avea de asemenea acces nerestricţionat la următoarele funcţionalităţi</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Cheltuielile Mele</i> este oferit fără publicitate şi open source. Vă rugăm să contribuiţi prin achiziţionarea <i>Contrib Key Cheltuielile Mele</i>. Vei avea acces nerestricționat la următoarele funcţionalităţi premium:</string>
+  <string name="dialog_contrib_text_1"><i>Cheltuielile Mele</i> este oferit fără publicitate şi open source.</string>
+  <string name="dialog_contrib_text_2">Vă rugăm să contribuiţi prin achiziţionarea <i>Contrib Key Cheltuielile Mele</i>. Vei avea acces nerestricționat la următoarele funcţionalităţi premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Aveţi o utilizare gratuită rămasă.</item>
     <item quantity="few">Aveţi %1$d utilizari gratuite rămase.</item>

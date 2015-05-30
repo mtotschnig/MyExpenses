@@ -68,8 +68,8 @@
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i> aufheben.</string>
   <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i>. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
+  <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
+  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i>. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Diese Funktion kann nur noch ein mal verwendet werden.</item>
     <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>

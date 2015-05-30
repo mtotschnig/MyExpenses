@@ -68,8 +68,8 @@
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için <i>Harcamalarım Katkı Anahtarı</i> kurabilirsiniz.</string>
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
+  <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
+  <string name="dialog_contrib_text_2">Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Ücretsiz bir kullanımınız kalmıştır.</item>
     <item quantity="other">Ücretsiz %1$d kullanımınız kalmıştır.</item>

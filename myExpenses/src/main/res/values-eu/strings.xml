@@ -68,8 +68,8 @@
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Ezabatu muga hau <i>Nire Gastuak Kontribuzio Gakoa</i> erosita.</string>
   <string name="dialog_contrib_reminder_gain_access">Hurrengo ezaugarrietara mugagabeko sarbidea lortzen duzu ere:</string>
-  <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text"><i>Nire Gastuak</i> doan eta libre eskaintzen da. Mesedez lagundu <i>Nire Gastuak Kontribuzio Gakoa</i> erosita. Mugagabeko sarbidea lortuko duzu honako premium ezaugarrietara:</string>
+  <string name="dialog_contrib_text_1"><i>Nire Gastuak</i> doan eta libre eskaintzen da.</string>
+  <string name="dialog_contrib_text_2">Mesedez lagundu <i>Nire Gastuak Kontribuzio Gakoa</i> erosita. Mugagabeko sarbidea lortuko duzu honako premium ezaugarrietara:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Doako erabilera bat geratzen zaizu</item>
     <item quantity="other">Doako %1$d erabilera geratzen zaizkizu.</item>
