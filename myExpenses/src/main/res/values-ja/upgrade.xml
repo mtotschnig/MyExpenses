@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_246">
+    <item>取引のステータスを \"無効\" にセットできます</item>
+  </string-array>
   <string-array name="whats_new_245">
     <item>エクスポートおよびリセット機能が、検索フィルターに一致する取引に適用できるようになりました</item>
   </string-array>
