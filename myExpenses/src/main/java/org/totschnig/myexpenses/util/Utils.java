@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -52,7 +53,6 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -697,12 +697,18 @@ public class Utils {
       ContribFeature f = iterator.next();
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
+        String resName = "contrib_feature_" + f.toString() + "_label";
+        int resId = ctx.getResources().getIdentifier(
+            resName, "string",
+            ctx.getPackageName());
+        if (resId==0) {
+          reportToAcra(new Resources.NotFoundException(resName));
+          continue;
+        }
         result = TextUtils.concat(
             result,
             "\u25b6 ",
-            ctx.getText(ctx.getResources().getIdentifier(
-                "contrib_feature_" + f.toString() + "_label", "string",
-                ctx.getPackageName())));
+            ctx.getText(resId));
         if (iterator.hasNext())
           result = TextUtils.concat(result, linefeed);
       }
