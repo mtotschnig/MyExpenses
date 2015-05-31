@@ -6,7 +6,7 @@
 		>
   <xsl:output method="text" encoding="UTF-8"/>
 	<xsl:param name="version" />
-	<xsl:param name="langs" select="'en ca cs de es fr hr hu it ja ms pl pt ro ru si tr'"/>
+	<xsl:param name="langs" select="'en ca cs de es fr hr it ja ms pl pt ro ru si tr eu'"/>
 
   <xsl:template match="/">
     <xsl:for-each select="str:tokenize($langs)">
