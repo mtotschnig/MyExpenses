@@ -7,12 +7,11 @@ Steps for preparing a new release
 * * Run unit tests (with the testdevice connceted in adb)
   - adb uninstall org.totschnig.myexpenses
   - adb uninstall org.totschnig.myexpenses.test
-  . ./gradlew clean
-  - ./gradlew assemblePlay
-  - ./gradlew assemblePlayDebugAndroidTest
+  . ./gradlew clean assemblePlayDebug assemblePlayDebugAndroidTest
   - adb install myExpenses/build/outputs/apk/myExpenses-play-debug.apk
   - adb install myExpenses/build/outputs/apk/myExpenses-play-debug-androidTest-unaligned.apk
   - tests/script/runAllTests.sh (test requires a file /sdcard/myexpenses/screenshot.jpg to exist on device)
+* ./gradlew clean assemblePlayRelease
 * test upgrade mechanism
 * Create release tag in GIT (git checkout master;git tag r39; git push origin r39)
 * mv APK and proguard folder into a new folder in releases
