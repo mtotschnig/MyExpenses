@@ -530,8 +530,8 @@
   <string name="menu_select_categories">Selezionare categorie controllate</string>
   <string name="image_deleted">Foto cancellata</string>
   <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni di pari passo con il filtro corrente.</string>
-  <string name="export_handle_deleted_update_balance">Creare transazione ausiliario</string>
-  <string name="export_handle_deleted_create_helper">Aggiornare il saldo iniziale</string>
+  <string name="export_handle_deleted_create_helper">Creare transazione ausiliario</string>
+  <string name="export_handle_deleted_update_balance">Aggiornare il saldo iniziale</string>
   <string name="file_name">Nome del file</string>
   <string name="folder_name">Nome della cartella</string>
   <string name="mark_void_instead_of_delete">Non eliminare la transazione, contrassegnare come invalido invece.</string>

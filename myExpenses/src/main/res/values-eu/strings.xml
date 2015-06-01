@@ -532,8 +532,8 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="menu_select_categories">Aukeratu markatutako kategoria</string>
   <string name="image_deleted">Irudia ezabatu da</string>
   <string name="dialog_export_applied_to_filter">Oraingo iragazkiarekin bat datozen transakzioak besterik ez dira aintzat hartuko.</string>
-  <string name="export_handle_deleted_update_balance">Sortu transakzio laguntzailea</string>
-  <string name="export_handle_deleted_create_helper">Eguneratu hasierako saldoa</string>
+  <string name="export_handle_deleted_create_helper">Sortu transakzio laguntzailea</string>
+  <string name="export_handle_deleted_update_balance">Eguneratu hasierako saldoa</string>
   <string name="file_name">Fitxategi izena</string>
   <string name="folder_name">Karpeta izena</string>
   <string name="mark_void_instead_of_delete">Ez ezabatu transakzioa, indargabetua gisa markatu ordez</string>

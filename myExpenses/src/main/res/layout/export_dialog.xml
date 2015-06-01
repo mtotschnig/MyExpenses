@@ -164,11 +164,11 @@
             <RadioButton
                 android:id="@+id/create_helper"
                 android:checked="true"
-                android:text="@string/export_handle_deleted_update_balance"/>
+                android:text="@string/export_handle_deleted_create_helper"/>
 
             <RadioButton
                 android:id="@+id/update_balance"
-                android:text="@string/export_handle_deleted_create_helper"/>
+                android:text="@string/export_handle_deleted_update_balance"/>
         </RadioGroup>
 
         <CheckBox

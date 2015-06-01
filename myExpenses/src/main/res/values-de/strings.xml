@@ -530,8 +530,8 @@
   <string name="menu_select_categories">Angehackten Kategorien auswählen</string>
   <string name="image_deleted">Bild wurde gelöscht</string>
   <string name="dialog_export_applied_to_filter">Nur Buchungen, die mit dem aktuellen Suchfilter übereinstimmen, werden berücksichtigt.</string>
-  <string name="export_handle_deleted_update_balance">Hilfsbuchung erstellen</string>
-  <string name="export_handle_deleted_create_helper">Anfangssaldo aktualisieren</string>
+  <string name="export_handle_deleted_create_helper">Hilfsbuchung erstellen</string>
+  <string name="export_handle_deleted_update_balance">Anfangssaldo aktualisieren</string>
   <string name="file_name">Dateiname</string>
   <string name="folder_name">Ordnername</string>
   <string name="mark_void_instead_of_delete">Buchung nicht löschen, stattdessen als ungültig kennzeichnen.</string>

@@ -259,7 +259,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
         public boolean accept(File dir, String filename) {
           // backup-yyyMMdd-HHmmss
           return filename
-              .matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d");
+              .matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d") ||
+              filename.endsWith(".zip");
         }
       });
       if (files != null) {

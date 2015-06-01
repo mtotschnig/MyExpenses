@@ -531,8 +531,8 @@
   <string name="menu_select_categories">Seleccionar las categorías marcadas</string>
   <string name="image_deleted">Foto ha sido borrado</string>
   <string name="dialog_export_applied_to_filter">Se considerarán transacciones sólo igualadas por el filtro actual.</string>
-  <string name="export_handle_deleted_update_balance">Crear transacción ayudante</string>
-  <string name="export_handle_deleted_create_helper">Actualizar saldo inicial</string>
+  <string name="export_handle_deleted_create_helper">Crear transacción ayudante</string>
+  <string name="export_handle_deleted_update_balance">Actualizar saldo inicial</string>
   <string name="file_name">Nombre de archivo</string>
   <string name="folder_name">Nombre de la carpeta</string>
   <string name="mark_void_instead_of_delete">No elimine transacción, marcar como inválida en su lugar.</string>

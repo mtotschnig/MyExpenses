@@ -521,8 +521,8 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="menu_select_categories">Pilih kategori ditanda</string>
   <string name="image_deleted">Gambar telah dipadamkan</string>
   <string name="dialog_export_applied_to_filter">Hanya transaksi yang sepadan dengan penapis semasa akan diambilkira.</string>
-  <string name="export_handle_deleted_update_balance">Cipta transaksi pembantu</string>
-  <string name="export_handle_deleted_create_helper">Kemaskini baki mula</string>
+  <string name="export_handle_deleted_create_helper">Cipta transaksi pembantu</string>
+  <string name="export_handle_deleted_update_balance">Kemaskini baki mula</string>
   <string name="file_name">Nama fail</string>
   <string name="folder_name">Nama folder</string>
   <string name="mark_void_instead_of_delete">Jangan padam transaksi, tanda sebagai tidak sah.</string>

@@ -530,8 +530,8 @@
   <string name="menu_select_categories">Sélectionner les catégories cochées</string>
   <string name="image_deleted">La photo a été supprimée</string>
   <string name="dialog_export_applied_to_filter">Seules les transactions qui correspondent au filtre actuel seront pris en considération.</string>
-  <string name="export_handle_deleted_update_balance">Créer une opération auxiliaire</string>
-  <string name="export_handle_deleted_create_helper">Mise à jour du solde initial</string>
+  <string name="export_handle_deleted_create_helper">Créer une opération auxiliaire</string>
+  <string name="export_handle_deleted_update_balance">Mise à jour du solde initial</string>
   <string name="file_name">Nom de fichier</string>
   <string name="folder_name">Nom de dossier</string>
   <string name="mark_void_instead_of_delete">Ne pas supprimer l\'opération, la marquer comme invalide à la place.</string>
