@@ -29,6 +29,7 @@
   <string name="color">色</string>
   <string name="comment">メモ</string>
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
+  <string name="contrib_feature_ad_free_label">広告なし</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
   <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
   <string name="contrib_feature_attach_picture_label">取引に画像を添付</string>
@@ -521,10 +522,12 @@
   <string name="menu_select_categories">チェックした分類を選択</string>
   <string name="image_deleted">写真が削除されました</string>
   <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
-  <string name="export_handle_deleted_update_balance">ヘルパー取引を作成</string>
-  <string name="export_handle_deleted_create_helper">期首残高を更新</string>
+  <string name="export_handle_deleted_create_helper">ヘルパー取引を作成</string>
+  <string name="export_handle_deleted_update_balance">期首残高を更新</string>
   <string name="file_name">ファイル名</string>
   <string name="folder_name">フォルダー名</string>
   <string name="mark_void_instead_of_delete">取引を削除しないでください。代わりに無効としてマークしてください。</string>
   <string name="menu_undelete_transaction">削除の取消</string>
+  <string name="slash_forbidden_in_filename">/ の文字はファイル名に使用できません</string>
+  <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
 </resources>

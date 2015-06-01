@@ -530,8 +530,8 @@
   <string name="menu_select_categories">Selecione as categorias verificadas</string>
   <string name="image_deleted">Imagens foi excluída</string>
   <string name="dialog_export_applied_to_filter">Serão consideradas apenas as transações correspondidas com o filtro atual.</string>
-  <string name="export_handle_deleted_update_balance">Criar transações de auxiliar</string>
-  <string name="export_handle_deleted_create_helper">Atualizar o saldo de abertura</string>
+  <string name="export_handle_deleted_create_helper">Criar transações de auxiliar</string>
+  <string name="export_handle_deleted_update_balance">Atualizar o saldo de abertura</string>
   <string name="file_name">Nome do arquivo</string>
   <string name="folder_name">Nome da pasta</string>
   <string name="mark_void_instead_of_delete">Não exclua transação, marcar como vazio em seu lugar.</string>

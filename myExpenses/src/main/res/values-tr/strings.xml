@@ -30,6 +30,7 @@
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
+  <string name="contrib_feature_ad_free_label">Reklamsız</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
   <string name="contrib_feature_attach_picture_label">Muameleye resim ekle</string>
@@ -531,10 +532,12 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_select_categories">İşaretlenen kategorileri seç</string>
   <string name="image_deleted">Resim silinmiştir</string>
   <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
-  <string name="export_handle_deleted_update_balance">Yardımcı muamele oluştur</string>
-  <string name="export_handle_deleted_create_helper">Açılış bakiyesini güncelle</string>
+  <string name="export_handle_deleted_create_helper">Yardımcı muamele oluştur</string>
+  <string name="export_handle_deleted_update_balance">Açılış bakiyesini güncelle</string>
   <string name="file_name">Dosya ismi</string>
   <string name="folder_name">Klasör ismi</string>
   <string name="mark_void_instead_of_delete">Muameleyi silme, bunun yerine hükümsüz olarak işaretle.</string>
   <string name="menu_undelete_transaction">Silmeyi geri al</string>
+  <string name="slash_forbidden_in_filename">/ karakterine dosya isimlerinde müsaade edilmez</string>
+  <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
 </resources>
