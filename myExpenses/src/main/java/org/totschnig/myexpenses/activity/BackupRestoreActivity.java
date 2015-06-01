@@ -245,7 +245,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
           .show();
       finish();
     } else {
-      BackupListDialogFragment.newInstance(listBackups()).show(
+      BackupListDialogFragment.newInstance(backups).show(
           getSupportFragmentManager(), "BACKUP_LIST");
     }
   }
