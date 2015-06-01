@@ -30,6 +30,7 @@
   <string name="color">Kolorea</string>
   <string name="comment">Oharrak</string>
   <string name="confirmation_dialog_dont_show_again">Ez erakutsi berriro</string>
+  <string name="contrib_feature_ad_free_label">Iragarkirik gabe</string>
   <string name="contrib_feature_accounts_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko kontu kopurua 5 da.</string>
   <string name="contrib_feature_accounts_unlimited_label">Kontu kopuru mugagabea</string>
   <string name="contrib_feature_attach_picture_label">Erantsi irudia transakzioari</string>
@@ -537,4 +538,6 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="folder_name">Karpeta izena</string>
   <string name="mark_void_instead_of_delete">Ez ezabatu transakzioa, indargabetua gisa markatu ordez</string>
   <string name="menu_undelete_transaction">Desezabatu</string>
+  <string name="slash_forbidden_in_filename">/ karakterea ezin da erabili fitxategi izenetan</string>
+  <string name="io_error_unable_to_create_file">Ezin izan da %1$s fitxategia sortu %2$s karpetan</string>
 </resources>

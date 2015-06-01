@@ -22,7 +22,7 @@
   <string name="contrib_feature_accounts_unlimited_description">Количество счетов, которые можно создать с <i>Мои расходы</i> ограничено 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Неограниченное количество счетов</string>
   <string name="contrib_feature_distribution_label">Распределение операций по категориям</string>
-  <string name="contrib_feature_plans_unlimited_description">Количество планов, которые можно создать с <i>My Exprenses</i> ограниченно 3.</string>
+  <string name="contrib_feature_plans_unlimited_description">Количество планов, которые можно создать с <i>Мои расходы</i> ограниченно 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Неограниченное количество планов</string>
   <string name="contrib_feature_security_question_label">Секретный вопрос</string>
   <string name="contrib_feature_split_transaction_label">Разделение операции</string>
