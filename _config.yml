@@ -83,6 +83,100 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.4.7
+    - "2015-06-01"
+    -
+      en: |
+        Clone command opens editing form.
+      fr: |
+        La commande de clonage ouvre le formulaire d'édition.
+      de: |
+        Der Befehl Klonen öffnet das Bearbeitungsformular.
+      it: |
+        Clone comando apre modifica forma.
+      es: |
+        Comando clon abre formulario de edición.
+      pt: |
+        Comando clone abre o formulário de edição.
+      tr: |
+        Klonlama komutu düzenleme formunu açar.
+      ja: |
+        複製コマンドで編集フォームを開きます.
+      eu: |
+        Klonatu komandoak edizio formularioa irekitzen du.
+  -
+    - 2.4.6
+    - "2015-05-16"
+    -
+      en: |
+        Transactions can be set to state "Void".
+      fr: |
+        Les opérations peuvent être mises en état « invalide ».
+      de: |
+        Buchungen können als "ungültig" gekennzeichnet werden.
+      it: |
+        Le transazioni possono essere impostate per stato "invalido".
+      es: |
+        Las transacciones se pueden establecer en estado "Inválida".
+      pt: |
+        Transações podem ser definidas como estado "Vazio".
+      tr: |
+        Muameleler "Hükümsüz" durumuna ayarlanabilir.
+      ms: |
+        Transaksi boleh ditetapkan dalam keadaan "Tidak Sah".
+      ja: |
+        取引のステータスを "無効" にセットできます.
+      eu: |
+        Transakzioak "Indargabetua" egoeran ezarri daitezke.
+  -
+    - 2.4.5
+    - "2015-05-04"
+    -
+      en: |
+        Export and reset functionality can now be applied to transactions matched by search filter.
+      fr: |
+        La fonction "Exporter et réinitialiser" peut maintenant être appliquée aux opérations correspondantes des filtres de recherche.
+      de: |
+        Die Funktion "Exportieren und zurücksetzen" kann jetzt auf Buchungen, die durch Suchfilter ausgewählt werden, eingeschränkt werden.
+      it: |
+        La funzionalità "Esportare e reinizializzare" ora può essere applicato alle transazioni rilevate dal filtro di ricerca.
+      es: |
+        La función "Exportar y restablecer" ahora puede ser aplicada a las transacciones igualadas por filtro de búsqueda.
+      pt: |
+        La funcionalidade "Exportação e reset" agora pode ser aplicada a transações correspondidas pelo filtro de pesquisa.
+      tr: |
+        Dışa aktarma ve sıfırlama işlevi artık arama filtresi ile eşleşen muamelelere uygulanabilir.
+      ms: |
+        Kefungsian eksport dan tetap semula kini boleh dilaksana ke transaksi yang dipadankan dengan penapis gelintar.
+      ja: |
+        エクスポートおよびリセット機能が、検索フィルターに一致する取引に適用できるようになりました.
+      eu: |
+        Esportatu eta leheneratu funtzioak bilaketa iragazkiarekin bat datozen transakzioetan aplikatu daitezke orain.
+  -
+    - 2.4.4
+    - "2015-04-21"
+    -
+      en: |
+        Search filter for duration. Filters for method, payee, status and category now allow multiple selection. Basque translation.
+      fr: |
+        Filtre de recherche pour une durée. Les filtres de méthode, bénéficiaire, statut et catégorie sont maintenant permis pour la sélection multiple. Traduction en basque.
+      de: |
+        Suchfilter für Dauer. Filter für Methode, Zahlungsempfänger, Status und Kategorie lässt nun Mehrfachauswahl zu. Baskische Übersetzung.
+      it: |
+        Filtro di ricerca per la durata. Filtri per metodo, beneficiario, status e categoria ora consentono la selezione multipla. Traduzione basco.
+      es: |
+        Filtro de búsqueda por duración. Filtros por método, el beneficiario, estado y categoría ahora permiten selección múltiple. Traducción en euskera.
+      pt: |
+        Filtro de pesquisa para a duração. Filtros para método, beneficiário, status e categoria agora permitem a seleção múltipla. Tradução Basco.
+      tr: |
+        Zaman aralığı için arama filtresi. Metot, alacaklı, durum ve kategori filtreleri artık çoklu seçimleri desteklemektedir. Baskça tercüme.
+      ms: |
+        Gelintar penapis untuk tempoh. Tapis kaedah, penerima, status dan kategori sekarang untuk membenarkan pemilihan berbilang. Terjemahan Basque.
+      ja: |
+        期間の検索フィルター. 方法、支払先、ステータス、および分類のフィルターが、複数選択できるようになりました. バスク翻訳.
+      eu: |
+        Iraupenerako bilaketa iragazkia. Metodoa, ordaintzailea, egoera eta kategoriaren arabera bilatzeko iragazkiek hainbat aukera onartzen dituzte orain. Euskarara itzulpena!.
+  -
     - 2.4.3
     - "2015-04-03"
     -
@@ -102,6 +196,8 @@ versions:
         Jika aplikasi dilindungi kata laluan, gambar disimpan secara selamat di dalam storan luaran.
       ja: |
         アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます.
+      eu: |
+        Aplikazioa pasahitzez babestuta badago, irudiak barne biltegiratzean gordeko dira modu seguruan.
   -
     - 2.4.2
     - "2015-03-26"
@@ -122,6 +218,8 @@ versions:
         Lampir gambar ke dalam transaksi.
       ja: |
         取引に写真を添付.
+      eu: |
+        Erantsi irudia transakzioari.
   -
     - 2.4.1
     - "2015-02-23"
@@ -144,6 +242,8 @@ versions:
         Carta pai mengvisualkan agihan per katagori.
       ja: |
         分類ごとの分布を可視化する円グラフ.
+      eu: |
+        Tarta diagrama kategoriako distribuzioa bistaratzeko.
   -
     - 2.4.0
     - "2014-12-16"
@@ -168,6 +268,8 @@ versions:
         通常の処理を分割処理に変換します.
       ro: |
         Transformă tranzacţia normală în tranzacţie repartizată.
+      eu: |
+        Bihurtu transakzio arrunta banatutako transakzioan.
   -
     - 2.3.9
     - "2014-12-04"
@@ -186,6 +288,8 @@ versions:
         Após a restauração do banco de dados, planos agora são recriados. Novas traduções: Búlgaro, croata e romeno.
       tr: |
         Veritabanının geri alınmasında planlamalar yeniden oluşturulur. Yeni tercümeler: Bulgarca, Hırvatça ve Rumence.
+      eu: |
+        Datu-basea berreskuratzean planak berregingo dira orain. Itzulpen berriak: Bulgariera, Kroaziera eta Erromaniera.
   -
     - 2.3.8
     - "2014-10-31"
@@ -206,6 +310,8 @@ versions:
         Japonca tercüme. Muamele grupları küçültülebilir.
       ms: |
         Terjemahan bahasa Jepun. Kumpulan transaksi boleh dikuncupkan.
+      eu: |
+        Japonierara itzulpena. Transakzio taldeak tolestu daitezke.
   -
     - 2.3.7
     - "2014-10-25"
@@ -226,6 +332,8 @@ versions:
         Ödeme metotları alfabetik olarak sıralanır.
       ms: |
         Kaedah pembayaran diisih secara berabjad.
+      eu: |
+        Ordainketa metodoak alfabetikoki ordenatu daitezke.
   -
     - 2.3.6
     - "2014-10-21"
@@ -242,6 +350,8 @@ versions:
         Personalizar agrupamiento de cuentas en la lista de cuentas. Cabeceras de grupo ahora mostran equilibrio anterior y ganancia/pérdida neta.
       pt: |
         Personalizar agrupamento de contas na lista de contas. Cabeçalhos de grupo agora mostram equilíbrio anterior e ganho/perda líquida.
+      eu: |
+        Pertsonalizatu kontuen taldekatzea kontuen zerrendan. Talde goiburuek aurreko saldoa eta irabazi edo galera netoa bistaratzen dute.
   -
     - 2.3.5
     - "2014-10-15"
@@ -258,6 +368,8 @@ versions:
         Desde la pantalla de distribución, mostrar la lista de transacciones por categoría. Mejora de la función de autocompletar Beneficiario/Pagador.
       pt: |
         Tela de distribuição, exibir a lista de transações por categoria. Melhoria do preenchimento automático Beneficiário/Pagador.
+      eu: |
+        Distribuzio pantailan transakzioak kategoriako zerrendatu. Hobetutako onuradun/ordaintzaile bitarteko osaketa automatikoa.
   -
     - 2.3.4
     - "2014-09-30"
@@ -278,6 +390,8 @@ versions:
         Para birimleri için kişiselleştirilebilir kesir basamak sayısı. Hesapları toplamlardan dışlamaya izin ver.
       ms: |
         Nombor digit pecahan boleh suai untuk matawang. Membolehkan akaun diasing dari jumlah.
+      eu: |
+        Nahieran aldatu dezimal kopurua monetetan. Kontuak guztirakoetatik kanpoan uzteko aukera.
   -
     - 2.3.3
     - "2014-09-20"
@@ -296,6 +410,8 @@ versions:
         Redesenho da lista de contas: ordem de classificação definida pelo usuário. Somas de grupo na lista de transação leva filtros em consideração.
       tr: |
         Yeni hesap listesi tasarımı: kullanıcı tanımlı sıralama düzeni. Muamele listesindeki grup toplamları filtreleri dikkate alır.
+      eu: |
+        Kontu zerrenda berregina: Erabiltzaileak zehaztutako ordena. Transakzio zerrendako taldeko baturek iragazkiak kontuan hartzen dituzte.
   -
     - 2.3.2
     - "2014-09-06"
@@ -314,6 +430,8 @@ versions:
         Imprimir para PDF agora suporta scripts não-ocidentais. Tradução de malaio.
       tr: |
         PDF dosyasına yazdırmak artık Batılı olmayan yazma sistemlerini destekler. Malayca tercüme.
+      eu: |
+        PDFra inprimatu oran mendebaldekoak ez diren idazkerak onartzen ditu. Malaysierara itzulpena.
   -
     - 2.3.1
     - "2014-09-02"
@@ -332,6 +450,8 @@ versions:
         Preenchimento automático da última transação para o mesmo beneficiário/pagador. Instantiate modelo com torneira curta na entrada na lista de modelo. Configurável de codificação para importação QIF.
       tr: |
         Aynı alacaklı/ödeyici için son muameleden otomatik doldurma. Şablon listesindeki bir unsura kısa dokunma ile şablon örneklemesi. QIF içe aktarım içen yapılandırılabilir kodlama.
+      eu: |
+        Automatikoki osatu onuradun/ordaintzaile bereko azken transakzioaren informazioa errepikatuz. Txantiloiaren instantzia sortu labur sakatuz txantiloi zerrendako sarrera batean. QIF inportazioan kodeketa konfiguragarria.
   -
     - 2.3.0
     - "2014-08-26"
@@ -350,7 +470,8 @@ versions:
         Exportar lista de transações para PDF (Premium).
       tr: |
         Muamele listesini PDF dosyasına yazdır (Katkı sürümünü gerektirir).
-
+      eu: |
+        Inprimatu transakzioen zerrenda PDF fitxategira (Premium).
   -
     - 2.2.0
     - "2014-08-09"
@@ -369,6 +490,8 @@ versions:
         Busca de transações por categoria, quantidade, comentário, status, beneficiário/pagador, método de pagamento.
       tr: |
         Muameleleri kategori, meblağ, yorum, durum, alacaklı/mükellef veya ödeme metoduna dayanarak ara.
+      eu: |
+        Bilatu transakzioak kategoria, kopurua, iruzkina, egoera, onuradun/ordaintzailea, edo ordainketa metodoaren arabera.
   -
     - 2.1.6
     - "2014-07-01"
