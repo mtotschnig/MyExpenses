@@ -477,7 +477,7 @@ public class Transaction extends Model {
             copyPictureHelper(isInTempFolder, homeUri);
           }
         } catch (IOException e) {
-          throw new UnknownPictureSaveException(e);
+          throw new UnknownPictureSaveException(pictureUri,homeUri,e);
         }
       }
       initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
@@ -487,9 +487,7 @@ public class Transaction extends Model {
   }
 
   private void copyPictureHelper(boolean delete, Uri homeUri) throws IOException {
-    if (!Utils.copy(pictureUri, homeUri)) {
-      throw new IOException("Copy to homeUri " + homeUri.getPath() + " failed");
-    }
+    Utils.copy(pictureUri, homeUri);
     if (delete) {
       new File(pictureUri.getPath()).delete();
     }
@@ -676,8 +674,11 @@ public class Transaction extends Model {
   }
 
   public static class UnknownPictureSaveException extends IllegalStateException {
-    public UnknownPictureSaveException(IOException e) {
+    public Uri pictureUri,homeUri;
+    public UnknownPictureSaveException(Uri pictureUri, Uri homeUri, IOException e) {
       super(e);
+      this.pictureUri = pictureUri;
+      this.homeUri = homeUri;
     }
   }
 }

@@ -382,8 +382,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 success = staleFile.renameTo(new File(staleFileDir, staleFile.getName()));
               } else {
                 try {
-                  if (Utils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment()))))
-                    success = cr.delete(imageFileUri, null, null) > 0;
+                  Utils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
+                  success = cr.delete(imageFileUri, null, null) > 0;
                 } catch (IOException e) {
                   e.printStackTrace();
                 }
