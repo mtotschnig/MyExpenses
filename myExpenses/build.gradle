@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 ext {
  versionNumber1 = 2
  versionNumber2 = 4
- versionNumber3 = 7
+ versionNumber3 = 8
  versionNumber4 = 0
 }
 

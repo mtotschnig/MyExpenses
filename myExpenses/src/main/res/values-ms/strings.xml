@@ -341,7 +341,6 @@
   <string name="pref_qif_export_file_encoding_title">Pengekodan aksara</string>
   <string name="pref_request_licence_summary">Jika anda telah memberi sumbangan, pohon kunci Contrib untuk Android-Id %1$s menerusi emel.</string>
   <string name="pref_request_licence_title">Pohon kunci Contrib</string>
-  <string name="pref_restore_legacy_data">Data legasi</string>
   <string name="pref_restore_summary">Pilih satu sandar untuk menyimpan pangkalan data dan keutamaan.</string>
   <string name="pref_restore_title">Pulih</string>
   <string name="pref_security_question_summary">Membolehkan anda buka apl, jika anda terlupa kata laluan anda.</string>

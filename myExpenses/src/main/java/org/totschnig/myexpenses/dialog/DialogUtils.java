@@ -34,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -202,5 +204,28 @@ public class DialogUtils {
   }
   private static ContextThemeWrapper wrapDialogTheme(Context ctx) {
     return new ContextThemeWrapper(ctx, R.style.AboutDialog);
+  }
+
+  public static RadioGroup configureCalendarRestoreStrategy(
+      View view, final CalendarRestoreStrategyChangedListener dialog) {
+    RadioGroup restorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
+    restorePlanStrategie.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(RadioGroup group, int checkedId) {
+        dialog.onCheckedChanged();
+      }
+    });
+    String calendarId = MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    String calendarPath = MyApplication.PrefKey.PLANNER_CALENDAR_PATH.getString("");
+    RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
+    if ((calendarId.equals("-1")) || calendarPath.equals("")) {
+      configured.setEnabled(false);
+    } else {
+      configured.setText(configured.getText() + " (" + calendarPath + ")");
+    }
+    return restorePlanStrategie;
+  }
+  interface CalendarRestoreStrategyChangedListener {
+    void onCheckedChanged();
   }
 }

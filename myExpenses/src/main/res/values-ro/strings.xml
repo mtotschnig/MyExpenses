@@ -350,7 +350,6 @@ Tradus de DD</string>
   <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
   <string name="pref_request_licence_summary">Dacă aţi contribuit, solicitaţi o cheie Contrib pentru Android-Id %1$s  prin email.</string>
   <string name="pref_request_licence_title">Solicită o cheie de Contrib</string>
-  <string name="pref_restore_legacy_data">Date moştenite</string>
   <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
   <string name="pref_restore_title">Restaurare</string>
   <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>

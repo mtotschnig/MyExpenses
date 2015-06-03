@@ -346,7 +346,6 @@
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_request_licence_summary">Si ha contribuido, pida una clave Contrib para Android-Id %1$s por correo electrónico.</string>
   <string name="pref_request_licence_title">Solicite una clave Contrib</string>
-  <string name="pref_restore_legacy_data">Datos de herencia</string>
   <string name="pref_restore_summary">Seleccione una copia de seguridad para restaurar la base de datos y preferencias.</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña</string>

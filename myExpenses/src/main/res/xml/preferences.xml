@@ -132,7 +132,7 @@
         <intent android:action="myexpenses.intent.restore"/>
     </Preference>
     <Preference android:key="@string/pref_restore_legacy_key"
-        android:summary="@string/pref_restore_summary">
+        android:summary="@string/pref_restore_alternative_summary">
         <intent android:action="myexpenses.intent.restore">
         	<extra android:name="legacy" android:value="true"/>
         </intent>

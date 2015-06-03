@@ -305,7 +305,6 @@
   <string name="pref_qif_export_file_encoding_title">අක්ෂර කේතාංකනය කිරීම</string>
   <string name="pref_request_licence_summary">ඔබ දායක වූයේනම් අන්ඩ්රෝයිඩ් ඊ ඩි %1$s සදහා කොන්ට්‍රිබ් යතුර  ව්ද්‍යුත් තැපෑලෙන් ඉලන්න </string>
   <string name="pref_request_licence_title">කොන්ට්‍රිබ් යතුර ඉල්ලන්න </string>
-  <string name="pref_restore_legacy_data">උරුම දත්ත </string>
   <string name="pref_restore_summary">දත්ත ගබඩාව සහ මනාප නැවත  පිහිටුවීම  සදහා  උපස්තයක් තෝරන්න </string>
   <string name="pref_restore_title">නැවත පිහිටුවන්න </string>
   <string name="pref_security_question_summary">ඔබට මුරපදය අමතක වූයේනම්.නැවත ඇපය ක්‍රියාත්මක කිරීමට උදව් වේ </string>

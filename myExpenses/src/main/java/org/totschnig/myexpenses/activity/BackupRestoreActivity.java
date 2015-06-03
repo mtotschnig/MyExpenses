@@ -215,10 +215,15 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
    * Legacy callback from BackupListDialogFragment for backups stored in
    * application directory
    * 
-   * @param dir
+   * @param dirOrFile
    */
-  public void onSourceSelected(String dir) {
-    showRestoreDialog(dir);
+  public void onSourceSelected(String dirOrFile, int restorePlanStrategie) {
+    if (dirOrFile.endsWith(".zip")) {
+      showRestoreDialog(Uri.fromFile(new File(Utils.getAppDir().getUri().getPath(),dirOrFile)),
+          restorePlanStrategie);
+    } else {
+      showRestoreDialog(dirOrFile);
+    }
   }
 
   @Override

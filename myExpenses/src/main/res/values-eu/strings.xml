@@ -347,7 +347,6 @@ Librezale.eus</string>
   <string name="pref_qif_export_file_encoding_title">Karaktere-kodeketa</string>
   <string name="pref_request_licence_summary">Kontribuzioa egin baduzu, eskatu Kontribuzio gakoa %1$s Android-IDarentzat posta elektroniko bidez.</string>
   <string name="pref_request_licence_title">Eskatu Kontribuzio gakoa</string>
-  <string name="pref_restore_legacy_data">Datu zaharrak</string>
   <string name="pref_restore_summary">Aukeratu babeskopia bat datu-basea eta hobespenak berreskuratzeko.</string>
   <string name="pref_restore_title">Berreskuratu</string>
   <string name="pref_security_question_summary">Aplikazioa desblokeatzea ahalbidetzen du pasahitza ahaztu baduzu.</string>
