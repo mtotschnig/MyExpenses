@@ -309,7 +309,6 @@
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
   <string name="pref_request_licence_summary">Jeżeli przyczyniłeś się do aplikacji, poproś o klucz Contrib dla ID Androida %1$s przez e-mail.</string>
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
-  <string name="pref_restore_legacy_data">Starszy typ danych</string>
   <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>
   <string name="pref_restore_title">Przywróć</string>
   <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>

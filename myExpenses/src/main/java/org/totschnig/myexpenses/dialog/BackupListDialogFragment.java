@@ -16,7 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 public class BackupListDialogFragment extends CommitSafeDialogFragment
-    implements DialogInterface.OnClickListener {
+    implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -68,7 +68,16 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
   @Override
   public void onResume() {
     super.onResume();
+    setButtonState();
+  }
+
+  private void setButtonState() {
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
         mRestorePlanStrategie.getCheckedRadioButtonId() != -1);
+  }
+
+  @Override
+  public void onCheckedChanged() {
+    setButtonState();
   }
 }

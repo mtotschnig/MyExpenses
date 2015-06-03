@@ -16,9 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 
-import java.io.File;
 import java.net.URI;
-import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -27,8 +25,6 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.GenericTask;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -51,7 +47,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -101,7 +96,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     pref.setOnPreferenceClickListener(this);
 
     pref = findPreference(MyApplication.PrefKey.RESTORE_LEGACY.getKey());
-    pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_legacy_data) + ")");
+    pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
     pref.setOnPreferenceClickListener(this);
 
     findPreference(MyApplication.PrefKey.RATE.getKey())

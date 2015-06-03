@@ -16,7 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RadioButton;
 
-public class BackupSourcesDialogFragment extends ImportSourceDialogFragment {
+public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
+    implements DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
   
   public static final BackupSourcesDialogFragment newInstance() {
@@ -74,5 +75,10 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public void onCheckedChanged() {
+    setButtonState();
   }
 }
