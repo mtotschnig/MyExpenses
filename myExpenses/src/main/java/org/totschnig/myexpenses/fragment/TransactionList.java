@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
@@ -304,7 +305,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
             R.string.mark_void_instead_of_delete);
       }
-      b.putSerializable(TaskExecutionFragment.KEY_OBJECT_IDS,itemIds);
+      b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
       ConfirmationDialogFragment.newInstance(b)
           .show(getFragmentManager(), "DELETE_TRANSACTION");
       return true;
