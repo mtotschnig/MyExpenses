@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -18,6 +19,8 @@ import android.widget.Spinner;
 public class BackupListDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
+  Spinner selectBackupSpinner;
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
@@ -26,7 +29,8 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     View view = li.inflate(R.layout.backup_restore_fallback_dialog, null);
     ArrayAdapter<String> adapter = new ArrayAdapter<>(wrappedCtx,
         android.R.layout.simple_spinner_item, backupFiles);
-    ((Spinner) view.findViewById(R.id.select_backup)).setAdapter(adapter);
+    selectBackupSpinner = ((Spinner) view.findViewById(R.id.select_backup));
+    selectBackupSpinner.setAdapter(adapter);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
     return new AlertDialog.Builder(wrappedCtx)
         .setTitle(R.string.pref_restore_title)
@@ -62,7 +66,20 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-
+    if (getActivity()==null) {
+      return;
+    }
+    final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
+    if (which == AlertDialog.BUTTON_POSITIVE) {
+      int position = selectBackupSpinner.getSelectedItemPosition();
+      if (position!= AdapterView.INVALID_POSITION) {
+        ((BackupRestoreActivity) getActivity()).onSourceSelected(
+            backupFiles[position],
+            mRestorePlanStrategie.getCheckedRadioButtonId());
+        return;
+      }
+    }
+    onCancel(dialog);
   }
 
   @Override
