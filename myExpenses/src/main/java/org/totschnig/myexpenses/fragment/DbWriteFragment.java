@@ -148,11 +148,11 @@ public class DbWriteFragment extends Fragment {
       } catch (Transaction.ExternalStorageNotAvailableException e) {
         error = ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE;
       } catch (Transaction.UnknownPictureSaveException e) {
-        //ACRA.getErrorReporter().putCustomData("pictureUri", e.pictureUri.toString());
-        //ACRA.getErrorReporter().putCustomData("homeUri", e.homeUri.toString());
+        ACRA.getErrorReporter().putCustomData("pictureUri", e.pictureUri.toString());
+        ACRA.getErrorReporter().putCustomData("homeUri", e.homeUri.toString());
         Utils.reportToAcra(e);
-        //ACRA.getErrorReporter().removeCustomData("pictureUri");
-        //ACRA.getErrorReporter().removeCustomData("homeUri");
+        ACRA.getErrorReporter().removeCustomData("pictureUri");
+        ACRA.getErrorReporter().removeCustomData("homeUri");
         error = ERROR_PICTURE_SAVE_UNKNOWN;
       } catch (Exception e) {
           Utils.reportToAcra(e);
