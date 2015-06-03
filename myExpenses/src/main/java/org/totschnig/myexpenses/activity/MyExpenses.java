@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -1364,7 +1365,7 @@ public class MyExpenses extends LaunchActivity implements
         finishActionMode();
         startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-            (Long[])args.getSerializable(TaskExecutionFragment.KEY_OBJECT_IDS),
+            ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
             new Boolean(checked),
             R.string.progress_dialog_deleting);
     }

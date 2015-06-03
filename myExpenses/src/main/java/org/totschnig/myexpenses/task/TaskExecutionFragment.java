@@ -117,10 +117,13 @@ public class TaskExecutionFragment<T> extends Fragment {
     TaskExecutionFragment<T> f = new TaskExecutionFragment<T>();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, taskId);
-    if (objectIds != null)
+    if (objectIds != null) {
+      //TODO would be safer to use putLongArray/putStringArray
       bundle.putSerializable(KEY_OBJECT_IDS, objectIds);
-    if (extra != null)
+    }
+    if (extra != null) {
       bundle.putSerializable(KEY_EXTRA, extra);
+    }
     f.setArguments(bundle);
     return f;
   }

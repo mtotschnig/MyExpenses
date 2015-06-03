@@ -85,6 +85,7 @@ dependencies {
     compile 'ch.acra:acra:4.5.0'
     compile 'com.google.android.gms:play-services-ads:7.0.0'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    compile 'org.apache.commons:commons-lang3:3.4'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }
