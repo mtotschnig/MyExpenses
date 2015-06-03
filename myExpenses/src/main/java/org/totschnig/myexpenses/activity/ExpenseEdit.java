@@ -1304,6 +1304,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (getIntent().getBooleanExtra(KEY_CLONE,false)) {
         mTransaction.setId(0L);
         mTransaction.crStatus = CrStatus.UNRECONCILED;
+        mTransaction.setDate(new Date());
         mRowId = 0L;
         mClone = true;
       }
