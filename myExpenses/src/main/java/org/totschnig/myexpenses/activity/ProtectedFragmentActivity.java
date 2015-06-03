@@ -116,7 +116,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   }
     @TargetApi(9)
     private void enableStrictMode() {
-        if (Build.VERSION.SDK_INT >= 9) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()
@@ -306,6 +306,14 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       ((ContribIFace) this).contribFeatureCalled(
           (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+    }
+  }
+
+  @Override
+  public void setTitle(CharSequence title) {
+    super.setTitle(title);
+    if (Build.VERSION.SDK_INT <Build.VERSION_CODES.HONEYCOMB) {
+      getSupportActionBar().setTitle(title);
     }
   }
 }
