@@ -525,26 +525,28 @@ public class Utils {
    * @param dest
    * @return
    */
-  public static boolean copy(Uri src, Uri dest) throws IOException {
+  public static void copy(Uri src, Uri dest) throws IOException {
     InputStream input = null;
     OutputStream output = null;
-    boolean success = false;
 
     try {
       input = MyApplication.getInstance().getContentResolver()
           .openInputStream(src);
+      if (input==null) {
+        throw new IOException("Could not open InputStream "+src.toString());
+      }
       output = MyApplication.getInstance().getContentResolver()
               .openOutputStream(dest);
-      if (input!=null && output!=null) {
-        final byte[] buffer = new byte[1024];
-        int read;
-
-        while ((read = input.read(buffer)) != -1) {
-          output.write(buffer, 0, read);
-        }
-        output.flush();
-        success = true;
+      if (output==null) {
+        throw new IOException("Could not open OutputStream "+dest.toString());
       }
+      final byte[] buffer = new byte[1024];
+      int read;
+
+      while ((read = input.read(buffer)) != -1) {
+        output.write(buffer, 0, read);
+      }
+      output.flush();
     } finally {
       try {
         if (input!=null) input.close();
@@ -554,7 +556,6 @@ public class Utils {
         if (output!=null) output.close();
       } catch (IOException e) {
       }
-      return success;
     }
   }
 
