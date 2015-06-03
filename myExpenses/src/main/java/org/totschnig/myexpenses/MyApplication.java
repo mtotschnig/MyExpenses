@@ -614,17 +614,16 @@ public class MyApplication extends Application implements
    */
   public static void copyEventData(Cursor eventCursor, ContentValues eventValues) {
     eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor, 0));
+    //older Android versions have populated both dtend and duration
+    //restoring those on newer versions leads to IllegalArgumentexception
     Long dtEnd = DbUtils.getLongOrNull(eventCursor, 1);
+    String dtDuration = dtEnd != null ? null : eventCursor.getString(6);
     eventValues.put(Events.DTEND, dtEnd);
     eventValues.put(Events.RRULE, eventCursor.getString(2));
     eventValues.put(Events.TITLE, eventCursor.getString(3));
     eventValues.put(Events.ALL_DAY, eventCursor.getInt(4));
     eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
-    if (dtEnd==null) {
-      //older Android versions have populated both dtend and duration
-      //restoring those on newer versions leads to IllegalArgumentexception
-      eventValues.put(Events.DURATION, eventCursor.getString(6));
-    }
+    eventValues.put(Events.DURATION, dtDuration);
     eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
     if (android.os.Build.VERSION.SDK_INT >= 16) {
       eventValues.put(Events.CUSTOM_APP_PACKAGE, eventCursor.getString(8));
