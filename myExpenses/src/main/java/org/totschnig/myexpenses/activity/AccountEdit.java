@@ -70,7 +70,19 @@ public class AccountEdit extends AmountActivity implements
   private boolean mColorIntentAvailable;
   private Intent mColorIntent;
   private ArrayAdapter<Integer> mColAdapter;
-  
+
+  private void requireAccount() {
+    if (mAccount==null) {
+      Bundle extras = getIntent().getExtras();
+      long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
+          : 0;
+      if (rowId != 0) {
+        mAccount = Account.getInstanceFromDb(rowId);
+      } else {
+        mAccount = new Account();
+      }
+    }
+  }
   @SuppressLint("InlinedApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +97,13 @@ public class AccountEdit extends AmountActivity implements
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
           : 0;
+    requireAccount();
+    if (mAccount == null) {
+      Toast.makeText(this,"Error instantiating account "+rowId,Toast.LENGTH_SHORT).show();
+      finish();
+      return;
+    }
     if (rowId != 0) {
-      mAccount = Account.getInstanceFromDb(rowId);
-      if (mAccount == null) {
-        Toast.makeText(this,"Error instantiating account "+rowId,Toast.LENGTH_SHORT).show();
-        finish();
-        return;
-      }
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
@@ -324,6 +336,7 @@ public class AccountEdit extends AmountActivity implements
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
+    requireAccount();
     if (mAccount==null) {
       Utils.reportToAcra(new NullPointerException("mAccount is null"));
     } else {
