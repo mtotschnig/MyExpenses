@@ -801,8 +801,9 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    if (mAccount==null) {
-      //seen in report 3331195c529454ca6b25a4c5d403beda
+    if (mAccount== null || getActivity() == null) {
+      //mAccount seen in report 3331195c529454ca6b25a4c5d403beda
+      //getActivity seen in report 68a501c984bdfcc95b40050af4f815bf
       return;
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
