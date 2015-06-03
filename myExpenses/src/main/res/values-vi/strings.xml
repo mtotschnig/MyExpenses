@@ -234,6 +234,7 @@
   <string name="pref_qif_export_file_encoding_title">Mã hóa ký tự</string>
   <string name="pref_request_licence_summary">Nếu bạn đã từng cống hiến cho việc xây dựng chương trình bằng cách này hay cách khác, bạn có thể gửi email để lấy một khóa.</string>
   <string name="pref_request_licence_title">Gửi yêu cầu nhận mã cống hiến</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">Khôi phục</string>
   <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu.</string>
   <string name="pref_security_question_title">Câu hỏi an ninh</string>

@@ -304,6 +304,7 @@
   <string name="pref_qif_export_file_encoding_title">Кодировка</string>
   <string name="pref_request_licence_summary">Если вы внесли вклад, попросите Contrib ключ по электронной почте.</string>
   <string name="pref_request_licence_title">Запросить Contrib-ключ</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Выберите резервную копию для восстановления базы данных и настроек.</string>
   <string name="pref_restore_title">Восстановить</string>
   <string name="pref_security_question_summary">Позволяет разблокировать приложение, если вы забыли свой пароль.</string>

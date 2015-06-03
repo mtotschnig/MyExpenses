@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_248">
+    <item>Klonatutako transakzioen egoera berdinkatu gabe gisa ezartzen da</item>
+    <item>Ordezko berreskuratze metodoa fitxategi kudeatzailerik gabeko gailuentzat</item>
+  </string-array>
   <string-array name="whats_new_247">
     <item>Klonatu komandoak edizio formularioa irekitzen du</item>
   </string-array>
