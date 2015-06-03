@@ -16,8 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RadioButton;
 
-public class BackupSourcesDialogFragment extends ImportSourceDialogFragment implements
-DialogInterface.OnClickListener {
+public class BackupSourcesDialogFragment extends ImportSourceDialogFragment {
   RadioGroup mRestorePlanStrategie;
   
   public static final BackupSourcesDialogFragment newInstance() {
@@ -30,21 +29,7 @@ DialogInterface.OnClickListener {
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
-    mRestorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
-    mRestorePlanStrategie.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(RadioGroup group, int checkedId) {
-        setButtonState();
-      }
-    });
-    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
-    String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
-    RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
-    if ((calendarId.equals("-1")) || calendarPath.equals("")) {
-      configured.setEnabled(false);
-    } else {
-      configured.setText(configured.getText() + " (" + calendarPath + ")");
-    }
+    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
   }
   @Override
   protected int getLayoutTitle() {

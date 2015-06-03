@@ -11,9 +11,9 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1" >
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
     <TableLayout
         android:layout_width="fill_parent"
@@ -21,9 +21,23 @@
         android:paddingLeft="@dimen/general_padding"
         android:paddingRight="@dimen/general_padding"
         android:shrinkColumns="*"
-        android:stretchColumns="*" >
+        android:stretchColumns="*">
 
-        <include layout="@layout/filename" />
+        <TableRow android:gravity="center_vertical">
+
+            <TextView
+                style="@style/dialog_text"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="@string/import_source_file"/>
+
+
+            <Spinner
+                android:id="@+id/select_backup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
 
         <include layout="@layout/backup_restore_calendar"/>
     </TableLayout>

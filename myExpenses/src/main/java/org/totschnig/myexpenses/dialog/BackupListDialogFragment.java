@@ -6,16 +6,32 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 
-public class BackupListDialogFragment extends CommitSafeDialogFragment {
+public class BackupListDialogFragment extends CommitSafeDialogFragment
+    implements DialogInterface.OnClickListener {
+  RadioGroup mRestorePlanStrategie;
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
-    return new AlertDialog.Builder(getActivity())
+    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
+    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    View view = li.inflate(R.layout.backup_restore_fallback_dialog, null);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(wrappedCtx,
+        android.R.layout.simple_spinner_item, backupFiles);
+    ((Spinner) view.findViewById(R.id.select_backup)).setAdapter(adapter);
+    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
+    return new AlertDialog.Builder(wrappedCtx)
         .setTitle(R.string.pref_restore_title)
-        .setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
+        .setView(view)
+        /*.setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             if (getActivity()==null) {
@@ -23,7 +39,9 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment {
             }
             ((BackupRestoreActivity) getActivity()).onSourceSelected(backupFiles[which]);
           }
-        })
+        })*/
+        .setPositiveButton(android.R.string.ok, this)
+        .setNegativeButton(android.R.string.cancel, this)
         .create();
   }
 
@@ -40,5 +58,17 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment {
       return;
     }
     ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+  }
+
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+        mRestorePlanStrategie.getCheckedRadioButtonId() != -1);
   }
 }
