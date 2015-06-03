@@ -301,6 +301,7 @@
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
   <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau Contrib per correu electrònic.</string>
   <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
   <string name="pref_restore_title">Restauració</string>
   <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya.</string>

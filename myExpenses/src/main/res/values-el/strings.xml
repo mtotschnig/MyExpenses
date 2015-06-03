@@ -288,6 +288,7 @@
   <string name="pref_qif_export_file_encoding_title">Κωδικοποίηση χαρακτήρων</string>
   <string name="pref_request_licence_summary">Αν έχετε συνεισφέρει με άλλα μέσα, ζητήστε ένα κλειδί Contrib μέσω ηλεκτρονικού ταχυδρομείου.</string>
   <string name="pref_request_licence_title">Ζητήστε ένα κλειδί Contrib</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">Επαναφορά</string>
   <string name="pref_security_question_summary">Σας επιτρέπει να ξεκλειδώσετε το app, αν έχετε ξεχάσει τον κωδικό πρόσβασής σας.</string>
   <string name="pref_security_question_title">Ερώτηση για ασφάλεια</string>

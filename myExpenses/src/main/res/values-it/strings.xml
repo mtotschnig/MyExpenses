@@ -346,6 +346,9 @@
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_request_licence_summary">Se ha contribuito, richiedere una chiave Contrib per Android-Id %1$s via email.</string>
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">Alternativo</string>
+  <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo, o se si ripristina un backup in formato legacy.</string>
   <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
   <string name="pref_restore_title">Ripristina</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se avete dimenticato la password.</string>

@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_248">
+    <item>O status das transações clonados é redefinido para não reconciliadas</item>
+    <item>Alternativa método de restauração para dispositivos sem gerenciador de arquivos</item>
+  </string-array>
   <string-array name="whats_new_247">
     <item>Comando clone abre o formulário de edição</item>
   </string-array>

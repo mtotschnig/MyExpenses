@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_248">
+    <item>Der Status der geklonten Buchungen wird auf nicht abgestimmt zurückgesetzt</item>
+    <item>Alternative Methode der Widerherstellung von Sicherungskopien für Geräte ohne Datei-Manager</item>
+  </string-array>
   <string-array name="whats_new_247">
     <item>Der Befehl Klonen öffnet das Bearbeitungsformular</item>
   </string-array>

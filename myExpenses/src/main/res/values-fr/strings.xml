@@ -346,6 +346,9 @@
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">Alternatif</string>
+  <string name="pref_restore_alternative_summary">Utilisez cette méthode alternative s\'il n\'y a aucun gestionnaire de fichiers installé sur l\'appareil ou si vous restaurez une sauvegarde dans le format ancien.</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'application, si vous avez oublié votre mot de passe.</string>
@@ -529,7 +532,7 @@
   <string name="menu_select_categories">Sélectionner les catégories cochées</string>
   <string name="image_deleted">La photo a été supprimée</string>
   <string name="dialog_export_applied_to_filter">Seules les transactions qui correspondent au filtre actuel seront pris en considération.</string>
-  <string name="export_handle_deleted_create_helper">Créer une opération auxiliaire</string>
+  <string name="export_handle_deleted_create_helper">Créer une opération annexe</string>
   <string name="export_handle_deleted_update_balance">Mise à jour du solde initial</string>
   <string name="file_name">Nom de fichier</string>
   <string name="folder_name">Nom de dossier</string>
