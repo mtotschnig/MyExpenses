@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.util.Utils;
 public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
 
   ViewPager mPager;
+  long remindRateOrig, remindContribOrig;
 
   public B1_ReminderTest() {
     super(MyExpenses.class);
@@ -35,6 +36,8 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
     mSolo = new Solo(getInstrumentation(), mActivity);
   }
   public void testRatingDialogIsShown() {
+    remindRateOrig = MyExpenses.TRESHOLD_REMIND_RATE;
+    remindContribOrig = MyExpenses.TRESHOLD_REMIND_CONTRIB;
     MyExpenses.TRESHOLD_REMIND_RATE = 3L;
     MyExpenses.TRESHOLD_REMIND_CONTRIB = 6L;
     reminderHelper();
@@ -65,5 +68,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
   public void tearDown() throws Exception {
     Account.getInstanceFromDb(0).reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     super.tearDown();
+    MyExpenses.TRESHOLD_REMIND_RATE = remindRateOrig;
+    MyExpenses.TRESHOLD_REMIND_CONTRIB = remindContribOrig;
   }
 }
