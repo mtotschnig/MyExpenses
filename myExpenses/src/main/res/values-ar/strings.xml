@@ -293,6 +293,7 @@
   <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
   <string name="pref_request_licence_summary">اذا كنت قد ساهمت بأي وسيلة، اطلب مفتاح المساهمة عن طريق البريد الالكتروني.</string>
   <string name="pref_request_licence_title">طلب مفتاح مساهمة</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
   <string name="pref_restore_title">استعادة</string>
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>

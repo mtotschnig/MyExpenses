@@ -337,6 +337,7 @@
   <string name="pref_qif_export_file_encoding_title">Кодиране на знаци</string>
   <string name="pref_request_licence_summary">Ако сте заплатили, поискайте Contrib ключ за андроид-ИД %1$s по електронната поща.</string>
   <string name="pref_request_licence_title">Изискайте Contrib ключ</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Изберете бекъп за възстановяване на база данни и предпочитания.</string>
   <string name="pref_restore_title">Възстанови</string>
   <string name="pref_security_question_summary"> Позволява ви да отключите приложението, ако сте забравили паролата си.</string>
