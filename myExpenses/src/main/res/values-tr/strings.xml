@@ -346,6 +346,7 @@
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
+  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
