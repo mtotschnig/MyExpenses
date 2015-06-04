@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.AdUtils;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -205,14 +206,13 @@ public class MyExpenses extends LaunchActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    AdView mAdView = (AdView) findViewById(R.id.adView);
+    View adView = findViewById(R.id.adView);
     long now = System.currentTimeMillis();
 
     if (isAdDisabled(now)) {
-      mAdView.setVisibility(View.GONE);
+      adView.setVisibility(View.GONE);
     } else {
-      AdRequest adRequest = new AdRequest.Builder().build();
-      mAdView.loadAd(adRequest);
+      AdUtils.showBanner(adView);
       maybeRequestNewInterstitial(now);
     }
 
@@ -376,21 +376,6 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
 
-  private void maybeRequestNewInterstitial(long now) {
-    if (now - PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > DAY_IN_MILLIS &&
-        PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)>9) {
-      //last ad shown more than 24h and at least five expense entries ago,
-      if (mInterstitialAd == null) {
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.admob_unitid_interstitial));
-      }
-      AdRequest adRequest = new AdRequest.Builder()
-          //.addTestDevice("YOUR_DEVICE_HASH")
-          .build();
-      mInterstitialAd.loadAd(adRequest);
-    }
-  }
-
 
   private void initialSetup() {
     FragmentManager fm = getSupportFragmentManager();
@@ -479,16 +464,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       long now = System.currentTimeMillis();
       if (!isAdDisabled(now)) {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-          mInterstitialAd.show();
-          PrefKey.INTERSTITIAL_LAST_SHOWN.putLong(now);
-          PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(0);
-        } else {
-          PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(
-              PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)+1
-          );
-          maybeRequestNewInterstitial(now);
-        }
+        AdUtils.maybeShowInterstitial(now,this);
         return;
       }
     }

@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.totschnig.myexpenses">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    
     <application>
         <receiver android:name="com.amazon.inapp.purchasing.ResponseReceiver">
             <intent-filter>
@@ -10,6 +12,8 @@
                     />
             </intent-filter>
         </receiver>
+        <activity android:name="com.amazon.device.ads.AdActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
+
     </application>
 
 </manifest>

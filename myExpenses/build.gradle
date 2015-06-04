@@ -69,8 +69,17 @@ android {
         }
     }
 
+    sourceSets {
+        play.java.srcDirs += "src/admob/java"
+    }
+
     lintOptions {
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
+    }
+
+    dexOptions {
+        javaMaxHeapSize "2048M"
+        jumboMode = true
     }
 
 }
@@ -87,6 +96,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
+    amazonCompile files('libs/amazon-ads-5.5.149.jar')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }
