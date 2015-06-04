@@ -21,7 +21,7 @@ public abstract class MyExpensesTest extends MyActivityTest<MyExpenses> {
       TransactionList currentFragment;
       while(true) {
         currentFragment = mActivity.getCurrentFragment();
-        if (currentFragment!=null) break;
+        if (currentFragment!=null && currentFragment.getView() != null) break;
       }
       mList = (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
     }
