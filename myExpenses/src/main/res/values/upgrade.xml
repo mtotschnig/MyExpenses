@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2481">
+    <item>@string/bug_fixes</item>
+  </string-array>
   <string-array name="whats_new_248">
     <item>The status of cloned transactions is reset to unreconciled</item>
     <item>Alternative restore method for devices without file manager</item>

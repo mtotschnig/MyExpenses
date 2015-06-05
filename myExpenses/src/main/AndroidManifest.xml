@@ -183,11 +183,6 @@
             android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
         <activity android:name=".activity.ManageCurrencies" />
 
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-                  android:theme="@android:style/Theme.Translucent" />
-
-
         <service
             android:name=".service.MyService"
             android:permission="org.totschnig.myexpenses.UNLOCK_PREMIUM" >

@@ -4,16 +4,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application>
-        <receiver android:name="com.amazon.inapp.purchasing.ResponseReceiver">
-            <intent-filter>
-                <action
-                    android:name="com.amazon.inapp.purchasing.NOTIFY"
-                    android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY"
-                    />
-            </intent-filter>
-        </receiver>
         <activity android:name="com.amazon.device.ads.AdActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
-
     </application>
 
 </manifest>

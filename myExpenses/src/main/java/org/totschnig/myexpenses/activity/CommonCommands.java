@@ -136,7 +136,7 @@ public class CommonCommands {
     } catch (IOException e) {
       Log.w(MyApplication.TAG,"Failed to open property file");
     }
-    return versionname + version  + buildDate + "-"+ BuildConfig.FLAVOR;
+    return versionname + version  + buildDate + "-"+ BuildConfig.FLAVOR_distribution;
   }
   /**
    * @return version name

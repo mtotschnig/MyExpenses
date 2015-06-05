@@ -34,7 +34,7 @@ import android.widget.Toast;
     public static final String KEY_TAG = "tag";
     private OpenIabHelper mHelper;
     private boolean mSetupDone;
-    private String mPayload = BuildConfig.FLAVOR.equals("amazon") ? null : UUID.randomUUID().toString();
+    private String mPayload = BuildConfig.FLAVOR_distribution.equals("amazon") ? null : UUID.randomUUID().toString();
     private String tag = ContribInfoDialogActivity.class.getName();
 
 
@@ -106,6 +106,7 @@ import android.widget.Toast;
             Toast.LENGTH_LONG)
             .show();
       }
+      finish();
     }
     
     public void contribBuyDo() {
@@ -114,7 +115,7 @@ import android.widget.Toast;
               getSupportFragmentManager(), "CONTRIB");
           return;
       }
-      if (BuildConfig.FLAVOR.equals("blackberry")) {
+      if (BuildConfig.FLAVOR_distribution.equals("blackberry")) {
         contribBuyBlackBerry();
         return;
       }

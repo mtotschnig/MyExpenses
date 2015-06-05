@@ -6,7 +6,7 @@ ext {
  versionNumber1 = 2
  versionNumber2 = 4
  versionNumber3 = 8
- versionNumber4 = 0
+ versionNumber4 = 1
 }
 
 def buildVersionNumber() {
@@ -33,7 +33,7 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 211
+        versionCode 212
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"
@@ -60,24 +60,28 @@ android {
 
         }
     }
+    flavorDimensions "adprovider", "distribution"
 
     productFlavors {
-        play {}
-        amazon {}
+        play {
+            flavorDimension "distribution"
+        }
+        amazon {
+            flavorDimension "distribution"
+        }
         blackberry {
-          versionName buildVersionNumberBlackBerry()
-          buildConfigField "String", "PLATTFORM", "\"Blackberry\""
+            flavorDimension "distribution"
+            versionName buildVersionNumberBlackBerry()
+            buildConfigField "String", "PLATTFORM", "\"Blackberry\""
+        }
+        admob {
+            flavorDimension "adprovider"
+        }
+        ama {//Amazon Mobile Ads
+            flavorDimension "adprovider"
         }
     }
 
-    sourceSets {
-        play.java.srcDirs += "src/admob/java"
-        play.res.srcDirs += "src/admob/res"
-        amazon.java.srcDirs += "src/amazonMobileAds/java"
-        amazon.res.srcDirs += "src/amazonMobileAds/res"
-        blackberry.java.srcDirs += "src/amazonMobileAds/java"
-        blackberry.res.srcDirs += "src/amazonMobileAds/res"
-    }
 
     lintOptions {
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
@@ -102,7 +106,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
-    amazonCompile files('libs/amazon-ads-5.5.149.jar')
+    amaCompile files('libs/amazon-ads-5.5.149.jar')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }

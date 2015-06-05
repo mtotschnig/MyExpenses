@@ -93,14 +93,14 @@ public class Distrib {
   }
 
   public static OpenIabHelper getIabHelper(Context ctx) {
-    if (BuildConfig.FLAVOR.equals("blackberry")) {
+    if (BuildConfig.FLAVOR_distribution.equals("blackberry")) {
       return null;
     }
     OpenIabHelper.Options.Builder builder =
         new OpenIabHelper.Options.Builder()
            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
            .addStoreKeys(Config.STORE_KEYS_MAP);
-    if (BuildConfig.FLAVOR.equals("amazon")) {
+    if (BuildConfig.FLAVOR_distribution.equals("amazon")) {
            ArrayList<Appstore> stores = new ArrayList<Appstore>();
            stores.add(new AmazonAppstore(ctx) {
              public boolean isBillingAvailable(String packageName) {
