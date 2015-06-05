@@ -28,17 +28,24 @@
       </xsl:choose>
       <xsl:text>/upgrade.xml</xsl:text>
     </xsl:variable>
-    <xsl:variable name="changelog"><xsl:apply-templates select="document($dir)/resources/string-array"/></xsl:variable>
-    <xsl:if test="$changelog != ''">    
+    <xsl:variable name="changelog">
+    <xsl:for-each select="str:tokenize($version)">
+    <xsl:apply-templates select="document($dir)/resources/string-array">
+    <xsl:with-param name="version" select="."/>
+    </xsl:apply-templates>
+    </xsl:for-each>
+    </xsl:variable>
+    <xsl:if test="$changelog != ''">
     <xsl:value-of select="$lang"/><xsl:text>:
 </xsl:text>
-    <xsl:value-of select="$version"/><xsl:text>
-</xsl:text>
+<!--     <xsl:value-of select="$version"/><xsl:text>
+</xsl:text> -->
 <xsl:value-of select="$changelog"/>
   </xsl:if>        
   </xsl:template>
 
   <xsl:template match="string-array">
+   <xsl:param name="version"/>
     <xsl:variable name="version_short" select="str:replace($version,'.','')"/>
     <xsl:if test="@name=concat('whats_new_',$version_short)">
      <xsl:apply-templates select='item'/>
@@ -48,7 +55,7 @@
   <xsl:template match="item">
   <xsl:variable name="apos">'</xsl:variable>
   <xsl:variable name="quote">"</xsl:variable>
-    <xsl:value-of select="concat(' ',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),'.')" /><xsl:text>
+    <xsl:value-of select="concat('',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),'.')" /><xsl:text>
 </xsl:text>
   </xsl:template>
 
