@@ -343,6 +343,8 @@
   <string name="pref_request_licence_summary">あなたが貢献した場合は、メールで Android-Id %1$s の貢献キーをリクエストしてください。</string>
   <string name="pref_request_licence_title">貢献キーをリクエスト</string>
   <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">代替</string>
+  <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、または従来の形式でバックアップを復元する場合に、この代替の方法を使用します。</string>
   <string name="pref_restore_summary">データベースとプリファレンスを復元するためのバックアップを選択してください。</string>
   <string name="pref_restore_title">復元</string>
   <string name="pref_security_question_summary">パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
