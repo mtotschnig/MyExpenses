@@ -40,7 +40,7 @@ public class AdUtils {
     }
   }
 
-  public static boolean maybeShowInterstitial(long now, Context ctx) {
+  public static boolean maybeShowInterstitial() {
     if (interstitialAd != null && interstitialAd.isLoaded()) {
       interstitialAd.show();
       return true;
