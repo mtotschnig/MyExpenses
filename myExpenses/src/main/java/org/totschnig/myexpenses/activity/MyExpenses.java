@@ -109,11 +109,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.util.TypedValue;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 
@@ -358,6 +355,25 @@ public class MyExpenses extends LaunchActivity implements
     setup();
   }
 
+  private void maybeRequestNewInterstitial(long now) {
+    if (now - MyApplication.PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > DAY_IN_MILLIS &&
+        MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)>9) {
+      //last ad shown more than 24h and at least five expense entries ago,
+      AdUtils.requestNewInterstitial(this);
+    }
+  }
+  private void maybeShowInterstitial(long now) {
+    if (AdUtils.maybeShowInterstitial()) {
+      MyApplication.PrefKey.INTERSTITIAL_LAST_SHOWN.putLong(now);
+      MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(0);
+    } else {
+      MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(
+          MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)+1
+      );
+      maybeRequestNewInterstitial(now);
+    }
+  }
+
   private boolean isAdDisabled(long now) {
     return AdUtils.AD_DISABLED ||
         MyApplication.getInstance().isContribEnabled() ||
@@ -464,7 +480,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       long now = System.currentTimeMillis();
       if (!isAdDisabled(now)) {
-        AdUtils.maybeShowInterstitial(now, this);
+        maybeShowInterstitial(now);
         return;
       }
     }

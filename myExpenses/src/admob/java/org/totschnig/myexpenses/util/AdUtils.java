@@ -27,31 +27,24 @@ public class AdUtils {
       Log.e(TAG,"View must be of type AdView");
     }
   }
-  public static void maybeRequestNewInterstitial(long now ,Context ctx) {
-    if (now - MyApplication.PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > MyExpenses.DAY_IN_MILLIS &&
-        MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)>9) {
-      //last ad shown more than 24h and at least five expense entries ago,
-      if (interstitialAd == null) {
-        interstitialAd = new InterstitialAd(ctx);
-        interstitialAd.setAdUnitId(ctx.getString(R.string.admob_unitid_interstitial));
-      }
-      AdRequest adRequest = new AdRequest.Builder()
-          //.addTestDevice("YOUR_DEVICE_HASH")
-          .build();
+  public static void requestNewInterstitial(Context ctx) {
+    if (interstitialAd == null) {
+      interstitialAd = new InterstitialAd(ctx);
+      interstitialAd.setAdUnitId(ctx.getString(R.string.admob_unitid_interstitial));
+    }
+    AdRequest adRequest = new AdRequest.Builder()
+        //.addTestDevice("YOUR_DEVICE_HASH")
+        .build();
+    if (!interstitialAd.isLoaded()) {
       interstitialAd.loadAd(adRequest);
     }
   }
 
-  public static void maybeShowInterstitial(long now, Context ctx) {
+  public static boolean maybeShowInterstitial(long now, Context ctx) {
     if (interstitialAd != null && interstitialAd.isLoaded()) {
       interstitialAd.show();
-      MyApplication.PrefKey.INTERSTITIAL_LAST_SHOWN.putLong(now);
-      MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(0);
-    } else {
-      MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(
-          MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)+1
-      );
-      maybeRequestNewInterstitial(now,ctx);
+      return true;
     }
+    return false;
   }
 }
