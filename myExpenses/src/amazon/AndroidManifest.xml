@@ -2,7 +2,7 @@
           package="org.totschnig.myexpenses">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    
+
     <application>
         <receiver android:name="com.amazon.inapp.purchasing.ResponseReceiver">
             <intent-filter>

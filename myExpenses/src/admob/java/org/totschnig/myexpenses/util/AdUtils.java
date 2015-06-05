@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import com.google.android.gms.ads.AdRequest;
@@ -17,6 +18,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 public class AdUtils {
   private static String TAG = "AdUtils";
   private static InterstitialAd interstitialAd;
+  public static boolean AD_DISABLED = Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO;
   public static void showBanner(View adView) {
     if (adView instanceof AdView) {
       AdRequest adRequest = new AdRequest.Builder().build();

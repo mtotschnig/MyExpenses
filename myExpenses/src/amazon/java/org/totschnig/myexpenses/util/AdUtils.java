@@ -6,12 +6,16 @@ import android.view.View;
 import com.amazon.device.ads.AdLayout;
 import com.amazon.device.ads.AdRegistration;
 
+import org.totschnig.myexpenses.BuildConfig;
+
 /**
  * Created by michael on 04.06.15.
  */
 public class AdUtils {
   private static String TAG = "AdUtils";
-  private static final String APP_KEY = "sample-app-v1_pub-2";
+  public static boolean AD_DISABLED = false; //should work also on Froyo
+  private static final String APP_KEY = BuildConfig.DEBUG ?
+      "sample-app-v1_pub-2" : "325c1c24185c46ccae8ec2cd4b2c290c";pu
   public static void showBanner(View adView) {
     if (adView instanceof AdLayout) {
       try {

@@ -359,7 +359,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private boolean isAdDisabled(long now) {
-    return Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO ||
+    return AdUtils.AD_DISABLED ||
         MyApplication.getInstance().isContribEnabled() ||
         isInInitialGracePeriod(now);
   }
@@ -464,7 +464,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       long now = System.currentTimeMillis();
       if (!isAdDisabled(now)) {
-        AdUtils.maybeShowInterstitial(now,this);
+        AdUtils.maybeShowInterstitial(now, this);
         return;
       }
     }
