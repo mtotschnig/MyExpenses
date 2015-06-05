@@ -53,7 +53,8 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+            //shrinkResources true // need to wait for resolution
+            // https://code.google.com/p/android/issues/detail?id=79325
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.release
 
