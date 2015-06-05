@@ -133,8 +133,9 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
   public static final int TYPE_SPLIT = 2;
-  public static final int DAY_IN_MILLIS = 86400000;
-  public static final int INITIAL_GRACE_DAYS = 5;
+  public static final int DAY_IN_MILLIS = BuildConfig.DEBUG ? 1 : 86400000;
+  public static final int INITIAL_GRACE_DAYS = BuildConfig.DEBUG ? 0 : 5;
+  public static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 3 : 9;
 
   public static long TRESHOLD_REMIND_RATE = 47L;
   public static long TRESHOLD_REMIND_CONTRIB = 113L;
@@ -357,7 +358,7 @@ public class MyExpenses extends LaunchActivity implements
 
   private void maybeRequestNewInterstitial(long now) {
     if (now - MyApplication.PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > DAY_IN_MILLIS &&
-        MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)>9) {
+        MyApplication.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0)> INTERSTITIAL_MIN_INTERVAL) {
       //last ad shown more than 24h and at least five expense entries ago,
       AdUtils.requestNewInterstitial(this);
     }

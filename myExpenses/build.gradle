@@ -71,6 +71,11 @@ android {
 
     sourceSets {
         play.java.srcDirs += "src/admob/java"
+        play.res.srcDirs += "src/admob/res"
+        amazon.java.srcDirs += "src/amazonMobileAds/java"
+        amazon.res.srcDirs += "src/amazonMobileAds/res"
+        blackberry.java.srcDirs += "src/amazonMobileAds/java"
+        blackberry.res.srcDirs += "src/amazonMobileAds/res"
     }
 
     lintOptions {
