@@ -1,5 +1,4 @@
 include ':MPAndroidChart:MPChartLib'
 include ':StickyListHeaders:library'
 include ':PlayLicensingOrig'
-include ':OpenIAB:library'
 include ':myExpenses'

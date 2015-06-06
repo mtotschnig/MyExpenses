@@ -1,7 +1,8 @@
 package org.totschnig.myexpenses.contrib;
 
+
+import org.totschnig.myexpenses.BuildConfig;
 import org.onepf.oms.OpenIabHelper;
-import org.onepf.oms.SkuManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +26,8 @@ public final class Config {
     /**
      * Yandex.Store public key.
      */
-//    public static final String YANDEX_PUBLIC_KEY
-//            = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsGEswqmagEHk5nY+xStc8cBxdfEuKgbt4j" +
-//            "KSpYc7T1nwUulX6E+7zY4+vk/l6hmcZiHYT8cuXUEV1+Kq2rJLKlZnf4HATEMQgtzHxbBBmcHccYKOb6t" +
-//            "pVi/Tj/ws9l+KBiX8o3JlF3zpzdx0y1dPuVlOyUA7dmB2X4+7DXQDumLvjTkTxMOpZmb/ajKBNF73OeO" +
-//            "q/Fsi0MNhzzBv+GHeKDE2rBHNCuAVL2hsHhYYldjogZNd4j5a54xH8h0Wn5UKIvZPZ2r5kOxU/dpUi0Fp" +
-//            "+iokOxuMV9yX5rOYw+5t+Asok5+dtrCpLBZx2fzAoANLnmRK/3mNWr9KY7YXJPiQ1QIDAQAB";
+    public static final String YANDEX_PUBLIC_KEY
+        = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyJFvxKYy9yjv92JMLDOip3H+EmizsnRtEE3XrTOgWn6tXVlz6urkRmRUwaEWTVvTI4hydxiHtYwFIKHcgm+tXfemm/kPoSnxORG/i/1o44tt2JyRvsgUx5IvMxKU3zg3dsytReRXKd8Pe6Op/2dIZ6sGbYY5sFYpLu7QGcFklAEjk8ipRAQm30W/N+b8VUindSQU/Q/kzgxMyndi0P2cP+z46el3Ww3Y2qVfpZ55QbFVsGl15DOJL9IyIyLLsqq2356otVGV4hLIqIpWSNvIwWiXxc65cwz4FOV4UqwVfjNS/G86d0V2vPLLvwa6DfYoZ3XzWeKtEKKyBPs+UM53rQIDAQAB";
 
     /**
      * Appland store public key.
@@ -75,9 +72,16 @@ public final class Config {
     public static final Map<String, String> STORE_KEYS_MAP;
 
     static {
-        STORE_KEYS_MAP = new HashMap<String,String>();
-        STORE_KEYS_MAP.put(OpenIabHelper.NAME_GOOGLE, Config.GOOGLE_PLAY_KEY);
-//        STORE_KEYS_MAP.put(OpenIabHelper.NAME_YANDEX, Config.YANDEX_PUBLIC_KEY);
+      STORE_KEYS_MAP = new HashMap<String,String>();
+      switch (BuildConfig.FLAVOR_distribution) {
+        case "play":
+          STORE_KEYS_MAP.put(OpenIabHelper.NAME_GOOGLE, Config.GOOGLE_PLAY_KEY);
+          break;
+        case "onepf":
+          STORE_KEYS_MAP.put(OpenIabHelper.NAME_YANDEX, Config.YANDEX_PUBLIC_KEY);
+          break;
+      }
+
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_APPLAND, Config.APPLAND_PUBLIC_KEY);
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_SLIDEME, Config.SLIDEME_PUBLIC_KEY);
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_AMAZON,

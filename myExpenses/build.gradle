@@ -33,7 +33,7 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 212
+        versionCode 213
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"
@@ -64,21 +64,24 @@ android {
 
     productFlavors {
         play {
-            flavorDimension "distribution"
+            dimension "distribution"
         }
         amazon {
-            flavorDimension "distribution"
+            dimension "distribution"
         }
         blackberry {
-            flavorDimension "distribution"
+            dimension "distribution"
             versionName buildVersionNumberBlackBerry()
             buildConfigField "String", "PLATTFORM", "\"Blackberry\""
         }
         admob {
-            flavorDimension "adprovider"
+            dimension "adprovider"
         }
         ama {//Amazon Mobile Ads
-            flavorDimension "adprovider"
+            dimension "adprovider"
+        }
+        onepf {
+            dimension "distribution"
         }
     }
 
@@ -91,13 +94,11 @@ android {
         javaMaxHeapSize "2048M"
         jumboMode = true
     }
-
 }
 
 dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
-    compile project(':OpenIAB:library')
     compile project(':PlayLicensingOrig')
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.android.support:support-v4:21.0.3'
@@ -106,6 +107,9 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.onepf:openiab:0.9.8.7'
+    compile files('libs/in-app-purchasing-2.0.61.jar')
+    compile files('libs/fortumo-in-app-9.1.2.jar')
     amaCompile files('libs/amazon-ads-5.5.149.jar')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
