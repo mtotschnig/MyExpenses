@@ -23,6 +23,7 @@ import android.appwidget.AppWidgetProviderInfo;
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -76,7 +77,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     setBackgroundColorSave(updateViews,R.id.divider3,a.color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews, a.getId());
-    addButtonsClick(context, updateViews, widgetId, a.getId());
+    addButtonsClick(context, updateViews, widgetId, a);
     saveForWidget(context, widgetId, a.getId());
     int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
         : View.VISIBLE;
@@ -97,12 +98,20 @@ public class AccountWidget extends AbstractWidget<Account> {
     updateViews.setOnClickPendingIntent(R.id.object_info, pendingIntent);
   }
 
-  private void addButtonsClick(Context context, RemoteViews updateViews,
-      int widgetId, long accountId) {
+  private Intent buildButtonIntent(Context context,Account account) {
     Intent intent = new Intent(context, ExpenseEdit.class);
-    intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.getId());
+    if (account.getId()<0) {
+      intent.putExtra(DatabaseConstants.KEY_CURRENCY,account.currency.getCurrencyCode());
+    }
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+    return  intent;
+  }
+
+  private void addButtonsClick(Context context, RemoteViews updateViews,
+      int widgetId, Account account) {
+    Intent intent = buildButtonIntent(context,account);
     PendingIntent pendingIntent = PendingIntent.getActivity(
         context,
         2*widgetId,
@@ -110,11 +119,8 @@ public class AccountWidget extends AbstractWidget<Account> {
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
     updateViews.setImageViewResource(R.id.command1, android.R.drawable.ic_menu_add);
-    intent = new Intent(context, ExpenseEdit.class);
+    intent = buildButtonIntent(context,account);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-    intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     pendingIntent = PendingIntent.getActivity(
         context,
         2*widgetId+1,
@@ -126,7 +132,7 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   @Override
   Account getObject(Cursor c) {
-    Account a = new Account(c);
+    Account a = Account.fromCacheOrFromCursor(c);
     mCurrentBalance =new Money(a.currency,
         c.getLong(c.getColumnIndexOrThrow(KEY_CURRENT_BALANCE)));
     return a;
@@ -134,9 +140,10 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   @Override
   Cursor getCursor(Context c) {
-    // TODO Auto-generated method stub
+    Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
+    builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
     return c.getContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_EXTENDED, null, null, null);
+        builder.build(), null, null, null, null);
   }
   @Override
   public void onReceive(Context context, Intent intent) {

@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
@@ -1523,14 +1524,17 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction.transfer_account = mTransferAccountId;
       }
       data.moveToFirst();
+      boolean selectionSet = false;
       while (data.isAfterLast() == false) {
         int position = data.getPosition();
-        long _id = data.getLong(data.getColumnIndex(KEY_ROWID));
-        mAccounts[position] = Account.isInstanceCached(_id) ?
-            Account.getInstanceFromDb(_id):
-            new Account(data);
-        if(mTransaction.accountId != null && _id == mTransaction.accountId) {
+        Account a = Account.fromCacheOrFromCursor(data);
+        mAccounts[position] = a;
+        if(!selectionSet && mTransaction.accountId != null &&
+            (a.getId() == mTransaction.accountId ||
+                (mTransaction.accountId < 0 && //aggregate account
+                    a.currency.getCurrencyCode().equals(getIntent().getStringExtra(KEY_CURRENCY))))) {
           mAccountSpinner.setSelection(position);
+          selectionSet = true;
         }
         data.moveToNext();
       }

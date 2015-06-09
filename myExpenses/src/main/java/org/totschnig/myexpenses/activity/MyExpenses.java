@@ -429,32 +429,15 @@ public class MyExpenses extends LaunchActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
-    //if we are called from an aggregate cursor, we look for the first account
-    //with the same currency
-    long accountId = 0;
-    if (mAccountId < 0) {
-      if (mAccountsCursor != null) {
-        Account a = Account.getInstanceFromDb(mAccountId);
-        if (a != null) {
-          mAccountsCursor.moveToFirst();
-          String currentCurrency = a.currency.getCurrencyCode();
-          while (mAccountsCursor.isAfterLast() == false) {
-            if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
-              accountId = mAccountsCursor.getLong(columnIndexRowId);
-              break;
-            }
-            mAccountsCursor.moveToNext();
-          }
-        }
-      }
-    } else {
-      accountId = mAccountId;
-    }
     //since splits are immediately persisted they will not work without an account set
-    if (accountId == 0 && type == TYPE_SPLIT)
+    if (mAccountId == 0 && type == TYPE_SPLIT)
       return;
     //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-    i.putExtra(KEY_ACCOUNTID,accountId);
+    i.putExtra(KEY_ACCOUNTID,mAccountId);
+    //if we are called from an aggregate cursor, we also hand over the currency
+    if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
+      i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
+    }
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
   /**
@@ -676,15 +659,9 @@ public class MyExpenses extends LaunchActivity implements
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
       long accountId = cursor.getLong(columnIndexRowId);
-      if (!Account.isInstanceCached(accountId)) {
-        //calling the constructors, puts the objects into the cache from where the fragment can
-        //retrieve it, without needing to create a new cursor
-        if (accountId < 0)  {
-          new AggregateAccount(cursor);
-        } else {
-          new Account(cursor);
-        }
-      }
+      //calling the constructors, puts the objects into the cache from where the fragment can
+      //retrieve it, without needing to create a new cursor
+      Account.fromCacheOrFromCursor(cursor);
       return TransactionList.newInstance(accountId);
     }
   }
