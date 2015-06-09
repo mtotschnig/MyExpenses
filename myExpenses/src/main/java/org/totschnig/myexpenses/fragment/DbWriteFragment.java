@@ -16,7 +16,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import org.acra.ACRA;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
