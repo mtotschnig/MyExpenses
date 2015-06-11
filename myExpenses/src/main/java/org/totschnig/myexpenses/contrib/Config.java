@@ -41,13 +41,8 @@ public final class Config {
     /**
      * SlideMe store public key.
      */
-//    public static final String SLIDEME_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC" +
-//            "gKCAQEAq6rFm2wb9sm" +
-//            "bcowrfZHYw71ISHYxF/tG9Jn9c+nRzFCVDSXjvedBxKllw16/GEx9DQ32Ut8azVAznB2wBDNUsS" +
-//            "M8nzNhHeCSDvEX2/Ozq1dEq3V3DF4jBEKDAkIOMzIBRWN8fpA5MU/9m8QD9xkJDfP7Mw/6zEMidk" +
-//            "2CEE8EZRTlpQ8ULVgBlFISd8Mt9w8ZFyeTyJTZhF2Z9+RZN8woU+cSXiVRmiA0+v2R8Pf+YNJb9fd" +
-//            "V5yvM8r9K1MEdRaXisJyMOnjL7H2mZWigWLm7uGoUGuIg9HHi09COBMm3dzAe9yLZoPSG75SvYDs" +
-//            "AZ6ms8IYxF6FAniNqfMOuMFV8zwIDAQAB";
+    public static final String SLIDEME_PUBLIC_KEY =
+        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0WqcShQRg/FrvO+Tz8Vgdk+CcjhKyjMeWcJIL4i0gYtO/SA5L13OpSwBUaX46omKMFckDdNCRUW6uWRs6dFF/oDfpPYjgg6KuqG0v7/oR0G5UJxtEBgMke8eRXaDth88CH9aRAp4EmNoJK5BfYLL8nu/9hN05hoqPwpxZCT6DnWgfJpSsAnPyrCkayhhZ3lkhPrkeGN7jBdzyXtOb/B27DA2R8ikRjk7DBO4WBNwSkIFlyHUZA/M2elwGhojooFTlFk6HYFV1dzSzERi28cgi8sSHrN/mFQ7Q2/4vOmxAh+S0DIK9w8+ie2aFguTZEfJzVyIECyhBJ3zJ3MOyx5GiwIDAQAB";
 
 //    public static final String SKU_GAS_NOKIA_STORE = "1290250";
 //    public static final String SKU_INFINITE_GAS_NOKIA_STORE = "1290302";
@@ -79,11 +74,11 @@ public final class Config {
           break;
         case "onepf":
           STORE_KEYS_MAP.put(OpenIabHelper.NAME_YANDEX, Config.YANDEX_PUBLIC_KEY);
+          STORE_KEYS_MAP.put(OpenIabHelper.NAME_SLIDEME, Config.SLIDEME_PUBLIC_KEY);
           break;
       }
 
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_APPLAND, Config.APPLAND_PUBLIC_KEY);
-//        STORE_KEYS_MAP.put(OpenIabHelper.NAME_SLIDEME, Config.SLIDEME_PUBLIC_KEY);
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_AMAZON,
 //                "Unavailable. Amazon doesn't support RSA verification. So this mapping is not needed");
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_SAMSUNG,
