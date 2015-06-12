@@ -33,6 +33,8 @@ public class Fixture {
   private static Account account1;
   private static Account account2;
   private static Account account3;
+  private static Currency foreignCurrency;
+
   public static Account getAccount1() {
     return account1;
   }
@@ -44,6 +46,9 @@ public class Fixture {
   }
   public static Account getAccount4() {
     return account4;
+  }
+  public static Currency getForeignCurrency() {
+    return foreignCurrency;
   }
   private static Account account4;
   @SuppressLint("NewApi")
@@ -70,8 +75,8 @@ public class Fixture {
   }
   public static void setup(Instrumentation inst, Locale locale, Currency defaultCurrency,int stage) {
     Context testContext = inst.getContext();
-    Context appContext = inst.getTargetContext().getApplicationContext(); 
-    Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
+    Context appContext = inst.getTargetContext().getApplicationContext();
+    foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
 
     account1 = Account.getInstanceFromDb(0);
     account1.currency = defaultCurrency;
@@ -99,7 +104,7 @@ public class Fixture {
     );
     account3.grouping = Account.Grouping.DAY;
     account3.save();
-    account4 = new Account("ignored",foreignCurrency,0,"",Type.BANK,Account.defaultColor);
+    account4 = new Account("ignored", foreignCurrency,0,"",Type.BANK,Account.defaultColor);
     account4.save();
     //set up categories
     setUpCategories(locale, appContext);
