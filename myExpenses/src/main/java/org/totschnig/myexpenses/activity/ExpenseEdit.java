@@ -1531,8 +1531,8 @@ public class ExpenseEdit extends AmountActivity implements
         mAccounts[position] = a;
         if(!selectionSet && mTransaction.accountId != null &&
             (a.getId() == mTransaction.accountId ||
-                (mTransaction.accountId < 0 && //aggregate account
-                    a.currency.getCurrencyCode().equals(getIntent().getStringExtra(KEY_CURRENCY))))) {
+                //aggregate account
+                a.currency.getCurrencyCode().equals(getIntent().getStringExtra(KEY_CURRENCY)))) {
           mAccountSpinner.setSelection(position);
           selectionSet = true;
         }

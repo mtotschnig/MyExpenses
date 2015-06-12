@@ -432,11 +432,12 @@ public class MyExpenses extends LaunchActivity implements
     //since splits are immediately persisted they will not work without an account set
     if (mAccountId == 0 && type == TYPE_SPLIT)
       return;
-    //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-    i.putExtra(KEY_ACCOUNTID,mAccountId);
     //if we are called from an aggregate cursor, we also hand over the currency
     if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
       i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
+    } else {
+      //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
+      i.putExtra(KEY_ACCOUNTID,mAccountId);
     }
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }

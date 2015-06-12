@@ -100,9 +100,10 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   private Intent buildButtonIntent(Context context,Account account) {
     Intent intent = new Intent(context, ExpenseEdit.class);
-    intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.getId());
     if (account.getId()<0) {
       intent.putExtra(DatabaseConstants.KEY_CURRENCY,account.currency.getCurrencyCode());
+    } else {
+      intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.getId());
     }
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
