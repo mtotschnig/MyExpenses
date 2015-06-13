@@ -129,7 +129,7 @@
     <string name="expense">Expense</string>
     <string name="export_expenses">Expenses export</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
-    <string name="export_sdcard_failure">Export to \"%1$s\" failed: %2$s</string>
+    <string name="export_sdcard_failure">Export to file \"%1$s\" failed: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Data successfully exported to file \"%1$s\"</string>
     <string name="external_storage_unavailable">External storage (sdcard) not available</string>
