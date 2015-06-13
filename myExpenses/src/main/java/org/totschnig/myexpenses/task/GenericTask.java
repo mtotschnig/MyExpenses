@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.task;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -398,12 +401,56 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             if (success) {
               cr.delete(staleImageUri,null,null);
             } else {
-              Log.e(MyApplication.TAG,"Unable to move file "+imageFileUri.toString());
+              Log.e(MyApplication.TAG, "Unable to move file " + imageFileUri.toString());
             }
           }
           c.close();
         }
         return null;
+      case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
+        DocumentFile appDir = Utils.getAppDir();
+        if (appDir == null) {
+          return new Result(false,R.string.external_storage_unavailable);
+        }
+        String fileName = "categories";
+        DocumentFile outputFile = Utils.timeStampedFile(
+            appDir,
+            fileName,
+            "text/qif", false);
+        if (outputFile==null) {
+          return new Result(
+              false,
+              R.string.io_error_unable_to_create_file,
+              fileName,
+              FileUtils.getPath(MyApplication.getInstance(),appDir.getUri()));
+        }
+        try {
+          OutputStreamWriter out = new OutputStreamWriter(
+              cr.openOutputStream(outputFile.getUri()),
+              "UTF-8");
+          c = cr.query(
+              Category.CONTENT_URI,
+              new String[] {KEY_LABEL},
+              null, null, null);
+          if (c.getCount() == 0) {
+            c.close();
+            outputFile.delete();
+            return new Result(false, R.string.no_categories);
+          }
+          c.moveToFirst();
+          while( c.getPosition() < c.getCount() ) {
+            out.write(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
+            out.write("\n");
+            c.moveToNext();
+          }
+          c.close();
+          out.close();
+          return new Result(true,R.string.export_expenses_sdcard_success,
+              outputFile.getUri());
+        } catch (IOException e) {
+         return new Result(false,R.string.export_expenses_sdcard_failure,
+             appDir.getName(),e.getMessage());
+        }
     }
     return null;
   }

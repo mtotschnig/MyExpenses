@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
@@ -38,6 +39,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -185,6 +187,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
         importCats();
         return true;
+      case R.id.EXPORT_CATEGORIES_COMMAND:
+        exportCats();
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -242,6 +247,14 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   }
 
+  private void exportCats() {
+    startTaskExecution(
+        TaskExecutionFragment.TASK_EXPORT_CATEGRIES,
+        null,
+        null,
+        R.string.menu_categories_export);
+  }
+
   @Override
   public void onFinishEditDialog(Bundle args) {
     Long parentId;
@@ -281,21 +294,27 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
-    if (taskId == TaskExecutionFragment.TASK_GRISBI_IMPORT) {
-      Result r = (Result) result;
-      String msg;
-      if (r.success) {
-        Integer imported = (Integer) r.extra[0];
-        if (imported > 0) {
-          msg = getString(R.string.import_categories_success, imported);
-        } else {
-          msg = getString(R.string.import_categories_none);
-        }
-      } else {
-        msg = r.print(this);
+    Result r = (Result) result;
+    String msg = null;
+    if (r.success) {
+      switch (taskId) {
+        case TaskExecutionFragment.TASK_GRISBI_IMPORT:
+          Integer imported = (Integer) r.extra[0];
+          if (imported > 0) {
+            msg = getString(R.string.import_categories_success, imported);
+          } else {
+            msg = getString(R.string.import_categories_none);
+          }
+          break;
+        case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
+          msg = getString(r.getMessage(),
+            FileUtils.getPath(MyApplication.getInstance(), (Uri) r.extra[0]));
+          break;
       }
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }  else {
+      msg = r.print(this);
     }
+    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
   }
 
   @Override
