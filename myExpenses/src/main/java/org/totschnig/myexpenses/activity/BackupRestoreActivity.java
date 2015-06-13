@@ -30,7 +30,9 @@ import org.totschnig.myexpenses.dialog.ImportSourceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
+
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
@@ -59,11 +61,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       MessageDialogFragment.newInstance(
           R.string.menu_backup,
           getString(R.string.warning_backup,
-              FileUtils.getPath(this,Utils.getAppDir().getUri())),
+              FileUtils.getPath(this, Utils.getAppDir().getUri())),
           new MessageDialogFragment.Button(android.R.string.yes,
               R.id.BACKUP_COMMAND, null), null,
-          MessageDialogFragment.Button.noButton()).show(
-          getSupportFragmentManager(), "BACKUP");
+          MessageDialogFragment.Button.noButton())
+          .show(getSupportFragmentManager(), "BACKUP");
     } else {
       if (getIntent().getBooleanExtra("legacy", false)) {
         Result appDirStatus = Utils.checkAppDir();
@@ -102,7 +104,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
 
   /**
    * Legacy version for backups stored in application directory
-   * 
+   *
    * @param dir
    */
   private void showRestoreDialog(String dir) {
@@ -122,24 +124,24 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     if (super.dispatchCommand(command, tag))
       return true;
     switch (command) {
-    case R.id.BACKUP_COMMAND:
-      if (Utils.checkAppFolderWarning()) {
-        doBackup();
-      } else {
-        Bundle b = new Bundle();
-        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-            R.string.dialog_title_attention);
-        b.putString(
-            ConfirmationDialogFragment.KEY_MESSAGE,
-            getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-            R.id.BACKUP_COMMAND_DO);
-        b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
-        ConfirmationDialogFragment.newInstance(b).show(
-            getSupportFragmentManager(), "APP_FOLDER_WARNING");
-      }
-      return true;
+      case R.id.BACKUP_COMMAND:
+        if (Utils.checkAppFolderWarning()) {
+          doBackup();
+        } else {
+          Bundle b = new Bundle();
+          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+              R.string.dialog_title_attention);
+          b.putString(
+              ConfirmationDialogFragment.KEY_MESSAGE,
+              getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+              R.id.BACKUP_COMMAND_DO);
+          b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+              MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
+          ConfirmationDialogFragment.newInstance(b).show(
+              getSupportFragmentManager(), "APP_FOLDER_WARNING");
+        }
+        return true;
     }
     return false;
   }
@@ -161,42 +163,42 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     super.onPostExecute(taskId, result);
     Result r = (Result) result;
     switch (taskId) {
-    case TaskExecutionFragment.TASK_RESTORE:
-      String msg = r.print(this);
-      if (msg!=null) {
-        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-      }
-      if (r.success) {
-        MyApplication.getInstance().resetContribEnabled();
-        // if the backup is password protected, we want to force the password
-        // check
-        // is it not enough to set mLastPause to zero, since it would be
-        // overwritten by the callings activity onpause
-        // hence we need to set isLocked if necessary
-        MyApplication.getInstance().resetLastPause();
-        MyApplication.getInstance().shouldLock(this);
-
-        setResult(RESULT_FIRST_USER);
-      }
-      break;
-    case TaskExecutionFragment.TASK_BACKUP:
-      if (!r.success) {
-        Toast.makeText(getBaseContext(),
-            r.print(this), Toast.LENGTH_LONG)
-            .show();
-      } else {
-        Uri backupFileUri = (Uri) r.extra[0];
-        Toast.makeText(getBaseContext(),
-            getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)), Toast.LENGTH_LONG)
-            .show();
-        if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
-        ArrayList<Uri> uris = new ArrayList<>();
-        uris.add(backupFileUri);
-        Utils.share(this, uris,
-            MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
-            "application/zip");
+      case TaskExecutionFragment.TASK_RESTORE:
+        String msg = r.print(this);
+        if (msg != null) {
+          Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
         }
-      }
+        if (r.success) {
+          MyApplication.getInstance().resetContribEnabled();
+          // if the backup is password protected, we want to force the password
+          // check
+          // is it not enough to set mLastPause to zero, since it would be
+          // overwritten by the callings activity onpause
+          // hence we need to set isLocked if necessary
+          MyApplication.getInstance().resetLastPause();
+          MyApplication.getInstance().shouldLock(this);
+
+          setResult(RESULT_FIRST_USER);
+        }
+        break;
+      case TaskExecutionFragment.TASK_BACKUP:
+        if (!r.success) {
+          Toast.makeText(getBaseContext(),
+              r.print(this), Toast.LENGTH_LONG)
+              .show();
+        } else {
+          Uri backupFileUri = (Uri) r.extra[0];
+          Toast.makeText(getBaseContext(),
+              getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)), Toast.LENGTH_LONG)
+              .show();
+          if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
+            ArrayList<Uri> uris = new ArrayList<>();
+            uris.add(backupFileUri);
+            Utils.share(this, uris,
+                MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+                "application/zip");
+          }
+        }
     }
     finish();
   }
@@ -214,12 +216,12 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   /**
    * Legacy callback from BackupListDialogFragment for backups stored in
    * application directory
-   * 
+   *
    * @param dirOrFile
    */
   public void onSourceSelected(String dirOrFile, int restorePlanStrategie) {
     if (dirOrFile.endsWith(".zip")) {
-      showRestoreDialog(Uri.fromFile(new File(Utils.getAppDir().getUri().getPath(),dirOrFile)),
+      showRestoreDialog(Uri.fromFile(new File(Utils.getAppDir().getUri().getPath(), dirOrFile)),
           restorePlanStrategie);
     } else {
       showRestoreDialog(dirOrFile);
@@ -229,16 +231,16 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   @Override
   public void onPositive(Bundle args) {
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-    case R.id.BACKUP_COMMAND_DO:
-      doBackup();
-      break;
-    case R.id.RESTORE_COMMAND:
-      getSupportFragmentManager()
-          .beginTransaction()
-          .add(TaskExecutionFragment.newInstanceRestore(args), "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-              "PROGRESS").commit();
-      break;
+      case R.id.BACKUP_COMMAND_DO:
+        doBackup();
+        break;
+      case R.id.RESTORE_COMMAND:
+        getSupportFragmentManager()
+            .beginTransaction()
+            .add(TaskExecutionFragment.newInstanceRestore(args), "ASYNC_TASK")
+            .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
+                "PROGRESS").commit();
+        break;
     }
   }
 
