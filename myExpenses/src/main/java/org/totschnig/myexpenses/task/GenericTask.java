@@ -2,8 +2,11 @@ package org.totschnig.myexpenses.task;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
 import java.io.File;
 import java.io.IOException;
@@ -407,6 +410,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return null;
       case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
         DocumentFile appDir = Utils.getAppDir();
+        String fullLabel =
+            " CASE WHEN " +
+              KEY_PARENTID +
+              " THEN " +
+                "(SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " parent WHERE parent." + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_PARENTID + ")" +
+                " || ':' || "+ KEY_LABEL +
+              " ELSE " + KEY_LABEL +
+            " END";
+        //sort sub categories immediately after their main category
+        String sort = "CASE WHEN parent_id then parent_id else _id END,parent_id";
         if (appDir == null) {
           return new Result(false,R.string.external_storage_unavailable);
         }
@@ -425,20 +438,24 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           OutputStreamWriter out = new OutputStreamWriter(
               cr.openOutputStream(outputFile.getUri()),
-              "UTF-8");
+              "UTF-8");//TODO make configurable
           c = cr.query(
               Category.CONTENT_URI,
-              new String[] {KEY_LABEL},
-              null, null, null);
+              new String[] {fullLabel},
+              null, null, sort);
           if (c.getCount() == 0) {
             c.close();
             outputFile.delete();
             return new Result(false, R.string.no_categories);
           }
+          out.write("!Type:Cat");
           c.moveToFirst();
           while( c.getPosition() < c.getCount() ) {
-            out.write(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
-            out.write("\n");
+            StringBuilder sb = new StringBuilder();
+            sb.append("\nN")
+              .append(c.getString(0))
+              .append("\n^");
+            out.write(sb.toString());
             c.moveToNext();
           }
           c.close();
