@@ -112,8 +112,8 @@
   <string name="donate_dialog_text">PayPal、Flattr、またはBitcoin 経由で寄付した後で、設定画面から貢献キーをリクエストしてください。</string>
   <string name="expense">支出</string>
   <string name="export_expenses">支出エクスポート</string>
-  <string name="export_expenses_sdcard_failure">\"%1$s\" への支出エクスポートに失敗しました: %2$s</string>
-  <string name="export_expenses_sdcard_success">ファイル \"%1$s\" に支出エクスポートしました</string>
+  <string name="export_sdcard_failure">\"%1$s\" への支出エクスポートに失敗しました: %2$s</string>
+  <string name="export_sdcard_success">ファイル \"%1$s\" に支出エクスポートしました</string>
   <string name="external_storage_unavailable">外部ストレージ (SDカード) が利用可能ではありません</string>
   <string name="feedback">フィードバック</string>
   <string name="feedback_email_message">フィードバックは英語、フランス語、またはドイツ語で送ってください!</string>

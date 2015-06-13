@@ -1060,7 +1060,7 @@ public class Account extends Model {
     }
     out.close();
     c.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
+    return new Result(true,R.string.export_sdcard_success,outputFile.getUri());
   }
   
   /**
@@ -1221,7 +1221,7 @@ public class Account extends Model {
     Log.d("MyExpenses","List "+(System.currentTimeMillis()-start));
     transactionCursor.close();
     document.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
+    return new Result(true,R.string.export_sdcard_success,outputFile.getUri());
   }
 
   private void addMetaData(Document document) {

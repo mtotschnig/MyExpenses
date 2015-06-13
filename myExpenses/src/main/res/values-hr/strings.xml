@@ -108,8 +108,8 @@
   <string name="donate_dialog_text">Molimo donirajte putem PayPal-a, Flattr-a ili Bitcoin-a, i zatim zatražite Contrib Ključ iz zaslona s postavkama.</string>
   <string name="expense">Trošak</string>
   <string name="export_expenses">Eksport troškova</string>
-  <string name="export_expenses_sdcard_failure">Neuspješan eksport troškova u \"%1$s\": %2$s</string>
-  <string name="export_expenses_sdcard_success">Troškovi eksportirani u file \"%1$s\"</string>
+  <string name="export_sdcard_failure">Neuspješan eksport troškova u \"%1$s\": %2$s</string>
+  <string name="export_sdcard_success">Troškovi eksportirani u file \"%1$s\"</string>
   <string name="external_storage_unavailable">Eksterna memorija (sd kartica) nije dostupna</string>
   <string name="feedback">Podrška</string>
   <string name="feedback_email_message">Molimo šaljite šaljite vaše prijedloge, pohvale i kritike, na engleskom, francuskom ili njemačkom!</string>

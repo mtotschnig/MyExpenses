@@ -6,7 +6,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
@@ -24,7 +23,6 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -445,10 +443,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
           c.close();
           out.close();
-          return new Result(true,R.string.export_expenses_sdcard_success,
+          return new Result(true,R.string.export_sdcard_success,
               outputFile.getUri());
         } catch (IOException e) {
-         return new Result(false,R.string.export_expenses_sdcard_failure,
+         return new Result(false,R.string.export_sdcard_failure,
              appDir.getName(),e.getMessage());
         }
     }

@@ -107,8 +107,8 @@
   <string name="donate_dialog_text">Моля дарете чрез PayPal, Flattr или Bitcoin и след това поискайте contrib ключ от настройките на екрана.</string>
   <string name="expense">Разход</string>
   <string name="export_expenses">Разходи за експортиране</string>
-  <string name="export_expenses_sdcard_failure">Разходи експортиране в \"%1$s\" са неуспешни: %2$s</string>
-  <string name="export_expenses_sdcard_success">Разходи експортирани към файл \"%1$s\"</string>
+  <string name="export_sdcard_failure">Разходи експортиране в \"%1$s\" са неуспешни: %2$s</string>
+  <string name="export_sdcard_success">Разходи експортирани към файл \"%1$s\"</string>
   <string name="external_storage_unavailable">Външна памет (sdcard) не е налична</string>
   <string name="feedback">Обратна връзка</string>
   <string name="feedback_email_message">Моля, изпратете вашата обратна връзка на английски, френски или немски!</string>
