@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -56,6 +57,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.util.ArrayList;
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -310,8 +313,16 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           }
           break;
         case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
+          Uri uri = (Uri) r.extra[0];
           msg = getString(r.getMessage(),
-            FileUtils.getPath(MyApplication.getInstance(), (Uri) r.extra[0]));
+            FileUtils.getPath(MyApplication.getInstance(), uri));
+          if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
+            ArrayList<Uri> uris = new ArrayList<>();
+            uris.add(uri);
+            Utils.share(this, uris,
+                MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+                "text/qif");
+          }
           break;
       }
     }  else {
