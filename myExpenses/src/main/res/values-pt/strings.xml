@@ -114,8 +114,10 @@
   <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave de contrib a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
-  <string name="export_sdcard_failure">Falha na exportação de despesas para \"%1$s\": %2$s</string>
-  <string name="export_sdcard_success">Despesas exportadas para o arquivo \"%1$s\"</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
+  <string name="export_sdcard_failure">Falha na exportação para \"%1$s\": %2$s</string>
+  <!--1$s is replaced with path to file-->
+  <string name="export_sdcard_success">Dados exportados para o arquivo \"%1$s\"</string>
   <string name="external_storage_unavailable">Armazenamento externo (sdcard) não disponível</string>
   <string name="feedback">Comentar</string>
   <string name="feedback_email_message">Envie seus comentários, em inglês, francês ou alemão, por favor!</string>
@@ -346,7 +348,7 @@
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
   <string name="pref_request_licence_summary">Se você tiver contribuído, solicitar a chave do Contrib para Android-Id %1$s por e-mail.</string>
   <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adejective designing an alternative method for restoring backupsN-->
   <string name="pref_restore_alternative">Alternativo</string>
   <string name="pref_restore_alternative_summary">Use este método alternativo, se não houver nenhum Gerenciador de arquivos instalado no dispositivo, ou se você restaurar um backup no formato herdado.</string>
   <string name="pref_restore_summary">Restaure cópia de segurança a partir da pasta \"myExpenses\" no sdcard.</string>
@@ -540,4 +542,5 @@
   <string name="menu_undelete_transaction">Cancelar a eliminação</string>
   <string name="slash_forbidden_in_filename">/ caractere não é permitido em nomes de arquivos</string>
   <string name="io_error_unable_to_create_file">Não é possível criar arquivo %1$s na pasta %2$s</string>
+  <string name="menu_categories_export">Exportação de QIF</string>
 </resources>

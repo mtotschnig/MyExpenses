@@ -47,4 +47,6 @@
   <string name="help_MethodEdit_title">Mẫu đơn cho phương thức thanh toán</string>
   <string name="help_MethodEdit_info">Ở màn hình này, bạn sẽ gắn kết với phương t hức thanh toán với loại tài khoản của mình. Bạn cũng có thể dùng các mẫu (với các ngoại lệ của việc xác định trước khi thanh toán thì việc xác định các mẫu có thể được hoàn toàn chỉnh sửa). Thông qua loại phương thức, bạn có thể xác định tính khả dĩ của chi tiêu (nợ), thu nhập (tín dụng), hoặc cả hai (nợ và tín dụng).</string>
   <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <!--StaleImages-->
 </resources>

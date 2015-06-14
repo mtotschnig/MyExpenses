@@ -54,6 +54,7 @@
   <string name="cab_ManageCategories_create_sub_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova sottocategoria sotto la categoria selezionata.</string>
   <string name="cab_ManageCategories_select_category_help_text">Mappa la categoria selezionata alla transazione e ritorna al modulo di transazione.</string>
   <string name="menu_categories_setup_default_help_text">Un insieme di categorie predefinite verrà importato.</string>
+  <string name="menu_categories_export_help_text">Categorie verranno esportate in file QIF.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoria selezionata si utilizzerà per filtrare l\'elenco delle transazioni.</string>
   <string name="cab_ManageCategories_distribution_select_category_help_text">Visualizzare le singole transazioni che sono state inclusi per la categoria selezionata.</string>
   <!--ExpenseEdit-->

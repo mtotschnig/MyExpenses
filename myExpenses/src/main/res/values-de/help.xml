@@ -54,6 +54,7 @@
   <string name="cab_ManageCategories_create_sub_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Unterkategorie unterhalb der ausgewählten Hauptkategorie.</string>
   <string name="cab_ManageCategories_select_category_help_text">Die ausgewählte Kategorie wird der Buchung zugeordnet und Rückkehr zum Buchungsformular.</string>
   <string name="menu_categories_setup_default_help_text">Eine Reihe von Standardkategorien werden importiert.</string>
+  <string name="menu_categories_export_help_text">Kategorien werden in QIF-Datei exportiert.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Die ausgewählte Kategorie wird zum Filtern der Buchungsliste verwendet werden.</string>
   <string name="cab_ManageCategories_distribution_select_category_help_text">Die Liste der in der ausgewählten Kategorie zusammengefassten Buchungen anzeigen</string>
   <!--ExpenseEdit-->

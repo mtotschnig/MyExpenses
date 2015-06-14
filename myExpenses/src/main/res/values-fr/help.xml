@@ -54,6 +54,7 @@
   <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre une fenêtre pour spécifier le titre d\'une nouvelle sous-catégorie en dessous de la catégorie sélectionnée.</string>
   <string name="cab_ManageCategories_select_category_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
   <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
+  <string name="menu_categories_export_help_text">Catégories seront exportés vers fichier QIF.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
   <string name="cab_ManageCategories_distribution_select_category_help_text">Affiche les opérations individuelles qui ont été regroupées pour la catégorie sélectionnée.</string>
   <!--ExpenseEdit-->

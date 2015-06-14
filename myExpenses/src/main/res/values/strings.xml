@@ -363,7 +363,7 @@
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
     <string name="pref_request_licence_summary">If you have contributed, request a Contrib key for Android-Id %1$s by email.</string>
     <string name="pref_request_licence_title">Request a Contrib key</string>
-    <!-- Alternative is used as an adejective designing an alternative method for restoring backupsN -->
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternative</string>
     <string name="pref_restore_alternative_summary">Use this alternative method if there is no file manager installed on the device or if you restore a backup in the legacy format.</string>
     <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
