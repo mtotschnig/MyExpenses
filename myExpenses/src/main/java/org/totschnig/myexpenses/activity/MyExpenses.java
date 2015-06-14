@@ -120,6 +120,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * This is the main activity where all expenses are listed
  * From the menu subactivities (Insert, Reset, SelectAccount, Help, Settings)
  * are called
+ *
  * @author Michael Totschnig
  *
  */
@@ -129,7 +130,6 @@ public class MyExpenses extends LaunchActivity implements
     ConfirmationDialogListener,
     ContribIFace {
 
-  private static final int VIEWPAGER = R.id.viewpager;
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
   public static final int TYPE_SPLIT = 2;
@@ -411,7 +411,7 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin,margin, true);
     mViewPagerAdapter = new MyViewPagerAdapter(this,getSupportFragmentManager(),null);
-    myPager = (ViewPager) this.findViewById(VIEWPAGER);
+    myPager = (ViewPager) this.findViewById(R.id.viewpager);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin((int) TypedValue.applyDimension(
@@ -727,7 +727,7 @@ public class MyExpenses extends LaunchActivity implements
     }
 
     public String getFragmentName(int currentPosition) {
-      return FragmentPagerAdapter.makeFragmentName(VIEWPAGER,getItemId(currentPosition));
+      return FragmentPagerAdapter.makeFragmentName(R.id.viewpager,getItemId(currentPosition));
     }
 
     @Override
