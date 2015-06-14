@@ -114,8 +114,8 @@
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
-  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach \"%1$s\": %2$s</string>
-  <string name="export_expenses_sdcard_success">Ausgaben in Datei \"%1$s\" exportiert</string>
+  <string name="export_sdcard_failure">Fehler beim Ausgaben-Export nach \"%1$s\": %2$s</string>
+  <string name="export_sdcard_success">Ausgaben in Datei \"%1$s\" exportiert</string>
   <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>

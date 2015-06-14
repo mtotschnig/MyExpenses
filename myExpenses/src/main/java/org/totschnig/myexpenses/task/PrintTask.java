@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.task;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-import java.io.File;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -57,7 +56,7 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
     } catch (Exception e) {
       Log.e("DEBUG","Error while printing",e);
       return new Result(false,
-          R.string.export_expenses_sdcard_failure,
+          R.string.export_sdcard_failure,
           appDir.getName(),e.getMessage());
     }
   }

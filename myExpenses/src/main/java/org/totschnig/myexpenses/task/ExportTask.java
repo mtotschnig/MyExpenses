@@ -166,7 +166,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
         }
       } catch (IOException e) {
         publishProgress("... " + MyApplication.getInstance().getString(
-            R.string.export_expenses_sdcard_failure,
+            R.string.export_sdcard_failure,
             appDir.getName(),
             e.getMessage()));
       }

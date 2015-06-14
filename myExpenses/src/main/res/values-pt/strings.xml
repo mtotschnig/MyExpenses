@@ -114,8 +114,8 @@
   <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave de contrib a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
-  <string name="export_expenses_sdcard_failure">Falha na exportação de despesas para \"%1$s\": %2$s</string>
-  <string name="export_expenses_sdcard_success">Despesas exportadas para o arquivo \"%1$s\"</string>
+  <string name="export_sdcard_failure">Falha na exportação de despesas para \"%1$s\": %2$s</string>
+  <string name="export_sdcard_success">Despesas exportadas para o arquivo \"%1$s\"</string>
   <string name="external_storage_unavailable">Armazenamento externo (sdcard) não disponível</string>
   <string name="feedback">Comentar</string>
   <string name="feedback_email_message">Envie seus comentários, em inglês, francês ou alemão, por favor!</string>

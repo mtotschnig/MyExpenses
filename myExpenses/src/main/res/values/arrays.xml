@@ -169,6 +169,7 @@
     <string-array name="ManageCategories_manage_menuitems">
       <item>create_main_cat</item>
       <item>categories_setup_default</item>
+      <item>categories_export</item>
     </string-array>
     <string-array name="ManageCategories_select_mapping_menuitems">
       <item>create_main_cat</item>
@@ -250,7 +251,7 @@
       <item>155</item>
     </integer-array>
     <string-array name="version_names">
-      <item>2.4.8.1</item>
+      <item>2.4.9</item>
       <item>2.4.8</item>
       <item>2.4.7</item>
       <item>2.4.6</item>

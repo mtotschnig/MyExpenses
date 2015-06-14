@@ -15,15 +15,24 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-	  <item
-    android:id="@id/CREATE_COMMAND"
-    android:icon="@android:drawable/ic_menu_add"
-    app:showAsAction="always"
-    android:title="@string/menu_create_main_cat"/>
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-    android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
-    android:icon="@android:drawable/ic_menu_upload"
-    app:showAsAction="never"
-    android:title="@string/menu_categories_setup_default"/>
+        android:id="@id/CREATE_COMMAND"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/menu_create_main_cat"
+        app:showAsAction="always"/>
+    <item
+        android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
+        android:icon="@android:drawable/ic_menu_upload"
+        android:title="@string/menu_categories_setup_default"
+        app:showAsAction="never"/>
+    <item
+        android:icon="@drawable/ic_menu_download"
+        android:title="@string/menu_categories_export"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@id/EXPORT_CATEGORIES_COMMAND_UTF8" android:title="UTF-8" />
+            <item android:id="@id/EXPORT_CATEGORIES_COMMAND_ISO88591" android:title="ISO-8859-1" />
+        </menu>
+        </item>
 </menu>

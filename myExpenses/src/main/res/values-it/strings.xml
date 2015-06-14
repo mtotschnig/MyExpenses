@@ -114,8 +114,8 @@
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
   <string name="expense">Spesa</string>
   <string name="export_expenses">Esportazione delle spese</string>
-  <string name="export_expenses_sdcard_failure">Esportazione delle spese a \"%1$s\" fallito: %2$s</string>
-  <string name="export_expenses_sdcard_success">Le spese sono esportate nel file \"%1$s\"</string>
+  <string name="export_sdcard_failure">Esportazione delle spese a \"%1$s\" fallito: %2$s</string>
+  <string name="export_sdcard_success">Le spese sono esportate nel file \"%1$s\"</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Invia il tuo commento, in inglese, francese o tedesco, per favore!</string>

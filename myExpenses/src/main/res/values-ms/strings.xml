@@ -111,8 +111,8 @@
   <string name="donate_dialog_text">Derma melalui PayPal, Flattr atau Bitcoin, kemudian mohon kunci contrib menerusi skrin tetapan.</string>
   <string name="expense">Perbelanjaan</string>
   <string name="export_expenses">Eksport perbelanjaan</string>
-  <string name="export_expenses_sdcard_failure">Eksport perbelanjaan ke \"%1$s\" mengalami kegagalan: %2$s</string>
-  <string name="export_expenses_sdcard_success">Perbelanjaan dieksport ke fail \"%1$s\"</string>
+  <string name="export_sdcard_failure">Eksport perbelanjaan ke \"%1$s\" mengalami kegagalan: %2$s</string>
+  <string name="export_sdcard_success">Perbelanjaan dieksport ke fail \"%1$s\"</string>
   <string name="external_storage_unavailable">Storan luaran (kad sd) tidak tersedia</string>
   <string name="feedback">Maklumbalas</string>
   <string name="feedback_email_message">Sila hantar maklumbalas anda, dalam bahasa Inggeris, Perancis atau Jerman</string>

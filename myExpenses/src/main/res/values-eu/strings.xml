@@ -114,8 +114,8 @@
   <string name="donate_dialog_text">Mesedez egin dohaintza PayPal, Flattr edo Bitcoin bitartez, eta eskatu kontribuzio gakoa ezarpenen pantailatik.</string>
   <string name="expense">Gastua</string>
   <string name="export_expenses">Gastuen esportazioa</string>
-  <string name="export_expenses_sdcard_failure">Huts egin du gatuak \"%1$s\"-ra esportatzean: %2$s</string>
-  <string name="export_expenses_sdcard_success">Gastuak \"%1$s\" fitxategira esportatu dira</string>
+  <string name="export_sdcard_failure">Huts egin du gatuak \"%1$s\"-ra esportatzean: %2$s</string>
+  <string name="export_sdcard_success">Gastuak \"%1$s\" fitxategira esportatu dira</string>
   <string name="external_storage_unavailable">Kanpo biltegiratzea (SD txartela) ez dago erabilgarri.</string>
   <string name="feedback">Iruzkina</string>
   <string name="feedback_email_message">Idatzi zure iruzkina ingelesez, frantsesez edo alemanez, mesedez! </string>

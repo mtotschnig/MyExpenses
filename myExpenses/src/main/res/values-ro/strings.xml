@@ -114,8 +114,8 @@
   <string name="donate_dialog_text">Vă rugăm să donaţi prin PayPal, Flattr sau Bitcoin şi apoi să solicitaţi o cheie  contrib din ecranul setări.</string>
   <string name="expense">Cheltuială</string>
   <string name="export_expenses">Export cheltuieli</string>
-  <string name="export_expenses_sdcard_failure">Export cheltuieli în %1$s\" eşuat:  %2$s</string>
-  <string name="export_expenses_sdcard_success">Export cheltuieli în fişierul %1$s\"</string>
+  <string name="export_sdcard_failure">Export cheltuieli în %1$s\" eşuat:  %2$s</string>
+  <string name="export_sdcard_success">Export cheltuieli în fişierul %1$s\"</string>
   <string name="external_storage_unavailable">Stocare externă(sdcard) nedisponibilă</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Trimiteţi, vă rog,  feedback-ul dumneavoastră în engleză, franceză sau germană!</string>

@@ -91,8 +91,8 @@
   <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal, Flattr or Bitcoin හි කර කට්ටල අංග තුලින් කොන්ට්‍රිබ් යතුර ඉල්ලන්න </string>
   <string name="expense">වියදම් </string>
   <string name="export_expenses">වියදම් අපනයන </string>
-  <string name="export_expenses_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
-  <string name="export_expenses_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
+  <string name="export_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
+  <string name="export_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
   <string name="external_storage_unavailable">පිටත ගබඩාව නොතිබේ (එස් ඩි කාඩ් පත)</string>
   <string name="feedback">ප්‍රතිචාරය </string>
   <string name="feedback_email_message">කරුණාකර ඔබගේ ප්‍රතිචාරය ඉංග්‍රීසි  භාෂාවෙන්, ප්‍රංශ භාෂාවෙන් හෝ ජර්මන් භාෂාවෙන් එවන්න.</string>

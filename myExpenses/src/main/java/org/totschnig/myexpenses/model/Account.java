@@ -1060,7 +1060,7 @@ public class Account extends Model {
     }
     out.close();
     c.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
+    return new Result(true,R.string.export_sdcard_success,outputFile.getUri());
   }
   
   /**
@@ -1221,7 +1221,7 @@ public class Account extends Model {
     Log.d("MyExpenses","List "+(System.currentTimeMillis()-start));
     transactionCursor.close();
     document.close();
-    return new Result(true,R.string.export_expenses_sdcard_success,outputFile.getUri());
+    return new Result(true,R.string.export_sdcard_success,outputFile.getUri());
   }
 
   private void addMetaData(Document document) {
@@ -1527,5 +1527,25 @@ public class Account extends Model {
       mCursor.close();
       return result;
     }
+  }
+
+  /**
+   * return an Account or AggregateAccount that matches the one found in the cursor at the row it is
+   * positioned at. Either the one found in the cache is returned or it is extracted from the cursor
+   * @param cursor
+   * @return
+   */
+  public static Account fromCacheOrFromCursor(Cursor cursor) {
+    long accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID));
+    if (!Account.isInstanceCached(accountId)) {
+      //calling the constructors, puts the objects into the cache from where the fragment can
+      //retrieve it, without needing to create a new cursor
+      if (accountId < 0)  {
+        return new AggregateAccount(cursor);
+      } else {
+        return new Account(cursor);
+      }
+    }
+    return accounts.get(accountId);
   }
 }
