@@ -9,7 +9,7 @@
     <include layout="@layout/viewpager"/>
     <!-- The navigation drawer -->
     <LinearLayout
-        android:layout_width="320dp"
+        android:layout_width="?attr/drawerWidth"
         android:layout_gravity="start"
         android:layout_height="match_parent"
         android:orientation="vertical">
