@@ -114,8 +114,10 @@
   <string name="donate_dialog_text">S\'il vous plaît, faites un don au moyen de PayPal, Flattr ou Bitcoin, et ensuite demandez une clé Contrib à partir des paramètres.</string>
   <string name="expense">Dépense</string>
   <string name="export_expenses">Export des dépenses</string>
-  <string name="export_sdcard_failure">L\'export des dépenses vers \"%1$s\"a échoué : %2$s</string>
-  <string name="export_sdcard_success">Les dépenses ont été exportées vers \"%1$s\".</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
+  <string name="export_sdcard_failure">L\'export vers \"%1$s\"a échoué : %2$s</string>
+  <!--1$s is replaced with path to file-->
+  <string name="export_sdcard_success">Les données ont été exportées vers \"%1$s\".</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas disponible</string>
   <string name="feedback">Réactions</string>
   <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
@@ -346,9 +348,9 @@
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adejective designing an alternative method for restoring backupsN-->
   <string name="pref_restore_alternative">Alternatif</string>
-  <string name="pref_restore_alternative_summary">Utilisez cette méthode alternative s\'il n\'y a aucun gestionnaire de fichiers installé sur l\'appareil ou si vous restaurez une sauvegarde dans le format ancien.</string>
+  <string name="pref_restore_alternative_summary">Utilisez cette autre méthode si aucun gestionnaire de fichiers n\'est installé sur votre appareil ou si vous restaurez une sauvegarde à partir d\'un ancien format.</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'application, si vous avez oublié votre mot de passe.</string>
@@ -540,4 +542,5 @@
   <string name="menu_undelete_transaction">Annuler la suppression</string>
   <string name="slash_forbidden_in_filename">Le caractère / n\'est pas autorisé dans les noms de fichiers</string>
   <string name="io_error_unable_to_create_file">Impossible de créer le fichier %1$s dans le dossier %2$s</string>
+  <string name="menu_categories_export">Exporter au format QIF</string>
 </resources>

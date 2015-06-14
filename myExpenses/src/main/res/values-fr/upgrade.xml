@@ -1,8 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_249">
+    <item>Exportation des catégories au format QIF</item>
+    <item>Afficher les sommes globales dans le widget de l\'écran d\'accueil</item>
+  </string-array>
   <string-array name="whats_new_248">
     <item>Le statut des opérations clonées est réinitialisé à non rapproché</item>
-    <item>Methode alternative de restauration pour les appareils sans gestionnaire de fichiers</item>
+    <item>Autre méthode de restauration pour les appareils sans gestionnaire de fichiers</item>
   </string-array>
   <string-array name="whats_new_247">
     <item>La commande de clonage ouvre le formulaire d\'édition</item>

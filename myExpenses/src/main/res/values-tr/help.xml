@@ -54,6 +54,7 @@
   <string name="cab_ManageCategories_create_sub_cat_help_text">Seçilen kategorinin altındaki yeni bir kategorinin başlığını belirtmek için diyalog açar.</string>
   <string name="cab_ManageCategories_select_category_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
   <string name="menu_categories_setup_default_help_text">Bir seri varsayılan kategori içe aktarılacaktır.</string>
+  <string name="menu_categories_export_help_text">Kategoriler QIF dosyasına dışa aktarılacaktır.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
   <string name="cab_ManageCategories_distribution_select_category_help_text">Seçilen kategori için toplanmış bireysel işlemleri görüntüle. </string>
   <!--ExpenseEdit-->

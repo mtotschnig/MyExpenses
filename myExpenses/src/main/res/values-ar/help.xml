@@ -42,4 +42,6 @@
   <string name="help_MethodEdit_title">نموذج لطرق الدفع</string>
   <string name="help_MethodEdit_info">في هذه الشاشة ، تقوم بتحديد طريقة الدفع لأنواع الحسابات. يمكنك أيضا كتابة عبارات توضيحية (بإستثناء الطرق المعرفة مسبقا بعبارات توضيحية). من خلال نوع الطريقة ، يمكنك التحديد هل هو للصرف (مدين)، أو للدخل (دائن) أو لكلاهما (محايد).</string>
   <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <!--StaleImages-->
 </resources>

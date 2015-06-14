@@ -40,4 +40,6 @@
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Fizetési módok űrlapja</string>
   <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <!--StaleImages-->
 </resources>
