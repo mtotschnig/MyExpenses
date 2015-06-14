@@ -376,13 +376,11 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private boolean isAdDisabled(long now) {
-    return AdUtils.AD_DISABLED ||
-        MyApplication.getInstance().isContribEnabled() ||
-        isInInitialGracePeriod(now);
+    return !BuildConfig.DEBUG &&
+        (MyApplication.getInstance().isContribEnabled() ||
+        isInInitialGracePeriod(now));
   }
 
-
-  @SuppressLint("NewApi")
   private boolean isInInitialGracePeriod(long now) {
     try {
       return now -
@@ -392,7 +390,6 @@ public class MyExpenses extends LaunchActivity implements
       return false;
     }
   }
-
 
   private void initialSetup() {
     FragmentManager fm = getSupportFragmentManager();

@@ -8,6 +8,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -18,11 +19,9 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 public class AdUtils {
   private static String TAG = "AdUtils";
   private static InterstitialAd interstitialAd;
-  public static boolean AD_DISABLED = Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO;
   public static void showBanner(View adView) {
     if (adView instanceof AdView) {
-      AdRequest adRequest = new AdRequest.Builder().build();
-      ((AdView) adView).loadAd(adRequest);
+      ((AdView) adView).loadAd(buildRequest());
     } else {
       Log.e(TAG,"View must be of type AdView");
     }
@@ -32,12 +31,16 @@ public class AdUtils {
       interstitialAd = new InterstitialAd(ctx);
       interstitialAd.setAdUnitId(ctx.getString(R.string.admob_unitid_interstitial));
     }
-    AdRequest adRequest = new AdRequest.Builder()
-        //.addTestDevice("YOUR_DEVICE_HASH")
-        .build();
     if (!interstitialAd.isLoaded()) {
-      interstitialAd.loadAd(adRequest);
+      interstitialAd.loadAd(buildRequest());
     }
+  }
+
+  @NotNull
+  private static AdRequest buildRequest() {
+    return new AdRequest.Builder()
+        .addTestDevice("B6E7D9A3244EDB91BDB897A53A1B02C4")
+        .build();
   }
 
   public static boolean maybeShowInterstitial() {

@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.MyApplication;
 public class AdUtils {
   private static String TAG = "AdUtils";
   private static InterstitialAd interstitialAd;
-  public static boolean AD_DISABLED = false; //should work also on Froyo
   private static final String APP_KEY = BuildConfig.DEBUG ?
       "sample-app-v1_pub-2" : "325c1c24185c46ccae8ec2cd4b2c290c";
   public static void showBanner(View adView) {

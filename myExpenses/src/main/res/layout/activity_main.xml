@@ -14,8 +14,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/bannerad"/>
-
         <se.emilsjolander.stickylistheaders.StickyListHeadersListView
             android:id="@+id/left_drawer"
             android:layout_width="fill_parent"
