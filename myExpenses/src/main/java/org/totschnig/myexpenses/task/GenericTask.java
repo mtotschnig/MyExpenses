@@ -438,7 +438,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           OutputStreamWriter out = new OutputStreamWriter(
               cr.openOutputStream(outputFile.getUri()),
-              "UTF-8");//TODO make configurable
+              ((String) mExtra));
           c = cr.query(
               Category.CONTENT_URI,
               new String[] {fullLabel},

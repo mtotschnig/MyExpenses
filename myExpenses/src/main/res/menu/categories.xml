@@ -27,8 +27,12 @@
         android:title="@string/menu_categories_setup_default"
         app:showAsAction="never"/>
     <item
-        android:id="@id/EXPORT_CATEGORIES_COMMAND"
         android:icon="@drawable/ic_menu_download"
         android:title="@string/menu_categories_export"
-        app:showAsAction="never"/>
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@id/EXPORT_CATEGORIES_COMMAND_UTF8" android:title="UTF-8" />
+            <item android:id="@id/EXPORT_CATEGORIES_COMMAND_ISO88591" android:title="ISO-8859-1" />
+        </menu>
+        </item>
 </menu>

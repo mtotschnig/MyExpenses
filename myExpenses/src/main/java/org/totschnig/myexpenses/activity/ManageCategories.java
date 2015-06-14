@@ -187,8 +187,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
         importCats();
         return true;
-      case R.id.EXPORT_CATEGORIES_COMMAND:
-        exportCats();
+      case R.id.EXPORT_CATEGORIES_COMMAND_ISO88591:
+        exportCats("ISO-8859-1");
+        return true;
+      case R.id.EXPORT_CATEGORIES_COMMAND_UTF8:
+        exportCats("UTF-8");
         return true;
     }
     return super.dispatchCommand(command, tag);
@@ -247,11 +250,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   }
 
-  private void exportCats() {
+  private void exportCats(String encoding) {
     startTaskExecution(
         TaskExecutionFragment.TASK_EXPORT_CATEGRIES,
         null,
-        null,
+        encoding,
         R.string.menu_categories_export);
   }
 
