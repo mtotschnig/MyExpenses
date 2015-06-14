@@ -135,7 +135,7 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_SPLIT = 2;
   public static final int DAY_IN_MILLIS = BuildConfig.DEBUG ? 1 : 86400000;
   public static final int INITIAL_GRACE_DAYS = BuildConfig.DEBUG ? 0 : 5;
-  public static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 3 : 9;
+  public static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 2 : 4;
 
   public static long TRESHOLD_REMIND_RATE = 47L;
   public static long TRESHOLD_REMIND_CONTRIB = 113L;
