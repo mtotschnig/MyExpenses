@@ -122,4 +122,9 @@ public class E_SearchFilterTest extends MyExpensesTest {
     op.setCatId(Fixture.findCat(catLabel2, null));
     op.saveAsNew();
   }
+  @Override
+  public void tearDown() throws Exception {
+    Account.delete(account1.getId());
+    super.tearDown();
+  }
 }
