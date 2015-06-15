@@ -307,18 +307,20 @@ public class MyExpenses extends LaunchActivity implements
     }
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
-    }
-    Bundle extras = getIntent().getExtras();
-    if (extras != null) {
-      mAccountId = extras.getLong(KEY_ROWID,0);
-      idFromNotification = extras.getLong(KEY_TRANSACTIONID,0);
-      //detail fragment from notification should only be shown upon first instantiation from notification
-      if (idFromNotification != 0 && savedInstanceState == null) {
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(TransactionDetailFragment.class.getName()) == null) {
-          TransactionDetailFragment.newInstance(idFromNotification)
-              .show(fm, TransactionDetailFragment.class.getName());
-          getIntent().removeExtra(KEY_TRANSACTIONID);
+      mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID,0L);
+    } else {
+      Bundle extras = getIntent().getExtras();
+      if (extras != null) {
+        mAccountId = extras.getLong(KEY_ROWID, 0);
+        idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
+        //detail fragment from notification should only be shown upon first instantiation from notification
+        if (idFromNotification != 0) {
+          FragmentManager fm = getSupportFragmentManager();
+          if (fm.findFragmentByTag(TransactionDetailFragment.class.getName()) == null) {
+            TransactionDetailFragment.newInstance(idFromNotification)
+                .show(fm, TransactionDetailFragment.class.getName());
+            getIntent().removeExtra(KEY_TRANSACTIONID);
+          }
         }
       }
     }
@@ -1167,6 +1169,7 @@ public class MyExpenses extends LaunchActivity implements
       outState.putLong("idFromNotification",0);
     }
     outState.putString("exportFormat", mExportFormat);
+    outState.putLong(KEY_ACCOUNTID,mAccountId);
   }
   @Override
   public void onPositive(Bundle args) {
