@@ -253,16 +253,17 @@ public class Account extends Model {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
       case DAY:
-        if (groupYear == this_year) {
-          if (groupSecond == this_day)
-            return ctx.getString(R.string.grouping_today);
-          else if (groupSecond == this_day -1)
-            return ctx.getString(R.string.grouping_yesterday);
-        }
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-        return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
+        String title = java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
+        if (groupYear == this_year) {
+          if (groupSecond == this_day)
+            return ctx.getString(R.string.grouping_today) + " (" + title + ")";
+          else if (groupSecond == this_day -1)
+            return ctx.getString(R.string.grouping_yesterday) + " (" + title + ")";
+        }
+        return title;
       case WEEK:
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
         String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_START)),dateformat)
