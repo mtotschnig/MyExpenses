@@ -338,6 +338,10 @@
         <item>posts/1576983852563087</item>
         <item>S7R3WXofPZi</item>
     </string-array>
+    <string-array name="version_more_info_249">
+        <item>posts/1582359712025501</item>
+        <item>97gqDvJJq43</item>
+    </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
       <item>@string/comparison_operator_greater_than</item>
