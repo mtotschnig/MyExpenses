@@ -1525,16 +1525,16 @@ public class ExpenseEdit extends AmountActivity implements
       }
       data.moveToFirst();
       boolean selectionSet = false;
+      String currencyExtra = getIntent().getStringExtra(KEY_CURRENCY);
       while (data.isAfterLast() == false) {
         int position = data.getPosition();
         Account a = Account.fromCacheOrFromCursor(data);
         mAccounts[position] = a;
-        if(!selectionSet && mTransaction.accountId != null &&
-            (a.getId() == mTransaction.accountId ||
-                //aggregate account
-                a.currency.getCurrencyCode().equals(getIntent().getStringExtra(KEY_CURRENCY)))) {
-          mAccountSpinner.setSelection(position);
-          selectionSet = true;
+        if (!selectionSet &&
+            (a.currency.getCurrencyCode().equals(currencyExtra) ||
+                (currencyExtra == null && a.getId().equals(mTransaction.accountId)))) {
+              mAccountSpinner.setSelection(position);
+              selectionSet = true;
         }
         data.moveToNext();
       }
