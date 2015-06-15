@@ -98,4 +98,5 @@
 
   <string name="admob_unitid_banner">ca-app-pub-5381507717489755/8183206829</string>
   <string name="admob_unitid_interstitial">ca-app-pub-5381507717489755/2956624822</string>
+  <string name="admob_unitid_mainscreen">ca-app-pub-5381507717489755/3612649226</string>
 </resources>

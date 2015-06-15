@@ -7,5 +7,5 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     ads:adSize="SMART_BANNER"
-    ads:adUnitId="@string/admob_unitid_banner">
+    ads:adUnitId="@string/admob_unitid_mainscreen">
 </com.google.android.gms.ads.AdView>
