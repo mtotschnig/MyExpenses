@@ -33,7 +33,7 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 212
+        versionCode 214
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"
