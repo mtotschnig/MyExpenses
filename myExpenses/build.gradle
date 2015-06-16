@@ -6,7 +6,7 @@ ext {
  versionNumber1 = 2
  versionNumber2 = 4
  versionNumber3 = 9
- versionNumber4 = 0
+ versionNumber4 = 1
 }
 
 def buildVersionNumber() {
@@ -33,7 +33,7 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 214
+        versionCode 215
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"
