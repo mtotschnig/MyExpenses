@@ -300,6 +300,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
+    if (!(result instanceof Result)) {
+      return;
+    }
     Result r = (Result) result;
     String msg = null;
     if (r.success) {
