@@ -122,11 +122,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       ContribFeature.SPLIT_TRANSACTION.recordUsage();
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       t = Transaction.getInstanceFromDb((Long) ids[0]);
       if (t != null && t instanceof SplitTransaction)
         ((SplitTransaction) t).prepareForEdit();
       return t;
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      return Transaction.getInstanceFromDb((Long) ids[0]);
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       return Template.getInstanceFromDb((Long) ids[0]);
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
