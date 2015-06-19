@@ -105,9 +105,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId,false);
           parent.amount = t.amount;
           parent.setDate(t.getDate());
+          parent.payeeId = t.payeeId;
+          parent.crStatus = t.crStatus;
           parent.save();
           values = new ContentValues();
           values.put(DatabaseConstants.KEY_PARENTID, parent.getId());
+          values.put(DatabaseConstants.KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+          values.putNull(DatabaseConstants.KEY_PAYEEID);
           if (cr.update(
               TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),
               values,null,null)>0) {

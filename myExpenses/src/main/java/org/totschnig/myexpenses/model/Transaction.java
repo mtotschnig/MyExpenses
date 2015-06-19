@@ -57,6 +57,7 @@ public class Transaction extends Model {
   public Long methodId;
   public String methodLabel = "";
   public Long parentId = null;
+  public Long payeeId = 0L;
   /**
    * id of the template which defines the plan for which this transaction has been created
    */
@@ -161,7 +162,6 @@ public class Transaction extends Model {
   }
 
   public CrStatus crStatus;
-  public long payeeId = 0;
   protected Uri pictureUri;
 
   /**
@@ -173,7 +173,7 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) {
     Transaction t;
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-        FULL_LABEL, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_ACCOUNTID, KEY_METHODID,
+        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_ACCOUNTID, KEY_METHODID,
         KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_PICTURE_URI, KEY_METHOD_LABEL};
 
     Cursor c = cr().query(
@@ -208,6 +208,7 @@ public class Transaction extends Model {
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
     t.methodLabel = DbUtils.getString(c, KEY_METHOD_LABEL);
     t.setCatId(catId);
+    t.payeeId = DbUtils.getLongOrNull(c,KEY_PAYEEID);
     t.payee = DbUtils.getString(c, KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
@@ -415,7 +416,7 @@ public class Transaction extends Model {
     ContentValues initialValues = new ContentValues();
 
     Long payeeStore;
-    if (payeeId > 0) {
+    if (payeeId != null) {
       payeeStore = payeeId;
     } else {
       payeeStore =
