@@ -947,7 +947,7 @@ public class MyExpenses extends LaunchActivity implements
     String msg;
     super.onPostExecute(taskId, o);
     switch(taskId) {
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       TransactionDetailFragment tdf = (TransactionDetailFragment)
           getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
       if (tdf!= null) {

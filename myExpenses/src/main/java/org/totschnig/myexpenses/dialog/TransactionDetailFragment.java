@@ -76,7 +76,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     ((MyExpenses) activity).startTaskExecution(
-        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION,
+        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
       new Long[] {getArguments().getLong(KEY_ROWID)},
       null,
       0);

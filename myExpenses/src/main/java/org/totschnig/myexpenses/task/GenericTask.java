@@ -105,9 +105,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId,false);
           parent.amount = t.amount;
           parent.setDate(t.getDate());
+          parent.payeeId = t.payeeId;
+          parent.crStatus = t.crStatus;
           parent.save();
           values = new ContentValues();
           values.put(DatabaseConstants.KEY_PARENTID, parent.getId());
+          values.put(DatabaseConstants.KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+          values.putNull(DatabaseConstants.KEY_PAYEEID);
           if (cr.update(
               TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),
               values,null,null)>0) {
@@ -118,11 +122,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       ContribFeature.SPLIT_TRANSACTION.recordUsage();
       return successCount;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       t = Transaction.getInstanceFromDb((Long) ids[0]);
       if (t != null && t instanceof SplitTransaction)
         ((SplitTransaction) t).prepareForEdit();
       return t;
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      return Transaction.getInstanceFromDb((Long) ids[0]);
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       return Template.getInstanceFromDb((Long) ids[0]);
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:

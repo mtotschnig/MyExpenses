@@ -494,15 +494,15 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     return a != null ? a.dbAccount : null;
   }
 
-  public long findPayee(String payee) {
+  public Long findPayee(String payee) {
     return findIdInAMap(payee, payeeToId);
   }
 
-  private long findIdInAMap(String project, Map<String, Long> map) {
+  private Long findIdInAMap(String project, Map<String, Long> map) {
     if (map.containsKey(project)) {
       return map.get(project);
     }
-    return 0;
+    return null;
   }
 
   private void findCategory(QifTransaction transaction, Transaction t) {
