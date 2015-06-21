@@ -70,8 +70,7 @@ public class ContribInfoDialogActivity extends FragmentActivity
     if (f == null) {
       sequenceCount = getIntent().getLongExtra(
           ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
-      ContribInfoDialogFragment.newInstance(
-          sequenceCount)
+      ContribInfoDialogFragment.newInstance(sequenceCount)
           .show(getSupportFragmentManager(), "CONTRIB_INFO");
     } else {
       ContribDialogFragment.newInstance(
