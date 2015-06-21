@@ -37,7 +37,6 @@ public class ContribInfoDialogActivity extends FragmentActivity
   private String mPayload = BuildConfig.FLAVOR_distribution.equals("amazon") ? null : UUID.randomUUID().toString();
   private String tag = ContribInfoDialogActivity.class.getName();
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -230,5 +229,5 @@ public class ContribInfoDialogActivity extends FragmentActivity
     if (mHelper != null) mHelper.dispose();
     mHelper = null;
   }
-
+  
 }
