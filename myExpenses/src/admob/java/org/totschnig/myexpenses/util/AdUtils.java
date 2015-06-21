@@ -1,17 +1,15 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import org.jetbrains.annotations.NotNull;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 
 /**
  * Created by michael on 04.06.15.
@@ -49,5 +47,27 @@ public class AdUtils {
       return true;
     }
     return false;
+  }
+
+  public static void resume(View adView) {
+    if (adView instanceof AdView) {
+      ((AdView) adView).resume();
+    } else {
+      Log.e(TAG, "View must be of type AdView");
+    }
+  }
+  public static void pause(View adView) {
+    if (adView instanceof AdView) {
+      ((AdView) adView).pause();
+    } else {
+      Log.e(TAG,"View must be of type AdView");
+    }
+  }
+  public static void destroy(View adView) {
+    if (adView instanceof AdView) {
+      ((AdView) adView).destroy();
+    } else {
+      Log.e(TAG,"View must be of type AdView");
+    }
   }
 }

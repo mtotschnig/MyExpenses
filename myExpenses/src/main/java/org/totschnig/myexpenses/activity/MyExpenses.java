@@ -152,6 +152,8 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private long mAccountId = 0;
   int mAccountCount = 0;
+  private View mAdView;
+  private boolean mAdViewShown = false;
 
 
   public enum HelpVariant {
@@ -204,13 +206,15 @@ public class MyExpenses extends LaunchActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    View adView = findViewById(R.id.adView);
+    mAdView =
+        findViewById(R.id.adView);
     long now = System.currentTimeMillis();
 
     if (isAdDisabled(now)) {
-      adView.setVisibility(View.GONE);
+      mAdView.setVisibility(View.GONE);
     } else {
-      AdUtils.showBanner(adView);
+      AdUtils.showBanner(mAdView);
+      mAdViewShown = true;
       maybeRequestNewInterstitial(now);
     }
 
@@ -1350,5 +1354,37 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onDismissOrCancel(Bundle args) {
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (mAdViewShown) {
+      //activity might have been resumed after user has bought contrib key
+      if (MyApplication.getInstance().isContribEnabled()) {
+        AdUtils.destroy(mAdView);
+        mAdView.setVisibility(View.GONE);
+        mAdViewShown = false;
+      } else {
+        AdUtils.resume(mAdView);
+      }
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    if (mAdViewShown) {
+      AdUtils.destroy(mAdView);
+      mAdViewShown = false;
+    }
+    super.onDestroy();
+  }
+
+  @Override
+  protected void onPause() {
+    if (mAdViewShown) {
+      AdUtils.pause(mAdView);
+    }
+    super.onPause();
   }
 }
