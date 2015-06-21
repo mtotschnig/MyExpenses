@@ -28,7 +28,8 @@ public class ContribInfoDialogActivity extends FragmentActivity
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
     if (f == null) {
-      sequenceCount = getIntent().getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
+      sequenceCount = getIntent().getLongExtra(
+          ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
       ContribInfoDialogFragment.newInstance(sequenceCount)
           .show(getSupportFragmentManager(), "CONTRIB_INFO");
     } else {
@@ -42,7 +43,8 @@ public class ContribInfoDialogActivity extends FragmentActivity
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
       case R.id.REMIND_LATER_CONTRIB_COMMAND:
-        PrefKey.NEXT_REMINDER_CONTRIB.putLong(sequenceCount + MyExpenses.TRESHOLD_REMIND_CONTRIB);
+        PrefKey.NEXT_REMINDER_CONTRIB.putLong(
+            sequenceCount + MyExpenses.TRESHOLD_REMIND_CONTRIB);
         break;
       case R.id.REMIND_NO_CONTRIB_COMMAND:
         PrefKey.NEXT_REMINDER_CONTRIB.putLong(-1);
