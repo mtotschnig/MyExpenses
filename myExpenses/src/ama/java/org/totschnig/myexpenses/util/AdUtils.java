@@ -20,6 +20,7 @@ public class AdUtils {
   private static InterstitialAd interstitialAd;
   private static final String APP_KEY = BuildConfig.DEBUG ?
       "sample-app-v1_pub-2" : "325c1c24185c46ccae8ec2cd4b2c290c";
+
   public static void showBanner(View adView) {
     if (adView instanceof AdLayout) {
       // For debugging purposes enable logging, but disable for production builds.
@@ -36,13 +37,14 @@ public class AdUtils {
         ((AdLayout) adView).loadAd();
       }
     } else {
-      Log.e(TAG,"View must be of type AdLayout");
+      Log.e(TAG, "View must be of type AdLayout");
     }
   }
+
   public static void requestNewInterstitial(Activity ctx) {
-      if (interstitialAd == null) {
-        interstitialAd = new InterstitialAd(ctx);
-      }
+    if (interstitialAd == null) {
+      interstitialAd = new InterstitialAd(ctx);
+    }
     if (!interstitialAd.isLoading()) {
       interstitialAd.loadAd();
     }

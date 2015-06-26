@@ -17,13 +17,15 @@ import org.totschnig.myexpenses.R;
 public class AdUtils {
   private static String TAG = "AdUtils";
   private static InterstitialAd interstitialAd;
+
   public static void showBanner(View adView) {
     if (adView instanceof AdView) {
       ((AdView) adView).loadAd(buildRequest());
     } else {
-      Log.e(TAG,"View must be of type AdView");
+      Log.e(TAG, "View must be of type AdView");
     }
   }
+
   public static void requestNewInterstitial(Context ctx) {
     if (interstitialAd == null) {
       interstitialAd = new InterstitialAd(ctx);
@@ -56,18 +58,20 @@ public class AdUtils {
       Log.e(TAG, "View must be of type AdView");
     }
   }
+
   public static void pause(View adView) {
     if (adView instanceof AdView) {
       ((AdView) adView).pause();
     } else {
-      Log.e(TAG,"View must be of type AdView");
+      Log.e(TAG, "View must be of type AdView");
     }
   }
+
   public static void destroy(View adView) {
     if (adView instanceof AdView) {
       ((AdView) adView).destroy();
     } else {
-      Log.e(TAG,"View must be of type AdView");
+      Log.e(TAG, "View must be of type AdView");
     }
   }
 }
