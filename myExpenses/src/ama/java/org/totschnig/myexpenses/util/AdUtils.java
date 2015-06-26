@@ -53,4 +53,20 @@ public class AdUtils {
   public static boolean maybeShowInterstitial() {
     return interstitialAd != null && interstitialAd.showAd();
   }
+
+  public static void resume(View adView) {
+    //not handled
+  }
+
+  public static void pause(View adView) {
+   //not handled
+  }
+
+  public static void destroy(View adView) {
+    if (adView instanceof AdLayout) {
+      ((AdLayout) adView).destroy();
+    } else {
+      Log.e(TAG, "View must be of type AdLayout");
+    }
+  }
 }
