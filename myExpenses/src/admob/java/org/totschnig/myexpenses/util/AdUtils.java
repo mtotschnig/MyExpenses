@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,7 @@ public class AdUtils {
     }
   }
 
-  public static void requestNewInterstitial(Context ctx) {
+  public static void requestNewInterstitial(Activity ctx) {
     if (interstitialAd == null) {
       interstitialAd = new InterstitialAd(ctx);
       interstitialAd.setAdUnitId(ctx.getString(R.string.admob_unitid_interstitial));
