@@ -228,7 +228,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>215</item>
+      <item>216</item>
       <item>214</item>
       <item>211</item>
       <item>210</item>
