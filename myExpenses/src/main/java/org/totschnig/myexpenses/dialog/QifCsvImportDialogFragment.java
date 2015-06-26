@@ -8,11 +8,12 @@ import java.util.Arrays;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.QifImport;
+import org.totschnig.myexpenses.activity.QifCSVImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import android.app.AlertDialog;
@@ -31,7 +32,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class QifImportDialogFragment extends TextSourceDialogFragment implements
+public class QifCsvImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
   Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
@@ -40,8 +41,12 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   static final String PREFKEY_IMPORT_QIF_ENCODING = "import_qif_encoding";
   private MergeCursor mAccountsCursor;
 
-  public static final QifImportDialogFragment newInstance() {
-    return new QifImportDialogFragment();
+  public static final QifCsvImportDialogFragment newInstance(Account.ExportFormat format) {
+    QifCsvImportDialogFragment f = new QifCsvImportDialogFragment();
+    Bundle args = new Bundle();
+    args.putSerializable(KEY_FORMAT,format);
+    f.setArguments(args);
+    return f;
   }
   @Override
   protected int getLayoutId() {
@@ -49,17 +54,22 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   }
   @Override
   protected String getLayoutTitle() {
-    return getString(R.string.pref_import_title,"QIF");
+    return getString(R.string.pref_import_title,
+        getFormat().name());
+  }
+
+  private Account.ExportFormat getFormat() {
+    return (Account.ExportFormat) getArguments().getSerializable(KEY_FORMAT);
   }
 
   @Override
   String getTypeName() {
-    return "QIF";
+    return getFormat().name();
   }
 
   @Override
   String getPrefKey() {
-    return "import_qif_file_uri";
+    return "import_" + getFormat().getExtension() + "_file_uri";
   }
   @Override
   public void onClick(DialogInterface dialog, int id) {
@@ -74,7 +84,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
           .putString(getPrefKey(), mUri.toString())
           .putString(PREFKEY_IMPORT_QIF_ENCODING, encoding)
           .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.name()));
-      ((QifImport) getActivity()).onSourceSelected(
+      ((QifCSVImport) getActivity()).onSourceSelected(
           mUri,
           format,
           mAccountSpinner.getSelectedItemId(),
@@ -129,6 +139,9 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
+    if (getFormat().equals(Account.ExportFormat.CSV)) {
+      view.findViewById(R.id.import_select_types).setVisibility(View.GONE);
+    }
     mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
     mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,

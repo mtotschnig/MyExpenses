@@ -72,7 +72,6 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   @Override
   public void onDestroyView() {
-    // TODO Auto-generated method stub
     super.onDestroyView();
     mFilename = null;
   }

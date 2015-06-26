@@ -93,10 +93,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.QifImport"
+            android:name=".activity.QifCSVImport"
             android:theme="@style/Translucent.NoTitleBar" >
             <intent-filter>
-                <action android:name="myexpenses.intent.import_qif" />
+                <action android:name="myexpenses.intent.import" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

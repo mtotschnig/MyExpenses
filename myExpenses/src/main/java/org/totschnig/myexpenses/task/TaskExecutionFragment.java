@@ -48,6 +48,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_EXTERNAL = "external";
   public static final String KEY_DATE_FORMAT = "dateFormat";
   public static final String KEY_ENCODING = "encoding";
+  public static final String KEY_FORMAT = "format";
 
   //public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;

@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.support.v4.provider.DocumentFile;
 
 public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
-  public static final String KEY_FORMAT = "format";
   public static final String KEY_DECIMAL_SEPARATOR = "export_decimal_separator";
   public static final String KEY_NOT_YET_EXPORTED_P = "notYetExportedP";
   public static final String KEY_DELETE_P = "deleteP";
@@ -70,7 +69,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");
     try {
-      format = ExportFormat.valueOf(extras.getString(KEY_FORMAT));
+      format = ExportFormat.valueOf(extras.getString(TaskExecutionFragment.KEY_FORMAT));
     } catch (IllegalArgumentException e) {
       format = ExportFormat.QIF;
     }
