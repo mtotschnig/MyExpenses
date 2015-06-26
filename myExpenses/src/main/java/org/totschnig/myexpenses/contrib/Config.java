@@ -26,8 +26,10 @@ public final class Config {
     /**
      * Yandex.Store public key.
      */
+/*
     public static final String YANDEX_PUBLIC_KEY
         = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyJFvxKYy9yjv92JMLDOip3H+EmizsnRtEE3XrTOgWn6tXVlz6urkRmRUwaEWTVvTI4hydxiHtYwFIKHcgm+tXfemm/kPoSnxORG/i/1o44tt2JyRvsgUx5IvMxKU3zg3dsytReRXKd8Pe6Op/2dIZ6sGbYY5sFYpLu7QGcFklAEjk8ipRAQm30W/N+b8VUindSQU/Q/kzgxMyndi0P2cP+z46el3Ww3Y2qVfpZ55QbFVsGl15DOJL9IyIyLLsqq2356otVGV4hLIqIpWSNvIwWiXxc65cwz4FOV4UqwVfjNS/G86d0V2vPLLvwa6DfYoZ3XzWeKtEKKyBPs+UM53rQIDAQAB";
+*/
 
     /**
      * Appland store public key.
@@ -41,8 +43,10 @@ public final class Config {
     /**
      * SlideMe store public key.
      */
+/*
     public static final String SLIDEME_PUBLIC_KEY =
         "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0WqcShQRg/FrvO+Tz8Vgdk+CcjhKyjMeWcJIL4i0gYtO/SA5L13OpSwBUaX46omKMFckDdNCRUW6uWRs6dFF/oDfpPYjgg6KuqG0v7/oR0G5UJxtEBgMke8eRXaDth88CH9aRAp4EmNoJK5BfYLL8nu/9hN05hoqPwpxZCT6DnWgfJpSsAnPyrCkayhhZ3lkhPrkeGN7jBdzyXtOb/B27DA2R8ikRjk7DBO4WBNwSkIFlyHUZA/M2elwGhojooFTlFk6HYFV1dzSzERi28cgi8sSHrN/mFQ7Q2/4vOmxAh+S0DIK9w8+ie2aFguTZEfJzVyIECyhBJ3zJ3MOyx5GiwIDAQAB";
+*/
 
 //    public static final String SKU_GAS_NOKIA_STORE = "1290250";
 //    public static final String SKU_INFINITE_GAS_NOKIA_STORE = "1290302";
@@ -72,10 +76,10 @@ public final class Config {
         case "play":
           STORE_KEYS_MAP.put(OpenIabHelper.NAME_GOOGLE, Config.GOOGLE_PLAY_KEY);
           break;
-        case "onepf":
+/*        case "onepf":
           STORE_KEYS_MAP.put(OpenIabHelper.NAME_YANDEX, Config.YANDEX_PUBLIC_KEY);
           STORE_KEYS_MAP.put(OpenIabHelper.NAME_SLIDEME, Config.SLIDEME_PUBLIC_KEY);
-          break;
+          break;*/
       }
 
 //        STORE_KEYS_MAP.put(OpenIabHelper.NAME_APPLAND, Config.APPLAND_PUBLIC_KEY);

@@ -80,9 +80,6 @@ android {
         ama {//Amazon Mobile Ads
             dimension "adprovider"
         }
-        onepf {
-            dimension "distribution"
-        }
     }
 
 
