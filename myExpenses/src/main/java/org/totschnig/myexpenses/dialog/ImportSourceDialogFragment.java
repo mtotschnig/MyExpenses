@@ -40,7 +40,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     super();
   }
   abstract int getLayoutId();
-  abstract int getLayoutTitle();
+  abstract String getLayoutTitle();
   abstract String getTypeName();
   abstract String getPrefKey();
   protected boolean checkTypeParts(String[] typeParts) {

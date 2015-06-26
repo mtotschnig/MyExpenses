@@ -309,8 +309,8 @@
   <string name="pref_follow_gplus_title">Prati My Expenses na Google+</string>
   <string name="pref_import_from_grisbi_summary">Unesi kategorije i stranke iz Grisbi XML file-a</string>
   <string name="pref_import_from_grisbi_title">Unesi sa Grisbija</string>
-  <string name="pref_import_qif_summary">Unesi transakcije, kategorije i stranke iz QIF file-a</string>
-  <string name="pref_import_qif_title">QIF unos</string>
+  <string name="pref_import_summary">Unesi transakcije, kategorije i stranke iz %s file-a</string>
+  <string name="pref_import_title">%s unos</string>
   <string name="pref_like_facebook_title">Lajkaj nas na Facebooku</string>
   <string name="pref_manage_accounts_title">Računi</string>
   <string name="pref_manage_categories_summary">Dodaj, uredi ili obriši kategorije.</string>

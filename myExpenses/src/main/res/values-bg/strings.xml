@@ -304,8 +304,8 @@
   <string name="pref_follow_gplus_title">Последвайте Моите разходи с Google +</string>
   <string name="pref_import_from_grisbi_summary">Импортирайте категории и страни от Grisbi XML файл</string>
   <string name="pref_import_from_grisbi_title">Импортирай от Grisbi</string>
-  <string name="pref_import_qif_summary">Импортирайте транзакции, категории и страни от QIF файл</string>
-  <string name="pref_import_qif_title">QIF импортиране</string>
+  <string name="pref_import_summary">Импортирайте транзакции, категории и страни от %s файл</string>
+  <string name="pref_import_title">%s импортиране</string>
   <string name="pref_like_facebook_title">Харесай ни във Facebook</string>
   <string name="pref_manage_accounts_title">Сметки</string>
   <string name="pref_manage_categories_summary">Добавете, редактирайте, изтрийте категории.</string>

@@ -274,7 +274,7 @@
   <string name="pref_follow_gplus_title">Segueix Les meves despeses a Google+</string>
   <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
-  <string name="pref_import_qif_title">Importació QIF</string>
+  <string name="pref_import_title">Importació %s</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_categories_summary">Afegiu, modifiqueu i suprimiu categories.</string>
   <string name="pref_manage_categories_title">Categories</string>

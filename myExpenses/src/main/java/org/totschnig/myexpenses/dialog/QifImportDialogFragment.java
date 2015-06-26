@@ -45,11 +45,11 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   }
   @Override
   protected int getLayoutId() {
-    return R.layout.qif_import_dialog;
+    return R.layout.import_dialog;
   }
   @Override
-  protected int getLayoutTitle() {
-    return R.string.pref_import_qif_title;
+  protected String getLayoutTitle() {
+    return getString(R.string.pref_import_title,"QIF");
   }
 
   @Override

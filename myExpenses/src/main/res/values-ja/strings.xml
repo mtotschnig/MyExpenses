@@ -310,8 +310,8 @@
   <string name="pref_follow_gplus_title">Google+ で マイ エクスペンス をフォローする</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
   <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
-  <string name="pref_import_qif_summary">QIF ファイルから取引、分類、および取引先をインポートします</string>
-  <string name="pref_import_qif_title">QIF インポート</string>
+  <string name="pref_import_summary">%s ファイルから取引、分類、および取引先をインポートします</string>
+  <string name="pref_import_title">%s インポート</string>
   <string name="pref_like_facebook_title">Facebook でいいね</string>
   <string name="pref_manage_accounts_title">勘定</string>
   <string name="pref_manage_categories_summary">分類を追加/編集/削除します。</string>

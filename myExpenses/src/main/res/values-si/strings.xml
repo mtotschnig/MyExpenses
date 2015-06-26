@@ -273,8 +273,8 @@
   <string name="pref_follow_gplus_title">google + වලින් මයි එක්ස්පෙන්සස් පිළිපදින්න </string>
   <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
   <string name="pref_import_from_grisbi_title">ග්රිස්බි වලින් අපනයනය කරන්න </string>
-  <string name="pref_import_qif_summary">ගනුදෙනු,ප්‍රබේධ සහ පක්ෂ QIF ගොනුවෙන් ආනයනය කරන්න </string>
-  <string name="pref_import_qif_title">QIF ආනයනය </string>
+  <string name="pref_import_summary">ගනුදෙනු,ප්‍රබේධ සහ පක්ෂ %s ගොනුවෙන් ආනයනය කරන්න </string>
+  <string name="pref_import_title">%s ආනයනය </string>
   <string name="pref_manage_accounts_title">ගිණුම් </string>
   <string name="pref_manage_categories_summary">වර්ග එකතු කරන්න, සංස්කරණය කරන්න, මකා දමන්න  </string>
   <string name="pref_manage_categories_title">වර්ග </string>

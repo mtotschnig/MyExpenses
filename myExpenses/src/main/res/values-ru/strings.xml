@@ -276,8 +276,8 @@
   <string name="pref_follow_gplus_title">Следить за Мои расходы в Google+</string>
   <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>
   <string name="pref_import_from_grisbi_title">Ипортировать из Grisbi</string>
-  <string name="pref_import_qif_summary">Импорт операций, категорий и участников из QIF файла</string>
-  <string name="pref_import_qif_title">Импорт QIF</string>
+  <string name="pref_import_summary">Импорт операций, категорий и участников из %s файла</string>
+  <string name="pref_import_title">Импорт %s</string>
   <string name="pref_manage_accounts_title">Счета</string>
   <string name="pref_manage_categories_summary">Добавление, редактирование, удаление категорий.</string>
   <string name="pref_manage_categories_title">Категории</string>

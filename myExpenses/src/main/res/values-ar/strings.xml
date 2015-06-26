@@ -265,7 +265,7 @@
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
-  <string name="pref_import_qif_title">استيراد QIF</string>
+  <string name="pref_import_title">استيراد %s</string>
   <string name="pref_manage_accounts_title">الحسابات</string>
   <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
   <string name="pref_manage_categories_title">التصنيفات</string>

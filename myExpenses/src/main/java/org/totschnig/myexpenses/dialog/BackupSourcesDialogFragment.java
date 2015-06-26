@@ -33,8 +33,8 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
   }
   @Override
-  protected int getLayoutTitle() {
-    return R.string.pref_restore_title;
+  protected String getLayoutTitle() {
+    return getString(R.string.pref_restore_title);
   }
 
   @Override
