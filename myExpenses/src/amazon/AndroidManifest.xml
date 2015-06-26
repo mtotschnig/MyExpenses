@@ -1,16 +1,14 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.totschnig.myexpenses">
+<manifest package="org.totschnig.myexpenses"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <receiver android:name="com.amazon.inapp.purchasing.ResponseReceiver">
+        <receiver android:name="com.amazon.device.iap.ResponseReceiver">
             <intent-filter>
                 <action
                     android:name="com.amazon.inapp.purchasing.NOTIFY"
-                    android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY"
-                    />
+                    android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY"/>
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
