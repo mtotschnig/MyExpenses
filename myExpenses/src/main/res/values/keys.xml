@@ -95,8 +95,5 @@
   <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
     <string name="io_error_appdir_null">No folder for storing backup found</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
-
-  <string name="admob_unitid_banner">ca-app-pub-5381507717489755/8183206829</string>
-  <string name="admob_unitid_interstitial">ca-app-pub-5381507717489755/2956624822</string>
-  <string name="admob_unitid_mainscreen">ca-app-pub-5381507717489755/3612649226</string>
+  
 </resources>

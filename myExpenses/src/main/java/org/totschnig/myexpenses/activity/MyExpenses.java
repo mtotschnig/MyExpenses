@@ -111,8 +111,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
-import com.google.android.gms.ads.InterstitialAd;
-
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -181,8 +179,6 @@ public class MyExpenses extends LaunchActivity implements
   private String mExportFormat = null;
   public boolean setupComplete;
   private Account.AccountGrouping mAccountGrouping;
-
-  InterstitialAd mInterstitialAd;
 
 
   /* (non-Javadoc)
