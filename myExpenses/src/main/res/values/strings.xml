@@ -552,5 +552,7 @@
   <string name="io_error_unable_to_create_file">Unable to create file %1$s in folder %2$s</string>
   <string name="menu_categories_export">Export to QIF</string>
   <string name="pref_csv_import_delimiter">Delimiter</string>
+  <string name="csv_import_parse">Parse</string>
+  <string name="csv_import_preview">Import</string>
 </resources>
 

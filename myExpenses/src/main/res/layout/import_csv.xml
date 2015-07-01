@@ -45,6 +45,14 @@
                 android:entries="@array/pref_csv_import_delimiter_entries"
                 android:entryValues="@array/pref_csv_import_delimiter_entries"/>
         </TableRow>
+        <TableRow>
+            <Button android:layout_span="2"
+                    android:id="@+id/btn_parse"
+                    android:text="@string/csv_import_parse"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+        </TableRow>
     </TableLayout>
 
 </ScrollView>

@@ -44,7 +44,8 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.csv_import);
+    setContentView(R.layout.viewpager);
+    getSupportActionBar().setTitle(getString(R.string.pref_import_title,"CSV"));
 
     // Set up the action bar.
     final ActionBar actionBar = getSupportActionBar();
@@ -55,7 +56,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
     // Set up the ViewPager with the sections adapter.
-    mViewPager = (ViewPager) findViewById(R.id.pager);
+    mViewPager = (ViewPager) findViewById(R.id.viewpager);
     mViewPager.setAdapter(mSectionsPagerAdapter);
 
     // When swiping between different sections, select the corresponding
@@ -128,9 +129,9 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
       Locale l = Locale.getDefault();
       switch (position) {
         case 0:
-          return "Parse";
+          return getString(R.string.csv_import_parse);
         case 1:
-          return "Import";
+          return getString(R.string.csv_import_preview);
       }
       return null;
     }
