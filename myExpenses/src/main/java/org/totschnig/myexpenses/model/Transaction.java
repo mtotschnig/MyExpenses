@@ -57,7 +57,7 @@ public class Transaction extends Model {
   public Long methodId;
   public String methodLabel = "";
   public Long parentId = null;
-  public Long payeeId = 0L;
+  public Long payeeId = null;
   /**
    * id of the template which defines the plan for which this transaction has been created
    */
