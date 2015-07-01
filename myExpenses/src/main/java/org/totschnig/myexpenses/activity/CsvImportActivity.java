@@ -14,12 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -135,5 +138,28 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
       }
       return null;
     }
+    public String getFragmentName(int currentPosition) {
+      //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
+      //would call this function if it were visible
+      //return makeFragmentName(R.id.viewpager,currentPosition);
+      return "android:switcher:"+R.id.viewpager+":"+getItemId(currentPosition);
+    }
+  }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    if (o != null) {
+      CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
+          mSectionsPagerAdapter.getFragmentName(1));
+      df.setData((List<CSVRecord>) o);
+    } else {
+      Toast.makeText(this,R.string.parse_error_no_data_found,Toast.LENGTH_LONG).show();
+    }
+  }
+
+  @Override
+  public void onProgressUpdate(Object progress) {
+    Toast.makeText(this,(String)progress,Toast.LENGTH_LONG).show();
   }
 }

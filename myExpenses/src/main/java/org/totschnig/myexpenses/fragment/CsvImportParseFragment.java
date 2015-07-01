@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,11 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.QifCsvImportDialogFragment;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 /**
  * Created by privat on 30.06.15.
@@ -26,15 +32,40 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   private Uri mUri;
   private EditText mFilename;
   private Button mParse;
+  private Spinner mDateFormatSpinner, mEncodingSpinner;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.import_csv, container, false);
-    DialogUtils.configureDateFormat(view, getActivity(), PREFKEY_IMPORT_CSV_DATE_FORMAT);
-    DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
+    View view = inflater.inflate(R.layout.import_csv_parse, container, false);
+    mDateFormatSpinner = DialogUtils.configureDateFormat(view, getActivity(), PREFKEY_IMPORT_CSV_DATE_FORMAT);
+    mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
     mFilename = DialogUtils.configureFilename(view);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     mParse = (Button) view.findViewById(R.id.btn_parse);
+    mParse.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
+        String encoding = (String) mEncodingSpinner.getSelectedItem();
+        SharedPreferencesCompat.apply(
+            MyApplication.getInstance().getSettings().edit()
+                .putString(getPrefKey(), mUri.toString())
+                .putString(QifCsvImportDialogFragment.PREFKEY_IMPORT_ENCODING, encoding)
+                .putString(QifCsvImportDialogFragment.PREFKEY_IMPORT_DATE_FORMAT, format.name()));
+        TaskExecutionFragment taskExecutionFragment =
+            TaskExecutionFragment.newInstanceCSVImport(
+                mUri, format, encoding);
+        getFragmentManager()
+            .beginTransaction()
+            .add(taskExecutionFragment,
+                "ASYNC_TASK")
+            .add(ProgressDialogFragment.newInstance(
+                    getString(R.string.pref_import_title, "CSV"),
+                    null, ProgressDialog.STYLE_SPINNER, false),
+                "PROGRESS")
+            .commit();
+      }
+    });
     return view;
   }
 

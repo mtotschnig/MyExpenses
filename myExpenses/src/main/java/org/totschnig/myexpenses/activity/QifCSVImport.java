@@ -28,17 +28,17 @@ import android.os.Bundle;
 
 public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
 
-  private Account.ExportFormat format;
+  private Account.ExportFormat format = Account.ExportFormat.QIF;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
-      try {
+     /* try {
         format = Account.ExportFormat.valueOf(getIntent().getStringExtra(TaskExecutionFragment.KEY_FORMAT));
       } catch (IllegalArgumentException e) {
         format = Account.ExportFormat.QIF;
-      }
+      }*/
       QifCsvImportDialogFragment.newInstance(format).show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
     }
   }
@@ -51,12 +51,12 @@ public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
       boolean withTransactions,
       boolean withCategories,
       boolean withParties, String encoding) {
-    TaskExecutionFragment taskExecutionFragment = format.equals(Account.ExportFormat.QIF) ?
+    TaskExecutionFragment taskExecutionFragment = /*format.equals(Account.ExportFormat.QIF) ?*/
         TaskExecutionFragment.newInstanceQifImport(
             mUri, qifDateFormat, accountId, currency, withTransactions,
-            withCategories, withParties, encoding) :
+            withCategories, withParties, encoding)/* :
         TaskExecutionFragment.newInstanceCSVImport(
-            mUri, qifDateFormat, accountId, currency, encoding);
+            mUri, qifDateFormat, accountId, currency, encoding)*/;
     getSupportFragmentManager()
         .beginTransaction()
         .add(taskExecutionFragment,

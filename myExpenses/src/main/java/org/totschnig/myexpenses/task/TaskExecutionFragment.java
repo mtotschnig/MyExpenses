@@ -163,14 +163,12 @@ public class TaskExecutionFragment<T> extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceCSVImport(
-      Uri mUri, QifDateFormat qifDateFormat, long accountId, String currency, String encoding) {
+      Uri mUri, QifDateFormat qifDateFormat, String encoding) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);
     bundle.putParcelable(KEY_FILE_PATH, mUri);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
-    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
     bundle.putString(KEY_ENCODING, encoding);
     f.setArguments(bundle);
     return f;

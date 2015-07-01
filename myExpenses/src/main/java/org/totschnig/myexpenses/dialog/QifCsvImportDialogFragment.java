@@ -4,8 +4,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
-import java.util.Arrays;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifCSVImport;
@@ -37,8 +35,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
 
-  static final String PREFKEY_IMPORT_QIF_DATE_FORMAT = "import_qif_date_format";
-  static final String PREFKEY_IMPORT_QIF_ENCODING = "import_qif_encoding";
+  public static final String PREFKEY_IMPORT_DATE_FORMAT = "import_qif_date_format";
+  public static final String PREFKEY_IMPORT_ENCODING = "import_qif_encoding";
   private MergeCursor mAccountsCursor;
 
   public static final QifCsvImportDialogFragment newInstance(Account.ExportFormat format) {
@@ -82,8 +80,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
           .putString(getPrefKey(), mUri.toString())
-          .putString(PREFKEY_IMPORT_QIF_ENCODING, encoding)
-          .putString(PREFKEY_IMPORT_QIF_DATE_FORMAT, format.name()));
+          .putString(PREFKEY_IMPORT_ENCODING, encoding)
+          .putString(PREFKEY_IMPORT_DATE_FORMAT, format.name()));
       ((QifCSVImport) getActivity()).onSourceSelected(
           mUri,
           format,
@@ -151,9 +149,9 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
 
-    mDateFormatSpinner = DialogUtils.configureDateFormat(view,wrappedCtx,PREFKEY_IMPORT_QIF_DATE_FORMAT);
+    mDateFormatSpinner = DialogUtils.configureDateFormat(view,wrappedCtx, PREFKEY_IMPORT_DATE_FORMAT);
 
-    mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_QIF_ENCODING);
+    mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
     mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
