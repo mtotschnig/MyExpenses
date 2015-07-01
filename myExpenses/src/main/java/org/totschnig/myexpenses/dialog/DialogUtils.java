@@ -15,31 +15,42 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.Utils;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
+import android.provider.OpenableColumns;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.support.v7.app.ActionBarActivity;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Util class with helper methods
  * @author Michael Totschnig
@@ -100,11 +111,11 @@ public class DialogUtils {
       .setTitle(R.string.password_prompt)
       .setView(view)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            ctx.moveTaskToBack(true);
-          }
-        });
+        @Override
+        public void onCancel(DialogInterface dialog) {
+          ctx.moveTaskToBack(true);
+        }
+      });
     if (MyApplication.getInstance().isContribEnabled() && !securityQuestion.equals("")) {
       builder.setNegativeButton(R.string.password_lost, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {}
@@ -115,6 +126,96 @@ public class DialogUtils {
     });
     return builder.create();
   }
+
+  public static Uri handleFilenameRequestResult(
+      Intent data, EditText mFilename, String typeName, UriTypePartChecker checker) {
+    Uri mUri = data.getData();
+    if (mUri != null) {
+      Context context = MyApplication.getInstance();
+      mFilename.setError(null);
+      String displayName = getDisplayName(mUri);
+      mFilename.setText(displayName);
+      if (displayName == null) {
+        mUri = null;
+        //SecurityException raised during getDisplayName
+        mFilename.setError("Error while retrieving document");
+      } else {
+        String type = context.getContentResolver().getType(mUri);
+        if (type != null) {
+          String[] typeParts = type.split("/");
+          if (typeParts.length==0 ||
+              !checker.checkTypeParts(typeParts)) {
+            mUri = null;
+            mFilename.setError(context.getString(R.string.import_source_select_error, typeName));
+          }
+        }
+      }
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mUri != null) {
+        final int takeFlags = data.getFlags()
+            & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        try {
+          //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
+          context.getContentResolver().takePersistableUriPermission(mUri, takeFlags);
+        } catch (SecurityException e) {
+          //Utils.reportToAcra(e);
+        }
+      }
+    }
+    return mUri;
+  }
+  public interface UriTypePartChecker {
+    boolean checkTypeParts(String[] typeParts);
+  }
+  public static boolean checkTypePartsDefault(String[] typeParts) {
+    return typeParts[0].equals("*") ||
+        typeParts[0].equals("text") ||
+        typeParts[0].equals("application");
+  }
+  //https://developer.android.com/guide/topics/providers/document-provider.html
+  /**
+   * @return display name for document stored at mUri.
+   * Returns null if accessing mUri raises {@link SecurityException}
+   */
+  @SuppressLint("NewApi")
+  public static String getDisplayName(Uri uri) {
+
+    if (!"file".equalsIgnoreCase(uri.getScheme()) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      // The query, since it only applies to a single document, will only return
+      // one row. There's no need to filter, sort, or select fields, since we want
+      // all fields for one document.
+      try {
+        Cursor cursor = MyApplication.getInstance().getContentResolver()
+            .query(uri, null, null, null, null, null);
+
+        if (cursor != null) {
+          try {
+            if (cursor.moveToFirst()) {
+              // Note it's called "Display Name".  This is
+              // provider-specific, and might not necessarily be the file name.
+              int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+              if (columnIndex != -1) {
+                return cursor.getString(columnIndex);
+              }
+            }
+          } catch (Exception e) {}
+          finally {
+            cursor.close();
+          }
+        }
+      } catch (SecurityException e) {
+        //this can happen if the user has restored a backup and
+        //we do not have a persistable permision
+        return null;
+      }
+    }
+    List<String> filePathSegments = uri.getPathSegments();
+    if (filePathSegments.size()>0) {
+      return filePathSegments.get(filePathSegments.size()-1);
+    } else {
+      return "UNKNOWN";
+    }
+  }
+
   static class PasswordDialogListener implements View.OnClickListener {
     private final AlertDialog dialog;
     private final Activity ctx;
@@ -227,5 +328,57 @@ public class DialogUtils {
   }
   interface CalendarRestoreStrategyChangedListener {
     void onCheckedChanged();
+  }
+
+  public static Spinner configureDateFormat(View view, Context context, String prefName) {
+    Spinner dateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
+    ArrayAdapter<QifDateFormat> dateFormatAdapter =
+        new ArrayAdapter<QifDateFormat>(
+            context, android.R.layout.simple_spinner_item, QifDateFormat.values());
+    dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    dateFormatSpinner.setAdapter(dateFormatAdapter);
+    QifDateFormat qdf;
+    try {
+      qdf = QifDateFormat.valueOf(
+          MyApplication.getInstance().getSettings()
+              .getString(prefName, "EU"));
+    } catch (IllegalArgumentException e) {
+      qdf = QifDateFormat.EU;
+    }
+    dateFormatSpinner.setSelection(qdf.ordinal());
+    return dateFormatSpinner;
+  }
+
+  public static Spinner configureEncoding(View view, Context context, String prefName) {
+    Spinner encodingSpinner = (Spinner) view.findViewById(R.id.Encoding);
+    encodingSpinner.setSelection(
+        Arrays.asList(context.getResources().getStringArray(R.array.pref_qif_export_file_encoding))
+            .indexOf(MyApplication.getInstance().getSettings()
+                .getString(prefName, "UTF-8")));
+    return encodingSpinner;
+  }
+  public static EditText configureFilename(View view) {
+    EditText filename = (EditText) view.findViewById(R.id.Filename);
+    filename.setEnabled(false);
+    return filename;
+  }
+  public static void openBrowse(Uri uri, Fragment fragment) {
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+    intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+    intent.setDataAndType(uri,"*/*");
+
+    try {
+      fragment.startActivityForResult(intent, ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE);
+    } catch (ActivityNotFoundException e) {
+      // No compatible file manager was found.
+      Toast.makeText(fragment.getActivity(), R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
+    } catch(SecurityException ex) {
+      Toast.makeText(fragment.getActivity(),
+          String.format(
+              "Sorry, this destination does not accept %s request. Please select a different one.",intent.getAction()),
+          Toast.LENGTH_SHORT)
+          .show();
+    }
   }
 }

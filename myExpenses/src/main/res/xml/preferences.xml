@@ -104,9 +104,7 @@
         </intent>
     </Preference>
       <Preference android:key="@string/pref_import_csv_key">
-          <intent android:action="myexpenses.intent.import">
-              <extra android:name="format" android:value="CSV"/>
-          </intent>
+          <intent android:action="myexpenses.intent.import.csv"/>
     </Preference>
   </PreferenceCategory>
   <PreferenceCategory

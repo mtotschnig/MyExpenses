@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -29,12 +30,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
-    implements OnClickListener, DialogInterface.OnClickListener  {
+    implements OnClickListener, DialogInterface.OnClickListener, DialogUtils.UriTypePartChecker  {
 
-  public static final int IMPORT_FILENAME_REQUESTCODE = 1;
   protected EditText mFilename;
   protected Uri mUri;
-  final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
   public ImportSourceDialogFragment() {
     super();
@@ -43,10 +42,8 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   abstract String getLayoutTitle();
   abstract String getTypeName();
   abstract String getPrefKey();
-  protected boolean checkTypeParts(String[] typeParts) {
-    return typeParts[0].equals("*") || 
-    typeParts[0].equals("text") || 
-    typeParts[0].equals("application");
+  public boolean checkTypeParts(String[] typeParts) {
+   return DialogUtils.checkTypePartsDefault(typeParts);
   }
 
   @Override
@@ -77,116 +74,20 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
 
   protected void setupDialogView(View view) {
-    mFilename = (EditText) view.findViewById(R.id.Filename);
-    mFilename.setEnabled(false);
+    mFilename = DialogUtils.configureFilename(view);
 
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
   }
 
-  public void openBrowse() {
-  
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-    intent.addCategory(Intent.CATEGORY_OPENABLE);
-  
-    intent.setDataAndType(mUri,"*/*");
-  
-    try {
-        startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
-    } catch (ActivityNotFoundException e) {
-        // No compatible file manager was found.
-        Toast.makeText(getActivity(), R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
-    } catch(SecurityException ex) {
-      Toast.makeText(getActivity(),
-          String.format(
-              "Sorry, this destination does not accept %s request. Please select a different one.",intent.getAction()),
-          Toast.LENGTH_SHORT)
-        .show();
-    }
-  }
-
-  @SuppressLint("NewApi")
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
+    if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        mUri = data.getData();
-        if (mUri != null) {
-          mFilename.setError(null);
-          String displayName = getDisplayName(mUri);
-          mFilename.setText(displayName);
-          if (displayName == null) {
-            mUri = null;
-            //SecurityException raised during getDisplayName
-            mFilename.setError("Error while retrieving document");
-          } else {
-            String type = getActivity().getContentResolver().getType(mUri);
-            if (type != null) {
-              String[] typeParts = type.split("/");
-              if (typeParts.length==0 ||
-                  !checkTypeParts(typeParts)) {
-                mUri = null;
-                mFilename.setError(getString(R.string.import_source_select_error,getTypeName()));
-              }
-            }
-          }
-          if (isKitKat && mUri != null) {
-            final int takeFlags = data.getFlags()
-                & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-            try {
-              //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
-              getActivity().getContentResolver().takePersistableUriPermission(mUri, takeFlags);
-            } catch (SecurityException e) {
-              //Utils.reportToAcra(e);
-            }
-          }
-        }
+        mUri = DialogUtils.handleFilenameRequestResult(data, mFilename, getTypeName(), this);
       }
     }
   }
-  //https://developer.android.com/guide/topics/providers/document-provider.html
-  /**
-   * @return display name for document stored at mUri.
-   * Returns null if accessing mUri raises {@link SecurityException}
-   */
-  @SuppressLint("NewApi")
-  public static String getDisplayName(Uri uri) {
 
-    if (!"file".equalsIgnoreCase(uri.getScheme()) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      // The query, since it only applies to a single document, will only return
-      // one row. There's no need to filter, sort, or select fields, since we want
-      // all fields for one document.
-      try {
-        Cursor cursor = MyApplication.getInstance().getContentResolver()
-                .query(uri, null, null, null, null, null);
-  
-        if (cursor != null) {
-          try {
-            if (cursor.moveToFirst()) {
-              // Note it's called "Display Name".  This is
-              // provider-specific, and might not necessarily be the file name.
-              int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-              if (columnIndex != -1) {
-                return cursor.getString(columnIndex);
-              }
-            }
-          } catch (Exception e) {}
-            finally {
-            cursor.close();
-          }
-        }
-      } catch (SecurityException e) {
-        //this can happen if the user has restored a backup and
-        //we do not have a persistable permision
-        return null;
-      }
-    }
-    List<String> filePathSegments = uri.getPathSegments();
-    if (filePathSegments.size()>0) {
-      return filePathSegments.get(filePathSegments.size()-1);
-    } else {
-      return "UNKNOWN";
-    }
-  }
 
   @Override
   public void onClick(DialogInterface dialog, int id) {
@@ -202,7 +103,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
           .getString(getPrefKey(), "");
       if (!restoredUriString.equals("")) {
         Uri restoredUri = Uri.parse(restoredUriString);
-        String displayName = getDisplayName(restoredUri);
+        String displayName = DialogUtils.getDisplayName(restoredUri);
         if (displayName != null) {
           mUri = restoredUri;
           mFilename.setText(displayName);
@@ -213,7 +114,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   @Override
   public void onClick(View v) {
-   openBrowse();
+   DialogUtils.openBrowse(mUri,this);
   }
   protected boolean isReady() {
     return mUri != null;
@@ -235,7 +136,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
       String restoredUriString = savedInstanceState.getString(getPrefKey());
       if (restoredUriString != null) {
         Uri restoredUri = Uri.parse(restoredUriString);
-        String displayName = getDisplayName(restoredUri);
+        String displayName = DialogUtils.getDisplayName(restoredUri);
         if (displayName != null) {
           mUri = restoredUri;
           mFilename.setText(displayName);

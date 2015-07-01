@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:gravity="center_vertical"
+          tools:showIn="@layout/import_dialog">
+
+    <TextView
+        style="@style/form_label"
+        android:text="@string/date_format"/>
+
+    <Spinner
+        android:id="@+id/DateFormat"
+        android:layout_weight="1"/>
+</TableRow>

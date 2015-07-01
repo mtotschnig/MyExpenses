@@ -171,7 +171,6 @@ public class MyExpenses extends LaunchActivity implements
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
     Resources.Theme theme = getTheme();
     TypedValue value = new TypedValue();

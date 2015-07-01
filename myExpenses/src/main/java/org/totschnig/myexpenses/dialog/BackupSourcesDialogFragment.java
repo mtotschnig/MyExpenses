@@ -47,7 +47,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   }
 
   @Override
-  protected boolean checkTypeParts(String[] typeParts) {
+  public boolean checkTypeParts(String[] typeParts) {
     return typeParts[0].equals("application") && 
     typeParts[1].equals("zip");
   }

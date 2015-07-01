@@ -72,6 +72,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int PICK_COLOR_REQUEST = 11;
   public static final int CONTRIB_REQUEST = 13;
   public static final int PICTURE_REQUEST_CODE = 14;
+  public static final int IMPORT_FILENAME_REQUESTCODE = 15;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;

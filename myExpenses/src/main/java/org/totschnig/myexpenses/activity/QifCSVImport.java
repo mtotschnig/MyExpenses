@@ -51,22 +51,23 @@ public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
       boolean withTransactions,
       boolean withCategories,
       boolean withParties, String encoding) {
+    TaskExecutionFragment taskExecutionFragment = format.equals(Account.ExportFormat.QIF) ?
+        TaskExecutionFragment.newInstanceQifImport(
+            mUri, qifDateFormat, accountId, currency, withTransactions,
+            withCategories, withParties, encoding) :
+        TaskExecutionFragment.newInstanceCSVImport(
+            mUri, qifDateFormat, accountId, currency, encoding);
     getSupportFragmentManager()
-      .beginTransaction()
-      .add(TaskExecutionFragment.newInstanceQifImport(
-          mUri,
-          qifDateFormat,
-          accountId,
-          currency,
-          withTransactions,
-          withCategories,
-          withParties,
-          encoding),
-          "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(
-          getString(R.string.pref_import_title,format.name()),null,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
-      .commit();
+        .beginTransaction()
+        .add(taskExecutionFragment,
+            "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(
+                getString(R.string.pref_import_title, format.name()),
+                null, ProgressDialog.STYLE_SPINNER, true),
+            "PROGRESS")
+        .commit();
   }
+
   @Override
 
   public void onMessageDialogDismissOrCancel() {

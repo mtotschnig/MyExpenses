@@ -20,7 +20,7 @@
     <TableRow android:gravity="center_vertical" >
 
         <TextView
-            style="@style/dialog_text"
+            style="@style/form_label"
             android:layout_width="0dip"
             android:layout_weight="1"
             android:text="@string/import_source_file" />

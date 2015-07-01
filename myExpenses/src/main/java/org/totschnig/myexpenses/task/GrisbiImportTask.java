@@ -65,8 +65,6 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
   /**
    * return false upon problem (and sets a result object) or true
-   * 
-   * @param source2
    */
   protected Result parseXML() {
     Context app = MyApplication.getInstance();

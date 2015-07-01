@@ -151,28 +151,9 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
 
-    mDateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
-    ArrayAdapter<QifDateFormat> dateFormatAdapter =
-        new ArrayAdapter<QifDateFormat>(
-            wrappedCtx, android.R.layout.simple_spinner_item, QifDateFormat.values());
-    dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mDateFormatSpinner.setAdapter(dateFormatAdapter);
-    QifDateFormat qdf;
-    try {
-      qdf = QifDateFormat.valueOf(
-          MyApplication.getInstance().getSettings()
-          .getString(PREFKEY_IMPORT_QIF_DATE_FORMAT, "EU"));
-    } catch (IllegalArgumentException e) {
-      qdf = QifDateFormat.EU;
-    }
-    mDateFormatSpinner.setSelection(qdf.ordinal());
+    mDateFormatSpinner = DialogUtils.configureDateFormat(view,wrappedCtx,PREFKEY_IMPORT_QIF_DATE_FORMAT);
 
-
-    mEncodingSpinner = (Spinner) view.findViewById(R.id.Encoding);
-    mEncodingSpinner.setSelection(
-        Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
-        .indexOf(MyApplication.getInstance().getSettings()
-            .getString(PREFKEY_IMPORT_QIF_ENCODING, "UTF-8")));
+    mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_QIF_ENCODING);
 
     mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(

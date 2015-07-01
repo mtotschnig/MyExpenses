@@ -366,4 +366,9 @@
         <item>LTE</item>
         <item>BTW</item>
     </string-array>
+    <string-array name="pref_csv_import_delimiter_entries">
+        <item>Comma</item>
+        <item>Semikolon</item>
+        <item>Tabulator</item>
+    </string-array>
 </resources>

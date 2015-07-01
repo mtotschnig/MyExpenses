@@ -34,7 +34,6 @@ import android.util.Log;
  * This Fragment manages a single background task and retains itself across
  * configuration changes. It handles several task that each operate on a single
  * db object identified by its row id
- * 
  */
 public class TaskExecutionFragment<T> extends Fragment {
   private static final String KEY_EXTRA = "extra";
@@ -78,8 +77,8 @@ public class TaskExecutionFragment<T> extends Fragment {
   /**
    * same as {@link TaskExecutionFragment#TASK_INSTANTIATE_TRANSACTION}
    * but
-   *  * does not prepare split transactions for edit
-   *  * allows Activity to define a second callback
+   * * does not prepare split transactions for edit
+   * * allows Activity to define a second callback
    */
   public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
   public static final int TASK_UPDATE_SORT_KEY = 27;
@@ -91,6 +90,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SAVE_IMAGES = 33;
   public static final int TASK_UNDELETE_TRANSACTION = 34;
   public static final int TASK_EXPORT_CATEGRIES = 35;
+  public static final int TASK_CSV_IMPORT = 36;
 
 
   /**
@@ -105,11 +105,9 @@ public class TaskExecutionFragment<T> extends Fragment {
     void onCancelled();
 
     /**
-     * @param taskId
-     *          with which TaskExecutionFragment was created
-     * @param o
-     *          object that the activity expects from the task, for example an
-     *          instantiated DAO
+     * @param taskId with which TaskExecutionFragment was created
+     * @param o      object that the activity expects from the task, for example an
+     *               instantiated DAO
      */
     void onPostExecute(int taskId, Object o);
   }
@@ -117,7 +115,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   TaskCallbacks mCallbacks;
 
   public static <T> TaskExecutionFragment newInstance(int taskId, T[] objectIds,
-      Serializable extra) {
+                                                      Serializable extra) {
     TaskExecutionFragment<T> f = new TaskExecutionFragment<T>();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, taskId);
@@ -133,7 +131,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceGrisbiImport(boolean external,
-      Uri mUri, boolean withCategories, boolean withParties) {
+                                                              Uri mUri, boolean withCategories, boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);
@@ -145,8 +143,8 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceQifImport(Uri mUri,
-      QifDateFormat qifDateFormat, long accountId, String currency,
+  public static TaskExecutionFragment newInstanceQifImport(
+      Uri mUri, QifDateFormat qifDateFormat, long accountId, String currency,
       boolean withTransactions, boolean withCategories, boolean withParties,
       String encoding) {
     TaskExecutionFragment f = new TaskExecutionFragment();
@@ -159,6 +157,20 @@ public class TaskExecutionFragment<T> extends Fragment {
     bundle.putBoolean(KEY_WITH_TRANSACTIONS, withTransactions);
     bundle.putBoolean(KEY_WITH_PARTIES, withParties);
     bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
+    bundle.putString(KEY_ENCODING, encoding);
+    f.setArguments(bundle);
+    return f;
+  }
+
+  public static TaskExecutionFragment newInstanceCSVImport(
+      Uri mUri, QifDateFormat qifDateFormat, long accountId, String currency, String encoding) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    Bundle bundle = new Bundle();
+    bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);
+    bundle.putParcelable(KEY_FILE_PATH, mUri);
+    bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
+    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
     bundle.putString(KEY_ENCODING, encoding);
     f.setArguments(bundle);
     return f;
@@ -177,7 +189,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     f.setArguments(b);
     return f;
   }
-  
+
   public static TaskExecutionFragment newInstancePrint(Bundle b) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     b.putInt(KEY_TASKID, TASK_PRINT);
@@ -221,27 +233,30 @@ public class TaskExecutionFragment<T> extends Fragment {
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
     Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId +
-        " with objects: "+Utils.printDebug((T[]) args.getSerializable(KEY_OBJECT_IDS)));
+        " with objects: " + Utils.printDebug((T[]) args.getSerializable(KEY_OBJECT_IDS)));
     try {
       switch (taskId) {
-      case TASK_GRISBI_IMPORT:
-        new GrisbiImportTask(this, args).execute();
-        break;
-      case TASK_QIF_IMPORT:
-        new QifImportTask(this, args).execute();
-        break;
-      case TASK_EXPORT:
-        new ExportTask(this,args).execute();
-        break;
-      case TASK_RESTORE:
-        new RestoreTask(this,args).execute();
-        break;
-      case TASK_PRINT:
-        new PrintTask(this,args).execute();
-        break;
-      default:
-        new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
-            .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
+        case TASK_GRISBI_IMPORT:
+          new GrisbiImportTask(this, args).execute();
+          break;
+        case TASK_QIF_IMPORT:
+          new QifImportTask(this, args).execute();
+          break;
+        case TASK_CSV_IMPORT:
+          new CsvImportTask(this, args).execute();
+          break;
+        case TASK_EXPORT:
+          new ExportTask(this, args).execute();
+          break;
+        case TASK_RESTORE:
+          new RestoreTask(this, args).execute();
+          break;
+        case TASK_PRINT:
+          new PrintTask(this, args).execute();
+          break;
+        default:
+          new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
+              .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
       }
     } catch (ClassCastException e) {
       // the cast could fail, if Fragment is recreated,
