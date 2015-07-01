@@ -87,10 +87,7 @@
   <string name="dialog_title_balance_account">Balanç %1$s</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
-  <string name="dialog_title_select_account">Trieu el compte</string>
   <string name="dialog_title_select_grouping">Trieu una agrupació</string>
-  <string name="dialog_title_select_import_source">Trieu la font per la importació</string>
-  <string name="dialog_title_select_template">Tria una plantilla</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Trieu el títol</string>
@@ -112,7 +109,6 @@
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
   <string name="grisbi_import_default_source">Categories predeterminades en català</string>
-  <string name="grisbi_import_parsing">Análisi de %1$s</string>
   <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Darrera setmana</string>
@@ -170,7 +166,6 @@
   <string name="menu_create_transaction">Nova operació</string>
   <string name="menu_create_transfer">Nova transferència</string>
   <string name="menu_delete">Suprimeix</string>
-  <string name="menu_delete_account">Suprimeix el compte</string>
   <string name="menu_distribution">Per categories</string>
   <string name="menu_edit">Modifica</string>
   <string name="menu_edit_account">Modifica el compte</string>
@@ -202,8 +197,6 @@
   <string name="menu_share">Digueu-ho a un amic</string>
   <string name="menu_set_sort_key">Configura la clau d\'ordenació</string>
   <string name="method">Mètode</string>
-  <string name="new_version">Nova versió</string>
-  <string name="no_accounts">No hi ha cap compte!</string>
   <string name="no_amount_given">No heu indicat cap import.</string>
   <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
   <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
@@ -327,7 +320,6 @@
   <string name="progress_dialog_create_plan">S\'està generant una nova planificació...</string>
   <string name="progress_dialog_deleting">S\'estàn suprimint els objectes...</string>
   <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades …</string>
-  <string name="progress_dialog_setup">La Base de dades s\'està iniciant …</string>
   <string name="reference_number">Número de referència</string>
   <string name="request_licence_mail_description">Si us plau expliqueu (en anglès, alemany o francès) la vostra contribució a Les meves despeses (per exemple, donació mitjançant Paypal, informe d\'errors, proves, traducció).</string>
   <string name="request_licence_mail_head">Si us plau, envieu-me una clau Contrib per l\'identificador d\'Android %1$s.</string>
@@ -354,8 +346,6 @@
   <string name="sum_expenses">Despeses</string>
   <string name="sum_income">Ingressos</string>
   <string name="sum_transfer">Transferèncias</string>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="template">Plantilla</string>
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>
   <string name="thank_you">Gràcies pel vostre suport!</string>
@@ -367,7 +357,6 @@
   <string name="transfer">Transferència a un altre compte</string>
   <string name="transfer_from_account">Origen</string>
   <string name="transfer_to_account">Destí</string>
-  <string name="tutorial">Guia de l\'usuari</string>
   <string name="type">Tipus</string>
   <string name="unsplit_amount">Import abans de repartir</string>
   <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
@@ -378,7 +367,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
   <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat. S\'esborraran les dades actuals. Voleu continuar?</string>
-  <string name="warning_select_account">Si us plau, trieu un compte!</string>
   <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
   <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
   <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>

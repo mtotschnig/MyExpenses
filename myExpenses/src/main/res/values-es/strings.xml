@@ -96,10 +96,7 @@
   <string name="dialog_title_balance_account">Equilibrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendario requerido</string>
-  <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
-  <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
-  <string name="dialog_title_select_template">Escoger une plantilla</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Defina la cantidad de dígitos de fracción</string>
@@ -124,7 +121,6 @@
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="grisbi_import_categories_loading">Las categorías se cargan desde %1$s</string>
   <string name="grisbi_import_default_source">Categorías predeterminadas en español</string>
-  <string name="grisbi_import_parsing">Análisis de %1$s</string>
   <string name="grisbi_import_parties_loading">Partidos se cargan desde %1$s</string>
   <string name="grouping_day">Día</string>
   <string name="grouping_last_week">Semana pasada</string>
@@ -184,7 +180,6 @@
   <string name="menu_create_transaction">Nuevo asiento</string>
   <string name="menu_create_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_delete">Borrar</string>
-  <string name="menu_delete_account">Borrar la cuenta</string>
   <string name="menu_distribution">Distribución</string>
   <string name="menu_edit">Modificar</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
@@ -221,8 +216,6 @@
   <string name="menu_set_sort_key">Establecer la clave de ordenación</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
-  <string name="new_version">Nueva versión</string>
-  <string name="no_accounts">Sin cuentas</string>
   <string name="no_amount_given">No ha insertado ningún importe.</string>
   <string name="no_app_handling_email_available">No se ha encontrado una aplicación para enviar un correo electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para ftp. ¿Desea instalar <i>Enviar con FTP</i>?</string>
@@ -382,7 +375,6 @@
   <string name="progress_dialog_loading">Cargando objeto de base de datos …</string>
   <string name="progress_dialog_printing">Generación de PDF...</string>
   <string name="progress_dialog_saving">Guardando objeto de base de datos …</string>
-  <string name="progress_dialog_setup">Base de datos inicializada …</string>
   <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Se encuentran en archivo QIF varias cuentas.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">No puedes combinarlos en cuenta existente.</string>
@@ -423,7 +415,6 @@
   <string name="sum_transfer">Traslados</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Probar Mis Gastos, Gestión de las finanzas personales para %s, desde http://www.myexpenses.mobi</string>
-  <string name="template">Plantilla</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
   <string name="thank_you">¡Gracias por su apoyo!</string>
@@ -435,7 +426,6 @@
   <string name="transfer">Traslado a otra cuenta</string>
   <string name="transfer_from_account">Desde</string>
   <string name="transfer_to_account">A</string>
-  <string name="tutorial">Manual</string>
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importe no dividido</string>
   <string name="unsplit_amount_greater_than_zero">Todavía hay cierta cantidad que queda no dividida.</string>
@@ -469,7 +459,6 @@
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_reset_account_matched">Si continúas, transacciones igualadas por el filtro actual se eliminan de la base de datos y no se pueden restaurar..</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
-  <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada para copias de seguridad y las exportaciones se eliminará automáticamente por Android si desinstalas Mis Gastos. Puede evitar que esto suceda al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Transferencias que forman parte de un asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina un número entre 0 y 8</string>

@@ -82,10 +82,7 @@
   <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
   <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
-  <string name="dialog_title_select_account">ជ្រើសយកគណនីមួយ</string>
   <string name="dialog_title_select_grouping">ជ្រើសយក​ក្រុមមួយ</string>
-  <string name="dialog_title_select_import_source">ជ្រើសយកប្រភពសម្រាប់នាំចូលមួយ</string>
-  <string name="dialog_title_select_template">ជ្រើសយកពុម្ពមួយ</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">កំណត់ចំណងជើង</string>
@@ -107,7 +104,6 @@
   <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
   <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>
   <string name="grisbi_import_default_source">ចំណាត់ថ្នាក់​លំនាំដើមជាភាសាអង់គ្លេស</string>
-  <string name="grisbi_import_parsing">ញែក %1$s</string>
   <string name="grisbi_import_parties_loading">ផ្ទុកទិន្នន័យ​ភាគី​ពី %1$s បាន</string>
   <string name="grouping_day">ថ្ងៃ</string>
   <string name="grouping_last_week">សប្តាហ៍ក្រោយ</string>
@@ -166,7 +162,6 @@
   <string name="menu_create_transaction">ប្រតិបត្តិការថ្មី</string>
   <string name="menu_create_transfer">ផ្ទេរថ្មី</string>
   <string name="menu_delete">លុប</string>
-  <string name="menu_delete_account">លុបគណនី</string>
   <string name="menu_distribution">ការចែកចាយ</string>
   <string name="menu_edit">កែសម្រួល</string>
   <string name="menu_edit_account">កែគណនី</string>
@@ -201,8 +196,6 @@
   <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
   <string name="menu_set_sort_key">ដាក់សោមេ​​ដើម្បីតម្រៀប</string>
   <string name="method">វិធីសាស្ត្រ</string>
-  <string name="new_version">កំណែថ្មី</string>
-  <string name="no_accounts">គ្មាន​គណនី!</string>
   <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
   <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
   <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
@@ -339,7 +332,6 @@
   <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ ...</string>
   <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ ...</string>
   <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
-  <string name="progress_dialog_setup">មូលដ្ឋាន​ទិន្នន័យ​ត្រូវបាន​​ចាប់​ផ្តើម ...</string>
   <string name="reference_number">លេខ​យោង</string>
   <string name="request_licence_mail_description">សូម​ពិពណ៌នា (ជាភាសាអង់គ្លេស អាឡឺម៉ង ឬបារាំង) ពី​​ការរួម​ចំណែក​របស់​អ្នក​សំរាប់ My Expenses (ឧ. វិភាគទាន​ជា​ប្រាក់​តាម Paypal, ផ្តល់​ព័ត៌​មាន​ពីកំហុស, តេស្ត ឬ​បក​ប្រែ)។</string>
   <string name="request_licence_mail_head">សូម​ផ្ញើ Contrib key មួយ​សំរាប់​ Android-Id %1$s មកខ្ញុំ។</string>
@@ -372,7 +364,6 @@
   <string name="sum_transfer">ការបញ្ជូនចេញ</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">ការចំណាយរបស់ខ្ញុំ, កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ %s, http://www.myexpenses.mobi</string>
-  <string name="template">ទិន្ន​ន័យ​គំរូ</string>
   <string name="template_create_success">ទិន្នន័យ​គំរូ \"%1$s\" បង្កើត​បានជោគជ័យ</string>
   <string name="template_title_exists">ទិន្នន័យ​គំរូ​ជាមួយ​ចំណងជើង \"%1$s\" មានរួចហើយ</string>
   <string name="thank_you">សូមអរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!</string>
@@ -383,7 +374,6 @@
   <string name="transfer">ការបញ្ជូនចេញ</string>
   <string name="transfer_from_account">ពី</string>
   <string name="transfer_to_account">ទៅ</string>
-  <string name="tutorial">មគ្គុទេសក៏របស់អ្នក​ប្រើប្រាស់</string>
   <string name="type">ប្រភេទ</string>
   <string name="unsplit_amount">មិនបំបែក​ចំនួន​ទឹក​ប្រាក់</string>
   <string name="unsplit_amount_greater_than_zero">នៅ​មាន​ចំនួន​​ទឹក​ប្រាក់​​ខ្លះ​​ស្ថិត​នៅ​ភាព​​មិនបំបែក</string>
@@ -405,7 +395,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
   <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។ តើអ្នកចង់បន្តឬ?</string>
-  <string name="warning_select_account">សូមជ្រើសរើស​គណនី​មួយ!</string>
   <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
   <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
   <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>

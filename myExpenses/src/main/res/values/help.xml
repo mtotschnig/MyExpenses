@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menu commands</string>
   <string name="help_contextual_actions">Contextual actions</string>
   <string name="cab_delete_help_text">Delete the selected items.</string>

@@ -61,10 +61,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Tính năng nâng cao</string>
-  <string name="dialog_title_select_account">Chọn một tài khoản</string>
   <string name="dialog_title_select_grouping">Chọn một nhóm</string>
-  <string name="dialog_title_select_import_source">Chọn một nguồn để nhập dữ liệu</string>
-  <string name="dialog_title_select_template">Chọn một mẫu</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
@@ -82,7 +79,6 @@
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
   <string name="grisbi_import_categories_loading">Đang tải phân loại từ %1$s</string>
   <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Việt</string>
-  <string name="grisbi_import_parsing">Đang phân tích %1$s</string>
   <string name="grisbi_import_parties_loading">Đang tải các nhóm từ %1$s</string>
   <string name="grouping_day">Ngày</string>
   <string name="grouping_last_week">Tuần rồi</string>
@@ -157,8 +153,6 @@
   <string name="menu_save_and_new">Lưu và tạo mới</string>
   <string name="menu_settings">Thiết lập</string>
   <string name="method">Phương pháp</string>
-  <string name="new_version">Phiên bản mới</string>
-  <string name="no_accounts">Hiện không có tài khoản nào!</string>
   <string name="no_amount_given">Bạn vẫn chưa điền vào số lượng</string>
   <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
   <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i>?</string>
@@ -249,7 +243,6 @@
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu …</string>
-  <string name="progress_dialog_setup">Cơ sở dữ liệu đã được thiết lập …</string>
   <string name="request_licence_mail_description">Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho Chi Tiêu Của Tôi (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình).</string>
   <string name="request_licence_mail_head">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
@@ -282,7 +275,6 @@
   <string name="title">Tiêu đề</string>
   <string name="transaction">Giao dịch</string>
   <string name="transfer">Truyền đổi</string>
-  <string name="tutorial">Hướng dẫn người dùng</string>
   <string name="type">Loại</string>
   <string name="unsplit_amount">Số lượng chưa tách</string>
   <string name="unsplit_amount_greater_than_zero">Có một số thao tác về số lượng chưa được phân tách</string>
@@ -294,7 +286,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ. Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
-  <string name="warning_select_account">Vui lòng chọn một tài khoản!</string>
   <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
   <string name="import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
   <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>

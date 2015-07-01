@@ -90,10 +90,7 @@
   <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Premium opcija</string>
   <string name="dialog_title_planner_setup_info">Potrebno podešavanje kalendara</string>
-  <string name="dialog_title_select_account">Odaberi račun</string>
   <string name="dialog_title_select_grouping">Odaberi grupiranje</string>
-  <string name="dialog_title_select_import_source">Odaberi izvor za unos</string>
-  <string name="dialog_title_select_template">Odaberi predložak</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Odredi broj razlomačkih znamenki</string>
@@ -116,7 +113,6 @@
   <string name="ftp_uri_malformed">Netočan URI %1$s</string>
   <string name="grisbi_import_categories_loading">Učitavanje kategorija iz %1$s</string>
   <string name="grisbi_import_default_source">Zadane kategorije</string>
-  <string name="grisbi_import_parsing">Analiziranje %1$s</string>
   <string name="grisbi_import_parties_loading">Učitavanje stranki iz %1$s</string>
   <string name="grouping_day">Dan</string>
   <string name="grouping_last_week">Prethodni tjedan</string>
@@ -176,7 +172,6 @@
   <string name="menu_create_transaction">Nova transakcija</string>
   <string name="menu_create_transfer">Nova doznaka</string>
   <string name="menu_delete">Izbriši</string>
-  <string name="menu_delete_account">Izbriši račun</string>
   <string name="menu_distribution">Distribucija</string>
   <string name="menu_edit">Uredi</string>
   <string name="menu_edit_account">Uredi račun</string>
@@ -212,8 +207,6 @@
   <string name="menu_share">Preporuči prijatelju</string>
   <string name="menu_set_sort_key">Sortiranje po ključu</string>
   <string name="method">Način</string>
-  <string name="new_version">Nova verzija</string>
-  <string name="no_accounts">Ne postoji račun!</string>
   <string name="no_amount_given">Molimo unesi iznos</string>
   <string name="no_app_handling_email_available">Ne postoji e-mail za rad s aplikacijom.</string>
   <string name="no_app_handling_ftp_available">Ne postoji ftp za rad s aplikacijom. Instaliraj <i>Send With FTP</i>?</string>
@@ -373,7 +366,6 @@
   <string name="progress_dialog_loading">Učitavanje stavki iz baze podataka ...</string>
   <string name="progress_dialog_printing">Generiranje PDF-a ...</string>
   <string name="progress_dialog_saving">Spremanje stavki u bazu podataka ...</string>
-  <string name="progress_dialog_setup">Poretanje baze podataka ...</string>
   <string name="qif_parse_result">Analizirano: %1$s računa; %2$s kategorija i %3$s stranki</string>
   <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nemoguće spojiti s postojećim računom.</string>
@@ -413,7 +405,6 @@
   <string name="sum_transfer">Doznake</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Posjeti My Expenses, Osobni Financijski Menadžer za %s, na http://www.myexpenses.mobi</string>
-  <string name="template">Predložak</string>
   <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>
   <string name="template_title_exists">Predložak imena \"%1$s\" već postoji</string>
   <string name="thank_you">Zahvaljujemo se na vašoj podršci!</string>
@@ -425,7 +416,6 @@
   <string name="transfer">Doznaka</string>
   <string name="transfer_from_account">Šalje</string>
   <string name="transfer_to_account">Prima</string>
-  <string name="tutorial">Priručnik</string>
   <string name="type">Oblik</string>
   <string name="unsplit_amount">Neodvojena količina transakcije</string>
   <string name="unsplit_amount_greater_than_zero">Dio iznosa je još neodvojen.</string>
@@ -462,7 +452,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Nastavite li, transakcije će biti obrisane za SVE račune%1$s i neće se moći obnoviti.</string>
   <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani. Želite li nastaviti?</string>
-  <string name="warning_select_account">Molimo odaberi račun!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
   <string name="warning_fraction_digits_out_of_range">Molimo odaberite broj između 0 i 8</string>

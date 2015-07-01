@@ -69,10 +69,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">高級功能</string>
   <string name="dialog_title_planner_setup_info">要求設定日曆</string>
-  <string name="dialog_title_select_account">選取一個帳戶</string>
   <string name="dialog_title_select_grouping">選取一個分組</string>
-  <string name="dialog_title_select_import_source">選取匯入來源</string>
-  <string name="dialog_title_select_template">選取一個範本</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">設置名稱</string>
@@ -92,7 +89,6 @@
   <string name="ftp_uri_malformed">異常URI %1$s</string>
   <string name="grisbi_import_categories_loading">從 %1$s 載入類別</string>
   <string name="grisbi_import_default_source">建議類別 (中文)</string>
-  <string name="grisbi_import_parsing">分析 %1$s</string>
   <string name="grisbi_import_parties_loading">由 %1$s 載入部分</string>
   <string name="grouping_day">日</string>
   <string name="grouping_last_week">上星期</string>
@@ -170,8 +166,6 @@
   <string name="menu_save_and_new">保存並新增</string>
   <string name="menu_settings">設定</string>
   <string name="method">方法</string>
-  <string name="new_version">新版本</string>
-  <string name="no_accounts">沒有帳戶！</string>
   <string name="no_amount_given">你未輸入任何金額。</string>
   <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
   <string name="no_app_handling_ftp_available">沒有被應用程序處理的ftp可用。安裝 <i>使用FTP發送</i> ？</string>
@@ -291,7 +285,6 @@
   <string name="progress_dialog_create_calendar">建立本機日歷...</string>
   <string name="progress_dialog_create_plan">建立新的計劃...</string>
   <string name="progress_dialog_loading">從數據庫載入物件...</string>
-  <string name="progress_dialog_setup">數據庫被初始化 ...</string>
   <string name="reference_number">參考編號</string>
   <string name="request_licence_mail_description">透過英語，德語或法語請描述你的貢獻，例如透過Paypal捐款、錯誤報告、測試和翻譯等。</string>
   <string name="request_licence_mail_head">請給我一條Android版的貢獻密鑰 %1$s。</string>
@@ -319,7 +312,6 @@
   <string name="sum_transfer">轉移</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">開支助手, 個人理財工具 %s版, http://www.myexpenses.mobi</string>
-  <string name="template">範本</string>
   <string name="template_create_success">範本 \"%1$s\" 成功被建立</string>
   <string name="template_title_exists">名為 \"%1$s\" 的範本早已存在</string>
   <string name="thank_you">感謝你的支持！</string>
@@ -329,7 +321,6 @@
   <string name="transfer">轉移</string>
   <string name="transfer_from_account">由</string>
   <string name="transfer_to_account">至</string>
-  <string name="tutorial">使用說明</string>
   <string name="type">類型</string>
   <string name="unsplit_amount">未分割數量</string>
   <string name="unsplit_amount_greater_than_zero">還有一些金額未分割。</string>
@@ -341,7 +332,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
   <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來。當前的數據會被刪除。你要繼續嗎？</string>
-  <string name="warning_select_account">請選擇一個帳戶！</string>
   <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>
   <string name="import_categories_success">%1$s 類別  被匯入成功</string>
   <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>

@@ -78,10 +78,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
   <string name="dialog_title_planner_setup_info">Wymagana konfiguracja kalendarza</string>
-  <string name="dialog_title_select_account">Wybierz konto</string>
   <string name="dialog_title_select_grouping">Wybierz grupowanie</string>
-  <string name="dialog_title_select_import_source">Wybierz źródło importu</string>
-  <string name="dialog_title_select_template">Wybierz szablon</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Określ nazwę</string>
@@ -103,7 +100,6 @@
   <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
   <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>
   <string name="grisbi_import_default_source">Domyślne polskie kategorie</string>
-  <string name="grisbi_import_parsing">Analizowanie %1$s</string>
   <string name="grisbi_import_parties_loading">Wczytywanie partii z %1$s</string>
   <string name="grouping_day">Dzień</string>
   <string name="grouping_last_week">Ostatni tydzień</string>
@@ -162,7 +158,6 @@
   <string name="menu_create_transaction">Nowa Transakcja</string>
   <string name="menu_create_transfer">Nowy Przelew</string>
   <string name="menu_delete">Usuń</string>
-  <string name="menu_delete_account">Usuń konto</string>
   <string name="menu_distribution">Dystrybucja</string>
   <string name="menu_edit">Edytuj</string>
   <string name="menu_edit_account">Edytuj Konto</string>
@@ -193,8 +188,6 @@
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_share">Poleć znajomemu</string>
   <string name="method">Metoda</string>
-  <string name="new_version">Nowa wersja</string>
-  <string name="no_accounts">Brak kont!</string>
   <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
   <string name="no_app_handling_email_available">Nie posiadasz aplikacji do obsługi E-mail</string>
   <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
@@ -338,7 +331,6 @@
   <string name="progress_dialog_deleting">Usuwanie obiektów...</string>
   <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych...</string>
   <string name="progress_dialog_saving">Zapisywanie obiektu do bazy danych ...</string>
-  <string name="progress_dialog_setup">Baza danych jest inicjowana...</string>
   <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
   <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>
@@ -377,7 +369,6 @@
   <string name="sum_transfer">Przelewy</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Moje Wydatki, Personalny menadżer finansów dla systemu %s, http://www.myexpenses.mobi</string>
-  <string name="template">Szablon</string>
   <string name="template_create_success">Szablon \"%1$s\" został utworzony pomyślnie</string>
   <string name="template_title_exists">Szablon z nazwą \"%1$s\" już istnieje</string>
   <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
@@ -389,7 +380,6 @@
   <string name="transfer">Przelew</string>
   <string name="transfer_from_account">Z</string>
   <string name="transfer_to_account">Do</string>
-  <string name="tutorial">Podręcznik użytkownika</string>
   <string name="type">Typ</string>
   <string name="unsplit_amount">Wycofaj rozdzielenie kwoty</string>
   <string name="unsplit_amount_greater_than_zero">Pewna kwota została nierozdzielona.</string>
@@ -425,7 +415,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
-  <string name="warning_select_account">Proszę wybrać konto!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>

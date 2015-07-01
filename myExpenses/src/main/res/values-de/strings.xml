@@ -96,10 +96,7 @@
   <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
-  <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
-  <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
-  <string name="dialog_title_select_template">Vorlage auswählen</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Anzahl der Nachkommastellen</string>
@@ -124,7 +121,6 @@
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
-  <string name="grisbi_import_parsing">Analyse von %1$s</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
   <string name="grouping_day">Tag</string>
   <string name="grouping_last_week">Letzte Woche</string>
@@ -184,7 +180,6 @@
   <string name="menu_create_transaction">Neue Buchung</string>
   <string name="menu_create_transfer">Neue Umbuchung</string>
   <string name="menu_delete">Löschen</string>
-  <string name="menu_delete_account">Konto löschen</string>
   <string name="menu_distribution">Verteilung</string>
   <string name="menu_edit">Bearbeiten</string>
   <string name="menu_edit_account">Konto verändern</string>
@@ -221,8 +216,6 @@
   <string name="menu_set_sort_key">Sortierschlüssel festlegen</string>
   <string name="menu_split_transaction">Splitten</string>
   <string name="method">Zahlungsweise</string>
-  <string name="new_version">Neue Version</string>
-  <string name="no_accounts">Keine Konten</string>
   <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
   <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
@@ -382,7 +375,6 @@
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen …</string>
   <string name="progress_dialog_printing">Generierung von PDF...</string>
   <string name="progress_dialog_saving">Objekt wird in Datenbank gespeichert …</string>
-  <string name="progress_dialog_setup">Datenbank wird initialisiert …</string>
   <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
   <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
@@ -423,7 +415,6 @@
   <string name="sum_transfer">Umbuchungen</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Probiere Meine Ausgaben, Persönliches Finanz-Management für %s, von http://www.myexpenses.mobi</string>
-  <string name="template">Vorlage</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
@@ -435,7 +426,6 @@
   <string name="transfer">Umbuchung</string>
   <string name="transfer_from_account">Von</string>
   <string name="transfer_to_account">Nach</string>
-  <string name="tutorial">Anleitung</string>
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
@@ -469,7 +459,6 @@
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
-  <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
   <string name="warning_fraction_digits_out_of_range">Bitte eine Zahl zwischen 0 und 8 angeben</string>

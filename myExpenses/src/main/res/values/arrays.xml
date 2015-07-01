@@ -14,11 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
-    <string-array name="pref_export_format">
-        <item>QIF</item>
-        <item>CSV</item>
-    </string-array>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="pref_qif_export_file_encoding">
         <item>UTF-8</item>
         <item>ISO-8859-1</item>
@@ -115,7 +111,7 @@
       <item>@string/pm_type_neutral</item>
       <item>@string/pm_type_credit</item>
     </string-array>
-    <string-array name="MyExpenses_menuitems">
+    <string-array tools:ignore="UnusedResources" name="MyExpenses_menuitems">
       <item>create_transaction</item>
       <item>create_transfer</item>
       <item>create_split</item>
@@ -127,102 +123,102 @@
       <item>balance</item>
       <item>print</item>
     </string-array>
-    <string-array name="MyExpenses_cabitems">
+    <string-array tools:ignore="UnusedResources" name="MyExpenses_cabitems">
     	<item>edit</item>
       <item>delete</item>
       <item>create_template_from_transaction</item>
       <item>clone_transaction</item>
     </string-array>
-    <string-array name="ManageMethods_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ManageMethods_menuitems">
       <item>create_method</item>
     </string-array>
-    <string-array name="ManageMethods_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageMethods_cabitems">
       <item>edit</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageParties_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ManageParties_menuitems">
       <item>create_party</item>
     </string-array>
-    <string-array name="ManageParties_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageParties_cabitems">
       <item>edit</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageTemplates_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ManageTemplates_menuitems">
       <item>create_template_for_transaction</item>
       <item>create_template_for_transfer</item>
     </string-array>
-    <string-array name="ManageTemplates_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageTemplates_cabitems">
       <item>edit</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageTemplates_templates_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageTemplates_templates_cabitems">
       <item>create_instance_save</item>
       <item>create_instance_edit</item>
     </string-array>
-    <string-array name="ManageTemplates_plans_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageTemplates_plans_cabitems">
       <item>create_instance_save</item>
       <item>create_instance_edit</item>
       <item>cancel_plan_instance</item>
       <item>reset_plan_instance</item>
       <item>edit_plan_instance</item>
     </string-array>
-    <string-array name="ManageCategories_manage_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_manage_menuitems">
       <item>create_main_cat</item>
       <item>categories_setup_default</item>
       <item>categories_export</item>
     </string-array>
-    <string-array name="ManageCategories_select_mapping_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_select_mapping_menuitems">
       <item>create_main_cat</item>
       <item>categories_setup_default</item>
     </string-array>
-    <string-array name="ManageCategories_distribution_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_distribution_menuitems">
       <item>grouping</item>
       <item>back</item>
       <item>forward</item>
     </string-array>
-    <string-array name="ManageCategories_distribution_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_distribution_cabitems">
       <item>select_category</item>
     </string-array>
-    <string-array name="ManageCategories_manage_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_manage_cabitems">
       <item>edit</item>
       <item>create_sub_cat</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageCategories_select_mapping_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_select_mapping_cabitems">
       <item>select_category</item>
       <item>edit</item>
       <item>create_sub_cat</item>
       <item>delete</item>
     </string-array>
-    <string-array name="ManageCategories_select_filter_cabitems">
+    <string-array tools:ignore="UnusedResources" name="ManageCategories_select_filter_cabitems">
       <item>select_category</item>
     </string-array>
-    <string-array name="ExpenseEdit_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ExpenseEdit_menuitems">
       <item>save</item>
     </string-array>
-    <string-array name="ExpenseEdit_transaction_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ExpenseEdit_transaction_menuitems">
       <item>save_and_new</item>
     </string-array>
-    <string-array name="ExpenseEdit_transfer_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ExpenseEdit_transfer_menuitems">
       <item>save_and_new</item>
       <item>invert_transfer</item>
     </string-array>
-    <string-array name="ExpenseEdit_template_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ExpenseEdit_template_menuitems">
       <item>save_and_new</item>
     </string-array>
-    <string-array name="ExpenseEdit_split_menuitems">
+    <string-array tools:ignore="UnusedResources" name="ExpenseEdit_split_menuitems">
       <item>create_split_part_category</item>
       <item>create_split_part_transfer</item>
     </string-array>
-    <string-array name="AccountEdit_menuitems">
+    <string-array tools:ignore="UnusedResources" name="AccountEdit_menuitems">
       <item>save</item>
       <item>set_sort_key</item>
       <item>exclude_from_totals</item>
     </string-array>
-    <string-array name="MethodEdit_menuitems">
+    <string-array tools:ignore="UnusedResources" name="MethodEdit_menuitems">
       <item>save</item>
     </string-array>
-    <string-array name="FolderBrowser_menuitems">
+    <string-array tools:ignore="UnusedResources" name="FolderBrowser_menuitems">
       <item>create_folder</item>
       <item>select_folder</item>
       <item>up</item>
@@ -276,71 +272,71 @@
       <item>2.2.0</item>
     </string-array>
     <!-- first member is Facebook post id, second Google+ post id -->
-    <string-array name="version_more_info_231">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_231">
         <item>posts/1464897740438366</item>
         <item>ernTPUcN4fy</item>
     </string-array>
-    <string-array name="version_more_info_232">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_232">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1466255806969226</item>
         <item>aUXDn7qHp1E</item>
     </string-array>
-    <string-array name="version_more_info_233">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_233">
         <item>posts/1470350743226399</item>
         <item>gYVRpHMrbTi</item>
     </string-array>
-    <string-array name="version_more_info_234">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_234">
         <item>posts/1476254905969316</item>
         <item>UcC1kZbdEpE</item>
     </string-array>
-    <string-array name="version_more_info_235">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_235">
         <item>posts/1483023585292448</item>
         <item>K1qgfKdvodM</item>
     </string-array>
-    <string-array name="version_more_info_236">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_236">
         <item>posts/1485758261685647</item>
         <item>6xukdJk2owx</item>
     </string-array>
-    <string-array name="version_more_info_237">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_237">
         <item>posts/1487156704879136</item>
         <item>HZKFCr2cZAL</item>
     </string-array>
-    <string-array name="version_more_info_238">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_238">
         <item>posts/1489972704597536</item>
         <item>8L87ma4hAL7</item>
     </string-array>
-    <string-array name="version_more_info_240">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_240">
         <item>posts/1508659049395568</item>
         <item>eeAevd25T73</item>
     </string-array>
-    <string-array name="version_more_info_242">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_242">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1549092402018899</item>
         <item>SHZ6XMNUNkT</item>
     </string-array>
-    <string-array name="version_more_info_243">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_243">
         <item>posts/1552400511688088</item>
         <item>XBQX31Sqvi8</item>
     </string-array>
-    <string-array name="version_more_info_244">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_244">
         <item>posts/1559432147651591</item>
         <item>gb5JD8PkZVS</item>
     </string-array>
-    <string-array name="version_more_info_245">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_245">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1565450997049706</item>
         <item>Za61biN2Z5C</item>
     </string-array>
-    <string-array name="version_more_info_246">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_246">
         <item>posts/1569857569942382</item>
         <item>MrJnmGgPgQp</item>
     </string-array>
-    <string-array name="version_more_info_247">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_247">
         <item>posts/1575971895997616</item>
         <item>P3hSfKVpXHh</item>
     </string-array>
-    <string-array name="version_more_info_248">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_248">
         <item>posts/1576983852563087</item>
         <item>S7R3WXofPZi</item>
     </string-array>
-    <string-array name="version_more_info_249">
+    <string-array tools:ignore="UnusedResources" name="version_more_info_249">
         <item>posts/1582359712025501</item>
         <item>97gqDvJJq43</item>
     </string-array>

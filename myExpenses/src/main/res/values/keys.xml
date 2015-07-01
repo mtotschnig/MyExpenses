@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="pref_category_export_key">category_export</string>
   <string name="pref_category_contrib_key">category_contrib</string>
   <string name="pref_category_manage_key">category_manage</string>
@@ -74,24 +74,22 @@
   <!-- User retrieving MyExpenses from a repository should not hit this message,
    so we leave it without localization -->
   <string name="error_accessing_market">No market application found</string>
-  <!-- only shown in theoretically possible edge case, hence no need for localization -->
-  <string name="export_expenses_outputfile_exists">Output file already exists.</string>
   <!-- only shown to users experimenting with restore, so no need for localization -->
   <string name="restore_db_not_valid">BACKUP file is no valid SQLITE3 database.</string>
   <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
   <string name="website">http://www.myexpenses.mobi</string>
   
-  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
-  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
-  <string name="help_ManageTemplates_templates_title">@string/menu_manage_plans_tab_templates</string>
-  <string name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
-  <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
-  <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
-  <string name="help_ManageCategories_select_mapping_title">@string/select_category</string>
-  <string name="help_ManageCategories_select_filter_title">@string/search_category</string>
-  <string name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
-  <string name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
-  <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageTemplates_templates_title">@string/menu_manage_plans_tab_templates</string>
+  <string tools:ignore="UnusedResources" name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_select_mapping_title">@string/select_category</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_select_filter_title">@string/search_category</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
+  <string tools:ignore="UnusedResources" name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
     <string name="io_error_appdir_null">No folder for storing backup found</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
 </resources>

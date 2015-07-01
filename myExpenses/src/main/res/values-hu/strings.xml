@@ -69,10 +69,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
   <string name="dialog_title_planner_setup_info">Naptár beállítás szükséges</string>
-  <string name="dialog_title_select_account">Számla kiválasztása</string>
   <string name="dialog_title_select_grouping">Csoportosítás kiválasztása</string>
-  <string name="dialog_title_select_import_source">Importálás forrásának kiválasztása</string>
-  <string name="dialog_title_select_template">Sablon választása</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Elnevezés megadása</string>
@@ -92,7 +89,6 @@
   <string name="ftp_uri_malformed">Helytelen URI %1$s</string>
   <string name="grisbi_import_categories_loading">Kategóriák betöltése innen: %1$s</string>
   <string name="grisbi_import_default_source">Magyar  alapértelmezett kategóriák</string>
-  <string name="grisbi_import_parsing">%1$s beolvasása</string>
   <string name="grisbi_import_parties_loading">Résztvevők betöltése innen: %1$s</string>
   <string name="grouping_day">Nap</string>
   <string name="grouping_last_week">Múlt hét</string>
@@ -174,8 +170,6 @@
   <string name="menu_save_and_new">Mentés és új</string>
   <string name="menu_settings">Beállítások</string>
   <string name="method">Mód</string>
-  <string name="new_version">Új verzió</string>
-  <string name="no_accounts">Nincs számla!</string>
   <string name="no_amount_given">Nem adott meg értéket.</string>
   <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
   <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot áruházból?</string>
@@ -292,7 +286,6 @@
   <string name="progress_dialog_create_calendar">Helyi naptár készítése...</string>
   <string name="progress_dialog_create_plan">Új terv készítése...</string>
   <string name="progress_dialog_loading">Elemek betöltése az adatbázisból …</string>
-  <string name="progress_dialog_setup">Adatbázis beállítása …</string>
   <string name="reference_number">Referencia szám</string>
   <string name="request_licence_mail_description">Kérjük írja meg számunkra angolul, németül vagy franciául, hogy milyen módon vett részt a Kiadásaim fejlesztésében (például: PayPal támogatás, hibajelentés, tesztelés, fordítás).</string>
   <string name="request_licence_mail_head">Kérem, küldjön számomra Contrib kulcsot az alábbi Android-Id alapján: %1$s.</string>
@@ -320,7 +313,6 @@
   <string name="sum_transfer">Átutalások</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Kiadásaim, A személyes pénzügyi nyilvántartás - %s, http://www.myexpenses.mobi</string>
-  <string name="template">Sablon</string>
   <string name="template_create_success">\"%1$s\" nevű sablon sikeresen létrehozva</string>
   <string name="template_title_exists">\"%1$s\" nevű sablon már létezik</string>
   <string name="thank_you">Köszönjük a támogatását!</string>
@@ -330,7 +322,6 @@
   <string name="transfer">Átutalás</string>
   <string name="transfer_from_account">Innen</string>
   <string name="transfer_to_account">Ide</string>
-  <string name="tutorial">Felhasználói útmutató</string>
   <string name="type">Típus</string>
   <string name="unsplit_amount">Felosztatlan összeg</string>
   <string name="unsplit_amount_greater_than_zero">Még továbbra is maradt felosztatlan összeg.</string>
@@ -342,7 +333,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
   <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből. A jelenlegi adatok törlésre kerülnek. Folytatja?</string>
-  <string name="warning_select_account">Kérem válasszon egy számlát!</string>
   <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
   <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
   <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>

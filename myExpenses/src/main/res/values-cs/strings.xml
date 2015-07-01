@@ -74,10 +74,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémiové funkce</string>
   <string name="dialog_title_planner_setup_info">Vyžadování nastavení kalendáře</string>
-  <string name="dialog_title_select_account">Vyberte si účet</string>
   <string name="dialog_title_select_grouping">Vyberte seskupení</string>
-  <string name="dialog_title_select_import_source">Vyberte zdroj pro import</string>
-  <string name="dialog_title_select_template">Vybrat šablonu</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Nastavte název</string>
@@ -97,7 +94,6 @@
   <string name="ftp_uri_malformed">Chybné URI %1$s</string>
   <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
   <string name="grisbi_import_default_source">České výchozí kategorie</string>
-  <string name="grisbi_import_parsing">Načítání %1$s</string>
   <string name="grisbi_import_parties_loading">Načítání stran z %1$s</string>
   <string name="grouping_day">Den</string>
   <string name="grouping_last_week">Minulý týden</string>
@@ -181,8 +177,6 @@
   <string name="menu_save_and_new">Uložit a nový</string>
   <string name="menu_settings">Nastavení</string>
   <string name="method">Metoda</string>
-  <string name="new_version">Nová verze</string>
-  <string name="no_accounts">Žádné účty!</string>
   <string name="no_amount_given">Nezadali jste žádnou částku.</string>
   <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
   <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
@@ -301,7 +295,6 @@
   <string name="progress_dialog_create_calendar">Vytváření místního kalendáře...</string>
   <string name="progress_dialog_create_plan">Vytváření nového plánu...</string>
   <string name="progress_dialog_loading">Načítání objektů z databáze...</string>
-  <string name="progress_dialog_setup">Databáze je inicializována...</string>
   <string name="reference_number">Referenční číslo</string>
   <string name="request_licence_mail_description">Popište prosím váš příspěvek pro Moje výdaje (V angličtině, němčině nebo francouzštině)  (např.: dar přes Paypal, hlášení o chybě, testování, překlad).</string>
   <string name="request_licence_mail_head">Pošlete mi prosím  Contrib klíč pro Android-Id %1$s.</string>
@@ -329,7 +322,6 @@
   <string name="sum_transfer">Převody</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Moje výdaje, Správa osobních výdajů pro %s, http://www.myexpenses.mobi</string>
-  <string name="template">Šablona</string>
   <string name="template_create_success">Šablona \"%1$s\" byla úspěšně vytvořen</string>
   <string name="template_title_exists">Šablona s názvem \"%1$s\" již existuje</string>
   <string name="thank_you">Děkujeme vám za vaši podporu!</string>
@@ -339,7 +331,6 @@
   <string name="transfer">Převod</string>
   <string name="transfer_from_account">Od</string>
   <string name="transfer_to_account">Do</string>
-  <string name="tutorial">Uživatelská příručka</string>
   <string name="type">Typ</string>
   <string name="unsplit_amount">Nerozdělená částka</string>
   <string name="unsplit_amount_greater_than_zero">Zůstala nějaká nerozdělená částka.</string>
@@ -351,7 +342,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
   <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy. Aktuální data budou odstraněna. Přejete si pokračovat?</string>
-  <string name="warning_select_account">Nejprve vyberte účet!</string>
   <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>

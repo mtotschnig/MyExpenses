@@ -15,9 +15,6 @@
      android-source/packages/apps/Calendar/res/values
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- A label in a multiple-choice list for the specifying that an event does
-         not repeat -->
-    <string name="does_not_repeat">One-time event</string>
     <!-- Part of a description of an repeating event. This part states the date when a repeating
          event ends. The part before the semi-colon describes how it repeats.
          e.g. Every 2 weeks; until 1/1/2030 [CHAR LIMIT=21] -->
@@ -47,8 +44,6 @@
     <!-- The common portion of a string describing how often an event repeats,
          example: 'Monthly (on day 2)' -->
     <string name="monthly">Monthly</string>
-    <!-- Calendar spinner item, to select that an event recurs every year. -->
-    <string name="yearly_plain">Yearly</string>
     <!-- Example: "Monthly (on day 15)" -->
     <string name="monthly_on_day">"Monthly (on day <xliff:g id="day_of_month">%s</xliff:g>)"</string>
     <!-- Example: "Yearly (on April 15)" -->

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Akaun</string>
   <string name="account_type_asset">Akaun aset</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -93,10 +93,7 @@
   <string name="dialog_title_balance_account">Baki %1$s</string>
   <string name="dialog_title_contrib_feature">Fitur premium</string>
   <string name="dialog_title_planner_setup_info">Persediaan kalendar diperlukan</string>
-  <string name="dialog_title_select_account">Ambil satu akaun</string>
   <string name="dialog_title_select_grouping">Ambil satu kumpulan</string>
-  <string name="dialog_title_select_import_source">Ambil satu sumber untuk import</string>
-  <string name="dialog_title_select_template">Ambil satu templat</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Tetapkan bilangan digit pecahan</string>
@@ -119,7 +116,6 @@
   <string name="ftp_uri_malformed">URI %1$s cacat</string>
   <string name="grisbi_import_categories_loading">Memuatkan kategori dari %1$s</string>
   <string name="grisbi_import_default_source">Kategori lalai Inggeris</string>
-  <string name="grisbi_import_parsing">Menghurai %1$s</string>
   <string name="grisbi_import_parties_loading">Memuatkan pihak daripada %1$s</string>
   <string name="grouping_day">Hari</string>
   <string name="grouping_last_week">Minggu terakhir</string>
@@ -179,7 +175,6 @@
   <string name="menu_create_transaction">Transaksi Baharu</string>
   <string name="menu_create_transfer">Pemindahan Baharu</string>
   <string name="menu_delete">Padam</string>
-  <string name="menu_delete_account">Padam akaun</string>
   <string name="menu_distribution">Agihan</string>
   <string name="menu_edit">Sunting</string>
   <string name="menu_edit_account">Sunting Akaun</string>
@@ -216,15 +211,13 @@
   <string name="menu_set_sort_key">Tetapkan kekunci isih</string>
   <string name="menu_split_transaction">Ubah untuk pisah</string>
   <string name="method">Kaedah</string>
-  <string name="new_version">Versi baharu</string>
-  <string name="no_accounts">Tiada Akaun!</string>
   <string name="no_amount_given">Anda tidak masukkan apa-apa amaun.</string>
   <string name="no_app_handling_email_available">Tiada emel pengendalian apl tersedia.</string>
   <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Tiada apl pengendalian fail PDF tersedia.</string>
   <string name="no_categories">Tiada kategori.</string>
   <string name="no_category_assigned">Tiada kategori diumpuk</string>
-  <string name="no_details">Tiada perincian.</string>
+  <string name="no_details" tools:ignore="UnusedResources">Tiada perincian.</string>
   <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
   <string name="no_exportable_expenses">Tiada transaksi yang belum lagi dieksport.</string>
   <string name="no_filemanager_installed">Tiada pengurus fail dipasang</string>
@@ -373,7 +366,6 @@
   <string name="progress_dialog_loading">Memuatkan objek dari pangkalan data ...</string>
   <string name="progress_dialog_printing">Menjana PDF ...</string>
   <string name="progress_dialog_saving">Menyimpan objek ke pangkalan data ...</string>
-  <string name="progress_dialog_setup">Pangkalan data diawalkan ...</string>
   <string name="qif_parse_result">Dihurai: %1$s akaun; %2$s kategori dan %3$s pihak</string>
   <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>
@@ -413,7 +405,6 @@
   <string name="sum_transfer">Pemindahan</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Lihat Perbelanjaan Saya, Pengurus Kewangan Persendirian untuk %s, di http://www.myexpenses.mobi</string>
-  <string name="template">Templat</string>
   <string name="template_create_success">Templat \"%1$s\" berjaya dicipta</string>
   <string name="template_title_exists">Satu templat dengan tajuk \"%1$s\" sudah wujud</string>
   <string name="thank_you">Terima kasih atas sokongan anda!</string>
@@ -425,7 +416,6 @@
   <string name="transfer">Pemindahan</string>
   <string name="transfer_from_account">Daripada</string>
   <string name="transfer_to_account">Kepada</string>
-  <string name="tutorial">Panduan penggguna</string>
   <string name="type">Jenis</string>
   <string name="unsplit_amount">Jangan pisah amaun</string>
   <string name="unsplit_amount_greater_than_zero">Masih terdapat beberapa amaun yang belum dipisahkan.</string>
@@ -455,7 +445,6 @@
   <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam, Anda mahu teruskan?</string>
-  <string name="warning_select_account">Sila pilih satu akaun!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
   <string name="warning_fraction_digits_out_of_range">Sila tetapkan nombor diantara 0 hingga 8</string>

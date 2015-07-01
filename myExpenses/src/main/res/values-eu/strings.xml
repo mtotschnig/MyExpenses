@@ -96,10 +96,7 @@
   <string name="dialog_title_balance_account">Balantzea %1$s</string>
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
   <string name="dialog_title_planner_setup_info">Egutegia ezartzea ezinbestekoa</string>
-  <string name="dialog_title_select_account">Hautatu kontu bat</string>
   <string name="dialog_title_select_grouping">Hautatu taldekatze bat</string>
-  <string name="dialog_title_select_import_source">Hautatu inportatzeko iturri bat</string>
-  <string name="dialog_title_select_template">Hautatu txantiloia</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Ezarri frakzio zenbaki kopurua</string>
@@ -122,7 +119,6 @@
   <string name="ftp_uri_malformed">Gaizki osatutako URIa %1$s</string>
   <string name="grisbi_import_categories_loading">Kategoriak kargatzen hemendik: %1$s</string>
   <string name="grisbi_import_default_source">Ingelesezko lehenetsitako kategoriak</string>
-  <string name="grisbi_import_parsing">Aztertzen: %1$s</string>
   <string name="grisbi_import_parties_loading">Onuradun/ordaintzaileak %1$s(e)tik kargatzen</string>
   <string name="grouping_day">Eguna</string>
   <string name="grouping_last_week">Aurreko astea</string>
@@ -182,7 +178,6 @@
   <string name="menu_create_transaction">Transakzio berria</string>
   <string name="menu_create_transfer">Transferentzia berria</string>
   <string name="menu_delete">Ezabatu</string>
-  <string name="menu_delete_account">Ezabatu kontua</string>
   <string name="menu_distribution">Distribuzioa</string>
   <string name="menu_edit">Editatu</string>
   <string name="menu_edit_account">Editatu kontua</string>
@@ -219,8 +214,6 @@
   <string name="menu_set_sort_key">Ezarri ordenatzeko gakoa</string>
   <string name="menu_split_transaction">Bihurtu banaketara</string>
   <string name="method">Metodoa</string>
-  <string name="new_version">Bertsio berria</string>
-  <string name="no_accounts">Ez dago konturik!</string>
   <string name="no_amount_given">Ez duzu kopururik idatzi</string>
   <string name="no_app_handling_email_available">Ez dago posta elektronikoa kudeatu dezaken aplikaziorik.</string>
   <string name="no_app_handling_ftp_available">Ez dago FTP kudeatzeko gai den aplikaziorik erabilgarri. Instalatu <i>Send With FTP</i>?</string>
@@ -381,7 +374,6 @@ Librezale.eus</string>
   <string name="progress_dialog_loading">Objektua datu-basetik kargatzen …</string>
   <string name="progress_dialog_printing">PDFa sortzen …</string>
   <string name="progress_dialog_saving">Objektua datu-basera gordetzen …</string>
-  <string name="progress_dialog_setup">Datu-basea hasieratu da …</string>
   <string name="qif_parse_result">Aztertuta: %1$s kontu; %2$s kategoria eta %3$s onuradun/ordaintzaile</string>
   <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira QIF fitxategian.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ezin dira uneko kontuan bateratu</string>
@@ -422,7 +414,6 @@ Librezale.eus</string>
   <string name="sum_transfer">Tranferentziak</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Egiaztatu Nire gastuak %s plataformarako http://www.myexpenses.mobi helbidean</string>
-  <string name="template">Txantiloia</string>
   <string name="template_create_success">\"%1$s\" txantiloia ondo gorde da</string>
   <string name="template_title_exists">Badago aurretik \"%1$s\" izeneko txantiloi bat</string>
   <string name="thank_you">Eskerrik asko zure babesagatik!</string>
@@ -434,7 +425,6 @@ Librezale.eus</string>
   <string name="transfer">Transferentzia</string>
   <string name="transfer_from_account">Nork</string>
   <string name="transfer_to_account">Nori</string>
-  <string name="tutorial">Erabiltzailearen gida</string>
   <string name="type">Mota</string>
   <string name="unsplit_amount">Kopuruaren zatiak batu</string>
   <string name="unsplit_amount_greater_than_zero">Badago batu gabeko kopuruaren zati bat oraindik</string>
@@ -468,7 +458,6 @@ Librezale.eus</string>
   <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
   <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
   <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira. Jarraitu nahi duzu?</string>
-  <string name="warning_select_account">Aukeratu kontu bat</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du Nire Gastuak desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
   <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
   <string name="warning_fraction_digits_out_of_range">Ezarri 0 eta 8 bitarteko zenbaki bat</string>

@@ -13,7 +13,8 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- --><resources>
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Account</string>
     <string name="account_type_asset">Asset account</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
@@ -44,17 +45,17 @@
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>
-    <string name="contrib_feature_ad_free_label">No ads</string>
-    <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
-    <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
-    <string name="contrib_feature_attach_picture_label">Attach image to transaction</string>
-    <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
-    <string name="contrib_feature_plans_unlimited_description">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
-    <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
-    <string name="contrib_feature_print_label">Export transaction list to PDF</string>
-    <string name="contrib_feature_security_question_label">Security question</string>
-    <string name="contrib_feature_split_transaction_label">Split transaction</string>
-    <string name="contrib_feature_template_widget_label">Template widget</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">No ads</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Attach image to transaction</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Distribution of transactions per category</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Export transaction list to PDF</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Security question</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Split transaction</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Template widget</string>
     <string name="contrib_key">Contrib key</string>
     <string name="contrib_key_requires">Requires My Expenses Contrib Key.</string>
     <string name="currency">Currency</string>
@@ -110,10 +111,7 @@
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
-    <string name="dialog_title_select_account">Pick an account</string>
     <string name="dialog_title_select_grouping">Pick a grouping</string>
-    <string name="dialog_title_select_import_source">Pick a source for import</string>
-    <string name="dialog_title_select_template">Pick a template</string>
     <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
     <string name="dialog_title_set_fraction_digits">Set the number of fraction digits</string>
@@ -138,7 +136,6 @@
     <string name="ftp_uri_malformed">Malformed URI %1$s</string>
     <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
     <string name="grisbi_import_default_source">English default categories</string>
-    <string name="grisbi_import_parsing">Parsing %1$s</string>
     <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
     <string name="grouping_day">Day</string>
     <string name="grouping_last_week">Last week</string>
@@ -198,7 +195,6 @@
     <string name="menu_create_transaction">New Transaction</string>
     <string name="menu_create_transfer">New Transfer</string>
     <string name="menu_delete">Delete</string>
-    <string name="menu_delete_account">Delete account</string>
     <string name="menu_distribution">Distribution</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_edit_account">Edit Account</string>
@@ -235,8 +231,6 @@
     <string name="menu_set_sort_key">Set sort key</string>
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Method</string>
-    <string name="new_version">New version</string>
-    <string name="no_accounts">No Accounts!</string>
     <string name="no_amount_given">You did not enter any amount.</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
     <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
@@ -321,8 +315,8 @@
     <string name="pref_contrib_donate_summary">Donate via PayPal, Flattr or Bitcoin and gain access to premium features.</string>
     <string name="pref_contrib_donate_summary_already_contrib">If you\'d like to make an additional contribution, you can flattr My Expenses, make a donation through Paypal or send Bitcoins.</string>
     <string name="pref_contrib_donate_title">Send donation</string>
-    <string name="pref_contrib_install_summary">By purchasing My Expenses Contrib Key, you gain access to premium features.</string>
-    <string name="pref_contrib_install_title">Purchase Contrib Key (In-App payment)</string>
+    <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">By purchasing My Expenses Contrib Key, you gain access to premium features.</string>
+    <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Purchase Contrib Key (In-App payment)</string>
     <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
     <string name="pref_enter_licence_title">Enter Contrib key</string>
@@ -399,7 +393,6 @@
     <string name="progress_dialog_loading">Loading object from database …</string>
     <string name="progress_dialog_printing">Generating PDF …</string>
     <string name="progress_dialog_saving">Saving object to database …</string>
-    <string name="progress_dialog_setup">Database is initialized …</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Cannot merge them into existing account.</string>
@@ -440,7 +433,6 @@
     <string name="sum_transfer">Transfers</string>
     <!-- %s is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Check out My Expenses, Personal Finance Manager for %s, from http://www.myexpenses.mobi</string>
-    <string name="template">Template</string>
     <string name="template_create_success">Template \"%1$s\" created successfully</string>
     <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
     <string name="thank_you">Thank you for your support!</string>
@@ -452,7 +444,6 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_from_account">From</string>
     <string name="transfer_to_account">To</string>
-    <string name="tutorial">User guide</string>
     <string name="type">Type</string>
     <string name="unsplit_amount">Unsplit amount</string>
     <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
@@ -486,7 +477,6 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
-    <string name="warning_select_account">Please select an account!</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="warning_fraction_digits_out_of_range">Please set a number between 0 and 8</string>
@@ -526,9 +516,9 @@
     <string name="comparison_operator_between">between</string>
     <string name="comparison_operator_date_before">before</string>
     <string name="comparison_operator_date_after">after</string>
-    <string name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
-    <string name="premium_unlocked">Premium features unlocked.</string>
-    <string name="premium_failed_or_canceled">Purchasing failed or cancelled.</string>
+    <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
+    <string tools:ignore="UnusedResources" name="premium_unlocked">Premium features unlocked.</string>
+    <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Purchasing failed or cancelled.</string>
     <string name="hint_auto_fill">Should amount, category and comment be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

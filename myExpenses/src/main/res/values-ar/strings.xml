@@ -74,10 +74,7 @@
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
   <string name="dialog_title_planner_setup_info">يتطلب إعداد التقويم</string>
-  <string name="dialog_title_select_account">اختر حساب</string>
   <string name="dialog_title_select_grouping">اختر تجميع</string>
-  <string name="dialog_title_select_import_source">اختر مصدر للاستيراد</string>
-  <string name="dialog_title_select_template">اختر نموذج</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">اكتب العنوان</string>
@@ -99,7 +96,6 @@
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
   <string name="grisbi_import_default_source">التصنيفات الافتراضية العربية</string>
-  <string name="grisbi_import_parsing">جاري تحليل %1$s</string>
   <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
   <string name="grouping_day">اليوم</string>
   <string name="grouping_last_week">آخر أسبوع</string>
@@ -160,7 +156,6 @@
   <string name="menu_create_transaction">عملية جديدة</string>
   <string name="menu_create_transfer">تحويل جديد</string>
   <string name="menu_delete">حذف</string>
-  <string name="menu_delete_account">حذف حساب</string>
   <string name="menu_distribution">توزيع</string>
   <string name="menu_edit">تعديل</string>
   <string name="menu_edit_account">تعديل الحساب</string>
@@ -190,8 +185,6 @@
   <string name="menu_settings">الاعدادات</string>
   <string name="menu_share">اخبر صديق</string>
   <string name="method">طريقة</string>
-  <string name="new_version">اصدار جديد</string>
-  <string name="no_accounts">لا يوجد حسابات!</string>
   <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
   <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
@@ -319,7 +312,6 @@
   <string name="progress_dialog_create_calendar">جاري انشاء تقويم محلي ...</string>
   <string name="progress_dialog_create_plan">جاري انشاء خطة جديدة ...</string>
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات ...</string>
-  <string name="progress_dialog_setup">جاري تهيئة قاعدة البيانات ...</string>
   <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
   <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
@@ -348,8 +340,6 @@
   <string name="sum_expenses">المصاريف</string>
   <string name="sum_income">الدخل</string>
   <string name="sum_transfer">التحويلات</string>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="template">نموذج</string>
   <string name="template_create_success">تم انشاء النموذج \"%1$s\" بنجاح</string>
   <string name="template_title_exists">هناك نموذج بنفس العنوان \"%1$s\" موجود مسبقاً</string>
   <string name="thank_you">شكراً لدعمك!</string>
@@ -359,7 +349,6 @@
   <string name="transfer">التحويل</string>
   <string name="transfer_from_account">من</string>
   <string name="transfer_to_account">إلى</string>
-  <string name="tutorial">دليل المستخدم</string>
   <string name="type">النوع</string>
   <string name="unsplit_amount">توحيد قيمة</string>
   <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
@@ -373,7 +362,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
   <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية. سيتم حذف البيانات الحالية. هل تريد الاستمرار ؟</string>
-  <string name="warning_select_account">الرجاء اختيار حساب!</string>
   <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
   <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
   <string name="menu_create_folder">مجلد جديد</string>

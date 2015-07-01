@@ -94,10 +94,7 @@
   <string name="dialog_title_balance_account">貸借 %1$s</string>
   <string name="dialog_title_contrib_feature">プレミアム機能</string>
   <string name="dialog_title_planner_setup_info">カレンダーのセットアップが必要です</string>
-  <string name="dialog_title_select_account">勘定を選ぶ</string>
   <string name="dialog_title_select_grouping">グループを選ぶ</string>
-  <string name="dialog_title_select_import_source">インポート元を選ぶ</string>
-  <string name="dialog_title_select_template">テンプレートを選ぶ</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">小数の桁数を設定</string>
@@ -120,7 +117,6 @@
   <string name="ftp_uri_malformed">不正な形式の URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s から分類をロード中</string>
   <string name="grisbi_import_default_source">英語のデフォルト分類</string>
-  <string name="grisbi_import_parsing">%1$s を解析中</string>
   <string name="grisbi_import_parties_loading">%1$s から取引先をロード中</string>
   <string name="grouping_day">日</string>
   <string name="grouping_last_week">先週</string>
@@ -180,7 +176,6 @@
   <string name="menu_create_transaction">新しい取引</string>
   <string name="menu_create_transfer">新しい転記</string>
   <string name="menu_delete">削除</string>
-  <string name="menu_delete_account">勘定を削除</string>
   <string name="menu_distribution">分布</string>
   <string name="menu_edit">編集</string>
   <string name="menu_edit_account">勘定を編集</string>
@@ -217,8 +212,6 @@
   <string name="menu_set_sort_key">ソートキーを設定</string>
   <string name="menu_split_transaction">変換して分割</string>
   <string name="method">方法</string>
-  <string name="new_version">新しいバージョン</string>
-  <string name="no_accounts">勘定がありません!</string>
   <string name="no_amount_given">金額が入力されていません。</string>
   <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
   <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
@@ -376,7 +369,6 @@
   <string name="progress_dialog_loading">データベースからオブジェクトをロード中 …</string>
   <string name="progress_dialog_printing">PDF を生成中 …</string>
   <string name="progress_dialog_saving">データベースにオブジェクトを保存中 …</string>
-  <string name="progress_dialog_setup">データベースが初期化されます …</string>
   <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
@@ -416,7 +408,6 @@
   <string name="sum_transfer">転記</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
-  <string name="template">テンプレート</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
   <string name="template_title_exists">タイトル \"%1$s\" のテンプレートは既に存在します</string>
   <string name="thank_you">サポートありがとうございます!</string>
@@ -428,7 +419,6 @@
   <string name="transfer">転記</string>
   <string name="transfer_from_account">元</string>
   <string name="transfer_to_account">先</string>
-  <string name="tutorial">ユーザーガイド</string>
   <string name="type">種類</string>
   <string name="unsplit_amount">未分割金額</string>
   <string name="unsplit_amount_greater_than_zero">まだ分割されていない金額が残っています。</string>
@@ -458,7 +448,6 @@
   <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
-  <string name="warning_select_account">勘定を選択してください!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">転記は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>

@@ -76,10 +76,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Премиум функция</string>
   <string name="dialog_title_planner_setup_info">Требуется настройка календаря</string>
-  <string name="dialog_title_select_account">Выбрать счёт</string>
   <string name="dialog_title_select_grouping">Выбрать группу</string>
-  <string name="dialog_title_select_import_source">Выбрать источник для импорта</string>
-  <string name="dialog_title_select_template">Выбрать шаблон</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Установить заголовок</string>
@@ -101,7 +98,6 @@
   <string name="ftp_uri_malformed">Неверно сформирован URI %1$s</string>
   <string name="grisbi_import_categories_loading">Загрузка категорий из %1$s</string>
   <string name="grisbi_import_default_source">Русскоязычные категории по умолчанию</string>
-  <string name="grisbi_import_parsing">Анализ %1$s</string>
   <string name="grisbi_import_parties_loading">Загрузка сторон из %1$s</string>
   <string name="grouping_day">День</string>
   <string name="grouping_last_week">На прошлой неделе</string>
@@ -160,7 +156,6 @@
   <string name="menu_create_transaction">Новая операция</string>
   <string name="menu_create_transfer">Новый перевод</string>
   <string name="menu_delete">Удалить</string>
-  <string name="menu_delete_account">Удалить счёт</string>
   <string name="menu_distribution">Распределение</string>
   <string name="menu_edit">Правка</string>
   <string name="menu_edit_account">Правка счёта</string>
@@ -191,8 +186,6 @@
   <string name="menu_settings">Настройки</string>
   <string name="menu_share">Рассказать другу</string>
   <string name="method">Метод</string>
-  <string name="new_version">Новая версия</string>
-  <string name="no_accounts">Нет счетов!</string>
   <string name="no_amount_given">Вы не ввели какую-либо сумму.</string>
   <string name="no_app_handling_email_available">Не доступно приложение для обработки e-mail</string>
   <string name="no_app_handling_ftp_available">Нет приложения, связанного с ftp. Установить, <i>Send With FTP</i>?</string>
@@ -330,7 +323,6 @@
   <string name="progress_dialog_create_plan">Создать новый план ...</string>
   <string name="progress_dialog_deleting">Удалить объекты ...</string>
   <string name="progress_dialog_loading">Загрузка объекта из базы данных...</string>
-  <string name="progress_dialog_setup">БД инициализируется...</string>
   <string name="qif_parse_result">Проанализированно: %1$s счетов; %2$s категорий и %3$s участников</string>
   <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в QIF-файле.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не удается объединить в существующий счёт.</string>
@@ -369,7 +361,6 @@
   <string name="sum_transfer">Переводы</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Просмотрите Мои расходы, персональный финансовый менеджер для %s, на http://www.myexpenses.mobi</string>
-  <string name="template">Шаблон</string>
   <string name="template_create_success">Шаблон \"%1$s\" успешно создан</string>
   <string name="template_title_exists">Шаблон с заголовком \"%1$s\" уже существует</string>
   <string name="thank_you">Спасибо вам за вашу поддержку!</string>
@@ -379,7 +370,6 @@
   <string name="transfer">Перевод</string>
   <string name="transfer_from_account">От</string>
   <string name="transfer_to_account">Кому</string>
-  <string name="tutorial">Руководство пользователя</string>
   <string name="type">Тип</string>
   <string name="unsplit_amount">Неразделённая сумма</string>
   <string name="unsplit_amount_greater_than_zero">Ещё есть оставшиеся неразделённая сумма</string>
@@ -415,7 +405,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
   <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены. Вы хотите продолжить?</string>
-  <string name="warning_select_account">Пожалуйста выберите счёт!</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
   <string name="import_categories_success">%1$s категорий успешно импортированы</string>
   <string name="import_parties_success">%1$s участников успешно импортированы</string>

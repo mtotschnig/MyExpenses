@@ -96,10 +96,7 @@
   <string name="dialog_title_balance_account">Sold  %1$s</string>
   <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
   <string name="dialog_title_planner_setup_info">Configurarea calendarului necesar</string>
-  <string name="dialog_title_select_account">Selectează un cont</string>
   <string name="dialog_title_select_grouping">Selectează o grupare</string>
-  <string name="dialog_title_select_import_source">Selectează o sursă pentru import</string>
-  <string name="dialog_title_select_template">Selectează un şablon</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Setează numărul de zecimale</string>
@@ -122,7 +119,6 @@
   <string name="ftp_uri_malformed">Sintaxă eronată URI %1$s </string>
   <string name="grisbi_import_categories_loading">Încărcare categorii de la %1$s</string>
   <string name="grisbi_import_default_source">Categorii standard româneşti</string>
-  <string name="grisbi_import_parsing">Analizare  %1$s</string>
   <string name="grisbi_import_parties_loading">Încărcare terţi de la %1$s</string>
   <string name="grouping_day">Zi</string>
   <string name="grouping_last_week">Ultima săptămână</string>
@@ -182,7 +178,6 @@
   <string name="menu_create_transaction">Tranzacţie nouă</string>
   <string name="menu_create_transfer">Transfer nou</string>
   <string name="menu_delete">Şterge</string>
-  <string name="menu_delete_account">Şterge cont</string>
   <string name="menu_distribution">Distribuire</string>
   <string name="menu_edit">Editează</string>
   <string name="menu_edit_account">Editează cont</string>
@@ -219,8 +214,6 @@
   <string name="menu_set_sort_key">Setează cheia de sortare</string>
   <string name="menu_split_transaction">Transformă in repartizare</string>
   <string name="method">Metoda</string>
-  <string name="new_version">Versiune nouă</string>
-  <string name="no_accounts">Nici un cont!</string>
   <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
   <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
   <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
@@ -382,7 +375,6 @@ Tradus de DD</string>
   <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
   <string name="progress_dialog_printing">Generare PDF ...</string>
   <string name="progress_dialog_saving">Salvare obiect  în baza de date ...</string>
-  <string name="progress_dialog_setup">Baza de date este iniţializată</string>
   <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
   <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>
@@ -422,7 +414,6 @@ Tradus de DD</string>
   <string name="sum_transfer">Transferuri</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Check out Cheltuielile Mele, Manager Finanţe  Personale pentru %s, de la http://www.myexpenses.mobi</string>
-  <string name="template">Şablon</string>
   <string name="template_create_success">Şablon \"%1$s\" creat</string>
   <string name="template_title_exists">Un şablon cu titlul \"%1$s\" există deja</string>
   <string name="thank_you">Mulţumim pentru suportul dvs!</string>
@@ -434,7 +425,6 @@ Tradus de DD</string>
   <string name="transfer">Transfer</string>
   <string name="transfer_from_account">De la</string>
   <string name="transfer_to_account">La</string>
-  <string name="tutorial">Ghid  utilizator</string>
   <string name="type">Tip</string>
   <string name="unsplit_amount">Valoare nerepartizată</string>
   <string name="unsplit_amount_greater_than_zero">Există încă unele valori nerepartizate</string>
@@ -471,7 +461,6 @@ Tradus de DD</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
   <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse. Doriţi să continuaţi?</string>
-  <string name="warning_select_account">Selectează un cont, te rog!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați Cheltuielile Mele.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
   <string name="warning_fraction_digits_out_of_range">Setează un număr între 0 şi 8, te rog</string>

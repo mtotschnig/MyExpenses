@@ -74,10 +74,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
   <string name="dialog_title_planner_setup_info">දින දර්ශනය පිහිටුවීම අවශයි </string>
-  <string name="dialog_title_select_account">ගිණුමක් තෝරාගන්න </string>
   <string name="dialog_title_select_grouping">කණ්ඩායම් කිරීමක් තෝරන්න </string>
-  <string name="dialog_title_select_import_source">ආනයන කිරීමට මුලාශ්‍රයක් තෝරාගන්න </string>
-  <string name="dialog_title_select_template">අච්චුවක් තෝරන්න </string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">මාතෘකාවක් යොදන්න </string>
@@ -99,7 +96,6 @@
   <string name="ftp_uri_malformed">වැරදුනු යු ආර් අයි %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s න්  වර්ග පැටවීම </string>
   <string name="grisbi_import_default_source">මුල සිට පවතින ඉංග්‍රීසි වර්ග </string>
-  <string name="grisbi_import_parsing"> %1$s ව්‍යාකරණ විග්‍රහ කිරීම </string>
   <string name="grisbi_import_parties_loading">%1$s න් කොටස් පැටවීම් </string>
   <string name="grouping_day">දවස </string>
   <string name="grouping_last_week">පසුගීය  සතියේ </string>
@@ -159,7 +155,6 @@
   <string name="menu_create_transaction">නව ගනුදෙනුව </string>
   <string name="menu_create_transfer">නව හුවමාරුව </string>
   <string name="menu_delete">මකා දමනවා </string>
-  <string name="menu_delete_account">ගිණුම මකාදමන්න </string>
   <string name="menu_distribution">බෙදාහැරිම </string>
   <string name="menu_edit">සංස්කරණය </string>
   <string name="menu_edit_account">ගිණුම සංස්කරණය කිරීම </string>
@@ -190,8 +185,6 @@
   <string name="menu_settings">කට්ටල අංග </string>
   <string name="menu_share">යහළුවකුට පවසන්න </string>
   <string name="method">ක්‍රමවේදය </string>
-  <string name="new_version">නව පිටපත </string>
-  <string name="no_accounts">ගිණුම් නැත </string>
   <string name="no_amount_given">ඔබ කිසිදු අගයක් ඇතුලත් කර නැත </string>
   <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
   <string name="no_app_handling_ftp_available"> ඇප් පාලනය කල නොහැකි ftp තිබේ.පිහිටුවන්න <i>ftp සමග යවන්න</i>?</string>
@@ -333,7 +326,6 @@
   <string name="progress_dialog_create_plan">නව සැලසුමක්  නිර්මාණය වෙමින් පවතී </string>
   <string name="progress_dialog_deleting">අවයව මකාදැමීම </string>
   <string name="progress_dialog_loading">දත්ත ගබඩාවෙන් අවයව ප්‍රවේශනය වේ </string>
-  <string name="progress_dialog_setup">දත්ත ගබඩාව ආරම්භ  කරන ලදී </string>
   <string name="qif_parse_result">ව්‍යාකරණ විග්‍රහ කිරීම: ගිණුම් %1$s; ප්‍රබේධ  %2$s සහ  පක්ෂ %3$s</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF ලිපිගොනුවෙන් බහු ගිණුම් සමු විය </string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">දැනට පවතින ගිණුමට එකතු කල නොහැකිය </string>
@@ -370,7 +362,6 @@
   <string name="sum_income">ආදායම</string>
   <string name="sum_transfer">මාරු කිරීම් </string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="template">අච්චුව </string>
   <string name="template_create_success">\"%1$s\" අච්චුව නිමවීම සාර්ථකයි </string>
   <string name="template_title_exists"> \"%1$s\"  නම සහිත අච්චුව මේ වන විටත් පවතී </string>
   <string name="thank_you">ඔබගේ සහයෝගයට ස්තුතියි!</string>
@@ -380,7 +371,6 @@
   <string name="transfer">මාරු කිරීම</string>
   <string name="transfer_from_account">සිට</string>
   <string name="transfer_to_account">දක්වා</string>
-  <string name="tutorial">පාවිච්චි කරන්නාගෙ උපදේශකය</string>
   <string name="type">වර්ගය </string>
   <string name="unsplit_amount">නොබෙදූ අගය </string>
   <string name="unsplit_amount_greater_than_zero">එහි තවමත් නොබෙදූ අගයෙන් කොටසක් ඇත </string>
@@ -411,7 +401,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
   <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.ඔබට ඉදිරියට යාමට අවශ්‍යද?</string>
-  <string name="warning_select_account">කරුණාකර ගිණුමක් තෝරන්න </string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">ඔබ මයි එක්ස්පෙන්සස් දුරකතනයෙන් ඉවත් කළහොත් දැනට තෝරාගෙන ඇති උපස්ථ සහ අපනයන සදහා වූ ගොනුව ඉබේම මකා  දැමේ. කට්ටල අංග තිරයේ වෙනත් ගොනුවක් තෝරාගැනීමෙන් ඔබට මෙසේ වීම  වලක්වා ගත හැක. </string>
   <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
   <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
