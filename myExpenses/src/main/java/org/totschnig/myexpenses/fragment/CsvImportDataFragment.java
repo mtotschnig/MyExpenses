@@ -13,15 +13,18 @@ import android.widget.TextView;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by privat on 30.06.15.
  */
 public class CsvImportDataFragment extends Fragment {
+  public static final String KEY_DATASET = "KEY_DATASET";
   private RecyclerView mRecyclerView;
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
+  private ArrayList<CSVRecord> mDataset;
 
   public static CsvImportDataFragment newInstance() {
     return new CsvImportDataFragment();
@@ -40,16 +43,19 @@ public class CsvImportDataFragment extends Fragment {
     // use a linear layout manager
     mLayoutManager = new LinearLayoutManager(getActivity());
     mRecyclerView.setLayoutManager(mLayoutManager);
+    if (savedInstanceState!=null) {
+      setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
+    }
 
     return view;
   }
 
-  public void setData(List<CSVRecord> data) {
-    mAdapter = new MyAdapter(data);
+  public void setData(ArrayList<CSVRecord> data) {
+    mDataset = data;
+    mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
   }
-  public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<CSVRecord> mDataset;
+  private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private int nrOfColumns;
 
     // Provide a reference to the views for each data item
@@ -67,8 +73,7 @@ public class CsvImportDataFragment extends Fragment {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<CSVRecord> myDataset) {
-      mDataset = myDataset;
+    public MyAdapter() {
       nrOfColumns = mDataset.get(0).size();
     }
 
@@ -102,5 +107,11 @@ public class CsvImportDataFragment extends Fragment {
     public int getItemCount() {
       return mDataset.size();
     }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable(KEY_DATASET, mDataset);
   }
 }

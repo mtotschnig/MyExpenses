@@ -7,13 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
@@ -22,12 +15,14 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 
 public class CsvImportActivity extends ProtectedFragmentActivity implements ActionBar.TabListener {
 
+  public static final String KEY_DATA_READY = "KEY_DATA_READY";
   /**
    * The {@link android.support.v4.view.PagerAdapter} that will provide
    * fragments for each of the sections. We use a
@@ -43,15 +38,17 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
    */
   ViewPager mViewPager;
 
+  boolean mDataReady = false;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.viewpager);
-    getSupportActionBar().setTitle(getString(R.string.pref_import_title,"CSV"));
+    final ActionBar actionBar = getSupportActionBar();
+    actionBar.setTitle(getString(R.string.pref_import_title, "CSV"));
 
     // Set up the action bar.
-    final ActionBar actionBar = getSupportActionBar();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
     // Create the adapter that will return a fragment for each of the three
@@ -72,16 +69,10 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
       }
     });
 
-    // For each of the sections in the app, add a tab to the action bar.
-    for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-      // Create a tab with text corresponding to the page title defined by
-      // the adapter. Also specify this Activity object, which implements
-      // the TabListener interface, as the callback (listener) for when
-      // this tab is selected.
-      actionBar.addTab(
-          actionBar.newTab()
-              .setText(mSectionsPagerAdapter.getPageTitle(i))
-              .setTabListener(this));
+    //we only add the first tab, the second one once data has been parsed
+    addTab(0);
+    if (savedInstanceState !=null && savedInstanceState.getBoolean(KEY_DATA_READY)) {
+      addTab(1);
     }
   }
 
@@ -150,9 +141,11 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     if (o != null) {
+      addAndShowPrevievTab();
       CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
           mSectionsPagerAdapter.getFragmentName(1));
-      df.setData((List<CSVRecord>) o);
+      df.setData((ArrayList<CSVRecord>) o);
+      mDataReady = true;
     } else {
       Toast.makeText(this,R.string.parse_error_no_data_found,Toast.LENGTH_LONG).show();
     }
@@ -161,5 +154,22 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
   @Override
   public void onProgressUpdate(Object progress) {
     Toast.makeText(this,(String)progress,Toast.LENGTH_LONG).show();
+  }
+  private void addAndShowPrevievTab() {
+    addTab(1);
+    getSupportActionBar().setSelectedNavigationItem(1);
+  }
+  private void addTab(int index) {
+    final ActionBar actionBar = getSupportActionBar();
+    actionBar.addTab(
+        actionBar.newTab()
+            .setText(mSectionsPagerAdapter.getPageTitle(index))
+            .setTabListener(this));
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_DATA_READY, mDataReady);
   }
 }

@@ -31,9 +31,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CsvImportTask extends AsyncTask<Void, String, List<CSVRecord>> {
+public class CsvImportTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> {
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
   private String encoding;
@@ -48,7 +49,7 @@ public class CsvImportTask extends AsyncTask<Void, String, List<CSVRecord>> {
   }
 
   @Override
-  protected void onPostExecute(List<CSVRecord> result) {
+  protected void onPostExecute(ArrayList<CSVRecord> result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_CSV_IMPORT, result);
@@ -65,7 +66,7 @@ public class CsvImportTask extends AsyncTask<Void, String, List<CSVRecord>> {
   }
 
   @Override
-  protected List<CSVRecord> doInBackground(Void... params) {
+  protected ArrayList<CSVRecord> doInBackground(Void... params) {
     InputStream inputStream;
     try {
       inputStream = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
@@ -79,7 +80,7 @@ public class CsvImportTask extends AsyncTask<Void, String, List<CSVRecord>> {
       return null;
     }
     try {
-      return CSVFormat.DEFAULT.parse(new InputStreamReader(inputStream)).getRecords();
+      return (ArrayList<CSVRecord>) CSVFormat.DEFAULT.parse(new InputStreamReader(inputStream)).getRecords();
     } catch (IOException e) {
       publishProgress(MyApplication.getInstance()
           .getString(R.string.parse_error_other_exception,e.getMessage()));
