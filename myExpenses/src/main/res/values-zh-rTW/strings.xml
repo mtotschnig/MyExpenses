@@ -21,11 +21,14 @@
   <string name="comment">附註</string>
   <string name="contrib_feature_accounts_unlimited_description">你可以在 <i>開支助手</i> 中創建賬戶的數目僅限5個。</string>
   <string name="contrib_feature_accounts_unlimited_label">帳戶數量不限</string>
+  <string name="contrib_feature_attach_picture_label">將圖像附加到交易項目</string>
   <string name="contrib_feature_distribution_label">每個類別的交易分佈</string>
   <string name="contrib_feature_plans_unlimited_description">你可以在 <i>開支助手</i> 中創建計劃的數目僅限3個。</string>
   <string name="contrib_feature_plans_unlimited_label">計劃數量不限</string>
+  <string name="contrib_feature_print_label">匯出交易記錄清單成PDF</string>
   <string name="contrib_feature_security_question_label">安全問題</string>
   <string name="contrib_feature_split_transaction_label">分割交易</string>
+  <string name="contrib_feature_template_widget_label">模板插件</string>
   <string name="contrib_key">貢獻密鑰</string>
   <string name="contrib_key_requires">貢獻後可用</string>
   <string name="currency">貨幣</string>
@@ -267,7 +270,7 @@
   <string name="pref_qif_export_file_encoding_title">字符編碼</string>
   <string name="pref_request_licence_summary">如果你已經通過其他方式作出貢獻，發送一封電郵來獲得貢獻密鑰。</string>
   <string name="pref_request_licence_title">要求得到貢獻密鑰</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">恢復</string>
   <string name="pref_security_question_summary">如果你忘記了你的密碼，貢獻 開支助手 可助你解鎖你的應用程式。</string>
   <string name="pref_security_question_title">安全問題</string>

@@ -3,21 +3,21 @@
   <string name="account">Conto</string>
   <string name="account_type_asset">Patrimonio</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">Conti di beni</string>
+  <string name="account_type_asset_plural">Patrimonio</string>
   <string name="account_type_bank">Conto bancario</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank_plural">Conti bancari</string>
-  <string name="account_type_cash">Conto di cassa</string>
+  <string name="account_type_cash">Liquidità</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Conti di cassa</string>
+  <string name="account_type_cash_plural">Liquidità</string>
   <string name="account_type_ccard">Carta di credito</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Carte di credito</string>
-  <string name="account_type_liability">Conto di responsabilità</string>
+  <string name="account_type_liability">Passività</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Conti di responsabilità</string>
+  <string name="account_type_liability_plural">Passività</string>
   <string name="already_defined">%1$s è già definita</string>
-  <string name="amount">Somma</string>
+  <string name="amount">Importo</string>
   <string name="app_name">Le mie spese</string>
   <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate su \"%1$s\".</string>
@@ -49,7 +49,7 @@
   <string name="date_format">Formato dati</string>
   <string name="date_format_illegal">Formato data non valido</string>
   <string name="decimal_separator">Separatore decimale</string>
-  <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
+  <string name="default_account_description">Questo conto è stato creato automaticamente durante l\'installazione</string>
   <string name="default_account_name">Libro di bilancio</string>
   <string name="description">Descrizione</string>
   <string name="dialog_balance_delete">Eliminare le transazioni riconciliate</string>
@@ -96,14 +96,14 @@
   <string name="dialog_title_balance_account">Bilanciare %1$s</string>
   <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
   <string name="dialog_title_planner_setup_info">Configurazione di calendario richiesta</string>
-  <string name="dialog_title_select_account">Scegli il conto</string>
+  <string name="dialog_title_select_account">Scegli un conto</string>
   <string name="dialog_title_select_grouping">Scegli un raggruppamento</string>
-  <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
+  <string name="dialog_title_select_import_source">Scegli la fonte d\'importazione</string>
   <string name="dialog_title_select_template">Scegli un modello</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Impostare il numero di cifre della frazione</string>
-  <string name="dialog_title_template_title">Assegnare un nome</string>
+  <string name="dialog_title_template_title">Assegna un nome</string>
   <string name="dialog_title_warning_delete_account">Cancellare il conto ?</string>
   <string name="dialog_title_warning_delete_main_category">Cancellare la categoria principale</string>
   <string name="dialog_title_warning_delete_plan">Cancellare la scadenza</string>
@@ -121,9 +121,9 @@
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Invia il tuo commento, in inglese, francese o tedesco, per favore!</string>
-  <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
+  <string name="ftp_uri_malformed">Sintassi errata URI %1$s</string>
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
-  <string name="grisbi_import_default_source">Categorie standard in italiano</string>
+  <string name="grisbi_import_default_source">Categorie predefinite in italiano</string>
   <string name="grisbi_import_parsing">Analisi di %1$s</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="grouping_day">giorno</string>
@@ -135,7 +135,7 @@
   <string name="grouping_week">settimana</string>
   <string name="grouping_year">anno</string>
   <string name="grouping_yesterday">ieri</string>
-  <string name="help_button_rate">La vostra recensione</string>
+  <string name="help_button_rate">Voto o recensione</string>
   <string name="help_contextuel_help">Potete trovare ulteriori informazioni sulle funzionalità disponibili tramite la voce Aiuto di menu.</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
@@ -145,7 +145,7 @@
     <item>Gestire direttamente sul vostro smartphone.</item>
     <item>Esportarli in un programma di finanza Desktop come Grisbi, GnuCash, Quicken o MS Money.</item>
   </string-array>
-  <string name="help_leading">Grazie di probare <i>Le mie spese</i> por Android.</string>
+  <string name="help_leading">Grazie di aver installato <i>Le mie spese</i> per Android</string>
   <string name="important_upgrade_information_heading">Informazioni importanti</string>
   <string name="important_upgrade_information_1">I backup e le esportazioni sono ora memorizzate sotto Android/data/org.totschnig.myexpenses. ATTENZIONE: Questa directory viene eliminata, quando si disinstalla Le mie spese.</string>
   <string name="import_select_transactions">Operazioni</string>
@@ -221,8 +221,8 @@
   <string name="menu_set_sort_key">Impostare la chiave di ordinamento</string>
   <string name="menu_split_transaction">Frazionare</string>
   <string name="method">Modo</string>
-  <string name="new_version">New version</string>
-  <string name="no_accounts">Nessun conto !</string>
+  <string name="new_version">Nuova versione</string>
+  <string name="no_accounts">Nessun conto!</string>
   <string name="no_amount_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i>?</string>
@@ -254,7 +254,7 @@
   <string name="parse_error_file_not_found">Il file %1$s non esiste</string>
   <string name="parse_error_grisbi_version_not_supported">Versione del file Grisbi non è supportata: %1$s</string>
   <string name="parse_error_no_data_found">Nessun dato importabile trovato nel file.</string>
-  <string name="parse_error_other_exception">È stato verificato un errore: %1$s</string>
+  <string name="parse_error_other_exception">Si è verificato un errore: %1$s</string>
   <string name="parse_error_parse_exception">Il file non può essere analizzato</string>
   <string name="password_disabled_reenable">La protezione con password è stata disabilitata. È possibile riabilitarla nelle impostazioni.</string>
   <string name="password_lost">Password persa</string>
@@ -262,7 +262,7 @@
   <string name="password_prompt">Inserisci la tua password</string>
   <string name="password_security_answer_not_valid">Risposta sbagliata. Prova ancora!</string>
   <string name="payee">Beneficiario</string>
-  <string name="payer">Pagatore</string>
+  <string name="payer">Ordinante</string>
   <string name="payer_or_payee">Beneficiario/Pagatore</string>
   <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto %1$s) che è stato eliminato</string>
   <!--Plan for future and recurring transactions-->
@@ -320,10 +320,10 @@
   <string name="pref_import_qif_title">Importazione QIF</string>
   <string name="pref_like_facebook_title">Mi piace su Facebook</string>
   <string name="pref_manage_accounts_title">Conti</string>
-  <string name="pref_manage_categories_summary">Aggiungere, modificare, cancellare categorie.</string>
+  <string name="pref_manage_categories_summary">Aggiungere, modificare, eliminare categorie.</string>
   <string name="pref_manage_categories_title">Categorie</string>
-  <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
-  <string name="pref_manage_methods_title">Modi di pagamento</string>
+  <string name="pref_manage_methods_summary">Creare e modificare modalità di pagamento e associarle a tipi di conto.</string>
+  <string name="pref_manage_methods_title">Modalità di pagamento</string>
   <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet, Silvia Delpero, FrancescaLaV et  fedett92</string>
@@ -348,7 +348,7 @@
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_request_licence_summary">Se ha contribuito, richiedere una chiave Contrib per Android-Id %1$s via email.</string>
   <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backupsN-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
   <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo, o se si ripristina un backup in formato legacy.</string>
   <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
@@ -371,9 +371,9 @@
   <string name="pref_ui_language_summary">Imposta la lingua dell\'interfaccia</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Lingua</string>
-  <string name="pref_ui_theme_dark">buio</string>
+  <string name="pref_ui_theme_dark">scuro</string>
   <string name="pref_ui_theme_light">chiaro</string>
-  <string name="pref_ui_theme_title">Stile</string>
+  <string name="pref_ui_theme_title">Motivo</string>
   <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
   <string name="pref_visit_website_title">Visita il sito web</string>
   <string name="progress_dialog_create_calendar">Creazione calendario locale …</string>
@@ -395,7 +395,7 @@
   <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
   <string name="restore_backup_archive_not_valid">Archivio %1$s non è valido</string>
   <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
-  <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.</string>
+  <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
   <string name="restore_calendar_success">%d piani sono stati restaurati da backup</string>
   <string name="save_transaction_and_new_success">Salvata con successo</string>
   <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello.</string>
@@ -408,7 +408,7 @@
   <string name="select_category">Selezionare una categoria</string>
   <string name="menu_select_category">Selezionare questa categoria</string>
   <string name="menu_select_folder">Selezionare questa cartella</string>
-  <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
+  <string name="share_scheme_not_supported">Schema %1$s non supportato</string>
   <string name="share_sending">Invia file export</string>
   <string name="split_parts_heading">Frazionamenti</string>
   <string name="split_transaction">Operazione frazionata</string>
@@ -419,16 +419,16 @@
   <string name="status_void">invalido</string>
   <string name="subcategory">Sottocategoria</string>
   <string name="sum_expenses">Spese</string>
-  <string name="sum_income">Redditi</string>
+  <string name="sum_income">Reddito</string>
   <string name="sum_transfer">Trasferimenti</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Le mie spese, Gestione delle finanze personali per %s, http://www.myexpenses.mobi</string>
   <string name="template">Modello</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
-  <string name="template_title_exists">Un modello con il nome \"%1$s\" già esiste</string>
+  <string name="template_title_exists">Un modello con il nome \"%1$s\" esiste già</string>
   <string name="thank_you">Grazie per il vostro sostegno!</string>
   <string name="time">Ora</string>
-  <string name="title">Titro</string>
+  <string name="title">Titolo</string>
   <string name="total_cleared">Totale liquidato</string>
   <string name="total_reconciled">Totale riconciliato</string>
   <string name="transaction">Operazione</string>

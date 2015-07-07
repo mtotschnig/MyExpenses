@@ -44,7 +44,7 @@
   <string name="contrib_key">Kontribuzio gakoa</string>
   <string name="contrib_key_requires">Nire Gastuak Kontribuzio Gakoa behar du.</string>
   <string name="currency">Moneta</string>
-  <string name="current_balance">Uneko balantzea</string>
+  <string name="current_balance">Uneko saldoa</string>
   <string name="date">Data</string>
   <string name="date_format">Dataren formatua</string>
   <string name="date_format_illegal">Data formatu baliogabea</string>
@@ -93,7 +93,7 @@
   <string name="dialog_title_attention">Adi</string>
   <string name="dialog_title_information">Informazioa</string>
   <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">Balantzea %1$s</string>
+  <string name="dialog_title_balance_account">%1$s saldoa</string>
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
   <string name="dialog_title_planner_setup_info">Egutegia ezartzea ezinbestekoa</string>
   <string name="dialog_title_select_account">Hautatu kontu bat</string>
@@ -114,8 +114,10 @@
   <string name="donate_dialog_text">Mesedez egin dohaintza PayPal, Flattr edo Bitcoin bitartez, eta eskatu kontribuzio gakoa ezarpenen pantailatik.</string>
   <string name="expense">Gastua</string>
   <string name="export_expenses">Gastuen esportazioa</string>
-  <string name="export_sdcard_failure">Huts egin du gatuak \"%1$s\"-ra esportatzean: %2$s</string>
-  <string name="export_sdcard_success">Gastuak \"%1$s\" fitxategira esportatu dira</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
+  <string name="export_sdcard_failure">Fitxategia \"%1$s\"ra esportatzeak huts egin du: %2$s</string>
+  <!--1$s is replaced with path to file-->
+  <string name="export_sdcard_success">Datuan ongi esportatu dira \"%1$s\" fitxategira</string>
   <string name="external_storage_unavailable">Kanpo biltegiratzea (SD txartela) ez dago erabilgarri.</string>
   <string name="feedback">Iruzkina</string>
   <string name="feedback_email_message">Idatzi zure iruzkina ingelesez, frantsesez edo alemanez, mesedez! </string>
@@ -158,7 +160,7 @@
   <string name="menu_back">Atzera</string>
   <string name="menu_backup">Babeskopia</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Balantze kontua</string>
+  <string name="menu_balance">Kontuaren saldoa</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Utzi</string>
   <string name="menu_clone_transaction">Klonatu</string>
@@ -347,7 +349,7 @@ Librezale.eus</string>
   <string name="pref_qif_export_file_encoding_title">Karaktere-kodeketa</string>
   <string name="pref_request_licence_summary">Kontribuzioa egin baduzu, eskatu Kontribuzio gakoa %1$s Android-IDarentzat posta elektroniko bidez.</string>
   <string name="pref_request_licence_title">Eskatu Kontribuzio gakoa</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Ordezkoa</string>
   <string name="pref_restore_alternative_summary">Erabili ordezko metodo hau fitxategi kudeatzailerik ez badago instalatuta edo aitzinako formatuan dagoen babeskopia bat berreskuratu nahi baduzu.</string>
   <string name="pref_restore_summary">Aukeratu babeskopia bat datu-basea eta hobespenak berreskuratzeko.</string>
@@ -542,4 +544,5 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="menu_undelete_transaction">Desezabatu</string>
   <string name="slash_forbidden_in_filename">/ karakterea ezin da erabili fitxategi izenetan</string>
   <string name="io_error_unable_to_create_file">Ezin izan da %1$s fitxategia sortu %2$s karpetan</string>
+  <string name="menu_categories_export">Esportatu QIF fitxategira</string>
 </resources>

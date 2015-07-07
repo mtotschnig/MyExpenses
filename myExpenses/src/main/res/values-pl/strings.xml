@@ -3,28 +3,37 @@
   <string name="account">Konto</string>
   <string name="account_type_asset">Rachunek aktywów</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_asset_plural">Konto zasobów</string>
   <string name="account_type_bank">Konto bankowe</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">Konta bankowe</string>
   <string name="account_type_cash">Rachunek gotówkowy</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">Konta gotówkowe</string>
   <string name="account_type_ccard">Karta kredytowa</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_ccard_plural">Karty kredytowe</string>
   <string name="account_type_liability">Rachunek płatności</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_liability_plural">Konto zobowiązań</string>
   <string name="already_defined">%1$s jest już zdefiniowane</string>
   <string name="amount">Kwota</string>
   <string name="app_name">Moje Wydatki</string>
   <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się.</string>
   <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie.</string>
   <string name="category">Kategoria</string>
+  <string name="split_transaction_error">Zamiana transakcji w podział nie była możliwa</string>
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
   <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>
+  <string name="contrib_feature_ad_free_label">Brak reklam</string>
   <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
+  <string name="contrib_feature_attach_picture_label">Dopinanie obrazów do transakcji</string>
   <string name="contrib_feature_distribution_label">Dystrybucja tranakcji na kategorię.</string>
   <string name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Nieograniczona ilość planów</string>
+  <string name="contrib_feature_print_label">Eksport listy transakcji do PDF</string>
   <string name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
   <string name="contrib_feature_split_transaction_label">Podział transakcji</string>
   <string name="contrib_feature_template_widget_label">Szablon widget</string>
@@ -176,6 +185,7 @@
   <string name="menu_edit_template">Edytuj Szablon</string>
   <string name="menu_edit_transaction">Edytuj Transakcję</string>
   <string name="menu_edit_transfer">Edytuj Przelew</string>
+  <string name="menu_exclude_from_totals">Wyklucz z podsumowań</string>
   <string name="menu_forward">Naprzód</string>
   <string name="menu_grouping">Grupowanie</string>
   <string name="menu_help">Pomoc</string>
@@ -184,20 +194,26 @@
   <string name="menu_manage_plans">Szablony i plany</string>
   <string name="menu_manage_plans_tab_templates">Szablony</string>
   <string name="menu_manage_plans_tab_plans">Plany</string>
+  <string name="menu_open">Otwórz</string>
+  <string name="menu_print">Drukuj</string>
   <string name="menu_reset">Eksportuj i zresetuj</string>
   <string name="menu_reset_all">Eksportuj i zresetuj wszystko</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
   <string name="menu_reset_plan_instance">Resetuj</string>
   <string name="menu_save">Zapisz</string>
   <string name="menu_save_and_new">Zapisz i utwórz nowy</string>
+  <string name="menu_search">Szukaj</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_share">Poleć znajomemu</string>
+  <string name="menu_set_sort_key">Ustaw klucz sortowania</string>
+  <string name="menu_split_transaction">Zamień w podział</string>
   <string name="method">Metoda</string>
   <string name="new_version">Nowa wersja</string>
   <string name="no_accounts">Brak kont!</string>
   <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
   <string name="no_app_handling_email_available">Nie posiadasz aplikacji do obsługi E-mail</string>
   <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Brak aplikacji do obsługi PDF.</string>
   <string name="no_categories">Brak kategorii.</string>
   <string name="no_category_assigned">Brak przydzielonej kategorii</string>
   <string name="no_details">Brak detali.</string>
@@ -259,9 +275,12 @@
   <string name="pm_type_credit">Kredyt</string>
   <string name="pm_type_debit">Debet</string>
   <string name="pm_type_neutral">Neutralnie</string>
+  <string name="pref_account_grouping_title">Grupowanie kont</string>
   <string name="pref_app_dir_title">Folder do kopii zapasowych i eksportów</string>
+  <string name="pref_auto_fill_title">Automatyczne uzupełnianie transakcji</string>
   <string name="pref_backup_summary">Utwórz kopię zapasową bazy danych i preferencji na karcie pamięci.</string>
   <string name="pref_categories_sort_by_usages_title">Kolejność sortowania: Ilość użyć</string>
+  <string name="pref_category_title_advanced">Zaawansowane</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Zarządzaj</string>
@@ -273,6 +292,9 @@
   <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Jeżeli chciałbyś dodatkowo się przyczynić, możesz wysłać darowiznę przez flattr, PayPal lub wysłać Bitcoiny.</string>
   <string name="pref_contrib_donate_title">Wyślij datek</string>
+  <string name="pref_contrib_install_summary">Nabywając Klucz Contrib Moich Wydatków, otrzymujesz dostęp do funkcji premium.</string>
+  <string name="pref_contrib_install_title">Zakup Klucz Contrib (Płatność Wewnątrz Aplikacji)</string>
+  <string name="pref_custom_currency_title">Dostosuj waluty</string>
   <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz Contrib, otrzymasz dostęp do funkcji premium.</string>
   <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>
   <string name="pref_export_format_title">Format daty</string>
@@ -281,6 +303,7 @@
   <string name="pref_import_from_grisbi_title">Import z Grisbi</string>
   <string name="pref_import_qif_summary">Importuj transakcje, kategorie i partie z pliku QIF</string>
   <string name="pref_import_qif_title">Import QIF</string>
+  <string name="pref_like_facebook_title">Polub nas na Facebook\'u</string>
   <string name="pref_manage_accounts_title">Konta</string>
   <string name="pref_manage_categories_summary">Utwórz, edytuj, usuń kategorie.</string>
   <string name="pref_manage_categories_title">Kategorie</string>
@@ -309,7 +332,7 @@
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
   <string name="pref_request_licence_summary">Jeżeli przyczyniłeś się do aplikacji, poproś o klucz Contrib dla ID Androida %1$s przez e-mail.</string>
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>
   <string name="pref_restore_title">Przywróć</string>
   <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>
@@ -337,6 +360,7 @@
   <string name="progress_dialog_create_plan">Utwórz nowy plan...</string>
   <string name="progress_dialog_deleting">Usuwanie obiektów...</string>
   <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych...</string>
+  <string name="progress_dialog_printing">Generowanie pliku PDF...</string>
   <string name="progress_dialog_saving">Zapisywanie obiektu do bazy danych ...</string>
   <string name="progress_dialog_setup">Baza danych jest inicjowana...</string>
   <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
@@ -363,6 +387,7 @@
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
   <string name="menu_select_category">Wybierz tą kategorię</string>
+  <string name="menu_select_folder">Wybierz ten folder</string>
   <string name="share_scheme_not_supported">Schemat %1$s nie jest wspierany</string>
   <string name="share_sending">Wyślij plik eksportu</string>
   <string name="split_parts_heading">Części podziału</string>
@@ -371,6 +396,7 @@
   <string name="status_cleared">oczyszczone</string>
   <string name="status_reconciled">uzgodnione</string>
   <string name="status_uncreconciled">nieuzgodnione</string>
+  <string name="status_void">anulowano</string>
   <string name="subcategory">Podkategoria</string>
   <string name="sum_expenses">Wydatki</string>
   <string name="sum_income">Dochód</string>
@@ -428,6 +454,7 @@
   <string name="warning_select_account">Proszę wybrać konto!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
+  <string name="warning_fraction_digits_out_of_range">Proszę wybrać cyfrę pomiędzy 0 a 8</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>
@@ -436,10 +463,52 @@
   <string name="import_categories_none">Nie zaimportowano żadnych kategorii</string>
   <string name="import_parties_none">Brak zaimportowanych partii</string>
   <string name="import_transactions_none">Brak transakcji zaimportowanych na konto %1$s</string>
+  <string name="import_source_select_error">Proszę wskazać plik w formacie %1$s</string>
   <string name="menu_categories_setup_default">Ustaw domyślne kategorie</string>
   <string name="menu_create_folder">Nowy folder</string>
   <string name="menu_up">Do góry</string>
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
   <string name="widget_title_accounts">Moje konta</string>
   <string name="widget_title_templates">Moje szablony</string>
+  <string name="app_dir_does_not_exist">Wskazany obecnie folder dla kopii zapasowych i eksportów (%1$s) nie istnieje.</string>
+  <string name="app_dir_read_only">Wskazany obecnie folder dla kopii zapasowych i eksportów (%1$s) jest dostępny jedynie do odczytu.</string>
+  <string name="search_amount">Szukaj kwoty</string>
+  <string name="search_category">Szukaj kategorii</string>
+  <string name="search_comment">Szukaj notatek</string>
+  <string name="search_date">Szukaj daty</string>
+  <string name="search_status">Szukaj statusu</string>
+  <string name="search_method">Szukaj metody</string>
+  <string name="and">i</string>
+  <string name="between_and">pomiędzy %1$s a %2$s</string>
+  <string name="before">przed %s</string>
+  <string name="after">po %s</string>
+  <string name="comparison_operator_equal">równe</string>
+  <string name="comparison_operator_greater_than">większe niż</string>
+  <string name="comparison_operator_lesser_than">mniej niż</string>
+  <string name="comparison_operator_between">pomiędzy</string>
+  <string name="comparison_operator_date_before">przed</string>
+  <string name="comparison_operator_date_after">po</string>
+  <string name="promotion_appgratis_welcome">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
+  <string name="premium_unlocked">Funkcje Premium zostały odblokowane.</string>
+  <string name="premium_failed_or_canceled">Zakup nie udał się lub został anulowany.</string>
+  <string name="yes">Tak</string>
+  <string name="no">Nie</string>
+  <string name="learn_more">Dowiedz się więcej</string>
+  <string name="import_source_file">Plik</string>
+  <string name="restore_calendar_handling">Obsługa danych kalendarza</string>
+  <string name="restore_calendar_handling_ignore">Nie przywracaj planów</string>
+  <string name="restore_not_possible_local_calendar_missing">Obecny kalendarz planowania nie jest dostępny.</string>
+  <string name="menu_view_picture">Obejrzyj obrazek</string>
+  <string name="menu_delete_picture">Usuń obrazek</string>
+  <string name="menu_change_picture">Załącz inny obrazek</string>
+  <string name="menu_distribution_show_pie_char">Pokaż wykres kołowy</string>
+  <string name="image_deleted">Obrazek został usunięty</string>
+  <string name="dialog_export_applied_to_filter">Tylko transakcje dopasowane do obecnego filtra będą brane pod uwagę.</string>
+  <string name="export_handle_deleted_create_helper">Stwórz transakcję pomocniczą</string>
+  <string name="file_name">Nazwa pliku</string>
+  <string name="folder_name">Nazwa folderu</string>
+  <string name="mark_void_instead_of_delete">Nie usuwaj transakcji, zamiast tego anuluj ją.</string>
+  <string name="menu_undelete_transaction">Cofnij usunięcie</string>
+  <string name="slash_forbidden_in_filename">Znak / nie jest dozwolony w nazwach plików</string>
+  <string name="menu_categories_export">Eksport do QIF</string>
 </resources>
