@@ -341,7 +341,7 @@
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
   <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel für Android-Id  %1$s per E-Mail.</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backupsN-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativ</string>
   <string name="pref_restore_alternative_summary">Verwenden Sie diese alternative Methode, wenn kein Datei-Manager auf dem Gerät installiert ist oder Sie eine Sicherung im alten Format wiederherstellen wollen.</string>
   <string name="pref_restore_summary">Wählen Sie die Sicherheitskopie aus, die wiederhergestellt werden soll.</string>

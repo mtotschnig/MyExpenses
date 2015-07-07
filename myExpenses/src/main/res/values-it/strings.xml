@@ -9,13 +9,13 @@
   <string name="account_type_bank_plural">Conti bancari</string>
   <string name="account_type_cash">Liquidità</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Conti di cassa</string>
+  <string name="account_type_cash_plural">Liquidità</string>
   <string name="account_type_ccard">Carta di credito</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Carte di credito</string>
-  <string name="account_type_liability">Passività </string>
+  <string name="account_type_liability">Passività</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Conti di responsabilità</string>
+  <string name="account_type_liability_plural">Passività</string>
   <string name="already_defined">%1$s è già definita</string>
   <string name="amount">Importo</string>
   <string name="app_name">Le mie spese</string>

@@ -31,8 +31,10 @@
   <string name="color">Culoare</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
+  <string name="contrib_feature_ad_free_label">Fără reclame</string>
   <string name="contrib_feature_accounts_unlimited_description">Numărul  conturilor pe care le puteţi crea cu <i>Cheltuielile Mele</i> este limitat la 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Număr nelimitat de conturi</string>
+  <string name="contrib_feature_attach_picture_label">Ataseaza imagine la tranzactie</string>
   <string name="contrib_feature_distribution_label">Repartiţia tranzacţiilor pe categorie</string>
   <string name="contrib_feature_plans_unlimited_description">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Număr nelimitat de scadenţe</string>
@@ -343,7 +345,8 @@ Tradus de DD</string>
   <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
   <string name="pref_request_licence_summary">Dacă aţi contribuit, solicitaţi o cheie Contrib pentru Android-Id %1$s  prin email.</string>
   <string name="pref_request_licence_title">Solicită o cheie de Contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">Alternativă</string>
   <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
   <string name="pref_restore_title">Restaurare</string>
   <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>
@@ -400,6 +403,7 @@ Tradus de DD</string>
   <string name="select">Selectează </string>
   <string name="select_category">Selectează categorie</string>
   <string name="menu_select_category">Selectează această categorie</string>
+  <string name="menu_select_folder">Selectează acest folder</string>
   <string name="share_scheme_not_supported">Schema %1$s nesuportată</string>
   <string name="share_sending">Trimite fişier export</string>
   <string name="split_parts_heading">Repartizări</string>
@@ -408,6 +412,7 @@ Tradus de DD</string>
   <string name="status_cleared">procesată</string>
   <string name="status_reconciled">decontată</string>
   <string name="status_uncreconciled">nedecontată</string>
+  <string name="status_void">gol</string>
   <string name="subcategory">Subcategorie</string>
   <string name="sum_expenses">Cheltuieli</string>
   <string name="sum_income">Venituri</string>
@@ -491,10 +496,14 @@ Tradus de DD</string>
   <string name="search_method">Caută o metodă</string>
   <string name="and">şi</string>
   <string name="between_and">între %1$s şi %2$s</string>
+  <string name="before">înainte %s</string>
+  <string name="after">după %s</string>
   <string name="comparison_operator_equal">egal cu</string>
   <string name="comparison_operator_greater_than">mai mare decât</string>
   <string name="comparison_operator_lesser_than">mai mic decât</string>
   <string name="comparison_operator_between">între</string>
+  <string name="comparison_operator_date_before">înainte </string>
+  <string name="comparison_operator_date_after">după</string>
   <string name="promotion_appgratis_welcome">Oferta speciala de astăzi cu AppGratis: Funcţionalităţile Premium deblocate gratis.</string>
   <string name="premium_unlocked">Funcţionalităţile Premium  deblocate.</string>
   <string name="premium_failed_or_canceled">Cumpărare eşuată sau anulată.</string>
@@ -511,4 +520,6 @@ Tradus de DD</string>
   <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
   <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
   <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
+  <string name="file_name">Nume fişier</string>
+  <string name="folder_name">Numele folder</string>
 </resources>

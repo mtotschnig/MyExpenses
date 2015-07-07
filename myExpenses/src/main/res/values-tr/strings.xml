@@ -111,8 +111,10 @@
   <string name="donate_dialog_text">Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
-  <string name="export_sdcard_failure">Harcamaların \"%1$s\" konumuna aktarımı başarısız oldu: %2$s</string>
-  <string name="export_sdcard_success">Giderler %1$s dosyasına aktarıldı</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
+  <string name="export_sdcard_failure">\"%1$s\" dosyasına dışa aktarma başarısız oldu: %2$s</string>
+  <!--1$s is replaced with path to file-->
+  <string name="export_sdcard_success">Veriler başarıyla \"%1$s\" dosyasına aktarıldı</string>
   <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
   <string name="feedback">Geri bildirim</string>
   <string name="feedback_email_message">Lütfen geri bildirimi İngilizce, Fransızca ya da Almanca olarak gönderin!</string>
@@ -339,7 +341,7 @@
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
   <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa veya eski formatta bir yedeklemeyi geri almak istiyorsanız bu alternatif metodu kullanınız.</string>
   <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
@@ -531,4 +533,5 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_undelete_transaction">Silmeyi geri al</string>
   <string name="slash_forbidden_in_filename">/ karakterine dosya isimlerinde müsaade edilmez</string>
   <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
+  <string name="menu_categories_export">QIF olarak dışa aktar</string>
 </resources>

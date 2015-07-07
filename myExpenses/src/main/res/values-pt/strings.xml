@@ -341,7 +341,7 @@
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
   <string name="pref_request_licence_summary">Se você tiver contribuído, solicitar a chave do Contrib para Android-Id %1$s por e-mail.</string>
   <string name="pref_request_licence_title">Solicitar uma chave de licença do Contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backupsN-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
   <string name="pref_restore_alternative_summary">Use este método alternativo, se não houver nenhum Gerenciador de arquivos instalado no dispositivo, ou se você restaurar um backup no formato herdado.</string>
   <string name="pref_restore_summary">Restaure cópia de segurança a partir da pasta \"myExpenses\" no sdcard.</string>

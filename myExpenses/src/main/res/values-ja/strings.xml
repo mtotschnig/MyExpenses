@@ -109,8 +109,10 @@
   <string name="donate_dialog_text">PayPal、Flattr、またはBitcoin 経由で寄付した後で、設定画面から貢献キーをリクエストしてください。</string>
   <string name="expense">支出</string>
   <string name="export_expenses">支出エクスポート</string>
-  <string name="export_sdcard_failure">\"%1$s\" への支出エクスポートに失敗しました: %2$s</string>
-  <string name="export_sdcard_success">ファイル \"%1$s\" に支出エクスポートしました</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
+  <string name="export_sdcard_failure">ファイル \"%1$s\" へのエクスポートに失敗しました: %2$s</string>
+  <!--1$s is replaced with path to file-->
+  <string name="export_sdcard_success">ファイル \"%1$s\" にデータを正常にエクスポートしました</string>
   <string name="external_storage_unavailable">外部ストレージ (SDカード) が利用可能ではありません</string>
   <string name="feedback">フィードバック</string>
   <string name="feedback_email_message">フィードバックは英語、フランス語、またはドイツ語で送ってください!</string>
@@ -335,7 +337,7 @@
   <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
   <string name="pref_request_licence_summary">あなたが貢献した場合は、メールで Android-Id %1$s の貢献キーをリクエストしてください。</string>
   <string name="pref_request_licence_title">貢献キーをリクエスト</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">代替</string>
   <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、または従来の形式でバックアップを復元する場合に、この代替の方法を使用します。</string>
   <string name="pref_restore_summary">データベースとプリファレンスを復元するためのバックアップを選択してください。</string>
@@ -521,4 +523,5 @@
   <string name="menu_undelete_transaction">削除の取消</string>
   <string name="slash_forbidden_in_filename">/ の文字はファイル名に使用できません</string>
   <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
+  <string name="menu_categories_export">QIF にエクスポート</string>
 </resources>
