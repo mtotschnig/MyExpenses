@@ -348,7 +348,7 @@
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé Contrib pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backupsN-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
   <string name="pref_restore_alternative_summary">Utilisez cette autre méthode si aucun gestionnaire de fichiers n\'est installé sur votre appareil ou si vous restaurez une sauvegarde à partir d\'un ancien format.</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
