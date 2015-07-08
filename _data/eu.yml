@@ -45,6 +45,7 @@ eu:
       template_widget: Trepeta txantiloia
       print: Esportatu transakzio zerrenda PDFra
       attach_picture: Erantsi irudia transakzioari
+      ad_free: Iragarkirik gabe
     licence-howto-buy:
       deprecated: |
         OHARRA: 2.3.9 bertsiotik Nire Gastuak aplikazioko premium funtzionalitatea desblokeatzeko kontribuzio gakoa errazago lortu daiteke aplikazio barneko ordainketaren bidez, ez duzu "My Expenses Contrib Key" aplikazioa instalatzeko beharrik.
@@ -56,7 +57,7 @@ eu:
         Nire Gastuak Blakberry World bidez instalatu baduzu, instalatu
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
       other: |
-        Nire Gastuak F-Droid, Androidpit edo GitHub bidez deskargatu baduzu, egin dohaintza bat hauetakoren baten bidez:
+        Nire Gastuak F-Droid, Yandex edo SlideMe bidez deskargatu baduzu, egin dohaintza bat hauetakoren baten bidez:
       transfer: |
         Edo diru transferentzia bat egin dezakezu hurrengo kontura:
       key: |

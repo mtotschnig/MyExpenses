@@ -44,6 +44,7 @@ ja:
       template_widget: テンプレート ウィジェット
       print: 取引リストを PDF にエクスポート
       attach_picture: 取引に画像を添付
+      ad_free: 広告なし
     licence-howto-buy:
       deprecated: "__NOT_NEEDED__"
       intro: |
@@ -53,7 +54,7 @@ ja:
       blackberry: |
         Blackberry World からマイ エクスペンスをインストールしている場合、 <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">マイ エクスペンス貢献</a> をインストールしてください。
       other: |
-        F-Droid、Androidpit、またはGithub からマイ エクスペンスをダウンロードしている場合は、次の方法で寄付を送ってください:
+        F-Droid、Yandex、またはSlideMe からマイ エクスペンスをダウンロードしている場合は、次の方法で寄付を送ってください:
       transfer: |
         別の方法としては、次のアカウント情報にお金を送ってください:
       key: |

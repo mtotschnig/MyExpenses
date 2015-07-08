@@ -34,6 +34,7 @@ zh-tw:
       split_transaction: 分割交易
       security_question: 安全問題
     licence-howto-buy:
+      deprecated: "__NOT_NEEDED__"
       intro: |
         你有以下選擇來購買高級功能的授權：
   permissions-heading: |

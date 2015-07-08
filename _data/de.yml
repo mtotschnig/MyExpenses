@@ -45,6 +45,7 @@ de:
       template_widget: Vorlagen Widget
       print: Buchungsliste als PDF-Datei drucken
       attach_picture: Bildanhang für Buchung
+      ad_free: Ohne Werbung
     licence-howto-buy:
       deprecated: |
         HINWEIS: Seit Version 2.3.9 kann der Contrib Schlüssel zur Freischaltung der Premium-Funktionalität von Meine Ausgaben einfacher durch eine In-App Bezahlung erworben werden, und Sie müssen daher die "Meine Ausgaben Contrib Schlüssel" App nicht mehr installieren.
@@ -55,7 +56,7 @@ de:
       blackberry: |
         Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
       other: |
-        Wenn Sie meine Ausgaben von F-Droid, Androidpit oder Github bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
+        Wenn Sie meine Ausgaben von F-Droid, Yandex oder SlideMe bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
       transfer: |
         Andernfalls können Sie auch Geld auf das folgende Konto überweisen:
       key: |

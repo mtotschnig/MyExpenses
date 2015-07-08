@@ -45,6 +45,7 @@ es:
       template_widget: Widget de plantillas
       print: Lista de transacciones de exportación a PDF
       attach_picture: Adjuntar imagen de transacción
+      ad_free: Sin anuncios
     licence-howto-buy:
       deprecated: |
         NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium mis gastos puede adquirirse más fácilmente a través de pago en la aplicación, y ya no tienes que instalar la aplicación "Mis gastos Clave Contrib".
@@ -56,7 +57,7 @@ es:
         Si ha instalado Mis Gastos de Blackberry World, instalar
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mis Gastos Contrib</a>.
       other: |
-        Si ha descargado Mis Gastos de F-Droid, Androidpit o Github, enviar una donación a través de uno de los siguientes:
+        Si ha descargado Mis Gastos de F-Droid, Yandex o SlideMe, enviar una donación a través de uno de los siguientes:
       transfer: |
         Alternativamente, transferir dinero a la siguiente cuenta bancaria:
       key: |

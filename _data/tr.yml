@@ -46,6 +46,7 @@ tr:
       template_widget: Şablon widget'i
       print: Muamele listesini PDF dosyasına aktar
       attach_picture: Muameleye resim ekle
+      ad_free: Reklamsız
     licence-howto-buy:
       deprecated: |
         NOT: 2.3.9 sürümünden beri tüm işlevlerin kilidini açan Katkı Anahtarı uygulama içi olarak daha kolay satın alınabilir ve artık "Harcamalarım Katkı Anahtarı" uygulamasını kurmanıza gerek yoktur.
@@ -56,7 +57,7 @@ tr:
       blackberry: |
         Eğer Harcamalarımı Blackberry World'dan indirdiyseniz, <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Harcamalarım Katkı sürümünü</a> kurunuz.
       other: |
-        Eğer Harcamalarımı F-Droid, Androidpit ya da Github'dan indirdiyseniz,
+        Eğer Harcamalarımı F-Droid, Yandex ya da SlideMe'dan indirdiyseniz,
         aşağıdaki seçeneklerden biriyle bağış gönderiniz:
       transfer: |
         Alternatif olarak, aşağıdaki hesap bilgilerine para transferi yapınız:

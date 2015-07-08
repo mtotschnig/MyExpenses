@@ -30,6 +30,7 @@ pt_BR:
     backup: Restauração e backup de dados
     light_theme: "Dois temas: luz e trevas"
     attach_picture: Anexar imagem à transação
+    ad_free: Sem anúncios
   contrib:
     thank_you: |
       Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
@@ -46,7 +47,7 @@ pt_BR:
       deprecated: |
         NOTA: Desde a versão 2.3.9 a Chave Contrib para desbloqueio funcionalidade premium de Minhas Despesas podem ser mais facilmente adquirido através de pagamento no App, e você já não precisa instalar o app "Minhas despesas Chave Contrib".
       other: |
-        Se baixou Minhas Despesas de F-Droid, Androidpit ou Github,
+        Se baixou Minhas Despesas de F-Droid, Yandex ou SlideMe,
         faça uma doação por meio de um dos seguintes:
   permissions-heading: |
     Minhas Despesas requer as seguintes permissões

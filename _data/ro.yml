@@ -43,6 +43,7 @@ ro:
       security_question: Întrebări securitate
       template_widget: Şablon widget
       print: Export listă tranzacţii în PDF
+      ad_free: Fără reclame
     licence-howto-buy:
       deprecated: "__NOT_NEEDED__"
       intro: |
@@ -51,7 +52,7 @@ ro:
         Dacă aţi instalat Cheltuielile Mele de pe Google Play sau Amazon App Store, acesta este disponibil  in-app cumparare.
       blackberry: "Dacă aţi instalat My Expenses de pe Blackberry World, instalaţi \n<a class=\"track\" id=\"blackberry-contrib\" href=\"http://appworld.blackberry.com/webstore/content/57168887\">My\
         \ Expenses Contrib</a>.\n"
-      other: "Dacă aţi descărcat Cheltuielile Mele de la F-Droid, Androidpit sau Github, \ntrimiteţi o donaţie prin una din următoarele:\n"
+      other: "Dacă aţi descărcat Cheltuielile Mele de la F-Droid, Yandex sau SlideMe, \ntrimiteţi o donaţie prin una din următoarele:\n"
       transfer: |
         Alternativ, transfer bancar în următorul contul :
       key: |+

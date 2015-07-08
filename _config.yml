@@ -31,6 +31,7 @@ contrib:
   - split_transaction
   - security_question
   - attach_picture
+  - ad_free
 title:
   ar: مصروفاتي
   en: My Expenses

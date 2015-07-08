@@ -46,6 +46,7 @@ it:
       template_widget: Widget modelli
       print: Esportazione dell'elenco delle transazioni in PDF
       attach_picture: Allegare immagine per transazione
+      ad_free: Nessun annuncio
     licence-howto-buy:
       deprecated: |
         NOTA: Dalla versione 2.3.9 il Chiave Contrib per sbloccare funzionalità premium di Le mie spese più facilmente acquistabili tramite pagamento In-App, e non è più necessario installare l'app "Le mie spese Chiave Contrib".
@@ -58,7 +59,7 @@ it:
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Le Mie Spese Contrib</a>.
 
       other: |
-        Se hai scaricato Le Mie Spese da F-Droid, Androidpit o Github,
+        Se hai scaricato Le Mie Spese da F-Droid, Yandex o SlideMe,
         invia una donazione tramite uno dei seguenti:
       transfer: |
         In alternativa fai un trasferimento sul seguente account:

@@ -45,6 +45,7 @@ en:
       template_widget:    Template widget
       print: Export transaction list to PDF
       attach_picture: Attach image to transaction
+      ad_free: No ads
     licence-howto-buy:
       deprecated: |
         NOTE: Since version 2.3.9 the Contrib Key for unlocking My Expenses premium functionality can be more easily purchased through In-App Payement, and you no longer need to install the "My Expenses Contrib Key" app.
@@ -56,7 +57,7 @@ en:
         If you have installed My Expenses from Blackberry World, install
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
       other: |
-        If you have downloaded My Expenses from F-Droid, Androidpit or Github,
+        If you have downloaded My Expenses from F-Droid, Yandex or SlideMe,
         send a donation via one of the following:
       transfer: |
         Alternatively, transfer money to the following account information:

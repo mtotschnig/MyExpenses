@@ -45,6 +45,7 @@ fr:
       template_widget: Widget de modèles
       print: Export de la liste des opérations au format PDF
       attach_picture: Lier une image avec une transaction
+      ad_free: Sans publicité
     licence-howto-buy:
       deprecated: |
         NOTE: Depuis la version 2.3.9, la Clé Contrib pour déverrouiller les fonctionnalités Premium de Mes Dépenses peut être facilement achetée par un paiement dans l'application, et vous n'avez plus besoin d'installer l'application "Mes dépenses Clé Contrib".
@@ -55,7 +56,7 @@ fr:
       blackberry: |2
          Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
       other: |
-        Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Androidpit ou Github, envoyez un don par l'une des opérations suivantes :
+        Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Yandex ou SlideMe, envoyez un don par l'une des opérations suivantes :
       transfer: |
         Vous pouvez également transférer de l'argent pour le compte suivant :
       key: |
