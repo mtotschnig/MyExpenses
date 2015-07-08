@@ -9,6 +9,7 @@ pt_BR:
     more_information: Mais informações
   sections:
     features: Características
+    premium: Ir Premium
     participate: Participar
     faq: FAQ
     versionlist: Registro de alterações
@@ -30,10 +31,11 @@ pt_BR:
     backup: Restauração e backup de dados
     light_theme: "Dois temas: luz e trevas"
     attach_picture: Anexar imagem à transação
-    ad_free: Sem anúncios
   contrib:
     thank_you: |
       Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
+    feature-list-title: |
+      Os seguintes recursos Premium podem ser desbloqueados através da aquisição de uma licença de Contrib:
     feature:
       accounts_unlimited: Número ilimitado de contas
       plans_unlimited: Número ilimitado de planos
@@ -43,13 +45,29 @@ pt_BR:
       template_widget: Widget de modelos
       print: Exportar lista de transações para PDF
       attach_picture: Anexar imagem à transação
+      ad_free: Sem anúncios
     licence-howto-buy:
       deprecated: |
         NOTA: Desde a versão 2.3.9 a Chave Contrib para desbloqueio funcionalidade premium de Minhas Despesas podem ser mais facilmente adquirido através de pagamento no App, e você já não precisa instalar o app "Minhas despesas Chave Contrib".
+      intro: |
+        Você tem as seguintes opções para adquirir a licença de Contrib:
+      in-app: |
+        Se você instalou meus gastos de Google Play ou Amazon App Store, é disponível como in-app compra.
+      blackberry: |
+        Se você instalou meus gastos do Blackberry World, instale <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Minhas despesas Contrib</a>.
       other: |
         Se baixou Minhas Despesas de F-Droid, Yandex ou SlideMe,
         faça uma doação por meio de um dos seguintes:
+      transfer: |
+        Em alternativa, transferi dinheiro para as seguintes informações de conta:
+      key: |
+        e, em seguida, solicitar a chave de licença a partir da tela de configurações.
+        Assim que você recebê-la por e-mail, digite-o também a partir da tela de configurações.
   permissions-heading: |
     Minhas Despesas requer as seguintes permissões
+  permissions-calendar: |
+    Leitura e escrita do calendário: planos para transações futuras e recorrentes são armazenadas em um calendário local especial ou em qualquer outro calendário que você atribuir.
+  permissions-external-storage: |
+    Armazenamento USB a escrever: armazenamento de exportação QIF e CSV e arquivos de backup
   permissions-internet: |
     Comunicação de rede: relatórios de travamento são enviados automaticamente para os desenvolvedores, a menos que sejam desativados pelo usuário nas preferências do aplicativo.
