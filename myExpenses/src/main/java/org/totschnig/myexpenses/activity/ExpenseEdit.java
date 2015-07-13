@@ -335,8 +335,13 @@ public class ExpenseEdit extends AmountActivity implements
       setTime();
       if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L)
         mMethodId = null;
-      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L)
+      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L) {
         mAccountId = null;
+      } else {
+        //once user has selected account, we no longer want
+        //the passed in KEY_CURRENCY to override it in onLoadFinished
+        getIntent().removeExtra(KEY_CURRENCY);
+      }
       if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
         mTransferAccountId = null;
     }
@@ -1360,6 +1365,9 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       configureStatusSpinner();
+      //once user has selected account, we no longer want
+      //the passed in KEY_CURRENCY to override it in onLoadFinished
+      getIntent().removeExtra(KEY_CURRENCY);
     }
   }
   @Override
