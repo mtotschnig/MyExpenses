@@ -56,9 +56,9 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
    * @return the dialog fragment
    */
   public static ProgressDialogFragment newInstance(int title, int message,int progressStyle, boolean withButton) {
+    String titleString = title != 0 ? MyApplication.getInstance().getString(title) : null;
     String messageString = message != 0 ? MyApplication.getInstance().getString(message) : null;
-    return newInstance(MyApplication.getInstance().getString(title),
-        messageString,progressStyle,withButton);
+    return newInstance(titleString,messageString,progressStyle,withButton);
   }
   /**
    * @param message the dialogs's message
