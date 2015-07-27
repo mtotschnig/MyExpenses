@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +86,16 @@ public class CsvImportDataFragment extends Fragment {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
       for (int i = 0; i < nrOfColumns; i++) {
-        v.addView(new TextView(parent.getContext()));
+        TextView cell = new TextView(parent.getContext());
+        cell.setSingleLine();
+        cell.setEllipsize(TextUtils.TruncateAt.END);
+        cell.setSelected(true);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics()),
+            LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(5,5,5,5);
+        v.addView(cell, params);
       }
       // set the view's size, margins, paddings and layout parameters
       ViewHolder vh = new ViewHolder(v);
