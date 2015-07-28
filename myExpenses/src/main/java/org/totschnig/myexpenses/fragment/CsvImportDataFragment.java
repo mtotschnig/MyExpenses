@@ -9,20 +9,24 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by privat on 30.06.15.
  */
 public class CsvImportDataFragment extends Fragment {
   public static final String KEY_DATASET = "KEY_DATASET";
+  public static final int CELL_WIDTH = 100;
+  public static final int CHECKBOX_COLUMN_WIDTH = 25;
+  public static final int CELL_MARGIN = 5;
   private RecyclerView mRecyclerView;
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
@@ -54,10 +58,17 @@ public class CsvImportDataFragment extends Fragment {
 
   public void setData(ArrayList<CSVRecord> data) {
     mDataset = data;
+    int nrOfColumns = mDataset.get(0).size();
+    ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
+    int dp = CELL_WIDTH*nrOfColumns+CHECKBOX_COLUMN_WIDTH+CELL_MARGIN*(nrOfColumns+2);
+    params.width= (int) TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    mRecyclerView.setLayoutParams(params);
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
   }
   private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+
     private int nrOfColumns;
 
     // Provide a reference to the views for each data item
@@ -70,7 +81,6 @@ public class CsvImportDataFragment extends Fragment {
       public ViewHolder(LinearLayout v) {
         super(v);
         row = v;
-
       }
     }
 
@@ -85,16 +95,38 @@ public class CsvImportDataFragment extends Fragment {
                                                    int viewType) {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
+      View cell;
+      LinearLayout.LayoutParams params;
+      params = new LinearLayout.LayoutParams(
+          (int) TypedValue.applyDimension(
+              TypedValue.COMPLEX_UNIT_DIP, CHECKBOX_COLUMN_WIDTH, getResources().getDisplayMetrics()),
+          LinearLayout.LayoutParams.WRAP_CONTENT);
+      params.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
+      switch(viewType) {
+        case 0:
+          cell = new View(parent.getContext());
+          break;
+        default: {
+          cell = new CheckBox(parent.getContext());
+        }
+      }
+      v.addView(cell, params);
+      params = new LinearLayout.LayoutParams(
+          (int) TypedValue.applyDimension(
+              TypedValue.COMPLEX_UNIT_DIP, CELL_WIDTH, getResources().getDisplayMetrics()),
+          LinearLayout.LayoutParams.WRAP_CONTENT);
+      params.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
       for (int i = 0; i < nrOfColumns; i++) {
-        TextView cell = new TextView(parent.getContext());
-        cell.setSingleLine();
-        cell.setEllipsize(TextUtils.TruncateAt.END);
-        cell.setSelected(true);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics()),
-            LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(5,5,5,5);
+        switch (viewType) {
+          case 0:
+            cell = new Spinner(parent.getContext());
+            break;
+          default:
+            cell = new TextView(parent.getContext());
+            ((TextView) cell).setSingleLine();
+            ((TextView) cell).setEllipsize(TextUtils.TruncateAt.END);
+            cell.setSelected(true);
+        }
         v.addView(cell, params);
       }
       // set the view's size, margins, paddings and layout parameters
@@ -107,16 +139,23 @@ public class CsvImportDataFragment extends Fragment {
     public void onBindViewHolder(ViewHolder holder, int position) {
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
-      final CSVRecord record = mDataset.get(position);
-      for (int i = 0; i < nrOfColumns; i++) {
-        ((TextView) holder.row.getChildAt(i)).setText(record.get(i));
+      if (position>0) {
+        final CSVRecord record = mDataset.get(position-1);
+        for (int i = 0; i < nrOfColumns; i++) {
+          ((TextView) holder.row.getChildAt(i+1)).setText(record.get(i));
+        }
       }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-      return mDataset.size();
+      return mDataset.size() +1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+      return position==0 ? 0 : 1;
     }
   }
 
