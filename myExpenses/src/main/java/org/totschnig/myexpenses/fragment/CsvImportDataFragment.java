@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import org.apache.commons.csv.CSVRecord;
@@ -41,7 +44,8 @@ public class CsvImportDataFragment extends Fragment {
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
   private ArrayList<CSVRecord> mDataset;
-  private Map<Integer,Integer> columnToFieldMap = new HashMap<>();
+  private final Map<Integer,Integer> columnToFieldMap = new HashMap<>();
+  private final SparseBooleanArray discardedItems = new SparseBooleanArray();
 
 
   public static CsvImportDataFragment newInstance() {
@@ -97,10 +101,29 @@ public class CsvImportDataFragment extends Fragment {
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
   }
-  private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+  private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ArrayAdapter<String> mFieldAdapter;
 
     private int nrOfColumns;
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+      columnToFieldMap.put(parent.getId(),position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+      columnToFieldMap.put(parent.getId(),0);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      int position = buttonView.getId();
+      Log.d("DEBUG",String.format("%s item at position %d",
+          isChecked?"Discarding":"Including",position - 1));
+      discardedItems.put(position-1,isChecked);
+      notifyItemChanged(position);
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -129,6 +152,7 @@ public class CsvImportDataFragment extends Fragment {
                                                    int viewType) {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
+      v.setBackgroundResource(R.drawable.csv_import_row_background);
       View cell;
       LinearLayout.LayoutParams params;
       params = new LinearLayout.LayoutParams(
@@ -156,17 +180,7 @@ public class CsvImportDataFragment extends Fragment {
             cell = new Spinner(parent.getContext());
             cell.setId(i);
             ((Spinner) cell).setAdapter(mFieldAdapter);
-            ((Spinner) cell).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                columnToFieldMap.put(parent.getId(),position);
-              }
-
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-                columnToFieldMap.put(parent.getId(),0);
-              }
-            });
+            ((Spinner) cell).setOnItemSelectedListener(this);
             break;
           default:
             cell = new TextView(parent.getContext());
@@ -182,15 +196,25 @@ public class CsvImportDataFragment extends Fragment {
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
       if (position>0) {
+        boolean isDiscarded = discardedItems.get(position-1,false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+          holder.row.setActivated(isDiscarded);
+        }
         final CSVRecord record = mDataset.get(position-1);
         for (int i = 0; i < nrOfColumns; i++) {
           ((TextView) holder.row.getChildAt(i+1)).setText(record.get(i));
         }
+        CheckBox cb = (CheckBox) holder.row.getChildAt(0);
+        cb.setId(position);
+        cb.setOnCheckedChangeListener(null);
+        cb.setChecked(isDiscarded);
+        cb.setOnCheckedChangeListener(this);
       } else {
         ((TextView) holder.row.getChildAt(0)).setText("Discard");
       }
