@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,10 @@ import java.util.Map;
  * Created by privat on 30.06.15.
  */
 public class CsvImportDataFragment extends Fragment {
-  public static final String KEY_DATASET = "KEY_DATASET";
+  public static final String KEY_DATASET = "DATASET";
+  public static final String KEY_DISCARDED_ITEMS = "DISCARDED_ITEMS";
+  public static final String KEY_COLUMN_TO_FIELD = "COLUMN_TO_FIELD";
+
   public static final int CELL_WIDTH = 100;
   private String[] fields;
   public static final int CHECKBOX_COLUMN_WIDTH = 60;
@@ -44,8 +48,8 @@ public class CsvImportDataFragment extends Fragment {
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
   private ArrayList<CSVRecord> mDataset;
-  private final Map<Integer,Integer> columnToFieldMap = new HashMap<>();
-  private final SparseBooleanArray discardedItems = new SparseBooleanArray();
+  private HashMap<Integer,Integer> columnToFieldMap;
+  private SparseBooleanArrayParcelable discardedItems;
 
 
   public static CsvImportDataFragment newInstance() {
@@ -85,6 +89,11 @@ public class CsvImportDataFragment extends Fragment {
     mRecyclerView.setLayoutManager(mLayoutManager);
     if (savedInstanceState!=null) {
       setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
+      discardedItems = savedInstanceState.getParcelable(KEY_DISCARDED_ITEMS);
+      columnToFieldMap = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(KEY_COLUMN_TO_FIELD);
+    } else {
+      discardedItems = new SparseBooleanArrayParcelable();
+      columnToFieldMap = new HashMap<>();
     }
 
     return view;
@@ -180,6 +189,10 @@ public class CsvImportDataFragment extends Fragment {
             cell = new Spinner(parent.getContext());
             cell.setId(i);
             ((Spinner) cell).setAdapter(mFieldAdapter);
+            Integer savedPos = columnToFieldMap.get(i);
+            if (savedPos!=null) {
+              ((Spinner) cell).setSelection(savedPos);
+            }
             ((Spinner) cell).setOnItemSelectedListener(this);
             break;
           default:
@@ -236,6 +249,8 @@ public class CsvImportDataFragment extends Fragment {
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_DATASET, mDataset);
+    outState.putParcelable(KEY_DISCARDED_ITEMS, discardedItems);
+    outState.putSerializable(KEY_COLUMN_TO_FIELD, columnToFieldMap);
   }
 
   @Override
