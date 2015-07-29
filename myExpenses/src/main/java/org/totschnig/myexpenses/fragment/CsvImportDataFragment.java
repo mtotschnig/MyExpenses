@@ -5,19 +5,28 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by privat on 30.06.15.
@@ -25,19 +34,40 @@ import java.util.ArrayList;
 public class CsvImportDataFragment extends Fragment {
   public static final String KEY_DATASET = "KEY_DATASET";
   public static final int CELL_WIDTH = 100;
-  public static final int CHECKBOX_COLUMN_WIDTH = 25;
+  private String[] fields;
+  public static final int CHECKBOX_COLUMN_WIDTH = 60;
   public static final int CELL_MARGIN = 5;
   private RecyclerView mRecyclerView;
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
   private ArrayList<CSVRecord> mDataset;
+  private Map<Integer,Integer> columnToFieldMap = new HashMap<>();
+
 
   public static CsvImportDataFragment newInstance() {
     return new CsvImportDataFragment();
   }
 
   @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    fields = new String[] {
+        "Ignore",
+        getString(R.string.date),
+        getString(R.string.payer_or_payee),
+        getString(R.string.amount),
+        getString(R.string.comment),
+        getString(R.string.category),
+        getString(R.string.method),
+        getString(R.string.status),
+        getString(R.string.reference_number)
+    };
     View view = inflater.inflate(R.layout.import_csv_data, container, false);
     mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
@@ -68,6 +98,7 @@ public class CsvImportDataFragment extends Fragment {
     mRecyclerView.setAdapter(mAdapter);
   }
   private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    private ArrayAdapter<String> mFieldAdapter;
 
     private int nrOfColumns;
 
@@ -87,6 +118,9 @@ public class CsvImportDataFragment extends Fragment {
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter() {
       nrOfColumns = mDataset.get(0).size();
+      mFieldAdapter = new ArrayAdapter<>(
+          getActivity(),android.R.layout.simple_spinner_item,fields);
+      mFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     // Create new views (invoked by the layout manager)
@@ -104,7 +138,7 @@ public class CsvImportDataFragment extends Fragment {
       params.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
       switch(viewType) {
         case 0:
-          cell = new View(parent.getContext());
+          cell = new TextView(parent.getContext());
           break;
         default: {
           cell = new CheckBox(parent.getContext());
@@ -120,6 +154,19 @@ public class CsvImportDataFragment extends Fragment {
         switch (viewType) {
           case 0:
             cell = new Spinner(parent.getContext());
+            cell.setId(i);
+            ((Spinner) cell).setAdapter(mFieldAdapter);
+            ((Spinner) cell).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+              @Override
+              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                columnToFieldMap.put(parent.getId(),position);
+              }
+
+              @Override
+              public void onNothingSelected(AdapterView<?> parent) {
+                columnToFieldMap.put(parent.getId(),0);
+              }
+            });
             break;
           default:
             cell = new TextView(parent.getContext());
@@ -144,6 +191,8 @@ public class CsvImportDataFragment extends Fragment {
         for (int i = 0; i < nrOfColumns; i++) {
           ((TextView) holder.row.getChildAt(i+1)).setText(record.get(i));
         }
+      } else {
+        ((TextView) holder.row.getChildAt(0)).setText("Discard");
       }
     }
 
@@ -163,5 +212,24 @@ public class CsvImportDataFragment extends Fragment {
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_DATASET, mDataset);
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.cvs_import, menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.IMPORT_COMMAND:
+        for (Map.Entry<Integer, Integer> entry : columnToFieldMap.entrySet()) {
+          Integer key = entry.getKey();
+          Integer value = entry.getValue();
+          Log.d("DEBUG",String.format("Column %d is mapped to field %d",key,value));
+        }
+        break;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }

@@ -101,4 +101,5 @@
   <item name="UNDELETE_COMMAND" type="id"/>
   <item name="EXPORT_CATEGORIES_COMMAND_UTF8" type="id"/>
   <item name="EXPORT_CATEGORIES_COMMAND_ISO88591" type="id"/>
+  <item name="IMPORT_COMMAND" type="id"/>
 </resources>
