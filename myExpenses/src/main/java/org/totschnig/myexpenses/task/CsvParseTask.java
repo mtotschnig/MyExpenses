@@ -79,7 +79,7 @@ public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> 
     }
     try {
       return (ArrayList<CSVRecord>) CSVFormat.DEFAULT.withDelimiter(delimiter)
-          .parse(new InputStreamReader(inputStream)).getRecords();
+          .parse(new InputStreamReader(inputStream,encoding)).getRecords();
     } catch (IOException e) {
       publishProgress(MyApplication.getInstance()
           .getString(R.string.parse_error_other_exception,e.getMessage()));
