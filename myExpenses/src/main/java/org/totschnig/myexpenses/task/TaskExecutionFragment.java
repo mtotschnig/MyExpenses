@@ -48,6 +48,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_DATE_FORMAT = "dateFormat";
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
+  public static final String KEY_DELIMITER = "delimiter";
 
   //public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
@@ -163,12 +164,12 @@ public class TaskExecutionFragment<T> extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceCSVParse(
-      Uri mUri, QifDateFormat qifDateFormat, String encoding) {
+      Uri mUri, char delimiter, String encoding) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_CSV_PARSE);
     bundle.putParcelable(KEY_FILE_PATH, mUri);
-    bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
+    bundle.putChar(KEY_DELIMITER, delimiter);
     bundle.putString(KEY_ENCODING, encoding);
     f.setArguments(bundle);
     return f;

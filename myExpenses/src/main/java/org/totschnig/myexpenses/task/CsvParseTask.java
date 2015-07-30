@@ -34,14 +34,14 @@ import java.util.ArrayList;
 
 public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> {
   private final TaskExecutionFragment taskExecutionFragment;
-  private QifDateFormat dateFormat;
+  private char delimiter;
   private String encoding;
   Uri fileUri;
 
 
   public CsvParseTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
-    this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
+    this.delimiter = b.getChar(TaskExecutionFragment.KEY_DELIMITER);
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     this.encoding = b.getString(TaskExecutionFragment.KEY_ENCODING);
   }
@@ -78,7 +78,8 @@ public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> 
       return null;
     }
     try {
-      return (ArrayList<CSVRecord>) CSVFormat.DEFAULT.parse(new InputStreamReader(inputStream)).getRecords();
+      return (ArrayList<CSVRecord>) CSVFormat.DEFAULT.withDelimiter(delimiter)
+          .parse(new InputStreamReader(inputStream)).getRecords();
     } catch (IOException e) {
       publishProgress(MyApplication.getInstance()
           .getString(R.string.parse_error_other_exception,e.getMessage()));

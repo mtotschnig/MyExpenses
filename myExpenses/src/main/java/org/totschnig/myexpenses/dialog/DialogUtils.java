@@ -331,12 +331,12 @@ public class DialogUtils {
   }
 
   public static Spinner configureDateFormat(View view, Context context, String prefName) {
-    Spinner dateFormatSpinner = (Spinner) view.findViewById(R.id.DateFormat);
+    Spinner spinner = (Spinner) view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
         new ArrayAdapter<QifDateFormat>(
             context, android.R.layout.simple_spinner_item, QifDateFormat.values());
     dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    dateFormatSpinner.setAdapter(dateFormatAdapter);
+    spinner.setAdapter(dateFormatAdapter);
     QifDateFormat qdf;
     try {
       qdf = QifDateFormat.valueOf(
@@ -345,25 +345,36 @@ public class DialogUtils {
     } catch (IllegalArgumentException e) {
       qdf = QifDateFormat.EU;
     }
-    dateFormatSpinner.setSelection(qdf.ordinal());
-    return dateFormatSpinner;
+    spinner.setSelection(qdf.ordinal());
+    return spinner;
   }
 
   public static Spinner configureEncoding(View view, Context context, String prefName) {
-    Spinner encodingSpinner = (Spinner) view.findViewById(R.id.Encoding);
-    encodingSpinner.setSelection(
+    Spinner spinner = (Spinner) view.findViewById(R.id.Encoding);
+    spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_qif_export_file_encoding))
             .indexOf(MyApplication.getInstance().getSettings()
                 .getString(prefName, "UTF-8")));
-    return encodingSpinner;
+    return spinner;
   }
+
+  public static Spinner configureDelimiter(View view, Context context, String prefName) {
+    Spinner spinner = (Spinner) view.findViewById(R.id.Delimiter);
+    spinner.setSelection(
+        Arrays.asList(context.getResources().getStringArray(R.array.pref_csv_import_delimiter_values))
+            .indexOf(MyApplication.getInstance().getSettings()
+                .getString(prefName, ",")));
+    return spinner;
+  }
+
   public static EditText configureFilename(View view) {
     EditText filename = (EditText) view.findViewById(R.id.Filename);
     filename.setEnabled(false);
     return filename;
   }
+
   public static void openBrowse(Uri uri, Fragment fragment) {
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     intent.setDataAndType(uri,"*/*");

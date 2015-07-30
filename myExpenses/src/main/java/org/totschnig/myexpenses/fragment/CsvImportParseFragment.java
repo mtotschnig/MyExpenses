@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.QifCsvImportDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -29,16 +28,18 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 public class CsvImportParseFragment extends Fragment implements View.OnClickListener, DialogUtils.UriTypePartChecker {
   static final String PREFKEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format";
   static final String PREFKEY_IMPORT_CSV_ENCODING = "import_csv_encoding";
+  static final String PREFKEY_IMPORT_CSV_DELIMITER = "import_csv_delimiter";
   private Uri mUri;
   private EditText mFilename;
   private Button mParse;
-  private Spinner mDateFormatSpinner, mEncodingSpinner;
+  private Spinner mDateFormatSpinner, mEncodingSpinner, mDelimiterSpinner;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.import_csv_parse, container, false);
     mDateFormatSpinner = DialogUtils.configureDateFormat(view, getActivity(), PREFKEY_IMPORT_CSV_DATE_FORMAT);
     mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
+    mDelimiterSpinner = DialogUtils.configureDelimiter(view, getActivity(), PREFKEY_IMPORT_CSV_DELIMITER);
     mFilename = DialogUtils.configureFilename(view);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     mParse = (Button) view.findViewById(R.id.btn_parse);
@@ -47,14 +48,17 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       public void onClick(View v) {
         QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
         String encoding = (String) mEncodingSpinner.getSelectedItem();
+        String delimiter = getResources().getStringArray(R.array.pref_csv_import_delimiter_values)
+            [mDelimiterSpinner.getSelectedItemPosition()];
         SharedPreferencesCompat.apply(
             MyApplication.getInstance().getSettings().edit()
                 .putString(getPrefKey(), mUri.toString())
-                .putString(QifCsvImportDialogFragment.PREFKEY_IMPORT_ENCODING, encoding)
-                .putString(QifCsvImportDialogFragment.PREFKEY_IMPORT_DATE_FORMAT, format.name()));
+                .putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter)
+                .putString(PREFKEY_IMPORT_CSV_ENCODING, encoding)
+                .putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name()));
         TaskExecutionFragment taskExecutionFragment =
             TaskExecutionFragment.newInstanceCSVParse(
-                mUri, format, encoding);
+                mUri, delimiter.charAt(0), encoding);
         getFragmentManager()
             .beginTransaction()
             .add(taskExecutionFragment,

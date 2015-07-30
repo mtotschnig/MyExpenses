@@ -40,10 +40,9 @@
                 android:text="@string/pref_csv_import_delimiter"/>
 
             <Spinner
-                android:id="@+id/Encoding"
+                android:id="@+id/Delimiter"
                 android:layout_weight="1"
-                android:entries="@array/pref_csv_import_delimiter_entries"
-                android:entryValues="@array/pref_csv_import_delimiter_entries"/>
+                android:entries="@array/pref_csv_import_delimiter_entries" />
         </TableRow>
         <TableRow>
             <Button android:layout_span="2"
