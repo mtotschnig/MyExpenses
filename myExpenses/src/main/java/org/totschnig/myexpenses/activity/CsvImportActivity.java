@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 

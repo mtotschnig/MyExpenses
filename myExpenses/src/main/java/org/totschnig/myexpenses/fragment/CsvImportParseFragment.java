@@ -53,7 +53,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
                 .putString(QifCsvImportDialogFragment.PREFKEY_IMPORT_ENCODING, encoding)
                 .putString(QifCsvImportDialogFragment.PREFKEY_IMPORT_DATE_FORMAT, format.name()));
         TaskExecutionFragment taskExecutionFragment =
-            TaskExecutionFragment.newInstanceCSVImport(
+            TaskExecutionFragment.newInstanceCSVParse(
                 mUri, format, encoding);
         getFragmentManager()
             .beginTransaction()

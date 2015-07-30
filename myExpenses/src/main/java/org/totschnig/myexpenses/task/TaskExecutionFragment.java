@@ -90,7 +90,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SAVE_IMAGES = 33;
   public static final int TASK_UNDELETE_TRANSACTION = 34;
   public static final int TASK_EXPORT_CATEGRIES = 35;
-  public static final int TASK_CSV_IMPORT = 36;
+  public static final int TASK_CSV_PARSE = 36;
 
 
   /**
@@ -162,11 +162,11 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceCSVImport(
+  public static TaskExecutionFragment newInstanceCSVParse(
       Uri mUri, QifDateFormat qifDateFormat, String encoding) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
-    bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);
+    bundle.putInt(KEY_TASKID, TASK_CSV_PARSE);
     bundle.putParcelable(KEY_FILE_PATH, mUri);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
     bundle.putString(KEY_ENCODING, encoding);
@@ -240,8 +240,8 @@ public class TaskExecutionFragment<T> extends Fragment {
         case TASK_QIF_IMPORT:
           new QifImportTask(this, args).execute();
           break;
-        case TASK_CSV_IMPORT:
-          new CsvImportTask(this, args).execute();
+        case TASK_CSV_PARSE:
+          new CsvParseTask(this, args).execute();
           break;
         case TASK_EXPORT:
           new ExportTask(this, args).execute();

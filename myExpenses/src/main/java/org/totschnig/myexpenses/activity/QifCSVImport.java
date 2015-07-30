@@ -55,7 +55,7 @@ public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
         TaskExecutionFragment.newInstanceQifImport(
             mUri, qifDateFormat, accountId, currency, withTransactions,
             withCategories, withParties, encoding)/* :
-        TaskExecutionFragment.newInstanceCSVImport(
+        TaskExecutionFragment.newInstanceCSVParse(
             mUri, qifDateFormat, accountId, currency, encoding)*/;
     getSupportFragmentManager()
         .beginTransaction()

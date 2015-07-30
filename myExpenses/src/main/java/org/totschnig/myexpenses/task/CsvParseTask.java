@@ -21,7 +21,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -32,16 +31,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
-public class CsvImportTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> {
+public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> {
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
   private String encoding;
   Uri fileUri;
 
 
-  public CsvImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
+  public CsvParseTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
@@ -52,7 +50,7 @@ public class CsvImportTask extends AsyncTask<Void, String, ArrayList<CSVRecord>>
   protected void onPostExecute(ArrayList<CSVRecord> result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
-          TaskExecutionFragment.TASK_CSV_IMPORT, result);
+          TaskExecutionFragment.TASK_CSV_PARSE, result);
     }
   }
 
