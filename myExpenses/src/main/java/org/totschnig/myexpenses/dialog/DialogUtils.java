@@ -291,8 +291,8 @@ public class DialogUtils {
   /**
    *
    * @param ctx
-   * @return for API 10 and lower, Context is wrapped as in {@link #wrapContext1(Context)}, for 11 and higher
-   * as in {@link #wrapContext2(Context)}. This is needed for Dialogs that both are used in a transparent
+   * @return for API 10 and lower, Context is wrapped as in {@link #wrapDialogTheme(Context)}, for 11 and higher
+   * as in {@link #wrapAppTheme(Context)}. This is needed for Dialogs that both are used in a transparent
    * activity, and have checkboxes
    */
   public static Context wrapContext12(Context ctx) {
