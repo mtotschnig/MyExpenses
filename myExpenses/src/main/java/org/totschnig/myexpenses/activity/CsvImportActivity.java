@@ -37,7 +37,12 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
    */
   ViewPager mViewPager;
 
-  boolean mDataReady = false;
+  private boolean mDataReady = false;
+
+  private void setmDataReady(boolean mDataReady) {
+    this.mDataReady = mDataReady;
+    mSectionsPagerAdapter.notifyDataSetChanged();
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +77,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     addTab(0);
     if (savedInstanceState !=null && savedInstanceState.getBoolean(KEY_DATA_READY)) {
       addTab(1);
-      mDataReady = true;
+      setmDataReady(true);
     }
   }
 
@@ -143,8 +148,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     if (o != null) {
       if (!mDataReady) {
         addTab(1);
-        mDataReady = true;
-        mSectionsPagerAdapter.notifyDataSetChanged();
+        setmDataReady(true);
       }
       CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
           mSectionsPagerAdapter.getFragmentName(1));
