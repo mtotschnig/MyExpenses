@@ -23,6 +23,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
@@ -203,6 +204,12 @@ public class CsvImportDataFragment extends Fragment {
             ((TextView) cell).setSingleLine();
             ((TextView) cell).setEllipsize(TextUtils.TruncateAt.END);
             cell.setSelected(true);
+            cell.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                Toast.makeText(getActivity(),((TextView) v).getText(),Toast.LENGTH_LONG).show();
+              }
+            });
         }
         v.addView(cell, params);
       }
