@@ -161,7 +161,9 @@ public class CsvImportDataFragment extends Fragment {
                                                    int viewType) {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
-      v.setBackgroundResource(R.drawable.csv_import_row_background);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        v.setBackgroundResource(R.drawable.csv_import_row_background);
+      }
       View cell;
       LinearLayout.LayoutParams params;
       params = new LinearLayout.LayoutParams(
@@ -172,6 +174,7 @@ public class CsvImportDataFragment extends Fragment {
       switch(viewType) {
         case 0:
           cell = new TextView(parent.getContext());
+          ((TextView) cell).setText("Discard");
           break;
         default: {
           cell = new CheckBox(parent.getContext());
@@ -228,8 +231,6 @@ public class CsvImportDataFragment extends Fragment {
         cb.setOnCheckedChangeListener(null);
         cb.setChecked(isDiscarded);
         cb.setOnCheckedChangeListener(this);
-      } else {
-        ((TextView) holder.row.getChildAt(0)).setText("Discard");
       }
     }
 

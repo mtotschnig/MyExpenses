@@ -71,8 +71,8 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     //we only add the first tab, the second one once data has been parsed
     addTab(0);
     if (savedInstanceState !=null && savedInstanceState.getBoolean(KEY_DATA_READY)) {
-      mDataReady = true;
       addTab(1);
+      mDataReady = true;
     }
   }
 
@@ -115,7 +115,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
 
     @Override
     public int getCount() {
-      return 2;
+      return mDataReady ? 2 : 1;
     }
 
     @Override
@@ -143,11 +143,12 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     if (o != null) {
       if (!mDataReady) {
         addTab(1);
+        mDataReady = true;
+        mSectionsPagerAdapter.notifyDataSetChanged();
       }
       CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
           mSectionsPagerAdapter.getFragmentName(1));
-      df.setData((ArrayList<CSVRecord>) o);
-      mDataReady = true;
+      if (df!=null) df.setData((ArrayList<CSVRecord>) o);
       getSupportActionBar().setSelectedNavigationItem(1);
     } else {
       Toast.makeText(this,R.string.parse_error_no_data_found,Toast.LENGTH_LONG).show();
