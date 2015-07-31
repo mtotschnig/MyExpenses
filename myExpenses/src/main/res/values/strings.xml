@@ -555,5 +555,6 @@
   <string name="pref_csv_import_delimiter">Delimiter</string>
   <string name="csv_import_parse">Parse</string>
   <string name="csv_import_preview">Preview</string>
+  <string name="menu_parse">Parse</string>
 </resources>
 
