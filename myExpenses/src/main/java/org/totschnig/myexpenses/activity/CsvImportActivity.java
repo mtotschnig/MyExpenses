@@ -14,6 +14,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Result;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -143,25 +145,48 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
   }
 
   @Override
-  public void onPostExecute(int taskId, Object o) {
-    super.onPostExecute(taskId, o);
-    if (o != null) {
-      if (!mDataReady) {
-        addTab(1);
-        setmDataReady(true);
-      }
-      CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
-          mSectionsPagerAdapter.getFragmentName(1));
-      if (df!=null) df.setData((ArrayList<CSVRecord>) o);
-      getSupportActionBar().setSelectedNavigationItem(1);
-    } else {
-      Toast.makeText(this,R.string.parse_error_no_data_found,Toast.LENGTH_LONG).show();
+  public void onPostExecute(int taskId, Object result) {
+    super.onPostExecute(taskId, result);
+    switch (taskId) {
+      case TaskExecutionFragment.TASK_CSV_PARSE:
+        if (result != null) {
+          if (!mDataReady) {
+            addTab(1);
+            setmDataReady(true);
+          }
+          CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
+              mSectionsPagerAdapter.getFragmentName(1));
+          if (df != null) df.setData((ArrayList<CSVRecord>) result);
+          getSupportActionBar().setSelectedNavigationItem(1);
+        } else {
+          Toast.makeText(this, R.string.parse_error_no_data_found, Toast.LENGTH_LONG).show();
+        }
+        break;
+      case TaskExecutionFragment.TASK_CSV_IMPORT:
+        Result r = (Result) result;
+        if (r.success) {
+          Integer imported = (Integer) r.extra[0];
+          Integer failed = (Integer) r.extra[1];
+          Integer discarded = (Integer) r.extra[2];
+          String msg = getString(R.string.import_transactions_success, imported, "TODO") + ".";
+          if (failed>0) {
+            msg += " " + getString(R.string.csv_import_records_failed,failed) + ".";
+          }
+          if (discarded>0) {
+            msg += " " + getString(R.string.csv_import_records_discarded,discarded) + ".";
+          }
+          Toast.makeText(this, msg,Toast.LENGTH_LONG).show();
+        }
     }
   }
 
   @Override
   public void onProgressUpdate(Object progress) {
-    Toast.makeText(this,(String)progress,Toast.LENGTH_LONG).show();
+    if (progress instanceof String) {
+      Toast.makeText(this, (String) progress, Toast.LENGTH_LONG).show();
+    } else {
+      super.onProgressUpdate(progress);
+    }
   }
 
   private void addTab(int index) {

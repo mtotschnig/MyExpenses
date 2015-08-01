@@ -144,6 +144,9 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       mDialog.setProgressStyle(progressStyle);
     } else {
       mDialog.setIndeterminate(true);
+      if (max!=0) {
+        mDialog.setMax(max);
+      }
     }
     if (withButton) {
       mDialog.setButton(DialogInterface.BUTTON_NEUTRAL,getString(android.R.string.ok),
@@ -165,7 +168,9 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   }
   public void setMax(int max) {
     this.max = max;
-    mDialog.setMax(max);
+    if (mDialog != null) {
+      mDialog.setMax(max);
+    }
   }
   public void setTitle(String title) {
     this.title = title;

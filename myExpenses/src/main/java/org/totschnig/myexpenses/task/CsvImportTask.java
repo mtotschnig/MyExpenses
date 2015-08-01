@@ -21,11 +21,12 @@ import android.os.Bundle;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
 
-public class CsvImportTask extends AsyncTask<Void, String, Void> {
+public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
   ArrayList<CSVRecord> data;
   int[] fieldToColumnMap;
@@ -39,7 +40,7 @@ public class CsvImportTask extends AsyncTask<Void, String, Void> {
   }
 
   @Override
-  protected void onPostExecute(Void result) {
+  protected void onPostExecute(Result result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_CSV_IMPORT, result);
@@ -47,24 +48,35 @@ public class CsvImportTask extends AsyncTask<Void, String, Void> {
   }
 
   @Override
-  protected void onProgressUpdate(String... values) {
+  protected void onProgressUpdate(Integer... values) {
     if (this.taskExecutionFragment.mCallbacks != null) {
-      for (String progress: values) {
-        this.taskExecutionFragment.mCallbacks.onProgressUpdate(progress);
-      }
+      this.taskExecutionFragment.mCallbacks.onProgressUpdate(values[0]);
     }
   }
 
   @Override
-  protected Void doInBackground(Void... params) {
+  protected Result doInBackground(Void... params) {
+    int totalImported = 0, totalDiscarded = 0, totalFailed = 0;
     for (int i = 0; i < data.size(); i++) {
       if (discardedRows.get(i,false)) {
-        publishProgress(String.format("Ignoring row %d",i));
+        totalDiscarded++;
       } else {
-        CSVRecord record = data.get(i);
-        publishProgress(String.format("Importing row %d",i));
+        //CSVRecord record = data.get(i);
+        totalImported++;
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        if (totalImported%10==0) {
+          publishProgress(totalImported);
+        }
       }
     }
-    return null;
+    return new Result(true,
+        0,
+        Integer.valueOf(totalImported),
+        Integer.valueOf(totalFailed),
+        Integer.valueOf(totalDiscarded));
   }
 }

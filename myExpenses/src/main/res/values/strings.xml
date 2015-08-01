@@ -486,7 +486,7 @@
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
     <string name="import_accounts_success">%1$s accounts successfully imported</string>
-    <string name="import_transactions_success">%1$s transactions successfully imported into account %2$s</string>
+    <string name="import_transactions_success">%1$d transactions successfully imported into account %2$s</string>
     <string name="import_accounts_none">No accounts imported</string>
     <string name="import_categories_none">No categories imported</string>
     <string name="import_parties_none">No parties imported</string>
@@ -556,7 +556,9 @@
   <string name="csv_import_parse">Parse</string>
   <string name="csv_import_preview">Preview</string>
   <string name="menu_parse">Parse</string>
-  <string name="cvs_import_map_amount_not_mapped">You need to map one column to the transaction amount</string>
-  <string name="cvs_import_map_field_mapped_more_than_once">"%s is mapped more than once."</string>
+  <string name="csv_import_map_amount_not_mapped">You need to map one column to the transaction amount</string>
+  <string name="csv_import_map_field_mapped_more_than_once">"%s is mapped more than once."</string>
+  <string name="csv_import_records_failed">%d records could not be imported.</string>
+  <string name="csv_import_records_discarded">%d records were discarded.</string>
 </resources>
 

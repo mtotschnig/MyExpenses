@@ -189,7 +189,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
                 ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
                     getString(R.string.pref_import_title, "CSV"),
-                    null, ProgressDialog.STYLE_HORIZONTAL, false),
+                    null, ProgressDialog.STYLE_SPINNER, false),
                 ProtectionDelegate.PROGRESS_TAG)
             .commit();
         break;

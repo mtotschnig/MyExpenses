@@ -136,7 +136,11 @@ public class CsvImportDataFragment extends Fragment {
       int position = buttonView.getId();
       Log.d("DEBUG",String.format("%s item at position %d",
           isChecked?"Discarding":"Including",position - 1));
-      discardedRows.put(position - 1, isChecked);
+      if (isChecked) {
+        discardedRows.put(position - 1, true);
+      } else {
+        discardedRows.delete(position - 1);
+      }
       notifyItemChanged(position);
     }
 
@@ -278,13 +282,15 @@ public class CsvImportDataFragment extends Fragment {
         if (validateMapping()) {
           TaskExecutionFragment taskExecutionFragment =
               TaskExecutionFragment.newInstanceCSVImport(mDataset,fieldToColumnMap,discardedRows);
+          ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
+              getString(R.string.pref_import_title, "CSV"),
+              null, ProgressDialog.STYLE_HORIZONTAL, false);
+          progressDialogFragment.setMax(mDataset.size()-discardedRows.size());
           getFragmentManager()
               .beginTransaction()
               .add(taskExecutionFragment,
                   ProtectionDelegate.ASYNC_TAG)
-              .add(ProgressDialogFragment.newInstance(
-                      getString(R.string.pref_import_title, "CSV"),
-                      null, ProgressDialog.STYLE_SPINNER, false),
+              .add(progressDialogFragment,
                   ProtectionDelegate.PROGRESS_TAG)
               .commit();
 
@@ -305,14 +311,14 @@ public class CsvImportDataFragment extends Fragment {
       int field = columnToFieldMap[i];
       if (field>0) {
         if (fieldToColumnMap[field]>-1) {
-          Toast.makeText(getActivity(),getString(R.string.cvs_import_map_field_mapped_more_than_once,fields[field]),Toast.LENGTH_LONG).show();
+          Toast.makeText(getActivity(),getString(R.string.csv_import_map_field_mapped_more_than_once,fields[field]),Toast.LENGTH_LONG).show();
           return false;
         }
         fieldToColumnMap[field] = i;
       }
     }
     if (fieldToColumnMap[1]==-1) {
-      Toast.makeText(getActivity(), R.string.cvs_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
+      Toast.makeText(getActivity(), R.string.csv_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
       return false;
     }
     return true;
