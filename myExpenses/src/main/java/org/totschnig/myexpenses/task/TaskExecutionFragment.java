@@ -18,10 +18,14 @@ package org.totschnig.myexpenses.task;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -92,6 +96,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_UNDELETE_TRANSACTION = 34;
   public static final int TASK_EXPORT_CATEGRIES = 35;
   public static final int TASK_CSV_PARSE = 36;
+  public static final int TASK_CSV_IMPORT = 37;
 
 
   /**
@@ -175,6 +180,18 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
+  public static TaskExecutionFragment newInstanceCSVImport(
+      ArrayList<CSVRecord> data, int[] fieldToColumnMap,SparseBooleanArrayParcelable discardedRows) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    Bundle bundle = new Bundle();
+    bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);
+    bundle.putSerializable(CsvImportDataFragment.KEY_DATASET, data);
+    bundle.putSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN, fieldToColumnMap);
+    bundle.putParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS, discardedRows);
+    f.setArguments(bundle);
+    return f;
+  }
+
   public static TaskExecutionFragment newInstanceExport(Bundle b) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     b.putInt(KEY_TASKID, TASK_EXPORT);
@@ -243,6 +260,9 @@ public class TaskExecutionFragment<T> extends Fragment {
           break;
         case TASK_CSV_PARSE:
           new CsvParseTask(this, args).execute();
+          break;
+        case TASK_CSV_IMPORT:
+          new CsvImportTask(this, args).execute();
           break;
         case TASK_EXPORT:
           new ExportTask(this, args).execute();

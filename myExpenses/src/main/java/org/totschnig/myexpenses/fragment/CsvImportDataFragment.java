@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,20 +27,21 @@ import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by privat on 30.06.15.
  */
 public class CsvImportDataFragment extends Fragment {
   public static final String KEY_DATASET = "DATASET";
-  public static final String KEY_DISCARDED_ITEMS = "DISCARDED_ITEMS";
+  public static final String KEY_DISCARDED_ROWS = "DISCARDED_ROWS";
   public static final String KEY_COLUMN_TO_FIELD = "COLUMN_TO_FIELD";
+  public static final String KEY_FIELD_TO_COLUMN = "FIELD_TO_COLUMN";
 
   public static final int CELL_WIDTH = 100;
   private String[] fields;
@@ -52,7 +53,7 @@ public class CsvImportDataFragment extends Fragment {
   private ArrayList<CSVRecord> mDataset;
   private int[] columnToFieldMap;
   private int[] fieldToColumnMap;
-  private SparseBooleanArrayParcelable discardedItems;
+  private SparseBooleanArrayParcelable discardedRows;
 
 
   public static CsvImportDataFragment newInstance() {
@@ -93,9 +94,9 @@ public class CsvImportDataFragment extends Fragment {
     if (savedInstanceState!=null) {
       setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
       columnToFieldMap = savedInstanceState.getIntArray(KEY_COLUMN_TO_FIELD);
-      discardedItems = savedInstanceState.getParcelable(KEY_DISCARDED_ITEMS);
+      discardedRows = savedInstanceState.getParcelable(KEY_DISCARDED_ROWS);
     } else {
-      discardedItems = new SparseBooleanArrayParcelable();
+      discardedRows = new SparseBooleanArrayParcelable();
     }
 
     return view;
@@ -134,7 +135,7 @@ public class CsvImportDataFragment extends Fragment {
       int position = buttonView.getId();
       Log.d("DEBUG",String.format("%s item at position %d",
           isChecked?"Discarding":"Including",position - 1));
-      discardedItems.put(position-1,isChecked);
+      discardedRows.put(position - 1, isChecked);
       notifyItemChanged(position);
     }
 
@@ -228,7 +229,7 @@ public class CsvImportDataFragment extends Fragment {
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
       if (position>0) {
-        boolean isDiscarded = discardedItems.get(position-1,false);
+        boolean isDiscarded = discardedRows.get(position-1,false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
           holder.row.setActivated(isDiscarded);
         }
@@ -260,7 +261,7 @@ public class CsvImportDataFragment extends Fragment {
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_DATASET, mDataset);
-    outState.putParcelable(KEY_DISCARDED_ITEMS, discardedItems);
+    outState.putParcelable(KEY_DISCARDED_ROWS, discardedRows);
     outState.putIntArray(KEY_COLUMN_TO_FIELD, columnToFieldMap);
   }
 
@@ -273,7 +274,20 @@ public class CsvImportDataFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.IMPORT_COMMAND:
-        validateMapping();
+        if (validateMapping()) {
+          TaskExecutionFragment taskExecutionFragment =
+              TaskExecutionFragment.newInstanceCSVImport(mDataset,fieldToColumnMap,discardedRows);
+          getFragmentManager()
+              .beginTransaction()
+              .add(taskExecutionFragment,
+                  "ASYNC_TASK")
+              .add(ProgressDialogFragment.newInstance(
+                      getString(R.string.pref_import_title, "CSV"),
+                      null, ProgressDialog.STYLE_SPINNER, false),
+                  "PROGRESS")
+              .commit();
+
+        }
         break;
     }
     return super.onOptionsItemSelected(item);
