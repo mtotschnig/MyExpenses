@@ -33,27 +33,7 @@
 
         <include layout="@layout/encoding"/>
 
-        <TableRow android:gravity="center_vertical" >
-
-            <TextView
-                style="@style/form_label"
-                android:text="@string/account" />
-
-            <LinearLayout android:orientation="horizontal" >
-
-                <Spinner
-                    android:id="@+id/Account"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/Currency"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-        </TableRow>
+        <include layout="@layout/import_account"/>
 
         <include layout="@layout/import_select_types" />
     </TableLayout>

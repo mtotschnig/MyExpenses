@@ -29,8 +29,6 @@
 
         <include layout="@layout/filename" />
 
-        <include layout="@layout/date_format"/>
-
         <include layout="@layout/encoding"/>
         <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
                   android:gravity="center_vertical">
@@ -44,6 +42,10 @@
                 android:layout_weight="1"
                 android:entries="@array/pref_csv_import_delimiter_entries" />
         </TableRow>
+
+        <include layout="@layout/date_format"/>
+
+        <include layout="@layout/import_account"/>
     </TableLayout>
 
 </ScrollView>

@@ -2,16 +2,25 @@ package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -21,14 +30,23 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
 /**
  * Created by privat on 30.06.15.
  */
-public class CsvImportParseFragment extends Fragment implements View.OnClickListener, DialogUtils.UriTypePartChecker {
+public class CsvImportParseFragment extends Fragment implements View.OnClickListener,
+    DialogUtils.UriTypePartChecker, LoaderManager.LoaderCallbacks<Cursor>,
+    AdapterView.OnItemSelectedListener {
   static final String PREFKEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format";
   static final String PREFKEY_IMPORT_CSV_ENCODING = "import_csv_encoding";
   static final String PREFKEY_IMPORT_CSV_DELIMITER = "import_csv_delimiter";
@@ -38,7 +56,10 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     getActivity().supportInvalidateOptionsMenu();
   }
   private EditText mFilename;
-  private Spinner mDateFormatSpinner, mEncodingSpinner, mDelimiterSpinner;
+  private Spinner mDateFormatSpinner, mEncodingSpinner, mDelimiterSpinner, mAccountSpinner,
+      mCurrencySpinner;
+  private MergeCursor mAccountsCursor;
+  private SimpleCursorAdapter mAccountsAdapter;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +68,19 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
     mDelimiterSpinner = DialogUtils.configureDelimiter(view, getActivity(), PREFKEY_IMPORT_CSV_DELIMITER);
     mFilename = DialogUtils.configureFilename(view);
+    mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
+    Context wrappedCtx = view.getContext();
+    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,
+        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountSpinner.setAdapter(mAccountsAdapter);
+    mAccountSpinner.setOnItemSelectedListener(this);
+    mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
+    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
+        wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
+    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mCurrencySpinner.setAdapter(curAdapter);
+    getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     return view;
   }
@@ -128,7 +162,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
 
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
-    menu.findItem(R.id.PARSE_COMMAND).setEnabled(mUri!=null);
+    menu.findItem(R.id.PARSE_COMMAND).setEnabled(mUri != null);
   }
 
   @Override
@@ -161,5 +195,57 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     }
     return super.onOptionsItemSelected(item);
   }
+  @Override
+  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    if (getActivity()==null) {
+      return null;
+    }
+    CursorLoader cursorLoader = new CursorLoader(
+        getActivity(),
+        TransactionProvider.ACCOUNTS_BASE_URI,
+        new String[] {
+            KEY_ROWID,
+            KEY_LABEL,
+            KEY_CURRENCY},
+        null,null, null);
+    return cursorLoader;
+  }
 
+  @Override
+  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    MatrixCursor extras = new MatrixCursor(new String[] {
+        KEY_ROWID,
+        KEY_LABEL,
+        KEY_CURRENCY
+    });
+    extras.addRow(new String[] {
+        "0",
+        getString(R.string.menu_create_account),
+        Account.getLocaleCurrency().getCurrencyCode()
+    });
+    mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
+    mAccountsAdapter.swapCursor(mAccountsCursor);
+  }
+
+  @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    mAccountsCursor = null;
+    mAccountsAdapter.swapCursor(null);
+  }
+  @Override
+  public void onItemSelected(AdapterView<?> parent, View view, int position,
+                             long id) {
+    if (mAccountsCursor != null) {
+      mAccountsCursor.moveToPosition(position);
+      mCurrencySpinner.setSelection(
+          Account.CurrencyEnum
+              .valueOf(
+                  mAccountsCursor.getString(2))//2=KEY_CURRENCY
+              .ordinal());
+      mCurrencySpinner.setEnabled(position==0);
+    }
+  }
+  @Override
+  public void onNothingSelected(AdapterView<?> parent) {
+  }
 }
