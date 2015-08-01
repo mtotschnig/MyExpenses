@@ -35,6 +35,8 @@ import android.widget.Toast;
  *
  */
 public class ProtectionDelegate {
+  public static final String PROGRESS_TAG = "PROGRESS";
+  public static final String ASYNC_TAG = "ASYNC_TASK";
   Activity ctx;
   public ProtectionDelegate(Activity ctx) {
     this.ctx = ctx;
@@ -60,7 +62,7 @@ public class ProtectionDelegate {
   public void removeAsyncTaskFragment(boolean keepProgress) {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
-    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag(PROGRESS_TAG));
     if (f!=null) {
       if (keepProgress) {
         f.onTaskCompleted();
@@ -68,7 +70,7 @@ public class ProtectionDelegate {
         t.remove(f);
       }
     }
-    t.remove(m.findFragmentByTag("ASYNC_TASK"));
+    t.remove(m.findFragmentByTag(ASYNC_TAG));
     t.commitAllowingStateLoss();
     //we might want to call a new task immediately after executing the last one
     m.executePendingTransactions();
@@ -79,7 +81,7 @@ public class ProtectionDelegate {
   }
   public void updateProgressDialog(Object progress) {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
-    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag(PROGRESS_TAG));
     if (f!=null) {
       if (progress instanceof Integer) {
         f.setProgress((Integer) progress);
@@ -91,7 +93,7 @@ public class ProtectionDelegate {
   public <T> void startTaskExecution(int taskId, T[] objectIds,
       Serializable extra, int progressMessage) {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
-    if (m.findFragmentByTag("ASYNC_TASK") != null) {
+    if (m.findFragmentByTag(ASYNC_TAG) != null) {
       Toast.makeText(ctx.getBaseContext(),
           "Previous task still executing, please try again later",
           Toast.LENGTH_LONG)
@@ -101,9 +103,9 @@ public class ProtectionDelegate {
         .add(TaskExecutionFragment.newInstance(
             taskId,
             objectIds, extra),
-          "ASYNC_TASK");
+            ASYNC_TAG);
       if (progressMessage != 0) {
-        ft.add(ProgressDialogFragment.newInstance(progressMessage),"PROGRESS");
+        ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
       }
       ft.commit();
     }

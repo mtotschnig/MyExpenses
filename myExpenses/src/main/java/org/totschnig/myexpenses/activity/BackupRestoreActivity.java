@@ -238,9 +238,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       case R.id.RESTORE_COMMAND:
         getSupportFragmentManager()
             .beginTransaction()
-            .add(TaskExecutionFragment.newInstanceRestore(args), "ASYNC_TASK")
+            .add(TaskExecutionFragment.newInstanceRestore(args), ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-                "PROGRESS").commit();
+                ProtectionDelegate.PROGRESS_TAG).commit();
         break;
     }
   }

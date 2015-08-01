@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -185,11 +186,11 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         getFragmentManager()
             .beginTransaction()
             .add(taskExecutionFragment,
-                "ASYNC_TASK")
+                ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
                     getString(R.string.pref_import_title, "CSV"),
-                    null, ProgressDialog.STYLE_SPINNER, false),
-                "PROGRESS")
+                    null, ProgressDialog.STYLE_HORIZONTAL, false),
+                ProtectionDelegate.PROGRESS_TAG)
             .commit();
         break;
     }

@@ -406,7 +406,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       FragmentManager fm = getSupportFragmentManager();
-      if (fm.findFragmentByTag("ASYNC_TASK") == null) {
+      if (fm.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
         startTaskExecution(
             taskId,
             new Long[] {objectId},

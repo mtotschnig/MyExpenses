@@ -60,11 +60,11 @@ public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
     getSupportFragmentManager()
         .beginTransaction()
         .add(taskExecutionFragment,
-            "ASYNC_TASK")
+            ProtectionDelegate.ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
                 getString(R.string.pref_import_title, format.name()),
                 null, ProgressDialog.STYLE_SPINNER, true),
-            "PROGRESS")
+            ProtectionDelegate.PROGRESS_TAG)
         .commit();
   }
 

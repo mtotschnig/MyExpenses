@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
@@ -280,11 +281,11 @@ public class CsvImportDataFragment extends Fragment {
           getFragmentManager()
               .beginTransaction()
               .add(taskExecutionFragment,
-                  "ASYNC_TASK")
+                  ProtectionDelegate.ASYNC_TAG)
               .add(ProgressDialogFragment.newInstance(
                       getString(R.string.pref_import_title, "CSV"),
                       null, ProgressDialog.STYLE_SPINNER, false),
-                  "PROGRESS")
+                  ProtectionDelegate.PROGRESS_TAG)
               .commit();
 
         }
