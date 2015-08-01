@@ -68,9 +68,9 @@ public class CsvImportDataFragment extends Fragment {
 
     fields = new String[] {
         "Ignore",
+        getString(R.string.amount),
         getString(R.string.date),
         getString(R.string.payer_or_payee),
-        getString(R.string.amount),
         getString(R.string.comment),
         getString(R.string.category),
         getString(R.string.method),
@@ -270,13 +270,31 @@ public class CsvImportDataFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.IMPORT_COMMAND:
-        for (Map.Entry<Integer, Integer> entry : columnToFieldMap.entrySet()) {
-          Integer key = entry.getKey();
-          Integer value = entry.getValue();
-          Log.d("DEBUG",String.format("Column %d is mapped to field %d",key,value));
-        }
+        validateMapping();
         break;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  /**
+   * Check if required field (amount) is mapped and fields are not mapped more than once
+   */
+  private boolean validateMapping() {
+    boolean[] found = new boolean[fields.length];
+    for (Map.Entry<Integer, Integer> entry : columnToFieldMap.entrySet()) {
+      Integer value = entry.getValue();
+      if (value>0) {
+        if (found[value]) {
+          Toast.makeText(getActivity(),getString(R.string.cvs_import_map_field_mapped_more_than_once,fields[value]),Toast.LENGTH_LONG).show();
+          return false;
+        }
+        found[value] = true;
+      }
+    }
+    if (!found[1]) {
+      Toast.makeText(getActivity(), R.string.cvs_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
+      return false;
+    }
+    return true;
   }
 }
