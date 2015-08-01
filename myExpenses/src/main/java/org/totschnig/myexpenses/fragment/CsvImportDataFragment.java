@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ public class CsvImportDataFragment extends Fragment {
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
   private ArrayList<CSVRecord> mDataset;
-  private HashMap<Integer,Integer> columnToFieldMap;
+  private int[] columnToFieldMap;
+  private int[] fieldToColumnMap;
   private SparseBooleanArrayParcelable discardedItems;
 
 
@@ -90,11 +92,10 @@ public class CsvImportDataFragment extends Fragment {
     mRecyclerView.setLayoutManager(mLayoutManager);
     if (savedInstanceState!=null) {
       setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
+      columnToFieldMap = savedInstanceState.getIntArray(KEY_COLUMN_TO_FIELD);
       discardedItems = savedInstanceState.getParcelable(KEY_DISCARDED_ITEMS);
-      columnToFieldMap = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(KEY_COLUMN_TO_FIELD);
     } else {
       discardedItems = new SparseBooleanArrayParcelable();
-      columnToFieldMap = new HashMap<>();
     }
 
     return view;
@@ -103,6 +104,7 @@ public class CsvImportDataFragment extends Fragment {
   public void setData(ArrayList<CSVRecord> data) {
     mDataset = data;
     int nrOfColumns = mDataset.get(0).size();
+    columnToFieldMap = new int[nrOfColumns];
     ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
     int dp = CELL_WIDTH*nrOfColumns+CHECKBOX_COLUMN_WIDTH+CELL_MARGIN*(nrOfColumns+2);
     params.width= (int) TypedValue.applyDimension(
@@ -111,19 +113,20 @@ public class CsvImportDataFragment extends Fragment {
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
   }
-  private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+  private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements
+      AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ArrayAdapter<String> mFieldAdapter;
 
     private int nrOfColumns;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-      columnToFieldMap.put(parent.getId(),position);
+      columnToFieldMap[parent.getId()] = position;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-      columnToFieldMap.put(parent.getId(),0);
+      columnToFieldMap[parent.getId()] = 0;
     }
 
     @Override
@@ -193,7 +196,7 @@ public class CsvImportDataFragment extends Fragment {
             cell = new Spinner(parent.getContext());
             cell.setId(i);
             ((Spinner) cell).setAdapter(mFieldAdapter);
-            Integer savedPos = columnToFieldMap.get(i);
+            Integer savedPos = columnToFieldMap[i];
             if (savedPos!=null) {
               ((Spinner) cell).setSelection(savedPos);
             }
@@ -258,7 +261,7 @@ public class CsvImportDataFragment extends Fragment {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_DATASET, mDataset);
     outState.putParcelable(KEY_DISCARDED_ITEMS, discardedItems);
-    outState.putSerializable(KEY_COLUMN_TO_FIELD, columnToFieldMap);
+    outState.putIntArray(KEY_COLUMN_TO_FIELD, columnToFieldMap);
   }
 
   @Override
@@ -278,20 +281,22 @@ public class CsvImportDataFragment extends Fragment {
 
   /**
    * Check if required field (amount) is mapped and fields are not mapped more than once
+   * as a side effect constructs the inverse map from field to column
    */
   private boolean validateMapping() {
-    boolean[] found = new boolean[fields.length];
-    for (Map.Entry<Integer, Integer> entry : columnToFieldMap.entrySet()) {
-      Integer value = entry.getValue();
-      if (value>0) {
-        if (found[value]) {
-          Toast.makeText(getActivity(),getString(R.string.cvs_import_map_field_mapped_more_than_once,fields[value]),Toast.LENGTH_LONG).show();
+    fieldToColumnMap = new int[fields.length];
+    Arrays.fill(fieldToColumnMap,-1);
+    for (int i = 0; i < columnToFieldMap.length; i++) {
+      int field = columnToFieldMap[i];
+      if (field>0) {
+        if (fieldToColumnMap[field]>-1) {
+          Toast.makeText(getActivity(),getString(R.string.cvs_import_map_field_mapped_more_than_once,fields[field]),Toast.LENGTH_LONG).show();
           return false;
         }
-        found[value] = true;
+        fieldToColumnMap[field] = i;
       }
     }
-    if (!found[1]) {
+    if (fieldToColumnMap[1]==-1) {
       Toast.makeText(getActivity(), R.string.cvs_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
       return false;
     }
