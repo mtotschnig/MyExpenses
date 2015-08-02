@@ -38,7 +38,7 @@ import java.util.Arrays;
 /**
  * Created by privat on 30.06.15.
  */
-public class CsvImportDataFragment extends Fragment {
+public class CsvImportDataFragment extends Fragment implements AdapterView.OnItemSelectedListener {
   public static final String KEY_DATASET = "DATASET";
   public static final String KEY_DISCARDED_ROWS = "DISCARDED_ROWS";
   public static final String KEY_COLUMN_TO_FIELD = "COLUMN_TO_FIELD";
@@ -49,12 +49,16 @@ public class CsvImportDataFragment extends Fragment {
   public static final int CHECKBOX_COLUMN_WIDTH = 60;
   public static final int CELL_MARGIN = 5;
   private RecyclerView mRecyclerView;
+  private LinearLayout mHeaderLine;
   private RecyclerView.Adapter mAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
   private ArrayList<CSVRecord> mDataset;
   private int[] columnToFieldMap;
   private int[] fieldToColumnMap;
   private SparseBooleanArrayParcelable discardedRows;
+
+  private ArrayAdapter<String> mFieldAdapter;
+  private LinearLayout.LayoutParams cellParams, cbParams;
 
 
   public static CsvImportDataFragment newInstance() {
@@ -70,6 +74,18 @@ public class CsvImportDataFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+    cellParams = new LinearLayout.LayoutParams(
+        (int) TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, CELL_WIDTH, getResources().getDisplayMetrics()),
+        LinearLayout.LayoutParams.WRAP_CONTENT);
+    cellParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
+
+    cbParams = new LinearLayout.LayoutParams(
+        (int) TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, CHECKBOX_COLUMN_WIDTH, getResources().getDisplayMetrics()),
+        LinearLayout.LayoutParams.WRAP_CONTENT);
+    cbParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
+
     fields = new String[] {
         "Ignore",
         getString(R.string.amount),
@@ -81,8 +97,12 @@ public class CsvImportDataFragment extends Fragment {
         getString(R.string.status),
         getString(R.string.reference_number)
     };
+    mFieldAdapter = new ArrayAdapter<>(
+        getActivity(),android.R.layout.simple_spinner_item,fields);
+    mFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     View view = inflater.inflate(R.layout.import_csv_data, container, false);
     mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+    mHeaderLine = (LinearLayout) view.findViewById(R.id.header_line);
 
     // use this setting to improve performance if you know that changes
     // in content do not change the layout size of the RecyclerView
@@ -114,32 +134,38 @@ public class CsvImportDataFragment extends Fragment {
     mRecyclerView.setLayoutParams(params);
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
+    //set up header
+    for (int i = 0; i < nrOfColumns; i++) {
+      Spinner cell = new Spinner(getActivity());
+      cell.setId(i);
+      cell.setAdapter(mFieldAdapter);
+      cell.setOnItemSelectedListener(this);
+      mHeaderLine.addView(cell,cellParams);
+    }
+  }
+  @Override
+  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    columnToFieldMap[parent.getId()] = position;
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> parent) {
+    columnToFieldMap[parent.getId()] = 0;
   }
   private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements
-      AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
-    private ArrayAdapter<String> mFieldAdapter;
+      CompoundButton.OnCheckedChangeListener {
 
     private int nrOfColumns;
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-      columnToFieldMap[parent.getId()] = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-      columnToFieldMap[parent.getId()] = 0;
-    }
-
-    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-      int position = buttonView.getId();
+      int position = (int) buttonView.getTag();
       Log.d("DEBUG",String.format("%s item at position %d",
-          isChecked?"Discarding":"Including",position - 1));
+          isChecked?"Discarding":"Including",position));
       if (isChecked) {
-        discardedRows.put(position - 1, true);
+        discardedRows.put(position, true);
       } else {
-        discardedRows.delete(position - 1);
+        discardedRows.delete(position);
       }
       notifyItemChanged(position);
     }
@@ -160,9 +186,6 @@ public class CsvImportDataFragment extends Fragment {
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter() {
       nrOfColumns = mDataset.get(0).size();
-      mFieldAdapter = new ArrayAdapter<>(
-          getActivity(),android.R.layout.simple_spinner_item,fields);
-      mFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     // Create new views (invoked by the layout manager)
@@ -174,53 +197,21 @@ public class CsvImportDataFragment extends Fragment {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
         v.setBackgroundResource(R.drawable.csv_import_row_background);
       }
-      View cell;
-      LinearLayout.LayoutParams params;
-      params = new LinearLayout.LayoutParams(
-          (int) TypedValue.applyDimension(
-              TypedValue.COMPLEX_UNIT_DIP, CHECKBOX_COLUMN_WIDTH, getResources().getDisplayMetrics()),
-          LinearLayout.LayoutParams.WRAP_CONTENT);
-      params.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
-      switch(viewType) {
-        case 0:
-          cell = new TextView(parent.getContext());
-          ((TextView) cell).setText("Discard");
-          break;
-        default: {
-          cell = new CheckBox(parent.getContext());
-        }
-      }
-      v.addView(cell, params);
-      params = new LinearLayout.LayoutParams(
-          (int) TypedValue.applyDimension(
-              TypedValue.COMPLEX_UNIT_DIP, CELL_WIDTH, getResources().getDisplayMetrics()),
-          LinearLayout.LayoutParams.WRAP_CONTENT);
-      params.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
+      View cell = new CheckBox(parent.getContext());
+
+      v.addView(cell, cbParams);
       for (int i = 0; i < nrOfColumns; i++) {
-        switch (viewType) {
-          case 0:
-            cell = new Spinner(parent.getContext());
-            cell.setId(i);
-            ((Spinner) cell).setAdapter(mFieldAdapter);
-            Integer savedPos = columnToFieldMap[i];
-            if (savedPos!=null) {
-              ((Spinner) cell).setSelection(savedPos);
-            }
-            ((Spinner) cell).setOnItemSelectedListener(this);
-            break;
-          default:
-            cell = new TextView(parent.getContext());
-            ((TextView) cell).setSingleLine();
-            ((TextView) cell).setEllipsize(TextUtils.TruncateAt.END);
-            cell.setSelected(true);
-            cell.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                Toast.makeText(getActivity(),((TextView) v).getText(),Toast.LENGTH_LONG).show();
-              }
-            });
-        }
-        v.addView(cell, params);
+        cell = new TextView(parent.getContext());
+        ((TextView) cell).setSingleLine();
+        ((TextView) cell).setEllipsize(TextUtils.TruncateAt.END);
+        cell.setSelected(true);
+        cell.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Toast.makeText(getActivity(), ((TextView) v).getText(), Toast.LENGTH_LONG).show();
+          }
+        });
+        v.addView(cell, cellParams);
       }
       // set the view's size, margins, paddings and layout parameters
       ViewHolder vh = new ViewHolder(v);
@@ -233,32 +224,25 @@ public class CsvImportDataFragment extends Fragment {
     public void onBindViewHolder(ViewHolder holder, final int position) {
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
-      if (position>0) {
-        boolean isDiscarded = discardedRows.get(position-1,false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-          holder.row.setActivated(isDiscarded);
-        }
-        final CSVRecord record = mDataset.get(position-1);
-        for (int i = 0; i < nrOfColumns; i++) {
-          ((TextView) holder.row.getChildAt(i+1)).setText(record.get(i));
-        }
-        CheckBox cb = (CheckBox) holder.row.getChildAt(0);
-        cb.setId(position);
-        cb.setOnCheckedChangeListener(null);
-        cb.setChecked(isDiscarded);
-        cb.setOnCheckedChangeListener(this);
+      boolean isDiscarded = discardedRows.get(position,false);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        holder.row.setActivated(isDiscarded);
       }
+      final CSVRecord record = mDataset.get(position);
+      for (int i = 0; i < nrOfColumns; i++) {
+        ((TextView) holder.row.getChildAt(i+1)).setText(record.get(i));
+      }
+      CheckBox cb = (CheckBox) holder.row.getChildAt(0);
+      cb.setTag(position);
+      cb.setOnCheckedChangeListener(null);
+      cb.setChecked(isDiscarded);
+      cb.setOnCheckedChangeListener(this);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-      return mDataset.size() +1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-      return position==0 ? 0 : 1;
+      return mDataset.size();
     }
   }
 
