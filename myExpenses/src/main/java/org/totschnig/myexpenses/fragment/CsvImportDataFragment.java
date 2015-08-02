@@ -116,8 +116,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
       setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
       columnToFieldMap = savedInstanceState.getIntArray(KEY_COLUMN_TO_FIELD);
       discardedRows = savedInstanceState.getParcelable(KEY_DISCARDED_ROWS);
-    } else {
-      discardedRows = new SparseBooleanArrayParcelable();
     }
 
     return view;
@@ -127,6 +125,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     mDataset = data;
     int nrOfColumns = mDataset.get(0).size();
     columnToFieldMap = new int[nrOfColumns];
+    discardedRows = new SparseBooleanArrayParcelable();
     ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
     int dp = CELL_WIDTH*nrOfColumns+CHECKBOX_COLUMN_WIDTH+CELL_MARGIN*(nrOfColumns+2);
     params.width= (int) TypedValue.applyDimension(
