@@ -181,13 +181,18 @@ public class TaskExecutionFragment<T> extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceCSVImport(
-      ArrayList<CSVRecord> data, int[] fieldToColumnMap,SparseBooleanArrayParcelable discardedRows) {
+      ArrayList<CSVRecord> data,
+      int[] fieldToColumnMap,
+      SparseBooleanArrayParcelable discardedRows,
+      long accountId, String currency) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);
     bundle.putSerializable(CsvImportDataFragment.KEY_DATASET, data);
     bundle.putSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN, fieldToColumnMap);
     bundle.putParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS, discardedRows);
+    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
+    bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
     f.setArguments(bundle);
     return f;
   }

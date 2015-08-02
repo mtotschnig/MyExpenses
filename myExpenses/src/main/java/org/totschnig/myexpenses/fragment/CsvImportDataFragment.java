@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -263,8 +264,11 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     switch (item.getItemId()) {
       case R.id.IMPORT_COMMAND:
         if (validateMapping()) {
+          long accountId = ((CsvImportActivity) getActivity()).getAccountId();
+          String currency = ((CsvImportActivity) getActivity()).getCurrency();
           TaskExecutionFragment taskExecutionFragment =
-              TaskExecutionFragment.newInstanceCSVImport(mDataset,fieldToColumnMap,discardedRows);
+              TaskExecutionFragment.newInstanceCSVImport(
+                  mDataset,fieldToColumnMap,discardedRows,accountId,currency);
           ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
               getString(R.string.pref_import_title, "CSV"),
               null, ProgressDialog.STYLE_HORIZONTAL, false);

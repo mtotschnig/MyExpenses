@@ -36,7 +36,9 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -61,9 +63,17 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       mCurrencySpinner;
   private MergeCursor mAccountsCursor;
   private SimpleCursorAdapter mAccountsAdapter;
+  private long accountId = 0;
+  private Account.CurrencyEnum currency = null;
+
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    if (savedInstanceState!=null) {
+        accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
+        currency = (Account.CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+    }
+
     View view = inflater.inflate(R.layout.import_csv_parse, container, false);
     mDateFormatSpinner = DialogUtils.configureDateFormat(view, getActivity(), PREFKEY_IMPORT_CSV_DATE_FORMAT);
     mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
@@ -81,6 +91,11 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
+    mCurrencySpinner.setOnItemSelectedListener(this);
+    mCurrencySpinner.setSelection(
+        Account.CurrencyEnum
+            .valueOf(Account.getLocaleCurrency().getCurrencyCode())
+            .ordinal());
     getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     return view;
@@ -126,6 +141,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     if (mUri != null) {
       outState.putString(getPrefKey(), mUri.toString());
     }
+    outState.putLong(KEY_ACCOUNTID, accountId);
+    outState.putSerializable(KEY_CURRENCY, currency);
   }
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
@@ -226,6 +243,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
+    Utils.selectSpinnerItemByValue(mAccountSpinner, accountId);
   }
 
   @Override
@@ -236,17 +254,34 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
                              long id) {
+    if (parent.getId()==R.id.Currency) {
+      if (accountId==0) {
+        currency = (Account.CurrencyEnum) parent.getSelectedItem();
+      }
+      return;
+    }
     if (mAccountsCursor != null) {
+      accountId = id;
       mAccountsCursor.moveToPosition(position);
-      mCurrencySpinner.setSelection(
+
+      Account.CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
+          this.currency :
           Account.CurrencyEnum
               .valueOf(
-                  mAccountsCursor.getString(2))//2=KEY_CURRENCY
-              .ordinal());
+                  mAccountsCursor.getString(2));//2=KEY_CURRENCY
+      mCurrencySpinner.setSelection(
+          currency.ordinal());
       mCurrencySpinner.setEnabled(position==0);
     }
   }
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
+  }
+
+  public long getAccountId() {
+    return mAccountSpinner.getSelectedItemId();
+  }
+  public String getCurrency() {
+    return ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
   }
 }

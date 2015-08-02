@@ -4,6 +4,8 @@
 
 package org.totschnig.myexpenses.export.qif;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 
 import android.text.TextUtils;
@@ -40,7 +42,8 @@ public class QifAccount {
     public Account toAccount(Currency currency) {
         Account a = new Account();
         a.currency = currency;
-        a.label = TextUtils.isEmpty(memo) ? "QIF Import" : memo;
+        a.label = TextUtils.isEmpty(memo) ?
+            MyApplication.getInstance().getString(R.string.pref_import_title,"QIF") : memo;
         a.type = Account.Type.fromQifName(type);
         a.description = desc;
         return a;

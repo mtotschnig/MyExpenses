@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -140,7 +141,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
-    selectSpinnerItemByValue(mAccountSpinner,accountId);
+    Utils.selectSpinnerItemByValue(mAccountSpinner, accountId);
   }
 
   @Override
@@ -174,10 +175,10 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
     mCurrencySpinner.setOnItemSelectedListener(this);
-//    mCurrencySpinner.setSelection(
-//        Account.CurrencyEnum
-//        .valueOf(Account.getLocaleCurrency().getCurrencyCode())
-//        .ordinal());
+    mCurrencySpinner.setSelection(
+        Account.CurrencyEnum
+        .valueOf(Account.getLocaleCurrency().getCurrencyCode())
+        .ordinal());
   }
 
   @Override
@@ -213,16 +214,5 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     outState.putLong(KEY_ACCOUNTID, accountId);
     outState.putSerializable(KEY_CURRENCY,currency);
   }
-  public static void selectSpinnerItemByValue(Spinner spnr, long value)
-  {
-    SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
-    for (int position = 0; position < adapter.getCount(); position++)
-    {
-      if(adapter.getItemId(position) == value)
-      {
-        spnr.setSelection(position);
-        return;
-      }
-    }
-  }
+
 }

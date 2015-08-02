@@ -202,4 +202,15 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_DATA_READY, mDataReady);
   }
+  public long getAccountId() {
+    CsvImportParseFragment pf = (CsvImportParseFragment) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(0));
+    return pf.getAccountId();
+  }
+  public String getCurrency() {
+    CsvImportParseFragment pf = (CsvImportParseFragment) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(0));
+    return pf.getCurrency();
+
+  }
 }
