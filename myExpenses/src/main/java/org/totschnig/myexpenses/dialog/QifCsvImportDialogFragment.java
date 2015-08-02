@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.dialog;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -15,6 +16,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -38,6 +40,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   public static final String PREFKEY_IMPORT_DATE_FORMAT = "import_qif_date_format";
   public static final String PREFKEY_IMPORT_ENCODING = "import_qif_encoding";
   private MergeCursor mAccountsCursor;
+  private long accountId = 0;
+  private Account.CurrencyEnum currency = null;
 
   public static final QifCsvImportDialogFragment newInstance(Account.ExportFormat format) {
     QifCsvImportDialogFragment f = new QifCsvImportDialogFragment();
@@ -46,6 +50,16 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     f.setArguments(args);
     return f;
   }
+
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    if (savedInstanceState!=null) {
+      accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
+      currency = (Account.CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+    }
+    return super.onCreateDialog(savedInstanceState);
+  }
+
   @Override
   protected int getLayoutId() {
     return R.layout.import_dialog;
@@ -126,6 +140,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
+    selectSpinnerItemByValue(mAccountSpinner,accountId);
   }
 
   @Override
@@ -158,6 +173,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
         wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
+    mCurrencySpinner.setOnItemSelectedListener(this);
 //    mCurrencySpinner.setSelection(
 //        Account.CurrencyEnum
 //        .valueOf(Account.getLocaleCurrency().getCurrencyCode())
@@ -167,17 +183,46 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
+    if (parent.getId()==R.id.Currency) {
+      if (accountId==0) {
+        currency = (Account.CurrencyEnum) parent.getSelectedItem();
+      }
+      return;
+    }
     if (mAccountsCursor != null) {
+      accountId = id;
       mAccountsCursor.moveToPosition(position);
-      mCurrencySpinner.setSelection(
+
+      Account.CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
+          this.currency :
           Account.CurrencyEnum
           .valueOf(
-              mAccountsCursor.getString(2))//2=KEY_CURRENCY
-          .ordinal());
+              mAccountsCursor.getString(2));//2=KEY_CURRENCY
+      mCurrencySpinner.setSelection(
+          currency.ordinal());
       mCurrencySpinner.setEnabled(position==0);
     }
   }
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putLong(KEY_ACCOUNTID, accountId);
+    outState.putSerializable(KEY_CURRENCY,currency);
+  }
+  public static void selectSpinnerItemByValue(Spinner spnr, long value)
+  {
+    SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
+    for (int position = 0; position < adapter.getCount(); position++)
+    {
+      if(adapter.getItemId(position) == value)
+      {
+        spnr.setSelection(position);
+        return;
+      }
+    }
   }
 }
