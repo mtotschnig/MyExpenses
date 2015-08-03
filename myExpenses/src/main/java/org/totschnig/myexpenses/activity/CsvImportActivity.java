@@ -169,7 +169,8 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
           Integer imported = (Integer) r.extra[0];
           Integer failed = (Integer) r.extra[1];
           Integer discarded = (Integer) r.extra[2];
-          String msg = getString(R.string.import_transactions_success, imported, "TODO") + ".";
+          String label = (String) r.extra[3];
+          String msg = getString(R.string.import_transactions_success, imported, label) + ".";
           if (failed>0) {
             msg += " " + getString(R.string.csv_import_records_failed,failed);
           }

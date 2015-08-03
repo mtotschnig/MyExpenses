@@ -124,7 +124,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         0,
         Integer.valueOf(totalImported),
         Integer.valueOf(totalFailed),
-        Integer.valueOf(totalDiscarded));
+        Integer.valueOf(totalDiscarded),
+        a.label);
   }
   int findColumnIndex(int field) {
     return Ints.indexOf(column2FieldMap,field);
