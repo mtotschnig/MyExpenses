@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Result;
@@ -38,6 +39,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -47,6 +50,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   SparseBooleanArrayParcelable discardedRows;
   private long accountId;
   private Currency mCurrency;
+  private final Map<String, Long> payeeToId = new HashMap<String, Long>();
 
   public CsvImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -107,6 +111,20 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         Transaction t = new Transaction(accountId,m);
         if (columnIndexDate!=-1) {
           t.setDate(QifUtils.parseDate(record.get(columnIndexDate),dateFormat));
+        }
+        if (columnIndexPayee!=-1) {
+          String payee = record.get(columnIndexPayee);
+          Long id = payeeToId.get(payee);
+          if (id == null) {
+            id = Payee.find(payee);
+            if (id == -1) {
+              id = Payee.maybeWrite(payee);
+            }
+            if (id != -1) {
+              payeeToId.put(payee, id);
+              t.payeeId = id;
+            }
+          }
         }
         t.save();
         totalImported++;
