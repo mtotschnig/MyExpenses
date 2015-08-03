@@ -24,6 +24,7 @@ import com.google.common.primitives.Ints;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
@@ -50,7 +51,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   SparseBooleanArrayParcelable discardedRows;
   private long accountId;
   private Currency mCurrency;
-  private final Map<String, Long> payeeToId = new HashMap<String, Long>();
+  private final Map<String, Long> payeeToId = new HashMap<>();
+  private final Map<String, Long> categoryToId = new HashMap<>();
 
   public CsvImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -125,6 +127,14 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
               t.payeeId = id;
             }
           }
+        }
+        if (columnIndexNotes!=-1) {
+          t.comment = record.get(columnIndexNotes);
+        }
+        if (columnIndexCategory!=-1) {
+          String category = record.get(columnIndexCategory);
+          new CategoryInfo(category).insert(categoryToId);
+          t.setCatId(categoryToId.get(category));
         }
         t.save();
         totalImported++;

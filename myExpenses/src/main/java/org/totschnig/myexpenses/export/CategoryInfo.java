@@ -9,6 +9,10 @@
 
 package org.totschnig.myexpenses.export;
 
+import org.totschnig.myexpenses.model.Category;
+
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: denis.solonenko
@@ -31,11 +35,17 @@ public class CategoryInfo {
     public String name;
     public boolean isIncome;
 
+    private int countInserted;
+
     public CategoryInfo() {}
 
     public CategoryInfo(String name, boolean income) {
         this.name = name;
         isIncome = income;
+    }
+
+    public CategoryInfo(String name) {
+        this.name = name;
     }
 
     @Override
@@ -58,4 +68,70 @@ public class CategoryInfo {
         return "{"+name+"("+(isIncome?"I":"E")+"}";
     }
 
+    /**
+     * inserts the category to the database if needed
+     * @param categoryToId a map which caches the relation between the category name and the database
+     *                     id, both the root and the child category are place in this map
+     * @return the number of new elements added to the database
+     */
+    public int insert(Map<String, Long> categoryToId) {
+        countInserted = 0;
+        insertCategory(extractCategoryName(this.name),categoryToId);
+        return countInserted;
+    }
+
+    private String extractCategoryName(String name) {
+        int i = name.indexOf('/');
+        if (i != -1) {
+            name = name.substring(0, i);
+        }
+        return name;
+    }
+
+    private void insertCategory(String name, Map<String, Long> categoryToId) {
+        if (isChildCategory(name)) {
+            insertChildCategory(name,categoryToId);
+        } else {
+            insertRootCategory(name,categoryToId);
+        }
+    }
+
+    private boolean isChildCategory(String name) {
+        return name.contains(":");
+    }
+
+    private Long insertRootCategory(String name, Map<String, Long> categoryToId) {
+        Long id = categoryToId.get(name);
+        if (id == null) {
+            id = maybeWriteCategory(name, null);
+            if (id != -1)
+                categoryToId.put(name, id);
+        }
+        return id;
+    }
+    private Long maybeWriteCategory(String name,Long parentId) {
+        Long id = Category.find(name, parentId);
+        if (id == -1) {
+            id = Category.write(0L, name, parentId);
+            if (id != -1)
+                countInserted++;
+        }
+        return id;
+    }
+
+    private Long insertChildCategory(String name, Map<String, Long> categoryToId) {
+        Long id = categoryToId.get(name);
+        if (id == null) {
+            int i = name.lastIndexOf(':');
+            String parentCategoryName = name.substring(0, i);
+            String childCategoryName = name.substring(i + 1);
+            Long main = insertRootCategory(parentCategoryName, categoryToId);
+            if (main != -1) {
+                id = maybeWriteCategory(childCategoryName, main);
+                if (id != -1)
+                    categoryToId.put(name, id);
+            }
+        }
+        return id;
+    }
 }

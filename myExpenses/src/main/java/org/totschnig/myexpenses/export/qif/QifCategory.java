@@ -49,5 +49,4 @@ public class QifCategory extends CategoryInfo {
             }
         }
     }
-
 }
