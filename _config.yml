@@ -84,6 +84,46 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.4.9
+    - "2015-06-15"
+    -
+      en: |
+        Export categories to QIF. Display aggregate sums in home screen widget.
+      fr: |
+        Exportation des catégories au format QIF. Afficher les sommes globales dans le widget de l'écran d'accueil.
+      de: |
+        Exportieren von Kategorien zu QIF. Anzeige der Gesamtsummen im Start-Bildschirm Widget.
+      it: |
+        Esportare le categorie a QIF. Visualizza somme complessivi in widget di schermata iniziale.
+      es: |
+        Exportación de categorías a QIF. Visualizar sumas acumuladas en el widget de la pantalla de inicio.
+      pt: |
+        Exportação de categorias para QIF. Mostrar somas agregadas em widget da tela inicial.
+      tr: |
+        Kategorileri QIF dosyasına aktar. Ana ekran widget'inde agrega toplamları göster.
+  -
+    - 2.4.8
+    - "2015-06-04"
+    -
+      en: |
+        The status of cloned transactions is reset to unreconciled. Alternative restore method for devices without file manager.
+      fr: |
+        Le statut des opérations clonées est réinitialisé à non rapproché. Autre méthode de restauration pour les appareils sans gestionnaire de fichiers.
+      de: |
+        Der Status der geklonten Buchungen wird auf nicht abgestimmt zurückgesetzt. Alternative Methode der Widerherstellung von Sicherungskopien für Geräte ohne Datei-Manager.
+      it: |
+        Lo stato delle transazioni clonate viene reimpostato a non riconciliati. Alternative metodo di ripristino per dispositivi senza file manager.
+      es: |
+        El estado de las transacciones clonadas se restablece a reconciliada. Alternativa restaurar el método para dispositivos sin el administrador de archivos.
+      pt: |
+        O status das transações clonados é redefinido para não reconciliadas. Alternativa método de restauração para dispositivos sem gerenciador de arquivos.
+      tr: |
+        Klonlanmış muamemelelerin durumu uzlaşmamışa atanır. Dosya yöneticisi olmayan cihazlar için alternatif geri alma metodu.
+      pl: |
+        Status transakcji sklonowanych zostaje zresetowany do nieuzgodnionego. Alternatywny sposób odzyskania danych dla urządzeń bez menadżera plików.
+      ja: |
+        複製された取引のステータスを未照合にリセットします. ファイルマネージャーのないデバイス用の代替の復元方法.
+  -
     - 2.4.7
     - "2015-06-01"
     -
