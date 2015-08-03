@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -202,15 +203,22 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_DATA_READY, mDataReady);
   }
+
   public long getAccountId() {
     CsvImportParseFragment pf = (CsvImportParseFragment) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(0));
     return pf.getAccountId();
   }
+
   public String getCurrency() {
     CsvImportParseFragment pf = (CsvImportParseFragment) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(0));
     return pf.getCurrency();
+  }
 
+  public QifDateFormat getDateFormat() {
+    CsvImportParseFragment pf = (CsvImportParseFragment) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(0));
+    return pf.getDateFormat();
   }
 }

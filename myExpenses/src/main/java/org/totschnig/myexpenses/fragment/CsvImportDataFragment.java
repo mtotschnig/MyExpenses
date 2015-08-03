@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
@@ -280,9 +281,10 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
         if (validateMapping()) {
           long accountId = ((CsvImportActivity) getActivity()).getAccountId();
           String currency = ((CsvImportActivity) getActivity()).getCurrency();
+          QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
           TaskExecutionFragment taskExecutionFragment =
               TaskExecutionFragment.newInstanceCSVImport(
-                  mDataset,columnToFieldMap,discardedRows,accountId,currency);
+                  mDataset,columnToFieldMap,discardedRows,format,accountId,currency);
           ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
                getString(R.string.pref_import_title, "CSV"),
               null, ProgressDialog.STYLE_HORIZONTAL, false);
@@ -317,7 +319,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
         foundFields.put(field,true);
       }
     }
-    if (!foundFields.get(R.string.amount,false)) {
+    if (!foundFields.get(R.string.amount, false)) {
       Toast.makeText(getActivity(), R.string.csv_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
       return false;
     }

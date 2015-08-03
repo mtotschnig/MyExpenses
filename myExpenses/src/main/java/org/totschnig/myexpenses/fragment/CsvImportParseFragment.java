@@ -284,4 +284,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public String getCurrency() {
     return ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
   }
+
+  public QifDateFormat getDateFormat() {
+    return (QifDateFormat) mDateFormatSpinner.getSelectedItem();
+  }
 }

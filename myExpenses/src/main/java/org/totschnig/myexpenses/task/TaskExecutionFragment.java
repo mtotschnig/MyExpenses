@@ -184,6 +184,7 @@ public class TaskExecutionFragment<T> extends Fragment {
       ArrayList<CSVRecord> data,
       int[] fieldToColumnMap,
       SparseBooleanArrayParcelable discardedRows,
+      QifDateFormat qifDateFormat,
       long accountId, String currency) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
@@ -193,6 +194,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     bundle.putParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS, discardedRows);
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
     bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
+    bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
     f.setArguments(bundle);
     return f;
   }

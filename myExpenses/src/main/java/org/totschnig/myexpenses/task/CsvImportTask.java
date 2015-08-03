@@ -24,19 +24,24 @@ import com.google.common.primitives.Ints;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
 
 public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
+  private QifDateFormat dateFormat;
   ArrayList<CSVRecord> data;
   int[] column2FieldMap;
   SparseBooleanArrayParcelable discardedRows;
@@ -45,6 +50,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
 
   public CsvImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
+    this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
     this.data = (ArrayList<CSVRecord>) b.getSerializable(CsvImportDataFragment.KEY_DATASET);
     this.column2FieldMap = (int[]) b.getSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN);
     this.discardedRows = b.getParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS);
@@ -70,12 +76,15 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   @Override
   protected Result doInBackground(Void... params) {
     int totalImported = 0, totalDiscarded = 0, totalFailed = 0;
+    Account a;
     if (accountId==0) {
-      Account a = new Account();
+      a = new Account();
       a.currency = mCurrency;
       a.label = MyApplication.getInstance().getString(R.string.pref_import_title,"CSV");
       a.save();
       accountId = a.getId();
+    } else {
+      a = Account.getInstanceFromDb(accountId);
     }
     int columnIndexAmount = findColumnIndex(R.string.amount);
     if (columnIndexAmount==-1) {
@@ -93,8 +102,12 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         totalDiscarded++;
       } else {
         CSVRecord record = data.get(i);
-
-        Transaction t = new Transaction(accountId,Long.valueOf(record.get(columnIndexAmount)));
+        BigDecimal amount = QifUtils.parseMoney(record.get(columnIndexAmount));
+        Money m = new Money(a.currency,amount);
+        Transaction t = new Transaction(accountId,m);
+        if (columnIndexDate!=-1) {
+          t.setDate(QifUtils.parseDate(record.get(columnIndexDate),dateFormat));
+        }
         t.save();
         totalImported++;
         try {
