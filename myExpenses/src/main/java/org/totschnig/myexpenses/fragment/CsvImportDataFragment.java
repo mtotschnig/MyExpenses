@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,7 +47,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public static final String KEY_FIELD_TO_COLUMN = "FIELD_TO_COLUMN";
 
   public static final int CELL_WIDTH = 100;
-  private String[] fields;
+  private Integer[] fields;
   public static final int CHECKBOX_COLUMN_WIDTH = 60;
   public static final int CELL_MARGIN = 5;
   private RecyclerView mRecyclerView;
@@ -55,10 +56,9 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   private RecyclerView.LayoutManager mLayoutManager;
   private ArrayList<CSVRecord> mDataset;
   private int[] columnToFieldMap;
-  private int[] fieldToColumnMap;
   private SparseBooleanArrayParcelable discardedRows;
 
-  private ArrayAdapter<String> mFieldAdapter;
+  private ArrayAdapter<Integer> mFieldAdapter;
   private LinearLayout.LayoutParams cellParams, cbParams;
 
 
@@ -87,19 +87,33 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
         LinearLayout.LayoutParams.WRAP_CONTENT);
     cbParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 
-    fields = new String[] {
-        "Ignore",
-        getString(R.string.amount),
-        getString(R.string.date),
-        getString(R.string.payer_or_payee),
-        getString(R.string.comment),
-        getString(R.string.category),
-        getString(R.string.method),
-        getString(R.string.status),
-        getString(R.string.reference_number)
+    fields = new Integer[] {
+        R.string.cvs_import_discard,
+        R.string.amount,
+        R.string.date,
+        R.string.payer_or_payee,
+        R.string.comment,
+        R.string.category,
+        R.string.method,
+        R.string.status,
+        R.string.reference_number
     };
-    mFieldAdapter = new ArrayAdapter<>(
-        getActivity(),android.R.layout.simple_spinner_item,fields);
+    mFieldAdapter = new ArrayAdapter<Integer>(
+        getActivity(),android.R.layout.simple_spinner_item,fields) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        TextView tv = (TextView) super.getView(position, convertView, parent);
+        tv.setText(getString(fields[position]));
+        return tv;
+      }
+
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+        tv.setText(getString(fields[position]));
+        return tv;
+      }
+    };
     mFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     View view = inflater.inflate(R.layout.import_csv_data, container, false);
     mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
@@ -145,7 +159,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   }
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    columnToFieldMap[parent.getId()] = position;
+    columnToFieldMap[parent.getId()] = mFieldAdapter.getItem(position);
   }
 
   @Override
@@ -268,9 +282,9 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
           String currency = ((CsvImportActivity) getActivity()).getCurrency();
           TaskExecutionFragment taskExecutionFragment =
               TaskExecutionFragment.newInstanceCSVImport(
-                  mDataset,fieldToColumnMap,discardedRows,accountId,currency);
+                  mDataset,columnToFieldMap,discardedRows,accountId,currency);
           ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
-              getString(R.string.pref_import_title, "CSV"),
+               getString(R.string.pref_import_title, "CSV"),
               null, ProgressDialog.STYLE_HORIZONTAL, false);
           progressDialogFragment.setMax(mDataset.size()-discardedRows.size());
           getFragmentManager()
@@ -292,19 +306,18 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
    * as a side effect constructs the inverse map from field to column
    */
   private boolean validateMapping() {
-    fieldToColumnMap = new int[fields.length];
-    Arrays.fill(fieldToColumnMap,-1);
+    SparseBooleanArray foundFields = new SparseBooleanArray();
     for (int i = 0; i < columnToFieldMap.length; i++) {
       int field = columnToFieldMap[i];
-      if (field>0) {
-        if (fieldToColumnMap[field]>-1) {
-          Toast.makeText(getActivity(),getString(R.string.csv_import_map_field_mapped_more_than_once,fields[field]),Toast.LENGTH_LONG).show();
+      if (field!=R.string.cvs_import_discard) {
+        if (foundFields.get(field,false)) {
+          Toast.makeText(getActivity(),getString(R.string.csv_import_map_field_mapped_more_than_once,getString(field)),Toast.LENGTH_LONG).show();
           return false;
         }
-        fieldToColumnMap[field] = i;
+        foundFields.put(field,true);
       }
     }
-    if (fieldToColumnMap[1]==-1) {
+    if (!foundFields.get(R.string.amount,false)) {
       Toast.makeText(getActivity(), R.string.csv_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
       return false;
     }

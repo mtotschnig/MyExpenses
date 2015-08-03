@@ -18,24 +18,27 @@ package org.totschnig.myexpenses.task;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
+
+import com.google.common.primitives.Ints;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Currency;
 
 public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
   ArrayList<CSVRecord> data;
-  int[] fieldToColumnMap;
+  int[] column2FieldMap;
   SparseBooleanArrayParcelable discardedRows;
   private long accountId;
   private Currency mCurrency;
@@ -43,7 +46,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   public CsvImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.data = (ArrayList<CSVRecord>) b.getSerializable(CsvImportDataFragment.KEY_DATASET);
-    this.fieldToColumnMap = (int[]) b.getSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN);
+    this.column2FieldMap = (int[]) b.getSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN);
     this.discardedRows = b.getParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS);
     this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
     this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
@@ -74,12 +77,25 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
       a.save();
       accountId = a.getId();
     }
+    int columnIndexAmount = findColumnIndex(R.string.amount);
+    if (columnIndexAmount==-1) {
+      throw new IllegalStateException("No mapping found for amount");
+    }
+    int columnIndexDate = findColumnIndex(R.string.date);
+    int columnIndexPayee = findColumnIndex(R.string.payer_or_payee);
+    int columnIndexNotes = findColumnIndex(R.string.comment);
+    int columnIndexCategory = findColumnIndex(R.string.category);
+    int columnIndexMethod = findColumnIndex(R.string.method);
+    int columnIndexStatus = findColumnIndex(R.string.status);
+    int columnIndexNumber = findColumnIndex(R.string.reference_number);
     for (int i = 0; i < data.size(); i++) {
       if (discardedRows.get(i,false)) {
         totalDiscarded++;
       } else {
         CSVRecord record = data.get(i);
 
+        Transaction t = new Transaction(accountId,Long.valueOf(record.get(columnIndexAmount)));
+        t.save();
         totalImported++;
         try {
           Thread.sleep(100);
@@ -96,5 +112,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         Integer.valueOf(totalImported),
         Integer.valueOf(totalFailed),
         Integer.valueOf(totalDiscarded));
+  }
+  int findColumnIndex(int field) {
+    return Ints.indexOf(column2FieldMap,field);
   }
 }

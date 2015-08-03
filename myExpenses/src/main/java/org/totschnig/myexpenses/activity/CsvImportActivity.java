@@ -170,10 +170,10 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
           Integer discarded = (Integer) r.extra[2];
           String msg = getString(R.string.import_transactions_success, imported, "TODO") + ".";
           if (failed>0) {
-            msg += " " + getString(R.string.csv_import_records_failed,failed) + ".";
+            msg += " " + getString(R.string.csv_import_records_failed,failed);
           }
           if (discarded>0) {
-            msg += " " + getString(R.string.csv_import_records_discarded,discarded) + ".";
+            msg += " " + getString(R.string.csv_import_records_discarded,discarded);
           }
           Toast.makeText(this, msg,Toast.LENGTH_LONG).show();
         }
