@@ -104,6 +104,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     int columnIndexPayee = findColumnIndex(R.string.payer_or_payee);
     int columnIndexNotes = findColumnIndex(R.string.comment);
     int columnIndexCategory = findColumnIndex(R.string.category);
+    int columnIndexSubcategory = findColumnIndex(R.string.subcategory);
     int columnIndexMethod = findColumnIndex(R.string.method);
     int columnIndexStatus = findColumnIndex(R.string.status);
     int columnIndexNumber = findColumnIndex(R.string.reference_number);
@@ -141,6 +142,9 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
 
         if (columnIndexCategory!=-1) {
           String category = record.get(columnIndexCategory);
+          if (columnIndexSubcategory!=-1) {
+            category+=":"+record.get(columnIndexSubcategory);
+          }
           new CategoryInfo(category).insert(categoryToId);
           t.setCatId(categoryToId.get(category));
         }

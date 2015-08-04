@@ -76,11 +76,11 @@ public class CategoryInfo {
      */
     public int insert(Map<String, Long> categoryToId) {
         countInserted = 0;
-        insertCategory(extractCategoryName(this.name),categoryToId);
+        insertCategory(extractCategoryName(),categoryToId);
         return countInserted;
     }
 
-    private String extractCategoryName(String name) {
+    private String extractCategoryName() {
         int i = name.indexOf('/');
         if (i != -1) {
             name = name.substring(0, i);

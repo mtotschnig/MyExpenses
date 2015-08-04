@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by privat on 30.06.15.
@@ -96,6 +95,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
         R.string.payer_or_payee,
         R.string.comment,
         R.string.category,
+        R.string.subcategory,
         R.string.method,
         R.string.status,
         R.string.reference_number
@@ -315,14 +315,18 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
       int field = columnToFieldMap[i];
       if (field!=R.string.cvs_import_discard) {
         if (foundFields.get(field,false)) {
-          Toast.makeText(getActivity(),getString(R.string.csv_import_map_field_mapped_more_than_once,getString(field)),Toast.LENGTH_LONG).show();
+          Toast.makeText(getActivity(),getString(R.string.csv_import_field_mapped_more_than_once,getString(field)),Toast.LENGTH_LONG).show();
           return false;
         }
         foundFields.put(field,true);
       }
     }
     if (!foundFields.get(R.string.amount, false)) {
-      Toast.makeText(getActivity(), R.string.csv_import_map_amount_not_mapped,Toast.LENGTH_LONG).show();
+      Toast.makeText(getActivity(), R.string.csv_import_amount_not_mapped,Toast.LENGTH_LONG).show();
+      return false;
+    }
+    if (foundFields.get(R.string.subcategory,false) && !foundFields.get(R.string.category,false)){
+      Toast.makeText(getActivity(), R.string.csv_import_subcategory_requires_category,Toast.LENGTH_LONG).show();
       return false;
     }
     return true;
