@@ -557,7 +557,6 @@
   <string name="csv_import_preview">Preview</string>
   <string name="menu_parse">Parse</string>
   <string name="cvs_import_discard">Discard</string>
-  <string name="csv_import_amount_not_mapped">You need to map one column to the transaction amount.</string>
   <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
   <string name="csv_import_records_failed">%d records could not be imported.</string>
   <string name="csv_import_records_discarded">%d records were discarded.</string>

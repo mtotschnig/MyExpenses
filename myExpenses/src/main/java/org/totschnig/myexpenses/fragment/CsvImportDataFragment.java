@@ -91,6 +91,8 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     fields = new Integer[] {
         R.string.cvs_import_discard,
         R.string.amount,
+        R.string.expense,
+        R.string.income,
         R.string.date,
         R.string.payer_or_payee,
         R.string.comment,
@@ -320,10 +322,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
         }
         foundFields.put(field,true);
       }
-    }
-    if (!foundFields.get(R.string.amount, false)) {
-      Toast.makeText(getActivity(), R.string.csv_import_amount_not_mapped,Toast.LENGTH_LONG).show();
-      return false;
     }
     if (foundFields.get(R.string.subcategory,false) && !foundFields.get(R.string.category,false)){
       Toast.makeText(getActivity(), R.string.csv_import_subcategory_requires_category,Toast.LENGTH_LONG).show();

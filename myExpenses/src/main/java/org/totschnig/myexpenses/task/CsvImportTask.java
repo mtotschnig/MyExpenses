@@ -97,9 +97,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
       a = Account.getInstanceFromDb(accountId);
     }
     int columnIndexAmount = findColumnIndex(R.string.amount);
-    if (columnIndexAmount==-1) {
-      throw new IllegalStateException("No mapping found for amount");
-    }
+    int columnIndexExpense = findColumnIndex(R.string.expense);
+    int columnIndexIncome = findColumnIndex(R.string.income);
     int columnIndexDate = findColumnIndex(R.string.date);
     int columnIndexPayee = findColumnIndex(R.string.payer_or_payee);
     int columnIndexNotes = findColumnIndex(R.string.comment);
@@ -113,7 +112,18 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         totalDiscarded++;
       } else {
         CSVRecord record = data.get(i);
-        BigDecimal amount = QifUtils.parseMoney(record.get(columnIndexAmount));
+        BigDecimal amount;
+        if (columnIndexAmount!=-1) {
+          amount = QifUtils.parseMoney(record.get(columnIndexAmount));
+        } else {
+          BigDecimal income = columnIndexIncome!=-1 ?
+              QifUtils.parseMoney(record.get(columnIndexIncome)).abs() :
+              new BigDecimal(0);
+          BigDecimal expense = columnIndexExpense!=-1 ?
+              QifUtils.parseMoney(record.get(columnIndexExpense)).abs() :
+              new BigDecimal(0);
+          amount = income.subtract(expense);
+        }
         Money m = new Money(a.currency,amount);
         Transaction t = new Transaction(accountId,m);
 
