@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
@@ -282,9 +283,10 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
           long accountId = ((CsvImportActivity) getActivity()).getAccountId();
           String currency = ((CsvImportActivity) getActivity()).getCurrency();
           QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
+          Account.Type type = ((CsvImportActivity) getActivity()).getAccountType();
           TaskExecutionFragment taskExecutionFragment =
               TaskExecutionFragment.newInstanceCSVImport(
-                  mDataset,columnToFieldMap,discardedRows,format,accountId,currency);
+                  mDataset,columnToFieldMap,discardedRows,format,accountId,currency,type);
           ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
                getString(R.string.pref_import_title, "CSV"),
               null, ProgressDialog.STYLE_HORIZONTAL, false);

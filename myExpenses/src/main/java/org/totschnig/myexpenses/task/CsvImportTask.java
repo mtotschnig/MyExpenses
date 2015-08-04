@@ -52,6 +52,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   SparseBooleanArrayParcelable discardedRows;
   private long accountId;
   private Currency mCurrency;
+  private Account.Type mAccountType;
   private final Map<String, Long> payeeToId = new HashMap<>();
   private final Map<String, Long> categoryToId = new HashMap<>();
 
@@ -63,6 +64,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     this.discardedRows = b.getParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS);
     this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
     this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
+    this.mAccountType = (Account.Type) b.getSerializable(DatabaseConstants.KEY_TYPE);
   }
 
   @Override
@@ -88,6 +90,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
       a = new Account();
       a.currency = mCurrency;
       a.label = MyApplication.getInstance().getString(R.string.pref_import_title,"CSV");
+      a.type = mAccountType;
       a.save();
       accountId = a.getId();
     } else {

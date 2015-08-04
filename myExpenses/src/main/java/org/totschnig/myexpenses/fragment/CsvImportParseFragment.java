@@ -280,4 +280,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public QifDateFormat getDateFormat() {
     return (QifDateFormat) mDateFormatSpinner.getSelectedItem();
   }
+
+  public Account.Type getAccountType() {
+    return (Account.Type) mTypeSpinner.getSelectedItem();
+  }
 }

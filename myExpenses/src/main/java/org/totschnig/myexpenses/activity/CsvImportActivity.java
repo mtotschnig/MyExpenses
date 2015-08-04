@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
@@ -222,4 +223,11 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
         mSectionsPagerAdapter.getFragmentName(0));
     return pf.getDateFormat();
   }
+
+  public Account.Type getAccountType() {
+    CsvImportParseFragment pf = (CsvImportParseFragment) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(0));
+    return pf.getAccountType();
+  }
+
 }
