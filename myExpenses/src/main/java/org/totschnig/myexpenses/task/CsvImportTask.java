@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Result;
@@ -135,6 +136,19 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
           String category = record.get(columnIndexCategory);
           new CategoryInfo(category).insert(categoryToId);
           t.setCatId(categoryToId.get(category));
+        }
+        if (columnIndexMethod!=-1) {
+          String method = record.get(columnIndexMethod);
+          for (PaymentMethod.PreDefined preDefined: PaymentMethod.PreDefined.values()) {
+            if (preDefined.getLocalizedLabel().equals(method)) {
+              method = preDefined.name();
+              break;
+            }
+          }
+          long methodId = PaymentMethod.find(method);
+          if (methodId!=-1) {
+            t.methodId = methodId;
+          }
         }
         t.save();
         totalImported++;
