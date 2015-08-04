@@ -35,7 +35,7 @@ import android.widget.Spinner;
 
 public class QifCsvImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
-  Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner, mTypeSpinner;
+  Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
 
   public static final String PREFKEY_IMPORT_DATE_FORMAT = "import_qif_date_format";
@@ -170,7 +170,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
     mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, wrappedCtx, this);
-    mTypeSpinner = DialogUtils.configureTypeSpinner(view, wrappedCtx);
+    view.findViewById(R.id.AccountType).setVisibility(View.GONE);//QIF data should specify type
   }
 
   @Override
