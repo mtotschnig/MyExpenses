@@ -33,6 +33,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +47,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -371,6 +373,30 @@ public class DialogUtils {
     EditText filename = (EditText) view.findViewById(R.id.Filename);
     filename.setEnabled(false);
     return filename;
+  }
+
+  public static Spinner configureCurrencySpinner(
+      View view, Context context, AdapterView.OnItemSelectedListener listener) {
+    Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
+    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
+        context, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
+    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinner.setAdapter(curAdapter);
+    spinner.setOnItemSelectedListener(listener);
+    spinner.setSelection(
+        Account.CurrencyEnum
+            .valueOf(Account.getLocaleCurrency().getCurrencyCode())
+            .ordinal());
+    return spinner;
+  }
+
+  public static Spinner configureTypeSpinner(View view, Context context) {
+    Spinner spinner = (Spinner) view.findViewById(R.id.AccountType);
+    ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
+        context, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
+    typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinner.setAdapter(typAdapter);
+    return spinner;
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {

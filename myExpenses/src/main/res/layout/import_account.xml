@@ -21,5 +21,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+
+        <Spinner android:id="@+id/AccountType"
+                 android:prompt="@string/type"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"/>
     </LinearLayout>
 </TableRow>

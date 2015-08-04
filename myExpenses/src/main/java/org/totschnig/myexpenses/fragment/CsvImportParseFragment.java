@@ -60,7 +60,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
   private EditText mFilename;
   private Spinner mDateFormatSpinner, mEncodingSpinner, mDelimiterSpinner, mAccountSpinner,
-      mCurrencySpinner;
+      mCurrencySpinner, mTypeSpinner;
   private MergeCursor mAccountsCursor;
   private SimpleCursorAdapter mAccountsAdapter;
   private long accountId = 0;
@@ -86,16 +86,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
-    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
-    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mCurrencySpinner.setAdapter(curAdapter);
-    mCurrencySpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner.setSelection(
-        Account.CurrencyEnum
-            .valueOf(Account.getLocaleCurrency().getCurrencyCode())
-            .ordinal());
+    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view,wrappedCtx,this);
+    mTypeSpinner = DialogUtils.configureTypeSpinner(view,wrappedCtx);
     getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     return view;

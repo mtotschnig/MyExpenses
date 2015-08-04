@@ -35,7 +35,7 @@ import android.widget.Spinner;
 
 public class QifCsvImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
-  Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
+  Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner, mTypeSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
 
   public static final String PREFKEY_IMPORT_DATE_FORMAT = "import_qif_date_format";
@@ -169,16 +169,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
 
     mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
-    mCurrencySpinner = (Spinner) view.findViewById(R.id.Currency);
-    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        wrappedCtx, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
-    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mCurrencySpinner.setAdapter(curAdapter);
-    mCurrencySpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner.setSelection(
-        Account.CurrencyEnum
-        .valueOf(Account.getLocaleCurrency().getCurrencyCode())
-        .ordinal());
+    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, wrappedCtx, this);
+    mTypeSpinner = DialogUtils.configureTypeSpinner(view, wrappedCtx);
   }
 
   @Override
