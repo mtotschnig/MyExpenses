@@ -112,9 +112,11 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         BigDecimal amount = QifUtils.parseMoney(record.get(columnIndexAmount));
         Money m = new Money(a.currency,amount);
         Transaction t = new Transaction(accountId,m);
+
         if (columnIndexDate!=-1) {
           t.setDate(QifUtils.parseDate(record.get(columnIndexDate),dateFormat));
         }
+
         if (columnIndexPayee!=-1) {
           String payee = record.get(columnIndexPayee);
           Long id = payeeToId.get(payee);
@@ -129,14 +131,17 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
             }
           }
         }
+
         if (columnIndexNotes!=-1) {
           t.comment = record.get(columnIndexNotes);
         }
+
         if (columnIndexCategory!=-1) {
           String category = record.get(columnIndexCategory);
           new CategoryInfo(category).insert(categoryToId);
           t.setCatId(categoryToId.get(category));
         }
+
         if (columnIndexMethod!=-1) {
           String method = record.get(columnIndexMethod);
           for (PaymentMethod.PreDefined preDefined: PaymentMethod.PreDefined.values()) {
@@ -149,6 +154,14 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
           if (methodId!=-1) {
             t.methodId = methodId;
           }
+        }
+
+        if (columnIndexStatus!=-1) {
+          t.crStatus = Transaction.CrStatus.fromQifName(record.get(columnIndexStatus));
+        }
+
+        if (columnIndexNumber!=-1) {
+          t.referenceNumber = record.get(columnIndexNumber);
         }
         t.save();
         totalImported++;
