@@ -103,4 +103,5 @@
   <item name="EXPORT_CATEGORIES_COMMAND_ISO88591" type="id"/>
   <item name="IMPORT_COMMAND" type="id"/>
   <item name="PARSE_COMMAND" type="id"/>
+  <item name="SET_HEADER_COMMAND" type="id"/>
 </resources>

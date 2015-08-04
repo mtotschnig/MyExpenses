@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
@@ -23,7 +24,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class CsvImportActivity extends ProtectedFragmentActivity implements ActionBar.TabListener {
+public class CsvImportActivity extends ProtectedFragmentActivity implements
+    ActionBar.TabListener,ConfirmationDialogFragment.ConfirmationDialogListener {
 
   public static final String KEY_DATA_READY = "KEY_DATA_READY";
   /**
@@ -99,6 +101,26 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements Acti
 
   @Override
   public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+  }
+
+  @Override
+  public void onPositive(Bundle args) {
+    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+      case R.id.SET_HEADER_COMMAND:
+      CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
+          mSectionsPagerAdapter.getFragmentName(1));
+      df.setHeader();
+    }
+  }
+
+  @Override
+  public void onNegative(Bundle args) {
+
+  }
+
+  @Override
+  public void onDismissOrCancel(Bundle args) {
+
   }
 
   /**

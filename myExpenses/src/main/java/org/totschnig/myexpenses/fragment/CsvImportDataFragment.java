@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,9 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
@@ -61,6 +64,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
 
   private ArrayAdapter<Integer> mFieldAdapter;
   private LinearLayout.LayoutParams cellParams, cbParams;
+  private boolean firstLineIsHeader;
 
 
   public static CsvImportDataFragment newInstance() {
@@ -170,6 +174,12 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public void onNothingSelected(AdapterView<?> parent) {
     columnToFieldMap[parent.getId()] = 0;
   }
+
+  public void setHeader() {
+    firstLineIsHeader = true;
+    mAdapter.notifyItemChanged(0);
+  }
+
   private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements
       CompoundButton.OnCheckedChangeListener {
 
@@ -182,8 +192,23 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
           isChecked?"Discarding":"Including",position));
       if (isChecked) {
         discardedRows.put(position, true);
+        if (position==0) {
+          Bundle b = new Bundle();
+          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+              R.string.dialog_title_information);
+          b.putString(
+              ConfirmationDialogFragment.KEY_MESSAGE,
+              getString(R.string.cvs_import_set_first_line_as_header));
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+              R.id.SET_HEADER_COMMAND);
+          ConfirmationDialogFragment.newInstance(b).show(
+              getFragmentManager(), "SET_HEADER_CONFIRMATION");
+        }
       } else {
         discardedRows.delete(position);
+        if (position==0) {
+          firstLineIsHeader = false;
+        }
       }
       notifyItemChanged(position);
     }
@@ -229,6 +254,9 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
             Toast.makeText(getActivity(), ((TextView) v).getText(), Toast.LENGTH_LONG).show();
           }
         });
+        if (viewType==0) {
+          ((TextView) cell).setTypeface(null, Typeface.BOLD);
+        }
         v.addView(cell, cellParams);
       }
       // set the view's size, margins, paddings and layout parameters
@@ -243,12 +271,14 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
       boolean isDiscarded = discardedRows.get(position,false);
+      boolean isHeader = position == 0 && firstLineIsHeader;
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        holder.row.setActivated(isDiscarded);
+        holder.row.setActivated(isDiscarded&&!isHeader);
       }
       final CSVRecord record = mDataset.get(position);
       for (int i = 0; i < nrOfColumns; i++) {
-        ((TextView) holder.row.getChildAt(i+1)).setText(record.get(i));
+        TextView cell = (TextView) holder.row.getChildAt(i + 1);
+        cell.setText(record.get(i));
       }
       CheckBox cb = (CheckBox) holder.row.getChildAt(0);
       cb.setTag(position);
@@ -261,6 +291,11 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     @Override
     public int getItemCount() {
       return mDataset.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+      return position==0&firstLineIsHeader ? 0 :1;
     }
   }
 
