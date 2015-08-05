@@ -46,7 +46,9 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by privat on 30.06.15.
@@ -107,6 +109,7 @@ public class CsvImportDataFragment extends Fragment  {
       R.string.status,
       R.string.reference_number
   };
+  private JSONObject header2FieldMap;
 
   public static CsvImportDataFragment newInstance() {
     return new CsvImportDataFragment();
@@ -120,6 +123,17 @@ public class CsvImportDataFragment extends Fragment  {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    String header2FieldMapJson = MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.getString(null);
+    if (header2FieldMapJson!=null) {
+      try {
+        header2FieldMap = new JSONObject(header2FieldMapJson);
+      } catch (JSONException e) {
+        header2FieldMap = new JSONObject();
+      }
+    } else {
+      header2FieldMap = new JSONObject();
+    }
 
     cellParams = new LinearLayout.LayoutParams(
         (int) TypedValue.applyDimension(
@@ -196,11 +210,31 @@ public class CsvImportDataFragment extends Fragment  {
     mAdapter.notifyItemChanged(0);
     //automap
     final CSVRecord record = mDataset.get(0);
-    for (int i = 1 /* 0=Discard ignored  */; i < fields.length; i++) {
-      String fieldLabel = Utils.normalize(getString(fields[i]));
-      for (int j = 0; j < record.size(); j++) {
-        if (fieldLabel.equals(Utils.normalize(record.get(j)))) {
+
+    outer:
+    for (int j = 0; j < record.size(); j++) {
+      String headerLabel = Utils.normalize(record.get(j));
+      Iterator<String> keys = header2FieldMap.keys();
+      while (keys.hasNext()) {
+        String storedLabel = keys.next();
+        if (storedLabel.equals(headerLabel)) {
+          try {
+            String fieldKey = header2FieldMap.getString(storedLabel);
+            int position = Arrays.asList(fieldKeys).indexOf(fieldKey);
+            if (position!=-1) {
+              ((Spinner) mHeaderLine.getChildAt(j + 1)).setSelection(position);
+              continue outer;
+            }
+          } catch (JSONException e) {
+            //ignore
+          }
+        }
+      }
+      for (int i = 1 /* 0=Discard ignored  */; i < fields.length; i++) {
+        String fieldLabel = Utils.normalize(getString(fields[i]));
+        if (fieldLabel.equals(headerLabel)) {
           ((Spinner) mHeaderLine.getChildAt(j + 1)).setSelection(i);
+          break;
         }
       }
     }
@@ -341,20 +375,7 @@ public class CsvImportDataFragment extends Fragment  {
     switch (item.getItemId()) {
       case R.id.IMPORT_COMMAND:
         int[] columnToFieldMap = new int[nrOfColumns];
-        JSONObject header2FieldMap = null;
         final CSVRecord header = mDataset.get(0);
-        if (firstLineIsHeader) {
-          String header2FieldMapJson = MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.getString(null);
-          if (header2FieldMapJson!=null) {
-            try {
-              header2FieldMap = new JSONObject(header2FieldMapJson);
-            } catch (JSONException e) {
-              header2FieldMap = new JSONObject();
-            }
-          } else {
-            header2FieldMap = new JSONObject();
-          }
-        }
         for (int i = 0; i < nrOfColumns; i++) {
           int position = ((Spinner) mHeaderLine.getChildAt(i + 1)).getSelectedItemPosition();
           columnToFieldMap[i] = fields[position];
