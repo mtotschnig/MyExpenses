@@ -110,7 +110,8 @@ public class MyApplication extends Application implements
     NEXT_REMINDER_CONTRIB("nextReminderContrib"),
     DISTRIBUTION_SHOW_CHART("distributionShowChart"),
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
-    MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key);
+    MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
+    CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key);
 
     private int resId = 0;
     private String key = null;

@@ -27,7 +27,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.reflect.TypeToken;
+
 import org.apache.commons.csv.CSVRecord;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
@@ -39,12 +44,14 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by privat on 30.06.15.
  */
-public class CsvImportDataFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class CsvImportDataFragment extends Fragment  {
   public static final String KEY_DATASET = "DATASET";
   public static final String KEY_DISCARDED_ROWS = "DISCARDED_ROWS";
   public static final String KEY_COLUMN_TO_FIELD = "COLUMN_TO_FIELD";
@@ -52,7 +59,41 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public static final String KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER";
 
   public static final int CELL_WIDTH = 100;
-  private Integer[] fields  = new Integer[] {
+  public static final int CHECKBOX_COLUMN_WIDTH = 60;
+  public static final int CELL_MARGIN = 5;
+  private RecyclerView mRecyclerView;
+  private LinearLayout mHeaderLine;
+  private RecyclerView.Adapter mAdapter;
+  private RecyclerView.LayoutManager mLayoutManager;
+  private ArrayList<CSVRecord> mDataset;
+  private SparseBooleanArrayParcelable discardedRows;
+
+  private ArrayAdapter<Integer> mFieldAdapter;
+  private LinearLayout.LayoutParams cellParams, cbParams;
+  private boolean firstLineIsHeader;
+
+  private int nrOfColumns;
+
+  public static final String FIELD_KEY_DISCARD = "DISCARD";
+  public static final String FIELD_KEY_AMOUNT = "AMOUNT";
+  public static final String FIELD_KEY_EXPENSE = "EXPENSE";
+  public static final String FIELD_KEY_INCOME = "INCOME";
+  public static final String FIELD_KEY_DATE = "DATE";
+  public static final String FIELD_KEY_PAYEE = "PAYEE";
+  public static final String FIELD_KEY_COMMENT = "COMMENT";
+  public static final String FIELD_KEY_CATEGORY = "CATEGORY";
+  public static final String FIELD_KEY_SUBCATEGORY = "SUBACTEGORY";
+  public static final String FIELD_KEY_METHOD = "METHOD";
+  public static final String FIELD_KEY_STATUS = "STATUS";
+  public static final String FIELD_KEY_NUMBER = "NUMBER";
+
+
+  private final String[] fieldKeys  = new String[] {
+      FIELD_KEY_DISCARD, FIELD_KEY_AMOUNT, FIELD_KEY_EXPENSE, FIELD_KEY_INCOME,
+      FIELD_KEY_DATE, FIELD_KEY_PAYEE, FIELD_KEY_COMMENT, FIELD_KEY_CATEGORY,
+      FIELD_KEY_SUBCATEGORY, FIELD_KEY_METHOD, FIELD_KEY_STATUS, FIELD_KEY_NUMBER
+  };
+  private final Integer[] fields = new Integer[] {
       R.string.cvs_import_discard,
       R.string.amount,
       R.string.expense,
@@ -66,20 +107,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
       R.string.status,
       R.string.reference_number
   };
-  public static final int CHECKBOX_COLUMN_WIDTH = 60;
-  public static final int CELL_MARGIN = 5;
-  private RecyclerView mRecyclerView;
-  private LinearLayout mHeaderLine;
-  private RecyclerView.Adapter mAdapter;
-  private RecyclerView.LayoutManager mLayoutManager;
-  private ArrayList<CSVRecord> mDataset;
-  private int[] columnToFieldMap;
-  private SparseBooleanArrayParcelable discardedRows;
-
-  private ArrayAdapter<Integer> mFieldAdapter;
-  private LinearLayout.LayoutParams cellParams, cbParams;
-  private boolean firstLineIsHeader;
-
 
   public static CsvImportDataFragment newInstance() {
     return new CsvImportDataFragment();
@@ -137,7 +164,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     mRecyclerView.setLayoutManager(mLayoutManager);
     if (savedInstanceState!=null) {
       setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
-      columnToFieldMap = savedInstanceState.getIntArray(KEY_COLUMN_TO_FIELD);
       discardedRows = savedInstanceState.getParcelable(KEY_DISCARDED_ROWS);
       firstLineIsHeader = savedInstanceState.getBoolean(KEY_FIRST_LINE_IS_HEADER);
     }
@@ -148,7 +174,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public void setData(ArrayList<CSVRecord> data) {
     mDataset = data;
     int nrOfColumns = mDataset.get(0).size();
-    columnToFieldMap = new int[nrOfColumns];
     discardedRows = new SparseBooleanArrayParcelable();
     ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
     int dp = CELL_WIDTH*nrOfColumns+CHECKBOX_COLUMN_WIDTH+CELL_MARGIN*(nrOfColumns+2);
@@ -162,23 +187,14 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
       Spinner cell = new Spinner(getActivity());
       cell.setId(i);
       cell.setAdapter(mFieldAdapter);
-      cell.setOnItemSelectedListener(this);
       mHeaderLine.addView(cell,cellParams);
     }
-  }
-  @Override
-  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    columnToFieldMap[parent.getId()] = mFieldAdapter.getItem(position);
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> parent) {
-    columnToFieldMap[parent.getId()] = 0;
   }
 
   public void setHeader() {
     firstLineIsHeader = true;
     mAdapter.notifyItemChanged(0);
+    //automap
     final CSVRecord record = mDataset.get(0);
     for (int i = 1 /* 0=Discard ignored  */; i < fields.length; i++) {
       String fieldLabel = Utils.normalize(getString(fields[i]));
@@ -192,8 +208,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
 
   private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements
       CompoundButton.OnCheckedChangeListener {
-
-    private int nrOfColumns;
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -314,8 +328,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_DATASET, mDataset);
     outState.putParcelable(KEY_DISCARDED_ROWS, discardedRows);
-    outState.putIntArray(KEY_COLUMN_TO_FIELD, columnToFieldMap);
-    outState.putBoolean(KEY_FIRST_LINE_IS_HEADER,firstLineIsHeader);
+    outState.putBoolean(KEY_FIRST_LINE_IS_HEADER, firstLineIsHeader);
   }
 
   @Override
@@ -327,7 +340,36 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.IMPORT_COMMAND:
-        if (validateMapping()) {
+        int[] columnToFieldMap = new int[nrOfColumns];
+        JSONObject header2FieldMap = null;
+        final CSVRecord header = mDataset.get(0);
+        if (firstLineIsHeader) {
+          String header2FieldMapJson = MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.getString(null);
+          if (header2FieldMapJson!=null) {
+            try {
+              header2FieldMap = new JSONObject(header2FieldMapJson);
+            } catch (JSONException e) {
+              header2FieldMap = new JSONObject();
+            }
+          } else {
+            header2FieldMap = new JSONObject();
+          }
+        }
+        for (int i = 0; i < nrOfColumns; i++) {
+          int position = ((Spinner) mHeaderLine.getChildAt(i + 1)).getSelectedItemPosition();
+          columnToFieldMap[i] = fields[position];
+          if (firstLineIsHeader) {
+            try {
+              if (!fieldKeys[position].equals(FIELD_KEY_DISCARD)) {
+                header2FieldMap.put(Utils.normalize(header.get(i)), fieldKeys[position]);
+              }
+            } catch (JSONException e) {
+              Utils.reportToAcra(e);
+            }
+          }
+        }
+        if (validateMapping(columnToFieldMap)) {
+          MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.putString(header2FieldMap.toString());
           long accountId = ((CsvImportActivity) getActivity()).getAccountId();
           String currency = ((CsvImportActivity) getActivity()).getCurrency();
           QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
@@ -356,8 +398,9 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   /**
    * Check if required field (amount) is mapped and fields are not mapped more than once
    * as a side effect constructs the inverse map from field to column
+   * @param columnToFieldMap
    */
-  private boolean validateMapping() {
+  private boolean validateMapping(int[] columnToFieldMap) {
     SparseBooleanArray foundFields = new SparseBooleanArray();
     for (int i = 0; i < columnToFieldMap.length; i++) {
       int field = columnToFieldMap[i];
