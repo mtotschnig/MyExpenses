@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
@@ -38,6 +37,7 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
@@ -49,9 +49,23 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public static final String KEY_DISCARDED_ROWS = "DISCARDED_ROWS";
   public static final String KEY_COLUMN_TO_FIELD = "COLUMN_TO_FIELD";
   public static final String KEY_FIELD_TO_COLUMN = "FIELD_TO_COLUMN";
+  public static final String KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER";
 
   public static final int CELL_WIDTH = 100;
-  private Integer[] fields;
+  private Integer[] fields  = new Integer[] {
+      R.string.cvs_import_discard,
+      R.string.amount,
+      R.string.expense,
+      R.string.income,
+      R.string.date,
+      R.string.payer_or_payee,
+      R.string.comment,
+      R.string.category,
+      R.string.subcategory,
+      R.string.method,
+      R.string.status,
+      R.string.reference_number
+  };
   public static final int CHECKBOX_COLUMN_WIDTH = 60;
   public static final int CELL_MARGIN = 5;
   private RecyclerView mRecyclerView;
@@ -92,20 +106,6 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
         LinearLayout.LayoutParams.WRAP_CONTENT);
     cbParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 
-    fields = new Integer[] {
-        R.string.cvs_import_discard,
-        R.string.amount,
-        R.string.expense,
-        R.string.income,
-        R.string.date,
-        R.string.payer_or_payee,
-        R.string.comment,
-        R.string.category,
-        R.string.subcategory,
-        R.string.method,
-        R.string.status,
-        R.string.reference_number
-    };
     mFieldAdapter = new ArrayAdapter<Integer>(
         getActivity(),android.R.layout.simple_spinner_item,fields) {
       @Override
@@ -139,6 +139,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
       setData((ArrayList<CSVRecord>) savedInstanceState.getSerializable(KEY_DATASET));
       columnToFieldMap = savedInstanceState.getIntArray(KEY_COLUMN_TO_FIELD);
       discardedRows = savedInstanceState.getParcelable(KEY_DISCARDED_ROWS);
+      firstLineIsHeader = savedInstanceState.getBoolean(KEY_FIRST_LINE_IS_HEADER);
     }
 
     return view;
@@ -178,6 +179,15 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
   public void setHeader() {
     firstLineIsHeader = true;
     mAdapter.notifyItemChanged(0);
+    final CSVRecord record = mDataset.get(0);
+    for (int i = 1 /* 0=Discard ignored  */; i < fields.length; i++) {
+      String fieldLabel = Utils.normalize(getString(fields[i]));
+      for (int j = 0; j < record.size(); j++) {
+        if (fieldLabel.equals(Utils.normalize(record.get(j)))) {
+          ((Spinner) mHeaderLine.getChildAt(j + 1)).setSelection(i);
+        }
+      }
+    }
   }
 
   private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements
@@ -305,6 +315,7 @@ public class CsvImportDataFragment extends Fragment implements AdapterView.OnIte
     outState.putSerializable(KEY_DATASET, mDataset);
     outState.putParcelable(KEY_DISCARDED_ROWS, discardedRows);
     outState.putIntArray(KEY_COLUMN_TO_FIELD, columnToFieldMap);
+    outState.putBoolean(KEY_FIRST_LINE_IS_HEADER,firstLineIsHeader);
   }
 
   @Override
