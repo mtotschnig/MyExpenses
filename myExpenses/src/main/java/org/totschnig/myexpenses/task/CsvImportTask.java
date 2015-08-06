@@ -32,6 +32,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.SplitPartCategory;
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Result;
@@ -107,32 +109,48 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     int columnIndexMethod = findColumnIndex(R.string.method);
     int columnIndexStatus = findColumnIndex(R.string.status);
     int columnIndexNumber = findColumnIndex(R.string.reference_number);
+    int columnIndexSplit = findColumnIndex(R.string.split_transaction);
+
+    boolean isSplitParent = false, isSplitPart = false;
+    Transaction t = null;
+    Long splitParent = null;
     for (int i = 0; i < data.size(); i++) {
       if (discardedRows.get(i,false)) {
         totalDiscarded++;
       } else {
         CSVRecord record = data.get(i);
         BigDecimal amount;
+        if (columnIndexSplit!=-1) {
+          if (isSplitParent) {
+            isSplitPart = saveGetFromRecord(record,columnIndexSplit).equals(SplitTransaction.CSV_PART_INDICATOR);
+            isSplitParent= false;
+          } else {
+            isSplitParent = saveGetFromRecord(record,columnIndexSplit).equals(SplitTransaction.CSV_INDICATOR);
+          }
+        }
         if (columnIndexAmount!=-1) {
-          amount = QifUtils.parseMoney(record.get(columnIndexAmount));
+          amount = QifUtils.parseMoney(saveGetFromRecord(record,columnIndexAmount));
         } else {
           BigDecimal income = columnIndexIncome!=-1 ?
-              QifUtils.parseMoney(record.get(columnIndexIncome)).abs() :
+              QifUtils.parseMoney(saveGetFromRecord(record,columnIndexIncome)).abs() :
               new BigDecimal(0);
           BigDecimal expense = columnIndexExpense!=-1 ?
-              QifUtils.parseMoney(record.get(columnIndexExpense)).abs() :
+              QifUtils.parseMoney(saveGetFromRecord(record,columnIndexExpense)).abs() :
               new BigDecimal(0);
           amount = income.subtract(expense);
         }
         Money m = new Money(a.currency,amount);
-        Transaction t = new Transaction(accountId,m);
-
+        if (isSplitPart) {
+          t = new SplitPartCategory(accountId,m.getAmountMinor(),splitParent);
+        } else {
+          t = isSplitParent ? new SplitTransaction(accountId, m) : new Transaction(accountId, m);
+        }
         if (columnIndexDate!=-1) {
-          t.setDate(QifUtils.parseDate(record.get(columnIndexDate),dateFormat));
+          t.setDate(QifUtils.parseDate(saveGetFromRecord(record,columnIndexDate),dateFormat));
         }
 
         if (columnIndexPayee!=-1) {
-          String payee = record.get(columnIndexPayee);
+          String payee = saveGetFromRecord(record,columnIndexPayee);
           Long id = payeeToId.get(payee);
           if (id == null) {
             id = Payee.find(payee);
@@ -147,20 +165,20 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         }
 
         if (columnIndexNotes!=-1) {
-          t.comment = record.get(columnIndexNotes);
+          t.comment = saveGetFromRecord(record,columnIndexNotes);
         }
 
-        if (columnIndexCategory!=-1) {
-          String category = record.get(columnIndexCategory);
+        if (!isSplitParent && columnIndexCategory!=-1) {
+          String category = saveGetFromRecord(record,columnIndexCategory);
           if (columnIndexSubcategory!=-1) {
-            category+=":"+record.get(columnIndexSubcategory);
+            category+=":"+saveGetFromRecord(record,columnIndexSubcategory);
           }
           new CategoryInfo(category).insert(categoryToId);
           t.setCatId(categoryToId.get(category));
         }
 
         if (columnIndexMethod!=-1) {
-          String method = record.get(columnIndexMethod);
+          String method = saveGetFromRecord(record, columnIndexMethod);
           for (PaymentMethod.PreDefined preDefined: PaymentMethod.PreDefined.values()) {
             if (preDefined.getLocalizedLabel().equals(method)) {
               method = preDefined.name();
@@ -174,18 +192,21 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         }
 
         if (columnIndexStatus!=-1) {
-          t.crStatus = Transaction.CrStatus.fromQifName(record.get(columnIndexStatus));
+          t.crStatus = Transaction.CrStatus.fromQifName(saveGetFromRecord(record,columnIndexStatus));
         }
 
         if (columnIndexNumber!=-1) {
-          t.referenceNumber = record.get(columnIndexNumber);
+          t.referenceNumber = saveGetFromRecord(record, columnIndexNumber);
         }
-        t.save();
-        totalImported++;
-        try {
-          Thread.sleep(100);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
+        if (t.save()!=null) {
+          if (isSplitParent) {
+            splitParent = t.getId();
+          }
+          if (!isSplitPart) {
+            totalImported++;
+          }
+        } else {
+          totalFailed++;
         }
         if (totalImported%10==0) {
           publishProgress(totalImported);
@@ -199,7 +220,10 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         Integer.valueOf(totalDiscarded),
         a.label);
   }
-  int findColumnIndex(int field) {
+  private int findColumnIndex(int field) {
     return Ints.indexOf(column2FieldMap,field);
+  }
+  private String saveGetFromRecord(CSVRecord record, int index) {
+    return record.size()>index ? record.get(index) : "";
   }
 }

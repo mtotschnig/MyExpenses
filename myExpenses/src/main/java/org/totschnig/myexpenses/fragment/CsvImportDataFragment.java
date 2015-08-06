@@ -88,12 +88,14 @@ public class CsvImportDataFragment extends Fragment  {
   public static final String FIELD_KEY_METHOD = "METHOD";
   public static final String FIELD_KEY_STATUS = "STATUS";
   public static final String FIELD_KEY_NUMBER = "NUMBER";
+  public static final String FIELD_KEY_SPLIT = "SPLIT";
 
 
   private final String[] fieldKeys  = new String[] {
       FIELD_KEY_DISCARD, FIELD_KEY_AMOUNT, FIELD_KEY_EXPENSE, FIELD_KEY_INCOME,
       FIELD_KEY_DATE, FIELD_KEY_PAYEE, FIELD_KEY_COMMENT, FIELD_KEY_CATEGORY,
-      FIELD_KEY_SUBCATEGORY, FIELD_KEY_METHOD, FIELD_KEY_STATUS, FIELD_KEY_NUMBER
+      FIELD_KEY_SUBCATEGORY, FIELD_KEY_METHOD, FIELD_KEY_STATUS, FIELD_KEY_NUMBER,
+      FIELD_KEY_SPLIT
   };
   private final Integer[] fields = new Integer[] {
       R.string.cvs_import_discard,
@@ -107,7 +109,8 @@ public class CsvImportDataFragment extends Fragment  {
       R.string.subcategory,
       R.string.method,
       R.string.status,
-      R.string.reference_number
+      R.string.reference_number,
+      R.string.split_transaction
   };
   private JSONObject header2FieldMap;
 
@@ -334,7 +337,7 @@ public class CsvImportDataFragment extends Fragment  {
         holder.row.setActivated(isDiscarded&&!isHeader);
       }
       final CSVRecord record = mDataset.get(position);
-      for (int i = 0; i < nrOfColumns; i++) {
+      for (int i = 0; i < record.size(); i++) {
         TextView cell = (TextView) holder.row.getChildAt(i + 1);
         cell.setText(record.get(i));
       }

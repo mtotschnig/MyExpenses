@@ -935,13 +935,16 @@ public class Account extends Model {
         status = CrStatus.UNRECONCILED;
       }
       String referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
+      String splitIndicator = SPLIT_CATID.equals(catId) ? SplitTransaction.CSV_INDICATOR : "";
       sb.clear();
       switch (format) {
       case CSV:
-        //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+        //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method,R.string.status,R.string.reference_number};
         Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
         PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
-        sb.append("\n\"\";\"")
+        sb.append("\n\"")
+          .append(splitIndicator)
+          .append("\";\"")
           .append(dateStr)
           .append("\";\"")
           .appendQ(payee)
@@ -961,7 +964,7 @@ public class Account extends Model {
           .append(status.symbol)
           .append("\";\"")
           .append(referenceNumber)
-          .append("\";");
+          .append("\"");
         break;
       default:
         sb.append( "\nD" )
@@ -1020,7 +1023,9 @@ public class Account extends Model {
             //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
             Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
             PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
-            sb.append("\n\"B\";\"")
+            sb.append("\n\"")
+              .append(SplitTransaction.CSV_PART_INDICATOR)
+              .append("\";\"")
               .append(dateStr)
               .append("\";\"")
               .appendQ(payee)
@@ -1036,7 +1041,7 @@ public class Account extends Model {
               .appendQ(comment)
               .append("\";\"")
               .appendQ(method == null ? "" : method.getLabel())
-              .append("\";");
+              .append("\";\"\";\"\"");
             break;
           //QIF  
           default:
