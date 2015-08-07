@@ -7,6 +7,7 @@ import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.AmazonAppstore;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.LaunchActivity;
 import org.totschnig.myexpenses.contrib.Config;
 
 import android.content.Context;
@@ -18,7 +19,8 @@ import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 public class Distrib {
-  
+
+  public static final long REFUND_WINDOW = 172800000L;
   public static String STATUS_DISABLED = "0";
   
   /**
@@ -83,7 +85,7 @@ public class Distrib {
       long timeSincePurchase = now - timestamp;
       Log.d(MyApplication.TAG,"time since initial check : " + timeSincePurchase);
         //give user 2 days to request refund
-      if (timeSincePurchase> 172800000L) {
+      if (timeSincePurchase> REFUND_WINDOW) {
         status = STATUS_ENABLED_PERMANENT;
       }
     }
@@ -116,4 +118,22 @@ public class Distrib {
   public static boolean isBatchAvailable() {
     return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
     }
+
+  /**
+   * After 2 days, if purchase cannot be verified, we set back
+   * @param ctx
+   */
+  public static void maybeCancel(Context ctx) {
+    PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
+    long timestamp = Long.parseLong(p.getString(
+        MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(), "0"));
+    long now = System.currentTimeMillis();
+    long timeSincePurchase = now - timestamp;
+    if (timeSincePurchase> REFUND_WINDOW) {
+      String status = STATUS_ENABLED_PERMANENT;
+      p.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), status);
+      p.commit();
+      MyApplication.getInstance().setContribStatus(status);
+    }
+  }
 }

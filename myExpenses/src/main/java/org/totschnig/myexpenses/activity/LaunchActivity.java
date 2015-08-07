@@ -33,7 +33,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    String contribStatus = MyApplication.getInstance().getContribStatus();
+    final String contribStatus = MyApplication.getInstance().getContribStatus();
     if (contribStatus.equals(Distrib.STATUS_DISABLED) ||
         contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
 
@@ -45,7 +45,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             if (mHelper==null) {
               return;
             }
-
             if (result.isSuccess()) {
               mHelper.queryInventoryAsync(false,new QueryInventoryFinishedListener() {
                 @Override
@@ -60,6 +59,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                       inventory.getPurchase(Config.SKU_PREMIUM);
                   if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
                     Distrib.registerPurchase(LaunchActivity.this);
+                  } else if (contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
+                    Distrib.maybeCancel(LaunchActivity.this);
                   }
                 }
               });
