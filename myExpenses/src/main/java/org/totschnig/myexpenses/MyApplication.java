@@ -180,7 +180,8 @@ public class MyApplication extends Application implements
       + ",'')";
   // public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
-  private boolean contribEnabled = false, contribEnabledInitialized = false;
+  private Utils.LicenceStatus contribEnabled = null;
+  private boolean contribEnabledInitialized = false;
 
   public boolean showImportantUpgradeInfo = false;
   private long mLastPause = 0;
@@ -192,8 +193,8 @@ public class MyApplication extends Application implements
     return isLocked;
   }
 
-  public void setContribEnabled(boolean contribEnabled) {
-    this.contribEnabled = contribEnabled;
+  public void setContribEnabled(Utils.LicenceStatus status) {
+    this.contribEnabled = status;
   }
 
   public boolean isContribEnabled() {
@@ -202,7 +203,15 @@ public class MyApplication extends Application implements
           .getString(""));
       contribEnabledInitialized = true;
     }
-    return contribEnabled;
+    return contribEnabled!=null;
+  }
+  public boolean isProEnabled() {
+    if (!contribEnabledInitialized) {
+      contribEnabled = Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE
+          .getString(""));
+      contribEnabledInitialized = true;
+    }
+    return contribEnabled == Utils.LicenceStatus.PROFESSIONAL;
   }
 
   public void resetContribEnabled() {

@@ -675,12 +675,30 @@ public class Utils {
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
 
-  public static boolean verifyLicenceKey(String key) {
-    String s = Settings.Secure.getString(MyApplication.getInstance()
-            .getContentResolver(), Settings.Secure.ANDROID_ID)
-        + MyApplication.CONTRIB_SECRET;
+  /**
+   *
+   * @param key
+   * @param proKey if true only validates if user has aquired PRO key, if false validates if user has
+   *               pro key or base contrib key
+   * @return
+   */
+  public static LicenceStatus verifyLicenceKey(String key) {
+    String secret= MyApplication.CONTRIB_SECRET;
+    String proSecret = secret+"_PRO";
+    String androidId = Settings.Secure.getString(MyApplication.getInstance()
+        .getContentResolver(), Settings.Secure.ANDROID_ID);
+    String s = androidId + proSecret;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
-    return l.toString().equals(key);
+    if (l.toString().equals(key)) {
+      return LicenceStatus.PROFESSIONAL;
+    }
+    s = androidId + secret;
+    l = (s.hashCode() & 0x00000000ffffffffL);
+    return l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
+  }
+
+  public enum LicenceStatus {
+    CONTRIB,PROFESSIONAL
   }
 
   /**

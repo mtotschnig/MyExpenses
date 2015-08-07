@@ -235,14 +235,19 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         }
       }
     } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
-     if (Utils.verifyLicenceKey((String)value)) {
-       Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
-       MyApplication.getInstance().setContribEnabled(true);
-       setProtectionDependentsState();
+      Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) value);
+      if (licenceStatus!=null) {
+       Toast.makeText(getBaseContext(),
+           Utils.concatResStrings(this,
+               R.string.licence_validation_success,
+               (licenceStatus == Utils.LicenceStatus.PROFESSIONAL ?
+               R.string.licence_validation_pro:R.string.licence_validation_premium)),
+           Toast.LENGTH_LONG).show();
      } else {
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
-       MyApplication.getInstance().setContribEnabled(false);
      }
+      MyApplication.getInstance().setContribEnabled(licenceStatus);
+      setProtectionDependentsState();
      configureContribPrefs();
     }
     return true;
