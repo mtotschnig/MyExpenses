@@ -261,31 +261,34 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        if (mNewInstance && mTransaction != null &&
-            !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
-          Cursor c = (Cursor) mPayeeAdapter.getItem(position);
-          //moveToPosition should not be necessary,
-          //but has been reported to not be positioned correctly on samsung GT-I8190N
-          if (c.moveToPosition(position) && !c.isNull(2)) {
-            if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
-              if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
-                startAutoFill(c.getLong(2));
+        Cursor c = (Cursor) mPayeeAdapter.getItem(position);
+        if (c.moveToPosition(position)) {
+          mTransaction.updatePayeeWithId(c.getString(1),c.getLong(0));
+          if (mNewInstance && mTransaction != null &&
+              !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
+            //moveToPosition should not be necessary,
+            //but has been reported to not be positioned correctly on samsung GT-I8190N
+            if (!c.isNull(2)) {
+              if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
+                if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+                  startAutoFill(c.getLong(2));
+                }
+              } else {
+                Bundle b = new Bundle();
+                b.putLong(KEY_ROWID, c.getLong(2));
+                b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+                    R.string.dialog_title_information);
+                b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+                    getString(R.string.hint_auto_fill));
+                b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.AUTO_FILL_COMMAND);
+                b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+                    MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
+                b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
+                b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
+                ConfirmationDialogFragment.newInstance(b)
+                    .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
               }
-            } else {
-              Bundle b = new Bundle();
-              b.putLong(KEY_ROWID,c.getLong(2));
-              b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-                  R.string.dialog_title_information);
-              b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                  getString(R.string.hint_auto_fill));
-              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                  R.id.AUTO_FILL_COMMAND);
-              b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-                  MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
-              b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.yes);
-              b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,R.string.no);
-              ConfirmationDialogFragment.newInstance(b)
-                .show(getSupportFragmentManager(),"AUTO_FILL_HINT");
             }
           }
         }
