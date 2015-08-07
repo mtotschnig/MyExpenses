@@ -332,7 +332,7 @@ public class CsvImportDataFragment extends Fragment  {
         holder.row.setActivated(isDiscarded&&!isHeader);
       }
       final CSVRecord record = mDataset.get(position);
-      for (int i = 0; i < record.size(); i++) {
+      for (int i = 0; i < record.size() && i < nrOfColumns; i++) {
         TextView cell = (TextView) holder.row.getChildAt(i + 1);
         cell.setText(record.get(i));
       }
