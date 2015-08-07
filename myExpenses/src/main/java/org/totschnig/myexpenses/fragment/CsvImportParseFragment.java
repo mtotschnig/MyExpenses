@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -167,7 +166,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.cvs_parse, menu);
+    inflater.inflate(R.menu.csv_parse, menu);
   }
 
   @Override
