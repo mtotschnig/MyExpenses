@@ -80,11 +80,12 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         linefeed,
         featureList);
     return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.dialog_title_contrib_feature)
-      .setMessage(message)
-      .setNegativeButton(R.string.dialog_contrib_no, this)
-      .setPositiveButton(R.string.dialog_contrib_yes, this)
-      .create();
+        .setTitle(R.string.dialog_title_contrib_feature)
+        .setMessage(message)
+        .setNegativeButton(R.string.dialog_contrib_no, this)
+        .setPositiveButton(R.string.dialog_contrib_yes, this)
+        .setIcon(R.drawable.premium)
+        .create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
