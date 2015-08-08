@@ -57,8 +57,8 @@
     <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Split transaction</string>
     <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Template widget</string>
     <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
-    <string name="contrib_key">Contrib key</string>
-    <string name="extended_key">Extended key</string>
+    <string name="contrib_key">Contrib Key</string>
+    <string name="extended_key">Extended Key</string>
     <string name="contrib_key_requires">Requires My Expenses Contrib Key.</string>
     <string name="currency">Currency</string>
     <string name="current_balance">Current balance</string>
@@ -82,7 +82,7 @@
     <!-- Placeholder: 1 is name of the feature -->
     <string name="dialog_contrib_extended_feature">%1$s is an extended feature.</string>
     <!-- Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key" -->
-    <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by purchasing &lt;i>%s&lt;/i>.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by purchasing %s.</string>
     <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
     <string name="dialog_contrib_extended_gain_access">Additionally, the following features are unlocked if you purchase the Extended Key:</string>
     <string name="dialog_contrib_text_1"><i>My Expenses</i> is offered ad free and open source.</string>
@@ -92,7 +92,8 @@
       <item quantity="other">You have %1$d free usages left.</item>
     </plurals>
     <string name="dialog_contrib_buy_premium">Buy PREMIUM</string>
-    <string name="dialog_contrib_buy_pro">Buy EXTENDED</string>
+    <string name="dialog_contrib_buy_extended">Buy EXTENDED</string>
+    <string name="dialog_contrib_upgrade_extended">Upgrade to EXTENDED</string>
     <string name="dialog_export_delete">Delete exported transactions</string>
     <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>
     <string name="dialog_password_activate_protection">Activate password protection</string>

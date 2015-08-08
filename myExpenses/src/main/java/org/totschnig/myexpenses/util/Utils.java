@@ -722,7 +722,7 @@ public class Utils {
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
         if (type !=null &&
             ((f.isExtended && !type.equals(LicenceStatus.EXTENDED)) ||
-            (!f.isExtended && type.equals(LicenceStatus.CONTRIB)))) {
+            (!f.isExtended && type.equals(LicenceStatus.EXTENDED)))) {
           continue;
         }
         String resName = "contrib_feature_" + f.toString() + "_label";

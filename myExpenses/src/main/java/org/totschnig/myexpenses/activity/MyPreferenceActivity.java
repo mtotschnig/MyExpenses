@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 
+import java.io.Serializable;
 import java.net.URI;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -23,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -67,7 +69,7 @@ import android.widget.Toast;
 public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     OnPreferenceChangeListener,
     OnSharedPreferenceChangeListener,
-    OnPreferenceClickListener {
+    OnPreferenceClickListener, ContribIFace {
   
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
@@ -142,7 +144,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     pref.setTitle(getString(R.string.pref_import_title, "QIF"));
     pref = findPreference(PrefKey.IMPORT_CSV.getKey());
     pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
-    pref.setTitle(getString(R.string.pref_import_title,"CSV"));
+    pref.setTitle(getString(R.string.pref_import_title, "CSV"));
+    pref.setOnPreferenceClickListener(this);
 
     new AsyncTask<Void, Void, Boolean>(){
       @Override
@@ -243,12 +246,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
                (licenceStatus == Utils.LicenceStatus.EXTENDED ?
                R.string.licence_validation_extended :R.string.licence_validation_premium)),
            Toast.LENGTH_LONG).show();
-     } else {
-       Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
-     }
+      } else {
+        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
+      }
       MyApplication.getInstance().setContribEnabled(licenceStatus);
       setProtectionDependentsState();
-     configureContribPrefs();
+      configureContribPrefs();
     }
     return true;
   }
@@ -399,6 +402,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.shortcut_create_split_icon,extras);
       return true;
     }
+    if (preference.getKey().equals(PrefKey.IMPORT_CSV.getKey())) {
+      if (MyApplication.getInstance().isExtendedEnabled()) {
+        contribFeatureCalled(ContribFeature.CSV_IMPORT,null);
+      } else {
+        CommonCommands.showContribDialog(this, ContribFeature.CSV_IMPORT, null);
+      }
+      return true;
+    }
     return false;
   }
   @Override
@@ -416,6 +427,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         PrefKey.APP_DIR.putString(intent.getData().toString());
       }
       setAppDirSummary();
+    } else if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
+        contribFeatureCalled(
+            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+            intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
     }
   }
   private void setAppDirSummary() {
@@ -475,5 +490,18 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setResult(RESULT_OK);
       finish();
     }
+  }
+
+  @Override
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
+    if (feature==ContribFeature.CSV_IMPORT) {
+      Intent i = new Intent(this,CsvImportActivity.class);
+      startActivity(i);
+    }
+  }
+
+  @Override
+  public void contribFeatureNotCalled() {
+
   }
 }

@@ -47,6 +47,9 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    String pro = getString(R.string.dialog_contrib_extended_gain_access);
+    CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(
+        getActivity(),null, Utils.LicenceStatus.EXTENDED);
     CharSequence
       linefeed = Html.fromHtml("<br><br>"),
       message = TextUtils.concat(
@@ -55,15 +58,20 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
           linefeed,
           Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null),
           linefeed,
+          pro,
+          linefeed,
+          extendedList,
+          linefeed,
           getString(R.string.thank_you));
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);
       builder.setMessage(message)
-        .setPositiveButton(R.string.dialog_contrib_yes, this);
+          .setNeutralButton(R.string.dialog_contrib_buy_premium, this)
+          .setPositiveButton(R.string.dialog_contrib_buy_extended, this);
       if (getArguments().getLong(KEY_SEQUENCE_COUNT)!=-1) {
-        builder.setNeutralButton(R.string.dialog_remind_later,this)
-          .setNegativeButton(R.string.dialog_remind_no,this);
+        builder.setNeutralButton(R.string.dialog_remind_later, this)
+            .setNegativeButton(R.string.dialog_remind_no, this);
       } else {
         builder.setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
           @Override

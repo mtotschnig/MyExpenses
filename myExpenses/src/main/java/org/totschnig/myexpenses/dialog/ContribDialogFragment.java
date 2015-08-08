@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -72,29 +73,36 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     }
+    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
     CharSequence
         linefeed = Html.fromHtml("<br><br>"),
         removePhrase = Html.fromHtml(
-            getString(R.string.dialog_contrib_reminder_remove_limitation,
-                Utils.concatResStrings(getActivity(), R.string.app_name,
-                    feature.isExtended ? R.string.extended_key : R.string.contrib_key))),
+            getString(
+                R.string.dialog_contrib_reminder_remove_limitation,
+                "<i>" +  Utils.concatResStrings(getActivity(), R.string.app_name,
+                    feature.isExtended ? R.string.extended_key : R.string.contrib_key) + "</i>")),
         message = TextUtils.concat(
             featureDescription, " ",
-            removePhrase, " ",
-            getString(R.string.dialog_contrib_reminder_gain_access),
-            linefeed, featureList);
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
-    if (!feature.isExtended) {
-      String pro = getString(R.string.dialog_contrib_extended_gain_access);
-      CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, Utils.LicenceStatus.EXTENDED);
-      message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
-      builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
+            removePhrase);
+    boolean isContrib = MyApplication.getInstance().isContribEnabled();
+    if (!isContrib) {
+      //if user has contrib key, he already has access to premium features, currently there is only
+      //one extended feature
+      message = TextUtils.concat(message, " ",
+          getString(R.string.dialog_contrib_reminder_gain_access),
+          linefeed, featureList);
+      if (!feature.isExtended) {
+        String pro = getString(R.string.dialog_contrib_extended_gain_access);
+        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, Utils.LicenceStatus.EXTENDED);
+        message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
+        builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
+      }
     }
     builder
         .setTitle(feature.isExtended ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
         .setMessage(message)
         .setNegativeButton(R.string.dialog_contrib_no, this)
-        .setPositiveButton(R.string.dialog_contrib_buy_pro, this)
+        .setPositiveButton(isContrib ? R.string.dialog_contrib_upgrade_extended : R.string.dialog_contrib_buy_extended, this)
         .setIcon(R.drawable.premium);
     return builder.create();
   }

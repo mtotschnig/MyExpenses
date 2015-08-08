@@ -101,14 +101,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.CsvImportActivity">
-            <intent-filter>
-                <action android:name="myexpenses.intent.import.csv" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.CsvImportActivity"/>
         <activity android:name=".activity.MyPreferenceActivity">
             <intent-filter>
                 <action android:name="myexpenses.intent.preference.password" />
