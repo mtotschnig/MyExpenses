@@ -60,30 +60,33 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
     CharSequence featureDescription;
-    if (feature.hasTrial)
+    if (feature.hasTrial) {
       featureDescription = Html.fromHtml(
           getString(
               R.string.dialog_contrib_premium_feature,
               "<i>" + getString(res.getIdentifier(
-                  "contrib_feature_" + feature + "_label", "string", ctx.getPackageName()))+"</i>") +
-          (usagesLeft > 0 ?
-              res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
-              getString(R.string.dialog_contrib_no_usages_left)));
-    else
+                  "contrib_feature_" + feature + "_label", "string", ctx.getPackageName())) + "</i>") +
+              (usagesLeft > 0 ?
+                  res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
+                  getString(R.string.dialog_contrib_no_usages_left)));
+    } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
+    }
+    String pro = "Additionally, the following features are unlocked if you purchase the Professional Key:";
+    CharSequence proList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature,true);
     CharSequence
       linefeed = Html.fromHtml("<br><br>"),
       message = TextUtils.concat(
         featureDescription," ",
         getText(R.string.dialog_contrib_reminder_remove_limitation)," ",
         getString(R.string.dialog_contrib_reminder_gain_access),
-        linefeed,
-        featureList);
+        linefeed,featureList,linefeed,pro,linefeed,proList);
     return new AlertDialog.Builder(wrappedCtx)
         .setTitle(R.string.dialog_title_contrib_feature)
         .setMessage(message)
         .setNegativeButton(R.string.dialog_contrib_no, this)
-        .setPositiveButton(R.string.dialog_contrib_yes, this)
+        .setNeutralButton(R.string.dialog_contrib_yes, this)
+        .setPositiveButton("PRO", this)
         .setIcon(R.drawable.premium)
         .create();
   }

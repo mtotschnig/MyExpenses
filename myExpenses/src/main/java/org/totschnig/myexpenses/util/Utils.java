@@ -678,8 +678,6 @@ public class Utils {
   /**
    *
    * @param key
-   * @param proKey if true only validates if user has aquired PRO key, if false validates if user has
-   *               pro key or base contrib key
    * @return
    */
   public static LicenceStatus verifyLicenceKey(String key) {
@@ -700,17 +698,21 @@ public class Utils {
   public enum LicenceStatus {
     CONTRIB,PROFESSIONAL
   }
-
+  public static CharSequence getContribFeatureLabelsAsFormattedList(
+      Context ctx, ContribFeature other) {
+    return getContribFeatureLabelsAsFormattedList(ctx,other,false);
+  }
   /**
    * @param ctx
    *          for retrieving resources
    * @param other
    *          if not null, all features except the one provided will be returned
+   * @param pro if true, professional features will be listed
    * @return construct a list of all contrib features to be included into a
    *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other) {
+      Context ctx, ContribFeature other, boolean pro) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
         .iterator();
@@ -718,6 +720,9 @@ public class Utils {
       ContribFeature f = iterator.next();
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
+        if ((f.isPro && !pro) || (!f.isPro && pro)) {
+          continue;
+        }
         String resName = "contrib_feature_" + f.toString() + "_label";
         int resId = ctx.getResources().getIdentifier(
             resName, "string",
@@ -726,12 +731,13 @@ public class Utils {
           reportToAcra(new Resources.NotFoundException(resName));
           continue;
         }
+        if (!result.equals("")) {
+          result = TextUtils.concat(result, linefeed);
+        }
         result = TextUtils.concat(
             result,
             "\u25b6 ",
             ctx.getText(resId));
-        if (iterator.hasNext())
-          result = TextUtils.concat(result, linefeed);
       }
     }
     return result;

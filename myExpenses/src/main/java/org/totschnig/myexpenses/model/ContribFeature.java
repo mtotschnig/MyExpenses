@@ -29,15 +29,22 @@ public enum ContribFeature  {
   TEMPLATE_WIDGET,
   PRINT,
   ATTACH_PICTURE,
-  AD_FREE(false);
+  AD_FREE(false),
+  CSV_IMPORT(true,true);
 
   private ContribFeature() {
     this(true);
   }
   private ContribFeature(boolean hasTrial) {
-    this.hasTrial = hasTrial;
+    this(hasTrial,false);
   }
+  private ContribFeature(boolean hasTrial,boolean isPro) {
+    this.hasTrial = hasTrial;
+    this.isPro = isPro;
+  }
+
   public boolean hasTrial;
+  public boolean isPro;
   /**
    * how many times contrib features can be used for free
    */

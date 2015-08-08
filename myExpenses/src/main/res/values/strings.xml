@@ -56,6 +56,7 @@
     <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Security question</string>
     <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Split transaction</string>
     <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Template widget</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
     <string name="contrib_key">Contrib key</string>
     <string name="contrib_key_requires">Requires My Expenses Contrib Key.</string>
     <string name="currency">Currency</string>
