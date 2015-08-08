@@ -24,7 +24,7 @@ public enum ContribFeature  {
   ACCOUNTS_UNLIMITED(false),
   PLANS_UNLIMITED(false),
   SECURITY_QUESTION,
-  SPLIT_TRANSACTION,
+  SPLIT_TRANSACTION(true,true),
   DISTRIBUTION,
   TEMPLATE_WIDGET,
   PRINT,
@@ -38,13 +38,13 @@ public enum ContribFeature  {
   private ContribFeature(boolean hasTrial) {
     this(hasTrial,false);
   }
-  private ContribFeature(boolean hasTrial,boolean isPro) {
+  private ContribFeature(boolean hasTrial,boolean isExtended) {
     this.hasTrial = hasTrial;
-    this.isPro = isPro;
+    this.isExtended = isExtended;
   }
 
   public boolean hasTrial;
-  public boolean isPro;
+  public boolean isExtended;
   /**
    * how many times contrib features can be used for free
    */

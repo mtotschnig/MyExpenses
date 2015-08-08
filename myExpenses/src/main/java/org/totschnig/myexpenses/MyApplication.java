@@ -40,7 +40,6 @@ import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -205,13 +204,13 @@ public class MyApplication extends Application implements
     }
     return contribEnabled!=null;
   }
-  public boolean isProEnabled() {
+  public boolean isExtendedEnabled() {
     if (!contribEnabledInitialized) {
       contribEnabled = Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE
           .getString(""));
       contribEnabledInitialized = true;
     }
-    return contribEnabled == Utils.LicenceStatus.PROFESSIONAL;
+    return contribEnabled == Utils.LicenceStatus.EXTENDED;
   }
 
   public void resetContribEnabled() {

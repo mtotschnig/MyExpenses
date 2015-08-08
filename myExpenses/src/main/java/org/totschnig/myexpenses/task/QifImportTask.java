@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -260,8 +261,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                 + MyApplication.getInstance()
                 .getText(R.string.contrib_feature_accounts_unlimited_description)
                 + " "
-                + MyApplication.getInstance()
-                .getText(R.string.dialog_contrib_reminder_remove_limitation));
+                + Html.fromHtml(MyApplication.getInstance()
+                    .getString(R.string.dialog_contrib_reminder_remove_limitation,
+                        Utils.concatResStrings(MyApplication.getInstance(), R.string.app_name, R.string.contrib_key))));
         break;
       }
       long dbAccountId = Account.findAny(account.memo);

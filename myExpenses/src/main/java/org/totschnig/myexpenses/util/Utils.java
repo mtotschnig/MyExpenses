@@ -682,13 +682,13 @@ public class Utils {
    */
   public static LicenceStatus verifyLicenceKey(String key) {
     String secret= MyApplication.CONTRIB_SECRET;
-    String proSecret = secret+"_PRO";
+    String extendedSecret = secret+"_EXTENDED";
     String androidId = Settings.Secure.getString(MyApplication.getInstance()
         .getContentResolver(), Settings.Secure.ANDROID_ID);
-    String s = androidId + proSecret;
+    String s = androidId + extendedSecret;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     if (l.toString().equals(key)) {
-      return LicenceStatus.PROFESSIONAL;
+      return LicenceStatus.EXTENDED;
     }
     s = androidId + secret;
     l = (s.hashCode() & 0x00000000ffffffffL);
@@ -696,23 +696,23 @@ public class Utils {
   }
 
   public enum LicenceStatus {
-    CONTRIB,PROFESSIONAL
+    CONTRIB, EXTENDED
   }
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other) {
-    return getContribFeatureLabelsAsFormattedList(ctx,other,false);
+    return getContribFeatureLabelsAsFormattedList(ctx,other,LicenceStatus.CONTRIB);
   }
   /**
    * @param ctx
    *          for retrieving resources
    * @param other
    *          if not null, all features except the one provided will be returned
-   * @param pro if true, professional features will be listed
+   * @param type if not null, only features of this type will be listed
    * @return construct a list of all contrib features to be included into a
    *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other, boolean pro) {
+      Context ctx, ContribFeature other, LicenceStatus type) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
         .iterator();
@@ -720,7 +720,9 @@ public class Utils {
       ContribFeature f = iterator.next();
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
-        if ((f.isPro && !pro) || (!f.isPro && pro)) {
+        if (type !=null &&
+            ((f.isExtended && !type.equals(LicenceStatus.EXTENDED)) ||
+            (!f.isExtended && type.equals(LicenceStatus.CONTRIB)))) {
           continue;
         }
         String resName = "contrib_feature_" + f.toString() + "_label";

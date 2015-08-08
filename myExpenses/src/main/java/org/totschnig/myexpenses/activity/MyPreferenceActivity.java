@@ -240,8 +240,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
        Toast.makeText(getBaseContext(),
            Utils.concatResStrings(this,
                R.string.licence_validation_success,
-               (licenceStatus == Utils.LicenceStatus.PROFESSIONAL ?
-               R.string.licence_validation_pro:R.string.licence_validation_premium)),
+               (licenceStatus == Utils.LicenceStatus.EXTENDED ?
+               R.string.licence_validation_extended :R.string.licence_validation_premium)),
            Toast.LENGTH_LONG).show();
      } else {
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
