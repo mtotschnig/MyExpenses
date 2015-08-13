@@ -4,9 +4,9 @@ apply plugin: 'com.android.application'
 
 ext {
  versionNumber1 = 2
- versionNumber2 = 4
- versionNumber3 = 9
- versionNumber4 = 1
+ versionNumber2 = 5
+ versionNumber3 = 0
+ versionNumber4 = 0
 }
 
 def buildVersionNumber() {
@@ -33,7 +33,7 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 215
+        versionCode 216
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"

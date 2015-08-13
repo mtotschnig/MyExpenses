@@ -18,8 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2491">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_250">
+    <item>Korean translation</item>
+    <item>CSV import</item>
   </string-array>
   <string-array name="whats_new_249">
     <item>Export categories to QIF</item>
