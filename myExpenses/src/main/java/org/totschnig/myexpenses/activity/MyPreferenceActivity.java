@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -173,15 +172,22 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
   private void configureContribPrefs() {
     Preference pref1 = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
-        pref2 = findPreference(PrefKey.CONTRIB_DONATE.getKey());
+        pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
     if (MyApplication.getInstance().isExtendedEnabled()) {
-      ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey())).removePreference(pref1);
-      pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
+      PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
+      cat.removePreference(pref1);
+      cat.removePreference(pref2);
     } else {
       if (pref1!=null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
         pref1.setOnPreferenceClickListener(this);
-        pref1.setSummary(getString(R.string.pref_request_licence_summary,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
-        pref2.setSummary(R.string.pref_contrib_donate_summary);
+        pref1.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getContentResolver(), Secure.ANDROID_ID)));
+        int baseTitle = MyApplication.getInstance().isContribEnabled() ?
+            R.string.pref_contrib_purchase_title_upgrade : R.string.pref_contrib_purchase_title;
+        if (Utils.IS_FLAVOURED) {
+          pref2.setTitle(getString(baseTitle) + " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")");
+        } else {
+          pref2.setTitle(baseTitle);
+        }
       }
     }
     pref2.setOnPreferenceClickListener(this);
@@ -265,8 +271,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     switch(id) {
     case R.id.FTP_DIALOG:
       return DialogUtils.sendWithFTPDialog((Activity) this);
-    case R.id.DONATE_DIALOG:
-      return DonateDialogFragment.buildDialog(this);
     case R.id.MORE_INFO_DIALOG:
       LayoutInflater li = LayoutInflater.from(this);
       View view = li.inflate(R.layout.more_info, null);
@@ -318,9 +322,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   }
   @Override
   public boolean onPreferenceClick(Preference preference) {
-    if (preference.getKey().equals(PrefKey.CONTRIB_DONATE.getKey())) {
-      if (MyApplication.getInstance().isContribEnabled()) {
-        showDialog(R.id.DONATE_DIALOG);
+    if (preference.getKey().equals(PrefKey.CONTRIB_PURCHASE.getKey())) {
+      if (MyApplication.getInstance().isExtendedEnabled()) {
+        //showDialog(R.id.DONATE_DIALOG);//should not happen
       } else {
         Intent i = new Intent(this,ContribInfoDialogActivity.class);
         startActivity(i);

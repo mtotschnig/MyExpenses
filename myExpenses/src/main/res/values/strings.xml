@@ -86,7 +86,7 @@
     <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
     <string name="dialog_contrib_extended_gain_access">Additionally, the following features are unlocked if you purchase the Extended Key:</string>
     <string name="dialog_contrib_text_1"><i>My Expenses</i> is offered ad free and open source.</string>
-    <string name="dialog_contrib_text_2">Please contribute by purchasing <i>My Expenses Contrib Key</i>. You gain unrestricted access to the following premium features:</string>
+    <string name="dialog_contrib_text_2">Please contribute by purchasing %s.</string>
     <plurals name="dialog_contrib_usage_count">
       <item quantity="one">You have one free usage left.</item>
       <item quantity="other">You have %1$d free usages left.</item>
@@ -131,7 +131,6 @@
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
     <string name="dialog_title_welcome">Welcome!</string>
-    <string name="donate">Donate</string>
     <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a key from the settings screen.</string>
     <string name="expense">Expense</string>
     <string name="export_expenses">Expenses export</string>
@@ -324,11 +323,10 @@
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_checkbox_enabled">Enabled</string>
     <string name="pref_checkbox_disabled">Disabled</string>
-    <string name="pref_contrib_donate_summary">Donate via PayPal, Flattr or Bitcoin and gain access to premium features.</string>
-    <string name="pref_contrib_donate_summary_already_contrib">If you\'d like to make an additional contribution, you can flattr My Expenses, make a donation through Paypal or send Bitcoins.</string>
-    <string name="pref_contrib_donate_title">Send donation</string>
-    <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Purchase access to premium and extended features.</string>
-    <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Purchase Key (In-App payment)</string>
+    <string name="pref_contrib_purchase_summary">Purchase access to premium and extended features.</string>
+    <string name="pref_contrib_purchase_title">Purchase key</string>
+    <string name="pref_contrib_purchase_title_upgrade">Upgrade key</string>
+    <string name="pref_contrib_purchase_title_in_app">In-App payment</string>
     <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_summary">If you received a key, gain access to premium/extended features.</string>
     <string name="pref_enter_licence_title">Enter key</string>

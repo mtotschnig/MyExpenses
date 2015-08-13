@@ -46,42 +46,39 @@ import android.widget.Toast;
  */
 public class DonateDialogFragment extends CommitSafeDialogFragment {
 
+  private static final String KEY_EXTENDED = "extended";
+
   public static final DonateDialogFragment newInstance(boolean extended) {
-    return new DonateDialogFragment();
+    DonateDialogFragment fragment = new DonateDialogFragment();
+    Bundle args = new Bundle();
+    args.putBoolean(KEY_EXTENDED,extended);
+    fragment.setArguments(args);
+    return fragment;
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    return buildDialog(getActivity());
-  }
-  /**
-   * we need this Dialog also from MyPreferenceActivity which cannot show a DialogFragment,
-   * hence we make it available through static method
-   * @param ctx
-   * @return
-   */
-  public static AlertDialog buildDialog(Context ctx) {
-    DonationUriVisitor listener = new DonationUriVisitor((Activity) ctx);
-    final TextView message = new TextView(ctx);
+    boolean isExtended = getArguments().getBoolean(KEY_EXTENDED);
+    DonationUriVisitor listener = new DonationUriVisitor(getActivity());
+    final TextView message = new TextView(getActivity());
     int padding = (int) TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, 10, ctx.getResources().getDisplayMetrics());
+        TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
     message.setPadding(padding,padding,padding,0);
     message.setMovementMethod(LinkMovementMethod.getInstance());
     CharSequence linefeed = Html.fromHtml("<br><br>");
-    if (MyApplication.getInstance().isExtendedEnabled()) {
-      message.setText(R.string.pref_contrib_donate_summary_already_contrib);
-    } else {
-      message.setText(TextUtils.concat(
-          ctx.getString(R.string.donate_dialog_text),
-          " ",
-          Html.fromHtml("<a href=\"http://myexpenses.totschnig.org/#premium\">"+ctx.getString(R.string.learn_more)+"</a>."),
-          linefeed,
-          ctx.getString(R.string.thank_you)
-      ));
+    message.setText(TextUtils.concat(
+        getString(R.string.donate_dialog_text),
+        " ",
+        Html.fromHtml("<a href=\"http://myexpenses.totschnig.org/#premium\">" + getString(R.string.learn_more) + "</a>."),
+        linefeed,
+        getString(R.string.thank_you)
+    ));
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    if (!isExtended) {
+      builder.setNegativeButton(R.string.donate_button_flattr, listener);
     }
-    return new AlertDialog.Builder(ctx)
-      .setTitle(R.string.donate)
+    return builder
+      .setTitle(isExtended ? R.string.extended_key : R.string.contrib_key)
       .setView(message)
-      .setNegativeButton(R.string.donate_button_flattr, listener)
       .setPositiveButton(R.string.donate_button_paypal, listener)
       .setNeutralButton(R.string.donate_button_bitcoin, listener)
       .create();

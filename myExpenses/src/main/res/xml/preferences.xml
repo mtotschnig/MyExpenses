@@ -144,8 +144,8 @@
   <PreferenceCategory
       android:key="@string/pref_category_contrib_key"
       android:title="@string/menu_contrib">
-      <Preference android:key="@string/pref_contrib_donate_key"
-        android:title="@string/pref_contrib_donate_title"/>
+      <Preference android:key="@string/pref_contrib_purchase_key"
+                  android:summary="@string/pref_contrib_purchase_summary"/>
       <Preference android:key="@string/pref_request_licence_key"
         android:title="@string/pref_request_licence_title" />
       <EditTextPreference android:key="@string/pref_enter_licence_key"

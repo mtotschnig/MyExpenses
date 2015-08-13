@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
@@ -47,22 +48,34 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    boolean isContrib = MyApplication.getInstance().isContribEnabled();
     String pro = getString(R.string.dialog_contrib_extended_gain_access);
     CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(
         getActivity(),null, Utils.LicenceStatus.EXTENDED);
-    CharSequence
-      linefeed = Html.fromHtml("<br><br>"),
+    CharSequence linefeed = Html.fromHtml("<br><br>"),
       message = TextUtils.concat(
           Utils.IS_FLAVOURED ? "" : getText(R.string.dialog_contrib_text_1),
-          getText(R.string.dialog_contrib_text_2),
+          Html.fromHtml(
+              getString(
+                  R.string.dialog_contrib_text_2,
+                  "<i>" +  Utils.concatResStrings(getActivity(), R.string.app_name,
+                      isContrib ? R.string.extended_key : R.string.contrib_key) + "</i>")),
+          getString(R.string.dialog_contrib_reminder_gain_access),
           linefeed,
-          Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null),
+          Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null,
+              isContrib ? Utils.LicenceStatus.EXTENDED : Utils.LicenceStatus.CONTRIB));
+    if (!isContrib) {
+      message = TextUtils.concat(
+          message,
           linefeed,
           pro,
           linefeed,
-          extendedList,
-          linefeed,
-          getString(R.string.thank_you));
+          extendedList);
+    }
+    message = TextUtils.concat(
+        message,
+        linefeed,
+        getString(R.string.thank_you));
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);
@@ -72,8 +85,10 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
             .setNegativeButton(R.string.dialog_remind_no, this)
             .setPositiveButton(R.string.dialog_contrib_buy_premium, this);
       } else {
-        builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this)
-            .setPositiveButton(R.string.dialog_contrib_buy_extended, this)
+        if (!isContrib) {
+          builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
+        }
+        builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this)
             .setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {

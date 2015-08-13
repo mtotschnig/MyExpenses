@@ -71,7 +71,7 @@ public class MyApplication extends Application implements
     IMPORT_QIF(R.string.pref_import_qif_key),
     IMPORT_CSV(R.string.pref_import_csv_key),
     RESTORE_LEGACY(R.string.pref_restore_legacy_key),
-    CONTRIB_DONATE(R.string.pref_contrib_donate_key),
+    CONTRIB_PURCHASE(R.string.pref_contrib_purchase_key),
     REQUEST_LICENCE(R.string.pref_request_licence_key),
     ENTER_LICENCE(R.string.pref_enter_licence_key),
     PERFORM_PROTECTION(R.string.pref_perform_protection_key),

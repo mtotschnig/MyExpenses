@@ -58,8 +58,6 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Activity ctx  = getActivity();
     Resources res = getResources();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature,
-        feature.isExtended ? null : Utils.LicenceStatus.CONTRIB); //if feature is extended, we list all features
     CharSequence featureDescription;
     if (feature.hasTrial) {
       featureDescription = Html.fromHtml(
@@ -86,6 +84,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
             removePhrase);
     boolean isContrib = MyApplication.getInstance().isContribEnabled();
     if (!isContrib) {
+      CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature,
+          feature.isExtended ? null : Utils.LicenceStatus.CONTRIB); //if feature is extended, we list all features
       //if user has contrib key, he already has access to premium features, currently there is only
       //one extended feature
       message = TextUtils.concat(message, " ",
@@ -113,7 +113,9 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ctx.contribBuyDo();
+      ctx.contribBuyDo(true);
+    } else if (which == AlertDialog.BUTTON_NEUTRAL) {
+      ctx.contribBuyDo(false);
     } else {
       if (usagesLeft > 0) {
         ctx.contribFeatureCalled(feature, getArguments().getSerializable(ContribInfoDialogActivity.KEY_TAG));
