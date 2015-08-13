@@ -363,9 +363,9 @@
         <item>BTW</item>
     </string-array>
     <string-array name="pref_csv_import_delimiter_entries">
-        <item>Comma</item>
-        <item>Semikolon</item>
-        <item>Tabulator</item>
+        <item>@string/csv_import_delimiter_comma</item>
+        <item>@string/csv_import_delimiter_semicolon</item>
+        <item>@string/csv_import_delimiter_tab</item>
     </string-array>
     <string-array name="pref_csv_import_delimiter_values">
         <item>,</item>

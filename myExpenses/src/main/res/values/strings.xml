@@ -572,5 +572,8 @@
   <string name="csv_import_records_discarded">%d records were discarded.</string>
   <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
   <string name="cvs_import_set_first_line_as_header">Should the first line be treated as a header line?</string>
+    <string name="csv_import_delimiter_comma">Comma</string>
+    <string name="csv_import_delimiter_semicolon">Semicolon</string>
+    <string name="csv_import_delimiter_tab">Tab</string>
 </resources>
 
