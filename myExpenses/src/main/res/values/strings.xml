@@ -330,7 +330,7 @@
     <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Purchase access to premium and extended features.</string>
     <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Purchase Key (In-App payment)</string>
     <string name="pref_custom_currency_title">Customize currencies</string>
-    <string name="pref_enter_licence_summary">If you received a key, gain access to premium features.</string>
+    <string name="pref_enter_licence_summary">If you received a key, gain access to premium/extended features.</string>
     <string name="pref_enter_licence_title">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_follow_gplus_title">Follow My Expenses on Google+</string>
@@ -564,7 +564,6 @@
   <string name="io_error_unable_to_create_file">Unable to create file %1$s in folder %2$s</string>
   <string name="menu_categories_export">Export to QIF</string>
   <string name="pref_csv_import_delimiter">Delimiter</string>
-  <string name="csv_import_parse">Parse</string>
   <string name="csv_import_preview">Preview</string>
   <string name="menu_parse">Parse</string>
   <string name="cvs_import_discard">Discard</string>

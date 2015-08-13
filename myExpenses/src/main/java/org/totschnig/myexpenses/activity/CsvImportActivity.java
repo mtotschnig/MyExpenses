@@ -154,7 +154,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
       Locale l = Locale.getDefault();
       switch (position) {
         case 0:
-          return getString(R.string.csv_import_parse);
+          return getString(R.string.menu_parse);
         case 1:
           return getString(R.string.csv_import_preview);
       }
