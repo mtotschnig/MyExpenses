@@ -31,6 +31,11 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -41,7 +46,7 @@ import android.widget.Toast;
  */
 public class DonateDialogFragment extends CommitSafeDialogFragment {
 
-  public static final DonateDialogFragment newInstance() {
+  public static final DonateDialogFragment newInstance(boolean extended) {
     return new DonateDialogFragment();
   }
   @Override
@@ -56,14 +61,26 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
    */
   public static AlertDialog buildDialog(Context ctx) {
     DonationUriVisitor listener = new DonationUriVisitor((Activity) ctx);
+    final TextView message = new TextView(ctx);
+    int padding = (int) TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, 10, ctx.getResources().getDisplayMetrics());
+    message.setPadding(padding,padding,padding,0);
+    message.setMovementMethod(LinkMovementMethod.getInstance());
+    CharSequence linefeed = Html.fromHtml("<br><br>");
+    if (MyApplication.getInstance().isExtendedEnabled()) {
+      message.setText(R.string.pref_contrib_donate_summary_already_contrib);
+    } else {
+      message.setText(TextUtils.concat(
+          ctx.getString(R.string.donate_dialog_text),
+          " ",
+          Html.fromHtml("<a href=\"http://myexpenses.totschnig.org/#premium\">"+ctx.getString(R.string.learn_more)+"</a>."),
+          linefeed,
+          ctx.getString(R.string.thank_you)
+      ));
+    }
     return new AlertDialog.Builder(ctx)
       .setTitle(R.string.donate)
-      .setMessage(
-        ctx.getString(MyApplication.getInstance().isContribEnabled() ?
-            R.string.pref_contrib_donate_summary_already_contrib :
-            R.string.donate_dialog_text)
-        +"\n\n"+
-        ctx.getString(R.string.thank_you))
+      .setView(message)
       .setNegativeButton(R.string.donate_button_flattr, listener)
       .setPositiveButton(R.string.donate_button_paypal, listener)
       .setNeutralButton(R.string.donate_button_bitcoin, listener)

@@ -174,7 +174,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   private void configureContribPrefs() {
     Preference pref1 = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
         pref2 = findPreference(PrefKey.CONTRIB_DONATE.getKey());
-    if (MyApplication.getInstance().isContribEnabled()) {
+    if (MyApplication.getInstance().isExtendedEnabled()) {
       ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey())).removePreference(pref1);
       pref2.setSummary(Utils.concatResStrings(this, R.string.thank_you, R.string.pref_contrib_donate_summary_already_contrib));
     } else {

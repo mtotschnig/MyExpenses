@@ -53,8 +53,8 @@ public class ContribInfoDialogActivity extends FragmentActivity
     return true;
   }
 
-  public void contribBuyDo() {
-    DonateDialogFragment.newInstance().show(getSupportFragmentManager(), "CONTRIB");
+  public void contribBuyDo(boolean extended) {
+    DonateDialogFragment.newInstance(extended).show(getSupportFragmentManager(), "CONTRIB");
   }
 
   @Override

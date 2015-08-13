@@ -66,19 +66,20 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);
-      builder.setMessage(message)
-          .setNeutralButton(R.string.dialog_contrib_buy_premium, this)
-          .setPositiveButton(R.string.dialog_contrib_buy_extended, this);
+      builder.setMessage(message);
       if (getArguments().getLong(KEY_SEQUENCE_COUNT)!=-1) {
         builder.setNeutralButton(R.string.dialog_remind_later, this)
-            .setNegativeButton(R.string.dialog_remind_no, this);
+            .setNegativeButton(R.string.dialog_remind_no, this)
+            .setPositiveButton(R.string.dialog_contrib_buy_premium, this);
       } else {
-        builder.setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            onCancel(dialog);
-          }
-        });
+        builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this)
+            .setPositiveButton(R.string.dialog_contrib_buy_extended, this)
+            .setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                onCancel(dialog);
+              }
+            });
       }
     return builder.create();
   }
@@ -95,12 +96,20 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       return;
     }
     ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
-    if (which == AlertDialog.BUTTON_POSITIVE) {
-      ctx.contribBuyDo();
-    } else if (which == AlertDialog.BUTTON_NEUTRAL) {
-      ctx.dispatchCommand(R.id.REMIND_LATER_CONTRIB_COMMAND,null);
+    if (getArguments().getLong(KEY_SEQUENCE_COUNT)!=-1) {
+      if (which == AlertDialog.BUTTON_POSITIVE) {
+        ctx.contribBuyDo(false);
+      } else if (which == AlertDialog.BUTTON_NEUTRAL) {
+        ctx.dispatchCommand(R.id.REMIND_LATER_CONTRIB_COMMAND, null);
+      } else {//negative
+        ctx.dispatchCommand(R.id.REMIND_NO_CONTRIB_COMMAND, null);
+      }
     } else {
-      ctx.dispatchCommand(R.id.REMIND_NO_CONTRIB_COMMAND,null);
+      if (which == AlertDialog.BUTTON_POSITIVE) {
+        ctx.contribBuyDo(true);
+      } else {//neutral
+        ctx.contribBuyDo(false);
+      }
     }
   }
 }
