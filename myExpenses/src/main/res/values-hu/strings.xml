@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Számla</string>
   <string name="account_type_asset">Forgóeszköz számla</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -19,15 +19,15 @@
   <string name="category">Kategória</string>
   <string name="color">Szín</string>
   <string name="comment">Megjegyzés</string>
-  <string name="contrib_feature_accounts_unlimited_description">A <i>Kiadásaim</i> alap változatában maximum 5 számlát kezelhet.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
-  <string name="contrib_feature_distribution_label">A tranzakciók kategóriánkénti eloszlása</string>
-  <string name="contrib_feature_plans_unlimited_description">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
-  <string name="contrib_feature_plans_unlimited_label">Korlátlan számú terv</string>
-  <string name="contrib_feature_security_question_label">Biztonsági kérdés</string>
-  <string name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
-  <string name="contrib_feature_template_widget_label">Sablon widget</string>
-  <string name="contrib_key">Contrib kulcs</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">A <i>Kiadásaim</i> alap változatában maximum 5 számlát kezelhet.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">A tranzakciók kategóriánkénti eloszlása</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Korlátlan számú terv</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Biztonsági kérdés</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Sablon widget</string>
+  <string name="contrib_key">Contrib Kulcs</string>
   <string name="contrib_key_requires">Ehhez a Kiadásaim Contrib verziójának használata szükséges.</string>
   <string name="currency">Pénznem</string>
   <string name="current_balance">Aktuális egyenleg</string>
@@ -44,11 +44,11 @@
   <string name="dialog_contrib_no_usages_left">Nincs több ingyenes számla lehetőség.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">A korlátozás megszűntethető a <i>Kiadásaim Contrib kulcs</i> telepítésével.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Az alábbi szolgáltatások is elérhetővé válnak:</string>
   <string name="dialog_contrib_text_1"><i>Kiadásaim</i> reklám mentes és nyitott forráskódú.</string>
   <string name="dialog_contrib_text_2">Kérjük, ha elégedett a termékkel, járuljon hozzá <i>Kiadásaim Contrib kulcs</i>. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
-  <string name="dialog_contrib_yes">Vásárolja meg most</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>
   <string name="dialog_password_activate_protection">Jelszóvédelem aktiválása</string>
@@ -78,10 +78,12 @@
   <string name="dialog_title_warning_delete_transaction">Tranzakció törlése?</string>
   <string name="dialog_title_welcome">Üdvözlet!</string>
   <string name="donate">Támogatás</string>
-  <string name="donate_dialog_text">Támogatását PayPal, Bitcoin vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
+  <string name="donate_dialog_text">Támogatását PayPal, Bitcoin vagy Flattr-en keresztül is megteheti, majd kérjen kulcsot a beállítások képernyőn megtalálható módon.</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses">Kiadások exportálása</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Kiadások SD-kártyára exportálása sikertelen %1$s: %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Kiadások sikeresen a(z) %1$s fájlba exportálva</string>
   <string name="external_storage_unavailable">Külső tárhely (SD-kártya) nem elérhető</string>
   <string name="feedback">Visszajelzés</string>
@@ -115,7 +117,8 @@
   <string name="invalid_number_format">Tizedes formátum nem található az Ön nyelvén. Kérem használja ezt: %1$s</string>
   <string name="label">Címke</string>
   <string name="licence_validation_failure">Licensz kulcs ellenőrzése sikertelen</string>
-  <string name="licence_validation_success">Licensz kulcs sikeresen ellenőrizve: a Prémium szolgáltatások korlátozásai feloldva!</string>
+  <string name="licence_validation_success">Licensz kulcs sikeresen ellenőrizve:</string>
+  <string name="licence_validation_premium">Prémium szolgáltatások engedélyezve.</string>
   <string name="menu_aggregates">Összesen</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Alkalmaz</string>
@@ -163,6 +166,7 @@
   <string name="menu_manage_plans">Sablonok és tervek</string>
   <string name="menu_manage_plans_tab_templates">Sablonok</string>
   <string name="menu_manage_plans_tab_plans">Tervek</string>
+  <string name="menu_import">Import</string>
   <string name="menu_reset">Export és alap állapotra visszaállítás</string>
   <string name="menu_reset_all">Export és teljes reset</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -231,12 +235,13 @@
   <string name="pref_category_title_ui">Felhasználói felület</string>
   <string name="pref_contrib_donate_summary">Támogasd a projektet PayPal, Flatter vagy Bitcoin segítségével és szerezz prémium hozzáférést az összes szolgáltatáshoz.</string>
   <string name="pref_contrib_donate_title">Támogatás küldése</string>
-  <string name="pref_enter_licence_summary">Ha megkapta a Contrib kulcsot, hozzáférhet a Prémium szolgáltatásokhoz.</string>
-  <string name="pref_enter_licence_title">Contrib kulcs megadása</string>
+  <string name="pref_enter_licence_title">Kulcs megadása</string>
   <string name="pref_export_format_title">Adat formátum</string>
   <string name="pref_follow_gplus_title">A Kiadásaim (My Expenses) követése a Google+ oldalain</string>
   <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>
+  <!--%s is replaced with QIF or CSV-->
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_manage_accounts_title">Számlák</string>
   <string name="pref_manage_categories_summary">Kategóriák hozzáadása, szerkesztése, törlése.</string>
   <string name="pref_manage_categories_title">Kategóriák</string>
@@ -261,8 +266,8 @@
   <string name="pref_protection_delay_seconds_summary">Várakozási idő (másodperc) a jelszóval feloldható zárolás előtt.</string>
   <string name="pref_protection_delay_seconds_title">Késleltetés a védelemig</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kódolás</string>
-  <string name="pref_request_licence_title">Kérjen Contrib kulcsot</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_request_licence_title">Kérjen kulcsot</string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">Visszaállítás</string>
   <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elvesztette a jelszót.</string>
   <string name="pref_security_question_title">Biztonsági kérdés</string>
@@ -288,7 +293,7 @@
   <string name="progress_dialog_loading">Elemek betöltése az adatbázisból …</string>
   <string name="reference_number">Referencia szám</string>
   <string name="request_licence_mail_description">Kérjük írja meg számunkra angolul, németül vagy franciául, hogy milyen módon vett részt a Kiadásaim fejlesztésében (például: PayPal támogatás, hibajelentés, tesztelés, fordítás).</string>
-  <string name="request_licence_mail_head">Kérem, küldjön számomra Contrib kulcsot az alábbi Android-Id alapján: %1$s.</string>
+  <string name="request_licence_mail_head">Kérem, küldjön számomra kulcsot az alábbi Android-Id alapján: %1$s.</string>
   <string name="restore_db_failure">Az adatbázis visszaállítása sikertelen.</string>
   <string name="restore_db_success">Az adatbázis sikeresen visszaállítva korábbi mentésből.</string>
   <string name="restore_preferences_failure">Beállítások visszaállítása sikertelen</string>

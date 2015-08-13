@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Kontua</string>
   <string name="account_type_asset">Aktiboko kontua</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -30,18 +30,19 @@
   <string name="color">Kolorea</string>
   <string name="comment">Oharrak</string>
   <string name="confirmation_dialog_dont_show_again">Ez erakutsi berriro</string>
-  <string name="contrib_feature_ad_free_label">Iragarkirik gabe</string>
-  <string name="contrib_feature_accounts_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko kontu kopurua 5 da.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Kontu kopuru mugagabea</string>
-  <string name="contrib_feature_attach_picture_label">Erantsi irudia transakzioari</string>
-  <string name="contrib_feature_distribution_label">Transakzioen distribuzioa kategoriako</string>
-  <string name="contrib_feature_plans_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko plan kopurua 3 da.</string>
-  <string name="contrib_feature_plans_unlimited_label">Plan kopuru mugagabea</string>
-  <string name="contrib_feature_print_label">Esportatu transakzio zerrenda PDFra</string>
-  <string name="contrib_feature_security_question_label">Segurtasun galdera</string>
-  <string name="contrib_feature_split_transaction_label">Banatu transakzioa</string>
-  <string name="contrib_feature_template_widget_label">Txantiloien trepeta</string>
-  <string name="contrib_key">Kontribuzio gakoa</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Iragarkirik gabe</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko kontu kopurua 5 da.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Kontu kopuru mugagabea</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Erantsi irudia transakzioari</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Transakzioen distribuzioa kategoriako</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko plan kopurua 3 da.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Plan kopuru mugagabea</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Esportatu transakzio zerrenda PDFra</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Segurtasun galdera</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Banatu transakzioa</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Txantiloien trepeta</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV inportazioa</string>
+  <string name="contrib_key">Kontribuzio Gakoa</string>
   <string name="contrib_key_requires">Nire Gastuak Kontribuzio Gakoa behar du.</string>
   <string name="currency">Moneta</string>
   <string name="current_balance">Uneko saldoa</string>
@@ -62,7 +63,9 @@
   <string name="dialog_contrib_no_usages_left">Ez dira doako erabilera gehiago geratzen.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Ezabatu muga hau <i>Nire Gastuak Kontribuzio Gakoa</i> erosita.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">Ezabatu muga hau %s erosita.</string>
   <string name="dialog_contrib_reminder_gain_access">Hurrengo ezaugarrietara mugagabeko sarbidea lortzen duzu ere:</string>
   <string name="dialog_contrib_text_1"><i>Nire Gastuak</i> doan eta libre eskaintzen da.</string>
   <string name="dialog_contrib_text_2">Mesedez lagundu <i>Nire Gastuak Kontribuzio Gakoa</i> erosita. Mugagabeko sarbidea lortuko duzu honako premium ezaugarrietara:</string>
@@ -70,7 +73,6 @@
     <item quantity="one">Doako erabilera bat geratzen zaizu</item>
     <item quantity="other">Doako %1$d erabilera geratzen zaizkizu.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Erosi orain</string>
   <string name="dialog_export_delete">Ezabatu esportatutako transakzioak</string>
   <string name="dialog_export_not_yet_exported">Esportatu soilik oraindik esportatu ez diren transakzioak</string>
   <string name="dialog_password_activate_protection">Aktibatu pasahitz bidezko babesa</string>
@@ -108,7 +110,6 @@
   <string name="dialog_title_warning_delete_transaction">Ezabatu transakzioa?</string>
   <string name="dialog_title_welcome">Ongi etorri!</string>
   <string name="donate">Egin dohaintza</string>
-  <string name="donate_dialog_text">Mesedez egin dohaintza PayPal, Flattr edo Bitcoin bitartez, eta eskatu kontribuzio gakoa ezarpenen pantailatik.</string>
   <string name="expense">Gastua</string>
   <string name="export_expenses">Gastuen esportazioa</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -149,7 +150,8 @@
   <string name="invalid_number_format">Formatu dezimala ezin da ulertu zure hizkuntzan. Erabili %1$s</string>
   <string name="label">Etiketa</string>
   <string name="licence_validation_failure">Ezin izan da lizentzia gakoa egiaztatu.</string>
-  <string name="licence_validation_success">Lizentzia gakoa ondo egiaztatu da: Premium ezaugarriak desblokeatu dira.</string>
+  <string name="licence_validation_success">Lizentzia gakoa ondo egiaztatu da</string>
+  <string name="licence_validation_premium">Premium ezaugarriak desblokeatu dira.</string>
   <string name="menu_aggregates">Guztira</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplikatu</string>
@@ -203,6 +205,7 @@
   <string name="menu_manage_plans_tab_templates">Txantiloiak</string>
   <string name="menu_manage_plans_tab_plans">Planak</string>
   <string name="menu_open">Ireki</string>
+  <string name="menu_import">Inportatu</string>
   <string name="menu_print">Inprimatu</string>
   <string name="menu_reset">Esportatu eta berrezarri</string>
   <string name="menu_reset_all">Esportatu eta berrezarri guztiak </string>
@@ -300,16 +303,16 @@
   <string name="pref_contrib_donate_summary">Egin Dohaintza PayPal, Flattr edo Bitcoin bitartez eta lortu sarbidea premium ezaugarrietara.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Kontribuzio gehigarri bat egin nahi baduzu My Expenses gehitu zure flattr kontura, dohaintza bat egin Paypal bitartez edo bidali Bitcoin txanponak.</string>
   <string name="pref_contrib_donate_title">Bidali dohaintza</string>
-  <string name="pref_contrib_install_summary">Nire Gastuak Kontribuzio Gakoa erosita, premium ezaugarrietara sarbidea lortzen duzu.</string>
-  <string name="pref_contrib_install_title">Erosi Kontribuzio Gakoa (Aplikazio beretik ordaindu)</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Erosi gakoa (Aplikazio barneko ordainketa)</string>
   <string name="pref_custom_currency_title">Pertsonalizatu monetak</string>
-  <string name="pref_enter_licence_summary">Kontribuzio Gako bat jaso baduzu, lortu sarbidea premium ezaugarrietara.</string>
-  <string name="pref_enter_licence_title">Sartu Kontribuzio gakoa</string>
+  <string name="pref_enter_licence_title">Sartu gakoa</string>
   <string name="pref_export_format_title">Datuen formatua</string>
   <string name="pref_follow_gplus_title">Jarraitu Nire Gastuak Google+en</string>
   <string name="pref_import_from_grisbi_summary">Inportatu kategoriak eta onuradun/ordaintzaileak Grisbi XML fitxategitik</string>
   <string name="pref_import_from_grisbi_title">Inportatu Grisbitik</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">Inportatu transakzioak, kategoriak, eta onuradun/ordaintzaileak %s fitxategitik</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">%s inportazioa</string>
   <string name="pref_like_facebook_title">Esan gogoko gaituzula Facebooken</string>
   <string name="pref_manage_accounts_title">Kontuak</string>
@@ -340,8 +343,7 @@ Librezale.eus</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Pasahitzik gabe baimenduta.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Pasahitza ezinbestekoa.</string>
   <string name="pref_qif_export_file_encoding_title">Karaktere-kodeketa</string>
-  <string name="pref_request_licence_summary">Kontribuzioa egin baduzu, eskatu Kontribuzio gakoa %1$s Android-IDarentzat posta elektroniko bidez.</string>
-  <string name="pref_request_licence_title">Eskatu Kontribuzio gakoa</string>
+  <string name="pref_request_licence_title">Eskatu gako bat</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Ordezkoa</string>
   <string name="pref_restore_alternative_summary">Erabili ordezko metodo hau fitxategi kudeatzailerik ez badago instalatuta edo aitzinako formatuan dagoen babeskopia bat berreskuratu nahi baduzu.</string>
@@ -381,7 +383,6 @@ Librezale.eus</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ezin dira uneko kontuan bateratu</string>
   <string name="reference_number">Erreferentzia zenbakia</string>
   <string name="request_licence_mail_description">Mesedez azaldu (Ingelesez, Alemanez edo Frantsesez) Nire gastuak aplikazioari egin diozun kontribuzioa (Adib. Paypal bidezko dohaintza, arazketa, beta bertsioa frogatzea, itzultzea)</string>
-  <string name="request_licence_mail_head">Mesedez bidali niri Kontribuzio gako bat %1$s Android-IDrako</string>
   <string name="restore_db_failure">Huts egin du datu-basea berreskuratzean.</string>
   <string name="restore_db_success">Datu-basea berreskuratu da babeskopiatik.</string>
   <string name="restore_no_backup_found">Ez da babeskopiarik aurkitu.</string>
@@ -468,7 +469,7 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="import_categories_success">%1$s kategoria ondo inportatu dira</string>
   <string name="import_parties_success">%1$s onuradun/ordaintzaile ondo inportatu dira</string>
   <string name="import_accounts_success">%1$s kontu ondo inportatu dira</string>
-  <string name="import_transactions_success">%1$s transakzio ondo inportatu dira %2$s kontura</string>
+  <string name="import_transactions_success">%1$d transakzio ondo inportatu dira %2$s kontura</string>
   <string name="import_accounts_none">Ez da konturik inportatu</string>
   <string name="import_categories_none">Ez da kategoriarik inportatu</string>
   <string name="import_parties_none">Ez da onuradun/ordaintzailerik inportatu</string>
@@ -499,9 +500,9 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="comparison_operator_between">&gt; x &lt;</string>
   <string name="comparison_operator_date_before">lehenago</string>
   <string name="comparison_operator_date_after">beranduago</string>
-  <string name="promotion_appgratis_welcome">Gaurko eskaintza berezia AppGratis bitartez: Premium ezaugarriak doan desblokeatuta.</string>
-  <string name="premium_unlocked">Premium ezaugarriak desblokeatuta.</string>
-  <string name="premium_failed_or_canceled">Erosketak huts egin du eta bertan behera utzi da.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Gaurko eskaintza berezia AppGratis bitartez: Premium ezaugarriak doan desblokeatuta.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Premium ezaugarriak desblokeatuta.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Erosketak huts egin du eta bertan behera utzi da.</string>
   <string name="hint_auto_fill">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile beraren aurreko transakzioko datuekin? Portaera hau ezarpenetan aldatu dezakezu gero ere.</string>
   <string name="yes">Bai</string>
   <string name="no">Ez</string>
@@ -534,4 +535,13 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="slash_forbidden_in_filename">/ karakterea ezin da erabili fitxategi izenetan</string>
   <string name="io_error_unable_to_create_file">Ezin izan da %1$s fitxategia sortu %2$s karpetan</string>
   <string name="menu_categories_export">Esportatu QIF fitxategira</string>
+  <string name="pref_csv_import_delimiter">Bereizlea</string>
+  <string name="csv_import_preview">Aurreikusi</string>
+  <string name="menu_parse">Prozesatu</string>
+  <string name="cvs_import_discard">Baztertu</string>
+  <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
+  <string name="csv_import_records_failed">%d sarrera ezin izan dira inportatu.</string>
+  <string name="csv_import_records_discarded">%d sarrera baztertu dira.</string>
+  <string name="csv_import_subcategory_requires_category">Azpikategoria mapeatzen baduzu kategoria ere mapeatu behar duzu.</string>
+  <string name="cvs_import_set_first_line_as_header">Lehen lerroa izenburutzat hartu?</string>
 </resources>

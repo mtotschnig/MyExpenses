@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">勘定</string>
   <string name="account_type_asset">資産勘定</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -29,18 +29,20 @@
   <string name="color">色</string>
   <string name="comment">メモ</string>
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
-  <string name="contrib_feature_ad_free_label">広告なし</string>
-  <string name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
-  <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
-  <string name="contrib_feature_attach_picture_label">取引に画像を添付</string>
-  <string name="contrib_feature_distribution_label">分類ごとの取引の分布</string>
-  <string name="contrib_feature_plans_unlimited_description"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
-  <string name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
-  <string name="contrib_feature_print_label">取引リストを PDF にエクスポート</string>
-  <string name="contrib_feature_security_question_label">セキュリティの質問</string>
-  <string name="contrib_feature_split_transaction_label">取引を分割</string>
-  <string name="contrib_feature_template_widget_label">テンプレート ウィジェット</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">広告なし</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">取引に画像を添付</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">分類ごとの取引の分布</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">取引リストを PDF にエクスポート</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">セキュリティの質問</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">取引を分割</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">テンプレート ウィジェット</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV インポート</string>
   <string name="contrib_key">貢献キー</string>
+  <string name="extended_key">拡張キー</string>
   <string name="contrib_key_requires">マイ エクスペンス 貢献キーが必要です。</string>
   <string name="currency">通貨</string>
   <string name="current_balance">現在の残高</string>
@@ -61,14 +63,20 @@
   <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です。</string>
-  <string name="dialog_contrib_reminder_remove_limitation"><i>マイ エクスペンス 貢献キー</i> を購入することで、この制限を解除します。</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s は拡張機能です。</string>
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">%s を購入するとこの制限が取り除かれます。</string>
   <string name="dialog_contrib_reminder_gain_access">次の機能に無制限にアクセスすることができます:</string>
+  <string name="dialog_contrib_extended_gain_access">拡張キーを購入した場合、さらに次の機能のロックが解除されます:</string>
   <string name="dialog_contrib_text_1"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。</string>
   <string name="dialog_contrib_text_2"><i>マイ エクスペンス 貢献キー</i> を購入して、貢献してください。 次のプレミアム機能に無制限にアクセスすることができます:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">%1$d の無料の使用が残っています。</item>
   </plurals>
-  <string name="dialog_contrib_yes">今すぐ購入</string>
+  <string name="dialog_contrib_buy_premium">プレミアムを購入</string>
+  <string name="dialog_contrib_buy_extended">拡張を購入</string>
+  <string name="dialog_contrib_upgrade_extended">拡張にアップグレードする</string>
   <string name="dialog_export_delete">エクスポートした取引を削除</string>
   <string name="dialog_export_not_yet_exported">まだエクスポートしていない取引のみエクスポート</string>
   <string name="dialog_password_activate_protection">パスワード保護を有効にする</string>
@@ -93,6 +101,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">貸借 %1$s</string>
   <string name="dialog_title_contrib_feature">プレミアム機能</string>
+  <string name="dialog_title_extended_feature">拡張機能</string>
   <string name="dialog_title_planner_setup_info">カレンダーのセットアップが必要です</string>
   <string name="dialog_title_select_grouping">グループを選ぶ</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -106,7 +115,7 @@
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
   <string name="dialog_title_welcome">ようこそ!</string>
   <string name="donate">寄付</string>
-  <string name="donate_dialog_text">PayPal、Flattr、またはBitcoin 経由で寄付した後で、設定画面から貢献キーをリクエストしてください。</string>
+  <string name="donate_dialog_text">Paypal、Flattr、またはBitcoin経由で寄付をして、その後、設定画面からキーをリクエストしてください。</string>
   <string name="expense">支出</string>
   <string name="export_expenses">支出エクスポート</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -147,7 +156,9 @@
   <string name="invalid_number_format">小数点の書式があなたのロケールでは認識できません。%1$s を使用してください。</string>
   <string name="label">ラベル</string>
   <string name="licence_validation_failure">ライセンスキーを検証できません。</string>
-  <string name="licence_validation_success">ライセンスキーが正常に検証されました。プレミアム機能のロックが解除されました。</string>
+  <string name="licence_validation_success">ライセンスキーが正常に検証されました:</string>
+  <string name="licence_validation_premium">プレミアムの機能はロック解除されています。</string>
+  <string name="licence_validation_extended">拡張機能はロック解除されています。</string>
   <string name="menu_aggregates">合計</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">適用</string>
@@ -201,6 +212,7 @@
   <string name="menu_manage_plans_tab_templates">テンプレート</string>
   <string name="menu_manage_plans_tab_plans">計画</string>
   <string name="menu_open">開く</string>
+  <string name="menu_import">インポート</string>
   <string name="menu_print">印刷</string>
   <string name="menu_reset">エクスポートおよびリセット</string>
   <string name="menu_reset_all">エクスポートおよびすべてリセット</string>
@@ -296,16 +308,18 @@
   <string name="pref_contrib_donate_summary">PayPal、Flattr、またはBitcoin 経由で寄付をして、プレミアム機能へのアクセスを入手します。</string>
   <string name="pref_contrib_donate_summary_already_contrib">追加の貢献をしたい場合、あなたは マイ エクスペンス を Flattr、Paypal を通じて寄付、または Bitcoin を送ることができます。</string>
   <string name="pref_contrib_donate_title">寄付を送る</string>
-  <string name="pref_contrib_install_summary">マイ エクスペンス 貢献キーを購入することにより、プレミアム機能へアクセスすることができます。</string>
-  <string name="pref_contrib_install_title">貢献キーを購入 (アプリ内支払)</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">プレミアムと拡張機能への購入アクセス。</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">購入キー (アプリ内課金)</string>
   <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
-  <string name="pref_enter_licence_summary">あなたが貢献キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
-  <string name="pref_enter_licence_title">貢献キーを入力</string>
+  <string name="pref_enter_licence_summary">キーを受け取った場合、プレミアム/拡張機能へアクセスすることができます。</string>
+  <string name="pref_enter_licence_title">キーを入力</string>
   <string name="pref_export_format_title">データ形式</string>
   <string name="pref_follow_gplus_title">Google+ で マイ エクスペンス をフォローする</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
   <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">%s ファイルから取引、分類、および取引先をインポートします</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">%s インポート</string>
   <string name="pref_like_facebook_title">Facebook でいいね</string>
   <string name="pref_manage_accounts_title">勘定</string>
@@ -335,8 +349,8 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
   <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
-  <string name="pref_request_licence_summary">あなたが貢献した場合は、メールで Android-Id %1$s の貢献キーをリクエストしてください。</string>
-  <string name="pref_request_licence_title">貢献キーをリクエスト</string>
+  <string name="pref_request_licence_summary">あなたが貢献した場合は、メールで Android-ID %1$s のキーをリクエストしてください。</string>
+  <string name="pref_request_licence_title">キーをリクエスト</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">代替</string>
   <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、または従来の形式でバックアップを復元する場合に、この代替の方法を使用します。</string>
@@ -376,7 +390,7 @@
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
   <string name="reference_number">参照番号</string>
   <string name="request_licence_mail_description">(英語、ドイツ語またはフランス語で) マイ エクスペンス に、あなたの貢献を説明してください (例: Paypal で寄付、バグ報告、テスト、翻訳)。</string>
-  <string name="request_licence_mail_head">Please send me a Contrib key for Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Please send me a key for Android-Id %1$s. </string>
   <string name="restore_db_failure">データベースの復元に失敗しました。</string>
   <string name="restore_db_success">バックアップからデータベースが復元されました。</string>
   <string name="restore_no_backup_found">バックアップが見つかりません。</string>
@@ -458,7 +472,7 @@
   <string name="import_categories_success">%1$s 分類は正常にインポートされました</string>
   <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
   <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
-  <string name="import_transactions_success">%1$s 取引は勘定 %2$s に正常にインポートされました</string>
+  <string name="import_transactions_success">%1$d 取引は勘定 %2$s に正常にインポートされました</string>
   <string name="import_accounts_none">インポートされた勘定はありません</string>
   <string name="import_categories_none">インポートされた分類はありません</string>
   <string name="import_parties_none">インポートされた取引先はありません</string>
@@ -489,9 +503,9 @@
   <string name="comparison_operator_between">間</string>
   <string name="comparison_operator_date_before">以前</string>
   <string name="comparison_operator_date_after">以降</string>
-  <string name="promotion_appgratis_welcome">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
-  <string name="premium_unlocked">プレミアム機能のロック解除。</string>
-  <string name="premium_failed_or_canceled">購入が失敗またはキャンセルされました。</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">プレミアム機能のロック解除。</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">購入が失敗またはキャンセルされました。</string>
   <string name="hint_auto_fill">金額、分類、およびコメントを、同じ受取人/支払人に対する最後のトランザクションから自動的に入力しますか? いつでも設定からこの動作を変更することができます。</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
@@ -524,4 +538,13 @@
   <string name="slash_forbidden_in_filename">/ の文字はファイル名に使用できません</string>
   <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
   <string name="menu_categories_export">QIF にエクスポート</string>
+  <string name="pref_csv_import_delimiter">デリミタ</string>
+  <string name="csv_import_preview">プレビュー</string>
+  <string name="menu_parse">解析</string>
+  <string name="cvs_import_discard">破棄</string>
+  <string name="csv_import_field_mapped_more_than_once">%s は複数にマップされます。</string>
+  <string name="csv_import_records_failed">%d レコードインポートできませんでした。</string>
+  <string name="csv_import_records_discarded">%d レコード破棄されました。</string>
+  <string name="csv_import_subcategory_requires_category">サブカテゴリーをマップする場合は、カテゴリーもマップする必要があります。</string>
+  <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>
 </resources>

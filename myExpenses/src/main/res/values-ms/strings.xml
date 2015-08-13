@@ -29,17 +29,19 @@
   <string name="color">Warna</string>
   <string name="comment">Nota</string>
   <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>
-  <string name="contrib_feature_accounts_unlimited_description">Bilangan akaun yang anda boleh cipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 5.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Bilangan akaun tidak terhad</string>
-  <string name="contrib_feature_attach_picture_label">Lampir imej ke dalam transaksi</string>
-  <string name="contrib_feature_distribution_label">Agihan transaksi per kategori</string>
-  <string name="contrib_feature_plans_unlimited_description">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Bilang pelan tidak terhad</string>
-  <string name="contrib_feature_print_label">Eksport senarai transaksi menjadi PDF</string>
-  <string name="contrib_feature_security_question_label">Soalan keselamatan</string>
-  <string name="contrib_feature_split_transaction_label">Transaksi pisah</string>
-  <string name="contrib_feature_template_widget_label">Widget  templat</string>
-  <string name="contrib_key">Kunci contrib</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Tanpa iklan</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Bilangan akaun yang anda boleh cipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 5.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Bilangan akaun tidak terhad</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Lampir imej ke dalam transaksi</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Agihan transaksi per kategori</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Bilang pelan tidak terhad</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Eksport senarai transaksi menjadi PDF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Soalan keselamatan</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Transaksi pisah</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget  templat</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
+  <string name="contrib_key">Kunci Contrib</string>
   <string name="contrib_key_requires">Perlukan Kunci Contrib Perbelanjaan Saya.</string>
   <string name="currency">Matawang</string>
   <string name="current_balance">Baki semasa</string>
@@ -60,14 +62,15 @@
   <string name="dialog_contrib_no_usages_left">Tiada penggunaan percuma berbaki.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Buang batasan ini dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">Buang batasan ini dengan membeli %s</string>
   <string name="dialog_contrib_reminder_gain_access">Anda juga mendapat capaian tanpa had pada fitur berikut:</string>
   <string name="dialog_contrib_text_1"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
   <string name="dialog_contrib_text_2">Sila beri sumbangan dengan membeli <i>Kunci Contrib Perbelanjaan Saya</i>. Anda akan mendapat capaian tanpa had pada fitur premium berikut:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">Anda mempunyai %1$d penggunaan percuma berbaki.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Beli sekarang</string>
   <string name="dialog_export_delete">Padam transaksi dieksport</string>
   <string name="dialog_export_not_yet_exported">Hanya eksport transaksi yang belum dieksport</string>
   <string name="dialog_password_activate_protection">Aktifkan perlindungan kata laluan</string>
@@ -105,10 +108,12 @@
   <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>
   <string name="dialog_title_welcome">Selamat Datang!</string>
   <string name="donate">Derma</string>
-  <string name="donate_dialog_text">Derma melalui PayPal, Flattr atau Bitcoin, kemudian mohon kunci contrib menerusi skrin tetapan.</string>
+  <string name="donate_dialog_text">Derma melalui PayPal, Flattr atau Bitcoin, kemudian mohon kunci menerusi skrin tetapan.</string>
   <string name="expense">Perbelanjaan</string>
   <string name="export_expenses">Eksport perbelanjaan</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Eksport perbelanjaan ke \"%1$s\" mengalami kegagalan: %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Perbelanjaan dieksport ke fail \"%1$s\"</string>
   <string name="external_storage_unavailable">Storan luaran (kad sd) tidak tersedia</string>
   <string name="feedback">Maklumbalas</string>
@@ -144,7 +149,8 @@
   <string name="invalid_number_format">Format perpuluhan tidak dikenali oleh lokal anda. Sila guna %1$s</string>
   <string name="label">Label</string>
   <string name="licence_validation_failure">Tidak boleh sahkan kunci lesen.</string>
-  <string name="licence_validation_success">Kunci lesen berjaya disahkan: Fitur premium telah dibuka.</string>
+  <string name="licence_validation_success">Kunci lesen berjaya disahkan:</string>
+  <string name="licence_validation_premium">Fitur premium tidak terbuka.</string>
   <string name="menu_aggregates">Jumlah</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Laksana</string>
@@ -198,6 +204,7 @@
   <string name="menu_manage_plans_tab_templates">Templat</string>
   <string name="menu_manage_plans_tab_plans">Pelan</string>
   <string name="menu_open">Buka</string>
+  <string name="menu_import">Import</string>
   <string name="menu_print">Cetak</string>
   <string name="menu_reset">Eksport dan tetap semula</string>
   <string name="menu_reset_all">Eksport dan tetap semula semua</string>
@@ -217,7 +224,7 @@
   <string name="no_app_handling_pdf_available">Tiada apl pengendalian fail PDF tersedia.</string>
   <string name="no_categories">Tiada kategori.</string>
   <string name="no_category_assigned">Tiada kategori diumpuk</string>
-  <string name="no_details" tools:ignore="UnusedResources">Tiada perincian.</string>
+  <string name="no_details">Tiada perincian.</string>
   <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
   <string name="no_exportable_expenses">Tiada transaksi yang belum lagi dieksport.</string>
   <string name="no_filemanager_installed">Tiada pengurus fail dipasang</string>
@@ -293,16 +300,16 @@
   <string name="pref_contrib_donate_summary">Derma melalui PayPal, Flattr atau Bitcoin dan dapatkan capaian ke fitur premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Jika anda mahu memberi lagi sumbangan, anda boleh flattr Perbelanjaan Saya, beri derma melalui Paypal atau hantar Bitcoin.</string>
   <string name="pref_contrib_donate_title">Hantar derma</string>
-  <string name="pref_contrib_install_summary">Dengan membeli Kunci My Expenses Contrib, anda mendapat fitur premium.</string>
-  <string name="pref_contrib_install_title">Beli Kunci Contrib (Pembayaran In-App)</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Beli Kunci (Pembayaran In-App)</string>
   <string name="pref_custom_currency_title">Suaikan matawang</string>
-  <string name="pref_enter_licence_summary">Jika ana menerima kunci Contrib, akan peroleh capaian ke fitur premium.</string>
-  <string name="pref_enter_licence_title">Masukkan kunci Contrib</string>
+  <string name="pref_enter_licence_title">Masukkan kunci</string>
   <string name="pref_export_format_title">Format data</string>
   <string name="pref_follow_gplus_title">Ikut Perbelanjaan Saya pada Google+</string>
   <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
   <string name="pref_import_from_grisbi_title">Import dari Grisbi</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">Import transaksi, kategori dan pihak dari fail %s</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">Import %s</string>
   <string name="pref_like_facebook_title">Sukai kami di Facebook</string>
   <string name="pref_manage_accounts_title">Akaun</string>
@@ -332,9 +339,11 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dibenarkan tanpa kata laluan.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Kata laluan diperlukan.</string>
   <string name="pref_qif_export_file_encoding_title">Pengekodan aksara</string>
-  <string name="pref_request_licence_summary">Jika anda telah memberi sumbangan, pohon kunci Contrib untuk Android-Id %1$s menerusi emel.</string>
-  <string name="pref_request_licence_title">Pohon kunci Contrib</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_request_licence_summary">Jika anda telah memberi sumbangan, pohon kunci untuk Android-Id %1$s menerusi emel.</string>
+  <string name="pref_request_licence_title">Pohon kunci</string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">Alternatif</string>
+  <string name="pref_restore_alternative_summary">Guna kaedah alternatif ini jika tiada pengurus fail terpasang dalam peranti atau jika anda pulihkan sandar dalam format lama.</string>
   <string name="pref_restore_summary">Pilih satu sandar untuk menyimpan pangkalan data dan keutamaan.</string>
   <string name="pref_restore_title">Pulih</string>
   <string name="pref_security_question_summary">Membolehkan anda buka apl, jika anda terlupa kata laluan anda.</string>
@@ -371,7 +380,7 @@
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>
   <string name="reference_number">Nombor Rujukan</string>
   <string name="request_licence_mail_description">Sila terangkan (dalam bahasa Inggeris, Jerman atau Perancis) sumbangan anda terhadap Perbelanjaan Saya (iaitu derma melalui Paypal, laporan pepijat, pengujian, terjemahan).</string>
-  <string name="request_licence_mail_head">Sila hantar kepada saya satu kunci Contrib untuk Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Sila hantar kepada saya satu kunci untuk Android-Id %1$s.</string>
   <string name="restore_db_failure">Pemulihan pangkalan data gagal.</string>
   <string name="restore_db_success">Pangkalan data telah dipulihkan dari sandar.</string>
   <string name="restore_no_backup_found">Tiada sandar ditemui.</string>
@@ -453,7 +462,7 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="import_categories_success">%1$s kategori berjaya diimport</string>
   <string name="import_parties_success">%1$s pihak berjaya diimport</string>
   <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
-  <string name="import_transactions_success">%1$s transaksi berjaya diimport ke dalam akaun %2$s</string>
+  <string name="import_transactions_success">%1$d transaksi berjaya diimport ke dalam akaun %2$s</string>
   <string name="import_accounts_none">Tiada akaun diimport</string>
   <string name="import_categories_none">Tiada kategori diimport</string>
   <string name="import_parties_none">Tiada pihak diimport</string>
@@ -484,9 +493,9 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="comparison_operator_between">diantara</string>
   <string name="comparison_operator_date_before">sebelum</string>
   <string name="comparison_operator_date_after">selepas</string>
-  <string name="promotion_appgratis_welcome">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
-  <string name="premium_unlocked">Fitur premium dibuka.</string>
-  <string name="premium_failed_or_canceled">Pembelian gagal atau dibatalkan.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Fitur premium dibuka.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Pembelian gagal atau dibatalkan.</string>
   <string name="hint_auto_fill">Patutkah amaun, kategori dan ulasan diisi secara automatik dari transaksi terakhir untuk pembayar/penerima yang sama? Anda boleh mengubah kelakuakn ini melalui tetapan.</string>
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
@@ -516,4 +525,10 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="folder_name">Nama folder</string>
   <string name="mark_void_instead_of_delete">Jangan padam transaksi, tanda sebagai tidak sah.</string>
   <string name="menu_undelete_transaction">Nyahpadam</string>
+  <string name="slash_forbidden_in_filename">Aksara / tidak dibenarkan dalam nama fail</string>
+  <string name="io_error_unable_to_create_file">Tidak boleh cipta fail %1$s dalam folder %2$s</string>
+  <string name="menu_categories_export">Eksport ke QIF</string>
+  <string name="pref_csv_import_delimiter">Pembatas</string>
+  <string name="csv_import_preview">Pratonton</string>
+  <string name="menu_parse">Hurai</string>
 </resources>

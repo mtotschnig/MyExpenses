@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">គណនី</string>
   <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -25,15 +25,14 @@
   <string name="color">ពណ៌</string>
   <string name="comment">សម្គាល់</string>
   <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
-  <string name="contrib_feature_accounts_unlimited_description">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
-  <string name="contrib_feature_accounts_unlimited_label">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
-  <string name="contrib_feature_distribution_label">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
-  <string name="contrib_feature_plans_unlimited_description">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
-  <string name="contrib_feature_plans_unlimited_label">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
-  <string name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
-  <string name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
-  <string name="contrib_feature_template_widget_label">ប្រអប់​ធាតុពុម្ព</string>
-  <string name="contrib_key">Contrib key</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">ប្រអប់​ធាតុពុម្ព</string>
   <string name="contrib_key_requires">ត្រូវការកម្មវិធី My Expenses Contrib Key</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
   <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
@@ -53,12 +52,12 @@
   <string name="dialog_contrib_no_usages_left">គ្មាន​ការ​ប្រើប្រាស់​ដោយអត់​បង់ថ្លៃ​នៅសល់​ទេ។</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។</string>
-  <string name="dialog_contrib_reminder_remove_limitation">ដក​ការ​កំណត់​ព្រំដែន​នេះ ដោយ​បញ្ចូល <i>ការចំណាយរបស់ខ្ញុំ Contrib Key</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">អ្នក​អាច​ចូល​ទៅកាន់​ផ្នែក​ពិសេស​ដែលហាម​ឃាត់​ ដូចខាងក្រោម៖</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</item>
   </plurals>
-  <string name="dialog_contrib_yes">ទិញឥឡូវ</string>
   <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
   <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>
   <string name="dialog_password_activate_protection">ធ្វើឱ្យសកម្មនូវការពារពាក្យសម្ងាត់</string>
@@ -93,10 +92,11 @@
   <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>
   <string name="dialog_title_welcome">សូមស្វាគមន៍!</string>
   <string name="donate">បរិច្ចាក</string>
-  <string name="donate_dialog_text">សូម​មេត្តា​ឧបត្ថម្ភ​តាម PayPal, Flattr ឬ Bitcoin ហើយ​បន្ទាប់​មក​ដាក់​ស្នើរ Contrib key ពី​អេក្រង់ ការកំណត់។</string>
   <string name="expense">ចំណាយ</string>
   <string name="export_expenses">នាំយកទិន្នន័យ​ចំណាយចេញ</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន %1$s: %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">ទិន្នន័យ​ចំណាយបានបញ្ចូលទៅឯកសារ %1$s</string>
   <string name="external_storage_unavailable">ការផ្ទុកខាងក្រៅ (sdកាត) មិនអាចទៅរួច</string>
   <string name="feedback">ផ្តល់មតិ</string>
@@ -131,7 +131,6 @@
   <string name="invalid_number_format">ទម្រង់​ទសភាគ អត់​ស្គាល់តាមការកំណត់ភាសា​របស់​អ្នកទេ។ សូម​ប្រើ %1$s</string>
   <string name="label">ស្លាក</string>
   <string name="licence_validation_failure">មិនអាចបញ្ជាក់សុពលភាពអាជ្ញាប័ណ្ណ</string>
-  <string name="licence_validation_success">គន្លឹះអាជ្ញាប័ណ្ណបានបញ្ជាក់​សុពលភាព​បានដោយជោគជ័យ​៖ លក្ខណៈពិសេសល្អជាងគេត្រូវបានដោះសោរ</string>
   <string name="menu_aggregates">សរុប</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">ដាក់ទៅ</string>
@@ -184,6 +183,7 @@
   <string name="menu_manage_plans_tab_templates">ពុម្ព</string>
   <string name="menu_manage_plans_tab_plans">គម្រោង</string>
   <string name="menu_open">បើក</string>
+  <string name="menu_import">នាំចូល</string>
   <string name="menu_print">ព្រីន</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
   <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
@@ -269,12 +269,11 @@
   <string name="pref_checkbox_disabled">បិទ</string>
   <string name="pref_contrib_donate_summary">ផ្តល់​ជំនួយ​តាម​រយៈ PayPal, Flattr ឬ Bitcoin និង​ដើម្បីទទួល​ផ្នែក​ ពិសេសៗនៃកម្មវិធី។</string>
   <string name="pref_contrib_donate_title">ផ្តល់​ជំនួយ</string>
-  <string name="pref_enter_licence_summary">ប្រសិនបើអ្នកបានទទួលគន្លឹះ Contrib, នឹងទទួលបាននូវដំណើរការដែលមានលក្ខណៈពិសេសល្អជាងគេ </string>
-  <string name="pref_enter_licence_title">បញ្ចូលគន្លឹះ Contrib</string>
   <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
   <string name="pref_follow_gplus_title">ជួប My Expenses នៅ Google+</string>
   <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
-  <string name="pref_import_title">នាំចូល %s</string>
+  <!--%s is replaced with QIF or CSV-->
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_manage_accounts_title">គណនី</string>
   <string name="pref_manage_categories_summary">បញ្ចូល កែ លុប​ចំណាត់ថ្នាក់។</string>
   <string name="pref_manage_categories_title">ចំណាត់ថ្នាក់</string>
@@ -303,9 +302,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">អនុញ្ញាតិ​ដោយ​មិនបាច់​មាន​ពាក្យសម្ងាត់។</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">ពាក្យ​សម្ងាត់​ត្រូវការជានិច្ច</string>
   <string name="pref_qif_export_file_encoding_title">ការអ៊ិនកូដតួអក្សរ</string>
-  <string name="pref_request_licence_summary">ប្រសិនបើអ្នកបាន​ចូលរួម​ចំណែក​ដោយ​មធ្យោបាយ​ផ្សេង​ទៀត​ សូម​សួររក Contrib key តាមអ៊ីមែល។</string>
-  <string name="pref_request_licence_title">ស្នើសុំកូនសោរ Contrib មួយ</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">ស្តារ</string>
   <string name="pref_security_question_summary">អនុញ្ញាតឲ្យអ្នកដោះសោរកម្មវិធីនេះ ប្រសិនបើអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក ។ តម្រូវឲ្យមាន ការចំណាយរបស់ខ្ញុំ</string>
   <string name="pref_security_question_title">សំនួរសន្តិសុខ</string>
@@ -334,7 +331,6 @@
   <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
   <string name="reference_number">លេខ​យោង</string>
   <string name="request_licence_mail_description">សូម​ពិពណ៌នា (ជាភាសាអង់គ្លេស អាឡឺម៉ង ឬបារាំង) ពី​​ការរួម​ចំណែក​របស់​អ្នក​សំរាប់ My Expenses (ឧ. វិភាគទាន​ជា​ប្រាក់​តាម Paypal, ផ្តល់​ព័ត៌​មាន​ពីកំហុស, តេស្ត ឬ​បក​ប្រែ)។</string>
-  <string name="request_licence_mail_head">សូម​ផ្ញើ Contrib key មួយ​សំរាប់​ Android-Id %1$s មកខ្ញុំ។</string>
   <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
   <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
   <string name="restore_no_backup_found">គ្មាន​អ្វីដែល​រក្សាទុករកឃើញទេ។</string>

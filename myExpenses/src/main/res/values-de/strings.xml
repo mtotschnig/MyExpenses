@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
   <string name="account_type_asset">Anlagekonto</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -30,18 +30,20 @@
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
-  <string name="contrib_feature_ad_free_label">Ohne Werbung</string>
-  <string name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
-  <string name="contrib_feature_attach_picture_label">Bildanhang für Buchung</string>
-  <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
-  <string name="contrib_feature_plans_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
-  <string name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
-  <string name="contrib_feature_print_label">Buchungsliste als PDF-Datei drucken</string>
-  <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
-  <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
-  <string name="contrib_feature_template_widget_label">Vorlagen Widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Ohne Werbung</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Bildanhang für Buchung</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Buchungsliste als PDF-Datei drucken</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Sicherheitsfrage</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Splitbuchung</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Vorlagen Widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
+  <string name="extended_key">Erweiterungsschlüssel</string>
   <string name="contrib_key_requires">Benötigt Meine Ausgaben Contrib.</string>
   <string name="currency">Währung</string>
   <string name="current_balance">Aktueller Saldo</string>
@@ -62,15 +64,21 @@
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i> aufheben.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s ist eine erweiterte Funktion.</string>
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch den Kauf von %s aufheben.</string>
   <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
+  <string name="dialog_contrib_extended_gain_access">Darüber hinaus sind die folgenden Funktionen entsperrt, wenn Sie den erweiterten Schlüssel kaufen:</string>
   <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
   <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i>. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Diese Funktion kann nur noch ein mal verwendet werden.</item>
     <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Kaufen</string>
+  <string name="dialog_contrib_buy_premium">PREMIUM kaufen</string>
+  <string name="dialog_contrib_buy_extended">ERWEITERT kaufen</string>
+  <string name="dialog_contrib_upgrade_extended">Upgrade auf ERWEITERT</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
@@ -95,6 +103,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
+  <string name="dialog_title_extended_feature">Erweiterte Funktion</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -108,7 +117,7 @@
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
-  <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
+  <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -149,7 +158,9 @@
   <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
-  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
+  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: </string>
+  <string name="licence_validation_premium">Premium-Funktionen wurden entsperrt.</string>
+  <string name="licence_validation_extended">Erweiterte Funktionen wurden entsperrt.</string>
   <string name="menu_aggregates">Gesamt</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Anwenden</string>
@@ -203,6 +214,7 @@
   <string name="menu_manage_plans_tab_templates">Vorlagen</string>
   <string name="menu_manage_plans_tab_plans">Pläne</string>
   <string name="menu_open">Öffnen</string>
+  <string name="menu_import">Import</string>
   <string name="menu_print">Drucken</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
@@ -300,16 +312,18 @@
   <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Wenn Sie einen zusätzlichen Beitrag leisten möchten, können Sie Meine Ausgaben flattren, mittels Paypal spenden oder Bitcoins senden.</string>
   <string name="pref_contrib_donate_title">Spenden</string>
-  <string name="pref_contrib_install_summary">Durch den Kauf von Meine Ausgaben Contrib-Schlüssel erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
-  <string name="pref_contrib_install_title">Contrib Key kaufen (In-App Bezahlung)</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Zugriff auf Premium- und erweiterte Funktionen erwerben.</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Schlüssel kaufen (In-App Bezahlung)</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
-  <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
-  <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
+  <string name="pref_enter_licence_summary">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium/erweiterte Funktionen freischalten.</string>
+  <string name="pref_enter_licence_title">Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
   <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
   <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">Buchungen, Kategorien und Parteien aus %s Datei importieren</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">%s Import</string>
   <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
   <string name="pref_manage_accounts_title">Konten</string>
@@ -339,8 +353,8 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-  <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel für Android-Id  %1$s per E-Mail.</string>
-  <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
+  <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Schlüssel für Android-Id %1$s per E-Mail.</string>
+  <string name="pref_request_licence_title">Schlüssel beantragen</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativ</string>
   <string name="pref_restore_alternative_summary">Verwenden Sie diese alternative Methode, wenn kein Datei-Manager auf dem Gerät installiert ist oder Sie eine Sicherung im alten Format wiederherstellen wollen.</string>
@@ -380,7 +394,7 @@
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
   <string name="reference_number">Referenznummer</string>
   <string name="request_licence_mail_description">Bitte beschreiben Sie Ihren Beitrag zu Meine Ausgaben (z.B.: Spende via Paypal, Problembericht, Testen, Übersetzung).</string>
-  <string name="request_licence_mail_head">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Bitte senden Sie mir einen Schlüssel für die Android-Id %1$s.</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>
@@ -466,7 +480,7 @@
   <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
   <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
-  <string name="import_transactions_success">%1$s Buchungen erfolgreich in das Konto %2$s importiert</string>
+  <string name="import_transactions_success">%1$d Buchungen erfolgreich in das Konto %2$s importiert</string>
   <string name="import_accounts_none">Keine Konten importiert</string>
   <string name="import_categories_none">Keine Kategorien importiert</string>
   <string name="import_parties_none">Keine Parteien importiert</string>
@@ -497,9 +511,9 @@
   <string name="comparison_operator_between">zwischen</string>
   <string name="comparison_operator_date_before">vor</string>
   <string name="comparison_operator_date_after">nach</string>
-  <string name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
-  <string name="premium_unlocked">Premium Funktionen entsperrt.</string>
-  <string name="premium_failed_or_canceled">Einkauf ist gescheitert oder abgebrochen.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Premium Funktionen entsperrt.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Einkauf ist gescheitert oder abgebrochen.</string>
   <string name="hint_auto_fill">Sollen Betrag, Kategorie und Kommentar automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
@@ -532,4 +546,13 @@
   <string name="slash_forbidden_in_filename">Das Zeichen / ist in Dateinamen nicht zulässig</string>
   <string name="io_error_unable_to_create_file">Konnte Datei %1$s im Ordner %2$s nicht erstellen</string>
   <string name="menu_categories_export">Export nach QIF</string>
+  <string name="pref_csv_import_delimiter">Trennzeichen</string>
+  <string name="csv_import_preview">Vorschau</string>
+  <string name="menu_parse">Analysieren</string>
+  <string name="cvs_import_discard">Verwerfen</string>
+  <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
+  <string name="csv_import_records_failed">%d Einträge konnten nicht importiert werden.</string>
+  <string name="csv_import_records_discarded">%d Einträge wurden verworfen.</string>
+  <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
+  <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>
 </resources>

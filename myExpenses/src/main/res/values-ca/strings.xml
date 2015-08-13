@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Compte</string>
   <string name="account_type_asset">Compte d\'actiu</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -25,15 +25,15 @@
   <string name="color">Color</string>
   <string name="comment">Notes</string>
   <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
-  <string name="contrib_feature_accounts_unlimited_description">El nombre de comptes que podeu obrir amb <i>Les meves despeses</i> es limita a 5.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Nombre il·limitat de comptes</string>
-  <string name="contrib_feature_distribution_label">Distribució de les operacions per categoria</string>
-  <string name="contrib_feature_plans_unlimited_description">Amb <i>Les meves despeses</i> podeu generar 3 planificacions.</string>
-  <string name="contrib_feature_plans_unlimited_label">Nombre de planificacions il·limitat</string>
-  <string name="contrib_feature_print_label">Exporta la llista de transaccions en PDF</string>
-  <string name="contrib_feature_security_question_label">Pregunta de seguretat</string>
-  <string name="contrib_feature_split_transaction_label">Operació repartida</string>
-  <string name="contrib_feature_template_widget_label">Widget de plantilla</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">El nombre de comptes que podeu obrir amb <i>Les meves despeses</i> es limita a 5.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Nombre il·limitat de comptes</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Distribució de les operacions per categoria</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Amb <i>Les meves despeses</i> podeu generar 3 planificacions.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Nombre de planificacions il·limitat</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Exporta la llista de transaccions en PDF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Pregunta de seguretat</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Operació repartida</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de plantilla</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
   <string name="contrib_key_requires">Requereix Les meves despeses Contrib</string>
   <string name="currency">Moneda</string>
@@ -54,7 +54,8 @@
   <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la compra de <i>Les meves despeses Clau Contrib</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
   <string name="dialog_contrib_text_1"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert.</string>
   <string name="dialog_contrib_text_2">Si us plau contribuiu mitjançant la compra de <i>Les meves despeses Clau Contrib</i>. Obtindreu accés il·limitat a les següents característiques premium:</string>
@@ -62,7 +63,6 @@
     <item quantity="one">Us queden encara 1 us disponible.</item>
     <item quantity="other">Us queden encara %1$d usos disponibles.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Compreu-ho ara</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
   <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
   <string name="dialog_password_activate_protection">Activa la protecció amb contrasenya</string>
@@ -98,10 +98,12 @@
   <string name="dialog_title_warning_delete_transaction">Voleu suprimir l\'operació?</string>
   <string name="dialog_title_welcome">Benvingut!</string>
   <string name="donate">Feu una donació</string>
-  <string name="donate_dialog_text">Si us plau, feu una donació amb PayPal, Flattr o Bitcoin i, a continuació, demaneu una clau de contribuïdor a la pantalla de preferències.</string>
+  <string name="donate_dialog_text">Si us plau, feu una donació amb PayPal, Flattr o Bitcoin i, a continuació, demaneu una clau a la pantalla de preferències.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exporteu les despeses</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Hi ha hagut un error en exportar les despeses a \"%1$s\": %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Les despses s\'han exportat al fitxer %1$s.</string>
   <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>
   <string name="feedback">Comentaris</string>
@@ -136,7 +138,8 @@
   <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració regional. Si us plau, feu servir %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="licence_validation_failure">No es pot validar la clau de llicència.</string>
-  <string name="licence_validation_success">La clau de llicència s\'ha validat: S\'han afegit les opcions Premium.</string>
+  <string name="licence_validation_success">La clau de llicència s\'ha validat:</string>
+  <string name="licence_validation_premium">S\'han afegit les característiques Premium.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplica</string>
@@ -187,6 +190,7 @@
   <string name="menu_manage_plans">Plantilles i planificacions</string>
   <string name="menu_manage_plans_tab_templates">Plantilles</string>
   <string name="menu_manage_plans_tab_plans">Planificacions</string>
+  <string name="menu_import">Importació</string>
   <string name="menu_reset">Exporta i reinicia</string>
   <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -261,13 +265,14 @@
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
   <string name="pref_contrib_donate_summary">Accediu a les característiques premium fent  una donació amb Paypal, Flattr o Bitcoin.</string>
   <string name="pref_contrib_donate_title">Envieu una donació</string>
-  <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>
-  <string name="pref_enter_licence_title">Entreu la clau del Contribuïdor</string>
+  <string name="pref_enter_licence_summary">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
+  <string name="pref_enter_licence_title">Entreu la clau</string>
   <string name="pref_export_format_title">Format de les dades</string>
   <string name="pref_follow_gplus_title">Segueix Les meves despeses a Google+</string>
   <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
-  <string name="pref_import_title">Importació %s</string>
+  <!--%s is replaced with QIF or CSV-->
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_categories_summary">Afegiu, modifiqueu i suprimiu categories.</string>
   <string name="pref_manage_categories_title">Categories</string>
@@ -292,9 +297,9 @@
   <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
   <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-  <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau Contrib per correu electrònic.</string>
-  <string name="pref_request_licence_title">Demaneu una clau de Contribuïdor</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau per a Android-Id %1$s per correu electrònic.</string>
+  <string name="pref_request_licence_title">Demaneu una clau</string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
   <string name="pref_restore_title">Restauració</string>
   <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya.</string>
@@ -322,7 +327,7 @@
   <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades …</string>
   <string name="reference_number">Número de referència</string>
   <string name="request_licence_mail_description">Si us plau expliqueu (en anglès, alemany o francès) la vostra contribució a Les meves despeses (per exemple, donació mitjançant Paypal, informe d\'errors, proves, traducció).</string>
-  <string name="request_licence_mail_head">Si us plau, envieu-me una clau Contrib per l\'identificador d\'Android %1$s.</string>
+  <string name="request_licence_mail_head">Si us plau, envieu-me una clau per Android-ID %1$s.</string>
   <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
   <string name="restore_no_backup_found">No s\'ha trobat la còpia de seguretat.</string>
@@ -346,6 +351,7 @@
   <string name="sum_expenses">Despeses</string>
   <string name="sum_income">Ingressos</string>
   <string name="sum_transfer">Transferèncias</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>
   <string name="thank_you">Gràcies pel vostre suport!</string>

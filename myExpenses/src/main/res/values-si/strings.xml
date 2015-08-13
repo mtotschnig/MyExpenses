@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">ගිණුම </string>
   <string name="account_type_asset">වත්කම් ගිණුම </string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -20,14 +20,14 @@
   <string name="color">පාට </string>
   <string name="comment">සටහන් </string>
   <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
-  <string name="contrib_feature_accounts_unlimited_description">ඔබට <i>මයි එක්ස්පෙන්සස්</i> හි නිර්මාණය කළහැකි ගිනුම් ගනන 5කි.</string>
-  <string name="contrib_feature_accounts_unlimited_label">සීමා රහිත ගිණුම් ගණනක්</string>
-  <string name="contrib_feature_distribution_label">කාණ්ඩයක ගනුදෙනු විභාජනය</string>
-  <string name="contrib_feature_plans_unlimited_description"><i>මයි එක්ස්පෙන්සසි</i> හි ඔබට නිර්මාණය කළහැකි උපරිම  සැලසුම් ගණන 3කි.</string>
-  <string name="contrib_feature_plans_unlimited_label">සීමා රහිත ක්‍රම ගණනක්</string>
-  <string name="contrib_feature_security_question_label">සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය</string>
-  <string name="contrib_feature_split_transaction_label">විභේදනය වූ ගනුදෙනු</string>
-  <string name="contrib_feature_template_widget_label">විජට් අච්චුව </string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">ඔබට <i>මයි එක්ස්පෙන්සස්</i> හි නිර්මාණය කළහැකි ගිනුම් ගනන 5කි.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">සීමා රහිත ගිණුම් ගණනක්</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">කාණ්ඩයක ගනුදෙනු විභාජනය</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>මයි එක්ස්පෙන්සසි</i> හි ඔබට නිර්මාණය කළහැකි උපරිම  සැලසුම් ගණන 3කි.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">සීමා රහිත ක්‍රම ගණනක්</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">විභේදනය වූ ගනුදෙනු</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">විජට් අච්චුව </string>
   <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
   <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර අවශ්‍ය වේ </string>
   <string name="currency">මුදල් </string>
@@ -46,7 +46,8 @@
   <string name="dialog_contrib_no_usages_left">නිදහස් පාවිච්චි කිරීම් ඉතිරව නැත </string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි </string>
-  <string name="dialog_contrib_reminder_remove_limitation">සිමාකිරිම ඉවත් කිරීමට <i>මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර</i> මිලදී ගන්න </string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">ඔබට පහත සදහන් අංග සදහාත් සීමාකිරීම් වලින් තොර පරිශීලන හැකියාව ලැබී ඇත </string>
   <string name="dialog_contrib_text_1"><i>මයි එක්ස්පෙන්සස් </i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
   <string name="dialog_contrib_text_2">කරුනාකර මිලදීගෙන දායකවන්න  <i>මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර </i>. ඔබ පහත සදහන් පාරිතෝෂික අංග සදහා සිමාකිර්ම් වලින් තොර පරිශීලන හැකියාව හිමිකරගෙන තිබේ.</string>
@@ -54,7 +55,6 @@
     <item quantity="one">ඔබට එක නිදහස්  පවිච්චි කිරීමක්  ඉතිරිව ඇත </item>
     <item quantity="other">ඔබට %1$d නිදහස්  පවිච්චි කිරීම්  ඉතිරිව ඇත </item>
   </plurals>
-  <string name="dialog_contrib_yes">දැන් මිලදී ගන්න </string>
   <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
   <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
   <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>
@@ -85,10 +85,12 @@
   <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
   <string name="dialog_title_welcome">ආදරයෙන් පිළිගන්නවා!</string>
   <string name="donate">දායක කරන්න </string>
-  <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal, Flattr or Bitcoin හි කර කට්ටල අංග තුලින් කොන්ට්‍රිබ් යතුර ඉල්ලන්න </string>
+  <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal, Flattr or Bitcoin හි කර කට්ටල අංග තුලින් යතුර ඉල්ලන්න </string>
   <string name="expense">වියදම් </string>
   <string name="export_expenses">වියදම් අපනයන </string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
   <string name="external_storage_unavailable">පිටත ගබඩාව නොතිබේ (එස් ඩි කාඩ් පත)</string>
   <string name="feedback">ප්‍රතිචාරය </string>
@@ -125,7 +127,8 @@
   <string name="invalid_number_format">ලෝකලයට දශම අකාරය හඳුනාගත නොහැක. කරුණාකර  %1$s පාවිච්චි කරන්න </string>
   <string name="label">ලේබලය </string>
   <string name="licence_validation_failure">අවසර යතුර වලංගු කිරීමට නොහැකියි </string>
-  <string name="licence_validation_success">බලපත්‍ර යතුර සාර්ථක ලෙස වලංගු කළේය. පාරිතෝෂික අංග සියල්ල පාවිච්චියට සුදානම්.</string>
+  <string name="licence_validation_success">බලපත්‍ර යතුර සාර්ථක ලෙස වලංගු කළේය. </string>
+  <string name="licence_validation_premium">උසස් දීමනා ලබා දී තිබේ.</string>
   <string name="menu_aggregates">මුළු එකතුව </string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">යොමු කරනවා</string>
@@ -176,6 +179,7 @@
   <string name="menu_manage_plans">අච්චු සහ සැලසුම් </string>
   <string name="menu_manage_plans_tab_templates">අච්චු</string>
   <string name="menu_manage_plans_tab_plans">සැලසුම් </string>
+  <string name="menu_import">ආනයනය </string>
   <string name="menu_reset">අපනයන සහ යලිපිහිටුවීම </string>
   <string name="menu_reset_all">සියල්ල අපනයන කර නැවත පිහිටුවන්න </string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -260,13 +264,14 @@
   <string name="pref_contrib_donate_summary">දායකත්වය  PayPal, Flattr or Bitcoin හරහා ලබාදී පාරිතෝෂික අංග පරිශීලනයට හැකියාව ලබාගන්න </string>
   <string name="pref_contrib_donate_summary_already_contrib">ඔබ අතිරේක දයජත්වයක් කිරමට කැමතිනම් ඔබට  Paypal හෝ  Bitcoins හරහා දායකත්වයක් ලබාදිය හැක </string>
   <string name="pref_contrib_donate_title">දායකත්වය යවන්න </string>
-  <string name="pref_enter_licence_summary">ඔබට කොන්ට්‍රිබ් යතුර හමුවුයේනම් පාර්තොශික අංග පරිශීලනයට අවස්ථාව ලැබේ </string>
-  <string name="pref_enter_licence_title">කොන්ට්‍රිබ් යතුර ඇතුළු කරන්න </string>
+  <string name="pref_enter_licence_title">යතුර ඇතුළු කරන්න </string>
   <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
   <string name="pref_follow_gplus_title">google + වලින් මයි එක්ස්පෙන්සස් පිළිපදින්න </string>
   <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
   <string name="pref_import_from_grisbi_title">ග්රිස්බි වලින් අපනයනය කරන්න </string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">ගනුදෙනු,ප්‍රබේධ සහ පක්ෂ %s ගොනුවෙන් ආනයනය කරන්න </string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">%s ආනයනය </string>
   <string name="pref_manage_accounts_title">ගිණුම් </string>
   <string name="pref_manage_categories_summary">වර්ග එකතු කරන්න, සංස්කරණය කරන්න, මකා දමන්න  </string>
@@ -296,9 +301,9 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">මුරපදයක් නොමැතිව අනුමත කරනවා </string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">මුරපදයක් අවශ්‍යයි </string>
   <string name="pref_qif_export_file_encoding_title">අක්ෂර කේතාංකනය කිරීම</string>
-  <string name="pref_request_licence_summary">ඔබ දායක වූයේනම් අන්ඩ්රෝයිඩ් ඊ ඩි %1$s සදහා කොන්ට්‍රිබ් යතුර  ව්ද්‍යුත් තැපෑලෙන් ඉලන්න </string>
-  <string name="pref_request_licence_title">කොන්ට්‍රිබ් යතුර ඉල්ලන්න </string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_request_licence_summary">ඔබ දායක වූයේනම් අන්ඩ්රෝයිඩ් ඊ ඩි %1$s සදහා යතුර ව්ද්‍යුත් තැපෑලෙන් ඉලන්න </string>
+  <string name="pref_request_licence_title">යතුර ඉල්ලන්න </string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">දත්ත ගබඩාව සහ මනාප නැවත  පිහිටුවීම  සදහා  උපස්තයක් තෝරන්න </string>
   <string name="pref_restore_title">නැවත පිහිටුවන්න </string>
   <string name="pref_security_question_summary">ඔබට මුරපදය අමතක වූයේනම්.නැවත ඇපය ක්‍රියාත්මක කිරීමට උදව් වේ </string>
@@ -331,7 +336,7 @@
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">දැනට පවතින ගිණුමට එකතු කල නොහැකිය </string>
   <string name="reference_number">යොමු අංකය </string>
   <string name="request_licence_mail_description">කරුණාකර මයි එක්ස්පෙන්සස් වෙත  ඔබගේ දායකත්වය(ඉංග්‍රීසි භාෂාවෙන්,ජර්මන් භාසහ්වෙන් හෝ ප්‍රංශ භාෂාවෙන්) පැහැදිලි කරන්න.(උදා: paypal හරහා දායකත්වය,දෝෂ වාර්තා කිරීම,පරික්ෂාව,පරිවර්තනය)</string>
-  <string name="request_licence_mail_head">කරුණාකර මට අන්ඩ්රෝයිඩ් අයි ඩි %1$s සදහා කොන්ට්‍රිබ් යතුර එවන්න </string>
+  <string name="request_licence_mail_head">කරුණාකර මට අන්ඩ්රෝයිඩ් අයි ඩි %1$s සදහා යතුර එවන්න </string>
   <string name="restore_db_failure">දත්ත ගබඩාව නැවත පිහිටුවීම අසාර්කයි </string>
   <string name="restore_db_success">දත්ත ගබඩාව උපස්ථය උපයෝගී කරගෙන  නැවත පිහිටුවන ලදී </string>
   <string name="restore_no_backup_found">උපස්තයක් සමුවුයේ නැත </string>
@@ -406,7 +411,7 @@
   <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
   <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
   <string name="import_accounts_success">ගිණුම් %1$s  සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
-  <string name="import_transactions_success">ගනුදෙනු %1$s  සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
+  <string name="import_transactions_success">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
   <string name="import_accounts_none">ගිණුම් ආනයන කරේ නැත </string>
   <string name="import_categories_none">ප්‍රබේධ  ආනයන කරේ නැත </string>
   <string name="import_parties_none">පක්ෂ ආනයන කරේ නැත </string>

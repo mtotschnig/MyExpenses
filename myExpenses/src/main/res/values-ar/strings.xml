@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">الحساب</string>
   <string name="account_type_asset">حساب الاصول</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -25,14 +25,13 @@
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
-  <string name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
-  <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
-  <string name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
-  <string name="contrib_feature_plans_unlimited_description">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
-  <string name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
-  <string name="contrib_feature_security_question_label">السؤال السري</string>
-  <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
-  <string name="contrib_key">مفتاح المساهمة</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">السؤال السري</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
   <string name="contrib_key_requires">يتطلب مصروفاتي مفتاح المساهمة.</string>
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
@@ -48,9 +47,9 @@
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت <i>مصروفاتي Contrib</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
-  <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
@@ -85,10 +84,11 @@
   <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>
   <string name="donate">تبرع</string>
-  <string name="donate_dialog_text">يمكنك المساهمة عن طريق PayPal أو Flattr أو Bitcoin, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
   <string name="expense">الصرف</string>
   <string name="export_expenses">تصدير المصروفات</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة %1$s:  %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
   <string name="external_storage_unavailable">لا يوجد ذاكرة خارجية (sdcard)</string>
   <string name="feedback">التقييم</string>
@@ -125,7 +125,6 @@
   <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>
   <string name="label">عبارة توضيحية</string>
   <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
-  <string name="licence_validation_success">تم التحقق من مفتاح الترخيص بنجاح: الآن يمكنك استعمال كامل المميزات.</string>
   <string name="menu_aggregates">المجموع</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">تطبيق</string>
@@ -176,6 +175,7 @@
   <string name="menu_manage_plans">النماذج والخطط</string>
   <string name="menu_manage_plans_tab_templates">النماذج</string>
   <string name="menu_manage_plans_tab_plans">خطط</string>
+  <string name="menu_import">استيراد</string>
   <string name="menu_reset">تصدير وإعادة تعيين</string>
   <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -252,13 +252,12 @@
   <string name="pref_checkbox_disabled">معطل</string>
   <string name="pref_contrib_donate_summary">ادعمنا عن طريق PayPal, Flattr or Bitcoin واحصل على كامل المميزات المدفوعة.</string>
   <string name="pref_contrib_donate_title">ارسال دعم</string>
-  <string name="pref_enter_licence_summary">اذا كنت تملك مفتاح مساهمة، يمكنك الوصول لكامل المميزات.</string>
-  <string name="pref_enter_licence_title">ادخال مفتاح المساهمة</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
-  <string name="pref_import_title">استيراد %s</string>
+  <!--%s is replaced with QIF or CSV-->
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_manage_accounts_title">الحسابات</string>
   <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
   <string name="pref_manage_categories_title">التصنيفات</string>
@@ -284,9 +283,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
   <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
-  <string name="pref_request_licence_summary">اذا كنت قد ساهمت بأي وسيلة، اطلب مفتاح المساهمة عن طريق البريد الالكتروني.</string>
-  <string name="pref_request_licence_title">طلب مفتاح مساهمة</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
   <string name="pref_restore_title">استعادة</string>
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
@@ -317,7 +314,6 @@
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
   <string name="reference_number">رقم المرجع</string>
   <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
-  <string name="request_licence_mail_head">أرجو تزويدي بمفتاح مساهمة لـ Android-Id %1$s.</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
@@ -340,6 +336,7 @@
   <string name="sum_expenses">المصاريف</string>
   <string name="sum_income">الدخل</string>
   <string name="sum_transfer">التحويلات</string>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="template_create_success">تم انشاء النموذج \"%1$s\" بنجاح</string>
   <string name="template_title_exists">هناك نموذج بنفس العنوان \"%1$s\" موجود مسبقاً</string>
   <string name="thank_you">شكراً لدعمك!</string>

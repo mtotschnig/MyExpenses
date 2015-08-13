@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Cont</string>
   <string name="account_type_asset">Cont activ</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -31,18 +31,19 @@
   <string name="color">Culoare</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
-  <string name="contrib_feature_ad_free_label">Fără reclame</string>
-  <string name="contrib_feature_accounts_unlimited_description">Numărul  conturilor pe care le puteţi crea cu <i>Cheltuielile Mele</i> este limitat la 5.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Număr nelimitat de conturi</string>
-  <string name="contrib_feature_attach_picture_label">Ataseaza imagine la tranzactie</string>
-  <string name="contrib_feature_distribution_label">Repartiţia tranzacţiilor pe categorie</string>
-  <string name="contrib_feature_plans_unlimited_description">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Număr nelimitat de scadenţe</string>
-  <string name="contrib_feature_print_label">Export listă tranzacţii în PDF</string>
-  <string name="contrib_feature_security_question_label">Întrebare securitate</string>
-  <string name="contrib_feature_split_transaction_label">Tranzacţie  repartizată</string>
-  <string name="contrib_feature_template_widget_label">Şablon widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Fără reclame</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Numărul  conturilor pe care le puteţi crea cu <i>Cheltuielile Mele</i> este limitat la 5.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Număr nelimitat de conturi</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Ataseaza imagine la tranzactie</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Repartiţia tranzacţiilor pe categorie</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Număr nelimitat de scadenţe</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Export listă tranzacţii în PDF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Întrebare securitate</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Tranzacţie  repartizată</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget</string>
   <string name="contrib_key">Cheie Contrib</string>
+  <string name="extended_key">Cheie Extinse</string>
   <string name="contrib_key_requires">Necesită Cheia Contrib  Cheltuielile Mele.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Sold curent</string>
@@ -63,7 +64,8 @@
   <string name="dialog_contrib_no_usages_left">Nu mai aveţi utilizare gratuită</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Înlăturaţi  această limitare prin achiziţionarea &lt;&lt;i&gt;Cheltuielile Mele Cheie Contrib &lt;/i&gt;.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Puteţi avea de asemenea acces nerestricţionat la următoarele funcţionalităţi</string>
   <string name="dialog_contrib_text_1"><i>Cheltuielile Mele</i> este oferit fără publicitate şi open source.</string>
   <string name="dialog_contrib_text_2">Vă rugăm să contribuiţi prin achiziţionarea <i>Contrib Key Cheltuielile Mele</i>. Vei avea acces nerestricționat la următoarele funcţionalităţi premium:</string>
@@ -72,7 +74,6 @@
     <item quantity="few">Aveţi %1$d utilizari gratuite rămase.</item>
     <item quantity="other">Aveţi %1$d utilizari gratuite rămase.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Cumpără acum</string>
   <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
   <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>
   <string name="dialog_password_activate_protection">Activare protecţie prin parolă</string>
@@ -110,10 +111,12 @@
   <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
   <string name="dialog_title_welcome">Bine ai venit!</string>
   <string name="donate">Donaţie</string>
-  <string name="donate_dialog_text">Vă rugăm să donaţi prin PayPal, Flattr sau Bitcoin şi apoi să solicitaţi o cheie  contrib din ecranul setări.</string>
+  <string name="donate_dialog_text">Vă rugăm să donaţi prin PayPal, Flattr sau Bitcoin şi apoi să solicitaţi o cheie din ecranul setări.</string>
   <string name="expense">Cheltuială</string>
   <string name="export_expenses">Export cheltuieli</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Export cheltuieli în %1$s\" eşuat:  %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Export cheltuieli în fişierul %1$s\"</string>
   <string name="external_storage_unavailable">Stocare externă(sdcard) nedisponibilă</string>
   <string name="feedback">Feedback</string>
@@ -149,7 +152,8 @@
   <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>
   <string name="label">Eticheta</string>
   <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
-  <string name="licence_validation_success">Cheie Licenţă validată: funcţionalităţile Premium au fost deblocate.</string>
+  <string name="licence_validation_success">Cheie Licenţă validată:</string>
+  <string name="licence_validation_premium">Funcţionalităţile Premium au fost deblocate.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplică</string>
@@ -203,6 +207,7 @@
   <string name="menu_manage_plans_tab_templates">Şabloane</string>
   <string name="menu_manage_plans_tab_plans">Scadenţe</string>
   <string name="menu_open">Deschis</string>
+  <string name="menu_import">Import</string>
   <string name="menu_print">Printează</string>
   <string name="menu_reset">Export şi resetare</string>
   <string name="menu_reset_all">Export şi a resetează toate</string>
@@ -302,16 +307,17 @@
   <string name="pref_contrib_donate_summary">Donaţi prin PayPal, Flattr sau Bitcoin şi veţi avea acces la funcţionalităţile  premium.</string>
   <string name="pref_contrib_donate_summary_already_contrib">Dacă doriți să aduceţi o contribuție suplimentară, puteţi  flattr Cheltuielile Mele, face o donaţie prin Paypal sau trimite Bitcoins.</string>
   <string name="pref_contrib_donate_title">Trimite donaţie</string>
-  <string name="pref_contrib_install_summary">Prin achiziţionarea Contrib Key Cheltuielile Mele, veţi avea acces la funcţionalităţile premium.</string>
-  <string name="pref_contrib_install_title">Cumpăraţi Contrib Key (In-App plată)</string>
+  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Cumpăraţi Cheie (In-App plată)</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
-  <string name="pref_enter_licence_summary">Dacă aţi primit o cheie Contrib, veţi avea acces la funcţionalităţile premium.</string>
-  <string name="pref_enter_licence_title">Introduceţi cheia Contrib</string>
+  <string name="pref_enter_licence_summary">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium/extinse.</string>
+  <string name="pref_enter_licence_title">Introduceţi cheia</string>
   <string name="pref_export_format_title">Format date</string>
   <string name="pref_follow_gplus_title">Urmăreşte Cheltuielile Mele pe Google +</string>
   <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Import din Grisbi</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">Import tranzacţii, categorii şi terţi din fişier %s</string>
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">Import %s</string>
   <string name="pref_like_facebook_title">Like us pe Facebook</string>
   <string name="pref_manage_accounts_title">Conturi</string>
@@ -343,8 +349,8 @@ Tradus de DD</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permis fără parolă.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola este necesară.</string>
   <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
-  <string name="pref_request_licence_summary">Dacă aţi contribuit, solicitaţi o cheie Contrib pentru Android-Id %1$s  prin email.</string>
-  <string name="pref_request_licence_title">Solicită o cheie de Contrib</string>
+  <string name="pref_request_licence_summary">Dacă aţi contribuit, solicitaţi o cheie pentru Android-Id %1$s prin email.</string>
+  <string name="pref_request_licence_title">Solicită o cheie</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativă</string>
   <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
@@ -383,7 +389,7 @@ Tradus de DD</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>
   <string name="reference_number">Număr referință</string>
   <string name="request_licence_mail_description">Vă rugăm să descrieţi (în engleză, germană sau franceză) contribuţia dumneavoastră la Cheltuielile Mele (ex.: donatie prin intermediul Paypal, raport buguri, testare, traducere).</string>
-  <string name="request_licence_mail_head">Trimiteţi-mi vă rog o cheie Contrib pentru  Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Trimiteţi-mi vă rog o cheie pentru Android-Id %1$s.</string>
   <string name="restore_db_failure">Restaurare  baze de date eşuată.</string>
   <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
   <string name="restore_no_backup_found">Nici un backup găsit.</string>
@@ -474,7 +480,7 @@ Tradus de DD</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>
-  <string name="import_transactions_success">%1$s tranzacţii importate  în contul  %2$s</string>
+  <string name="import_transactions_success">%1$d tranzacţii importate în contul %2$s</string>
   <string name="import_accounts_none">Nici un cont importat</string>
   <string name="import_categories_none">Nici o categorie importată</string>
   <string name="import_parties_none">Nici un terţ importat</string>
@@ -504,9 +510,9 @@ Tradus de DD</string>
   <string name="comparison_operator_between">între</string>
   <string name="comparison_operator_date_before">înainte </string>
   <string name="comparison_operator_date_after">după</string>
-  <string name="promotion_appgratis_welcome">Oferta speciala de astăzi cu AppGratis: Funcţionalităţile Premium deblocate gratis.</string>
-  <string name="premium_unlocked">Funcţionalităţile Premium  deblocate.</string>
-  <string name="premium_failed_or_canceled">Cumpărare eşuată sau anulată.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Oferta speciala de astăzi cu AppGratis: Funcţionalităţile Premium deblocate gratis.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Funcţionalităţile Premium  deblocate.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Cumpărare eşuată sau anulată.</string>
   <string name="hint_auto_fill">Cantitatea, categoria şi comentariu se  vor completa automat de la ultima tranzactie pentru același beneficiar/platitor? Puteţi modifica oricând acest comportament din setări.</string>
   <string name="yes">Da</string>
   <string name="no">Nu</string>
