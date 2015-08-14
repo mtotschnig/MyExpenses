@@ -71,7 +71,7 @@
   <string name="dialog_contrib_reminder_gain_access">Usted también obtiene acceso sin restricciones a las siguientes características:</string>
   <string name="dialog_contrib_extended_gain_access">Además, las siguientes características son desbloqueadas si usted compra la clave extendida:</string>
   <string name="dialog_contrib_text_1"><i>Mis gastos</i> se ofrece sin publicidad y de código abierto.</string>
-  <string name="dialog_contrib_text_2">Por favor, contribuya mediante la compra de <i>Mis gastos Clave Contrib</i>. Usted va a obtener acceso ilimitado a las siguientes características premium:</string>
+  <string name="dialog_contrib_text_2">Por favor, contribuya mediante la compra de %s</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Queda un uso libre.</item>
     <item quantity="other">Quedan %1$d usos libres.</item>
@@ -116,7 +116,6 @@
   <string name="dialog_title_warning_delete_template">Borrar plantilla</string>
   <string name="dialog_title_warning_delete_transaction">Borrar asiento</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
-  <string name="donate">Donar</string>
   <string name="donate_dialog_text">Por favor, donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportación de los gastos</string>
@@ -309,11 +308,10 @@
   <string name="pref_category_title_ui">Interfaz de usuario</string>
   <string name="pref_checkbox_enabled">Habilitado</string>
   <string name="pref_checkbox_disabled">Inhabilitado</string>
-  <string name="pref_contrib_donate_summary">Donar a través de PayPal, Flattr o Bitcoin y obtiene acceso a todas las características premium.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Si desea hacer una contribución adicional, puedes dar un flattr a Mis gastos, hará una donación a través de Paypal o enviar Bitcoins.</string>
-  <string name="pref_contrib_donate_title">Donar</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Comprar acceso a características premium y extendidas.</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Comprar la llave (pago In-App)</string>
+  <string name="pref_contrib_purchase_summary">Comprar acceso a características premium y extendidas.</string>
+  <string name="pref_contrib_purchase_title">Comprar la llave</string>
+  <string name="pref_contrib_purchase_title_upgrade">Actualizar la llave</string>
+  <string name="pref_contrib_purchase_title_in_app">pago In-App</string>
   <string name="pref_custom_currency_title">Personalizar moneda</string>
   <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, puede desbloquear las características premium/extendidas.</string>
   <string name="pref_enter_licence_title">Introduzca la clave</string>
@@ -556,4 +554,7 @@
   <string name="csv_import_records_discarded">%d registros fueron desechados.</string>
   <string name="csv_import_subcategory_requires_category">Si asigna subcategoría, también debe asignar categoría.</string>
   <string name="cvs_import_set_first_line_as_header">¿La primera línea debería ser tratada como una línea de cabecera?</string>
+  <string name="csv_import_delimiter_comma">coma</string>
+  <string name="csv_import_delimiter_semicolon">Punto y coma</string>
+  <string name="csv_import_delimiter_tab">Tabulador</string>
 </resources>

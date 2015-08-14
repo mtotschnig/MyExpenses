@@ -91,7 +91,6 @@
   <string name="dialog_title_warning_delete_template">លុប​ទិន្នន័យ​គំរូ?</string>
   <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>
   <string name="dialog_title_welcome">សូមស្វាគមន៍!</string>
-  <string name="donate">បរិច្ចាក</string>
   <string name="expense">ចំណាយ</string>
   <string name="export_expenses">នាំយកទិន្នន័យ​ចំណាយចេញ</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -267,8 +266,6 @@
   <string name="pref_category_title_ui">User Interface</string>
   <string name="pref_checkbox_enabled">បើក</string>
   <string name="pref_checkbox_disabled">បិទ</string>
-  <string name="pref_contrib_donate_summary">ផ្តល់​ជំនួយ​តាម​រយៈ PayPal, Flattr ឬ Bitcoin និង​ដើម្បីទទួល​ផ្នែក​ ពិសេសៗនៃកម្មវិធី។</string>
-  <string name="pref_contrib_donate_title">ផ្តល់​ជំនួយ</string>
   <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
   <string name="pref_follow_gplus_title">ជួប My Expenses នៅ Google+</string>
   <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>

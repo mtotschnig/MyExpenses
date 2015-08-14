@@ -59,7 +59,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Također ćete dobiti neograničeni pristup sljedećim mogućnostima:</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i> ne sarži reklame i otvorenog je koda.</string>
-  <string name="dialog_contrib_text_2">Podržite nas kupnjom <i>My Expenses Contrib Ključa</i>. Time ostvarujete neograničen pristup svim premium funkcijama:</string>
+  <string name="dialog_contrib_text_2">Podržite nas kupnjom %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Preostala je jedna besplatna uporaba</item>
     <item quantity="few">Preostalo je %1$d besplatnih korištenja</item>
@@ -101,7 +101,6 @@
   <string name="dialog_title_warning_delete_template">Izbriši predložak?</string>
   <string name="dialog_title_warning_delete_transaction">Izbriši transakciju?</string>
   <string name="dialog_title_welcome">Dobrodošli!</string>
-  <string name="donate">Doniraj</string>
   <string name="donate_dialog_text">Molimo donirajte putem PayPal-a, Flattr-a ili Bitcoin-a, i zatim zatražite Ključ iz zaslona s postavkama.</string>
   <string name="expense">Trošak</string>
   <string name="export_expenses">Eksport troškova</string>
@@ -293,10 +292,8 @@
   <string name="pref_category_title_ui">Korisničko sučelje</string>
   <string name="pref_checkbox_enabled">Omogućeno</string>
   <string name="pref_checkbox_disabled">Onemogućeno</string>
-  <string name="pref_contrib_donate_summary">Donirajte putem PayPal-a, Flattr-a ili Bitcoin-a i otključajte pristup premium opcijama.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Ako želite dodatno pridonijeti, učinite to putem flattr-a, donirajte putam Paypala ili pošaljite Bitcoinse.</string>
-  <string name="pref_contrib_donate_title">Doniraj</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Kupi Ključ (plaćanje unutar aplikacije)</string>
+  <string name="pref_contrib_purchase_title">Kupi Ključ</string>
+  <string name="pref_contrib_purchase_title_in_app">plaćanje unutar aplikacije</string>
   <string name="pref_custom_currency_title">Prilagodi valute</string>
   <string name="pref_enter_licence_summary">Ako ste primili Ključ, omogućen je pristup premium opcijama.</string>
   <string name="pref_enter_licence_title">Unesi ključ</string>

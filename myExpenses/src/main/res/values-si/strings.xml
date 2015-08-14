@@ -50,7 +50,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">ඔබට පහත සදහන් අංග සදහාත් සීමාකිරීම් වලින් තොර පරිශීලන හැකියාව ලැබී ඇත </string>
   <string name="dialog_contrib_text_1"><i>මයි එක්ස්පෙන්සස් </i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
-  <string name="dialog_contrib_text_2">කරුනාකර මිලදීගෙන දායකවන්න  <i>මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර </i>. ඔබ පහත සදහන් පාරිතෝෂික අංග සදහා සිමාකිර්ම් වලින් තොර පරිශීලන හැකියාව හිමිකරගෙන තිබේ.</string>
+  <string name="dialog_contrib_text_2"> කරුනාකර මිලදීගෙන දායකවන්න %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">ඔබට එක නිදහස්  පවිච්චි කිරීමක්  ඉතිරිව ඇත </item>
     <item quantity="other">ඔබට %1$d නිදහස්  පවිච්චි කිරීම්  ඉතිරිව ඇත </item>
@@ -84,7 +84,6 @@
   <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
   <string name="dialog_title_welcome">ආදරයෙන් පිළිගන්නවා!</string>
-  <string name="donate">දායක කරන්න </string>
   <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal, Flattr or Bitcoin හි කර කට්ටල අංග තුලින් යතුර ඉල්ලන්න </string>
   <string name="expense">වියදම් </string>
   <string name="export_expenses">වියදම් අපනයන </string>
@@ -261,9 +260,6 @@
   <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
   <string name="pref_checkbox_enabled">පවරනවා</string>
   <string name="pref_checkbox_disabled">අබල කරනවා</string>
-  <string name="pref_contrib_donate_summary">දායකත්වය  PayPal, Flattr or Bitcoin හරහා ලබාදී පාරිතෝෂික අංග පරිශීලනයට හැකියාව ලබාගන්න </string>
-  <string name="pref_contrib_donate_summary_already_contrib">ඔබ අතිරේක දයජත්වයක් කිරමට කැමතිනම් ඔබට  Paypal හෝ  Bitcoins හරහා දායකත්වයක් ලබාදිය හැක </string>
-  <string name="pref_contrib_donate_title">දායකත්වය යවන්න </string>
   <string name="pref_enter_licence_title">යතුර ඇතුළු කරන්න </string>
   <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
   <string name="pref_follow_gplus_title">google + වලින් මයි එක්ස්පෙන්සස් පිළිපදින්න </string>

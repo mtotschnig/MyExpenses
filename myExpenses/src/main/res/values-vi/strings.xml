@@ -39,7 +39,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Bạn có thể tăng quyền hạn truy cập bằng những tiện ích sau:</string>
   <string name="dialog_contrib_text_1"><i>Chi Tiêu Của Tôi</i> là một chương trình miễn phí và mã nguồn mở. </string>
-  <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí <i>Chi Tiêu Của Tôi Khóa cống hiến</i>. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:</string>
+  <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí %s</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">Bạn còn %1$d phần sử dụng miễn phí còn lại.</item>
   </plurals>
@@ -66,7 +66,6 @@
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>
-  <string name="donate">Ủng hộ</string>
   <string name="expense">Chi tiêu</string>
   <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

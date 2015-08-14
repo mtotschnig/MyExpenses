@@ -83,7 +83,6 @@
   <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
   <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>
-  <string name="donate">تبرع</string>
   <string name="expense">الصرف</string>
   <string name="export_expenses">تصدير المصروفات</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -250,8 +249,6 @@
   <string name="pref_category_title_ui">واجهة المستخدم</string>
   <string name="pref_checkbox_enabled">مفعل</string>
   <string name="pref_checkbox_disabled">معطل</string>
-  <string name="pref_contrib_donate_summary">ادعمنا عن طريق PayPal, Flattr or Bitcoin واحصل على كامل المميزات المدفوعة.</string>
-  <string name="pref_contrib_donate_title">ارسال دعم</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>

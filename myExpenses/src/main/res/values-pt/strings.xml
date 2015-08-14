@@ -71,7 +71,7 @@
   <string name="dialog_contrib_reminder_gain_access">Você também ganha acesso ilimitado para os seguintes recursos:</string>
   <string name="dialog_contrib_extended_gain_access">Além disso, os seguintes recursos são desbloqueados se você comprar a chave estendida:</string>
   <string name="dialog_contrib_text_1"><i>Minhas despesas</i> é oferecido sem anúncios e open source.</string>
-  <string name="dialog_contrib_text_2">Por favor, contribua, comprando <i>Minhas despesas Chave Contrib</i>. Você terá acesso ilimitado para os seguintes recursos premium:</string>
+  <string name="dialog_contrib_text_2">Por favor, contribua, comprando %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Você tem un livre usos esquerda.</item>
     <item quantity="other">Você tem %1$d livre usos esquerda.</item>
@@ -116,7 +116,6 @@
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
   <string name="dialog_title_welcome">Bem vindo!</string>
-  <string name="donate">Doar</string>
   <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
@@ -309,11 +308,10 @@
   <string name="pref_category_title_ui">Interface gráfica</string>
   <string name="pref_checkbox_enabled">Ativado</string>
   <string name="pref_checkbox_disabled">Desativado</string>
-  <string name="pref_contrib_donate_summary">Doar via PayPal, Flattr ou Bitcoin e obter acesso a recursos.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Se você gostaria de fazer uma contribuição adicional, você pode flattr Minhas Despesas, ou fazer uma doação através do Paypal ou Bitcoins.</string>
-  <string name="pref_contrib_donate_title">Enviar doação</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Adquira acesso a recursos premium e estendidos.</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Compra Chave (pagamento no App)</string>
+  <string name="pref_contrib_purchase_summary">Adquira acesso a recursos premium e estendidos.</string>
+  <string name="pref_contrib_purchase_title">Compra chave</string>
+  <string name="pref_contrib_purchase_title_upgrade">Actualiza chave</string>
+  <string name="pref_contrib_purchase_title_in_app">pagamento no App</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
   <string name="pref_enter_licence_summary">Se você tiver recebido uma chave, obtenha acesso aos recursos Premium e estendidos.</string>
   <string name="pref_enter_licence_title">Digitar chave</string>
@@ -555,4 +553,7 @@
   <string name="csv_import_records_discarded">%d registros foram descartados.</string>
   <string name="csv_import_subcategory_requires_category">Se você mapear uma subcategoria, você também deve mapear categoria.</string>
   <string name="cvs_import_set_first_line_as_header">A primeira linha deve ser tratada como uma linha de cabeçalho?</string>
+  <string name="csv_import_delimiter_comma">Vírgula</string>
+  <string name="csv_import_delimiter_semicolon">Ponto e vírgula</string>
+  <string name="csv_import_delimiter_tab">tabulação</string>
 </resources>

@@ -48,7 +48,6 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">你也可以無限制地的使用以下特點：</string>
   <string name="dialog_contrib_text_1"><i>開支助手</i> 是無廣告和開放源碼的。</string>
-  <string name="dialog_contrib_text_2">請通過安裝貢獻補丁來為此軟件作出貢獻。你將可以無限制地使用以下高級功能：</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">現在你擁有 %1$d 免費使用額</item>
   </plurals>
@@ -80,7 +79,6 @@
   <string name="dialog_title_warning_delete_template">要刪除範本？</string>
   <string name="dialog_title_warning_delete_transaction">刪除交易嗎？</string>
   <string name="dialog_title_welcome">歡迎！</string>
-  <string name="donate">捐助</string>
   <string name="expense">支出</string>
   <string name="export_expenses">匯出開支</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -229,8 +227,6 @@
   <string name="pref_category_title_more_information">更多資訊</string>
   <string name="pref_category_title_security">安全</string>
   <string name="pref_category_title_ui">用戶界面</string>
-  <string name="pref_contrib_donate_summary">通過PayPal、Flattr或Bitcoin捐款，並獲得高級功能。</string>
-  <string name="pref_contrib_donate_title">送上捐款</string>
   <string name="pref_export_format_title">日期格式</string>
   <string name="pref_follow_gplus_title">跟隨在 Google+ 的 開支助手</string>
   <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>

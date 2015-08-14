@@ -68,7 +68,6 @@
   <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için %s kurabilirsiniz.</string>
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
   <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
-  <string name="dialog_contrib_text_2">Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Ücretsiz bir kullanımınız kalmıştır.</item>
     <item quantity="other">Ücretsiz %1$d kullanımınız kalmıştır.</item>
@@ -109,7 +108,6 @@
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
-  <string name="donate">Bağış</string>
   <string name="donate_dialog_text">Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
@@ -301,10 +299,8 @@
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
   <string name="pref_checkbox_disabled">Devre dışı</string>
-  <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">İlâve bir katkıda bulunmak istiyorsanız, Harcamalarımı flattr\'layabilir, PayPal vasıtasıyla bağışta bulunabilir ya da Bitcoin yollayabilirsiniz.</string>
-  <string name="pref_contrib_donate_title">Bağışı gönder</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Anahtarını Satın Al (Uygulama içi ödeme)</string>
+  <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
+  <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
   <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
   <string name="pref_enter_licence_summary">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Anahtarını gir</string>

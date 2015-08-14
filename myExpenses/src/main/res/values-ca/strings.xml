@@ -58,7 +58,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
   <string name="dialog_contrib_text_1"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert.</string>
-  <string name="dialog_contrib_text_2">Si us plau contribuiu mitjançant la compra de <i>Les meves despeses Clau Contrib</i>. Obtindreu accés il·limitat a les següents característiques premium:</string>
+  <string name="dialog_contrib_text_2">Si us plau contribuiu mitjançant la compra de %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Us queden encara 1 us disponible.</item>
     <item quantity="other">Us queden encara %1$d usos disponibles.</item>
@@ -97,7 +97,6 @@
   <string name="dialog_title_warning_delete_template">Voleu suprimir la plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">Voleu suprimir l\'operació?</string>
   <string name="dialog_title_welcome">Benvingut!</string>
-  <string name="donate">Feu una donació</string>
   <string name="donate_dialog_text">Si us plau, feu una donació amb PayPal, Flattr o Bitcoin i, a continuació, demaneu una clau a la pantalla de preferències.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exporteu les despeses</string>
@@ -263,8 +262,6 @@
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_category_title_security">Seguretat</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
-  <string name="pref_contrib_donate_summary">Accediu a les característiques premium fent  una donació amb Paypal, Flattr o Bitcoin.</string>
-  <string name="pref_contrib_donate_title">Envieu una donació</string>
   <string name="pref_enter_licence_summary">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
   <string name="pref_enter_licence_title">Entreu la clau</string>
   <string name="pref_export_format_title">Format de les dades</string>

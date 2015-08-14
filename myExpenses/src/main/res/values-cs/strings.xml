@@ -48,7 +48,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Můžete také získat neomezený přístup k následujícím funkcím:</string>
   <string name="dialog_contrib_text_1"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj.</string>
-  <string name="dialog_contrib_text_2">Prosím přispějte instalací <i>Moje výdaje Klíč Contrib</i>. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
+  <string name="dialog_contrib_text_2">Prosím přispějte instalací %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Máte jedno použití zdarma.</item>
     <item quantity="few">Máte %1$d použití zdarma.</item>
@@ -82,7 +82,6 @@
   <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
   <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
   <string name="dialog_title_welcome">Vítejte!</string>
-  <string name="donate">Darujte</string>
   <string name="donate_dialog_text">Prosím přispějte přes PayPal, Flattr nebo Bitcoin a potom požádejte o klíč z obrazovky nastavení.</string>
   <string name="expense">Výdaj</string>
   <string name="export_expenses">Export výdajů</string>
@@ -242,8 +241,6 @@
   <string name="pref_category_title_more_information">Více informací</string>
   <string name="pref_category_title_security">Bezpečnost</string>
   <string name="pref_category_title_ui">Uživatelské rozhraní</string>
-  <string name="pref_contrib_donate_summary">Darujte přes PayPal, Flattr nebo Bitcoin a získat přístup k nadstandardním funkcím.</string>
-  <string name="pref_contrib_donate_title">Odeslat příspěvek</string>
   <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
   <string name="pref_enter_licence_title">Vložte klíč</string>
   <string name="pref_export_format_title">Formát dat</string>

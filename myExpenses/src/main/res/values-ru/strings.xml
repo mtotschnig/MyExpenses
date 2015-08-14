@@ -50,7 +50,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Вы получите неограниченный доступ к следующим функциям:</string>
   <string name="dialog_contrib_text_1"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом.</string>
-  <string name="dialog_contrib_text_2">Пожалуйста внесите вклад, установив платную версию Contrib. Вы получаете неограниченный доступ к следующим премиум функциям:</string>
+  <string name="dialog_contrib_text_2">Пожалуйста внесите вклад, установив %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one"> У вас осталось одно бесплатное использование.</item>
     <item quantity="few"> У вас осталось %1$d бесплатных использований.</item>
@@ -87,7 +87,6 @@
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
   <string name="dialog_title_welcome">Добро пожаловать!</string>
-  <string name="donate">Пожертвовать</string>
   <string name="donate_dialog_text">Пожертвовать через PayPal, Flattr или Bitcoin, а затем запросить ключ в настройках.</string>
   <string name="expense">Расход</string>
   <string name="export_expenses">Экспорт расходов</string>
@@ -266,9 +265,8 @@
   <string name="pref_category_title_more_information">Дополнительная информация</string>
   <string name="pref_category_title_security">Безопасность</string>
   <string name="pref_category_title_ui">Пользовательский интерфейс</string>
-  <string name="pref_contrib_donate_summary">Пожертвовать через PayPal, Flattr или Bitcoin и получить доступ к премиум функциям.</string>
-  <string name="pref_contrib_donate_title">Отправить пожертвование</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Приобрести ключ (в-App платежей)</string>
+  <string name="pref_contrib_purchase_title">Приобрести ключ</string>
+  <string name="pref_contrib_purchase_title_in_app">в-App платежей</string>
   <string name="pref_enter_licence_summary">Если вы получили ключ, получите доступ к премиум функциям.</string>
   <string name="pref_enter_licence_title">Ввести ключ</string>
   <string name="pref_export_format_title">Формат даты</string>

@@ -48,7 +48,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Az alábbi szolgáltatások is elérhetővé válnak:</string>
   <string name="dialog_contrib_text_1"><i>Kiadásaim</i> reklám mentes és nyitott forráskódú.</string>
-  <string name="dialog_contrib_text_2">Kérjük, ha elégedett a termékkel, járuljon hozzá <i>Kiadásaim Contrib kulcs</i>. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
+  <string name="dialog_contrib_text_2">Kérjük, ha elégedett a termékkel, járuljon hozzá %s.</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>
   <string name="dialog_password_activate_protection">Jelszóvédelem aktiválása</string>
@@ -77,7 +77,6 @@
   <string name="dialog_title_warning_delete_template">Sablon törlése?</string>
   <string name="dialog_title_warning_delete_transaction">Tranzakció törlése?</string>
   <string name="dialog_title_welcome">Üdvözlet!</string>
-  <string name="donate">Támogatás</string>
   <string name="donate_dialog_text">Támogatását PayPal, Bitcoin vagy Flattr-en keresztül is megteheti, majd kérjen kulcsot a beállítások képernyőn megtalálható módon.</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses">Kiadások exportálása</string>
@@ -233,8 +232,6 @@
   <string name="pref_category_title_more_information">További információ</string>
   <string name="pref_category_title_security">Biztonság</string>
   <string name="pref_category_title_ui">Felhasználói felület</string>
-  <string name="pref_contrib_donate_summary">Támogasd a projektet PayPal, Flatter vagy Bitcoin segítségével és szerezz prémium hozzáférést az összes szolgáltatáshoz.</string>
-  <string name="pref_contrib_donate_title">Támogatás küldése</string>
   <string name="pref_enter_licence_title">Kulcs megadása</string>
   <string name="pref_export_format_title">Adat formátum</string>
   <string name="pref_follow_gplus_title">A Kiadásaim (My Expenses) követése a Google+ oldalain</string>

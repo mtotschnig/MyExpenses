@@ -59,7 +59,7 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Можете да получите неограничен достъп до следните функции:</string>
   <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага свободно от реклами и с отворен достъп.</string>
-  <string name="dialog_contrib_text_2">Моля, допринесете като закупите <i>Моите разходи Contrib ключ</i>. Вие получавате неограничен достъп до следните премийни функции:</string>
+  <string name="dialog_contrib_text_2">Моля, допринесете като закупите %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Имате един свободен отнасяне наляво.</item>
     <item quantity="other">Имате оснтанали %1$d свободни употреби .</item>
@@ -100,7 +100,6 @@
   <string name="dialog_title_warning_delete_template">Изтрийте темплейт?</string>
   <string name="dialog_title_warning_delete_transaction">Изтрийте транзакция?</string>
   <string name="dialog_title_welcome">Добре дошли!</string>
-  <string name="donate">Дарете</string>
   <string name="donate_dialog_text">Моля дарете чрез PayPal, Flattr или Bitcoin и след това поискайте ключ от настройките на екрана.</string>
   <string name="expense">Разход</string>
   <string name="export_expenses">Разходи за експортиране</string>
@@ -290,10 +289,7 @@
   <string name="pref_category_title_ui">Потребителски интерфейс</string>
   <string name="pref_checkbox_enabled">Разрешено</string>
   <string name="pref_checkbox_disabled">изключена употреба</string>
-  <string name="pref_contrib_donate_summary">Дарете чрез PayPal, Flattr или Bitcoin, за да получите достъп до премийните функции.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Ако искате да направите допълнителен принос, можете да flattr Моите разходи, да направите дарение чрез Paypal или да изпратите Bitcoins.</string>
-  <string name="pref_contrib_donate_title">Изпратете дарение</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Инсталирайте Ключ</string>
+  <string name="pref_contrib_purchase_title">Инсталирайте Ключ</string>
   <string name="pref_custom_currency_title">Персонализирайте валути</string>
   <string name="pref_enter_licence_summary">Ако сте получили ключ, получавате достъп до премийните функции.</string>
   <string name="pref_enter_licence_title">Въведете ключ</string>

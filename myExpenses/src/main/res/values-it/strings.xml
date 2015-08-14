@@ -71,7 +71,7 @@
   <string name="dialog_contrib_reminder_gain_access">È inoltre acquisire accesso illimitato ai seguenti caratteristiche:</string>
   <string name="dialog_contrib_extended_gain_access">Inoltre, le seguenti caratteristiche sono sbloccate se si acquista la chiave ampliata:</string>
   <string name="dialog_contrib_text_1"><i>Le mie spese</i> è offerta senza pubblicità e open source.</string>
-  <string name="dialog_contrib_text_2">Si prega di contribuire acquistando <i>Le Mie Spese Chiave Contrib</i>. Si guadagna l\'accesso illimitato alle seguenti caratteristiche premium:</string>
+  <string name="dialog_contrib_text_2">Si prega di contribuire acquistando %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Avete uno utilizzo gratuito.</item>
     <item quantity="other">Restano %1$d utilizzi gratuiti.</item>
@@ -116,7 +116,6 @@
   <string name="dialog_title_warning_delete_template">Eliminare modello ?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminare transazione ?</string>
   <string name="dialog_title_welcome">Benvenuto!</string>
-  <string name="donate">Donare</string>
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave dalla schermata delle impostazioni.</string>
   <string name="expense">Spesa</string>
   <string name="export_expenses">Esportazione delle spese</string>
@@ -309,11 +308,10 @@
   <string name="pref_category_title_ui">Interfaccia utente</string>
   <string name="pref_checkbox_enabled">Abilitato</string>
   <string name="pref_checkbox_disabled">Non abilitato</string>
-  <string name="pref_contrib_donate_summary">Dona tramite PayPal, Flattr o Bitcoin e ottieni l\'accesso a funzioni premium.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Se vuoi dare un contributo aggiuntivo, si può dare un Flattr a Le mie spese, fare una donazione tramite Paypal o invia Bitcoins.</string>
-  <string name="pref_contrib_donate_title">Invia donazione</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Acquistare l\'accesso a funzionalità premium e ampliata.</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Acquisto la chiave (pagamento nel applicazione)</string>
+  <string name="pref_contrib_purchase_summary">Acquistare l\'accesso a funzionalità premium e ampliata.</string>
+  <string name="pref_contrib_purchase_title">Acquisto la chiave</string>
+  <string name="pref_contrib_purchase_title_upgrade">Aggiornare la chiave</string>
+  <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
   <string name="pref_custom_currency_title">Personalizzare le valute</string>
   <string name="pref_enter_licence_summary">Se avete ricevuto una chiave, otterete accesso a funzionalità speciali.</string>
   <string name="pref_enter_licence_title">Inserisci la chiave</string>
@@ -555,4 +553,7 @@
   <string name="csv_import_records_discarded">%d registri sono stati eliminati.</string>
   <string name="csv_import_subcategory_requires_category">Se si associa sottocategoria, è inoltre necessario associare la categoria.</string>
   <string name="cvs_import_set_first_line_as_header">La prima riga dovrebbe essere trattata come una riga di intestazione?</string>
+  <string name="csv_import_delimiter_comma">Virgola</string>
+  <string name="csv_import_delimiter_semicolon">Punto e virgola</string>
+  <string name="csv_import_delimiter_tab">Tabulazione</string>
 </resources>

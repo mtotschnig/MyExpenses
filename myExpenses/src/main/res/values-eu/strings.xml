@@ -68,7 +68,7 @@
   <string name="dialog_contrib_reminder_remove_limitation">Ezabatu muga hau %s erosita.</string>
   <string name="dialog_contrib_reminder_gain_access">Hurrengo ezaugarrietara mugagabeko sarbidea lortzen duzu ere:</string>
   <string name="dialog_contrib_text_1"><i>Nire Gastuak</i> doan eta libre eskaintzen da.</string>
-  <string name="dialog_contrib_text_2">Mesedez lagundu <i>Nire Gastuak Kontribuzio Gakoa</i> erosita. Mugagabeko sarbidea lortuko duzu honako premium ezaugarrietara:</string>
+  <string name="dialog_contrib_text_2">Mesedez lagundu %s erosita.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Doako erabilera bat geratzen zaizu</item>
     <item quantity="other">Doako %1$d erabilera geratzen zaizkizu.</item>
@@ -109,7 +109,6 @@
   <string name="dialog_title_warning_delete_template">Ezabatu txantiloia?</string>
   <string name="dialog_title_warning_delete_transaction">Ezabatu transakzioa?</string>
   <string name="dialog_title_welcome">Ongi etorri!</string>
-  <string name="donate">Egin dohaintza</string>
   <string name="expense">Gastua</string>
   <string name="export_expenses">Gastuen esportazioa</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -300,10 +299,8 @@
   <string name="pref_category_title_ui">Erabiltzaile interfazea</string>
   <string name="pref_checkbox_enabled">Gaituta</string>
   <string name="pref_checkbox_disabled">Ezgaituta</string>
-  <string name="pref_contrib_donate_summary">Egin Dohaintza PayPal, Flattr edo Bitcoin bitartez eta lortu sarbidea premium ezaugarrietara.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Kontribuzio gehigarri bat egin nahi baduzu My Expenses gehitu zure flattr kontura, dohaintza bat egin Paypal bitartez edo bidali Bitcoin txanponak.</string>
-  <string name="pref_contrib_donate_title">Bidali dohaintza</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Erosi gakoa (Aplikazio barneko ordainketa)</string>
+  <string name="pref_contrib_purchase_title">Erosi gakoa</string>
+  <string name="pref_contrib_purchase_title_in_app">Aplikazio barneko ordainketa</string>
   <string name="pref_custom_currency_title">Pertsonalizatu monetak</string>
   <string name="pref_enter_licence_title">Sartu gakoa</string>
   <string name="pref_export_format_title">Datuen formatua</string>
@@ -544,4 +541,7 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="csv_import_records_discarded">%d sarrera baztertu dira.</string>
   <string name="csv_import_subcategory_requires_category">Azpikategoria mapeatzen baduzu kategoria ere mapeatu behar duzu.</string>
   <string name="cvs_import_set_first_line_as_header">Lehen lerroa izenburutzat hartu?</string>
+  <string name="csv_import_delimiter_comma">Koma</string>
+  <string name="csv_import_delimiter_semicolon">Puntu eta koma</string>
+  <string name="csv_import_delimiter_tab">Tabulazioa</string>
 </resources>

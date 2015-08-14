@@ -66,7 +66,6 @@
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">다음과 같은 기능에 제한 없이 접근할 수 있습니다:</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
-  <string name="dialog_contrib_text_2">My Expenses 기부 확인 키를 구매해서 개발에 기여하세요. 다음과 같은 프리미엄 기능에 제한 없이 접근할 수 있습니다:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">무료 사용량이 %1$d 남았습니다.</item>
   </plurals>
@@ -106,7 +105,6 @@
   <string name="dialog_title_warning_delete_template">템플릿을 삭제할까요?</string>
   <string name="dialog_title_warning_delete_transaction">거래 내역을 삭제할까요?</string>
   <string name="dialog_title_welcome">환영합니다!</string>
-  <string name="donate">기부하기</string>
   <string name="donate_dialog_text">PayPal, Flattr, Bitcoin을 통해 기부해주세요. 그리고 설정 화면에서 기부 확인 키를 요청하세요.</string>
   <string name="expense">지출</string>
   <string name="export_expenses">지출 내보내기</string>
@@ -295,10 +293,8 @@
   <string name="pref_category_title_ui">사용자 인터페이스</string>
   <string name="pref_checkbox_enabled">사용함</string>
   <string name="pref_checkbox_disabled">사용하지 않음</string>
-  <string name="pref_contrib_donate_summary">PayPal, Flattr, Bitcoin을 통해 기부하시고 프리미엄 기능을 사용하세요.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">추가적으로 기여를 하고 싶으시다면 My Expenses를 Flattr하시거나 Paypal 또는 Bitcoin을 통해 기부해주세요.</string>
-  <string name="pref_contrib_donate_title">기부하기</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">기부 확인 키 구매 (인앱 결제)</string>
+  <string name="pref_contrib_purchase_title">기부 확인 키 구매 </string>
+  <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>
   <string name="pref_custom_currency_title">화폐 단위 설정</string>
   <string name="pref_enter_licence_summary">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
   <string name="pref_enter_licence_title">기부 확인 키 입력</string>

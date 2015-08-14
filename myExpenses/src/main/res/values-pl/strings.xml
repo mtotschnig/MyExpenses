@@ -62,7 +62,7 @@
   <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując %s.</string>
   <string name="dialog_contrib_reminder_gain_access">Dostajesz także nieograniczony dostęp do następujących funkcji:</string>
   <string name="dialog_contrib_text_1"><i>Moje Wydatki</i> jest oferowany bez reklam i otwartoźródłowo.</string>
-  <string name="dialog_contrib_text_2">Proszę wspomóc nas instalując <i>Moje Wydatki Klucz Contrib</i>. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
+  <string name="dialog_contrib_text_2">Proszę wspomóc nas instalując %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Zostało Ci jedno darmowe użycie.</item>
     <item quantity="few">Posiadasz jeszcze %1$d darmowych użyć.</item>
@@ -99,7 +99,6 @@
   <string name="dialog_title_warning_delete_template">Usunąć szablon?</string>
   <string name="dialog_title_warning_delete_transaction">Usunąć transakcję?</string>
   <string name="dialog_title_welcome">Witaj!</string>
-  <string name="donate">Wspomóż</string>
   <string name="donate_dialog_text">Proszę dawać datki przez PayPal, Flattr lub Bitcoin, i wtedy poproś o klucz z ekranu ustawień.</string>
   <string name="expense">Wydatek</string>
   <string name="export_expenses">Eksport wydatków</string>
@@ -289,10 +288,8 @@
   <string name="pref_category_title_ui">Interfejs użytkownika</string>
   <string name="pref_checkbox_enabled">Włączone</string>
   <string name="pref_checkbox_disabled">Wyłączone</string>
-  <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Jeżeli chciałbyś dodatkowo się przyczynić, możesz wysłać darowiznę przez flattr, PayPal lub wysłać Bitcoiny.</string>
-  <string name="pref_contrib_donate_title">Wyślij datek</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Zakup Klucz (Płatność Wewnątrz Aplikacji)</string>
+  <string name="pref_contrib_purchase_title">Zakup Klucz</string>
+  <string name="pref_contrib_purchase_title_in_app">Płatność Wewnątrz Aplikacji</string>
   <string name="pref_custom_currency_title">Dostosuj waluty</string>
   <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz, otrzymasz dostęp do funkcji premium.</string>
   <string name="pref_enter_licence_title">Wprowadź klucz</string>

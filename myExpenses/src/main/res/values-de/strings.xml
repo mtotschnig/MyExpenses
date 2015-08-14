@@ -71,7 +71,7 @@
   <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
   <string name="dialog_contrib_extended_gain_access">Darüber hinaus sind die folgenden Funktionen entsperrt, wenn Sie den erweiterten Schlüssel kaufen:</string>
   <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
-  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch den Kauf von <i>Meine Ausgaben Contrib-Schlüssel</i>. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
+  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch den Kauf von %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Diese Funktion kann nur noch ein mal verwendet werden.</item>
     <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
@@ -116,7 +116,6 @@
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
-  <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
@@ -309,11 +308,10 @@
   <string name="pref_category_title_ui">Benutzerschnittstelle</string>
   <string name="pref_checkbox_enabled">Freigegeben</string>
   <string name="pref_checkbox_disabled">Deaktiviert</string>
-  <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Wenn Sie einen zusätzlichen Beitrag leisten möchten, können Sie Meine Ausgaben flattren, mittels Paypal spenden oder Bitcoins senden.</string>
-  <string name="pref_contrib_donate_title">Spenden</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_summary">Zugriff auf Premium- und erweiterte Funktionen erwerben.</string>
-  <string tools:ignore="UnusedResources" name="pref_contrib_install_title">Schlüssel kaufen (In-App Bezahlung)</string>
+  <string name="pref_contrib_purchase_summary">Zugriff auf Premium- und erweiterte Funktionen erwerben.</string>
+  <string name="pref_contrib_purchase_title">Schlüssel kaufen</string>
+  <string name="pref_contrib_purchase_title_upgrade">Schlüssel aktualisieren</string>
+  <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium/erweiterte Funktionen freischalten.</string>
   <string name="pref_enter_licence_title">Schlüssel eingeben</string>
@@ -555,4 +553,7 @@
   <string name="csv_import_records_discarded">%d Einträge wurden verworfen.</string>
   <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
   <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>
+  <string name="csv_import_delimiter_comma">Komma</string>
+  <string name="csv_import_delimiter_semicolon">Semikolon</string>
+  <string name="csv_import_delimiter_tab">Tabulator</string>
 </resources>
