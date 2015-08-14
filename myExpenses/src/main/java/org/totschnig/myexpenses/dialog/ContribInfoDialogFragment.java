@@ -87,14 +87,16 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       } else {
         if (!isContrib) {
           builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
+          builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this);
+        } else {
+          builder.setPositiveButton(R.string.dialog_contrib_upgrade_extended, this);
         }
-        builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this)
-            .setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                onCancel(dialog);
-              }
-            });
+        builder.setNegativeButton(R.string.dialog_contrib_no, new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            onCancel(dialog);
+          }
+        });
       }
     return builder.create();
   }
