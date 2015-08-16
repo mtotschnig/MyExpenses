@@ -19,8 +19,8 @@
 ]>
 <resources>
   <string-array name="whats_new_250">
-    <item>Korean translation</item>
     <item>CSV import</item>
+    <item>Korean translation</item>
   </string-array>
   <string-array name="whats_new_249">
     <item>Export categories to QIF</item>
