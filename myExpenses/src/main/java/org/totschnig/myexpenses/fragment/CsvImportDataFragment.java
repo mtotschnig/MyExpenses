@@ -415,8 +415,14 @@ public class CsvImportDataFragment extends Fragment  {
   }
 
   /**
-   * Check if required field (amount) is mapped and fields are not mapped more than once
-   * as a side effect constructs the inverse map from field to column
+   * Check mapping constraints:<br>
+   *   <ul>
+   *     <li>No field mapped more than once</li>
+   *     <li>Subcategory cannot be mapped withoug category</li>
+   *     <li>One of amount, income or expense must be mapped.</li>
+   *   </ul>
+   *
+   *
    * @param columnToFieldMap
    */
   private boolean validateMapping(int[] columnToFieldMap) {
@@ -433,6 +439,12 @@ public class CsvImportDataFragment extends Fragment  {
     }
     if (foundFields.get(R.string.subcategory,false) && !foundFields.get(R.string.category,false)){
       Toast.makeText(getActivity(), R.string.csv_import_subcategory_requires_category,Toast.LENGTH_LONG).show();
+      return false;
+    }
+    if (!(foundFields.get(R.string.amount,false) ||
+        foundFields.get(R.string.expense,false) ||
+        foundFields.get(R.string.income,false))) {
+      Toast.makeText(getActivity(), R.string.csv_import_no_mapping_found_for_amount,Toast.LENGTH_LONG).show();
       return false;
     }
     return true;

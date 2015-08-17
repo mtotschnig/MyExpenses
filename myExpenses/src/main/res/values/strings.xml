@@ -573,5 +573,6 @@
     <string name="csv_import_delimiter_comma">Comma</string>
     <string name="csv_import_delimiter_semicolon">Semicolon</string>
     <string name="csv_import_delimiter_tab">Tab</string>
+    <string name="csv_import_no_mapping_found_for_amount">Please map one column either to amount, income or expense.</string>
 </resources>
 
