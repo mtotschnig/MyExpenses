@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
@@ -189,6 +190,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
         if (r.success) {
+          recordUsage(ContribFeature.CSV_IMPORT);
           Integer imported = (Integer) r.extra[0];
           Integer failed = (Integer) r.extra[1];
           Integer discarded = (Integer) r.extra[2];
