@@ -41,6 +41,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 
 /**
@@ -64,6 +65,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   private SimpleCursorAdapter mAccountsAdapter;
   private long accountId = 0;
   private Account.CurrencyEnum currency = null;
+  private Account.Type type = null;
 
 
   @Override
@@ -71,6 +73,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     if (savedInstanceState!=null) {
         accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
         currency = (Account.CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+        type = (Account.Type) savedInstanceState.getSerializable(KEY_TYPE);
     }
 
     View view = inflater.inflate(R.layout.import_csv_parse, container, false);
@@ -87,6 +90,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mAccountSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner = DialogUtils.configureCurrencySpinner(view,wrappedCtx,this);
     mTypeSpinner = DialogUtils.configureTypeSpinner(view,wrappedCtx);
+    mTypeSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     return view;
@@ -215,7 +219,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         new String[] {
             KEY_ROWID,
             KEY_LABEL,
-            KEY_CURRENCY},
+            KEY_CURRENCY,
+            KEY_TYPE},
         null,null, null);
     return cursorLoader;
   }
@@ -225,12 +230,15 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     MatrixCursor extras = new MatrixCursor(new String[] {
         KEY_ROWID,
         KEY_LABEL,
-        KEY_CURRENCY
+        KEY_CURRENCY,
+        KEY_TYPE
     });
     extras.addRow(new String[] {
         "0",
         getString(R.string.menu_create_account),
-        Account.getLocaleCurrency().getCurrencyCode()
+        Account.getLocaleCurrency().getCurrencyCode(),
+        Account.Type.CASH.name()
+
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
@@ -251,6 +259,12 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       }
       return;
     }
+    if (parent.getId()==R.id.AccountType) {
+      if (accountId==0) {
+        type = (Account.Type) parent.getSelectedItem();
+      }
+      return;
+    }
     if (mAccountsCursor != null) {
       accountId = id;
       mAccountsCursor.moveToPosition(position);
@@ -260,9 +274,14 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
           Account.CurrencyEnum
               .valueOf(
                   mAccountsCursor.getString(2));//2=KEY_CURRENCY
-      mCurrencySpinner.setSelection(
-          currency.ordinal());
-      mCurrencySpinner.setEnabled(position==0);
+      Account.Type type = (accountId==0 && this.type !=null) ?
+          this.type :
+          Account.Type.valueOf(
+                  mAccountsCursor.getString(3));//3=KEY_TYPE
+      mCurrencySpinner.setSelection(currency.ordinal());
+      mTypeSpinner.setSelection(type.ordinal());
+      mCurrencySpinner.setEnabled(position == 0);
+      mTypeSpinner.setEnabled(position==0);
     }
   }
   @Override
