@@ -557,4 +557,5 @@
   <string name="csv_import_delimiter_comma">coma</string>
   <string name="csv_import_delimiter_semicolon">Punto y coma</string>
   <string name="csv_import_delimiter_tab">Tabulador</string>
+  <string name="csv_import_no_mapping_found_for_amount">Por favor asigne una columna por importe, ingreso o gasto.</string>
 </resources>

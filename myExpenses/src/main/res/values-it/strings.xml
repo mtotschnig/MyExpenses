@@ -556,4 +556,5 @@
   <string name="csv_import_delimiter_comma">Virgola</string>
   <string name="csv_import_delimiter_semicolon">Punto e virgola</string>
   <string name="csv_import_delimiter_tab">Tabulazione</string>
+  <string name="csv_import_no_mapping_found_for_amount">Si prega di mappare una colonna per importo, reddito o spesa.</string>
 </resources>

@@ -43,6 +43,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget\'i</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV içe aktar</string>
   <string name="contrib_key">Katkı Anahtarı</string>
+  <string name="extended_key">Genişletilmiş Anahtarı</string>
   <string name="contrib_key_requires">Harcamalarımın Katkı Anahtarı gerektirir.</string>
   <string name="currency">Döviz</string>
   <string name="current_balance">Güncel bakiye</string>
@@ -64,14 +65,20 @@
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
   <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s genişletilmiş bir işlevdir.</string>
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için %s kurabilirsiniz.</string>
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
+  <string name="dialog_contrib_extended_gain_access">Ek olarak, Genişletilmiş Anahtarı satın alırsanız aşağıdaki işlevlerin kilidi açılacaktır:</string>
   <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
+  <string name="dialog_contrib_text_2">Lütfen %s unsurunu satın alarak katkıda bulunun.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Ücretsiz bir kullanımınız kalmıştır.</item>
     <item quantity="other">Ücretsiz %1$d kullanımınız kalmıştır.</item>
   </plurals>
+  <string name="dialog_contrib_buy_premium">PREMIUM satın al</string>
+  <string name="dialog_contrib_buy_extended">GENİŞLETİLMİŞ işlevleri satın al</string>
+  <string name="dialog_contrib_upgrade_extended">GENİŞLETİLMİŞE yükselt</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
@@ -96,6 +103,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
+  <string name="dialog_title_extended_feature">Genişletilmiş işlev</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
   <string name="dialog_title_select_grouping">Bir grup seçin</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -151,6 +159,7 @@
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı:</string>
   <string name="licence_validation_premium">Ödemeli işlevlerin kilidi açılmıştır.</string>
+  <string name="licence_validation_extended">Genişletilmiş işlevlerin kilidi açıldı.</string>
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Uygula</string>
@@ -299,7 +308,9 @@
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
   <string name="pref_checkbox_disabled">Devre dışı</string>
+  <string name="pref_contrib_purchase_summary">Premium (ödemeli) ve genişletilmiş işlevlere erişim satın al.</string>
   <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
+  <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
   <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
   <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
   <string name="pref_enter_licence_summary">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
@@ -340,6 +351,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
+  <string name="pref_request_licence_summary">Katkıda bulunduysanız, e-posta ile Android-Id %1$s için anahtar talep ediniz.</string>
   <string name="pref_request_licence_title">Anahtarı talep et</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
@@ -537,4 +549,14 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
   <string name="csv_import_preview">Önizle</string>
   <string name="menu_parse">Çözümle</string>
+  <string name="cvs_import_discard">At</string>
+  <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
+  <string name="csv_import_records_failed">%d kayıt içe aktarılamadı.</string>
+  <string name="csv_import_records_discarded">%d kayıt atılmıştır.</string>
+  <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
+  <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>
+  <string name="csv_import_delimiter_comma">Virgül</string>
+  <string name="csv_import_delimiter_semicolon">Noktalı virgül</string>
+  <string name="csv_import_delimiter_tab">Sekme</string>
+  <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
 </resources>

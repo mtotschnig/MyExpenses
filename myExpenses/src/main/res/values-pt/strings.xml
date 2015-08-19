@@ -556,4 +556,5 @@
   <string name="csv_import_delimiter_comma">Vírgula</string>
   <string name="csv_import_delimiter_semicolon">Ponto e vírgula</string>
   <string name="csv_import_delimiter_tab">tabulação</string>
+  <string name="csv_import_no_mapping_found_for_amount">Por favor, mapear uma coluna ou a valor, renda ou despesa.</string>
 </resources>
