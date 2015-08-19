@@ -73,9 +73,6 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
         getString(R.string.thank_you)
     ));
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    if (!isExtended) {
-      builder.setNegativeButton(R.string.donate_button_flattr, listener);
-    }
     return builder
       .setTitle(isExtended ? R.string.extended_key : R.string.contrib_key)
       .setView(message)
@@ -111,13 +108,12 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
             ((MessageDialogListener) ctx).onMessageDialogDismissOrCancel();
           }
         }
-      } else {
+      } else if (which == AlertDialog.BUTTON_POSITIVE) {
         String paypalButtonId = MyApplication.getInstance().isContribEnabled() ?
             "KPXNZHMXJE8ZJ" : "A7ZPSCUTS23K6";
-        String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
+        String uri =
             "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id="
-                +  paypalButtonId :
-            "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
+                +  paypalButtonId;
         intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(uri));
         ctx.startActivityForResult(intent, 0);

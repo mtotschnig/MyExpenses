@@ -131,7 +131,7 @@
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
     <string name="dialog_title_welcome">Welcome!</string>
-    <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a key from the settings screen.</string>
+    <string name="donate_dialog_text">Please donate via PayPal or Bitcoin, and then request a key from the settings screen.</string>
     <string name="expense">Expense</string>
     <string name="export_expenses">Expenses export</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
