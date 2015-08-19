@@ -975,8 +975,12 @@ public class CategoryList extends ContextualActionBarFragment implements
         ctx.helpVariant.equals(HelpVariant.distribution);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
-    menu.findItem(R.id.SELECT_COMMAND).setVisible(count==1 &&
+    MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
+    menuItem.setVisible(count == 1 &&
         (ctx.helpVariant.equals(HelpVariant.distribution) || ctx.helpVariant.equals(HelpVariant.select_mapping)));
+    if (ctx.helpVariant.equals(HelpVariant.distribution)) {
+      menuItem.setTitle(R.string.menu_show_transactions);
+    }
     menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(ctx.helpVariant.equals(HelpVariant.select_filter));
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
   }
