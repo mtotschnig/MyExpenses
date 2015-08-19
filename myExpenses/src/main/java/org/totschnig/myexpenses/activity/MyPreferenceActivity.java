@@ -178,7 +178,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       cat.removePreference(pref1);
       cat.removePreference(pref2);
     } else {
-      if (pref1!=null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
+      if (pref1!=null && pref2!=null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
         pref1.setOnPreferenceClickListener(this);
         pref1.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getContentResolver(), Secure.ANDROID_ID)));
         int baseTitle = MyApplication.getInstance().isContribEnabled() ?
@@ -188,9 +188,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         } else {
           pref2.setTitle(baseTitle);
         }
+        pref2.setOnPreferenceClickListener(this);
       }
     }
-    pref2.setOnPreferenceClickListener(this);
     findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
   }
   private void setProtectionDependentsState() {
