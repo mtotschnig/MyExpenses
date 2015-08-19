@@ -32,6 +32,8 @@ contrib:
   - security_question
   - attach_picture
   - ad_free
+extended:
+  - cvs_import
 title:
   ar: مصروفاتي
   en: My Expenses

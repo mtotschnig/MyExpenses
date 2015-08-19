@@ -251,6 +251,10 @@
     {% for feature in site.contrib %}
     <li>{{t.contrib.feature[feature]}}</li>
     {% endfor %}
+    {% for feature in site.extended %}
+    <li>{{t.contrib.feature[feature]}} <span class="label
+    label-success">{{t.contrib.extended-label}}</span></li>
+    {% endfor %}
   </ul>
   <p>{{t.contrib.licence-howto-buy.intro}}</p>
   <ul>
@@ -258,19 +262,29 @@
     <li>{{t.contrib.licence-howto-buy.blackberry}}</li>
     <li>{{t.contrib.licence-howto-buy.other}}
       <ul>
-        <li>Flattr <a class="track" id="flattr" href="http://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App" target="_blank"><img
-          src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></li>
-        <li>PayPal <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6"><img
-          src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a> (minimum 2 €)</li>
-        <li><a href="http://bitcoin.org">Bitcoins</a>: <a class="track" id="bitcoin" href="bitcoin:1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn">1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn</a> (minimum 0.01 bitcoins)</li>
+        <li>PayPal
+          <ul>
+            <li>
+               Contrib <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
+            </li>
+            <li>
+               Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=85U6933MANDW8"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
+            </li>
+            <li>
+               Upgrade from Contrib to Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7RVRT537PF6RC"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="http://bitcoin.org">Bitcoins</a>: <a class="track" id="bitcoin" href="bitcoin:1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn">1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn</a></li>
         <li>{{t.contrib.licence-howto-buy.transfer}}<br> 
-        Michael Totschnig<br>
-        Bank: Postbank<br>
-        IBAN: DE05100100100750514100<br>
-        BIC: PBNKDEFF
+          Michael Totschnig<br>
+          Bank: Postbank<br>
+          IBAN: DE05100100100750514100<br>
+          BIC: PBNKDEFF
         </li>
       </ul>
-      {{t.contrib.licence-howto-buy.key}}
+      {{t.contrib.licence-howto-buy.key}}<br />
+      {{t.contrib.licence-howto-buy.price}}
     </li>
   </ul>
 </div>
