@@ -114,7 +114,7 @@
   <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
   <string name="dialog_title_welcome">ようこそ!</string>
-  <string name="donate_dialog_text">Paypal、Flattr、またはBitcoin経由で寄付をして、その後、設定画面からキーをリクエストしてください。</string>
+  <string name="donate_dialog_text">Paypal、またはBitcoin経由で寄付をして、その後、設定画面からキーをリクエストしてください。</string>
   <string name="expense">支出</string>
   <string name="export_expenses">支出エクスポート</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

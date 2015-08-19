@@ -100,7 +100,7 @@
   <string name="dialog_title_warning_delete_template">Изтрийте темплейт?</string>
   <string name="dialog_title_warning_delete_transaction">Изтрийте транзакция?</string>
   <string name="dialog_title_welcome">Добре дошли!</string>
-  <string name="donate_dialog_text">Моля дарете чрез PayPal, Flattr или Bitcoin и след това поискайте ключ от настройките на екрана.</string>
+  <string name="donate_dialog_text">Моля дарете чрез PayPal или Bitcoin и след това поискайте ключ от настройките на екрана.</string>
   <string name="expense">Разход</string>
   <string name="export_expenses">Разходи за експортиране</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

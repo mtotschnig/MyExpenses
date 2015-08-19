@@ -116,7 +116,7 @@
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
   <string name="dialog_title_welcome">Bem vindo!</string>
-  <string name="donate_dialog_text">Por favor doar via PayPal, Flattr ou Bitcoin e em seguida, solicitar uma chave a partir da tela de configurações.</string>
+  <string name="donate_dialog_text">Por favor doar via PayPal ou Bitcoin e em seguida, solicitar uma chave a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

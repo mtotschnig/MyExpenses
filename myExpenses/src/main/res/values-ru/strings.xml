@@ -87,7 +87,7 @@
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
   <string name="dialog_title_welcome">Добро пожаловать!</string>
-  <string name="donate_dialog_text">Пожертвовать через PayPal, Flattr или Bitcoin, а затем запросить ключ в настройках.</string>
+  <string name="donate_dialog_text">Пожертвовать через PayPal или Bitcoin, а затем запросить ключ в настройках.</string>
   <string name="expense">Расход</string>
   <string name="export_expenses">Экспорт расходов</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

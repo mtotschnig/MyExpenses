@@ -116,7 +116,7 @@
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
-  <string name="donate_dialog_text">Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
+  <string name="donate_dialog_text">Paypal ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

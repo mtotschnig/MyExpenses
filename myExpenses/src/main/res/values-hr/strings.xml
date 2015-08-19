@@ -101,7 +101,7 @@
   <string name="dialog_title_warning_delete_template">Izbriši predložak?</string>
   <string name="dialog_title_warning_delete_transaction">Izbriši transakciju?</string>
   <string name="dialog_title_welcome">Dobrodošli!</string>
-  <string name="donate_dialog_text">Molimo donirajte putem PayPal-a, Flattr-a ili Bitcoin-a, i zatim zatražite Ključ iz zaslona s postavkama.</string>
+  <string name="donate_dialog_text">Molimo donirajte putem PayPal-a ili Bitcoin-a, i zatim zatražite Ključ iz zaslona s postavkama.</string>
   <string name="expense">Trošak</string>
   <string name="export_expenses">Eksport troškova</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

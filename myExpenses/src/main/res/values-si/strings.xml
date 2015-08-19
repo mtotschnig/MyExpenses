@@ -84,7 +84,7 @@
   <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
   <string name="dialog_title_welcome">ආදරයෙන් පිළිගන්නවා!</string>
-  <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal, Flattr or Bitcoin හි කර කට්ටල අංග තුලින් යතුර ඉල්ලන්න </string>
+  <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal or Bitcoin හි කර කට්ටල අංග තුලින් යතුර ඉල්ලන්න </string>
   <string name="expense">වියදම් </string>
   <string name="export_expenses">වියදම් අපනයන </string>
   <!--1$s is replaced with path to file, 2$s with error message-->

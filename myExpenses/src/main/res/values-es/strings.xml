@@ -116,7 +116,7 @@
   <string name="dialog_title_warning_delete_template">Borrar plantilla</string>
   <string name="dialog_title_warning_delete_transaction">Borrar asiento</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
-  <string name="donate_dialog_text">Por favor, donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave desde la pantalla de configuraciones.</string>
+  <string name="donate_dialog_text">Por favor, donar a través de PayPal o Bitcoin, y luego solicitar una clave desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportación de los gastos</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

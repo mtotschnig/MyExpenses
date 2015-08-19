@@ -105,7 +105,7 @@
   <string name="dialog_title_warning_delete_template">템플릿을 삭제할까요?</string>
   <string name="dialog_title_warning_delete_transaction">거래 내역을 삭제할까요?</string>
   <string name="dialog_title_welcome">환영합니다!</string>
-  <string name="donate_dialog_text">PayPal, Flattr, Bitcoin을 통해 기부해주세요. 그리고 설정 화면에서 기부 확인 키를 요청하세요.</string>
+  <string name="donate_dialog_text">PayPal, Bitcoin을 통해 기부해주세요. 그리고 설정 화면에서 기부 확인 키를 요청하세요.</string>
   <string name="expense">지출</string>
   <string name="export_expenses">지출 내보내기</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

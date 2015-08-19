@@ -110,7 +110,7 @@
   <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
   <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
   <string name="dialog_title_welcome">Bine ai venit!</string>
-  <string name="donate_dialog_text">Vă rugăm să donaţi prin PayPal, Flattr sau Bitcoin şi apoi să solicitaţi o cheie din ecranul setări.</string>
+  <string name="donate_dialog_text">Vă rugăm să donaţi prin PayPal sau Bitcoin şi apoi să solicitaţi o cheie din ecranul setări.</string>
   <string name="expense">Cheltuială</string>
   <string name="export_expenses">Export cheltuieli</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

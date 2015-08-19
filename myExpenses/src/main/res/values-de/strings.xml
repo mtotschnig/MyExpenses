@@ -116,7 +116,7 @@
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
-  <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Schlüssel an.</string>
+  <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
