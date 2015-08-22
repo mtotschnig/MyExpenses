@@ -261,31 +261,34 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
-        if (mNewInstance && mTransaction != null &&
-            !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
-          Cursor c = (Cursor) mPayeeAdapter.getItem(position);
-          //moveToPosition should not be necessary,
-          //but has been reported to not be positioned correctly on samsung GT-I8190N
-          if (c.moveToPosition(position) && !c.isNull(2)) {
-            if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
-              if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
-                startAutoFill(c.getLong(2));
+        Cursor c = (Cursor) mPayeeAdapter.getItem(position);
+        if (c.moveToPosition(position)) {
+          mTransaction.updatePayeeWithId(c.getString(1),c.getLong(0));
+          if (mNewInstance && mTransaction != null &&
+              !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
+            //moveToPosition should not be necessary,
+            //but has been reported to not be positioned correctly on samsung GT-I8190N
+            if (!c.isNull(2)) {
+              if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
+                if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+                  startAutoFill(c.getLong(2));
+                }
+              } else {
+                Bundle b = new Bundle();
+                b.putLong(KEY_ROWID, c.getLong(2));
+                b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+                    R.string.dialog_title_information);
+                b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+                    getString(R.string.hint_auto_fill));
+                b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.AUTO_FILL_COMMAND);
+                b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+                    MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
+                b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
+                b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
+                ConfirmationDialogFragment.newInstance(b)
+                    .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
               }
-            } else {
-              Bundle b = new Bundle();
-              b.putLong(KEY_ROWID,c.getLong(2));
-              b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-                  R.string.dialog_title_information);
-              b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                  getString(R.string.hint_auto_fill));
-              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                  R.id.AUTO_FILL_COMMAND);
-              b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-                  MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
-              b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.yes);
-              b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,R.string.no);
-              ConfirmationDialogFragment.newInstance(b)
-                .show(getSupportFragmentManager(),"AUTO_FILL_HINT");
             }
           }
         }
@@ -335,8 +338,13 @@ public class ExpenseEdit extends AmountActivity implements
       setTime();
       if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L)
         mMethodId = null;
-      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L)
+      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L) {
         mAccountId = null;
+      } else {
+        //once user has selected account, we no longer want
+        //the passed in KEY_CURRENCY to override it in onLoadFinished
+        getIntent().removeExtra(KEY_CURRENCY);
+      }
       if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
         mTransferAccountId = null;
     }
@@ -401,7 +409,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       FragmentManager fm = getSupportFragmentManager();
-      if (fm.findFragmentByTag("ASYNC_TASK") == null) {
+      if (fm.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
         startTaskExecution(
             taskId,
             new Long[] {objectId},
@@ -1360,6 +1368,9 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       configureStatusSpinner();
+      //once user has selected account, we no longer want
+      //the passed in KEY_CURRENCY to override it in onLoadFinished
+      getIntent().removeExtra(KEY_CURRENCY);
     }
   }
   @Override

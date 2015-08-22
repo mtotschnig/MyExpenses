@@ -20,8 +20,8 @@ DialogInterface.OnClickListener {
     return R.layout.grisbi_import_dialog;
   }
   @Override
-  protected int getLayoutTitle() {
-    return R.string.pref_import_from_grisbi_title;
+  protected String getLayoutTitle() {
+    return getString(R.string.pref_import_from_grisbi_title);
   }
 
   @Override

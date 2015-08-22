@@ -27,7 +27,6 @@
   <item type="id" name="DELETE_COMMAND"/>
   <item type="id" name="DELETE_COMMAND_DO"/>
   <item type="id" name="DISTRIBUTION_COMMAND"/>
-  <item type="id" name="DONATE_DIALOG"/>
   <item type="id" name="EDIT_ACCOUNT_COMMAND"/>
   <item type="id" name="EDIT_PLAN_INSTANCE_COMMAND"/>
   <item type="id" name="EDIT_COMMAND"/>
@@ -101,4 +100,7 @@
   <item name="UNDELETE_COMMAND" type="id"/>
   <item name="EXPORT_CATEGORIES_COMMAND_UTF8" type="id"/>
   <item name="EXPORT_CATEGORIES_COMMAND_ISO88591" type="id"/>
+  <item name="IMPORT_COMMAND" type="id"/>
+  <item name="PARSE_COMMAND" type="id"/>
+  <item name="SET_HEADER_COMMAND" type="id"/>
 </resources>

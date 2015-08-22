@@ -337,10 +337,25 @@ public class Transaction extends Model {
   }
 
   /**
+   * updates the payee string to a new value
+   * it will me mapped to an existing or new row in payee table during save
    * @param payee
    */
   public void setPayee(String payee) {
+    if (!this.payee.equals(payee)) {
+      this.payeeId = null;
+    }
     this.payee = payee;
+  }
+
+  /**
+   * updates the payee to a row that already exists in the DB
+   * @param payee
+   * @param payeeId
+   */
+  public void updatePayeeWithId(String payee, Long payeeId) {
+    this.payee = payee;
+    this.payeeId = payeeId;
   }
 
   /**

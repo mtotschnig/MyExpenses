@@ -15,7 +15,6 @@
      android-source/packages/apps/Calendar/res/values
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="does_not_repeat" msgid="1877681921029738999">"Acara satu kali"</string>
     <string name="endByDate" msgid="7654221304929538201">"; sehingga <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"; utk satu kali"</item>
@@ -31,7 +30,6 @@
     <item quantity="other" msgid="2857390143157377867">"Setiap <xliff:g id="NUMBER">%1$d</xliff:g> minggu pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
   </plurals>
     <string name="monthly" msgid="4587116285383048586">"Bulanan"</string>
-    <string name="yearly_plain" msgid="3652692085322162449">"Tahunan"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"Bulanan (pada hari ke-<xliff:g id="DAY_OF_MONTH">%s</xliff:g> )"</string>
     <string name="yearly" msgid="8576208380302949002">"Tahunan (pada <xliff:g id="DATES">%s</xliff:g>)"</string>
     

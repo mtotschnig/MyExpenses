@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -57,8 +58,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private String encoding;
   private long accountId;
   private int totalCategories=0;
-  private final Map<String, Long> payeeToId = new HashMap<String, Long>();
-  private final Map<String, Long> categoryToId = new HashMap<String, Long>();
+  private final Map<String, Long> payeeToId = new HashMap<>();
+  private final Map<String, Long> categoryToId = new HashMap<>();
   private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
   Uri fileUri;
   /**
@@ -242,64 +243,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   private void insertCategories(Set<QifCategory> categories) {
     for (QifCategory category : categories) {
-      String name = extractCategoryName(category.name);
-      insertCategory(name);
+      totalCategories += category.insert(categoryToId);
     }
-  }
-
-  private String extractCategoryName(String name) {
-    int i = name.indexOf('/');
-    if (i != -1) {
-      name = name.substring(0, i);
-    }
-    return name;
-  }
-
-  private void insertCategory(String name) {
-    if (isChildCategory(name)) {
-      insertChildCategory(name);
-    } else {
-      insertRootCategory(name);
-    }
-  }
-
-  private boolean isChildCategory(String name) {
-    return name.contains(":");
-  }
-
-  private Long insertRootCategory(String name) {
-    Long id = categoryToId.get(name);
-    if (id == null) {
-      id = maybeWriteCategory(name, null);
-      if (id != -1)
-        categoryToId.put(name, id);
-    }
-    return id;
-  }
-  private Long maybeWriteCategory(String name,Long parentId) {
-    Long id = Category.find(name, parentId);
-    if (id == -1) {
-      id = Category.write(0L, name, parentId);
-      if (id != -1)
-        totalCategories++;
-    }
-    return id;
-  }
-
-  private Long insertChildCategory(String name) {
-    Long id = categoryToId.get(name);
-    if (id == null) {
-      int i = name.lastIndexOf(':');
-      String parentCategoryName = name.substring(0, i);
-      String childCategoryName = name.substring(i + 1);
-      Long main = insertRootCategory(parentCategoryName);
-      if (main != -1) {
-        id = maybeWriteCategory(childCategoryName, main);
-        if (id != -1)
-          categoryToId.put(name, id);
-      }
-    }
-    return id;
   }
 
   private int insertAccounts(List<QifAccount> accounts) {
@@ -316,8 +261,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                 + MyApplication.getInstance()
                 .getText(R.string.contrib_feature_accounts_unlimited_description)
                 + " "
-                + MyApplication.getInstance()
-                .getText(R.string.dialog_contrib_reminder_remove_limitation));
+                + Html.fromHtml(MyApplication.getInstance()
+                    .getString(R.string.dialog_contrib_reminder_remove_limitation,
+                        Utils.concatResStrings(MyApplication.getInstance(), R.string.app_name, R.string.contrib_key))));
         break;
       }
       long dbAccountId = Account.findAny(account.memo);

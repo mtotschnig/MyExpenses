@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Račun</string>
   <string name="account_type_asset">Imovinski račun</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -25,16 +25,16 @@
   <string name="color">Boja</string>
   <string name="comment">Bilješke</string>
   <string name="confirmation_dialog_dont_show_again">Ne prikazuj ponovno</string>
-  <string name="contrib_feature_accounts_unlimited_description">Broj računa koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 5</string>
-  <string name="contrib_feature_accounts_unlimited_label">Neograničeni broj računa</string>
-  <string name="contrib_feature_distribution_label">Pregled transakcija po kategoriji.</string>
-  <string name="contrib_feature_plans_unlimited_description">Broj planova koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Neograničeni broj planova</string>
-  <string name="contrib_feature_print_label">Eksportiraj listu transakcija u PDF</string>
-  <string name="contrib_feature_security_question_label">Sigurnosno pitanje</string>
-  <string name="contrib_feature_split_transaction_label">Dijeljena transakcija</string>
-  <string name="contrib_feature_template_widget_label">Widget za predložak</string>
-  <string name="contrib_key">Contrib ključ</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Broj računa koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 5</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Neograničeni broj računa</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Pregled transakcija po kategoriji.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Broj planova koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 3.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Neograničeni broj planova</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Eksportiraj listu transakcija u PDF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Sigurnosno pitanje</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Dijeljena transakcija</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget za predložak</string>
+  <string name="contrib_key">Contrib Ključ</string>
   <string name="contrib_key_requires">Potreban  My Expenses Contrib ključ.</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Trenutačno stanje računa</string>
@@ -55,16 +55,16 @@
   <string name="dialog_contrib_no_usages_left">Ne postoji više besplatnih uporaba.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s mogu koristiti samo premium korisnici</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Ukloni ovo ograničenje kupnjom <i>My Expenses Contrib Ključa</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Također ćete dobiti neograničeni pristup sljedećim mogućnostima:</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i> ne sarži reklame i otvorenog je koda.</string>
-  <string name="dialog_contrib_text_2">Podržite nas kupnjom <i>My Expenses Contrib Ključa</i>. Time ostvarujete neograničen pristup svim premium funkcijama:</string>
+  <string name="dialog_contrib_text_2">Podržite nas kupnjom %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Preostala je jedna besplatna uporaba</item>
     <item quantity="few">Preostalo je %1$d besplatnih korištenja</item>
     <item quantity="other">Preostalo je %1$d besplatnih korištenja</item>
   </plurals>
-  <string name="dialog_contrib_yes">Kupi odmah</string>
   <string name="dialog_export_delete">Obriši eksportirane transakcije</string>
   <string name="dialog_export_not_yet_exported">Eksportiraj samo one trasakcije koje još nisu bile eksportirane</string>
   <string name="dialog_password_activate_protection">Aktiviraj zaštitu s lozinkom</string>
@@ -90,10 +90,7 @@
   <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Premium opcija</string>
   <string name="dialog_title_planner_setup_info">Potrebno podešavanje kalendara</string>
-  <string name="dialog_title_select_account">Odaberi račun</string>
   <string name="dialog_title_select_grouping">Odaberi grupiranje</string>
-  <string name="dialog_title_select_import_source">Odaberi izvor za unos</string>
-  <string name="dialog_title_select_template">Odaberi predložak</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Odredi broj razlomačkih znamenki</string>
@@ -104,11 +101,12 @@
   <string name="dialog_title_warning_delete_template">Izbriši predložak?</string>
   <string name="dialog_title_warning_delete_transaction">Izbriši transakciju?</string>
   <string name="dialog_title_welcome">Dobrodošli!</string>
-  <string name="donate">Doniraj</string>
-  <string name="donate_dialog_text">Molimo donirajte putem PayPal-a, Flattr-a ili Bitcoin-a, i zatim zatražite Contrib Ključ iz zaslona s postavkama.</string>
+  <string name="donate_dialog_text">Molimo donirajte putem PayPal-a ili Bitcoin-a, i zatim zatražite Ključ iz zaslona s postavkama.</string>
   <string name="expense">Trošak</string>
   <string name="export_expenses">Eksport troškova</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Neuspješan eksport troškova u \"%1$s\": %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Troškovi eksportirani u file \"%1$s\"</string>
   <string name="external_storage_unavailable">Eksterna memorija (sd kartica) nije dostupna</string>
   <string name="feedback">Podrška</string>
@@ -116,7 +114,6 @@
   <string name="ftp_uri_malformed">Netočan URI %1$s</string>
   <string name="grisbi_import_categories_loading">Učitavanje kategorija iz %1$s</string>
   <string name="grisbi_import_default_source">Zadane kategorije</string>
-  <string name="grisbi_import_parsing">Analiziranje %1$s</string>
   <string name="grisbi_import_parties_loading">Učitavanje stranki iz %1$s</string>
   <string name="grouping_day">Dan</string>
   <string name="grouping_last_week">Prethodni tjedan</string>
@@ -145,7 +142,7 @@
   <string name="invalid_number_format">Decimalni format nije prepoznat. Molimo koristite %1$s</string>
   <string name="label">Oznaka</string>
   <string name="licence_validation_failure">Neuspjšna aktivacija licensnog ključa.</string>
-  <string name="licence_validation_success">Licensni ključ uspješno prihvaćen: Premium opcije otključane.</string>
+  <string name="licence_validation_success">Licensni ključ uspješno prihvaćen:</string>
   <string name="menu_aggregates">Ukupno</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Primjeni</string>
@@ -176,7 +173,6 @@
   <string name="menu_create_transaction">Nova transakcija</string>
   <string name="menu_create_transfer">Nova doznaka</string>
   <string name="menu_delete">Izbriši</string>
-  <string name="menu_delete_account">Izbriši račun</string>
   <string name="menu_distribution">Distribucija</string>
   <string name="menu_edit">Uredi</string>
   <string name="menu_edit_account">Uredi račun</string>
@@ -200,6 +196,7 @@
   <string name="menu_manage_plans_tab_templates">Predlošci</string>
   <string name="menu_manage_plans_tab_plans">Planovi</string>
   <string name="menu_open">Otvori</string>
+  <string name="menu_import">Unesi</string>
   <string name="menu_print">Printaj</string>
   <string name="menu_reset">Eksportiraj i poništi</string>
   <string name="menu_reset_all">Eksportiraj i poništi sve</string>
@@ -212,8 +209,6 @@
   <string name="menu_share">Preporuči prijatelju</string>
   <string name="menu_set_sort_key">Sortiranje po ključu</string>
   <string name="method">Način</string>
-  <string name="new_version">Nova verzija</string>
-  <string name="no_accounts">Ne postoji račun!</string>
   <string name="no_amount_given">Molimo unesi iznos</string>
   <string name="no_app_handling_email_available">Ne postoji e-mail za rad s aplikacijom.</string>
   <string name="no_app_handling_ftp_available">Ne postoji ftp za rad s aplikacijom. Instaliraj <i>Send With FTP</i>?</string>
@@ -297,20 +292,19 @@
   <string name="pref_category_title_ui">Korisničko sučelje</string>
   <string name="pref_checkbox_enabled">Omogućeno</string>
   <string name="pref_checkbox_disabled">Onemogućeno</string>
-  <string name="pref_contrib_donate_summary">Donirajte putem PayPal-a, Flattr-a ili Bitcoin-a i otključajte pristup premium opcijama.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Ako želite dodatno pridonijeti, učinite to putem flattr-a, donirajte putam Paypala ili pošaljite Bitcoinse.</string>
-  <string name="pref_contrib_donate_title">Doniraj</string>
-  <string name="pref_contrib_install_summary">Kupnjom My Expenses Contrib Ključa, otključan vam je pristup premium opcijama.</string>
-  <string name="pref_contrib_install_title">Kupi Contrib Ključ (plaćanje unutar aplikacije)</string>
+  <string name="pref_contrib_purchase_title">Kupi Ključ</string>
+  <string name="pref_contrib_purchase_title_in_app">plaćanje unutar aplikacije</string>
   <string name="pref_custom_currency_title">Prilagodi valute</string>
-  <string name="pref_enter_licence_summary">Ako ste primili Contrib Ključ, omogućen je pristup premium opcijama.</string>
-  <string name="pref_enter_licence_title">Unesi Contrib ključ</string>
+  <string name="pref_enter_licence_summary">Ako ste primili Ključ, omogućen je pristup premium opcijama.</string>
+  <string name="pref_enter_licence_title">Unesi ključ</string>
   <string name="pref_export_format_title">Format podataka</string>
   <string name="pref_follow_gplus_title">Prati My Expenses na Google+</string>
   <string name="pref_import_from_grisbi_summary">Unesi kategorije i stranke iz Grisbi XML file-a</string>
   <string name="pref_import_from_grisbi_title">Unesi sa Grisbija</string>
-  <string name="pref_import_qif_summary">Unesi transakcije, kategorije i stranke iz QIF file-a</string>
-  <string name="pref_import_qif_title">QIF unos</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">Unesi transakcije, kategorije i stranke iz %s file-a</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_title">%s unos</string>
   <string name="pref_like_facebook_title">Lajkaj nas na Facebooku</string>
   <string name="pref_manage_accounts_title">Računi</string>
   <string name="pref_manage_categories_summary">Dodaj, uredi ili obriši kategorije.</string>
@@ -339,9 +333,9 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dozvoljeno bez lozinke.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Potrebna lozinka.</string>
   <string name="pref_qif_export_file_encoding_title">Kodiranje znakova</string>
-  <string name="pref_request_licence_summary">Ako ste pridonijeli, zatražite Contrib ključ za Android-ld %1$s putem e-maila.</string>
-  <string name="pref_request_licence_title">Zatraži Contrib ključ</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_request_licence_summary">Ako ste pridonijeli, zatražite ključ za Android-ld %1$s putem e-maila.</string>
+  <string name="pref_request_licence_title">Zatraži ključ</string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Odaberi sigurnosnu kopiju za obnavljanje baze podataka i preferencija.</string>
   <string name="pref_restore_title">Obnovi</string>
   <string name="pref_security_question_summary">Omogućava otključavanje aplikacije u slučaju da ste zaboravili lozinku.</string>
@@ -373,13 +367,12 @@
   <string name="progress_dialog_loading">Učitavanje stavki iz baze podataka ...</string>
   <string name="progress_dialog_printing">Generiranje PDF-a ...</string>
   <string name="progress_dialog_saving">Spremanje stavki u bazu podataka ...</string>
-  <string name="progress_dialog_setup">Poretanje baze podataka ...</string>
   <string name="qif_parse_result">Analizirano: %1$s računa; %2$s kategorija i %3$s stranki</string>
   <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nemoguće spojiti s postojećim računom.</string>
   <string name="reference_number">Referentni broj</string>
   <string name="request_licence_mail_description">Molimo opišite (na engleskom, njemačkom ili francuskom) vaš doprinos My Expenses-u (npr.: donacija putem Paypal-a, prijava bug-a, testiranje, prijevod).</string>
-  <string name="request_licence_mail_head">Molim da mi pošaljete Contrib ključ za Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Molim da mi pošaljete ključ za Android-Id %1$s.</string>
   <string name="restore_db_failure">Obnavljanje baze podataka nije uspjelo.</string>
   <string name="restore_db_success">Baza podataka uspješno obnovljena sa sigurnosne kopije.</string>
   <string name="restore_no_backup_found">Sigurnosna kopija nije pronađena.</string>
@@ -413,7 +406,6 @@
   <string name="sum_transfer">Doznake</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Posjeti My Expenses, Osobni Financijski Menadžer za %s, na http://www.myexpenses.mobi</string>
-  <string name="template">Predložak</string>
   <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>
   <string name="template_title_exists">Predložak imena \"%1$s\" već postoji</string>
   <string name="thank_you">Zahvaljujemo se na vašoj podršci!</string>
@@ -425,7 +417,6 @@
   <string name="transfer">Doznaka</string>
   <string name="transfer_from_account">Šalje</string>
   <string name="transfer_to_account">Prima</string>
-  <string name="tutorial">Priručnik</string>
   <string name="type">Oblik</string>
   <string name="unsplit_amount">Neodvojena količina transakcije</string>
   <string name="unsplit_amount_greater_than_zero">Dio iznosa je još neodvojen.</string>
@@ -462,7 +453,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Nastavite li, transakcije će biti obrisane za SVE račune%1$s i neće se moći obnoviti.</string>
   <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani. Želite li nastaviti?</string>
-  <string name="warning_select_account">Molimo odaberi račun!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
   <string name="warning_fraction_digits_out_of_range">Molimo odaberite broj između 0 i 8</string>
@@ -471,7 +461,7 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="import_categories_success">%1$s kategorije uspješno unesene</string>
   <string name="import_parties_success">%1$s stranke uspješno unesene</string>
   <string name="import_accounts_success">%1$s računi uspješno uneseni</string>
-  <string name="import_transactions_success">%1$s transakciju uspješno unesene u račun %2$s</string>
+  <string name="import_transactions_success">%1$d transakciju uspješno unesene u račun %2$s</string>
   <string name="import_accounts_none">Nema unesenih računa</string>
   <string name="import_categories_none">Nema unesenih kategorija</string>
   <string name="import_parties_none">Nema unesenih stranki</string>
@@ -497,9 +487,9 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="comparison_operator_greater_than">više od</string>
   <string name="comparison_operator_lesser_than">manje od</string>
   <string name="comparison_operator_between">između</string>
-  <string name="promotion_appgratis_welcome">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
-  <string name="premium_unlocked">Premium opcije otključane</string>
-  <string name="premium_failed_or_canceled">Kupovina neuspjela ili otkazana.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Premium opcije otključane</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Kupovina neuspjela ili otkazana.</string>
   <string name="hint_auto_fill">Želite li da iznos, kategorija i komentar budu automatski unešeni od zadnje transkacije za istog platitelja / primaoca? Ovo možete izmijeniti bilo kada u postavkama.</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>

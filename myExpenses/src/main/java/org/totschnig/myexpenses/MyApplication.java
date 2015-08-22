@@ -47,7 +47,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -87,8 +86,10 @@ public class MyApplication extends Application implements
     UI_FONTSIZE(R.string.pref_ui_fontsize_key),
     BACKUP(R.string.pref_backup_key),
     RESTORE(R.string.pref_restore_key),
+    IMPORT_QIF(R.string.pref_import_qif_key),
+    IMPORT_CSV(R.string.pref_import_csv_key),
     RESTORE_LEGACY(R.string.pref_restore_legacy_key),
-    CONTRIB_INSTALL(R.string.pref_contrib_install_key),
+    CONTRIB_PURCHASE(R.string.pref_contrib_purchase_key),
     REQUEST_LICENCE(R.string.pref_request_licence_key),
     ENTER_LICENCE(R.string.pref_enter_licence_key),
     PERFORM_PROTECTION(R.string.pref_perform_protection_key),
@@ -131,7 +132,8 @@ public class MyApplication extends Application implements
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
     MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
     INTERSTITIAL_LAST_SHOWN("interstitialLastShown"),
-    ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL("entriesCreatedSinceLastInterstitial");
+    ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL("entriesCreatedSinceLastInterstitial"),
+    CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key);
 
     private int resId = 0;
     private String key = null;
@@ -215,6 +217,10 @@ public class MyApplication extends Application implements
   }
   public boolean isContribEnabled() {
     return ! contribStatus.equals(Distrib.STATUS_DISABLED);
+  }
+  public boolean isExtendedEnabled() {
+    return contribStatus.equals(Distrib.STATUS_EXTENDED_PERMANENT) ||
+        contribStatus.equals(Distrib.STATUS_EXTENDED_TEMPORARY);
   }
 
   public String getContribStatus() {

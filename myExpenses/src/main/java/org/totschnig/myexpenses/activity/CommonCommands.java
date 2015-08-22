@@ -98,11 +98,11 @@ public class CommonCommands {
     }
    return false;
   }
-  public static void showContribDialog(FragmentActivity ctx,ContribFeature feature, Serializable tag) {
+  public static void showContribDialog(Activity ctx,ContribFeature feature, Serializable tag) {
     Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
     i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG,tag);
-    ctx.startActivityForResult(i,ProtectedFragmentActivity.CONTRIB_REQUEST);
+    ctx.startActivityForResult(i,ProtectionDelegate.CONTRIB_REQUEST);
   }
   public static void showContribInfoDialog(FragmentActivity ctx,long sequenceCount) {
     Intent i = new Intent(ctx,ContribInfoDialogActivity.class);

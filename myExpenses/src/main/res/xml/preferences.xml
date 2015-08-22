@@ -98,10 +98,13 @@
         android:summary="@string/pref_import_from_grisbi_summary">
         <intent android:action="myexpenses.intent.import_from_grisbi"/>
     </Preference>
-    <Preference android:key="import_qif"
-        android:title="@string/pref_import_qif_title"
-        android:summary="@string/pref_import_qif_summary">
-        <intent android:action="myexpenses.intent.import_qif"/>
+    <Preference android:key="@string/pref_import_qif_key">
+        <intent android:action="myexpenses.intent.import">
+            <extra android:name="format" android:value="QIF"/>
+        </intent>
+    </Preference>
+      <Preference android:key="@string/pref_import_csv_key">
+          <intent android:action="myexpenses.intent.import.csv"/>
     </Preference>
   </PreferenceCategory>
   <PreferenceCategory
@@ -141,12 +144,9 @@
   <PreferenceCategory
       android:key="@string/pref_category_contrib_key"
       android:title="@string/menu_contrib">
-      <Preference android:key="@string/pref_contrib_install_key"
-        android:title="@string/pref_contrib_install_title"
-        android:summary="@string/pref_contrib_install_summary"/>
+      <Preference android:key="@string/pref_contrib_purchase_key"
+                  android:summary="@string/pref_contrib_purchase_summary"/>
       <!--
-      <Preference android:key="@string/pref_contrib_donate_key"
-        android:title="@string/pref_contrib_donate_title"/>
       <Preference android:key="@string/pref_request_licence_key"
         android:title="@string/pref_request_licence_title" />
       <EditTextPreference android:key="@string/pref_enter_licence_key"

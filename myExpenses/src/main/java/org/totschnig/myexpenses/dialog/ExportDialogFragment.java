@@ -274,7 +274,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       } else {
         b.putString(KEY_CURRENCY, currency);
       }
-      b.putString(ExportTask.KEY_FORMAT, format);
+      b.putString(TaskExecutionFragment.KEY_FORMAT, format);
       b.putBoolean(ExportTask.KEY_DELETE_P, deleteP);
       b.putBoolean(ExportTask.KEY_NOT_YET_EXPORTED_P,notYetExportedP);
       b.putString(TaskExecutionFragment.KEY_DATE_FORMAT, dateFormat);

@@ -48,6 +48,10 @@ public class Distrib {
    */
   public static String STATUS_ENABLED_PERMANENT = "5";
 
+  public static String STATUS_EXTENDED_TEMPORARY = "6";
+
+  public static String STATUS_EXTENDED_PERMANENT = "7";
+
   public static PreferenceObfuscator getLicenseStatusPrefs(Context ctx) {
     String PREFS_FILE = "license_status";
     String deviceId = Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID);

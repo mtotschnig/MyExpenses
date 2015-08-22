@@ -12,6 +12,8 @@ package org.totschnig.myexpenses.export.qif;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.totschnig.myexpenses.model.Category;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;

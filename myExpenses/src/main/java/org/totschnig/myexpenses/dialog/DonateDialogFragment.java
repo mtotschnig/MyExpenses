@@ -31,6 +31,11 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -41,69 +46,76 @@ import android.widget.Toast;
  */
 public class DonateDialogFragment extends CommitSafeDialogFragment {
 
-  public static final DonateDialogFragment newInstance() {
-    return new DonateDialogFragment();
+  private static final String KEY_EXTENDED = "extended";
+  public static final String PAYPAL_BUTTON_CONTRIB = "A7ZPSCUTS23K6";
+  public static final String PAYPAL_BUTTON_EXTENDED = "85U6933MANDW8";
+  public static final String PAYPAL_BUTTON_UPGRADE = "7RVRT537PF6RC";
+  public static final String BITCOIN_ADDRESS = "1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn";
+
+  public static final DonateDialogFragment newInstance(boolean extended) {
+    DonateDialogFragment fragment = new DonateDialogFragment();
+    Bundle args = new Bundle();
+    args.putBoolean(KEY_EXTENDED,extended);
+    fragment.setArguments(args);
+    return fragment;
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    return buildDialog(getActivity());
-  }
-  /**
-   * we need this Dialog also from MyPreferenceActivity which cannot show a DialogFragment,
-   * hence we make it available through static method
-   * @param ctx
-   * @return
-   */
-  public static AlertDialog buildDialog(Context ctx) {
-    DonationUriVisitor listener = new DonationUriVisitor((Activity) ctx);
-    return new AlertDialog.Builder(ctx)
-      .setTitle(R.string.donate)
-      .setMessage(
-        ctx.getString(MyApplication.getInstance().isContribEnabled() ?
-            R.string.pref_contrib_donate_summary_already_contrib :
-            R.string.donate_dialog_text)
-        +"\n\n"+
-        ctx.getString(R.string.thank_you))
-      .setNegativeButton(R.string.donate_button_flattr, listener)
+    boolean isExtended = getArguments().getBoolean(KEY_EXTENDED);
+    DonationUriVisitor listener = new DonationUriVisitor();
+    final TextView message = new TextView(getActivity());
+    int padding = (int) TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+    message.setPadding(padding,padding,padding,0);
+    message.setMovementMethod(LinkMovementMethod.getInstance());
+    CharSequence linefeed = Html.fromHtml("<br><br>");
+    message.setText(TextUtils.concat(
+        getString(R.string.donate_dialog_text),
+        " ",
+        Html.fromHtml("<a href=\"http://myexpenses.totschnig.org/#premium\">" + getString(R.string.learn_more) + "</a>."),
+        linefeed,
+        getString(R.string.thank_you)
+    ));
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    int title = MyApplication.getInstance().isContribEnabled() ?
+        R.string.pref_contrib_purchase_title_upgrade :
+        (isExtended ? R.string.extended_key : R.string.contrib_key);
+    return builder
+      .setTitle(title)
+      .setView(message)
       .setPositiveButton(R.string.donate_button_paypal, listener)
       .setNeutralButton(R.string.donate_button_bitcoin, listener)
       .create();
   }
-  public static class DonationUriVisitor implements OnClickListener {
-    Activity ctx;
-
-    public DonationUriVisitor(Activity ctx) {
-      super();
-      this.ctx = ctx;
-    }
+  public class DonationUriVisitor implements OnClickListener {
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-      String bitcoinAddress = "1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn";
       Intent intent;
+      Activity ctx = getActivity();
       if (which == AlertDialog.BUTTON_NEUTRAL) {
         intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("bitcoin:" + bitcoinAddress));
+        intent.setData(Uri.parse("bitcoin:" + BITCOIN_ADDRESS));
         if (Utils.isIntentAvailable(ctx,intent)) {
           ctx.startActivityForResult(intent, 0);
         } else {
           ClipboardManager clipboard = (ClipboardManager)
               ctx.getSystemService(Context.CLIPBOARD_SERVICE);
-          clipboard.setText(bitcoinAddress);
+          clipboard.setText(BITCOIN_ADDRESS);
           Toast.makeText(ctx,
-              "My Expenses Bitcoin Donation address " + bitcoinAddress + " copied to clipboard",
+              "My Expenses Bitcoin Donation address " + BITCOIN_ADDRESS + " copied to clipboard",
               Toast.LENGTH_LONG).show();
           if (ctx instanceof MessageDialogListener) {
             ((MessageDialogListener) ctx).onMessageDialogDismissOrCancel();
           }
         }
-      } else {
+      } else if (which == AlertDialog.BUTTON_POSITIVE) {
         String paypalButtonId = MyApplication.getInstance().isContribEnabled() ?
-            "KPXNZHMXJE8ZJ" : "A7ZPSCUTS23K6";
-        String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
+            PAYPAL_BUTTON_UPGRADE :
+            (getArguments().getBoolean(KEY_EXTENDED) ? PAYPAL_BUTTON_EXTENDED : PAYPAL_BUTTON_CONTRIB);
+        String uri =
             "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id="
-                +  paypalButtonId :
-            "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
+                +  paypalButtonId;
         intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(uri));
         ctx.startActivityForResult(intent, 0);

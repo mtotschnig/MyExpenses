@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
@@ -65,8 +66,6 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
   /**
    * return false upon problem (and sets a result object) or true
-   * 
-   * @param source2
    */
   protected Result parseXML() {
     Context app = MyApplication.getInstance();
@@ -128,7 +127,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     if (this.taskExecutionFragment.mCallbacks != null) {
       if (phaseChangedP) {
         ProgressDialogFragment f = (ProgressDialogFragment) ((FragmentActivity) this.taskExecutionFragment.mCallbacks)
-        .getSupportFragmentManager().findFragmentByTag("PROGRESS");
+        .getSupportFragmentManager().findFragmentByTag(ProtectionDelegate.PROGRESS_TAG);
         if (f!=null) {
           f.setMax(getMax());
           f.setTitle(getTitle());

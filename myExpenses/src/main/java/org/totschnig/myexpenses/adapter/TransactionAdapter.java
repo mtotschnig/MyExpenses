@@ -81,7 +81,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.amount = (TextView) v.findViewById(R.id.amount);
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
-    holder.voidMarker = (View) v.findViewById(R.id.voidMarker);
+    holder.voidMarker = v.findViewById(R.id.voidMarker);
     TextView tv = (TextView) v.findViewById(R.id.date);
     holder.date = tv;
     if (mAccount.getId() < 0) {

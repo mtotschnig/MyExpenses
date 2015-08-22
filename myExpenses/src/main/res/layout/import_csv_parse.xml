@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingRight="@dimen/general_padding"
+        android:shrinkColumns="1"
+        android:stretchColumns="1" >
+
+        <include layout="@layout/filename" />
+
+        <include layout="@layout/encoding"/>
+        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:gravity="center_vertical">
+
+            <TextView
+                style="@style/form_label"
+                android:text="@string/pref_csv_import_delimiter"/>
+
+            <Spinner
+                android:id="@+id/Delimiter"
+                android:layout_weight="1"
+                android:entries="@array/pref_csv_import_delimiter_entries" />
+        </TableRow>
+
+        <include layout="@layout/date_format"/>
+
+        <include layout="@layout/import_account"/>
+    </TableLayout>
+
+</ScrollView>

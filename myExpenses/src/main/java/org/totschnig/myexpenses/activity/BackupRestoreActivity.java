@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ImportSourceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -93,7 +94,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
     b.putString(
         ConfirmationDialogFragment.KEY_MESSAGE,
         getString(R.string.warning_restore,
-            ImportSourceDialogFragment.getDisplayName(fileUri)));
+            DialogUtils.getDisplayName(fileUri)));
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
         R.id.RESTORE_COMMAND);
     b.putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
@@ -237,9 +238,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
       case R.id.RESTORE_COMMAND:
         getSupportFragmentManager()
             .beginTransaction()
-            .add(TaskExecutionFragment.newInstanceRestore(args), "ASYNC_TASK")
+            .add(TaskExecutionFragment.newInstanceRestore(args), ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-                "PROGRESS").commit();
+                ProtectionDelegate.PROGRESS_TAG).commit();
         break;
     }
   }

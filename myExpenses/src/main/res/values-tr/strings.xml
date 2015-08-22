@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Hesap</string>
   <string name="account_type_asset">Aktif hesabı</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -30,18 +30,20 @@
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
-  <string name="contrib_feature_ad_free_label">Reklamsız</string>
-  <string name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
-  <string name="contrib_feature_attach_picture_label">Muameleye resim ekle</string>
-  <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
-  <string name="contrib_feature_plans_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
-  <string name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>
-  <string name="contrib_feature_print_label">Muamele listesini PDF dosyasına aktar</string>
-  <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
-  <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
-  <string name="contrib_feature_template_widget_label">Şablon widget\'i</string>
-  <string name="contrib_key">Katkı anahtarı</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Reklamsız</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Muameleye resim ekle</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Muamele listesini PDF dosyasına aktar</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Güvenlik sorusu</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget\'i</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV içe aktar</string>
+  <string name="contrib_key">Katkı Anahtarı</string>
+  <string name="extended_key">Genişletilmiş Anahtarı</string>
   <string name="contrib_key_requires">Harcamalarımın Katkı Anahtarı gerektirir.</string>
   <string name="currency">Döviz</string>
   <string name="current_balance">Güncel bakiye</string>
@@ -62,15 +64,21 @@
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için <i>Harcamalarım Katkı Anahtarı</i> kurabilirsiniz.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s genişletilmiş bir işlevdir.</string>
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için %s kurabilirsiniz.</string>
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
+  <string name="dialog_contrib_extended_gain_access">Ek olarak, Genişletilmiş Anahtarı satın alırsanız aşağıdaki işlevlerin kilidi açılacaktır:</string>
   <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
-  <string name="dialog_contrib_text_2">Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
+  <string name="dialog_contrib_text_2">Lütfen %s unsurunu satın alarak katkıda bulunun.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Ücretsiz bir kullanımınız kalmıştır.</item>
     <item quantity="other">Ücretsiz %1$d kullanımınız kalmıştır.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Satın al</string>
+  <string name="dialog_contrib_buy_premium">PREMIUM satın al</string>
+  <string name="dialog_contrib_buy_extended">GENİŞLETİLMİŞ işlevleri satın al</string>
+  <string name="dialog_contrib_upgrade_extended">GENİŞLETİLMİŞE yükselt</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
@@ -95,11 +103,9 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
+  <string name="dialog_title_extended_feature">Genişletilmiş işlev</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
-  <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_grouping">Bir grup seçin</string>
-  <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
-  <string name="dialog_title_select_template">Şablon seç</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Kesir basamak sayısını ayarla</string>
@@ -110,8 +116,7 @@
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
-  <string name="donate">Bağış</string>
-  <string name="donate_dialog_text">Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
+  <string name="donate_dialog_text">Paypal ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -124,7 +129,6 @@
   <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
   <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
-  <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
   <string name="grouping_day">Gün</string>
   <string name="grouping_last_week">Geçen hafta</string>
@@ -153,7 +157,9 @@
   <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
   <string name="label">Etiket</string>
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
-  <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
+  <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı:</string>
+  <string name="licence_validation_premium">Ödemeli işlevlerin kilidi açılmıştır.</string>
+  <string name="licence_validation_extended">Genişletilmiş işlevlerin kilidi açıldı.</string>
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Uygula</string>
@@ -184,7 +190,6 @@
   <string name="menu_create_transaction">Muamele ekle</string>
   <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_delete">Sil</string>
-  <string name="menu_delete_account">Hesabı sil</string>
   <string name="menu_distribution">Dağılım</string>
   <string name="menu_edit">Düzenle</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
@@ -208,6 +213,7 @@
   <string name="menu_manage_plans_tab_templates">Şablonlar</string>
   <string name="menu_manage_plans_tab_plans">Planlar</string>
   <string name="menu_open">Aç</string>
+  <string name="menu_import">İçe aktar</string>
   <string name="menu_print">Yazdır</string>
   <string name="menu_reset">Dışa aktar ve sıfırla</string>
   <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
@@ -221,8 +227,6 @@
   <string name="menu_set_sort_key">Sırlama anahtarını belirle</string>
   <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
   <string name="method">Metot</string>
-  <string name="new_version">Yeni sürüm</string>
-  <string name="no_accounts">Hesap yok!</string>
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
@@ -304,20 +308,21 @@
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
   <string name="pref_checkbox_disabled">Devre dışı</string>
-  <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">İlâve bir katkıda bulunmak istiyorsanız, Harcamalarımı flattr\'layabilir, PayPal vasıtasıyla bağışta bulunabilir ya da Bitcoin yollayabilirsiniz.</string>
-  <string name="pref_contrib_donate_title">Bağışı gönder</string>
-  <string name="pref_contrib_install_summary">Harcamalarım Katkı Anahtarı uygulamasını satın alarak tüm işlevlere erişebilirsiniz.</string>
-  <string name="pref_contrib_install_title">Katkı Anahtarını Satın Al (Uygulama içi ödeme)</string>
+  <string name="pref_contrib_purchase_summary">Premium (ödemeli) ve genişletilmiş işlevlere erişim satın al.</string>
+  <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
+  <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
+  <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
   <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
-  <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
-  <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
+  <string name="pref_enter_licence_summary">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
+  <string name="pref_enter_licence_title">Anahtarını gir</string>
   <string name="pref_export_format_title">Veri biçimi</string>
   <string name="pref_follow_gplus_title">Harcamalarımı Google+\'da takip edin</string>
   <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
-  <string name="pref_import_qif_summary">Muameleleri, kategorileri ve kişileri QIF dosyasından içe aktar</string>
-  <string name="pref_import_qif_title">QIF içe aktar</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">Muameleleri, kategorileri ve parçaları %s dosyasından içe aktar</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_title">%s içe aktar</string>
   <string name="pref_like_facebook_title">Bizi Facebook\'ta beğenin</string>
   <string name="pref_manage_accounts_title">Hesaplar</string>
   <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
@@ -346,8 +351,8 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-  <string name="pref_request_licence_summary">Katkıda bulunduysanız, katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
-  <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
+  <string name="pref_request_licence_summary">Katkıda bulunduysanız, e-posta ile Android-Id %1$s için anahtar talep ediniz.</string>
+  <string name="pref_request_licence_title">Anahtarı talep et</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
   <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa veya eski formatta bir yedeklemeyi geri almak istiyorsanız bu alternatif metodu kullanınız.</string>
@@ -382,13 +387,12 @@
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
   <string name="progress_dialog_printing">PDF oluşturuluyor…</string>
   <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor…</string>
-  <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
   <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
   <string name="reference_number">Referans sayısı</string>
   <string name="request_licence_mail_description">Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız.</string>
-  <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.</string>
+  <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir anahtarı gönderin.</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
   <string name="restore_no_backup_found">Yedek bulunamadı.</string>
@@ -423,7 +427,6 @@
   <string name="sum_transfer">Transferler</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">%s için kişisel finans yöneticisi olan Harcamalarıma http://www.myexpenses.mobi adresinde göz atın</string>
-  <string name="template">Şablon</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
   <string name="template_title_exists">\"%1$s\" başlıklı bir şablon zaten mevcut</string>
   <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
@@ -435,7 +438,6 @@
   <string name="transfer">Transfer</string>
   <string name="transfer_from_account">Buradan</string>
   <string name="transfer_to_account">Buraya</string>
-  <string name="tutorial">Kullanıcı rehberi</string>
   <string name="type">Tip</string>
   <string name="unsplit_amount">Atanmamış meblağ</string>
   <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
@@ -470,7 +472,6 @@
   <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler
 	silinecektir. Devam etmek istiyor musunuz?;</string>
-  <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarımı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="warning_fraction_digits_out_of_range">0 ilâ 8 arası bir sayı ayarlayınız</string>
@@ -479,7 +480,7 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
   <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
-  <string name="import_transactions_success">%1$s muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
+  <string name="import_transactions_success">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
   <string name="import_accounts_none">İçe aktarılan hesap yok</string>
   <string name="import_categories_none">İçe aktarılan kategori yok</string>
   <string name="import_parties_none">İçe aktarılan bölüm yok</string>
@@ -510,9 +511,9 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="comparison_operator_between">arasında</string>
   <string name="comparison_operator_date_before">önce</string>
   <string name="comparison_operator_date_after">sonra</string>
-  <string name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
-  <string name="premium_unlocked">Katkı özelliklerinin kilidi kaldırılmıştır.</string>
-  <string name="premium_failed_or_canceled">Satın alma başarısız oldu veya iptal edildi.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Katkı özelliklerinin kilidi kaldırılmıştır.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Satın alma başarısız oldu veya iptal edildi.</string>
   <string name="hint_auto_fill">Aynı alacaklı/ödeyici için meblağ, kategori ve yorum son muameleye dayanılarak otomatik olarak doldurulsun mu? Bunu ayarlardan değiştirebilirsiniz.</string>
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
@@ -545,4 +546,17 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="slash_forbidden_in_filename">/ karakterine dosya isimlerinde müsaade edilmez</string>
   <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
   <string name="menu_categories_export">QIF olarak dışa aktar</string>
+  <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
+  <string name="csv_import_preview">Önizle</string>
+  <string name="menu_parse">Çözümle</string>
+  <string name="cvs_import_discard">At</string>
+  <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
+  <string name="csv_import_records_failed">%d kayıt içe aktarılamadı.</string>
+  <string name="csv_import_records_discarded">%d kayıt atılmıştır.</string>
+  <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
+  <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>
+  <string name="csv_import_delimiter_comma">Virgül</string>
+  <string name="csv_import_delimiter_semicolon">Noktalı virgül</string>
+  <string name="csv_import_delimiter_tab">Sekme</string>
+  <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
 </resources>

@@ -42,6 +42,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.acra.ErrorReporter;
@@ -58,6 +59,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -675,24 +677,44 @@ public class Utils {
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
 
-  public static boolean verifyLicenceKey(String key) {
-    String s = Settings.Secure.getString(MyApplication.getInstance()
-            .getContentResolver(), Settings.Secure.ANDROID_ID)
-        + MyApplication.CONTRIB_SECRET;
+  /**
+   *
+   * @param key
+   * @return
+   */
+  public static LicenceStatus verifyLicenceKey(String key) {
+    String secret= MyApplication.CONTRIB_SECRET;
+    String extendedSecret = secret+"_EXTENDED";
+    String androidId = Settings.Secure.getString(MyApplication.getInstance()
+        .getContentResolver(), Settings.Secure.ANDROID_ID);
+    String s = androidId + extendedSecret;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
-    return l.toString().equals(key);
+    if (l.toString().equals(key)) {
+      return LicenceStatus.EXTENDED;
+    }
+    s = androidId + secret;
+    l = (s.hashCode() & 0x00000000ffffffffL);
+    return l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
   }
 
+  public enum LicenceStatus {
+    CONTRIB, EXTENDED
+  }
+  public static CharSequence getContribFeatureLabelsAsFormattedList(
+      Context ctx, ContribFeature other) {
+    return getContribFeatureLabelsAsFormattedList(ctx,other,LicenceStatus.CONTRIB);
+  }
   /**
    * @param ctx
    *          for retrieving resources
    * @param other
    *          if not null, all features except the one provided will be returned
+   * @param type if not null, only features of this type will be listed
    * @return construct a list of all contrib features to be included into a
    *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other) {
+      Context ctx, ContribFeature other, LicenceStatus type) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
         .iterator();
@@ -700,6 +722,11 @@ public class Utils {
       ContribFeature f = iterator.next();
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
+        if (type !=null &&
+            ((f.isExtended && !type.equals(LicenceStatus.EXTENDED)) ||
+            (!f.isExtended && type.equals(LicenceStatus.EXTENDED)))) {
+          continue;
+        }
         String resName = "contrib_feature_" + f.toString() + "_label";
         int resId = ctx.getResources().getIdentifier(
             resName, "string",
@@ -708,12 +735,13 @@ public class Utils {
           reportToAcra(new Resources.NotFoundException(resName));
           continue;
         }
+        if (!result.equals("")) {
+          result = TextUtils.concat(result, linefeed);
+        }
         result = TextUtils.concat(
             result,
             "\u25b6 ",
             ctx.getText(resId));
-        if (iterator.hasNext())
-          result = TextUtils.concat(result, linefeed);
       }
     }
     return result;
@@ -988,10 +1016,10 @@ public class Utils {
     // TODO we should take into account the arab separator as well
     final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
     editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-    editText.setFilters(new InputFilter[] { new InputFilter() {
+    editText.setFilters(new InputFilter[]{new InputFilter() {
       @Override
       public CharSequence filter(CharSequence source, int start, int end,
-          Spanned dest, int dstart, int dend) {
+                                 Spanned dest, int dstart, int dend) {
         int separatorPosition = dest.toString().indexOf(decimalSeparator);
         if (fractionDigits > 0) {
           int minorUnits = separatorPosition == -1 ? 0 : dest.length()
@@ -1020,7 +1048,7 @@ public class Utils {
         }
         return null; // keep original
       }
-    }, new InputFilter.LengthFilter(16) });
+    }, new InputFilter.LengthFilter(16)});
   }
 
   /**
@@ -1148,5 +1176,19 @@ public class Utils {
 
   public static String escapeForFileName(String in) {
     return in.replace("/","");
+  }
+
+  //http://stackoverflow.com/a/11072627/1199911
+  public static void selectSpinnerItemByValue(Spinner spnr, long value)
+  {
+    SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
+    for (int position = 0; position < adapter.getCount(); position++)
+    {
+      if(adapter.getItemId(position) == value)
+      {
+        spnr.setSelection(position);
+        return;
+      }
+    }
   }
 }

@@ -14,21 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@android:drawable/list_selector_background">
-	  <TextView
-        android:paddingLeft="@dimen/general_padding"
-	      style="@style/headingStyle"
-	      android:text="GROUP_TITLE"
-	      android:id="@+id/text"
-	      android:layout_width="wrap_content"
-	      android:layout_height="wrap_content" />
-  <View
-      android:layout_margin="2dip"
-      android:layout_width="fill_parent"
-      android:layout_height="1dip"
-      android:background="@color/emphasis"
-      android:layout_below="@id/text"/>
-</RelativeLayout>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+	  <item
+	    android:id="@id/PARSE_COMMAND"
+	    app:showAsAction="always"
+	    android:title="@string/menu_parse"/>
+	  	
+</menu>

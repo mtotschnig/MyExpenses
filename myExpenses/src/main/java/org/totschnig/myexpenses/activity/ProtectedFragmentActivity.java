@@ -82,6 +82,8 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public static final int PURCHASE_PREMIUM_REQUEST = 12;
   public static final int CONTRIB_REQUEST = 13;
   public static final int PICTURE_REQUEST_CODE = 14;
+  public static final int IMPORT_FILENAME_REQUESTCODE = 15;
+  public static final String SAVE_TAG = "SAVE_TASK";
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -237,8 +239,8 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   public void onPostExecute(Object result) {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
-    t.remove(m.findFragmentByTag("SAVE_TASK"));
-    t.remove(m.findFragmentByTag("PROGRESS"));
+    t.remove(m.findFragmentByTag(SAVE_TAG));
+    t.remove(m.findFragmentByTag(ProtectionDelegate.PROGRESS_TAG));
     t.commitAllowingStateLoss();
   }
   
@@ -256,8 +258,8 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   
   public void startDbWriteTask(boolean returnSequenceCount) {
     getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(returnSequenceCount), "SAVE_TASK")
-    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),"PROGRESS")
+    .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
+    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),ProtectionDelegate.PROGRESS_TAG)
     .commitAllowingStateLoss();
   }
   public void recordUsage(ContribFeature f) {
@@ -302,7 +304,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == CONTRIB_REQUEST && resultCode == RESULT_OK) {
+    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
       ((ContribIFace) this).contribFeatureCalled(
           (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));

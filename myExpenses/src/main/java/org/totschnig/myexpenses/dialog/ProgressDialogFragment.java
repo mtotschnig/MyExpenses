@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import org.totschnig.myexpenses.util.Utils;
@@ -51,14 +52,25 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   /**
    * @param message if different from 0 a resource string identifier displayed as the dialogs's message
    * @param progressStyle {@link ProgressDialog#STYLE_SPINNER} or {@link ProgressDialog#STYLE_HORIZONTAL}
-   * @param withButton if true dialog is rendered with an OK button that is initially disabled  
+   * @param withButton if true dialog is rendered with an OK button that is initially disabled
    * @return the dialog fragment
    */
   public static ProgressDialogFragment newInstance(int title, int message,int progressStyle, boolean withButton) {
+    String titleString = title != 0 ? MyApplication.getInstance().getString(title) : null;
+    String messageString = message != 0 ? MyApplication.getInstance().getString(message) : null;
+    return newInstance(titleString,messageString,progressStyle,withButton);
+  }
+  /**
+   * @param message the dialogs's message
+   * @param progressStyle {@link ProgressDialog#STYLE_SPINNER} or {@link ProgressDialog#STYLE_HORIZONTAL}
+   * @param withButton if true dialog is rendered with an OK button that is initially disabled
+   * @return the dialog fragment
+   */
+  public static ProgressDialogFragment newInstance(String title, String message,int progressStyle, boolean withButton) {
     ProgressDialogFragment f = new ProgressDialogFragment ();
     Bundle bundle = new Bundle();
-    bundle.putInt(KEY_MESSAGE, message);
-    bundle.putInt(KEY_TITLE, title);
+    bundle.putString(KEY_MESSAGE, message);
+    bundle.putString(KEY_TITLE, title);
     bundle.putInt(KEY_PROGRESS_STYLE, progressStyle);
     bundle.putBoolean(KEY_WITH_BUTTON, withButton);
     f.setArguments(bundle);
@@ -105,33 +117,36 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
-    int messageResId = getArguments().getInt(KEY_MESSAGE);
+    String messageFromArguments = getArguments().getString(KEY_MESSAGE);
+    String titleFromArguments = getArguments().getString(KEY_TITLE);
     mDialog = (progressStyle == ScrollableProgressDialog.STYLE_SPINNER) ?
         new ScrollableProgressDialog(getActivity()) :
         new ProgressDialog(getActivity());
     boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
-      int titleResId = getArguments().getInt(KEY_TITLE);
-      if (messageResId != 0) {
-        //message might have been set through setmessage
-        if (message == null) {
-          message = getString(messageResId);
-          mDialog.setMessage(message);
-        }
-      } else {
-        if (titleResId != 0)  {
-          if (title == null)
-            title = getString(titleResId);
-        } else {
-          //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
-          if (title == null)
-            title = "...";
-        }
-        mDialog.setTitle(title);
+    if (messageFromArguments != null) {
+      //message might have been set through setmessage
+      if (message == null) {
+        message = messageFromArguments;
+        mDialog.setMessage(message);
       }
+    } else {
+      if (titleFromArguments != null)  {
+        if (title == null)
+          title = titleFromArguments;
+      } else {
+        //unless setTitle is called now with non empty argument, calls after dialog is shown are ignored
+        if (title == null)
+          title = "...";
+      }
+      mDialog.setTitle(title);
+    }
     if (progressStyle != ScrollableProgressDialog.STYLE_SPINNER) {
       mDialog.setProgressStyle(progressStyle);
     } else {
       mDialog.setIndeterminate(true);
+      if (max!=0) {
+        mDialog.setMax(max);
+      }
     }
     if (withButton) {
       mDialog.setButton(DialogInterface.BUTTON_NEUTRAL,getString(android.R.string.ok),
@@ -153,7 +168,9 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   }
   public void setMax(int max) {
     this.max = max;
-    mDialog.setMax(max);
+    if (mDialog != null) {
+      mDialog.setMax(max);
+    }
   }
   public void setTitle(String title) {
     this.title = title;
@@ -188,7 +205,6 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   }
   @Override
   public void onSaveInstanceState(Bundle outState) {
-    // TODO Auto-generated method stub
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_TASK_COMPLETED, mTaskCompleted);
     outState.putString(KEY_TITLE, title);

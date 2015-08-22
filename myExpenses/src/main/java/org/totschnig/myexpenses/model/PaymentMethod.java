@@ -233,7 +233,7 @@ public class PaymentMethod extends Model {
     return count("type = ?", new String[] {type.name()});
   }
   /**
-   * Looks for a method with a label; currently only used from test
+   * Looks for a method with a label;
    * @param label
    * @return id or -1 if not found
    */

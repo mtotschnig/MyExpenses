@@ -17,21 +17,29 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
+import org.totschnig.myexpenses.dialog.QifCsvImportDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class QifImport extends ProtectedFragmentActivityNoAppCompat {
+public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
+
+  private Account.ExportFormat format = Account.ExportFormat.QIF;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
-      QifImportDialogFragment.newInstance().show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
+     /* try {
+        format = Account.ExportFormat.valueOf(getIntent().getStringExtra(TaskExecutionFragment.KEY_FORMAT));
+      } catch (IllegalArgumentException e) {
+        format = Account.ExportFormat.QIF;
+      }*/
+      QifCsvImportDialogFragment.newInstance(format).show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
     }
   }
 
@@ -43,22 +51,23 @@ public class QifImport extends ProtectedFragmentActivityNoAppCompat {
       boolean withTransactions,
       boolean withCategories,
       boolean withParties, String encoding) {
+    TaskExecutionFragment taskExecutionFragment = /*format.equals(Account.ExportFormat.QIF) ?*/
+        TaskExecutionFragment.newInstanceQifImport(
+            mUri, qifDateFormat, accountId, currency, withTransactions,
+            withCategories, withParties, encoding)/* :
+        TaskExecutionFragment.newInstanceCSVParse(
+            mUri, qifDateFormat, accountId, currency, encoding)*/;
     getSupportFragmentManager()
-      .beginTransaction()
-      .add(TaskExecutionFragment.newInstanceQifImport(
-          mUri,
-          qifDateFormat,
-          accountId,
-          currency,
-          withTransactions,
-          withCategories,
-          withParties,
-          encoding),
-          "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(
-          R.string.pref_import_qif_title,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
-      .commit();
+        .beginTransaction()
+        .add(taskExecutionFragment,
+            ProtectionDelegate.ASYNC_TAG)
+        .add(ProgressDialogFragment.newInstance(
+                getString(R.string.pref_import_title, format.name()),
+                null, ProgressDialog.STYLE_SPINNER, true),
+            ProtectionDelegate.PROGRESS_TAG)
+        .commit();
   }
+
   @Override
 
   public void onMessageDialogDismissOrCancel() {

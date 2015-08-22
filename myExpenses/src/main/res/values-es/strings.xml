@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Cuenta</string>
   <string name="account_type_asset">Cuenta de activo</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -30,18 +30,20 @@
   <string name="color">Color</string>
   <string name="comment">Apuntes</string>
   <string name="confirmation_dialog_dont_show_again">No mostrar de nuevo</string>
-  <string name="contrib_feature_ad_free_label">Sin anuncios</string>
-  <string name="contrib_feature_accounts_unlimited_description">El número de cuentas que se pueden crear con <i>Mis gastos</i> se limita a 5.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Cuentas sin límite</string>
-  <string name="contrib_feature_attach_picture_label">Adjuntar imagen de transacción</string>
-  <string name="contrib_feature_distribution_label">Distribución de las transacciones por categoría</string>
-  <string name="contrib_feature_plans_unlimited_description">El número de planes que se pueden crear con <i>Mis gastos</i> se limita a 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Planes sin límite</string>
-  <string name="contrib_feature_print_label">Lista de transacciones de exportación a PDF</string>
-  <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
-  <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
-  <string name="contrib_feature_template_widget_label">Widget de plantillas</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Sin anuncios</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">El número de cuentas que se pueden crear con <i>Mis gastos</i> se limita a 5.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Cuentas sin límite</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Adjuntar imagen de transacción</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Distribución de las transacciones por categoría</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">El número de planes que se pueden crear con <i>Mis gastos</i> se limita a 3.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Planes sin límite</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Lista de transacciones de exportación a PDF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Pregunta de seguridad</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Asiento dividido</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de plantillas</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Importación CSV</string>
   <string name="contrib_key">Clave Contrib</string>
+  <string name="extended_key">Clave Extendida</string>
   <string name="contrib_key_requires">Mis gastos requiere Clave Contrib.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
@@ -62,15 +64,21 @@
   <string name="dialog_contrib_no_usages_left">No hay más uso libre.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s es una característica Contrib.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Elimina esta limitación mediante la compra de <i>Mis gastos Clave Contrib</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s es una característica extendida.</string>
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">Elimina esta limitación mediante la compra de %s.</string>
   <string name="dialog_contrib_reminder_gain_access">Usted también obtiene acceso sin restricciones a las siguientes características:</string>
+  <string name="dialog_contrib_extended_gain_access">Además, las siguientes características son desbloqueadas si usted compra la clave extendida:</string>
   <string name="dialog_contrib_text_1"><i>Mis gastos</i> se ofrece sin publicidad y de código abierto.</string>
-  <string name="dialog_contrib_text_2">Por favor, contribuya mediante la compra de <i>Mis gastos Clave Contrib</i>. Usted va a obtener acceso ilimitado a las siguientes características premium:</string>
+  <string name="dialog_contrib_text_2">Por favor, contribuya mediante la compra de %s</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Queda un uso libre.</item>
     <item quantity="other">Quedan %1$d usos libres.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Compre</string>
+  <string name="dialog_contrib_buy_premium">Comprar PREMIUM</string>
+  <string name="dialog_contrib_buy_extended">Comprar EXTENDIDA</string>
+  <string name="dialog_contrib_upgrade_extended">Actualizar a EXTENDIDA</string>
   <string name="dialog_export_delete">Borrar las transacciones exportadas</string>
   <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
   <string name="dialog_password_activate_protection">Activar la protección por contraseña</string>
@@ -95,11 +103,9 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Equilibrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
+  <string name="dialog_title_extended_feature">Característica extendida</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendario requerido</string>
-  <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
-  <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
-  <string name="dialog_title_select_template">Escoger une plantilla</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Defina la cantidad de dígitos de fracción</string>
@@ -110,8 +116,7 @@
   <string name="dialog_title_warning_delete_template">Borrar plantilla</string>
   <string name="dialog_title_warning_delete_transaction">Borrar asiento</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
-  <string name="donate">Donar</string>
-  <string name="donate_dialog_text">Por favor,  donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
+  <string name="donate_dialog_text">Por favor, donar a través de PayPal o Bitcoin, y luego solicitar una clave desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportación de los gastos</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -124,7 +129,6 @@
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="grisbi_import_categories_loading">Las categorías se cargan desde %1$s</string>
   <string name="grisbi_import_default_source">Categorías predeterminadas en español</string>
-  <string name="grisbi_import_parsing">Análisis de %1$s</string>
   <string name="grisbi_import_parties_loading">Partidos se cargan desde %1$s</string>
   <string name="grouping_day">Día</string>
   <string name="grouping_last_week">Semana pasada</string>
@@ -153,7 +157,9 @@
   <string name="invalid_number_format">Formato de número no compatible con su configuración regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="licence_validation_failure">No se puede validar la clave de licencia.</string>
-  <string name="licence_validation_success">La clave de licencia es válida: Las características Contrib han sido desbloqueadas.</string>
+  <string name="licence_validation_success">La clave de licencia es válida:</string>
+  <string name="licence_validation_premium">Opciones Premium han sido desbloqueados.</string>
+  <string name="licence_validation_extended">Características extendidas han sido desbloqueados.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
@@ -184,7 +190,6 @@
   <string name="menu_create_transaction">Nuevo asiento</string>
   <string name="menu_create_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_delete">Borrar</string>
-  <string name="menu_delete_account">Borrar la cuenta</string>
   <string name="menu_distribution">Distribución</string>
   <string name="menu_edit">Modificar</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
@@ -208,6 +213,7 @@
   <string name="menu_manage_plans_tab_templates">Plantillas</string>
   <string name="menu_manage_plans_tab_plans">Planes</string>
   <string name="menu_open">Abierto</string>
+  <string name="menu_import">Importación</string>
   <string name="menu_print">Imprimir</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
@@ -221,8 +227,6 @@
   <string name="menu_set_sort_key">Establecer la clave de ordenación</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
-  <string name="new_version">Nueva versión</string>
-  <string name="no_accounts">Sin cuentas</string>
   <string name="no_amount_given">No ha insertado ningún importe.</string>
   <string name="no_app_handling_email_available">No se ha encontrado una aplicación para enviar un correo electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para ftp. ¿Desea instalar <i>Enviar con FTP</i>?</string>
@@ -304,20 +308,21 @@
   <string name="pref_category_title_ui">Interfaz de usuario</string>
   <string name="pref_checkbox_enabled">Habilitado</string>
   <string name="pref_checkbox_disabled">Inhabilitado</string>
-  <string name="pref_contrib_donate_summary">Donar a través de PayPal, Flattr o Bitcoin y obtiene acceso a todas las características premium.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Si desea hacer una contribución adicional, puedes dar un flattr a Mis gastos, hará una donación a través de Paypal o enviar Bitcoins.</string>
-  <string name="pref_contrib_donate_title">Donar</string>
-  <string name="pref_contrib_install_summary">Con la compra de la llave de Mis gastos Contrib, usted obtiene acceso a todas las características premium.</string>
-  <string name="pref_contrib_install_title">Comprar la llave Contrib (pago en la aplicación)</string>
+  <string name="pref_contrib_purchase_summary">Comprar acceso a características premium y extendidas.</string>
+  <string name="pref_contrib_purchase_title">Comprar la llave</string>
+  <string name="pref_contrib_purchase_title_upgrade">Actualizar la llave</string>
+  <string name="pref_contrib_purchase_title_in_app">pago In-App</string>
   <string name="pref_custom_currency_title">Personalizar moneda</string>
-  <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, puede desbloquear las características premium.</string>
-  <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
+  <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, puede desbloquear las características premium/extendidas.</string>
+  <string name="pref_enter_licence_title">Introduzca la clave</string>
   <string name="pref_export_format_title">Formato de datos</string>
   <string name="pref_follow_gplus_title">Siga Mis Gastos en Google+</string>
   <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
-  <string name="pref_import_qif_summary">Importar transacciones, categorías y partes de archivo QIF</string>
-  <string name="pref_import_qif_title">Importación QIF</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">Importar transacciones, categorías y partes de archivo %s</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_title">Importación %s</string>
   <string name="pref_like_facebook_title">Síguenos en Facebook</string>
   <string name="pref_manage_accounts_title">Cuentas</string>
   <string name="pref_manage_categories_summary">Añadir, modificar y borrar categorías.</string>
@@ -346,8 +351,8 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sin contraseña.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Se requiere una contraseña.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
-  <string name="pref_request_licence_summary">Si ha contribuido, pida una clave Contrib para Android-Id %1$s por correo electrónico.</string>
-  <string name="pref_request_licence_title">Solicite una clave Contrib</string>
+  <string name="pref_request_licence_summary">Si ha contribuido, pida una clave para Android-Id %1$s por correo electrónico.</string>
+  <string name="pref_request_licence_title">Solicite una clave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
   <string name="pref_restore_alternative_summary">Utilice este método alternativo si no hay ningún administrador de archivos instalado en el dispositivo o restaurar una copia de seguridad en el formato de legado.</string>
@@ -382,13 +387,12 @@
   <string name="progress_dialog_loading">Cargando objeto de base de datos …</string>
   <string name="progress_dialog_printing">Generación de PDF...</string>
   <string name="progress_dialog_saving">Guardando objeto de base de datos …</string>
-  <string name="progress_dialog_setup">Base de datos inicializada …</string>
   <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Se encuentran en archivo QIF varias cuentas.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">No puedes combinarlos en cuenta existente.</string>
   <string name="reference_number">Número de referencia</string>
   <string name="request_licence_mail_description">Por favor describa (en inglés, francés o alemán) su contribución a Mis gastos (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción).</string>
-  <string name="request_licence_mail_head">Por favor, envíeme una clave Contrib para Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Por favor, envíeme una clave para Android-Id %1$s.</string>
   <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
   <string name="restore_no_backup_found">No hay ninguna copia de seguridad.</string>
@@ -423,7 +427,6 @@
   <string name="sum_transfer">Traslados</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Probar Mis Gastos, Gestión de las finanzas personales para %s, desde http://www.myexpenses.mobi</string>
-  <string name="template">Plantilla</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
   <string name="thank_you">¡Gracias por su apoyo!</string>
@@ -435,7 +438,6 @@
   <string name="transfer">Traslado a otra cuenta</string>
   <string name="transfer_from_account">Desde</string>
   <string name="transfer_to_account">A</string>
-  <string name="tutorial">Manual</string>
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importe no dividido</string>
   <string name="unsplit_amount_greater_than_zero">Todavía hay cierta cantidad que queda no dividida.</string>
@@ -469,7 +471,6 @@
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_reset_account_matched">Si continúas, transacciones igualadas por el filtro actual se eliminan de la base de datos y no se pueden restaurar..</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
-  <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada para copias de seguridad y las exportaciones se eliminará automáticamente por Android si desinstalas Mis Gastos. Puede evitar que esto suceda al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Transferencias que forman parte de un asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina un número entre 0 y 8</string>
@@ -478,7 +479,7 @@
   <string name="import_categories_success">%1$s categorías han sido importadas con éxito.</string>
   <string name="import_parties_success">%1$s partidos han sido importados con éxito.</string>
   <string name="import_accounts_success">%1$s cuentas han sido importadas con éxito</string>
-  <string name="import_transactions_success">%1$s asientos importados con éxito en cuenta %2$s</string>
+  <string name="import_transactions_success">%1$d asientos importados con éxito en cuenta %2$s</string>
   <string name="import_accounts_none">No hay cuentas importadas</string>
   <string name="import_categories_none">No hay categorías importadas</string>
   <string name="import_parties_none">No hay partidos importados</string>
@@ -509,9 +510,9 @@
   <string name="comparison_operator_between">entre</string>
   <string name="comparison_operator_date_before">antes</string>
   <string name="comparison_operator_date_after">después</string>
-  <string name="promotion_appgratis_welcome">Oferta especial de hoy con AppGratis: Características Premium desbloqueadas totalmente gratis.</string>
-  <string name="premium_unlocked">Características Premium desbloqueadas.</string>
-  <string name="premium_failed_or_canceled">Compra fallado o cancelado.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Oferta especial de hoy con AppGratis: Características Premium desbloqueadas totalmente gratis.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Características Premium desbloqueadas.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Compra fallado o cancelado.</string>
   <string name="hint_auto_fill">¿Deben cantidad, categoría y comentario rellenarse de forma automática desde el último asiento para el mismo beneficiario/pagador? Siempre puedes cambiar este comportamiento en ajustes.</string>
   <string name="yes">Sí</string>
   <string name="no">No</string>
@@ -544,4 +545,17 @@
   <string name="slash_forbidden_in_filename">Carácter / no está autorizado en los nombres de archivo</string>
   <string name="io_error_unable_to_create_file">No se puede crear el archivo %1$s en la carpeta %2$s</string>
   <string name="menu_categories_export">Exportar a QIF</string>
+  <string name="pref_csv_import_delimiter">Delimitador</string>
+  <string name="csv_import_preview">Vista previa</string>
+  <string name="menu_parse">Análisis</string>
+  <string name="cvs_import_discard">Deseche</string>
+  <string name="csv_import_field_mapped_more_than_once">%s se asigna más de una vez.</string>
+  <string name="csv_import_records_failed">%d registros no podrían ser importados.</string>
+  <string name="csv_import_records_discarded">%d registros fueron desechados.</string>
+  <string name="csv_import_subcategory_requires_category">Si asigna subcategoría, también debe asignar categoría.</string>
+  <string name="cvs_import_set_first_line_as_header">¿La primera línea debería ser tratada como una línea de cabecera?</string>
+  <string name="csv_import_delimiter_comma">coma</string>
+  <string name="csv_import_delimiter_semicolon">Punto y coma</string>
+  <string name="csv_import_delimiter_tab">Tabulador</string>
+  <string name="csv_import_no_mapping_found_for_amount">Por favor asigne una columna por importe, ingreso o gasto.</string>
 </resources>

@@ -20,7 +20,7 @@
     <TableRow android:gravity="center_vertical" >
 
         <TextView
-            style="@style/dialog_text"
+            style="@style/form_label"
             android:layout_width="0dip"
             android:layout_weight="1"
             android:text="@string/import_source_file" />
@@ -31,13 +31,13 @@
             android:orientation="horizontal" >
 
             <EditText
+                android:focusable="false"
                 android:id="@+id/Filename"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true" >
 
-                <requestFocus />
             </EditText>
 
             <ImageButton

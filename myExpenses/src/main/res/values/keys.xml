@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="pref_category_export_key">category_export</string>
   <string name="pref_category_contrib_key">category_contrib</string>
   <string name="pref_category_manage_key">category_manage</string>
@@ -27,7 +27,7 @@
   <string name="pref_backup_key">backup</string>
   <string name="pref_restore_key">restore</string>
   <string name="pref_restore_legacy_key">restore_legacy</string>
-  <string name="pref_contrib_install_key">contrib_install</string>
+  <string name="pref_contrib_purchase_key">contrib_purchase</string>
   <string name="pref_request_licence_key">request_licence</string>
   <string name="pref_enter_licence_key">pref_enter_licence_key</string>
   <string name="pref_perform_protection_key">perform_protection</string>
@@ -53,6 +53,9 @@
   <string name="pref_account_grouping_key">account_grouping</string>
   <string name="pref_manage_stale_images_key">manage_stale_images</string>
   <string name="pref_screen_protection">screen_protection</string>
+  <string name="pref_import_qif_key">import_qif</string>
+  <string name="pref_import_csv_key">import_csv</string>
+  <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto ,
@@ -69,30 +72,29 @@
   <string name="help_licence_acra">Includes Acra from http://acra.ch/, licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_openiab">Includes OpenIAB from https://github.com/onepf/OpenIAB, licensed under Apache License, Version 2.0 .</string>
 
-  <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
   <string name="donate_button_bitcoin">Bitcoin</string>
   <!-- User retrieving MyExpenses from a repository should not hit this message,
    so we leave it without localization -->
   <string name="error_accessing_market">No market application found</string>
-  <!-- only shown in theoretically possible edge case, hence no need for localization -->
-  <string name="export_expenses_outputfile_exists">Output file already exists.</string>
   <!-- only shown to users experimenting with restore, so no need for localization -->
   <string name="restore_db_not_valid">BACKUP file is no valid SQLITE3 database.</string>
   <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
   <string name="website">http://www.myexpenses.mobi</string>
   
-  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
-  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
-  <string name="help_ManageTemplates_templates_title">@string/menu_manage_plans_tab_templates</string>
-  <string name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
-  <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
-  <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
-  <string name="help_ManageCategories_select_mapping_title">@string/select_category</string>
-  <string name="help_ManageCategories_select_filter_title">@string/search_category</string>
-  <string name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
-  <string name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
-  <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageTemplates_templates_title">@string/menu_manage_plans_tab_templates</string>
+  <string tools:ignore="UnusedResources" name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_select_mapping_title">@string/select_category</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCategories_select_filter_title">@string/search_category</string>
+  <string tools:ignore="UnusedResources" name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
+  <string tools:ignore="UnusedResources" name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
+  <string tools:ignore="UnusedResources" name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
+  <string tools:ignore="UnusedResources" name="help_CsvImportActivity_title">@string/contrib_feature_csv_import_label</string>
+
     <string name="io_error_appdir_null">No folder for storing backup found</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
   

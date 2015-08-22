@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">الحساب</string>
   <string name="account_type_asset">حساب الاصول</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -25,14 +25,13 @@
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
-  <string name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
-  <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
-  <string name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
-  <string name="contrib_feature_plans_unlimited_description">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
-  <string name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
-  <string name="contrib_feature_security_question_label">السؤال السري</string>
-  <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
-  <string name="contrib_key">مفتاح المساهمة</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">السؤال السري</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
   <string name="contrib_key_requires">يتطلب مصروفاتي مفتاح المساهمة.</string>
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
@@ -48,9 +47,9 @@
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت <i>مصروفاتي Contrib</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
-  <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
@@ -74,10 +73,7 @@
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
   <string name="dialog_title_planner_setup_info">يتطلب إعداد التقويم</string>
-  <string name="dialog_title_select_account">اختر حساب</string>
   <string name="dialog_title_select_grouping">اختر تجميع</string>
-  <string name="dialog_title_select_import_source">اختر مصدر للاستيراد</string>
-  <string name="dialog_title_select_template">اختر نموذج</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">اكتب العنوان</string>
@@ -87,11 +83,11 @@
   <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
   <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>
-  <string name="donate">تبرع</string>
-  <string name="donate_dialog_text">يمكنك المساهمة عن طريق PayPal أو Flattr أو Bitcoin, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
   <string name="expense">الصرف</string>
   <string name="export_expenses">تصدير المصروفات</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة %1$s:  %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
   <string name="external_storage_unavailable">لا يوجد ذاكرة خارجية (sdcard)</string>
   <string name="feedback">التقييم</string>
@@ -99,7 +95,6 @@
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
   <string name="grisbi_import_default_source">التصنيفات الافتراضية العربية</string>
-  <string name="grisbi_import_parsing">جاري تحليل %1$s</string>
   <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
   <string name="grouping_day">اليوم</string>
   <string name="grouping_last_week">آخر أسبوع</string>
@@ -129,7 +124,6 @@
   <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>
   <string name="label">عبارة توضيحية</string>
   <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
-  <string name="licence_validation_success">تم التحقق من مفتاح الترخيص بنجاح: الآن يمكنك استعمال كامل المميزات.</string>
   <string name="menu_aggregates">المجموع</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">تطبيق</string>
@@ -160,7 +154,6 @@
   <string name="menu_create_transaction">عملية جديدة</string>
   <string name="menu_create_transfer">تحويل جديد</string>
   <string name="menu_delete">حذف</string>
-  <string name="menu_delete_account">حذف حساب</string>
   <string name="menu_distribution">توزيع</string>
   <string name="menu_edit">تعديل</string>
   <string name="menu_edit_account">تعديل الحساب</string>
@@ -181,6 +174,7 @@
   <string name="menu_manage_plans">النماذج والخطط</string>
   <string name="menu_manage_plans_tab_templates">النماذج</string>
   <string name="menu_manage_plans_tab_plans">خطط</string>
+  <string name="menu_import">استيراد</string>
   <string name="menu_reset">تصدير وإعادة تعيين</string>
   <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -190,8 +184,6 @@
   <string name="menu_settings">الاعدادات</string>
   <string name="menu_share">اخبر صديق</string>
   <string name="method">طريقة</string>
-  <string name="new_version">اصدار جديد</string>
-  <string name="no_accounts">لا يوجد حسابات!</string>
   <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
   <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
@@ -257,15 +249,12 @@
   <string name="pref_category_title_ui">واجهة المستخدم</string>
   <string name="pref_checkbox_enabled">مفعل</string>
   <string name="pref_checkbox_disabled">معطل</string>
-  <string name="pref_contrib_donate_summary">ادعمنا عن طريق PayPal, Flattr or Bitcoin واحصل على كامل المميزات المدفوعة.</string>
-  <string name="pref_contrib_donate_title">ارسال دعم</string>
-  <string name="pref_enter_licence_summary">اذا كنت تملك مفتاح مساهمة، يمكنك الوصول لكامل المميزات.</string>
-  <string name="pref_enter_licence_title">ادخال مفتاح المساهمة</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
-  <string name="pref_import_qif_title">استيراد QIF</string>
+  <!--%s is replaced with QIF or CSV-->
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_manage_accounts_title">الحسابات</string>
   <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
   <string name="pref_manage_categories_title">التصنيفات</string>
@@ -291,9 +280,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
   <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
-  <string name="pref_request_licence_summary">اذا كنت قد ساهمت بأي وسيلة، اطلب مفتاح المساهمة عن طريق البريد الالكتروني.</string>
-  <string name="pref_request_licence_title">طلب مفتاح مساهمة</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
   <string name="pref_restore_title">استعادة</string>
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
@@ -319,13 +306,11 @@
   <string name="progress_dialog_create_calendar">جاري انشاء تقويم محلي ...</string>
   <string name="progress_dialog_create_plan">جاري انشاء خطة جديدة ...</string>
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات ...</string>
-  <string name="progress_dialog_setup">جاري تهيئة قاعدة البيانات ...</string>
   <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
   <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
   <string name="reference_number">رقم المرجع</string>
   <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
-  <string name="request_licence_mail_head">أرجو تزويدي بمفتاح مساهمة لـ Android-Id %1$s.</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
@@ -349,7 +334,6 @@
   <string name="sum_income">الدخل</string>
   <string name="sum_transfer">التحويلات</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="template">نموذج</string>
   <string name="template_create_success">تم انشاء النموذج \"%1$s\" بنجاح</string>
   <string name="template_title_exists">هناك نموذج بنفس العنوان \"%1$s\" موجود مسبقاً</string>
   <string name="thank_you">شكراً لدعمك!</string>
@@ -359,7 +343,6 @@
   <string name="transfer">التحويل</string>
   <string name="transfer_from_account">من</string>
   <string name="transfer_to_account">إلى</string>
-  <string name="tutorial">دليل المستخدم</string>
   <string name="type">النوع</string>
   <string name="unsplit_amount">توحيد قيمة</string>
   <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
@@ -373,7 +356,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
   <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية. سيتم حذف البيانات الحالية. هل تريد الاستمرار ؟</string>
-  <string name="warning_select_account">الرجاء اختيار حساب!</string>
   <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
   <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
   <string name="menu_create_folder">مجلد جديد</string>

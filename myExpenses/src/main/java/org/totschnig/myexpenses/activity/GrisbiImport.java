@@ -65,9 +65,9 @@ public class GrisbiImport extends ProtectedFragmentActivityNoAppCompat {
     getSupportFragmentManager()
       .beginTransaction()
         .add(TaskExecutionFragment.newInstanceGrisbiImport(true, mUri, withCategories, withParties),
-            "ASYNC_TASK")
+            ProtectionDelegate.ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
-            0,0,ProgressDialog.STYLE_HORIZONTAL, false),"PROGRESS")
+            0,0,ProgressDialog.STYLE_HORIZONTAL, false),ProtectionDelegate.PROGRESS_TAG)
         .commit();
   }
   @Override

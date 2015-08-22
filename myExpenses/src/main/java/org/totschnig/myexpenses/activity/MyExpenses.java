@@ -187,7 +187,6 @@ public class MyExpenses extends LaunchActivity implements
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
     Resources.Theme theme = getTheme();
     TypedValue value = new TypedValue();
@@ -395,10 +394,12 @@ public class MyExpenses extends LaunchActivity implements
 
   private void initialSetup() {
     FragmentManager fm = getSupportFragmentManager();
-    if (fm.findFragmentByTag("ASYNC_TASK") == null) {
+    if (fm.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
       fm.beginTransaction()
         .add(WelcomeDialogFragment.newInstance(),"WELCOME")
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,new Long[]{0L}, null), "ASYNC_TASK")
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,new Long[]{0L}, null),
+            ProtectionDelegate.ASYNC_TAG)
         .commit();
       setupComplete = false;
     }
@@ -793,8 +794,8 @@ public class MyExpenses extends LaunchActivity implements
         args.putLong(KEY_ROWID, mAccountId);
         getSupportFragmentManager().beginTransaction()
           .add(TaskExecutionFragment.newInstancePrint(args),
-              "ASYNC_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),"PROGRESS")
+              ProtectionDelegate.ASYNC_TAG)
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing),ProtectionDelegate.PROGRESS_TAG)
           .commit();
       }
       break;
@@ -1250,9 +1251,9 @@ public class MyExpenses extends LaunchActivity implements
          getCurrentFragment().getFilterCriteria());
      getSupportFragmentManager().beginTransaction()
        .add(TaskExecutionFragment.newInstanceExport(args),
-           "ASYNC_TASK")
+           ProtectionDelegate.ASYNC_TAG)
        .add(ProgressDialogFragment.newInstance(
-           R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),"PROGRESS")
+           R.string.pref_category_title_export,0,ProgressDialog.STYLE_SPINNER,true),ProtectionDelegate.PROGRESS_TAG)
        .commit();
      break;
    case R.id.BALANCE_COMMAND_DO:

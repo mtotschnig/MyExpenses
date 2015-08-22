@@ -42,7 +42,7 @@ public class ContribInfoDialogActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setTheme(MyApplication.getThemeId());
     if (MyApplication.getInstance().isContribEnabled()) {
-      DonateDialogFragment.newInstance().show(
+      DonateDialogFragment.newInstance(true).show(
           getSupportFragmentManager(), "CONTRIB");
       return;
     }
@@ -108,9 +108,9 @@ public class ContribInfoDialogActivity extends FragmentActivity
     finish();
   }
 
-  public void contribBuyDo() {
+  public void contribBuyDo(boolean extended) {
     if (MyApplication.getInstance().isContribEnabled()) {
-      DonateDialogFragment.newInstance().show(
+      DonateDialogFragment.newInstance(true).show(
           getSupportFragmentManager(), "CONTRIB");
       return;
     }

@@ -9,10 +9,11 @@
   -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
       <TableRow
+          android:id="@+id/import_select_types"
         android:gravity="center_vertical">
         <TextView
           android:text="@string/pref_category_title_import"
-          style="@style/dialog_text" />
+          style="@style/form_label" />
         <LinearLayout
           android:orientation="vertical">
           <CheckBox

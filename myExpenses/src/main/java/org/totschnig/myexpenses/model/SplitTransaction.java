@@ -23,6 +23,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 public class SplitTransaction extends Transaction {
+  public static String CSV_INDICATOR = "*";
+  public static String CSV_PART_INDICATOR = "-";
   private boolean inEditState = false;
   private String     PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where " 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
   <string name="account_type_asset">Rachunek aktywów</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -26,17 +26,18 @@
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
   <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>
-  <string name="contrib_feature_ad_free_label">Brak reklam</string>
-  <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
-  <string name="contrib_feature_attach_picture_label">Dopinanie obrazów do transakcji</string>
-  <string name="contrib_feature_distribution_label">Dystrybucja tranakcji na kategorię.</string>
-  <string name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Nieograniczona ilość planów</string>
-  <string name="contrib_feature_print_label">Eksport listy transakcji do PDF</string>
-  <string name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
-  <string name="contrib_feature_split_transaction_label">Podział transakcji</string>
-  <string name="contrib_feature_template_widget_label">Szablon widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Brak reklam</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Dopinanie obrazów do transakcji</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Dystrybucja tranakcji na kategorię.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 3.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Nieograniczona ilość planów</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Eksport listy transakcji do PDF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Podział transakcji</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Szablon widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
   <string name="contrib_key">Klucz Contrib</string>
   <string name="contrib_key_requires">Wymaga Moje Wydatki Klucz Contrib.</string>
   <string name="currency">Waluta</string>
@@ -56,16 +57,17 @@
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując <i>Moje Wydatki Klucz Contrib</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując %s.</string>
   <string name="dialog_contrib_reminder_gain_access">Dostajesz także nieograniczony dostęp do następujących funkcji:</string>
   <string name="dialog_contrib_text_1"><i>Moje Wydatki</i> jest oferowany bez reklam i otwartoźródłowo.</string>
-  <string name="dialog_contrib_text_2">Proszę wspomóc nas instalując <i>Moje Wydatki Klucz Contrib</i>. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
+  <string name="dialog_contrib_text_2">Proszę wspomóc nas instalując %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Zostało Ci jedno darmowe użycie.</item>
     <item quantity="few">Posiadasz jeszcze %1$d darmowych użyć.</item>
     <item quantity="other">Posiadasz jeszcze %1$d darmowych użyć.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Kup teraz</string>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
   <string name="dialog_export_not_yet_exported">Transakcje tylko do eksportu nie zostały jeszcze eksportowane</string>
   <string name="dialog_password_activate_protection">Aktywuj zabezpieczenie hasłem</string>
@@ -87,10 +89,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
   <string name="dialog_title_planner_setup_info">Wymagana konfiguracja kalendarza</string>
-  <string name="dialog_title_select_account">Wybierz konto</string>
   <string name="dialog_title_select_grouping">Wybierz grupowanie</string>
-  <string name="dialog_title_select_import_source">Wybierz źródło importu</string>
-  <string name="dialog_title_select_template">Wybierz szablon</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Określ nazwę</string>
@@ -100,11 +99,12 @@
   <string name="dialog_title_warning_delete_template">Usunąć szablon?</string>
   <string name="dialog_title_warning_delete_transaction">Usunąć transakcję?</string>
   <string name="dialog_title_welcome">Witaj!</string>
-  <string name="donate">Wspomóż</string>
-  <string name="donate_dialog_text">Proszę dawać datki przez PayPal, Flattr lub Bitcoin, i wtedy poproś o klucz Contrib z ekranu ustawień.</string>
+  <string name="donate_dialog_text">Proszę dawać datki przez PayPal lub Bitcoin, i wtedy poproś o klucz z ekranu ustawień.</string>
   <string name="expense">Wydatek</string>
   <string name="export_expenses">Eksport wydatków</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Eksport wydatków na kartę pamięci nie powiodło się %1$s: %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Wydatki zostały wyeksportowane do pliku %1$s</string>
   <string name="external_storage_unavailable">Zewnętrzny nośnik (karta pamięci) nie jest dostępna</string>
   <string name="feedback">Opinie</string>
@@ -112,7 +112,6 @@
   <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
   <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>
   <string name="grisbi_import_default_source">Domyślne polskie kategorie</string>
-  <string name="grisbi_import_parsing">Analizowanie %1$s</string>
   <string name="grisbi_import_parties_loading">Wczytywanie partii z %1$s</string>
   <string name="grouping_day">Dzień</string>
   <string name="grouping_last_week">Ostatni tydzień</string>
@@ -141,7 +140,8 @@
   <string name="invalid_number_format">Format dziesiętny nie jest rozpoznawalny przez twoją lokalizację. Proszę użyć %1$s</string>
   <string name="label">Etykieta</string>
   <string name="licence_validation_failure">Nie można sprawdzić poprawności kluczu licencyjnego.</string>
-  <string name="licence_validation_success">Klucz licencyjny pomyślnie sprawdzony: Funkcje premium zostały odblokowane.</string>
+  <string name="licence_validation_success">Klucz licencyjny pomyślnie sprawdzony:</string>
+  <string name="licence_validation_premium">Funkcje Premium zostały odblokowane.</string>
   <string name="menu_aggregates">Suma</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Zastosuj</string>
@@ -171,7 +171,6 @@
   <string name="menu_create_transaction">Nowa Transakcja</string>
   <string name="menu_create_transfer">Nowy Przelew</string>
   <string name="menu_delete">Usuń</string>
-  <string name="menu_delete_account">Usuń konto</string>
   <string name="menu_distribution">Dystrybucja</string>
   <string name="menu_edit">Edytuj</string>
   <string name="menu_edit_account">Edytuj Konto</string>
@@ -195,6 +194,7 @@
   <string name="menu_manage_plans_tab_templates">Szablony</string>
   <string name="menu_manage_plans_tab_plans">Plany</string>
   <string name="menu_open">Otwórz</string>
+  <string name="menu_import">Import</string>
   <string name="menu_print">Drukuj</string>
   <string name="menu_reset">Eksportuj i zresetuj</string>
   <string name="menu_reset_all">Eksportuj i zresetuj wszystko</string>
@@ -208,8 +208,6 @@
   <string name="menu_set_sort_key">Ustaw klucz sortowania</string>
   <string name="menu_split_transaction">Zamień w podział</string>
   <string name="method">Metoda</string>
-  <string name="new_version">Nowa wersja</string>
-  <string name="no_accounts">Brak kont!</string>
   <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
   <string name="no_app_handling_email_available">Nie posiadasz aplikacji do obsługi E-mail</string>
   <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
@@ -252,6 +250,7 @@
   <string name="password_security_answer_not_valid">Zła odpowiedź. Spróbuj jeszcze raz!</string>
   <string name="payee">Odbiorca płatności</string>
   <string name="payer">Płatnik</string>
+  <string name="payer_or_payee">Odbiorca płatności/Płatnik</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatycznie</string>
@@ -289,20 +288,19 @@
   <string name="pref_category_title_ui">Interfejs użytkownika</string>
   <string name="pref_checkbox_enabled">Włączone</string>
   <string name="pref_checkbox_disabled">Wyłączone</string>
-  <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
-  <string name="pref_contrib_donate_summary_already_contrib">Jeżeli chciałbyś dodatkowo się przyczynić, możesz wysłać darowiznę przez flattr, PayPal lub wysłać Bitcoiny.</string>
-  <string name="pref_contrib_donate_title">Wyślij datek</string>
-  <string name="pref_contrib_install_summary">Nabywając Klucz Contrib Moich Wydatków, otrzymujesz dostęp do funkcji premium.</string>
-  <string name="pref_contrib_install_title">Zakup Klucz Contrib (Płatność Wewnątrz Aplikacji)</string>
+  <string name="pref_contrib_purchase_title">Zakup Klucz</string>
+  <string name="pref_contrib_purchase_title_in_app">Płatność Wewnątrz Aplikacji</string>
   <string name="pref_custom_currency_title">Dostosuj waluty</string>
-  <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz Contrib, otrzymasz dostęp do funkcji premium.</string>
-  <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>
+  <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz, otrzymasz dostęp do funkcji premium.</string>
+  <string name="pref_enter_licence_title">Wprowadź klucz</string>
   <string name="pref_export_format_title">Format daty</string>
   <string name="pref_follow_gplus_title">Śledź Moje Wydatki na Google+</string>
   <string name="pref_import_from_grisbi_summary">Kategorie importu oraz partii Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Import z Grisbi</string>
-  <string name="pref_import_qif_summary">Importuj transakcje, kategorie i partie z pliku QIF</string>
-  <string name="pref_import_qif_title">Import QIF</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">Importuj transakcje, kategorie i partie z pliku %s</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_title">Import %s</string>
   <string name="pref_like_facebook_title">Polub nas na Facebook\'u</string>
   <string name="pref_manage_accounts_title">Konta</string>
   <string name="pref_manage_categories_summary">Utwórz, edytuj, usuń kategorie.</string>
@@ -330,8 +328,8 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Hasło nie jest wymagane.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Hasło jest wymagane.</string>
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
-  <string name="pref_request_licence_summary">Jeżeli przyczyniłeś się do aplikacji, poproś o klucz Contrib dla ID Androida %1$s przez e-mail.</string>
-  <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
+  <string name="pref_request_licence_summary">Jeżeli przyczyniłeś się do aplikacji, poproś o klucz dla ID Androida %1$s </string>
+  <string name="pref_request_licence_title">Poproś o klucz</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>
   <string name="pref_restore_title">Przywróć</string>
@@ -362,13 +360,12 @@
   <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych...</string>
   <string name="progress_dialog_printing">Generowanie pliku PDF...</string>
   <string name="progress_dialog_saving">Zapisywanie obiektu do bazy danych ...</string>
-  <string name="progress_dialog_setup">Baza danych jest inicjowana...</string>
   <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
   <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>
   <string name="reference_number">Numer Odniesienia</string>
   <string name="request_licence_mail_description">Proszę opisać (w języku Angielskim, Niemieckim lub Francuskim) swój wkład do Moich Wydatków (np.: datek przez Paypal, zgłoszenie błędu, testowanie, tłumaczenie).</string>
-  <string name="request_licence_mail_head">Proszę wysłać mi klucz Contrib dla systemu Android %1$s.</string>
+  <string name="request_licence_mail_head">Proszę wysłać mi klucz dla systemu Android %1$s.</string>
   <string name="restore_db_failure">Przywracanie bazy danych nie powiodło się.</string>
   <string name="restore_db_success">Baza danych została przywrócona z kopii zapasowej.</string>
   <string name="restore_no_backup_found">Nie znaleziono kopii zapasowej.</string>
@@ -403,7 +400,6 @@
   <string name="sum_transfer">Przelewy</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Moje Wydatki, Personalny menadżer finansów dla systemu %s, http://www.myexpenses.mobi</string>
-  <string name="template">Szablon</string>
   <string name="template_create_success">Szablon \"%1$s\" został utworzony pomyślnie</string>
   <string name="template_title_exists">Szablon z nazwą \"%1$s\" już istnieje</string>
   <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
@@ -415,7 +411,6 @@
   <string name="transfer">Przelew</string>
   <string name="transfer_from_account">Z</string>
   <string name="transfer_to_account">Do</string>
-  <string name="tutorial">Podręcznik użytkownika</string>
   <string name="type">Typ</string>
   <string name="unsplit_amount">Wycofaj rozdzielenie kwoty</string>
   <string name="unsplit_amount_greater_than_zero">Pewna kwota została nierozdzielona.</string>
@@ -451,14 +446,13 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
-  <string name="warning_select_account">Proszę wybrać konto!</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
   <string name="warning_fraction_digits_out_of_range">Proszę wybrać cyfrę pomiędzy 0 a 8</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>
-  <string name="import_transactions_success">%1$s transakcji pomyślnie zaimportowano do konta %2$s</string>
+  <string name="import_transactions_success">%1$d transakcji pomyślnie zaimportowano do konta %2$s</string>
   <string name="import_accounts_none">Nie zaimportowano żadnych kont</string>
   <string name="import_categories_none">Nie zaimportowano żadnych kategorii</string>
   <string name="import_parties_none">Brak zaimportowanych partii</string>
@@ -488,9 +482,9 @@
   <string name="comparison_operator_between">pomiędzy</string>
   <string name="comparison_operator_date_before">przed</string>
   <string name="comparison_operator_date_after">po</string>
-  <string name="promotion_appgratis_welcome">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
-  <string name="premium_unlocked">Funkcje Premium zostały odblokowane.</string>
-  <string name="premium_failed_or_canceled">Zakup nie udał się lub został anulowany.</string>
+  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
+  <string tools:ignore="UnusedResources" name="premium_unlocked">Funkcje Premium zostały odblokowane.</string>
+  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Zakup nie udał się lub został anulowany.</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>
   <string name="learn_more">Dowiedz się więcej</string>

@@ -17,10 +17,10 @@ package org.totschnig.myexpenses.dialog;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -58,33 +58,53 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Activity ctx  = getActivity();
     Resources res = getResources();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
     CharSequence featureDescription;
-    if (feature.hasTrial)
+    if (feature.hasTrial) {
       featureDescription = Html.fromHtml(
           getString(
-              R.string.dialog_contrib_premium_feature,
+              feature.isExtended ? R.string.dialog_contrib_extended_feature : R.string.dialog_contrib_premium_feature,
               "<i>" + getString(res.getIdentifier(
-                  "contrib_feature_" + feature + "_label", "string", ctx.getPackageName()))+"</i>") +
-          (usagesLeft > 0 ?
-              res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
-              getString(R.string.dialog_contrib_no_usages_left)));
-    else
+                  "contrib_feature_" + feature + "_label", "string", ctx.getPackageName())) + "</i>") +
+              (usagesLeft > 0 ?
+                  res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
+                  getString(R.string.dialog_contrib_no_usages_left)));
+    } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
+    }
+    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
     CharSequence
-      linefeed = Html.fromHtml("<br><br>"),
-      message = TextUtils.concat(
-        featureDescription," ",
-        getText(R.string.dialog_contrib_reminder_remove_limitation)," ",
-        getString(R.string.dialog_contrib_reminder_gain_access),
-        linefeed,
-        featureList);
-    return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.dialog_title_contrib_feature)
-      .setMessage(message)
-      .setNegativeButton(R.string.dialog_contrib_no, this)
-      .setPositiveButton(R.string.dialog_contrib_yes, this)
-      .create();
+        linefeed = Html.fromHtml("<br><br>"),
+        removePhrase = Html.fromHtml(
+            getString(
+                R.string.dialog_contrib_reminder_remove_limitation,
+                "<i>" +  Utils.concatResStrings(getActivity(), R.string.app_name,
+                    feature.isExtended ? R.string.extended_key : R.string.contrib_key) + "</i>")),
+        message = TextUtils.concat(
+            featureDescription, " ",
+            removePhrase);
+    boolean isContrib = MyApplication.getInstance().isContribEnabled();
+    if (!isContrib) {
+      CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature,
+          feature.isExtended ? null : Utils.LicenceStatus.CONTRIB); //if feature is extended, we list all features
+      //if user has contrib key, he already has access to premium features, currently there is only
+      //one extended feature
+      message = TextUtils.concat(message, " ",
+          getString(R.string.dialog_contrib_reminder_gain_access),
+          linefeed, featureList);
+      if (!feature.isExtended) {
+        String pro = getString(R.string.dialog_contrib_extended_gain_access);
+        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, Utils.LicenceStatus.EXTENDED);
+        message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
+        builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
+      }
+    }
+    builder
+        .setTitle(feature.isExtended ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
+        .setMessage(message)
+        .setNegativeButton(R.string.dialog_contrib_no, this)
+        .setPositiveButton(isContrib ? R.string.dialog_contrib_upgrade_extended : R.string.dialog_contrib_buy_extended, this)
+        .setIcon(R.drawable.premium);
+    return builder.create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
@@ -93,7 +113,9 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ctx.contribBuyDo();
+      ctx.contribBuyDo(true);
+    } else if (which == AlertDialog.BUTTON_NEUTRAL) {
+      ctx.contribBuyDo(false);
     } else {
       if (usagesLeft > 0) {
         ctx.contribFeatureCalled(feature, getArguments().getSerializable(ContribInfoDialogActivity.KEY_TAG));

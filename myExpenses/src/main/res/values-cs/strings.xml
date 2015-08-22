@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Účet</string>
   <string name="account_type_asset">Účet aktiv</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
@@ -19,15 +19,15 @@
   <string name="category">Kategorie</string>
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
-  <string name="contrib_feature_accounts_unlimited_description">Počet účtů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 5.</string>
-  <string name="contrib_feature_accounts_unlimited_label">Neomezený počet účtů</string>
-  <string name="contrib_feature_distribution_label">Rozdělení transakcí podle jednotlivých kategorií</string>
-  <string name="contrib_feature_plans_unlimited_description">Počet plánů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Neomezený počet plánů</string>
-  <string name="contrib_feature_security_question_label">Bezpečnostní otázka</string>
-  <string name="contrib_feature_split_transaction_label">Rozdělení transakce</string>
-  <string name="contrib_feature_template_widget_label">Šablona widget</string>
-  <string name="contrib_key">Klíč Contrib verze</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Počet účtů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 5.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Neomezený počet účtů</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Rozdělení transakcí podle jednotlivých kategorií</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Počet plánů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 3.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Neomezený počet plánů</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Bezpečnostní otázka</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Rozdělení transakce</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Šablona widget</string>
+  <string name="contrib_key">Klíč Contrib</string>
   <string name="contrib_key_requires">Vyžaduje Moje výdaje Klíč Contrib verze.</string>
   <string name="currency">Měna</string>
   <string name="current_balance">Aktuální zůstatek</string>
@@ -44,16 +44,16 @@
   <string name="dialog_contrib_no_usages_left">Nezbývá žádné použití zdarma.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Odstraňte toto omezení instalací <i>Moje výdaje Klíč Contrib</i>.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_gain_access">Můžete také získat neomezený přístup k následujícím funkcím:</string>
   <string name="dialog_contrib_text_1"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj.</string>
-  <string name="dialog_contrib_text_2">Prosím přispějte instalací <i>Moje výdaje Klíč Contrib</i>. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
+  <string name="dialog_contrib_text_2">Prosím přispějte instalací %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Máte jedno použití zdarma.</item>
     <item quantity="few">Máte %1$d použití zdarma.</item>
     <item quantity="other">Máte %1$d použití zdarma.</item>
   </plurals>
-  <string name="dialog_contrib_yes">Kupte teď</string>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
   <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
   <string name="dialog_password_activate_protection">Aktivovat ochranu heslem</string>
@@ -74,10 +74,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémiové funkce</string>
   <string name="dialog_title_planner_setup_info">Vyžadování nastavení kalendáře</string>
-  <string name="dialog_title_select_account">Vyberte si účet</string>
   <string name="dialog_title_select_grouping">Vyberte seskupení</string>
-  <string name="dialog_title_select_import_source">Vyberte zdroj pro import</string>
-  <string name="dialog_title_select_template">Vybrat šablonu</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Nastavte název</string>
@@ -85,11 +82,12 @@
   <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
   <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
   <string name="dialog_title_welcome">Vítejte!</string>
-  <string name="donate">Darujte</string>
-  <string name="donate_dialog_text">Prosím přispějte přes PayPal, Flattr nebo Bitcoin a potom požádejte o klíč ke Contrib verzi aplikace z obrazovky nastavení.</string>
+  <string name="donate_dialog_text">Prosím přispějte přes PayPal nebo Bitcoin a potom požádejte o klíč z obrazovky nastavení.</string>
   <string name="expense">Výdaj</string>
   <string name="export_expenses">Export výdajů</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Export výdajů na sdkartu se nezdařil %1$s: %2$s</string>
+  <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Výdaje vyexportovány do souboru %1$s</string>
   <string name="external_storage_unavailable">Externí úložiště (paměťová karta) není k dispozici.</string>
   <string name="feedback">Zpětná vazba</string>
@@ -97,7 +95,6 @@
   <string name="ftp_uri_malformed">Chybné URI %1$s</string>
   <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
   <string name="grisbi_import_default_source">České výchozí kategorie</string>
-  <string name="grisbi_import_parsing">Načítání %1$s</string>
   <string name="grisbi_import_parties_loading">Načítání stran z %1$s</string>
   <string name="grouping_day">Den</string>
   <string name="grouping_last_week">Minulý týden</string>
@@ -124,7 +121,8 @@
   <string name="invalid_number_format">Desítkový formát není rozpoznatelný vaším místním. Použijte %1$s</string>
   <string name="label">Popisek</string>
   <string name="licence_validation_failure">Nelze ověřit licenční klíč.</string>
-  <string name="licence_validation_success">Licenční klíč úspěšně ověřen: prémiové funkce byly odemčeny.</string>
+  <string name="licence_validation_success">Licenční klíč úspěšně ověřen:</string>
+  <string name="licence_validation_premium">Prémiové funkce byly odemčené.</string>
   <string name="menu_aggregates">Celkem</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Použít</string>
@@ -173,6 +171,7 @@
   <string name="menu_manage_plans">Šablony a plány</string>
   <string name="menu_manage_plans_tab_templates">Šablony</string>
   <string name="menu_manage_plans_tab_plans">Plány</string>
+  <string name="menu_import">Importovat</string>
   <string name="menu_reset">Exportovat a resetovat</string>
   <string name="menu_reset_all">Exportovat a obnovit vše</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -181,8 +180,6 @@
   <string name="menu_save_and_new">Uložit a nový</string>
   <string name="menu_settings">Nastavení</string>
   <string name="method">Metoda</string>
-  <string name="new_version">Nová verze</string>
-  <string name="no_accounts">Žádné účty!</string>
   <string name="no_amount_given">Nezadali jste žádnou částku.</string>
   <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
   <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
@@ -244,14 +241,14 @@
   <string name="pref_category_title_more_information">Více informací</string>
   <string name="pref_category_title_security">Bezpečnost</string>
   <string name="pref_category_title_ui">Uživatelské rozhraní</string>
-  <string name="pref_contrib_donate_summary">Darujte přes PayPal, Flattr nebo Bitcoin a získat přístup k nadstandardním funkcím.</string>
-  <string name="pref_contrib_donate_title">Odeslat příspěvek</string>
-  <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč pro Contrib verzi programu, získejte přístup k nadstandardním funkcím.</string>
-  <string name="pref_enter_licence_title">Vložte klíč pro Contrib verzi programu</string>
+  <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
+  <string name="pref_enter_licence_title">Vložte klíč</string>
   <string name="pref_export_format_title">Formát dat</string>
   <string name="pref_follow_gplus_title">Sledujte Moje výdaje na Google +</string>
   <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Importovat z Grisbi</string>
+  <!--%s is replaced with QIF or CSV-->
+  <!--%s is replaced with QIF or CSV-->
   <string name="pref_manage_accounts_title">Účty</string>
   <string name="pref_manage_categories_summary">Přidání, úprava a odstranění kategorií.</string>
   <string name="pref_manage_categories_title">Kategorie</string>
@@ -276,8 +273,9 @@
   <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
   <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
   <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
-  <string name="pref_request_licence_title">Zažádejte klíč pro Contrib verzi programu</string>
-  <!--Alternative is used as an adejective designing an alternative method for restoring backups-->
+  <string name="pref_request_licence_summary">Pokud jste přispěli, požádejte o klíč pro Android-Id %1$s e-mailem.</string>
+  <string name="pref_request_licence_title">Zažádejte klíč</string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">Obnovit</string>
   <string name="pref_security_question_summary">Umožňuje odemknout aplikaci, pokud jste zapomněli vaše heslo.</string>
   <string name="pref_security_question_title">Bezpečnostní otázka</string>
@@ -301,10 +299,9 @@
   <string name="progress_dialog_create_calendar">Vytváření místního kalendáře...</string>
   <string name="progress_dialog_create_plan">Vytváření nového plánu...</string>
   <string name="progress_dialog_loading">Načítání objektů z databáze...</string>
-  <string name="progress_dialog_setup">Databáze je inicializována...</string>
   <string name="reference_number">Referenční číslo</string>
   <string name="request_licence_mail_description">Popište prosím váš příspěvek pro Moje výdaje (V angličtině, němčině nebo francouzštině)  (např.: dar přes Paypal, hlášení o chybě, testování, překlad).</string>
-  <string name="request_licence_mail_head">Pošlete mi prosím  Contrib klíč pro Android-Id %1$s.</string>
+  <string name="request_licence_mail_head">Pošlete mi prosím klíč pro Android-Id %1$s.</string>
   <string name="restore_db_failure">Obnovení databáze se nezdařilo.</string>
   <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>
   <string name="restore_preferences_failure">Nastavení obnovení se nezdařilo.</string>
@@ -329,7 +326,6 @@
   <string name="sum_transfer">Převody</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Moje výdaje, Správa osobních výdajů pro %s, http://www.myexpenses.mobi</string>
-  <string name="template">Šablona</string>
   <string name="template_create_success">Šablona \"%1$s\" byla úspěšně vytvořen</string>
   <string name="template_title_exists">Šablona s názvem \"%1$s\" již existuje</string>
   <string name="thank_you">Děkujeme vám za vaši podporu!</string>
@@ -339,7 +335,6 @@
   <string name="transfer">Převod</string>
   <string name="transfer_from_account">Od</string>
   <string name="transfer_to_account">Do</string>
-  <string name="tutorial">Uživatelská příručka</string>
   <string name="type">Typ</string>
   <string name="unsplit_amount">Nerozdělená částka</string>
   <string name="unsplit_amount_greater_than_zero">Zůstala nějaká nerozdělená částka.</string>
@@ -351,7 +346,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
   <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy. Aktuální data budou odstraněna. Přejete si pokračovat?</string>
-  <string name="warning_select_account">Nejprve vyberte účet!</string>
   <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>

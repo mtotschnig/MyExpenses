@@ -97,7 +97,7 @@ public class Payee extends Model {
     cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null);
   }
-  @SuppressLint("NewApi")
+
   @Override
   public Uri save() {
     ContentValues initialValues = new ContentValues();

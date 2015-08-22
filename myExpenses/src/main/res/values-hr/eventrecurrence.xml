@@ -16,7 +16,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="does_not_repeat" msgid="1877681921029738999">"Jednokratni događaj"</string>
     <string name="endByDate" msgid="7654221304929538201">"; do <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"; jedanput"</item>
@@ -32,7 +31,6 @@
     <item quantity="other" msgid="2857390143157377867">"Svaki <xliff:g id="NUMBER">%1$d</xliff:g>. tjedan, <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
   </plurals>
     <string name="monthly" msgid="4587116285383048586">"Mjesečno"</string>
-    <string name="yearly_plain" msgid="3652692085322162449">"Godišnje"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"Mjesečno (na dan <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
     <string name="yearly" msgid="8576208380302949002">"Godišnje (na dan <xliff:g id="DATES">%s</xliff:g>)"</string>
    <string-array name="repeat_by_nth_sun">
