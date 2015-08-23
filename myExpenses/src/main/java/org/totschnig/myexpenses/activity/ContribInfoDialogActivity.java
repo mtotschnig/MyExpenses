@@ -41,11 +41,6 @@ public class ContribInfoDialogActivity extends FragmentActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(MyApplication.getThemeId());
-    if (MyApplication.getInstance().isContribEnabled()) {
-      DonateDialogFragment.newInstance(true).show(
-          getSupportFragmentManager(), "CONTRIB");
-      return;
-    }
 
     mHelper = Distrib.getIabHelper(this);
     if (mHelper != null) {
@@ -109,11 +104,6 @@ public class ContribInfoDialogActivity extends FragmentActivity
   }
 
   public void contribBuyDo(boolean extended) {
-    if (MyApplication.getInstance().isContribEnabled()) {
-      DonateDialogFragment.newInstance(true).show(
-          getSupportFragmentManager(), "CONTRIB");
-      return;
-    }
     if (BuildConfig.FLAVOR_distribution.equals("blackberry")) {
       contribBuyBlackBerry();
       return;
@@ -141,7 +131,10 @@ public class ContribInfoDialogActivity extends FragmentActivity
             } else {
               Log.d(tag, "Purchase successful.");
 
-              if (purchase.getSku().equals(Config.SKU_PREMIUM)) {
+              boolean isPremium = purchase.getSku().equals(Config.SKU_PREMIUM);
+              if (isPremium ||
+                  purchase.getSku().equals(Config.SKU_EXTENDED) ||
+                  purchase.getSku().equals(Config.SKU_PREMIUM2EXTENDED)) {
                 // bought the premium upgrade!
                 Log.d(tag,
                     "Purchase is premium upgrade. Congratulating user.");
@@ -149,9 +142,10 @@ public class ContribInfoDialogActivity extends FragmentActivity
                     ContribInfoDialogActivity.this,
                     Utils.concatResStrings(
                         ContribInfoDialogActivity.this,
-                        R.string.premium_unlocked, R.string.thank_you),
+                        isPremium ? R.string.licence_validation_premium : R.string.licence_validation_extended,
+                        R.string.thank_you),
                     Toast.LENGTH_SHORT).show();
-                Distrib.registerPurchase(ContribInfoDialogActivity.this);
+                Distrib.registerPurchase(ContribInfoDialogActivity.this,!isPremium);
               }
             }
             finish();
@@ -168,9 +162,14 @@ public class ContribInfoDialogActivity extends FragmentActivity
             return payload.equals(mPayload);
           }
         };
+    String sku = extended ?
+        (MyApplication.getInstance().isContribEnabled() ?
+            Config.SKU_PREMIUM2EXTENDED :
+            Config.SKU_EXTENDED) :
+        Config.SKU_PREMIUM;
     mHelper.launchPurchaseFlow(
         ContribInfoDialogActivity.this,
-        Config.SKU_PREMIUM,
+        sku,
         ProtectedFragmentActivity.PURCHASE_PREMIUM_REQUEST,
         mPurchaseFinishedListener,
         mPayload

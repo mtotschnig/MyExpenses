@@ -14,8 +14,10 @@ import java.util.Map;
  */
 public final class Config {
 
-    // SKUs for our products: the premium upgrade (non-consumable) and gas (consumable)
+    // SKUs for our products:
     public static final String SKU_PREMIUM = "sku_premium";
+    public static final String SKU_EXTENDED = "sku_extended";
+    public static final String SKU_PREMIUM2EXTENDED = "sku_premium2extended";
 
     /**
      * Google play public key.

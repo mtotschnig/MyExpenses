@@ -34,8 +34,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     final String contribStatus = MyApplication.getInstance().getContribStatus();
-    if (contribStatus.equals(Distrib.STATUS_DISABLED) ||
-        contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
+    if (!contribStatus.equals(Distrib.STATUS_EXTENDED_PERMANENT)) {
 
       mHelper = Distrib.getIabHelper(this);
       if (mHelper!=null) {
@@ -57,8 +56,18 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                   // Do we have the premium upgrade?
                   Purchase premiumPurchase =
                       inventory.getPurchase(Config.SKU_PREMIUM);
-                  if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
-                    Distrib.registerPurchase(LaunchActivity.this);
+                  Purchase extendedPurchase =
+                      inventory.getPurchase(Config.SKU_EXTENDED);
+                  Purchase upgradePurchase =
+                      inventory.getPurchase(Config.SKU_PREMIUM2EXTENDED);
+                  if (upgradePurchase!=null&&upgradePurchase.getPurchaseState()==0) {
+                    Distrib.registerPurchase(LaunchActivity.this, true);
+                  } else if (extendedPurchase!=null&&extendedPurchase.getPurchaseState()==0) {
+                    Distrib.registerPurchase(LaunchActivity.this, true);
+                  } else if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
+                    if (!contribStatus.equals(Distrib.STATUS_ENABLED_PERMANENT)) {
+                      Distrib.registerPurchase(LaunchActivity.this, false);
+                    }
                   } else if (contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
                     Distrib.maybeCancel(LaunchActivity.this);
                   }

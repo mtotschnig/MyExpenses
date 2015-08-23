@@ -75,10 +75,11 @@ public class Distrib {
   /**
    * this is used from in-app billing
    * @param ctx
+   * @param extended
    */
-  public static void registerPurchase(Context ctx) {
+  public static void registerPurchase(Context ctx, boolean extended) {
     PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
-    String status = STATUS_ENABLED_TEMPORARY;
+    String status = extended ? STATUS_EXTENDED_TEMPORARY : STATUS_ENABLED_TEMPORARY;
     long timestamp = Long.parseLong(p.getString(
         MyApplication.PrefKey.LICENSE_INITIAL_TIMESTAMP.getKey(),"0"));
     long now = System.currentTimeMillis();
@@ -90,7 +91,7 @@ public class Distrib {
       Log.d(MyApplication.TAG,"time since initial check : " + timeSincePurchase);
         //give user 2 days to request refund
       if (timeSincePurchase> REFUND_WINDOW) {
-        status = STATUS_ENABLED_PERMANENT;
+        status = extended ? STATUS_EXTENDED_PERMANENT : STATUS_ENABLED_PERMANENT;
       }
     }
     p.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), status);
@@ -134,7 +135,7 @@ public class Distrib {
     long now = System.currentTimeMillis();
     long timeSincePurchase = now - timestamp;
     if (timeSincePurchase> REFUND_WINDOW) {
-      String status = STATUS_ENABLED_PERMANENT;
+      String status = STATUS_DISABLED;
       p.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), status);
       p.commit();
       MyApplication.getInstance().setContribStatus(status);
