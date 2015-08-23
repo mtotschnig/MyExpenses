@@ -488,7 +488,6 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="comparison_operator_lesser_than">manje od</string>
   <string name="comparison_operator_between">između</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Premium opcije otključane</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Kupovina neuspjela ili otkazana.</string>
   <string name="hint_auto_fill">Želite li da iznos, kategorija i komentar budu automatski unešeni od zadnje transkacije za istog platitelja / primaoca? Ovo možete izmijeniti bilo kada u postavkama.</string>
   <string name="yes">Da</string>

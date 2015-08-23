@@ -478,7 +478,6 @@
   <string name="comparison_operator_lesser_than">по-малка от</string>
   <string name="comparison_operator_between">между</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Днес специална оферта с безплатно приложение:  премийните функции са отключени безплатно.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Премийни функции отключени.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Закупуването е неуспешно или отменено.</string>
   <string name="hint_auto_fill">Трябва ли сума, категория и коментар да се попълват автоматично от последното плащане за същия получател/платец? Винаги можете да промените това поведение от настройките.</string>
   <string name="yes">Да</string>

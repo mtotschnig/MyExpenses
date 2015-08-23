@@ -510,7 +510,6 @@
   <string name="comparison_operator_date_before">avant</string>
   <string name="comparison_operator_date_after">après</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Fonctions Premium déverrouillées.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Échec ou annulation de l\'achat.</string>
   <string name="hint_auto_fill">Voulez-vous remplir automatiquement le commentaire, la catégorie et le montant à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
   <string name="yes">Oui</string>

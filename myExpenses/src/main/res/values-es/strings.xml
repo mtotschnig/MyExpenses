@@ -511,7 +511,6 @@
   <string name="comparison_operator_date_before">antes</string>
   <string name="comparison_operator_date_after">después</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Oferta especial de hoy con AppGratis: Características Premium desbloqueadas totalmente gratis.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Características Premium desbloqueadas.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Compra fallado o cancelado.</string>
   <string name="hint_auto_fill">¿Deben cantidad, categoría y comentario rellenarse de forma automática desde el último asiento para el mismo beneficiario/pagador? Siempre puedes cambiar este comportamiento en ajustes.</string>
   <string name="yes">Sí</string>

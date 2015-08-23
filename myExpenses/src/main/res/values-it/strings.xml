@@ -510,7 +510,6 @@
   <string name="comparison_operator_date_before">prima</string>
   <string name="comparison_operator_date_after">dopo</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Offerta speciale di oggi con AppGratis: caratteristiche Premium sbloccati gratuitamente.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Caratteristiche Premium sbloccate.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">L\'acquisto non riuscito o annullato.</string>
   <string name="hint_auto_fill">Dovrebbe importo, categoria e commento essere compilati automaticamente dall\'ultima operazione beneficiario/ordinante stesso? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
   <string name="yes">Sì</string>

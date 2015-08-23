@@ -512,7 +512,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="comparison_operator_date_before">önce</string>
   <string name="comparison_operator_date_after">sonra</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Katkı özelliklerinin kilidi kaldırılmıştır.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Satın alma başarısız oldu veya iptal edildi.</string>
   <string name="hint_auto_fill">Aynı alacaklı/ödeyici için meblağ, kategori ve yorum son muameleye dayanılarak otomatik olarak doldurulsun mu? Bunu ayarlardan değiştirebilirsiniz.</string>
   <string name="yes">Evet</string>

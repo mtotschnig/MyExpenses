@@ -498,7 +498,6 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="comparison_operator_date_before">lehenago</string>
   <string name="comparison_operator_date_after">beranduago</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Gaurko eskaintza berezia AppGratis bitartez: Premium ezaugarriak doan desblokeatuta.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Premium ezaugarriak desblokeatuta.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Erosketak huts egin du eta bertan behera utzi da.</string>
   <string name="hint_auto_fill">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile beraren aurreko transakzioko datuekin? Portaera hau ezarpenetan aldatu dezakezu gero ere.</string>
   <string name="yes">Bai</string>
