@@ -489,7 +489,6 @@
   <string name="comparison_operator_date_before">이전에</string>
   <string name="comparison_operator_date_after">이후에</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis의 특별 제안: 무료로 프리미엄 기능 사용</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">프리미엄 기능이 잠금 해제되었습니다.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">구매에 실패했거나 취소되었습니다.</string>
   <string name="hint_auto_fill">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 자동으로 입력할까요? 이 동작은 설정 화면에서 언제나 변경할 수 있습니다.</string>
   <string name="yes">예</string>

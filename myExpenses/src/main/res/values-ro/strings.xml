@@ -508,7 +508,6 @@ Tradus de DD</string>
   <string name="comparison_operator_date_before">înainte </string>
   <string name="comparison_operator_date_after">după</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Oferta speciala de astăzi cu AppGratis: Funcţionalităţile Premium deblocate gratis.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Funcţionalităţile Premium  deblocate.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Cumpărare eşuată sau anulată.</string>
   <string name="hint_auto_fill">Cantitatea, categoria şi comentariu se  vor completa automat de la ultima tranzactie pentru același beneficiar/platitor? Puteţi modifica oricând acest comportament din setări.</string>
   <string name="yes">Da</string>

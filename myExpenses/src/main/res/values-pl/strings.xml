@@ -483,7 +483,6 @@
   <string name="comparison_operator_date_before">przed</string>
   <string name="comparison_operator_date_after">po</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Funkcje Premium zostały odblokowane.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Zakup nie udał się lub został anulowany.</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>

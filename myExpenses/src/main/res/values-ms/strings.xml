@@ -491,7 +491,6 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="comparison_operator_date_before">sebelum</string>
   <string name="comparison_operator_date_after">selepas</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">Fitur premium dibuka.</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Pembelian gagal atau dibatalkan.</string>
   <string name="hint_auto_fill">Patutkah amaun, kategori dan ulasan diisi secara automatik dari transaksi terakhir untuk pembayar/penerima yang sama? Anda boleh mengubah kelakuakn ini melalui tetapan.</string>
   <string name="yes">Ya</string>

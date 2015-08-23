@@ -30,7 +30,6 @@
         <item quantity="other" msgid="2857390143157377867">"<xliff:g id="NUMBER">%1$d</xliff:g>주에 한 번 <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
     <string name="monthly" msgid="4587116285383048586">"매월"</string>
-    <string name="yearly_plain" msgid="3652692085322162449">"매년"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"매월(<xliff:g id="DAY_OF_MONTH">%s</xliff:g>일)"</string>
     <string name="yearly" msgid="8576208380302949002">"매년(<xliff:g id="DATES">%s</xliff:g>)"</string>
     <string-array name="repeat_by_nth_sun">

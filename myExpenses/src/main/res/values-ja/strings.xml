@@ -502,7 +502,6 @@
   <string name="comparison_operator_date_before">以前</string>
   <string name="comparison_operator_date_after">以降</string>
   <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
-  <string tools:ignore="UnusedResources" name="premium_unlocked">プレミアム機能のロック解除。</string>
   <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">購入が失敗またはキャンセルされました。</string>
   <string name="hint_auto_fill">金額、分類、およびコメントを、同じ受取人/支払人に対する最後のトランザクションから自動的に入力しますか? いつでも設定からこの動作を変更することができます。</string>
   <string name="yes">はい</string>
