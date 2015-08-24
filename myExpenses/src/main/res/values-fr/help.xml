@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menu de commandes</string>
   <string name="help_contextual_actions">Actions contextuelles</string>
   <string name="cab_delete_help_text">Supprimer les éléments sélectionnés.</string>
@@ -54,7 +54,7 @@
   <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre une fenêtre pour spécifier le titre d\'une nouvelle sous-catégorie en dessous de la catégorie sélectionnée.</string>
   <string name="cab_ManageCategories_select_category_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
   <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
-  <string name="menu_categories_export_help_text">Catégories seront exportés vers fichier QIF.</string>
+  <string name="menu_categories_export_help_text">Les catégories seront exportées vers le fichier QIF.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
   <string name="cab_ManageCategories_distribution_select_category_help_text">Affiche les opérations individuelles qui ont été regroupées pour la catégorie sélectionnée.</string>
   <!--ExpenseEdit-->
@@ -93,4 +93,6 @@
   <string name="menu_up_help_text">Naviguer vers le dossier parent de celui-ci</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Cet écran vous permet de traiter des fichiers d\'images qui ont fait partie des transactions supprimées. Cliquez longuement sur une entrée afin de la supprimer ou la déplacer hors du dossier de stockage (éventuellement interne) vers un dossier de sauvegarde (Android/data/org.totschnig.mxexpenses/files/images.old) sur le stockage externe.</string>
+  <!--CSV Import-->
+  <string name="help_CsvImportActivity_info">&lt;! [CDATA [Après avoir sélectionné le fichier à importer, vous devez configurer la façon dont le fichier est encodé (UTF-8 ou ISO-8859-1), quel caractère sépare les champs (virgule, point-virgule ou tabulation), et comment les dates sont formatées. Les données peuvent être importées dans un compte existant ou un nouveau, où vous pourrez configurer sa devise et son type de compte. &lt;br&gt;&lt;br&gt;après avoir tapé le bouton d'Analyse de la barre d'action, les données vous seront présentées dans un tableau. Avant de déclencher l'importation par le bouton dans la barre d'action, vous pouvez sélectionner les lignes que vous souhaitez supprimer, et vous devez attribuer aux colonnes les champs de données respectifs. &lt;br&gt;&lt;br&gt;Lorsque vous supprimez la première colonne, il vous est demandé si vous voulez qu'elle soit traitée comme ligne d'en-tête, auquel cas &lt;i&gt;Mes dépenses&lt;/i&gt; va essayer d'attribuer automatiquement les colonnes basées sur le contenu des cellules d'en-tête. Il peut se souvenir de votre présentation basée sur la ligne d'en-tête et la restaurer, lorsque, la prochaine fois, vous importerez un fichier avec ce même format d'en-tête.]] &gt;</string>
 </resources>

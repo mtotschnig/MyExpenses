@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">メニュー コマンド</string>
   <string name="help_contextual_actions">コンテキスト アクション</string>
   <string name="cab_delete_help_text">選択したアイテムを削除</string>
@@ -54,6 +54,7 @@
   <string name="cab_ManageCategories_create_sub_cat_help_text">選択した分類の下の、新しい副分類のタイトルを指定するダイアログを開きます。</string>
   <string name="cab_ManageCategories_select_category_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
   <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
+  <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
   <string name="cab_ManageCategories_distribution_select_category_help_text">選択した分類に集計されている個々の取引を表示します。</string>
   <!--ExpenseEdit-->
@@ -92,4 +93,6 @@
   <string name="menu_up_help_text">現在のフォルダーの親に移動します。</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">この画面は、削除された取引から残っている画像ファイルを扱うことができます。エントリー上で長押しして、削除するか、または (おそらく内部) ストレージフォルダーから、外部ストレージのバックアップフォルダー (Android/data/org.totschnig.mxexpenses/files/images.old) に移動します。</string>
+  <!--CSV Import-->
+  <string name="help_CsvImportActivity_info"><![CDATA[インポートしたいファイルを選択した後、ファイルのエンコード (UTF-8 または ISO-8859-1)、フィールドの区切り文字 (カンマ、セミコロン、またはタブ) 、そして日付の書式を設定する必要があります。データは、既存または新しい勘定にインポートすることができ、通貨と勘定の種類を設定することができます。<br><br>アクションバーから解析ボタンを押した後、テーブルにデータが表示されます。アクションバーにあるボタンからインポートを実行する前に、破棄したい行を選択することができ、対応するデータフィールドに列をマップする必要があります。<br><br>最初の行を破棄するとき、ヘッダー行として扱うべきかを訊ねられます。この場合、<i>マイ エクスペンス</i> は自動的にヘッダーセルの内容に基づいて列をマップしようとします。また、ヘッダー行に基づいたマッピングを記憶し、次回同じヘッダー形式でファイルをインポートするときに、それを復元します。]]></string>
 </resources>

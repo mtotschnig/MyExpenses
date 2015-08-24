@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Meniu Comenzi</string>
   <string name="help_contextual_actions">Acţiuni contextuale</string>
   <string name="cab_delete_help_text">Şterge elementele selectate</string>
@@ -89,4 +89,5 @@
   <string name="menu_select_folder_help_text">Selectaţi folderul curent ca targhet de stocare pentru export şi backup.</string>
   <string name="menu_up_help_text">Navigheaza in folderul parinte al folderului curent.</string>
   <!--StaleImages-->
+  <!--CSV Import-->
 </resources>

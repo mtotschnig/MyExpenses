@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menübefehle</string>
   <string name="help_contextual_actions">Kontextbezogene Aktionen</string>
   <string name="cab_delete_help_text">Ausgewählte Elemente löschen.</string>
@@ -93,4 +93,6 @@
   <string name="menu_up_help_text">Navigieren Sie zu dem übergeordneten Ordner.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">In diesem Fenster können Sie Bild-Dateien verwalten, die von gelöschten Buchungen übrig geblieben sind. Indem Sie lange auf Einträge klicken, können Sie die Bilder löschen oder aus dem (möglicherweise internen) Speicherordner in einen Sicherungsordner (Android/data/org.totschnig.mxexpenses/files/images.old) auf dem externen Speicher verschieben.</string>
+  <!--CSV Import-->
+  <string name="help_CsvImportActivity_info">&lt;! [CDATA [Nachdem Sie die Datei, die Sie importieren möchten ausgewählt haben, müssen Sie konfigurieren, wie die Datei kodiert ist (UTF-8 oder ISO-8859-1), welches Zeichen als Feldtrenner fungiert (Komma, Semikolon oder Tabulator) und wie Datumsangaben formatiert sind. Die Daten können entweder in ein bestehendes Konto importiert werden oder in ein neu angelegtes, wobei Sie die Währung und den Kontotyp konfigurieren können. &lt;br&gt;&lt;br&gt;Wenn Sie in der Aktionsleiste "Analysieren" auswählen, werden die Daten in einer Tabelle angezeigt. Vor Auslösung des Imports über die Schaltfläche in der Aktionsleiste können Sie Zeilen auswählen, die ignoriert werden sollen, und Sie müssen die Spalten den Datenfeldern zuordnen.&lt;br&gt;&lt;br&gt;Wenn Sie die erste Zeile verwerfen, kann diese als Kopfzeile interpretiert werden, in diesem Fall versucht &lt;i&gt;Meine Ausgaben&lt;/i&gt;, basierend auf dem Inhalt der Kopf-Zellen die Spalten automatisch zuzuordnen. Es wird auch Ihre Zuordnung anhand der Kopfzeile speichern und wiederherstellen, wenn Sie eine Datei mit dem gleichen Kopfzeilenformat, das nächste Mal importieren.]] &gt;</string>
 </resources>

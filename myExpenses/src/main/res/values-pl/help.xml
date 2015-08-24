@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Polecenia menu</string>
   <string name="help_contextual_actions">Akcje kontekstowe</string>
   <string name="cab_delete_help_text">Usuń zaznaczone elementy.</string>
@@ -41,6 +41,9 @@
   <string name="menu_forward_help_text">Przechodzi do następnej grupy. To może być także dokonane przez gest przesunięcia palcem od prawej do lewej.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Otwiera okno dialogowe dla określenia tytułu dla nowej podkategorii poniżej aktualnie wybranej kategorii.</string>
   <string name="cab_ManageCategories_select_category_help_text">Mapuj wybraną kategorię do transakcji i wróć do formy transakcji.</string>
+  <string name="menu_categories_setup_default_help_text">Zaimportowany zostanie zestaw domyślnych kategorii.</string>
+  <string name="menu_categories_export_help_text">Kategorie zostaną wyeksportowane do pliku QIF.</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">Wybrana kategoria zostania użyta do filtrowania listy transakcji.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formularz dla transakcji</string>
   <string name="help_ExpenseEdit_transfer_title">Formularz dla przelewów</string>
@@ -67,5 +70,9 @@
   <string name="help_MethodEdit_info">Na tym erkanie, możesz skojarzyć metodę płatności z typem konta. Możesz także określić etykietę (z wyjątkiem takiej jak predefiniowane metody które mają ustaloną etykietę która nie może być edytowana). Przez typ metody, określasz czy ona dotyczy wydatków (debet), przychodów (kredyt) lub obu (neutralnie). Możesz też zaznaczyć je jeżeli transakcje używające tej metody są ponumerowane (np. sprawdzenie liczb).</string>
   <!--ManageCurrencies-->
   <!--FolderBrowser title is in keys-->
+  <string name="menu_create_folder_help_text">Stwórz nowy folder wewnątrz obecnego.</string>
+  <string name="menu_select_folder_help_text">Wybierz obecny folder jako cel dla eksportów i kopii zapasowych.</string>
+  <string name="menu_up_help_text">Nawiguj do folderu nadrzędnego.</string>
   <!--StaleImages-->
+  <!--CSV Import-->
 </resources>
