@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Comandos de menú</string>
   <string name="help_contextual_actions">Acciones contextuales</string>
   <string name="cab_delete_help_text">Eliminar los elementos seleccionados.</string>
@@ -93,4 +93,5 @@
   <string name="menu_up_help_text">Desplácese hasta el elemento superior de la carpeta actual.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Esta pantalla le permite tratar con archivos de imagen que han quedado en las transacciones eliminadas. Haga clic lungo en las entradas con el fin de eliminarlos o moverlos fuera de la carpeta de almacenamiento (posiblemente interna) a una carpeta (Android/data/org.totschnig.mxexpenses/files/images.old) de almacenamiento externo.</string>
+  <!--CSV Import-->
 </resources>

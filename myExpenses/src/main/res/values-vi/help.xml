@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menu dòng lệnh</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Danh sách giao dịch</string>
@@ -49,4 +49,5 @@
   <!--ManageCurrencies-->
   <!--FolderBrowser title is in keys-->
   <!--StaleImages-->
+  <!--CSV Import-->
 </resources>

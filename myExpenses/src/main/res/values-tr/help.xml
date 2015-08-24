@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menü komutları</string>
   <string name="help_contextual_actions">Bağlamsal eylemler</string>
   <string name="cab_delete_help_text">Seçilen unsurları sil.</string>
@@ -93,4 +93,6 @@
   <string name="menu_up_help_text">Bu klasörün üst klasörüne git.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Bu ekran silinmiş muamelelerden kalan resim dosyalarını yönetmenize izin verir. Silmek ya da (muhtemelen dahili) depolamadan harici depolamada bir yedekleme klasörüne (Android/data/org.totschnig.mxexpenses/files/images.old) taşımak için unsurlara uzun süre dokununuz.</string>
+  <!--CSV Import-->
+  <string name="help_CsvImportActivity_info"><![CDATA[İçe aktaracağınız dosyayı seçtikten sonra dosyanın nasıl kodladığını (UTF-8 ya da  ISO-8859-1), alanları hangi karakterin ayırdığını (virgül, noktalı virgül ya da sekme (⇆)) ve tarihlerin nasıl biçimlendirildiğini yapılandırmanız gerekir. Veriler ya zaten mevcut bir hesaba ya da yeni bir hesaba aktarılabilir ki bu durumda para birimini ve hesap türünü ayarlayabilirsiniz.<br><br>Etkinlik çubuğundan Ayrıştırma düğmesine dokunduğunuzda veriler bir tabloda size sunulacaktır. Etkinlik çubuğundaki düğme ile içe aktarımı başlatmadan önce hangi sıraları atmak istediğinizi seçebilirsiniz ve sütunları ilgili veri alanlarına haritalamanız ya da eşleştirmeniz gerekir.<br><br>İlk sırayı attığınızda onun bir başlık satırı olarak kullanılmasını isteyip istemediğiniz sorulur, istiyorsanız <i>Harcamalarım</i> başlık hücrelerinin içeriğine dayanarak otomatik olarak sütunları eşleştirmeye çalışacaktır. Ayrıca başlık sırasına göre eşleştirmenizi hatırlayacak ve gelecek sefer aynı başlık biçimi ile bir dosya içe aktardığınızda bunu kullanacaktır.]]></string>
 </resources>
