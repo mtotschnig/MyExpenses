@@ -556,4 +556,5 @@
   <string name="csv_import_delimiter_semicolon">Point-virgule</string>
   <string name="csv_import_delimiter_tab">Tabulation</string>
   <string name="csv_import_no_mapping_found_for_amount">S\'il vous plaît attribuez une colonne soit à montant, revenu ou dépense.</string>
+  <string name="menu_show_transactions">Voir les opérations</string>
 </resources>
