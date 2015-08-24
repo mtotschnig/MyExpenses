@@ -146,6 +146,7 @@ public class ContribInfoDialogActivity extends FragmentActivity
                         R.string.thank_you),
                     Toast.LENGTH_SHORT).show();
                 Distrib.registerPurchase(ContribInfoDialogActivity.this,!isPremium);
+                setResult(RESULT_OK);
               }
             }
             finish();

@@ -72,6 +72,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
+  private static final int CONTRIB_PURCHASE_REQUEST = 3;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
 
   @SuppressWarnings("deprecation")
@@ -179,7 +180,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     Preference pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
     if (MyApplication.getInstance().isExtendedEnabled()) {
       PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
-      cat.removePreference(pref2);//TODO inform user about status
+      if (Utils.IS_FLAVOURED) {
+        getPreferenceScreen().removePreference(cat);
+      } else {
+        cat.removePreference(pref2);
+      }
     } else {
       if (pref2!=null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
         int baseTitle = MyApplication.getInstance().isContribEnabled() ?
@@ -324,7 +329,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         //showDialog(R.id.DONATE_DIALOG);//should not happen
       } else {
         Intent i = new Intent(this,ContribInfoDialogActivity.class);
-        startActivity(i);
+        startActivityForResult(i,CONTRIB_PURCHASE_REQUEST);
       }
       return true;
     }
@@ -432,6 +437,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         contribFeatureCalled(
             (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
             intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+    } else if (requestCode == CONTRIB_PURCHASE_REQUEST && resultCode == RESULT_OK) {
+      configureContribPrefs();
     }
   }
   private void setAppDirSummary() {
