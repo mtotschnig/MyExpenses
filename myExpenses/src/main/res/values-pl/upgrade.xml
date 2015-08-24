@@ -1,11 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_249">
+    <item>Eksport kategorii do formatu QIF</item>
+    <item>Wyświetl agregację sum na ekranie głównym</item>
+  </string-array>
   <string-array name="whats_new_248">
     <item>Status transakcji sklonowanych zostaje zresetowany do nieuzgodnionego</item>
     <item>Alternatywny sposób odzyskania danych dla urządzeń bez menadżera plików</item>
   </string-array>
   <string-array name="whats_new_247">
     <item>Polecenie klonowania otwiera formularz edycji</item>
+  </string-array>
+  <string-array name="whats_new_246">
+    <item>Transakcje mogą zostać oznaczone jako \"Anulowane\"</item>
   </string-array>
   <string-array name="whats_new_245">
     <item>Funkcja eksportu i resetu może teraz być zastosowana to transakcji pasujących do filtru wyszukiwania</item>
@@ -65,6 +72,9 @@
   </string-array>
   <string-array name="whats_new_230">
     <item>Wydrukuj listę transakcji do pliku PDF (opcja Premium)</item>
+  </string-array>
+  <string-array name="whats_new_220">
+    <item>Możesz wyszukiwać transakcje według kategorii, kwoty, komentarza, statusu, płatnika/odbiorcy płatności, metody płatności</item>
   </string-array>
   <string name="bug_fixes">Poprawki błędów</string>
 </resources>

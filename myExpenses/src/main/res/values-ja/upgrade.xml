@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_250">
+    <item>CSV インポート</item>
+    <item>韓国語翻訳</item>
+  </string-array>
+  <string-array name="whats_new_249">
+    <item>QIF に分類をエクスポート</item>
+    <item>ホーム画面ウィジェットに集計した合計を表示</item>
+  </string-array>
   <string-array name="whats_new_248">
     <item>複製された取引のステータスを未照合にリセットします</item>
     <item>ファイルマネージャーのないデバイス用の代替の復元方法</item>

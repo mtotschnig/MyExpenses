@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_250">
+    <item>Importazione CSV</item>
+    <item>Traduzione in coreano</item>
+  </string-array>
   <string-array name="whats_new_249">
     <item>Esportare le categorie a QIF</item>
     <item>Visualizza somme complessivi in widget di schermata iniziale</item>
