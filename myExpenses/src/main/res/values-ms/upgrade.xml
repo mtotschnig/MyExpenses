@@ -1,5 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_249">
+    <item>Eksport kategori ke QIF</item>
+    <item>Papar hasil tambah agregat dalam widjet skrin rumah</item>
+  </string-array>
+  <string-array name="whats_new_248">
+    <item>Status transaksi diklon adalah ditetap semula kepada tidak boleh dikembalikan</item>
+    <item>Kaedah pemulihan alternatif bagi peranti tanpa pengurus fail</item>
+  </string-array>
+  <string-array name="whats_new_247">
+    <item>Perintah klon membuka borang penyuntingan</item>
+  </string-array>
   <string-array name="whats_new_246">
     <item>Transaksi boleh ditetapkan dalam keadaan \"Tidak Sah\"</item>
   </string-array>
