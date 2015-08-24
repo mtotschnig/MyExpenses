@@ -558,4 +558,5 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="csv_import_delimiter_semicolon">Noktalı virgül</string>
   <string name="csv_import_delimiter_tab">Sekme</string>
   <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
+  <string name="menu_show_transactions">Muameleleri göster</string>
 </resources>

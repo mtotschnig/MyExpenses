@@ -22,9 +22,9 @@
   <string name="backup_failure">\"%1$s\" へのバックアップに失敗しました。</string>
   <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
   <string name="category">分類</string>
-  <string name="split_transaction_error">処理を変換して分割することができませんでした。</string>
+  <string name="split_transaction_error">取引を変換して分割することができませんでした。</string>
   <plurals name="split_transaction_success">
-    <item quantity="other">%1$d の処理を変換して分割しました。</item>
+    <item quantity="other">%1$d の取引を変換して分割しました。</item>
   </plurals>
   <string name="color">色</string>
   <string name="comment">メモ</string>
@@ -547,4 +547,6 @@
   <string name="csv_import_delimiter_comma">カンマ</string>
   <string name="csv_import_delimiter_semicolon">セミコロン</string>
   <string name="csv_import_delimiter_tab">タブ</string>
+  <string name="csv_import_no_mapping_found_for_amount">金額を収入または支出のいずれかの列にマッピングしてください。</string>
+  <string name="menu_show_transactions">取引を表示</string>
 </resources>
