@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="crash_reports_user_info">Aplikacja Moje Wydatki będzie wysyłać raporty o awariach automatycznie do jego twórców, które pozwolą im szybciej naprawić problem. Możesz wyłączyć tą funkcję z menu Ustawień.</string>
   <string name="pref_category_title_crash_reports">Raporty o awariach</string>

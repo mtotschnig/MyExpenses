@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="crash_reports_user_info">Mis gastos enviará informes sobre bloqueos de la aplicación automáticamente a sus desarrolladores, que les permite solucionar problemas más rápidamente. Puede desactivar este comportamiento de los ajustes.</string>
   <string name="pref_category_title_crash_reports">Reportes de accidente</string>

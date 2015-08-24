@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-	<string name="crash_reports_user_info">Mes dépenses enverra automatiquement des rapports aux développeurs si l\'application se bloque, ce qui leur permettra de résoudre les problèmes plus rapidement. Vous pouvez désactiver ce comportement dans les paramètres.</string>
+  <string name="crash_reports_user_info">Mes dépenses enverra automatiquement des rapports aux développeurs si l\'application se bloque, ce qui leur permettra de résoudre les problèmes plus rapidement. Vous pouvez désactiver ce comportement dans les paramètres.</string>
   <string name="pref_category_title_crash_reports">Rapports d\'incidents</string>
   <string name="pref_enable_acra">Autoriser l\'envoi automatique de rapports d\'incidents</string>
   <string name="pref_acra_enabled">L\'envoi automatique est activé</string>

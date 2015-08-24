@@ -1,2 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources/>
+<resources>
+  <string name="crash_reports_user_info">Minhas despesas enviará relatórios sobre falhas do aplicativo automaticamente para seus programadores, que lhes permite corrigir problemas mais rapidamente. Você pode desativar esse comportamento das configurações.</string>
+  <string name="pref_category_title_crash_reports">Relatórios de acidente</string>
+  <string name="pref_enable_acra">Permitir o envio automático de relatórios de acidente</string>
+  <string name="pref_acra_enabled">Envio automático está habilitado</string>
+  <string name="pref_acra_disabled">Envio automático é desativado</string>
+  <string name="pref_acra_syslog">Incluir os logs do sistema em relatórios de acidente</string>
+  <string name="pref_acra_syslog_enabled">Os registros do sistema estão incluídos</string>
+  <string name="pref_acra_syslog_disabled">Logs de sistema não estão incluídos</string>
+  <string name="pref_acra_user_email">E-mail do usuário para ser incluído no relatório de acidente</string>
+  <string name="pref_acra_user_email_summary">Por favor, digite seu endereço de e-mail se você estiver disposto a ajudar a depuração e permitir-nos entrar em contato com você.</string>
+</resources>
