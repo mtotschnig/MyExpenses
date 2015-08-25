@@ -46,7 +46,7 @@ public class B1_ReminderTest extends MyActivityTest<MyExpenses> {
       mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
     }
     reminderHelper();
-    assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_contrib_text_2)));
+    assertTrue("Dialog not shown", mSolo.searchText(mContext.getString(R.string.menu_contrib)));
     mSolo.clickOnButton(mContext.getString(R.string.dialog_remind_no));
   }
 
