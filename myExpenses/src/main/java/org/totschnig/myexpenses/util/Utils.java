@@ -908,12 +908,14 @@ public class Utils {
     reportToAcra(e);
   }
 
-  // public static void reportToAcra(Exception e,String key,String data) {
-  // ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
-  // errorReporter.putCustomData(key, data);
-  // errorReporter.handleException(e);
-  // errorReporter.removeCustomData(key);
-  // }
+  public static void reportToAcra(Exception e,String key,String data) {
+    // ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
+    // errorReporter.putCustomData(key, data);
+    // errorReporter.handleException(e);
+    // errorReporter.removeCustomData(key);
+    Log.e(MyApplication.TAG, key + ": " + data);
+    reportToAcra(e);
+  }
 
   public static void reportToAcra(Exception e) {
     Log.e(MyApplication.TAG, "Report", e);
