@@ -342,6 +342,10 @@
         <item>posts/1582359712025501</item>
         <item>97gqDvJJq43</item>
     </string-array>
+    <string-array tools:ignore="UnusedResources" name="version_more_info_250">
+        <item>posts/1647021015559370</item>
+        <item>N8CLscuzGxF</item>
+    </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
       <item>@string/comparison_operator_greater_than</item>
