@@ -6,6 +6,7 @@ import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
@@ -89,6 +90,7 @@ public class Plan extends Model implements Serializable {
       try {
         eventRecurrence.parse(rRule);
       } catch (EventRecurrence.InvalidFormatException e) {
+        Utils.reportToAcra(e,"rRule",rRule);
         return e.getMessage();
       }
       Time date = new Time();
