@@ -57,8 +57,8 @@ android {
             // https://code.google.com/p/android/issues/detail?id=79325
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.release
-
         }
+        //beta.initWith(buildTypes.release)
     }
     flavorDimensions "adprovider", "distribution"
 

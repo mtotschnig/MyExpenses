@@ -36,6 +36,18 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     final String contribStatus = MyApplication.getInstance().getContribStatus();
     if (!contribStatus.equals(Distrib.STATUS_EXTENDED_PERMANENT)) {
 
+/*      String testId = "7daa6ffb95c74908";//"88ba5e514b9612fe";
+      String androidId = Settings.Secure.getString(MyApplication.getInstance()
+          .getContentResolver(), Settings.Secure.ANDROID_ID);
+      if (BuildConfig.BUILD_TYPE.equals("beta") &&
+          testId.equals(androidId)) {
+        PreferenceObfuscator p = Distrib.getLicenseStatusPrefs(this);
+        p.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), Distrib.STATUS_EXTENDED_PERMANENT);
+        p.commit();
+        MyApplication.getInstance().setContribStatus(Distrib.STATUS_EXTENDED_PERMANENT);
+        return;
+      }*/
+
       mHelper = Distrib.getIabHelper(this);
       if (mHelper!=null) {
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
