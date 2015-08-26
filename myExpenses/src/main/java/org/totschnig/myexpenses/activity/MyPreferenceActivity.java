@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -377,10 +378,16 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        } else {
-          intent = new Intent(this, FolderBrowser.class);
-          intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
+          try {
+            startActivityForResult(intent, PICK_FOLDER_REQUEST);
+            return true;
+          } catch (ActivityNotFoundException e) {
+            Utils.reportToAcra(e);
+            //fallback to FolderBrowser
+          }
         }
+        intent = new Intent(this, FolderBrowser.class);
+        intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
         startActivityForResult(intent, PICK_FOLDER_REQUEST);
       }
       return true;
