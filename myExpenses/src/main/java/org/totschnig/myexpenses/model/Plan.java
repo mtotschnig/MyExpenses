@@ -86,7 +86,11 @@ public class Plan extends Model implements Serializable {
   public static String prettyTimeInfo(Context ctx, String rRule, Long start) {
     if (rRule != null) {
       EventRecurrence eventRecurrence = new EventRecurrence();
-      eventRecurrence.parse(rRule);
+      try {
+        eventRecurrence.parse(rRule);
+      } catch (EventRecurrence.InvalidFormatException e) {
+        return e.getMessage();
+      }
       Time date = new Time();
       date.set(start);
       eventRecurrence.setStartDate(date);
