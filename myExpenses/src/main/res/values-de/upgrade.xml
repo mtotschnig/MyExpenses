@@ -2,7 +2,7 @@
 <resources>
   <string-array name="whats_new_250">
     <item>Import CSV</item>
-    <item>Traduction en coréen</item>
+    <item>Koreanische Übersetzung</item>
   </string-array>
   <string-array name="whats_new_249">
     <item>Exportieren von Kategorien zu QIF</item>
