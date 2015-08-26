@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -55,7 +56,7 @@ public class CsvImportDataFragment extends Fragment  {
   public static final String KEY_FIELD_TO_COLUMN = "FIELD_TO_COLUMN";
   public static final String KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER";
 
-  public static final int CELL_WIDTH = 100;
+  public static final int CELL_MIN_WIDTH = 100;
   public static final int CHECKBOX_COLUMN_WIDTH = 60;
   public static final int CELL_MARGIN = 5;
   private RecyclerView mRecyclerView;
@@ -108,6 +109,7 @@ public class CsvImportDataFragment extends Fragment  {
       R.string.split_transaction
   };
   private JSONObject header2FieldMap;
+  private float windowWidth;
 
   public static CsvImportDataFragment newInstance() {
     return new CsvImportDataFragment();
@@ -122,6 +124,10 @@ public class CsvImportDataFragment extends Fragment  {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+    windowWidth = displayMetrics.widthPixels / displayMetrics.density;
+
     String header2FieldMapJson = MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.getString(null);
     if (header2FieldMapJson!=null) {
       try {
@@ -132,12 +138,6 @@ public class CsvImportDataFragment extends Fragment  {
     } else {
       header2FieldMap = new JSONObject();
     }
-
-    cellParams = new LinearLayout.LayoutParams(
-        (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, CELL_WIDTH, getResources().getDisplayMetrics()),
-        LinearLayout.LayoutParams.WRAP_CONTENT);
-    cellParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 
     cbParams = new LinearLayout.LayoutParams(
         (int) TypedValue.applyDimension(
@@ -187,10 +187,27 @@ public class CsvImportDataFragment extends Fragment  {
     mDataset = data;
     int nrOfColumns = mDataset.get(0).size();
     discardedRows = new SparseBooleanArrayParcelable();
+
+    int availableCellWidth =
+        (int) ((windowWidth - CHECKBOX_COLUMN_WIDTH - CELL_MARGIN*(nrOfColumns+2))/nrOfColumns);
+    int cellWidth, tableWidth;
+    if (availableCellWidth>CELL_MIN_WIDTH) {
+      cellWidth = availableCellWidth;
+      tableWidth = (int) windowWidth;
+    } else {
+      cellWidth = CELL_MIN_WIDTH;
+      tableWidth = CELL_MIN_WIDTH *nrOfColumns+CHECKBOX_COLUMN_WIDTH+CELL_MARGIN*(nrOfColumns+2);
+    }
+
+    cellParams = new LinearLayout.LayoutParams(
+        (int) TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, cellWidth, getResources().getDisplayMetrics()),
+        LinearLayout.LayoutParams.WRAP_CONTENT);
+    cellParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
+
     ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
-    int dp = CELL_WIDTH*nrOfColumns+CHECKBOX_COLUMN_WIDTH+CELL_MARGIN*(nrOfColumns+2);
     params.width= (int) TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+        TypedValue.COMPLEX_UNIT_DIP, tableWidth, getResources().getDisplayMetrics());
     mRecyclerView.setLayoutParams(params);
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
