@@ -46,7 +46,7 @@ en:
       print: Export transaction list to PDF
       attach_picture: Attach image to transaction
       ad_free: No ads
-      cvs_import: CVS import
+      csv_import: CSV import
     extended-label: Extended
     licence-howto-buy:
       deprecated: |

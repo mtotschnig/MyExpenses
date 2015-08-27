@@ -33,7 +33,7 @@ contrib:
   - attach_picture
   - ad_free
 extended:
-  - cvs_import
+  - csv_import
 title:
   ar: مصروفاتي
   en: My Expenses
