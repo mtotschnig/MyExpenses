@@ -60,7 +60,7 @@ public enum ContribFeature  {
       .getInt(getPrefKey(), 0);
   }
   public int recordUsage() {
-    if (!MyApplication.getInstance().isContribEnabled()) {
+    if (!hasAccess()) {
       int usages = getUsages()+1;
       SharedPreferencesCompat.apply(
           MyApplication.getInstance().getSettings()
@@ -74,5 +74,9 @@ public enum ContribFeature  {
   }
   public int usagesLeft() {
     return hasTrial ? USAGES_LIMIT - getUsages() : 0;
+  }
+  public boolean hasAccess() {
+    return isExtended ? MyApplication.getInstance().isExtendedEnabled() :
+        MyApplication.getInstance().isContribEnabled();
   }
 }

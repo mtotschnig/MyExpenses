@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.export.qif.QifParser;
 import org.totschnig.myexpenses.export.qif.QifTransaction;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -252,7 +253,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
     int importCount = 0;
     for (QifAccount account : accounts) {
-      if (!MyApplication.getInstance().isContribEnabled()
+      if (!ContribFeature.ACCOUNTS_UNLIMITED.hasAccess()
           && nrOfAccounts + importCount > 5) {
         publishProgress(
             MyApplication.getInstance()

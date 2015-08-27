@@ -416,7 +416,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(PrefKey.IMPORT_CSV.getKey())) {
-      if (MyApplication.getInstance().isExtendedEnabled()) {
+      if (ContribFeature.CSV_IMPORT.hasAccess()) {
         contribFeatureCalled(ContribFeature.CSV_IMPORT,null);
       } else {
         CommonCommands.showContribDialog(this, ContribFeature.CSV_IMPORT, null);
