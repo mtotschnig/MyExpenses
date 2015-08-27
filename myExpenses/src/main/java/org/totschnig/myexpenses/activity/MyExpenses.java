@@ -406,7 +406,7 @@ public class MyExpenses extends LaunchActivity implements
         f.show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }*/
-      if (!MyApplication.getInstance(). isContribEnabled()) {
+      if (!MyApplication.getInstance().isContribEnabled()) {
         nextReminder = 
             MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
@@ -457,12 +457,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.DISTRIBUTION_COMMAND:
       tl = getCurrentFragment();
       if (tl != null && tl.mappedCategories) {
-        if (MyApplication.getInstance().isContribEnabled()) {
-          contribFeatureCalled(ContribFeature.DISTRIBUTION, null);
-        }
-        else {
-          CommonCommands.showContribDialog(this,ContribFeature.DISTRIBUTION, null);
-        }
+        contribFeatureRequested(ContribFeature.DISTRIBUTION,null);
       } else {
         MessageDialogFragment.newInstance(
             0,
@@ -512,12 +507,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.CREATE_SPLIT_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled()) {
-        contribFeatureCalled(ContribFeature.SPLIT_TRANSACTION, null);
-      }
-      else {
-        CommonCommands.showContribDialog(this,ContribFeature.SPLIT_TRANSACTION, null);
-      }
+      contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
       return true;
     case R.id.BALANCE_COMMAND:
       tl = getCurrentFragment();
@@ -604,7 +594,7 @@ public class MyExpenses extends LaunchActivity implements
         Toast.makeText(this, "Account list not yet loaded. Please try again", Toast.LENGTH_LONG).show();
       }
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
-      else if (MyApplication.getInstance().isContribEnabled() || mAccountCount < 5) {
+      else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < 5) {
         i = new Intent(this, AccountEdit.class);
         if (tag != null)
           i.putExtra(KEY_CURRENCY,(String)tag);

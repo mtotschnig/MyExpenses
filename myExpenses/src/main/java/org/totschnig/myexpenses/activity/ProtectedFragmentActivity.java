@@ -142,7 +142,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   @TargetApi(11)
   protected void onResume() {
-    Log.d("DEBUG","ProtectedFragmentActivity onResume");
+    Log.d("DEBUG", "ProtectedFragmentActivity onResume");
     super.onResume();
     if(scheduledRestart) {
       scheduledRestart = false;
@@ -242,13 +242,13 @@ public class ProtectedFragmentActivity extends ActionBarActivity
    * @param progressMessage if 0 no progress dialog will be shown
    */
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra, int progressMessage) {
-    getProtection().startTaskExecution(taskId,objectIds,extra,progressMessage);
+    getProtection().startTaskExecution(taskId, objectIds, extra, progressMessage);
   }
   
   public void startDbWriteTask(boolean returnSequenceCount) {
     getSupportFragmentManager().beginTransaction()
     .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
-    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),ProtectionDelegate.PROGRESS_TAG)
+    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving), ProtectionDelegate.PROGRESS_TAG)
     .commitAllowingStateLoss();
   }
   public void recordUsage(ContribFeature f) {
@@ -296,6 +296,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
       ((ContribIFace) this).contribFeatureCalled(
           (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+    }
+  }
+
+  public void contribFeatureRequested(ContribFeature feature, Serializable tag) {
+    if (feature.hasAccess()) {
+      ((ContribIFace) this).contribFeatureCalled(feature, tag);
+    }
+    else {
+      CommonCommands.showContribDialog(this,feature, tag);
     }
   }
 

@@ -317,12 +317,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           0);
       break;*/
     case R.id.SPLIT_TRANSACTION_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled()) {
-        ctx.contribFeatureCalled(ContribFeature.SPLIT_TRANSACTION, itemIds);
-      }
-      else {
-        CommonCommands.showContribDialog(ctx,ContribFeature.SPLIT_TRANSACTION, itemIds);
-      }
+      ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, itemIds);
       break;
       case R.id.UNDELETE_COMMAND:
         ctx.startTaskExecution(
@@ -685,12 +680,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       int itemPosition, long headerId, boolean currentlySticky) {
     MyExpenses ctx = (MyExpenses) getActivity();
     if (mappedCategoriesPerGroup.get(itemPosition)) {
-      if (MyApplication.getInstance().isContribEnabled()) {
-        ctx.contribFeatureCalled(ContribFeature.DISTRIBUTION, headerId);
-      }
-      else {
-        CommonCommands.showContribDialog(ctx,ContribFeature.DISTRIBUTION, headerId);
-      }
+      ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId);
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
     }
@@ -904,12 +894,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       Result appDirStatus = Utils.checkAppDir();
         if (hasItems) {
           if (appDirStatus.success) {
-            if (MyApplication.getInstance().isContribEnabled()) {
-              ctx.contribFeatureCalled(ContribFeature.PRINT, null);
-            }
-            else {
-              CommonCommands.showContribDialog(ctx,ContribFeature.PRINT, null);
-            }
+            ctx.contribFeatureRequested(ContribFeature.PRINT, null);
           } else {
             Toast.makeText(getActivity(),
                 appDirStatus.print(getActivity()),
@@ -921,8 +906,8 @@ public class TransactionList extends ContextualActionBarFragment implements
               0,
               R.string.dialog_command_disabled_reset_account,
               MessageDialogFragment.Button.okButton(),
-              null,null)
-           .show(ctx.getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+              null, null)
+           .show(ctx.getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
         }
       return true;
     default:

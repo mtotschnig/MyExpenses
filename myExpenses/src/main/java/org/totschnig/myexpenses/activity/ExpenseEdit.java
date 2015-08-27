@@ -403,7 +403,7 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE,0);
           mRecordTemplateWidget =
               getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
-              !MyApplication.getInstance().isContribEnabled();
+              !ContribFeature.TEMPLATE_WIDGET.hasAccess();
         } else {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
@@ -1766,12 +1766,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   public void startMediaChooser(View v) {
-    if (MyApplication.getInstance().isContribEnabled()) {
-      contribFeatureCalled(ContribFeature.ATTACH_PICTURE, null);
-    }
-    else {
-      CommonCommands.showContribDialog(this,ContribFeature.ATTACH_PICTURE, null);
-    }
+    contribFeatureRequested(ContribFeature.ATTACH_PICTURE,null);
   }
   
   public void startMediaChooserDo() {

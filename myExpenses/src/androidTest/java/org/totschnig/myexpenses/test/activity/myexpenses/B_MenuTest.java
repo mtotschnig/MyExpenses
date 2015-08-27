@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.activity.myexpenses;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -37,7 +38,7 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
   public void testInsertSplit() {
     clickOnActionBarItem("CREATE_SPLIT");
     mSolo.waitForDialogToOpen(100);
-    if (!MyApplication.getInstance().isContribEnabled()) {
+    if (!ContribFeature.SPLIT_TRANSACTION.hasAccess()) {
       assertTrue("Contrib Dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_contrib_feature)));
       mSolo.clickOnText(mContext.getString(R.string.dialog_contrib_no));
     }

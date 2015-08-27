@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
@@ -262,7 +263,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     pl.refresh();
   }
   public boolean getNewPlanEnabled() {
-    return MyApplication.getInstance().isContribEnabled() ||
+    return ContribFeature.PLANS_UNLIMITED.hasAccess() ||
         ((PlanList) getSupportFragmentManager().findFragmentByTag(
             mSectionsPagerAdapter.getFragmentName(1)))
           .newPlanEnabled;

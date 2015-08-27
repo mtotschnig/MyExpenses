@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -118,7 +119,7 @@ public class DialogUtils {
           ctx.moveTaskToBack(true);
         }
       });
-    if (MyApplication.getInstance().isContribEnabled() && !securityQuestion.equals("")) {
+    if (ContribFeature.SECURITY_QUESTION.hasAccess() && !securityQuestion.equals("")) {
       builder.setNegativeButton(R.string.password_lost, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {}
       });

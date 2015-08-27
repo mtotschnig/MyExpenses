@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.preference;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
@@ -78,7 +79,7 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       protect = (CheckBox) view.findViewById(R.id.performProtection);
       change = (CheckBox) view.findViewById(R.id.changePassword);
       error        = (TextView) view.findViewById(R.id.passwordNoMatch);
-      String warning = MyApplication.getInstance().isContribEnabled() ?
+      String warning = ContribFeature.SECURITY_QUESTION.hasAccess() ?
           getContext().getString(R.string.warning_password_contrib) :
           Utils.concatResStrings(
               getContext(),
