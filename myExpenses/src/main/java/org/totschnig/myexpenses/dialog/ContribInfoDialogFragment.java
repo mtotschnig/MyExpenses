@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
@@ -64,7 +65,7 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
           linefeed,
           Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null,
               isContrib ? Utils.LicenceStatus.EXTENDED : Utils.LicenceStatus.CONTRIB));
-    if (!isContrib) {
+    if (!isContrib && Distrib.HAS_EXTENDED) {
       message = TextUtils.concat(
           message,
           linefeed,
@@ -87,7 +88,9 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       } else {
         if (!isContrib) {
           builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
-          builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this);
+          if (Distrib.HAS_EXTENDED) {
+            builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this);
+          }
         } else {
           builder.setPositiveButton(R.string.dialog_contrib_upgrade_extended, this);
         }

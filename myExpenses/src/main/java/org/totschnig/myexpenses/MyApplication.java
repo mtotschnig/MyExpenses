@@ -219,6 +219,9 @@ public class MyApplication extends Application implements
     return ! contribStatus.equals(Distrib.STATUS_DISABLED);
   }
   public boolean isExtendedEnabled() {
+    if (!Distrib.HAS_EXTENDED) {
+      return isContribEnabled();
+    }
     return contribStatus.equals(Distrib.STATUS_EXTENDED_PERMANENT) ||
         contribStatus.equals(Distrib.STATUS_EXTENDED_TEMPORARY);
   }

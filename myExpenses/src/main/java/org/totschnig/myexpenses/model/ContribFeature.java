@@ -17,8 +17,10 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Locale;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.util.Distrib;
 
 public enum ContribFeature  {
   ACCOUNTS_UNLIMITED(false),
@@ -40,7 +42,8 @@ public enum ContribFeature  {
   }
   private ContribFeature(boolean hasTrial,boolean isExtended) {
     this.hasTrial = hasTrial;
-    this.isExtended = isExtended;
+    //on Blackberry there is only one key
+    this.isExtended = Distrib.HAS_EXTENDED ? isExtended : false;
   }
 
   public boolean hasTrial;

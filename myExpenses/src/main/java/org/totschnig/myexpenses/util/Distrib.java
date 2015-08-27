@@ -20,6 +20,8 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 
 public class Distrib {
 
+  public static boolean HAS_EXTENDED = !BuildConfig.FLAVOR_distribution.equals("blackberry");
+
   public static final long REFUND_WINDOW = 172800000L;
   public static String STATUS_DISABLED = "0";
   

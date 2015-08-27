@@ -17,11 +17,13 @@ package org.totschnig.myexpenses.dialog;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -92,9 +94,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           getString(R.string.dialog_contrib_reminder_gain_access),
           linefeed, featureList);
       if (!feature.isExtended) {
-        String pro = getString(R.string.dialog_contrib_extended_gain_access);
-        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, Utils.LicenceStatus.EXTENDED);
-        message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
+        if (Distrib.HAS_EXTENDED) {
+          String pro = getString(R.string.dialog_contrib_extended_gain_access);
+          CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature, Utils.LicenceStatus.EXTENDED);
+          message = TextUtils.concat(message, linefeed, pro, linefeed, extendedList);
+        }
         builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
       }
     }
@@ -102,8 +106,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setTitle(feature.isExtended ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
         .setMessage(message)
         .setNegativeButton(R.string.dialog_contrib_no, this)
-        .setPositiveButton(isContrib ? R.string.dialog_contrib_upgrade_extended : R.string.dialog_contrib_buy_extended, this)
         .setIcon(R.drawable.premium);
+    if (Distrib.HAS_EXTENDED) {
+      builder.setPositiveButton(isContrib ? R.string.dialog_contrib_upgrade_extended : R.string.dialog_contrib_buy_extended, this);
+    }
     return builder.create();
   }
   @Override
