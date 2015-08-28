@@ -622,7 +622,8 @@ public class CategoryList extends ContextualActionBarFragment implements
       String accountSelection;
       if (mAccount.getId() < 0) {
         accountSelection = " IN " +
-            "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+            "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+            KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
         accountSelector = mAccount.currency.getCurrencyCode();
       } else {
         accountSelection = " = ?";
