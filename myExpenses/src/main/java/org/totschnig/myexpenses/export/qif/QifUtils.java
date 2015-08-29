@@ -120,7 +120,7 @@ public class QifUtils {
                  * fails, then give up and use NumberFormat and scale it down
                  * */
                 String[] split = MONEY_PREFIX_PATTERN.split(sMoney);
-                if (split.length > 2) {
+                if (split.length >= 2) {
                     StringBuilder buf = new StringBuilder();
                     if (sMoney.startsWith("-")) {
                         buf.append('-');
