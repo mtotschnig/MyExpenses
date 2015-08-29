@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.test.misc;
 
+import android.os.Parcel;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -22,6 +24,7 @@ import java.util.Currency;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.util.PdfHelper;
+import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
 import junit.framework.Assert;
@@ -51,5 +54,15 @@ public class UtilsTest extends TestCase {
     Assert.assertFalse(PdfHelper.hasAnyRtl("test"));
     Assert.assertTrue(PdfHelper.hasAnyRtl("مصروفاتي"));
     Assert.assertTrue(PdfHelper.hasAnyRtl("הנושאים שלי"));
+  }
+  public void testSparseBooleanArrayParcelable() {
+    SparseBooleanArrayParcelable sbap  = new SparseBooleanArrayParcelable();
+    for (int i = 0; i <10 ; i++) {
+      sbap.put(i,i%2==0);
+    }
+    Parcel p = Parcel.obtain();
+    sbap.writeToParcel(p,0);
+    p.setDataPosition(0);
+    assertEquals(sbap,SparseBooleanArrayParcelable.CREATOR.createFromParcel(p));
   }
 }
