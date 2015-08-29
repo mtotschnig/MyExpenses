@@ -42,6 +42,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget  templat</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
   <string name="contrib_key">Kunci Contrib</string>
+  <string name="extended_key">Kunci Lanjutan</string>
   <string name="contrib_key_requires">Perlukan Kunci Contrib Perbelanjaan Saya.</string>
   <string name="currency">Matawang</string>
   <string name="current_balance">Baki semasa</string>
@@ -63,14 +64,19 @@
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium.</string>
   <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s merupakan fitur lanjutan.</string>
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_remove_limitation">Buang batasan ini dengan membeli %s</string>
   <string name="dialog_contrib_reminder_gain_access">Anda juga mendapat capaian tanpa had pada fitur berikut:</string>
+  <string name="dialog_contrib_extended_gain_access">Sebagai tambahan, fitur berikut dapat digunakan jika anda membeli Kunci Lanjutan:</string>
   <string name="dialog_contrib_text_1"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
   <string name="dialog_contrib_text_2">Sila beri sumbangan dengan membeli %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">Anda mempunyai %1$d penggunaan percuma berbaki.</item>
   </plurals>
+  <string name="dialog_contrib_buy_premium">Beli PREMIUM</string>
+  <string name="dialog_contrib_buy_extended">Beli LANJUTAN</string>
+  <string name="dialog_contrib_upgrade_extended">Tatar ke LANJUTAN</string>
   <string name="dialog_export_delete">Padam transaksi dieksport</string>
   <string name="dialog_export_not_yet_exported">Hanya eksport transaksi yang belum dieksport</string>
   <string name="dialog_password_activate_protection">Aktifkan perlindungan kata laluan</string>
@@ -95,6 +101,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Baki %1$s</string>
   <string name="dialog_title_contrib_feature">Fitur premium</string>
+  <string name="dialog_title_extended_feature">Fitur lanjutan</string>
   <string name="dialog_title_planner_setup_info">Persediaan kalendar diperlukan</string>
   <string name="dialog_title_select_grouping">Ambil satu kumpulan</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -150,6 +157,7 @@
   <string name="licence_validation_failure">Tidak boleh sahkan kunci lesen.</string>
   <string name="licence_validation_success">Kunci lesen berjaya disahkan:</string>
   <string name="licence_validation_premium">Fitur premium tidak terbuka.</string>
+  <string name="licence_validation_extended">Fitur lanjutan telah dibuka.</string>
   <string name="menu_aggregates">Jumlah</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Laksana</string>
@@ -296,9 +304,12 @@
   <string name="pref_category_title_ui">Antaramuka pengguna</string>
   <string name="pref_checkbox_enabled">Dibenarkan</string>
   <string name="pref_checkbox_disabled">Dilumpuhkan</string>
+  <string name="pref_contrib_purchase_summary">Beli capaian ke fitur premium dan lanjutan.</string>
   <string name="pref_contrib_purchase_title">Beli Kunci</string>
+  <string name="pref_contrib_purchase_title_upgrade">Kunci tatar</string>
   <string name="pref_contrib_purchase_title_in_app">Pembayaran In-App</string>
   <string name="pref_custom_currency_title">Suaikan matawang</string>
+  <string name="pref_enter_licence_summary">Jika anda menerima kunci, dapatkan capaian ke fitur premium/lanjutan.</string>
   <string name="pref_enter_licence_title">Masukkan kunci</string>
   <string name="pref_export_format_title">Format data</string>
   <string name="pref_follow_gplus_title">Ikut Perbelanjaan Saya pada Google+</string>
@@ -527,4 +538,15 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_csv_import_delimiter">Pembatas</string>
   <string name="csv_import_preview">Pratonton</string>
   <string name="menu_parse">Hurai</string>
+  <string name="cvs_import_discard">Singkir</string>
+  <string name="csv_import_field_mapped_more_than_once">%s telah dipetakan lebih dari sekali.</string>
+  <string name="csv_import_records_failed">%d rekod tidak dapat diimport.</string>
+  <string name="csv_import_records_discarded">%d rekod telah disingkirkan.</string>
+  <string name="csv_import_subcategory_requires_category">Jika anda petakan subkategori, anda juga petakan kategori.</string>
+  <string name="cvs_import_set_first_line_as_header">Patutkah baris pertama dianggap sebagai tajuk?</string>
+  <string name="csv_import_delimiter_comma">Koma</string>
+  <string name="csv_import_delimiter_semicolon">Titik Bertindih</string>
+  <string name="csv_import_delimiter_tab">Tab</string>
+  <string name="csv_import_no_mapping_found_for_amount">Sila petakan salah satu lajur sama ada amaun, pendapatan atau perbelanjaan.</string>
+  <string name="menu_show_transactions">Tunjuk transaksi</string>
 </resources>
