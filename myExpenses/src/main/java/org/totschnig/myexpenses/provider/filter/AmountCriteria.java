@@ -135,7 +135,6 @@ public class AmountCriteria extends Criteria {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    // TODO Auto-generated method stub
     super.writeToParcel(dest, flags);
     dest.writeByte((byte) (type ? 1 : 0));
     dest.writeString(currency.getCurrencyCode());

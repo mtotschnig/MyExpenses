@@ -453,7 +453,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       ctx.createCat(elcmi.id);
       return true;
     }
-    return super.dispatchCommandSingle(command, info);
+    return super. dispatchCommandSingle(command, info);
   }
   /**
    * Mapping the categories table into the ExpandableList
