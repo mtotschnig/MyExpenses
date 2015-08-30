@@ -108,14 +108,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
 
-    findPreference(PrefKey.PERFORM_PROTECTION.getKey())
-      .setOnPreferenceChangeListener(this);
-    
-    findPreference(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())
-    .setOnPreferenceChangeListener(this);
-    
-    findPreference(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())
-    .setOnPreferenceChangeListener(this);
     
     findPreference(PrefKey.APP_DIR.getKey())
     .setOnPreferenceClickListener(this);
