@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_251">
+    <item>Formatul numărului configurabil</item>
+    <item>Traducere Daneză</item>
+  </string-array>
+  <string-array name="whats_new_250">
+    <item>Import CSV </item>
+    <item>Traducere Coreeană </item>
+  </string-array>
   <string-array name="whats_new_249">
     <item>Export categorii catre QIF</item>
     <item>Afișează sumele agregate în ecranul de start widget</item>
