@@ -40,7 +40,6 @@ import android.preference.PreferenceScreen;
 import android.provider.Settings.Secure;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -261,13 +260,13 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       configureContribPrefs();
     } else if (key.equals(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey())) {
       if (TextUtils.isEmpty((String) value)) {
-        PrefKey.CUSTOM_DECIMAL_FORMAT.remove();
-        setDefaultNumberFormat((EditTextPreference) pref);
-        return false;
+        Utils.setNumberFormat(NumberFormat.getCurrencyInstance());
+        return true;
       }
       try {
         DecimalFormat nf = new DecimalFormat();
         nf.applyLocalizedPattern(((String) value));
+        Utils.setNumberFormat(nf);
       } catch (IllegalArgumentException e) {
         Toast.makeText(getBaseContext(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
         return false;
@@ -276,7 +275,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     return true;
   }
   private void setDefaultNumberFormat(EditTextPreference pref) {
-    pref.setText(((DecimalFormat) NumberFormat.getCurrencyInstance()).toLocalizedPattern());
+    String pattern = ((DecimalFormat) NumberFormat.getCurrencyInstance()).toLocalizedPattern();
+    //Log.d(MyApplication.TAG,pattern);
+    pref.setText(pattern);
   }
   private void restart() {
     Intent intent = getIntent();
@@ -328,10 +329,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         key.equals(PrefKey.UI_THEME_KEY.getKey())) {
       restart();
     } else if (key.equals(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())) {
-      Log.d("DEBUG","shared preference changed: Account Widget");
+      //Log.d("DEBUG","shared preference changed: Account Widget");
       AbstractWidget.updateWidgets(this, AccountWidget.class);
     } else if (key.equals(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
-      Log.d("DEBUG","shared preference changed: Template Widget");
+      //Log.d("DEBUG","shared preference changed: Template Widget");
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(PrefKey.ACCOUNT_GROUPING.getKey())) {
       getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
