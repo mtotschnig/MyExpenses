@@ -229,5 +229,8 @@
         <intent android:targetPackage="org.totschnig.myexpenses"
          android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"/>
       </Preference>
+      <EditTextPreference android:key="@string/pref_custom_decimal_format_key"
+                          android:title="@string/pref_custom_decimal_format_title"
+                          android:summary="@string/pref_custom_decimal_format_summary"/>
   </PreferenceCategory>
 </PreferenceScreen> 

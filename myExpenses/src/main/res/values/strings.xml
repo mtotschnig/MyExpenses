@@ -65,6 +65,7 @@
     <string name="date">Date</string>
     <string name="date_format">Date format</string>
     <string name="date_format_illegal">Illegal date format</string>
+    <string name="number_format_illegal">Illegal number format</string>
     <string name="decimal_separator">Decimal separator</string>
     <string name="default_account_description">This account was set up automatically during installation</string>
     <string name="default_account_name">Budget Book</string>
@@ -574,5 +575,7 @@
     <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_no_mapping_found_for_amount">Please map one column either to amount, income or expense.</string>
     <string name="menu_show_transactions">Show transactions</string>
+    <string name="pref_custom_decimal_format_title">Number format</string>
+    <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
 </resources>
 

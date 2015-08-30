@@ -56,6 +56,7 @@
   <string name="pref_import_qif_key">import_qif</string>
   <string name="pref_import_csv_key">import_csv</string>
   <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
+  <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto ,
