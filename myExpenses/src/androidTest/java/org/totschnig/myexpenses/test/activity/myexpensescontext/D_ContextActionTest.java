@@ -85,7 +85,7 @@ public class D_ContextActionTest extends MyExpensesTest {
     setSelection();
     invokeContextAction("DELETE");
     assertTrue("Delete confirmation not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_warning_delete_transaction)));
-    mSolo.clickOnButton(mContext.getString(R.string.menu_delete));
+    mSolo.clickOnView(mSolo.getView(android.R.id.button1));
     getInstrumentation().waitForIdleSync();
     //wait for adapter to have updated
     sleep();
