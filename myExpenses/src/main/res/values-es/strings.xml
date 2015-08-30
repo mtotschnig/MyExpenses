@@ -50,6 +50,7 @@
   <string name="date">Fecha</string>
   <string name="date_format">Formato de fecha</string>
   <string name="date_format_illegal">Formato de fecha no válida</string>
+  <string name="number_format_illegal">Formato de número de ilegal</string>
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante la instalación.</string>
   <string name="default_account_name">Presupuesto</string>
@@ -558,4 +559,6 @@
   <string name="csv_import_delimiter_tab">Tabulador</string>
   <string name="csv_import_no_mapping_found_for_amount">Por favor asigne una columna por importe, ingreso o gasto.</string>
   <string name="menu_show_transactions">Ver operaciones</string>
+  <string name="pref_custom_decimal_format_title">Formato de número</string>
+  <string name="pref_custom_decimal_format_summary">Si no estás satisfecho con el formato predeterminado para su idioma, adaptarlo a sus necesidades. Deje en blanco para restaurar el formato predeterminado.</string>
 </resources>

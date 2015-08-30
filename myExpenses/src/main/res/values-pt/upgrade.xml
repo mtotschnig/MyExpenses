@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_251">
+    <item>Formato de número configurável</item>
+    <item>Dinamarquês Tradução</item>
+  </string-array>
+  <string-array name="whats_new_250">
+    <item>Importar de CSV</item>
+    <item>Coreano Tradução</item>
+  </string-array>
   <string-array name="whats_new_249">
     <item>Exportação de categorias para QIF</item>
     <item>Mostrar somas agregadas em widget da tela inicial</item>

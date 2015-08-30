@@ -50,6 +50,7 @@
   <string name="date">Data</string>
   <string name="date_format">Formato de data</string>
   <string name="date_format_illegal">Formato de data ilegal</string>
+  <string name="number_format_illegal">Formato de número ilegal</string>
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
   <string name="default_account_name">Livro de orçamento</string>
@@ -556,4 +557,7 @@
   <string name="csv_import_delimiter_semicolon">Ponto e vírgula</string>
   <string name="csv_import_delimiter_tab">tabulação</string>
   <string name="csv_import_no_mapping_found_for_amount">Por favor, mapear uma coluna ou a valor, renda ou despesa.</string>
+  <string name="menu_show_transactions">Mostrar as transações</string>
+  <string name="pref_custom_decimal_format_title">Formato de número</string>
+  <string name="pref_custom_decimal_format_summary">Se você não estiver satisfeito com o formato padrão para sua localidade, adaptá-lo às suas necessidades. Deixe em branco para restaurar o formato padrão.</string>
 </resources>
