@@ -102,6 +102,33 @@ import java.util.Map;
 public class Utils {
 
   public static final boolean IS_FLAVOURED = !BuildConfig.FLAVOR.equals("");
+  private static NumberFormat numberFormat;
+
+  private static void initNumberFormat() {
+    String prefFormat = MyApplication.PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
+    if (!prefFormat.equals("")) {
+      DecimalFormat nf = new DecimalFormat();
+      try {
+        nf.applyLocalizedPattern(prefFormat);
+        numberFormat = nf;
+      } catch (IllegalArgumentException e) {
+        //fallback to default currency instance
+        numberFormat = NumberFormat.getCurrencyInstance();
+      }
+    } else {
+      numberFormat = NumberFormat.getCurrencyInstance();
+    }
+  }
+
+  private static NumberFormat getNumberFormat() {
+    if (numberFormat==null) {
+      initNumberFormat();
+    }
+    return numberFormat;
+  }
+  public static void setNumberFormat(NumberFormat in) {
+    numberFormat = in;
+  }
 
   public static char getDefaultDecimalSeparator() {
     char sep = '.';
@@ -168,20 +195,6 @@ public class Utils {
     BigDecimal amount = money.getAmountMajor();
     Currency currency = money.getCurrency();
     return formatCurrency(amount, currency);
-  }
-
-  private static NumberFormat getNumberFormat() {
-    String prefFormat = MyApplication.PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
-    if (!prefFormat.equals("")) {
-      DecimalFormat nf = new DecimalFormat();
-      try {
-        nf.applyLocalizedPattern(prefFormat);
-        return nf;
-      } catch (IllegalArgumentException e) {
-        //fallback to default currency instance
-      }
-    }
-    return NumberFormat.getCurrencyInstance();
   }
 
   static String formatCurrency(BigDecimal amount, Currency currency) {
