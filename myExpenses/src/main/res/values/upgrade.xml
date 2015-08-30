@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_251">
+    <item>Configurable number format</item>
+    <item>Danish translation</item>
+  </string-array>
   <string-array name="whats_new_250">
     <item>CSV import</item>
     <item>Korean translation</item>
