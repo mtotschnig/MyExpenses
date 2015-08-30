@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_251">
+    <item>Formato numero configurabile</item>
+    <item>Traduzione in danese</item>
+  </string-array>
   <string-array name="whats_new_250">
     <item>Importazione CSV</item>
     <item>Traduzione in coreano</item>

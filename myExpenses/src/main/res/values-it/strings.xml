@@ -50,6 +50,7 @@
   <string name="date">Data</string>
   <string name="date_format">Formato dati</string>
   <string name="date_format_illegal">Formato data non valido</string>
+  <string name="number_format_illegal">Formato numero non valido</string>
   <string name="decimal_separator">Separatore decimale</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente durante l\'installazione</string>
   <string name="default_account_name">Libro di bilancio</string>
@@ -557,4 +558,6 @@
   <string name="csv_import_delimiter_tab">Tabulazione</string>
   <string name="csv_import_no_mapping_found_for_amount">Si prega di mappare una colonna per importo, reddito o spesa.</string>
   <string name="menu_show_transactions">Visualizzare operazioni</string>
+  <string name="pref_custom_decimal_format_title">Formato numero</string>
+  <string name="pref_custom_decimal_format_summary">Se non siete soddisfatti con il formato predefinito per le impostazioni internazionali, è possibile adattarlo alle vostre esigenze. Lasciare vuoto per ripristinare il formato predefinito.</string>
 </resources>
