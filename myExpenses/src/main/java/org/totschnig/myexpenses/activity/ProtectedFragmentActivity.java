@@ -304,7 +304,7 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
+    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK && intent != null) {
       ((ContribIFace) this).contribFeatureCalled(
           (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
           intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));

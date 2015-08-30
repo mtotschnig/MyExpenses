@@ -440,7 +440,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         PrefKey.APP_DIR.putString(intent.getData().toString());
       }
       setAppDirSummary();
-    } else if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
+    } else if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK & intent != null) {
         contribFeatureCalled(
             (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
             intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));

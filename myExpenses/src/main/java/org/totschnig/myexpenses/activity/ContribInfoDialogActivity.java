@@ -146,6 +146,11 @@ public class ContribInfoDialogActivity extends FragmentActivity
                         R.string.thank_you),
                     Toast.LENGTH_SHORT).show();
                 Distrib.registerPurchase(ContribInfoDialogActivity.this,!isPremium);
+                ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+                if (f != null) {
+                  contribFeatureCalled(f,getIntent().getSerializableExtra(KEY_TAG));
+                  return;
+                }
                 setResult(RESULT_OK);
               }
             }
