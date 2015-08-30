@@ -74,6 +74,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ChoiceFormat;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -169,8 +170,22 @@ public class Utils {
     return formatCurrency(amount, currency);
   }
 
+  private static NumberFormat getNumberFormat() {
+    String prefFormat = MyApplication.PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
+    if (!prefFormat.equals("")) {
+      DecimalFormat nf = new DecimalFormat();
+      try {
+        nf.applyLocalizedPattern(prefFormat);
+        return nf;
+      } catch (IllegalArgumentException e) {
+        //fallback to default currency instance
+      }
+    }
+    return NumberFormat.getCurrencyInstance();
+  }
+
   static String formatCurrency(BigDecimal amount, Currency currency) {
-    NumberFormat nf = NumberFormat.getCurrencyInstance();
+    NumberFormat nf = getNumberFormat();
     int fractionDigits = Money.fractionDigits(currency);
     nf.setCurrency(currency);
     if (fractionDigits <= 3) {

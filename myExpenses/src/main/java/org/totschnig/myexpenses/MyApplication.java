@@ -133,7 +133,8 @@ public class MyApplication extends Application implements
     MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
     INTERSTITIAL_LAST_SHOWN("interstitialLastShown"),
     ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL("entriesCreatedSinceLastInterstitial"),
-    CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key);
+    CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),
+    CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key);
 
     private int resId = 0;
     private String key = null;

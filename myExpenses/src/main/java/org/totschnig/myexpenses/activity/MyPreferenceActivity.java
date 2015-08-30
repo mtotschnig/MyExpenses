@@ -16,22 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 
-import java.io.Serializable;
-import java.net.URI;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
-import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.CalendarListPreference;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.AbstractWidget;
-import org.totschnig.myexpenses.widget.AccountWidget;
-import org.totschnig.myexpenses.widget.TemplateWidget;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,6 +30,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -60,6 +45,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.CalendarListPreference;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Present references screen defined in Layout file
@@ -81,10 +84,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
     super.onCreate(savedInstanceState);
-    setTitle(Utils.concatResStrings(this,R.string.app_name,R.string.menu_settings));
+    setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
     addPreferencesFromResource(R.xml.preferences);
     Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
-    pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
+    pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
     pref.setOnPreferenceChangeListener(this);
@@ -114,14 +117,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
     setProtectionDependentsState();
 
-    findPreference(PrefKey.PERFORM_PROTECTION.getKey())
-      .setOnPreferenceChangeListener(this);
-    
-    findPreference(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())
-    .setOnPreferenceChangeListener(this);
-    
-    findPreference(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())
-    .setOnPreferenceChangeListener(this);
+    pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
+    pref.setOnPreferenceChangeListener(this);
+    if (PrefKey.CUSTOM_DECIMAL_FORMAT.getString("").equals("")) {
+      setDefaultNumberFormat(((EditTextPreference) pref));
+    }
     
     findPreference(PrefKey.APP_DIR.getKey())
     .setOnPreferenceClickListener(this);
@@ -250,6 +250,19 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           }
         }
       }
+    } else if (key.equals(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey())) {
+      if (TextUtils.isEmpty((String) value)) {
+        PrefKey.CUSTOM_DECIMAL_FORMAT.remove();
+        setDefaultNumberFormat((EditTextPreference) pref);
+        return false;
+      }
+      try {
+        DecimalFormat nf = new DecimalFormat();
+        nf.applyLocalizedPattern(((String) value));
+      } catch (IllegalArgumentException e) {
+        Toast.makeText(getBaseContext(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
+        return false;
+      }
     }
 //    else if (key.equals(MyApplication.PrefKey.ENTER_LICENCE.getKey())) {
 //     if (Utils.verifyLicenceKey((String)value)) {
@@ -263,6 +276,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 //     configureContribPrefs();
 //    }
     return true;
+  }
+  private void setDefaultNumberFormat(EditTextPreference pref) {
+    pref.setText(((DecimalFormat) NumberFormat.getCurrencyInstance()).toLocalizedPattern());
   }
   private void restart() {
     Intent intent = getIntent();

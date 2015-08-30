@@ -29,6 +29,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
     ActionBar.TabListener,ConfirmationDialogFragment.ConfirmationDialogListener {
 
   public static final String KEY_DATA_READY = "KEY_DATA_READY";
+  public static final String KEY_USAGE_RECORDED = "KEY_USAGE_RECORDED";
   /**
    * The {@link android.support.v4.view.PagerAdapter} that will provide
    * fragments for each of the sections. We use a
@@ -45,6 +46,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
   ViewPager mViewPager;
 
   private boolean mDataReady = false;
+  private boolean mUsageRecorded = false;
 
   private void setmDataReady(boolean mDataReady) {
     this.mDataReady = mDataReady;
@@ -82,9 +84,12 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
 
     //we only add the first tab, the second one once data has been parsed
     addTab(0);
-    if (savedInstanceState !=null && savedInstanceState.getBoolean(KEY_DATA_READY)) {
-      addTab(1);
-      setmDataReady(true);
+    if (savedInstanceState != null) {
+      mUsageRecorded = savedInstanceState.getBoolean(KEY_USAGE_RECORDED);
+      if (savedInstanceState.getBoolean(KEY_DATA_READY)) {
+        addTab(1);
+        setmDataReady(true);
+      }
     }
   }
 
@@ -190,7 +195,10 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
         if (r.success) {
-          recordUsage(ContribFeature.CSV_IMPORT);
+          if (!mUsageRecorded) {
+            recordUsage(ContribFeature.CSV_IMPORT);
+            mUsageRecorded = true;
+          }
           Integer imported = (Integer) r.extra[0];
           Integer failed = (Integer) r.extra[1];
           Integer discarded = (Integer) r.extra[2];
@@ -228,6 +236,7 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_DATA_READY, mDataReady);
+    outState.putBoolean(KEY_USAGE_RECORDED,mUsageRecorded);
   }
 
   public long getAccountId() {

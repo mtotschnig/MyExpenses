@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 ext {
  versionNumber1 = 2
  versionNumber2 = 5
- versionNumber3 = 0
+ versionNumber3 = 1
  versionNumber4 = 0
 }
 
@@ -33,7 +33,7 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 217
+        versionCode 218
         versionName buildVersionNumber()
 
         testApplicationId "org.totschnig.myexpenses.test"
@@ -102,6 +102,7 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+    //testBuildType "release"
 }
 
 dependencies {

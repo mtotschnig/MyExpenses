@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.util.SparseBooleanArray;
 
 public class SparseBooleanArrayParcelable extends SparseBooleanArray implements Parcelable {
-  public static Parcelable.Creator<SparseBooleanArrayParcelable> CREATOR = new Parcelable.Creator<SparseBooleanArrayParcelable>() {
+  public static final Parcelable.Creator<SparseBooleanArrayParcelable> CREATOR = new Parcelable.Creator<SparseBooleanArrayParcelable>() {
     @Override
     public SparseBooleanArrayParcelable createFromParcel(Parcel source) {
       SparseBooleanArrayParcelable read = new SparseBooleanArrayParcelable();
@@ -58,5 +58,23 @@ public class SparseBooleanArrayParcelable extends SparseBooleanArray implements 
     dest.writeInt(size());
     dest.writeIntArray(keys);
     dest.writeBooleanArray(values);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    SparseBooleanArrayParcelable other = (SparseBooleanArrayParcelable) obj;
+    if (size()!=other.size())
+      return false;
+    for (int i = 0; i < size(); i++) {
+      if (keyAt(i)!=other.keyAt(i) || valueAt(i)!=other.valueAt(i))
+        return false;
+    }
+    return true;
   }
 }
