@@ -2,25 +2,6 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 apply plugin: 'com.android.application'
 
-ext {
- versionNumber1 = 2
- versionNumber2 = 5
- versionNumber3 = 1
- versionNumber4 = 0
-}
-
-def buildVersionNumber() {
-  def result = versionNumber1 + "." + versionNumber2 + "." + versionNumber3
-  if (versionNumber4 != 0) {
-   result += "." + versionNumber4 
-  }
-  return result
-}
-
-def buildVersionNumberBlackBerry() {
-  def result = versionNumber1 + "." + versionNumber2 + "." + versionNumber3 + "." + versionNumber4 
-  return result
-}
 android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
@@ -34,7 +15,7 @@ android {
             targetCompatibility JavaVersion.VERSION_1_7
         }
         versionCode 218
-        versionName buildVersionNumber()
+        versionName '2.5.1'
 
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
