@@ -40,6 +40,9 @@ public class QifTransaction {
   public boolean isSplit() {
     return splits != null;
   }
+  public boolean isOpeningBalance() {
+    return payee != null && payee.equals("Opening Balance");
+  }
 
   public void setSplits(List<QifTransaction> splits) {
     this.splits = splits;

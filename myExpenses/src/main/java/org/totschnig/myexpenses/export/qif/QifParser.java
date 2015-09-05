@@ -102,9 +102,14 @@ public class QifParser {
               while (true) {
                   QifTransaction t = new QifTransaction();
                   t.readFrom(r, dateFormat);
-                  addPayeeFromTransaction(t);
-                  addCategoryFromTransaction(t);
-                  account.transactions.add(t);
+                  if (t.isOpeningBalance()) {
+                   account.openinBalance = t.amount;
+                   account.memo =t.toAccount;
+                  } else {
+                    addPayeeFromTransaction(t);
+                    addCategoryFromTransaction(t);
+                    account.transactions.add(t);
+                  }
                   if (shouldBreakCurrentBlock()) {
                       break;
                   }

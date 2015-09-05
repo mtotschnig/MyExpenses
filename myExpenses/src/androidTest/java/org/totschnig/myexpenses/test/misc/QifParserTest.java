@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.totschnig.myexpenses.export.qif.QifDateFormat.*;
@@ -454,7 +455,7 @@ public class QifParserTest extends AndroidTestCase {
 
     public void test_should_parse_transfers() throws Exception {
         parseQif(
-                "!Account\n" +
+            "!Account\n" +
                 "NMy Cash Account\n" +
                 "TCash\n" +
                 "^\n" +
@@ -506,23 +507,23 @@ public class QifParserTest extends AndroidTestCase {
 
     public void test_should_parse_splits() throws Exception {
         parseQif(
-            "!Type:Cat\nNA\nE\n^\nNA:A1\nE\n^\nNA:A1:AA1\nE\n^\nNA:A2\nE\n^\nNB\nE\n^\n"+ // this is not important
-            "!Account\n"+
-            "NMy Cash Account\n"+
-            "TCash\n"+
-            "^\n"+
-            "!Type:Cash\n"+
-            "D12/07/2011\n"+
-            "T-2,600.66\n"+
-            "SA:A1\n"+
-            "$-1,100.56\n"+
-            "ENote on first split\n"+
-            "SA:A2\n"+
-            "$-1,000.00\n"+
-            "S<NO_CATEGORY>\n"+
-            "$500.10\n"+
-            "ENote on third split\n"+
-            "^\n");
+            "!Type:Cat\nNA\nE\n^\nNA:A1\nE\n^\nNA:A1:AA1\nE\n^\nNA:A2\nE\n^\nNB\nE\n^\n" + // this is not important
+                "!Account\n" +
+                "NMy Cash Account\n" +
+                "TCash\n" +
+                "^\n" +
+                "!Type:Cash\n" +
+                "D12/07/2011\n" +
+                "T-2,600.66\n" +
+                "SA:A1\n" +
+                "$-1,100.56\n" +
+                "ENote on first split\n" +
+                "SA:A2\n" +
+                "$-1,000.00\n" +
+                "S<NO_CATEGORY>\n" +
+                "$500.10\n" +
+                "ENote on third split\n" +
+                "^\n");
         assertEquals(1, p.accounts.size());
 
         QifAccount a = p.accounts.get(0);
@@ -618,6 +619,27 @@ public class QifParserTest extends AndroidTestCase {
           "^\n"
       );
       assertEquals(0, p.categories.size());
+    }
+
+    public void test_should_parse_opening_balance_and_memo_from_first_entry() throws Exception {
+      parseQif(
+          "!Type:Bank\n" +
+              "D19.12.14\n" +
+              "T222,22\n" +
+              "Cx\n" +
+              "POpening Balance\n" +
+              "L[My Account Name]\n" +
+              "^\n" +
+              "D01.02.15\n" +
+              "T-100,00\n" +
+              "Cx"
+      );
+      assertEquals(1, p.accounts.size());
+
+      QifAccount a = p.accounts.get(0);
+      assertEquals("My Account Name", a.memo);
+      assertEquals(a.openinBalance,new BigDecimal("222.22"));
+      assertEquals(1,a.transactions.size());
     }
 
     public void parseQif(String fileContent) throws IOException {

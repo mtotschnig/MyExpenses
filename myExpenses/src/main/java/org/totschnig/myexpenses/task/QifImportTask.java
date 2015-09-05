@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.export.qif.QifAccount;
 import org.totschnig.myexpenses.export.qif.QifBufferedReader;
 import org.totschnig.myexpenses.export.qif.QifCategory;
@@ -44,6 +45,7 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.net.Uri;
@@ -277,6 +279,14 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         }
       } else {
         Account a = account.toAccount(mCurrency);
+        if (TextUtils.isEmpty(a.label)) {
+          String displayName = DialogUtils.getDisplayName(fileUri);
+          if (FileUtils.getExtension(displayName).equalsIgnoreCase(".qif")) {
+            displayName = displayName.substring(0,displayName.lastIndexOf('.'));
+          }
+          displayName = displayName.replace('-',' ').replace('_',' ');
+          a.label = displayName;
+        }
         if (a.save() != null)
           importCount++;
         account.dbAccount = a;
