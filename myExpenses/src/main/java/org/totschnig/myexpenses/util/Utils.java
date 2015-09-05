@@ -944,7 +944,7 @@ public class Utils {
       for (String[] tableInfo : schema) {
         errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
       }
-      errorReporter.handleException(e);
+      errorReporter.handleSilentException(e);
       for (String[] tableInfo : schema) {
         errorReporter.removeCustomData(tableInfo[0]);
       }
@@ -957,7 +957,7 @@ public class Utils {
     } else {
       ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
       errorReporter.putCustomData(key, data);
-      errorReporter.handleException(e);
+      errorReporter.handleSilentException(e);
       errorReporter.removeCustomData(key);
     }
   }
