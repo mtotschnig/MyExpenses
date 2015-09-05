@@ -44,20 +44,27 @@ public class ContribInfoDialogActivity extends FragmentActivity
 
     mHelper = Distrib.getIabHelper(this);
     if (mHelper != null) {
-      mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-        public void onIabSetupFinished(IabResult result) {
-          Log.d(tag, "Setup finished.");
+      try {
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+          public void onIabSetupFinished(IabResult result) {
+            Log.d(tag, "Setup finished.");
 
-          if (!result.isSuccess()) {
-            mSetupDone = false;
-            // Oh noes, there was a problem.
-            complain("Problem setting up in-app billing: " + result);
-            return;
+            if (!result.isSuccess()) {
+              mSetupDone = false;
+              // Oh noes, there was a problem.
+              complain("Problem setting up in-app billing: " + result);
+              return;
+            }
+            mSetupDone = true;
+            Log.d(tag, "Setup successful.");
           }
-          mSetupDone = true;
-          Log.d(tag, "Setup successful.");
-        }
-      });
+        });
+      } catch (SecurityException e) {
+        Utils.reportToAcra(e);
+        mHelper.dispose();
+        mHelper = null;
+        complain("Problem setting up in-app billing: " + e.getMessage());
+      }
     }
 
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);

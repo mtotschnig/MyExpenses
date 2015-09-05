@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.util.Distrib;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,44 +51,50 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
       mHelper = Distrib.getIabHelper(this);
       if (mHelper!=null) {
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-          public void onIabSetupFinished(IabResult result) {
-            Log.d(tag, "Setup finished.");
-            if (mHelper==null) {
-              return;
-            }
-            if (result.isSuccess()) {
-              mHelper.queryInventoryAsync(false,new QueryInventoryFinishedListener() {
-                @Override
-                public void onQueryInventoryFinished(
-                    IabResult result,
-                    Inventory inventory) {
-                  if (mHelper==null || inventory==null) {
-                    return;
-                  }
-                  // Do we have the premium upgrade?
-                  Purchase premiumPurchase =
-                      inventory.getPurchase(Config.SKU_PREMIUM);
-                  Purchase extendedPurchase =
-                      inventory.getPurchase(Config.SKU_EXTENDED);
-                  Purchase upgradePurchase =
-                      inventory.getPurchase(Config.SKU_PREMIUM2EXTENDED);
-                  if (upgradePurchase!=null&&upgradePurchase.getPurchaseState()==0) {
-                    Distrib.registerPurchase(LaunchActivity.this, true);
-                  } else if (extendedPurchase!=null&&extendedPurchase.getPurchaseState()==0) {
-                    Distrib.registerPurchase(LaunchActivity.this, true);
-                  } else if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
-                    if (!contribStatus.equals(Distrib.STATUS_ENABLED_PERMANENT)) {
-                      Distrib.registerPurchase(LaunchActivity.this, false);
+        try {
+          mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+              Log.d(tag, "Setup finished.");
+              if (mHelper==null) {
+                return;
+              }
+              if (result.isSuccess()) {
+                mHelper.queryInventoryAsync(false,new QueryInventoryFinishedListener() {
+                  @Override
+                  public void onQueryInventoryFinished(
+                      IabResult result,
+                      Inventory inventory) {
+                    if (mHelper==null || inventory==null) {
+                      return;
                     }
-                  } else if (contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
-                    Distrib.maybeCancel(LaunchActivity.this);
+                    // Do we have the premium upgrade?
+                    Purchase premiumPurchase =
+                        inventory.getPurchase(Config.SKU_PREMIUM);
+                    Purchase extendedPurchase =
+                        inventory.getPurchase(Config.SKU_EXTENDED);
+                    Purchase upgradePurchase =
+                        inventory.getPurchase(Config.SKU_PREMIUM2EXTENDED);
+                    if (upgradePurchase!=null&&upgradePurchase.getPurchaseState()==0) {
+                      Distrib.registerPurchase(LaunchActivity.this, true);
+                    } else if (extendedPurchase!=null&&extendedPurchase.getPurchaseState()==0) {
+                      Distrib.registerPurchase(LaunchActivity.this, true);
+                    } else if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
+                      if (!contribStatus.equals(Distrib.STATUS_ENABLED_PERMANENT)) {
+                        Distrib.registerPurchase(LaunchActivity.this, false);
+                      }
+                    } else if (contribStatus.equals(Distrib.STATUS_ENABLED_TEMPORARY)) {
+                      Distrib.maybeCancel(LaunchActivity.this);
+                    }
                   }
-                }
-              });
+                });
+              }
             }
-          }
-        });
+          });
+        } catch (SecurityException e) {
+          Utils.reportToAcra(e);
+          mHelper.dispose();
+          mHelper = null;
+        }
       }
     }
   }
