@@ -11,7 +11,7 @@ Steps for preparing a new release
   - adb install myExpenses/build/outputs/apk/myExpenses-debug.apk
   - adb install myExpenses/build/outputs/apk/myExpenses-debug-androidTest-unaligned.apk
   - tests/script/runAllTests.sh (test requires a file /sdcard/myexpenses/screenshot.jpg to exist on device)
-* ./gradlew clean assemblePlayRelease
+* ./gradlew clean assembleRelease
 * test upgrade mechanism
 * Create release tag in GIT (git checkout master;git tag r39; git push origin r39)
 * mv APK and proguard folder into a new folder in releases
