@@ -1632,7 +1632,7 @@ public class ExpenseEdit extends AmountActivity implements
       //can we catch such a crash and inform the user?
       startActivityForResult (intent, EDIT_EVENT_REQUEST);
     } else {
-      Log.w(MyApplication.TAG,"no intent found for viewing event in calendar");
+      Toast.makeText(this,R.string.no_calendar_app_installed,Toast.LENGTH_SHORT).show();
     }
   }
   @Override
