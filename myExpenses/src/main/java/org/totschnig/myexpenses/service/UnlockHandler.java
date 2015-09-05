@@ -46,8 +46,8 @@ public class UnlockHandler extends Handler {
         if (!BuildConfig.FLAVOR_distribution.equals("play")) {
           doUnlock();
         } else {
-          showNotif(app.getString(R.string.licence_validation_failure) +
-              " Please upgrade My Expenses Contrib to version 1.5");
+          showNotif(Utils.concatResStrings(app,R.string.licence_validation_failure,
+              R.string.licence_validation_upgrade_needed));
         }
         break;
     }
@@ -59,7 +59,7 @@ public class UnlockHandler extends Handler {
     app.setContribStatus(Distrib.STATUS_ENABLED_LEGACY_SECOND);
     mPreferences.putString(MyApplication.PrefKey.LICENSE_STATUS.getKey(), String.valueOf(Distrib.STATUS_ENABLED_LEGACY_SECOND));
     mPreferences.commit();
-    showNotif( Utils.concatResStrings(app,
+    showNotif(Utils.concatResStrings(app,
             R.string.licence_validation_premium,R.string.thank_you));
   }
 

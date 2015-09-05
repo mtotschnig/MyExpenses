@@ -577,5 +577,6 @@
     <string name="menu_show_transactions">Show transactions</string>
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
+    <string name="licence_validation_upgrade_needed">Please upgrade My Expenses Contrib to version 1.5.</string>
 </resources>
 
