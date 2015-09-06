@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
@@ -33,6 +34,7 @@ import android.content.pm.PackageInfo;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -135,7 +137,11 @@ public class CommonCommands {
     } catch (IOException e) {
       Log.w(MyApplication.TAG,"Failed to open property file");
     }
-    return versionname + version  + buildDate;
+    final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
+        "" : " " + BuildConfig.FLAVOR;
+    final String installer = " " + ctx.getPackageManager()
+        .getInstallerPackageName(ctx.getPackageName());
+    return versionname + version  + buildDate + flavor + installer;
   }
   /**
    * @return version name
