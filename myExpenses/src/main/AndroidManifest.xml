@@ -187,9 +187,24 @@
         <service android:name=".service.PlanExecutor" />
         <service android:name=".service.PlanNotificationClickHandler" />
 
-        <receiver android:name=".service.MyBootReceiver" >
+        <service android:name="service.AutoBackupService">
+            <intent-filter>
+                <action android:name="org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP" />
+                <action android:name="org.totschnig.myexpenses.ACTION_AUTO_BACKUP" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".service.ScheduledAlarmReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="org.totschnig.myexpenses.SCHEDULED_BACKUP" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data
+                    android:path="org.toschnig.myexpenses"
+                    android:scheme="package" />
             </intent-filter>
         </receiver>
         <receiver

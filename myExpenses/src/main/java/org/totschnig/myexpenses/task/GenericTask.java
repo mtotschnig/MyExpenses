@@ -42,6 +42,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
@@ -274,46 +275,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       return null;
     case TaskExecutionFragment.TASK_BACKUP:
-      boolean result = false;
-      if (!Utils.isExternalStorageAvailable()) {
-        return new Result(false,R.string.external_storage_unavailable);
-      }
-      DocumentFile backupFile = MyApplication.requireBackupFile();
-      if (backupFile == null) {
-        Utils.reportToAcra(new Exception(
-            MyApplication.getInstance().getString(R.string.io_error_appdir_null)));
-        return new Result(false,R.string.io_error_appdir_null);
-      }
-      File cacheDir = Utils.getCacheDir();
-      if (cacheDir == null) {
-        Utils.reportToAcra(new Exception(
-            MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
-        return new Result(false,R.string.io_error_cachedir_null);
-      }
-      cacheEventData();
-      if (MyApplication.getInstance().backup(cacheDir)) {
-        try {
-          ZipUtils.zipBackup(
-              cacheDir,
-              backupFile);
-          result  = true;
-        } catch (IOException e) {
-          Utils.reportToAcra(e);
-        }
-        MyApplication.getBackupDbFile(cacheDir).delete();
-        MyApplication.getBackupPrefFile(cacheDir).delete();
-      }
-      if (result) {
-        return new Result(
-            true,
-            R.string.backup_success,
-            backupFile.getUri());
-      } else {
-        return new Result(
-            false,
-            R.string.backup_failure,
-            FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
-      }
+      return doBackup();
     case TaskExecutionFragment.TASK_BALANCE:
       Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       return null;
@@ -475,6 +437,50 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     return null;
   }
 
+  @NonNull
+  public static Result doBackup() {
+    boolean result = false;
+    if (!Utils.isExternalStorageAvailable()) {
+      return new Result(false, R.string.external_storage_unavailable);
+    }
+    DocumentFile backupFile = MyApplication.requireBackupFile();
+    if (backupFile == null) {
+      Utils.reportToAcra(new Exception(
+          MyApplication.getInstance().getString(R.string.io_error_appdir_null)));
+      return new Result(false,R.string.io_error_appdir_null);
+    }
+    File cacheDir = Utils.getCacheDir();
+    if (cacheDir == null) {
+      Utils.reportToAcra(new Exception(
+          MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
+      return new Result(false,R.string.io_error_cachedir_null);
+    }
+    cacheEventData();
+    if (MyApplication.getInstance().backup(cacheDir)) {
+      try {
+        ZipUtils.zipBackup(
+                cacheDir,
+                backupFile);
+        result  = true;
+      } catch (IOException e) {
+        Utils.reportToAcra(e);
+      }
+      MyApplication.getBackupDbFile(cacheDir).delete();
+      MyApplication.getBackupPrefFile(cacheDir).delete();
+    }
+    if (result) {
+      return new Result(
+          true,
+          R.string.backup_success,
+          backupFile.getUri());
+    } else {
+      return new Result(
+          false,
+          R.string.backup_failure,
+          FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
+    }
+  }
+
   private boolean checkImagePath(String lastPathSegment) {
     boolean result = false;
     Cursor c = MyApplication.getInstance().getContentResolver().query(
@@ -490,7 +496,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     return result;
   }
 
-  private void cacheEventData() {
+  private static void cacheEventData() {
     String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     if (plannerCalendarId.equals("-1")) {
       return;
