@@ -58,6 +58,8 @@ en:
       blackberry: |
         If you have installed My Expenses from Blackberry World, install
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
+      blackberry-extra: |
+        On Blackberry there is no Extended key, the Contrib key gives also access to extended features.
       other: |
         If you have downloaded My Expenses from F-Droid, Yandex or SlideMe,
         send a donation via one of the following:
