@@ -25,6 +25,8 @@
   <string name="pref_ui_theme_key">pref_ui_theme</string>
   <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
   <string name="pref_backup_key">backup</string>
+  <string name="pref_auto_backup_key">auto_backup</string>
+  <string name="pref_auto_backup_time_key">auto_backup_time</string>
   <string name="pref_restore_key">restore</string>
   <string name="pref_restore_legacy_key">restore_legacy</string>
   <string name="pref_contrib_purchase_key">contrib_purchase</string>

@@ -17,8 +17,6 @@ import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
-import ru.orangesoftware.financisto2.service.FinancistoService;
-
 public class ScheduledAlarmReceiver extends BroadcastReceiver {
 
     static final String PACKAGE_REPLACED = "android.intent.action.PACKAGE_REPLACED";
@@ -46,12 +44,14 @@ public class ScheduledAlarmReceiver extends BroadcastReceiver {
 	}
 
     private void requestScheduleAutoBackup(Context context) {
-        Intent serviceIntent = new Intent(AutoBackupService.ACTION_SCHEDULE_AUTO_BACKUP);
+        Intent serviceIntent = new Intent(context,AutoBackupService.class);
+        serviceIntent.setAction(AutoBackupService.ACTION_SCHEDULE_AUTO_BACKUP);
         WakefulIntentService.sendWakefulWork(context, serviceIntent);
     }
 
     private void requestAutoBackup(Context context) {
-        Intent serviceIntent = new Intent(AutoBackupService.ACTION_AUTO_BACKUP);
+        Intent serviceIntent = new Intent(context,AutoBackupService.class);
+        serviceIntent.setAction(AutoBackupService.ACTION_AUTO_BACKUP);
         WakefulIntentService.sendWakefulWork(context, serviceIntent);
     }
 

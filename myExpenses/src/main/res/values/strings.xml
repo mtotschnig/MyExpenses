@@ -577,5 +577,9 @@
     <string name="menu_show_transactions">Show transactions</string>
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
+    <string name="pref_auto_backup_title">Enable auto-backup</string>
+    <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed)</string>
+    <string name="pref_auto_backup_time_title">Auto-backup time</string>
+    <string name="pref_auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
 </resources>
 

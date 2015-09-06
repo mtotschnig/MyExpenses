@@ -14,10 +14,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import org.totschnig.myexpenses.MyApplication;
+
 import java.util.Calendar;
 import java.util.Date;
-
-import ru.orangesoftware.financisto2.utils.MyPreferences;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,8 +31,8 @@ public class DailyAutoBackupScheduler {
     private final long now;
 
     public static void scheduleNextAutoBackup(Context context) {
-        if (true/*MyPreferences.isAutoBackupEnabled(context)*/) {
-            int hhmm = 1700;//MyPreferences.getAutoBackupTime(context);
+        if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false)) {
+            int hhmm = MyApplication.PrefKey.AUTO_BACKUP_TIME.getInt(600);
             int hh = hhmm/100;
             int mm = hhmm - 100*hh;
             new DailyAutoBackupScheduler(hh, mm, System.currentTimeMillis()).scheduleBackup(context);
@@ -50,7 +50,7 @@ public class DailyAutoBackupScheduler {
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
         service.set(AlarmManager.RTC_WAKEUP, scheduledTime.getTime(), pendingIntent);
-        Log.i("Financisto", "Next auto-backup scheduled at "+scheduledTime);
+        Log.i(MyApplication.TAG, "Next auto-backup scheduled at "+scheduledTime);
     }
 
     private PendingIntent createPendingIntent(Context context) {
