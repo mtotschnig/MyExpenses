@@ -28,38 +28,46 @@ public class DailyAutoBackupScheduler {
 
     private final int hh;
     private final int mm;
-    private final long now;
 
-    public static void scheduleNextAutoBackup(Context context) {
+    public static void updateAutoBackupAlarms(Context context) {
         if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false)) {
-            int hhmm = MyApplication.PrefKey.AUTO_BACKUP_TIME.getInt(600);
-            int hh = hhmm/100;
-            int mm = hhmm - 100*hh;
-            new DailyAutoBackupScheduler(hh, mm, System.currentTimeMillis()).scheduleBackup(context);
+            scheduleAutoBackup(context);
+        } else {
+            cancelAutoBackup(context);
         }
     }
     
-    public DailyAutoBackupScheduler(int hh, int mm, long now) {
+    public DailyAutoBackupScheduler(int hh, int mm) {
         this.hh = hh;
         this.mm = mm;
-        this.now = now;
     }
 
-    public void scheduleBackup(Context context) {
+    public static void scheduleAutoBackup(Context context) {
         AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
         service.set(AlarmManager.RTC_WAKEUP, scheduledTime.getTime(), pendingIntent);
-        Log.i(MyApplication.TAG, "Next auto-backup scheduled at "+scheduledTime);
+        Log.i("DEBUG", "Next auto-backup scheduled at "+scheduledTime);
     }
 
-    private PendingIntent createPendingIntent(Context context) {
+    public static void cancelAutoBackup(Context context) {
+        AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = createPendingIntent(context);
+        service.cancel(pendingIntent);
+        Log.i("DEBUG", "auto-backup canceled ");
+    }
+
+    private static PendingIntent createPendingIntent(Context context) {
         Intent intent = new Intent(ScheduledAlarmReceiver.SCHEDULED_BACKUP);
         return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    public Date getScheduledTime() {
+    public static Date getScheduledTime() {
+        int hhmm = MyApplication.PrefKey.AUTO_BACKUP_TIME.getInt(600);
+        int hh = hhmm/100;
+        int mm = hhmm - 100*hh;
         Calendar c = Calendar.getInstance();
+        long now = System.currentTimeMillis();
         c.setTimeInMillis(now);
         c.set(Calendar.HOUR_OF_DAY, hh);
         c.set(Calendar.MINUTE, mm);

@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreference;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -336,6 +337,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(PrefKey.ACCOUNT_GROUPING.getKey())) {
       getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
+    } else if (key.equals(PrefKey.AUTO_BACKUP.getKey()) || key.equals(PrefKey.AUTO_BACKUP_TIME.getKey())) {
+      DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
     }
   }
   @Override

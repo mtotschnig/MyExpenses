@@ -40,7 +40,6 @@ public class AutoBackupService extends WakefulIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "Created AutoBackupService service ...");
     }
 
     @Override
@@ -49,7 +48,7 @@ public class AutoBackupService extends WakefulIntentService {
         if (ACTION_AUTO_BACKUP.equals(action)) {
             GenericTask.doBackup();
         }  else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
-            DailyAutoBackupScheduler.scheduleNextAutoBackup(this);
+            DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
         }
     }
 
