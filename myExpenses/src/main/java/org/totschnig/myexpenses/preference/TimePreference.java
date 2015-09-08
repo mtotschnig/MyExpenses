@@ -9,7 +9,10 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.DialogPreference;
+import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
@@ -22,12 +25,11 @@ import org.totschnig.myexpenses.R;
  * User: Denis Solonenko
  * Date: 12/17/11 1:59 AM
  */
-public class TimePreference extends DialogPreference implements TimePicker.OnTimeChangedListener {
+public class TimePreference extends DialogPreference  {
 
     private static final int DEFAULT_VALUE = 500;
 
-    private int hh;
-    private int mm;
+    private TimePicker mTimePicker;
     
     public TimePreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -42,22 +44,24 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
     @Override
     protected View onCreateDialogView() {
         Context context = getContext();
-        TimePicker timePicker = new TimePicker(context);
-        timePicker.setIs24HourView(android.text.format.DateFormat.is24HourFormat(context));
-        timePicker.setOnTimeChangedListener(this);
-        timePicker.setCurrentHour(getHour());
-        timePicker.setCurrentMinute(getMinute());
-        return timePicker;
+        mTimePicker = new TimePicker(context);
+        mTimePicker.setId(1);
+        mTimePicker.setIs24HourView(DateFormat.is24HourFormat(context));
+        mTimePicker.setCurrentHour(getHour());
+        mTimePicker.setCurrentMinute(getMinute());
+        return mTimePicker;
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
+
         if (!positiveResult) {
             return;
         }
         if (shouldPersist()) {
-            persistInt(100*hh+mm);
+            mTimePicker.clearFocus();
+            persistInt(100*mTimePicker.getCurrentHour()+mTimePicker.getCurrentMinute());
         }
         notifyChanged();
     }
@@ -73,13 +77,12 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
     }
 
     @Override
-    public void onTimeChanged(TimePicker timePicker, int hh, int mm) {
-        this.hh = hh;
-        this.mm = mm;        
+    public CharSequence getSummary() {
+        return getContext().getString(R.string.pref_auto_backup_time_summary, getHour(), getMinute());
     }
 
     @Override
-    public CharSequence getSummary() {
-        return getContext().getString(R.string.pref_auto_backup_time_summary, getHour(), getMinute());
+    protected void showDialog(Bundle state) {
+        super.showDialog(state);
     }
 }
