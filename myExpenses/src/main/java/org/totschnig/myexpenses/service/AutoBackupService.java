@@ -13,6 +13,8 @@ package org.totschnig.myexpenses.service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +25,10 @@ import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.GenericTask;
+import org.totschnig.myexpenses.util.Result;
 
 import java.util.Date;
 
@@ -40,13 +45,24 @@ public class AutoBackupService extends WakefulIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i("DEBUG", "Created AutoBackupService service ...");
     }
 
     @Override
 	protected void doWakefulWork(Intent intent) {
         String action = intent.getAction();
         if (ACTION_AUTO_BACKUP.equals(action)) {
-            GenericTask.doBackup();
+            Log.i("DEBUG","now doing backup");
+            //TODO report on error
+            Result result = GenericTask.doBackup();
+            if (result.success) {
+                MyApplication.PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
+                ContentResolver resolver = getContentResolver();
+                ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
+                TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
+                provider.clearDirty();
+                client.release();
+            }
         }  else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
             DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
         }

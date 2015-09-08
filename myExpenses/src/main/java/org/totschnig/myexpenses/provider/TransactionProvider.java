@@ -152,10 +152,24 @@ public class TransactionProvider extends ContentProvider {
   private static final int STALE_IMAGES_ID = 37;
   private static final int TRANSACTION_UNDELETE = 38;
   
+
+  private boolean mDirty = false;
+
   @Override
   public boolean onCreate() {
     mOpenHelper = new TransactionDatabase(getContext());
     return true;
+  }
+
+  private void setDirty() {
+    if (!mDirty) {
+      mDirty = true;
+      MyApplication.markDataDirty();
+    }
+  }
+
+  public void clearDirty() {
+    mDirty = false;
   }
 
   @Override

@@ -30,7 +30,8 @@ public class DailyAutoBackupScheduler {
     private final int mm;
 
     public static void updateAutoBackupAlarms(Context context) {
-        if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false)) {
+        if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false) &&
+            MyApplication.PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
             scheduleAutoBackup(context);
         } else {
             cancelAutoBackup(context);
