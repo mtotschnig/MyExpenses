@@ -32,6 +32,7 @@ public class ScheduledAlarmReceiver extends BroadcastReceiver {
             if ("package:org.totschnig.myexpenses".equals(dataString)) {
                 Log.d("ScheduledAlarmReceiver", "Re-scheduling backup");
                 requestScheduleAutoBackup(context);
+                MyApplication.getInstance().initPlanner();
             }
 		} else if (BOOT_COMPLETED.equals(action)) {
             requestScheduleAutoBackup(context);
