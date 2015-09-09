@@ -29,7 +29,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Шаблон виджет</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="extended_key">Расширенный ключ</string>
-  <string name="contrib_key_requires">требуется Мои расходы Contrib-ключ.</string>
+  <string name="contrib_key_requires">требуется %s.</string>
   <string name="currency">Валюта</string>
   <string name="current_balance">Текущий баланс</string>
   <string name="date">Дата</string>

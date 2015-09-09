@@ -28,7 +28,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Sablon widget</string>
   <string name="contrib_key">Contrib Kulcs</string>
-  <string name="contrib_key_requires">Ehhez a Kiadásaim Contrib verziójának használata szükséges.</string>
+  <string name="contrib_key_requires">Ehhez a %s használata szükséges.</string>
   <string name="currency">Pénznem</string>
   <string name="current_balance">Aktuális egyenleg</string>
   <string name="date">Dátum</string>

@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="extended_key">Erweiterungsschlüssel</string>
-  <string name="contrib_key_requires">Benötigt Meine Ausgaben Contrib.</string>
+  <string name="contrib_key_requires">Benötigt %s.</string>
   <string name="currency">Währung</string>
   <string name="current_balance">Aktueller Saldo</string>
   <string name="date">Datum</string>

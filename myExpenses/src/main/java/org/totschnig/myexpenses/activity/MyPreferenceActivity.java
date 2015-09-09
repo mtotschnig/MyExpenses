@@ -131,9 +131,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
     findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
     findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
-        Utils.concatResStrings(this, R.string.pref_security_question_summary,R.string.contrib_key_requires));
+        getString(R.string.pref_security_question_summary) + " " +
+            ContribFeature.SECURITY_QUESTION.buildRequiresString(this));
     findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
-        Utils.concatResStrings(this, R.string.pref_shortcut_summary,R.string.contrib_key_requires));
+        getString(R.string.pref_shortcut_summary) + " " +
+            ContribFeature.SPLIT_TRANSACTION.buildRequiresString(this));
 
     final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
     final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());

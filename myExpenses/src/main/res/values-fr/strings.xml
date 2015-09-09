@@ -42,9 +42,9 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de modèles</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
-  <string name="contrib_key">Clé contributive</string>
+  <string name="contrib_key">Clé Contrib</string>
   <string name="extended_key">Clé étendue</string>
-  <string name="contrib_key_requires">Nécessite Mes dépenses Clé Contrib.</string>
+  <string name="contrib_key_requires">Nécessite %s.</string>
   <string name="currency">Devise</string>
   <string name="current_balance">Solde courant</string>
   <string name="date">Date</string>

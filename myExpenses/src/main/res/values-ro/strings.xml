@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget</string>
   <string name="contrib_key">Cheie Contrib</string>
   <string name="extended_key">Cheie Extinse</string>
-  <string name="contrib_key_requires">Necesită Cheia Contrib  Cheltuielile Mele.</string>
+  <string name="contrib_key_requires">Necesită %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Sold curent</string>
   <string name="date">Data</string>

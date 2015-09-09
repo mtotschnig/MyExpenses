@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Importazione CSV</string>
   <string name="contrib_key">Chiave Contrib</string>
   <string name="extended_key">Chiave Ampliata</string>
-  <string name="contrib_key_requires">Richiede Le mie spese Contrib.</string>
+  <string name="contrib_key_requires">Richiede %s.</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>

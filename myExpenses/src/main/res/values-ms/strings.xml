@@ -43,7 +43,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
   <string name="contrib_key">Kunci Contrib</string>
   <string name="extended_key">Kunci Lanjutan</string>
-  <string name="contrib_key_requires">Perlukan Kunci Contrib Perbelanjaan Saya.</string>
+  <string name="contrib_key_requires">Perlukan %s.</string>
   <string name="currency">Matawang</string>
   <string name="current_balance">Baki semasa</string>
   <string name="date">Tarikh</string>
