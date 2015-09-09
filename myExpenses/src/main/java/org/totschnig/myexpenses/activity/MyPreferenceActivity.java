@@ -173,7 +173,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
   private void configureContribPrefs() {
     Preference pref1 = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
-        pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
+        pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey()),
+        pref3 = findPreference(PrefKey.AUTO_BACKUP.getKey());
     if (MyApplication.getInstance().isExtendedEnabled()) {
       PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
       cat.removePreference(pref1);
@@ -192,7 +193,13 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         pref2.setOnPreferenceClickListener(this);
       }
     }
+
     findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
+
+    String summary = getString(R.string.pref_auto_backup_summary) + " " +
+        ContribFeature.AUTO_BACKUP.buildRequiresString(this);
+    pref3.setSummary(summary);
+    pref3.setOnPreferenceChangeListener(this);
   }
   private void setProtectionDependentsState() {
     boolean isProtected = PrefKey.PERFORM_PROTECTION.getBoolean(false);
@@ -272,6 +279,12 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         Toast.makeText(getBaseContext(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
         return false;
       }
+    } else if (key.equals(PrefKey.AUTO_BACKUP.getKey())) {
+      if (!((Boolean) value) || ContribFeature.AUTO_BACKUP.hasAccess()) {
+        return true;
+      }
+      CommonCommands.showContribDialog(this,ContribFeature.AUTO_BACKUP,null);
+      return ContribFeature.AUTO_BACKUP.usagesLeft()>0;
     }
     return true;
   }

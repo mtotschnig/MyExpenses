@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.ContribFeature;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -26,21 +27,15 @@ import java.util.Date;
  */
 public class DailyAutoBackupScheduler {
 
-    private final int hh;
-    private final int mm;
-
     public static void updateAutoBackupAlarms(Context context) {
         if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false) &&
             MyApplication.PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
-            scheduleAutoBackup(context);
+            if (ContribFeature.AUTO_BACKUP.hasAccess() || ContribFeature.AUTO_BACKUP.usagesLeft()>0) {
+                scheduleAutoBackup(context);
+            }
         } else {
             cancelAutoBackup(context);
         }
-    }
-    
-    public DailyAutoBackupScheduler(int hh, int mm) {
-        this.hh = hh;
-        this.mm = mm;
     }
 
     public static void scheduleAutoBackup(Context context) {

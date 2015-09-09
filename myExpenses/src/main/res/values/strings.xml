@@ -57,9 +57,12 @@
     <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Split transaction</string>
     <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Template widget</string>
     <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
+    <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-Backup</string>
+
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>
-    <string name="contrib_key_requires">Requires My Expenses Contrib Key.</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Requires %1$s.</string>
     <string name="currency">Currency</string>
     <string name="current_balance">Current balance</string>
     <string name="date">Date</string>
@@ -578,8 +581,9 @@
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
     <string name="pref_auto_backup_title">Enable auto-backup</string>
-    <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed)</string>
+    <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="pref_auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
+    <string name="warning_auto_backup_limited_trial">After %d successful backups, auto-backup will be deactivated.</string>
 </resources>
 

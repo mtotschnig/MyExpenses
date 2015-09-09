@@ -26,6 +26,7 @@ import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.Result;
@@ -56,6 +57,8 @@ public class AutoBackupService extends WakefulIntentService {
             //TODO report on error
             Result result = GenericTask.doBackup();
             if (result.success) {
+                ContribFeature.AUTO_BACKUP.recordUsage();
+                //TODO if usage limit is exceeded inform user
             }
         }  else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
             DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
