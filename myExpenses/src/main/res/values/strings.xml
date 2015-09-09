@@ -584,6 +584,7 @@
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="pref_auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
-    <string name="warning_auto_backup_limited_trial">After %d successful backups, auto-backup will be deactivated.</string>
+    <string name="warning_auto_backup_limited_trial">After %d successful automatic backups, auto-backup will be deactivated.</string>
+    <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
 </resources>
 

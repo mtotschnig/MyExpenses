@@ -67,10 +67,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
     CharSequence
         linefeed = Html.fromHtml("<br><br>"),
-        removePhrase = Html.fromHtml(
-            getString(
-                R.string.dialog_contrib_reminder_remove_limitation,
-                "<i>" +  ContribFeature.buildKeyFullName(getActivity(), feature.isExtended) + "</i>")),
+        removePhrase = feature.buildRemoveLimitation(getActivity(),true),
         message = TextUtils.concat(
             featureDescription, " ",
             removePhrase);

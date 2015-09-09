@@ -21,15 +21,20 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Date;
 
@@ -54,11 +59,37 @@ public class AutoBackupService extends WakefulIntentService {
         String action = intent.getAction();
         if (ACTION_AUTO_BACKUP.equals(action)) {
             Log.i("DEBUG","now doing backup");
-            //TODO report on error
             Result result = GenericTask.doBackup();
+            String notifTitle = Utils.concatResStrings(this, R.string.app_name, R.string.contrib_feature_auto_backup_label);
             if (result.success) {
-                ContribFeature.AUTO_BACKUP.recordUsage();
-                //TODO if usage limit is exceeded inform user
+                int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
+                if (remaining < 1) {
+                    CharSequence content = TextUtils.concat(
+                        getText(R.string.warning_auto_backup_limit_reached), " ",
+                        ContribFeature.AUTO_BACKUP.buildRemoveLimitation(this,true));
+                    Intent contribIntent = new Intent(this, ContribInfoDialogActivity.class);
+                    NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.ic_home_dark)
+                            .setContentTitle(notifTitle)
+                            .setContentText(content)
+                            .setContentIntent(PendingIntent.getActivity(this, 0, contribIntent, 0))
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+                    Notification notification = builder.build();
+                    notification.flags = Notification.FLAG_AUTO_CANCEL;
+                    ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
+                }
+            } else {
+                String content = result.print(this);
+                NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_home_dark)
+                        .setContentTitle(notifTitle)
+                        .setContentText(content)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+                Notification notification = builder.build();
+                notification.flags = Notification.FLAG_AUTO_CANCEL;
+                ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
             }
         }  else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
             DailyAutoBackupScheduler.updateAutoBackupAlarms(this);

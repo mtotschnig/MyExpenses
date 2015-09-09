@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.model;
 
 import android.content.Context;
+import android.text.Html;
 
 import java.util.Locale;
 
@@ -38,7 +39,8 @@ public enum ContribFeature {
   AUTO_BACKUP(true, true) {
     @Override
     public String buildUsagesString(Context ctx, int usagesLeft) {
-      return ctx.getString(R.string.warning_auto_backup_limited_trial,usagesLeft);
+      return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial,usagesLeft) :
+          ctx.getString(R.string.warning_auto_backup_limit_reached);
     }
   };
 
@@ -60,7 +62,7 @@ public enum ContribFeature {
   /**
    * how many times contrib features can be used for free
    */
-  public static int USAGES_LIMIT = 5;
+  public static int USAGES_LIMIT = 2;
 
   public String toString() {
     return name().toLowerCase(Locale.US);
@@ -116,5 +118,14 @@ public enum ContribFeature {
     return usagesLeft > 0 ?
         ctx.getResources().getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
         ctx.getString(R.string.dialog_contrib_no_usages_left);
+  }
+
+  public CharSequence buildRemoveLimitation(Context ctx,boolean asHTML) {
+    String keyName = buildKeyFullName(ctx,isExtended);
+    if (asHTML) {
+      keyName = "<i>" +  keyName + "</i>";
+    }
+    String result = ctx.getString(R.string.dialog_contrib_reminder_remove_limitation, keyName);
+    return asHTML ? Html.fromHtml(result) : result;
   }
 }
