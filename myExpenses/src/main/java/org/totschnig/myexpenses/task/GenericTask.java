@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -455,8 +456,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
       return new Result(false,R.string.io_error_cachedir_null);
     }
-    cacheEventData();
-    if (MyApplication.getInstance().backup(cacheDir)) {
+    if (DbUtils.backup(cacheDir)) {
       try {
         ZipUtils.zipBackup(
                 cacheDir,
@@ -494,43 +494,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       c.close();
     }
     return result;
-  }
-
-  private static void cacheEventData() {
-    String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
-    if (plannerCalendarId.equals("-1")) {
-      return;
-    }
-    ContentValues eventValues = new ContentValues();
-    ContentResolver cr = MyApplication.getInstance().getContentResolver();
-    //remove old cache
-    cr.delete(
-        TransactionProvider.EVENT_CACHE_URI, null, null);
-
-    Cursor planCursor = cr.query(Template.CONTENT_URI, new String[]{
-            DatabaseConstants.KEY_PLANID},
-        DatabaseConstants.KEY_PLANID + " IS NOT null", null, null);
-    if (planCursor != null) {
-      if (planCursor.moveToFirst()) {
-        String[] projection = MyApplication.buildEventProjection();
-        do {
-          long planId = planCursor.getLong(0);
-          Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI,
-              planId);
-
-          Cursor eventCursor = cr.query(eventUri, projection,
-              Events.CALENDAR_ID + " = ?", new String[]{plannerCalendarId}, null);
-          if (eventCursor != null) {
-            if (eventCursor.moveToFirst()) {
-              MyApplication.copyEventData(eventCursor, eventValues);
-              cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues);
-            }
-            eventCursor.close();
-          }
-        } while (planCursor.moveToNext());
-      }
-      planCursor.close();
-    }
   }
 
   @Override

@@ -56,12 +56,6 @@ public class AutoBackupService extends WakefulIntentService {
             //TODO report on error
             Result result = GenericTask.doBackup();
             if (result.success) {
-                MyApplication.PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
-                ContentResolver resolver = getContentResolver();
-                ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
-                TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
-                provider.clearDirty();
-                client.release();
             }
         }  else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
             DailyAutoBackupScheduler.updateAutoBackupAlarms(this);

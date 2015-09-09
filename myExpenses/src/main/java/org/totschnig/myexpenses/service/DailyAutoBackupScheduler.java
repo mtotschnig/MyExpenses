@@ -52,7 +52,7 @@ public class DailyAutoBackupScheduler {
     }
 
     public static void cancelAutoBackup(Context context) {
-        AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         service.cancel(pendingIntent);
         Log.i("DEBUG", "auto-backup canceled ");

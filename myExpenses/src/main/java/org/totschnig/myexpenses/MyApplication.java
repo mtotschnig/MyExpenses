@@ -280,27 +280,6 @@ public class MyApplication extends Application implements
     mSettings = s;
   }
 
-  public boolean backup(File backupDir) {
-    File backupPrefFile, sharedPrefFile;
-    if (DbUtils.backup(backupDir)) {
-      backupPrefFile = new File(backupDir, BACKUP_PREF_FILE_NAME);
-      // Samsung has special path on some devices
-      // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
-      String sharedPrefFileCommon = getPackageName() + "/shared_prefs/"
-          + getPackageName() + "_preferences.xml";
-      sharedPrefFile = new File("/dbdata/databases/" + sharedPrefFileCommon);
-      if (!sharedPrefFile.exists()) {
-        sharedPrefFile = new File("/data/data/" + sharedPrefFileCommon);
-        if (!sharedPrefFile.exists()) {
-          Log.e(TAG, "Unable to determine path to shared preference file");
-          return false;
-        }
-      }
-      return Utils.copy(sharedPrefFile, backupPrefFile);
-    }
-    return false;
-  }
-
   public static int getThemeId() {
     return getThemeId(false);
   }
