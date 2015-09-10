@@ -50,6 +50,7 @@
   <string name="date">Tarih</string>
   <string name="date_format">Tarih biçimi</string>
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
+  <string name="number_format_illegal">İllegal sayı biçimi</string>
   <string name="decimal_separator">Ondalık ayırıcı</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="default_account_name">Bütçe defteri</string>
@@ -559,4 +560,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="csv_import_delimiter_tab">Sekme</string>
   <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
   <string name="menu_show_transactions">Muameleleri göster</string>
+  <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
+  <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
 </resources>
