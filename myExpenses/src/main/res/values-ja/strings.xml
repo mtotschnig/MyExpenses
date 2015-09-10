@@ -49,6 +49,7 @@
   <string name="date">日付</string>
   <string name="date_format">日付書式</string>
   <string name="date_format_illegal">日付の書式が正しくありません</string>
+  <string name="number_format_illegal">数値の書式が正しくありません</string>
   <string name="decimal_separator">小数点の記号</string>
   <string name="default_account_description">この勘定は、インストール時に自動的にセットアップされました</string>
   <string name="default_account_name">予算簿</string>
@@ -549,4 +550,6 @@
   <string name="csv_import_delimiter_tab">タブ</string>
   <string name="csv_import_no_mapping_found_for_amount">金額を収入または支出のいずれかの列にマッピングしてください。</string>
   <string name="menu_show_transactions">取引を表示</string>
+  <string name="pref_custom_decimal_format_title">数値書式</string>
+  <string name="pref_custom_decimal_format_summary">ロケールのデフォルト形式で充足しない場合、ニーズに適合します。デフォルト形式を復元する場合は、空白のままにします。</string>
 </resources>
