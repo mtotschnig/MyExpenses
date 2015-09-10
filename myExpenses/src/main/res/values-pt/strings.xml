@@ -562,7 +562,7 @@
   <string name="pref_custom_decimal_format_summary">Se você não estiver satisfeito com o formato padrão para sua localidade, adaptá-lo às suas necessidades. Deixe em branco para restaurar o formato padrão.</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Backup automático</string>
   <string name="pref_auto_backup_title">Habilitar backup automático</string>
-  <string name="pref_auto_backup_summary">Backup do banco de dados diariamente no horário especificado</string>
+  <string name="pref_auto_backup_summary">Backup do banco de dados diariamente no horário especificado (somente se os dados foram alterados)</string>
   <string name="pref_auto_backup_time_title">Horário de backup automático</string>
   <string name="pref_auto_backup_time_summary" formatted="false">Fazer backup diário às %02d:%02d</string>
 </resources>
