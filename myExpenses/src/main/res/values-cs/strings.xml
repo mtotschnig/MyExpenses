@@ -350,4 +350,9 @@
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
   <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatická záloha</string>
+  <string name="pref_auto_backup_title">Povolit automatickou zálohu</string>
+  <string name="pref_auto_backup_summary">Zálohovat databázi denně v určený čas (pouze tehdy, pokud data byla změněna)</string>
+  <string name="pref_auto_backup_time_title">Čas automatické zálohy</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">Provést denní zálohu v %02d:%02d</string>
 </resources>

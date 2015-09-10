@@ -560,4 +560,9 @@
   <string name="menu_show_transactions">Voir les opérations</string>
   <string name="pref_custom_decimal_format_title">Format de nombre</string>
   <string name="pref_custom_decimal_format_summary">Si vous n\'êtes pas satisfait du format par défaut de votre langue, vous pouvez l\'adapter selon vos besoins. Laissez vide pour rétablir le format par défaut.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-backup</string>
+  <string name="pref_auto_backup_title">Activer auto-backup</string>
+  <string name="pref_auto_backup_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée (seulement si les données ont changé)</string>
+  <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">Faire un backup quotidien à %02d:%02d</string>
 </resources>

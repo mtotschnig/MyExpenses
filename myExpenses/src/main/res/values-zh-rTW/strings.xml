@@ -332,4 +332,9 @@
   <string name="import_categories_success">%1$s 類別  被匯入成功</string>
   <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
   <string name="create_new_folder_fail">目錄建立失敗</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">自動備份</string>
+  <string name="pref_auto_backup_title">啟用自動備份</string>
+  <string name="pref_auto_backup_summary">每日在指定時間備份資料庫</string>
+  <string name="pref_auto_backup_time_title">自動備份時間</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">每日在 %02d:%02d 備份資料庫</string>
 </resources>
