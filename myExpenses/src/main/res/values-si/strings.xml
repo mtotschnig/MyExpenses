@@ -29,7 +29,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">විභේදනය වූ ගනුදෙනු</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">විජට් අච්චුව </string>
   <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
-  <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් කොන්ට්‍රිබ් යතුර අවශ්‍ය වේ </string>
+  <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %s අවශ්‍ය වේ </string>
   <string name="currency">මුදල් </string>
   <string name="current_balance">දැනට පවතින ශේෂය </string>
   <string name="date">දිනය </string>

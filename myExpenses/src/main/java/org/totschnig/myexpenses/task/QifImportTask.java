@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.export.qif.QifAccount;
 import org.totschnig.myexpenses.export.qif.QifBufferedReader;
 import org.totschnig.myexpenses.export.qif.QifCategory;
@@ -44,6 +45,7 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.net.Uri;
@@ -257,14 +259,11 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           && nrOfAccounts + importCount > 5) {
         publishProgress(
             MyApplication.getInstance()
-                .getString(R.string.qif_parse_failure_found_multiple_accounts)
-                + " "
-                + MyApplication.getInstance()
-                .getText(R.string.contrib_feature_accounts_unlimited_description)
-                + " "
-                + Html.fromHtml(MyApplication.getInstance()
-                    .getString(R.string.dialog_contrib_reminder_remove_limitation,
-                        Utils.concatResStrings(MyApplication.getInstance(), R.string.app_name, R.string.contrib_key))));
+                .getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
+                MyApplication.getInstance()
+                .getText(R.string.contrib_feature_accounts_unlimited_description) + " " +
+                ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(
+                    MyApplication.getInstance(), false));
         break;
       }
       long dbAccountId = Account.findAny(account.memo);
@@ -277,6 +276,14 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         }
       } else {
         Account a = account.toAccount(mCurrency);
+        if (TextUtils.isEmpty(a.label)) {
+          String displayName = DialogUtils.getDisplayName(fileUri);
+          if (FileUtils.getExtension(displayName).equalsIgnoreCase(".qif")) {
+            displayName = displayName.substring(0,displayName.lastIndexOf('.'));
+          }
+          displayName = displayName.replace('-',' ').replace('_',' ');
+          a.label = displayName;
+        }
         if (a.save() != null)
           importCount++;
         account.dbAccount = a;

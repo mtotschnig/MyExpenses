@@ -15,14 +15,19 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.Context;
+import android.text.Html;
+
 import java.util.Locale;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.Distrib;
+import org.totschnig.myexpenses.util.Utils;
 
-public enum ContribFeature  {
+public enum ContribFeature {
   ACCOUNTS_UNLIMITED(false),
   PLANS_UNLIMITED(false),
   SECURITY_QUESTION,
@@ -32,15 +37,24 @@ public enum ContribFeature  {
   PRINT,
   ATTACH_PICTURE,
   AD_FREE(false),
-  CSV_IMPORT(true,true);
+  CSV_IMPORT(true, true),
+  AUTO_BACKUP(true, true) {
+    @Override
+    public String buildUsagesString(Context ctx, int usagesLeft) {
+      return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial,usagesLeft) :
+          ctx.getString(R.string.warning_auto_backup_limit_reached);
+    }
+  };
 
   private ContribFeature() {
     this(true);
   }
+
   private ContribFeature(boolean hasTrial) {
-    this(hasTrial,false);
+    this(hasTrial, false);
   }
-  private ContribFeature(boolean hasTrial,boolean isExtended) {
+
+  private ContribFeature(boolean hasTrial, boolean isExtended) {
     this.hasTrial = hasTrial;
     //on Blackberry there is only one key
     this.isExtended = Distrib.HAS_EXTENDED ? isExtended : false;
@@ -51,32 +65,70 @@ public enum ContribFeature  {
   /**
    * how many times contrib features can be used for free
    */
-  public static int USAGES_LIMIT = 5;
+  public static int USAGES_LIMIT = 2;
+
   public String toString() {
     return name().toLowerCase(Locale.US);
   }
+
   public int getUsages() {
     return MyApplication.getInstance().getSettings()
-      .getInt(getPrefKey(), 0);
+        .getInt(getPrefKey(), 0);
   }
+
   public int recordUsage() {
     if (!hasAccess()) {
-      int usages = getUsages()+1;
+      int usages = getUsages() + 1;
       SharedPreferencesCompat.apply(
           MyApplication.getInstance().getSettings()
-            .edit().putInt(getPrefKey(), usages));
+              .edit().putInt(getPrefKey(), usages));
       return USAGES_LIMIT - usages;
     }
     return USAGES_LIMIT;
   }
+
   private String getPrefKey() {
-    return "FEATURE_USAGES_"+name();
+    return "FEATURE_USAGES_" + name();
   }
+
   public int usagesLeft() {
     return hasTrial ? USAGES_LIMIT - getUsages() : 0;
   }
+
   public boolean hasAccess() {
     return isExtended ? MyApplication.getInstance().isExtendedEnabled() :
         MyApplication.getInstance().isContribEnabled();
+  }
+
+  public String buildRequiresString(Context ctx) {
+    return ctx.getString(R.string.contrib_key_requires, buildKeyFullName(ctx, isExtended));
+  }
+
+  public String buildFullInfoString(Context ctx,int usagesLeft) {
+    return ctx.getString(
+        isExtended ? R.string.dialog_contrib_extended_feature : R.string.dialog_contrib_premium_feature,
+        "<i>" + ctx.getString(ctx.getResources().getIdentifier(
+            "contrib_feature_" + toString() + "_label", "string", ctx.getPackageName())) + "</i>") + " " +
+        buildUsagesString(ctx,usagesLeft);
+  }
+
+  public static String buildKeyFullName(Context ctx, boolean extended) {
+    return Utils.concatResStrings(ctx, R.string.app_name,
+        extended ? R.string.extended_key : R.string.contrib_key);
+  }
+
+  public String buildUsagesString(Context ctx, int usagesLeft) {
+    return usagesLeft > 0 ?
+        ctx.getResources().getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
+        ctx.getString(R.string.dialog_contrib_no_usages_left);
+  }
+
+  public CharSequence buildRemoveLimitation(Context ctx,boolean asHTML) {
+    String keyName = buildKeyFullName(ctx,isExtended);
+    if (asHTML) {
+      keyName = "<i>" +  keyName + "</i>";
+    }
+    String result = ctx.getString(R.string.dialog_contrib_reminder_remove_limitation, keyName);
+    return asHTML ? Html.fromHtml(result) : result;
   }
 }

@@ -35,7 +35,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Operació repartida</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de plantilla</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
-  <string name="contrib_key_requires">Requereix Les meves despeses Contrib</string>
+  <string name="contrib_key_requires">Requereix %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
@@ -376,4 +376,9 @@
   <string name="import_accounts_none">No s\'ha importat cap compte!</string>
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
   <string name="learn_more">Més informació</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Còpia de seguretat automàtica</string>
+  <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
+  <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat)</string>
+  <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">Fer còpia de seguretat diària a %02d:%02d</string>
 </resources>

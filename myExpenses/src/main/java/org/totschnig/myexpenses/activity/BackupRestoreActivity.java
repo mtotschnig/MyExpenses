@@ -52,6 +52,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
+    if (savedInstanceState!=null) {
+      return;
+    }
     String action = getIntent().getAction();
     if (action != null && action.equals("myexpenses.intent.backup")) {
       Result appDirStatus = Utils.checkAppDir();
@@ -148,7 +151,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   }
 
   protected void doBackup() {
-    Result appDirStatus = Utils.checkAppDir();
+    Result appDirStatus = Utils.checkAppDir();//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.success) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
           R.string.menu_backup);

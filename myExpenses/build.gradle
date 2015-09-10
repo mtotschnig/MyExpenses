@@ -2,25 +2,6 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 apply plugin: 'com.android.application'
 
-ext {
- versionNumber1 = 2
- versionNumber2 = 5
- versionNumber3 = 1
- versionNumber4 = 0
-}
-
-def buildVersionNumber() {
-  def result = versionNumber1 + "." + versionNumber2 + "." + versionNumber3
-  if (versionNumber4 != 0) {
-   result += "." + versionNumber4 
-  }
-  return result
-}
-
-def buildVersionNumberBlackBerry() {
-  def result = versionNumber1 + "." + versionNumber2 + "." + versionNumber3 + "." + versionNumber4 
-  return result
-}
 android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
@@ -33,8 +14,8 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 218
-        versionName buildVersionNumber()
+        versionCode 219
+        versionName '2.5.2'
 
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -122,6 +103,7 @@ dependencies {
     compile files('libs/fortumo-in-app-9.1.2.jar')
     amaCompile files('libs/amazon-ads-5.5.149.jar')
     compile 'org.apache.commons:commons-csv:1.1'
+    compile 'com.commonsware.cwac:wakeful:1.0.+'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }

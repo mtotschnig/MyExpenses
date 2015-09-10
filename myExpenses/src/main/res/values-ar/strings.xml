@@ -32,7 +32,6 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">السؤال السري</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
-  <string name="contrib_key_requires">يتطلب مصروفاتي مفتاح المساهمة.</string>
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
   <string name="date">التاريخ</string>

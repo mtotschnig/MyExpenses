@@ -62,25 +62,14 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     CharSequence featureDescription;
     if (feature.hasTrial) {
-      featureDescription = Html.fromHtml(
-          getString(
-              feature.isExtended ? R.string.dialog_contrib_extended_feature : R.string.dialog_contrib_premium_feature,
-              "<i>" + getString(res.getIdentifier(
-                  "contrib_feature_" + feature + "_label", "string", ctx.getPackageName())) + "</i>") +
-              (usagesLeft > 0 ?
-                  res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
-                  getString(R.string.dialog_contrib_no_usages_left)));
+      featureDescription = Html.fromHtml(feature.buildFullInfoString(ctx,usagesLeft));
     } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     }
     AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
     CharSequence
         linefeed = Html.fromHtml("<br><br>"),
-        removePhrase = Html.fromHtml(
-            getString(
-                R.string.dialog_contrib_reminder_remove_limitation,
-                "<i>" +  Utils.concatResStrings(getActivity(), R.string.app_name,
-                    feature.isExtended ? R.string.extended_key : R.string.contrib_key) + "</i>")),
+        removePhrase = feature.buildRemoveLimitation(getActivity(),true),
         message = TextUtils.concat(
             featureDescription, " ",
             removePhrase);

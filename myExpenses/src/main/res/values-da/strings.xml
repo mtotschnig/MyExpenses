@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
   <string name="contrib_key">Contrib Nøgle</string>
   <string name="extended_key">Nøgle til udvidet version</string>
-  <string name="contrib_key_requires">Kræver Mine udgifter Contrib nøgle.</string>
+  <string name="contrib_key_requires">Kræver %s.</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Aktuel saldo</string>
   <string name="date">Dato</string>

@@ -25,6 +25,8 @@
   <string name="pref_ui_theme_key">pref_ui_theme</string>
   <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
   <string name="pref_backup_key">backup</string>
+  <string name="pref_auto_backup_key">auto_backup</string>
+  <string name="pref_auto_backup_time_key">auto_backup_time</string>
   <string name="pref_restore_key">restore</string>
   <string name="pref_restore_legacy_key">restore_legacy</string>
   <string name="pref_contrib_purchase_key">contrib_purchase</string>
@@ -102,5 +104,8 @@
 
     <string name="io_error_appdir_null">No folder for storing backup found</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
-  
+
+  <string-array name="whats_new_252">
+    <item>@string/contrib_feature_auto_backup_label</item>
+  </string-array>
 </resources>

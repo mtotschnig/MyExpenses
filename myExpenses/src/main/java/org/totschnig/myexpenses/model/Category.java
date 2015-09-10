@@ -15,7 +15,9 @@
 
 package org.totschnig.myexpenses.model;
 
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -99,11 +101,16 @@ public class Category extends Model {
     initialValues.put(KEY_LABEL, label);
     Uri uri;
     if (getId() == 0) {
-      initialValues.put(KEY_PARENTID, parentId);
-      try {
-        uri = cr().insert(CONTENT_URI, initialValues);
-      } catch (SQLiteConstraintException e) {
+      if (!isMain(parentId)) {
         uri = null;
+        Utils.reportToAcra(new Exception("Attempt to store deep category hierarchy detected"));
+      } else {
+        initialValues.put(KEY_PARENTID, parentId);
+        try {
+          uri = cr().insert(CONTENT_URI, initialValues);
+        } catch (SQLiteConstraintException e) {
+          uri = null;
+        }
       }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
@@ -111,12 +118,29 @@ public class Category extends Model {
         cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
             initialValues, null, null);
       } catch (SQLiteConstraintException e) {
-        // TODO Auto-generated catch block
         uri = null;
       }
     }
     return uri;
   }
+
+  private static boolean isMain(Long parentId) {
+    if (parentId==null) {
+      return true;
+    }
+    Cursor mCursor = cr().query(CONTENT_URI,
+            new String[] {KEY_PARENTID}, KEY_ROWID + " = ?", new String[] {String.valueOf(parentId)}, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return false;
+    } else {
+      mCursor.moveToFirst();
+      long result = DbUtils.getLongOr0L(mCursor,0);
+      mCursor.close();
+      return result == 0L;
+    }
+  }
+
   /**
    * How many subcategories under a given parent?
    * @param parentId

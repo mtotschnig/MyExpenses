@@ -153,7 +153,7 @@ public class Transaction extends Model {
         return UNRECONCILED;
       if (qifName.equals("*")) {
         return CLEARED;
-      } else if (qifName.equals("X")) {
+      } else if (qifName.equalsIgnoreCase("X")) {
         return RECONCILED;
       } else {
         return UNRECONCILED;

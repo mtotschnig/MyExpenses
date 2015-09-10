@@ -42,7 +42,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">템플릿 위젯</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV 가져오기</string>
   <string name="contrib_key">기부 확인 키</string>
-  <string name="contrib_key_requires">My Expenses 기부 확인 키가 필요합니다.</string>
+  <string name="contrib_key_requires">%s 가 필요합니다.</string>
   <string name="currency">화폐 단위</string>
   <string name="current_balance">현재 잔고</string>
   <string name="date">날짜</string>

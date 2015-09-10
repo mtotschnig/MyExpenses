@@ -34,6 +34,7 @@ import android.content.pm.PackageInfo;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -136,7 +137,11 @@ public class CommonCommands {
     } catch (IOException e) {
       Log.w(MyApplication.TAG,"Failed to open property file");
     }
-    return versionname + version  + buildDate + "-"+ BuildConfig.FLAVOR_distribution;
+    final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
+        "" : " " + BuildConfig.FLAVOR;
+    final String installer = " " + ctx.getPackageManager()
+        .getInstallerPackageName(ctx.getPackageName());
+    return versionname + version  + buildDate + flavor + installer;
   }
   /**
    * @return version name

@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV inportazioa</string>
   <string name="contrib_key">Kontribuzio Gakoa</string>
   <string name="extended_key">Gako hedatua</string>
-  <string name="contrib_key_requires">Nire Gastuak Kontribuzio Gakoa behar du.</string>
+  <string name="contrib_key_requires">%s behar du.</string>
   <string name="currency">Moneta</string>
   <string name="current_balance">Uneko saldoa</string>
   <string name="date">Data</string>

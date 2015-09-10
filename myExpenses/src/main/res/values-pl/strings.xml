@@ -39,7 +39,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Szablon widget</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
   <string name="contrib_key">Klucz Contrib</string>
-  <string name="contrib_key_requires">Wymaga Moje Wydatki Klucz Contrib.</string>
+  <string name="contrib_key_requires">Wymaga %s.</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
   <string name="date">Data</string>
@@ -504,4 +504,9 @@
   <string name="menu_undelete_transaction">Cofnij usunięcie</string>
   <string name="slash_forbidden_in_filename">Znak / nie jest dozwolony w nazwach plików</string>
   <string name="menu_categories_export">Eksport do QIF</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatyczna kopia zapasowa</string>
+  <string name="pref_auto_backup_title">Włącz automatyczną kopię zapasową</string>
+  <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
+  <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">Wykonaj codzienną kopię zapasową o: %02d:%02d</string>
 </resources>

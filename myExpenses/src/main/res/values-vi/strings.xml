@@ -25,7 +25,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Phân tách giao dịch</string>
-  <string name="contrib_key_requires">Yêu cầu sử dụng Chi Tiêu Của Tôi bản Cống Hiến.</string>
+  <string name="contrib_key_requires">Yêu cầu sử dụng %s.</string>
   <string name="currency">Tiền tệ</string>
   <string name="current_balance">Trạng thái cân bằng hiện tại</string>
   <string name="date">Ngày tháng</string>
