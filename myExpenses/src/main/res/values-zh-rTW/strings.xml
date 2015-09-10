@@ -258,8 +258,6 @@
   <string name="pref_protection_delay_seconds_summary">閒置秒數將被密碼鎖定。</string>
   <string name="pref_protection_delay_seconds_title">剩時保護</string>
   <string name="pref_qif_export_file_encoding_title">字符編碼</string>
-  <string name="pref_request_licence_summary">如果你已經通過其他方式作出貢獻，發送一封電郵來獲得貢獻密鑰。</string>
-  <string name="pref_request_licence_title">要求得到貢獻密鑰</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">恢復</string>
   <string name="pref_security_question_summary">如果你忘記了你的密碼，貢獻 開支助手 可助你解鎖你的應用程式。</string>
