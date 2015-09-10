@@ -14,27 +14,27 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 218
-        versionName '2.5.1'
+        versionCode 219
+        versionName '2.5.2'
 
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
     }
-    signingConfigs {
+    /*signingConfigs {
         release {
             storeFile file(RELEASE_STORE_FILE)
             storePassword RELEASE_STORE_PASSWORD
             keyAlias RELEASE_KEY_ALIAS
             keyPassword RELEASE_KEY_PASSWORD
         }
-    }
+    }*/
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
 
         }
     }
@@ -66,6 +66,7 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.commons:commons-csv:1.1'
+    compile 'com.commonsware.cwac:wakeful:1.0.+'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }

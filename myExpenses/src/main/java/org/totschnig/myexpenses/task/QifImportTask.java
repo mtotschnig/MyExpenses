@@ -259,14 +259,11 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           && nrOfAccounts + importCount > 5) {
         publishProgress(
             MyApplication.getInstance()
-                .getString(R.string.qif_parse_failure_found_multiple_accounts)
-                + " "
-                + MyApplication.getInstance()
-                .getText(R.string.contrib_feature_accounts_unlimited_description)
-                + " "
-                + Html.fromHtml(MyApplication.getInstance()
-                    .getString(R.string.dialog_contrib_reminder_remove_limitation,
-                        Utils.concatResStrings(MyApplication.getInstance(), R.string.app_name, R.string.contrib_key))));
+                .getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
+                MyApplication.getInstance()
+                .getText(R.string.contrib_feature_accounts_unlimited_description) + " " +
+                ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(
+                    MyApplication.getInstance(), false));
         break;
       }
       long dbAccountId = Account.findAny(account.memo);

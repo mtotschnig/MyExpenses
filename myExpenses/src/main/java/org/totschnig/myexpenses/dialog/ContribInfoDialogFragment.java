@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
@@ -58,8 +59,7 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
           Html.fromHtml(
               getString(
                   R.string.dialog_contrib_text_2,
-                  "<i>" +  Utils.concatResStrings(getActivity(), R.string.app_name,
-                      isContrib ? R.string.extended_key : R.string.contrib_key) + "</i>")),
+                  "<i>" + ContribFeature.buildKeyFullName(getActivity(),isContrib) + "</i>")),
           getString(R.string.dialog_contrib_reminder_gain_access),
           linefeed,
           Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null,

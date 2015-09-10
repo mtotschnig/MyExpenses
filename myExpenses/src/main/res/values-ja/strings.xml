@@ -43,7 +43,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV インポート</string>
   <string name="contrib_key">貢献キー</string>
   <string name="extended_key">拡張キー</string>
-  <string name="contrib_key_requires">マイ エクスペンス 貢献キーが必要です。</string>
+  <string name="contrib_key_requires">%s が必要です。</string>
   <string name="currency">通貨</string>
   <string name="current_balance">現在の残高</string>
   <string name="date">日付</string>

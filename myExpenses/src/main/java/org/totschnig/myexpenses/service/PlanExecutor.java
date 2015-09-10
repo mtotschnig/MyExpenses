@@ -182,12 +182,22 @@ public class PlanExecutor extends IntentService {
       }
     }
     MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(now);
-    setAlarm(this,now+INTERVAL);
+    setAlarm(this, now + INTERVAL);
   }
   public static void setAlarm(Context ctx, long when) {
-    PendingIntent pendingIntent = PendingIntent.getService(ctx, 0, new Intent(ctx, PlanExecutor.class), 0);
+    PendingIntent pendingIntent = getPendingIntent(ctx);
     AlarmManager manager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
     manager.set(AlarmManager.RTC, when,
         pendingIntent);
+  }
+
+  private static PendingIntent getPendingIntent(Context ctx) {
+    return PendingIntent.getService(ctx, 0, new Intent(ctx, PlanExecutor.class), 0);
+  }
+
+  public static void cancelPlans(Context ctx) {
+    PendingIntent pendingIntent = getPendingIntent(ctx);
+    AlarmManager manager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
+    manager.cancel(pendingIntent);
   }
 }

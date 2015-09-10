@@ -152,10 +152,20 @@ public class TransactionProvider extends ContentProvider {
   private static final int STALE_IMAGES_ID = 37;
   private static final int TRANSACTION_UNDELETE = 38;
   
+
+  protected static boolean mDirty = false;
+
   @Override
   public boolean onCreate() {
     mOpenHelper = new TransactionDatabase(getContext());
     return true;
+  }
+
+  private void setDirty() {
+    if (!mDirty) {
+      mDirty = true;
+      MyApplication.markDataDirty();
+    }
   }
 
   @Override
@@ -613,6 +623,7 @@ public class TransactionProvider extends ContentProvider {
   }
   @Override
   public Uri insert(Uri uri, ContentValues values) {
+    setDirty();
     log(values.toString());
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id = 0;
@@ -696,6 +707,7 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public int delete(Uri uri, String where, String[] whereArgs) {
+    setDirty();
     log("Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
@@ -843,6 +855,7 @@ public class TransactionProvider extends ContentProvider {
   @Override
   public int update(Uri uri, ContentValues values, String where,
       String[] whereArgs) {
+    setDirty();
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
     int count;

@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget</string>
   <string name="contrib_key">Cheie Contrib</string>
   <string name="extended_key">Cheie Extinse</string>
-  <string name="contrib_key_requires">Necesită Cheia Contrib  Cheltuielile Mele.</string>
+  <string name="contrib_key_requires">Necesită %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Sold curent</string>
   <string name="date">Data</string>
@@ -524,4 +524,9 @@ Tradus de DD</string>
   <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
   <string name="file_name">Nume fişier</string>
   <string name="folder_name">Numele folder</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-backup</string>
+  <string name="pref_auto_backup_title">Activează auto-backup</string>
+  <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
+  <string name="pref_auto_backup_time_title">Timp auto-backup</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">Execută backup zilnic la %02d:%02d</string>
 </resources>

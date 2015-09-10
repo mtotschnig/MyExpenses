@@ -130,6 +130,14 @@
         android:summary="@string/pref_backup_summary">
         <intent android:action="myexpenses.intent.backup"/>
     </Preference>
+      <CheckBoxPreference android:key="@string/pref_auto_backup_key"
+          android:title="@string/pref_auto_backup_title"
+          android:summary="@string/pref_auto_backup_summary" />
+      <org.totschnig.myexpenses.preference.TimePreference
+          android:key="@string/pref_auto_backup_time_key"
+          android:title="@string/pref_auto_backup_time_title"
+          android:summary="@string/pref_auto_backup_time_summary"
+          android:dependency="@string/pref_auto_backup_key"/>
     <Preference android:key="@string/pref_restore_key"
         android:summary="@string/pref_restore_summary">
         <intent android:action="myexpenses.intent.restore"/>

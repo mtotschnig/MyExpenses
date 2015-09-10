@@ -44,7 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Importación CSV</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="extended_key">Clave Extendida</string>
-  <string name="contrib_key_requires">Mis gastos requiere Clave Contrib.</string>
+  <string name="contrib_key_requires">Mis gastos requiere %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Fecha</string>
@@ -561,4 +561,9 @@
   <string name="menu_show_transactions">Ver operaciones</string>
   <string name="pref_custom_decimal_format_title">Formato de número</string>
   <string name="pref_custom_decimal_format_summary">Si no estás satisfecho con el formato predeterminado para su idioma, adaptarlo a sus necesidades. Deje en blanco para restaurar el formato predeterminado.</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Backup automática</string>
+  <string name="pref_auto_backup_title">Permitir backup automática</string>
+  <string name="pref_auto_backup_summary">Backup de base de datos diaria a la hora especificada (sólo si los datos han cambiado)</string>
+  <string name="pref_auto_backup_time_title">Hora de backup automática</string>
+  <string name="pref_auto_backup_time_summary" formatted="false">Hacer backup diaria en %02d:%02d</string>
 </resources>

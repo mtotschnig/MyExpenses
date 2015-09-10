@@ -151,7 +151,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
   }
 
   protected void doBackup() {
-    Result appDirStatus = Utils.checkAppDir();
+    Result appDirStatus = Utils.checkAppDir();//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.success) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
           R.string.menu_backup);

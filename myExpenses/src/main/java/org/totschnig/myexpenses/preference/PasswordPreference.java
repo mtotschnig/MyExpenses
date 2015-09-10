@@ -39,7 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class PasswordPreference extends DialogPreference implements TextWatcher, OnCheckedChangeListener {
-  
+
   private boolean boolProtectOrig, boolProtect, changePW = false;
   private String strPass1;
   private String strPass2;
@@ -48,12 +48,12 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
   private CheckBox protect, change;
   private TextView error;
   private LinearLayout main, edit;
-  
+
   public PasswordPreference(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
     setDialogLayoutResource(R.layout.password_dialog);
     }
-     
+
     public PasswordPreference(Context context, AttributeSet attrs) {
     super(context, attrs);
     setDialogLayoutResource(R.layout.password_dialog);
@@ -81,10 +81,8 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       error        = (TextView) view.findViewById(R.id.passwordNoMatch);
       String warning = ContribFeature.SECURITY_QUESTION.hasAccess() ?
           getContext().getString(R.string.warning_password_contrib) :
-          Utils.concatResStrings(
-              getContext(),
-              R.string.warning_password_no_contrib,
-              R.string.contrib_key_requires);
+          (getContext().getString(R.string.warning_password_no_contrib) + " " +
+          ContribFeature.SECURITY_QUESTION.buildRequiresString(getContext()));
       ((TextView) view.findViewById(R.id.password_warning)).setText(warning);
       main = (LinearLayout) view.findViewById(R.id.layoutMain);
       edit = (LinearLayout) view.findViewById(R.id.layoutPasswordEdit);

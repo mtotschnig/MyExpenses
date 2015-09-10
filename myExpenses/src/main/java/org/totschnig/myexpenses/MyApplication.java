@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -111,7 +112,10 @@ public class MyApplication extends Application implements
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
     MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
     CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),
-    CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key);
+    CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key),
+    AUTO_BACKUP(R.string.pref_auto_backup_key),
+    AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
+    AUTO_BACKUP_DIRTY("auto_backup_dirty");
 
     private int resId = 0;
     private String key = null;
@@ -274,27 +278,6 @@ public class MyApplication extends Application implements
 
   public void setSettings(SharedPreferences s) {
     mSettings = s;
-  }
-
-  public boolean backup(File backupDir) {
-    File backupPrefFile, sharedPrefFile;
-    if (DbUtils.backup(backupDir)) {
-      backupPrefFile = new File(backupDir, BACKUP_PREF_FILE_NAME);
-      // Samsung has special path on some devices
-      // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
-      String sharedPrefFileCommon = getPackageName() + "/shared_prefs/"
-          + getPackageName() + "_preferences.xml";
-      sharedPrefFile = new File("/dbdata/databases/" + sharedPrefFileCommon);
-      if (!sharedPrefFile.exists()) {
-        sharedPrefFile = new File("/data/data/" + sharedPrefFileCommon);
-        if (!sharedPrefFile.exists()) {
-          Log.e(TAG, "Unable to determine path to shared preference file");
-          return false;
-        }
-      }
-      return Utils.copy(sharedPrefFile, backupPrefFile);
-    }
-    return false;
   }
 
   public static int getThemeId() {
@@ -630,6 +613,9 @@ public class MyApplication extends Application implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
+    if (!key.equals(PrefKey.AUTO_BACKUP_DIRTY.getKey())) {
+      markDataDirty();
+    }
     // TODO: move to TaskExecutionFragment
     if (!key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
       return;
@@ -844,5 +830,12 @@ public class MyApplication extends Application implements
     }
     return new Result(true, R.string.restore_calendar_success,
         restoredPlansCount);
+  }
+  public static void markDataDirty() {
+    boolean persistedDirty =  PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true);
+    if (!persistedDirty) {
+      MyApplication.PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
+      DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);
+    }
   }
 }
