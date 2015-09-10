@@ -101,4 +101,8 @@
 
     <string name="io_error_appdir_null">No folder for storing backup found</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
+
+  <string-array name="whats_new_252">
+    <item>@string/contrib_feature_auto_backup_label</item>
+  </string-array>
 </resources>
