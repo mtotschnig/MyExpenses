@@ -17,6 +17,8 @@ import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
+import org.totschnig.myexpenses.MyApplication;
+
 public class ScheduledAlarmReceiver extends BroadcastReceiver {
 
     static final String PACKAGE_REPLACED = "android.intent.action.PACKAGE_REPLACED";
