@@ -68,7 +68,7 @@ public class CommonCommands {
       i.setType("plain/text");
       i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
       i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + ctx.getString(R.string.app_name) +
+          "[" + ctx.getString(R.string.app_name) + " "  +
           getVersionName(ctx) + "] Feedback"
       );
       i.putExtra(android.content.Intent.EXTRA_TEXT, ctx.getString(R.string.feedback_email_message));
