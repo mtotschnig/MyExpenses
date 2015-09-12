@@ -356,9 +356,9 @@ public class Utils {
     }
     File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
     if (externalFilesDir != null) {
-      return DocumentFile.fromFile(externalFilesDir)
+      return DocumentFile.fromFile(externalFilesDir);
     } else {
-      Utils.reportToAcra(new Exception("getExternaöFilesDir returned null");
+      Utils.reportToAcra(new Exception("getExternalFilesDir returned null"));
       return null;
     }
   }
