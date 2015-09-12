@@ -380,5 +380,5 @@
   <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
   <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat)</string>
   <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
-  <string name="pref_auto_backup_time_summary" formatted="false">Fer còpia de seguretat diària a %02d:%02d</string>
+  <string name="pref_auto_backup_time_summary">Fer còpia de seguretat diària a %1$02d:%2$02d</string>
 </resources>

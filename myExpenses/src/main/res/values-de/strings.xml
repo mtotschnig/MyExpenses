@@ -42,8 +42,10 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Splitbuchung</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Vorlagen Widget</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatisches Backup</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="extended_key">Erweiterungsschlüssel</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Benötigt %s.</string>
   <string name="currency">Währung</string>
   <string name="current_balance">Aktueller Saldo</string>
@@ -238,6 +240,7 @@
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
   <string name="no_filemanager_installed">Kein Dateimanager installiert</string>
+  <string name="no_calendar_app_installed">Keine App für die Bearbeitung des Kalenderereignisses gefunden.</string>
   <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="no_methods">Keine Zahlungsweisen.</string>
   <string name="no_parties">Keine Parteien.</string>
@@ -560,9 +563,11 @@
   <string name="menu_show_transactions">Buchungen anzeigen</string>
   <string name="pref_custom_decimal_format_title">Zahlenformat</string>
   <string name="pref_custom_decimal_format_summary">Wenn Sie mit dem Standardformat für Ihr Gebietsschema nicht zufrieden sind, können Sie es an Ihre Bedürfnisse anpassen. Leer lassen, um das Standardformat wiederherzustellen. </string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatisches Backup</string>
+  <string name="licence_validation_upgrade_needed">Bitte aktualisieren Sie Meine Ausgaben Contrib auf Version 1.5.</string>
   <string name="pref_auto_backup_title">Automatisches Backup aktivieren</string>
   <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
-  <string name="pref_auto_backup_time_summary" formatted="false">Tägliches Backup um %02d:%02d Uhr</string>
+  <string name="pref_auto_backup_time_summary">Tägliches Backup um %1$02d:%2$02d Uhr</string>
+  <string name="warning_auto_backup_limited_trial">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
+  <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
 </resources>
