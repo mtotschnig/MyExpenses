@@ -355,7 +355,12 @@ public class Utils {
       }
     }
     File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
-    return externalFilesDir != null ? DocumentFile.fromFile(externalFilesDir) : null;
+    if (externalFilesDir != null) {
+      return DocumentFile.fromFile(externalFilesDir)
+    } else {
+      Utils.reportToAcra(new Exception("getExternaöFilesDir returned null");
+      return null;
+    }
   }
 
   public static File getCacheDir() {
@@ -391,7 +396,12 @@ public class Utils {
         name+="."+mimeType.split("/")[1];
       }
       if (parentDir.findFile(name)==null) {
-        return parentDir.createFile(mimeType, name);
+        DocumentFile result = parentDir.createFile(mimeType, name);
+        if (result == null) {
+          Utils.reportToAcra(new Exception(String.format(
+              "createFile returned null for mimeType %s and name %s",mimeType,name)));
+        }
+        return result;
       }
       postfix++;
     } while (true);
