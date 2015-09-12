@@ -42,8 +42,10 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de modèles</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-backup</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="extended_key">Clé étendue</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Nécessite %s.</string>
   <string name="currency">Devise</string>
   <string name="current_balance">Solde courant</string>
@@ -238,6 +240,7 @@
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Aucune opération exportable.</string>
   <string name="no_filemanager_installed">Aucun gestionnaire de fichiers installé</string>
+  <string name="no_calendar_app_installed">Aucune application disponible pour éditer l\'entrée dans le calendrier.</string>
   <string name="no_mapped_transactions">Aucune opération n\'a été attribuée à aucune catégorie au cours de cette période.</string>
   <string name="no_methods">Aucune méthode.</string>
   <string name="no_parties">Aucun tiers.</string>
@@ -560,9 +563,11 @@
   <string name="menu_show_transactions">Voir les opérations</string>
   <string name="pref_custom_decimal_format_title">Format de nombre</string>
   <string name="pref_custom_decimal_format_summary">Si vous n\'êtes pas satisfait du format par défaut de votre langue, vous pouvez l\'adapter selon vos besoins. Laissez vide pour rétablir le format par défaut.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-backup</string>
+  <string name="licence_validation_upgrade_needed">Veuillez mettre à jour Mes Dépenses Contrib à la version 1.5.</string>
   <string name="pref_auto_backup_title">Activer auto-backup</string>
   <string name="pref_auto_backup_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée (seulement si les données ont changé)</string>
   <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
-  <string name="pref_auto_backup_time_summary" formatted="false">Faire un backup quotidien à %02d:%02d</string>
+  <string name="pref_auto_backup_time_summary">Faire un backup quotidien à %1$02d:%2$02d</string>
+  <string name="warning_auto_backup_limited_trial">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
+  <string name="warning_auto_backup_limit_reached">La limite des sauvegardes automatiques réussies gratuites a été atteinte.</string>
 </resources>

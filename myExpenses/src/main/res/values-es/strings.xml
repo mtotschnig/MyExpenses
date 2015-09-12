@@ -42,8 +42,10 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Asiento dividido</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de plantillas</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Importación CSV</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Backup automática</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="extended_key">Clave Extendida</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Mis gastos requiere %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
@@ -238,6 +240,7 @@
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">Existen transacciones que aún no han sido exportadas.</string>
   <string name="no_filemanager_installed">No hay instalado ningún administrador de archivos</string>
+  <string name="no_calendar_app_installed">No aplicación para editar el evento del calendario.</string>
   <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
   <string name="no_methods">No hay métodos.</string>
   <string name="no_parties">No hay partidos.</string>
@@ -561,9 +564,11 @@
   <string name="menu_show_transactions">Ver operaciones</string>
   <string name="pref_custom_decimal_format_title">Formato de número</string>
   <string name="pref_custom_decimal_format_summary">Si no estás satisfecho con el formato predeterminado para su idioma, adaptarlo a sus necesidades. Deje en blanco para restaurar el formato predeterminado.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Backup automática</string>
+  <string name="licence_validation_upgrade_needed">Por favor actualizar Mis Gastos Contrib a la versión 1.5.</string>
   <string name="pref_auto_backup_title">Permitir backup automática</string>
   <string name="pref_auto_backup_summary">Backup de base de datos diaria a la hora especificada (sólo si los datos han cambiado)</string>
   <string name="pref_auto_backup_time_title">Hora de backup automática</string>
-  <string name="pref_auto_backup_time_summary" formatted="false">Hacer backup diaria en %02d:%02d</string>
+  <string name="pref_auto_backup_time_summary">Hacer backup diaria en %1$02d:%2$02d</string>
+  <string name="warning_auto_backup_limited_trial">Después de %d copias de seguridad automáticas exitosa, copia de seguridad automática se desactiva.</string>
+  <string name="warning_auto_backup_limit_reached">Il limite per i backup automatici di successo libero è stato raggiunto.</string>
 </resources>

@@ -340,5 +340,5 @@
   <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>
   <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
   <string name="pref_auto_backup_time_title">Automatikus biztonsági mentés ideje</string>
-  <string name="pref_auto_backup_time_summary" formatted="false">Csináljon napi biztonsági mentést %02d:%02d-kor</string>
+  <string name="pref_auto_backup_time_summary">Csináljon napi biztonsági mentést %1$02d:%2$02d-kor</string>
 </resources>

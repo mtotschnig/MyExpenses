@@ -42,14 +42,17 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Banatu transakzioa</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Txantiloien trepeta</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV inportazioa</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Babeskopia automatikoa</string>
   <string name="contrib_key">Kontribuzio Gakoa</string>
   <string name="extended_key">Gako hedatua</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">%s behar du.</string>
   <string name="currency">Moneta</string>
   <string name="current_balance">Uneko saldoa</string>
   <string name="date">Data</string>
   <string name="date_format">Dataren formatua</string>
   <string name="date_format_illegal">Data formatu baliogabea</string>
+  <string name="number_format_illegal">Zenbaki formatu okerra</string>
   <string name="decimal_separator">Dezimalen bereizlea</string>
   <string name="default_account_description">Kontu hau automatikoki sortu da instalazioan</string>
   <string name="default_account_name">Aurrekontu liburua</string>
@@ -237,6 +240,7 @@
   <string name="no_expenses">Ez dago gasturik oraindik!</string>
   <string name="no_exportable_expenses">Ez dago jada esportatu ez den transakziorik.</string>
   <string name="no_filemanager_installed">Ez dago fitxategi kudeatzailerik instalatuta</string>
+  <string name="no_calendar_app_installed">Ez da aplikaziorik aurkitu egutegiko gertaera aldatzeko.</string>
   <string name="no_mapped_transactions">Ez da transakziorik lotu kategorietara denbora tarte honetan.</string>
   <string name="no_methods">Ordainketa metodorik ez.</string>
   <string name="no_parties">Onuradun/ordaintzailerik ez</string>
@@ -559,4 +563,13 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="csv_import_delimiter_tab">Tabulazioa</string>
   <string name="csv_import_no_mapping_found_for_amount">Lotu zutabe bat kopuru, sarrera, edo gastu batetara.</string>
   <string name="menu_show_transactions">Bistaratu transakzioak</string>
+  <string name="pref_custom_decimal_format_title">Zenbaki formatua</string>
+  <string name="pref_custom_decimal_format_summary">Ez baduzu zure hizkuntzaren lehenetsitako formatua gustuko, aldatu zure beharretara. Laga hutsik lehenetsitako data formatua erabiltzeko.</string>
+  <string name="licence_validation_upgrade_needed">Eguneratu Nire Gastuak Kontrib 1.5 bertsiora</string>
+  <string name="pref_auto_backup_title">Gaitu babeskopia automatikoa</string>
+  <string name="pref_auto_backup_summary">Egin egunero datu-basearen babeskopia zehaztutako orduan (soilik datuak aldatu badira)</string>
+  <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
+  <string name="pref_auto_backup_time_summary">Egin egunero babeskopia automatikoa %1$02d:%2$02dtan</string>
+  <string name="warning_auto_backup_limited_trial">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
+  <string name="warning_auto_backup_limit_reached">Doako babeskopia automatikoen gehieneko kopurua gainditu da</string>
 </resources>

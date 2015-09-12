@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_251">
+    <item>Zenbaki formatu konfiguragarria</item>
+    <item>Danierara itzulpena</item>
+  </string-array>
   <string-array name="whats_new_250">
     <item>CSV inportazioa</item>
     <item>Korearrera itzulpena</item>

@@ -508,5 +508,5 @@
   <string name="pref_auto_backup_title">Włącz automatyczną kopię zapasową</string>
   <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
   <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
-  <string name="pref_auto_backup_time_summary" formatted="false">Wykonaj codzienną kopię zapasową o: %02d:%02d</string>
+  <string name="pref_auto_backup_time_summary">Wykonaj codzienną kopię zapasową o: %1$02d:%2$02d</string>
 </resources>
