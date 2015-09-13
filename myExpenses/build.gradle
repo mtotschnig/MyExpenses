@@ -2,6 +2,15 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 apply plugin: 'com.android.application'
 
+def buildVersionNumberBlackBerry() {
+  def result = android.defaultConfig.versionName
+  if (result.split('\\.').length == 4)
+    return result
+  else
+    return result + ".0"
+}
+
+
 android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
