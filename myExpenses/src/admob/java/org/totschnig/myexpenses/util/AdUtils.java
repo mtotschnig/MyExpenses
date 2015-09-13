@@ -40,7 +40,8 @@ public class AdUtils {
   @NotNull
   private static AdRequest buildRequest() {
     return new AdRequest.Builder()
-        .addTestDevice("B6E7D9A3244EDB91BDB897A53A1B02C4")
+        //.addTestDevice("B6E7D9A3244EDB91BDB897A53A1B02C4")
+        //.addTestDevice("0C9A9324A2B59536C630C2571458C698")
         .build();
   }
 
