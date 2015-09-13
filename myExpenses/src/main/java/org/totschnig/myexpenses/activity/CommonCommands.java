@@ -139,8 +139,10 @@ public class CommonCommands {
     }
     final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
         "" : " " + BuildConfig.FLAVOR;
-    final String installer = " " + ctx.getPackageManager()
+    String installer = ctx.getPackageManager()
         .getInstallerPackageName(ctx.getPackageName());
+    installer = TextUtils.isEmpty(installer) ?
+        "" : " " + installer;
     return versionname + version  + buildDate + flavor + installer;
   }
   /**
