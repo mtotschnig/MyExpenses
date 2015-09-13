@@ -16,6 +16,7 @@ import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.TimePreference;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -59,7 +60,7 @@ public class DailyAutoBackupScheduler {
     }
 
     public static Date getScheduledTime() {
-        int hhmm = MyApplication.PrefKey.AUTO_BACKUP_TIME.getInt(600);
+        int hhmm = MyApplication.PrefKey.AUTO_BACKUP_TIME.getInt(TimePreference.DEFAULT_VALUE);
         int hh = hhmm/100;
         int mm = hhmm - 100*hh;
         Calendar c = Calendar.getInstance();

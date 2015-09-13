@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.R;
  */
 public class TimePreference extends DialogPreference  {
 
-    private static final int DEFAULT_VALUE = 500;
+    public static final int DEFAULT_VALUE = 500;
 
     private TimePicker mTimePicker;
     
