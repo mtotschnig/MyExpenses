@@ -228,7 +228,7 @@
       <item>up</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>219</item>
+      <item>220</item>
       <item>218</item>
       <item>217</item>
       <item>214</item>
@@ -355,6 +355,10 @@
     <string-array tools:ignore="UnusedResources" name="version_more_info_251">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1648355755425896</item>
         <item>TjKFKHh2MU3</item>
+    </string-array>
+    <string-array tools:ignore="UnusedResources" name="version_more_info_252">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1652776838317121</item>
+        <item>MWJnKRVgbQR</item>
     </string-array>
     <string-array name="comparison_operator_entries">
       <item>@string/comparison_operator_equal</item>
