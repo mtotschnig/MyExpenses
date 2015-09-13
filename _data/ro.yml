@@ -44,6 +44,7 @@ ro:
       template_widget: Şablon widget
       print: Export listă tranzacţii în PDF
       ad_free: Fără reclame
+      auto_backup: Auto-backup
     licence-howto-buy:
       deprecated: "__NOT_NEEDED__"
       intro: |

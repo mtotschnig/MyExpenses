@@ -33,6 +33,7 @@ zh-tw:
       distribution: 每個類別的交易分佈
       split_transaction: 分割交易
       security_question: 安全問題
+      auto_backup: 自動備份
     licence-howto-buy:
       deprecated: "__NOT_NEEDED__"
       intro: |

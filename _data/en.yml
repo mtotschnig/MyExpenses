@@ -47,6 +47,7 @@ en:
       attach_picture: Attach image to transaction
       ad_free: No ads
       csv_import: CSV import
+      auto_backup: Auto-backup
     extended-label: Extended
     licence-howto-buy:
       deprecated: |

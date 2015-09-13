@@ -46,6 +46,7 @@ eu:
       print: Esportatu transakzio zerrenda PDFra
       attach_picture: Erantsi irudia transakzioari
       ad_free: Iragarkirik gabe
+      auto_backup: Babeskopia automatikoa
     licence-howto-buy:
       deprecated: |
         OHARRA: 2.3.9 bertsiotik Nire Gastuak aplikazioko premium funtzionalitatea desblokeatzeko kontribuzio gakoa errazago lortu daiteke aplikazio barneko ordainketaren bidez, ez duzu "My Expenses Contrib Key" aplikazioa instalatzeko beharrik.

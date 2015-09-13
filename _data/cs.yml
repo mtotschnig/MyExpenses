@@ -41,6 +41,7 @@ cs:
       split_transaction: Rozdělení transakcí
       security_question: Bezpečnostní otázka
       template_widget: Šablona widget
+      auto_backup: Automatická záloha
     licence-howto-buy:
       intro: |+
         Máte následující možnosti pro nákup Contrib licence:

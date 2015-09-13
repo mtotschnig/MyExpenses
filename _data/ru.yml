@@ -41,6 +41,7 @@ ru:
       split_transaction: Разделённая операция
       security_question: Секретный вопрос
       template_widget: Шаблон виджет
+      auto_backup: Авто-бэкап
     licence-howto-buy:
       intro: |
         У вас есть следующие варианты для покупки Contrib-лицензии:

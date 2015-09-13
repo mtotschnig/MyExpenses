@@ -46,6 +46,7 @@ fr:
       print: Export de la liste des opérations au format PDF
       attach_picture: Lier une image avec une transaction
       ad_free: Sans publicité
+      auto_backup: Auto-backup
     licence-howto-buy:
       deprecated: |
         NOTE: Depuis la version 2.3.9, la Clé Contrib pour déverrouiller les fonctionnalités Premium de Mes Dépenses peut être facilement achetée par un paiement dans l'application, et vous n'avez plus besoin d'installer l'application "Mes dépenses Clé Contrib".

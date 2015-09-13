@@ -46,6 +46,7 @@ es:
       print: Lista de transacciones de exportación a PDF
       attach_picture: Adjuntar imagen de transacción
       ad_free: Sin anuncios
+      auto_backup: Backup automática
     licence-howto-buy:
       deprecated: |
         NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium mis gastos puede adquirirse más fácilmente a través de pago en la aplicación, y ya no tienes que instalar la aplicación "Mis gastos Clave Contrib".

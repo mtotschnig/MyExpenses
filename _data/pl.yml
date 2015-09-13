@@ -42,6 +42,7 @@ pl:
       security_question: Pytanie bezpieczeństwa
       template_widget: Szablon widget
       ad_free: Brak reklam
+      auto_backup: Automatyczna kopia zapasowa
     licence-howto-buy:
       intro: |
         Masz następujące opcje dla nabycia licencji Contrib:

@@ -46,6 +46,7 @@ pt_BR:
       print: Exportar lista de transações para PDF
       attach_picture: Anexar imagem à transação
       ad_free: Sem anúncios
+      auto_backup: Backup automático
     licence-howto-buy:
       deprecated: |
         NOTA: Desde a versão 2.3.9 a Chave Contrib para desbloqueio funcionalidade premium de Minhas Despesas podem ser mais facilmente adquirido através de pagamento no App, e você já não precisa instalar o app "Minhas despesas Chave Contrib".
