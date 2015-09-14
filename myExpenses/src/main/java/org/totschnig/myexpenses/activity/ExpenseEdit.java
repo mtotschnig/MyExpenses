@@ -1028,19 +1028,22 @@ public class ExpenseEdit extends AmountActivity implements
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
       if (intent == null) {
-        uri = getCameraUri();
+        uri = mPictureUriTemp;
+        Log.d(MyApplication.TAG,"got result for PICTURE request, intent null, relying on stored output uri :" + mPictureUriTemp);
       } else if (intent.getData() != null) {
         uri = intent.getData();
+        Log.d(MyApplication.TAG,"got result for PICTURE request, found uri in intent data :" + uri.toString());
       } else {
-        uri = getCameraUri();
+        Log.d(MyApplication.TAG,"got result for PICTURE request, intent != null, getData() null, relying on stored output uri :" + mPictureUriTemp);
+        uri = mPictureUriTemp;
       }
       if (uri != null) {
-        Log.d(MyApplication.TAG,uri.toString());
         mPictureUri = uri;
         setPicture();
         return;
       }
-      Toast.makeText(this, "Error",Toast.LENGTH_LONG).show();
+      Utils.reportToAcra(new Exception("Error while retrieving image data"));
+      Toast.makeText(this, "Error while retrieving image data.",Toast.LENGTH_LONG).show();
     }
   }
 
@@ -1784,6 +1787,7 @@ public class ExpenseEdit extends AmountActivity implements
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
                 new Intent[]{camIntent});
     }
+    Log.d(MyApplication.TAG,"starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT = " + outputMediaUri);
     startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
   }
   private Uri getCameraUri() {
