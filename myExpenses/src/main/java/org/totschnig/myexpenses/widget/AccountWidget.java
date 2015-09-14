@@ -76,7 +76,7 @@ public class AccountWidget extends AbstractWidget<Account> {
 //        balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
     setBackgroundColorSave(updateViews,R.id.divider3,a.color);
     addScrollOnClick(context, updateViews, widgetId);
-    addTapOnClick(context, updateViews, a.getId());
+    addTapOnClick(context, updateViews, widgetId, a.getId());
     addButtonsClick(context, updateViews, widgetId, a);
     saveForWidget(context, widgetId, a.getId());
     int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
@@ -90,10 +90,11 @@ public class AccountWidget extends AbstractWidget<Account> {
   }
 
   private void addTapOnClick(Context context, RemoteViews updateViews,
-      long accountId) {
+                             int widgetId, long accountId) {
     Intent intent = new Intent(context, MyExpenses.class);
     intent.putExtra(DatabaseConstants.KEY_ROWID, accountId);
-    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, widgetId, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.object_info, pendingIntent);
   }
@@ -107,6 +108,7 @@ public class AccountWidget extends AbstractWidget<Account> {
     }
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     return  intent;
   }
 
