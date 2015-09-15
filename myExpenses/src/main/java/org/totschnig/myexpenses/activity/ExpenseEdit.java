@@ -1027,6 +1027,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
+      String errorMsg;
       if (intent == null) {
         uri = mPictureUriTemp;
         Log.d(MyApplication.TAG,"got result for PICTURE request, intent null, relying on stored output uri :" + mPictureUriTemp);
@@ -1038,12 +1039,18 @@ public class ExpenseEdit extends AmountActivity implements
         uri = mPictureUriTemp;
       }
       if (uri != null) {
-        mPictureUri = uri;
-        setPicture();
-        return;
+        if (isFileAndNotExists(uri)) {
+          errorMsg = "Error while retrieving image: File not found: " + uri;
+         } else {
+          mPictureUri = uri;
+          setPicture();
+          return;
+        }
+      } else {
+        errorMsg = "Error while retrieving image: No data found.";
       }
-      Utils.reportToAcra(new Exception("Error while retrieving image data"));
-      Toast.makeText(this, "Error while retrieving image data.",Toast.LENGTH_LONG).show();
+      Utils.reportToAcra(new Exception(errorMsg));
+      Toast.makeText(this, errorMsg,Toast.LENGTH_LONG).show();
     }
   }
 
@@ -1297,11 +1304,9 @@ public class ExpenseEdit extends AmountActivity implements
         mPictureUri = mTransaction.getPictureUri();
         if (mPictureUri!=null) {
           boolean doShowPicture = true;
-          if (mTransaction.getPictureUri().getScheme().equals("file")) {
-            if (!new File(mTransaction.getPictureUri().getPath()).exists()) {
-              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
-              doShowPicture = false;
-            }
+          if (isFileAndNotExists(mTransaction.getPictureUri())) {
+            Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
+            doShowPicture = false;
           }
           if (doShowPicture) {
             setPicture();
@@ -1325,6 +1330,16 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     }
   }
+
+  private boolean isFileAndNotExists(Uri uri) {
+    if (uri.getScheme().equals("file")) {
+      if (!new File(uri.getPath()).exists()) {
+        return true;
+      }
+    }
+    return  false;
+  }
+
   public Account getCurrentAccount() {
     if (mAccounts == null) {
         return null;
@@ -1336,6 +1351,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     return mAccounts[selected];
   }
+
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
