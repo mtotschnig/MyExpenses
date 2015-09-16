@@ -133,6 +133,7 @@ public class DialogUtils {
   public static Uri handleFilenameRequestResult(
       Intent data, EditText mFilename, String typeName, UriTypePartChecker checker) {
     Uri mUri = data.getData();
+    String errorMsg;
     if (mUri != null) {
       Context context = MyApplication.getInstance();
       mFilename.setError(null);
@@ -141,7 +142,9 @@ public class DialogUtils {
       if (displayName == null) {
         mUri = null;
         //SecurityException raised during getDisplayName
-        mFilename.setError("Error while retrieving document");
+        errorMsg = "Error while retrieving document";
+        mFilename.setError(errorMsg);
+        Toast.makeText(context,errorMsg,Toast.LENGTH_LONG).show();
       } else {
         String type = context.getContentResolver().getType(mUri);
         if (type != null) {
@@ -149,7 +152,9 @@ public class DialogUtils {
           if (typeParts.length==0 ||
               !checker.checkTypeParts(typeParts)) {
             mUri = null;
-            mFilename.setError(context.getString(R.string.import_source_select_error, typeName));
+            errorMsg = context.getString(R.string.import_source_select_error, typeName);
+            mFilename.setError(errorMsg);
+            Toast.makeText(context,errorMsg,Toast.LENGTH_LONG).show();
           }
         }
       }
