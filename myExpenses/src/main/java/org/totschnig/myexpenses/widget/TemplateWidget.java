@@ -89,6 +89,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     pendingIntent = PendingIntent.getActivity(
         context,
         widgetId,
