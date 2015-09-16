@@ -9,6 +9,7 @@
 
 package org.totschnig.myexpenses.export;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.model.Category;
 
 import java.util.Map;
@@ -80,10 +81,18 @@ public class CategoryInfo {
         return countInserted;
     }
 
+    /**
+     *
+     * @return name, whwere we get rid of class, and reduce to two levels
+     */
     private String extractCategoryName() {
         int i = name.indexOf('/');
         if (i != -1) {
             name = name.substring(0, i);
+        }
+        if (StringUtils.countMatches(name,':')>1) {
+            String parts[] = name.split(":");
+            name = parts[0]+":"+parts[1];
         }
         return name;
     }
