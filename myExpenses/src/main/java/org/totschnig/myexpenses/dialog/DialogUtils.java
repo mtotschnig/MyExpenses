@@ -202,7 +202,10 @@ public class DialogUtils {
               // provider-specific, and might not necessarily be the file name.
               int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
               if (columnIndex != -1) {
-                return cursor.getString(columnIndex);
+                String displayName = cursor.getString(columnIndex);
+                if (displayName != null) {
+                  return displayName;
+                }
               }
             }
           } catch (Exception e) {}
@@ -213,7 +216,7 @@ public class DialogUtils {
       } catch (SecurityException e) {
         //this can happen if the user has restored a backup and
         //we do not have a persistable permision
-        return null;
+        //return null;
       }
     }
     List<String> filePathSegments = uri.getPathSegments();
