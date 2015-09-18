@@ -41,8 +41,10 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">取引を分割</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">テンプレート ウィジェット</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV インポート</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">自動バックアップ</string>
   <string name="contrib_key">貢献キー</string>
   <string name="extended_key">拡張キー</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">%s が必要です。</string>
   <string name="currency">通貨</string>
   <string name="current_balance">現在の残高</string>
@@ -236,6 +238,7 @@
   <string name="no_expenses">まだ支出がありません!</string>
   <string name="no_exportable_expenses">まだエクスポートしていない取引はありません。</string>
   <string name="no_filemanager_installed">ファイルマネージャーがインストールされていません</string>
+  <string name="no_calendar_app_installed">カレンダーのイベントを編集するアプリが見つかりません。</string>
   <string name="no_mapped_transactions">この期間に、分類に配置する取引はありません。</string>
   <string name="no_methods">支払方法がありません。</string>
   <string name="no_parties">取引先がありません。</string>
@@ -552,4 +555,11 @@
   <string name="menu_show_transactions">取引を表示</string>
   <string name="pref_custom_decimal_format_title">数値書式</string>
   <string name="pref_custom_decimal_format_summary">ロケールのデフォルト形式で充足しない場合、ニーズに適合します。デフォルト形式を復元する場合は、空白のままにします。</string>
+  <string name="licence_validation_upgrade_needed">マイ エクスペンス 貢献をバージョン 1.5 にアップグレードしてください。</string>
+  <string name="pref_auto_backup_title">自動バックアップを有効にする</string>
+  <string name="pref_auto_backup_summary">毎日指定した時間にデータベースをバックアップします (データが変更された場合のみ)。</string>
+  <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
+  <string name="pref_auto_backup_time_summary">%1$02d:%2$02d に毎日バックアップします</string>
+  <string name="warning_auto_backup_limited_trial">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
+  <string name="warning_auto_backup_limit_reached">無料自動バックアップ回数の制限に達しました。</string>
 </resources>
