@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Andre indtægter"/>
+<Sub_category Nbc="1" Nb="1" Na="Arbejdsløshedsunderstøttelse"/>
+<Sub_category Nbc="1" Nb="2" Na="Børnefamilieydelse"/>
+<Sub_category Nbc="1" Nb="3" Na="Skattefradrag"/>
+<Sub_category Nbc="1" Nb="4" Na="Gambling"/>
+<Sub_category Nbc="1" Nb="5" Na="Gensidige forsikringsselskaber"/>
+<Sub_category Nbc="1" Nb="6" Na="Social sikring"/>
+<Category Nb="2" Na="Pensionering"/>
+<Sub_category Nbc="2" Nb="1" Na="Pensionsfond"/>
+<Sub_category Nbc="2" Nb="2" Na="Pension"/>
+<Sub_category Nbc="2" Nb="3" Na="Supplerende pension"/>
+<Category Nb="3" Na="Investering indkomst"/>
+<Sub_category Nbc="3" Nb="1" Na="Udbytte"/>
+<Sub_category Nbc="3" Nb="2" Na="Interesse"/>
+<Sub_category Nbc="3" Nb="3" Na="Kursgevinst"/>
+<Category Nb="4" Na="Løn"/>
+<Sub_category Nbc="4" Nb="1" Na="Overarbejde"/>
+<Sub_category Nbc="4" Nb="2" Na="Forlade godtgørelse"/>
+<Sub_category Nbc="4" Nb="3" Na="Div. præmier"/>
+<Sub_category Nbc="4" Nb="4" Na="Succes gebyr"/>
+<Sub_category Nbc="4" Nb="5" Na="Nettoløn"/>
+<Category Nb="5" Na="Diverse indtægter"/>
+<Sub_category Nbc="5" Nb="1" Na="Gaver"/>
+<Sub_category Nbc="5" Nb="2" Na="Restitutioner"/>
+<Sub_category Nbc="5" Nb="3" Na="Second hand salg"/>
+<Category Nb="6" Na="Mad"/>
+<Sub_category Nbc="6" Nb="1" Na="Bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Baker"/>
+<Sub_category Nbc="6" Nb="3" Na="Kantinen"/>
+<Sub_category Nbc="6" Nb="4" Na="Slik"/>
+<Sub_category Nbc="6" Nb="5" Na="Misc"/>
+<Sub_category Nbc="6" Nb="6" Na="Købmand"/>
+<Sub_category Nbc="6" Nb="7" Na="Restaurant"/>
+<Sub_category Nbc="6" Nb="8" Na="Selvbetjening"/>
+<Sub_category Nbc="6" Nb="9" Na="Supermarked"/>
+<Category Nb="7" Na="Kæledyr"/>
+<Sub_category Nbc="7" Nb="1" Na="Mad"/>
+<Sub_category Nbc="7" Nb="2" Na="Forskellige leverancer"/>
+<Sub_category Nbc="7" Nb="3" Na="Grooming"/>
+<Sub_category Nbc="7" Nb="4" Na="Dyrlæge"/>
+<Category Nb="8" Na="Forsikring"/>
+<Sub_category Nbc="8" Nb="1" Na="Bil"/>
+<Sub_category Nbc="8" Nb="2" Na="Sundhed"/>
+<Sub_category Nbc="8" Nb="3" Na="Hus"/>
+<Sub_category Nbc="8" Nb="4" Na="Civilretligt ansvar"/>
+<Sub_category Nbc="8" Nb="5" Na="Liv"/>
+<Category Nb="9" Na="Bil"/>
+<Sub_category Nbc="9" Nb="1" Na="Brændstof"/>
+<Sub_category Nbc="9" Nb="2" Na="Reparationer"/>
+<Sub_category Nbc="9" Nb="3" Na="Vedligeholdelse"/>
+<Sub_category Nbc="9" Nb="4" Na="Parkering"/>
+<Sub_category Nbc="9" Nb="5" Na="Bøder"/>
+<Category Nb="11" Na="Gaver"/>
+<Category Nb="12" Na="Børn"/>
+<Sub_category Nbc="12" Nb="1" Na="Sygeplejerske"/>
+<Sub_category Nbc="12" Nb="2" Na="Misc."/>
+<Sub_category Nbc="12" Nb="3" Na="Undersøgelser"/>
+<Category Nb="13" Na="Undersøgelser"/>
+<Sub_category Nbc="13" Nb="1" Na="Lektioner"/>
+<Sub_category Nbc="13" Nb="2" Na="Skolepenge"/>
+<Sub_category Nbc="13" Nb="3" Na="Bøger"/>
+<Category Nb="14" Na="Diverse"/>
+<Sub_category Nbc="14" Nb="1" Na="Gaver"/>
+<Category Nb="15" Na="Finansielle udgifter"/>
+<Sub_category Nbc="15" Nb="1" Na="Diverse"/>
+<Sub_category Nbc="15" Nb="2" Na="Bankgebyrer"/>
+<Sub_category Nbc="15" Nb="3" Na="Lån/pant"/>
+<Sub_category Nbc="15" Nb="4" Na="Afgifter"/>
+<Sub_category Nbc="15" Nb="5" Na="Refusion"/>
+<Category Nb="16" Na="Professionel udgifter"/>
+<Sub_category Nbc="16" Nb="1" Na="Ikke refunderes"/>
+<Sub_category Nbc="16" Nb="2" Na="Refunderes"/>
+<Category Nb="17" Na="Skatter"/>
+<Sub_category Nbc="17" Nb="1" Na="Diverse"/>
+<Sub_category Nbc="17" Nb="2" Na="Indkomst"/>
+<Sub_category Nbc="17" Nb="3" Na="Jord"/>
+<Category Nb="18" Na="Boliger"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Leje"/>
+<Sub_category Nbc="18" Nb="3" Na="TV"/>
+<Sub_category Nbc="18" Nb="4" Na="Møbler"/>
+<Sub_category Nbc="18" Nb="5" Na="Afgifter"/>
+<Sub_category Nbc="18" Nb="6" Na="Opvarmning"/>
+<Sub_category Nbc="18" Nb="7" Na="Dekoration"/>
+<Sub_category Nbc="18" Nb="8" Na="Vand"/>
+<Sub_category Nbc="18" Nb="9" Na="Elektricitet"/>
+<Sub_category Nbc="18" Nb="10" Na="Hårde hvidevarer"/>
+<Sub_category Nbc="18" Nb="11" Na="Udstyr"/>
+<Sub_category Nbc="18" Nb="12" Na="Gas"/>
+<Sub_category Nbc="18" Nb="13" Na="Haven"/>
+<Sub_category Nbc="18" Nb="14" Na="Hus keeper"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefon"/>
+<Sub_category Nbc="18" Nb="16" Na="Ambulant foretage en opringning"/>
+<Category Nb="19" Na="Fritidsaktiviteter"/>
+<Sub_category Nbc="19" Nb="1" Na="Snooker"/>
+<Sub_category Nbc="19" Nb="2" Na="Bowling"/>
+<Sub_category Nbc="19" Nb="3" Na="Film"/>
+<Sub_category Nbc="19" Nb="4" Na="Natklub"/>
+<Sub_category Nbc="19" Nb="5" Na="DET"/>
+<Sub_category Nbc="19" Nb="6" Na="Spil"/>
+<Sub_category Nbc="19" Nb="7" Na="Bøger"/>
+<Sub_category Nbc="19" Nb="8" Na="Parker"/>
+<Sub_category Nbc="19" Nb="9" Na="Koncerter"/>
+<Sub_category Nbc="19" Nb="10" Na="Sport"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Rejser"/>
+<Sub_category Nbc="19" Nb="13" Na="Udstyr"/>
+<Sub_category Nbc="19" Nb="14" Na="Museer/udstillinger"/>
+<Category Nb="20" Na="Lån/pant"/>
+<Sub_category Nbc="20" Nb="1" Na="Kapital"/>
+<Category Nb="21" Na="Sundhed"/>
+<Sub_category Nbc="21" Nb="1" Na="Forsikring"/>
+<Sub_category Nbc="21" Nb="2" Na="Tandlæge"/>
+<Sub_category Nbc="21" Nb="3" Na="Hospital"/>
+<Sub_category Nbc="21" Nb="4" Na="Kinesitherapist"/>
+<Sub_category Nbc="21" Nb="5" Na="Læge"/>
+<Sub_category Nbc="21" Nb="6" Na="Ophtalmologist"/>
+<Sub_category Nbc="21" Nb="7" Na="Kiropraktor"/>
+<Sub_category Nbc="21" Nb="8" Na="Kemiker"/>
+<Sub_category Nbc="21" Nb="9" Na="Social sikring"/>
+<Category Nb="22" Na="Pleje"/>
+<Sub_category Nbc="22" Nb="1" Na="Frisør"/>
+<Sub_category Nbc="22" Nb="2" Na="Tøj"/>
+<Category Nb="23" Na="Transport"/>
+<Sub_category Nbc="23" Nb="1" Na="Bus"/>
+<Sub_category Nbc="23" Nb="2" Na="Metro"/>
+<Sub_category Nbc="23" Nb="3" Na="Vejafgift"/>
+<Sub_category Nbc="23" Nb="4" Na="Toget"/>
+<Sub_category Nbc="23" Nb="5" Na="Sporvogn"/>
+<Sub_category Nbc="23" Nb="6" Na="Rejser"/>
+<Sub_category Nbc="23" Nb="7" Na="Luft"/>
+<Category Nb="24" Na="Ferie"/>
+<Sub_category Nbc="24" Nb="1" Na="Boliger"/>
+<Sub_category Nbc="24" Nb="2" Na="Besøg"/>
+<Sub_category Nbc="24" Nb="3" Na="Rejser"/></Grisbi_categ>
