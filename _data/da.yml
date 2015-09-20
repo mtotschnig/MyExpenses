@@ -1,0 +1,69 @@
+da:
+  imprint: Impressum/Kontakt
+  hero_main: "Din personlig økonomiplaner"
+  hero_sub:
+    use: "Nemt og brugervenlig"
+    functionality: "Mange funktioner"
+    source: "Open Source"
+  menu_title:
+    more_information: Flere oplysninger
+  sections:
+    features: Funktioner
+    premium: Go Premium
+    participate: Deltager
+    faq: FAQ
+    versionlist: Ændringer
+    credits: Credits
+    licence: Licens
+    sourcecode: Kildekode
+    links: Links
+  features:
+    manage_accounts: Op til fem konti med overførelser
+    plans: Skabeloner og planer for tilbagevendende posteringer
+    grouped_list: Posteringer per dag, uge, måned, år og vis saldo for hver gruppering
+    distribution: To niveauer af kategorier (import fra Grisbi XML eller QIF)
+    split: Splittede posteringer (Contrib version)
+    calculator: Lommeregner
+    export: Export til QIF og CSV (MS Excel), kan automatisk deles (via e-mail, FTP, Dropbox, ...)
+    import: Importer QIF data
+    password: Password-beskyttelse
+    help: Help integreret
+    backup: Backup og gendannelse af data
+    light_theme: "To temaer: lys og mørk"
+    attach_picture: Tillægge transaktionen afbildning
+  contrib:
+    feature-list-title: |
+      Mine udgifter Contrib licensen giver dig adgang til følgende funktioner:
+    feature:
+      accounts_unlimited: Ubegrænset antal konti
+      plans_unlimited: Ubegrænset antal planer
+      distribution: Fordeling af posteringer på kategorier
+      split_transaction: Split postering
+      security_question: Sikkerhedsspørgsmål
+      template_widget: Skabelon widget
+      print: Eksporter listen med posteringer til PDF
+      attach_picture: Vedhæft billed til posteringen
+      ad_free: Ingen annoncer
+    licence-howto-buy:
+      deprecated: |
+        BEMÆRK: Siden version 2.3.9 kan Contrib nøglen du kan låse op Premium funktionerne med nemer købes via in-app-betaling, så du behøver ikke længer at installere app'en "Mine udgifter Contrib nøgle"
+      intro: |
+        Contrib licensen kan købes på flere måder:
+      in-app: |
+        Hvis du har installeret Mine udgifter fra Google Play eller Amazon App Store kan den købes via in-app-betaling.
+      blackberry: |
+        Hvis du har installeret Mine udgifter fra Blackberry World, skal du installer
+        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
+      other: |
+        Hvis du har downloadet Mine udgifter fra F-Droid, Yandex eller SLideMe,
+        skal du doner via følgende:
+      transfer: |
+        Alternativt kan du overføre penge til den følgende bankkonto:
+  permissions-heading: |
+    Anvendelsen af Mine udgifter kræver følgende rettigheder
+  permissions-calendar: |
+    Læse- og skriverettigheder for kalenderen: Planer for tilbagevendende posteringer gemmes i en speciel lokal kalender eller i den anden kalender du har tilknyttet.
+  permissions-external-storage: |
+    Skriverettigheder for USB: Gemmer QIF og CSV eksports og sikkerhedkopier
+  permissions-internet: |
+    Netværkskommunikation: Rapporter om nedbrud sendes automatisk til udvikleren undtagen denne funktion er deaktiveret i indstillignerne.
