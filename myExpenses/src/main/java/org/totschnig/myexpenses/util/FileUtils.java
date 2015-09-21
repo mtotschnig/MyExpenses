@@ -278,8 +278,9 @@ public class FileUtils {
           }
           return path;
         }
-
-        // TODO handle non-primary volumes
+        //there is no documented way of returning a path to a file on non primary storage.
+        //so what we do is displaying the documentId to the user which is better than just null
+        return docId;
       }
       // DownloadsProvider
       else if (isDownloadsDocument(uri)) {
