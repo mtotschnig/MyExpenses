@@ -238,8 +238,8 @@ public class FileUtils {
    * Framework Documents, as well as the _data field for the MediaStore and
    * other file-based ContentProviders.<br>
    * <br>
-   * Callers should check whether the path is local before assuming it
-   * represents a local file.
+   * Callers should only use this for display purposes and not for accessing the file directly via the
+   * file system
    *
    * @param context The context.
    * @param uri The Uri to query.
