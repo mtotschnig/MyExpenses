@@ -7,7 +7,7 @@
   <string name="testData_account2Label">Weekend i Paris</string>
   <string name="testData_account2Description">August 2012</string>
   <!--the ISO 4217 currency code-->
-  <string name="testData_account2Currency">DKK</string>
+  <string name="testData_account2Currency">EUR</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Bankkonto</string>
   <string name="testData_account3Description">Bank of America</string>
