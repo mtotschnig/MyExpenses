@@ -17,7 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,8 +92,8 @@ public class DialogUtils {
 
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
     ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
-    if (ctx instanceof ActionBarActivity) {
-      ((ActionBarActivity) ctx).getSupportActionBar().hide();
+    if (ctx instanceof AppCompatActivity) {
+      ((AppCompatActivity) ctx).getSupportActionBar().hide();
     }
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
@@ -259,8 +259,8 @@ public class DialogUtils {
           error.setText("");
           MyApplication.getInstance().setLocked(false);
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
-          if (ctx instanceof ActionBarActivity) {
-            ((ActionBarActivity) ctx).getSupportActionBar().show();
+          if (ctx instanceof AppCompatActivity) {
+            ((AppCompatActivity) ctx).getSupportActionBar().show();
           }
           if (isInSecurityQuestion) {
             MyApplication.PrefKey.PERFORM_PROTECTION.putBoolean(false);

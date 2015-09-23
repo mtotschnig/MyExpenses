@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;

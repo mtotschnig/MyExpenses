@@ -16,7 +16,14 @@
 package org.totschnig.myexpenses.dialog;
 
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import android.support.v7.app.AlertDialog;
+import android.app.Dialog;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
@@ -24,17 +31,21 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.widget.ListView;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_IS_MAIN = "is_main";

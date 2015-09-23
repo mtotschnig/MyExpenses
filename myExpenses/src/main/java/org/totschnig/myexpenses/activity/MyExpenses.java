@@ -72,6 +72,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -89,7 +91,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -99,7 +100,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -137,6 +137,7 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private long mAccountId = 0;
   int mAccountCount = 0;
+  private Toolbar mToolbar;
 
 
   public enum HelpVariant {
@@ -239,21 +240,23 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerList.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position,
-          long id) {
-        if (mAccountId!=id) {
+                              long id) {
+        if (mAccountId != id) {
           moveToPosition(position);
           mDrawerLayout.closeDrawers();
         }
       }
     });
-
-    getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+    mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, null));
+    setSupportActionBar(mToolbar);
+    /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
         | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP
-        |  ActionBar.DISPLAY_USE_LOGO);
-    getSupportActionBar().setCustomView(R.layout.custom_title);
-    theme.resolveAttribute(R.attr.drawerImage, value, true);
+        |  ActionBar.DISPLAY_USE_LOGO);*/
+    //getSupportActionBar().setCustomView(R.layout.custom_title);
+    //theme.resolveAttribute(R.attr.drawerImage, value, true);
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-        value.resourceId, R.string.drawer_open, R.string.drawer_close) {
+        mToolbar, R.string.drawer_open, R.string.drawer_close) {
 
     /** Called when a drawer has settled in a completely closed state. */
     public void onDrawerClosed(View view) {
@@ -362,6 +365,7 @@ public class MyExpenses extends LaunchActivity implements
     else
       myPager.setCurrentItem(position,false);
   }
+
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     boolean showBalanceCommand = false;
@@ -768,7 +772,7 @@ public class MyExpenses extends LaunchActivity implements
       MyApplication.PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
     }
     mAccountId = newAccountId;
-    setCustomTitle();
+    setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
   }
@@ -989,7 +993,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {
-    tv.setText(Utils.convAmount(tv.getText().toString(),currency));
+    tv.setText(Utils.convAmount(tv.getText().toString(), currency));
   }
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
@@ -1016,17 +1020,17 @@ public class MyExpenses extends LaunchActivity implements
       return super.onOptionsItemSelected(item);
   }
 
-  private void setCustomTitle() {
-    View titleBar = getSupportActionBar().getCustomView();
-    ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
+  private void setBalance() {
+    ((TextView) mToolbar.findViewById(R.id.end)).setText(Utils.formatCurrency(
         new Money(
             Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency)),
             mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE)))));
-    titleBar.findViewById(R.id.color1).setBackgroundColor(
-        mAccountId < 0 ?
-            colorAggregate :
-              mAccountsCursor.getInt(columnIndexColor));
   }
+
+  public void setTitle(String title) {
+    ((TextView) mToolbar.findViewById(R.id.action_bar_title)).setText(title);
+  }
+
   public TransactionList getCurrentFragment() {
     if (mViewPagerAdapter == null)
       return null;

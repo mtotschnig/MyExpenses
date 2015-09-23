@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

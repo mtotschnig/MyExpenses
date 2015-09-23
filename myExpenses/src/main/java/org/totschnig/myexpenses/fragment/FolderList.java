@@ -15,7 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -163,7 +163,7 @@ public class FolderList extends ListFragment {
 
   private void selectCurrentFolder(File current) {
     selectedFolder = current;
-    ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
+    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(
         current.getAbsolutePath());
     getActivity().supportInvalidateOptionsMenu();
   }

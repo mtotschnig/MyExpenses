@@ -4,7 +4,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

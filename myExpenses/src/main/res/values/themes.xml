@@ -15,20 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <style name="Launch" parent="@style/Theme.AppCompat">
+  <style name="Launch" parent="@style/Theme.AppCompat.NoActionBar">
     <item name="android:windowBackground">@android:color/transparent</item>
     <item name="android:windowNoTitle">true</item>
   </style>
 	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar">
     <item name="browseIcon">@drawable/ic_action_browse_light</item>
   </style>
-	<style name="BaseDark" parent="@style/Theme.AppCompat">
-    <item name="actionBarStyle">@style/ActionBarDark</item>
-  </style>
-  <style name="BaseLight" parent="@style/Theme.AppCompat.Light">
-    <item name="actionBarStyle">@style/ActionBarLight</item>
-  </style>
-  <style name="ThemeDark" parent="BaseDark">
+  <style name="ThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
     <item name="dropdownListPreferredItemHeight">48sp</item>
     <item name="colorIncome">@color/colorIncomeDark</item>
     <item name="colorExpense">@color/colorExpenseDark</item>
@@ -41,7 +35,7 @@
     <item name="drawerImage">@drawable/ic_drawer_holo_dark</item>
     <item name="drawerWidth">260sp</item>
   </style>
-  <style name="ThemeLight" parent="BaseLight">
+  <style name="ThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
     <item name="dropdownListPreferredItemHeight">48sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>

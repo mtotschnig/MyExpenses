@@ -10,13 +10,13 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 
 import android.app.AlertDialog;
+import android.preference.ListPreference;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
-import android.preference.ListPreference;
 import android.util.AttributeSet;
 
 public class CalendarListPreference extends ListPreference {

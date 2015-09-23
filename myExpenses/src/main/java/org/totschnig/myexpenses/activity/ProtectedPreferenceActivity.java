@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

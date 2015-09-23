@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.text.ClipboardManager;
 import android.content.Context;

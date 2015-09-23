@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;

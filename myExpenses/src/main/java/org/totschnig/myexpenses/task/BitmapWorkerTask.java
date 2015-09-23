@@ -2,10 +2,9 @@ package org.totschnig.myexpenses.task;
 
 import java.lang.ref.WeakReference;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;

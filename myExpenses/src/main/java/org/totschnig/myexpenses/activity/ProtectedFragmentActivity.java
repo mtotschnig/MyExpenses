@@ -15,23 +15,9 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.Serializable;
-
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.AbstractWidget;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -42,7 +28,7 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -51,11 +37,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+
+import java.io.Serializable;
+
 /**
  * @author Michael Totschnig
  *
  */
-public class ProtectedFragmentActivity extends ActionBarActivity
+public class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
   public static final int CALCULATOR_REQUEST = 0;
@@ -96,8 +96,8 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     setLanguage();
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
+/*    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayShowHomeEnabled(true);*/
     Resources.Theme theme = getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);

@@ -1,20 +1,14 @@
 package org.totschnig.myexpenses.dialog;
 
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.View;
+import android.widget.RadioGroup;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.RadioButton;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     implements DialogUtils.CalendarRestoreStrategyChangedListener {

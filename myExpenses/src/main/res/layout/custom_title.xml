@@ -21,15 +21,11 @@
       android:paddingRight="@dimen/general_padding"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent">
-  <View
-      android:layout_marginRight="@dimen/general_padding"
-      android:layout_alignParentLeft="true"
-      android:id="@+id/color1"
-      android:layout_height="fill_parent"
-      android:layout_width="4dp"/>
+
   <TextView
+      android:layout_marginRight="@dimen/general_padding"
       android:layout_centerVertical="true"
-      android:layout_toRightOf="@id/color1"
+      android:layout_alignParentLeft="true"
       android:layout_toLeftOf="@id/end"
       android:id="@id/action_bar_title"
       android:layout_width="wrap_content"

@@ -59,9 +59,9 @@ android {
 dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
-    compile 'com.android.support:appcompat-v7:19.0.1'
-    compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.itextpdf:itextpdf:5.5.2'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'

@@ -23,7 +23,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

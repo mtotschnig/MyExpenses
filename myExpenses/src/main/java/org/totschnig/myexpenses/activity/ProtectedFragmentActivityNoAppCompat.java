@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
