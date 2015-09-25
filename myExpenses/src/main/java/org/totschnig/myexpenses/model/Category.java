@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -42,7 +43,7 @@ public class Category extends Model {
    */
   public Category(Long id, String label,Long parentId) {
     this.setId(id);
-    this.label = label;
+    this.label = StringUtils.strip(label);
     this.parentId = parentId;
   }
   public static final String[] PROJECTION = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID};
@@ -67,6 +68,7 @@ public class Category extends Model {
    * @return id or -1 if not found
    */
   public static long find(String label, Long parentId) {
+    label = StringUtils.strip(label);
     String selection;
     String[] selectionArgs;
     if (parentId == null) {

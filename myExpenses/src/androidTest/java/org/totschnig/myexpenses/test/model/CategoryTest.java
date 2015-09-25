@@ -19,4 +19,17 @@ public class CategoryTest extends ModelTest {
         Category subsub = new Category(0L,"Sub",subId);
         assertNull(subsub.save());
     }
+
+    public void testShouldStripWhiteSpace() {
+        String labelUnderTest = " Main ";
+        String labelUnderTestStripped = "Main";
+        assertEquals(-1,Category.find(labelUnderTest,null));
+        assertEquals(-1, Category.find(labelUnderTestStripped, null));
+        assertNotNull(new Category(0L,labelUnderTest,null).save());
+        long testedId = Category.find(labelUnderTest,null);
+        long testedStrippedId = Category.find(labelUnderTestStripped,null);
+        assertTrue(testedId!=-1);
+        assertTrue(testedStrippedId!=-1);
+        assertEquals(testedId,testedStrippedId);
+    }
 }
