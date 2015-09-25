@@ -31,7 +31,7 @@ public class QifCategory extends CategoryInfo {
 //    }
 
     public void writeTo(QifBufferedWriter qifWriter) throws IOException {
-        qifWriter.write("N").write(name).newLine();
+        qifWriter.write("N").write(getName()).newLine();
         qifWriter.write(isIncome ? "I" : "E").newLine();
         qifWriter.end();
     }
@@ -43,7 +43,7 @@ public class QifCategory extends CategoryInfo {
                 break;
             }
             if (line.startsWith("N")) {
-                this.name = trimFirstChar(line);
+                this.setName(trimFirstChar(line));
             } else if (line.startsWith("I")) {
                 this.isIncome = true;
             }

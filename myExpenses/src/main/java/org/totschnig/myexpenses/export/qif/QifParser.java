@@ -84,7 +84,7 @@ public class QifParser {
         while (true) {
             QifCategory category = new QifCategory();
             category.readFrom(r);
-            if (category.name != null) {
+            if (category.getName() != null) {
               categories.add(category);
             }
             if (shouldBreakCurrentBlock()) {
