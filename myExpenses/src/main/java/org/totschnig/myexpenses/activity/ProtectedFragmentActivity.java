@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -28,6 +27,7 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -92,7 +92,6 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     if (BuildConfig.DEBUG) {
         enableStrictMode();
     }
-
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     setLanguage();
@@ -188,6 +187,11 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     }
     return false;
   }
+
+  public void dispatchCommand(View v) {
+    dispatchCommand(v.getId(),v.getTag());
+  }
+
   @Override
   public void onPreExecute() {
   }

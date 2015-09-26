@@ -115,8 +115,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener,
-    ContribIFace {
+    ConfirmationDialogListener, ContribIFace {
 
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
@@ -401,17 +400,17 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
-/*      nextReminder = 
+/*      nextReminder =
           MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
       if (nextReminder != -1 && sequenceCount >= nextReminder) {
-        RemindRateDialogFragment f = 
+        RemindRateDialogFragment f =
         new org.totschnig.myexpenses.dialog.RemindRateDialogFragment();
         f.setCancelable(false);
         f.show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }*/
       if (!MyApplication.getInstance().isContribEnabled()) {
-        nextReminder = 
+        nextReminder =
             MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           CommonCommands.showContribInfoDialog(this,sequenceCount);

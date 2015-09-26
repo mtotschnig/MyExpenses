@@ -57,7 +57,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   public enum HelpVariant {
     templates,plans
   }
-  public static final int PLAN_INSTANCES_CURSOR = 1;
 
   public long calledFromCalendarWithId = 0;
   private boolean mTransferEnabled = false;
