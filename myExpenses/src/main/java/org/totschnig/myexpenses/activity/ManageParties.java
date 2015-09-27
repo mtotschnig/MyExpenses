@@ -36,20 +36,13 @@ public class ManageParties extends ProtectedFragmentActivity implements
     EditTextDialogListener, DbWriteFragment.TaskCallbacks {
   Payee mParty;
 
-  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_parties);
+    setupToolbar(true);
     setTitle(R.string.pref_manage_parties_title);
-  }
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.parties, menu);
-    super.onCreateOptionsMenu(menu);
-    return true;
   }
 
   @Override
