@@ -17,16 +17,19 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager.LayoutParams;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,6 +47,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
 
   public interface EditTextDialogListener {
     void onFinishEditDialog(Bundle args);
+
     void onCancelEditDialog();
   }
 
@@ -55,36 +59,35 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
     return dialogFragment;
   }
 
+  @NonNull
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     Bundle args = getArguments();
     mEditText = new EditText(getActivity());
-    getDialog().setTitle(args.getString(KEY_DIALOG_TITLE));
     // Show soft keyboard automatically
-    mEditText.setInputType(args.getInt(KEY_INPUT_TYPE,InputType.TYPE_CLASS_TEXT));
+    mEditText.setInputType(args.getInt(KEY_INPUT_TYPE, InputType.TYPE_CLASS_TEXT));
     mEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
     mEditText.requestFocus();
-    getDialog().getWindow().setSoftInputMode(
-        LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     mEditText.setOnEditorActionListener(this);
-    mEditText.setId(1);
-    if (Build.VERSION.SDK_INT==Build.VERSION_CODES.FROYO) {
-      //workaround crash seen on HTC 2.2. devices
-      mEditText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT));
-    }
+    mEditText.setId(R.id.EditTextDialogInput);
+
     mEditText.setText(args.getString(KEY_VALUE));
     int maxLength = args.getInt(KEY_MAX_LENGTH);
-    if (maxLength!=0) {
+    if (maxLength != 0) {
       mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
     }
-    //input.setSingleLine();
-    return mEditText;
+    AlertDialog dialog = builder.setView(mEditText)
+        .setTitle(args.getString(KEY_DIALOG_TITLE))
+        .create();
+    dialog.getWindow().setSoftInputMode(
+        WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    return dialog;
   }
 
   @Override
-  public void onCancel (DialogInterface dialog) {
-    if (getActivity()==null) {
+  public void onCancel(DialogInterface dialog) {
+    if (getActivity() == null) {
       return;
     }
     ((EditTextDialogListener) getActivity()).onCancelEditDialog();
@@ -100,7 +103,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
         Bundle args = getArguments();
         String result = mEditText.getText().toString();
         if (result.equals("")) {
-          Toast.makeText(getActivity(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
+          Toast.makeText(getActivity(), getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
         } else {
           args.putString(KEY_RESULT, result);
           activity.onFinishEditDialog(args);
