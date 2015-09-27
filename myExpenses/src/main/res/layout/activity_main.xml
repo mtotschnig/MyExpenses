@@ -18,16 +18,7 @@
             android:layout_height="match_parent">
         <include layout="@layout/viewpager"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@id/CREATE_TRANSACTION_COMMAND"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:src="@android:drawable/ic_menu_add"
-            android:layout_marginBottom="@dimen/fab_margin_bottom"
-            android:layout_marginRight="@dimen/fab_margin_right"
-            android:onClick="dispatchCommand"
-            app:fabSize="normal"/>
+            <include layout="@layout/floating_action_button"/>
         </FrameLayout>
     </LinearLayout>
     <!-- The navigation drawer -->

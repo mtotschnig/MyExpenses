@@ -429,14 +429,11 @@ public class MyExpenses extends LaunchActivity implements
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer/split
-   * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER} or {@link #TYPE_SPLIT}
+   * Originally the form for transaction is rendered, user can change from spinner in toolbar
    */
-  private void createRow(int type) {
+  private void createRow() {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
-    //since splits are immediately persisted they will not work without an account set
-    if (mAccountId == 0 && type == TYPE_SPLIT)
-      return;
+    i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
     //if we are called from an aggregate cursor, we also hand over the currency
     if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
       i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
@@ -485,31 +482,8 @@ public class MyExpenses extends LaunchActivity implements
         Account.getInstanceFromDb(mAccountId).persistGrouping(value);
       }
       return true;
-    case R.id.CREATE_TRANSACTION_COMMAND:
-      createRow(TYPE_TRANSACTION);
-      return true;
-    case R.id.CREATE_TRANSFER_COMMAND:
-      if (transferEnabled()) {
-        createRow(TYPE_TRANSFER);
-      } else {
-        a = Account.getInstanceFromDb(mAccountId);
-        if (a != null) {
-          String currency = a.currency.getCurrencyCode();
-          MessageDialogFragment.newInstance(
-              0,
-              getString(R.string.dialog_command_disabled_insert_transfer_1) +
-              " " +
-              getString(R.string.dialog_command_disabled_insert_transfer_2,
-                  currency),
-              new MessageDialogFragment.Button(R.string.menu_create_account, R.id.CREATE_ACCOUNT_COMMAND,currency),
-              MessageDialogFragment.Button.okButton(),
-              null)
-           .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
-        }
-      }
-      return true;
-    case R.id.CREATE_SPLIT_COMMAND:
-      contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
+    case R.id.CREATE_COMMAND:
+      createRow();
       return true;
     case R.id.BALANCE_COMMAND:
       tl = getCurrentFragment();
@@ -698,9 +672,7 @@ public class MyExpenses extends LaunchActivity implements
       startActivity(i);
       break;
     case SPLIT_TRANSACTION:
-      if (tag==null) {
-        createRow(TYPE_SPLIT);
-      } else {
+      if (tag!=null) {
         startTaskExecution(
             TaskExecutionFragment.TASK_SPLIT,
             (Object[]) tag,
