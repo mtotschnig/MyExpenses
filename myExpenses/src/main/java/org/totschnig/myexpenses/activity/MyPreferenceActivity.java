@@ -78,10 +78,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
 
+  //TODO migrate to PreferenceFragment
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
+    setTheme(MyApplication.getThemeId(true));
     super.onCreate(savedInstanceState);
     setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
     addPreferencesFromResource(R.xml.preferences);
