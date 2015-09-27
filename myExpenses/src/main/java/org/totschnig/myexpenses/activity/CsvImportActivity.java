@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.view.View;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
@@ -22,11 +24,12 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 
 public class CsvImportActivity extends ProtectedFragmentActivity implements
-    ActionBar.TabListener,ConfirmationDialogFragment.ConfirmationDialogListener {
+    ConfirmationDialogFragment.ConfirmationDialogListener {
 
   public static final String KEY_DATA_READY = "KEY_DATA_READY";
   public static final String KEY_USAGE_RECORDED = "KEY_USAGE_RECORDED";
@@ -40,13 +43,10 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
    */
   SectionsPagerAdapter mSectionsPagerAdapter;
 
-  /**
-   * The {@link ViewPager} that will host the section contents.
-   */
-  ViewPager mViewPager;
-
   private boolean mDataReady = false;
   private boolean mUsageRecorded = false;
+  private TabLayout mTabLayout;
+  private ViewPager mViewPager;
 
   private void setmDataReady(boolean mDataReady) {
     this.mDataReady = mDataReady;
@@ -57,30 +57,15 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.viewpager);
+    setContentView(R.layout.activity_with_tabs);
+    setupToolbar(true);
     final ActionBar actionBar = getSupportActionBar();
     actionBar.setTitle(getString(R.string.pref_import_title, "CSV"));
 
-    // Set up the action bar.
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-    // Create the adapter that will return a fragment for each of the three
-    // primary sections of the activity.
-    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-    // Set up the ViewPager with the sections adapter.
     mViewPager = (ViewPager) findViewById(R.id.viewpager);
-    mViewPager.setAdapter(mSectionsPagerAdapter);
 
-    // When swiping between different sections, select the corresponding
-    // tab. We can also use ActionBar.Tab#select() to do this if we have
-    // a reference to the Tab.
-    mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-      @Override
-      public void onPageSelected(int position) {
-        actionBar.setSelectedNavigationItem(position);
-      }
-    });
+    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+    mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
     //we only add the first tab, the second one once data has been parsed
     addTab(0);
@@ -91,22 +76,23 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
         setmDataReady(true);
       }
     }
+    mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    mTabLayout.setupWithViewPager(mViewPager);
+
+    //hide FAB
+    findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
   }
 
-
-  @Override
-  public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    // When the given tab is selected, switch to the corresponding page in
-    // the ViewPager.
-    mViewPager.setCurrentItem(tab.getPosition());
-  }
-
-  @Override
-  public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-  }
-
-  @Override
-  public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+  private void addTab(int index) {
+   switch(index) {
+     case 0:
+       mSectionsPagerAdapter.addFragment(CsvImportParseFragment.newInstance(), getString(R.string.menu_parse));
+       break;
+     case 1:
+       mSectionsPagerAdapter.addFragment(CsvImportDataFragment.newInstance(), getString(R.string.csv_import_preview));
+       break;
+   }
   }
 
   @Override
@@ -135,11 +121,35 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
    */
   public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+    private final List<Fragment> mFragments = new ArrayList<>();
+    private final List<String> mFragmentTitles = new ArrayList<>();
+
     public SectionsPagerAdapter(FragmentManager fm) {
       super(fm);
     }
 
+
+    public void addFragment(Fragment fragment, String title) {
+      mFragments.add(fragment);
+      mFragmentTitles.add(title);
+    }
+
     @Override
+    public Fragment getItem(int position) {
+      return mFragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+      return mFragments.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+      return mFragmentTitles.get(position);
+    }
+
+/*    @Override
     public Fragment getItem(int position) {
      switch (position) {
        case 0:
@@ -148,24 +158,8 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
          return CsvImportDataFragment.newInstance();
      }
       return null;
-    }
+    }*/
 
-    @Override
-    public int getCount() {
-      return mDataReady ? 2 : 1;
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-      Locale l = Locale.getDefault();
-      switch (position) {
-        case 0:
-          return getString(R.string.menu_parse);
-        case 1:
-          return getString(R.string.csv_import_preview);
-      }
-      return null;
-    }
     public String getFragmentName(int currentPosition) {
       //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
       //would call this function if it were visible
@@ -183,11 +177,14 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
           if (!mDataReady) {
             addTab(1);
             setmDataReady(true);
+            // TabLayout does not seem to be designed for handling changes in the adapter autmoatically
+            // https://code.google.com/p/android/issues/detail?id=182033
+            mTabLayout.addTab(mTabLayout.newTab().setText(mSectionsPagerAdapter.getPageTitle(1)));
           }
           CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
               mSectionsPagerAdapter.getFragmentName(1));
           if (df != null) df.setData((ArrayList<CSVRecord>) result);
-          getSupportActionBar().setSelectedNavigationItem(1);
+          mViewPager.setCurrentItem(1);
         } else {
           Toast.makeText(this, R.string.parse_error_no_data_found, Toast.LENGTH_LONG).show();
         }
@@ -222,14 +219,6 @@ public class CsvImportActivity extends ProtectedFragmentActivity implements
     } else {
       super.onProgressUpdate(progress);
     }
-  }
-
-  private void addTab(int index) {
-    final ActionBar actionBar = getSupportActionBar();
-    actionBar.addTab(
-        actionBar.newTab()
-            .setText(mSectionsPagerAdapter.getPageTitle(index))
-            .setTabListener(this));
   }
 
   @Override
