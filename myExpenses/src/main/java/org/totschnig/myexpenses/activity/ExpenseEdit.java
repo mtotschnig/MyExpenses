@@ -214,11 +214,7 @@ public class ExpenseEdit extends AmountActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-    final ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setDisplayShowHomeEnabled(true);
+    setupToolbar(true);
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
@@ -428,7 +424,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       final Long parentId = getIntent().getLongExtra(KEY_PARENTID,0);
-      actionBar.setDisplayShowTitleEnabled(false);
+      getSupportActionBar().setDisplayShowTitleEnabled(false);
       mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
       mOperationTypeSpinner = ((Spinner) findViewById(R.id.OperationType));
       mOperationTypeSpinner.setVisibility(View.VISIBLE);

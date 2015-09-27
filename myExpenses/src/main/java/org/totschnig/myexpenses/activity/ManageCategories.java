@@ -90,17 +90,16 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     super.onCreate(savedInstanceState);
     Intent intent = getIntent();
     String action = intent.getAction();
-    int layoutId = R.layout.select_category;
+    int title = 0;
     if (action == null) {
       helpVariant = HelpVariant.select_mapping;
-      getSupportActionBar().setTitle(R.string.select_category);
+      title = R.string.select_category;
     } else if (action.equals("myexpenses.intent.manage.categories") ||
         action.equals(Intent.ACTION_MAIN)) {
       helpVariant = HelpVariant.manage;
-      getSupportActionBar().setTitle(R.string.pref_manage_categories_title);
+      title = R.string.pref_manage_categories_title;
     } else if (action.equals("myexpenses.intent.distribution")) {
       helpVariant = HelpVariant.distribution;
-      layoutId = R.layout.distribution;
       //title is set in categories list
       DisplayMetrics dm = getResources().getDisplayMetrics();
 
@@ -132,9 +131,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           });
     } else if (action.equals("myexpenses.intent.select_filter")) {
       helpVariant = HelpVariant.select_filter;
-      getSupportActionBar().setTitle(R.string.search_category);
+      title = R.string.search_category;
     }
-    setContentView(layoutId);
+    setContentView(R.layout.select_category);
+    setupToolbar(true);
+    if (title!=0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
   }

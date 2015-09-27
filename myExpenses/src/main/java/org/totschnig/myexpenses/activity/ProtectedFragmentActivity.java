@@ -27,8 +27,10 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -104,6 +106,18 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
   }
+
+  protected Toolbar setupToolbar(boolean withHome) {
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    if (withHome) {
+      final ActionBar actionBar = getSupportActionBar();
+      actionBar.setDisplayHomeAsUpEnabled(true);
+      actionBar.setDisplayShowHomeEnabled(true);
+    }
+    return toolbar;
+  }
+
     @TargetApi(9)
     private void enableStrictMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {

@@ -246,9 +246,8 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
     });
-    mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    mToolbar = setupToolbar(false);
     mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, null));
-    setSupportActionBar(mToolbar);
     /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
         | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP
         |  ActionBar.DISPLAY_USE_LOGO);*/
