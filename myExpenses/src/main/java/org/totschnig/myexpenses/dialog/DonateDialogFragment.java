@@ -127,6 +127,6 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     if (getActivity()==null) {
       return;
     }
-    ((ContribIFace)getActivity()).contribFeatureNotCalled();
+    getActivity().finish();
   }
 }

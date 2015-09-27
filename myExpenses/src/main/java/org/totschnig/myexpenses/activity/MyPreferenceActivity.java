@@ -548,7 +548,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   }
 
   @Override
-  public void contribFeatureNotCalled() {
+  public void contribFeatureNotCalled(ContribFeature feature) {
 
   }
 }

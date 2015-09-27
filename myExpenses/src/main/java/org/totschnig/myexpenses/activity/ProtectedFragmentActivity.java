@@ -310,10 +310,15 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
-      ((ContribIFace) this).contribFeatureCalled(
-          (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
-          intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST) {
+      if (resultCode == RESULT_OK) {
+        ((ContribIFace) this).contribFeatureCalled(
+            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+            intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+      } else if (resultCode == RESULT_CANCELED) {
+        ((ContribIFace) this).contribFeatureNotCalled(
+            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE));
+      }
     }
   }
 

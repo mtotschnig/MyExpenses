@@ -696,7 +696,7 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
   @Override
-  public void contribFeatureNotCalled() {
+  public void contribFeatureNotCalled(ContribFeature feature) {
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {

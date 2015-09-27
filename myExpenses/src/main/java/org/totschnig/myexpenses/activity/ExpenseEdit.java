@@ -99,8 +99,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
@@ -462,7 +460,7 @@ public class ExpenseEdit extends AmountActivity implements
       };
       mOperationTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mOperationTypeSpinner.setAdapter(mOperationTypeAdapter);
-      mOperationTypeSpinner.setSelection(mOperationTypeAdapter.getPosition(mOperationType));
+      resetOperationType();
       mOperationTypeSpinner.setOnItemSelectedListener(this);
       Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID,0);
       if (getIntent().getBooleanExtra(KEY_NEW_TEMPLATE,false)) {
@@ -1450,17 +1448,30 @@ public class ExpenseEdit extends AmountActivity implements
       if (newType != mOperationType) {
         if (newType == MyExpenses.TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
           //reset to previous
-          mOperationTypeSpinner.setSelection(mOperationTypeAdapter.getPosition(mOperationType));
+          resetOperationType();
         } else {
-          Intent restartIntent = getIntent();
-          restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);
-          finish();
-          startActivity(restartIntent);
+          if (newType == MyExpenses.TYPE_SPLIT) {
+            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
+          } else {
+            restartWithType(newType);
+          }
         }
       }
       break;
     }
   }
+
+  private void resetOperationType() {
+    mOperationTypeSpinner.setSelection(mOperationTypeAdapter.getPosition(mOperationType));
+  }
+
+  private void restartWithType(int newType) {
+    Intent restartIntent = getIntent();
+    restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);
+    finish();
+    startActivity(restartIntent);
+  }
+
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
     // TODO Auto-generated method stub    
@@ -1749,10 +1760,15 @@ public class ExpenseEdit extends AmountActivity implements
     if (feature==ContribFeature.ATTACH_PICTURE) {
       startMediaChooserDo();
     }
+    else if (feature == ContribFeature.SPLIT_TRANSACTION) {
+      restartWithType(MyExpenses.TYPE_SPLIT);
+    }
   }
   @Override
-  public void contribFeatureNotCalled() {
-    // nothing to do
+  public void contribFeatureNotCalled(ContribFeature feature) {
+    if (feature == ContribFeature.SPLIT_TRANSACTION) {
+      resetOperationType();
+    }
   }
   private void launchNewPlan() {
     if (mTransaction != null) { // might be null if called from onActivityResult

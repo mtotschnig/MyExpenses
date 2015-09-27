@@ -109,7 +109,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       if (usagesLeft > 0) {
         ctx.contribFeatureCalled(feature, getArguments().getSerializable(ContribInfoDialogActivity.KEY_TAG));
       } else {
-        ctx.contribFeatureNotCalled();
+        ctx.contribFeatureNotCalled(feature);
       }
     }
   }
@@ -117,7 +117,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public void onCancel (DialogInterface dialog) {
     ContribIFace ctx = (ContribIFace)getActivity();
     if (ctx!=null) {
-      ctx.contribFeatureNotCalled();
+      ctx.contribFeatureNotCalled(feature);
     }
   }
 }

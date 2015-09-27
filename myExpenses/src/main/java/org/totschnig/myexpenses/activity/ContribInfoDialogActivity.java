@@ -72,7 +72,10 @@ public class ContribInfoDialogActivity extends FragmentActivity
   }
 
   @Override
-  public void contribFeatureNotCalled() {
+  public void contribFeatureNotCalled(ContribFeature feature) {
+    Intent i = new Intent();
+    i.putExtra(KEY_FEATURE, feature);
+    setResult(RESULT_CANCELED, i);
     finish();
   }
 
