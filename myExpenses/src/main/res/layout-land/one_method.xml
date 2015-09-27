@@ -14,46 +14,58 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-  <ScrollView 
-      android:layout_width="fill_parent"
-      android:layout_height="0dip"
-      android:layout_weight="1"
-      android:fillViewport="true">
-    <TableLayout
-        android:paddingRight="@dimen/general_padding"
-        android:paddingLeft="@dimen/general_padding"
-        android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_expense_edit"/>
+
+    <ScrollView
         android:layout_width="fill_parent"
-        android:id="@+id/Table"
-        android:stretchColumns="1"
-        android:shrinkColumns="1">
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:text="@string/label" />
-        <LinearLayout
-            android:orientation="horizontal">
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/Label" 
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <TableLayout
+            android:id="@+id/Table"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TaType"
-            android:entries="@array/method_types"
-            android:prompt="@string/type" />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/IsNumbered"
-            android:text="@string/numbered" />
-        </LinearLayout>
-      </TableRow>
-      </TableLayout>
-  </ScrollView>
+            android:paddingLeft="@dimen/general_padding"
+            android:paddingRight="@dimen/general_padding"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/label"/>
+
+                <LinearLayout
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/Label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <Spinner
+                        android:id="@+id/TaType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/method_types"
+                        android:prompt="@string/type"/>
+
+                    <CheckBox
+                        android:id="@+id/IsNumbered"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/numbered"/>
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>

@@ -14,65 +14,98 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true">
-  <TableLayout
-	    android:paddingRight="@dimen/general_padding"
-	    android:paddingLeft="@dimen/general_padding"
-	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent"
-	    android:id="@+id/Table"
-	    android:stretchColumns="1"
-	    android:shrinkColumns="1">
-    <TableRow>
-      <TextView style="@style/form_label"
-          android:text="@string/label" />
-      <EditText
-          android:id="@+id/Label" 
-          android:layout_width="wrap_content" 
-          android:layout_height="wrap_content" />
-    </TableRow>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
 
-    <TableRow>
-      <TextView style="@style/form_label"
-          android:text="@string/description" />
-      <EditText
-          android:id="@+id/Description" 
-          android:layout_width="wrap_content" 
-          android:layout_height="wrap_content" />
-    </TableRow>
-      
-    <TableRow>
-      <TextView style="@style/form_label"
-          android:text="@string/opening_balance"/>
-      <LinearLayout
-          android:orientation="horizontal">
-        <include layout="@layout/amount_input"/>
-      </LinearLayout>
-    </TableRow>
-      
-    <TableRow>
-      <TextView style="@style/form_label"
-          android:text="@string/currency" />
-     <Spinner android:id="@+id/Currency"
-          android:prompt="@string/currency" />
-    </TableRow>
+    <include layout="@layout/toolbar_expense_edit"/>
 
-    <TableRow>
-      <TextView style="@style/form_label"
-          android:text="@string/type" />
-      <Spinner android:id="@+id/AccountType"
-          android:prompt="@string/type" />
-    </TableRow>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <TableRow>
-      <TextView style="@style/form_label"
-          android:text="@string/color" />
-      <Spinner android:id="@+id/Color"
-          android:prompt="@string/color" />
-    </TableRow>
+        <TableLayout
+            android:id="@+id/Table"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/general_padding"
+            android:paddingRight="@dimen/general_padding"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
 
-  </TableLayout>
-</ScrollView>
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/label"/>
+
+                <EditText
+                    android:id="@+id/Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/description"/>
+
+                <EditText
+                    android:id="@+id/Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/opening_balance"/>
+
+                <LinearLayout
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/amount_input"/>
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/currency"/>
+
+                <Spinner
+                    android:id="@+id/Currency"
+                    android:prompt="@string/currency"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/type"/>
+
+                <Spinner
+                    android:id="@+id/AccountType"
+                    android:prompt="@string/type"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/color"/>
+
+                <Spinner
+                    android:id="@+id/Color"
+                    android:prompt="@string/color"/>
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>

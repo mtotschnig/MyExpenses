@@ -49,6 +49,7 @@ public class MethodEdit extends EditActivity {
     super.onCreate(savedInstanceState);
         
     setContentView(R.layout.one_method);
+    setupToolbar(true);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);

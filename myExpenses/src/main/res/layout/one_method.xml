@@ -15,48 +15,64 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-  <ScrollView 
-      android:layout_width="fill_parent"
-      android:layout_height="0dip"
-      android:layout_weight="1"
-      android:fillViewport="true">
-    <TableLayout
-        android:paddingRight="@dimen/general_padding"
-        android:paddingLeft="@dimen/general_padding"
-        android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_expense_edit"/>
+
+    <ScrollView
         android:layout_width="fill_parent"
-        android:id="@+id/Table"
-        android:stretchColumns="1"
-        android:shrinkColumns="1">
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:text="@string/label" />
-        <EditText
-            android:id="@+id/Label" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" />
-      </TableRow>
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:text="@string/type" />
-        <Spinner
-        	  android:entries="@array/method_types"
-            android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <TableLayout
+            android:id="@+id/Table"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TaType"
-            android:prompt="@string/type" />
-      </TableRow>
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:text="@string/numbered" />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/IsNumbered" />
-      </TableRow>      
-      </TableLayout>
-  </ScrollView>
+            android:paddingLeft="@dimen/general_padding"
+            android:paddingRight="@dimen/general_padding"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/label"/>
+
+                <EditText
+                    android:id="@+id/Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/type"/>
+
+                <Spinner
+                    android:id="@+id/TaType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/method_types"
+                    android:prompt="@string/type"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/form_label"
+                    android:text="@string/numbered"/>
+
+                <CheckBox
+                    android:id="@+id/IsNumbered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>
