@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,15 +92,9 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
     mProgress = (ProgressBar) view.findViewById(R.id.progress);
     ((TextView) view.findViewById(R.id.help_intro))
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
-    CompoundButton themeSwitch = (CompoundButton) view.findViewById(R.id.TaType);
-    if (Build.VERSION.SDK_INT>=14) {
-      ((Switch) themeSwitch).setTextOn(getString(R.string.pref_ui_theme_light));
-      ((Switch) themeSwitch).setTextOff(getString(R.string.pref_ui_theme_dark));
-    } else {
-      ((ToggleButton) themeSwitch).setTextOn(getString(R.string.pref_ui_theme_light));
-      ((ToggleButton) themeSwitch).setTextOff(getString(R.string.pref_ui_theme_dark));
-    }
+    SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.TaType);
     themeSwitch.setChecked(MyApplication.getThemeType().equals(MyApplication.ThemeType.light));
+    themeSwitch.setShowText(false);
     themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
       @Override
