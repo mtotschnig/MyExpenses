@@ -102,26 +102,38 @@
   <style name="ThemeDark.s1.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
     <item name="android:windowActionBar">true</item>
+    <item name="android:textAppearanceListItem">@style/MyTextAppearanceLarge.s1</item>
+    <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall.s1</item>
   </style>
   <style name="ThemeDark.s2.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
     <item name="android:windowActionBar">true</item>
+    <item name="android:textAppearanceListItem">@style/MyTextAppearanceLarge.s2</item>
+    <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall.s2</item>
   </style>
   <style name="ThemeDark.s3.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
     <item name="android:windowActionBar">true</item>
+    <item name="android:textAppearanceListItem">@style/MyTextAppearanceLarge.s3</item>
+    <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall.s3</item>
   </style>
   <style name="ThemeLight.s1.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
     <item name="android:windowActionBar">true</item>
+    <item name="android:textAppearanceListItem">@style/MyTextAppearanceLarge.s1</item>
+    <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall.s1</item>
   </style>
   <style name="ThemeLight.s2.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
     <item name="android:windowActionBar">true</item>
+    <item name="android:textAppearanceListItem">@style/MyTextAppearanceLarge.s2</item>
+    <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall.s2</item>
   </style>
   <style name="ThemeLight.s3.LegacyPreferenceActivity">
     <item name="android:windowNoTitle">false</item>
     <item name="android:windowActionBar">true</item>
+    <item name="android:textAppearanceListItem">@style/MyTextAppearanceLarge.s3</item>
+    <item name="android:textAppearanceListItemSecondary">@android:style/TextAppearance.Material.Body2</item>
   </style>
   <style name="ThemeDark.TranslucentNoTitleBar">
     <item name="android:windowBackground">@android:color/transparent</item>
