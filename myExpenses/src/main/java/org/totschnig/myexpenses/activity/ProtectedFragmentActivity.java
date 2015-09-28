@@ -97,8 +97,6 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     setLanguage();
-/*    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setDisplayShowHomeEnabled(true);*/
     Resources.Theme theme = getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -113,7 +111,6 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     if (withHome) {
       final ActionBar actionBar = getSupportActionBar();
       actionBar.setDisplayHomeAsUpEnabled(true);
-      actionBar.setDisplayShowHomeEnabled(true);
     }
     return toolbar;
   }
