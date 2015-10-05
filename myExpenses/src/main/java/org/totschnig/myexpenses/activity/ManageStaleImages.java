@@ -38,6 +38,7 @@ public class ManageStaleImages extends ProtectedFragmentActivity  {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_stale_images);
+    setupToolbar(true);
     setTitle("Stale images");
   }
 }
