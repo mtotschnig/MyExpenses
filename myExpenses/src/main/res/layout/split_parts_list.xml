@@ -24,21 +24,26 @@
         style="@style/headingStyle.WithBorder"
         android:text="@string/split_parts_heading"/>
 
-    <ListView
-        android:id="@+id/list"
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0px"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/empty"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/no_split_parts"/>
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/no_split_parts"/>
+        <include layout="@layout/floating_action_button_mini"/>
+    </FrameLayout>
 
     <View
         android:layout_width="fill_parent"

@@ -92,16 +92,14 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
         Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID)).currency);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
-    lv.setOnItemClickListener(new OnItemClickListener()
-    {
-         @Override
-         public void onItemClick(AdapterView<?> a, View v,int position, long id)
-         {
-           Intent i = new Intent(ctx, ExpenseEdit.class);
-           i.putExtra(KEY_ROWID, id);
-           //i.putExtra("operationType", operationType);
-           startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-         }
+    lv.setOnItemClickListener(new OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+        Intent i = new Intent(ctx, ExpenseEdit.class);
+        i.putExtra(KEY_ROWID, id);
+        //i.putExtra("operationType", operationType);
+        startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+      }
     });
     registerForContextMenu(lv);
     return v;

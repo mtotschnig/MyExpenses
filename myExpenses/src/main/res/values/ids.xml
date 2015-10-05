@@ -104,4 +104,5 @@
   <item name="PARSE_COMMAND" type="id"/>
   <item name="SET_HEADER_COMMAND" type="id"/>
   <item name="EditTextDialogInput" type="id"/>
+  <item name="CREATE_PLAN_COMMAND" type="id"/>
 </resources>

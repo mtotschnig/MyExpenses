@@ -713,8 +713,7 @@ public class ExpenseEdit extends AmountActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     if (mTransaction instanceof SplitTransaction) {
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.split, menu);
+      return true;
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)) {
       int iconRes,actionEnum;
@@ -781,13 +780,10 @@ public class ExpenseEdit extends AmountActivity implements
         saveState();
       }
       return true;
-    case R.id.CREATE_TRANSACTION_COMMAND:
-      createRow(MyExpenses.TYPE_TRANSACTION);
-      return true;
-    case R.id.CREATE_TRANSFER_COMMAND:
-      createRow(MyExpenses.TYPE_TRANSFER);
-      return true;
     case R.id.CREATE_COMMAND:
+      createRow();
+      return true;
+    case R.id.CREATE_PLAN_COMMAND:
       //create calendar
       startTaskExecution(
           TaskExecutionFragment.TASK_NEW_CALENDAR,
@@ -820,16 +816,14 @@ public class ExpenseEdit extends AmountActivity implements
     return true;
   }
 
-  private void createRow(int type) {
+  private void createRow() {
     Account account = getCurrentAccount();
-    if (type != MyExpenses.TYPE_TRANSFER || checkTransferEnabled(account)) {
-      Intent i = new Intent(this, ExpenseEdit.class);
-      forwardDataEntryFromWidget(i);
-      i.putExtra(MyApplication.KEY_OPERATION_TYPE, type);
-      i.putExtra(KEY_ACCOUNTID,account.getId());
-      i.putExtra(KEY_PARENTID,mTransaction.getId());
-      startActivityForResult(i, EDIT_SPLIT_REQUEST);
-    }
+    Intent i = new Intent(this, ExpenseEdit.class);
+    forwardDataEntryFromWidget(i);
+    i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+    i.putExtra(KEY_ACCOUNTID,account.getId());
+    i.putExtra(KEY_PARENTID,mTransaction.getId());
+    startActivityForResult(i, EDIT_SPLIT_REQUEST);
   }
   private boolean isTransferEnabled(Account fromAccount) {
     for (int i = 0; i < mAccounts.length; i++) {
@@ -1266,7 +1260,7 @@ public class ExpenseEdit extends AmountActivity implements
           createNewButton =
                 new MessageDialogFragment.Button(
                     R.string.dialog_setup_planner_button_create_new,
-                    R.id.CREATE_COMMAND,
+                    R.id.CREATE_PLAN_COMMAND,
                     null);
           message = Utils.concatResStrings(this, R.string.planner_setup_info_jb,R.string.planner_setup_info_create_new_warning);
           selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
