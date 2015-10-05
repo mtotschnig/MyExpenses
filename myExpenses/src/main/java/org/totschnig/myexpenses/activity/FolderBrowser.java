@@ -33,6 +33,7 @@ public class FolderBrowser extends ProtectedFragmentActivity implements
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.folder_browser);
+      setupToolbar(true);
     }
 
     @Override

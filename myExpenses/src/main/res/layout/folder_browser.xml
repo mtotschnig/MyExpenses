@@ -12,6 +12,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
          <fragment android:name="org.totschnig.myexpenses.fragment.FolderList"
            android:id="@+id/folder_list"
            android:layout_width="fill_parent"
