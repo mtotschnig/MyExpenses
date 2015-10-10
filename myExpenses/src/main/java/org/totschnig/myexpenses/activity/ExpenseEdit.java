@@ -99,6 +99,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
@@ -112,7 +113,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -121,7 +121,6 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -1822,29 +1821,16 @@ public class ExpenseEdit extends AmountActivity implements
 
   @SuppressLint("NewApi")
   public void showPicturePopupMenu(final View v) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-      android.support.v7.widget.PopupMenu popup = new android.support.v7.widget.PopupMenu(this, v);
-      popup.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-          handlePicturePopupMenuClick(item.getItemId());
-          return true;
-        }
-      });
-      popup.inflate(R.menu.picture_popup);
-      popup.show();
-    } else {
-      PopupMenu popup = new PopupMenu(this, v);
-      popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-          handlePicturePopupMenuClick(item.getItemId());
-          return true;
-        }
-      });
-      popup.inflate(R.menu.picture_popup);
-      popup.show();
-    }
+    PopupMenu popup = new PopupMenu(this, v);
+    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+      @Override
+      public boolean onMenuItemClick(MenuItem item) {
+        handlePicturePopupMenuClick(item.getItemId());
+        return true;
+      }
+    });
+    popup.inflate(R.menu.picture_popup);
+    popup.show();
   }
 
   private void handlePicturePopupMenuClick(int command) {
