@@ -73,6 +73,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -424,7 +425,7 @@ public class MyExpenses extends LaunchActivity implements
   public void addFilterCriteria(Integer id,Criteria c) {
     TransactionList tl = getCurrentFragment();
     if (tl != null) {
-      tl.addFilterCriteria(id,c);
+      tl.addFilterCriteria(id, c);
     }
   }
   /**
@@ -613,6 +614,34 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.QUIT_COMMAND:
         finish();
+        return true;
+      case R.id.EDIT_ACCOUNT_COMMAND:
+        mDrawerLayout.closeDrawers();
+        int position = (Integer) tag;
+        mAccountsCursor.moveToPosition(position);
+        long accountId = mAccountsCursor.getLong(columnIndexRowId);
+        if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
+          i = new Intent(this, AccountEdit.class);
+          i.putExtra(KEY_ROWID,accountId);
+          startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+        }
+        return true;
+      case R.id.DELETE_ACCOUNT_COMMAND:
+        mDrawerLayout.closeDrawers();
+        position = (Integer) tag;
+        mAccountsCursor.moveToPosition(position);
+        accountId = mAccountsCursor.getLong(columnIndexRowId);
+        //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
+        if (mAccountsCursor.getCount()>1 && accountId > 0) {
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_warning_delete_account,
+              getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
+              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+                  accountId),
+              null,
+              MessageDialogFragment.Button.noButton())
+              .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        }
         return true;
     }
     return super.dispatchCommand(command, tag);
@@ -897,32 +926,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     }
   }
-  public void deleteAccount (View v) {
-    mDrawerLayout.closeDrawers();
-    int position = (Integer) v.getTag();
-    mAccountsCursor.moveToPosition(position);
-    long accountId = mAccountsCursor.getLong(columnIndexRowId);
-    //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
-    if (mAccountsCursor.getCount()==1 || accountId > 0) {
-      MessageDialogFragment.newInstance(
-          R.string.dialog_title_warning_delete_account,
-          getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
-          new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-              accountId),
-          null,
-          MessageDialogFragment.Button.noButton())
-        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
-    }
-  }
-  public void editAccount(View v) {
-    mDrawerLayout.closeDrawers();
-    long id = (Long) v.getTag();
-    if (id > 0) { //do nothing if accidentally we are positioned at an aggregate account
-      Intent i = new Intent(this, AccountEdit.class);
-      i.putExtra(KEY_ROWID,id);
-      startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
-    }
-  }
+
   /**
    * @return true if for the current Account there is a second account
    * with the same currency we can transfer to
@@ -1013,23 +1017,41 @@ public class MyExpenses extends LaunchActivity implements
       super(context, layout, c, from, to, flags);
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
       View row=super.getView(position, convertView, parent);
-      Cursor c = getCursor();
+      final Cursor c = getCursor();
       c.moveToPosition(position);
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
-      long rowId =  c.getLong(columnIndexRowId);
+      final long rowId =  c.getLong(columnIndexRowId);
       long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      boolean is_aggregate =rowId<0;
+      final boolean is_aggregate = rowId <0;
+      final int count = c.getCount();
       boolean hide_cr;
-      View deleteAccount = row.findViewById(R.id.DELETE_ACCOUNT_COMMAND);
-      deleteAccount.setVisibility(is_aggregate || c.getCount()==1 ? View.GONE : View.VISIBLE);
-      deleteAccount.setTag(position);
-      View editAccount = row.findViewById(R.id.EDIT_ACCOUNT_COMMAND);
-      editAccount.setVisibility(is_aggregate ? View.GONE : View.VISIBLE);
-      editAccount.setTag(rowId);
+      final View accountMenu = row.findViewById(R.id.account_menu);
+      if (is_aggregate) {
+        accountMenu.setVisibility(View.GONE);
+      } else {
+        accountMenu.setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
+            popup.inflate(R.menu.accounts);
+            popup.getMenu().findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+              @Override
+              public boolean onMenuItemClick(MenuItem item) {
+                dispatchCommand(item.getItemId(), position);
+                return true;
+              }
+
+            });
+            popup.show();
+          }
+        });
+      }
 
       if (is_aggregate) {
         hide_cr = true;
