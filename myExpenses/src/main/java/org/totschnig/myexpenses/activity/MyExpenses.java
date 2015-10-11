@@ -68,6 +68,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -1022,17 +1023,27 @@ public class MyExpenses extends LaunchActivity implements
       View row=super.getView(position, convertView, parent);
       final Cursor c = getCursor();
       c.moveToPosition(position);
-      Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
+
       View v = row.findViewById(R.id.color1);
+      TextView labelTv = (TextView) row.findViewById(R.id.label);
+      final View accountMenu = row.findViewById(R.id.account_menu);
+
+      Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       final long rowId =  c.getLong(columnIndexRowId);
-      ((CardView) row.findViewById(R.id.card)).setCardElevation(rowId==mAccountId ? 200 : 0);
       long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
+
+      boolean isHighlighted = rowId == mAccountId;
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      final boolean is_aggregate = rowId <0;
+      final boolean isAggregate = rowId <0;
       final int count = c.getCount();
       boolean hide_cr;
-      final View accountMenu = row.findViewById(R.id.account_menu);
-      if (is_aggregate) {
+
+      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ? 200 : 0);
+      labelTv.setTypeface(
+          Typeface.create(labelTv.getTypeface(), Typeface.NORMAL),
+          isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
+
+      if (isAggregate) {
         accountMenu.setVisibility(View.INVISIBLE);
         accountMenu.setOnClickListener(null);
       } else {
@@ -1057,10 +1068,10 @@ public class MyExpenses extends LaunchActivity implements
         });
       }
 
-      if (is_aggregate) {
+      if (isAggregate) {
         hide_cr = true;
         if (mAccountGrouping==Account.AccountGrouping.CURRENCY) {
-          ((TextView) row.findViewById(R.id.label)).setText(R.string.menu_aggregates);
+          labelTv.setText(R.string.menu_aggregates);
         }
       } else {
         //for deleting we need the position, because we need to find out the account's label
