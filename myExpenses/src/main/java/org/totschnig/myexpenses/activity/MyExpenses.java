@@ -1033,8 +1033,10 @@ public class MyExpenses extends LaunchActivity implements
       boolean hide_cr;
       final View accountMenu = row.findViewById(R.id.account_menu);
       if (is_aggregate) {
-        accountMenu.setVisibility(View.GONE);
+        accountMenu.setVisibility(View.INVISIBLE);
+        accountMenu.setOnClickListener(null);
       } else {
+        accountMenu.setVisibility(View.VISIBLE);
         accountMenu.setOnClickListener(new OnClickListener() {
           @Override
           public void onClick(View v) {

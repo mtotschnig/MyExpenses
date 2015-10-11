@@ -21,7 +21,7 @@
               android:orientation="vertical">
 
     <TextView
-        style="@style/headingStyle.WithBorder"
+        style="@style/headingStyle.WithMargin"
         android:text="@string/split_parts_heading"/>
 
     <FrameLayout

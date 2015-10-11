@@ -21,7 +21,7 @@
     android:orientation="vertical" >
   <TextView android:id="@+id/ImportantUpgradeInfoHeading"
       android:text="@string/important_upgrade_information_heading"
-      style="@style/headingStyle.WithBorder"
+      style="@style/headingStyle.WithMargin"
       android:visibility="gone"/>
   <TextView android:id="@+id/ImportantUpgradeInfoBody"
       android:text="@string/important_upgrade_information_1"

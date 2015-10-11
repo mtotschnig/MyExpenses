@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/help_leading"
-                style="@style/headingStyle.WithBorder"
+                style="@style/headingStyle.WithMargin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -49,14 +49,14 @@
         <!-- Quick Guide -->
 
         <TextView
-            style="@style/headingStyle.WithBorder"
+            style="@style/headingStyle.WithMargin"
             android:text="@string/menu_help" />
         <TextView
             android:id="@+id/help_quick_guide"
             style="@style/about_text.white"
             android:text="@string/help_contextuel_help" />
         <TextView
-            style="@style/headingStyle.WithBorder"
+            style="@style/headingStyle.WithMargin"
             android:text="@string/pref_ui_theme_title" />
         <LinearLayout
             android:layout_gravity="center_horizontal"

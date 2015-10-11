@@ -19,17 +19,14 @@
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
        <!-- <item name="android:textAllCaps">true</item> -->
-    <item name="android:textColor">@color/emphasis_selector</item>
+    <item name="android:textColor">?colorAccent</item>
+    <item name="android:textAppearance">?android:textAppearanceSmall</item>
   </style>
-  <style name="headingStyle.WithBorder">
+  <style name="headingStyle.WithMargin">
     <item name="android:layout_marginTop">8dp</item>
+    <item name="android:layout_marginBottom">8dp</item>
     <item name="android:paddingLeft">@dimen/general_padding</item>
     <item name="android:paddingRight">@dimen/general_padding</item>
-    <item name="android:drawableBottom">@drawable/section_header</item>
-    <item name="android:drawablePadding">4dp</item>
-  </style>
-  <style name="headingStyle.WithoutSelector">
-    <item name="android:textColor">@color/emphasis</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">

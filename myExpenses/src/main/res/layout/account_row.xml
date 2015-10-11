@@ -65,6 +65,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
+                            android:layout_marginRight="-5dp"
+                            android:layout_marginTop="-5dp"
                             android:clickable="true"/>
 
                         <TextView
@@ -77,15 +79,6 @@
                             android:paddingRight="@dimen/general_padding"
                             android:text="LABEL"/>
                     </RelativeLayout>
-                </TableRow>
-
-                <TableRow>
-
-                    <View
-                        android:layout_height="2dp"
-                        android:layout_margin="2dp"
-                        android:layout_span="2"
-                        android:background="@color/emphasis"/>
                 </TableRow>
 
                 <TableRow style="@style/paddedListRow">
