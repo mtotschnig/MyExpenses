@@ -14,10 +14,222 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="horizontal">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:padding="4dp">
 
-    <include layout="@layout/account_row_inner"/>
-</LinearLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="?android:windowBackground"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/color1"
+                android:layout_width="4dp"
+                android:layout_height="fill_parent"
+                tools:showIn="@layout/account_row"/>
+
+            <TableLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:shrinkColumns="1"
+                android:stretchColumns="0">
+
+                <TableRow android:layout_width="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="2">
+
+                        <android.support.v7.internal.widget.TintImageView
+                            android:id="@+id/account_menu"
+                            style="?actionOverflowButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:clickable="true"/>
+
+                        <TextView
+                            android:id="@+id/label"
+                            style="@style/headingStyle"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_toLeftOf="@id/account_menu"
+                            android:paddingLeft="@dimen/general_padding"
+                            android:paddingRight="@dimen/general_padding"
+                            android:text="LABEL"/>
+                    </RelativeLayout>
+                </TableRow>
+
+                <TableRow>
+
+                    <View
+                        android:layout_height="2dp"
+                        android:layout_margin="2dp"
+                        android:layout_span="2"
+                        android:background="@color/emphasis"/>
+                </TableRow>
+
+                <TableRow style="@style/paddedListRow">
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="2"
+                        android:text="DESCRIPTION"/>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/opening_balance"/>
+
+                    <TextView
+                        android:id="@+id/opening_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="OPENING_BALANCE"/>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/sum_income"/>
+
+                    <TextView
+                        android:id="@+id/sum_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="SUM_INCOME"/>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/sum_expenses"/>
+
+                    <TextView
+                        android:id="@+id/sum_expenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="SUM_EXPENSES"/>
+                </TableRow>
+
+                <TableRow android:id="@+id/TransferRow">
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/sum_transfer"/>
+
+                    <TextView
+                        android:id="@+id/sum_transfer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="SUM_TRANSFER"/>
+                </TableRow>
+
+                <TableRow>
+
+                    <View/>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="4dp"
+                        android:background="?android:attr/colorForeground"/>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/current_balance"/>
+
+                    <TextView
+                        android:id="@+id/current_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="CURRENT_BALANCE"/>
+                </TableRow>
+
+                <TableRow android:id="@+id/TotalRow">
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/menu_aggregates"/>
+
+                    <TextView
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="TOTAL"/>
+                </TableRow>
+
+                <TableRow android:id="@+id/ClearedRow">
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/total_cleared"/>
+
+                    <TextView
+                        android:id="@+id/cleared_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="CLEARED_TOTAL"/>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/ReconciledRow"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        style="@style/form_label"
+                        android:layout_marginLeft="@dimen/general_padding"
+                        android:text="@string/total_reconciled"/>
+
+                    <TextView
+                        android:id="@+id/reconciled_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="RECONCILED_TOTAL"/>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
