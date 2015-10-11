@@ -225,4 +225,6 @@
             </TableLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <include layout="@layout/selected_indicator"/>
 </FrameLayout>

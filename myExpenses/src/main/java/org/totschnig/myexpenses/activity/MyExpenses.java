@@ -192,7 +192,39 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);
     // set a custom shadow that overlays the main content when the drawer opens
     theme.resolveAttribute(R.attr.drawerShadow, value, true);
-    mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
+    mToolbar = setupToolbar(false);
+    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, null));
+    if (mDrawerLayout != null) {
+      mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
+      mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+          mToolbar, R.string.drawer_open, R.string.drawer_close) {
+
+        /**
+         * Called when a drawer has settled in a completely closed state.
+         */
+        public void onDrawerClosed(View view) {
+          super.onDrawerClosed(view);
+          TransactionList tl = getCurrentFragment();
+          if (tl != null)
+            tl.onDrawerClosed();
+          //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
+        }
+
+        /**
+         * Called when a drawer has settled in a completely open state.
+         */
+        public void onDrawerOpened(View drawerView) {
+          super.onDrawerOpened(drawerView);
+          TransactionList tl = getCurrentFragment();
+          if (tl != null)
+            tl.onDrawerOpened();
+          //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
+        }
+      };
+
+      // Set the drawer toggle as the DrawerListener
+      mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
     String[] from = new String[]{
         KEY_DESCRIPTION,
         KEY_LABEL,
@@ -231,7 +263,7 @@ public class MyExpenses extends LaunchActivity implements
     createAccount.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        mDrawerLayout.closeDrawers();
+        closeDrawer();
         dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND, null);
       }
     });
@@ -245,41 +277,10 @@ public class MyExpenses extends LaunchActivity implements
                               long id) {
         if (mAccountId != id) {
           moveToPosition(position);
-          mDrawerLayout.closeDrawers();
+          closeDrawer();
         }
       }
     });
-    mToolbar = setupToolbar(false);
-    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, null));
-    /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
-        | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP
-        |  ActionBar.DISPLAY_USE_LOGO);*/
-    //getSupportActionBar().setCustomView(R.layout.custom_title);
-    //theme.resolveAttribute(R.attr.drawerImage, value, true);
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-        mToolbar, R.string.drawer_open, R.string.drawer_close) {
-
-    /** Called when a drawer has settled in a completely closed state. */
-    public void onDrawerClosed(View view) {
-        super.onDrawerClosed(view);
-        TransactionList tl = getCurrentFragment();
-        if (tl != null)
-          tl.onDrawerClosed();
-        //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
-    }
-
-    /** Called when a drawer has settled in a completely open state. */
-    public void onDrawerOpened(View drawerView) {
-        super.onDrawerOpened(drawerView);
-        TransactionList tl = getCurrentFragment();
-        if (tl != null)
-          tl.onDrawerOpened();
-        //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
-    }
-};
-
-  // Set the drawer toggle as the DrawerListener
-  mDrawerLayout.setDrawerListener(mDrawerToggle);
 
   if (prev_version == -1) {
     getSupportActionBar().hide();
@@ -618,7 +619,7 @@ public class MyExpenses extends LaunchActivity implements
         finish();
         return true;
       case R.id.EDIT_ACCOUNT_COMMAND:
-        mDrawerLayout.closeDrawers();
+        closeDrawer();
         int position = (Integer) tag;
         mAccountsCursor.moveToPosition(position);
         long accountId = mAccountsCursor.getLong(columnIndexRowId);
@@ -629,7 +630,7 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND:
-        mDrawerLayout.closeDrawers();
+        closeDrawer();
         position = (Integer) tag;
         mAccountsCursor.moveToPosition(position);
         accountId = mAccountsCursor.getLong(columnIndexRowId);
@@ -648,6 +649,11 @@ public class MyExpenses extends LaunchActivity implements
     }
     return super.dispatchCommand(command, tag);
   }
+
+  private void closeDrawer() {
+    if (mDrawerLayout!=null) mDrawerLayout.closeDrawers();
+  }
+
   private class MyViewPagerAdapter extends CursorFragmentPagerAdapter {
     public MyViewPagerAdapter(Context context, FragmentManager fm, Cursor cursor) {
       super(context, fm, cursor);
@@ -973,22 +979,22 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
-      super.onPostCreate(savedInstanceState);
-      // Sync the toggle state after onRestoreInstanceState has occurred.
-      mDrawerToggle.syncState();
+    super.onPostCreate(savedInstanceState);
+    // Sync the toggle state after onRestoreInstanceState has occurred.
+    if (mDrawerToggle != null) mDrawerToggle.syncState();
   }
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);
-      mDrawerToggle.onConfigurationChanged(newConfig);
+    if (mDrawerToggle != null) mDrawerToggle.onConfigurationChanged(newConfig);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
       // Pass the event to ActionBarDrawerToggle, if it returns
       // true, then it has handled the app icon touch event
-      if (mDrawerToggle.onOptionsItemSelected(item)) {
+      if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
         return true;
       }
       // Handle your other action bar items...
@@ -1038,11 +1044,13 @@ public class MyExpenses extends LaunchActivity implements
       final int count = c.getCount();
       boolean hide_cr;
 
-      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ? 200 : 0);
+      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ? 200 : 0);//TODO put into dimen
       labelTv.setTypeface(
           Typeface.create(labelTv.getTypeface(), Typeface.NORMAL),
           isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
-
+      if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+        row.findViewById(R.id.selected_indicator).setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
+      }
       if (isAggregate) {
         accountMenu.setVisibility(View.INVISIBLE);
         accountMenu.setOnClickListener(null);
