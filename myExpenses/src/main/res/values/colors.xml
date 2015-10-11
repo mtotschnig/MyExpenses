@@ -15,7 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-	<color name="appDefault">#ffbb33</color>
+	<color name="appDefault">#ffc107</color>
+    <color name="fabRipple">#FF6F00</color>
 	<color name="emphasis">#31b6e7</color>
 	<color name="colorExpenseDark">#FF5E5E</color>
   <color name="colorExpenseLight">#800000</color>

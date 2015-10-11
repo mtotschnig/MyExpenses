@@ -35,6 +35,7 @@
     <item name="drawerImage">@drawable/ic_drawer_holo_dark</item>
     <item name="drawerWidth">260sp</item>
     <item name="windowActionModeOverlay">true</item>
+    <item name="colorAccent">@color/appDefault</item>
   </style>
   <style name="ThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
     <item name="dropdownListPreferredItemHeight">48sp</item>
@@ -51,6 +52,7 @@
     <item name="drawerImage">@drawable/ic_drawer_holo_light</item>
     <item name="drawerWidth">260sp</item>
     <item name="windowActionModeOverlay">true</item>
+    <item name="colorAccent">@color/appDefault</item>
   </style>
   <style name="AboutDialog" parent="@android:style/Theme.Dialog">
     <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>

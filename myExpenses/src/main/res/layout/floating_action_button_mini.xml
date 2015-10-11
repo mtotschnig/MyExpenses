@@ -12,4 +12,7 @@
     android:layout_marginRight="@dimen/fab_margin_right"
     android:onClick="dispatchCommand"
     app:fabSize="mini"
+    app:elevation="6dp"
+    app:borderWidth="0dp"
+    app:rippleColor="@color/fabRipple"
     tools:showIn="@layout/activity_main"/>

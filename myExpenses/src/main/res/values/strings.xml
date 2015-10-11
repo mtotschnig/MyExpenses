@@ -209,6 +209,7 @@
     <string name="menu_create_transaction">New Transaction</string>
     <string name="menu_create_transfer">New Transfer</string>
     <string name="menu_delete">Delete</string>
+    <string name="menu_delete_account">Delete account</string>
     <string name="menu_distribution">Distribution</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_edit_account">Edit Account</string>

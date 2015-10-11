@@ -73,6 +73,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -1024,6 +1025,7 @@ public class MyExpenses extends LaunchActivity implements
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
       final long rowId =  c.getLong(columnIndexRowId);
+      ((CardView) row.findViewById(R.id.card)).setCardElevation(rowId==mAccountId ? 200 : 0);
       long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
       final boolean is_aggregate = rowId <0;

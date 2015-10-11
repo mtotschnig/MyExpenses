@@ -4,12 +4,10 @@
     <item
         android:id="@id/EDIT_ACCOUNT_COMMAND"
         android:title="@string/menu_edit_account"
-        app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_edit"/>
+        />
 
     <item
         android:id="@id/DELETE_ACCOUNT_COMMAND"
-        android:title="@string/menu_delete"
-        app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_delete"/>
+        android:title="@string/menu_delete_account"
+        />
 </menu>
