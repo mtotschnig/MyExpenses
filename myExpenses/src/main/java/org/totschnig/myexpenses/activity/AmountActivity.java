@@ -45,7 +45,6 @@ public abstract class AmountActivity extends EditActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
   }
 
