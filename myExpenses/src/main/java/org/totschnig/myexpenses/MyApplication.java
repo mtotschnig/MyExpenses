@@ -46,6 +46,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class MyApplication extends Application implements
@@ -281,7 +282,7 @@ public class MyApplication extends Application implements
   }
 
   public static int getThemeId() {
-    return getThemeId(false);
+    return getThemeId("");
   }
 
   public enum ThemeType {
@@ -296,7 +297,7 @@ public class MyApplication extends Application implements
     }
   }
 
-  public static int getThemeId(boolean legacyPreferenceActivity) {
+  public static int getThemeId(String subStyle) {
     int fontScale;
     try {
       fontScale = PrefKey.UI_FONTSIZE.getInt(0);
@@ -305,24 +306,16 @@ public class MyApplication extends Application implements
       fontScale = 0;
       PrefKey.UI_FONTSIZE.remove();
     }
-    int resId;
-    String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
-    if (getThemeType() == ThemeType.light) {
-      if (fontScale < 1 || fontScale > 3)
-        return legacyPreferenceActivity ? R.style.ThemeLight_LegacyPreferenceActivity
-            : R.style.ThemeLight;
-      else
-        resId = mSelf.getResources().getIdentifier(
-            "ThemeLight.s" + fontScale + suffix, "style",
-            mSelf.getPackageName());
-    } else {
-      if (fontScale < 1 || fontScale > 3)
-        return legacyPreferenceActivity ? R.style.ThemeDark_LegacyPreferenceActivity
-            : R.style.ThemeDark;
-      else
-        resId = mSelf.getResources()
-            .getIdentifier("ThemeDark.s" + fontScale + suffix, "style",
-                mSelf.getPackageName());
+    String style = getThemeType() == ThemeType.light ? "ThemeLight" : "ThemeDark";
+    if (!TextUtils.isEmpty(subStyle)) {
+      style += "." + subStyle;
+    }
+    if (fontScale > 0 && fontScale < 4) {
+      style += ".s" + fontScale;
+    }
+    int resId = mSelf.getResources().getIdentifier(style, "style", mSelf.getPackageName());
+    if (resId==0) {
+      throw new RuntimeException(style + " is not defined");
     }
     return resId;
   }

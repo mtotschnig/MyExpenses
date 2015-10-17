@@ -35,7 +35,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeId("EditDialog"));
     super.onCreate(savedInstanceState);
   }
   
