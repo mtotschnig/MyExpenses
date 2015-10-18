@@ -43,11 +43,6 @@ public abstract class AmountActivity extends EditActivity {
   protected boolean mType = EXPENSE;
   protected CompoundButton mTypeButton;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
-
   /**
    * configures the decimal format and the amount EditText based on configured
    * currency_decimal_separator 
