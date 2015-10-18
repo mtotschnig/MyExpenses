@@ -44,6 +44,7 @@
         </activity>
         <activity
             android:name=".activity.ExpenseEdit"
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
             android:parentActivityName=".activity.MyExpenses" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
