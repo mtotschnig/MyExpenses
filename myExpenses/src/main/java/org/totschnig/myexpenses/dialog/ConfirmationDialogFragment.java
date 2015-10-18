@@ -65,9 +65,12 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
     Context wrappedCtx = DialogUtils.wrapContext12(ctx);
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
-      .setTitle(bundle.getInt(KEY_TITLE))
-      .setMessage(bundle.getCharSequence(KEY_MESSAGE));
+    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
+    int title = bundle.getInt(KEY_TITLE, 0);
+    if (title != 0) {
+      builder.setTitle(title);
+    }
+    builder.setMessage(bundle.getCharSequence(KEY_MESSAGE));
     int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL,0);
     if (bundle.getString(KEY_PREFKEY) != null ||
         checkboxLabel != 0) {

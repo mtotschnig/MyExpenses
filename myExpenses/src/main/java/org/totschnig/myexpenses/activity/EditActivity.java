@@ -17,28 +17,40 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public abstract class EditActivity extends ProtectedFragmentActivity implements
-    DbWriteFragment.TaskCallbacks {
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-  protected boolean mIsSaving;
+public abstract class EditActivity extends ProtectedFragmentActivity implements
+    DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener {
+
+  protected boolean mIsSaving = false, mIsDirty = true;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId("EditDialog"));
     super.onCreate(savedInstanceState);
   }
-  
+
+  protected Toolbar setupToolbar() {
+    Toolbar toolbar = super.setupToolbar(true);
+    getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+    return toolbar;
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
@@ -46,6 +58,22 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     super.onCreateOptionsMenu(menu);
     return true;
   }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (mIsDirty && item.getItemId()==android.R.id.home) {
+      Bundle b = new Bundle();
+      b.putString(ConfirmationDialogFragment.KEY_MESSAGE, "Discard changes");
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_confirm_discard);
+      b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+      ConfirmationDialogFragment.newInstance(b)
+          .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
@@ -57,6 +85,21 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     }
     return super.dispatchCommand(command, tag);
   }
+
+  @Override
+  public void onPositive(Bundle args) {
+    dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),null);
+  }
+
+  @Override
+  public void onNegative(Bundle args) {
+  }
+
+  @Override
+  public void onDismissOrCancel(Bundle args) {
+
+  }
+
   protected void saveState() {
     mIsSaving = true;
     startDbWriteTask(false);

@@ -211,7 +211,7 @@ public class ExpenseEdit extends AmountActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
 
-    setupToolbar(true);
+    setupToolbar();
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
@@ -1791,6 +1791,8 @@ public class ExpenseEdit extends AmountActivity implements
       startAutoFill(args.getLong(KEY_ROWID));
       MyApplication.PrefKey.AUTO_FILL.putBoolean(true);
       break;
+    default:
+      super.onPositive(args);
     }
   }
   private void startAutoFill(long id) {
@@ -1804,11 +1806,11 @@ public class ExpenseEdit extends AmountActivity implements
   public void onDismissOrCancel(Bundle args) {
     if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.AUTO_FILL_COMMAND) {
       MyApplication.PrefKey.AUTO_FILL.putBoolean(false);
+    } else {
+      super.onDismissOrCancel(args);
     }
   }
-  @Override
-  public void onNegative(Bundle args) {
-  }
+
   @Override
   protected void onPause() {
     //try to prevent cursor leak

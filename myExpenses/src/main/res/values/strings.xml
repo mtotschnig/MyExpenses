@@ -74,6 +74,8 @@
     <string name="default_account_name">Budget Book</string>
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
+    <!-- User confirms that he wants to discard changes -->
+    <string name="dialog_confirm_discard">Discard</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
     <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
