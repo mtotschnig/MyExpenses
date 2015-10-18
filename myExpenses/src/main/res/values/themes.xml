@@ -164,10 +164,16 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeDark.EditDialog" parent="@style/Theme.AppCompat.DialogWhenLarge">
         <item name="calcIcon">@drawable/ic_action_calc_light</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
     <style name="ThemeLight.EditDialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
         <item name="calcIcon">@drawable/ic_action_calc_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
     <style name="ThemeDark.EditDialog.s1">
