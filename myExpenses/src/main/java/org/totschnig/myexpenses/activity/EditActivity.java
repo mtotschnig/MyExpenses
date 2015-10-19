@@ -25,6 +25,8 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,9 +37,24 @@ import android.widget.EditText;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements
-    DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener {
+    DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
 
-  protected boolean mIsSaving = false, mIsDirty = true;
+  protected boolean mIsSaving = false, mIsDirty = false;
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+  }
+
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+  }
+
+  @Override
+  public void afterTextChanged(Editable s) {
+    mIsDirty = true;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -86,6 +86,7 @@ public abstract class AmountActivity extends EditActivity {
   }
   protected void onTypeChanged(boolean isChecked) {
     mType = isChecked;
+    mIsDirty = true;
     configureType();
   }
 
@@ -135,5 +136,9 @@ public abstract class AmountActivity extends EditActivity {
     super.onRestoreInstanceState(savedInstanceState);
     mType = savedInstanceState.getBoolean("type");
     configureType();
+  }
+  protected void setupListeners() {
+    mAmountText.addTextChangedListener(this);
+
   }
 }

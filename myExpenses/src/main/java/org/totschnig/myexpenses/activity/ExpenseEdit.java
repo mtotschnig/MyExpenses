@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
+import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -152,7 +153,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private Button mCategoryButton, mPlanButton;
-  private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner, mOperationTypeSpinner;
+  private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner, mOperationTypeSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private ArrayAdapter<Integer> mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
@@ -213,7 +214,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     setupToolbar();
     mManager= getSupportLoaderManager();
-    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    changeEditTextBackground((ViewGroup) findViewById(android.R.id.content));
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     configTypeButton();
     mTypeButton.setEnabled(false);
@@ -234,7 +235,7 @@ public class ExpenseEdit extends AmountActivity implements
     mPayeeAdapter.setFilterQueryProvider(new FilterQueryProvider() {
       @SuppressLint("NewApi")
       public Cursor runQuery(CharSequence str) {
-        if (str==null) {
+        if (str == null) {
           return null;
         }
         String search = Utils.esacapeSqlLikeExpression(Utils.normalize(str.toString()));
@@ -242,23 +243,25 @@ public class ExpenseEdit extends AmountActivity implements
         String selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
             KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
             KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
-        String[] selectArgs = { search + "%", "% "+search + "%","%."+search + "%"};
-      return getContentResolver().query(
-          TransactionProvider.PAYEES_URI,
-          new String[] {
-              KEY_ROWID,
-              KEY_PAYEE_NAME,
-              "(SELECT max(" + KEY_ROWID
-                  + ") FROM " + TABLE_TRANSACTIONS
-                  + " WHERE " + WHERE_NOT_SPLIT + " AND "
-                  + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
-          selection, selectArgs, null);
-      } });
+        String[] selectArgs = {search + "%", "% " + search + "%", "%." + search + "%"};
+        return getContentResolver().query(
+            TransactionProvider.PAYEES_URI,
+            new String[]{
+                KEY_ROWID,
+                KEY_PAYEE_NAME,
+                "(SELECT max(" + KEY_ROWID
+                    + ") FROM " + TABLE_TRANSACTIONS
+                    + " WHERE " + WHERE_NOT_SPLIT + " AND "
+                    + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
+            selection, selectArgs, null);
+      }
+    });
 
     mPayeeAdapter.setCursorToStringConverter(new CursorToStringConverter() {
       public CharSequence convertToString(Cursor cur) {
-      return cur.getString(1);
-      }});
+        return cur.getString(1);
+      }
+    });
     mPayeeText.setOnItemClickListener(new OnItemClickListener() {
 
       @Override
@@ -300,10 +303,10 @@ public class ExpenseEdit extends AmountActivity implements
 
     mCategoryButton = (Button) findViewById(R.id.Category);
     mPlanButton = (Button) findViewById(R.id.Plan);
-    mMethodSpinner = (Spinner) findViewById(R.id.Method);
-    mAccountSpinner = (Spinner) findViewById(R.id.Account);
-    mTransferAccountSpinner = (Spinner) findViewById(R.id.TransferAccount);
-    mStatusSpinner = (Spinner) findViewById(R.id.Status);
+    mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
+    mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
+    mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
+    mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mPlanToggleButton = (ToggleButton) findViewById(R.id.togglebutton);
     mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
     TextPaint paint = mPlanToggleButton.getPaint();
@@ -423,8 +426,9 @@ public class ExpenseEdit extends AmountActivity implements
       final Long parentId = getIntent().getLongExtra(KEY_PARENTID,0);
       getSupportActionBar().setDisplayShowTitleEnabled(false);
       mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
-      mOperationTypeSpinner = ((Spinner) findViewById(R.id.OperationType));
-      mOperationTypeSpinner.setVisibility(View.VISIBLE);
+      View spinner = findViewById(R.id.OperationType);
+      mOperationTypeSpinner = new SpinnerHelper(spinner);
+      spinner.setVisibility(View.VISIBLE);
       List<Integer> allowedOperationTypes = new ArrayList<>();
       allowedOperationTypes.add(MyExpenses.TYPE_TRANSACTION);
       allowedOperationTypes.add(MyExpenses.TYPE_TRANSFER);
@@ -530,7 +534,6 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer) {
         disableAccountSpinner();
     }
-    mAccountSpinner.setOnItemSelectedListener(this);
     mIsMainTransactionOrTemplate = mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory);
 
     if (mIsMainTransactionOrTemplate) {
@@ -540,7 +543,6 @@ public class ExpenseEdit extends AmountActivity implements
           new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
       mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
-      mMethodSpinner.setOnItemSelectedListener(this);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
       View MethodContainer = findViewById(R.id.MethodRow);
@@ -695,7 +697,22 @@ public class ExpenseEdit extends AmountActivity implements
        }
      }
     });
+    setupListeners();
   }
+
+  @Override
+  protected void setupListeners() {
+    super.setupListeners();
+    mCommentText.addTextChangedListener(this);
+    mTitleText.addTextChangedListener(this);
+    mPayeeText.addTextChangedListener(this);
+    mReferenceNumberText.addTextChangedListener(this);
+    mAccountSpinner.setOnItemSelectedListener(this);
+    mMethodSpinner.setOnItemSelectedListener(this);
+    mStatusSpinner.setOnItemSelectedListener(this);
+    mTransferAccountSpinner.setOnItemSelectedListener(this);
+  }
+
   @Override
   protected void onTypeChanged(boolean isClicked) {
     super.onTypeChanged(isClicked);
@@ -853,19 +870,30 @@ public class ExpenseEdit extends AmountActivity implements
 
     public void onDateSet(DatePicker view, int year,
         int monthOfYear, int dayOfMonth) {
-      mCalendar.set(year, monthOfYear, dayOfMonth);
-      setDate();
+      if (mCalendar.get(Calendar.YEAR) != year ||
+          mCalendar.get(Calendar.MONTH) != monthOfYear ||
+          mCalendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
+        mCalendar.set(year, monthOfYear, dayOfMonth);
+        setDate();
+        mIsDirty = true;
+      }
     }
   };
+
   /**
-   * listens on changes in the time dialog and sets the time on hte button
+   * listens on changes in the time dialog and sets the time on the button
    */
   private TimePickerDialog.OnTimeSetListener mTimeSetListener =
     new TimePickerDialog.OnTimeSetListener() {
+
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-      mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-      mCalendar.set(Calendar.MINUTE,minute);
-      setTime();
+      if (mCalendar.get(Calendar.HOUR_OF_DAY) != hourOfDay ||
+          mCalendar.get(Calendar.MINUTE) != minute) {
+        mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        mCalendar.set(Calendar.MINUTE, minute);
+        setTime();
+        mIsDirty = true;
+      }
     }
   };
 
@@ -894,7 +922,7 @@ public class ExpenseEdit extends AmountActivity implements
    * populates the input fields with a transaction from the database or a new one
    */
   private void populateFields() {
-    mStatusSpinner.setSelection(mTransaction.crStatus.ordinal());
+    mStatusSpinner.setSelection(mTransaction.crStatus.ordinal(),false);
     if (mClone || mRowId != 0 || mTemplateId != 0) {
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
@@ -1065,6 +1093,7 @@ public class ExpenseEdit extends AmountActivity implements
       mCatId = intent.getLongExtra("cat_id", 0);
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
+      mIsDirty = true;
     }
     if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_OK) {
       // returned from setting up calendar
@@ -1089,6 +1118,7 @@ public class ExpenseEdit extends AmountActivity implements
          } else {
           mPictureUri = uri;
           setPicture();
+          mIsDirty = true;
           return;
         }
       } else {
@@ -1101,7 +1131,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   protected void setPicture() {
     int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
-    BitmapWorkerTask task = new BitmapWorkerTask(mPictureView,thumbsize);
+    BitmapWorkerTask task = new BitmapWorkerTask(mPictureView, thumbsize);
     task.execute(mPictureUri);
     mPictureView.setVisibility(View.VISIBLE);
     mAttachPictureButton.setVisibility(View.GONE);
@@ -1151,7 +1181,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
-    mStatusSpinner.setVisibility((
+    mStatusSpinner.getSpinner().setVisibility((
         mTransaction instanceof Template ||
             mTransaction instanceof SplitPartCategory ||
             mTransaction instanceof SplitPartTransfer ||
@@ -1202,27 +1232,29 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void switchAccountViews() {
+    Spinner accountSpinner = mAccountSpinner.getSpinner();
+    Spinner transferAccountSpinner = mTransferAccountSpinner.getSpinner();
     ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountParent);
     if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
       if (mType == INCOME) {
-        accountParent.removeView(mAccountSpinner);
-        accountParent.addView(mAccountSpinner);
+        accountParent.removeView(accountSpinner);
+        accountParent.addView(accountSpinner);
       } else {
-        accountParent.removeView(mTransferAccountSpinner);
-        accountParent.addView(mTransferAccountSpinner);
+        accountParent.removeView(transferAccountSpinner);
+        accountParent.addView(transferAccountSpinner);
       }
     } else {
       ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
       if (mType == INCOME) {
-        accountParent.removeView(mAccountSpinner);
-        transferAccountRow.removeView(mTransferAccountSpinner);
-        accountParent.addView(mTransferAccountSpinner);
-        transferAccountRow.addView(mAccountSpinner);
+        accountParent.removeView(accountSpinner);
+        transferAccountRow.removeView(transferAccountSpinner);
+        accountParent.addView(transferAccountSpinner);
+        transferAccountRow.addView(accountSpinner);
       } else {
-        accountParent.removeView(mTransferAccountSpinner);
-        transferAccountRow.removeView(mAccountSpinner);
-        accountParent.addView(mAccountSpinner);
-        transferAccountRow.addView(mTransferAccountSpinner);
+        accountParent.removeView(transferAccountSpinner);
+        transferAccountRow.removeView(accountSpinner);
+        accountParent.addView(accountSpinner);
+        transferAccountRow.addView(transferAccountSpinner);
       }
     }
   }
@@ -1400,6 +1432,9 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
+    if (parent.getId()!=R.id.OperationType) {
+      mIsDirty = true;
+    }
     switch(parent.getId()) {
     case R.id.Method:
       if (id>0) {
@@ -1416,7 +1451,7 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case R.id.Account:
       mTransaction.accountId = mAccounts[position].getId();
-      mAmountLabel.setText(getString(R.string.amount) + " ("+mAccounts[position].currency.getSymbol()+")");
+      setAccountLabel(mAccounts[position]);
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         setTransferAccountFilterMap();
       } else {
@@ -1452,6 +1487,10 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     }
+  }
+
+  private void setAccountLabel(Account account) {
+    mAmountLabel.setText(getString(R.string.amount) + " ("+account.currency.getSymbol()+")");
   }
 
   private void resetOperationType() {
@@ -1636,8 +1675,9 @@ public class ExpenseEdit extends AmountActivity implements
         if (!selectionSet &&
             (a.currency.getCurrencyCode().equals(currencyExtra) ||
                 (currencyExtra == null && a.getId().equals(mTransaction.accountId)))) {
-              mAccountSpinner.setSelection(position);
-              selectionSet = true;
+          mAccountSpinner.setSelection(position);
+          setAccountLabel(a);
+          selectionSet = true;
         }
         data.moveToNext();
       }
@@ -1645,6 +1685,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mAccountSpinner.getSelectedItemPosition() == android.widget.AdapterView.INVALID_POSITION) {
         mAccountSpinner.setSelection(0);
         mTransaction.accountId = mAccounts[0].getId();
+        setAccountLabel(mAccounts[0]);
       }
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         mTransferAccountCursor = new FilterCursorWrapper(data);
@@ -1776,7 +1817,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       startTaskExecution(
           TaskExecutionFragment.TASK_NEW_PLAN,
-          new Long[] {0L} ,
+          new Long[]{0L},
           mPlan,
           R.string.progress_dialog_create_plan);
     }
