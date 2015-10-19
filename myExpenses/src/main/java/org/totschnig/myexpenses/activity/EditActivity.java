@@ -62,16 +62,20 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (mIsDirty && item.getItemId()==android.R.id.home) {
-      Bundle b = new Bundle();
-      b.putString(ConfirmationDialogFragment.KEY_MESSAGE, "Discard changes");
-      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
-      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_confirm_discard);
-      b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-      ConfirmationDialogFragment.newInstance(b)
-          .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
+      showDiscardDialog();
       return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void showDiscardDialog() {
+    Bundle b = new Bundle();
+    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, "Discard changes");
+    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
+    b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_confirm_discard);
+    b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+    ConfirmationDialogFragment.newInstance(b)
+        .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
   }
 
   @Override
@@ -126,5 +130,14 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   public void onPostExecute(Object result) {
     mIsSaving = false;
     super.onPostExecute(result);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (mIsDirty) {
+      showDiscardDialog();
+    } else {
+      super.onBackPressed();
+    }
   }
 }
