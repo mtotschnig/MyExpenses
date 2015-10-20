@@ -242,6 +242,7 @@ public class AccountEdit extends AmountActivity implements
         mColorSpinner.setOnItemSelectedListener(AccountEdit.this);
       }
     });
+    setupListeners();
   }
 
   /**
@@ -393,6 +394,12 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onCancelEditDialog() {
     // TODO Auto-generated method stub
-    
+  }
+
+  @Override
+  protected void setupListeners() {
+    super.setupListeners();
+    mLabelText.addTextChangedListener(this);
+    mDescriptionText.addTextChangedListener(this);
   }
 }

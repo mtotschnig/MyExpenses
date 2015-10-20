@@ -63,13 +63,6 @@ public abstract class AmountActivity extends EditActivity {
    */
   protected void configTypeButton() {
     mTypeButton = (CompoundButton) findViewById(R.id.TaType);
-    mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-      @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        onTypeChanged(isChecked);
-      }
-    });
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
@@ -139,6 +132,12 @@ public abstract class AmountActivity extends EditActivity {
   }
   protected void setupListeners() {
     mAmountText.addTextChangedListener(this);
+    mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        onTypeChanged(isChecked);
+      }
+    });
   }
 }
