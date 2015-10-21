@@ -124,23 +124,12 @@ public class ManageTemplates extends TabedActivity implements
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.templates, menu);
-    super.onCreateOptionsMenu(menu);
-    menu.findItem(R.id.CREATE_TRANSFER_COMMAND).setVisible(mTransferEnabled);
-    return true;
-  }
-
-  @Override
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch(command) {
-    case R.id.CREATE_TRANSACTION_COMMAND:
-    case R.id.CREATE_TRANSFER_COMMAND:
+    case R.id.CREATE_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra(MyApplication.KEY_OPERATION_TYPE,
-          command == R.id.CREATE_TRANSACTION_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
+      i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
       i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
       i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       startActivity(i);

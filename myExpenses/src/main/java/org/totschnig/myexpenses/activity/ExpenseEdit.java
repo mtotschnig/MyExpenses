@@ -432,6 +432,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       final Long parentId = getIntent().getLongExtra(KEY_PARENTID,0);
+      final boolean isNewTemplate = getIntent().getBooleanExtra(KEY_NEW_TEMPLATE, false);
       getSupportActionBar().setDisplayShowTitleEnabled(false);
       mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
       View spinner = findViewById(R.id.OperationType);
@@ -440,7 +441,7 @@ public class ExpenseEdit extends AmountActivity implements
       List<Integer> allowedOperationTypes = new ArrayList<>();
       allowedOperationTypes.add(MyExpenses.TYPE_TRANSACTION);
       allowedOperationTypes.add(MyExpenses.TYPE_TRANSFER);
-      if (parentId == 0) {
+      if (!isNewTemplate && parentId == 0) {
         allowedOperationTypes.add(MyExpenses.TYPE_SPLIT);
       }
       mOperationTypeAdapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item,allowedOperationTypes) {
@@ -463,9 +464,11 @@ public class ExpenseEdit extends AmountActivity implements
             case MyExpenses.TYPE_SPLIT:
               return R.string.menu_create_split;
             case MyExpenses.TYPE_TRANSFER:
-              return parentId == 0 ? R.string.menu_create_transfer : R.string.menu_create_split_part_transfer;
+              return isNewTemplate ? R.string.menu_create_template_for_transfer :
+                  (parentId == 0 ? R.string.menu_create_transfer : R.string.menu_create_split_part_transfer);
             default:
-              return parentId == 0 ? R.string.menu_create_transaction : R.string.menu_create_split_part_category;
+              return isNewTemplate ? R.string.menu_create_template_for_transaction :
+                  (parentId == 0 ? R.string.menu_create_transaction : R.string.menu_create_split_part_category);
           }
         }
       };
@@ -474,7 +477,7 @@ public class ExpenseEdit extends AmountActivity implements
       resetOperationType();
       mOperationTypeSpinner.setOnItemSelectedListener(this);
       Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID,0);
-      if (getIntent().getBooleanExtra(KEY_NEW_TEMPLATE,false)) {
+      if (isNewTemplate) {
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       } else {
         switch (mOperationType) {
