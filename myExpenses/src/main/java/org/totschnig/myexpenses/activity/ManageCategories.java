@@ -107,7 +107,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         helpVariant = HelpVariant.select_mapping;
         title = R.string.select_category;
     }
-    setTheme(MyApplication.getThemeId(helpVariant.equals(HelpVariant.distribution) ? "" : "EditDialog"));
+    setTheme(helpVariant.equals(HelpVariant.distribution) ?
+        MyApplication.getThemeId() : MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     if (helpVariant.equals(HelpVariant.distribution)) {
       DisplayMetrics dm = getResources().getDisplayMetrics();

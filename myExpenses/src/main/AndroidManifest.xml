@@ -114,7 +114,8 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>    
         </activity>
-        <activity android:name=".activity.ManageParties" >
+        <activity android:name=".activity.ManageParties"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.parties" />
 
@@ -143,7 +144,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MyExpenses" />
         </activity>
-        <activity android:name=".activity.ManageMethods" >
+        <activity android:name=".activity.ManageMethods"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.methods" />
 

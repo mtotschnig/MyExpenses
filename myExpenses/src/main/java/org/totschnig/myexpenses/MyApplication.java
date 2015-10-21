@@ -284,6 +284,12 @@ public class MyApplication extends Application implements
   public static int getThemeId() {
     return getThemeId("");
   }
+  public static int getThemeIdEditDialog() {
+    return getThemeId("EditDialog");
+  }
+  public static int getThemeIdLegacyPreferenceActivity() {
+    return getThemeId("LegacyPreferenceActivity");
+  }
 
   public enum ThemeType {
     dark, light
@@ -297,7 +303,7 @@ public class MyApplication extends Application implements
     }
   }
 
-  public static int getThemeId(String subStyle) {
+  private static int getThemeId(String subStyle) {
     int fontScale;
     try {
       fontScale = PrefKey.UI_FONTSIZE.getInt(0);

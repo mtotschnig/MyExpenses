@@ -82,7 +82,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId("LegacyPreferenceActivity"));
+    setTheme(MyApplication.getThemeIdLegacyPreferenceActivity());
     super.onCreate(savedInstanceState);
     setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
     addPreferencesFromResource(R.xml.preferences);
