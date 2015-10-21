@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
@@ -62,9 +63,7 @@ public class AccountEdit extends AmountActivity implements
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private Spinner mCurrencySpinner;
-  private Spinner mAccountTypeSpinner;
-  private Spinner mColorSpinner;
+  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner;
   Account mAccount;
   private ArrayList<Integer> mColors;
   private boolean mColorIntentAvailable;
@@ -123,19 +122,19 @@ public class AccountEdit extends AmountActivity implements
     configAmountInput(Money.fractionDigits(mAccount.currency));
     
 
-    mCurrencySpinner = (Spinner) findViewById(R.id.Currency);
+    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
     
-    mAccountTypeSpinner = (Spinner) findViewById(R.id.AccountType);
+    mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
     ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
     typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mAccountTypeSpinner.setAdapter(typAdapter);
     
-    mColorSpinner = (Spinner) findViewById(R.id.Color);
+    mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
     mColors = new ArrayList<Integer>();
     if (Build.VERSION.SDK_INT > 13) {
       Resources r = getResources();
@@ -237,11 +236,6 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
-    mColorSpinner.post(new Runnable() {
-      public void run() {
-        mColorSpinner.setOnItemSelectedListener(AccountEdit.this);
-      }
-    });
     setupListeners();
   }
 
@@ -287,23 +281,26 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    if (mColors.get(position) != 0)
-      mAccount.color = mColors.get(position);
-    else {
-      if (mColorIntentAvailable) {
-        mColorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccount.color);
-        startActivityForResult(mColorIntent, PICK_COLOR_REQUEST);
-      } else {
-        try {
-          Intent intent = new Intent(Intent.ACTION_VIEW);
-          intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.openintents.colorpicker"));
-          startActivity(intent);
-        } catch(Exception e) {
-            Toast.makeText(
-                AccountEdit.this,
-                R.string.error_accessing_market,
-                Toast.LENGTH_SHORT)
-              .show();
+    mIsDirty = true;
+    if (parent.getId()==R.id.Color) {
+      if (mColors.get(position) != 0)
+        mAccount.color = mColors.get(position);
+      else {
+        if (mColorIntentAvailable) {
+          mColorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccount.color);
+          startActivityForResult(mColorIntent, PICK_COLOR_REQUEST);
+        } else {
+          try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.openintents.colorpicker"));
+            startActivity(intent);
+          } catch(Exception e) {
+              Toast.makeText(
+                  AccountEdit.this,
+                  R.string.error_accessing_market,
+                  Toast.LENGTH_SHORT)
+                .show();
+          }
         }
       }
     }
@@ -401,5 +398,8 @@ public class AccountEdit extends AmountActivity implements
     super.setupListeners();
     mLabelText.addTextChangedListener(this);
     mDescriptionText.addTextChangedListener(this);
+    mColorSpinner.setOnItemSelectedListener(this);
+    mAccountTypeSpinner.setOnItemSelectedListener(this);
+    mCurrencySpinner.setOnItemSelectedListener(this);
   }
 }
