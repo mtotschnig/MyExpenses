@@ -86,21 +86,30 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
-    super.onCreate(savedInstanceState);
     Intent intent = getIntent();
     String action = intent.getAction();
     int title = 0;
-    if (action == null) {
-      helpVariant = HelpVariant.select_mapping;
-      title = R.string.select_category;
-    } else if (action.equals("myexpenses.intent.manage.categories") ||
-        action.equals(Intent.ACTION_MAIN)) {
-      helpVariant = HelpVariant.manage;
-      title = R.string.pref_manage_categories_title;
-    } else if (action.equals("myexpenses.intent.distribution")) {
-      helpVariant = HelpVariant.distribution;
-      //title is set in categories list
+    switch(action==null ? "" : action) {
+      case Intent.ACTION_MAIN:
+      case "myexpenses.intent.manage.categories":
+        helpVariant = HelpVariant.manage;
+        title = R.string.pref_manage_categories_title;
+        break;
+      case "myexpenses.intent.distribution":
+        helpVariant = HelpVariant.distribution;
+        //title is set in categories list
+        break;
+      case "myexpenses.intent.select_filter":
+        helpVariant = HelpVariant.select_filter;
+        title = R.string.search_category;
+        break;
+      default:
+        helpVariant = HelpVariant.select_mapping;
+        title = R.string.select_category;
+    }
+    setTheme(MyApplication.getThemeId(helpVariant.equals(HelpVariant.distribution) ? "" : "EditDialog"));
+    super.onCreate(savedInstanceState);
+    if (helpVariant.equals(HelpVariant.distribution)) {
       DisplayMetrics dm = getResources().getDisplayMetrics();
 
       final int REL_SWIPE_MIN_DISTANCE = (int) (SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
@@ -129,9 +138,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
               return false;
             }
           });
-    } else if (action.equals("myexpenses.intent.select_filter")) {
-      helpVariant = HelpVariant.select_filter;
-      title = R.string.search_category;
     }
     setContentView(R.layout.select_category);
     setupToolbar(true);

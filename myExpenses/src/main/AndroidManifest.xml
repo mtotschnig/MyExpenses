@@ -56,9 +56,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MyExpenses" />
         </activity>
-        <activity android:name=".activity.AccountEdit" />
-        <activity android:name=".activity.MethodEdit" />
-        <activity android:name=".activity.ManageCategories" >
+        <activity android:name=".activity.AccountEdit"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+        <activity android:name=".activity.MethodEdit"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+        <activity android:name=".activity.ManageCategories"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.categories" />
 
