@@ -45,7 +45,12 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
   SpinnerHelper mPaymentTypeSpinner;
   PaymentMethod mMethod;
   String[] mTypes = new String[3];
-  
+
+  @Override
+  int getDiscardNewMessage() {
+    return R.string.dialog_confirm_discard_new_method;
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -81,6 +86,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
       mMethod = new PaymentMethod();
       setTitle(R.string.menu_create_method);
       paymentType = PaymentMethod.NEUTRAL;
+      mNewInstance = true;
     }
     mPaymentTypeSpinner.setSelection(paymentType +1);
     //add one row with checkbox for each account type

@@ -40,6 +40,9 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
 
   protected boolean mIsSaving = false, mIsDirty = false;
+  protected boolean mNewInstance = true;
+
+  abstract int getDiscardNewMessage();
 
   @Override
   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -87,9 +90,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   private void showDiscardDialog() {
     Bundle b = new Bundle();
-    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, "Discard changes");
+    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(
+        mNewInstance ? getDiscardNewMessage() : R.string.dialog_confirm_discard_changes));
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
-    b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_confirm_discard);
+    b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_confirm_button_discard);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
     ConfirmationDialogFragment.newInstance(b)
         .show(getSupportFragmentManager(), "AUTO_FILL_HINT");

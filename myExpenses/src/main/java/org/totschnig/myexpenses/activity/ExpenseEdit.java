@@ -199,12 +199,20 @@ public class ExpenseEdit extends AmountActivity implements
 
   private LoaderManager mManager;
 
-  private boolean mNewInstance = true, mClone = false,
-      mCreateNew, mLaunchPlanView, mIsMainTransactionOrTemplate,
-      mSavedInstance, mRecordTemplateWidget;
+  protected boolean mClone = false;
+  protected boolean mCreateNew;
+  protected boolean mLaunchPlanView;
+  protected boolean mIsMainTransactionOrTemplate;
+  protected boolean mSavedInstance;
+  protected boolean mRecordTemplateWidget;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
+  }
+
+  @Override
+  int getDiscardNewMessage() {
+    return R.string.dialog_confirm_discard_new_transaction;
   }
 
   @Override

@@ -82,6 +82,12 @@ public class AccountEdit extends AmountActivity implements
       }
     }
   }
+
+  @Override
+  int getDiscardNewMessage() {
+    return R.string.dialog_confirm_discard_new_account;
+  }
+
   @SuppressLint("InlinedApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +114,7 @@ public class AccountEdit extends AmountActivity implements
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
     } else {
+      mNewInstance = true;
       setTitle(R.string.menu_create_account);
       mAccount = new Account();
       String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
