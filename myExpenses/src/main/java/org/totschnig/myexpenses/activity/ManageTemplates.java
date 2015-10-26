@@ -37,23 +37,13 @@ import com.android.calendar.CalendarContractCompat.Events;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBar.TabListener;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.Toast;
 
-public class ManageTemplates extends TabedActivity implements
+public class ManageTemplates extends TabbedActivity implements
     ConfirmationDialogListener {
   public enum HelpVariant {
     templates,plans
@@ -120,7 +110,7 @@ public class ManageTemplates extends TabedActivity implements
   @Override
   protected void setupTabs(Bundle savedInstanceState) {
     mSectionsPagerAdapter.addFragment(new TemplatesList(), getString(R.string.menu_manage_plans_tab_templates));
-    mSectionsPagerAdapter.addFragment(new PlanList(),getString(R.string.menu_manage_plans_tab_plans));
+    mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
   }
 
   @Override

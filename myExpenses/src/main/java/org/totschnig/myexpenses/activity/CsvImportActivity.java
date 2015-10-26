@@ -1,18 +1,11 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -24,11 +17,9 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 
-public class CsvImportActivity extends TabedActivity implements
+public class CsvImportActivity extends TabbedActivity implements
     ConfirmationDialogFragment.ConfirmationDialogListener {
 
   public static final String KEY_DATA_READY = "KEY_DATA_READY";

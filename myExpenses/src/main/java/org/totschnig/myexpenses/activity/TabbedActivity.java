@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by privat on 01.10.15.
  */
-public abstract class TabedActivity extends ProtectedFragmentActivity {
+public abstract class TabbedActivity extends ProtectedFragmentActivity {
   protected TabLayout mTabLayout;
   protected ViewPager mViewPager;
   /**
