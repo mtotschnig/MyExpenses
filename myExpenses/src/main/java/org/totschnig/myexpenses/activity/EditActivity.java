@@ -22,17 +22,20 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
@@ -41,6 +44,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   protected boolean mIsSaving = false, mIsDirty = false;
   protected boolean mNewInstance = true;
+  private int primaryColor;
+  private int accentColor;
 
   abstract int getDiscardNewMessage();
 
@@ -63,6 +68,13 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
+    TypedValue typedValue = new TypedValue();
+    TypedArray a = obtainStyledAttributes(typedValue.data,
+        new int[] { android.R.attr.textColorSecondary });
+    primaryColor = a.getColor(0, 0);
+    a.recycle();
+    a = obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
+    accentColor = a.getColor(0, 0);
   }
 
   protected Toolbar setupToolbar() {
@@ -160,5 +172,13 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     } else {
       super.onBackPressed();
     }
+  }
+  protected void linkInputWithLabel(final View input, final View label) {
+    input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+        ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor);
+      }
+    });
   }
 }

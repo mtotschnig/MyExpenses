@@ -715,6 +715,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void setupListeners() {
     super.setupListeners();
     mCommentText.addTextChangedListener(this);
+    linkInputWithLabel(mCommentText,findViewById(R.id.CommentLabel));
     mTitleText.addTextChangedListener(this);
     mPayeeText.addTextChangedListener(this);
     mReferenceNumberText.addTextChangedListener(this);
