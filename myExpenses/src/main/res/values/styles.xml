@@ -42,9 +42,11 @@
     <item name="android:padding">5dp</item>
   </style>
   <style name="form_label">
-      <item name="android:textStyle">bold</item>
-      <item name="android:paddingRight">5dp</item>
-      <item name="android:layout_gravity">center_vertical</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:paddingRight">12dp</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:layout_gravity">center_vertical</item>
+    <item name="android:minHeight">60dp</item>
   </style>
   <!-- needed in version dialog and more info in API 10 and lower -->
   <style name="about_text.white">
@@ -105,15 +107,5 @@
   </style>
   <style name="MyTextAppearanceSmall.s3">
     <item name="android:textSize">20sp</item>
-  </style>	
-  <dimen name="calculator_button_large">50dp</dimen>
-  <dimen name="calculator_button_small">40dp</dimen>
-  <dimen name="general_padding">7dp</dimen>
-  <style name="SmallButton">
-     <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
   </style>
-  <dimen name="thumbnail_size">48dp</dimen>
-  <dimen name="thumbnail_size_grid">96dp</dimen>
-  <dimen name="fab_margin_right">0dp</dimen>
-  <dimen name="fab_margin_bottom">0dp</dimen>
 </resources>

@@ -22,16 +22,15 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
+        android:paddingLeft="@dimen/padding_form"
+        android:paddingRight="@dimen/padding_form"
         android:shrinkColumns="1"
         android:stretchColumns="1" >
 
         <include layout="@layout/filename" />
 
         <include layout="@layout/encoding"/>
-        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:gravity="center_vertical">
+        <TableRow xmlns:android="http://schemas.android.com/apk/res/android">
 
             <TextView
                 style="@style/form_label"

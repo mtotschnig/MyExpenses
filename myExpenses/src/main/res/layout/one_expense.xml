@@ -28,8 +28,8 @@
       android:layout_weight="1"
       android:fillViewport="true" >
     <TableLayout
-        android:paddingRight="@dimen/general_padding"
-        android:paddingLeft="@dimen/general_padding"
+        android:paddingLeft="@dimen/padding_form"
+        android:paddingRight="@dimen/padding_form"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/Table"
@@ -52,6 +52,7 @@
         	  android:id="@+id/AccountLabel"
             android:text="@string/account" />
         <Spinner android:id="@+id/Account"
+                 android:layout_gravity="center_vertical"
             android:prompt="@string/account" />
       </TableRow>
 
@@ -96,7 +97,8 @@
 
       <TableRow>
         <TextView style="@style/form_label"
-            android:text="@string/comment" />
+            android:text="@string/comment"
+            android:id="@+id/CommentLabel"/>
         <LinearLayout android:orientation="horizontal">
         <EditText
             android:layout_gravity="bottom"
