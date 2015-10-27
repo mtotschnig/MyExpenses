@@ -32,7 +32,6 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_with_tabs);
     setupToolbar(true);
