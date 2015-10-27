@@ -70,6 +70,7 @@ public class ManageTemplates extends TabbedActivity implements
   }
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
 
     final ActionBar actionBar = getSupportActionBar();
