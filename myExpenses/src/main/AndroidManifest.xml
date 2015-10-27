@@ -131,7 +131,8 @@
         </activity>
         <activity
             android:name=".activity.ManageTemplates"
-            android:parentActivityName=".activity.MyExpenses" >
+            android:parentActivityName=".activity.MyExpenses"
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
