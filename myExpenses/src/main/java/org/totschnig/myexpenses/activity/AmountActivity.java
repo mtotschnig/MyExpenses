@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
@@ -42,6 +43,7 @@ public abstract class AmountActivity extends EditActivity {
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
   protected CompoundButton mTypeButton;
+  protected TextView mAmountLabel;
 
   /**
    * configures the decimal format and the amount EditText based on configured
@@ -49,6 +51,7 @@ public abstract class AmountActivity extends EditActivity {
    * @param fractionDigits 
    */
   protected void configAmountInput(int fractionDigits) {
+    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
     mAmountText = (EditText) findViewById(R.id.Amount);
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -139,5 +142,6 @@ public abstract class AmountActivity extends EditActivity {
         onTypeChanged(isChecked);
       }
     });
+    linkInputWithLabel(mAmountText, mAmountLabel);
   }
 }

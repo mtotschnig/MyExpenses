@@ -63,6 +63,7 @@
             <TableRow>
 
                 <TextView
+                    android:id="@+id/AmountLabel"
                     style="@style/form_label"
                     android:text="@string/opening_balance"/>
 

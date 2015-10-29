@@ -158,7 +158,7 @@ public class ExpenseEdit extends AmountActivity implements
   private ArrayAdapter<Integer> mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
-  private TextView mPayeeLabel, mAmountLabel;
+  protected TextView mPayeeLabel;
   private ToggleButton mPlanToggleButton;
   private ImageButton mAttachPictureButton;
   private ImageView mPictureView;
@@ -229,10 +229,10 @@ public class ExpenseEdit extends AmountActivity implements
     mCommentText = (EditText) findViewById(R.id.Comment);
     mTitleText = (EditText) findViewById(R.id.Title);
     mReferenceNumberText = (EditText) findViewById(R.id.Number);
-    mDateButton = (Button) findViewById(R.id.Date);
+    mDateButton = (Button) findViewById(R.id.DateButton);
     mAttachPictureButton = (ImageButton) findViewById(R.id.AttachImage);
     mPictureView = (ImageView) findViewById(R.id.picture);
-    mTimeButton = (Button) findViewById(R.id.Time);
+    mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
     mPayeeAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
@@ -316,7 +316,6 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mPlanToggleButton = (ToggleButton) findViewById(R.id.togglebutton);
-    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
     int manual = (int) paint.measureText(getString(R.string.plan_manual));
@@ -571,21 +570,12 @@ public class ExpenseEdit extends AmountActivity implements
       if (accountContainer == null)
         accountContainer = findViewById(R.id.TransferAccount);
       accountContainer.setVisibility(View.VISIBLE);
-      if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-        accountLabelTv.setText(getString(R.string.transfer_from_account) + " / " + getString(R.string.transfer_to_account));
-      } else {
-        accountLabelTv.setText(R.string.transfer_from_account);
-      }
+      accountLabelTv.setText(R.string.transfer_from_account);
+
       mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
           new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
       mTransferAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mTransferAccountSpinner.setAdapter(mTransferAccountsAdapter);
-    } else if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-      String accountLabel = getString(R.string.account);
-      if (mOperationType != MyExpenses.TYPE_SPLIT) {
-        accountLabel += " / " + getString(R.string.category);
-      }
-      accountLabelTv.setText(accountLabel);
     }
 
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
@@ -652,12 +642,6 @@ public class ExpenseEdit extends AmountActivity implements
       if (timeRow != null)
         timeRow.setVisibility(View.GONE);
     } else {
-      if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-        TextView DateTimeLabelTv = (TextView) findViewById(R.id.DateTimeLabel);
-        if (DateTimeLabelTv != null) {
-          DateTimeLabelTv.setText(getString(R.string.date) + " / " + getString(R.string.time));
-        }
-      }
       mDateButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           showDialog(DATE_DIALOG_ID);
@@ -715,7 +699,6 @@ public class ExpenseEdit extends AmountActivity implements
   protected void setupListeners() {
     super.setupListeners();
     mCommentText.addTextChangedListener(this);
-    linkInputWithLabel(mCommentText,findViewById(R.id.CommentLabel));
     mTitleText.addTextChangedListener(this);
     mPayeeText.addTextChangedListener(this);
     mReferenceNumberText.addTextChangedListener(this);
@@ -723,6 +706,15 @@ public class ExpenseEdit extends AmountActivity implements
     mMethodSpinner.setOnItemSelectedListener(this);
     mStatusSpinner.setOnItemSelectedListener(this);
     mTransferAccountSpinner.setOnItemSelectedListener(this);
+    linkInputWithLabel(mCommentText, findViewById(R.id.CommentLabel));
+    linkInputWithLabel(mAccountSpinner.getSpinner(), findViewById(R.id.AccountLabel));
+    linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
+    linkInputWithLabel(mTransferAccountSpinner.getSpinner(), findViewById(R.id.TransferAccountLabel));
+    linkInputWithLabel(mDateButton, findViewById(R.id.DateLabel));
+    linkInputWithLabel(mTimeButton,findViewById(R.id.TimeLabel));
+    linkInputWithLabel(mPayeeText,mPayeeLabel);
+    linkInputWithLabel(mCategoryButton,findViewById(R.id.CategoryLabel));
+    linkInputWithLabel(mMethodSpinner.getSpinner(),findViewById(R.id.MethodLabel));
   }
 
   @Override
@@ -747,9 +739,7 @@ public class ExpenseEdit extends AmountActivity implements
       int iconRes,actionEnum;
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
         iconRes = android.R.drawable.ic_menu_save;
-        actionEnum = getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ?
-            (MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT) :
-              MenuItemCompat.SHOW_AS_ACTION_NEVER;
+        actionEnum = MenuItemCompat.SHOW_AS_ACTION_NEVER;
       } else {
         iconRes = R.drawable.save_and_new_icon;
         actionEnum = MenuItemCompat.SHOW_AS_ACTION_ALWAYS;

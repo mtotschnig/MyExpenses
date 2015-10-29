@@ -34,7 +34,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -174,10 +176,16 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     }
   }
   protected void linkInputWithLabel(final View input, final View label) {
+    //setting this in XML does not work for Spinners
+    input.setFocusable(true);
+    input.setFocusableInTouchMode(true);
     input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
       @Override
       public void onFocusChange(View v, boolean hasFocus) {
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor);
+        if (hasFocus && (input instanceof Button || input instanceof Spinner)) {
+          input.performClick();
+        }
       }
     });
   }
