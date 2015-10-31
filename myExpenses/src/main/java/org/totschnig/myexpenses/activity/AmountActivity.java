@@ -142,6 +142,10 @@ public abstract class AmountActivity extends EditActivity {
         onTypeChanged(isChecked);
       }
     });
+  }
+  protected void linkInputsWithLabels() {
     linkInputWithLabel(mAmountText, mAmountLabel);
+    linkInputWithLabel(mTypeButton, mAmountLabel);
+    linkInputWithLabel(findViewById(R.id.Calculator),mAmountLabel);
   }
 }

@@ -4,11 +4,9 @@
     <dimen name="calculator_button_small">40dp</dimen>
     <dimen name="general_padding">7dp</dimen>
     <dimen name="padding_form">12dp</dimen>
-    <style name="SmallButton">
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-    </style>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="thumbnail_size_grid">96dp</dimen>
     <dimen name="fab_margin_right">0dp</dimen>
     <dimen name="fab_margin_bottom">0dp</dimen>
+    <integer name="account_type_grid_columns">1</integer>
 </resources>

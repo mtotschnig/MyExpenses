@@ -16,6 +16,7 @@
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Account</string>
+    <string name="account_types">Account types</string>
     <string name="account_type_asset">Asset account</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_asset_plural">Asset accounts</string>

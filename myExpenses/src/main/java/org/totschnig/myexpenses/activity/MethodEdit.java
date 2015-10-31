@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.support.v7.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ import org.totschnig.myexpenses.ui.SpinnerHelper;
 public class MethodEdit extends EditActivity implements CompoundButton.OnCheckedChangeListener {
   protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
-  private TableLayout mTable;
+  private GridLayout mAccountTypesGrid;
   CheckBox mIsNumberedCheckBox;
   SpinnerHelper mPaymentTypeSpinner;
   PaymentMethod mMethod;
@@ -60,11 +61,12 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     changeEditTextBackground((ViewGroup) findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);
-    mTable = (TableLayout)findViewById(R.id.Table);
+    mAccountTypesGrid = (GridLayout)findViewById(R.id.AccountTypeGrid);
 
     mPaymentTypeSpinner = new SpinnerHelper(findViewById(R.id.TaType));
 
     mIsNumberedCheckBox = (CheckBox) findViewById(R.id.IsNumbered);
+    linkInputsWithLabels();
     populateFields();
   }
   /**
@@ -89,30 +91,20 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
       mNewInstance = true;
     }
     mPaymentTypeSpinner.setSelection(paymentType +1);
-    //add one row with checkbox for each account type
-    TableRow tr;
-    TextView tv;
+    //add one checkbox for each account type
     CheckBox cb;
     int cbId = 1;
+    TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
     for (Account.Type accountType : Account.Type.values()) {
-      /* Create a new row to be added. */
-     tr = new TableRow(this);
-  /*    tr.setLayoutParams(new LayoutParams(
-                     LayoutParams.FILL_PARENT,
-                     LayoutParams.WRAP_CONTENT));*/
-           /* Create a Button to be the row-content. */
-      tv = new TextView(this);
-      tv.setText(accountType.toString());
-      tv.setTextAppearance(this, R.style.form_label);
       cb = new CheckBox(this);
+      cb.setText(accountType.toString());
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
       //setting Id makes state be retained on orientation change 
       cb.setId(cbId);
       cb.setOnCheckedChangeListener(this);
-      tr.addView(tv);
-      tr.addView(cb);
-      mTable.addView(tr);
+      linkInputWithLabel(cb,accountTypesLabel);
+      mAccountTypesGrid.addView(cb);
       cbId++;
     }
     setupListeners();
@@ -129,7 +121,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
 
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
     for (Account.Type accountType : Account.Type.values()) {
-      CheckBox cb = (CheckBox) mTable.findViewWithTag(accountType);
+      CheckBox cb = (CheckBox) mAccountTypesGrid.findViewWithTag(accountType);
       if (cb.isChecked()) {
         mMethod.addAccountType(accountType);
       } else {
@@ -169,5 +161,11 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
     mIsDirty = true;
+  }
+
+  protected void linkInputsWithLabels() {
+    linkInputWithLabel(mLabelText,findViewById(R.id.LabelLabel));
+    linkInputWithLabel(mPaymentTypeSpinner.getSpinner(),findViewById(R.id.TypeLabel));
+    linkInputWithLabel(mIsNumberedCheckBox,findViewById(R.id.IsNumberedLabel));
   }
 }

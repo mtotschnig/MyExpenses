@@ -17,6 +17,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
     <include layout="@layout/toolbar_expense_edit"/>
@@ -31,26 +32,30 @@
             android:id="@+id/Table"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/general_padding"
-            android:paddingRight="@dimen/general_padding"
+            android:paddingLeft="@dimen/padding_form"
+            android:paddingRight="@dimen/padding_form"
             android:shrinkColumns="1"
             android:stretchColumns="1">
 
             <TableRow>
 
                 <TextView
+                    android:id="@+id/LabelLabel"
                     style="@style/form_label"
                     android:text="@string/label"/>
 
                 <EditText
                     android:id="@+id/Label"
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
             </TableRow>
 
             <TableRow>
 
                 <TextView
+                    android:id="@+id/TypeLabel"
                     style="@style/form_label"
                     android:text="@string/type"/>
 
@@ -58,6 +63,7 @@
                     android:id="@+id/TaType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:entries="@array/method_types"
                     android:prompt="@string/type"/>
             </TableRow>
@@ -65,13 +71,29 @@
             <TableRow>
 
                 <TextView
+                    android:id="@+id/IsNumberedLabel"
                     style="@style/form_label"
                     android:text="@string/numbered"/>
 
                 <CheckBox
                     android:id="@+id/IsNumbered"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/AccountTypesLabel"
+                    style="@style/form_label"
+                    android:text="@string/account_types"/>
+                <android.support.v7.widget.GridLayout
+                    android:id="@+id/AccountTypeGrid"
+                    app:columnCount="@integer/account_type_grid_columns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
             </TableRow>
         </TableLayout>
     </ScrollView>

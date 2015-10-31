@@ -16,11 +16,9 @@
  -->
 <LinearLayout android:id="@+id/OneExpense"
               xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical"
-              tools:ignore="InconsistentLayout">
+              android:orientation="vertical">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -52,6 +50,7 @@
                     android:id="@+id/Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:singleLine="true"/>
             </TableRow>
 
@@ -153,8 +152,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:singleLine="true"/>
+                        android:layout_gravity="center_vertical"/>
 
                     <Spinner
                         android:id="@+id/Status"
@@ -219,6 +217,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/PlanLabel"
                     style="@style/form_label"
                     android:text="@string/plan"/>
 

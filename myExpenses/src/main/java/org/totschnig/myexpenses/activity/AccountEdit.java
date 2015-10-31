@@ -210,6 +210,7 @@ public class AccountEdit extends AmountActivity implements
     };
     mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mColorSpinner.setAdapter(mColAdapter);
+    linkInputsWithLabels();
     populateFields();
   }
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -408,5 +409,15 @@ public class AccountEdit extends AmountActivity implements
     mColorSpinner.setOnItemSelectedListener(this);
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
+  }
+
+  @Override
+  protected void linkInputsWithLabels() {
+    super.linkInputsWithLabels();
+    linkInputWithLabel(mLabelText,findViewById(R.id.LabelLabel));
+    linkInputWithLabel(mDescriptionText,findViewById(R.id.DescriptionLabel));
+    linkInputWithLabel(mColorSpinner.getSpinner(),findViewById(R.id.ColorLabel));
+    linkInputWithLabel(mAccountTypeSpinner.getSpinner(),findViewById(R.id.AccountTypeLabel));
+    linkInputWithLabel(mCurrencySpinner.getSpinner(),findViewById(R.id.CurrencyLabel));
   }
 }

@@ -15,13 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
-
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,12 +27,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.util.Utils;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements
     DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
@@ -176,16 +171,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     }
   }
   protected void linkInputWithLabel(final View input, final View label) {
-    //setting this in XML does not work for Spinners
-    input.setFocusable(true);
-    input.setFocusableInTouchMode(true);
     input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
       @Override
       public void onFocusChange(View v, boolean hasFocus) {
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor);
-        if (hasFocus && (input instanceof Button || input instanceof Spinner)) {
-          input.performClick();
-        }
       }
     });
   }

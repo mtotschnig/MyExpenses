@@ -483,7 +483,7 @@ public class ExpenseEdit extends AmountActivity implements
         case MyExpenses.TYPE_TRANSACTION:
           if (accountId == 0L) {
             accountId = MyApplication.getInstance().getSettings()
-                .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,0L);
+                .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L);
           }
           mTransaction = parentId == 0L ?
               Transaction.getNewInstance(accountId) :
@@ -493,9 +493,9 @@ public class ExpenseEdit extends AmountActivity implements
           Long transfer_account = 0L;
           if (accountId == 0L) {
             accountId = MyApplication.getInstance().getSettings()
-                .getLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET,0L);
+                .getLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L);
             transfer_account = MyApplication.getInstance().getSettings()
-                .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,0L);
+                .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L);
           }
           mTransaction = parentId == 0L ?
               Transfer.getNewInstance(accountId,transfer_account) :
@@ -504,7 +504,7 @@ public class ExpenseEdit extends AmountActivity implements
         case MyExpenses.TYPE_SPLIT:
           if (accountId == 0L) {
             accountId = MyApplication.getInstance().getSettings()
-                .getLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET,0L);
+                .getLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L);
           }
           mTransaction = SplitTransaction.getNewInstance(accountId);
           //Split transactions are returned persisted to db and already have an id
@@ -526,6 +526,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private void setup() {
     configAmountInput(Money.fractionDigits(mTransaction.amount.getCurrency()));
+    linkInputsWithLabels();
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new TextWatcher(){
         public void afterTextChanged(Editable s) {
@@ -600,7 +601,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (findSplitPartList() == null) {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.getId(),mTransaction.accountId),SPLIT_PART_LIST)
+          .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction.getId(), mTransaction.accountId), SPLIT_PART_LIST)
           .commit();
         fm.executePendingTransactions();
       }
@@ -706,15 +707,27 @@ public class ExpenseEdit extends AmountActivity implements
     mMethodSpinner.setOnItemSelectedListener(this);
     mStatusSpinner.setOnItemSelectedListener(this);
     mTransferAccountSpinner.setOnItemSelectedListener(this);
-    linkInputWithLabel(mCommentText, findViewById(R.id.CommentLabel));
+  }
+
+  @Override
+  protected void linkInputsWithLabels() {
+    super.linkInputsWithLabels();
     linkInputWithLabel(mAccountSpinner.getSpinner(), findViewById(R.id.AccountLabel));
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
     linkInputWithLabel(mTransferAccountSpinner.getSpinner(), findViewById(R.id.TransferAccountLabel));
     linkInputWithLabel(mDateButton, findViewById(R.id.DateLabel));
-    linkInputWithLabel(mTimeButton,findViewById(R.id.TimeLabel));
-    linkInputWithLabel(mPayeeText,mPayeeLabel);
-    linkInputWithLabel(mCategoryButton,findViewById(R.id.CategoryLabel));
-    linkInputWithLabel(mMethodSpinner.getSpinner(),findViewById(R.id.MethodLabel));
+    linkInputWithLabel(mTimeButton, findViewById(R.id.TimeLabel));
+    linkInputWithLabel(mPayeeText, mPayeeLabel);
+    View commentLabel = findViewById(R.id.CommentLabel);
+    linkInputWithLabel(mStatusSpinner.getSpinner(),commentLabel);
+    linkInputWithLabel(mAttachPictureButton,commentLabel);
+    linkInputWithLabel(mPictureView,commentLabel);
+    linkInputWithLabel(mCommentText, commentLabel);
+    linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
+    View methodLabel = findViewById(R.id.MethodLabel);
+    linkInputWithLabel(mMethodSpinner.getSpinner(), methodLabel);
+    linkInputWithLabel(mReferenceNumberText, methodLabel);
+    linkInputWithLabel(mPlanButton, findViewById(R.id.PlanLabel));
   }
 
   @Override
@@ -1311,7 +1324,7 @@ public class ExpenseEdit extends AmountActivity implements
                 MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey()),
             createNewButton,
             MessageDialogFragment.Button.noButton())
-         .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
+         .show(getSupportFragmentManager(), "CALENDAR_SETUP_INFO");
         mPlanButton.setEnabled(true);
       } else if (mPlanId == 0L) {
         mPlanId = null;
