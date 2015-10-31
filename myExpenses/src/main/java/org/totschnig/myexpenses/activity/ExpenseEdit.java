@@ -205,6 +205,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected boolean mIsMainTransactionOrTemplate;
   protected boolean mSavedInstance;
   protected boolean mRecordTemplateWidget;
+  private boolean mIsResumed;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -524,6 +525,14 @@ public class ExpenseEdit extends AmountActivity implements
       setup();
     }
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mIsResumed = true;
+    if (mAccounts!=null) setupListeners();
+  }
+
   private void setup() {
     configAmountInput(Money.fractionDigits(mTransaction.amount.getCurrency()));
     linkInputsWithLabels();
@@ -683,15 +692,15 @@ public class ExpenseEdit extends AmountActivity implements
               launchNewPlan();
             }
           } else {
-            CommonCommands.showContribDialog(ExpenseEdit.this,ContribFeature.PLANS_UNLIMITED, null);
+            CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
           }
           return;
-       }
-       //mPlan could be null, even if mPlanId is not , when EVENT_CURSOR is loading
-       if (mPlan != null) {
-         launchPlanView();
-       }
-     }
+        }
+        //mPlan could be null, even if mPlanId is not , when EVENT_CURSOR is loading
+        if (mPlan != null) {
+          launchPlanView();
+        }
+      }
     });
   }
 
@@ -1716,6 +1725,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTypeButton.setEnabled(true);
       configureType();
       configureStatusSpinner();
+      if (mIsResumed) setupListeners();
       break;
     case EVENT_CURSOR:
       if (data.moveToFirst()) {

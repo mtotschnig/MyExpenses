@@ -45,14 +45,19 @@ public abstract class AmountActivity extends EditActivity {
   protected CompoundButton mTypeButton;
   protected TextView mAmountLabel;
 
+  @Override
+  public void setContentView(int layoutResID) {
+    super.setContentView(layoutResID);
+    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
+    mAmountText = (EditText) findViewById(R.id.Amount);
+  }
+
   /**
    * configures the decimal format and the amount EditText based on configured
    * currency_decimal_separator 
    * @param fractionDigits 
    */
   protected void configAmountInput(int fractionDigits) {
-    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
-    mAmountText = (EditText) findViewById(R.id.Amount);
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);

@@ -213,6 +213,7 @@ public class AccountEdit extends AmountActivity implements
     linkInputsWithLabels();
     populateFields();
   }
+
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_COLOR_REQUEST) {
@@ -227,6 +228,13 @@ public class AccountEdit extends AmountActivity implements
       }
     }
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    setupListeners();
+  }
+
   /**
    * populates the input field either from the database or with default value for currency (from Locale)
    */

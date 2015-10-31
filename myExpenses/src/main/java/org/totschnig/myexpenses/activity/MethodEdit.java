@@ -69,6 +69,13 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     linkInputsWithLabels();
     populateFields();
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    setupListeners();
+  }
+
   /**
    * populates the input field either from the database or with default value for currency (from Locale)
    */

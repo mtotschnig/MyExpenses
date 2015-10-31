@@ -80,12 +80,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     }
   }
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    setupListeners();
-  }
-
   protected Toolbar setupToolbar() {
     Toolbar toolbar = super.setupToolbar(true);
     getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
