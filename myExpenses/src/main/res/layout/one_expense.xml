@@ -128,7 +128,8 @@
 
                 <TextView
                     android:id="@+id/AmountLabel"
-                    style="@style/form_label"/>
+                    style="@style/form_label"
+                    android:textColor="?attr/colorAccent"/>
 
                 <LinearLayout android:orientation="horizontal"
                     android:gravity="center_vertical">
