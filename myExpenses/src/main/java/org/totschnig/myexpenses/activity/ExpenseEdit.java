@@ -693,7 +693,6 @@ public class ExpenseEdit extends AmountActivity implements
        }
      }
     });
-    setupListeners();
   }
 
   @Override

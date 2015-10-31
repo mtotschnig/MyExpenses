@@ -107,7 +107,6 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
       mAccountTypesGrid.addView(cb);
       cbId++;
     }
-    setupListeners();
   }
 
   protected void saveState() {

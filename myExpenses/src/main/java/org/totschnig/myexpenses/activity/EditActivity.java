@@ -39,12 +39,15 @@ import org.totschnig.myexpenses.util.Utils;
 public abstract class EditActivity extends ProtectedFragmentActivity implements
     DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
 
+  private static final String KEY_IS_DIRTY = "isDirty";
   protected boolean mIsSaving = false, mIsDirty = false;
   protected boolean mNewInstance = true;
   private int primaryColor;
   private int accentColor;
 
   abstract int getDiscardNewMessage();
+
+  protected abstract void setupListeners();
 
   @Override
   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -72,6 +75,15 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     a.recycle();
     a = obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
     accentColor = a.getColor(0, 0);
+    if (savedInstanceState != null) {
+      mIsDirty = savedInstanceState.getBoolean(KEY_IS_DIRTY);
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    setupListeners();
   }
 
   protected Toolbar setupToolbar() {
@@ -177,5 +189,11 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor);
       }
     });
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_IS_DIRTY,mIsDirty);
   }
 }

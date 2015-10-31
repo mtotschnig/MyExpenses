@@ -244,7 +244,6 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
-    setupListeners();
   }
 
   /**
