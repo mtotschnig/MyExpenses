@@ -689,7 +689,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position));
+    configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position),1);
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
@@ -708,7 +708,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         break;
       }
     }
-    configureMenuInternal(menu, hasSplit, hasNotVoid);
+    configureMenuInternal(menu, hasSplit, hasNotVoid, count);
   }
   private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
@@ -736,8 +736,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     return false;
   }
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid) {
-    menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(!hasSplit);
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, int count) {
+    menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count==1 && !hasSplit);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
     menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(!hasVoid);
