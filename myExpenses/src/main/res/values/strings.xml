@@ -79,6 +79,7 @@
     <string name="dialog_confirm_button_discard">Discard</string>
     <string name="dialog_confirm_discard_changes">Discard changes?</string>
     <string name="dialog_confirm_discard_new_transaction">Discard new transaction?</string>
+    <string name="dialog_confirm_discard_new_template">Discard new template?</string>
     <string name="dialog_confirm_discard_new_account">Discard new account?</string>
     <string name="dialog_confirm_discard_new_method">Discard new payment method?</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
