@@ -740,7 +740,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count==1 && !hasSplit);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
     menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(!hasVoid);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !hasVoid);
   }
   @SuppressLint("NewApi")
   public void onDrawerOpened() {
