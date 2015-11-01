@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding_list">54dp</dimen>
+    <dimen name="margin_list">54dp</dimen>
     <dimen name="margin_list_expandable">20dp</dimen>
 </resources>

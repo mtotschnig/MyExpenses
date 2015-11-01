@@ -4,8 +4,8 @@
     <dimen name="calculator_button_small">40dp</dimen>
     <dimen name="general_padding">12dp</dimen>
     <dimen name="padding_form">12dp</dimen>
-    <dimen name="padding_list">44dp</dimen>
-    <dimen name="padding_list_expandable">22dp</dimen>
+    <dimen name="margin_list">52dp</dimen>
+    <dimen name="margin_list_expandable">22dp</dimen>
     <dimen name="padding_dialog">24dp</dimen>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="thumbnail_size_grid">96dp</dimen>
