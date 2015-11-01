@@ -23,8 +23,8 @@
       android:layout_width="fill_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:paddingLeft="@dimen/padding_list_expandable"
-      android:paddingRight="@dimen/padding_list_expandable"
+      android:layout_marginLeft="@dimen/margin_list_expandable"
+      android:layout_marginRight="@dimen/margin_list_expandable"
       android:drawSelectorOnTop="false" />
     <RelativeLayout android:id="@+id/empty"
         android:layout_width="fill_parent"
