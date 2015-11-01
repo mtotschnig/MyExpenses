@@ -17,6 +17,6 @@
 <resources>
 	<!-- setting text color is only needed in API 10 and lower -->
   <style name="about_text.white" />
-  <style name="form_label.dialog" />
+  <style name="form_label.dialog.compat" />
   <style name="dialog_text"/>
 </resources>

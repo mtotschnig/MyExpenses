@@ -14,39 +14,60 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/OneExpense"
-        android:orientation="vertical"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:paddingBottom="@dimen/general_padding">
+<LinearLayout android:id="@+id/OneExpense"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/padding_dialog"
+              android:paddingRight="@dimen/padding_dialog">
+
     <TableLayout
-        android:paddingRight="@dimen/general_padding"
-        android:paddingLeft="@dimen/general_padding"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
         android:id="@+id/Table"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="1"
         android:stretchColumns="1"
-        android:shrinkColumns="1">
-      <TableRow>
-        <TextView style="@style/form_label.dialog" android:text="@string/total_reconciled"/>
-        <TextView android:id="@+id/TotalReconciled" style="@style/dialog_text"/>
-      </TableRow>
-      <TableRow>
-        <TextView style="@style/form_label.dialog" android:text="@string/total_cleared" />
-        <TextView android:id="@+id/TotalCleared"  style="@style/dialog_text"/>
-      </TableRow>
+        android:layout_marginBottom="@dimen/general_padding"
+        android:layout_marginTop="@dimen/general_padding">
+
+        <TableRow>
+
+            <TextView
+                style="@style/form_label.dialog.compat"
+                android:text="@string/total_reconciled"/>
+
+            <TextView
+                android:id="@+id/TotalReconciled"
+                style="@style/dialog_text"
+                android:layout_gravity="center_horizontal"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/form_label.dialog.compat"
+                android:text="@string/total_cleared"/>
+
+            <TextView
+                android:id="@+id/TotalCleared"
+                style="@style/dialog_text"
+                android:layout_gravity="center_horizontal"/>
+        </TableRow>
     </TableLayout>
+
     <TextView
         style="@style/dialog_text.bold"
-        android:layout_margin="@dimen/general_padding"
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:text="@string/warning_balance_account" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/general_padding"
+        android:layout_marginTop="@dimen/general_padding"
+        android:text="@string/warning_balance_account"/>
+
     <CheckBox
         android:id="@+id/balance_delete"
-        android:checked="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checked="false"
         android:text="@string/dialog_balance_delete"/>
- </LinearLayout>
+</LinearLayout>

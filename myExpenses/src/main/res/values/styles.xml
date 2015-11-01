@@ -42,17 +42,22 @@
     <item name="android:padding">5dp</item>
   </style>
   <style name="form_label">
-    <item name="android:textStyle">bold</item>
     <item name="android:paddingRight">12dp</item>
     <item name="android:gravity">center_vertical</item>
     <item name="android:layout_gravity">center_vertical</item>
     <item name="android:minHeight">60dp</item>
   </style>
+  <style name="form_label.compat">
+    <item name="android:textStyle">bold</item>
+  </style>
   <!-- needed in version dialog and more info in API 10 and lower -->
   <style name="about_text.white">
     <item name="android:textColor">#ffffff</item>
   </style>
-  <style name="form_label.dialog">
+  <style name="form_label.dialog" parent="form_label.compat">
+    <item name="android:minHeight">0dp</item>
+  </style>
+  <style name="form_label.dialog.compat">
     <item name="android:textColor">#ffffff</item>
   </style>
   <style name="dialog_text">

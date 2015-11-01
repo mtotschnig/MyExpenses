@@ -5,7 +5,7 @@
           tools:showIn="@layout/import_dialog">
 
     <TextView
-        style="@style/form_label"
+        style="@style/form_label.dialog.compat"
         android:text="@string/account"/>
 
     <LinearLayout android:orientation="horizontal">

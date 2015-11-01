@@ -40,7 +40,7 @@
 
                 <TextView
                     android:id="@+id/LabelLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/label"/>
 
                 <EditText
@@ -54,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/DescriptionLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/description"/>
 
                 <EditText
@@ -68,7 +68,7 @@
 
                 <TextView
                     android:id="@+id/AmountLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:textColor="?attr/colorAccent"
                     android:text="@string/opening_balance"/>
 
@@ -83,7 +83,7 @@
 
                 <TextView
                     android:id="@+id/CurrencyLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/currency"/>
 
                 <Spinner
@@ -96,7 +96,7 @@
 
                 <TextView
                     android:id="@+id/AccountTypeLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/type"/>
 
                 <Spinner
@@ -109,7 +109,7 @@
 
                 <TextView
                     android:id="@+id/ColorLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/color"/>
 
                 <Spinner

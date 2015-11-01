@@ -43,7 +43,7 @@
 
                 <TextView
                     android:id="@+id/TitleLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/title"/>
 
                 <EditText
@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/AccountLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/account"/>
 
                 <Spinner
@@ -72,7 +72,7 @@
 
                 <TextView
                     android:id="@+id/TransferAccountLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/transfer_to_account"/>
 
                 <Spinner
@@ -84,7 +84,7 @@
 
                 <TextView
                     android:id="@+id/DateLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/date"/>
 
                 <Button
@@ -98,7 +98,7 @@
 
                 <TextView
                     android:id="@+id/TimeLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/time"/>
 
                 <Button
@@ -112,7 +112,7 @@
 
                 <TextView
                     android:id="@+id/PayeeLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/payee"/>
 
                 <AutoCompleteTextView
@@ -128,7 +128,7 @@
 
                 <TextView
                     android:id="@+id/AmountLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:textColor="?attr/colorAccent"/>
 
                 <LinearLayout android:orientation="horizontal"
@@ -142,7 +142,7 @@
 
                 <TextView
                     android:id="@+id/CommentLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/comment"/>
 
                 <LinearLayout android:orientation="horizontal"
@@ -172,7 +172,7 @@
 
                 <TextView
                     android:id="@+id/CategoryLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/category"/>
 
                 <Button
@@ -186,7 +186,7 @@
 
                 <TextView
                     android:id="@+id/MethodLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/method"/>
 
                 <LinearLayout
@@ -219,7 +219,7 @@
 
                 <TextView
                     android:id="@+id/PlanLabel"
-                    style="@style/form_label"
+                    style="@style/form_label.compat"
                     android:text="@string/plan"/>
 
                 <LinearLayout

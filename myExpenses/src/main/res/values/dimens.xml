@@ -2,8 +2,9 @@
 <resources>
     <dimen name="calculator_button_large">50dp</dimen>
     <dimen name="calculator_button_small">40dp</dimen>
-    <dimen name="general_padding">7dp</dimen>
+    <dimen name="general_padding">12dp</dimen>
     <dimen name="padding_form">12dp</dimen>
+    <dimen name="padding_dialog">24dp</dimen>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="thumbnail_size_grid">96dp</dimen>
     <dimen name="fab_margin_right">0dp</dimen>
