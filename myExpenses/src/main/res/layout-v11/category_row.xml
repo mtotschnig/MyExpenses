@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-    android:paddingRight="@dimen/general_padding" >
+    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft">
 
     <include layout="@layout/category_row_inner"/>
 
