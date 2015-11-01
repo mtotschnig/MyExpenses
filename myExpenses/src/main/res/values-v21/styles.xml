@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <dimen name="fab_margin_right">16dp</dimen>
-  <dimen name="fab_margin_bottom">16dp</dimen>
+    <dimen name="fab_margin_right">16dp</dimen>
+    <dimen name="fab_margin_bottom">16dp</dimen>
+
+    <style name="form_label.compat">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
 </resources>
