@@ -213,7 +213,8 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   int getDiscardNewMessage() {
-    return R.string.dialog_confirm_discard_new_transaction;
+    return mTransaction instanceof Template ? R.string.dialog_confirm_discard_new_template :
+        R.string.dialog_confirm_discard_new_transaction;
   }
 
   @Override
