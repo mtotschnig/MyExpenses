@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
@@ -31,8 +32,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext1(ctx);
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.filter_date, null);
     mOperatorSpinner = (Spinner) view.findViewById(R.id.Operator);
     final View date2Row = view.findViewById(R.id.Date2Row);
@@ -50,12 +50,14 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
         // TODO Auto-generated method stub
       }
     });
+    ((ArrayAdapter) mOperatorSpinner.getAdapter())
+        .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
     mDate1 = (DatePicker) view.findViewById(R.id.date1);
     mDate2 = (DatePicker) view.findViewById(R.id.date2);
 
 
-    return new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(ctx)
       .setTitle(R.string.search_date)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)

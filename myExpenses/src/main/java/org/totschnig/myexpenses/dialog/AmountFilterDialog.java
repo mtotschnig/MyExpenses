@@ -14,16 +14,17 @@ import org.totschnig.myexpenses.provider.filter.AmountCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -43,8 +44,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext1(ctx);
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = ctx.getLayoutInflater();
     View view = li.inflate(R.layout.filter_amount, null);
     mOperatorSpinner = (Spinner) view.findViewById(R.id.Operator);
     final View amount2Row = view.findViewById(R.id.Amount2Row);
@@ -52,7 +52,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
 
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
-          int position, long id) {
+                                 int position, long id) {
         String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)[position];
         amount2Row.setVisibility(selectedOp.equals("BTW") ? View.VISIBLE : View.GONE);
       }
@@ -62,6 +62,8 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
         // TODO Auto-generated method stub
       }
     });
+    ((ArrayAdapter) mOperatorSpinner.getAdapter())
+        .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
@@ -74,7 +76,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     Utils.configDecimalSeparator(mAmount1Text, decimalSeparator, fractionDigits);
     Utils.configDecimalSeparator(mAmount2Text, decimalSeparator, fractionDigits);
 
-    return new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(ctx)
       .setTitle(R.string.search_amount)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)

@@ -70,7 +70,7 @@
         </activity>
         <activity
             android:name=".activity.BackupRestoreActivity"
-            android:theme="@style/Translucent.NoTitleBar" >
+            android:theme="@style/Theme.AppCompat.Light.Dialog" >
             <intent-filter>
                 <action android:name="myexpenses.intent.backup" />
 
@@ -84,7 +84,7 @@
         </activity>
         <activity
             android:name=".activity.GrisbiImport"
-            android:theme="@style/Translucent.NoTitleBar" >
+            android:theme="@style/Theme.AppCompat.Light.Dialog" >
             <intent-filter>
                 <action android:name="myexpenses.intent.import_from_grisbi" />
 
@@ -93,7 +93,7 @@
         </activity>
         <activity
             android:name=".activity.QifCSVImport"
-            android:theme="@style/Translucent.NoTitleBar" >
+            android:theme="@style/Theme.AppCompat.Light.Dialog" >
             <intent-filter>
                 <action android:name="myexpenses.intent.import" />
 
@@ -109,7 +109,7 @@
          </activity>
         <activity
             android:name=".activity.Help"
-            android:theme="@style/Translucent.NoTitleBar">
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>    

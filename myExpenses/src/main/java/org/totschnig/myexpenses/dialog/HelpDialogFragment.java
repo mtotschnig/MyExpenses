@@ -107,7 +107,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     FragmentActivity ctx  = getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final Resources res = getResources();
     final String pack = ctx.getPackageName();
     String title;
@@ -115,7 +114,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     Bundle args = getArguments();
     String activityName = args.getString(KEY_ACTIVITY_NAME);
     String variant = args.getString(KEY_VARIANT);
-    final LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    final LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.help_dialog, null);
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
 
@@ -173,11 +172,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       title = getString(resId);
     } catch (NotFoundException e) {
       Utils.reportToAcra(e);
-      return new AlertDialog.Builder(wrappedCtx)
+      return new AlertDialog.Builder(ctx)
           .setMessage("Error generating Help dialog")
           .create();
     }
-    return new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(ctx)
       .setTitle(title)
       .setIcon(android.R.drawable.ic_menu_help)
       .setView(view)
@@ -194,8 +193,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   /**
-   * @param res
-   * @param pack
    * @param activityName
    * @param variant
    * @param li

@@ -57,14 +57,13 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
     Resources res = getResources();
-    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     CharSequence featureDescription;
     if (feature.hasTrial) {
       featureDescription = Html.fromHtml(feature.buildFullInfoString(ctx,usagesLeft));
     } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     }
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
     CharSequence
         linefeed = Html.fromHtml("<br><br>"),
         removePhrase = feature.buildRemoveLimitation(getActivity(),true),

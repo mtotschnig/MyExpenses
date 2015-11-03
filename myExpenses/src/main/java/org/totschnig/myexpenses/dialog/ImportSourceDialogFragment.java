@@ -45,11 +45,10 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = LayoutInflater.from(getActivity());
     View view = li.inflate(getLayoutId(), null);
     setupDialogView(view);
-    return new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(getActivity())
       .setTitle(getLayoutTitle())
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)

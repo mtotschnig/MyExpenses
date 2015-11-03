@@ -34,7 +34,7 @@
         <TableRow>
 
             <TextView
-                style="@style/form_label.dialog.compat"
+                style="@style/form_label.dialog"
                 android:text="@string/total_reconciled"/>
 
             <TextView
@@ -46,7 +46,7 @@
         <TableRow>
 
             <TextView
-                style="@style/form_label.dialog.compat"
+                style="@style/form_label.dialog"
                 android:text="@string/total_cleared"/>
 
             <TextView

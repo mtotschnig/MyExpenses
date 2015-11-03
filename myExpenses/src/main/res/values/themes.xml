@@ -21,8 +21,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar">
+    <style name="ThemeLight.Translucent" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="browseIcon">@drawable/ic_action_browse_light</item>
+    </style>
+    <style name="ThemeDark.Translucent" parent="@style/Theme.AppCompat.Dialog">
+        <item name="browseIcon">@drawable/ic_action_browse_dark</item>
     </style>
 
     <style name="ThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
@@ -44,9 +47,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
-        <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight
-        </item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
         <item name="colorAggregate">#000000</item>

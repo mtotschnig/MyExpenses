@@ -33,7 +33,7 @@
         <TableRow xmlns:android="http://schemas.android.com/apk/res/android">
 
             <TextView
-                style="@style/form_label.dialog.compat"
+                style="@style/form_label.dialog"
                 android:text="@string/pref_csv_import_delimiter"/>
 
             <Spinner

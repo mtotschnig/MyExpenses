@@ -68,7 +68,6 @@
                 android:visibility="gone" >
 
                 <TextView
-                    style="@style/dialog_text"
                     android:gravity="center_horizontal"
                     android:text="@string/and" />
 

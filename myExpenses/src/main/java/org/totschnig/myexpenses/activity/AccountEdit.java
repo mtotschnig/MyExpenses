@@ -132,13 +132,13 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
-    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
     
     mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
     ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
-    typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountTypeSpinner.setAdapter(typAdapter);
     
     mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));

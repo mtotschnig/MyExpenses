@@ -5,7 +5,7 @@
           tools:showIn="@layout/import_dialog">
 
     <TextView
-        style="@style/form_label.dialog.compat"
+        style="@style/form_label.dialog"
         android:text="@string/date_format"/>
 
     <Spinner

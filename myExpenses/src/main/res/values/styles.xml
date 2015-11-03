@@ -57,12 +57,7 @@
   <style name="form_label.dialog" parent="form_label.compat">
     <item name="android:minHeight">0dp</item>
   </style>
-  <style name="form_label.dialog.compat">
-    <item name="android:textColor">#ffffff</item>
-  </style>
-  <style name="dialog_text">
-    <item name="android:textColor">#ffffff</item>
-  </style>
+  <style name="dialog_text"/>
   <!-- in the export_dialog, the bold TextView is cut on 2.3. if we do not make sure it has at least x lines -->
   <style name="dialog_text.bold">
   	<item name="android:textStyle">bold</item>

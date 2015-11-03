@@ -290,6 +290,9 @@ public class MyApplication extends Application implements
   public static int getThemeIdLegacyPreferenceActivity() {
     return getThemeId("LegacyPreferenceActivity");
   }
+  public static int getThemeIdTranslucent() {
+    return getThemeId("Translucent");
+  }
 
   public enum ThemeType {
     dark, light

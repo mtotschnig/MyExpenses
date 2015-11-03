@@ -13,7 +13,7 @@
         android:gravity="center_vertical">
         <TextView
           android:text="@string/pref_category_title_import"
-          style="@style/form_label.dialog.compat" />
+          style="@style/form_label.dialog" />
         <LinearLayout
           android:orientation="vertical">
           <CheckBox

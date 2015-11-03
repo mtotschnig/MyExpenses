@@ -51,7 +51,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    setTheme(MyApplication.getThemeIdTranslucent());
     if (savedInstanceState!=null) {
       return;
     }

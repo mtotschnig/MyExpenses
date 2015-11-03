@@ -237,7 +237,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    mPayeeAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null,
+    mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[] { KEY_PAYEE_NAME },
         new int[] {android.R.id.text1},
         0);
@@ -372,7 +372,7 @@ public class ExpenseEdit extends AmountActivity implements
 
 
     ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
-        DialogUtils.wrapContext1(this),
+        this,
         R.layout.custom_spinner_item, android.R.id.text1,Transaction.CrStatus.values()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
@@ -473,7 +473,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
       };
-      mOperationTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mOperationTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       mOperationTypeSpinner.setAdapter(mOperationTypeAdapter);
       resetOperationType();
       mOperationTypeSpinner.setOnItemSelectedListener(this);
@@ -549,7 +549,7 @@ public class ExpenseEdit extends AmountActivity implements
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     if (mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer) {
@@ -562,7 +562,7 @@ public class ExpenseEdit extends AmountActivity implements
       // Spinner for methods
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
           new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-      mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mMethodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
@@ -585,7 +585,7 @@ public class ExpenseEdit extends AmountActivity implements
 
       mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
           new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-      mTransferAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mTransferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       mTransferAccountSpinner.setAdapter(mTransferAccountsAdapter);
     }
 
