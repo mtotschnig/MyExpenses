@@ -50,10 +50,7 @@
   <style name="form_label.compat">
     <item name="android:textStyle">bold</item>
   </style>
-  <!-- needed in version dialog and more info in API 10 and lower -->
-  <style name="about_text.white">
-    <item name="android:textColor">#ffffff</item>
-  </style>
+
   <style name="form_label.dialog" parent="form_label.compat">
     <item name="android:minHeight">0dp</item>
   </style>

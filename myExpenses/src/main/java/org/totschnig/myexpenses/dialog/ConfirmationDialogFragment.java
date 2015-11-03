@@ -64,8 +64,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext12(ctx);
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
     int title = bundle.getInt(KEY_TITLE, 0);
     if (title != 0) {
       builder.setTitle(title);
@@ -74,7 +73,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL,0);
     if (bundle.getString(KEY_PREFKEY) != null ||
         checkboxLabel != 0) {
-      View cb = LayoutInflater.from(wrappedCtx).inflate(R.layout.checkbox, null);
+      View cb = LayoutInflater.from(ctx).inflate(R.layout.checkbox, null);
       checkBox = (CheckBox) cb.findViewById(R.id.checkbox);
       checkBox.setText(
           checkboxLabel != 0 ? checkboxLabel :

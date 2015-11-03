@@ -60,11 +60,10 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext1(getActivity());
-    mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_multiple_choice, null,
+    mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
-    final AlertDialog dialog = new AlertDialog.Builder(wrappedCtx)
+    final AlertDialog dialog = new AlertDialog.Builder(getActivity())
         .setTitle(getDialogTitle())
         .setAdapter(mAdapter,null)
         .setPositiveButton(android.R.string.ok,this)

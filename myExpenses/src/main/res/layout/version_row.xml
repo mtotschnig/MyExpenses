@@ -8,7 +8,7 @@
     style="@style/headingStyle.WithMargin" />
   <TextView android:id="@+id/versionInfoChanges"
       android:paddingBottom="2dp"
-      style="@style/about_text.white"/>
+      style="@style/about_text"/>
   <TextView android:id="@+id/versionInfoLearnMore"
       android:clickable="true"
       android:layout_width="match_parent"

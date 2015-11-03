@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/help_intro"
-            style="@style/about_text.white" />
+            style="@style/about_text" />
         <!-- Quick Guide -->
 
         <TextView
@@ -53,7 +53,7 @@
             android:text="@string/menu_help" />
         <TextView
             android:id="@+id/help_quick_guide"
-            style="@style/about_text.white"
+            style="@style/about_text"
             android:text="@string/help_contextuel_help" />
         <TextView
             style="@style/headingStyle.WithMargin"
