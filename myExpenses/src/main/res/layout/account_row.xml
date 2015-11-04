@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:stateListAnimator="@drawable/card_statelist_animator"
-        android:foreground="@drawable/card_foreground"
+        android:foreground="?attr/cardHighlightForeground"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="3dp"
         app:cardElevation="0dp"

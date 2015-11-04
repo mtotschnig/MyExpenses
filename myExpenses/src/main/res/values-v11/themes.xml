@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ThemeDark" parent="@style/ThemeDarkBase">
+        <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
+    </style>
+
+    <style name="ThemeLight" parent="@style/ThemeLightBase">
+        <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
+    </style>
+</resources>

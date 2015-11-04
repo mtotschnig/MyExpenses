@@ -28,7 +28,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="browseIcon">@drawable/ic_action_browse_dark</item>
     </style>
 
-    <style name="ThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="ThemeDarkBase" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
@@ -42,10 +42,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>
         <item name="colorContainerInner">10sp</item>
-
+        <item name="cardHighlightForeground">?selectableItemBackground</item>
     </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBase"/>
 
-    <style name="ThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="ThemeLightBase" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
@@ -59,8 +60,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>
         <item name="colorContainerInner">10sp</item>
-
+        <item name="cardHighlightForeground">?selectableItemBackground</item>
     </style>
+    <style name="ThemeLight" parent="@style/ThemeLightBase" />
 
     <style name="AboutDialog" parent="@android:style/Theme.Dialog">
         <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
