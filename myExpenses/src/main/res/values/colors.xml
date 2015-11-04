@@ -22,4 +22,6 @@
   <color name="colorExpenseLight">#800000</color>
   <color name="colorIncomeDark">#00D000</color>
   <color name="colorIncomeLight">#006800</color>
+  <color name="cardHighlightForegroundLight">#2099cc00</color>
+  <color name="cardHighlightForegroundDark">#20cccccc</color>
 </resources>
