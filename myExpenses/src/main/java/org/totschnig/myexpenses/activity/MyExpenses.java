@@ -278,6 +278,7 @@ public class MyExpenses extends LaunchActivity implements
                               long id) {
         if (mAccountId != id) {
           moveToPosition(position);
+          ((SimpleCursorAdapter) mDrawerListAdapter).notifyDataSetChanged();
           closeDrawer();
         }
       }
