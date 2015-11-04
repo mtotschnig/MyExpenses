@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_span="2">
 
-                        <android.support.v7.internal.widget.TintImageView
+                        <ImageView
                             android:id="@+id/account_menu"
                             style="?actionOverflowButtonStyle"
                             android:layout_width="wrap_content"
