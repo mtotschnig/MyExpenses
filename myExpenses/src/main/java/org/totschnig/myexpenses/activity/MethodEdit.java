@@ -85,6 +85,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
           : 0;
     int paymentType;
     if (rowId != 0) {
+      mNewInstance = false;
       mMethod = PaymentMethod.getInstanceFromDb(rowId);
 
       setTitle(R.string.menu_edit_method);
@@ -95,7 +96,6 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
       mMethod = new PaymentMethod();
       setTitle(R.string.menu_create_method);
       paymentType = PaymentMethod.NEUTRAL;
-      mNewInstance = true;
     }
     mPaymentTypeSpinner.setSelection(paymentType +1);
     //add one checkbox for each account type

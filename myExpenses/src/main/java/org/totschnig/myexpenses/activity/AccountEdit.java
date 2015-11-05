@@ -110,11 +110,11 @@ public class AccountEdit extends AmountActivity implements
       return;
     }
     if (rowId != 0) {
+      mNewInstance = false;
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
     } else {
-      mNewInstance = true;
       setTitle(R.string.menu_create_account);
       mAccount = new Account();
       String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
