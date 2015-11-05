@@ -65,14 +65,17 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -87,6 +90,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -135,6 +140,7 @@ public class MyExpenses extends LaunchActivity implements
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private StickyListHeadersAdapter mDrawerListAdapter;
+  private FloatingActionButton mFab;
   private ViewPager myPager;
   private long mAccountId = 0;
   int mAccountCount = 0;
@@ -284,6 +290,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     });
 
+    mFab = ((FloatingActionButton) findViewById(R.id.CREATE_COMMAND));
     if (prev_version == -1) {
       getSupportActionBar().hide();
     /*if (MyApplication.backupExists()) {
@@ -791,10 +798,21 @@ public class MyExpenses extends LaunchActivity implements
     if (mAccountId != newAccountId) {
       MyApplication.PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
     }
+    int color = newAccountId < 0 ? colorAggregate : mAccountsCursor.getInt(columnIndexColor);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = getWindow();
+      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      window.setStatusBarColor(color);
+      getWindow().getDecorView().setSystemUiVisibility(
+          Utils.isBrightColor(color) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+    }
+    mFab.setBackgroundTintList(ColorStateList.valueOf(color));
     mAccountId = newAccountId;
     setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
+
   }
 
   @Override
@@ -1045,6 +1063,9 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public class MyAdapter extends SimpleCursorAdapter {
+
+    public static final int CARD_ELEVATION_DIP = 24;
+
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
                      int[] to, int flags) {
       super(context, layout, c, from, to, flags);
@@ -1069,8 +1090,12 @@ public class MyExpenses extends LaunchActivity implements
       final boolean isAggregate = rowId < 0;
       final int count = c.getCount();
       boolean hide_cr;
+      int colorInt;
 
-      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ? 200 : 0);//TODO put into dimen
+      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ?
+          TypedValue.applyDimension(
+              TypedValue.COMPLEX_UNIT_DIP, CARD_ELEVATION_DIP, getResources().getDisplayMetrics()) :
+          0);
       labelTv.setTypeface(
           Typeface.create(labelTv.getTypeface(), Typeface.NORMAL),
           isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
@@ -1107,6 +1132,7 @@ public class MyExpenses extends LaunchActivity implements
         if (mAccountGrouping == Account.AccountGrouping.CURRENCY) {
           labelTv.setText(R.string.menu_aggregates);
         }
+        colorInt = colorAggregate;
       } else {
         //for deleting we need the position, because we need to find out the account's label
         try {
@@ -1114,6 +1140,7 @@ public class MyExpenses extends LaunchActivity implements
         } catch (IllegalArgumentException ex) {
           hide_cr = true;
         }
+        colorInt = c.getInt(columnIndexColor);
       }
       row.findViewById(R.id.TransferRow).setVisibility(
           sum_transfer == 0 ? View.GONE : View.VISIBLE);
@@ -1126,7 +1153,7 @@ public class MyExpenses extends LaunchActivity implements
       if (c.getLong(columnIndexRowId) > 0) {
         setConvertedAmount((TextView) row.findViewById(R.id.sum_transfer), currency);
       }
-      v.setBackgroundColor(c.getInt(columnIndexColor));
+      v.setBackgroundColor(colorInt);
       setConvertedAmount((TextView) row.findViewById(R.id.opening_balance), currency);
       setConvertedAmount((TextView) row.findViewById(R.id.sum_income), currency);
       setConvertedAmount((TextView) row.findViewById(R.id.sum_expenses), currency);

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ThemeDark" parent="@style/ThemeDarkBase">
+    <!-- extracting v11 base themes is not needed currently, but will come handy if we set values
+    for a higher API eventually -->
+    <style name="ThemeDarkBaseV11" parent="@style/ThemeDarkBase">
         <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
     </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBaseV11"/>
 
-    <style name="ThemeLight" parent="@style/ThemeLightBase">
+    <style name="ThemeLightBaseV11" parent="@style/ThemeLightBase">
         <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
     </style>
+    <style name="ThemeLight" parent="@style/ThemeLightBaseV11"/>
 </resources>

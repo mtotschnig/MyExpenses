@@ -14,5 +14,4 @@
     app:fabSize="normal"
     app:elevation="6dp"
     app:borderWidth="0dp"
-    app:rippleColor="@color/fabRipple"
     tools:showIn="@layout/activity_main"/>

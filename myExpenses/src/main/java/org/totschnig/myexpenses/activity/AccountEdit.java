@@ -66,8 +66,6 @@ public class AccountEdit extends AmountActivity implements
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner;
   Account mAccount;
   private ArrayList<Integer> mColors;
-  private boolean mColorIntentAvailable;
-  private Intent mColorIntent;
   private ArrayAdapter<Integer> mColAdapter;
 
   private void requireAccount() {
@@ -143,36 +141,30 @@ public class AccountEdit extends AmountActivity implements
     
     mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
     mColors = new ArrayList<Integer>();
-    if (Build.VERSION.SDK_INT > 13) {
-      Resources r = getResources();
-      mColors.add(r.getColor(android.R.color.holo_blue_bright));
-      mColors.add(r.getColor(android.R.color.holo_blue_light));
-      mColors.add(r.getColor(android.R.color.holo_blue_dark));
-      mColors.add(r.getColor(android.R.color.holo_green_dark));
-      mColors.add(r.getColor(android.R.color.holo_green_light));
-      mColors.add(r.getColor(android.R.color.holo_orange_dark));
-      mColors.add(r.getColor(android.R.color.holo_orange_light));
-      mColors.add(r.getColor(android.R.color.holo_purple));
-      mColors.add(r.getColor(android.R.color.holo_red_dark));
-      mColors.add(r.getColor(android.R.color.holo_red_light));
-    } else {
-      mColors.add(Color.BLUE);
-      mColors.add(Color.CYAN);
-      mColors.add(Color.GREEN);
-      mColors.add(Color.MAGENTA);
-      mColors.add(Color.RED);
-      mColors.add(Color.YELLOW);
-      mColors.add(Color.BLACK);
-      mColors.add(Color.DKGRAY);
-      mColors.add(Color.GRAY);
-      mColors.add(Color.LTGRAY);
-      mColors.add(Color.WHITE);
-    }
+    Resources r = getResources();
+    mColors.add(r.getColor(R.color.material_red));
+    mColors.add(r.getColor(R.color.material_pink));
+    mColors.add(r.getColor(R.color.material_purple));
+    mColors.add(r.getColor(R.color.material_deep_purple));
+    mColors.add(r.getColor(R.color.material_indigo));
+    mColors.add(r.getColor(R.color.material_blue));
+    mColors.add(r.getColor(R.color.material_light_blue));
+    mColors.add(r.getColor(R.color.material_cyan));
+    mColors.add(r.getColor(R.color.material_teal));
+    mColors.add(r.getColor(R.color.material_green));
+    mColors.add(r.getColor(R.color.material_light_green));
+    mColors.add(r.getColor(R.color.material_lime));
+    mColors.add(r.getColor(R.color.material_yellow));
+    mColors.add(r.getColor(R.color.material_amber));
+    mColors.add(r.getColor(R.color.material_orange));
+    mColors.add(r.getColor(R.color.material_deep_orange));
+    mColors.add(r.getColor(R.color.material_brown));
+    mColors.add(r.getColor(R.color.material_grey));
+    mColors.add(r.getColor(R.color.material_blue_grey));
+
     if (mColors.indexOf(mAccount.color) == -1)
       mColors.add(mAccount.color);
-    mColors.add(0);
-    mColorIntent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
-    mColorIntentAvailable = Utils.isIntentAvailable(AccountEdit.this, mColorIntent);
+
     mColAdapter = new ArrayAdapter<Integer>(this,
         android.R.layout.simple_spinner_item, mColors) {
       @Override
@@ -182,10 +174,6 @@ public class AccountEdit extends AmountActivity implements
           setColor(tv,mColors.get(position));
         else
           setColor(tv,mAccount.color);
-        if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-          tv.setTextColor(Utils.getTextColorForBackground(mAccount.color));
-          tv.setText(R.string.color);
-        }
         return tv;
       }
       @Override
@@ -193,14 +181,6 @@ public class AccountEdit extends AmountActivity implements
         TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
         if (mColors.get(position) != 0)
           setColor(tv,mColors.get(position));
-        else {
-          tv.setBackgroundColor(getResources().getColor(android.R.color.black));
-          tv.setTextColor(getResources().getColor(android.R.color.white));
-          if (mColorIntentAvailable)
-            tv.setText("OI Color Picker");
-          else
-            tv.setText(R.string.oi_pick_colors_info);
-        }
         return tv;
       }
       public void setColor(TextView tv,int color) {
@@ -300,24 +280,6 @@ public class AccountEdit extends AmountActivity implements
     if (parent.getId()==R.id.Color) {
       if (mColors.get(position) != 0)
         mAccount.color = mColors.get(position);
-      else {
-        if (mColorIntentAvailable) {
-          mColorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccount.color);
-          startActivityForResult(mColorIntent, PICK_COLOR_REQUEST);
-        } else {
-          try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.openintents.colorpicker"));
-            startActivity(intent);
-          } catch(Exception e) {
-              Toast.makeText(
-                  AccountEdit.this,
-                  R.string.error_accessing_market,
-                  Toast.LENGTH_SHORT)
-                .show();
-          }
-        }
-      }
     }
   }
   @Override

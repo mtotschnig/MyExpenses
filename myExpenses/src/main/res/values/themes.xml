@@ -19,6 +19,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="Launch" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="ThemeLight.Translucent" parent="@style/Theme.AppCompat.Light.Dialog">
@@ -32,7 +33,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
-        <item name="colorAggregate">#FFFFFF</item>
+        <item name="colorAggregate">@color/material_grey</item>
         <item name="drawerBackground">#222</item>
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="browseIcon">@drawable/ic_action_browse_light</item>
@@ -50,7 +51,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
-        <item name="colorAggregate">#000000</item>
+        <item name="colorAggregate">@color/material_grey</item>
         <item name="drawerBackground">#ddd</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="browseIcon">@drawable/ic_action_browse_dark</item>
