@@ -181,10 +181,6 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       } else {
         tv2.setGravity(Gravity.LEFT);
       }
-      if (Build.VERSION.SDK_INT < 11) {
-        tv2.setTextColor(Color.WHITE);
-        viewHolder.date.setTextColor(Color.WHITE);
-      }
     }
     tv2.setText(catText);
 
