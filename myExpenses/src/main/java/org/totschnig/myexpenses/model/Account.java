@@ -473,7 +473,7 @@ public class Account extends Model {
     }
   }
 
-  public static int defaultColor = 0xff99CC00;
+  public static int defaultColor = 0xff009688;
 
   static HashMap<Long,Account> accounts = new HashMap<>();
   

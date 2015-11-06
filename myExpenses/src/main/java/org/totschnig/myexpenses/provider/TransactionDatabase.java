@@ -44,7 +44,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 53;
+  public static final int DATABASE_VERSION = 54;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -920,6 +920,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
           + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
       db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
+    }
+    if (oldVersion < 54) {
+      //all Accounts with old default color are updated to the new one
+      db.execSQL(String.format("UPDATE accounts set color = %d WHERE color = %d",0xff009688,0xff99CC00));
     }
   }
   @Override
