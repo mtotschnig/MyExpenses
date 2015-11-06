@@ -33,7 +33,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
-        <item name="colorAggregate">@color/material_grey</item>
+        <item name="colorAggregate">@color/material_grey_300</item>
         <item name="drawerBackground">#222</item>
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="browseIcon">@drawable/ic_action_browse_light</item>
@@ -51,7 +51,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
-        <item name="colorAggregate">@color/material_grey</item>
+        <item name="colorAggregate">@color/material_grey_700</item>
         <item name="drawerBackground">#ddd</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="browseIcon">@drawable/ic_action_browse_dark</item>
