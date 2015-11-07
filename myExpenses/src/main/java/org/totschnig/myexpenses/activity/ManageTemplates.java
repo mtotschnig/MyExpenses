@@ -34,13 +34,18 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 public class ManageTemplates extends TabbedActivity implements
@@ -233,5 +238,27 @@ public class ManageTemplates extends TabbedActivity implements
   }
   @Override
   public void onDismissOrCancel(Bundle args) {
+  }
+
+  public void requestPermission(View v) {
+    ActivityCompat.requestPermissions(this,
+        new String[]{Manifest.permission.WRITE_CALENDAR},
+        ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         String permissions[], int[] grantResults) {
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
+              mSectionsPagerAdapter.getFragmentName(1));
+          pl.setupList();
+        }
+      }
+    }
   }
 }

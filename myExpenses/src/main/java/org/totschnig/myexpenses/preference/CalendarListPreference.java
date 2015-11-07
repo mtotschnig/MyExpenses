@@ -3,13 +3,18 @@ package org.totschnig.myexpenses.preference;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.preference.ListPreference;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +22,8 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 public class CalendarListPreference extends ListPreference {
@@ -112,5 +119,17 @@ public class CalendarListPreference extends ListPreference {
   public void show()
   {
       showDialog(null);
+  }
+
+  @Override
+  protected void showDialog(Bundle state) {
+    if (ContextCompat.checkSelfPermission(getContext(),
+        Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+      super.showDialog(state);
+    } else {
+      ActivityCompat.requestPermissions((Activity) getContext(),
+          new String[]{Manifest.permission.WRITE_CALENDAR},
+          ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+    }
   }
 }

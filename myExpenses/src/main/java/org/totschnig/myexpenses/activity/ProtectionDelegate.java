@@ -38,6 +38,7 @@ public class ProtectionDelegate {
   public static final String PROGRESS_TAG = "PROGRESS";
   public static final String ASYNC_TAG = "ASYNC_TASK";
   public static final int CONTRIB_REQUEST = 100;
+  public static final int PERMISSIONS_REQUEST_WRITE_CALENDAR = 1;
   Activity ctx;
   public ProtectionDelegate(Activity ctx) {
     this.ctx = ctx;

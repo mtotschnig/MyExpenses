@@ -14,21 +14,57 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="1px"
-      android:layout_weight="1"
-      android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
     <ExpandableListView
         android:id="@+id/list"
-        android:layout_width="fill_parent" 
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
-    <TextView android:id="@+id/empty"
-        android:text="@string/no_plans"
-	      android:gravity="center"
-	      android:layout_width="fill_parent"
-	      android:layout_height="0dp"
-	      android:layout_weight="1"/>
-  </LinearLayout>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <!-- translationY corrects the fact that corrdinatorlayout does not allow to center exactly -->
+    <RelativeLayout
+        android:translationY="-28dp"
+        android:id="@+id/empty"
+        android:maxWidth="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/no_plans"/>
+
+            <Button
+                android:id="@+id/emptyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emptyText"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:drawableTop="@android:drawable/ic_menu_my_calendar"
+                android:onClick="requestPermission"
+                android:text="@string/button_request_calendar_access"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

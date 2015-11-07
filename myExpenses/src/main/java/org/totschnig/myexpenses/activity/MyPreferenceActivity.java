@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -125,7 +126,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         TextUtils.equals(
             getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
             PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-      ((CalendarListPreference) findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey())).show();
+      showSelectCalendar();
     }
     
     findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
@@ -172,6 +173,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           categoryManage.addPreference(prefStaleImages);
       }
     }.execute();
+  }
+
+  private void showSelectCalendar() {
+    ((CalendarListPreference) findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey())).show();
   }
 
   private void configureContribPrefs() {
@@ -550,5 +555,19 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public void contribFeatureNotCalled(ContribFeature feature) {
 
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         String permissions[], int[] grantResults) {
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          showSelectCalendar();
+        }
+      }
+    }
   }
 }

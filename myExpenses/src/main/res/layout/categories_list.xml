@@ -33,18 +33,17 @@
         android:orientation="vertical">
       <TextView
           android:layout_centerInParent="true"
-          android:id="@+id/noCategories"
+          android:id="@+id/emptyText"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="@string/no_categories"/>
       <Button
-          android:id="@+id/importButton"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
           android:onClick="importCats"
           android:layout_marginTop="15dp"
-          android:layout_below="@id/noCategories"
+          android:layout_below="@id/emptyText"
           android:drawableTop="@android:drawable/ic_menu_upload"
           android:text="@string/menu_categories_setup_default" />
     </RelativeLayout>
