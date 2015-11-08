@@ -19,30 +19,30 @@
   <PreferenceCategory
       android:key="@string/pref_category_manage_key"
       android:title="@string/pref_category_title_manage">
-    <PreferenceScreen
+    <Preference
         android:title="@string/pref_manage_categories_title"
         android:summary="@string/pref_manage_categories_summary">
         <intent android:action="myexpenses.intent.manage.categories"/>
-    </PreferenceScreen>
-    <PreferenceScreen
+    </Preference>
+    <Preference
         android:title="@string/pref_manage_parties_title"
         android:summary="@string/pref_manage_parties_summary">
         <intent android:action="myexpenses.intent.manage.parties"/>
-    </PreferenceScreen>
-    <PreferenceScreen
+    </Preference>
+    <Preference
         android:title="@string/pref_manage_methods_title"
         android:summary="@string/pref_manage_methods_summary">
         <intent android:action="myexpenses.intent.manage.methods"/>
-    </PreferenceScreen>
-    <org.totschnig.myexpenses.preference.CalendarListPreference android:key="@string/pref_planner_calendar_id_key"
+    </Preference>
+    <ListPreference android:key="@string/pref_planner_calendar_id_key"
         android:title="@string/pref_planning_calendar_title"
         android:summary="@string/pref_planning_calendar_summary"/>
-    <PreferenceScreen
+    <Preference
         android:title="@string/pref_manage_stale_images_title"
         android:key="@string/pref_manage_stale_images_key"
         android:summary="@string/pref_manage_stale_images_summary">
         <intent android:action="myexpenses.intent.manage.stale_images"/>
-        </PreferenceScreen>
+    </Preference>
   </PreferenceCategory>
   <PreferenceCategory
       android:title="@string/pref_category_title_ui">
@@ -51,12 +51,10 @@
         android:title="@string/pref_ui_theme_title"
         android:entries="@array/pref_ui_theme_entries"
         android:entryValues="@array/pref_ui_theme_values"/>
-    <org.totschnig.myexpenses.preference.SeekBarPreference xmlns:my="http://schemas.android.com/apk/res-auto"
+    <org.totschnig.myexpenses.preference.FontSizePreference
         android:key="@string/pref_ui_fontsize_key"
         android:title="@string/pref_ui_fontsize_title"
-        android:summary="@string/pref_ui_fontsize_summary"
-        android:defaultValue="0" my:max_value="3" my:min_value="0"
-        my:unit_symbol=""/>
+        android:defaultValue="0" />
     <!-- for historical reasons the key is linked to categories, but the preference also
       determines sorting of templates and accounts -->
     <CheckBoxPreference android:key="@string/pref_categories_sort_by_usages_key"

@@ -20,12 +20,12 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.DialogPreference;
+import android.support.v7.preference.DialogPreference;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -58,21 +58,21 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
     super(context, attrs);
     setDialogLayoutResource(R.layout.password_dialog);
     }
-    @Override
+    //@Override
     protected void onDialogClosed(boolean positiveResult) {
-      super.onDialogClosed(positiveResult);
+      ///super.onDialogClosed(positiveResult);
 
       if (positiveResult) {
         if (boolProtect && strPass1 != null && strPass1.equals(strPass2)) {
-          Editor editor = getEditor();
+         // Editor editor = getEditor();
           String hash = Utils.md5(strPass1);
-          editor.putString(MyApplication.PrefKey.SET_PASSWORD.getKey(), hash);
-          editor.commit();
+          //editor.putString(MyApplication.PrefKey.SET_PASSWORD.getKey(), hash);
+          //editor.commit();
         }
         persistBoolean(boolProtect);
       }
     }
-    @Override
+    //@Override
     protected void onBindDialogView(View view) {
       password1    = (EditText) view.findViewById(R.id.password1);
       password2    = (EditText) view.findViewById(R.id.password2);
@@ -100,7 +100,7 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       password2.addTextChangedListener(this);
       protect.setOnCheckedChangeListener(this);
       change.setOnCheckedChangeListener(this);
-      super.onBindDialogView(view);
+      //super.onBindDialogView(view);
    }
 
     @Override
@@ -125,7 +125,7 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       }
     }
     private void validate() {
-      Dialog dlg = getDialog();
+      /*Dialog dlg = getDialog();
       Button btn = ((AlertDialog)dlg).getButton(AlertDialog.BUTTON_POSITIVE);
       if (!boolProtect || (boolProtectOrig && !changePW)) {
         btn.setEnabled(true);
@@ -143,6 +143,6 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       } else {
         error.setText(R.string.pref_password_not_equal);
         btn.setEnabled(false);
-      }
+      }*/
     }
 }

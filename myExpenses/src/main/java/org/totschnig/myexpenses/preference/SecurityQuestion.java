@@ -21,12 +21,12 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
-import android.preference.DialogPreference;
+import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 
-public class SecurityQuestion extends DialogPreference  {
+public class SecurityQuestion extends DialogPreference {
   private EditText question,answer;
   public SecurityQuestion(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
@@ -37,7 +37,7 @@ public class SecurityQuestion extends DialogPreference  {
     super(context, attrs);
     setDialogLayoutResource(R.layout.security_question);
     }
-    @Override
+   /* @Override
     protected void onBindDialogView(View view) {
       question = (EditText) view.findViewById(R.id.question);
       answer = (EditText) view.findViewById(R.id.answer);
@@ -53,5 +53,5 @@ public class SecurityQuestion extends DialogPreference  {
         editor.putString(MyApplication.PrefKey.SECURITY_ANSWER.getKey(), Utils.md5(answer.getText().toString()));
         editor.commit();
       }
-    }
+    }*/
 }
