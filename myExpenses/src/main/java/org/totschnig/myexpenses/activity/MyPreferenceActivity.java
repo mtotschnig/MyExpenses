@@ -45,6 +45,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -84,21 +85,20 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
 
-  //TODO migrate to PreferenceFragment
-  @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.settings);
+    setupToolbar(true);
     setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
-    if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction()
-          .add(android.R.id.content, new SettingsFragment())
-          .commit();
-    }
   }
 
-
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    //currently no help menu
+    return true;
+  }
 
   @Override
   protected void onResume() {
