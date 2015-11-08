@@ -21,6 +21,8 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
@@ -42,10 +44,13 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -79,7 +84,7 @@ import java.text.NumberFormat;
  */
 public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     OnSharedPreferenceChangeListener,
-    ContribIFace {
+    ContribIFace, PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
   
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
@@ -91,13 +96,41 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.settings);
     setupToolbar(true);
-    setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
+    if (savedInstanceState == null) {
+      // Create the fragment only when the activity is created for the first time.
+      // ie. not after orientation changes
+      Fragment fragment = getSupportFragmentManager().findFragmentByTag(SettingsFragment.class.getSimpleName());
+      if (fragment == null) {
+        fragment = new SettingsFragment();
+      }
+
+      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.fragment_container, fragment, SettingsFragment.class.getSimpleName());
+      ft.commit();
+    }
+    setMainTitle();
+  }
+
+  private void setMainTitle() {
+    getSupportActionBar().setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     //currently no help menu
     return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId()==android.R.id.home) {
+      if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        getSupportFragmentManager().popBackStack();
+        setMainTitle();
+        return true;
+      }
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   @Override
@@ -243,100 +276,120 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
   }
 
+  @Override
+  public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    SettingsFragment fragment = new SettingsFragment();
+    Bundle args = new Bundle();
+    args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
+    fragment.setArguments(args);
+    ft.replace(R.id.fragment_container, fragment, preferenceScreen.getKey());
+    ft.addToBackStack(preferenceScreen.getKey());
+    ft.commit();
+    return true;
+  }
+
   public static class SettingsFragment extends PreferenceFragmentCompat implements
       Preference.OnPreferenceChangeListener,
       Preference.OnPreferenceClickListener {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-      addPreferencesFromResource(R.xml.preferences);
-      Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
-      pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
-          "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-          "mailto: \"mailto:john@my.example.com\"");
-      pref.setOnPreferenceChangeListener(this);
-      configureContribPrefs();
-      findPreference(PrefKey.SEND_FEEDBACK.getKey())
-          .setOnPreferenceClickListener(this);
-      findPreference(PrefKey.MORE_INFO_DIALOG.getKey())
-          .setOnPreferenceClickListener(this);
+      setPreferencesFromResource(R.xml.preferences,rootKey);
+      if (rootKey == null) {
+        Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
+        pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
+            "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
+            "mailto: \"mailto:john@my.example.com\"");
+        pref.setOnPreferenceChangeListener(this);
+        configureContribPrefs();
+        findPreference(PrefKey.SEND_FEEDBACK.getKey())
+            .setOnPreferenceClickListener(this);
+        findPreference(PrefKey.MORE_INFO_DIALOG.getKey())
+            .setOnPreferenceClickListener(this);
 
-      pref = findPreference(PrefKey.RESTORE.getKey());
-      pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
-      pref.setOnPreferenceClickListener(this);
+        pref = findPreference(PrefKey.RESTORE.getKey());
+        pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
+        pref.setOnPreferenceClickListener(this);
 
-      pref = findPreference(PrefKey.RESTORE_LEGACY.getKey());
-      pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
-      pref.setOnPreferenceClickListener(this);
+        pref = findPreference(PrefKey.RESTORE_LEGACY.getKey());
+        pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+        pref.setOnPreferenceClickListener(this);
 
-      findPreference(PrefKey.RATE.getKey())
-          .setOnPreferenceClickListener(this);
+        findPreference(PrefKey.RATE.getKey())
+            .setOnPreferenceClickListener(this);
 
-      findPreference(PrefKey.ENTER_LICENCE.getKey())
-          .setOnPreferenceChangeListener(this);
-      setProtectionDependentsState();
+        findPreference(PrefKey.ENTER_LICENCE.getKey())
+            .setOnPreferenceChangeListener(this);
+        setProtectionDependentsState();
 
-      pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
-      pref.setOnPreferenceChangeListener(this);
-      if (PrefKey.CUSTOM_DECIMAL_FORMAT.getString("").equals("")) {
-        setDefaultNumberFormat(((EditTextPreference) pref));
-      }
-
-      findPreference(PrefKey.APP_DIR.getKey())
-          .setOnPreferenceClickListener(this);
-      setAppDirSummary();
-      if (savedInstanceState == null &&
-          TextUtils.equals(
-              getActivity().getIntent().getStringExtra(KEY_OPEN_PREF_KEY), //TODO hand this in via args
-              PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-        showSelectCalendar();
-      }
-
-      findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
-      findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
-      findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
-      findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
-          getString(R.string.pref_security_question_summary) + " " +
-              ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
-      findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
-          getString(R.string.pref_shortcut_summary) + " " +
-              ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
-
-      final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
-      final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
-      categoryManage.removePreference(prefStaleImages);
-
-      pref = findPreference(PrefKey.IMPORT_QIF.getKey());
-      pref.setSummary(getString(R.string.pref_import_summary,"QIF"));
-      pref.setTitle(getString(R.string.pref_import_title, "QIF"));
-      pref = findPreference(PrefKey.IMPORT_CSV.getKey());
-      pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
-      pref.setTitle(getString(R.string.pref_import_title, "CSV"));
-      pref.setOnPreferenceClickListener(this);
-
-      new AsyncTask<Void, Void, Boolean>(){
-        @Override
-        protected Boolean doInBackground(Void... params) {
-          Cursor c = getActivity().getContentResolver().query(
-              TransactionProvider.STALE_IMAGES_URI,
-              new String[]{"count(*)"},
-              null, null, null);
-          if (c==null)
-            return false;
-          boolean hasImages = false;
-          if (c.moveToFirst() &&  c.getInt(0) >0)
-            hasImages = true;
-          c.close();
-          return hasImages;
+        pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
+        pref.setOnPreferenceChangeListener(this);
+        if (PrefKey.CUSTOM_DECIMAL_FORMAT.getString("").equals("")) {
+          setDefaultNumberFormat(((EditTextPreference) pref));
         }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
-          if (getActivity()!=null && !getActivity().isFinishing() && result)
-            categoryManage.addPreference(prefStaleImages);
+        findPreference(PrefKey.APP_DIR.getKey())
+            .setOnPreferenceClickListener(this);
+        setAppDirSummary();
+        if (savedInstanceState == null &&
+            TextUtils.equals(
+                getActivity().getIntent().getStringExtra(KEY_OPEN_PREF_KEY), //TODO hand this in via args
+                PrefKey.PLANNER_CALENDAR_ID.getKey())) {
+          showSelectCalendar();
         }
-      };;//.execute();
+
+        findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
+            getString(R.string.pref_security_question_summary) + " " +
+                ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
+        findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
+            getString(R.string.pref_shortcut_summary) + " " +
+                ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
+
+        final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
+        final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
+        categoryManage.removePreference(prefStaleImages);
+
+        pref = findPreference(PrefKey.IMPORT_QIF.getKey());
+        pref.setSummary(getString(R.string.pref_import_summary, "QIF"));
+        pref.setTitle(getString(R.string.pref_import_title, "QIF"));
+        pref = findPreference(PrefKey.IMPORT_CSV.getKey());
+        pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
+        pref.setTitle(getString(R.string.pref_import_title, "CSV"));
+        pref.setOnPreferenceClickListener(this);
+
+        new AsyncTask<Void, Void, Boolean>() {
+          @Override
+          protected Boolean doInBackground(Void... params) {
+            Cursor c = getActivity().getContentResolver().query(
+                TransactionProvider.STALE_IMAGES_URI,
+                new String[]{"count(*)"},
+                null, null, null);
+            if (c == null)
+              return false;
+            boolean hasImages = false;
+            if (c.moveToFirst() && c.getInt(0) > 0)
+              hasImages = true;
+            c.close();
+            return hasImages;
+          }
+
+          @Override
+          protected void onPostExecute(Boolean result) {
+            if (getActivity() != null && !getActivity().isFinishing() && result)
+              categoryManage.addPreference(prefStaleImages);
+          }
+        };
+        ;//.execute();
+      } else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
+        ((MyPreferenceActivity) getActivity()).getSupportActionBar()
+            .setTitle(getString(R.string.pref_ui_home_screen_shortcuts));
+        findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
+        findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
+        findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
+      }
     }
+
     private void showSelectCalendar() {
       findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).performClick();
     }

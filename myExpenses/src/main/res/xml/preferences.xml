@@ -71,7 +71,8 @@
     	android:title="@string/pref_ui_language_title"
     	android:summary="@string/pref_ui_language_summary"
     	android:entries="@array/pref_ui_language_entries" android:entryValues="@array/pref_ui_language_values"/>
-    <PreferenceScreen android:title="@string/pref_ui_home_screen_shortcuts">
+    <PreferenceScreen android:title="@string/pref_ui_home_screen_shortcuts"
+        android:key="@string/pref_ui_home_screen_shortcuts_key">
 	    <Preference android:title="@string/menu_create_transaction"
 	       android:key="@string/pref_shortcut_create_transaction_key"
 	       android:summary="@string/pref_shortcut_summary"/>

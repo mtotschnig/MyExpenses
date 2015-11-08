@@ -116,7 +116,8 @@ public class MyApplication extends Application implements
     CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key),
     AUTO_BACKUP(R.string.pref_auto_backup_key),
     AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
-    AUTO_BACKUP_DIRTY("auto_backup_dirty");
+    AUTO_BACKUP_DIRTY("auto_backup_dirty"),
+    UI_HOME_SCREEN_SHORTCUTS(R.string.pref_ui_home_screen_shortcuts_key);
 
     private int resId = 0;
     private String key = null;
