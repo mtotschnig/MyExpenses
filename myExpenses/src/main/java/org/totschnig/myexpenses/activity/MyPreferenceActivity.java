@@ -160,7 +160,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     } else if (key.equals(PrefKey.UI_FONTSIZE.getKey()) ||
         key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
         key.equals(PrefKey.UI_THEME_KEY.getKey())) {
-      //restart();
+      restart();
     } else if (key.equals(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
       AbstractWidget.updateWidgets(this, AccountWidget.class);
