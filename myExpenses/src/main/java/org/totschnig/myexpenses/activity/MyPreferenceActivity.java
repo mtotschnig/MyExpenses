@@ -42,9 +42,11 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,7 @@ import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentC
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
+import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -609,6 +612,15 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             "android.support.v7.preference.PreferenceFragment.DIALOG");
       }
       else super.onDisplayPreferenceDialog(preference);
+    }
+
+    @Override
+    public RecyclerView onCreateRecyclerView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+      RecyclerView result = super.onCreateRecyclerView(inflater, parent, savedInstanceState);
+      result.addItemDecoration(
+          new PreferenceDividerItemDecoration(getActivity())
+      );
+      return result;
     }
   }
 }
