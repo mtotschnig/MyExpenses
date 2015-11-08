@@ -319,12 +319,15 @@ public class MyApplication extends Application implements
     if (!TextUtils.isEmpty(subStyle)) {
       style += "." + subStyle;
     }
+    String resolve = style;
     if (fontScale > 0 && fontScale < 4) {
-      style += ".s" + fontScale;
+      resolve = style + ".s" + fontScale;
     }
-    int resId = mSelf.getResources().getIdentifier(style, "style", mSelf.getPackageName());
+    int resId = mSelf.getResources().getIdentifier(resolve, "style", mSelf.getPackageName());
     if (resId==0) {
-      throw new RuntimeException(style + " is not defined");
+      //try style without font scaling as fallback
+      resId = mSelf.getResources().getIdentifier(style, "style", mSelf.getPackageName());
+      if (resId==0) throw new RuntimeException(style + " is not defined");
     }
     return resId;
   }
