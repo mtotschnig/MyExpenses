@@ -22,6 +22,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
@@ -29,7 +30,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Stack;
 
-public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implements OnClickListener {
+public class CalculatorInput extends ProtectedFragmentActivity implements OnClickListener {
     public static final BigDecimal HUNDRED = new BigDecimal(100);
     public static final int[] buttons = {R.id.b0, R.id.b1, R.id.b2, R.id.b3,
             R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
@@ -49,8 +50,9 @@ public class CalculatorInput extends ProtectedFragmentActivityNoAppCompat implem
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)?
+            R.style.Theme_AppCompat_Dialog : R.style.Theme_AppCompat_Light_Dialog);
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.calculator);
 
         //vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);

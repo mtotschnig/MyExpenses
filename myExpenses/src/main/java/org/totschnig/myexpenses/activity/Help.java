@@ -15,14 +15,16 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 
 import android.content.ComponentName;
 import android.os.Bundle;
 
-public class Help extends ProtectedFragmentActivityNoAppCompat {
+public class Help extends ProtectedFragmentActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String activityName;
     ComponentName callingActivity = getCallingActivity();
