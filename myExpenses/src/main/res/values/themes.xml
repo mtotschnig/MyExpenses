@@ -44,9 +44,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorContainerOuter">25sp</item>
         <item name="colorContainerInner">10sp</item>
         <item name="cardHighlightForeground">?selectableItemBackground</item>
+    </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBase">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
-    <style name="ThemeDark" parent="@style/ThemeDarkBase"/>
 
     <style name="ThemeLightBase" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="dropdownListPreferredItemHeight">48sp</item>
@@ -65,7 +66,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="cardHighlightForeground">?selectableItemBackground</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
-    <style name="ThemeLight" parent="@style/ThemeLightBase" />
+    <style name="ThemeLight" parent="@style/ThemeLightBase">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
 
     <style name="AboutDialog" parent="@android:style/Theme.Dialog">
         <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
