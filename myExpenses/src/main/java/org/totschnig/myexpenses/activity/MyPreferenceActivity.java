@@ -40,6 +40,7 @@ import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -47,7 +48,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,6 +76,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 /**
  * Present references screen defined in Layout file
@@ -89,6 +90,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
+  private boolean mShouldShowPlanerPref;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     if (savedInstanceState == null) {
       // Create the fragment only when the activity is created for the first time.
       // ie. not after orientation changes
-      Fragment fragment = getSupportFragmentManager().findFragmentByTag(SettingsFragment.class.getSimpleName());
+      Fragment fragment = getFragment();
       if (fragment == null) {
         fragment = new SettingsFragment();
       }
@@ -109,6 +111,13 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       ft.commit();
     }
     setMainTitle();
+    mShouldShowPlanerPref = TextUtils.equals(getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
+        PrefKey.PLANNER_CALENDAR_ID.getKey());
+  }
+
+  private SettingsFragment getFragment() {
+    return (SettingsFragment) getSupportFragmentManager().findFragmentByTag(
+        SettingsFragment.class.getSimpleName());
   }
 
   private void setMainTitle() {
@@ -153,36 +162,42 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     finish();
     startActivity(intent);
   }
+
   @Override
   protected Dialog onCreateDialog(int id) {
-    switch(id) {
-    case R.id.FTP_DIALOG:
-      return DialogUtils.sendWithFTPDialog((Activity) this);
-    case R.id.MORE_INFO_DIALOG:
-      LayoutInflater li = LayoutInflater.from(this);
-      View view = li.inflate(R.layout.more_info, null);
-      ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(CommonCommands.getVersionInfo(this));
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.pref_more_info_dialog_title)
-        .setView(view)
-        .setPositiveButton(android.R.string.ok,null)
-        .create();
-    case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
-      return new AlertDialog.Builder(this)
-      .setTitle(R.string.dialog_title_attention)
-      .setMessage(R.string.planner_setup_info_create_new_warning)
-      .setNegativeButton(android.R.string.cancel, null)
-      .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-        //TODO: use Async Task Strict Mode violation
-        boolean success = MyApplication.getInstance().createPlanner();
-        Toast.makeText(
-            MyPreferenceActivity.this,
-            success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-            Toast.LENGTH_LONG).show();
-          }
-       })
-      .create();
+    switch (id) {
+      case R.id.FTP_DIALOG:
+        return DialogUtils.sendWithFTPDialog((Activity) this);
+      case R.id.MORE_INFO_DIALOG:
+        LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.more_info, null);
+        ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(CommonCommands.getVersionInfo(this));
+        return new AlertDialog.Builder(this)
+            .setTitle(R.string.pref_more_info_dialog_title)
+            .setView(view)
+            .setPositiveButton(android.R.string.ok, null)
+            .create();
+      case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
+        return new AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_title_attention)
+            .setMessage(R.string.planner_setup_info_create_new_warning)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                //TODO: use Async Task Strict Mode violation
+                String plannerId = MyApplication.getInstance().createPlanner(false);
+                boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
+                Toast.makeText(
+                    MyPreferenceActivity.this,
+                    success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+                    Toast.LENGTH_LONG).show();
+                if (success) {
+                  ((ListPreference) getFragment().findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()))
+                      .setValue(plannerId);
+                }
+              }
+            })
+            .create();
     }
     return null;
   }
@@ -270,9 +285,18 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          //TODO call on fragment showSelectCalendar();
+          mShouldShowPlanerPref = true;
         }
       }
+    }
+  }
+
+  @Override
+  protected void onResumeFragments() {
+    super.onResumeFragments();
+    if (mShouldShowPlanerPref) {
+      mShouldShowPlanerPref = false;
+      getFragment().showSelectCalendar();
     }
   }
 
@@ -332,12 +356,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         findPreference(PrefKey.APP_DIR.getKey())
             .setOnPreferenceClickListener(this);
         setAppDirSummary();
-        if (savedInstanceState == null &&
-            TextUtils.equals(
-                getActivity().getIntent().getStringExtra(KEY_OPEN_PREF_KEY), //TODO hand this in via args
-                PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-          showSelectCalendar();
-        }
 
         findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
             getString(R.string.pref_security_question_summary) + " " +

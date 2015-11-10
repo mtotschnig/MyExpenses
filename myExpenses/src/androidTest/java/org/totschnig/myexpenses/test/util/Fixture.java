@@ -22,7 +22,6 @@ import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
@@ -184,7 +183,7 @@ public class Fixture {
     split2.save();
 
     // Template
-    Assert.assertTrue("Unable to create planner", MyApplication.getInstance().createPlanner());
+    Assert.assertTrue("Unable to create planner", MyApplication.getInstance().createPlanner(true));
     //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
     //if it is has not been called yet, when we save our plan, saving fails.
     try {
