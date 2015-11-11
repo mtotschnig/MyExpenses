@@ -73,6 +73,7 @@
             android:key="@string/pref_account_grouping_key"
             android:title="@string/pref_account_grouping_title"/>
         <ListPreference
+            android:defaultValue="default"
             android:entries="@array/pref_ui_language_entries"
             android:entryValues="@array/pref_ui_language_values"
             android:key="@string/pref_ui_language_key"
