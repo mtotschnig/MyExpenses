@@ -19,9 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:paddingRight="@dimen/general_padding">
 
         <TableRow android:gravity="center_vertical">
 
