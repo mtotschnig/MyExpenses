@@ -72,7 +72,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.BackupRestoreActivity" >
+            android:name=".activity.BackupRestoreActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="myexpenses.intent.backup" />
 
