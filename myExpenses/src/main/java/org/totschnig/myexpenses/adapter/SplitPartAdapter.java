@@ -83,9 +83,10 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
       tv1.setTextColor(colorIncome);
     }
     TextView tv2 = (TextView)row.findViewById(R.id.category);
-    if (insideFragment && Build.VERSION.SDK_INT < 11) {
+    //should not be needed, even harmful //TODO check
+    /*if (insideFragment && Build.VERSION.SDK_INT < 11) {
       tv2.setTextColor(Color.WHITE);
-    }
+    }*/
     String catText = tv2.getText().toString();
     if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
       catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;

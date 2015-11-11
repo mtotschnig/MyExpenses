@@ -16,10 +16,10 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/OneExpense"
+    android:paddingTop="20dp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/general_padding" >
+    android:orientation="vertical" >
 
     <ProgressBar
         android:id="@+id/progress"
@@ -39,8 +39,8 @@
         android:id="@+id/Table"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
+        android:paddingLeft="@dimen/padding_dialog"
+        android:paddingRight="@dimen/padding_dialog"
         android:shrinkColumns="1"
         android:stretchColumns="1"
         android:visibility="gone" >
@@ -158,6 +158,8 @@
     </TableLayout>
 
     <LinearLayout
+        android:paddingLeft="@dimen/padding_dialog"
+        android:paddingRight="@dimen/padding_dialog"
         android:id="@+id/SplitContainer"
         android:layout_width="fill_parent"
         android:layout_height="0px"
@@ -185,10 +187,6 @@
             android:paddingRight="10dp"
             android:text="@string/no_split_parts" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff" />
     </LinearLayout>
 
 </LinearLayout>

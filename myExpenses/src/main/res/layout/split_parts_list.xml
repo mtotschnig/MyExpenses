@@ -18,6 +18,8 @@
               android:layout_width="fill_parent"
               android:layout_height="0px"
               android:layout_weight="1"
+              android:paddingLeft="@dimen/padding_form"
+              android:paddingRight="@dimen/padding_form"
               android:orientation="vertical">
 
     <TextView
@@ -31,6 +33,8 @@
 
         <ListView
             android:id="@+id/list"
+            android:paddingBottom="55dp"
+            android:clipToPadding="false"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 
@@ -54,8 +58,7 @@
         android:id="@+id/heading"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="7dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/label"
@@ -79,5 +82,5 @@
         android:id="@+id/BottomLine"
         android:layout_width="fill_parent"
         android:layout_height="4dp"
-        android:background="#ffffff"/>
+        android:background="?android:colorForeground"/>
 </LinearLayout>

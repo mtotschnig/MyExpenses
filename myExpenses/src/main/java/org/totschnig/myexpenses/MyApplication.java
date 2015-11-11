@@ -286,12 +286,11 @@ public class MyApplication extends Application implements
   public static int getThemeId() {
     return getThemeId("");
   }
+
   public static int getThemeIdEditDialog() {
     return getThemeId("EditDialog");
   }
-  public static int getThemeIdLegacyPreferenceActivity() {
-    return getThemeId("LegacyPreferenceActivity");
-  }
+
   public static int getThemeIdTranslucent() {
     return getThemeId("Translucent");
   }

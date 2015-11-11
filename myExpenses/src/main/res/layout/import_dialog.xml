@@ -22,8 +22,8 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
+        android:paddingLeft="@dimen/padding_dialog"
+        android:paddingRight="@dimen/padding_dialog"
         android:shrinkColumns="1"
         android:stretchColumns="1" >
 

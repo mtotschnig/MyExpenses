@@ -63,21 +63,19 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    LayoutInflater li = LayoutInflater.from(getActivity());
+    View view = li.inflate(R.layout.edit_text_dialog, null);
+    mEditText = ((EditText) view.findViewById(R.id.EditTextDialogInput));
     Bundle args = getArguments();
-    mEditText = new EditText(getActivity());
-    // Show soft keyboard automatically
     mEditText.setInputType(args.getInt(KEY_INPUT_TYPE, InputType.TYPE_CLASS_TEXT));
-    mEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-    mEditText.requestFocus();
     mEditText.setOnEditorActionListener(this);
-    mEditText.setId(R.id.EditTextDialogInput);
 
     mEditText.setText(args.getString(KEY_VALUE));
     int maxLength = args.getInt(KEY_MAX_LENGTH);
     if (maxLength != 0) {
       mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
     }
-    AlertDialog dialog = builder.setView(mEditText)
+    AlertDialog dialog = builder.setView(view)
         .setTitle(args.getString(KEY_DIALOG_TITLE))
         .create();
     dialog.getWindow().setSoftInputMode(

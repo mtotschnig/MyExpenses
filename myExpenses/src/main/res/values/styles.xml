@@ -25,8 +25,6 @@
   <style name="headingStyle.WithMargin">
     <item name="android:layout_marginTop">8dp</item>
     <item name="android:layout_marginBottom">8dp</item>
-    <item name="android:paddingLeft">@dimen/general_padding</item>
-    <item name="android:paddingRight">@dimen/general_padding</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">

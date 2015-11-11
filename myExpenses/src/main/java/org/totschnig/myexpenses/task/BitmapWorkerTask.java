@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -73,9 +74,12 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
     } else if (dialogWeekReference !=null) {
       final AlertDialog dialog = dialogWeekReference.get();
       if (dialog != null) {
-        if (bitmap!=null)
-          dialog.setIcon(new BitmapDrawable(dialog.getContext().getResources(),
+        if (bitmap!=null) {
+          ImageView image = ((ImageView) dialog.getWindow().findViewById(android.R.id.icon));
+          image.setVisibility(View.VISIBLE);
+          image.setImageDrawable(new BitmapDrawable(dialog.getContext().getResources(),
               bitmap));
+        }
         else
           Toast.makeText(dialog.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG);
       }

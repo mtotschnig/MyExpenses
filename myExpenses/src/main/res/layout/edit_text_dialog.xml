@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<EditText xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-</EditText>
+    <!-- margin is smaller than padding_dialog to correct for edittext padding-->
+    <EditText
+        android:id="@+id/EditTextDialogInput"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:imeOptions="actionDone">
+
+        <requestFocus/>
+    </EditText>
+</FrameLayout>
