@@ -41,7 +41,8 @@
 
             </EditText>
 
-            <ImageButton
+            <ImageView
+                style="?actionButtonStyle"
                 android:id="@+id/btn_browse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

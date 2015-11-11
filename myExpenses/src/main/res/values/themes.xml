@@ -178,7 +178,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Translucent">
-        <item name="browseIcon">@drawable/ic_action_browse_light</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -186,7 +185,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
     <style name="ThemeDark.Translucent">
-        <item name="browseIcon">@drawable/ic_action_browse_dark</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
