@@ -51,7 +51,7 @@
     <item name="android:textStyle">bold</item>
   </style>
 
-  <style name="form_label.dialog" parent="form_label.compat">
+  <style name="form_label.condensed" parent="form_label.compat">
     <item name="android:minHeight">0dp</item>
   </style>
   <style name="dialog_text"/>

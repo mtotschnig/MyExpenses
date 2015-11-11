@@ -5,26 +5,26 @@
           tools:showIn="@layout/import_dialog">
 
     <TextView
-        style="@style/form_label.dialog"
+        style="@style/form_label.compat"
         android:text="@string/account"/>
 
-    <LinearLayout android:orientation="horizontal">
+    <LinearLayout android:orientation="vertical">
 
         <Spinner
             android:id="@+id/Account"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
         <Spinner
             android:id="@+id/Currency"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
         <Spinner android:id="@+id/AccountType"
                  android:prompt="@string/type"
-                 android:layout_width="0dp"
+                 android:layout_width="fill_parent"
                  android:layout_height="wrap_content"
                  android:layout_weight="1"/>
     </LinearLayout>

@@ -22,7 +22,7 @@
               android:layout_height="wrap_content">
 
         <TextView
-            style="@style/form_label.dialog"
+            style="@style/form_label.compat"
             android:text="@string/import_source_file"
             android:layout_height="wrap_content"/>
 
