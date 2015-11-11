@@ -37,7 +37,6 @@
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textColorLink">@drawable/linkcolor</item>
-    <item name="android:padding">5dp</item>
   </style>
   <style name="form_label">
     <item name="android:paddingRight">12dp</item>
