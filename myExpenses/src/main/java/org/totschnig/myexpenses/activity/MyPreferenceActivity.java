@@ -225,28 +225,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
-    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
-      setResult(resultCode);
-      finish();
-    } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        Uri dir = intent.getData();
-        getContentResolver().takePersistableUriPermission(dir,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION |
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        PrefKey.APP_DIR.putString(intent.getData().toString());
-      }
-      //TODO call on fragment setAppDirSummary();
-    } else if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
-        contribFeatureCalled(
-            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
-            intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
-    }
-  }
-
   private Intent findDirPicker() {
     Intent intent = new Intent("com.estrongs.action.PICK_DIRECTORY ");
     intent.putExtra("com.estrongs.intent.extra.TITLE", "Select Directory");
@@ -692,6 +670,24 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           new PreferenceDividerItemDecoration(getActivity())
       );
       return result;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent intent) {
+      if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
+        getActivity().setResult(resultCode);
+        getActivity().finish();
+      } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          Uri dir = intent.getData();
+          getActivity().getContentResolver().takePersistableUriPermission(dir,
+              Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                  Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+          PrefKey.APP_DIR.putString(intent.getData().toString());
+        }
+        setAppDirSummary();
+      }
     }
   }
 }
