@@ -22,7 +22,7 @@
               android:layout_height="wrap_content">
 
         <TextView
-            style="@style/form_label.dialog"
+            style="@style/form_label.compat"
             android:text="@string/import_source_file"
             android:layout_height="wrap_content"/>
 
@@ -41,7 +41,8 @@
 
             </EditText>
 
-            <ImageButton
+            <ImageView
+                style="?actionButtonStyle"
                 android:id="@+id/btn_browse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

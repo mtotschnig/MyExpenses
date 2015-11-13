@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -80,6 +81,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -414,15 +416,17 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
-/*      nextReminder =
-          MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
-      if (nextReminder != -1 && sequenceCount >= nextReminder) {
-        RemindRateDialogFragment f =
-        new org.totschnig.myexpenses.dialog.RemindRateDialogFragment();
-        f.setCancelable(false);
-        f.show(getSupportFragmentManager(),"REMIND_RATE");
-        return;
-      }*/
+      if (!TextUtils.isEmpty(BuildConfig.FLAVOR)) {
+        nextReminder =
+            MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
+        if (nextReminder != -1 && sequenceCount >= nextReminder) {
+          RemindRateDialogFragment f =
+              new org.totschnig.myexpenses.dialog.RemindRateDialogFragment();
+          f.setCancelable(false);
+          f.show(getSupportFragmentManager(), "REMIND_RATE");
+          return;
+        }
+      }
       if (!MyApplication.getInstance().isContribEnabled()) {
         nextReminder =
             MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);

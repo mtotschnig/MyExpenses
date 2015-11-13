@@ -73,7 +73,7 @@
         </activity>
         <activity
             android:name=".activity.BackupRestoreActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" >
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="myexpenses.intent.backup" />
 
@@ -111,8 +111,7 @@
             </intent-filter>
          </activity>
         <activity
-            android:name=".activity.Help"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:name=".activity.Help">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>    
@@ -161,7 +160,7 @@
         </activity>
         <activity
             android:name=".activity.CalculatorInput"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/Theme.AppCompat.Light.Dialog" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

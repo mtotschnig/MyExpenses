@@ -6,7 +6,7 @@
     tools:showIn="@layout/backup_restore_dialog">
 
     <TextView
-        style="@style/form_label.dialog"
+        style="@style/form_label.compat"
         android:layout_width="0dip"
         android:layout_weight="1"
         android:text="@string/restore_calendar_handling"/>

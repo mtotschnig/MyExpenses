@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  This file is part of My Expenses. My Expenses is free software: you 
+    This file is part of My Expenses. My Expenses is free software: you
 	can redistribute it and/or modify it under the terms of the GNU General Public 
 	License as published by the Free Software Foundation, either version 3 of 
 	the License, or (at your option) any later version. My Expenses is distributed 
@@ -18,15 +18,13 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:paddingLeft="@dimen/padding_dialog"
+        android:paddingRight="@dimen/padding_dialog">
 
         <TableRow android:gravity="center_vertical">
 
             <TextView
-                style="@style/form_label.dialog"
+                style="@style/form_label.compat"
                 android:layout_width="0dip"
                 android:layout_weight="1"
                 android:text="@string/import_source_file"/>
@@ -34,9 +32,9 @@
 
             <Spinner
                 android:id="@+id/select_backup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_width="0dip"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"/>
         </TableRow>
 
         <include layout="@layout/backup_restore_calendar"/>

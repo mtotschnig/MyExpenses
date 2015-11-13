@@ -16,10 +16,10 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/OneExpense"
+    android:paddingTop="20dp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/general_padding" >
+    android:orientation="vertical" >
 
     <ProgressBar
         android:id="@+id/progress"
@@ -39,8 +39,8 @@
         android:id="@+id/Table"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
+        android:paddingLeft="@dimen/padding_dialog"
+        android:paddingRight="@dimen/padding_dialog"
         android:shrinkColumns="1"
         android:stretchColumns="1"
         android:visibility="gone" >
@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/AccountLabel"
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/account" />
 
             <TextView
@@ -61,7 +61,7 @@
 
             <TextView
                 android:id="@+id/CategoryLabel"
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/category" />
 
             <TextView
@@ -72,7 +72,7 @@
         <TableRow android:id="@+id/DateRow" >
 
             <TextView
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/date" />
 
             <TextView
@@ -83,7 +83,7 @@
         <TableRow>
 
             <TextView
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/amount" />
 
             <TextView
@@ -94,7 +94,7 @@
         <TableRow android:id="@+id/CommentRow" >
 
             <TextView
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/comment" />
 
             <TextView
@@ -106,7 +106,7 @@
 
             <TextView
                 android:id="@+id/PayeeLabel"
-                style="@style/form_label.dialog" />
+                style="@style/form_label.condensed" />
 
             <TextView
                 android:id="@+id/Payee"
@@ -116,7 +116,7 @@
         <TableRow android:id="@+id/MethodRow" >
 
             <TextView
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/method" />
 
             <TextView
@@ -127,7 +127,7 @@
         <TableRow android:id="@+id/NumberRow" >
 
             <TextView
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/reference_number" />
 
             <TextView
@@ -139,7 +139,7 @@
 
             <TextView
                 android:id="@+id/StatusLabel"
-                style="@style/form_label.dialog"
+                style="@style/form_label.condensed"
                 android:text="@string/status" />
 
             <LinearLayout>
@@ -158,6 +158,8 @@
     </TableLayout>
 
     <LinearLayout
+        android:paddingLeft="@dimen/padding_dialog"
+        android:paddingRight="@dimen/padding_dialog"
         android:id="@+id/SplitContainer"
         android:layout_width="fill_parent"
         android:layout_height="0px"
@@ -185,10 +187,6 @@
             android:paddingRight="10dp"
             android:text="@string/no_split_parts" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff" />
     </LinearLayout>
 
 </LinearLayout>

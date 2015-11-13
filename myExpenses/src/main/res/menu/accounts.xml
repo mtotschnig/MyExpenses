@@ -3,11 +3,11 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/EDIT_ACCOUNT_COMMAND"
-        android:title="@string/menu_edit_account"
+        android:title="@string/menu_edit"
         />
 
     <item
         android:id="@id/DELETE_ACCOUNT_COMMAND"
-        android:title="@string/menu_delete_account"
+        android:title="@string/menu_delete"
         />
 </menu>

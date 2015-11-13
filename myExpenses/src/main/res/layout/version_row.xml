@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-  <TextView android:id="@+id/versionInfoName"
-    style="@style/headingStyle.WithMargin" />
-  <TextView android:id="@+id/versionInfoChanges"
-      android:paddingBottom="2dp"
-      style="@style/about_text"/>
-  <TextView android:id="@+id/versionInfoLearnMore"
-      android:clickable="true"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="right"
-      android:textColorLink="@drawable/linkcolor"
-      android:textStyle="bold|italic"
-      android:paddingBottom="5dp"
-      android:paddingRight="10dp"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/versionInfoName"
+        style="@style/headingStyle.WithMargin"
+        android:layout_marginTop="0dp"/>
+
+    <TextView
+        android:id="@+id/versionInfoChanges"
+        style="@style/about_text"
+        android:paddingBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/versionInfoLearnMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="right"
+        android:textColorLink="@drawable/linkcolor"
+        android:textStyle="bold|italic"/>
 </LinearLayout>

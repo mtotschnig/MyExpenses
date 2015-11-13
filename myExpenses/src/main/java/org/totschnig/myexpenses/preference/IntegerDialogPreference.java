@@ -5,23 +5,23 @@ import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
 /**
- * Created by privat on 08.11.15.
+ * A preference for storing integer values
  */
-public class FontSizePreference extends DialogPreference {
+public class IntegerDialogPreference extends DialogPreference {
   private boolean mValueSet;
-  public FontSizePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+  public IntegerDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
   }
 
-  public FontSizePreference(Context context, AttributeSet attrs, int defStyleAttr) {
+  public IntegerDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
 
-  public FontSizePreference(Context context, AttributeSet attrs) {
+  public IntegerDialogPreference(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public FontSizePreference(Context context) {
+  public IntegerDialogPreference(Context context) {
     super(context);
   }
 

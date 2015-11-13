@@ -160,7 +160,7 @@ public class ExpenseEdit extends AmountActivity implements
   private AutoCompleteTextView mPayeeText;
   protected TextView mPayeeLabel;
   private ToggleButton mPlanToggleButton;
-  private ImageButton mAttachPictureButton;
+  private ImageView mAttachPictureButton;
   private ImageView mPictureView;
   public Long mRowId = 0L;
   private Long mTemplateId;
@@ -232,7 +232,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTitleText = (EditText) findViewById(R.id.Title);
     mReferenceNumberText = (EditText) findViewById(R.id.Number);
     mDateButton = (Button) findViewById(R.id.DateButton);
-    mAttachPictureButton = (ImageButton) findViewById(R.id.AttachImage);
+    mAttachPictureButton = (ImageView) findViewById(R.id.AttachImage);
     mPictureView = (ImageView) findViewById(R.id.picture);
     mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);

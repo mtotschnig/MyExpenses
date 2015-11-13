@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifCsvImportDialogFragment;
@@ -26,12 +27,13 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class QifCSVImport extends ProtectedFragmentActivityNoAppCompat {
+public class QifCSVImport extends ProtectedFragmentActivity {
 
   private Account.ExportFormat format = Account.ExportFormat.QIF;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
      /* try {

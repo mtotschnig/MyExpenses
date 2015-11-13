@@ -20,15 +20,14 @@ import org.totschnig.myexpenses.R;
 public class FontSizeDialogFragmentCompat extends PreferenceDialogFragmentCompat {
   @Override
   protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-    final FontSizePreference preference = (FontSizePreference) getPreference();
+    final FontSizeDialogPreference preference = (FontSizeDialogPreference) getPreference();
     int selectedIndex = preference.getValue();
-    String standard = getString(R.string.pref_ui_language_default);
     final TypedArray a = getActivity().obtainStyledAttributes(null, android.support.v7.appcompat.R.styleable.AlertDialog,
         android.support.v7.appcompat.R.attr.alertDialogStyle, 0);
     ListAdapter adapter = new ArrayAdapter<String>(
         getActivity(),
         a.getResourceId(android.support.v7.appcompat.R.styleable.AlertDialog_singleChoiceItemLayout, 0),
-        new String[]{standard, standard + " 2sp", standard + " 4sp", standard + " + 6sp"}) {
+        preference.getEntries()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         TextView row = (TextView) super.getView(position, convertView, parent);

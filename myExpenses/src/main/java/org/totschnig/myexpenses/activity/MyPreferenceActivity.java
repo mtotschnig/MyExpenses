@@ -21,6 +21,8 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
@@ -38,13 +40,19 @@ import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +65,7 @@ import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentC
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
+import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -67,6 +76,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 /**
  * Present references screen defined in Layout file
@@ -75,27 +85,62 @@ import java.text.NumberFormat;
  */
 public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     OnSharedPreferenceChangeListener,
-    ContribIFace {
+    ContribIFace, PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
   
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
+  private boolean mShouldShowPlanerPref;
 
-  //TODO migrate to PreferenceFragment
-  @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
+    setContentView(R.layout.settings);
+    setupToolbar(true);
     if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction()
-          .add(android.R.id.content, new SettingsFragment())
-          .commit();
+      // Create the fragment only when the activity is created for the first time.
+      // ie. not after orientation changes
+      Fragment fragment = getFragment();
+      if (fragment == null) {
+        fragment = new SettingsFragment();
+      }
+
+      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.fragment_container, fragment, SettingsFragment.class.getSimpleName());
+      ft.commit();
     }
+    setMainTitle();
+    mShouldShowPlanerPref = TextUtils.equals(getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
+        PrefKey.PLANNER_CALENDAR_ID.getKey());
   }
 
+  private SettingsFragment getFragment() {
+    return (SettingsFragment) getSupportFragmentManager().findFragmentByTag(
+        SettingsFragment.class.getSimpleName());
+  }
 
+  private void setMainTitle() {
+    getSupportActionBar().setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    //currently no help menu
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId()==android.R.id.home) {
+      if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        getSupportFragmentManager().popBackStack();
+        setMainTitle();
+        return true;
+      }
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
   @Override
   protected void onResume() {
@@ -117,36 +162,42 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     finish();
     startActivity(intent);
   }
+
   @Override
   protected Dialog onCreateDialog(int id) {
-    switch(id) {
-    case R.id.FTP_DIALOG:
-      return DialogUtils.sendWithFTPDialog((Activity) this);
-    case R.id.MORE_INFO_DIALOG:
-      LayoutInflater li = LayoutInflater.from(this);
-      View view = li.inflate(R.layout.more_info, null);
-      ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(CommonCommands.getVersionInfo(this));
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.pref_more_info_dialog_title)
-        .setView(view)
-        .setPositiveButton(android.R.string.ok,null)
-        .create();
-    case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
-      return new AlertDialog.Builder(this)
-      .setTitle(R.string.dialog_title_attention)
-      .setMessage(R.string.planner_setup_info_create_new_warning)
-      .setNegativeButton(android.R.string.cancel, null)
-      .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-        //TODO: use Async Task Strict Mode violation
-        boolean success = MyApplication.getInstance().createPlanner();
-        Toast.makeText(
-            MyPreferenceActivity.this,
-            success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-            Toast.LENGTH_LONG).show();
-          }
-       })
-      .create();
+    switch (id) {
+      case R.id.FTP_DIALOG:
+        return DialogUtils.sendWithFTPDialog((Activity) this);
+      case R.id.MORE_INFO_DIALOG:
+        LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.more_info, null);
+        ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(CommonCommands.getVersionInfo(this));
+        return new AlertDialog.Builder(this)
+            .setTitle(R.string.pref_more_info_dialog_title)
+            .setView(view)
+            .setPositiveButton(android.R.string.ok, null)
+            .create();
+      case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
+        return new AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_title_attention)
+            .setMessage(R.string.planner_setup_info_create_new_warning)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                //TODO: use Async Task Strict Mode violation
+                String plannerId = MyApplication.getInstance().createPlanner(false);
+                boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
+                Toast.makeText(
+                    MyPreferenceActivity.this,
+                    success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+                    Toast.LENGTH_LONG).show();
+                if (success) {
+                  ((ListPreference) getFragment().findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()))
+                      .setValue(plannerId);
+                }
+              }
+            })
+            .create();
     }
     return null;
   }
@@ -171,28 +222,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
     } else if (key.equals(PrefKey.AUTO_BACKUP.getKey()) || key.equals(PrefKey.AUTO_BACKUP_TIME.getKey())) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
-    }
-  }
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
-    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
-      setResult(resultCode);
-      finish();
-    } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        Uri dir = intent.getData();
-        getContentResolver().takePersistableUriPermission(dir,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION |
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        PrefKey.APP_DIR.putString(intent.getData().toString());
-      }
-      //TODO call on fragment setAppDirSummary();
-    } else if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK) {
-        contribFeatureCalled(
-            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
-            intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
     }
   }
 
@@ -234,10 +263,32 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          //TODO call on fragment showSelectCalendar();
+          mShouldShowPlanerPref = true;
         }
       }
     }
+  }
+
+  @Override
+  protected void onResumeFragments() {
+    super.onResumeFragments();
+    if (mShouldShowPlanerPref) {
+      mShouldShowPlanerPref = false;
+      getFragment().showSelectCalendar();
+    }
+  }
+
+  @Override
+  public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    SettingsFragment fragment = new SettingsFragment();
+    Bundle args = new Bundle();
+    args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
+    fragment.setArguments(args);
+    ft.replace(R.id.fragment_container, fragment, preferenceScreen.getKey());
+    ft.addToBackStack(preferenceScreen.getKey());
+    ft.commit();
+    return true;
   }
 
   public static class SettingsFragment extends PreferenceFragmentCompat implements
@@ -246,94 +297,95 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-      addPreferencesFromResource(R.xml.preferences);
-      Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
-      pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
-          "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-          "mailto: \"mailto:john@my.example.com\"");
-      pref.setOnPreferenceChangeListener(this);
-      configureContribPrefs();
-      findPreference(PrefKey.SEND_FEEDBACK.getKey())
-          .setOnPreferenceClickListener(this);
-      findPreference(PrefKey.MORE_INFO_DIALOG.getKey())
-          .setOnPreferenceClickListener(this);
+      setPreferencesFromResource(R.xml.preferences,rootKey);
+      if (rootKey == null) {
+        Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
+        pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
+            "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
+            "mailto: \"mailto:john@my.example.com\"");
+        pref.setOnPreferenceChangeListener(this);
+        configureContribPrefs();
+        findPreference(PrefKey.SEND_FEEDBACK.getKey())
+            .setOnPreferenceClickListener(this);
+        findPreference(PrefKey.MORE_INFO_DIALOG.getKey())
+            .setOnPreferenceClickListener(this);
 
-      pref = findPreference(PrefKey.RESTORE.getKey());
-      pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
-      pref.setOnPreferenceClickListener(this);
+        pref = findPreference(PrefKey.RESTORE.getKey());
+        pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
+        pref.setOnPreferenceClickListener(this);
 
-      pref = findPreference(PrefKey.RESTORE_LEGACY.getKey());
-      pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
-      pref.setOnPreferenceClickListener(this);
+        pref = findPreference(PrefKey.RESTORE_LEGACY.getKey());
+        pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+        pref.setOnPreferenceClickListener(this);
 
-      findPreference(PrefKey.RATE.getKey())
-          .setOnPreferenceClickListener(this);
+        findPreference(PrefKey.RATE.getKey())
+            .setOnPreferenceClickListener(this);
 
-      findPreference(PrefKey.ENTER_LICENCE.getKey())
-          .setOnPreferenceChangeListener(this);
-      setProtectionDependentsState();
+        findPreference(PrefKey.ENTER_LICENCE.getKey())
+            .setOnPreferenceChangeListener(this);
+        setProtectionDependentsState();
 
-      pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
-      pref.setOnPreferenceChangeListener(this);
-      if (PrefKey.CUSTOM_DECIMAL_FORMAT.getString("").equals("")) {
-        setDefaultNumberFormat(((EditTextPreference) pref));
-      }
-
-      findPreference(PrefKey.APP_DIR.getKey())
-          .setOnPreferenceClickListener(this);
-      setAppDirSummary();
-      if (savedInstanceState == null &&
-          TextUtils.equals(
-              getActivity().getIntent().getStringExtra(KEY_OPEN_PREF_KEY), //TODO hand this in via args
-              PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-        showSelectCalendar();
-      }
-
-      findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
-      findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
-      findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
-      findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
-          getString(R.string.pref_security_question_summary) + " " +
-              ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
-      findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
-          getString(R.string.pref_shortcut_summary) + " " +
-              ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
-
-      final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
-      final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
-      categoryManage.removePreference(prefStaleImages);
-
-      pref = findPreference(PrefKey.IMPORT_QIF.getKey());
-      pref.setSummary(getString(R.string.pref_import_summary,"QIF"));
-      pref.setTitle(getString(R.string.pref_import_title, "QIF"));
-      pref = findPreference(PrefKey.IMPORT_CSV.getKey());
-      pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
-      pref.setTitle(getString(R.string.pref_import_title, "CSV"));
-      pref.setOnPreferenceClickListener(this);
-
-      new AsyncTask<Void, Void, Boolean>(){
-        @Override
-        protected Boolean doInBackground(Void... params) {
-          Cursor c = getActivity().getContentResolver().query(
-              TransactionProvider.STALE_IMAGES_URI,
-              new String[]{"count(*)"},
-              null, null, null);
-          if (c==null)
-            return false;
-          boolean hasImages = false;
-          if (c.moveToFirst() &&  c.getInt(0) >0)
-            hasImages = true;
-          c.close();
-          return hasImages;
+        pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
+        pref.setOnPreferenceChangeListener(this);
+        if (PrefKey.CUSTOM_DECIMAL_FORMAT.getString("").equals("")) {
+          setDefaultNumberFormat(((EditTextPreference) pref));
         }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
-          if (getActivity()!=null && !getActivity().isFinishing() && result)
-            categoryManage.addPreference(prefStaleImages);
-        }
-      };;//.execute();
+        findPreference(PrefKey.APP_DIR.getKey())
+            .setOnPreferenceClickListener(this);
+        setAppDirSummary();
+
+        findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
+            getString(R.string.pref_security_question_summary) + " " +
+                ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
+        findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
+            getString(R.string.pref_shortcut_summary) + " " +
+                ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
+
+        final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
+        final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
+        categoryManage.removePreference(prefStaleImages);
+
+        pref = findPreference(PrefKey.IMPORT_QIF.getKey());
+        pref.setSummary(getString(R.string.pref_import_summary, "QIF"));
+        pref.setTitle(getString(R.string.pref_import_title, "QIF"));
+        pref = findPreference(PrefKey.IMPORT_CSV.getKey());
+        pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
+        pref.setTitle(getString(R.string.pref_import_title, "CSV"));
+        pref.setOnPreferenceClickListener(this);
+
+        new AsyncTask<Void, Void, Boolean>() {
+          @Override
+          protected Boolean doInBackground(Void... params) {
+            Cursor c = getActivity().getContentResolver().query(
+                TransactionProvider.STALE_IMAGES_URI,
+                new String[]{"count(*)"},
+                null, null, null);
+            if (c == null)
+              return false;
+            boolean hasImages = false;
+            if (c.moveToFirst() && c.getInt(0) > 0)
+              hasImages = true;
+            c.close();
+            return hasImages;
+          }
+
+          @Override
+          protected void onPostExecute(Boolean result) {
+            if (getActivity() != null && !getActivity().isFinishing() && result)
+              categoryManage.addPreference(prefStaleImages);
+          }
+        };
+        ;//.execute();
+      } else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
+        ((MyPreferenceActivity) getActivity()).getSupportActionBar()
+            .setTitle(getString(R.string.pref_ui_home_screen_shortcuts));
+        findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
+        findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
+        findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
+      }
     }
+
     private void showSelectCalendar() {
       findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).performClick();
     }
@@ -609,6 +661,33 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             "android.support.v7.preference.PreferenceFragment.DIALOG");
       }
       else super.onDisplayPreferenceDialog(preference);
+    }
+
+    @Override
+    public RecyclerView onCreateRecyclerView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+      RecyclerView result = super.onCreateRecyclerView(inflater, parent, savedInstanceState);
+      result.addItemDecoration(
+          new PreferenceDividerItemDecoration(getActivity())
+      );
+      return result;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent intent) {
+      if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
+        getActivity().setResult(resultCode);
+        getActivity().finish();
+      } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          Uri dir = intent.getData();
+          getActivity().getContentResolver().takePersistableUriPermission(dir,
+              Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                  Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+          PrefKey.APP_DIR.putString(intent.getData().toString());
+        }
+        setAppDirSummary();
+      }
     }
   }
 }

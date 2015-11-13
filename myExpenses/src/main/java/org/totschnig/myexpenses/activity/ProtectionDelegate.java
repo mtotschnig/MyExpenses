@@ -30,7 +30,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 /**
- * methods both needed by {@link ProtectedFragmentActivity} and {@link ProtectedFragmentActivityNoAppCompat}
+ * methods both needed by {@link ProtectedFragmentActivity} and now defunct
+ * ProtectedFragmentActivityNoAppCompat
  * @author Michael Totschnig
  *
  */

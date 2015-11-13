@@ -16,7 +16,6 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -33,8 +32,6 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-
-import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -245,7 +242,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       Uri uri = ((Plan) mExtra).save();
       return uri == null ? null : ContentUris.parseId(uri);
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
-      return MyApplication.getInstance().createPlanner();
+      return !MyApplication.getInstance().createPlanner(true).equals(MyApplication.INVALID_CALENDAR_ID);
     case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
       for (int i = 0; i < ids.length; i++) {
         extraInfo2d = (Long[][]) mExtra;

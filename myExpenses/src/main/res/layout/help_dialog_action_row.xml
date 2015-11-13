@@ -15,41 +15,44 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="3dip" >
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="horizontal">
  
     <!--  Menu icon -->
-    <LinearLayout android:id="@+id/menu_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dip"> 
         <ImageView
             android:id="@+id/list_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip" />
-    </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            tools:src="@android:drawable/ic_menu_my_calendar"
+            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
  
     <!-- Description-->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/menu_icon"
-        android:layout_toRightOf="@+id/menu_icon"
+        android:layout_toRightOf="@+id/list_image"
+        android:layout_marginTop="3dp"
         android:typeface="sans"
         android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        tools:text="Command title"/>
     <TextView
         android:id="@+id/help_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/menu_icon"
-     />
+        android:layout_toRightOf="@+id/list_image"
+        tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+            At vero eos et accusam et justo duo dolores et ea rebum."/>
     <View style="@style/Divider" 
         android:layout_below="@id/help_text"/>
  </RelativeLayout>
