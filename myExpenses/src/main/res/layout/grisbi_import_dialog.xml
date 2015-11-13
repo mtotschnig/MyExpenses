@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_dialog"
         android:paddingRight="@dimen/padding_dialog"
-        android:shrinkColumns="1"
-        android:stretchColumns="1">
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
 
         <include layout="@layout/filename"/>
 

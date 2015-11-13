@@ -23,18 +23,21 @@
 
         <TextView
             style="@style/form_label.compat"
+            android:layout_width="0dip"
+            android:layout_weight="1"
             android:text="@string/import_source_file"
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:layout_weight="@dimen/form_table_ratio"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
 
             <EditText
                 android:focusable="false"
                 android:id="@+id/Filename"
-                android:layout_width="0dp"
+                android:layout_width="0dip"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:singleLine="true" >
