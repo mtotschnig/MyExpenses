@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.format.DateFormat;
+import android.view.View;
 import android.widget.TimePicker;
 
 /**
@@ -19,15 +20,13 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
   private TimePicker mTimePicker;
 
   @Override
-  protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+  protected View onCreateDialogView(Context context) {
     final TimePreference preference = (TimePreference) getPreference();
-    Context context = getContext();
-    mTimePicker = new TimePicker(context);
-    mTimePicker.setId(1);
+    mTimePicker = ((TimePicker) super.onCreateDialogView(context));
     mTimePicker.setIs24HourView(DateFormat.is24HourFormat(context));
     mTimePicker.setCurrentHour(preference.getHour());
     mTimePicker.setCurrentMinute(preference.getMinute());
-    builder.setView(mTimePicker);
+    return mTimePicker;
   }
 
   @Override
@@ -38,7 +37,7 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
       return;
     }
     mTimePicker.clearFocus();
-    preference.setValue(100*mTimePicker.getCurrentHour()+mTimePicker.getCurrentMinute());
+    preference.setValue(100 * mTimePicker.getCurrentHour() + mTimePicker.getCurrentMinute());
   }
 
   public static TimePreferenceDialogFragmentCompat newInstance(Preference preference) {

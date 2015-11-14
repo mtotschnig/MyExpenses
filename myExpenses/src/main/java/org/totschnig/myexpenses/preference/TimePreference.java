@@ -30,16 +30,14 @@ public class TimePreference extends IntegerDialogPreference {
 
     public static final int DEFAULT_VALUE = 500;
 
-    private TimePicker mTimePicker;
-    
     public TimePreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setPersistent(true);
+        setDialogLayoutResource(R.layout.timepicker);
     }
 
     public TimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setPersistent(true);
+        setDialogLayoutResource(R.layout.timepicker);
     }
 
     public int getHour() {
