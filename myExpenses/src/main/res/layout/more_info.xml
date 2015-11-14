@@ -76,6 +76,14 @@
 
         <TextView
             style="@style/about_text"
+            android:text="@string/help_licence_wakeful"/>
+
+        <TextView
+            style="@style/about_text"
+            android:text="@string/help_licence_materialseekbar"/>
+
+        <TextView
+            style="@style/about_text"
             android:text="© 2015 Michael Totschnig"/>
         <!--  Credits -->
         <TextView
