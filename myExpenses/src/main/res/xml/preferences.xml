@@ -206,14 +206,16 @@
                 android:key="@string/pref_perform_protection_key"
                 android:summary="@string/pref_perform_protection_summary"
                 android:title="@string/pref_perform_protection_title"/>
-            <org.totschnig.myexpenses.preference.SeekBarPreference xmlns:my="http://schemas.android.com/apk/res-auto"
-                                                                   android:defaultValue="15"
-                                                                   android:key="@string/pref_protection_delay_seconds_key"
-                                                                   android:summary="@string/pref_protection_delay_seconds_summary"
-                                                                   android:title="@string/pref_protection_delay_seconds_title"
-                                                                   my:max_value="90"
-                                                                   my:min_value="1"
-                                                                   my:unit_symbol=" &#8243;"/>
+            <com.pavelsikun.seekbarpreference.SeekBarPreference
+                xmlns:my="http://schemas.android.com/apk/res-auto"
+                android:defaultValue="15"
+                android:key="@string/pref_protection_delay_seconds_key"
+                android:summary="@string/pref_protection_delay_seconds_summary"
+                android:title="@string/pref_protection_delay_seconds_title"
+                my:msbp_interval="1"
+                my:msbp_maxValue="90"
+                my:msbp_measurementUnit=" &#8243;"
+                my:msbp_minValue="1"/>
             <org.totschnig.myexpenses.preference.SecurityQuestion
                 android:key="@string/pref_security_question_key"
                 android:title="@string/pref_security_question_title"/>
