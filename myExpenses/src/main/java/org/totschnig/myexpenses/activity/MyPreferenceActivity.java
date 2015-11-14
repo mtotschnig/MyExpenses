@@ -64,6 +64,8 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
+import org.totschnig.myexpenses.preference.PasswordPreference;
+import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -666,6 +668,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             "android.support.v7.preference.PreferenceFragment.DIALOG");
       }  else  if (preference instanceof TimePreference) {
         fragment = TimePreferenceDialogFragmentCompat.newInstance(preference);
+        fragment.setTargetFragment(this, 0);
+        fragment.show(getFragmentManager(),
+            "android.support.v7.preference.PreferenceFragment.DIALOG");
+      } else if (preference instanceof PasswordPreference) {
+        fragment = PasswordPreferenceDialogFragmentCompat.newInstance(preference);
         fragment.setTargetFragment(this, 0);
         fragment.show(getFragmentManager(),
             "android.support.v7.preference.PreferenceFragment.DIALOG");
