@@ -6,8 +6,8 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal"
     android:paddingTop="10dp"
-    android:paddingLeft="@dimen/padding_dialog"
-    android:paddingRight="@dimen/padding_dialog">
+    android:paddingLeft="@dimen/padding_dialog_side"
+    android:paddingRight="@dimen/padding_dialog_side">
 
     <CheckBox
         android:id="@+id/checkbox"

@@ -16,7 +16,7 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/OneExpense"
-    android:paddingTop="20dp"
+    android:paddingTop="@dimen/padding_dialog_content_top"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -39,8 +39,8 @@
         android:id="@+id/Table"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_dialog"
-        android:paddingRight="@dimen/padding_dialog"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side"
         android:shrinkColumns="1"
         android:stretchColumns="1"
         android:visibility="gone" >
@@ -158,8 +158,8 @@
     </TableLayout>
 
     <LinearLayout
-        android:paddingLeft="@dimen/padding_dialog"
-        android:paddingRight="@dimen/padding_dialog"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side"
         android:id="@+id/SplitContainer"
         android:layout_width="fill_parent"
         android:layout_height="0px"

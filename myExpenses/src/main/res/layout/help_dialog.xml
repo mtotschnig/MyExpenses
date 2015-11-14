@@ -16,7 +16,7 @@
  -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:paddingTop="20dp"
+            android:paddingTop="@dimen/padding_dialog_content_top"
             android:layout_height="0dp"
             android:layout_weight="1">
 
@@ -25,8 +25,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog"
-        android:paddingRight="@dimen/padding_dialog">
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/screen_info"

@@ -6,7 +6,8 @@
     <dimen name="padding_form">16dp</dimen>
     <dimen name="margin_list">52dp</dimen>
     <dimen name="margin_list_expandable">22dp</dimen>
-    <dimen name="padding_dialog">24dp</dimen>
+    <dimen name="padding_dialog_side">24dp</dimen>
+    <dimen name="padding_dialog_content_top">20dp</dimen>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="thumbnail_size_grid">96dp</dimen>
     <dimen name="fab_margin_right">0dp</dimen>

@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingTop="20dp">
+            android:paddingTop="@dimen/padding_dialog_content_top">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog"
-        android:paddingRight="@dimen/padding_dialog">
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
         <LinearLayout
             android:layout_width="match_parent"

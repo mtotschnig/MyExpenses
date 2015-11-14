@@ -18,8 +18,8 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_dialog"
-        android:paddingRight="@dimen/padding_dialog">
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
         <TableRow android:gravity="center_vertical">
 
