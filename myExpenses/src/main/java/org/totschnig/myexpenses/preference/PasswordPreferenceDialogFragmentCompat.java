@@ -33,7 +33,7 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
   private String strPass2;
   private EditText password1;
   private EditText password2;
-  private TextInputLayout password1Wrapper, password2Wrapper;
+  private TextInputLayout password2Wrapper;
   private CheckBox protect, change;
   private LinearLayout main, edit;
 
@@ -56,7 +56,6 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
     password2 = (EditText) view.findViewById(R.id.password2);
     protect = (CheckBox) view.findViewById(R.id.performProtection);
     change = (CheckBox) view.findViewById(R.id.changePassword);
-    password1Wrapper = (TextInputLayout) view.findViewById(R.id.password1Wrapper);
     password2Wrapper = (TextInputLayout) view.findViewById(R.id.password2Wrapper);
     String warning = ContribFeature.SECURITY_QUESTION.hasAccess() ?
         getContext().getString(R.string.warning_password_contrib) :
@@ -120,15 +119,15 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
     strPass2 = password2.getText().toString();
 
     if (strPass1.equals("")) {
-      password1Wrapper.setError(getString(R.string.pref_password_empty));
       btn.setEnabled(false);
     } else {
-      password1Wrapper.setError(null);
       if (strPass1.equals(strPass2)) {
         password2Wrapper.setError(null);
         btn.setEnabled(true);
       } else {
-        password2Wrapper.setError(getString(R.string.pref_password_not_equal));
+        if (!strPass2.equals("")) {
+          password2Wrapper.setError(getString(R.string.pref_password_not_equal));
+        }
         btn.setEnabled(false);
       }
     }
