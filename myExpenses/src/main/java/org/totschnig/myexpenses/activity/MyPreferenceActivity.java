@@ -112,7 +112,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       ft.replace(R.id.fragment_container, fragment, SettingsFragment.class.getSimpleName());
       ft.commit();
     }
-    setMainTitle();
     mShouldShowPlanerPref = TextUtils.equals(getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
         PrefKey.PLANNER_CALENDAR_ID.getKey());
   }
@@ -120,10 +119,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private SettingsFragment getFragment() {
     return (SettingsFragment) getSupportFragmentManager().findFragmentByTag(
         SettingsFragment.class.getSimpleName());
-  }
-
-  private void setMainTitle() {
-    getSupportActionBar().setTitle(Utils.concatResStrings(this, R.string.app_name, R.string.menu_settings));
   }
 
   @Override
@@ -137,7 +132,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     if (item.getItemId()==android.R.id.home) {
       if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
         getSupportFragmentManager().popBackStack();
-        setMainTitle();
         return true;
       }
     }
@@ -380,12 +374,21 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         };
         ;//.execute();
       } else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
-        ((MyPreferenceActivity) getActivity()).getSupportActionBar()
-            .setTitle(getString(R.string.pref_ui_home_screen_shortcuts));
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
       }
+    }
+
+    @Override
+    public void onResume() {
+      super.onResume();
+      PreferenceScreen screen = getPreferenceScreen();
+      CharSequence title = screen.getKey().equals(getString(R.string.pref_root_screen)) ?
+          Utils.concatResStrings(getActivity(), R.string.app_name, R.string.menu_settings) :
+          screen.getTitle();
+      ((MyPreferenceActivity) getActivity()).getSupportActionBar()
+          .setTitle(title);
     }
 
     private void showSelectCalendar() {
