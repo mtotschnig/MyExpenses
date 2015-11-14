@@ -18,13 +18,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -32,13 +25,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -63,6 +63,9 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
+import org.totschnig.myexpenses.preference.TimePreference;
+import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
@@ -76,7 +79,6 @@ import java.io.Serializable;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 
 /**
  * Present references screen defined in Layout file
@@ -654,8 +656,13 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
               ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
         }
 
-      } else  if (preference.getKey().equals(PrefKey.UI_FONTSIZE.getKey())) {
+      } else  if (preference instanceof FontSizeDialogPreference) {
         fragment = FontSizeDialogFragmentCompat.newInstance(preference);
+        fragment.setTargetFragment(this, 0);
+        fragment.show(getFragmentManager(),
+            "android.support.v7.preference.PreferenceFragment.DIALOG");
+      }  else  if (preference instanceof TimePreference) {
+        fragment = TimePreferenceDialogFragmentCompat.newInstance(preference);
         fragment.setTargetFragment(this, 0);
         fragment.show(getFragmentManager(),
             "android.support.v7.preference.PreferenceFragment.DIALOG");
