@@ -395,14 +395,12 @@
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
     <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
-    <string name="pref_template_click_default_title">Template default action</string>
     <string name="pref_template_click_default_summary">Upon short tap on entry in template list</string>
     <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
     <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
     <string name="pref_ui_fontsize_title">Font size</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <string name="pref_ui_language_default">System default</string>
-    <string name="pref_ui_language_summary">Set language of user interface</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Language</string>
     <string name="pref_ui_theme_dark">dark</string>

@@ -73,12 +73,11 @@
             android:entryValues="@array/pref_account_grouping_values"
             android:key="@string/pref_account_grouping_key"
             android:title="@string/pref_account_grouping_title"/>
-        <ListPreference
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:defaultValue="default"
             android:entries="@array/pref_ui_language_entries"
             android:entryValues="@array/pref_ui_language_values"
             android:key="@string/pref_ui_language_key"
-            android:summary="@string/pref_ui_language_summary"
             android:title="@string/pref_ui_language_title"/>
 
         <PreferenceScreen
@@ -97,17 +96,16 @@
                 android:title="@string/menu_create_split"/>
         </PreferenceScreen>
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_auto_fill_key"
             android:summary="@string/pref_auto_fill_summary"
             android:title="@string/pref_auto_fill_title"/>
-        <ListPreference
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:entries="@array/pref_template_click_default_entries"
             android:entryValues="@array/pref_template_click_default_values"
             android:key="@string/pref_template_click_default_key"
-            android:summary="@string/pref_template_click_default_summary"
-            android:title="@string/pref_template_click_default_title"/>
+            android:title="@string/pref_template_click_default_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory
