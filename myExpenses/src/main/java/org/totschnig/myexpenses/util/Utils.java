@@ -91,6 +91,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+
 /**
  * Util class with helper methods
  * 
@@ -137,6 +139,12 @@ public class Utils {
       sep = symbols.getDecimalSeparator();
     }
     return sep;
+  }
+
+  public static String defaultOrderBy(String textColumn) {
+    boolean byUsagesP = MyApplication.PrefKey.SORT_ORDER.getString("USAGES").equals("USAGES");
+    return (byUsagesP ? KEY_USAGES + " DESC, " : "")
+        + textColumn + " COLLATE LOCALIZED";
   }
 
   /**

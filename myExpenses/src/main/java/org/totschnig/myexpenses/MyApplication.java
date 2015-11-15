@@ -64,7 +64,8 @@ public class MyApplication extends Application implements
   // they can be referenced from preferences.xml, and thus we
   // can guarantee the referential integrity
   public enum PrefKey {
-    CATEGORIES_SORT_BY_USAGES(R.string.pref_categories_sort_by_usages_key),
+    CATEGORIES_SORT_BY_USAGES_LEGACY(R.string.pref_categories_sort_by_usages_key),
+    SORT_ORDER(R.string.pref_sort_order_key),
     PERFORM_SHARE(R.string.pref_perform_share_key),
     SHARE_TARGET(R.string.pref_share_target_key),
     UI_THEME_KEY(R.string.pref_ui_theme_key),

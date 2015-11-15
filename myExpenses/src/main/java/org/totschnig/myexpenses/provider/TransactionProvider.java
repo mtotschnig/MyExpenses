@@ -335,9 +335,7 @@ public class TransactionProvider extends ContentProvider {
         projection = Category.PROJECTION;
       }
       //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
-              KEY_USAGES + " DESC, " : "")
-         + KEY_LABEL + " COLLATE LOCALIZED";
+      defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL);
       break;
     case CATEGORY_ID:
       qb.setTables(TABLE_CATEGORIES);
@@ -347,9 +345,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
-          KEY_USAGES + " DESC, " : "")
-          + KEY_LABEL + " COLLATE LOCALIZED";
+      defaultOrderBy =  Utils.defaultOrderBy(KEY_LABEL);
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
@@ -357,9 +353,9 @@ public class TransactionProvider extends ContentProvider {
         @SuppressWarnings("deprecation")
         String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
             null, null, null);
-        qb.setTables("(SELECT " + 
-            KEY_ROWID + "," + 
-            KEY_CURRENCY + "," + 
+        qb.setTables("(SELECT " +
+            KEY_ROWID + "," +
+            KEY_CURRENCY + "," +
             KEY_OPENING_BALANCE + "," +
             KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT +
@@ -542,9 +538,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      defaultOrderBy = (MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES.getBoolean(true) ?
-              KEY_USAGES + " DESC, " : "")
-         + KEY_TITLE + " COLLATE LOCALIZED";
+      defaultOrderBy =  Utils.defaultOrderBy(KEY_TITLE);
       if (projection == null)
         projection = Template.PROJECTION_EXTENDED;
       break;

@@ -61,11 +61,12 @@
             android:title="@string/pref_ui_fontsize_title"/>
         <!-- for historical reasons the key is linked to categories, but the preference also
           determines sorting of templates and accounts -->
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/pref_categories_sort_by_usages_key"
-            android:summary="@string/pref_categories_sort_by_usages_summary"
-            android:title="@string/pref_categories_sort_by_usages_title"/>
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:defaultValue="USAGES"
+            android:entries="@array/pref_sort_order_entries"
+            android:entryValues="@array/pref_sort_order_values"
+            android:key="@string/pref_sort_order_key"
+            android:title="@string/pref_sort_order_title"/>
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:defaultValue="TYPE"
             android:entries="@array/pref_account_grouping_entries"
