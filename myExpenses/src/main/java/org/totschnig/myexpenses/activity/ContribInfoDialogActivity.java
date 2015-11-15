@@ -15,7 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-public class ContribInfoDialogActivity extends FragmentActivity
+public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     implements MessageDialogListener, ContribIFace {
   protected long sequenceCount;
   public final static String KEY_FEATURE = "feature";
