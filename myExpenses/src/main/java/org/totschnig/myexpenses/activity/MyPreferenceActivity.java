@@ -676,6 +676,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           ActivityCompat.requestPermissions((Activity) getContext(),
               new String[]{Manifest.permission.WRITE_CALENDAR},
               ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+          return;
         }
       } else if (preference instanceof FontSizeDialogPreference) {
         fragment = FontSizeDialogFragmentCompat.newInstance(key);
