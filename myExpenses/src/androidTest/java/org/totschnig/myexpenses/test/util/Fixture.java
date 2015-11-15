@@ -183,7 +183,7 @@ public class Fixture {
     split2.save();
 
     // Template
-    Assert.assertTrue("Unable to create planner", MyApplication.getInstance().createPlanner(true));
+    Assert.assertNotSame("Unable to create planner", MyApplication.getInstance().createPlanner(true),MyApplication.INVALID_CALENDAR_ID);
     //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
     //if it is has not been called yet, when we save our plan, saving fails.
     try {
