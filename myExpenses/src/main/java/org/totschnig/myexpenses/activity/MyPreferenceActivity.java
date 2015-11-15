@@ -379,8 +379,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             if (getActivity() != null && !getActivity().isFinishing() && result)
               categoryManage.addPreference(prefStaleImages);
           }
-        };
-        ;//.execute();
+        }.execute();
       } else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
