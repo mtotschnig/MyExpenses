@@ -38,7 +38,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -47,12 +49,15 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -305,12 +310,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences, rootKey);
+      Preference pref;
       if (rootKey == null) {
-        Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
-        pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
-            "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-            "mailto: \"mailto:john@my.example.com\"");
-        pref.setOnPreferenceChangeListener(this);
         configureContribPrefs();
         findPreference(PrefKey.SEND_FEEDBACK.getKey())
             .setOnPreferenceClickListener(this);
@@ -389,6 +390,17 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
             getString(R.string.pref_security_question_summary) + " " +
                 ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
+      } else if (rootKey.equals(getString(R.string.pref_perform_share_key))) {
+        pref = findPreference(PrefKey.SHARE_TARGET.getKey());
+        pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
+            "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
+            "mailto: \"mailto:john@my.example.com\"");
+        pref.setOnPreferenceChangeListener(this);
+      } else if (rootKey.equals(getString(R.string.pref_auto_backup_key))) {
+        pref = findPreference(getString(R.string.pref_auto_backup_info_key));
+        String summary = getString(R.string.pref_auto_backup_summary) + " " +
+            ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
+        pref.setSummary(summary);
       }
     }
 
@@ -401,7 +413,52 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           Utils.concatResStrings(activity, R.string.app_name, R.string.menu_settings) :
           screen.getTitle();
       activity.getSupportActionBar().setTitle(title);
+      handleScreenWithMasterSwitch(PrefKey.PERFORM_SHARE);
+      handleScreenWithMasterSwitch(PrefKey.AUTO_BACKUP);
+
       activity.setFragment(this);
+    }
+    private void handleScreenWithMasterSwitch(final PrefKey prefKey) {
+      PreferenceScreen screen = getPreferenceScreen();
+      final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+      final boolean status = prefKey.getBoolean(true);
+      if (screen.getKey().equals(prefKey.getKey())) {
+        SwitchCompat actionBarSwitch = new SwitchCompat(getActivity());
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
+            ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(actionBarSwitch, new ActionBar.LayoutParams(
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL
+            | Gravity.RIGHT));
+        actionBarSwitch.setChecked(status);
+        actionBarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (prefKey.equals(PrefKey.AUTO_BACKUP)) {
+              if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
+                CommonCommands.showContribDialog(getActivity(), ContribFeature.AUTO_BACKUP, null);
+                if (ContribFeature.AUTO_BACKUP.usagesLeft() <= 0) {
+                  buttonView.setChecked(false);
+                  return;
+                }
+              }
+            }
+            prefKey.putBoolean(isChecked);
+            updateDependents(isChecked);
+          }
+        });
+        updateDependents(status);
+      } else if (screen.getKey().equals(getString(R.string.pref_root_screen))) {
+        findPreference(prefKey.getKey()).setSummary(status ? "On" : "Off");
+      }
+    }
+
+    private void updateDependents(boolean enabled) {
+      int count = getPreferenceScreen().getPreferenceCount();
+      for (int i = 0; i < count; ++i) {
+        Preference pref = getPreferenceScreen().getPreference(i);
+        pref.setEnabled(enabled);
+      }
     }
 
     private void showSelectCalendar() {
@@ -410,8 +467,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     private void configureContribPrefs() {
       Preference pref1 = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
-          pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey()),
-          pref3 = findPreference(PrefKey.AUTO_BACKUP.getKey());
+          pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
       if (MyApplication.getInstance().isExtendedEnabled()) {
         PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
         cat.removePreference(pref1);
@@ -432,11 +488,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
 
       findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
-
-      String summary = getString(R.string.pref_auto_backup_summary) + " " +
-          ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
-      pref3.setSummary(summary);
-      pref3.setOnPreferenceChangeListener(this);
     }
 
     private void setProtectionDependentsState() {
@@ -502,12 +553,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           Toast.makeText(getActivity(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
           return false;
         }
-      } else if (key.equals(PrefKey.AUTO_BACKUP.getKey())) {
-        if (!((Boolean) value) || ContribFeature.AUTO_BACKUP.hasAccess()) {
-          return true;
-        }
-        CommonCommands.showContribDialog(getActivity(), ContribFeature.AUTO_BACKUP, null);
-        return ContribFeature.AUTO_BACKUP.usagesLeft() > 0;
       }
       return true;
     }

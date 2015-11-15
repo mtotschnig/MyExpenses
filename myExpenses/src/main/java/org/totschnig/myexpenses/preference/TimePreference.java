@@ -52,7 +52,7 @@ public class TimePreference extends IntegerDialogPreference {
 
     @Override
     public CharSequence getSummary() {
-        return getContext().getString(R.string.pref_auto_backup_time_summary, getHour(), getMinute());
+        return String.format("%1$02d:%2$02d",getHour(), getMinute());
     }
 
 }

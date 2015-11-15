@@ -588,10 +588,9 @@
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
     <string name="licence_validation_upgrade_needed">Please upgrade My Expenses Contrib to version 1.5.</string>
-    <string name="pref_auto_backup_title">Enable auto-backup</string>
+    <string name="pref_auto_backup_title">Auto-backup</string>
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
-    <string name="pref_auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
     <string name="warning_auto_backup_limited_trial">After %d successful automatic backups, auto-backup will be deactivated.</string>
     <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
     <string name="calendar_permission_required">If you want to create plans for future and recurring transactions, you need to grant MyExpenses access to your calendar.</string>

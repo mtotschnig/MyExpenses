@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
 import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -33,12 +34,9 @@ public class LongSummaryEditTextPreference extends EditTextPreference
         super(ctx, attrs);  
     }
 
-    //@Override
-    protected void onBindView(View view)
-    {       
-        //super.onBindView(view);
-
-        TextView summary= (TextView)view.findViewById(android.R.id.summary);
-        summary.setMaxLines(10);
+    @Override
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        ((TextView) holder.itemView.findViewById(android.R.id.summary)).setMaxLines(10);
     }
 }

@@ -134,18 +134,15 @@
         <Preference
             android:key="@string/pref_app_dir_key"
             android:title="@string/pref_app_dir_title"/>
-        <CheckBoxPreference
-            android:defaultValue="false"
+        <PreferenceScreen
             android:key="@string/pref_perform_share_key"
-            android:summaryOff="@string/pref_perform_share_summaryOff"
-            android:summaryOn="@string/pref_perform_share_summaryOn"
-            android:title="@string/pref_perform_share_title"/>
-        <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
-            android:dependency="@string/pref_perform_share_key"
-            android:inputType="textUri"
-            android:key="@string/pref_share_target_key"
-            android:summary="@string/pref_share_target_summary"
-            android:title="@string/pref_share_target_title"/>
+            android:title="@string/pref_perform_share_title">
+            <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
+                android:inputType="textUri"
+                android:key="@string/pref_share_target_key"
+                android:summary="@string/pref_share_target_summary"
+                android:title="@string/pref_share_target_title"/>
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -156,15 +153,19 @@
             android:title="@string/menu_backup">
             <intent android:action="myexpenses.intent.backup"/>
         </Preference>
-        <CheckBoxPreference
+        <PreferenceScreen
             android:key="@string/pref_auto_backup_key"
-            android:summary="@string/pref_auto_backup_summary"
-            android:title="@string/pref_auto_backup_title"/>
-        <org.totschnig.myexpenses.preference.TimePreference
-            android:dependency="@string/pref_auto_backup_key"
-            android:key="@string/pref_auto_backup_time_key"
-            android:summary="@string/pref_auto_backup_time_summary"
-            android:title="@string/pref_auto_backup_time_title"/>
+            android:title="@string/pref_auto_backup_title">
+            <Preference
+                android:key="@string/pref_auto_backup_info_key"
+                style="?android:preferenceInformationStyle"
+                android:summary="@string/pref_auto_backup_summary"/>
+            <org.totschnig.myexpenses.preference.TimePreference
+                android:dependency="@string/pref_auto_backup_key"
+                android:key="@string/pref_auto_backup_time_key"
+                android:summary="@string/pref_auto_backup_time_summary"
+                android:title="@string/pref_auto_backup_time_title"/>
+        </PreferenceScreen>
         <Preference
             android:key="@string/pref_restore_key"
             android:summary="@string/pref_restore_summary">
