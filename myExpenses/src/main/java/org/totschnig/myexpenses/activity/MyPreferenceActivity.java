@@ -96,6 +96,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
   private boolean mShouldShowPlanerPref;
+  private SettingsFragment activeFragment;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -120,8 +121,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   }
 
   private SettingsFragment getFragment() {
-    return (SettingsFragment) getSupportFragmentManager().findFragmentByTag(
-        SettingsFragment.class.getSimpleName());
+    return activeFragment;
+  }
+
+  public void setFragment(SettingsFragment fragment) {
+    activeFragment = fragment;
   }
 
   @Override
@@ -207,7 +211,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
     if (key.equals(PrefKey.PERFORM_PROTECTION.getKey())) {
-      //TODO call on Fragment setProtectionDependentsState();
+      getFragment().setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(PrefKey.UI_FONTSIZE.getKey()) ||
@@ -326,7 +330,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
         findPreference(PrefKey.ENTER_LICENCE.getKey())
             .setOnPreferenceChangeListener(this);
-        setProtectionDependentsState();
 
         pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
         pref.setOnPreferenceChangeListener(this);
@@ -338,9 +341,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             .setOnPreferenceClickListener(this);
         setAppDirSummary();
 
-        findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
-            getString(R.string.pref_security_question_summary) + " " +
-                ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
         findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
             getString(R.string.pref_shortcut_summary) + " " +
                 ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
@@ -384,18 +384,24 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
+      } else if (rootKey.equals(getString(R.string.pref_screen_protection))) {
+        setProtectionDependentsState();
+        findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
+            getString(R.string.pref_security_question_summary) + " " +
+                ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
       }
     }
 
     @Override
     public void onResume() {
       super.onResume();
+      final MyPreferenceActivity activity = (MyPreferenceActivity) getActivity();
       PreferenceScreen screen = getPreferenceScreen();
       CharSequence title = screen.getKey().equals(getString(R.string.pref_root_screen)) ?
-          Utils.concatResStrings(getActivity(), R.string.app_name, R.string.menu_settings) :
+          Utils.concatResStrings(activity, R.string.app_name, R.string.menu_settings) :
           screen.getTitle();
-      ((MyPreferenceActivity) getActivity()).getSupportActionBar()
-          .setTitle(title);
+      activity.getSupportActionBar().setTitle(title);
+      activity.setFragment(this);
     }
 
     private void showSelectCalendar() {
@@ -627,7 +633,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       pref.setSummary(R.string.external_storage_unavailable);
       pref.setEnabled(false);
     }
-    
+
     // credits Financisto
     // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
     private void addShortcut(String activity, int nameId, int iconId, Bundle extra) {
