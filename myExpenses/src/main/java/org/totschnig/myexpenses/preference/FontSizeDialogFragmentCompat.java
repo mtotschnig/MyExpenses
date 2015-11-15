@@ -67,10 +67,10 @@ public class FontSizeDialogFragmentCompat extends PreferenceDialogFragmentCompat
 
   }
 
-  public static FontSizeDialogFragmentCompat newInstance(Preference preference) {
+  public static FontSizeDialogFragmentCompat newInstance(String key) {
     FontSizeDialogFragmentCompat fragment = new FontSizeDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", preference.getKey());
+    bundle.putString("key", key);
     fragment.setArguments(bundle);
     return fragment;
   }

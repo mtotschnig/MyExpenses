@@ -66,6 +66,7 @@ import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PasswordPreference;
 import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -647,37 +648,33 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-      DialogFragment fragment;
-      if (preference.getKey().equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
+      DialogFragment fragment = null;
+      String key = preference.getKey();
+      if (key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
         if (ContextCompat.checkSelfPermission(getContext(),
             Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-          fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(preference);
-          fragment.setTargetFragment(this, 0);
-          fragment.show(getFragmentManager(),
-              "android.support.v7.preference.PreferenceFragment.DIALOG");
+          fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(key);
         } else {
           ActivityCompat.requestPermissions((Activity) getContext(),
               new String[]{Manifest.permission.WRITE_CALENDAR},
               ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
         }
-
       } else  if (preference instanceof FontSizeDialogPreference) {
-        fragment = FontSizeDialogFragmentCompat.newInstance(preference);
-        fragment.setTargetFragment(this, 0);
-        fragment.show(getFragmentManager(),
-            "android.support.v7.preference.PreferenceFragment.DIALOG");
+        fragment = FontSizeDialogFragmentCompat.newInstance(key);
       }  else  if (preference instanceof TimePreference) {
-        fragment = TimePreferenceDialogFragmentCompat.newInstance(preference);
-        fragment.setTargetFragment(this, 0);
-        fragment.show(getFragmentManager(),
-            "android.support.v7.preference.PreferenceFragment.DIALOG");
+        fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
       } else if (preference instanceof PasswordPreference) {
-        fragment = PasswordPreferenceDialogFragmentCompat.newInstance(preference);
+        fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
+      } else if (preference.getKey().equals(PrefKey.SECURITY_QUESTION.getKey())) {
+        fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
+      }
+      if (fragment != null) {
         fragment.setTargetFragment(this, 0);
         fragment.show(getFragmentManager(),
             "android.support.v7.preference.PreferenceFragment.DIALOG");
+      } else {
+        super.onDisplayPreferenceDialog(preference);
       }
-      else super.onDisplayPreferenceDialog(preference);
     }
 
     @Override

@@ -216,7 +216,8 @@
                 my:msbp_maxValue="90"
                 my:msbp_measurementUnit=" &#8243;"
                 my:msbp_minValue="1"/>
-            <org.totschnig.myexpenses.preference.SecurityQuestion
+            <EditTextPreference
+                android:dialogLayout="@layout/security_question"
                 android:key="@string/pref_security_question_key"
                 android:title="@string/pref_security_question_title"/>
             <PreferenceCategory android:title="Widgets">

@@ -40,10 +40,10 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
     preference.setValue(100 * mTimePicker.getCurrentHour() + mTimePicker.getCurrentMinute());
   }
 
-  public static TimePreferenceDialogFragmentCompat newInstance(Preference preference) {
+  public static TimePreferenceDialogFragmentCompat newInstance(String key) {
     TimePreferenceDialogFragmentCompat fragment = new TimePreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", preference.getKey());
+    bundle.putString("key", key);
     fragment.setArguments(bundle);
     return fragment;
   }

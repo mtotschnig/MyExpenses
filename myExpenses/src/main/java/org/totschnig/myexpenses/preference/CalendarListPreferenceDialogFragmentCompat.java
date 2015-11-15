@@ -101,10 +101,10 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
       ((MyPreferenceActivity) getContext()).onCalendarListPreferenceSet();
   }
 
-  public static CalendarListPreferenceDialogFragmentCompat newInstance(Preference preference) {
+  public static CalendarListPreferenceDialogFragmentCompat newInstance(String key) {
     CalendarListPreferenceDialogFragmentCompat fragment = new CalendarListPreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", preference.getKey());
+    bundle.putString("key", key);
     fragment.setArguments(bundle);
     return fragment;
   }

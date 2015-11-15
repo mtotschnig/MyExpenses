@@ -133,10 +133,10 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
     }
   }
 
-  public static PasswordPreferenceDialogFragmentCompat newInstance(Preference preference) {
+  public static PasswordPreferenceDialogFragmentCompat newInstance(String key) {
     PasswordPreferenceDialogFragmentCompat fragment = new PasswordPreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", preference.getKey());
+    bundle.putString("key", key);
     fragment.setArguments(bundle);
     return fragment;
   }
