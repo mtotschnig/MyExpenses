@@ -85,13 +85,13 @@ import java.text.NumberFormat;
 
 /**
  * Present references screen defined in Layout file
- * @author Michael Totschnig
  *
+ * @author Michael Totschnig
  */
 public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     OnSharedPreferenceChangeListener,
     ContribIFace, PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
-  
+
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
@@ -132,7 +132,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId()==android.R.id.home) {
+    if (item.getItemId() == android.R.id.home) {
       if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
         getSupportFragmentManager().popBackStack();
         return true;
@@ -145,17 +145,19 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   protected void onResume() {
     super.onResume();
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-    if (getIntent()!=null && getIntent().getAction() != null &&
+    if (getIntent() != null && getIntent().getAction() != null &&
         getIntent().getAction().equals("myexpenses.intent.preference.password")) {
       //only used for screenshot generation
       //setPreferenceScreen((PreferenceScreen)findPreference(getString(R.string.pref_screen_protection)));
     }
   }
+
   @Override
   protected void onPause() {
     super.onPause();
     PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
   }
+
   private void restart() {
     Intent intent = getIntent();
     finish();
@@ -200,9 +202,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
     return null;
   }
+
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-      String key) {
+                                        String key) {
     if (key.equals(PrefKey.PERFORM_PROTECTION.getKey())) {
       //TODO call on Fragment setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);
@@ -232,6 +235,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
     return null;
   }
+
   public void onCalendarListPreferenceSet() {
     if (TextUtils.equals(
         getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
@@ -243,8 +247,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
-    if (feature==ContribFeature.CSV_IMPORT) {
-      Intent i = new Intent(this,CsvImportActivity.class);
+    if (feature == ContribFeature.CSV_IMPORT) {
+      Intent i = new Intent(this, CsvImportActivity.class);
       startActivity(i);
     }
   }
@@ -296,7 +300,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-      setPreferencesFromResource(R.xml.preferences,rootKey);
+      setPreferencesFromResource(R.xml.preferences, rootKey);
       if (rootKey == null) {
         Preference pref = findPreference(PrefKey.SHARE_TARGET.getKey());
         pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
@@ -407,7 +411,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         cat.removePreference(pref1);
         cat.removePreference(pref2);
       } else {
-        if (pref1!=null && pref2!=null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
+        if (pref1 != null && pref2 != null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
           pref1.setOnPreferenceClickListener(this);
           pref1.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID)));
           int baseTitle = MyApplication.getInstance().isContribEnabled() ?
@@ -428,15 +432,18 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       pref3.setSummary(summary);
       pref3.setOnPreferenceChangeListener(this);
     }
+
     private void setProtectionDependentsState() {
       boolean isProtected = PrefKey.PERFORM_PROTECTION.getBoolean(false);
-      findPreference(PrefKey.SECURITY_QUESTION.getKey()).setEnabled( MyApplication.getInstance().isContribEnabled() && isProtected);
+      findPreference(PrefKey.SECURITY_QUESTION.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled() && isProtected);
       findPreference(PrefKey.PROTECTION_DELAY_SECONDS.getKey()).setEnabled(isProtected);
       findPreference(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey()).setEnabled(isProtected);
       findPreference(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey()).setEnabled(isProtected);
       findPreference(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET.getKey()).setEnabled(isProtected);
-    }  @Override
-       public boolean onPreferenceChange(Preference pref, Object value) {
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference pref, Object value) {
       String key = pref.getKey();
       if (key.equals(PrefKey.SHARE_TARGET.getKey())) {
         String target = (String) value;
@@ -444,31 +451,31 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         if (!target.equals("")) {
           uri = Utils.validateUri(target);
           if (uri == null) {
-            Toast.makeText(getActivity(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.ftp_uri_malformed, target), Toast.LENGTH_LONG).show();
             return false;
           }
           String scheme = uri.getScheme();
           if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-            Toast.makeText(getActivity(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.share_scheme_not_supported, scheme), Toast.LENGTH_LONG).show();
             return false;
           }
           Intent intent;
           if (scheme.equals("ftp")) {
             intent = new Intent(android.content.Intent.ACTION_SENDTO);
             intent.setData(android.net.Uri.parse(target));
-            if (!Utils.isIntentAvailable(getActivity(),intent)) {
+            if (!Utils.isIntentAvailable(getActivity(), intent)) {
               getActivity().showDialog(R.id.FTP_DIALOG);
             }
           }
         }
       } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
         Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) value);
-        if (licenceStatus!=null) {
+        if (licenceStatus != null) {
           Toast.makeText(getActivity(),
               Utils.concatResStrings(getActivity(),
                   R.string.licence_validation_success,
                   (licenceStatus == Utils.LicenceStatus.EXTENDED ?
-                      R.string.licence_validation_extended :R.string.licence_validation_premium)),
+                      R.string.licence_validation_extended : R.string.licence_validation_premium)),
               Toast.LENGTH_LONG).show();
         } else {
           Toast.makeText(getActivity(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
@@ -493,38 +500,41 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         if (!((Boolean) value) || ContribFeature.AUTO_BACKUP.hasAccess()) {
           return true;
         }
-        CommonCommands.showContribDialog(getActivity(),ContribFeature.AUTO_BACKUP,null);
-        return ContribFeature.AUTO_BACKUP.usagesLeft()>0;
+        CommonCommands.showContribDialog(getActivity(), ContribFeature.AUTO_BACKUP, null);
+        return ContribFeature.AUTO_BACKUP.usagesLeft() > 0;
       }
       return true;
     }
+
     private void setDefaultNumberFormat(EditTextPreference pref) {
       String pattern = ((DecimalFormat) NumberFormat.getCurrencyInstance()).toLocalizedPattern();
       //Log.d(MyApplication.TAG,pattern);
       pref.setText(pattern);
-    }@Override
-     public boolean onPreferenceClick(Preference preference) {
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
       if (preference.getKey().equals(PrefKey.CONTRIB_PURCHASE.getKey())) {
         if (MyApplication.getInstance().isExtendedEnabled()) {
           //showDialog(R.id.DONATE_DIALOG);//should not happen
         } else {
-          Intent i = new Intent(getActivity(),ContribInfoDialogActivity.class);
+          Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);
           startActivity(i);
         }
         return true;
       }
       if (preference.getKey().equals(PrefKey.REQUEST_LICENCE.getKey())) {
-        String androidId = Secure.getString(getActivity().getContentResolver(),Secure.ANDROID_ID);
+        String androidId = Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID);
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
-        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + getString(R.string.app_name) + "] " + getString(R.string.contrib_key));
         i.putExtra(android.content.Intent.EXTRA_TEXT,
-            getString(R.string.request_licence_mail_head,androidId)
+            getString(R.string.request_licence_mail_head, androidId)
                 + " \n\n[" + getString(R.string.request_licence_mail_description) + "]");
-        if (!Utils.isIntentAvailable(getActivity(),i)) {
-          Toast.makeText(getActivity(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+        if (!Utils.isIntentAvailable(getActivity(), i)) {
+          Toast.makeText(getActivity(), R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
         } else {
           startActivity(i);
         }
@@ -575,7 +585,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         Bundle extras = new Bundle();
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-        addShortcut(".activity.ExpenseEdit",R.string.transaction, R.drawable.shortcut_create_transaction_icon,extras);
+        addShortcut(".activity.ExpenseEdit", R.string.transaction, R.drawable.shortcut_create_transaction_icon, extras);
         return true;
       }
       if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
@@ -583,7 +593,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
         extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-        addShortcut(".activity.ExpenseEdit",R.string.transfer, R.drawable.shortcut_create_transfer_icon,extras);
+        addShortcut(".activity.ExpenseEdit", R.string.transfer, R.drawable.shortcut_create_transfer_icon, extras);
         return true;
       }
       if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
@@ -591,7 +601,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
         extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
-        addShortcut(".activity.ExpenseEdit",R.string.split_transaction, R.drawable.shortcut_create_split_icon,extras);
+        addShortcut(".activity.ExpenseEdit", R.string.split_transaction, R.drawable.shortcut_create_split_icon, extras);
         return true;
       }
       if (preference.getKey().equals(PrefKey.IMPORT_CSV.getKey())) {
@@ -604,6 +614,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
       return false;
     }
+
     private void setAppDirSummary() {
       Preference pref = findPreference(PrefKey.APP_DIR.getKey());
       if (Utils.isExternalStorageAvailable()) {
@@ -616,6 +627,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       pref.setSummary(R.string.external_storage_unavailable);
       pref.setEnabled(false);
     }
+    
     // credits Financisto
     // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
     private void addShortcut(String activity, int nameId, int iconId, Bundle extra) {
@@ -631,9 +643,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
       if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {
         getActivity().sendBroadcast(intent);
-        Toast.makeText(getActivity(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       } else {
-        Toast.makeText(getActivity(),getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
       }
     }
 
@@ -659,9 +671,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
               new String[]{Manifest.permission.WRITE_CALENDAR},
               ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
         }
-      } else  if (preference instanceof FontSizeDialogPreference) {
+      } else if (preference instanceof FontSizeDialogPreference) {
         fragment = FontSizeDialogFragmentCompat.newInstance(key);
-      }  else  if (preference instanceof TimePreference) {
+      } else if (preference instanceof TimePreference) {
         fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
       } else if (preference instanceof PasswordPreference) {
         fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
