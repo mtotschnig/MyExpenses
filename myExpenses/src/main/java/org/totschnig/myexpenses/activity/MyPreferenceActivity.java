@@ -439,13 +439,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
       final boolean status = prefKey.getBoolean(true);
       if (screen.getKey().equals(prefKey.getKey())) {
-        SwitchCompat actionBarSwitch = new SwitchCompat(getActivity());
+        SwitchCompat actionBarSwitch =
+            (SwitchCompat) getActivity().getLayoutInflater().inflate(R.layout.pref_master_switch,null);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
             ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(actionBarSwitch, new ActionBar.LayoutParams(
-            ActionBar.LayoutParams.WRAP_CONTENT,
-            ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL
-            | Gravity.RIGHT));
+        actionBar.setCustomView(actionBarSwitch);
         actionBarSwitch.setChecked(status);
         actionBarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
           @Override
