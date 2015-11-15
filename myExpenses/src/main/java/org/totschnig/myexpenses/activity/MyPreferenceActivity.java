@@ -408,17 +408,33 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     public void onResume() {
       super.onResume();
       final MyPreferenceActivity activity = (MyPreferenceActivity) getActivity();
+      final ActionBar actionBar = activity.getSupportActionBar();
       PreferenceScreen screen = getPreferenceScreen();
       CharSequence title = screen.getKey().equals(getString(R.string.pref_root_screen)) ?
           Utils.concatResStrings(activity, R.string.app_name, R.string.menu_settings) :
           screen.getTitle();
-      activity.getSupportActionBar().setTitle(title);
-      handleScreenWithMasterSwitch(PrefKey.PERFORM_SHARE);
-      handleScreenWithMasterSwitch(PrefKey.AUTO_BACKUP);
-
+      actionBar.setTitle(title);
+      boolean hasMasterSwitch = handleScreenWithMasterSwitch(PrefKey.PERFORM_SHARE);
+      hasMasterSwitch = handleScreenWithMasterSwitch(PrefKey.AUTO_BACKUP) || hasMasterSwitch;
+      if (!hasMasterSwitch) {
+        actionBar.setCustomView(null);
+      }
+      if (screen.getKey().equals(getString(R.string.pref_root_screen))) {
+        setOnOffSummary(getString(R.string.pref_screen_protection),
+            PrefKey.PERFORM_PROTECTION.getBoolean(true));
+      }
       activity.setFragment(this);
+
     }
-    private void handleScreenWithMasterSwitch(final PrefKey prefKey) {
+
+    /**
+     * Configures the current screen with a Master Switch, if it has the given key
+     * if we are on the root screen, the preference summary for the given key is updated with the
+     * current value (On/Off)
+     * @param prefKey
+     * @return true if we have handle the given key as a subscreen
+     */
+    private boolean handleScreenWithMasterSwitch(final PrefKey prefKey) {
       PreferenceScreen screen = getPreferenceScreen();
       final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
       final boolean status = prefKey.getBoolean(true);
@@ -448,9 +464,18 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           }
         });
         updateDependents(status);
+        return true;
       } else if (screen.getKey().equals(getString(R.string.pref_root_screen))) {
-        findPreference(prefKey.getKey()).setSummary(status ? "On" : "Off");
+        setOnOffSummary(prefKey);
       }
+      return false;
+    }
+    private void setOnOffSummary(PrefKey prefKey) {
+      setOnOffSummary(prefKey.getKey(),prefKey.getBoolean(true));
+    }
+    private void setOnOffSummary(String key, boolean status) {
+      findPreference(key).setSummary(status ?
+          getString(R.string.pref_switch_status_on) : getString(R.string.pref_switch_status_off));
     }
 
     private void updateDependents(boolean enabled) {
