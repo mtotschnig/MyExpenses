@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 public class ManageStaleImages extends ProtectedFragmentActivity  {
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_stale_images);
     setupToolbar(true);

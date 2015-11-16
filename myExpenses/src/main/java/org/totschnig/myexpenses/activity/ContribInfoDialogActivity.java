@@ -24,7 +24,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdTranslucent());
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
     if (f == null) {

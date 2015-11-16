@@ -36,6 +36,7 @@
         android:theme="@style/Launch" >
         <activity
             android:name=".activity.MyExpenses"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -103,15 +104,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CsvImportActivity"/>
-        <activity android:name=".activity.MyPreferenceActivity">
+        <activity android:name=".activity.CsvImportActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activity.MyPreferenceActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="myexpenses.intent.preference.password" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
          </activity>
         <activity
-            android:name=".activity.Help">
+            android:name=".activity.Help"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>    
@@ -124,7 +128,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ManageStaleImages" >
+        <activity android:name=".activity.ManageStaleImages"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.stale_images" />
 
@@ -156,7 +161,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.FolderBrowser">
+            android:name=".activity.FolderBrowser"
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
         </activity>
         <activity
             android:name=".activity.CalculatorInput"
@@ -167,8 +173,9 @@
         </activity>
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/ThemeDark.TranslucentNoTitleBar" />
-        <activity android:name=".activity.ManageCurrencies" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".activity.ManageCurrencies"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
 
         <provider
             android:name=".provider.TransactionProvider"
