@@ -11,12 +11,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-        android:orientation="vertical">
+              android:orientation="vertical">
+
     <include layout="@layout/toolbar"/>
-         <fragment android:name="org.totschnig.myexpenses.fragment.FolderList"
-           android:id="@+id/folder_list"
-           android:layout_width="fill_parent"
-           android:layout_height="0dp"
-           android:layout_weight="1" />
-	
+
+    <fragment
+        android:id="@+id/folder_list"
+        android:name="org.totschnig.myexpenses.fragment.FolderList"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/margin_list"
+        android:layout_marginRight="@dimen/margin_list"
+        android:layout_weight="1"/>
+
 </LinearLayout>
