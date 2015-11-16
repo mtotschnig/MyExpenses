@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ThemeDark" parent="@style/ThemeDarkBaseV11">
+    <style name="ThemeDarkBase.V11.V14">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
         <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
     </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBase.V11.V14"/>
 
-    <style name="ThemeLight" parent="@style/ThemeLightBaseV11">
+    <style name="ThemeLightBase.V11.V14">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
         <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
     </style>
+    <style name="ThemeLight" parent="@style/ThemeLightBase.V11.V14"/>
 
     <style name="ThemeDark.s1" parent="@style/ThemeDark.s1Base">
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead.s1</item>
