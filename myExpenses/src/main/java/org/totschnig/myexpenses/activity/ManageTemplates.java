@@ -127,7 +127,6 @@ public class ManageTemplates extends TabbedActivity implements
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
       i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
-      i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -142,7 +141,6 @@ public class ManageTemplates extends TabbedActivity implements
       finishActionMode();
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra(DatabaseConstants.KEY_TEMPLATEID,((Long)tag));
-      i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
       return true;
@@ -196,12 +194,7 @@ public class ManageTemplates extends TabbedActivity implements
         mSectionsPagerAdapter.getFragmentName(1));
     pl.refresh();
   }
-  public boolean getNewPlanEnabled() {
-    return ContribFeature.PLANS_UNLIMITED.hasAccess() ||
-        ((PlanList) getSupportFragmentManager().findFragmentByTag(
-            mSectionsPagerAdapter.getFragmentName(1)))
-          .newPlanEnabled;
-  }
+
   public void finishActionMode() {
     ContextualActionBarFragment f =
     ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(

@@ -93,7 +93,6 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   private View emptyButton;
   private TextView emptyText;
   private int mExpandedPosition = -1;
-  public boolean newPlanEnabled;
   private enum TransactionState {
     OPEN,APPLIED,CANCELLED
   }
@@ -106,6 +105,12 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
     mListView.setEmptyView(emptyView);
     emptyButton = v.findViewById(R.id.emptyButton);
     emptyText = ((TextView) v.findViewById(R.id.emptyText));
+    return v;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
     if (ContextCompat.checkSelfPermission(getActivity(),
         Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
       setupList();
@@ -113,7 +118,6 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
       emptyButton.setVisibility(View.VISIBLE);
       emptyText.setText(R.string.calendar_permission_required);
     }
-    return v;
   }
 
   public void setupList() {
@@ -323,7 +327,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
         indexesCalculated = true;
       }
       int planCount = mTemplatesCursor.getCount();
-      newPlanEnabled = planCount < 3;
+
       if (planCount>0) {
         mTemplatesCursor.moveToFirst();
         ArrayList<Long> plans = new ArrayList<Long>();

@@ -77,7 +77,9 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -86,6 +88,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -93,10 +96,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
@@ -141,7 +146,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
-  public static final String KEY_NEW_PLAN_ENABLED = "newPlanEnabled";
   public static final String KEY_CLONE = "clone";
   private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
@@ -201,7 +205,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   protected boolean mClone = false;
   protected boolean mCreateNew;
-  protected boolean mLaunchPlanView;
+  protected boolean mLaunchPlanView, mLaunchNewPlan;
   protected boolean mIsMainTransactionOrTemplate;
   protected boolean mSavedInstance;
   protected boolean mRecordTemplateWidget;
@@ -532,6 +536,10 @@ public class ExpenseEdit extends AmountActivity implements
     super.onResume();
     mIsResumed = true;
     if (mAccounts!=null) setupListeners();
+    if (mLaunchNewPlan) {
+      launchNewPlan();
+      mLaunchNewPlan = false;
+    }
   }
 
   private void setup() {
@@ -687,18 +695,21 @@ public class ExpenseEdit extends AmountActivity implements
     mPlanButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         if (mPlanId == null) {
-          if (getIntent().getExtras().getBoolean(KEY_NEW_PLAN_ENABLED)) {
-            if (syncStateAndValidate()) {
-              mPlanButton.setEnabled(false);
+          if (syncStateAndValidate()) {
+            if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
+                Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
               launchNewPlan();
+            } else {
+              ActivityCompat.requestPermissions(ExpenseEdit.this,
+                  new String[]{Manifest.permission.WRITE_CALENDAR},
+                  ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+              //TODO this must be moved to onPostexecute from task new_Plan
+              //CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
             }
-          } else {
-            CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
           }
-          return;
         }
         //mPlan could be null, even if mPlanId is not , when EVENT_CURSOR is loading
-        if (mPlan != null) {
+        else if (mPlan != null) {
           launchPlanView();
         }
       }
@@ -1823,6 +1834,7 @@ public class ExpenseEdit extends AmountActivity implements
             ((Template) mTransaction).title,
             description);
       }
+      mPlanButton.setEnabled(false);
       startTaskExecution(
           TaskExecutionFragment.TASK_NEW_PLAN,
           new Long[]{0L},
@@ -1927,5 +1939,18 @@ public class ExpenseEdit extends AmountActivity implements
       mPictureUriTemp = Utils.getOutputMediaUri(true);
     }
     return mPictureUriTemp;
+  }
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         String permissions[], int[] grantResults) {
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          mLaunchNewPlan = true;
+        }
+      }
+    }
   }
 }
