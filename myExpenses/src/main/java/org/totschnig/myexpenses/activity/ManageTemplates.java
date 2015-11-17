@@ -40,6 +40,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -234,14 +235,13 @@ public class ManageTemplates extends TabbedActivity implements
   }
 
   public void requestPermission(View v) {
-    ActivityCompat.requestPermissions(this,
-        new String[]{Manifest.permission.WRITE_CALENDAR},
-        ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+    requestCalendarPermission();
   }
 
   @Override
   public void onRequestPermissionsResult(int requestCode,
                                          String permissions[], int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
         // If request is cancelled, the result arrays are empty.

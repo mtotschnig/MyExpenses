@@ -593,7 +593,7 @@
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="warning_auto_backup_limited_trial">After %d successful automatic backups, auto-backup will be deactivated.</string>
     <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
-    <string name="calendar_permission_required">If you want to create plans for future and recurring transactions, you need to allow MyExpenses to store these in the calendar application.</string>
+    <string name="calendar_permission_required"><i>My Expenses</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access">Grant access</string>
     <string name="pref_switch_status_on">On</string>
     <string name="pref_switch_status_off">Off</string>

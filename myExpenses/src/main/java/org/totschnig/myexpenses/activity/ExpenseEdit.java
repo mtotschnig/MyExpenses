@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -79,7 +78,6 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -99,8 +97,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -111,7 +107,6 @@ import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +120,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -601,7 +595,11 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
+      if (!calendarPermissionPermanentlyDeclined()) {
+        //if user has denied access and checked that he does not want to be asked again, we do not
+        //bother him with a button that is not working
+        findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
+      }
       mAttachPictureButton.setVisibility(View.GONE);
       setTitle(
           getString(mTransaction.getId() == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
@@ -1943,6 +1941,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onRequestPermissionsResult(int requestCode,
                                          String permissions[], int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
         // If request is cancelled, the result arrays are empty.

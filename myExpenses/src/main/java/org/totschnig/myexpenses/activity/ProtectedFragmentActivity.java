@@ -15,18 +15,24 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -125,11 +131,11 @@ public class ProtectedFragmentActivity extends AppCompatActivity
                     .penaltyLog()
                     .build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                            //.detectLeakedClosableObjects()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
+                .detectLeakedSqlLiteObjects()
+                    //.detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
         }
     }
 
@@ -152,7 +158,6 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   @TargetApi(11)
   protected void onResume() {
-    Log.d("DEBUG", "ProtectedFragmentActivity onResume");
     super.onResume();
     if(scheduledRestart) {
       scheduledRestart = false;
@@ -333,6 +338,35 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     super.setTitle(title);
     if (Build.VERSION.SDK_INT <Build.VERSION_CODES.HONEYCOMB) {
       getSupportActionBar().setTitle(title);
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
+        MyApplication.PrefKey.CALENDAR_PERMISSION_REQUESTED.putBoolean(true);
+    }
+  }
+
+  protected boolean calendarPermissionPermanentlyDeclined() {
+    String permission= Manifest.permission.WRITE_CALENDAR;
+    return MyApplication.PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
+        (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) &&
+        !ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
+  }
+
+  protected void requestCalendarPermission() {
+    if (calendarPermissionPermanentlyDeclined()) {
+      Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+      Uri uri = Uri.fromParts("package", getPackageName(), null);
+      intent.setData(uri);
+      startActivity(intent);
+    } else {
+      ActivityCompat.requestPermissions(this,
+          new String[]{Manifest.permission.WRITE_CALENDAR},
+          ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
     }
   }
 }

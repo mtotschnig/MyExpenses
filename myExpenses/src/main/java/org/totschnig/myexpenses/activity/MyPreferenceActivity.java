@@ -51,6 +51,7 @@ import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -270,14 +271,17 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   public void onRequestPermissionsResult(int requestCode,
                                          String permissions[], int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
-      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           mShouldShowPlanerPref = true;
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+            this, Manifest.permission.WRITE_CALENDAR)) {
+          Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG).show();
         }
-      }
     }
   }
 
@@ -311,7 +315,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences, rootKey);
       Preference pref;
-      if (rootKey == null) {
+
+      if (rootKey == null) {//ROOT screen
         configureContribPrefs();
         findPreference(PrefKey.SEND_FEEDBACK.getKey())
             .setOnPreferenceClickListener(this);
@@ -346,7 +351,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             getString(R.string.pref_shortcut_summary) + " " +
                 ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
 
-        final PreferenceCategory categoryManage = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
+        final PreferenceCategory categoryManage =
+            ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
         final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
         categoryManage.removePreference(prefStaleImages);
 
@@ -380,22 +386,31 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
               categoryManage.addPreference(prefStaleImages);
           }
         }.execute();
-      } else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
+
+      }
+      //SHORTCUTS screen
+      else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
         findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
-      } else if (rootKey.equals(getString(R.string.pref_screen_protection))) {
+      }
+      //Password screen
+      else if (rootKey.equals(getString(R.string.pref_screen_protection))) {
         setProtectionDependentsState();
         findPreference(PrefKey.SECURITY_QUESTION.getKey()).setSummary(
             getString(R.string.pref_security_question_summary) + " " +
                 ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
-      } else if (rootKey.equals(getString(R.string.pref_perform_share_key))) {
+      }
+      //SHARE screen
+      else if (rootKey.equals(getString(R.string.pref_perform_share_key))) {
         pref = findPreference(PrefKey.SHARE_TARGET.getKey());
         pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
             "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
             "mailto: \"mailto:john@my.example.com\"");
         pref.setOnPreferenceChangeListener(this);
-      } else if (rootKey.equals(getString(R.string.pref_auto_backup_key))) {
+      }
+      //BACKUP screen
+      else if (rootKey.equals(getString(R.string.pref_auto_backup_key))) {
         pref = findPreference(getString(R.string.pref_auto_backup_info_key));
         String summary = getString(R.string.pref_auto_backup_summary) + " " +
             ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
@@ -424,12 +439,16 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
       activity.setFragment(this);
 
+      findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).setSummary(
+          ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
+              R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
     }
 
     /**
      * Configures the current screen with a Master Switch, if it has the given key
      * if we are on the root screen, the preference summary for the given key is updated with the
      * current value (On/Off)
+     *
      * @param prefKey
      * @return true if we have handle the given key as a subscreen
      */
@@ -439,7 +458,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       final boolean status = prefKey.getBoolean(true);
       if (screen.getKey().equals(prefKey.getKey())) {
         SwitchCompat actionBarSwitch =
-            (SwitchCompat) getActivity().getLayoutInflater().inflate(R.layout.pref_master_switch,null);
+            (SwitchCompat) getActivity().getLayoutInflater().inflate(R.layout.pref_master_switch, null);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
             ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(actionBarSwitch);
@@ -467,9 +486,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
       return false;
     }
+
     private void setOnOffSummary(PrefKey prefKey) {
-      setOnOffSummary(prefKey.getKey(),prefKey.getBoolean(true));
+      setOnOffSummary(prefKey.getKey(), prefKey.getBoolean(true));
     }
+
     private void setOnOffSummary(String key, boolean status) {
       findPreference(key).setSummary(status ?
           getString(R.string.pref_switch_status_on) : getString(R.string.pref_switch_status_off));
@@ -740,9 +761,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
           fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(key);
         } else {
-          ActivityCompat.requestPermissions((Activity) getContext(),
-              new String[]{Manifest.permission.WRITE_CALENDAR},
-              ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+          ((ProtectedFragmentActivity) getActivity()).requestCalendarPermission();
           return;
         }
       } else if (preference instanceof FontSizeDialogPreference) {
