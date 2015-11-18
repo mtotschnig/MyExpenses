@@ -570,4 +570,6 @@
   <string name="pref_auto_backup_time_summary">Fare un backup giornaliero alle %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Dopo %d successo automatico backup, backup automatico verrà disattivato.</string>
   <string name="warning_auto_backup_limit_reached">Gratis backup automatici di successo è stato raggiunto il limite.</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Attivo"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Non attivo"</string>
 </resources>

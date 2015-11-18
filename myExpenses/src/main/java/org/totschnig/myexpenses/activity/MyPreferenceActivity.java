@@ -51,8 +51,6 @@ import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -492,7 +490,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     private void setOnOffSummary(String key, boolean status) {
       findPreference(key).setSummary(status ?
-          getString(R.string.pref_switch_status_on) : getString(R.string.pref_switch_status_off));
+          getString(R.string.switch_on_text) : getString(R.string.switch_off_text));
     }
 
     private void updateDependents(boolean enabled) {

@@ -562,4 +562,6 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_auto_backup_time_summary">Buat sandar harian pada %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Dihidupkan"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Dimatikan"</string>
 </resources>

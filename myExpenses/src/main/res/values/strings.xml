@@ -16,6 +16,7 @@
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Account</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Account types</string>
     <string name="account_type_asset">Asset account</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
@@ -574,6 +575,7 @@
   <string name="pref_csv_import_delimiter">Delimiter</string>
   <string name="csv_import_preview">Preview</string>
   <string name="menu_parse">Parse</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
   <string name="cvs_import_discard">Discard</string>
   <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
   <string name="csv_import_records_failed">%d records could not be imported.</string>
@@ -595,7 +597,7 @@
     <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
     <string name="calendar_permission_required"><i>My Expenses</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access">Grant access</string>
-    <string name="pref_switch_status_on">On</string>
-    <string name="pref_switch_status_off">Off</string>
+    <string name="switch_on_text">On</string>
+    <string name="switch_off_text">Off</string>
 </resources>
 

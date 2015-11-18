@@ -546,4 +546,6 @@
   <string name="pref_auto_backup_time_summary">Δημιουργία αντιγράφου ασφαλείας καθημερινά στις %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
   <string name="warning_auto_backup_limit_reached">Το όριο για δωρεάν επιτυχή δημιουργία αυτόματων αντιγράφων ασφαλείας έχει επιτευχθεί.</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Ενεργό"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Ανενεργό"</string>
 </resources>
