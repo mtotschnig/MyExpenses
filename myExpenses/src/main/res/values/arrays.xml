@@ -134,14 +134,11 @@
     </string-array>
 
     <string-array name="MyExpenses_menuitems" tools:ignore="UnusedResources">
-        <item>create_transaction</item>
-        <item>create_transfer</item>
-        <item>create_split</item>
+        <item>manage_plans</item>
         <item>search</item>
         <item>reset</item>
         <item>grouping</item>
         <item>distribution</item>
-        <item>manage_plans</item>
         <item>balance</item>
         <item>print</item>
     </string-array>
@@ -150,6 +147,7 @@
         <item>delete</item>
         <item>create_template_from_transaction</item>
         <item>clone_transaction</item>
+        <item>split_transaction</item>
     </string-array>
 
     <string-array name="ManageMethods_menuitems" tools:ignore="UnusedResources">
@@ -201,9 +199,6 @@
         <item>grouping</item>
         <item>back</item>
         <item>forward</item>
-    </string-array>
-    <string-array name="ManageCategories_distribution_cabitems" tools:ignore="UnusedResources">
-        <item>select_category</item>
     </string-array>
     <string-array name="ManageCategories_manage_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
