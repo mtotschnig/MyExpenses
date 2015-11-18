@@ -84,22 +84,14 @@ public class ManageTemplates extends TabbedActivity implements
 
     mTransferEnabled = getIntent().getBooleanExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,false);
 
-
-    // When swiping between different sections, select the corresponding
-    // tab. We can also use ActionBar.Tab#select() to do this if we have
-    // a reference to the Tab.
-/*
-    mViewPager
-      .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-          finishActionMode();
-          actionBar.setSelectedNavigationItem(position);
-          mCurrentPosition = position;
-          helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
-        }
-      });
-*/
+    mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+      @Override
+      public void onPageSelected(int position) {
+        finishActionMode();
+        mCurrentPosition = position;
+        helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
+      }
+    });
 
     String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
