@@ -1027,20 +1027,30 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
+      String errorMsg;
       if (intent == null) {
-        uri = getCameraUri();
+        uri = mPictureUriTemp;
+        Log.d(MyApplication.TAG,"got result for PICTURE request, intent null, relying on stored output uri :" + mPictureUriTemp);
       } else if (intent.getData() != null) {
         uri = intent.getData();
+        Log.d(MyApplication.TAG,"got result for PICTURE request, found uri in intent data :" + uri.toString());
       } else {
-        uri = getCameraUri();
+        Log.d(MyApplication.TAG,"got result for PICTURE request, intent != null, getData() null, relying on stored output uri :" + mPictureUriTemp);
+        uri = mPictureUriTemp;
       }
       if (uri != null) {
-        Log.d(MyApplication.TAG,uri.toString());
-        mPictureUri = uri;
-        setPicture();
-        return;
+        if (isFileAndNotExists(uri)) {
+          errorMsg = "Error while retrieving image: File not found: " + uri;
+         } else {
+          mPictureUri = uri;
+          setPicture();
+          return;
+        }
+      } else {
+        errorMsg = "Error while retrieving image: No data found.";
       }
-      Toast.makeText(this, "Error",Toast.LENGTH_LONG).show();
+      Utils.reportToAcra(new Exception(errorMsg));
+      Toast.makeText(this, errorMsg,Toast.LENGTH_LONG).show();
     }
   }
 
@@ -1294,11 +1304,9 @@ public class ExpenseEdit extends AmountActivity implements
         mPictureUri = mTransaction.getPictureUri();
         if (mPictureUri!=null) {
           boolean doShowPicture = true;
-          if (mTransaction.getPictureUri().getScheme().equals("file")) {
-            if (!new File(mTransaction.getPictureUri().getPath()).exists()) {
-              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
-              doShowPicture = false;
-            }
+          if (isFileAndNotExists(mTransaction.getPictureUri())) {
+            Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
+            doShowPicture = false;
           }
           if (doShowPicture) {
             setPicture();
@@ -1322,6 +1330,16 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     }
   }
+
+  private boolean isFileAndNotExists(Uri uri) {
+    if (uri.getScheme().equals("file")) {
+      if (!new File(uri.getPath()).exists()) {
+        return true;
+      }
+    }
+    return  false;
+  }
+
   public Account getCurrentAccount() {
     if (mAccounts == null) {
         return null;
@@ -1333,6 +1351,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     return mAccounts[selected];
   }
+
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
@@ -1784,6 +1803,7 @@ public class ExpenseEdit extends AmountActivity implements
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
                 new Intent[]{camIntent});
     }
+    Log.d(MyApplication.TAG,"starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT = " + outputMediaUri);
     startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
   }
   private Uri getCameraUri() {
