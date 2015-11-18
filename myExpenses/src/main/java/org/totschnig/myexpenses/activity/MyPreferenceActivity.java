@@ -436,12 +436,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       if (screen.getKey().equals(getString(R.string.pref_root_screen))) {
         setOnOffSummary(getString(R.string.pref_screen_protection),
             PrefKey.PERFORM_PROTECTION.getBoolean(true));
+        findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).setSummary(
+            ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
+                R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
       }
       activity.setFragment(this);
-
-      findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).setSummary(
-          ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
-              R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
     }
 
     /**
