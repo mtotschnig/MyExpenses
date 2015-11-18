@@ -98,6 +98,12 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   }
 
   @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mManager = getLoaderManager();
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.plans_list, null, false);
     mListView = (ExpandableListView) v.findViewById(R.id.list);
@@ -113,6 +119,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
     super.onResume();
     if (ContextCompat.checkSelfPermission(getActivity(),
         Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+      if (mManager.getLoader(TEMPLATES_CURSOR) == null)
       setupList();
     } else {
       emptyButton.setVisibility(View.VISIBLE);
@@ -123,7 +130,6 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   public void setupList() {
     emptyButton.setVisibility(View.GONE);
     emptyText.setText(R.string.no_plans);
-    mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
     mAdapter = new MyExpandableListAdapter(
         getActivity(),
