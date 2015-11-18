@@ -443,7 +443,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @NonNull
   public static Result doBackup() {
-    boolean result = false;
     if (!Utils.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
@@ -457,29 +456,31 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
       return new Result(false,R.string.io_error_cachedir_null);
     }
-    if (DbUtils.backup(cacheDir)) {
+    Result result = DbUtils.backup(cacheDir);
+    String failureMessage = MyApplication.getInstance().getString(R.string.backup_failure,
+        FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
+    if (result.success) {
       try {
         ZipUtils.zipBackup(
                 cacheDir,
                 backupFile);
-        result  = true;
+        return new Result(
+            true,
+            R.string.backup_success,
+            backupFile.getUri());
       } catch (IOException e) {
         Utils.reportToAcra(e);
+        return new Result(
+            false,
+            failureMessage + " " + e.getMessage());
+      } finally {
+        MyApplication.getBackupDbFile(cacheDir).delete();
+        MyApplication.getBackupPrefFile(cacheDir).delete();
       }
-      MyApplication.getBackupDbFile(cacheDir).delete();
-      MyApplication.getBackupPrefFile(cacheDir).delete();
     }
-    if (result) {
-      return new Result(
-          true,
-          R.string.backup_success,
-          backupFile.getUri());
-    } else {
-      return new Result(
-          false,
-          R.string.backup_failure,
-          FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
-    }
+    return new Result(
+        false,
+        failureMessage + " " + result.print(MyApplication.getInstance()));
   }
 
   private boolean checkImagePath(String lastPathSegment) {

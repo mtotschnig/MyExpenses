@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -43,45 +44,54 @@ import com.android.calendar.CalendarContractCompat;
 
 public class DbUtils {
 
-  public static boolean backup(File backupDir) {
+  public static Result backup(File backupDir) {
     SQLiteDatabase db = TransactionProvider.mOpenHelper.getReadableDatabase();
     db.beginTransaction();
     try {
       cacheEventData();
       File backupPrefFile, sharedPrefFile;
-      if (DbUtils.backupDb(backupDir)) {
+      Result result = DbUtils.backupDb(backupDir);
+      if (result.success) {
         backupPrefFile = new File(backupDir, MyApplication.BACKUP_PREF_FILE_NAME);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
-        String sharedPrefFileCommon = MyApplication.getInstance().getPackageName() + "/shared_prefs/"
-            + MyApplication.getInstance().getPackageName() + "_preferences.xml";
-        sharedPrefFile = new File("/dbdata/databases/" + sharedPrefFileCommon);
+        final MyApplication application = MyApplication.getInstance();
+        String sharedPrefPath =  "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
+        sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
         if (!sharedPrefFile.exists()) {
-          sharedPrefFile = new File("/data/data/" + sharedPrefFileCommon);
+          File internalAppDir = application.getFilesDir().getParentFile();
+          sharedPrefFile = new File(internalAppDir.getPath() + sharedPrefPath);
+          Log.d("DbUtils",sharedPrefFile.getPath());
           if (!sharedPrefFile.exists()) {
-            Log.e(MyApplication.TAG, "Unable to determine path to shared preference file");
-            return false;
+            final String message = "Unable to find shared preference file at " +
+                sharedPrefFile.getPath();
+            Utils.reportToAcra(new Exception(message));
+            return new Result(false,message);
           }
         }
         if (Utils.copy(sharedPrefFile, backupPrefFile)) {
           MyApplication.PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
           TransactionProvider.mDirty = false;
-          return true;
+          return result;
         }
       }
-      return false;
+      return result;
     } finally {
       db.endTransaction();
     }
   }
 
-  public static boolean backupDb(File dir) {
+  public static Result backupDb(File dir) {
     File backupDb = new File(dir,MyApplication.BACKUP_DB_FILE_NAME);
     File currentDb = new File(TransactionProvider.mOpenHelper.getReadableDatabase().getPath());
     if (currentDb.exists()) {
-      return Utils.copy(currentDb, backupDb);
+      if (Utils.copy(currentDb, backupDb)) {
+        return new Result(true);
+      }
+      return new Result(false,String.format(
+          "Error while copying %s to %s",currentDb.getPath(),backupDb.getPath()));
     }
-    return false;
+    return new Result(false,"Could not find database at " + currentDb.getPath());
   }
   public static boolean restore(File backupFile) {
     boolean result = false;
