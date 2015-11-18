@@ -18,7 +18,7 @@
   <string name="account_type_liability_plural">부채 계좌</string>
   <string name="already_defined">%1$s 이미 정의됨</string>
   <string name="amount">금액</string>
-  <string name="app_name">마이 익스펜스</string>
+  <string name="app_name">내 지출</string>
   <string name="backup_failure">\"%1$s\"(으)로의 백업을 실패했습니다.</string>
   <string name="backup_success">\"%1$s\"에 데이터베이스 및 설정을 성공적으로 기록했습니다.</string>
   <string name="category">카테고리</string>
@@ -41,13 +41,17 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">거래 내역을 분할하기</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">템플릿 위젯</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV 가져오기</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">자동 백업</string>
   <string name="contrib_key">기부 확인 키</string>
+  <string name="extended_key">확장 키</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">%s 가 필요합니다.</string>
   <string name="currency">화폐 단위</string>
   <string name="current_balance">현재 잔고</string>
   <string name="date">날짜</string>
   <string name="date_format">날짜 형식</string>
   <string name="date_format_illegal">올바르지 않은 날짜 형식</string>
+  <string name="number_format_illegal">올바르지 않은 숫자 형식</string>
   <string name="decimal_separator">십진법 구분 기호</string>
   <string name="default_account_description">이 계좌는 설치 도중 자동적으로 설정되었습니다.</string>
   <string name="default_account_name">예산안</string>
@@ -63,12 +67,19 @@
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다.</string>
   <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_extended_feature">%1$s 는 확장 기능입니다.</string>
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
+  <string name="dialog_contrib_reminder_remove_limitation">%s를 구매하여 이 제한을 없애세요.</string>
   <string name="dialog_contrib_reminder_gain_access">다음과 같은 기능에 제한 없이 접근할 수 있습니다:</string>
+  <string name="dialog_contrib_extended_gain_access">추가적으로, 확장 키를 구매하시면 다음 기능들을 잠금 해제할 수 있습니다.</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
+  <string name="dialog_contrib_text_2">%s를 구매해서 개발에 기여해주세요.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="other">무료 사용량이 %1$d 남았습니다.</item>
   </plurals>
+  <string name="dialog_contrib_buy_premium">프리미엄 구매</string>
+  <string name="dialog_contrib_buy_extended">확장 기능 구매</string>
+  <string name="dialog_contrib_upgrade_extended">확장 기능으로 업그레이드</string>
   <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
   <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>
   <string name="dialog_password_activate_protection">암호 보안 사용하기</string>
@@ -93,6 +104,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">잔고 %1$s</string>
   <string name="dialog_title_contrib_feature">프리미엄 기능</string>
+  <string name="dialog_title_extended_feature">확장된 기능</string>
   <string name="dialog_title_planner_setup_info">캘린더 설치가 필요함</string>
   <string name="dialog_title_select_grouping">그룹 고르기</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -147,6 +159,8 @@
   <string name="label">꼬리표</string>
   <string name="licence_validation_failure">기부 확인 키를 인증할 수 없습니다.</string>
   <string name="licence_validation_success">기부 확인 키가 인증되었습니다.</string>
+  <string name="licence_validation_premium">프리미엄 기능이 잠금 해제되었습니다.</string>
+  <string name="licence_validation_extended">확장 기능이 잠금 해제되었습니다.</string>
   <string name="menu_aggregates">총계</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">적용</string>
@@ -224,6 +238,7 @@
   <string name="no_expenses">지출이 아직 없습니다.</string>
   <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>
   <string name="no_filemanager_installed">설치된 파일 탐색기가 없습니다</string>
+  <string name="no_calendar_app_installed">캘린더 일정 편집을 위한 앱이 발견되지 않았습니다.</string>
   <string name="no_mapped_transactions">이 기간동안 카테고리에 배치된 거래 내역이 없습니다.</string>
   <string name="no_methods">지불 방식이 없습니다.</string>
   <string name="no_parties">구성원이 없습니다.</string>
@@ -293,7 +308,9 @@
   <string name="pref_category_title_ui">사용자 인터페이스</string>
   <string name="pref_checkbox_enabled">사용함</string>
   <string name="pref_checkbox_disabled">사용하지 않음</string>
+  <string name="pref_contrib_purchase_summary">프리미엄 및 확장 기능을 구매하세요.</string>
   <string name="pref_contrib_purchase_title">기부 확인 키 구매 </string>
+  <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
   <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>
   <string name="pref_custom_currency_title">화폐 단위 설정</string>
   <string name="pref_enter_licence_summary">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
@@ -525,4 +542,24 @@
   <string name="pref_csv_import_delimiter">구획 문자</string>
   <string name="csv_import_preview">미리보기</string>
   <string name="menu_parse">분석</string>
+  <string name="cvs_import_discard">버리기</string>
+  <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
+  <string name="csv_import_records_failed">%d 기록을 가져올 수 없습니다.</string>
+  <string name="csv_import_records_discarded">%d 기록이 버려졌습니다.</string>
+  <string name="csv_import_subcategory_requires_category">만약 하위 카테고리를 배치했다면 카테고리도 배치해야 합니다.</string>
+  <string name="cvs_import_set_first_line_as_header">첫번째 줄을 헤더 줄로 간주할까요?</string>
+  <string name="csv_import_delimiter_comma">콤마</string>
+  <string name="csv_import_delimiter_semicolon">세미콜론</string>
+  <string name="csv_import_delimiter_tab">탭</string>
+  <string name="csv_import_no_mapping_found_for_amount">하나의 열을 금액, 수입 또는 지출로 배치하세요.</string>
+  <string name="menu_show_transactions">거래 내역 표시</string>
+  <string name="pref_custom_decimal_format_title">숫자 형식</string>
+  <string name="pref_custom_decimal_format_summary">만약 로케일의 기본 형식이 마음에 들지 않으시다면, 필요에 맞게 조정하세요. 빈 칸으로 놔두면 기본 형식으로 되돌립니다.</string>
+  <string name="licence_validation_upgrade_needed">My Expenses 기부 확인 키를 버전 1.5로 업그레이드 하세요.</string>
+  <string name="pref_auto_backup_title">자동 백업 활성화</string>
+  <string name="pref_auto_backup_summary">데이터베이스를 매일 정해진 시간에 백업합니다(데이터가 변경된 경우에만).</string>
+  <string name="pref_auto_backup_time_title">자동 백업 시간</string>
+  <string name="pref_auto_backup_time_summary">자동 백업을 %1$02d:%2$02d 에 수행</string>
+  <string name="warning_auto_backup_limited_trial">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
+  <string name="warning_auto_backup_limit_reached">무료 자동 백업 횟수 제한에 도달했습니다.</string>
 </resources>

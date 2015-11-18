@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_251">
+    <item>設定可能な数値書式</item>
+    <item>デンマーク語翻訳</item>
+  </string-array>
   <string-array name="whats_new_250">
     <item>CSV インポート</item>
     <item>韓国語翻訳</item>
