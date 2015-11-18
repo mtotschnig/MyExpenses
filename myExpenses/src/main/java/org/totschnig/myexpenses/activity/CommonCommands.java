@@ -126,17 +126,8 @@ public class CommonCommands {
     } catch (Exception e) {
       Log.e(MyApplication.TAG, "Package info not found", e);
     }
-    String buildDate = "";
-    try {
-      InputStream rawResource = ctx.getResources().openRawResource(R.raw.app);
-      Properties properties = new Properties();
-      properties.load(rawResource);
-      buildDate = properties.getProperty("build.date");
-    } catch (NotFoundException e) {
-      Log.w(MyApplication.TAG,"Did not find raw resource");
-    } catch (IOException e) {
-      Log.w(MyApplication.TAG,"Failed to open property file");
-    }
+    String buildDate = BuildConfig.BUILD_DATE;
+
     final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
         "" : " " + BuildConfig.FLAVOR;
     String installer = ctx.getPackageManager()

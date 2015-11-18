@@ -41,7 +41,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         edit.commit();
       }
       if (prev_version < 28) {
-        Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
+        Log.i("MyExpenses", String.format("Upgrading to version 28: Purging %d transactions from datbase",
             getContentResolver().delete(TransactionProvider.TRANSACTIONS_URI,
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
@@ -90,6 +90,11 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         if (appDir!=null) {
           MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(new File(appDir)).toString());
         }
+      }
+      if (prev_version < 221) {
+        MyApplication.PrefKey.SORT_ORDER.putString(
+            MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY.getBoolean(true) ?
+                "USAGES" : "ALPHABETIC");
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");

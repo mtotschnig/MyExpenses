@@ -8,32 +8,42 @@
   ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-      <TableRow
-          android:id="@+id/import_select_types"
+
+    <TableRow
+        android:id="@+id/import_select_types"
         android:gravity="center_vertical">
+
         <TextView
-          android:text="@string/pref_category_title_import"
-          style="@style/form_label" />
+            style="@style/form_label.compat"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:text="@string/pref_category_title_import"/>
+
         <LinearLayout
-          android:orientation="vertical">
-          <CheckBox
-            android:id="@+id/import_select_categories"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pref_manage_categories_title" />
-          <CheckBox
-            android:id="@+id/import_select_parties"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pref_manage_parties_title" />
-          <CheckBox
-            android:id="@+id/import_select_transactions"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/import_select_transactions" />
+            android:layout_width="0dip"
+            android:layout_weight="@dimen/form_table_ratio"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/import_select_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/pref_manage_categories_title"/>
+
+            <CheckBox
+                android:id="@+id/import_select_parties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/pref_manage_parties_title"/>
+
+            <CheckBox
+                android:id="@+id/import_select_transactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/import_select_transactions"/>
         </LinearLayout>
-      </TableRow>
+    </TableRow>
 </merge>

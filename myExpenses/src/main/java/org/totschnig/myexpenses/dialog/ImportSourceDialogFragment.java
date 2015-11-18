@@ -1,33 +1,22 @@
 package org.totschnig.myexpenses.dialog;
 
-import java.util.List;
+import android.app.Activity;
+import android.support.v7.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.util.Utils;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.OpenableColumns;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Toast;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
     implements OnClickListener, DialogInterface.OnClickListener, DialogUtils.UriTypePartChecker  {
@@ -56,11 +45,10 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = LayoutInflater.from(getActivity());
     View view = li.inflate(getLayoutId(), null);
     setupDialogView(view);
-    return new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(getActivity())
       .setTitle(getLayoutTitle())
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)

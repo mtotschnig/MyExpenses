@@ -17,26 +17,21 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 public class ManageMethods extends ProtectedFragmentActivity {
-  
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      setTheme(MyApplication.getThemeId());
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.manage_methods);
-      setTitle(R.string.pref_manage_methods_title);
-  }
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.methods, menu);
-    super.onCreateOptionsMenu(menu);
-    return true;
+    setTheme(MyApplication.getThemeIdEditDialog());
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.manage_methods);
+    setupToolbar(true);
+    setTitle(R.string.pref_manage_methods_title);
   }
 
   @Override
@@ -47,5 +42,5 @@ public class ManageMethods extends ProtectedFragmentActivity {
       return true;
     }
     return super.dispatchCommand(command, tag);
-   }
+  }
 }

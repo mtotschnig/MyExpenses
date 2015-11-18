@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selected_indicator"
+    android:layout_width="35dp"
+    android:layout_height="35dp"
+    android:layout_gravity="right|center_vertical"
+    android:rotation="270"
+    android:translationX="23dp"
+    android:elevation="100dp"
+    android:background="@drawable/triangle"
+    tools:showIn="@layout/account_row"/>

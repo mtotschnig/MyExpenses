@@ -24,13 +24,13 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/general_padding"
-            android:paddingRight="@dimen/general_padding"
             android:shrinkColumns="*"
             android:stretchColumns="*">
 
@@ -185,7 +185,6 @@
             style="@style/dialog_text.bold"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/general_padding"
             android:text="@string/warning_reset_account"
             tools:visibility="visible"
             android:visibility="gone"/>

@@ -15,7 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-public class ContribInfoDialogActivity extends FragmentActivity
+public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     implements MessageDialogListener, ContribIFace {
   protected long sequenceCount;
   public final static String KEY_FEATURE = "feature";
@@ -24,7 +24,7 @@ public class ContribInfoDialogActivity extends FragmentActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdTranslucent());
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
     if (f == null) {
@@ -72,7 +72,10 @@ public class ContribInfoDialogActivity extends FragmentActivity
   }
 
   @Override
-  public void contribFeatureNotCalled() {
+  public void contribFeatureNotCalled(ContribFeature feature) {
+    Intent i = new Intent();
+    i.putExtra(KEY_FEATURE, feature);
+    setResult(RESULT_CANCELED, i);
     finish();
   }
 

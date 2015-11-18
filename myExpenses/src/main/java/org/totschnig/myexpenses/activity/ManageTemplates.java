@@ -34,35 +34,29 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBar.TabListener;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.View;
 import android.widget.Toast;
 
-public class ManageTemplates extends ProtectedFragmentActivity implements TabListener,
+public class ManageTemplates extends TabbedActivity implements
     ConfirmationDialogListener {
   public enum HelpVariant {
     templates,plans
   }
-  public static final int PLAN_INSTANCES_CURSOR = 1;
 
   public long calledFromCalendarWithId = 0;
   private boolean mTransferEnabled = false;
-  ViewPager mViewPager;
-  SectionsPagerAdapter mSectionsPagerAdapter;
   int mCurrentPosition = 0;
   
   private int monkey_state = 0;
@@ -82,29 +76,19 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   }
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
+
+    final ActionBar actionBar = getSupportActionBar();
+    actionBar.setTitle(getString(R.string.menu_manage_plans));
+
     mTransferEnabled = getIntent().getBooleanExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,false);
 
-    setContentView(R.layout.viewpager);
-    setTitle(R.string.menu_manage_plans);
-
-    // Set up the action bar.
-    final ActionBar actionBar = getSupportActionBar();
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-    // Create the adapter that will return a fragment for each of the three
-    // primary sections of the app.
-    mSectionsPagerAdapter = new SectionsPagerAdapter(
-        getSupportFragmentManager());
-
-    // Set up the ViewPager with the sections adapter.
-    mViewPager = (ViewPager) findViewById(R.id.viewpager);
-    mViewPager.setAdapter(mSectionsPagerAdapter);
 
     // When swiping between different sections, select the corresponding
     // tab. We can also use ActionBar.Tab#select() to do this if we have
     // a reference to the Tab.
+/*
     mViewPager
       .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
         @Override
@@ -115,13 +99,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
           helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
         }
       });
-
-    actionBar.addTab(actionBar.newTab()
-        .setText(R.string.menu_manage_plans_tab_templates)
-        .setTabListener(this));
-    actionBar.addTab(actionBar.newTab()
-        .setText(R.string.menu_manage_plans_tab_plans)
-        .setTabListener(this));
+*/
 
     String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
@@ -135,26 +113,21 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     }
     helpVariant = HelpVariant.templates;
   }
+
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.templates, menu);
-    super.onCreateOptionsMenu(menu);
-    menu.findItem(R.id.CREATE_TRANSFER_COMMAND).setVisible(mTransferEnabled);
-    return true;
+  protected void setupTabs(Bundle savedInstanceState) {
+    mSectionsPagerAdapter.addFragment(new TemplatesList(), getString(R.string.menu_manage_plans_tab_templates));
+    mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
   }
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch(command) {
-    case R.id.CREATE_TRANSACTION_COMMAND:
-    case R.id.CREATE_TRANSFER_COMMAND:
+    case R.id.CREATE_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
-      i.putExtra(MyApplication.KEY_OPERATION_TYPE,
-          command == R.id.CREATE_TRANSACTION_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
+      i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
       i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
-      i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -169,7 +142,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       finishActionMode();
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra(DatabaseConstants.KEY_TEMPLATEID,((Long)tag));
-      i.putExtra(ExpenseEdit.KEY_NEW_PLAN_ENABLED, getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
       return true;
@@ -208,46 +180,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     }
     return super.dispatchCommand(command, tag);
    }
-  @Override
-  public void onTabSelected(Tab tab, FragmentTransaction ft) {
-    mViewPager.setCurrentItem(tab.getPosition());
-  }
-  @Override
-  public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-  }
-  @Override
-  public void onTabReselected(Tab tab, FragmentTransaction ft) {
-  }
-  public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public SectionsPagerAdapter(FragmentManager fm) {
-      super(fm);
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-      // getItem is called to instantiate the fragment for the given page.
-      switch (position){
-      case 0:
-        return new TemplatesList();
-      case 1:
-        return new PlanList();
-      }
-      return null;
-    }
-
-    @Override
-    public int getCount() {
-      // Show 3 total pages.
-      return 2;
-    }
-    public String getFragmentName(int currentPosition) {
-      //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
-      //would call this function if it were visible
-      //return makeFragmentName(R.id.viewpager,currentPosition);
-      return "android:switcher:"+R.id.viewpager+":"+getItemId(currentPosition);
-    }
-  }
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
@@ -262,12 +195,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         mSectionsPagerAdapter.getFragmentName(1));
     pl.refresh();
   }
-  public boolean getNewPlanEnabled() {
-    return ContribFeature.PLANS_UNLIMITED.hasAccess() ||
-        ((PlanList) getSupportFragmentManager().findFragmentByTag(
-            mSectionsPagerAdapter.getFragmentName(1)))
-          .newPlanEnabled;
-  }
+
   public void finishActionMode() {
     ContextualActionBarFragment f =
     ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
@@ -304,5 +232,26 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   }
   @Override
   public void onDismissOrCancel(Bundle args) {
+  }
+
+  public void requestPermission(View v) {
+    requestCalendarPermission();
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         String permissions[], int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
+              mSectionsPagerAdapter.getFragmentName(1));
+          pl.setupList();
+        }
+      }
+    }
   }
 }

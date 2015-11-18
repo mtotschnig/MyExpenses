@@ -935,6 +935,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "(SELECT 1 FROM " + "transactions" + " " +
           "WHERE " + "picture_id" + " = old." + "picture_id" + ") " +
           "BEGIN INSERT INTO " + "stale_uris" + " VALUES (old." + "picture_id" + "); END");
+      //all Accounts with old default color are updated to the new one
+      db.execSQL(String.format("UPDATE accounts set color = %d WHERE color = %d",0xff009688,0xff99CC00));
     }
   }
   @Override

@@ -17,11 +17,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@id/CREATE_COMMAND"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/menu_create_main_cat"
-        app:showAsAction="always"/>
-    <item
         android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
         android:icon="@android:drawable/ic_menu_upload"
         android:title="@string/menu_categories_setup_default"

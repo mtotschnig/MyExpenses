@@ -17,7 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,8 +92,8 @@ public class DialogUtils {
 
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
     ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
-    if (ctx instanceof ActionBarActivity) {
-      ((ActionBarActivity) ctx).getSupportActionBar().hide();
+    if (ctx instanceof AppCompatActivity) {
+      ((AppCompatActivity) ctx).getSupportActionBar().hide();
     }
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
@@ -106,11 +106,10 @@ public class DialogUtils {
   }
   public static AlertDialog passwordDialog(final Activity ctx) {
     final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
-    Context wrappedCtx = wrapContext2(ctx);
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.password_check, null);
     view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(R.string.password_prompt)
       .setView(view)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -259,8 +258,8 @@ public class DialogUtils {
           error.setText("");
           MyApplication.getInstance().setLocked(false);
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
-          if (ctx instanceof ActionBarActivity) {
-            ((ActionBarActivity) ctx).getSupportActionBar().show();
+          if (ctx instanceof AppCompatActivity) {
+            ((AppCompatActivity) ctx).getSupportActionBar().show();
           }
           if (isInSecurityQuestion) {
             MyApplication.PrefKey.PERFORM_PROTECTION.putBoolean(false);
@@ -276,46 +275,6 @@ public class DialogUtils {
         }
       }
     }
-  }
-  /**
-   * @param ctx
-   * @return Context wrapped with style AboutDialog in API 10 and lower
-   * currently this is only needed in ExportDialogFragment, and makes
-   * sure that RadioButtons get correct style
-   */
-  public static Context wrapContext1(Context ctx) {
-    return Build.VERSION.SDK_INT < 11 ?
-        wrapDialogTheme(ctx) : ctx;
-  }
-  /**
-   * @param ctx
-   * @return Context wrapped with current theme (dark or light) in API 11 and higher
-   * Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-   * this is necessary only when we are called from one of the transparent activities,
-   * but does not harm in the other cases
-   */
-  public static Context wrapContext2(Context ctx) {
-    return Build.VERSION.SDK_INT > 10 ?
-        wrapAppTheme(ctx) : ctx;
-  }
-
-  /**
-   *
-   * @param ctx
-   * @return for API 10 and lower, Context is wrapped as in {@link #wrapDialogTheme(Context)}, for 11 and higher
-   * as in {@link #wrapAppTheme(Context)}. This is needed for Dialogs that both are used in a transparent
-   * activity, and have checkboxes
-   */
-  public static Context wrapContext12(Context ctx) {
-    return Build.VERSION.SDK_INT < 11 ?
-        wrapDialogTheme(ctx) : wrapAppTheme(ctx);
-  }
-
-  private static ContextThemeWrapper wrapAppTheme(Context ctx) {
-    return new ContextThemeWrapper(ctx, MyApplication.getThemeId());
-  }
-  private static ContextThemeWrapper wrapDialogTheme(Context ctx) {
-    return new ContextThemeWrapper(ctx, R.style.AboutDialog);
   }
 
   public static RadioGroup configureCalendarRestoreStrategy(

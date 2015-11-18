@@ -30,9 +30,11 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
@@ -88,22 +90,24 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     ctx.getSupportLoaderManager().initLoader(ExpenseEdit.TRANSACTION_CURSOR, getArguments(), this);
     ctx.getSupportLoaderManager().initLoader(ExpenseEdit.SUM_CURSOR, getArguments(), this);
     // Now create a simple cursor adapter and set it to display
+    final Account account = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-        Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID)).currency);
+        account.currency);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
-    lv.setOnItemClickListener(new OnItemClickListener()
-    {
-         @Override
-         public void onItemClick(AdapterView<?> a, View v,int position, long id)
-         {
-           Intent i = new Intent(ctx, ExpenseEdit.class);
-           i.putExtra(KEY_ROWID, id);
-           //i.putExtra("operationType", operationType);
-           startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-         }
+    lv.setOnItemClickListener(new OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+        Intent i = new Intent(ctx, ExpenseEdit.class);
+        i.putExtra(KEY_ROWID, id);
+        //i.putExtra("operationType", operationType);
+        startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+      }
     });
     registerForContextMenu(lv);
+    FloatingActionButton fab = ((FloatingActionButton) v.findViewById(R.id.CREATE_COMMAND));
+    fab.setBackgroundTintList(ColorStateList.valueOf(account.color));
+    fab.setImageResource(Utils.isBrightColor(account.color) ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
     return v;
   }
   @Override

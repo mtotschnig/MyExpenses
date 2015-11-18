@@ -15,27 +15,18 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import java.util.ArrayList;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -50,7 +41,12 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+
+import java.util.ArrayList;
 
 public class VersionDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   public static final VersionDialogFragment newInstance(int from) {
@@ -105,41 +101,19 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
           span.setSpan(new ClickableSpan() {
               @Override
               public void onClick(View v) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                  onClickLegacy();
-                } else {
-                  onClickHoneycomb();
-                }
+                PopupMenu popup = new PopupMenu(getActivity(), heading);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                    handleMenuClick(item.getItemId());
+                    return true;
+                  }
+
+                });
+                popup.inflate(R.menu.version_info);
+                popup.show();
               }
-            private void onClickLegacy() {
-              android.support.v7.widget.PopupMenu popup = new android.support.v7.widget.PopupMenu(getActivity(), heading);
-              popup.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                  handleMenuClick(item.getItemId());
-                  return true;
-                }
-
-              });
-              popup.inflate(R.menu.version_info);
-              popup.show();
-            }
-            @SuppressLint("NewApi")
-            private void onClickHoneycomb() {
-              PopupMenu popup = new PopupMenu(getActivity(), heading);
-              popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                  handleMenuClick(item.getItemId());
-                  return true;
-                }
-
-              });
-              popup.inflate(R.menu.version_info);
-              popup.show();
-            }
             /**
              * @param itemId
              * @throws NotFoundException

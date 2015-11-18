@@ -14,154 +14,245 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="InconsistentLayout"
-    android:id="@+id/OneExpense"
-    android:orientation="vertical"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent">
-  <ScrollView
-      android:layout_width="fill_parent"
-      android:layout_height="0px"
-      android:layout_weight="1"
-      android:fillViewport="true" >
-    <TableLayout
-        android:paddingRight="@dimen/general_padding"
-        android:paddingLeft="@dimen/general_padding"
-        android:layout_height="wrap_content"
+<LinearLayout android:id="@+id/OneExpense"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_expense_edit"/>
+
+    <ScrollView
         android:layout_width="fill_parent"
-        android:id="@+id/Table"
-        android:stretchColumns="1"
-        android:shrinkColumns="1">
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-      <TableRow android:id="@+id/TitleRow"
-          android:visibility="gone">
-        <TextView style="@style/form_label"
-            android:text="@string/title"/>
-        <EditText
-            android:id="@+id/Title"
-            android:singleLine="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-      </TableRow>
-
-      <TableRow android:id="@+id/AccountParent">
-        <TextView style="@style/form_label"
-        	  android:id="@+id/AccountLabel"
-            android:text="@string/account" />
-        <Spinner android:id="@+id/Account"
-            android:prompt="@string/account" />
-      </TableRow>
-
-      <TableRow android:id="@+id/TransferAccountRow"
-          android:visibility="gone">
-        <TextView style="@style/form_label"
-            android:text="@string/transfer_to_account" />
-        <Spinner android:id="@+id/TransferAccount"
-            android:prompt="@string/transfer_to_account" />
-      </TableRow>
-
-      <TableRow android:id="@+id/DateRow">
-        <TextView style="@style/form_label"
-            android:text="@string/date"/>
-        <Button style="@style/SmallButton" android:id="@+id/Date"
-            android:text="@string/select"/>
-      </TableRow>
-
-      <TableRow android:id="@+id/TimeRow">
-        <TextView style="@style/form_label"
-            android:text="@string/time"/>
-        <Button style="@style/SmallButton" android:id="@+id/Time" android:text="@string/select" />
-      </TableRow>
-
-      <TableRow android:id="@+id/PayeeRow">
-        <TextView style="@style/form_label"
-            android:id="@+id/PayeeLabel" android:text="@string/payee" />
-        <AutoCompleteTextView 
-            android:completionThreshold="1" 
-            android:id="@+id/Payee" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" android:inputType="textPersonName"/>
-      </TableRow>
-
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:id="@+id/AmountLabel"/>
-        <LinearLayout android:orientation="horizontal">
-          <include layout="@layout/amount_input"/>
-        </LinearLayout>
-      </TableRow>
-
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:text="@string/comment" />
-        <LinearLayout android:orientation="horizontal">
-        <EditText
-            android:layout_gravity="bottom"
-            android:id="@+id/Comment"
-            android:singleLine="true"
-			      android:layout_width="0dp"
-			      android:layout_weight="1"
-            android:layout_height="wrap_content" />
-          <Spinner android:id="@+id/Status"
-              android:layout_gravity="center"
-              android:prompt="@string/status"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-          <include layout="@layout/attach_image_button"/>
-          <include layout="@layout/picture_view" />
-          </LinearLayout>
-      </TableRow>
-
-      <TableRow android:id="@+id/CategoryRow">
-        <TextView style="@style/form_label" android:text="@string/category" />
-        <Button style="@style/SmallButton" android:id="@+id/Category" android:text="@string/select" />
-      </TableRow>
-
-      <TableRow android:id="@+id/MethodRow">
-        <TextView style="@style/form_label"
-          android:id="@+id/MethodLabel" android:text="@string/method" />
-        <LinearLayout
-            android:orientation="horizontal">
-          <Spinner android:id="@+id/Method"
-              android:prompt="@string/method"
-              android:layout_weight="1"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"  />
-          <EditText android:id="@+id/Number"
-              android:visibility="invisible"
-              android:hint="@string/reference_number"
-              android:singleLine="true"
-              android:layout_weight="1"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content" />
-        </LinearLayout>
-      </TableRow>
-
-      <TableRow android:id="@+id/PlannerRow"
-          android:visibility="gone">
-        <TextView style="@style/form_label"
-            android:text="@string/plan" />
-        <LinearLayout
-            android:orientation="horizontal">
-        <Button style="@style/SmallButton" android:id="@+id/Plan"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+        <TableLayout
+            android:id="@+id/Table"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_create"/>
-        <ToggleButton
-            android:id="@+id/togglebutton"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textOn="@string/plan_automatic"
-            android:textOff="@string/plan_manual"
-            android:onClick="onToggleClicked"/>
-        </LinearLayout>
-      </TableRow>
-    </TableLayout>
-  </ScrollView>
+            android:paddingLeft="@dimen/padding_form"
+            android:paddingRight="@dimen/padding_form"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:id="@+id/TitleRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/TitleLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/title"/>
+
+                <EditText
+                    android:id="@+id/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:singleLine="true"/>
+            </TableRow>
+
+            <TableRow android:id="@+id/AccountParent">
+
+                <TextView
+                    android:id="@+id/AccountLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/account"/>
+
+                <Spinner
+                    android:id="@+id/Account"
+                    android:layout_gravity="center_vertical"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/TransferAccountRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/TransferAccountLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/transfer_to_account"/>
+
+                <Spinner
+                    android:id="@+id/TransferAccount"
+                    android:layout_gravity="center_vertical"/>
+            </TableRow>
+
+            <TableRow android:id="@+id/DateRow">
+
+                <TextView
+                    android:id="@+id/DateLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/date"/>
+
+                <Button
+                    android:id="@+id/DateButton"
+                    style="@style/SmallButton"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/select"/>
+            </TableRow>
+
+            <TableRow android:id="@+id/TimeRow">
+
+                <TextView
+                    android:id="@+id/TimeLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/time"/>
+
+                <Button
+                    android:id="@+id/TimeButton"
+                    style="@style/SmallButton"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/select"/>
+            </TableRow>
+
+            <TableRow android:id="@+id/PayeeRow">
+
+                <TextView
+                    android:id="@+id/PayeeLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/payee"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/Payee"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:inputType="textPersonName"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/AmountLabel"
+                    style="@style/form_label.compat"
+                    android:textColor="?attr/colorAccent"/>
+
+                <LinearLayout android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <include layout="@layout/amount_input"/>
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/CommentLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/comment"/>
+
+                <LinearLayout android:orientation="horizontal"
+                              android:layout_gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/Comment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"/>
+
+                    <Spinner
+                        android:id="@+id/Status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:prompt="@string/status"/>
+
+                    <ImageView
+                        style="?actionButtonStyle"
+                        android:id="@+id/AttachImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:onClick="startMediaChooser"
+                        android:src="@android:drawable/ic_menu_camera"/>
+
+                    <include layout="@layout/picture_view"/>
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow android:id="@+id/CategoryRow">
+
+                <TextView
+                    android:id="@+id/CategoryLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/category"/>
+
+                <Button
+                    android:id="@+id/Category"
+                    style="@style/SmallButton"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/select"/>
+            </TableRow>
+
+            <TableRow android:id="@+id/MethodRow">
+
+                <TextView
+                    android:id="@+id/MethodLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/method"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+
+                    <Spinner
+                        android:id="@+id/Method"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:prompt="@string/method"/>
+
+                    <EditText
+                        android:id="@+id/Number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:hint="@string/reference_number"
+                        android:singleLine="true"
+                        android:visibility="invisible"/>
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/PlannerRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/PlanLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/plan"/>
+
+                <LinearLayout
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/Plan"
+                        style="@style/SmallButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/menu_create"/>
+
+                    <ToggleButton
+                        android:id="@+id/togglebutton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:onClick="onToggleClicked"
+                        android:textOff="@string/plan_manual"
+                        android:textOn="@string/plan_automatic"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>

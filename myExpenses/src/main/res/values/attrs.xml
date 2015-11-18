@@ -25,6 +25,10 @@
     <attr name="drawerImage" format="reference" />
     <attr name="calcIcon" format="integer" />
     <attr name="browseIcon" format="integer" />
+    <attr name="colorContainerOuter" format="dimension" />
+    <attr name="colorContainerInner" format="dimension" />
+    <attr name="cardHighlightForeground" format="reference" />
+    <attr name="preferenceCategoryTextAppearance" format="reference" />
     <declare-styleable name="SeekBarPreference">
       <attr name="max_value" format="integer"></attr>
       <attr name="min_value" format="integer"></attr>

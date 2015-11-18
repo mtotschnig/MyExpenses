@@ -17,24 +17,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-    android:id="@id/CREATE_TRANSACTION_COMMAND"
-    android:icon="@android:drawable/ic_menu_add"
-    app:showAsAction="always"
-    android:title="@string/menu_create_transaction">
-  </item>
-  <item
-    android:id="@id/CREATE_TRANSFER_COMMAND"
-    android:icon="@drawable/ic_menu_forward"
-    app:showAsAction="ifRoom"
-    android:title="@string/menu_create_transfer">
-  </item>
-  <item
-    android:id="@id/CREATE_SPLIT_COMMAND"
-    android:icon="@drawable/ic_menu_split"
-    app:showAsAction="ifRoom"
-    android:title="@string/menu_create_split">
-  </item>
-  <item
     android:id="@id/MANAGE_PLANS_COMMAND"
     app:showAsAction="ifRoom"
     android:icon="@android:drawable/ic_menu_set_as"
@@ -61,16 +43,16 @@
   	</menu>
   </item>
   <item
+      android:id="@id/DISTRIBUTION_COMMAND"
+      app:showAsAction="ifRoom"
+      android:icon="@android:drawable/ic_menu_today"
+      android:title="@string/menu_distribution">
+  </item>
+  <item
     android:id="@id/RESET_COMMAND"
     android:icon="@android:drawable/ic_menu_revert"
     app:showAsAction="ifRoom"
     android:title="@string/menu_reset">
-  </item>
-  <item
-    android:id="@id/DISTRIBUTION_COMMAND"
-    app:showAsAction="ifRoom"
-    android:icon="@android:drawable/ic_menu_today"
-    android:title="@string/menu_distribution">
   </item>
   <item
     android:id="@id/BALANCE_COMMAND"

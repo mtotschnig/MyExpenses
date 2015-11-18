@@ -1,33 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
- <!-- 
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
 <resources>
-	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Holo.Dialog">
-		<item name="android:windowNoTitle">true</item>
-	</style>
-	<style name="BaseDark" parent="@android:style/Theme.Holo">
-    <item name="android:actionBarStyle">@style/ActionBarDark</item>
-  </style>
-  <style name="BaseLight" parent="@android:style/Theme.Holo.Light">
-    <item name="android:actionBarStyle">@style/ActionBarLight</item>
-  </style>
-  <style name="ActionBarLight" parent="@android:style/Widget.Holo.Light.ActionBar">
-    <item name="android:icon">@drawable/ic_home_light</item>
-  </style>
-  <style name="ActionBarDark" parent="@android:style/Widget.Holo.ActionBar">
-    <item name="android:icon">@drawable/ic_home_dark</item>
-  </style>
+    <style name="ThemeDarkBase.V11">
+        <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
+    </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBase.V11"/>
+
+    <style name="ThemeLightBase.V11">
+        <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
+    </style>
+    <style name="ThemeLight" parent="@style/ThemeLightBase.V11"/>
 </resources>

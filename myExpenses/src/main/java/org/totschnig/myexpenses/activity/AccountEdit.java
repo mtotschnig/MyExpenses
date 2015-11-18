@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
@@ -62,13 +63,9 @@ public class AccountEdit extends AmountActivity implements
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private Spinner mCurrencySpinner;
-  private Spinner mAccountTypeSpinner;
-  private Spinner mColorSpinner;
+  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner;
   Account mAccount;
   private ArrayList<Integer> mColors;
-  private boolean mColorIntentAvailable;
-  private Intent mColorIntent;
   private ArrayAdapter<Integer> mColAdapter;
 
   private void requireAccount() {
@@ -83,12 +80,19 @@ public class AccountEdit extends AmountActivity implements
       }
     }
   }
+
+  @Override
+  int getDiscardNewMessage() {
+    return R.string.dialog_confirm_discard_new_account;
+  }
+
   @SuppressLint("InlinedApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     
     setContentView(R.layout.one_account);
+    setupToolbar();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);
@@ -104,6 +108,7 @@ public class AccountEdit extends AmountActivity implements
       return;
     }
     if (rowId != 0) {
+      mNewInstance = false;
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
@@ -122,50 +127,44 @@ public class AccountEdit extends AmountActivity implements
     configAmountInput(Money.fractionDigits(mAccount.currency));
     
 
-    mCurrencySpinner = (Spinner) findViewById(R.id.Currency);
+    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
-    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
     
-    mAccountTypeSpinner = (Spinner) findViewById(R.id.AccountType);
+    mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
     ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
-    typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountTypeSpinner.setAdapter(typAdapter);
     
-    mColorSpinner = (Spinner) findViewById(R.id.Color);
+    mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
     mColors = new ArrayList<Integer>();
-    if (Build.VERSION.SDK_INT > 13) {
-      Resources r = getResources();
-      mColors.add(r.getColor(android.R.color.holo_blue_bright));
-      mColors.add(r.getColor(android.R.color.holo_blue_light));
-      mColors.add(r.getColor(android.R.color.holo_blue_dark));
-      mColors.add(r.getColor(android.R.color.holo_green_dark));
-      mColors.add(r.getColor(android.R.color.holo_green_light));
-      mColors.add(r.getColor(android.R.color.holo_orange_dark));
-      mColors.add(r.getColor(android.R.color.holo_orange_light));
-      mColors.add(r.getColor(android.R.color.holo_purple));
-      mColors.add(r.getColor(android.R.color.holo_red_dark));
-      mColors.add(r.getColor(android.R.color.holo_red_light));
-    } else {
-      mColors.add(Color.BLUE);
-      mColors.add(Color.CYAN);
-      mColors.add(Color.GREEN);
-      mColors.add(Color.MAGENTA);
-      mColors.add(Color.RED);
-      mColors.add(Color.YELLOW);
-      mColors.add(Color.BLACK);
-      mColors.add(Color.DKGRAY);
-      mColors.add(Color.GRAY);
-      mColors.add(Color.LTGRAY);
-      mColors.add(Color.WHITE);
-    }
+    Resources r = getResources();
+    mColors.add(r.getColor(R.color.material_red));
+    mColors.add(r.getColor(R.color.material_pink));
+    mColors.add(r.getColor(R.color.material_purple));
+    mColors.add(r.getColor(R.color.material_deep_purple));
+    mColors.add(r.getColor(R.color.material_indigo));
+    mColors.add(r.getColor(R.color.material_blue));
+    mColors.add(r.getColor(R.color.material_light_blue));
+    mColors.add(r.getColor(R.color.material_cyan));
+    mColors.add(r.getColor(R.color.material_teal));
+    mColors.add(r.getColor(R.color.material_green));
+    mColors.add(r.getColor(R.color.material_light_green));
+    mColors.add(r.getColor(R.color.material_lime));
+    mColors.add(r.getColor(R.color.material_yellow));
+    mColors.add(r.getColor(R.color.material_amber));
+    mColors.add(r.getColor(R.color.material_orange));
+    mColors.add(r.getColor(R.color.material_deep_orange));
+    mColors.add(r.getColor(R.color.material_brown));
+    mColors.add(r.getColor(R.color.material_grey));
+    mColors.add(r.getColor(R.color.material_blue_grey));
+
     if (mColors.indexOf(mAccount.color) == -1)
       mColors.add(mAccount.color);
-    mColors.add(0);
-    mColorIntent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
-    mColorIntentAvailable = Utils.isIntentAvailable(AccountEdit.this, mColorIntent);
+
     mColAdapter = new ArrayAdapter<Integer>(this,
         android.R.layout.simple_spinner_item, mColors) {
       @Override
@@ -175,10 +174,6 @@ public class AccountEdit extends AmountActivity implements
           setColor(tv,mColors.get(position));
         else
           setColor(tv,mAccount.color);
-        if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-          tv.setTextColor(Utils.getTextColorForBackground(mAccount.color));
-          tv.setText(R.string.color);
-        }
         return tv;
       }
       @Override
@@ -186,14 +181,6 @@ public class AccountEdit extends AmountActivity implements
         TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
         if (mColors.get(position) != 0)
           setColor(tv,mColors.get(position));
-        else {
-          tv.setBackgroundColor(getResources().getColor(android.R.color.black));
-          tv.setTextColor(getResources().getColor(android.R.color.white));
-          if (mColorIntentAvailable)
-            tv.setText("OI Color Picker");
-          else
-            tv.setText(R.string.oi_pick_colors_info);
-        }
         return tv;
       }
       public void setColor(TextView tv,int color) {
@@ -203,8 +190,10 @@ public class AccountEdit extends AmountActivity implements
     };
     mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mColorSpinner.setAdapter(mColAdapter);
+    linkInputsWithLabels();
     populateFields();
   }
+
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_COLOR_REQUEST) {
@@ -219,6 +208,13 @@ public class AccountEdit extends AmountActivity implements
       }
     }
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    setupListeners();
+  }
+
   /**
    * populates the input field either from the database or with default value for currency (from Locale)
    */
@@ -236,11 +232,6 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
-    mColorSpinner.post(new Runnable() {
-      public void run() {
-        mColorSpinner.setOnItemSelectedListener(AccountEdit.this);
-      }
-    });
   }
 
   /**
@@ -285,25 +276,10 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    if (mColors.get(position) != 0)
-      mAccount.color = mColors.get(position);
-    else {
-      if (mColorIntentAvailable) {
-        mColorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccount.color);
-        startActivityForResult(mColorIntent, PICK_COLOR_REQUEST);
-      } else {
-        try {
-          Intent intent = new Intent(Intent.ACTION_VIEW);
-          intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.openintents.colorpicker"));
-          startActivity(intent);
-        } catch(Exception e) {
-            Toast.makeText(
-                AccountEdit.this,
-                R.string.error_accessing_market,
-                Toast.LENGTH_SHORT)
-              .show();
-        }
-      }
+    mIsDirty = true;
+    if (parent.getId()==R.id.Color) {
+      if (mColors.get(position) != 0)
+        mAccount.color = mColors.get(position);
     }
   }
   @Override
@@ -392,6 +368,25 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onCancelEditDialog() {
     // TODO Auto-generated method stub
-    
+  }
+
+  @Override
+  protected void setupListeners() {
+    super.setupListeners();
+    mLabelText.addTextChangedListener(this);
+    mDescriptionText.addTextChangedListener(this);
+    mColorSpinner.setOnItemSelectedListener(this);
+    mAccountTypeSpinner.setOnItemSelectedListener(this);
+    mCurrencySpinner.setOnItemSelectedListener(this);
+  }
+
+  @Override
+  protected void linkInputsWithLabels() {
+    super.linkInputsWithLabels();
+    linkInputWithLabel(mLabelText,findViewById(R.id.LabelLabel));
+    linkInputWithLabel(mDescriptionText,findViewById(R.id.DescriptionLabel));
+    linkInputWithLabel(mColorSpinner.getSpinner(),findViewById(R.id.ColorLabel));
+    linkInputWithLabel(mAccountTypeSpinner.getSpinner(),findViewById(R.id.AccountTypeLabel));
+    linkInputWithLabel(mCurrencySpinner.getSpinner(),findViewById(R.id.CurrencyLabel));
   }
 }

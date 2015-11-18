@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,8 +70,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setMessage(bundle.getCharSequence("message"));
     int title = bundle.getInt("title");
     if (title != 0) {

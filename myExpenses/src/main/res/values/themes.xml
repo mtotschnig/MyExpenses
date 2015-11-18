@@ -1,136 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <!-- 
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+<!--
+This file is part of My Expenses.
+My Expenses is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+My Expenses is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
-  <style name="Launch" parent="@style/Theme.AppCompat">
-    <item name="android:windowBackground">@android:color/transparent</item>
-    <item name="android:windowNoTitle">true</item>
-  </style>
-	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar">
-    <item name="browseIcon">@drawable/ic_action_browse_light</item>
-  </style>
-	<style name="BaseDark" parent="@style/Theme.AppCompat">
-    <item name="actionBarStyle">@style/ActionBarDark</item>
-  </style>
-  <style name="BaseLight" parent="@style/Theme.AppCompat.Light">
-    <item name="actionBarStyle">@style/ActionBarLight</item>
-  </style>
-  <style name="ThemeDark" parent="BaseDark">
-    <item name="dropdownListPreferredItemHeight">48sp</item>
-    <item name="colorIncome">@color/colorIncomeDark</item>
-    <item name="colorExpense">@color/colorExpenseDark</item>
-    <item name="colorAggregate">#FFFFFF</item>
-    <item name="drawerBackground">#222</item>
-    <item name="pageMargin">@drawable/pagermargin_white</item>
-    <item name="calcIcon">@drawable/ic_action_calc_light</item>
-    <item name="browseIcon">@drawable/ic_action_browse_light</item>
-    <item name="drawerShadow">@drawable/drawer_shadow_holo_dark</item>
-    <item name="drawerImage">@drawable/ic_drawer_holo_dark</item>
-    <item name="drawerWidth">260sp</item>
-  </style>
-  <style name="ThemeLight" parent="BaseLight">
-    <item name="dropdownListPreferredItemHeight">48sp</item>
-    <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
-    <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="colorIncome">@color/colorIncomeLight</item>
-    <item name="colorExpense">@color/colorExpenseLight</item>
-    <item name="colorAggregate">#000000</item>
-    <item name="drawerBackground">#ddd</item>
-    <item name="pageMargin">@drawable/pagermargin_black</item>
-    <item name="calcIcon">@drawable/ic_action_calc_dark</item>
-    <item name="browseIcon">@drawable/ic_action_browse_dark</item>
-    <item name="drawerShadow">@drawable/drawer_shadow_holo_light</item>
-    <item name="drawerImage">@drawable/ic_drawer_holo_light</item>
-    <item name="drawerWidth">260sp</item>
-  </style>
-  <style name="AboutDialog" parent="@android:style/Theme.Dialog">
-    <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
-  </style>
-  <style name="ThemeDark.s1">
-    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
-    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
-    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
-    <item name="drawerWidth">285sp</item>
-  </style>
-  <style name="ThemeLight.s1">
-    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
-    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
-    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
-    <item name="drawerWidth">285sp</item>
-  </style>
-  <style name="ThemeDark.s2">
-    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
-    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
-    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
-    <item name="drawerWidth">315sp</item>
-  </style>
-  <style name="ThemeLight.s2">
-    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
-    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
-    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
-    <item name="drawerWidth">315sp</item>
-  </style>
-  <style name="ThemeDark.s3">
-    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
-    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
-    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
-    <item name="drawerWidth">345sp</item>
-  </style>
-  <style name="ThemeLight.s3">
-    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
-    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
-    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
-    <item name="drawerWidth">345sp</item>
-  </style>
-  <style name="ThemeDark.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeLight.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeDark.s1.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeDark.s2.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeDark.s3.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeLight.s1.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeLight.s2.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ThemeLight.s3.LegacyPreferenceActivity">
-    <item name="android:windowNoTitle">false</item>
-  </style>
-  <style name="ActionBarLight" parent="@style/Widget.AppCompat.Light.ActionBar">
-    <item name="icon">@drawable/ic_home_light</item>
-	</style>
-	<style name="ActionBarDark" parent="@style/Widget.AppCompat.ActionBar">
-    <item name="icon">@drawable/ic_home_dark</item>
-  </style>
-  <style name="ThemeDark.TranslucentNoTitleBar">
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowBackground">@android:color/transparent</item>
-    <item name="android:colorBackgroundCacheHint">@null</item>
-    <item name="android:windowIsTranslucent">true</item>
-    <!-- Note that we use the base animation style here (that is no animations) because we really have no idea how this kind of activity will be used. -->
-    <item name="android:windowAnimationStyle">@android:style/Animation</item>
-  </style>
+
+    <style name="Launch" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="ThemeDarkBase" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="dropdownListPreferredItemHeight">48sp</item>
+        <item name="colorIncome">@color/colorIncomeDark</item>
+        <item name="colorExpense">@color/colorExpenseDark</item>
+        <item name="colorAggregate">@color/material_grey_300</item>
+        <item name="drawerBackground">#222</item>
+        <item name="pageMargin">@drawable/pagermargin_white</item>
+        <item name="browseIcon">@drawable/ic_action_browse_light</item>
+        <item name="drawerShadow">@drawable/drawer_shadow_holo_dark</item>
+        <item name="drawerImage">@drawable/ic_drawer_holo_dark</item>
+        <item name="drawerWidth">260sp</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorContainerOuter">25sp</item>
+        <item name="colorContainerInner">10sp</item>
+        <item name="cardHighlightForeground">?selectableItemBackground</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBase">
+    </style>
+
+    <style name="ThemeLightBase" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="dropdownListPreferredItemHeight">48sp</item>
+        <item name="colorIncome">@color/colorIncomeLight</item>
+        <item name="colorExpense">@color/colorExpenseLight</item>
+        <item name="colorAggregate">@color/material_grey_700</item>
+        <item name="drawerBackground">#ddd</item>
+        <item name="pageMargin">@drawable/pagermargin_black</item>
+        <item name="browseIcon">@drawable/ic_action_browse_dark</item>
+        <item name="drawerShadow">@drawable/drawer_shadow_holo_light</item>
+        <item name="drawerImage">@drawable/ic_drawer_holo_light</item>
+        <item name="drawerWidth">260sp</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorContainerOuter">25sp</item>
+        <item name="colorContainerInner">10sp</item>
+        <item name="cardHighlightForeground">?selectableItemBackground</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+    <style name="ThemeLight" parent="@style/ThemeLightBase">
+    </style>
+
+    <style name="AboutDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
+    </style>
+
+    <style name="ThemeDark.s1Base">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+        <item name="drawerWidth">285sp</item>
+        <item name="colorContainerOuter">27sp</item>
+        <item name="colorContainerInner">12sp</item>
+    </style>
+    <style name="ThemeDark.s1" parent="@style/ThemeDark.s1Base" />
+
+    <style name="ThemeLight.s1Base">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+        <item name="drawerWidth">285sp</item>
+        <item name="colorContainerOuter">27sp</item>
+        <item name="colorContainerInner">12sp</item>
+    </style>
+    <style name="ThemeLight.s1" parent="@style/ThemeLight.s1Base" />
+
+    <style name="ThemeDark.s2Base">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+        <item name="drawerWidth">315sp</item>
+        <item name="colorContainerOuter">29sp</item>
+        <item name="colorContainerInner">14sp</item>
+    </style>
+    <style name="ThemeDark.s2" parent="@style/ThemeDark.s2Base" />
+
+    <style name="ThemeLight.s2Base">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+        <item name="drawerWidth">315sp</item>
+        <item name="colorContainerOuter">29sp</item>
+        <item name="colorContainerInner">14sp</item>
+    </style>
+    <style name="ThemeLight.s2" parent="@style/ThemeLight.s2Base" />
+
+    <style name="ThemeDark.s3Base">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+        <item name="drawerWidth">345sp</item>
+        <item name="colorContainerOuter">31sp</item>
+        <item name="colorContainerInner">16sp</item>
+    </style>
+    <style name="ThemeDark.s3" parent="@style/ThemeDark.s3Base" />
+
+    <style name="ThemeLight.s3Base">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+        <item name="drawerWidth">345sp</item>
+        <item name="colorContainerOuter">31sp</item>
+        <item name="colorContainerInner">16sp</item>
+    </style>
+    <style name="ThemeLight.s3" parent="@style/ThemeLight.s3Base" />
+
+    <style name="ThemeDark.EditDialog" parent="@style/Theme.AppCompat.DialogWhenLarge">
+        <item name="colorIncome">@color/colorIncomeDark</item>
+        <item name="colorExpense">@color/colorExpenseDark</item>
+        <item name="calcIcon">@drawable/ic_action_calc_light</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="ThemeLight.EditDialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="colorIncome">@color/colorIncomeLight</item>
+        <item name="colorExpense">@color/colorExpenseLight</item>
+        <item name="calcIcon">@drawable/ic_action_calc_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="ThemeDark.EditDialog.s1">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+    </style>
+
+    <style name="ThemeLight.EditDialog.s1">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+    </style>
+
+    <style name="ThemeDark.EditDialog.s2">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+    </style>
+
+    <style name="ThemeLight.EditDialog.s2">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+    </style>
+
+    <style name="ThemeDark.EditDialog.s3">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+    </style>
+
+    <style name="ThemeLight.EditDialog.s3">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+    </style>
+
+    <style name="ThemeLight.Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+    <style name="ThemeDark.Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+
+    <style name="ThemeLight.Translucent.s1">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+    </style>
+
+    <style name="ThemeDark.Translucent.s1">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+    </style>
+
+    <style name="ThemeLight.Translucent.s2">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+    </style>
+
+    <style name="ThemeDark.Translucent.s2">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+    </style>
+
+    <style name="ThemeLight.Translucent.s3">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+    </style>
+
+    <style name="ThemeDark.Translucent.s3">
+        <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+        <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+    </style>
+
+    <style name="ThemeDark.TranslucentNoTitleBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Note that we use the base animation style here (that is no animations) because we really have no idea how this kind of activity will be used. -->
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
 </resources>

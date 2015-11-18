@@ -17,7 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -88,7 +88,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     mLayout = li.inflate(R.layout.transaction_detail, null);
     AlertDialog dialog = new AlertDialog.Builder(getActivity())
       .setTitle(R.string.progress_dialog_loading)
-      .setIcon(android.R.color.transparent)
+      //.setIcon(android.R.color.transparent)
       .setView(mLayout)
       .setNegativeButton(android.R.string.ok,this)
       .setPositiveButton(R.string.menu_edit,this)

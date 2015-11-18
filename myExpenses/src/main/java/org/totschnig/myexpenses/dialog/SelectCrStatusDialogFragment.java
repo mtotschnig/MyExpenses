@@ -15,19 +15,18 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
-
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 
 import java.util.ArrayList;
 

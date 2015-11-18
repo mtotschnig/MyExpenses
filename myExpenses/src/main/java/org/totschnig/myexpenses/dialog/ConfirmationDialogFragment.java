@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -64,14 +64,16 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext12(ctx);
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
-      .setTitle(bundle.getInt(KEY_TITLE))
-      .setMessage(bundle.getCharSequence(KEY_MESSAGE));
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+    int title = bundle.getInt(KEY_TITLE, 0);
+    if (title != 0) {
+      builder.setTitle(title);
+    }
+    builder.setMessage(bundle.getCharSequence(KEY_MESSAGE));
     int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL,0);
     if (bundle.getString(KEY_PREFKEY) != null ||
         checkboxLabel != 0) {
-      View cb = LayoutInflater.from(wrappedCtx).inflate(R.layout.checkbox, null);
+      View cb = LayoutInflater.from(ctx).inflate(R.layout.checkbox, null);
       checkBox = (CheckBox) cb.findViewById(R.id.checkbox);
       checkBox.setText(
           checkboxLabel != 0 ? checkboxLabel :

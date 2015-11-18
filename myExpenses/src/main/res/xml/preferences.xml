@@ -15,230 +15,283 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="first_preferencescreen">
-  <PreferenceCategory
-      android:key="@string/pref_category_manage_key"
-      android:title="@string/pref_category_title_manage">
-    <PreferenceScreen
-        android:title="@string/pref_manage_categories_title"
-        android:summary="@string/pref_manage_categories_summary">
-        <intent android:action="myexpenses.intent.manage.categories"/>
-    </PreferenceScreen>
-    <PreferenceScreen
-        android:title="@string/pref_manage_parties_title"
-        android:summary="@string/pref_manage_parties_summary">
-        <intent android:action="myexpenses.intent.manage.parties"/>
-    </PreferenceScreen>
-    <PreferenceScreen
-        android:title="@string/pref_manage_methods_title"
-        android:summary="@string/pref_manage_methods_summary">
-        <intent android:action="myexpenses.intent.manage.methods"/>
-    </PreferenceScreen>
-    <org.totschnig.myexpenses.preference.CalendarListPreference android:key="@string/pref_planner_calendar_id_key"
-        android:title="@string/pref_planning_calendar_title"
-        android:summary="@string/pref_planning_calendar_summary"/>
-    <PreferenceScreen
-        android:title="@string/pref_manage_stale_images_title"
-        android:key="@string/pref_manage_stale_images_key"
-        android:summary="@string/pref_manage_stale_images_summary">
-        <intent android:action="myexpenses.intent.manage.stale_images"/>
+                  android:key="@string/pref_root_screen">
+
+    <PreferenceCategory
+        android:key="@string/pref_category_manage_key"
+        android:title="@string/pref_category_title_manage">
+        <Preference
+            android:summary="@string/pref_manage_categories_summary"
+            android:title="@string/pref_manage_categories_title">
+            <intent android:action="myexpenses.intent.manage.categories"/>
+        </Preference>
+        <Preference
+            android:summary="@string/pref_manage_parties_summary"
+            android:title="@string/pref_manage_parties_title">
+            <intent android:action="myexpenses.intent.manage.parties"/>
+        </Preference>
+        <Preference
+            android:summary="@string/pref_manage_methods_summary"
+            android:title="@string/pref_manage_methods_title">
+            <intent android:action="myexpenses.intent.manage.methods"/>
+        </Preference>
+        <ListPreference
+            android:key="@string/pref_planner_calendar_id_key"
+            android:summary="@string/pref_planning_calendar_summary"
+            android:title="@string/pref_planning_calendar_title"/>
+        <Preference
+            android:key="@string/pref_manage_stale_images_key"
+            android:summary="@string/pref_manage_stale_images_summary"
+            android:title="@string/pref_manage_stale_images_title">
+            <intent android:action="myexpenses.intent.manage.stale_images"/>
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_category_title_ui">
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:defaultValue="dark"
+            android:entries="@array/pref_ui_theme_entries"
+            android:entryValues="@array/pref_ui_theme_values"
+            android:key="@string/pref_ui_theme_key"
+            android:title="@string/pref_ui_theme_title"/>
+        <org.totschnig.myexpenses.preference.FontSizeDialogPreference
+            android:defaultValue="0"
+            android:key="@string/pref_ui_fontsize_key"
+            android:title="@string/pref_ui_fontsize_title"/>
+        <!-- for historical reasons the key is linked to categories, but the preference also
+          determines sorting of templates and accounts -->
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:defaultValue="USAGES"
+            android:entries="@array/pref_sort_order_entries"
+            android:entryValues="@array/pref_sort_order_values"
+            android:key="@string/pref_sort_order_key"
+            android:title="@string/pref_sort_order_title"/>
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:defaultValue="TYPE"
+            android:entries="@array/pref_account_grouping_entries"
+            android:entryValues="@array/pref_account_grouping_values"
+            android:key="@string/pref_account_grouping_key"
+            android:title="@string/pref_account_grouping_title"/>
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:defaultValue="default"
+            android:entries="@array/pref_ui_language_entries"
+            android:entryValues="@array/pref_ui_language_values"
+            android:key="@string/pref_ui_language_key"
+            android:title="@string/pref_ui_language_title"/>
+
+        <PreferenceScreen
+            android:key="@string/pref_ui_home_screen_shortcuts_key"
+            android:title="@string/pref_ui_home_screen_shortcuts">
+            <Preference
+                android:key="@string/pref_shortcut_create_transaction_key"
+                android:summary="@string/pref_shortcut_summary"
+                android:title="@string/menu_create_transaction"/>
+            <Preference
+                android:key="@string/pref_shortcut_create_transfer_key"
+                android:summary="@string/pref_shortcut_summary"
+                android:title="@string/menu_create_transfer"/>
+            <Preference
+                android:key="@string/pref_shortcut_create_split_key"
+                android:title="@string/menu_create_split"/>
         </PreferenceScreen>
-  </PreferenceCategory>
-  <PreferenceCategory
-      android:title="@string/pref_category_title_ui">
-    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_ui_theme_key"
-        android:defaultValue="dark"
-        android:title="@string/pref_ui_theme_title"
-        android:entries="@array/pref_ui_theme_entries"
-        android:entryValues="@array/pref_ui_theme_values"/>
-    <org.totschnig.myexpenses.preference.SeekBarPreference xmlns:my="http://schemas.android.com/apk/res-auto"
-        android:key="@string/pref_ui_fontsize_key"
-        android:title="@string/pref_ui_fontsize_title"
-        android:summary="@string/pref_ui_fontsize_summary"
-        android:defaultValue="0" my:max_value="3" my:min_value="0"
-        my:unit_symbol=""/>
-    <!-- for historical reasons the key is linked to categories, but the preference also
-      determines sorting of templates and accounts -->
-    <CheckBoxPreference android:key="@string/pref_categories_sort_by_usages_key"
-        android:defaultValue="true"
-        android:title="@string/pref_categories_sort_by_usages_title"
-        android:summary="@string/pref_categories_sort_by_usages_summary" />
-    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_account_grouping_key"
-        android:defaultValue="TYPE"
-      android:title="@string/pref_account_grouping_title"
-      android:entries="@array/pref_account_grouping_entries"
-      android:entryValues="@array/pref_account_grouping_values"/>
-    <ListPreference android:key="@string/pref_ui_language_key"
-    	android:title="@string/pref_ui_language_title"
-    	android:summary="@string/pref_ui_language_summary"
-    	android:entries="@array/pref_ui_language_entries" android:entryValues="@array/pref_ui_language_values"/>
-    <PreferenceScreen android:title="@string/pref_ui_home_screen_shortcuts">
-	    <Preference android:title="@string/menu_create_transaction"
-	       android:key="@string/pref_shortcut_create_transaction_key"
-	       android:summary="@string/pref_shortcut_summary"/>
-	    <Preference android:title="@string/menu_create_transfer"
-	       android:key="@string/pref_shortcut_create_transfer_key"
-	       android:summary="@string/pref_shortcut_summary"/>
-      <Preference android:title="@string/menu_create_split"
-         android:key="@string/pref_shortcut_create_split_key"/>
-    </PreferenceScreen>
-    <CheckBoxPreference android:key="@string/pref_auto_fill_key"
-        android:defaultValue="false"
-        android:title="@string/pref_auto_fill_title"
-        android:summary="@string/pref_auto_fill_summary" />
-    <ListPreference android:key="@string/pref_template_click_default_key"
-        android:title="@string/pref_template_click_default_title"
-        android:summary="@string/pref_template_click_default_summary"
-        android:entries="@array/pref_template_click_default_entries" android:entryValues="@array/pref_template_click_default_values"/>
-  </PreferenceCategory>
-  <PreferenceCategory 
-      android:title="@string/pref_category_title_import">
-    <Preference android:key="import_from_grisbi"
-        android:title="@string/pref_import_from_grisbi_title"
-        android:summary="@string/pref_import_from_grisbi_summary">
-        <intent android:action="myexpenses.intent.import_from_grisbi"/>
-    </Preference>
-    <Preference android:key="@string/pref_import_qif_key">
-        <intent android:action="myexpenses.intent.import">
-            <extra android:name="format" android:value="QIF"/>
-        </intent>
-    </Preference>
-      <Preference android:key="@string/pref_import_csv_key">
-          <intent android:action="myexpenses.intent.import.csv"/>
-    </Preference>
-  </PreferenceCategory>
-  <PreferenceCategory
-      android:key="@string/pref_category_export_key"
-      android:title="@string/pref_category_title_export">
-    <Preference android:key="@string/pref_app_dir_key"
-        android:title="@string/pref_app_dir_title" />
-    <CheckBoxPreference android:key="@string/pref_perform_share_key"
-        android:defaultValue="false"
-        android:title="@string/pref_perform_share_title"
-        android:summaryOff="@string/pref_perform_share_summaryOff"
-        android:summaryOn="@string/pref_perform_share_summaryOn" />
-    <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference android:key="@string/pref_share_target_key"
-        android:dependency="@string/pref_perform_share_key"
-        android:inputType="textUri"
-        android:title="@string/pref_share_target_title"
-        android:summary="@string/pref_share_target_summary" />
-  </PreferenceCategory>
-  <PreferenceCategory 
-      android:title="@string/menu_backup">
-    <Preference android:key="@string/pref_backup_key"
-        android:title="@string/menu_backup"
-        android:summary="@string/pref_backup_summary">
-        <intent android:action="myexpenses.intent.backup"/>
-    </Preference>
-      <CheckBoxPreference android:key="@string/pref_auto_backup_key"
-          android:title="@string/pref_auto_backup_title"
-          android:summary="@string/pref_auto_backup_summary" />
-      <org.totschnig.myexpenses.preference.TimePreference
-          android:key="@string/pref_auto_backup_time_key"
-          android:title="@string/pref_auto_backup_time_title"
-          android:summary="@string/pref_auto_backup_time_summary"
-          android:dependency="@string/pref_auto_backup_key"/>
-    <Preference android:key="@string/pref_restore_key"
-        android:summary="@string/pref_restore_summary">
-        <intent android:action="myexpenses.intent.restore"/>
-    </Preference>
-    <Preference android:key="@string/pref_restore_legacy_key"
-        android:summary="@string/pref_restore_alternative_summary">
-        <intent android:action="myexpenses.intent.restore">
-        	<extra android:name="legacy" android:value="true"/>
-        </intent>
-    </Preference>
-  </PreferenceCategory>
-  <PreferenceCategory
-      android:key="@string/pref_category_contrib_key"
-      android:title="@string/menu_contrib">
-      <Preference android:key="@string/pref_contrib_purchase_key"
-                  android:summary="@string/pref_contrib_purchase_summary"/>
-      <Preference android:key="@string/pref_request_licence_key"
-        android:title="@string/pref_request_licence_title" />
-      <EditTextPreference android:key="@string/pref_enter_licence_key"
-        android:inputType="number"
-        android:title="@string/pref_enter_licence_title"
-        android:summary="@string/pref_enter_licence_summary" />
-   </PreferenceCategory>
-   <PreferenceCategory android:title="@string/pref_category_title_security">
-    <PreferenceScreen
-        android:key="@string/pref_screen_protection"
-        android:title="@string/pref_perform_protection_title">
-     <org.totschnig.myexpenses.preference.PasswordPreference
-        android:key="@string/pref_perform_protection_key"
-        android:title="@string/pref_perform_protection_title"
-        android:summary="@string/pref_perform_protection_summary"/>
-     <org.totschnig.myexpenses.preference.SeekBarPreference xmlns:my="http://schemas.android.com/apk/res-auto"
-        android:key="@string/pref_protection_delay_seconds_key"
-        android:title="@string/pref_protection_delay_seconds_title"
-        android:summary="@string/pref_protection_delay_seconds_summary"
-        android:defaultValue="15" my:max_value="90" my:min_value="1"
-        my:unit_symbol=" &#8243;"/>
-     <org.totschnig.myexpenses.preference.SecurityQuestion
-        android:key="@string/pref_security_question_key"
-        android:title="@string/pref_security_question_title" />
-     <PreferenceCategory android:title="Widgets">
-     	 <CheckBoxPreference android:key="@string/pref_protection_enable_account_widget_key"
-          android:defaultValue="false"
-          android:title="@string/widget_title_accounts"
-          android:summaryOn="@string/pref_checkbox_enabled"
-          android:summaryOff="@string/pref_checkbox_disabled" />
-       <CheckBoxPreference android:key="@string/pref_protection_enable_template_widget_key"
-          android:defaultValue="false"
-          android:title="@string/widget_title_templates"
-          android:summaryOn="@string/pref_checkbox_enabled"
-          android:summaryOff="@string/pref_checkbox_disabled" />
-	     <CheckBoxPreference android:key="@string/pref_protection_enable_data_entry_from_widget_key"
-	        android:defaultValue="false"
-	        android:title="@string/pref_protection_enable_data_entry_from_widget_title"
-	        android:summaryOn="@string/pref_protection_enable_data_entry_from_widget_summary_on"
-	        android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off" />
-	     </PreferenceCategory>
-   </PreferenceScreen>
-  </PreferenceCategory>
-   <PreferenceCategory android:title="@string/pref_category_title_more_information">
-     <Preference
-        android:title="@string/pref_visit_website_title"
-        android:summary="@string/pref_visit_website_summary">
-        <intent
-        android:action="android.intent.action.VIEW"
-        android:data="@string/website"
-        />
-    </Preference>
-    <Preference
-        android:title="@string/pref_follow_gplus_title">
-        <intent
-        android:action="android.intent.action.VIEW"
-        android:data="https://google.com/+MyexpensesMobi"
-        />
-    </Preference>
-    <Preference
-        android:title="@string/pref_like_facebook_title">
-        <intent
-        android:action="android.intent.action.VIEW"
-        android:data="https://www.facebook.com/MyExpenses"
-        />
-    </Preference>
-    <Preference android:key="@string/pref_more_info_dialog_key"
-        android:title="@string/pref_more_info_dialog_title"
-        android:summary="@string/pref_more_info_dialog_summary"/>
-     </PreferenceCategory>
-  <PreferenceCategory android:title="@string/feedback">
-    <Preference android:key="@string/pref_rate_key"
-        android:title="@string/help_button_rate">
-    </Preference>
-    <Preference android:key="@string/pref_send_feedback_key"
-        android:title="@string/pref_send_feedback_title"/>
-  </PreferenceCategory>
-  <PreferenceCategory android:title="@string/pref_category_title_advanced">
-      <Preference android:key="@string/pref_custom_currency_key"
-          android:title="@string/pref_custom_currency_title">
-        <intent android:targetPackage="org.totschnig.myexpenses"
-         android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"/>
-      </Preference>
-      <EditTextPreference android:key="@string/pref_custom_decimal_format_key"
-                          android:title="@string/pref_custom_decimal_format_title"
-                          android:summary="@string/pref_custom_decimal_format_summary"/>
-  </PreferenceCategory>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_auto_fill_key"
+            android:summary="@string/pref_auto_fill_summary"
+            android:title="@string/pref_auto_fill_title"/>
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:entries="@array/pref_template_click_default_entries"
+            android:entryValues="@array/pref_template_click_default_values"
+            android:key="@string/pref_template_click_default_key"
+            android:title="@string/pref_template_click_default_summary"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_category_title_import">
+        <Preference
+            android:key="import_from_grisbi"
+            android:summary="@string/pref_import_from_grisbi_summary"
+            android:title="@string/pref_import_from_grisbi_title">
+            <intent android:action="myexpenses.intent.import_from_grisbi"/>
+        </Preference>
+        <Preference android:key="@string/pref_import_qif_key">
+            <intent android:action="myexpenses.intent.import">
+                <extra
+                    android:name="format"
+                    android:value="QIF"/>
+            </intent>
+        </Preference>
+        <Preference android:key="@string/pref_import_csv_key">
+            <intent android:action="myexpenses.intent.import.csv"/>
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_category_export_key"
+        android:title="@string/pref_category_title_export">
+        <Preference
+            android:key="@string/pref_app_dir_key"
+            android:title="@string/pref_app_dir_title"/>
+        <PreferenceScreen
+            android:key="@string/pref_perform_share_key"
+            android:title="@string/pref_perform_share_title">
+            <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
+                android:inputType="textUri"
+                android:key="@string/pref_share_target_key"
+                android:summary="@string/pref_share_target_summary"
+                android:title="@string/pref_share_target_title"/>
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/menu_backup">
+        <Preference
+            android:key="@string/pref_backup_key"
+            android:summary="@string/pref_backup_summary"
+            android:title="@string/menu_backup">
+            <intent android:action="myexpenses.intent.backup"/>
+        </Preference>
+        <PreferenceScreen
+            android:key="@string/pref_auto_backup_key"
+            android:title="@string/pref_auto_backup_title">
+            <Preference
+                android:key="@string/pref_auto_backup_info_key"
+                style="?preferenceInformationStyle"
+                android:summary="@string/pref_auto_backup_summary"/>
+            <org.totschnig.myexpenses.preference.TimePreference
+                android:dependency="@string/pref_auto_backup_key"
+                android:key="@string/pref_auto_backup_time_key"
+                android:summary="@string/pref_auto_backup_time_summary"
+                android:title="@string/pref_auto_backup_time_title"/>
+        </PreferenceScreen>
+        <Preference
+            android:key="@string/pref_restore_key"
+            android:summary="@string/pref_restore_summary">
+            <intent android:action="myexpenses.intent.restore"/>
+        </Preference>
+        <Preference
+            android:key="@string/pref_restore_legacy_key"
+            android:summary="@string/pref_restore_alternative_summary">
+            <intent android:action="myexpenses.intent.restore">
+                <extra
+                    android:name="legacy"
+                    android:value="true"/>
+            </intent>
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_category_contrib_key"
+        android:title="@string/menu_contrib">
+        <Preference
+            android:key="@string/pref_contrib_purchase_key"
+            android:summary="@string/pref_contrib_purchase_summary"/>
+        <Preference
+            android:key="@string/pref_request_licence_key"
+            android:title="@string/pref_request_licence_title"/>
+        <EditTextPreference
+            android:inputType="number"
+            android:key="@string/pref_enter_licence_key"
+            android:summary="@string/pref_enter_licence_summary"
+            android:title="@string/pref_enter_licence_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_title_security">
+        <PreferenceScreen
+            android:key="@string/pref_screen_protection"
+            android:title="@string/pref_perform_protection_title">
+            <org.totschnig.myexpenses.preference.PasswordPreference
+                android:key="@string/pref_perform_protection_key"
+                android:summary="@string/pref_perform_protection_summary"
+                android:title="@string/pref_perform_protection_title"/>
+            <com.pavelsikun.seekbarpreference.SeekBarPreference
+                xmlns:my="http://schemas.android.com/apk/res-auto"
+                android:defaultValue="15"
+                android:key="@string/pref_protection_delay_seconds_key"
+                android:summary="@string/pref_protection_delay_seconds_summary"
+                android:title="@string/pref_protection_delay_seconds_title"
+                my:msbp_interval="1"
+                my:msbp_maxValue="90"
+                my:msbp_measurementUnit=" &#8243;"
+                my:msbp_minValue="1"/>
+            <EditTextPreference
+                android:dialogLayout="@layout/security_question"
+                android:key="@string/pref_security_question_key"
+                android:title="@string/pref_security_question_title"/>
+            <PreferenceCategory android:title="Widgets">
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="@string/pref_protection_enable_account_widget_key"
+                    android:summaryOff="@string/pref_checkbox_disabled"
+                    android:summaryOn="@string/pref_checkbox_enabled"
+                    android:title="@string/widget_title_accounts"/>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="@string/pref_protection_enable_template_widget_key"
+                    android:summaryOff="@string/pref_checkbox_disabled"
+                    android:summaryOn="@string/pref_checkbox_enabled"
+                    android:title="@string/widget_title_templates"/>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="@string/pref_protection_enable_data_entry_from_widget_key"
+                    android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off"
+                    android:summaryOn="@string/pref_protection_enable_data_entry_from_widget_summary_on"
+                    android:title="@string/pref_protection_enable_data_entry_from_widget_title"/>
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_title_more_information">
+        <Preference
+            android:summary="@string/pref_visit_website_summary"
+            android:title="@string/pref_visit_website_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/website"
+                />
+        </Preference>
+        <Preference
+            android:title="@string/pref_follow_gplus_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://google.com/+MyexpensesMobi"
+                />
+        </Preference>
+        <Preference
+            android:title="@string/pref_like_facebook_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.facebook.com/MyExpenses"
+                />
+        </Preference>
+        <Preference
+            android:key="@string/pref_more_info_dialog_key"
+            android:summary="@string/pref_more_info_dialog_summary"
+            android:title="@string/pref_more_info_dialog_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/feedback">
+        <Preference
+            android:key="@string/pref_rate_key"
+            android:title="@string/help_button_rate">
+        </Preference>
+        <Preference
+            android:key="@string/pref_send_feedback_key"
+            android:title="@string/pref_send_feedback_title"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_title_advanced">
+        <Preference
+            android:key="@string/pref_custom_currency_key"
+            android:title="@string/pref_custom_currency_title">
+            <intent
+                android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
+                android:targetPackage="org.totschnig.myexpenses"/>
+        </Preference>
+        <EditTextPreference
+            android:key="@string/pref_custom_decimal_format_key"
+            android:summary="@string/pref_custom_decimal_format_summary"
+            android:title="@string/pref_custom_decimal_format_title"/>
+    </PreferenceCategory>
 </PreferenceScreen> 

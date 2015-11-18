@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
@@ -42,11 +43,13 @@ public abstract class AmountActivity extends EditActivity {
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
   protected CompoundButton mTypeButton;
+  protected TextView mAmountLabel;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
-    super.onCreate(savedInstanceState);
+  public void setContentView(int layoutResID) {
+    super.setContentView(layoutResID);
+    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
+    mAmountText = (EditText) findViewById(R.id.Amount);
   }
 
   /**
@@ -55,7 +58,6 @@ public abstract class AmountActivity extends EditActivity {
    * @param fractionDigits 
    */
   protected void configAmountInput(int fractionDigits) {
-    mAmountText = (EditText) findViewById(R.id.Amount);
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
@@ -69,13 +71,6 @@ public abstract class AmountActivity extends EditActivity {
    */
   protected void configTypeButton() {
     mTypeButton = (CompoundButton) findViewById(R.id.TaType);
-    mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-      @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        onTypeChanged(isChecked);
-      }
-    });
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
@@ -92,6 +87,7 @@ public abstract class AmountActivity extends EditActivity {
   }
   protected void onTypeChanged(boolean isChecked) {
     mType = isChecked;
+    mIsDirty = true;
     configureType();
   }
 
@@ -141,5 +137,20 @@ public abstract class AmountActivity extends EditActivity {
     super.onRestoreInstanceState(savedInstanceState);
     mType = savedInstanceState.getBoolean("type");
     configureType();
+  }
+  protected void setupListeners() {
+    mAmountText.addTextChangedListener(this);
+    mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        onTypeChanged(isChecked);
+      }
+    });
+  }
+  protected void linkInputsWithLabels() {
+    linkInputWithLabel(mAmountText, mAmountLabel);
+    linkInputWithLabel(mTypeButton, mAmountLabel);
+    linkInputWithLabel(findViewById(R.id.Calculator),mAmountLabel);
   }
 }

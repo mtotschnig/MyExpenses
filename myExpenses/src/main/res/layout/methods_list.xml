@@ -22,7 +22,9 @@
       android:id="@+id/list"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
-      android:drawSelectorOnTop="false" />
+      android:drawSelectorOnTop="false"
+      android:layout_marginRight="@dimen/margin_list"
+      android:layout_marginLeft="@dimen/margin_list"/>
   <TextView android:id="@+id/empty"
       android:gravity="center"
       android:layout_width="fill_parent"

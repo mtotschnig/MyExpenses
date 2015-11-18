@@ -5,7 +5,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
 
