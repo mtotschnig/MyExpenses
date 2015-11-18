@@ -927,7 +927,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
     }
     if (oldVersion < 54) {
-      db.execSQL("DROP TRIGGER cace_stale_uri");
+      db.execSQL("DROP TRIGGER cache_stale_uri");
       db.execSQL("CREATE TRIGGER cache_stale_uri " +
           "AFTER DELETE ON " + "transactions" + " " +
           "WHEN old." + "picture_id" + " NOT NULL " +
