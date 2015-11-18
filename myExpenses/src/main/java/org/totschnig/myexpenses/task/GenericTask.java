@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.task;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
@@ -239,8 +240,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       Transaction.move((Long) ids[0], (Long) mExtra);
       return null;
     case TaskExecutionFragment.TASK_NEW_PLAN:
+      if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
+        if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {
+          return Plan.LIMIT_EXHAUSTED_ID;
+        }
+      }
       Uri uri = ((Plan) mExtra).save();
-      return uri == null ? null : ContentUris.parseId(uri);
+      return uri == null ? Plan.CALENDAR_NOT_SETUP_ID : ContentUris.parseId(uri);
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
       return !MyApplication.getInstance().createPlanner(true).equals(MyApplication.INVALID_CALENDAR_ID);
     case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:

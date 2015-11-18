@@ -701,8 +701,6 @@ public class ExpenseEdit extends AmountActivity implements
               ActivityCompat.requestPermissions(ExpenseEdit.this,
                   new String[]{Manifest.permission.WRITE_CALENDAR},
                   ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
-              //TODO this must be moved to onPostexecute from task new_Plan
-              //CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
             }
           }
         }
@@ -1293,13 +1291,14 @@ public class ExpenseEdit extends AmountActivity implements
    * callback of TaskExecutionFragment
    */
   @Override
-  public void onPostExecute(int taskId,Object o) {
+  public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
       //unable to create new plan, inform user
-      if (mPlanId == null) {
+      if (mPlanId == Plan.CALENDAR_NOT_SETUP_ID) {
+        mPlanId = null;
         MessageDialogFragment.Button createNewButton;
         String message;
         int selectButtonLabel;
@@ -1327,13 +1326,18 @@ public class ExpenseEdit extends AmountActivity implements
             MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(), "CALENDAR_SETUP_INFO");
         mPlanButton.setEnabled(true);
-      } else if (mPlanId == 0L) {
+      } else if (mPlanId == Plan.LIMIT_EXHAUSTED_ID) {
+        mPlanId = null;
+        mPlanButton.setEnabled(true);
+        CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
+      }
+      /*else if (mPlanId == 0L) {
         mPlanId = null;
         Toast.makeText(
             this,
             "Unable to create plan. Need WRITE_CALENDAR permission.",
             Toast.LENGTH_LONG).show();
-      } else {
+      } */ else {
         mLaunchPlanView = true;
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
           mManager.restartLoader(EVENT_CURSOR, null, this);
@@ -1522,7 +1526,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
-    // TODO Auto-generated method stub    
   }
 
   /*
