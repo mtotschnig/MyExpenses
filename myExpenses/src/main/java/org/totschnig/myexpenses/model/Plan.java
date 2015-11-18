@@ -40,7 +40,6 @@ public class Plan extends Model implements Serializable {
   }
   /**
    * insert a new planing event into the calendar
-   * @param calendarId
    * @return the id of the created object
    */
   @Override
