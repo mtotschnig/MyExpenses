@@ -234,6 +234,14 @@
         <item>create_split_part_category</item>
         <item>create_split_part_transfer</item>
     </string-array>
+    <string-array name="ExpenseEdit_transaction_formfields" tools:ignore="UnusedResources">
+        <item>account</item>
+        <item>date.time</item>
+        <item>payer_or_payee</item>
+        <item>amount</item>
+        <item>comment</item>
+        <item>category</item>
+    </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
         <item>save</item>

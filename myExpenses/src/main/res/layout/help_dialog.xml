@@ -33,6 +33,11 @@
             style="@style/about_text"/>
 
         <TextView
+            android:id="@+id/form_fields_heading"
+            style="@style/headingStyle.WithMargin"
+            android:text="@string/help_form_fields"/>
+
+        <TextView
             android:id="@+id/menu_commands_heading"
             style="@style/headingStyle.WithMargin"
             android:text="@string/help_menu_commands"/>

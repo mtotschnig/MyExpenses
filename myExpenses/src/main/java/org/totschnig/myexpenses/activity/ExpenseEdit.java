@@ -206,7 +206,7 @@ public class ExpenseEdit extends AmountActivity implements
   private boolean mIsResumed;
 
   public enum HelpVariant {
-    transaction,transfer,split,template,splitPartCategory,splitPartTransfer
+    transaction,template
   }
 
   @Override
@@ -593,6 +593,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
 
+    helpVariant = HelpVariant.transaction;
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       if (!calendarPermissionPermanentlyDeclined()) {
@@ -621,29 +622,25 @@ public class ExpenseEdit extends AmountActivity implements
           .commit();
         fm.executePendingTransactions();
       }
-      helpVariant = HelpVariant.split;
     } else {
       if (mTransaction instanceof SplitPartCategory) {
         setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_split_part_category : R.string.menu_edit_split_part_category  );
-        helpVariant = HelpVariant.splitPartCategory;
         mTransaction.status = STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof SplitPartTransfer) {
         setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
-        helpVariant = HelpVariant.splitPartTransfer;
         mTransaction.status = STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof Transfer) {
         setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_transfer : R.string.menu_edit_transfer );
-        helpVariant = HelpVariant.transfer;
       }
       else if (mTransaction instanceof Transaction) {
         setTitle(mTransaction.getId() == 0 ?
             R.string.menu_create_transaction : R.string.menu_edit_transaction );
-        helpVariant = HelpVariant.transaction;
+
       }
     }
     if (mClone) {
