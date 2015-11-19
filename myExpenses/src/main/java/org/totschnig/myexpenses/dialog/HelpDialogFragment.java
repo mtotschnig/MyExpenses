@@ -209,12 +209,14 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     int resId;
     for (String item: menuItems) {
       View row = li.inflate(R.layout.help_dialog_action_row, null);
+      final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
       if (iconMap.containsKey(item)) {
         resId = iconMap.get(item);
-        ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
-            res.getDrawable(resId));
+        icon.setImageDrawable(res.getDrawable(resId));
       } else {
-        throw new NotFoundException(item + " icon");
+        //for the moment we assume that menu entries without icon are checkable
+        icon.setVisibility(View.GONE);
+        row.findViewById(R.id.list_checkbox).setVisibility(View.VISIBLE);
       }
       resIdString = "menu_"+item;
       resId = res.getIdentifier(resIdString,"string",pack);
