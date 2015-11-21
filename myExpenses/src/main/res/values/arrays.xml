@@ -227,6 +227,9 @@
         <item>save_and_new</item>
         <item>invert_transfer</item>
     </string-array>
+    <string-array name="ExpenseEdit_splitPartTransfer_menuitems" tools:ignore="UnusedResources">
+      <item>invert_transfer</item>
+    </string-array>
     <string-array name="ExpenseEdit_template_menuitems" tools:ignore="UnusedResources">
         <item>save_and_new</item>
     </string-array>
@@ -271,7 +274,7 @@
     </string-array>
 
     <string-array name="ExpenseEdit_splitPartTransfer_formfields" tools:ignore="UnusedResources">
-        <item>transfer_to_account.transfer_from_account</item>
+        <item>transfer_from_account.transfer_to_account</item>
         <item>amount</item>
         <item>comment</item>
     </string-array>
