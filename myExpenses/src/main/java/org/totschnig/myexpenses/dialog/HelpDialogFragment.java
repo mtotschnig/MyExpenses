@@ -297,7 +297,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       String[] components = getResources().getStringArray(resId);
       CharSequence[] resolvedComponents = new CharSequence[components.length];
       for (int i = 0; i < components.length; i++) {
-        resolvedComponents[i] = Html.fromHtml(getStringSafe(resolveString(components[i])), this, null);
+        String component = getStringSafe(resolveString(components[i]));
+        if (i<components.length-1) component += " ";
+        resolvedComponents[i] = Html.fromHtml(component, this, null);
       }
       return TextUtils.concat(resolvedComponents);
     }
