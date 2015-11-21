@@ -62,10 +62,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeLight" parent="@style/ThemeLightBase">
     </style>
 
-    <style name="AboutDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
-    </style>
-
     <style name="ThemeDark.s1Base">
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
