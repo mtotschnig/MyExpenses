@@ -78,7 +78,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("edit", android.R.drawable.ic_menu_edit);
     iconMap.put("distribution", android.R.drawable.ic_menu_today);
     iconMap.put("edit_plan_instance", android.R.drawable.ic_menu_edit);
-    iconMap.put("exclude_from_totals", android.R.drawable.ic_menu_close_clear_cancel);
     iconMap.put("forward", R.drawable.ic_menu_forward);
     iconMap.put("grouping", android.R.drawable.ic_menu_sort_by_size);
     iconMap.put("invert_transfer", R.drawable.ic_menu_refresh);

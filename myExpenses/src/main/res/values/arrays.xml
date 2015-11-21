@@ -150,26 +150,16 @@
         <item>split_transaction</item>
     </string-array>
 
-    <string-array name="ManageMethods_menuitems" tools:ignore="UnusedResources">
-        <item>create_method</item>
-    </string-array>
     <string-array name="ManageMethods_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
     </string-array>
 
-    <string-array name="ManageParties_menuitems" tools:ignore="UnusedResources">
-        <item>create_party</item>
-    </string-array>
     <string-array name="ManageParties_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
     </string-array>
 
-    <string-array name="ManageTemplates_menuitems" tools:ignore="UnusedResources">
-        <item>create_template_for_transaction</item>
-        <item>create_template_for_transfer</item>
-    </string-array>
     <string-array name="ManageTemplates_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
@@ -187,12 +177,10 @@
     </string-array>
 
     <string-array name="ManageCategories_manage_menuitems" tools:ignore="UnusedResources">
-        <item>create_main_cat</item>
         <item>categories_setup_default</item>
         <item>categories_export</item>
     </string-array>
     <string-array name="ManageCategories_select_mapping_menuitems" tools:ignore="UnusedResources">
-        <item>create_main_cat</item>
         <item>categories_setup_default</item>
     </string-array>
     <string-array name="ManageCategories_distribution_menuitems" tools:ignore="UnusedResources">
@@ -230,9 +218,6 @@
     <string-array name="ExpenseEdit_splitPartTransfer_menuitems" tools:ignore="UnusedResources">
       <item>invert_transfer</item>
     </string-array>
-    <string-array name="ExpenseEdit_template_menuitems" tools:ignore="UnusedResources">
-        <item>save_and_new</item>
-    </string-array>
     <string-array name="ExpenseEdit_transaction_formfields" tools:ignore="UnusedResources">
         <item>account</item>
         <item>date.time</item>
@@ -240,8 +225,15 @@
         <item>amount</item>
         <item>comment</item>
         <item>category</item>
+        <item>method</item>
     </string-array>
-    <string-array name="ExpenseEdit_template_formfields" tools:ignore="UnusedResources">
+    <string-array name="ExpenseEdit_transfer_formfields" tools:ignore="UnusedResources">
+        <item>transfer_from_account.transfer_to_account</item>
+        <item>date.time</item>
+        <item>amount</item>
+        <item>comment</item>
+    </string-array>
+    <string-array name="ExpenseEdit_templateCategory_formfields" tools:ignore="UnusedResources">
         <item>title</item>
         <item>account</item>
         <item>payer_or_payee</item>
@@ -251,13 +243,12 @@
         <item>method</item>
         <item>plan</item>
     </string-array>
-    <string-array name="ExpenseEdit_transfer_formfields" tools:ignore="UnusedResources">
-        <item>transfer_from_account</item>
-        <item>transfer_to_account</item>
-        <item>date.time</item>
-        <item>payer_or_payee</item>
+    <string-array name="ExpenseEdit_templateTransfer_formfields" tools:ignore="UnusedResources">
+        <item>title</item>
+        <item>transfer_from_account.transfer_to_account</item>
         <item>amount</item>
         <item>comment</item>
+        <item>plan</item>
     </string-array>
     <string-array name="ExpenseEdit_split_formfields" tools:ignore="UnusedResources">
         <item>account</item>
@@ -303,6 +294,18 @@
         <item>save</item>
         <item>set_sort_key</item>
         <item>exclude_from_totals</item>
+    </string-array>
+    <string-array name="AccountEdit_formfields">
+        <item>label</item>
+        <item>description</item>
+        <item>opening_balance</item>
+        <item>currency</item>
+        <item>type</item>
+        <item>color</item>
+    </string-array>
+    <string-array name="form_opening_balance_help_text" tools:ignore="UnusedResources">
+        <item>form_AccountEdit_amount_switch_help_text</item>
+        <item>form_calculator_help_text</item>
     </string-array>
 
     <string-array name="MethodEdit_menuitems" tools:ignore="UnusedResources">

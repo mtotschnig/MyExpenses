@@ -206,7 +206,7 @@ public class ExpenseEdit extends AmountActivity implements
   private boolean mIsResumed;
 
   public enum HelpVariant {
-    transaction,transfer,split,template,splitPartCategory,splitPartTransfer
+    transaction,transfer,split,templateCategory,templateTransfer,splitPartCategory,splitPartTransfer
   }
 
   @Override
@@ -606,7 +606,8 @@ public class ExpenseEdit extends AmountActivity implements
           + " ("
           + getString(mOperationType ==  MyExpenses.TYPE_TRANSFER ? R.string.transfer : R.string.transaction)
           + ")");
-      helpVariant = HelpVariant.template;
+      helpVariant = mOperationType ==  MyExpenses.TYPE_TRANSFER ?
+          HelpVariant.templateTransfer : HelpVariant.templateCategory;
     } else if (mTransaction instanceof SplitTransaction) {
       setTitle(mNewInstance ? R.string.menu_create_split : R.string.menu_edit_split);
       //SplitTransaction are always instantiated with status uncommitted,
@@ -761,7 +762,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    if (mTransaction instanceof SplitTransaction) {
+    if (mTransaction instanceof SplitTransaction || mTransaction instanceof Template) {
       return true;
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)) {
