@@ -1249,27 +1249,17 @@ public class ExpenseEdit extends AmountActivity implements
     Spinner accountSpinner = mAccountSpinner.getSpinner();
     Spinner transferAccountSpinner = mTransferAccountSpinner.getSpinner();
     ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountParent);
-    if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-      if (mType == INCOME) {
-        accountParent.removeView(accountSpinner);
-        accountParent.addView(accountSpinner);
-      } else {
-        accountParent.removeView(transferAccountSpinner);
-        accountParent.addView(transferAccountSpinner);
-      }
+    ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
+    if (mType == INCOME) {
+      accountParent.removeView(accountSpinner);
+      transferAccountRow.removeView(transferAccountSpinner);
+      accountParent.addView(transferAccountSpinner);
+      transferAccountRow.addView(accountSpinner);
     } else {
-      ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
-      if (mType == INCOME) {
-        accountParent.removeView(accountSpinner);
-        transferAccountRow.removeView(transferAccountSpinner);
-        accountParent.addView(transferAccountSpinner);
-        transferAccountRow.addView(accountSpinner);
-      } else {
-        accountParent.removeView(transferAccountSpinner);
-        transferAccountRow.removeView(accountSpinner);
-        accountParent.addView(accountSpinner);
-        transferAccountRow.addView(transferAccountSpinner);
-      }
+      accountParent.removeView(transferAccountSpinner);
+      transferAccountRow.removeView(accountSpinner);
+      accountParent.addView(accountSpinner);
+      transferAccountRow.addView(transferAccountSpinner);
     }
   }
   public Money getAmount() {
