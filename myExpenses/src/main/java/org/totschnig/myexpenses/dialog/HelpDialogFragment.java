@@ -130,14 +130,19 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       String resIdString = "help_" + activityName + "_info";
       int resId = resolveString(resIdString);
       if (resId != 0) {
-        screenInfo = getString(resId);
-      } else if (variant == null) {
+        try {
+          screenInfo = getString(resId);
+        } catch (NotFoundException e) {//if resource has not been removed any alternative language
+          resId = 0;
+        }
+      }
+      if (resId == 0 && variant == null) {
         throw new NotFoundException(resIdString);
       }
       if (variant != null) {
         resIdString = "help_" + activityName + "_" + variant + "_info";
         screenInfo += "<br>";
-        //TODO uncomment when all obsolete translations have been removed: screenInfo +=  resolveStringOrThrow(resIdString);
+        screenInfo +=  resolveStringOrThrow(resIdString);
       }
       ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo, this, null));
 
@@ -267,12 +272,17 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   private int resolveString(String resIdString) {
     return resolve(resIdString, "string");
   }
+
   private String resolveStringOrThrow(String resIdString) {
     int resId = resolveString(resIdString);
     if (resId == 0) {
       throw new NotFoundException(resIdString);
     }
-    return getResources().getString(resId);
+    try {
+      return getResources().getString(resId);
+    } catch (NotFoundException e) {//if resource has not been removed any alternative language
+      return "";
+    }
   }
 
   private int resolveArray(String resIdString) {
