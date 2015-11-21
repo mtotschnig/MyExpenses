@@ -132,23 +132,27 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       String resIdString = "help_" + activityName + "_info";
       int resId = resolveString(resIdString);
       if (resId != 0) {
-        try {
-          screenInfo = getString(resId);
-        } catch (NotFoundException e) {//if resource has not been removed from any alternative language
-          resId = 0;
-        }
-      }
-      if (resId == 0 && variant == null) {
-        throw new NotFoundException(resIdString);
+        screenInfo = getStringSafe(resId);
       }
       if (variant != null) {
         resIdString = "help_" + activityName + "_" + variant + "_info";
-        if (!TextUtils.isEmpty(screenInfo)) {
-          screenInfo += "<br>";
+        resId = resolveString(resIdString);
+        if (resId != 0) {
+          String variantInfo = getStringSafe(resId);
+          if (!TextUtils.isEmpty(variantInfo)) {
+            if (!TextUtils.isEmpty(screenInfo)) {
+              screenInfo += "<br>";
+            }
+            screenInfo += variantInfo;
+          }
         }
-        screenInfo +=  resolveStringOrThrowIf0(resIdString);
       }
-      ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo, this, null));
+      final TextView infoView = (TextView) view.findViewById(R.id.screen_info);
+      if (TextUtils.isEmpty(screenInfo)) {
+        infoView.setVisibility(View.GONE);
+      } else {
+        infoView.setText(Html.fromHtml(screenInfo, this, null));
+      }
 
       // Form entries
       resId = variant != null ? resolveArray(activityName + "_" + variant + "_formfields") :
@@ -223,6 +227,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
    * @param menuItems
    * @throws NotFoundException
    */
+
   protected void handleMenuItems(ArrayList<String> menuItems, String prefix, int offset)
       throws NotFoundException {
     final Resources res = getResources();
@@ -281,18 +286,18 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
   private CharSequence resolveStringOrArray(String resString) {
     int resId = resolveArray(resString);
-    if (resId==0) {
+    if (resId == 0) {
       resId = resolveString(resString);
-        if (resId==0) {
-          return null;
-        } else {
-          return Html.fromHtml(getStringSafe(resId), this, null);
-        }
+      if (resId == 0) {
+        return null;
+      } else {
+        return Html.fromHtml(getStringSafe(resId), this, null);
+      }
     } else {
       String[] components = getResources().getStringArray(resId);
       CharSequence[] resolvedComponents = new CharSequence[components.length];
       for (int i = 0; i < components.length; i++) {
-        resolvedComponents[i] = Html.fromHtml(getStringSafe(resolveString(components[i])),this,null);
+        resolvedComponents[i] = Html.fromHtml(getStringSafe(resolveString(components[i])), this, null);
       }
       return TextUtils.concat(resolvedComponents);
     }
@@ -303,12 +308,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   /**
-   *
    * @param resIdString
    * @return
    * @throws NotFoundException if there is no ressource for the given String. On the contrary, if the
-   * String does exist in an alternate locale, but not in the default one, the resulting exception is caught
-   * and empty String is returned.
+   *                           String does exist in an alternate locale, but not in the default one, the resulting exception is caught
+   *                           and empty String is returned.
    */
   private String resolveStringOrThrowIf0(String resIdString) throws NotFoundException {
     int resId = resolveString(resIdString);
@@ -333,9 +337,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   private int resolve(String resIdString, String defType) {
     return resolve(getResources(), resIdString, defType, getActivity().getPackageName());
   }
+
   private int resolveSystem(String resIdString, String defType) {
-    return resolve (getResources().getSystem(),resIdString,defType,"android");
+    return resolve(getResources().getSystem(), resIdString, defType, "android");
   }
+
   private int resolve(Resources resources, String resIdString, String defType, String packageName) {
     return resources.getIdentifier(resIdString, defType, packageName);
   }
@@ -358,7 +364,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       } else {
         if (name.startsWith("android:")) {
           name = name.substring(8);
-          resId = resolveSystem(name,"drawable");
+          resId = resolveSystem(name, "drawable");
         } else {
           resId = resolve(name, "drawable");
         }
@@ -367,8 +373,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     } catch (NotFoundException e) {
       return null;
     }
-    d.setBounds(0, 0, d.getIntrinsicWidth()/2,
-        d.getIntrinsicHeight()/2);
+    d.setBounds(0, 0, d.getIntrinsicWidth() / 2,
+        d.getIntrinsicHeight() / 2);
     return d;
   }
 }

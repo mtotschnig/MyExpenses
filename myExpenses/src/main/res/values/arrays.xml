@@ -230,10 +230,6 @@
     <string-array name="ExpenseEdit_template_menuitems" tools:ignore="UnusedResources">
         <item>save_and_new</item>
     </string-array>
-    <string-array name="ExpenseEdit_split_menuitems" tools:ignore="UnusedResources">
-        <item>create_split_part_category</item>
-        <item>create_split_part_transfer</item>
-    </string-array>
     <string-array name="ExpenseEdit_transaction_formfields" tools:ignore="UnusedResources">
         <item>account</item>
         <item>date.time</item>
@@ -268,12 +264,36 @@
         <item>comment</item>
         <item>split_parts_heading</item>
     </string-array>
-    <string-array name="form_amount_help_text">
+    <string-array name="ExpenseEdit_splitPartCategory_formfields" tools:ignore="UnusedResources">
+        <item>amount</item>
+        <item>comment</item>
+        <item>category</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_splitPartTransfer_formfields" tools:ignore="UnusedResources">
+        <item>transfer_to_account.transfer_from_account</item>
+        <item>amount</item>
+        <item>comment</item>
+    </string-array>
+    <string-array name="form_amount_help_text" tools:ignore="UnusedResources">
         <item>form_amount_switch_help_text</item>
         <item>form_calculator_help_text</item>
     </string-array>
-    <string-array name="form_ExpenseEdit_transfer_amount_help_text">
+    <string-array name="form_ExpenseEdit_transfer_amount_help_text" tools:ignore="UnusedResources">
         <item>form_calculator_help_text</item>
+    </string-array>
+    <string-array name="form_comment_help_text" tools:ignore="UnusedResources">
+        <item>form_comment_help_text</item>
+        <item>form_cr_status_help_text</item>
+        <item>form_attach_image_help_text</item>
+    </string-array>
+    <string-array name="form_ExpenseEdit_splitPartCategory_comment_help_text" tools:ignore="UnusedResources">
+        <item>form_comment_help_text</item>
+        <item>form_attach_image_help_text</item>
+    </string-array>
+    <string-array name="form_ExpenseEdit_splitPartTransfer_comment_help_text" tools:ignore="UnusedResources">
+        <item>form_comment_help_text</item>
+        <item>form_attach_image_help_text</item>
     </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
