@@ -105,18 +105,14 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     } else if (which == AlertDialog.BUTTON_NEUTRAL) {
       ctx.contribBuyDo(false);
     } else {
-      if (usagesLeft > 0) {
-        ctx.contribFeatureCalled(feature, getArguments().getSerializable(ContribInfoDialogActivity.KEY_TAG));
-      } else {
-        ctx.contribFeatureNotCalled(feature);
-      }
+      ctx.finish();
     }
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ContribIFace ctx = (ContribIFace)getActivity();
-    if (ctx!=null) {
-      ctx.contribFeatureNotCalled(feature);
+    if (getActivity()==null) {
+      return;
     }
+    getActivity().finish();
   }
 }

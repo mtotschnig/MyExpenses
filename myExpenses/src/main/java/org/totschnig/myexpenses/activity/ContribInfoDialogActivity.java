@@ -16,7 +16,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 public class ContribInfoDialogActivity extends ProtectedFragmentActivity
-    implements MessageDialogListener, ContribIFace {
+    implements MessageDialogListener {
   protected long sequenceCount;
   public final static String KEY_FEATURE = "feature";
   public static final String KEY_TAG = "tag";
@@ -63,24 +63,21 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
+  public void finish() {
+    int usagesLeft = ((ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE)).usagesLeft();
     Intent i = new Intent();
-    i.putExtra(KEY_FEATURE, feature);
-    i.putExtra(KEY_TAG, tag);
-    setResult(RESULT_OK, i);
-    finish();
-  }
-
-  @Override
-  public void contribFeatureNotCalled(ContribFeature feature) {
-    Intent i = new Intent();
-    i.putExtra(KEY_FEATURE, feature);
-    setResult(RESULT_CANCELED, i);
-    finish();
+    i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
+    i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
+    if (usagesLeft > 0) {
+      setResult(RESULT_OK, i);
+    } else {
+      setResult(RESULT_CANCELED, i);
+    }
+    super.finish();
   }
 
   @Override
   protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-    finish();
+   finish();
   }
 }
