@@ -104,9 +104,6 @@ public class Account extends Model {
     KEY_TYPE,
     KEY_SORT_KEY,
     KEY_EXCLUDE_FROM_TOTALS,
-    "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
-        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS " + KEY_TRANSFER_ENABLED,
     HAS_EXPORTED
   };
   int baseLength = PROJECTION_BASE.length;
@@ -473,7 +470,7 @@ public class Account extends Model {
     }
   }
 
-  public static int defaultColor = 0xff99CC00;
+  public static int defaultColor = 0xff009688;
 
   static HashMap<Long,Account> accounts = new HashMap<>();
   
@@ -1513,7 +1510,7 @@ public class Account extends Model {
   }
 
   /**
-   * Looks for an account with a label. WARNING: If several accounts have the same account, this
+   * Looks for an account with a label. WARNING: If several accounts have the same label, this
    * method fill return the first account retrieved in the cursor, order is undefined
    * @param label label of the account we want to retrieve
    * @return id or -1 if not found

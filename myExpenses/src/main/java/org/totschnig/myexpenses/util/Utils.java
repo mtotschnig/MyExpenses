@@ -93,6 +93,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+
 /**
  * Util class with helper methods
  * 
@@ -139,6 +141,12 @@ public class Utils {
       sep = symbols.getDecimalSeparator();
     }
     return sep;
+  }
+
+  public static String defaultOrderBy(String textColumn) {
+    boolean byUsagesP = MyApplication.PrefKey.SORT_ORDER.getString("USAGES").equals("USAGES");
+    return (byUsagesP ? KEY_USAGES + " DESC, " : "")
+        + textColumn + " COLLATE LOCALIZED";
   }
 
   /**
@@ -709,10 +717,23 @@ public class Utils {
     return list.size() > 0;
   }
 
-  public static int getTextColorForBackground(int color) {
-    int greyLevel = (int) (0.299 * Color.red(color) + 0.587
-        * Color.green(color) + 0.114 * Color.blue(color));
-    return greyLevel > 127 ? Color.BLACK : Color.WHITE;
+  public static boolean isBrightColor(int color) {
+    if (android.R.color.transparent == color)
+      return true;
+
+    boolean rtnValue = false;
+
+    int[] rgb = { Color.red(color), Color.green(color), Color.blue(color) };
+
+    int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
+        * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
+
+    // color is light
+    if (brightness >= 200) {
+      rtnValue = true;
+    }
+
+    return rtnValue;
   }
 
   /**

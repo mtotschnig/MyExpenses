@@ -14,10 +14,14 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-  <ToggleButton  xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_gravity="center"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/TaType"
-      android:textOff="-"
-      android:textOn="+" />
+<android.support.v7.widget.SwitchCompat
+    android:id="@+id/TaType"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:switchMinWidth="0dp"
+    android:textOff="-"
+    android:textOn="+"
+    app:showText="true"/>

@@ -129,6 +129,14 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     defaultCurrency = Currency.getInstance("EUR");
     helperTestLang("eu","ES");
   }
+  public void testLang_da() {
+    defaultCurrency = Currency.getInstance("DKK");
+    helperTestLang("da","DK");
+  }
+  public void testLang_bg() {
+    defaultCurrency = Currency.getInstance("BGN");
+    helperTestLang("bg","BG");
+  }
 	private void helperTestLang(String lang, String country) {
 	  this.locale = new Locale(lang,country);
 	  Locale.setDefault(locale); 

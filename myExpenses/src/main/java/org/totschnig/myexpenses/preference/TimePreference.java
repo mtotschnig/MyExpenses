@@ -11,7 +11,7 @@ package org.totschnig.myexpenses.preference;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.DialogPreference;
+import android.support.v7.preference.DialogPreference;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -24,53 +24,27 @@ import org.totschnig.myexpenses.R;
  * Created by IntelliJ IDEA.
  * User: Denis Solonenko
  * Date: 12/17/11 1:59 AM
+ * migrated to Support Library prefereence-v7 by Michael Totschnig
  */
-public class TimePreference extends DialogPreference  {
+public class TimePreference extends IntegerDialogPreference {
 
     public static final int DEFAULT_VALUE = 500;
 
-    private TimePicker mTimePicker;
-    
     public TimePreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setPersistent(true);
+        setDialogLayoutResource(R.layout.timepicker);
     }
 
     public TimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setPersistent(true);
+        setDialogLayoutResource(R.layout.timepicker);
     }
 
-    @Override
-    protected View onCreateDialogView() {
-        Context context = getContext();
-        mTimePicker = new TimePicker(context);
-        mTimePicker.setId(1);
-        mTimePicker.setIs24HourView(DateFormat.is24HourFormat(context));
-        mTimePicker.setCurrentHour(getHour());
-        mTimePicker.setCurrentMinute(getMinute());
-        return mTimePicker;
-    }
-
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        super.onDialogClosed(positiveResult);
-
-        if (!positiveResult) {
-            return;
-        }
-        if (shouldPersist()) {
-            mTimePicker.clearFocus();
-            persistInt(100*mTimePicker.getCurrentHour()+mTimePicker.getCurrentMinute());
-        }
-        notifyChanged();
-    }
-
-    private int getHour() {
+    public int getHour() {
         return getPersistedInt(DEFAULT_VALUE)/100;
     }
 
-    private int getMinute() {
+    public int getMinute() {
         int hm = getPersistedInt(DEFAULT_VALUE);
         int h = hm/100;
         return hm-100*h;
@@ -78,11 +52,7 @@ public class TimePreference extends DialogPreference  {
 
     @Override
     public CharSequence getSummary() {
-        return getContext().getString(R.string.pref_auto_backup_time_summary, getHour(), getMinute());
+        return String.format("%1$02d:%2$02d",getHour(), getMinute());
     }
 
-    @Override
-    protected void showDialog(Bundle state) {
-        super.showDialog(state);
-    }
 }

@@ -31,9 +31,10 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
         mCurrency = savedInstanceState.getString(KEY_CURRENCY);
         mResult = savedInstanceState.getInt(KEY_RESULT);
       }
-      setTheme(MyApplication.getThemeId());
+      setTheme(MyApplication.getThemeIdEditDialog());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.currency_list);
+      setupToolbar(true);
       getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
     }
     @Override

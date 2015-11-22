@@ -421,4 +421,6 @@
   <string name="widget_title_templates">මගේ අච්චු </string>
   <string name="app_dir_does_not_exist">දැනට තෝරාගත් උපස්ථ හා අපනයන සදහා වූ ගොනුව (%1$s) භාවිතයේ නොමැත </string>
   <string name="app_dir_read_only">දැනට තෝරාගත් උපස්ථ හා අපනයන සදහා වූ ගොනුව (%1$s) කියවීමට පමණයි </string>
+    <string name="switch_on_text" msgid="1124106706920572386">"සක්‍රියයි"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"අක්‍රියයි"</string>
 </resources>

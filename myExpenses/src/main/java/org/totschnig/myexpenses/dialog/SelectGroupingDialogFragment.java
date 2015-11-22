@@ -17,7 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -30,7 +30,7 @@ import android.os.Bundle;
 public class SelectGroupingDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   private static final String KEY_SELECTED_INDEX = "selected_index";
   /**
-   * @param account_id
+   * @param selectedIndex
    * @return
    */
   public static final SelectGroupingDialogFragment newInstance(

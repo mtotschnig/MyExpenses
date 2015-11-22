@@ -84,6 +84,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       progressMessage);
     return true;
   }
+
   @Override
   @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

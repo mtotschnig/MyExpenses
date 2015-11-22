@@ -37,21 +37,29 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -60,11 +68,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+
+import java.io.Serializable;
+
 /**
  * @author Michael Totschnig
  *
  */
-public class ProtectedFragmentActivity extends ActionBarActivity
+public class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
   public static final int CALCULATOR_REQUEST = 0;
@@ -103,12 +125,9 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     if (BuildConfig.DEBUG) {
         enableStrictMode();
     }
-
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     setLanguage();
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
     Resources.Theme theme = getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -116,6 +135,17 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
   }
+
+  protected Toolbar setupToolbar(boolean withHome) {
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    if (withHome) {
+      final ActionBar actionBar = getSupportActionBar();
+      actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+    return toolbar;
+  }
+
     @TargetApi(9)
     private void enableStrictMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
@@ -126,11 +156,11 @@ public class ProtectedFragmentActivity extends ActionBarActivity
                     .penaltyLog()
                     .build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                            //.detectLeakedClosableObjects()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
+                .detectLeakedSqlLiteObjects()
+                    //.detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
         }
     }
 
@@ -153,7 +183,6 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   @Override
   @TargetApi(11)
   protected void onResume() {
-    Log.d("DEBUG", "ProtectedFragmentActivity onResume");
     super.onResume();
     if(scheduledRestart) {
       scheduledRestart = false;
@@ -199,6 +228,11 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     }
     return false;
   }
+
+  public void dispatchCommand(View v) {
+    dispatchCommand(v.getId(),v.getTag());
+  }
+
   @Override
   public void onPreExecute() {
   }
@@ -304,10 +338,15 @@ public class ProtectedFragmentActivity extends ActionBarActivity
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && resultCode == RESULT_OK && intent != null) {
-      ((ContribIFace) this).contribFeatureCalled(
-          (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
-          intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST  && intent != null) {
+      if (resultCode == RESULT_OK ) {
+        ((ContribIFace) this).contribFeatureCalled(
+            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+            intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+      } else if (resultCode == RESULT_CANCELED) {
+        ((ContribIFace) this).contribFeatureNotCalled(
+            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE));
+      }
     }
   }
 
@@ -325,6 +364,35 @@ public class ProtectedFragmentActivity extends ActionBarActivity
     super.setTitle(title);
     if (Build.VERSION.SDK_INT <Build.VERSION_CODES.HONEYCOMB) {
       getSupportActionBar().setTitle(title);
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
+        MyApplication.PrefKey.CALENDAR_PERMISSION_REQUESTED.putBoolean(true);
+    }
+  }
+
+  protected boolean calendarPermissionPermanentlyDeclined() {
+    String permission= Manifest.permission.WRITE_CALENDAR;
+    return MyApplication.PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
+        (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) &&
+        !ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
+  }
+
+  protected void requestCalendarPermission() {
+    if (calendarPermissionPermanentlyDeclined()) {
+      Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+      Uri uri = Uri.fromParts("package", getPackageName(), null);
+      intent.setData(uri);
+      startActivity(intent);
+    } else {
+      ActivityCompat.requestPermissions(this,
+          new String[]{Manifest.permission.WRITE_CALENDAR},
+          ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
     }
   }
 }

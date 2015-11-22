@@ -44,7 +44,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 53;
+  public static final int DATABASE_VERSION = 54;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -212,8 +212,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + " ( " + KEY_PICTURE_URI + " text);";
 
   private static final String STALE_URI_TRIGGER_CREATE =
-      "CREATE TRIGGER cache_stale_uri BEFORE DELETE ON " + TABLE_TRANSACTIONS + " WHEN old." + KEY_PICTURE_URI + " NOT NULL "
-      + " BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
+      "CREATE TRIGGER cache_stale_uri " +
+          "AFTER DELETE ON " + TABLE_TRANSACTIONS + " " +
+          "WHEN old." + KEY_PICTURE_URI + " NOT NULL " +
+          "AND NOT EXISTS " +
+              "(SELECT 1 FROM " + TABLE_TRANSACTIONS + " " +
+                  "WHERE " + KEY_PICTURE_URI + " = old." + KEY_PICTURE_URI + ") " +
+          "BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
@@ -925,6 +930,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
           + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
       db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
+    }
+    if (oldVersion < 54) {
+      db.execSQL("DROP TRIGGER cache_stale_uri");
+      db.execSQL("CREATE TRIGGER cache_stale_uri " +
+          "AFTER DELETE ON " + "transactions" + " " +
+          "WHEN old." + "picture_id" + " NOT NULL " +
+          "AND NOT EXISTS " +
+          "(SELECT 1 FROM " + "transactions" + " " +
+          "WHERE " + "picture_id" + " = old." + "picture_id" + ") " +
+          "BEGIN INSERT INTO " + "stale_uris" + " VALUES (old." + "picture_id" + "); END");
+      //all Accounts with old default color are updated to the new one
+      db.execSQL(String.format("UPDATE accounts set color = %d WHERE color = %d",0xff009688,0xff99CC00));
     }
   }
   @Override

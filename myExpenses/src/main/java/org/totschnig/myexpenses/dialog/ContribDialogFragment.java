@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,14 +59,13 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
     Resources res = getResources();
-    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     CharSequence featureDescription;
     if (feature.hasTrial) {
       featureDescription = Html.fromHtml(feature.buildFullInfoString(ctx,usagesLeft));
     } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     }
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx);
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
     CharSequence
         linefeed = Html.fromHtml("<br><br>"),
         removePhrase = feature.buildRemoveLimitation(getActivity(),true),
@@ -112,18 +111,14 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     } else if (which == AlertDialog.BUTTON_NEUTRAL) {
       ctx.contribBuyDo(false);
     } else {
-      if (usagesLeft > 0) {
-        ctx.contribFeatureCalled(feature, getArguments().getSerializable(ContribInfoDialogActivity.KEY_TAG));
-      } else {
-        ctx.contribFeatureNotCalled();
-      }
+      ctx.finish();
     }
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ContribIFace ctx = (ContribIFace)getActivity();
-    if (ctx!=null) {
-      ctx.contribFeatureNotCalled();
+    if (getActivity()==null) {
+      return;
     }
+    getActivity().finish();
   }
 }

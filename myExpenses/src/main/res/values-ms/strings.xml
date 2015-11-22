@@ -41,14 +41,17 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Transaksi pisah</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget  templat</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-Sandar</string>
   <string name="contrib_key">Kunci Contrib</string>
   <string name="extended_key">Kunci Lanjutan</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Perlukan %s.</string>
   <string name="currency">Matawang</string>
   <string name="current_balance">Baki semasa</string>
   <string name="date">Tarikh</string>
   <string name="date_format">Format tarikh</string>
   <string name="date_format_illegal">Format tarikh tidak sah</string>
+  <string name="number_format_illegal">Format nombor tidak sah</string>
   <string name="decimal_separator">Pemisah perpuluhan</string>
   <string name="default_account_description">Akaun ini telah dipasang secara automatik ketika pemasangan</string>
   <string name="default_account_name">Buku Bajet</string>
@@ -235,6 +238,7 @@
   <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
   <string name="no_exportable_expenses">Tiada transaksi yang belum lagi dieksport.</string>
   <string name="no_filemanager_installed">Tiada pengurus fail dipasang</string>
+  <string name="no_calendar_app_installed">Tiada apl ditemui untuk menyunting peristiwa kalendar.</string>
   <string name="no_mapped_transactions">Tiada transaksi dipetakan pada kategori ketika tempoh ini.</string>
   <string name="no_methods">Tiada kaedah pembayaran.</string>
   <string name="no_parties">Tiada pihak.</string>
@@ -549,4 +553,15 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="csv_import_delimiter_tab">Tab</string>
   <string name="csv_import_no_mapping_found_for_amount">Sila petakan salah satu lajur sama ada amaun, pendapatan atau perbelanjaan.</string>
   <string name="menu_show_transactions">Tunjuk transaksi</string>
+  <string name="pref_custom_decimal_format_title">Format nombor</string>
+  <string name="pref_custom_decimal_format_summary">Jika anda tidak puas hati dengan format lalai untuk lokal anda, suaikannya mengikut keperluan anda. Biarkan kosong untuk pulihkan format lalai.</string>
+  <string name="licence_validation_upgrade_needed">Sila tatar My Expenses Contrib Saya ke versi 1.5.</string>
+  <string name="pref_auto_backup_title">Benarkan auto-sandar</string>
+  <string name="pref_auto_backup_summary">Sandar pangkalan data harian pada masa yang ditetapkan (hanya jika data telah berubah).</string>
+  <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
+  <string name="pref_auto_backup_time_summary">Buat sandar harian pada %1$02d:%2$02d</string>
+  <string name="warning_auto_backup_limited_trial">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
+  <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Dihidupkan"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Dimatikan"</string>
 </resources>

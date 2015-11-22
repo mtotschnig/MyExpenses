@@ -14,23 +14,32 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	  android:id="@+id/layoutMain"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-    android:orientation="vertical" >
-  <TextView android:id="@+id/ImportantUpgradeInfoHeading"
-      android:text="@string/important_upgrade_information_heading"
-      style="@style/headingStyle.WithBorder"
-      android:visibility="gone"/>
-  <TextView android:id="@+id/ImportantUpgradeInfoBody"
-      android:text="@string/important_upgrade_information_1"
-      style="@style/about_text.white" android:visibility="gone"/>
-  <ListView
-      android:listSelector="@android:color/transparent"
-      android:id="@+id/list"
-		  android:layout_width="fill_parent"
-		  android:layout_height="fill_parent"
-		  android:drawSelectorOnTop="false"/>
+<LinearLayout android:id="@+id/layoutMain"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/padding_dialog_content_top"
+              android:paddingLeft="@dimen/padding_dialog_side"
+              android:paddingRight="@dimen/padding_dialog_side">
+
+    <TextView
+        android:id="@+id/ImportantUpgradeInfoHeading"
+        style="@style/headingStyle.WithMargin"
+        android:text="@string/important_upgrade_information_heading"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/ImportantUpgradeInfoBody"
+        style="@style/about_text"
+        android:text="@string/important_upgrade_information_1"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawSelectorOnTop="false"
+        android:listSelector="@android:color/transparent"/>
 </LinearLayout>
 

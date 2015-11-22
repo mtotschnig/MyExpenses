@@ -14,9 +14,199 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal">
- <include layout="@layout/account_row_inner"/>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:padding="4dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/cardHighlightForeground"
+        android:stateListAnimator="@drawable/card_statelist_animator"
+        app:cardBackgroundColor="?android:windowBackground"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/color1"
+                    android:layout_width="4dp"
+                    android:layout_height="fill_parent"/>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:shrinkColumns="1"
+                    android:stretchColumns="0">
+
+                    <TableRow>
+                        <!-- room for overflow menu -->
+                        <TextView
+                            android:layout_marginRight="20dp"
+                            android:id="@+id/label"
+                            style="@style/headingStyle"
+                            android:layout_span="2"
+                            android:text="LABEL"/>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:id="@+id/description"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="2"
+                            android:text="DESCRIPTION"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:text="@string/opening_balance"/>
+
+                        <TextView
+                            android:id="@+id/opening_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="OPENING_BALANCE"/>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:text="@string/sum_income"/>
+
+                        <TextView
+                            android:id="@+id/sum_income"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="SUM_INCOME"/>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:text="@string/sum_expenses"/>
+
+                        <TextView
+                            android:id="@+id/sum_expenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="SUM_EXPENSES"/>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/TransferRow">
+
+                        <TextView
+                            android:text="@string/sum_transfer"/>
+
+                        <TextView
+                            android:id="@+id/sum_transfer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="SUM_TRANSFER"/>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <View/>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="4dp"
+                            android:background="?android:attr/colorForeground"/>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:text="@string/current_balance"/>
+
+                        <TextView
+                            android:id="@+id/current_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="CURRENT_BALANCE"/>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/TotalRow">
+
+                        <TextView
+                            android:text="@string/menu_aggregates"/>
+
+                        <TextView
+                            android:id="@+id/total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="TOTAL"/>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/ClearedRow">
+
+                        <TextView
+                            android:text="@string/total_cleared"/>
+
+                        <TextView
+                            android:id="@+id/cleared_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="CLEARED_TOTAL"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/ReconciledRow">
+
+                        <TextView
+                            android:text="@string/total_reconciled"/>
+
+                        <TextView
+                            android:id="@+id/reconciled_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="RECONCILED_TOTAL"/>
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:translationX="9dp"
+                android:translationY="-6dp"
+                android:id="@+id/account_menu"
+                style="?actionOverflowButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:clickable="true"/>
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
+
+    <include layout="@layout/selected_indicator"/>
+</FrameLayout>

@@ -25,6 +25,8 @@ import android.util.Log;
  * holds information about an event in the calendar
  */
 public class Plan extends Model implements Serializable {
+  public static final Long LIMIT_EXHAUSTED_ID = -2L;
+  public static final Long CALENDAR_NOT_SETUP_ID = -3L;
   public long dtstart;
   public String rrule;
   public String title;
@@ -40,7 +42,6 @@ public class Plan extends Model implements Serializable {
   }
   /**
    * insert a new planing event into the calendar
-   * @param calendarId
    * @return the id of the created object
    */
   @Override

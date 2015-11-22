@@ -139,7 +139,6 @@ public class DatabaseConstants {
   public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
   public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
-  public static final String KEY_TRANSFER_ENABLED = "transfer_enabled";
   public static final String KEY_SUM = "sum";
   public static final String KEY_SORT_KEY = "sort_key";
   public static final String KEY_SORT_KEY_TYPE = "sort_key_type";

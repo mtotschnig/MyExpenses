@@ -238,8 +238,8 @@ public class FileUtils {
    * Framework Documents, as well as the _data field for the MediaStore and
    * other file-based ContentProviders.<br>
    * <br>
-   * Callers should check whether the path is local before assuming it
-   * represents a local file.
+   * Callers should only use this for display purposes and not for accessing the file directly via the
+   * file system
    *
    * @param context The context.
    * @param uri The Uri to query.
@@ -278,8 +278,9 @@ public class FileUtils {
           }
           return path;
         }
-
-        // TODO handle non-primary volumes
+        //there is no documented way of returning a path to a file on non primary storage.
+        //so what we do is displaying the documentId to the user which is better than just null
+        return docId;
       }
       // DownloadsProvider
       else if (isDownloadsDocument(uri)) {

@@ -341,4 +341,6 @@
   <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
   <string name="pref_auto_backup_time_title">Automatikus biztonsági mentés ideje</string>
   <string name="pref_auto_backup_time_summary">Csináljon napi biztonsági mentést %1$02d:%2$02d-kor</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Be"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Ki"</string>
 </resources>

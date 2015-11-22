@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,11 +61,16 @@ public class ZipUtils {
                 addFileToZip(PICTURES, imageFile, zip);
               }
             } else {
-              InputStream in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
-              addInputStreamToZip(PICTURES + "/" + imageFileUri.getLastPathSegment(),
-                  in,
-                  zip);
-              in.close();
+              InputStream in = null;
+              try {
+                in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
+                addInputStreamToZip(PICTURES + "/" + imageFileUri.getLastPathSegment(),
+                    in,
+                    zip);
+                in.close();
+              } catch (FileNotFoundException e) {
+                e.printStackTrace();
+              }
             }
           } while (c.moveToNext());
         } catch (IOException e) {

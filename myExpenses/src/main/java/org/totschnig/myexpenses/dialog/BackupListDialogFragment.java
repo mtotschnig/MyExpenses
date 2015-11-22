@@ -4,7 +4,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,15 +24,15 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
-    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = LayoutInflater.from(getActivity());
     View view = li.inflate(R.layout.backup_restore_fallback_dialog, null);
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(wrappedCtx,
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
         android.R.layout.simple_spinner_item, backupFiles);
     selectBackupSpinner = ((Spinner) view.findViewById(R.id.select_backup));
     selectBackupSpinner.setAdapter(adapter);
+    adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
-    return new AlertDialog.Builder(wrappedCtx)
+    return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.pref_restore_title)
         .setView(view)
         /*.setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.task;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
@@ -16,7 +17,6 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -33,8 +33,6 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-
-import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -242,10 +240,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       Transaction.move((Long) ids[0], (Long) mExtra);
       return null;
     case TaskExecutionFragment.TASK_NEW_PLAN:
+      if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
+        if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {
+          return Plan.LIMIT_EXHAUSTED_ID;
+        }
+      }
       Uri uri = ((Plan) mExtra).save();
-      return uri == null ? null : ContentUris.parseId(uri);
+      return uri == null ? Plan.CALENDAR_NOT_SETUP_ID : ContentUris.parseId(uri);
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
-      return MyApplication.getInstance().createPlanner();
+      return !MyApplication.getInstance().createPlanner(true).equals(MyApplication.INVALID_CALENDAR_ID);
     case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
       for (int i = 0; i < ids.length; i++) {
         extraInfo2d = (Long[][]) mExtra;
@@ -440,7 +443,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @NonNull
   public static Result doBackup() {
-    boolean result = false;
     if (!Utils.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
@@ -454,29 +456,31 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
       return new Result(false,R.string.io_error_cachedir_null);
     }
-    if (DbUtils.backup(cacheDir)) {
+    Result result = DbUtils.backup(cacheDir);
+    String failureMessage = MyApplication.getInstance().getString(R.string.backup_failure,
+        FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
+    if (result.success) {
       try {
         ZipUtils.zipBackup(
                 cacheDir,
                 backupFile);
-        result  = true;
+        return new Result(
+            true,
+            R.string.backup_success,
+            backupFile.getUri());
       } catch (IOException e) {
         Utils.reportToAcra(e);
+        return new Result(
+            false,
+            failureMessage + " " + e.getMessage());
+      } finally {
+        MyApplication.getBackupDbFile(cacheDir).delete();
+        MyApplication.getBackupPrefFile(cacheDir).delete();
       }
-      MyApplication.getBackupDbFile(cacheDir).delete();
-      MyApplication.getBackupPrefFile(cacheDir).delete();
     }
-    if (result) {
-      return new Result(
-          true,
-          R.string.backup_success,
-          backupFile.getUri());
-    } else {
-      return new Result(
-          false,
-          R.string.backup_failure,
-          FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
-    }
+    return new Result(
+        false,
+        failureMessage + " " + result.print(MyApplication.getInstance()));
   }
 
   private boolean checkImagePath(String lastPathSegment) {

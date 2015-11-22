@@ -45,13 +45,13 @@ import android.support.v4.provider.DocumentFile;
 import android.view.Window;
 import android.widget.Toast;
 
-public class BackupRestoreActivity extends ProtectedFragmentActivityNoAppCompat
+public class BackupRestoreActivity extends ProtectedFragmentActivity
     implements ConfirmationDialogListener {
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    setTheme(MyApplication.getThemeIdTranslucent());
     if (savedInstanceState!=null) {
       return;
     }

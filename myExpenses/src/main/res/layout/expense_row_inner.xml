@@ -24,8 +24,8 @@
 
         <RelativeLayout
             android:id="@+id/colorContainer"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="?attr/colorContainerOuter"
+            android:layout_height="?attr/colorContainerOuter"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/date"
             android:background="?attr/selectableItemBackground"
@@ -33,8 +33,8 @@
 
             <View
                 android:id="@+id/color1"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="?attr/colorContainerInner"
+                android:layout_height="?attr/colorContainerInner"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>

@@ -15,23 +15,23 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-	  <item
-	    android:id="@id/CREATE_COMMAND"
-	    android:icon="@android:drawable/ic_menu_add"
-	    app:showAsAction="always"
-	    android:title="@string/menu_create_folder"/>
-	  
-	  <item
-	    android:id="@id/SELECT_COMMAND"
-	    android:icon="@drawable/ic_menu_goto"
-	    app:showAsAction="always"
-	    android:title="@string/menu_select_folder"/>
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@id/CREATE_COMMAND"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/menu_create_folder"
+        app:showAsAction="always"/>
 
-	  <item
-	  	android:id="@id/UP_COMMAND"
-      android:icon="@drawable/ic_action_up"
-	    app:showAsAction="always"
-	    android:title="@string/menu_up"/>
-	  	
+    <item
+        android:id="@id/SELECT_COMMAND"
+        android:icon="@drawable/ic_menu_goto"
+        android:title="@string/menu_select_folder"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@id/UP_COMMAND"
+        android:icon="@drawable/ic_action_up"
+        android:title="@string/menu_up"
+        app:showAsAction="always"/>
+
 </menu>

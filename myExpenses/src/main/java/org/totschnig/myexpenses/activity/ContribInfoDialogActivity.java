@@ -27,8 +27,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ContribInfoDialogActivity extends FragmentActivity
-    implements MessageDialogListener, ContribIFace {
+public class ContribInfoDialogActivity extends ProtectedFragmentActivity
+    implements MessageDialogListener {
   protected long sequenceCount;
   public final static String KEY_FEATURE = "feature";
   public static final String KEY_TAG = "tag";
@@ -40,7 +40,7 @@ public class ContribInfoDialogActivity extends FragmentActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdTranslucent());
 
     mHelper = Distrib.getIabHelper(this);
     if (mHelper != null) {
@@ -200,17 +200,17 @@ public class ContribInfoDialogActivity extends FragmentActivity
   }
 
   @Override
-  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
+  public void finish() {
+    int usagesLeft = ((ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE)).usagesLeft();
     Intent i = new Intent();
-    i.putExtra(KEY_FEATURE, feature);
-    i.putExtra(KEY_TAG, tag);
-    setResult(RESULT_OK, i);
-    finish();
-  }
-
-  @Override
-  public void contribFeatureNotCalled() {
-    finish();
+    i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
+    i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
+    if (usagesLeft > 0) {
+      setResult(RESULT_OK, i);
+    } else {
+      setResult(RESULT_CANCELED, i);
+    }
+    super.finish();
   }
 
   @Override
@@ -224,7 +224,7 @@ public class ContribInfoDialogActivity extends FragmentActivity
       // not handled, so handle it ourselves (here's where you'd
       // perform any handling of activity results not related to in-app
       // billing...
-      super.onActivityResult(requestCode, resultCode, data);
+      finish();
     } else {
       Log.d(tag, "onActivityResult handled by IABUtil.");
     }
@@ -240,5 +240,4 @@ public class ContribInfoDialogActivity extends FragmentActivity
     if (mHelper != null) mHelper.dispose();
     mHelper = null;
   }
-  
 }

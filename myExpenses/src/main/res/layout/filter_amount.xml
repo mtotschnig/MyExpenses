@@ -18,7 +18,9 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
         <RadioGroup
             android:id="@+id/type"
@@ -41,8 +43,6 @@
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/general_padding"
-            android:paddingRight="@dimen/general_padding"
             android:shrinkColumns="0"
             android:stretchColumns="1" >
 
@@ -68,7 +68,6 @@
                 android:visibility="gone" >
 
                 <TextView
-                    style="@style/dialog_text"
                     android:gravity="center_horizontal"
                     android:text="@string/and" />
 

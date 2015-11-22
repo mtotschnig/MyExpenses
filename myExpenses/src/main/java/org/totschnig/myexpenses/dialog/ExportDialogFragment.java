@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -85,7 +85,6 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
-    Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
     boolean allP = false, hasExported;
@@ -114,7 +113,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       }
     }
 
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.export_dialog, null);
 
 
@@ -223,7 +222,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     if (allP) {
       ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
     }
-    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)

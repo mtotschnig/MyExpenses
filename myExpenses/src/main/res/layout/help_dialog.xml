@@ -14,22 +14,40 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aboutscrollview"
     android:layout_width="fill_parent"
     android:layout_height="0dp"
-    android:layout_weight="1">
-  <LinearLayout android:id="@+id/help"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical">
-    <TextView android:id="@+id/screen_info"
-        style="@style/about_text" />
-    <TextView android:id="@+id/menu_commands_heading"
-        style="@style/headingStyle.WithBorder"
-        android:text="@string/help_menu_commands"/>
-    <TextView android:id="@+id/cab_commands_heading"
-        style="@style/headingStyle.WithBorder"
-        android:text="@string/help_contextual_actions"/>
-  </LinearLayout>
+    android:layout_weight="1"
+    android:paddingTop="@dimen/padding_dialog_content_top">
+
+    <LinearLayout
+        android:id="@+id/help"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
+
+        <TextView
+            android:id="@+id/screen_info"
+            style="@style/about_text"/>
+
+        <TextView
+            android:id="@+id/form_fields_heading"
+            style="@style/headingStyle.WithMargin"
+            android:text="@string/help_form_fields"/>
+
+        <TextView
+            android:id="@+id/menu_commands_heading"
+            style="@style/headingStyle.WithMargin"
+            android:text="@string/help_menu_commands"/>
+
+        <TextView
+            android:id="@+id/cab_commands_heading"
+            style="@style/headingStyle.WithMargin"
+            android:text="@string/help_contextual_actions"/>
+    </LinearLayout>
 </ScrollView>
 

@@ -149,6 +149,12 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     sharedPrefsDir.mkdir();
     File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
     if (!Utils.copy(backupPrefFile,tempPrefFile)) {
+      Utils.reportToAcra(
+          new Exception(MyApplication.getInstance().getString(R.string.restore_preferences_failure)),
+          "FAILED_COPY_OPERATION",
+          String.format("%s => %s",
+              backupPrefFile.getAbsolutePath(),
+              tempPrefFile.getAbsolutePath()));
       return new Result(false,R.string.restore_preferences_failure);
     }
     SharedPreferences backupPref =

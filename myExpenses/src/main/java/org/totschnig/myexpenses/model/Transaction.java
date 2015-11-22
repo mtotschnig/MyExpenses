@@ -174,7 +174,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_ACCOUNTID, KEY_METHODID,
-        KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_PICTURE_URI, KEY_METHOD_LABEL};
+        KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -208,7 +208,7 @@ public class Transaction extends Model {
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
     t.methodLabel = DbUtils.getString(c, KEY_METHOD_LABEL);
     t.setCatId(catId);
-    t.payeeId = DbUtils.getLongOrNull(c,KEY_PAYEEID);
+    t.payeeId = DbUtils.getLongOrNull(c, KEY_PAYEEID);
     t.payee = DbUtils.getString(c, KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
@@ -222,6 +222,7 @@ public class Transaction extends Model {
     t.pictureUri = c.isNull(pictureUriColumnIndex) ?
         null :
         Uri.parse(c.getString(pictureUriColumnIndex));
+    t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
     c.close();
     return t;
   }

@@ -22,24 +22,28 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
-        android:shrinkColumns="1"
-        android:stretchColumns="1" >
+        android:paddingLeft="@dimen/padding_form"
+        android:paddingRight="@dimen/padding_form"
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
 
         <include layout="@layout/filename" />
 
         <include layout="@layout/encoding"/>
-        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:gravity="center_vertical">
+
+        <TableRow xmlns:android="http://schemas.android.com/apk/res/android">
 
             <TextView
-                style="@style/form_label"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                style="@style/form_label.compat"
                 android:text="@string/pref_csv_import_delimiter"/>
 
             <Spinner
+                android:layout_width="0dip"
                 android:id="@+id/Delimiter"
-                android:layout_weight="1"
+                android:layout_weight="@dimen/form_table_ratio"
+                android:layout_gravity="center_vertical"
                 android:entries="@array/pref_csv_import_delimiter_entries" />
         </TableRow>
 

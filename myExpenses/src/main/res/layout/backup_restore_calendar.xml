@@ -6,7 +6,7 @@
     tools:showIn="@layout/backup_restore_dialog">
 
     <TextView
-        style="@style/dialog_text"
+        style="@style/form_label.compat"
         android:layout_width="0dip"
         android:layout_weight="1"
         android:text="@string/restore_calendar_handling"/>
@@ -14,7 +14,7 @@
     <RadioGroup
         android:id="@+id/restore_calendar_handling"
         android:layout_width="0dip"
-        android:layout_weight="3"
+        android:layout_weight="@dimen/form_table_ratio"
         android:orientation="vertical">
 
         <RadioButton

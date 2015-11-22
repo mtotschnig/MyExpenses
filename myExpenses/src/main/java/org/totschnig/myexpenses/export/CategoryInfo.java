@@ -33,7 +33,7 @@ public class CategoryInfo {
 //        return sb.toString();
 //    }
 
-    public String name;
+    private String name;
     public boolean isIncome;
 
     private int countInserted;
@@ -41,12 +41,12 @@ public class CategoryInfo {
     public CategoryInfo() {}
 
     public CategoryInfo(String name, boolean income) {
-        this.name = name;
+        this.setName(name);
         isIncome = income;
     }
 
     public CategoryInfo(String name) {
-        this.name = name;
+        this.setName(name);
     }
 
     @Override
@@ -56,17 +56,17 @@ public class CategoryInfo {
 
         CategoryInfo that = (CategoryInfo) o;
 
-        return !(name != null ? !name.equals(that.name) : that.name != null);
+        return !(getName() != null ? !getName().equals(that.getName()) : that.getName() != null);
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        return getName() != null ? getName().hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return "{"+name+"("+(isIncome?"I":"E")+"}";
+        return "{"+ getName() +"("+(isIncome?"I":"E")+"}";
     }
 
     /**
@@ -83,18 +83,19 @@ public class CategoryInfo {
 
     /**
      *
-     * @return name, whwere we get rid of class, and reduce to two levels
+     * @return name, whwere we get rid of class, reduce to two levels
      */
     private String extractCategoryName() {
-        int i = name.indexOf('/');
+        String result = getName();
+        int i = result.indexOf('/');
         if (i != -1) {
-            name = name.substring(0, i);
+            result = result.substring(0, i);
         }
-        if (StringUtils.countMatches(name,':')>1) {
-            String parts[] = name.split(":");
-            name = parts[0]+":"+parts[1];
+        if (StringUtils.countMatches(result,':')>1) {
+            String parts[] = result.split(":");
+            result = parts[0]+":"+parts[1];
         }
-        return name;
+        return result;
     }
 
     private void insertCategory(String name, Map<String, Long> categoryToId) {
@@ -142,5 +143,13 @@ public class CategoryInfo {
             }
         }
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -502,4 +502,6 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="restore_calendar_handling_ignore">Ne obnavljaj planove</string>
   <string name="restore_not_possible_target_calendar_missing">Kalendar %s postavljen u arhivi sigurnosne kopije nije pronađen. Obnavljanje je prekinuto.</string>
   <string name="restore_not_possible_local_calendar_missing">Trenutačni kalendar za planiranje nije dostupan.</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Uključeno"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Isključeno"</string>
 </resources>

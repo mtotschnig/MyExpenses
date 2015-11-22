@@ -36,9 +36,6 @@
   <item type="id" name="GROUPING_COMMAND_DO"/>
   <item type="id" name="HANDLE_RESTORE_ON_INSTALL_COMMAND"/>
   <item type="id" name="HELP_COMMAND"/>
-  <item type="id" name="CREATE_SPLIT_COMMAND"/>
-  <item type="id" name="CREATE_TRANSACTION_COMMAND"/>
-  <item type="id" name="CREATE_TRANSFER_COMMAND"/>
   <item type="id" name="INVERT_TRANSFER_COMMAND"/>
   <item type="id" name="MANAGE_PLANS_COMMAND" />
   <item type="id" name="MORE_ACTIONS_DIALOG"/>
@@ -103,4 +100,5 @@
   <item name="IMPORT_COMMAND" type="id"/>
   <item name="PARSE_COMMAND" type="id"/>
   <item name="SET_HEADER_COMMAND" type="id"/>
+  <item name="CREATE_PLAN_COMMAND" type="id"/>
 </resources>

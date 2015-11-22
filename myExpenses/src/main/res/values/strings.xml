@@ -16,6 +16,8 @@
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Account</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Account types</string>
     <string name="account_type_asset">Asset account</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_asset_plural">Asset accounts</string>
@@ -74,6 +76,13 @@
     <string name="default_account_name">Budget Book</string>
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
+    <!-- User confirms that he wants to discard changes -->
+    <string name="dialog_confirm_button_discard">Discard</string>
+    <string name="dialog_confirm_discard_changes">Discard changes?</string>
+    <string name="dialog_confirm_discard_new_transaction">Discard new transaction?</string>
+    <string name="dialog_confirm_discard_new_template">Discard new template?</string>
+    <string name="dialog_confirm_discard_new_account">Discard new account?</string>
+    <string name="dialog_confirm_discard_new_method">Discard new payment method?</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
     <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
@@ -317,8 +326,9 @@
     <string name="pref_auto_fill_title">Autofill transactions</string>
     <string name="pref_auto_fill_summary">Fill in amount, category and comment from last transaction for same payee/payer</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
-    <string name="pref_categories_sort_by_usages_summary">Should categories, templates and accounts be sorted by how often they are used instead of alphabetic sort. This setting is ignored for accounts if they have a sort key set.</string>
-    <string name="pref_categories_sort_by_usages_title">Sort by count of usages</string>
+    <string name="pref_sort_order_title">Sort order for categories, templates and accounts</string>
+    <string name="pref_sort_order_usages">Count of usages</string>
+    <string name="pref_sort_order_alphabetic">Alphabetic</string>
     <string name="pref_category_title_advanced">Advanced</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
@@ -355,7 +365,6 @@
         
     <!-- this is empty for English and gives credit to translators in the other languages --></string>
     <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
-    <string name="pref_password_empty">Password must not be empty</string>
     <string name="pref_password_not_equal">Passwords do not match</string>
     <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
     <string name="pref_perform_protection_title">Password protection</string>
@@ -387,14 +396,12 @@
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
     <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
-    <string name="pref_template_click_default_title">Template default action</string>
     <string name="pref_template_click_default_summary">Upon short tap on entry in template list</string>
     <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
     <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
-    <string name="pref_ui_fontsize_title">Increase font size</string>
+    <string name="pref_ui_fontsize_title">Font size</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <string name="pref_ui_language_default">System default</string>
-    <string name="pref_ui_language_summary">Set language of user interface</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Language</string>
     <string name="pref_ui_theme_dark">dark</string>
@@ -568,6 +575,7 @@
   <string name="pref_csv_import_delimiter">Delimiter</string>
   <string name="csv_import_preview">Preview</string>
   <string name="menu_parse">Parse</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
   <string name="cvs_import_discard">Discard</string>
   <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
   <string name="csv_import_records_failed">%d records could not be imported.</string>
@@ -582,11 +590,14 @@
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
     <string name="licence_validation_upgrade_needed">Please upgrade My Expenses Contrib to version 1.5.</string>
-    <string name="pref_auto_backup_title">Enable auto-backup</string>
+    <string name="pref_auto_backup_title">Auto-backup</string>
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
-    <string name="pref_auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
     <string name="warning_auto_backup_limited_trial">After %d successful automatic backups, auto-backup will be deactivated.</string>
     <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
+    <string name="calendar_permission_required"><i>My Expenses</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
+    <string name="button_request_calendar_access">Grant access</string>
+    <string name="switch_on_text">On</string>
+    <string name="switch_off_text">Off</string>
 </resources>
 

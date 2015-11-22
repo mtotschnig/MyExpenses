@@ -11,19 +11,17 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1" >
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding"
-        android:shrinkColumns="*"
-        android:stretchColumns="*" >
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
-        <include layout="@layout/filename" />
+        <include layout="@layout/filename"/>
 
         <include layout="@layout/backup_restore_calendar"/>
     </TableLayout>

@@ -570,4 +570,6 @@
   <string name="pref_auto_backup_time_summary">Tägliches Backup um %1$02d:%2$02d Uhr</string>
   <string name="warning_auto_backup_limited_trial">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
   <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"An"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Aus"</string>
 </resources>

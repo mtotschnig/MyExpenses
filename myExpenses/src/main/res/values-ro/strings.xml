@@ -529,4 +529,6 @@ Tradus de DD</string>
   <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
   <string name="pref_auto_backup_time_summary">Execută backup zilnic la %1$02d:%2$02d</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"Activat"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"Dezactivat"</string>
 </resources>

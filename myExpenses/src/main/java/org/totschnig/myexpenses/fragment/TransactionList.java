@@ -20,7 +20,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -66,7 +65,6 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,7 +76,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -343,7 +341,6 @@ public class TransactionList extends ContextualActionBarFragment implements
       } else {
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, acmi.id);
-        i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
         if (command==R.id.CLONE_TRANSACTION_COMMAND) {
           i.putExtra(ExpenseEdit.KEY_CLONE,true);
         }
@@ -691,7 +688,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position));
+    configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position),1);
   }
   @Override
   protected void configureMenu11(Menu menu, int count) {
@@ -710,7 +707,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         break;
       }
     }
-    configureMenuInternal(menu, hasSplit, hasNotVoid);
+    configureMenuInternal(menu, hasSplit, hasNotVoid, count);
   }
   private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
@@ -738,11 +735,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     return false;
   }
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid) {
-    menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(!hasSplit);
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, int count) {
+    menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count==1 && !hasSplit);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
     menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(!hasVoid);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !hasVoid);
   }
   @SuppressLint("NewApi")
   public void onDrawerOpened() {
@@ -798,17 +795,17 @@ public class TransactionList extends ContextualActionBarFragment implements
       return;
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
-    TextView title = (TextView) ((ActionBarActivity) getActivity()).getSupportActionBar()
-        .getCustomView().findViewById(R.id.action_bar_title);
+    String title;
     if (!mFilter.isEmpty()) {
       searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
       searchMenu.setChecked(true);
-      title.setText(mAccount.label + " ( " + mFilter.prettyPrint() + " )");
+      title = mAccount.label + " ( " + mFilter.prettyPrint() + " )";
     } else {
       searchMenu.getIcon().setColorFilter(null);
       searchMenu.setChecked(false);
-      title.setText(mAccount.label);
+      title = mAccount.label;
     }
+    ((MyExpenses) getActivity()).setTitle(title);
     SubMenu filterMenu = searchMenu.getSubMenu();
     for (int i = 0; i < filterMenu.size(); i++) {
       MenuItem filterItem = filterMenu.getItem(i);

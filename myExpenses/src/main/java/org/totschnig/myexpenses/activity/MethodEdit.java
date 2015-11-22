@@ -15,50 +15,67 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.support.v7.widget.GridLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-
-import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.CheckBox;
+import org.totschnig.myexpenses.ui.SpinnerHelper;
 
 /**
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class MethodEdit extends EditActivity {
+public class MethodEdit extends EditActivity implements CompoundButton.OnCheckedChangeListener {
   protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
-  private TableLayout mTable;
+  private GridLayout mAccountTypesGrid;
   CheckBox mIsNumberedCheckBox;
-  Spinner mPaymentTypeSpinner;
+  SpinnerHelper mPaymentTypeSpinner;
   PaymentMethod mMethod;
-  private int mPaymentType;
   String[] mTypes = new String[3];
-  
+
+  @Override
+  int getDiscardNewMessage() {
+    return R.string.dialog_confirm_discard_new_method;
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
         
     setContentView(R.layout.one_method);
-    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    setupToolbar();
+    changeEditTextBackground((ViewGroup) findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);
-    mTable = (TableLayout)findViewById(R.id.Table);
+    mAccountTypesGrid = (GridLayout)findViewById(R.id.AccountTypeGrid);
 
-    mPaymentTypeSpinner = (Spinner) findViewById(R.id.TaType);
+    mPaymentTypeSpinner = new SpinnerHelper(findViewById(R.id.TaType));
 
     mIsNumberedCheckBox = (CheckBox) findViewById(R.id.IsNumbered);
+    linkInputsWithLabels();
     populateFields();
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    setupListeners();
+  }
+
   /**
    * populates the input field either from the database or with default value for currency (from Locale)
    */
@@ -66,41 +83,35 @@ public class MethodEdit extends EditActivity {
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
           : 0;
+    int paymentType;
     if (rowId != 0) {
+      mNewInstance = false;
       mMethod = PaymentMethod.getInstanceFromDb(rowId);
 
       setTitle(R.string.menu_edit_method);
       mLabelText.setText(mMethod.getLabel());
-      mPaymentType = mMethod.getPaymentType();
+      paymentType = mMethod.getPaymentType();
       mIsNumberedCheckBox.setChecked(mMethod.isNumbered);
-      mPaymentTypeSpinner.setSelection(mPaymentType+1);
     } else {
       mMethod = new PaymentMethod();
       setTitle(R.string.menu_create_method);
+      paymentType = PaymentMethod.NEUTRAL;
     }
-    //add one row with checkbox for each account type
-    TableRow tr;
-    TextView tv;
+    mPaymentTypeSpinner.setSelection(paymentType +1);
+    //add one checkbox for each account type
     CheckBox cb;
     int cbId = 1;
+    TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
     for (Account.Type accountType : Account.Type.values()) {
-      /* Create a new row to be added. */
-     tr = new TableRow(this);
-  /*    tr.setLayoutParams(new LayoutParams(
-                     LayoutParams.FILL_PARENT,
-                     LayoutParams.WRAP_CONTENT));*/
-           /* Create a Button to be the row-content. */
-      tv = new TextView(this);
-      tv.setText(accountType.toString());
-      tv.setTextAppearance(this, R.style.form_label);
       cb = new CheckBox(this);
+      cb.setText(accountType.toString());
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
       //setting Id makes state be retained on orientation change 
       cb.setId(cbId);
-      tr.addView(tv);
-      tr.addView(cb);
-      mTable.addView(tr);
+      cb.setOnCheckedChangeListener(this);
+      linkInputWithLabel(cb,accountTypesLabel);
+      mAccountTypesGrid.addView(cb);
       cbId++;
     }
   }
@@ -116,7 +127,7 @@ public class MethodEdit extends EditActivity {
 
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
     for (Account.Type accountType : Account.Type.values()) {
-      CheckBox cb = (CheckBox) mTable.findViewWithTag(accountType);
+      CheckBox cb = (CheckBox) mAccountTypesGrid.findViewWithTag(accountType);
       if (cb.isChecked()) {
         mMethod.addAccountType(accountType);
       } else {
@@ -129,7 +140,6 @@ public class MethodEdit extends EditActivity {
   }
   @Override
   public Model getObject() {
-    // TODO Auto-generated method stub
     return mMethod;
   }
   @Override
@@ -137,5 +147,31 @@ public class MethodEdit extends EditActivity {
     setResult(RESULT_OK);
     finish();
     //no need to call super after finish
+  }
+  protected void setupListeners() {
+    mLabelText.addTextChangedListener(this);
+    mPaymentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mIsDirty = true;
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+
+      }
+    });
+    mIsNumberedCheckBox.setOnCheckedChangeListener(this);
+  }
+
+  @Override
+  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    mIsDirty = true;
+  }
+
+  protected void linkInputsWithLabels() {
+    linkInputWithLabel(mLabelText,findViewById(R.id.LabelLabel));
+    linkInputWithLabel(mPaymentTypeSpinner.getSpinner(),findViewById(R.id.TypeLabel));
+    linkInputWithLabel(mIsNumberedCheckBox,findViewById(R.id.IsNumberedLabel));
   }
 }

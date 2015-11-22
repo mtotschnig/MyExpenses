@@ -34,14 +34,17 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.SpannableStringBuilder;
@@ -87,34 +90,61 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
     columnIndexCurrency, columnIndexRowId;
   boolean indexesCalculated = false;
   private ExpandableListView mListView;
+  private View emptyButton;
+  private TextView emptyText;
   private int mExpandedPosition = -1;
-  public boolean newPlanEnabled;
   private enum TransactionState {
     OPEN,APPLIED,CANCELLED
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mManager = getLoaderManager();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.plans_list, null, false);
     mListView = (ExpandableListView) v.findViewById(R.id.list);
+    final View emptyView = v.findViewById(R.id.empty);
+    mListView.setEmptyView(emptyView);
+    emptyButton = v.findViewById(R.id.emptyButton);
+    emptyText = ((TextView) v.findViewById(R.id.emptyText));
+    return v;
+  }
 
-    mManager = getLoaderManager();
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (ContextCompat.checkSelfPermission(getActivity(),
+        Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+      if (mManager.getLoader(TEMPLATES_CURSOR) == null)
+      setupList();
+    } else {
+      emptyButton.setVisibility(View.VISIBLE);
+      emptyText.setText(R.string.calendar_permission_required);
+    }
+  }
+
+  public void setupList() {
+    emptyButton.setVisibility(View.GONE);
+    emptyText.setText(R.string.no_plans);
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
     mAdapter = new MyExpandableListAdapter(
         getActivity(),
         null,
         R.layout.plan_row,
         R.layout.plan_instance_row,
-        new String[]{KEY_TITLE,KEY_LABEL_MAIN,KEY_AMOUNT},
-        new int[]{R.id.title,R.id.category,R.id.amount},
+        new String[]{KEY_TITLE, KEY_LABEL_MAIN, KEY_AMOUNT},
+        new int[]{R.id.title, R.id.category, R.id.amount},
         new String[]{Instances.BEGIN},
         new int[]{R.id.date}
-        );
+    );
     mListView.setAdapter(mAdapter);
-    mListView.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(mListView);
-    return v;
   }
+
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ExpandableListContextMenuInfo menuInfo = (ExpandableListContextMenuInfo) info;
@@ -303,7 +333,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
         indexesCalculated = true;
       }
       int planCount = mTemplatesCursor.getCount();
-      newPlanEnabled = planCount < 3;
+
       if (planCount>0) {
         mTemplatesCursor.moveToFirst();
         ArrayList<Long> plans = new ArrayList<Long>();
@@ -524,7 +554,8 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
     }
   }
   public void refresh() {
-   mAdapter.notifyDataSetChanged();
+    if (mAdapter !=null)
+      mAdapter.notifyDataSetChanged();
   }
   public void listFocus() {
     mListView.requestFocus();

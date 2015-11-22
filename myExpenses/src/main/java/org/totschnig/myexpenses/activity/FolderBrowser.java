@@ -30,9 +30,10 @@ public class FolderBrowser extends ProtectedFragmentActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      setTheme(MyApplication.getThemeId());
+      setTheme(MyApplication.getThemeIdEditDialog());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.folder_browser);
+      setupToolbar(true);
     }
 
     @Override

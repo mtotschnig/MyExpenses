@@ -15,30 +15,77 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
-
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.util.Utils;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements
-    DbWriteFragment.TaskCallbacks {
+    DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
 
-  protected boolean mIsSaving;
+  private static final String KEY_IS_DIRTY = "isDirty";
+  protected boolean mIsSaving = false, mIsDirty = false;
+  protected boolean mNewInstance = true;
+  private int primaryColor;
+  private int accentColor;
+
+  abstract int getDiscardNewMessage();
+
+  protected abstract void setupListeners();
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+  }
+
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+  }
+
+  @Override
+  public void afterTextChanged(Editable s) {
+    mIsDirty = true;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
+    TypedValue typedValue = new TypedValue();
+    TypedArray a = obtainStyledAttributes(typedValue.data,
+        new int[] { android.R.attr.textColorSecondary });
+    primaryColor = a.getColor(0, 0);
+    a.recycle();
+    a = obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
+    accentColor = a.getColor(0, 0);
+    if (savedInstanceState != null) {
+      mIsDirty = savedInstanceState.getBoolean(KEY_IS_DIRTY);
+    }
   }
-  
+
+  protected Toolbar setupToolbar() {
+    Toolbar toolbar = super.setupToolbar(true);
+    getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+    return toolbar;
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
@@ -46,6 +93,27 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     super.onCreateOptionsMenu(menu);
     return true;
   }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (mIsDirty && item.getItemId()==android.R.id.home) {
+      showDiscardDialog();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void showDiscardDialog() {
+    Bundle b = new Bundle();
+    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(
+        mNewInstance ? getDiscardNewMessage() : R.string.dialog_confirm_discard_changes));
+    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
+    b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_confirm_button_discard);
+    b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+    ConfirmationDialogFragment.newInstance(b)
+        .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
+  }
+
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
@@ -57,6 +125,21 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     }
     return super.dispatchCommand(command, tag);
   }
+
+  @Override
+  public void onPositive(Bundle args) {
+    dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),null);
+  }
+
+  @Override
+  public void onNegative(Bundle args) {
+  }
+
+  @Override
+  public void onDismissOrCancel(Bundle args) {
+
+  }
+
   protected void saveState() {
     mIsSaving = true;
     startDbWriteTask(false);
@@ -83,5 +166,28 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   public void onPostExecute(Object result) {
     mIsSaving = false;
     super.onPostExecute(result);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (mIsDirty) {
+      showDiscardDialog();
+    } else {
+      super.onBackPressed();
+    }
+  }
+  protected void linkInputWithLabel(final View input, final View label) {
+    input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+        ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor);
+      }
+    });
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_IS_DIRTY,mIsDirty);
   }
 }

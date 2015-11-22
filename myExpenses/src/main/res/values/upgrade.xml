@@ -18,6 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Improved tablet layout</item>
+    <item>Support for Samsung Knox</item>
+  </string-array>
   <string-array name="whats_new_251">
     <item>Configurable number format</item>
     <item>Danish translation</item>

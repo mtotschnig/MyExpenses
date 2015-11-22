@@ -15,20 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
-
-import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,19 +23,27 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.SparseBooleanArray;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 import com.google.common.base.Joiner;
 
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+
 import java.util.ArrayList;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
 
 public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
     LoaderManager.LoaderCallbacks<Cursor>
@@ -65,11 +60,10 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext1(getActivity());
-    mAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_list_item_multiple_choice, null,
+    mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
-    final AlertDialog dialog = new AlertDialog.Builder(wrappedCtx)
+    final AlertDialog dialog = new AlertDialog.Builder(getActivity())
         .setTitle(getDialogTitle())
         .setAdapter(mAdapter,null)
         .setPositiveButton(android.R.string.ok,this)

@@ -414,4 +414,6 @@
   <string name="comparison_operator_greater_than">ច្រើនជាង</string>
   <string name="comparison_operator_lesser_than">តិចជាង</string>
   <string name="comparison_operator_between">រវាង</string>
+    <string name="switch_on_text" msgid="1124106706920572386">"បើក"</string>
+    <string name="switch_off_text" msgid="1139356348100829659">"បិទ"</string>
 </resources>

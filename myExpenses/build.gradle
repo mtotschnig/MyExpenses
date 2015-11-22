@@ -23,13 +23,14 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-        versionCode 220
-        versionName '2.5.2'
+        versionCode 221
+        versionName '2.6.0'
 
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
+        buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
     }
     signingConfigs {
         release {
@@ -98,10 +99,15 @@ android {
 dependencies {
     compile project(':StickyListHeaders:library')
     compile project(':MPAndroidChart:MPChartLib')
+    compile project(':MaterialSeekBarPreference:library')
     compile project(':PlayLicensingOrig')
-    compile 'com.android.support:appcompat-v7:19.0.1'
-    compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:support-v4:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:cardview-v7:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:design:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:preference-v14:' + project.androidSupportLibraryVersion
     compile 'com.itextpdf:itextpdf:5.5.2'
     compile 'ch.acra:acra:4.5.0'
     admobCompile 'com.google.android.gms:play-services-ads:7.5.0'
@@ -120,18 +126,4 @@ def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMdd-HHmm')
     return formattedDate
-}
-task copyTask(type: Copy) { //why doesn't Gradle allow to force overwrite?
-    from 'template/app.properties'
-    into 'src/main/res/raw'
-    filter(ReplaceTokens, tokens: ["build.date": getDate()])
-}
-task removeTask(type: Delete) {
-    delete 'src/main/res/raw/app.properties'
-}
-project.afterEvaluate {
-    android.applicationVariants.all { variant ->
-        variant.outputs[0].processResources.dependsOn("copyTask")
-    }
-    clean.dependsOn("removeTask")
 }

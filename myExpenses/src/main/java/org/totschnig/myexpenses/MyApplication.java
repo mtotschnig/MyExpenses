@@ -52,8 +52,9 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 @ReportsCrashes(
@@ -71,6 +72,7 @@ public class MyApplication extends Application implements
   private static final int RETRY_LIMIT = 20;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
+  public static final String INVALID_CALENDAR_ID = "-1";
   private SharedPreferences mSettings;
   private static MyApplication mSelf;
 
@@ -81,7 +83,8 @@ public class MyApplication extends Application implements
   // they can be referenced from preferences.xml, and thus we
   // can guarantee the referential integrity
   public enum PrefKey {
-    CATEGORIES_SORT_BY_USAGES(R.string.pref_categories_sort_by_usages_key),
+    CATEGORIES_SORT_BY_USAGES_LEGACY(R.string.pref_categories_sort_by_usages_key),
+    SORT_ORDER(R.string.pref_sort_order_key),
     PERFORM_SHARE(R.string.pref_perform_share_key),
     SHARE_TARGET(R.string.pref_share_target_key),
     UI_THEME_KEY(R.string.pref_ui_theme_key),
@@ -139,7 +142,9 @@ public class MyApplication extends Application implements
     CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key),
     AUTO_BACKUP(R.string.pref_auto_backup_key),
     AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
-    AUTO_BACKUP_DIRTY("auto_backup_dirty");
+    AUTO_BACKUP_DIRTY("auto_backup_dirty"),
+    UI_HOME_SCREEN_SHORTCUTS(R.string.pref_ui_home_screen_shortcuts_key),
+    CALENDAR_PERMISSION_REQUESTED("calendar_permission_requested");
 
     private int resId = 0;
     private String key = null;
@@ -309,7 +314,15 @@ public class MyApplication extends Application implements
   }
 
   public static int getThemeId() {
-    return getThemeId(false);
+    return getThemeId("");
+  }
+
+  public static int getThemeIdEditDialog() {
+    return getThemeId("EditDialog");
+  }
+
+  public static int getThemeIdTranslucent() {
+    return getThemeId("Translucent");
   }
 
   public enum ThemeType {
@@ -324,7 +337,7 @@ public class MyApplication extends Application implements
     }
   }
 
-  public static int getThemeId(boolean legacyPreferenceActivity) {
+  private static int getThemeId(String subStyle) {
     int fontScale;
     try {
       fontScale = PrefKey.UI_FONTSIZE.getInt(0);
@@ -333,24 +346,19 @@ public class MyApplication extends Application implements
       fontScale = 0;
       PrefKey.UI_FONTSIZE.remove();
     }
-    int resId;
-    String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
-    if (getThemeType() == ThemeType.light) {
-      if (fontScale < 1 || fontScale > 3)
-        return legacyPreferenceActivity ? R.style.ThemeLight_LegacyPreferenceActivity
-            : R.style.ThemeLight;
-      else
-        resId = mSelf.getResources().getIdentifier(
-            "ThemeLight.s" + fontScale + suffix, "style",
-            mSelf.getPackageName());
-    } else {
-      if (fontScale < 1 || fontScale > 3)
-        return legacyPreferenceActivity ? R.style.ThemeDark_LegacyPreferenceActivity
-            : R.style.ThemeDark;
-      else
-        resId = mSelf.getResources()
-            .getIdentifier("ThemeDark.s" + fontScale + suffix, "style",
-                mSelf.getPackageName());
+    String style = getThemeType() == ThemeType.light ? "ThemeLight" : "ThemeDark";
+    if (!TextUtils.isEmpty(subStyle)) {
+      style += "." + subStyle;
+    }
+    String resolve = style;
+    if (fontScale > 0 && fontScale < 4) {
+      resolve = style + ".s" + fontScale;
+    }
+    int resId = mSelf.getResources().getIdentifier(resolve, "style", mSelf.getPackageName());
+    if (resId==0) {
+      //try style without font scaling as fallback
+      resId = mSelf.getResources().getIdentifier(style, "style", mSelf.getPackageName());
+      if (resId==0) throw new RuntimeException(style + " is not defined");
     }
     return resId;
   }
@@ -492,14 +500,15 @@ public class MyApplication extends Application implements
   }
 
   public String checkPlanner() {
-    mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
-    if (!mPlannerCalendarId.equals("-1")) {
+    mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
+    if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
       if (!checkPlannerInternal(mPlannerCalendarId)) {
         SharedPreferencesCompat.apply(mSettings.edit()
             .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
             .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
             .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey()));
-        return "-1";
+        return
+            INVALID_CALENDAR_ID;
       }
     }
     return mPlannerCalendarId;
@@ -511,8 +520,9 @@ public class MyApplication extends Application implements
    * {@link #PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
    * 
    * @return true if we have configured a useable calendar
+   * @param persistToSharedPref
    */
-  public boolean createPlanner() {
+  public String createPlanner(boolean persistToSharedPref) {
     Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
     String plannerCalendarId;
     builder.appendQueryParameter(Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
@@ -528,7 +538,7 @@ public class MyApplication extends Application implements
       Utils
           .reportToAcra(new Exception(
               "Searching for planner calendar failed, Calendar app not installed?"));
-      return false;
+      return INVALID_CALENDAR_ID;
     }
     if (c.moveToFirst()) {
       plannerCalendarId = String.valueOf(c.getLong(0));
@@ -552,25 +562,27 @@ public class MyApplication extends Application implements
         uri = getContentResolver().insert(calendarUri, values);
       } catch (IllegalArgumentException e) {
         Utils.reportToAcra(e);
-        return false;
+        return INVALID_CALENDAR_ID;
       }
       if (uri == null) {
         Utils.reportToAcra(new Exception(
             "Inserting planner calendar failed, uri is null"));
-        return false;
+        return INVALID_CALENDAR_ID;
       }
       plannerCalendarId = uri.getLastPathSegment();
       if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
         Utils
             .reportToAcra(new Exception(
                 "Inserting planner calendar failed, last path segment is null or 0"));
-        return false;
+        return INVALID_CALENDAR_ID;
       }
       Log.i(TAG, "successfully set up new calendar: " + plannerCalendarId);
     }
-    // onSharedPreferenceChanged should now trigger initPlanner
-    PrefKey.PLANNER_CALENDAR_ID.putString(plannerCalendarId);
-    return true;
+    if (persistToSharedPref) {
+      // onSharedPreferenceChanged should now trigger initPlanner
+      PrefKey.PLANNER_CALENDAR_ID.putString(plannerCalendarId);
+    }
+    return plannerCalendarId;
   }
 
   /**

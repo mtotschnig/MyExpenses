@@ -18,6 +18,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
     <fragment android:name="org.totschnig.myexpenses.fragment.StaleImagesList"
               android:id="@+id/parties_list"
               android:layout_width="fill_parent"
