@@ -1268,4 +1268,13 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onDismissOrCancel(Bundle args) {
   }
+
+  @Override
+  public void onBackPressed() {
+    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+      mDrawerLayout.closeDrawer(GravityCompat.START);
+    } else {
+      super.onBackPressed();
+    }
+  }
 }
