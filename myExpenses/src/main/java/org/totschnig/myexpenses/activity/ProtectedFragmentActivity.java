@@ -338,8 +338,8 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST  && intent != null) {
-      if (resultCode == RESULT_OK ) {
+    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && intent != null) {
+      if (resultCode == RESULT_OK) {
         ((ContribIFace) this).contribFeatureCalled(
             (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
             intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));

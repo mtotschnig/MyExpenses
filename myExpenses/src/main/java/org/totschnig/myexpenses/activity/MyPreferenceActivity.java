@@ -333,8 +333,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         findPreference(PrefKey.RATE.getKey())
             .setOnPreferenceClickListener(this);
 
-        findPreference(PrefKey.ENTER_LICENCE.getKey())
-            .setOnPreferenceChangeListener(this);
+        pref = findPreference(PrefKey.ENTER_LICENCE.getKey());
+        if (pref != null) //does not exist in Play Store version
+            pref.setOnPreferenceChangeListener(this);
 
         pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
         pref.setOnPreferenceChangeListener(this);
@@ -511,12 +512,18 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
       if (MyApplication.getInstance().isExtendedEnabled()) {
         PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
-        cat.removePreference(pref1);
-        cat.removePreference(pref2);
+        if (Utils.IS_FLAVOURED) {
+          getPreferenceScreen().removePreference(cat);
+        } else {
+          cat.removePreference(pref1);
+          cat.removePreference(pref2);
+        }
       } else {
-        if (pref1 != null && pref2 != null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
+        if (pref1 != null) {
           pref1.setOnPreferenceClickListener(this);
           pref1.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID)));
+        }
+        if (pref2 != null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
           int baseTitle = MyApplication.getInstance().isContribEnabled() ?
               R.string.pref_contrib_purchase_title_upgrade : R.string.pref_contrib_purchase_title;
           if (Utils.IS_FLAVOURED) {
@@ -611,7 +618,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           //showDialog(R.id.DONATE_DIALOG);//should not happen
         } else {
           Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);
-          startActivity(i);
+          if (Utils.IS_FLAVOURED) {
+            startActivity(i);
+          }
+          else {
+            startActivityForResult(i,CONTRIB_PURCHASE_REQUEST);
+          }
         }
         return true;
       }
