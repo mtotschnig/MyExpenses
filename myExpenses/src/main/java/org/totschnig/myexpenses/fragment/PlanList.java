@@ -554,7 +554,8 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
     }
   }
   public void refresh() {
-   mAdapter.notifyDataSetChanged();
+    if (mAdapter !=null)
+      mAdapter.notifyDataSetChanged();
   }
   public void listFocus() {
     mListView.requestFocus();
