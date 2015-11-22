@@ -149,7 +149,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(KEY_ROWID, mTransaction.getId());
-      i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       break;

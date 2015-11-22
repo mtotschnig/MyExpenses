@@ -381,7 +381,6 @@ public class TransactionProvider extends ContentProvider {
             "'AGGREGATE' AS " + KEY_TYPE,
             "0 AS " + KEY_SORT_KEY,
             "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-            "1 AS " + KEY_TRANSFER_ENABLED,
             "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
             "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
             "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
@@ -443,7 +442,6 @@ public class TransactionProvider extends ContentProvider {
           "-1 AS " + KEY_COLOR,
           "'NONE' AS " + KEY_GROUPING,
           "'AGGREGATE' AS " + KEY_TYPE,
-          "1 AS " + KEY_TRANSFER_ENABLED,
           "-1 AS " + KEY_SORT_KEY,
           "0 AS " + KEY_EXCLUDE_FROM_TOTALS};
       qb.appendWhere(KEY_ROWID + "=" + currencyId);

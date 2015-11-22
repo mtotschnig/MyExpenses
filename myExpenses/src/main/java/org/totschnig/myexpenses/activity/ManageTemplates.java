@@ -15,39 +15,35 @@
 
 package org.totschnig.myexpenses.activity;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Toast;
 
-import java.util.List;
+import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
+import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.android.calendar.CalendarContractCompat.Events;
+import java.util.List;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBar;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Toast;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 
 public class ManageTemplates extends TabbedActivity implements
     ConfirmationDialogListener {
@@ -56,7 +52,6 @@ public class ManageTemplates extends TabbedActivity implements
   }
 
   public long calledFromCalendarWithId = 0;
-  private boolean mTransferEnabled = false;
   int mCurrentPosition = 0;
   
   private int monkey_state = 0;
@@ -81,8 +76,6 @@ public class ManageTemplates extends TabbedActivity implements
 
     final ActionBar actionBar = getSupportActionBar();
     actionBar.setTitle(getString(R.string.menu_manage_plans));
-
-    mTransferEnabled = getIntent().getBooleanExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,false);
 
     mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
       @Override

@@ -341,7 +341,6 @@ public class TransactionList extends ContextualActionBarFragment implements
       } else {
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, acmi.id);
-        i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED,ctx.transferEnabled());
         if (command==R.id.CLONE_TRANSACTION_COMMAND) {
           i.putExtra(ExpenseEdit.KEY_CLONE,true);
         }

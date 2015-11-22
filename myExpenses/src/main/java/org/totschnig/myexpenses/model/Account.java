@@ -104,9 +104,6 @@ public class Account extends Model {
     KEY_TYPE,
     KEY_SORT_KEY,
     KEY_EXCLUDE_FROM_TOTALS,
-    "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " t WHERE "
-        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS " + KEY_TRANSFER_ENABLED,
     HAS_EXPORTED
   };
   int baseLength = PROJECTION_BASE.length;

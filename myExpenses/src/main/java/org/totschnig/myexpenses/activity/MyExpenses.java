@@ -584,7 +584,6 @@ public class MyExpenses extends LaunchActivity implements
         break;
       case R.id.MANAGE_PLANS_COMMAND:
         i = new Intent(this, ManageTemplates.class);
-        i.putExtra(DatabaseConstants.KEY_TRANSFER_ENABLED, transferEnabledGlobal());
         startActivity(i);
         return true;
       case R.id.CREATE_ACCOUNT_COMMAND:
@@ -977,32 +976,6 @@ public class MyExpenses extends LaunchActivity implements
         }
         break;
     }
-  }
-
-  /**
-   * @return true if for the current Account there is a second account
-   * with the same currency we can transfer to
-   */
-  public boolean transferEnabled() {
-    //in case we are called before the accounts cursor is loaded, we return false
-    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
-      return false;
-    mAccountsCursor.moveToPosition(mCurrentPosition);
-    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_TRANSFER_ENABLED)) > 0;
-  }
-
-  /**
-   * @return true if for any Account there is a second account
-   * with the same currency we can transfer to
-   */
-  public boolean transferEnabledGlobal() {
-    //in case we are called before the accounts cursor is loaded, we return false
-    if (mAccountsCursor == null || mAccountsCursor.getCount() == 0)
-      return false;
-    //we move to the last position in account cursor, and we check if it is an aggregate account
-    //which means that there is at least one currency having multiple accounts
-    mAccountsCursor.moveToLast();
-    return mAccountsCursor.getLong(columnIndexRowId) < 0;
   }
 
   public boolean hasExported() {
