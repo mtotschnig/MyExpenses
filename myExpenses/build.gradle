@@ -31,6 +31,8 @@ android {
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
+
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -114,8 +116,8 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.onepf:openiab:0.9.8.7'
-    compile files('libs/in-app-purchasing-2.0.61.jar')
-    compile files('libs/fortumo-in-app-9.1.2.jar')
+    amazonCompile files('libs/in-app-purchasing-2.0.61.jar')
+    amaCompile files('libs/fortumo-in-app-9.1.2.jar')
     amaCompile files('libs/amazon-ads-5.5.149.jar')
     compile 'org.apache.commons:commons-csv:1.1'
     compile 'com.commonsware.cwac:wakeful:1.0.+'
