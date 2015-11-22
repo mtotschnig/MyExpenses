@@ -64,14 +64,17 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   public void finish() {
-    int usagesLeft = ((ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE)).usagesLeft();
-    Intent i = new Intent();
-    i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
-    i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
-    if (usagesLeft > 0) {
-      setResult(RESULT_OK, i);
-    } else {
-      setResult(RESULT_CANCELED, i);
+    final ContribFeature feature = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+    if (feature != null) {
+      int usagesLeft = feature.usagesLeft();
+      Intent i = new Intent();
+      i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
+      i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
+      if (usagesLeft > 0) {
+        setResult(RESULT_OK, i);
+      } else {
+        setResult(RESULT_CANCELED, i);
+      }
     }
     super.finish();
   }
