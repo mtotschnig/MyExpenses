@@ -27,7 +27,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
         <item name="colorAggregate">@color/material_grey_300</item>
-        <item name="drawerBackground">#222</item>
+        <item name="drawerBackground">@color/drawerBackgroundDark</item>
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="browseIcon">@drawable/ic_action_browse_light</item>
         <item name="drawerShadow">@drawable/drawer_shadow_holo_dark</item>
@@ -47,7 +47,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
         <item name="colorAggregate">@color/material_grey_700</item>
-        <item name="drawerBackground">#ddd</item>
+        <item name="drawerBackground">@color/drawerBackgroundLight</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="browseIcon">@drawable/ic_action_browse_dark</item>
         <item name="drawerShadow">@drawable/drawer_shadow_holo_light</item>
