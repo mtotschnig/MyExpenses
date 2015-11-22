@@ -223,6 +223,13 @@ public class MyApplication extends Application implements
 
   private String contribStatus = Distrib.STATUS_DISABLED;
 
+  public void setContribEnabled(Utils.LicenceStatus status) {
+    //TODO we urgently need to bring the handling of licence status in sync between master and distribution branch
+    //this currently is only here to prevent compile error, since the block where this is called
+    //is not executed on distribution branch
+    //this.contribEnabled = status;
+  }
+
   public void setContribStatus(String contribStatus) {
     this.contribStatus = contribStatus;
   }
