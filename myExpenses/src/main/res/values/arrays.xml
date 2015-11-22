@@ -311,6 +311,12 @@
     <string-array name="MethodEdit_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
     </string-array>
+    <string-array name="MethodEdit_formfields" tools:ignore="UnusedResources">
+        <item>label</item>
+        <item>type</item>
+        <item>numbered</item>
+        <item>account_types</item>
+    </string-array>
 
     <string-array name="FolderBrowser_menuitems" tools:ignore="UnusedResources">
         <item>create_folder</item>

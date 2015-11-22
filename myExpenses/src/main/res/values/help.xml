@@ -96,7 +96,7 @@
   <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
   <string name="form_crstatus_help_text">For transactions belonging to bank accounts, you can change the transaction\'s status to cleared. For setting it to reconciled, you must use the \"Balance account\" command from the transaction list. If the status is set to void, the transaction will not be counted.</string>
   <string name="form_comment_help_text">Enter any note about the object.</string>
-  <string name="form_method_help_text">This field is only available if the current account is of a type linked to any payment method. By default only bank accounts are linked to payment methods (cheque,credit card, deposit,direct debit). Go to Settings -> Manage -> Payment Methods to configure the association between account types and payment methods.</string>
+  <string name="form_method_help_text">This field is only available if the current account is of a type linked to any payment method. By default only bank accounts are linked to payment methods (cheque,credit card, deposit,direct debit). Go to Settings -> Manage -> Payment Methods to configure the association between account types and payment methods. When you select a method that is defined as numbered, an additional field for entering a reference number becomes available.</string>
   <string name="form_attach_image_help_text"><![CDATA[The <img src="android:ic_menu_camera"> button allows you to attach an image (e.g. from the gallery or the camera) to the object.]]></string>
   <string name="form_category_help_text">This button opens the list of categories, where you can select the category you want to map to the transaction.</string>
   <string name="form_transfer_from_account_help_text">Select the account from which the amount is transfered.</string>
@@ -120,17 +120,20 @@
 
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Form for accounts</string>
-  <string name="form_label_help_text">The label identifies the account in the account list.</string>
+  <string name="form_AccountEdit_label_help_text">The label identifies the account in the account list.</string>
   <string name="form_description_help_text">The decription has only an informative purpose.</string>
   <string name="form_AccountEdit_amount_switch_help_text">Use the switch to start with a negative opening balance.</string>
   <string name="form_currency_help_text">Select a currency from the provided list of all current currencies.</string>
-  <string name="form_type_help_text">You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
+  <string name="form_AccountEdit_type_help_text">You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
   <string name="form_color_help_text">On the transaction list for an account, its color will be used as primary user interface color.</string>
   <string name="menu_set_sort_key_help_text">Set a numeric key determining the position of the account in the account list in the navigation drawer (ascending sort).</string>
   <string name="menu_exclude_from_totals_help_text">If you check this option, this account will not be included into the aggregates per currency.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Form for payment methods</string>
-  <string name="help_MethodEdit_info">On this screen, you associate a payment method with account type and define its label. Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral). You can also set a flag if transactions using this method are numbered (e.g. check numbers).</string>
+  <string name="form_MethodEdit_label_help_text">The label identifies the method when you map a transaction to it.</string>
+  <string name="form_MethodEdit_type_help_text">Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral).</string>
+  <string name="form_MethodEdit_numbered_help_text">When a method is numbered, transactions that are mapped to it, will have an additional field for entering a reference number.</string>
+  <string name="form_MethodEdit_account_types_help_text">Select the account types for which this is method is applicable.</string>
   <!--  ManageCurrencies -->
   <string name="help_ManageCurrencies_info">For each currency, you can modify the number of fraction digits used. For example, if for Euro, you need to handle 1/10 of a ¢, i.e. 1/1000 of a Euro, you would set the number to three. Existing accounts which use the currency, will be switched to the new setting.</string>
   <!--  FolderBrowser title is in keys -->
