@@ -79,14 +79,17 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
           new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
               long itemId = ((AlertDialog) dialog).getListView().getItemIdAtPosition(which);
+              int whichButton = 0;
               if (itemId == -1) {
                 ((MyPreferenceActivity) getContext()).showDialog(R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG);
+                whichButton = DialogInterface.BUTTON_NEGATIVE;
               } else {
                 if(preference.callChangeListener(itemId)) {
                   preference.setValue(String.valueOf(itemId));
+                  whichButton = DialogInterface.BUTTON_POSITIVE;
                 }
               }
-              CalendarListPreferenceDialogFragmentCompat.this.onClick(dialog, -1);
+              CalendarListPreferenceDialogFragmentCompat.this.onClick(dialog, whichButton);
               dialog.dismiss();
             }
           });
