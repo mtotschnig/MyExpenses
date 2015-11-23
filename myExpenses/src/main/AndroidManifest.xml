@@ -14,10 +14,6 @@
     package="org.totschnig.myexpenses"
     android:installLocation="internalOnly">
 
-    <uses-sdk
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:overrideLibrary="com.google.android.gms,com.google.android.gms.ads,com.google.android.gms.analytics"/>
-
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
