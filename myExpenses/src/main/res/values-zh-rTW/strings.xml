@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">帳戶</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">資產帳戶</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">銀行帳戶</string>
@@ -29,7 +30,9 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">安全問題</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">分割交易</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">模板插件</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">自動備份</string>
   <string name="contrib_key">貢獻密鑰</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">貨幣</string>
   <string name="current_balance">當前餘額</string>
   <string name="date">日期</string>
@@ -37,6 +40,7 @@
   <string name="date_format_illegal">日期格式錯誤</string>
   <string name="default_account_description">此帳戶是在安裝過程中被自動設定的</string>
   <string name="description">描述</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
   <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
   <string name="dialog_contrib_no">現在不要</string>
@@ -219,7 +223,7 @@
   <string name="pm_type_debit">借記</string>
   <string name="pm_type_neutral">中性</string>
   <string name="pref_backup_summary">在SD卡上建立資料庫備份和喜好設定檔。</string>
-  <string name="pref_categories_sort_by_usages_title">排列次序 : 使用量計數</string>
+  <string name="pref_sort_order_usages">使用量計數</string>
   <string name="pref_category_title_export">匯出</string>
   <string name="pref_category_title_import">匯入</string>
   <string name="pref_category_title_manage">管理</string>
@@ -244,7 +248,6 @@
     <!-- this is empty for English and gives credit to translators in the other languages --></string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">許可 &amp; 信用</string>
-  <string name="pref_password_empty">密碼不能為空白</string>
   <string name="pref_password_not_equal">密碼不相符</string>
   <string name="pref_perform_protection_summary">應用程式在每次啟動和恢復過來時被密碼保護</string>
   <string name="pref_perform_protection_title">密碼保護</string>
@@ -271,7 +274,6 @@
   <string name="pref_ui_fontsize_summary">每次增減字體大小 2sp</string>
   <string name="pref_ui_fontsize_title">介面字體大小</string>
   <string name="pref_ui_language_default">系統默認</string>
-  <string name="pref_ui_language_summary">設定用戶界面的顯示語言</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">語言</string>
   <string name="pref_ui_theme_dark">黑</string>
@@ -332,11 +334,10 @@
   <string name="import_categories_success">%1$s 類別  被匯入成功</string>
   <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
   <string name="create_new_folder_fail">目錄建立失敗</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">自動備份</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">啟用自動備份</string>
   <string name="pref_auto_backup_summary">每日在指定時間備份資料庫 (僅當數據已經改變)</string>
   <string name="pref_auto_backup_time_title">自動備份時間</string>
-  <string name="pref_auto_backup_time_summary">每日在 %1$02d:%2$02d 備份資料庫</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"開啟"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"關閉"</string>
+  <string name="switch_on_text">開啟</string>
+  <string name="switch_off_text">關閉</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Compte</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Compte d\'actiu</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Comptes d\'actius</string>
@@ -34,7 +35,9 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Pregunta de seguretat</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Operació repartida</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget de plantilla</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Còpia de seguretat automàtica</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Requereix %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
@@ -45,6 +48,7 @@
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
   <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
   <string name="dialog_command_disabled_insert_transfer_1">Les operacions de transferència precisen un segon compte amb la mateixa moneda.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Només disposeu d\'un compte i la seva moneda és %1$s.</string>
@@ -255,7 +259,7 @@
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_backup_summary">Feu una còpia de seguretat de la base de dades i de les preferències a \"%1$s\".</string>
-  <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació: Freqüència d\'ús</string>
+  <string name="pref_sort_order_usages">Freqüència d\'ús</string>
   <string name="pref_category_title_export">Exportació</string>
   <string name="pref_category_title_import">Importació</string>
   <string name="pref_category_title_manage">Personalitza</string>
@@ -280,7 +284,6 @@
   <string name="pref_more_info_dialog_summary">Traducció de Paco Rivière http://pacoriviere.cat</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Llicència i Crèdits</string>
-  <string name="pref_password_empty">La contrasenya no pot ser buida</string>
   <string name="pref_password_not_equal">Les contrasenyes no coincideixen</string>
   <string name="pref_perform_protection_summary">Voleu protegir l\'execució de l\'aplicació i el seu restabliment?</string>
   <string name="pref_perform_protection_title">Protecció amb contrasenya</string>
@@ -310,7 +313,6 @@
   <string name="pref_ui_fontsize_summary">Cada pas augmenta 2sp la mida de la lletra</string>
   <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
   <string name="pref_ui_language_default">Per omissió del sistema</string>
-  <string name="pref_ui_language_summary">Trieu l\'idioma de la interfície</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>
   <string name="pref_ui_theme_dark">fosc</string>
@@ -376,11 +378,10 @@
   <string name="import_accounts_none">No s\'ha importat cap compte!</string>
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
   <string name="learn_more">Més informació</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Còpia de seguretat automàtica</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
   <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat)</string>
   <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
-  <string name="pref_auto_backup_time_summary">Fer còpia de seguretat diària a %1$02d:%2$02d</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Activat"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Desactivat"</string>
+  <string name="switch_on_text">Activat</string>
+  <string name="switch_off_text">Desactivat</string>
 </resources>

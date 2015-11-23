@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Compte</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Types de compte</string>
   <string name="account_type_asset">Compte d\'actif</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Comptes d\'actif</string>
@@ -58,6 +60,13 @@
   <string name="default_account_name">Livre de budget</string>
   <string name="description">Description</string>
   <string name="dialog_balance_delete">Supprimer les transactions rapprochées</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Annulation</string>
+  <string name="dialog_confirm_discard_changes">Annuler les changements ?</string>
+  <string name="dialog_confirm_discard_new_transaction">Annuler la nouvelle opération ?</string>
+  <string name="dialog_confirm_discard_new_template">Annuler le nouveau modèle ?</string>
+  <string name="dialog_confirm_discard_new_account">Annuler le nouveau compte ?</string>
+  <string name="dialog_confirm_discard_new_method">Annuler la nouvelle méthode de paiement ?</string>
   <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Les opérations de transferts nécessitent un second compte de même devise.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
@@ -301,8 +310,9 @@
   <string name="pref_auto_fill_title">Remplissage automatique des opérations</string>
   <string name="pref_auto_fill_summary">Remplissage du montant, de la catégorie et du commentaire de la dernière opération pour le même tiers</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
-  <string name="pref_categories_sort_by_usages_summary">Ordre de tri par fréquence d\'utilisation au lieu d\'alphabétique pour les comptes, modèles et catégories. Ce paramètre est ignoré pour les comptes dont l\'ordre de tri est déjà défini.</string>
-  <string name="pref_categories_sort_by_usages_title">Critères de tri: fréquence d\'utilisation</string>
+  <string name="pref_sort_order_title">Ordre de tri pour les catégories, les modèles et les comptes</string>
+  <string name="pref_sort_order_usages">Fréquence d\'utilisation</string>
+  <string name="pref_sort_order_alphabetic">Alphabétique</string>
   <string name="pref_category_title_advanced">Avancé</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
@@ -338,7 +348,6 @@
   <string name="pref_more_info_dialog_summary">Traduit par Laurent Collombet, Alexandre Beelen et Michael Totschnig</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence &amp; Générique</string>
-  <string name="pref_password_empty">Le mot de passe ne doit pas être vide</string>
   <string name="pref_password_not_equal">Les mots de passe sont différents</string>
   <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app</string>
   <string name="pref_perform_protection_title">Protection par mot de passe</string>
@@ -370,14 +379,12 @@
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
   <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
-  <string name="pref_template_click_default_title">Action par défaut du modèle</string>
   <string name="pref_template_click_default_summary">Sur clic court dans la liste des modèles</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
-  <string name="pref_ui_fontsize_title">Augmenter la taille du texte</string>
+  <string name="pref_ui_fontsize_title">Taille de police</string>
   <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
   <string name="pref_ui_language_default">Défaut du système</string>
-  <string name="pref_ui_language_summary">Définir la langue de l\'interface</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Langue</string>
   <string name="pref_ui_theme_dark">sombre</string>
@@ -550,6 +557,7 @@
   <string name="pref_csv_import_delimiter">Marqueur</string>
   <string name="csv_import_preview">Prévisualisation</string>
   <string name="menu_parse">Analyse</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Rejeter</string>
   <string name="csv_import_field_mapped_more_than_once">%s est attribué plus d\'une fois.</string>
   <string name="csv_import_records_failed">%d enregistrements n\'ont pas pu être importés.</string>
@@ -559,7 +567,7 @@
   <string name="csv_import_delimiter_comma">Virgule</string>
   <string name="csv_import_delimiter_semicolon">Point-virgule</string>
   <string name="csv_import_delimiter_tab">Tabulation</string>
-  <string name="csv_import_no_mapping_found_for_amount">S\'il vous plaît attribuez une colonne soit à montant, revenu ou dépense.</string>
+  <string name="csv_import_no_mapping_found_for_amount">S\'il vous plaît attribuez une colonne soit au montant, revenu ou dépense.</string>
   <string name="menu_show_transactions">Voir les opérations</string>
   <string name="pref_custom_decimal_format_title">Format de nombre</string>
   <string name="pref_custom_decimal_format_summary">Si vous n\'êtes pas satisfait du format par défaut de votre langue, vous pouvez l\'adapter selon vos besoins. Laissez vide pour rétablir le format par défaut.</string>
@@ -567,9 +575,10 @@
   <string name="pref_auto_backup_title">Activer auto-backup</string>
   <string name="pref_auto_backup_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée (seulement si les données ont changé)</string>
   <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
-  <string name="pref_auto_backup_time_summary">Faire un backup quotidien à %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
   <string name="warning_auto_backup_limit_reached">La limite des sauvegardes automatiques réussies gratuites a été atteinte.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Activé"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Désactivé"</string>
+  <string name="calendar_permission_required"><i>Mes dépenses </i> requiert votre permission d\'accéder à votre calendrier , dans le but de créer des échéances pour des opérations futures et répétitives </string>
+  <string name="button_request_calendar_access">Autoriser l\'accès</string>
+  <string name="switch_on_text">Activé</string>
+  <string name="switch_off_text">Désactivé</string>
 </resources>

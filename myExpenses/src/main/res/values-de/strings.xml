@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Anlagekonto</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Anlagekonten</string>
@@ -58,6 +59,8 @@
   <string name="default_account_name">Haushaltsbuch</string>
   <string name="description">Beschreibung</string>
   <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Verwerfen</string>
   <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Umbuchungen benötigen ein zweites Konto mit derselben Währung.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Sie haben nur ein Konto in %1$s angelegt.</string>
@@ -301,8 +304,7 @@
   <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
   <string name="pref_auto_fill_summary">Betrag, Kategorie und Kommentar von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
-  <string name="pref_categories_sort_by_usages_summary">Kategorien, Vorlagen und Konten nach Häufigkeit der Nutzung anstatt alphabetisch sortieren. Diese Einstellung wird für Konten ignoriert, wenn für diese ein Sortierschlüssel festgelegt wurde.</string>
-  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
+  <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
   <string name="pref_category_title_advanced">Erweitert</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
@@ -338,7 +340,6 @@
   <string name="pref_more_info_dialog_summary">Übersetzt von Michael Totschnig</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
-  <string name="pref_password_empty">Passwort darf nicht leer sein</string>
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
   <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
   <string name="pref_perform_protection_title">Passwortschutz</string>
@@ -370,14 +371,12 @@
   <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu.</string>
-  <string name="pref_template_click_default_title">Standard-Aktion für Vorlagen</string>
   <string name="pref_template_click_default_summary">Beim kurzen Tippen auf Eintrag in der Vorlagenliste</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Jeder Schritt vergrößert die Schrift um 2sp</string>
   <string name="pref_ui_fontsize_title">Schrift vergrößern</string>
   <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
   <string name="pref_ui_language_default">System-Standard</string>
-  <string name="pref_ui_language_summary">Sprache der Bedienoberfläche festlegen </string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Sprache</string>
   <string name="pref_ui_theme_dark">dunkel</string>
@@ -550,6 +549,7 @@
   <string name="pref_csv_import_delimiter">Trennzeichen</string>
   <string name="csv_import_preview">Vorschau</string>
   <string name="menu_parse">Analysieren</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Verwerfen</string>
   <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
   <string name="csv_import_records_failed">%d Einträge konnten nicht importiert werden.</string>
@@ -567,9 +567,8 @@
   <string name="pref_auto_backup_title">Automatisches Backup aktivieren</string>
   <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
-  <string name="pref_auto_backup_time_summary">Tägliches Backup um %1$02d:%2$02d Uhr</string>
   <string name="warning_auto_backup_limited_trial">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
   <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"An"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Aus"</string>
+  <string name="switch_on_text">An</string>
+  <string name="switch_off_text">Aus</string>
 </resources>

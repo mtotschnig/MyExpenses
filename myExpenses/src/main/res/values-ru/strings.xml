@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Счёт</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Счёт активов</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Банковский счёт</string>
@@ -27,8 +28,10 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Секретный вопрос</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Разделение операции</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Шаблон виджет</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Авто-бэкап</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="extended_key">Расширенный ключ</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">требуется %s.</string>
   <string name="currency">Валюта</string>
   <string name="current_balance">Текущий баланс</string>
@@ -38,6 +41,7 @@
   <string name="decimal_separator">Десятичный разделитель</string>
   <string name="default_account_description">Этот счёт установлен автоматически при установке.</string>
   <string name="description">Описание</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_insert_transfer_1">Для операции перевода требуется второй счёт в той же валюте.</string>
   <string name="dialog_command_disabled_insert_transfer_2">У вас есть только один счет с валютой %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
@@ -258,7 +262,7 @@
   <string name="pm_type_neutral">Нейтральный</string>
   <string name="pref_app_dir_title">Каталог для бэкапов и экспортируемых данных</string>
   <string name="pref_backup_summary">Создать резервную копию базы данных и настроек.</string>
-  <string name="pref_categories_sort_by_usages_title">Порядок сортировки: Количество использований</string>
+  <string name="pref_sort_order_usages">Количество использований</string>
   <string name="pref_category_title_export">Экспорт</string>
   <string name="pref_category_title_import">Импорт</string>
   <string name="pref_category_title_manage">Управление</string>
@@ -287,7 +291,6 @@
   <string name="pref_more_info_dialog_summary">Перевод на русский язык: Дмитрий Куренков</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лицензия и создатели</string>
-  <string name="pref_password_empty">Пароль не должен быть пустым</string>
   <string name="pref_password_not_equal">Пароли не совпадают</string>
   <string name="pref_perform_protection_summary">Защищать запуск и восстановление приложения?</string>
   <string name="pref_perform_protection_title">Защита паролем</string>
@@ -317,7 +320,6 @@
   <string name="pref_ui_fontsize_summary">Каждый шаг увеличивает базовый размер шрифта на 2sp</string>
   <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
   <string name="pref_ui_language_default">По умолчанию</string>
-  <string name="pref_ui_language_summary">Задать язык пользовательского интерфейса</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Язык</string>
   <string name="pref_ui_theme_dark">тёмная</string>
@@ -425,11 +427,10 @@
   <string name="menu_create_folder">Новый каталог</string>
   <string name="menu_up">Вверх</string>
   <string name="create_new_folder_fail">Ошибка создания каталога</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Авто-бэкап</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Включить авто-бэкап</string>
   <string name="pref_auto_backup_summary">Резервная копия базы данных ежедневно в указанное время (только если данные были изменены)</string>
   <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
-  <string name="pref_auto_backup_time_summary">Ежедневное резервное копирование в %1$02d:%2$02d</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"ВКЛ"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"ВЫКЛ"</string>
+  <string name="switch_on_text">ВКЛ</string>
+  <string name="switch_off_text">ВЫКЛ</string>
 </resources>

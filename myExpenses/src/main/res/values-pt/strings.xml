@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Conta</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Conta de ativos</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Contas de ativo</string>
@@ -58,6 +59,8 @@
   <string name="default_account_name">Livro de orçamento</string>
   <string name="description">Descrição</string>
   <string name="dialog_balance_delete">Excluir transações reconciliadas</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Descarte</string>
   <string name="dialog_command_disabled_balance">Nenhuma transação apuradas para se reconciliar.</string>
   <string name="dialog_command_disabled_insert_transfer_1">As transações de transferência exigem uma segunda conta com a mesma moeda.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Você tem apenas uma conta de moeda %1$s.</string>
@@ -301,8 +304,7 @@
   <string name="pref_auto_fill_title">Preenchimento automático</string>
   <string name="pref_auto_fill_summary">Preenchimento em quantidade, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
   <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
-  <string name="pref_categories_sort_by_usages_summary">Categorias, modelos e contas devem ser classificadas por como muitas vezes eles são usados em vez de tipo alfabético. Essa configuração é ignorada para contas se eles têm uma chave de classificação definida.</string>
-  <string name="pref_categories_sort_by_usages_title">Classificar ordem:  Contagem de usos</string>
+  <string name="pref_sort_order_usages">Contagem de usos</string>
   <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
   <string name="pref_category_title_import">Importar</string>
@@ -338,7 +340,6 @@
   <string name="pref_more_info_dialog_summary">Enrico Nicoletto - liverig@gmail.com, 2013.</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
-  <string name="pref_password_empty">A senha não pode ficar em branco</string>
   <string name="pref_password_not_equal">As senhas não coincidem</string>
   <string name="pref_perform_protection_summary">App lançamentos e resumos devem ser protegidos?</string>
   <string name="pref_perform_protection_title">Proteção de senha</string>
@@ -370,14 +371,12 @@
   <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
   <string name="pref_shortcut_not_added">Nenhuma tela inicial disponível que aceita atalhos.</string>
   <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
-  <string name="pref_template_click_default_title">Ação padrão do modelo</string>
   <string name="pref_template_click_default_summary">Em cima da torneira curta na entrada na lista de modelo</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar tamanho da fonte</string>
   <string name="pref_ui_home_screen_shortcuts">Atalhos da tela inicial</string>
   <string name="pref_ui_language_default">Padrão do sistema</string>
-  <string name="pref_ui_language_summary">Defina o idioma da interface gráfica</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>
   <string name="pref_ui_theme_dark">escuro</string>
@@ -550,6 +549,7 @@
   <string name="pref_csv_import_delimiter">Delimitador</string>
   <string name="csv_import_preview">Visualizar</string>
   <string name="menu_parse">Analisar</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Descarte</string>
   <string name="csv_import_field_mapped_more_than_once">%s é mapeado para mais de uma vez.</string>
   <string name="csv_import_records_failed">%d registros não podem ser importados.</string>
@@ -567,9 +567,8 @@
   <string name="pref_auto_backup_title">Habilitar backup automático</string>
   <string name="pref_auto_backup_summary">Backup do banco de dados diariamente no horário especificado (somente se os dados foram alterados)</string>
   <string name="pref_auto_backup_time_title">Horário de backup automático</string>
-  <string name="pref_auto_backup_time_summary">Fazer backup diário às %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Depois de %d bem sucedido backups automáticos, backup automático será desativado.</string>
   <string name="warning_auto_backup_limit_reached">O limite de graça backups automáticos de sucesso foi alcançado.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Ativado"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Desativado"</string>
+  <string name="switch_on_text">Ativado</string>
+  <string name="switch_off_text">Desativado</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Akaun</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Akaun aset</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Akaun aset</string>
@@ -57,6 +58,8 @@
   <string name="default_account_name">Buku Bajet</string>
   <string name="description">Keterangan</string>
   <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Singkir</string>
   <string name="dialog_command_disabled_balance">Tiada transaksi selesai yang disesuaikan.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transaksi pemindahan memerlukan akaun kedua dengan matawang yang sama.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Anda hanya mempunyai satu akaun matawang %1$s.</string>
@@ -297,8 +300,7 @@
   <string name="pref_auto_fill_title">Transaksi autoisi</string>
   <string name="pref_auto_fill_summary">Isi amaun, kategori dan ulasan dari transaksi terakhir bagi penerima/pembayar yang sama</string>
   <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
-  <string name="pref_categories_sort_by_usages_summary">Patutkah kategori, templat dan akaun diisih dan berapakah kekerapan ia digunakan selain dari isih secara berabjad. Tetapan ini diabaikan untuk akaun jika ia mempunyai kekunci isih yang  telah ditetapkan.</string>
-  <string name="pref_categories_sort_by_usages_title">Isih tertib: Kiraan penggunaan</string>
+  <string name="pref_sort_order_usages">Kiraan penggunaan</string>
   <string name="pref_category_title_advanced">Lanjutan</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
@@ -334,7 +336,6 @@
   <string name="pref_more_info_dialog_summary">Abuyop</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lesen &amp; Penghargaan</string>
-  <string name="pref_password_empty">Kata laluan tidak boleh kosong</string>
   <string name="pref_password_not_equal">Kata laluan tidak sepadan</string>
   <string name="pref_perform_protection_summary">Patutkah apl yang dilancar dan disambung semula dilindungi?</string>
   <string name="pref_perform_protection_title">Perlindungan kata laluan</string>
@@ -366,14 +367,12 @@
   <string name="pref_shortcut_added">Pintasan telah ditambah ke Skrin Rumah</string>
   <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
   <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
-  <string name="pref_template_click_default_title">Tindakan lalai templat</string>
   <string name="pref_template_click_default_summary">Bila mengetuk pantas pada masukan dalam senarai templat</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Setiap langkah tingkatkan saiz fon dasar sebanyak 2sp</string>
   <string name="pref_ui_fontsize_title">Tingkatkan saiz fon</string>
   <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
   <string name="pref_ui_language_default">Lalai sistem</string>
-  <string name="pref_ui_language_summary">Tetapkan bahasa antaramuka pengguna</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Bahasa</string>
   <string name="pref_ui_theme_dark">gelap</string>
@@ -542,6 +541,7 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_csv_import_delimiter">Pembatas</string>
   <string name="csv_import_preview">Pratonton</string>
   <string name="menu_parse">Hurai</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Singkir</string>
   <string name="csv_import_field_mapped_more_than_once">%s telah dipetakan lebih dari sekali.</string>
   <string name="csv_import_records_failed">%d rekod tidak dapat diimport.</string>
@@ -559,9 +559,8 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_auto_backup_title">Benarkan auto-sandar</string>
   <string name="pref_auto_backup_summary">Sandar pangkalan data harian pada masa yang ditetapkan (hanya jika data telah berubah).</string>
   <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
-  <string name="pref_auto_backup_time_summary">Buat sandar harian pada %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Dihidupkan"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Dimatikan"</string>
+  <string name="switch_on_text">Dihidupkan</string>
+  <string name="switch_off_text">Dimatikan</string>
 </resources>

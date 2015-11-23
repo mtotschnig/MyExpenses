@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Kontua</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Aktiboko kontua</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Aktiboko kontuak</string>
@@ -58,6 +59,8 @@
   <string name="default_account_name">Aurrekontu liburua</string>
   <string name="description">Azalpena</string>
   <string name="dialog_balance_delete">Ezabatu berdinkatutako transakzioak</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Baztertu</string>
   <string name="dialog_command_disabled_balance">Ez dago kitatutako transakziorik berdinkatzeko.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transferentziak transakzioek moneta bereko bigarren kontu bat behar dute</string>
   <string name="dialog_command_disabled_insert_transfer_2">%1$s monetako kontu bakarra duzu</string>
@@ -301,8 +304,6 @@
   <string name="pref_auto_fill_title">Automatikoki bete transakzioak</string>
   <string name="pref_auto_fill_summary">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile berdinaren aurreko transakziotik</string>
   <string name="pref_backup_summary">Sortu datu-base eta hobespenen babeskopia bat.</string>
-  <string name="pref_categories_sort_by_usages_summary">Kategoriak, txantiloiak eta kontuak erabilera maiztasunaren arabera ordenatu eta ez alfabetikoki? Ezarpen hau ezikusi egingo da ordenatzeko gako bat duten kontuetan.</string>
-  <string name="pref_categories_sort_by_usages_title">Ordenatu erabilera kopuruaren arabera</string>
   <string name="pref_category_title_advanced">Aurreratua</string>
   <string name="pref_category_title_export">Esportatu</string>
   <string name="pref_category_title_import">Inportatu</string>
@@ -339,7 +340,6 @@
 Librezale.eus</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lizentzia eta egiletza</string>
-  <string name="pref_password_empty">Pasahitza ezin da hutsik egon</string>
   <string name="pref_password_not_equal">Pasahitzak ez datoz bat</string>
   <string name="pref_perform_protection_summary">Aplikazioa abiatzea eta berrekitea babestu?</string>
   <string name="pref_perform_protection_title">Pasahitz bidezko babesa</string>
@@ -371,14 +371,12 @@ Librezale.eus</string>
   <string name="pref_shortcut_added">Laster-bidea hasiera pantailara gehitu da</string>
   <string name="pref_shortcut_not_added">Ez dago laster-bideak onartzen dituen hasiera pantailarik erabilgarri.</string>
   <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
-  <string name="pref_template_click_default_title">Txantiloiaren lehenetsitako ekintza</string>
   <string name="pref_template_click_default_summary">Sakatu labur txantiloi zerrendako sarrera batean</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Urrats bakoitzak testua 2sp handitzen ditu</string>
   <string name="pref_ui_fontsize_title">Handitu testuaren tamaina</string>
   <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
   <string name="pref_ui_language_default">Sistemako lehenetsia</string>
-  <string name="pref_ui_language_summary">Ezarri erabiltzaile interfazearen hizkuntza</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Hizkuntza</string>
   <string name="pref_ui_theme_dark">iluna</string>
@@ -552,6 +550,7 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="pref_csv_import_delimiter">Bereizlea</string>
   <string name="csv_import_preview">Aurreikusi</string>
   <string name="menu_parse">Prozesatu</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Baztertu</string>
   <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
   <string name="csv_import_records_failed">%d sarrera ezin izan dira inportatu.</string>
@@ -569,9 +568,8 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="pref_auto_backup_title">Gaitu babeskopia automatikoa</string>
   <string name="pref_auto_backup_summary">Egin egunero datu-basearen babeskopia zehaztutako orduan (soilik datuak aldatu badira)</string>
   <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
-  <string name="pref_auto_backup_time_summary">Egin egunero babeskopia automatikoa %1$02d:%2$02dtan</string>
   <string name="warning_auto_backup_limited_trial">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
   <string name="warning_auto_backup_limit_reached">Doako babeskopia automatikoen gehieneko kopurua gainditu da</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Aktibatuta"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Desaktibatuta"</string>
+  <string name="switch_on_text">Aktibatuta</string>
+  <string name="switch_off_text">Desaktibatuta</string>
 </resources>

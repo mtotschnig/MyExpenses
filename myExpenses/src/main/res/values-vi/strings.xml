@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Tài khoản</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Tài khoản tài sản</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Tài khoản ngân hàng</string>
@@ -25,12 +26,14 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Phân tách giao dịch</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Yêu cầu sử dụng %s.</string>
   <string name="currency">Tiền tệ</string>
   <string name="current_balance">Trạng thái cân bằng hiện tại</string>
   <string name="date">Ngày tháng</string>
   <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
   <string name="description">Mô tả</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_contrib_no">Vẫn chưa</string>
   <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -193,6 +196,7 @@
   <string name="pm_type_debit">Nợ</string>
   <string name="pm_type_neutral">Trung lập</string>
   <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
+  <string name="pref_sort_order_usages">Số lần sử dụng</string>
   <string name="pref_category_title_export">Xuất dữ liệu</string>
   <string name="pref_category_title_import">Nhập dữ liệu</string>
   <string name="pref_category_title_manage">Quản lý</string>
@@ -214,7 +218,6 @@
   <string name="pref_more_info_dialog_summary">Dịch bởi Phan Anh</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
-  <string name="pref_password_empty">Mật khẩu không được để trống</string>
   <string name="pref_password_not_equal">Mật khẩu không khớp</string>
   <string name="pref_perform_protection_summary">Có nên bảo vệ việc truy cập và hồi phục lại ứng dụng hay không?</string>
   <string name="pref_perform_protection_title">Bảo vệ mật khẩu</string>
@@ -285,6 +288,7 @@
   <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
   <string name="import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
   <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Bật"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Tắt"</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="switch_on_text">Bật</string>
+  <string name="switch_off_text">Tắt</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Hesap</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Aktif hesabı</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Aktif hesapları</string>
@@ -44,6 +45,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV içe aktar</string>
   <string name="contrib_key">Katkı Anahtarı</string>
   <string name="extended_key">Genişletilmiş Anahtarı</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">%s gerektirir.</string>
   <string name="currency">Döviz</string>
   <string name="current_balance">Güncel bakiye</string>
@@ -56,6 +58,8 @@
   <string name="default_account_name">Bütçe defteri</string>
   <string name="description">Açıklama</string>
   <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">At</string>
   <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
   <string name="dialog_command_disabled_insert_transfer_2">%1$s para biriminin sadece bir hesabı olmalısınız.</string>
@@ -298,8 +302,7 @@
   <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
   <string name="pref_auto_fill_summary">Son muameleden aynı alacaklı/ödeyici için meblağ, kategori ve yorum alanlarını doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
-  <string name="pref_categories_sort_by_usages_summary">Kategorilerin, şablonların ve hesapların alfabetik sıralama yerine ne kadar sık kullanıldıklarına dayanılarak sıralanıp sıralanmayacağı. Bir sıralama anahtarı belirlendiyse bu ayar görmezden gelinir.</string>
-  <string name="pref_categories_sort_by_usages_title">Kullanım sayacına göre sırala</string>
+  <string name="pref_sort_order_usages">Kullanım sayacı</string>
   <string name="pref_category_title_advanced">Gelişmiş</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
@@ -335,7 +338,6 @@
   <string name="pref_more_info_dialog_summary">Türkçe tercüme: mauron, Caner BAŞARAN</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
-  <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
@@ -367,14 +369,12 @@
   <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
   <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
   <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
-  <string name="pref_template_click_default_title">Varsayılan şablon etkinliği</string>
   <string name="pref_template_click_default_summary">Şablon listesinde unsura kısa dokunulduğunda</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Her adım yazı boyutunu 2sp arttırır</string>
   <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
   <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
   <string name="pref_ui_language_default">Sistem varsayılanı</string>
-  <string name="pref_ui_language_summary">Kullanıcı arayüzü dili ayarla</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Dil</string>
   <string name="pref_ui_theme_dark">karanlık</string>
@@ -549,6 +549,7 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
   <string name="csv_import_preview">Önizle</string>
   <string name="menu_parse">Çözümle</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">At</string>
   <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
   <string name="csv_import_records_failed">%d kayıt içe aktarılamadı.</string>
@@ -562,6 +563,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_show_transactions">Muameleleri göster</string>
   <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
   <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Açık"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Kapalı"</string>
+  <string name="switch_on_text">Açık</string>
+  <string name="switch_off_text">Kapalı</string>
 </resources>

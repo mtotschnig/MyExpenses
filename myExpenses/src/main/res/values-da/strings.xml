@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Anlægskonto</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Anlægskonti</string>
@@ -44,6 +45,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
   <string name="contrib_key">Contrib Nøgle</string>
   <string name="extended_key">Nøgle til udvidet version</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Kræver %s.</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Aktuel saldo</string>
@@ -55,6 +57,8 @@
   <string name="default_account_name">Budgetbog</string>
   <string name="description">Beskrivelse</string>
   <string name="dialog_balance_delete">Slet afstemte posteringer</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Forkast</string>
   <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Overførseler kræver en anden konto med den samme valuta.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Du har oprettet kun én konto i valuta %1$s.</string>
@@ -297,8 +301,6 @@
   <string name="pref_auto_fill_title">AutoFyld</string>
   <string name="pref_auto_fill_summary">Overtager beløb, kategori og kommentar fra sidste postering for den samme betalingsmodtager/betaler</string>
   <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
-  <string name="pref_categories_sort_by_usages_summary">Kategorier, skabeloner og konti sorteres efter hvor ofte de anvendes i stedet for alfabetisk rækkefølge. Denne indstilling ignoreres, hvis for en konto er indstillet et sorteringsrækkefølge.</string>
-  <string name="pref_categories_sort_by_usages_title">Sorter efter hvor ofte de anvendes</string>
   <string name="pref_category_title_advanced">Avanceret</string>
   <string name="pref_category_title_export">Eksporter</string>
   <string name="pref_category_title_import">Importer</string>
@@ -333,7 +335,6 @@
   <string name="pref_manage_parties_title">Parter</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
-  <string name="pref_password_empty">Adgangskoden må ikke være tom</string>
   <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
   <string name="pref_perform_protection_summary">Skal app launches og resumes beskyttes?</string>
   <string name="pref_perform_protection_title">Password-beskyttelse</string>
@@ -365,14 +366,12 @@
   <string name="pref_shortcut_added">Genvej til startskærmen blev tilføjet </string>
   <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig der accepterer genveje.</string>
   <string name="pref_shortcut_summary">Tilføj genvej til startskærm.</string>
-  <string name="pref_template_click_default_title">Skabelon standardhandlingen</string>
   <string name="pref_template_click_default_summary">Ved at klikke på et navn i listen af skabeloner</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Hvert trin forøger skriftstørrelsen med 2sp</string>
   <string name="pref_ui_fontsize_title">Forøg skriftstørrelsen</string>
   <string name="pref_ui_home_screen_shortcuts">Genvej til Startskærm</string>
   <string name="pref_ui_language_default">Systemstandard</string>
-  <string name="pref_ui_language_summary">Vælg sproget i brugergrænsefladen</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Sprog</string>
   <string name="pref_ui_theme_dark">mørk</string>
@@ -546,6 +545,7 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="pref_csv_import_delimiter">Adskillelsestegn</string>
   <string name="csv_import_preview">Preview</string>
   <string name="menu_parse">Analyser</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Forkast</string>
   <string name="csv_import_field_mapped_more_than_once">%s er tilknyttet til flere.</string>
   <string name="csv_import_records_failed">%d dataposter kunne ikke importeres</string>
@@ -557,6 +557,6 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="csv_import_delimiter_tab">Tabulator</string>
   <string name="csv_import_no_mapping_found_for_amount">Du skal en kolonne tilknytte enten til beløb, indkomst eller udgifter</string>
   <string name="menu_show_transactions">Vis posterings</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Til"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Fra"</string>
+  <string name="switch_on_text">Til</string>
+  <string name="switch_off_text">Fra</string>
 </resources>

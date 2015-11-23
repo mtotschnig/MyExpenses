@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">الحساب</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">حساب الاصول</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">حسابات الاصول</string>
@@ -32,6 +33,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">السؤال السري</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
   <string name="date">التاريخ</string>
@@ -40,6 +42,7 @@
   <string name="decimal_separator">فاصلة عشرية</string>
   <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
   <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
   <string name="dialog_contrib_no">ليس بعد</string>
@@ -239,7 +242,7 @@
   <string name="pm_type_neutral">محايد</string>
   <string name="pref_app_dir_title">مجلد للنسخ الاحتياطية والتصديرات</string>
   <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات في الذاكرة.</string>
-  <string name="pref_categories_sort_by_usages_title">ترتيب حسب (التصنيفات، النماذج، الحسابات)</string>
+  <string name="pref_sort_order_usages">عدد مرات الاستعمال</string>
   <string name="pref_category_title_export">تصدير</string>
   <string name="pref_category_title_import">استيراد</string>
   <string name="pref_category_title_manage">إدارة</string>
@@ -264,7 +267,6 @@
   <string name="pref_more_info_dialog_summary">تمت الترجمة بواسطة Ar.Alothaim</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
-  <string name="pref_password_empty">يجب ادخال كلمة مرور</string>
   <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
   <string name="pref_perform_protection_summary">هل التطبيق يجب أن يكون محمي عند التشغيل أو الاستعادة؟</string>
   <string name="pref_perform_protection_title">حماية كلمة المرور</string>
@@ -294,7 +296,6 @@
   <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
   <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
   <string name="pref_ui_language_default">افتراضي</string>
-  <string name="pref_ui_language_summary">اختيار لغة واجهة المستخدم</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">اللغة</string>
   <string name="pref_ui_theme_dark">غامق</string>
@@ -362,6 +363,7 @@
   <string name="create_new_folder_fail">فشل في انشاء المجلد</string>
   <string name="widget_title_accounts">حساباتي</string>
   <string name="widget_title_templates">نماذجي</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"تشغيل"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"إيقاف"</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="switch_on_text">تشغيل</string>
+  <string name="switch_off_text">إيقاف</string>
 </resources>

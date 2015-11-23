@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">계좌</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">자산 계좌</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">자산 계좌</string>
@@ -57,6 +58,8 @@
   <string name="default_account_name">예산안</string>
   <string name="description">설명</string>
   <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">버리기</string>
   <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
   <string name="dialog_command_disabled_insert_transfer_1">거래 내역을 이관하려면 같은 화폐 단위를 사용하는 두번째 계좌가 필요합니다.</string>
   <string name="dialog_command_disabled_insert_transfer_2">당신은 %1$s 화폐 단위를 사용하는 하나의 계좌만 가지고 있습니다.</string>
@@ -297,8 +300,6 @@
   <string name="pref_auto_fill_title">거래 내역 자동으로 채우기</string>
   <string name="pref_auto_fill_summary">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 입력</string>
   <string name="pref_backup_summary">데이터베이스와 설정값의 백업을 만들기</string>
-  <string name="pref_categories_sort_by_usages_summary">카테고리, 템플릿, 계좌를 알파벳 순서대로가 아닌 사용 빈도순으로 정렬합니다. 정렬 키가 설정된 계좌는 무시합니다.</string>
-  <string name="pref_categories_sort_by_usages_title">사용 빈도순으로 정렬</string>
   <string name="pref_category_title_advanced">고급</string>
   <string name="pref_category_title_export">내보내기</string>
   <string name="pref_category_title_import">가져오기</string>
@@ -335,7 +336,6 @@
 </string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">라이센스 및 공로</string>
-  <string name="pref_password_empty">암호를 반드시 입력해야만 합니다</string>
   <string name="pref_password_not_equal">암호가 일치하지 않습니다</string>
   <string name="pref_perform_protection_summary">앱 실행 및 재시작이 보호되어야 합니까?</string>
   <string name="pref_perform_protection_title">암호 보안</string>
@@ -367,14 +367,12 @@
   <string name="pref_shortcut_added">홈 스크린에 바로가기가 추가되었습니다.</string>
   <string name="pref_shortcut_not_added">바로가기를 추가할 수 있는 홈 스크린이 없습니다.</string>
   <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
-  <string name="pref_template_click_default_title">템플릿 기본 동작</string>
   <string name="pref_template_click_default_summary">템플릿 목록의 항목 짧게 누르기</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">각 단계는 기본 글자 크기를 2sp씩 증가시킵니다.</string>
   <string name="pref_ui_fontsize_title">글자 크기 증가</string>
   <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
   <string name="pref_ui_language_default">시스템 기본값</string>
-  <string name="pref_ui_language_summary">사용자 인터페이스 언어 설정</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">언어</string>
   <string name="pref_ui_theme_dark">어두운 테마</string>
@@ -542,6 +540,7 @@
   <string name="pref_csv_import_delimiter">구획 문자</string>
   <string name="csv_import_preview">미리보기</string>
   <string name="menu_parse">분석</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">버리기</string>
   <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
   <string name="csv_import_records_failed">%d 기록을 가져올 수 없습니다.</string>
@@ -559,9 +558,8 @@
   <string name="pref_auto_backup_title">자동 백업 활성화</string>
   <string name="pref_auto_backup_summary">데이터베이스를 매일 정해진 시간에 백업합니다(데이터가 변경된 경우에만).</string>
   <string name="pref_auto_backup_time_title">자동 백업 시간</string>
-  <string name="pref_auto_backup_time_summary">자동 백업을 %1$02d:%2$02d 에 수행</string>
   <string name="warning_auto_backup_limited_trial">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
   <string name="warning_auto_backup_limit_reached">무료 자동 백업 횟수 제한에 도달했습니다.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"사용"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"사용 안함"</string>
+  <string name="switch_on_text">사용</string>
+  <string name="switch_off_text">사용 안함</string>
 </resources>

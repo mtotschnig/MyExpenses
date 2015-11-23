@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Cuenta</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Tipos de cuentas</string>
   <string name="account_type_asset">Cuenta de activo</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Cuentas de activo</string>
@@ -58,6 +60,13 @@
   <string name="default_account_name">Presupuesto</string>
   <string name="description">Descripción</string>
   <string name="dialog_balance_delete">Eliminar transacciones reconciliadas</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Deseche</string>
+  <string name="dialog_confirm_discard_changes">¿Descartar cambios?</string>
+  <string name="dialog_confirm_discard_new_transaction">¿Descartar la nueva transacción?</string>
+  <string name="dialog_confirm_discard_new_template">¿Descartar la nueva plantilla ?</string>
+  <string name="dialog_confirm_discard_new_account">¿Descartar nueva cuenta?</string>
+  <string name="dialog_confirm_discard_new_method">¿Descartar el nuevo método de pago?</string>
   <string name="dialog_command_disabled_balance">Ninguna transacción despejada para reconciliarse.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Los traslados a otra cuenta requieren una segunda cuenta con la misma moneda.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Usted tiene sólo una cuenta de divisas %1$s.</string>
@@ -301,8 +310,9 @@
   <string name="pref_auto_fill_title"> Autorrelleno de asientos</string>
   <string name="pref_auto_fill_summary">Rellenar cantidad, categoría y comentario del último asiento para el mismo beneficiario/pagador</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones.</string>
-  <string name="pref_categories_sort_by_usages_summary">Deben ser ordenadas las cuentas, plantillas y categorías por frecuencia de utilización en lugar de alfabéticamente. Este valor se omite para cuentas si tienen una clave de ordenamiento establecida.</string>
-  <string name="pref_categories_sort_by_usages_title">Criterio de ordenación: Frecuencia de utilización</string>
+  <string name="pref_sort_order_title">Orden de categorías, plantillas y cuentas</string>
+  <string name="pref_sort_order_usages">Frecuencia de utilización</string>
+  <string name="pref_sort_order_alphabetic">Alfabético</string>
   <string name="pref_category_title_advanced">Avanzado</string>
   <string name="pref_category_title_export">Exportación</string>
   <string name="pref_category_title_import">Importación</string>
@@ -338,7 +348,6 @@
   <string name="pref_more_info_dialog_summary">Traducción por Tulliver, gudrunto, christoft, Laurent Collombet y Elier Espinoza</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
-  <string name="pref_password_empty">La contraseña no debe estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_protection_summary">¿Se debe proteger el inicio y la reanudación de la aplicación?</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
@@ -370,14 +379,12 @@
   <string name="pref_shortcut_added">Acceso directo se ha añadido a la pantalla de inicio</string>
   <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepta atajos.</string>
   <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio.</string>
-  <string name="pref_template_click_default_title">Acción predeterminada de plantilla</string>
   <string name="pref_template_click_default_summary">Al toque corto en la entrada en la lista de plantillas</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Cada paso aumenta el tamaño de fuente por 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar el tamaño de la fuente</string>
   <string name="pref_ui_home_screen_shortcuts">Atajos de la pantalla de inicio</string>
   <string name="pref_ui_language_default">Estándar del sistema</string>
-  <string name="pref_ui_language_summary">Definir el lenguaje de la interfaz de usuario</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>
   <string name="pref_ui_theme_dark">oscuro</string>
@@ -551,6 +558,7 @@
   <string name="pref_csv_import_delimiter">Delimitador</string>
   <string name="csv_import_preview">Vista previa</string>
   <string name="menu_parse">Análisis</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Deseche</string>
   <string name="csv_import_field_mapped_more_than_once">%s se asigna más de una vez.</string>
   <string name="csv_import_records_failed">%d registros no podrían ser importados.</string>
@@ -568,9 +576,10 @@
   <string name="pref_auto_backup_title">Permitir backup automática</string>
   <string name="pref_auto_backup_summary">Backup de base de datos diaria a la hora especificada (sólo si los datos han cambiado)</string>
   <string name="pref_auto_backup_time_title">Hora de backup automática</string>
-  <string name="pref_auto_backup_time_summary">Hacer backup diaria en %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Después de %d copias de seguridad automáticas exitosa, copia de seguridad automática se desactiva.</string>
   <string name="warning_auto_backup_limit_reached">Il limite per i backup automatici di successo libero è stato raggiunto.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Sí"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"No"</string>
+  <string name="calendar_permission_required"><i>Mis gastos</i> necesita permiso para acceder a su calendario, con el fin de crear planes para transacciones futuras y recurrentes.</string>
+  <string name="button_request_calendar_access">Otorgar acceso</string>
+  <string name="switch_on_text">Sí</string>
+  <string name="switch_off_text">No</string>
 </resources>

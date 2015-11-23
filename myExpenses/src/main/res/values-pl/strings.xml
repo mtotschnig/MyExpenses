@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Rachunek aktywów</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Konto zasobów</string>
@@ -38,7 +39,9 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Podział transakcji</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Szablon widget</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatyczna kopia zapasowa</string>
   <string name="contrib_key">Klucz Contrib</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Wymaga %s.</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
@@ -49,6 +52,7 @@
   <string name="default_account_description">To konto zostało utworzone automatycznie podczas instalacji</string>
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_insert_transfer_1">Do przeniesienia transakcji, potrzeba drugiego konta z tą samą walutą.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Posiadasz tylko jedno konto z walutą %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
@@ -278,7 +282,7 @@
   <string name="pref_app_dir_title">Folder do kopii zapasowych i eksportów</string>
   <string name="pref_auto_fill_title">Automatyczne uzupełnianie transakcji</string>
   <string name="pref_backup_summary">Utwórz kopię zapasową bazy danych i preferencji na karcie pamięci.</string>
-  <string name="pref_categories_sort_by_usages_title">Kolejność sortowania: Ilość użyć</string>
+  <string name="pref_sort_order_usages">Ilość użyć</string>
   <string name="pref_category_title_advanced">Zaawansowane</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
@@ -312,7 +316,6 @@
   <string name="pref_more_info_dialog_summary">Tłumaczenie: Marcin Kralka (marcink96@gmail.com) i visualfanatic, 2014</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licencja &amp; O programie</string>
-  <string name="pref_password_empty">Hasło nie może być puste</string>
   <string name="pref_password_not_equal">Hasła nie zgadzają się ze sobą</string>
   <string name="pref_perform_protection_summary">Czy uruchamianie i wznawianie pracy aplikacji powinno być zabezpieczone?</string>
   <string name="pref_perform_protection_title">Zabezpieczenie hasłem</string>
@@ -346,7 +349,6 @@
   <string name="pref_ui_fontsize_title">Powiększ rozmiar czcionki</string>
   <string name="pref_ui_home_screen_shortcuts">Skróty</string>
   <string name="pref_ui_language_default">Domyślne systemowe</string>
-  <string name="pref_ui_language_summary">Ustaw język interfejsu użytkownika</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Język</string>
   <string name="pref_ui_theme_dark">ciemny</string>
@@ -504,11 +506,10 @@
   <string name="menu_undelete_transaction">Cofnij usunięcie</string>
   <string name="slash_forbidden_in_filename">Znak / nie jest dozwolony w nazwach plików</string>
   <string name="menu_categories_export">Eksport do QIF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatyczna kopia zapasowa</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Włącz automatyczną kopię zapasową</string>
   <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
   <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
-  <string name="pref_auto_backup_time_summary">Wykonaj codzienną kopię zapasową o: %1$02d:%2$02d</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Wł."</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Wył."</string>
+  <string name="switch_on_text">Wł.</string>
+  <string name="switch_off_text">Wył.</string>
 </resources>

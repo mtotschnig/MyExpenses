@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Conto</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Tipi di conto</string>
   <string name="account_type_asset">Patrimonio</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Patrimonio</string>
@@ -58,6 +60,13 @@
   <string name="default_account_name">Libro di bilancio</string>
   <string name="description">Descrizione</string>
   <string name="dialog_balance_delete">Eliminare le transazioni riconciliate</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Scartare</string>
+  <string name="dialog_confirm_discard_changes">Annullare le modifiche?</string>
+  <string name="dialog_confirm_discard_new_transaction">Scartare la nuova transazione?</string>
+  <string name="dialog_confirm_discard_new_template">Scartare il nuovo modello?</string>
+  <string name="dialog_confirm_discard_new_account">Scartare il nuovo conto?</string>
+  <string name="dialog_confirm_discard_new_method">Scartare il nuovo metodo di pagamento?</string>
   <string name="dialog_command_disabled_balance">Nessuna transazione liquidata di riconciliarsi.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Le operazioni di trasferimento richiedono un secondo conto con la stessa moneta.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Hai solo un conto della valuta %1$s.</string>
@@ -301,8 +310,9 @@
   <string name="pref_auto_fill_title">Operazioni di riempimento automatico</string>
   <string name="pref_auto_fill_summary">Riempimento in quantità, categoria e commento da ultima operazione stesso beneficiario/ordinante</string>
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.</string>
-  <string name="pref_categories_sort_by_usages_summary">Dovrebbero categorie, modelli e conti ordinati in quanto spesso sono usati invece di ordinamento alfabetico. Questa impostazione viene ignorata per i conti se hanno una chiave di ordinamento impostato.</string>
-  <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento: frequenza d\'uso</string>
+  <string name="pref_sort_order_title">L\'ordinamento per categorie, modelli e conti</string>
+  <string name="pref_sort_order_usages">frequenza d\'uso</string>
+  <string name="pref_sort_order_alphabetic">Alfabetico</string>
   <string name="pref_category_title_advanced">Avanzata</string>
   <string name="pref_category_title_export">Esporta</string>
   <string name="pref_category_title_import">Importa</string>
@@ -338,7 +348,6 @@
   <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet, Silvia Delpero, FrancescaLaV et  fedett92</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
-  <string name="pref_password_empty">La password non deve essere vuoto</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_summary">L\'avvio e la ripresa dell\'app devono essere protette?</string>
   <string name="pref_perform_protection_title">Protezione con password</string>
@@ -370,14 +379,12 @@
   <string name="pref_shortcut_added">Collegamento è stato aggiunto alla schermata Home</string>
   <string name="pref_shortcut_not_added">Nessuna schermata Home disponibili che accetta collegamenti.</string>
   <string name="pref_shortcut_summary">Aggiungere il collegamento a Home.</string>
-  <string name="pref_template_click_default_title">Azione predefinita modello</string>
   <string name="pref_template_click_default_summary">Dopo un breve click sulla voce nell\'elenco dei modelli</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Ogni passo aumenta la dimensione del font di base da 2sp</string>
   <string name="pref_ui_fontsize_title">Aumenta la dimensione del carattere</string>
   <string name="pref_ui_home_screen_shortcuts">Collegamenti schermata Home</string>
   <string name="pref_ui_language_default">Default di sistema</string>
-  <string name="pref_ui_language_summary">Imposta la lingua dell\'interfaccia</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Lingua</string>
   <string name="pref_ui_theme_dark">scuro</string>
@@ -550,6 +557,7 @@
   <string name="pref_csv_import_delimiter">Delimitatore</string>
   <string name="csv_import_preview">Anteprima</string>
   <string name="menu_parse">Analisi</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Scartare</string>
   <string name="csv_import_field_mapped_more_than_once">%s è associata più di una volta.</string>
   <string name="csv_import_records_failed">%d registri non possono essere importati.</string>
@@ -567,9 +575,10 @@
   <string name="pref_auto_backup_title">Attivare il backup automatico</string>
   <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati)</string>
   <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
-  <string name="pref_auto_backup_time_summary">Fare un backup giornaliero alle %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Dopo %d successo automatico backup, backup automatico verrà disattivato.</string>
   <string name="warning_auto_backup_limit_reached">Gratis backup automatici di successo è stato raggiunto il limite.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Attivo"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Non attivo"</string>
+  <string name="calendar_permission_required"><i>Le mie spese</i> richiede autorizzazione per accedere al calendario, al fine di creare piani per operazione future e ricorrente.</string>
+  <string name="button_request_calendar_access">Concedere l\'accesso</string>
+  <string name="switch_on_text">Attivo</string>
+  <string name="switch_off_text">Non attivo</string>
 </resources>
