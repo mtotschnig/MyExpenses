@@ -121,7 +121,7 @@
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Form for accounts</string>
   <string name="form_AccountEdit_label_help_text">The label identifies the account in the account list.</string>
-  <string name="form_description_help_text">The decription has only an informative purpose.</string>
+  <string name="form_description_help_text">The description has only an informative purpose.</string>
   <string name="form_AccountEdit_amount_switch_help_text">Use the switch to start with a negative opening balance.</string>
   <string name="form_currency_help_text">Select a currency from the provided list of all current currencies.</string>
   <string name="form_AccountEdit_type_help_text">You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
@@ -133,7 +133,7 @@
   <string name="form_MethodEdit_label_help_text">The label identifies the method when you map a transaction to it.</string>
   <string name="form_MethodEdit_type_help_text">Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral).</string>
   <string name="form_MethodEdit_numbered_help_text">When a method is numbered, transactions that are mapped to it, will have an additional field for entering a reference number.</string>
-  <string name="form_MethodEdit_account_types_help_text">Select the account types for which this is method is applicable.</string>
+  <string name="form_MethodEdit_account_types_help_text">Select the account types for which this method is applicable.</string>
   <!--  ManageCurrencies -->
   <string name="help_ManageCurrencies_info">For each currency, you can modify the number of fraction digits used. For example, if for Euro, you need to handle 1/10 of a ¢, i.e. 1/1000 of a Euro, you would set the number to three. Existing accounts which use the currency, will be switched to the new setting.</string>
   <!--  FolderBrowser title is in keys -->
