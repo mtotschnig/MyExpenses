@@ -30,7 +30,6 @@ android {
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
 
-        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -42,6 +41,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            //shrinkResources true // need to wait for resolution
+            // https://code.google.com/p/android/issues/detail?id=79325
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+        }
         release {
             minifyEnabled true
             //shrinkResources true // need to wait for resolution
