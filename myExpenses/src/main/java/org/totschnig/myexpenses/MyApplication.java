@@ -58,7 +58,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 @ReportsCrashes(
-    formKey = "",
     formUri = "https://mtotschnig.cloudant.com/acra-myexpenses/_design/acra-storage/_update/report",
     reportType = org.acra.sender.HttpSender.Type.JSON,
     httpMethod = org.acra.sender.HttpSender.Method.PUT,
