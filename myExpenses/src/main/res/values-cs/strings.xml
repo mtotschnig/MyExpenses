@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Účet</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Účet aktiv</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Bankovní účet</string>
@@ -27,7 +28,9 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Bezpečnostní otázka</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Rozdělení transakce</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Šablona widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatická záloha</string>
   <string name="contrib_key">Klíč Contrib</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Vyžaduje %s.</string>
   <string name="currency">Měna</string>
   <string name="current_balance">Aktuální zůstatek</string>
@@ -36,6 +39,7 @@
   <string name="date_format_illegal">Neplatný formát data</string>
   <string name="default_account_description">Tento účet byl nastaven automaticky během instalace</string>
   <string name="description">Popis</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_insert_transfer_1">Transakce převodu vyžadují druhý účet se stejnou měnou.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Máte pouze jeden účet měny %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Žádné transakce pro export.</string>
@@ -234,7 +238,7 @@
   <string name="pm_type_debit">Má dáti</string>
   <string name="pm_type_neutral">Neutrální</string>
   <string name="pref_backup_summary">Vytvořte zálohu databáze a preferencí na paměťovou kartu.</string>
-  <string name="pref_categories_sort_by_usages_title">Řazení pořadí: Počet použití</string>
+  <string name="pref_sort_order_usages">Počet použití</string>
   <string name="pref_category_title_export">Exportovat</string>
   <string name="pref_category_title_import">Importovat</string>
   <string name="pref_category_title_manage">Správa</string>
@@ -259,7 +263,6 @@
   <string name="pref_more_info_dialog_summary">Přeložil Jan Šplíchal</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence a kredity</string>
-  <string name="pref_password_empty">Heslo nesmí být prázdné</string>
   <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
   <string name="pref_perform_protection_summary">Mají být start a obnovení aplikace chráněny?</string>
   <string name="pref_perform_protection_title">Ochrana heslem</string>
@@ -288,7 +291,6 @@
   <string name="pref_ui_fontsize_summary">Každý krok zvyšuje základní velikost písma o 2 body</string>
   <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
   <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
-  <string name="pref_ui_language_summary">Nastavit jazyk uživatelského rozhraní</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Jazyk</string>
   <string name="pref_ui_theme_dark">tmavý</string>
@@ -350,11 +352,10 @@
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
   <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatická záloha</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Povolit automatickou zálohu</string>
   <string name="pref_auto_backup_summary">Zálohovat databázi denně v určený čas (pouze tehdy, pokud data byla změněna)</string>
   <string name="pref_auto_backup_time_title">Čas automatické zálohy</string>
-  <string name="pref_auto_backup_time_summary">Provést denní zálohu v %1$02d:%2$02d</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Zapnuto"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Vypnuto"</string>
+  <string name="switch_on_text">Zapnuto</string>
+  <string name="switch_off_text">Vypnuto</string>
 </resources>

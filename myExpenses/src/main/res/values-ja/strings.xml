@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">勘定</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">勘定種類</string>
   <string name="account_type_asset">資産勘定</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">資産勘定</string>
@@ -57,6 +59,13 @@
   <string name="default_account_name">予算簿</string>
   <string name="description">説明</string>
   <string name="dialog_balance_delete">照合した取引を削除</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">破棄</string>
+  <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
+  <string name="dialog_confirm_discard_new_transaction">新しい取引を破棄しますか?</string>
+  <string name="dialog_confirm_discard_new_template">新しいテンプレートを破棄しますか?</string>
+  <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
+  <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
   <string name="dialog_command_disabled_balance">消去された照合すべき取引はありません。</string>
   <string name="dialog_command_disabled_insert_transfer_1">取引の転記には、同じ通貨の2番目の勘定が必要です。</string>
   <string name="dialog_command_disabled_insert_transfer_2">通貨 %1$s の勘定のみあります。</string>
@@ -297,8 +306,9 @@
   <string name="pref_auto_fill_title">取引の自動入力</string>
   <string name="pref_auto_fill_summary">同じ受取人/支払人の最後の取引から、金額、分類、およびコメントを入力します</string>
   <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
-  <string name="pref_categories_sort_by_usages_summary">アルファベット順の代わりに、分類、テンプレート、および勘定が使用される頻度によってソートします。勘定がソートキーセットを持っている場合、この設定は無視されます。</string>
-  <string name="pref_categories_sort_by_usages_title">使用件数でソート</string>
+  <string name="pref_sort_order_title">分類、テンプレート、勘定のソート順</string>
+  <string name="pref_sort_order_usages">使用件数</string>
+  <string name="pref_sort_order_alphabetic">アルファベット順</string>
   <string name="pref_category_title_advanced">高度な設定</string>
   <string name="pref_category_title_export">エクスポート</string>
   <string name="pref_category_title_import">インポート</string>
@@ -334,7 +344,6 @@
   <string name="pref_more_info_dialog_summary">福江尚史訳</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
-  <string name="pref_password_empty">パスワードは空にできません</string>
   <string name="pref_password_not_equal">パスワードが一致しません</string>
   <string name="pref_perform_protection_summary">アプリの起動と再開を保護しますか?</string>
   <string name="pref_perform_protection_title">パスワード保護</string>
@@ -366,14 +375,12 @@
   <string name="pref_shortcut_added">ホーム画面にショートカットが追加されました</string>
   <string name="pref_shortcut_not_added">ショートカットを受け付けることができるホーム画面がありません。</string>
   <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
-  <string name="pref_template_click_default_title">テンプレートのデフォルト アクション</string>
   <string name="pref_template_click_default_summary">テンプレートリストのエントリーをタップした時</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">ステップごとに、ベースフォントサイズを 2sp 拡大します</string>
   <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
   <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
   <string name="pref_ui_language_default">システム デフォルト</string>
-  <string name="pref_ui_language_summary">ユーザーインターフェイスの言語を設定</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">言語</string>
   <string name="pref_ui_theme_dark">ダーク</string>
@@ -542,6 +549,7 @@
   <string name="pref_csv_import_delimiter">デリミタ</string>
   <string name="csv_import_preview">プレビュー</string>
   <string name="menu_parse">解析</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">破棄</string>
   <string name="csv_import_field_mapped_more_than_once">%s は複数にマップされます。</string>
   <string name="csv_import_records_failed">%d レコードインポートできませんでした。</string>
@@ -559,9 +567,10 @@
   <string name="pref_auto_backup_title">自動バックアップを有効にする</string>
   <string name="pref_auto_backup_summary">毎日指定した時間にデータベースをバックアップします (データが変更された場合のみ)。</string>
   <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
-  <string name="pref_auto_backup_time_summary">%1$02d:%2$02d に毎日バックアップします</string>
   <string name="warning_auto_backup_limited_trial">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
   <string name="warning_auto_backup_limit_reached">無料自動バックアップ回数の制限に達しました。</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"ON"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"OFF"</string>
+  <string name="calendar_permission_required"><i>マイエクスペンス</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
+  <string name="button_request_calendar_access">アクセスを許可</string>
+  <string name="switch_on_text">ON</string>
+  <string name="switch_off_text">OFF</string>
 </resources>

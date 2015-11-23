@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Cont</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Cont activ</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Conturi activ</string>
@@ -42,8 +43,10 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Întrebare securitate</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Tranzacţie  repartizată</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-backup</string>
   <string name="contrib_key">Cheie Contrib</string>
   <string name="extended_key">Cheie Extinse</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Necesită %s.</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Sold curent</string>
@@ -55,6 +58,7 @@
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
   <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
   <string name="dialog_command_disabled_insert_transfer_1">Tranzacţiile de transfer necesită un al doilea cont de  aceasi monedă</string>
   <string name="dialog_command_disabled_insert_transfer_2">Aveţi numai un cont de moneda  %1$s.</string>
@@ -292,8 +296,6 @@
   <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
   <string name="pref_auto_fill_summary">Completatea valorii, categoriei şi comentariului de la tranzacţia de la acelaşi terţ</string>
   <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
-  <string name="pref_categories_sort_by_usages_summary">Criteriul de ordonare al categoriilor, şabloanelor, conturilor va fi frecvenţa de utilizare în locul celui alfabetic. Această setare este ignorată pentru conturi dacă au o cheie de sortare stabilită.</string>
-  <string name="pref_categories_sort_by_usages_title">Sortează după frecvenţa de utilizare</string>
   <string name="pref_category_title_advanced">Avansat</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
@@ -329,7 +331,6 @@
 Tradus de DD</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
-  <string name="pref_password_empty">Parola nu trebuie să fie goală</string>
   <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
   <string name="pref_perform_protection_summary">Protejaţi lansarea si reluarea aplicaţiei?</string>
   <string name="pref_perform_protection_title">Protecţie parolă</string>
@@ -360,14 +361,12 @@ Tradus de DD</string>
   <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
   <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
   <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
-  <string name="pref_template_click_default_title">Şablon  implicit acţiune</string>
   <string name="pref_template_click_default_summary">La click scurt pe intrarea din lista şabloanelor</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Fiecare pas mărește dimensiunea fontului de bază cu 2sp</string>
   <string name="pref_ui_fontsize_title">Măriți dimensiunea fontului</string>
   <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
   <string name="pref_ui_language_default">Sistem implicit</string>
-  <string name="pref_ui_language_summary">Setare limbă interfaţă utilizator</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Limba</string>
   <string name="pref_ui_theme_dark">închis</string>
@@ -524,11 +523,10 @@ Tradus de DD</string>
   <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
   <string name="file_name">Nume fişier</string>
   <string name="folder_name">Numele folder</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-backup</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Activează auto-backup</string>
   <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
-  <string name="pref_auto_backup_time_summary">Execută backup zilnic la %1$02d:%2$02d</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Activat"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Dezactivat"</string>
+  <string name="switch_on_text">Activat</string>
+  <string name="switch_off_text">Dezactivat</string>
 </resources>

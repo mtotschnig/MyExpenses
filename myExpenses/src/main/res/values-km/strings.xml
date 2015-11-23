@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">គណនី</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">គណនីទ្រព្យសកម្ម</string>
@@ -33,6 +34,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">ប្រអប់​ធាតុពុម្ព</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">ត្រូវការកម្មវិធី %s.</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
   <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
@@ -43,6 +45,7 @@
   <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
   <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
   <string name="dialog_command_disabled_insert_transfer_1">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។</string>
   <string name="dialog_command_disabled_insert_transfer_2">អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
@@ -258,6 +261,7 @@
   <string name="pm_type_neutral">អព្យាក្រឹត</string>
   <string name="pref_app_dir_title">ថត​សម្រាប់​ឯកសារ​ដែល​រក្សាទុក និង​ដែលនាំចេញ</string>
   <string name="pref_backup_summary">បង្កើតការបម្រុងទុក នៃមូលដ្ឋានទិន្នន័យ និងចំណង់​ចំណូល​ចិត្ត លើ sdcard នេះ។</string>
+  <string name="pref_sort_order_usages">រាប់នៃការប្រើប្រាស់</string>
   <string name="pref_category_title_export">នាំចេញ</string>
   <string name="pref_category_title_import">នាំចូល</string>
   <string name="pref_category_title_manage">គ្រប់គ្រង</string>
@@ -283,7 +287,6 @@
     <!-- My Expenses បក​ប្រែ​ដោយ Pongsametrey SOK, http://osify.com, 2013 រួមគ្នា​​ដើម្បី​​អក្សរ​សាស្ត្រ​ខ្មែរ នៅ​កម្ពុជា --></string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">អាជ្ញាប័ណ្ណ &amp; ក្រេឌីត</string>
-  <string name="pref_password_empty">ពាក្យសម្ងាត់មិនអានអាចទទេរបានទេ</string>
   <string name="pref_password_not_equal">ពាក្យសម្ងាត់មិនត្រូវគ្នា</string>
   <string name="pref_perform_protection_summary">តើគួរតែចាប់ផ្តើមកម្មវិធី​ និងបន្តទៅទៀតដោយការការពារ ? </string>
   <string name="pref_perform_protection_title">ការការពារពាក្យសម្ងាត់</string>
@@ -313,7 +316,6 @@
   <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
   <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
   <string name="pref_ui_language_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>
-  <string name="pref_ui_language_summary">ដាក់ភាសា​អោយ​ផ្ទាំង​ប្រើប្រាស់</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">ភាសា</string>
   <string name="pref_ui_theme_dark">ងងឹត</string>
@@ -414,6 +416,7 @@
   <string name="comparison_operator_greater_than">ច្រើនជាង</string>
   <string name="comparison_operator_lesser_than">តិចជាង</string>
   <string name="comparison_operator_between">រវាង</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"បើក"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"បិទ"</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="switch_on_text">បើក</string>
+  <string name="switch_off_text">បិទ</string>
 </resources>

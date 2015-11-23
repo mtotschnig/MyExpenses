@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">ගිණුම </string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">වත්කම් ගිණුම </string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">බැංකු ගිණුම </string>
@@ -29,6 +30,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">විභේදනය වූ ගනුදෙනු</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">විජට් අච්චුව </string>
   <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %s අවශ්‍ය වේ </string>
   <string name="currency">මුදල් </string>
   <string name="current_balance">දැනට පවතින ශේෂය </string>
@@ -38,6 +40,7 @@
   <string name="decimal_separator">දශම ස්ථාන වෙන්කිර්මේ උපකරණය </string>
   <string name="default_account_description"> ස්ථාපන ක්‍රියාවලියේදී මෙම ගිණුම ඉබේ පිහිටන ලදී </string>
   <string name="description">විස්තරය </string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_insert_transfer_1">හුවමාරු ගනුදෙනු සදහා එකම ව්‍යවහාර මුදල් ඒකකයෙන් යුත් 2න ගිණුමක් අවශ්‍ය වේ </string>
   <string name="dialog_command_disabled_insert_transfer_2">ඔබට ඇත්තේ %1$s ව්‍යවහාර මුදල්ඒකකයෙන් එක් ගිණුමක් පමණි </string>
   <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
@@ -252,6 +255,7 @@
   <string name="pm_type_neutral">මධ්‍යස්ත </string>
   <string name="pref_app_dir_title">අපනයන සහ උපස්ටහ සදහාවූ ගොනුව </string>
   <string name="pref_backup_summary">දත්ත ගබඩාවෙහි සහ මනාප හි උපස්තයක් නිර්මාණය කරන්න </string>
+  <string name="pref_sort_order_usages">පාවිච්චි කල ගනන </string>
   <string name="pref_category_title_export">අපනයනය </string>
   <string name="pref_category_title_import">ආනයනය </string>
   <string name="pref_category_title_manage">කලමනාකරණය </string>
@@ -280,7 +284,6 @@
 <!-- මෙය ඉංග්‍රීසි භාෂාවට හිස් වන අතර අනිකුත් භාෂා වල පරිවර්තකයන්ට ස්තුති ලබාදේ  --></string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">බලපත්‍ර සහ amp ; ස්තූති කිරීම් </string>
-  <string name="pref_password_empty">මුරපදය හිස්ව තැබිය නොහැක </string>
   <string name="pref_password_not_equal">මුර පද නොගැලපේ </string>
   <string name="pref_perform_protection_summary">සාරාංශ සහ ඇප් දියත් කිරීම් ආරක්ෂා යල යුතුද?</string>
   <string name="pref_perform_protection_title">මුරපද ආරක්ෂාව</string>
@@ -315,7 +318,6 @@
   <string name="pref_ui_fontsize_title">මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය වැඩි කරන්න </string>
   <string name="pref_ui_home_screen_shortcuts">ප්‍රධාන තිර කෙටිමාර්ග </string>
   <string name="pref_ui_language_default">මුල් පද්ධතිය </string>
-  <string name="pref_ui_language_summary">පාවිචිචි කිරමේ අතුරුමුහුණත සදහා භාෂාවක් පිහිටුවන්න  </string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">භාෂාව</string>
   <string name="pref_ui_theme_dark">අඳුරු </string>
@@ -421,6 +423,7 @@
   <string name="widget_title_templates">මගේ අච්චු </string>
   <string name="app_dir_does_not_exist">දැනට තෝරාගත් උපස්ථ හා අපනයන සදහා වූ ගොනුව (%1$s) භාවිතයේ නොමැත </string>
   <string name="app_dir_read_only">දැනට තෝරාගත් උපස්ථ හා අපනයන සදහා වූ ගොනුව (%1$s) කියවීමට පමණයි </string>
-    <string name="switch_on_text" msgid="1124106706920572386">"සක්‍රියයි"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"අක්‍රියයි"</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="switch_on_text">සක්‍රියයි</string>
+  <string name="switch_off_text">අක්‍රියයි</string>
 </resources>

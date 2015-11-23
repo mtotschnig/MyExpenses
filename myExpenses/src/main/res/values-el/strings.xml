@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">λογαριασμός</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Λογαριασμός Παγίων, αξία περιουσίας</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Λογαριασμοί παγίων</string>
@@ -52,6 +53,8 @@
   <string name="default_account_name">Βιβλίο προϋπολογισμού</string>
   <string name="description">περιγραφή</string>
   <string name="dialog_balance_delete">Διαγραφή διακανονισμένων συναλλαγών</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Απόρριψη</string>
   <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Μεταφορά συναλλαγών απαιτεί ένα δεύτερο λογαριασμό με το ίδιο νόμισμα.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Έχετε μόνο ένα λογαριασμό του νομίσματος %1$s.</string>
@@ -293,7 +296,7 @@
   <string name="pref_auto_fill_title">Αυτόματη συμπλήρωση συναλλαγών</string>
   <string name="pref_auto_fill_summary">Συμπλήρωση του ποσού, της κατηγορίας και του σχολίου από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
   <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
-  <string name="pref_categories_sort_by_usages_title">Σειρά ταξινόμησης: Άθροισμα χρήσεων</string>
+  <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
   <string name="pref_category_title_advanced">Προχωρημένα</string>
   <string name="pref_category_title_export">Εξαγωγή</string>
   <string name="pref_category_title_import">Εισαγωγή</string>
@@ -329,7 +332,6 @@
   <string name="pref_more_info_dialog_summary">Μεταφράστηκε από ΓιοΧρ</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Άδεια &amp; πιστώσεις</string>
-  <string name="pref_password_empty">Ο Κωδικός πρόσβασης δεν πρέπει να είναι κενός</string>
   <string name="pref_password_not_equal">Κωδικοί πρόσβασης δεν ταιριάζουν</string>
   <string name="pref_perform_protection_summary">Θα πρέπει app προϊόντα και resumes να προστατεύονται;</string>
   <string name="pref_perform_protection_title">Προστασία με κωδικό πρόσβασης</string>
@@ -366,7 +368,6 @@
   <string name="pref_ui_fontsize_title">Αύξηση μεγέθους γραμματοσειράς</string>
   <string name="pref_ui_home_screen_shortcuts">Συντομεύσεις αρχικής οθόνης</string>
   <string name="pref_ui_language_default">Προεπιλογή συστήματος</string>
-  <string name="pref_ui_language_summary">Ορίστε γλώσσα για το περιβάλλον εργασίας του χρήστη</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Γλώσσα</string>
   <string name="pref_ui_theme_dark">σκούρο</string>
@@ -526,6 +527,7 @@
   <string name="pref_csv_import_delimiter">Οριοθέτης</string>
   <string name="csv_import_preview">Προεπισκόπηση</string>
   <string name="menu_parse">Ανάλυση</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Απόρριψη</string>
   <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
   <string name="csv_import_records_failed">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
@@ -543,9 +545,8 @@
   <string name="pref_auto_backup_title">Ενεργοποίηση της αυτόματης δημιουργίας αντιγράφων ασφαλείας</string>
   <string name="pref_auto_backup_summary">Δημιουργία αντιγράφων ασφαλείας της βάσης δεδομένων καθημερινά την καθορισμένη ώρα (μόνο αν τα δεδομένα έχουν αλλάξει).</string>
   <string name="pref_auto_backup_time_title">Χρόνος αυτόματης δημιουργίας του αντιγράφου ασφαλείας</string>
-  <string name="pref_auto_backup_time_summary">Δημιουργία αντιγράφου ασφαλείας καθημερινά στις %1$02d:%2$02d</string>
   <string name="warning_auto_backup_limited_trial">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
   <string name="warning_auto_backup_limit_reached">Το όριο για δωρεάν επιτυχή δημιουργία αυτόματων αντιγράφων ασφαλείας έχει επιτευχθεί.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Ενεργό"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Ανενεργό"</string>
+  <string name="switch_on_text">Ενεργό</string>
+  <string name="switch_off_text">Ανενεργό</string>
 </resources>

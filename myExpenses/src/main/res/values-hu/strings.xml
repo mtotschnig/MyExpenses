@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Számla</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Forgóeszköz számla</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Bankszámla</string>
@@ -28,6 +29,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Sablon widget</string>
   <string name="contrib_key">Contrib Kulcs</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Ehhez a %s használata szükséges.</string>
   <string name="currency">Pénznem</string>
   <string name="current_balance">Aktuális egyenleg</string>
@@ -36,6 +38,7 @@
   <string name="date_format_illegal">Helytelen dátum formátum</string>
   <string name="default_account_description">Ez a számla automatikusan került beállításra a telepítés során</string>
   <string name="description">Leírás</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_insert_transfer_1">Számlák közötti átutaláshoz szükség van ugyanazt a pénznemet használó másik számlára.</string>
   <string name="dialog_command_disabled_insert_transfer_2">A(z) %1$s pénznemhez csak egy számla tartozik.</string>
   <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
@@ -225,7 +228,7 @@
   <string name="pm_type_debit">Tartozás</string>
   <string name="pm_type_neutral">Semleges</string>
   <string name="pref_backup_summary">Mentés készítése az adatbázisról és a beállításokról az SD-kártyára.</string>
-  <string name="pref_categories_sort_by_usages_title">Rendezés: Használat száma</string>
+  <string name="pref_sort_order_usages">Használat száma</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_manage">Kezelés</string>
@@ -249,7 +252,6 @@
   <string name="pref_more_info_dialog_summary">A fordítást készítette: Csipai Roland</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licensz és Közreműködők</string>
-  <string name="pref_password_empty">A jelszó mező nem lehet üres</string>
   <string name="pref_password_not_equal">A jelszavak nem egyeznek</string>
   <string name="pref_perform_protection_summary">Legyen az app indítása jelszóval védett? </string>
   <string name="pref_perform_protection_title">Jelszavas védelem</string>
@@ -277,7 +279,6 @@
   <string name="pref_ui_fontsize_summary">Lépésenként 2 ponttal növeli a betűméretet</string>
   <string name="pref_ui_fontsize_title">Betűméret nagyítása</string>
   <string name="pref_ui_language_default">Rendszer alapbeállítás0</string>
-  <string name="pref_ui_language_summary">A felhasználói felület nyelvének beállítása</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Nyelv</string>
   <string name="pref_ui_theme_dark">sötét</string>
@@ -339,8 +340,8 @@
   <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
   <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>
   <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
+  <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_time_title">Automatikus biztonsági mentés ideje</string>
-  <string name="pref_auto_backup_time_summary">Csináljon napi biztonsági mentést %1$02d:%2$02d-kor</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Be"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Ki"</string>
+  <string name="switch_on_text">Be</string>
+  <string name="switch_off_text">Ki</string>
 </resources>

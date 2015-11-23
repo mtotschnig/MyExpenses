@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Račun</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">Imovinski račun</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Imovinski računi</string>
@@ -35,6 +36,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Dijeljena transakcija</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget za predložak</string>
   <string name="contrib_key">Contrib Ključ</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Potreban %s.</string>
   <string name="currency">Valuta</string>
   <string name="current_balance">Trenutačno stanje računa</string>
@@ -46,6 +48,7 @@
   <string name="default_account_name">Proračunska knjiga</string>
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Izbriši usklađene transakcije</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">Nema odobrenih transakcija za usklađivanje</string>
   <string name="dialog_command_disabled_insert_transfer_1">Za transakcije za prijenos potreban je drugi račun sa istom valutom.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Postoji samo jedan račun s valutom %1$s.</string>
@@ -281,8 +284,6 @@
   <string name="pref_auto_fill_title">Automatski popuni transacije</string>
   <string name="pref_auto_fill_summary">Unesi količinu, kategoriju i komentar od zadnje transakcije za istog platitelja / primaoca</string>
   <string name="pref_backup_summary">Kreiraj sigurnosnu kopiju baze podataka i preferencija.</string>
-  <string name="pref_categories_sort_by_usages_summary">Želite li da kategorije, predlošci i računi budu složeni po kriteriju koliko često se koriste umjesto abecednim redom? Ova postavka se zanemaruje u računima koji imaju postavljeni ključ za sortiranje. </string>
-  <string name="pref_categories_sort_by_usages_title">Sortiraj po broju korištenja</string>
   <string name="pref_category_title_advanced">Napredno</string>
   <string name="pref_category_title_export">Eksportiraj</string>
   <string name="pref_category_title_import">Unesi</string>
@@ -316,7 +317,6 @@
   <string name="pref_more_info_dialog_summary">Preveo: Mihovil Nakić-Vojnović</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence i zasluge</string>
-  <string name="pref_password_empty">Lozinka ne smije biti prazna</string>
   <string name="pref_password_not_equal">Lozinke nisu iste</string>
   <string name="pref_perform_protection_summary">Želite li da pokretanje i nastavak rada s aplikacijom bude zaštićeno?</string>
   <string name="pref_perform_protection_title">Zaštita putem lozinke</string>
@@ -346,14 +346,12 @@
   <string name="pref_shortcut_added">Prečac je kreiran na početnom zaslonu</string>
   <string name="pref_shortcut_not_added">Nema dostupnog početnog zaslona za kreiranje prečaca</string>
   <string name="pref_shortcut_summary">Dodaj prečac na početni zaslon.</string>
-  <string name="pref_template_click_default_title">Zadana radnja za predložak</string>
   <string name="pref_template_click_default_summary">Kratki dodir na stavku u listi predloška</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Svaki korak povećava osnovnu veličinu fonta za 2sp</string>
   <string name="pref_ui_fontsize_title">Povećaj font</string>
   <string name="pref_ui_home_screen_shortcuts">Prečaci na glavnom prozoru</string>
   <string name="pref_ui_language_default">Sistemske postavke</string>
-  <string name="pref_ui_language_summary">Postavi jezik korisničkog sučelja</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Jezik</string>
   <string name="pref_ui_theme_dark">tamno</string>
@@ -502,6 +500,7 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="restore_calendar_handling_ignore">Ne obnavljaj planove</string>
   <string name="restore_not_possible_target_calendar_missing">Kalendar %s postavljen u arhivi sigurnosne kopije nije pronađen. Obnavljanje je prekinuto.</string>
   <string name="restore_not_possible_local_calendar_missing">Trenutačni kalendar za planiranje nije dostupan.</string>
-    <string name="switch_on_text" msgid="1124106706920572386">"Uključeno"</string>
-    <string name="switch_off_text" msgid="1139356348100829659">"Isključeno"</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="switch_on_text">Uključeno</string>
+  <string name="switch_off_text">Isključeno</string>
 </resources>
