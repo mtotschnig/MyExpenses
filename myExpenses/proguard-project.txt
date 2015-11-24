@@ -76,3 +76,9 @@
 -dontwarn android.net.http.AndroidHttpClient
 -dontwarn com.google.android.gms.**
 -dontwarn com.android.volley.toolbox.**
+
+-keepclassmembers class * {
+    @com.google.common.annotations.VisibleForTesting *;
+}
+
+-keep enum org.totschnig.myexpenses.activity.*$HelpVariant

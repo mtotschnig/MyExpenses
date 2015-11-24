@@ -46,6 +46,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.acra.ErrorReporter;
+import com.google.common.annotations.VisibleForTesting;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -759,6 +760,8 @@ public class Utils {
   public enum LicenceStatus {
     CONTRIB, EXTENDED
   }
+
+  @VisibleForTesting
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other) {
     return getContribFeatureLabelsAsFormattedList(ctx,other,LicenceStatus.CONTRIB);

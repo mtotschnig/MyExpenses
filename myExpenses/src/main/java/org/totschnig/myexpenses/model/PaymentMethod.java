@@ -33,6 +33,8 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.common.annotations.VisibleForTesting;
+
 public class PaymentMethod extends Model {
   private String label;
   public static final int EXPENSE =  -1;
@@ -148,6 +150,8 @@ public class PaymentMethod extends Model {
   public int getPaymentType() {
     return paymentType;
   }
+
+  @VisibleForTesting
   public boolean isPredefined() {
     return preDefined != null;
   }

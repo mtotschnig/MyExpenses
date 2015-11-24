@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -631,6 +632,7 @@ public class Account extends Model {
   /**
    * @return the sum of opening balance and all transactions for the account
    */
+  @VisibleForTesting
   public Money getTotalBalance() {
     return new Money(currency,
         openingBalance.getAmountMinor() + getTransactionSum(null)
@@ -639,6 +641,7 @@ public class Account extends Model {
   /**
    * @return the sum of opening balance and all cleared and reconciled transactions for the account
    */
+  @VisibleForTesting
   public Money getClearedBalance() {
     WhereFilter filter = WhereFilter.empty();
     filter.put(R.id.FILTER_STATUS_COMMAND,
@@ -650,6 +653,7 @@ public class Account extends Model {
   /**
    * @return the sum of opening balance and all reconciled transactions for the account
    */
+  @VisibleForTesting
   public Money getReconciledBalance() {
     return new Money(currency,
         openingBalance.getAmountMinor() +
