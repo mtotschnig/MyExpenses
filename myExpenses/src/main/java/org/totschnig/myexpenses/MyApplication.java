@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.widget.*;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
+import com.google.common.annotations.VisibleForTesting;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -281,6 +282,7 @@ public class MyApplication extends Application implements
     return mSettings;
   }
 
+  @VisibleForTesting
   public void setSettings(SharedPreferences s) {
     mSettings = s;
   }

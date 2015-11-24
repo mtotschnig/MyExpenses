@@ -16,3 +16,9 @@
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
+
+-keep @com.google.common.annotations.VisibleForTesting class *
+
+-keepclasseswithmembers class * {
+  @com.google.common.annotations.VisibleForTesting *;
+}
