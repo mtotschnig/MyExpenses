@@ -42,6 +42,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.google.common.annotations.VisibleForTesting;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
@@ -1172,6 +1175,7 @@ public class TransactionProvider extends ContentProvider {
    *
    * @return a handle to the database helper object for the provider's data.
    */
+  @VisibleForTesting
   public TransactionDatabase getOpenHelperForTest() {
       return mOpenHelper;
   }

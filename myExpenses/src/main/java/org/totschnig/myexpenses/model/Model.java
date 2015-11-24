@@ -22,6 +22,8 @@ import org.totschnig.myexpenses.MyApplication;
 import android.content.ContentResolver;
 import android.net.Uri;
 
+import com.google.common.annotations.VisibleForTesting;
+
 public abstract class Model implements Serializable {
   private Long id = 0L;
   private static ContentResolver cr;
@@ -38,6 +40,7 @@ public abstract class Model implements Serializable {
     return cr != null ? cr : MyApplication.getInstance().getContentResolver();
   }
 
+  @VisibleForTesting
   public static void setContentResolver(ContentResolver crIn) {
     cr = crIn;
   }

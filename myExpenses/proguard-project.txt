@@ -17,8 +17,8 @@
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
 
--keep @com.google.common.annotations.VisibleForTesting class *
-
--keepclasseswithmembers class * {
-  @com.google.common.annotations.VisibleForTesting *;
+-keepclassmembers class * {
+    @com.google.common.annotations.VisibleForTesting *;
 }
+
+-keep enum org.totschnig.myexpenses.activity.*$HelpVariant
