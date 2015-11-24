@@ -8,9 +8,6 @@
   <string name="help_MyExpenses_title">Llista d\'operacions</string>
   <string name="help_MyExpenses_crStatus_info">Un rectangle de color indica l\'estat de l\'operació: gris si no està aprobada, blau per verificada, verd per reconciliada. Clicant el rectangle, podeu canviar el seu estat.</string>
   <string name="menu_manage_plans_help_text">Obre la llista de plantilles i planificacions, que us permet aplicar, modificar o suprimir-les, i també definir planificacions de les operacions futures i recurrents.</string>
-  <!--<string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
-  <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled only if you have at least one other account with the same currency as the current one.</string>
-  <string name="menu_create_split_help_text">A split transaction allows you to assign partial amounts to different categories or as transfers to different accounts.</string>-->
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
@@ -22,7 +19,6 @@
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_select_mapping_info">A més de les accions que podeu utilitzar quan gestioneu categories des de la pantalla de Preferències (nou, edita, suprimeix), en aquesta pantalla podeu assignar una operació a una categoria. Seleccioneu una subcategoria per assignar l\'operació actual només clicant-hi. Per tal d\'assignar una categoria principal, heu d\'anar al seu menú contextual.</string>
   <string name="help_ManageCategories_manage_info">Aquesta pantalla permet generar, modificar i suprimir categories. Per omissió, la llista de categories s\'ordena pel nombre de vegades que utilitzeu una categoria (i en segon lloc per ordre alfabètic). Això permet accedir ràpidament a les categories que feu servir més sovint. A les preferències podeu optar a ordenar les categories només per ordre alfabètic. Si cliqueu a una categoria principal, s\'obren les subcategories. Des del menú contextual d\'una categoria principal, podeu afegir noves subcategories, suprimir o modificar una categoria. Les subcategories també disposen de menús contextuals per suprimir-les i modificar-les.</string>
-  <!--<string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>-->
   <string name="menu_ManageCategories_distribution_grouping_help_text">Indiqueu el tipus d\'agrupació i mostra la distribució per dia, mes, setmana o any.</string>
   <string name="menu_back_help_text">Navegueu al grup anterior. També ho podeu fer lliscant el dit d\'esquerra a dreta.</string>
   <string name="menu_forward_help_text">Navegueu al grup següent. També ho podeu fer lliscant el dit de dreta a esquerra.</string>
@@ -34,14 +30,6 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Pantalla de particions de transferències</string>
   <string name="form_title_help_text">Poseu un títol que identifiqui la plantilla de forma única.</string>
   <string name="form_plan_help_text">Quan genereu una nova planificació per a una plantilla, s\'afegeix a una agenda privada gestionada per la vostra aplicació de l\'Agenda. Podeu definir la planificació com un esdeveniment únic o com a qualsevol tipus d\'esdeveniment repetitiu del que disposi la vostra agenda. Podeu generar, modificar, i suprimir la planificació des del botó planificació, però un cop la planificació estigui establerta, també la podeu gestionar amb l\'aplicació de l\'Agenda. Una planificació pot ser automàtica o manual. Quan es dona un esdeviniment d\'una planificació automàtica, es generarà l\'operació, i rebreu una notificació. Quan la planificació és manual, també rebreu una notificació, que podreu anul·lar, modificar o aplicar a una plantilla.</string>
-  <!--<string name="help_ExpenseEdit_transaction_info">Click on the - Button to toggle between expense and income.  The button for selecting a payment method, is only available if the current account is of a type linked to any payment method. By default only bank accounts, are  linked to payment methods (cheque,credit card, deposit,direct debit).</string>
-  <string name="help_ExpenseEdit_transfer_info">Select the transfer account from the drop down list.</string>
-  <string name="help_ExpenseEdit_template_info"><![CDATA[Click on the - Button to toggle between expense and income. Enter a title that uniquely identifies the template.<h2>Plans</h2>When you create a plan for a template, it is added to a private calendar handled by your Calendar app. You can define the plan as a one-time event or as any type of recurring event that the calendar can handle. You can create, modify and delete the plan from the plan button, but once the plan is set up, you can also use the Calendar app to manage it. A plan can be set to automatic or manual. When an instance of an automatic plan occurs, the transaction will be created, and you receive a notification. When the plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or applying the template to you.]]></string>
-  <string name="help_ExpenseEdit_split_info">Enter as many split parts as needed through the menu commands for category splits and transfer splits. The bottom half of the screen displays the list of split parts and the amount that has not yet been assigned to a category or a transfer. You can only save the split transaction if the transaction amount has been exactly assigned.</string>
-  <string name="help_ExpenseEdit_splitPartCategory_info">Select a category for the split part.</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_info">Assign a transfer account to the split part.</string>
-  <string name="menu_create_split_part_category_help_text">Opens the form for assigning a part of the split to a category.</string>
-  <string name="menu_create_split_part_transfer_help_text">Opens the form for defining a part of the split as a transfer to another account.</string>-->
   <string name="menu_save_help_text">Desa les dades i tanca la pantalla.</string>
   <string name="menu_save_and_new_help_text">Desa les dades, deixa la pantalla oberta per a una nova operació amb les mateixes dades.</string>
   <string name="menu_invert_transfer_help_text">Inverteix la direcció de la transferència canviant els comptes de \"De\" i \"Per a\".</string>
