@@ -66,11 +66,11 @@
   <string name="form_date.time_help_text">Geben Sie die Uhrzeit an, wann die Buchung stattgefunden hat.</string>
   <string name="form_payer_or_payee_help_text">Dieses Feld merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor.</string>
   <string name="form_amount_switch_help_text">Verwenden Sie den Schalter, um zwischen Ausgabe und Einnahme umzuschalten</string>
-  <string name="form_calculator_help_text">&lt;! [CDATA [Die &lt;img src="?calcIcon"&gt; Schaltfläche öffnet den Taschenrechner.]] &gt;</string>
+  <string name="form_calculator_help_text"><![CDATA[Die <img src=\"?calcIcon\"> Schaltfläche öffnet den Taschenrechner.]]></string>
   <string name="form_crstatus_help_text">Für Buchungen, die zu einem Bankkonto gehören, können Sie den Status Partition auf \"Verrechnet\". Der Status \"Abgestimmt\", kann über den Befehl \"Konto abstimmen\" in der Buchungsliste gesetzt werden. Wenn Sie den Status auf \"Ungültig\" setzen, wird die Buchung nicht mitgezählt.</string>
   <string name="form_comment_help_text">Geben Sie jedwede Bemerkung über das Objekt ein.</string>
   <string name="form_method_help_text">Dieses Feld ist nur verfügbar, wenn das ausgewählte Konto einen Typ hat, der mit einer Zahlungsweise verknüpft ist. Standardmäßig sind nur Bankkonten Zahlungsmethoden (Scheck, Kreditkarte, Einzahlung, Lastschrift) zugeordnet. Unter Einstellungen -&gt; Verwalten -&gt; Zahlungsweisen können Sie die Zuordnung zwischen Kontotypen und Zahlungsweisen konfigurieren. Eine zusätzliches Feld Referenznummer wird verfügbar, wenn Sie eine Methode wählen, die als nummeriert definiert ist.</string>
-  <string name="form_attach_image_help_text">&lt;! [CDATA [Über die &lt;img src="android:ic_menu_camera"&gt; Schaltfläche können Sie ein Bild (z. B. aus der Galerie oder mit der Kamera) dem Objekt anfügen.]] &gt;</string>
+  <string name="form_attach_image_help_text"><![CDATA[Über die <img src=\"android:ic_menu_camera\"> Schaltfläche können Sie ein Bild (z. B. aus der Galerie oder mit der Kamera) dem Objekt anfügen.]]></string>
   <string name="form_category_help_text">Diese Schaltfläche öffnet die Liste der Kategorien, aus der Sie die Kategorie auswählen können, der Sie die Buchung zuordnen möchten.</string>
   <string name="form_transfer_from_account_help_text">Wählen Sie das Konto, von dem der Betrag überwiesen wird.</string>
   <string name="form_transfer_to_account_help_text">Wählen Sie das Konto, auf das der Betrag überwiesen wird.</string>
