@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Сметка</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
   <string name="account_type_asset">сметка Актив</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">сметки Активи</string>
@@ -35,6 +36,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">разпределена транзакция</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">шаблон на уиджет</string>
   <string name="contrib_key">Contrib ключ</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Изисква %s.</string>
   <string name="currency">валута</string>
   <string name="current_balance">настоящ баланс</string>
@@ -46,6 +48,7 @@
   <string name="default_account_name">бюджетна книга</string>
   <string name="description">описание</string>
   <string name="dialog_balance_delete">Изтрийте изравнени транзакции</string>
+  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">Няма изчистени транзакции, които да бъдат изравнени.</string>
   <string name="dialog_command_disabled_insert_transfer_1">За трансфер на транзакции се изисква вторa сметка със същата валута.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Имате само една сметка с валута %1$s.</string>
@@ -278,8 +281,6 @@
   <string name="pref_auto_fill_title">Автоматично попълване на транзакция</string>
   <string name="pref_auto_fill_summary">Ще се попълни количество, категория и бележка от последната транзакция за същия получател/платец</string>
   <string name="pref_backup_summary">Създаване на бекъп на база данни и предпочитания.</string>
-  <string name="pref_categories_sort_by_usages_summary">Категориите, шаблоните и сметките ще се сортират според това, колко често се използват, вместо по азбучен ред. Тази настройка се игнорира за сметки, ако те имат зададен ключ за сортиране.</string>
-  <string name="pref_categories_sort_by_usages_title">Сортиране по брой на използванията</string>
   <string name="pref_category_title_advanced">Разширено</string>
   <string name="pref_category_title_export">Експортиране</string>
   <string name="pref_category_title_import">Импортиране</string>
@@ -312,7 +313,6 @@
   <string name="pref_more_info_dialog_summary">Превод на български: Диана Карa</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
-  <string name="pref_password_empty">Паролата не трябва да е празна</string>
   <string name="pref_password_not_equal">Паролите не съвпадат</string>
   <string name="pref_perform_protection_summary">Трябва ли да бъде защитено качването и възстановяването в съответното приложение?</string>
   <string name="pref_perform_protection_title">Защита с парола</string>
@@ -342,14 +342,12 @@
   <string name="pref_shortcut_added">Добавен е шорткът на начален екран</string>
   <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
   <string name="pref_shortcut_summary">Добави шорткът към начален екран.</string>
-  <string name="pref_template_click_default_title">Действие по подразбиране с шаблон</string>
   <string name="pref_template_click_default_summary">При кратко докосване на запис в списък на шаблони</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Всяка стъпка увеличава размера на базовия шрифт с 2p</string>
   <string name="pref_ui_fontsize_title">Увеличи размера на шрифта</string>
   <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
   <string name="pref_ui_language_default">Език по подразбиране</string>
-  <string name="pref_ui_language_summary">Задаване на език на потребителския интерфейс</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Език</string>
   <string name="pref_ui_theme_dark">тъмно</string>
@@ -400,6 +398,7 @@
   <string name="sum_income">Приходи общо</string>
   <string name="sum_transfer">Трансфери общо</string>
   <!--%s is replaced with Android or Blackberry-->
+  <string name="tell_a_friend_message">Вижте Mоите разходи, личен финансов мениджър за %s, на http://www.myexpenses.mobi</string>
   <string name="template_create_success">Успешно създаден шаблон \"%1$s\"</string>
   <string name="template_title_exists">Шаблона \"%1$s\" вече съществува</string>
   <string name="thank_you">Благодарим Ви за подкрепата!</string>
@@ -487,11 +486,11 @@
   <string name="import_source_file">Файл</string>
   <string name="restore_calendar_handling">Работа с данни от календара</string>
   <string name="restore_calendar_handling_configured">Възстановете плановете в настоящия конфигуриран календар</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="switch_on_text">Включване</string>
-  <string name="switch_off_text">Изключване</string>
   <string name="restore_calendar_handling_backup">Възстановете плановете в календара, записан в бекъп, ако е налице</string>
   <string name="restore_calendar_handling_ignore">Не възстановявай планове</string>
   <string name="restore_not_possible_target_calendar_missing">Календарът %s, създаден от бекъп архива, не съществува локално. Възстановяването е отменено.</string>
   <string name="restore_not_possible_local_calendar_missing">Няма наличен план календар.</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="switch_on_text">Включване</string>
+  <string name="switch_off_text">Изключване</string>
 </resources>
