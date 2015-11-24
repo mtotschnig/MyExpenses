@@ -15,31 +15,49 @@
 
 package org.totschnig.myexpenses.test.misc;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.*;
-import org.totschnig.myexpenses.dialog.HelpDialogFragment;
-import org.totschnig.myexpenses.dialog.VersionDialogFragment;
-
 import android.content.Context;
 import android.content.res.Resources;
+
 import junit.framework.Assert;
 
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ManageCurrencies;
+import org.totschnig.myexpenses.activity.ManageMethods;
+import org.totschnig.myexpenses.activity.ManageParties;
+import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.MethodEdit;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.dialog.VersionDialogFragment;
+
+ //TODO use parameterized test
 /**
  * We test if the resources needed for the help screen are defined
- * 1) For each class an info
+ * 1) For each class an info (no longer the case)
  * 2) If there are no variants a title for the class
- * 3) If there are variants a title and an info for each variant
+ * 3) If there are variants a title and an info (no longer the case) for each variant
  * 4) If there are menuitems defined either for the class or the variants, we need for each menuitem
  * 4a) title
- * 4b) icon
+ * 4b) icon ((no longer the case)
  * 4c) help_text
  *
  */
 public class HelpTest extends android.test.InstrumentationTestCase {
+
+  private Context context;
+  private Resources resources;
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    context =  getInstrumentation().getTargetContext();
+    resources = context.getResources();
+  }
+
   public void testHelpStringResExists() {
-    Context ctx =  getInstrumentation().getTargetContext();
-    Resources res = ctx.getResources();
-    String pack = ctx.getPackageName();
+    String pack = context.getPackageName();
     int menuItemsIdentifier;
     Class<?>[] activities = new Class<?>[] {
         ManageParties.class,
@@ -55,14 +73,18 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     for (Class<?> activity: activities) {
       String className = activity.getSimpleName();
       Assert.assertTrue(org.totschnig.myexpenses.activity.ProtectedFragmentActivity.class.isAssignableFrom(activity));
-      int titleIdentifier = res.getIdentifier("help_" +className + "_title", "string", pack);
-      menuItemsIdentifier = res.getIdentifier(className+"_menuitems", "array", pack);
+      int titleIdentifier = resources.getIdentifier("help_" +className + "_title", "string", pack);
+      menuItemsIdentifier = resources.getIdentifier(className+"_menuitems", "array", pack);
       if (menuItemsIdentifier != 0) {
-        testMenuItems(className, null, res.getStringArray(menuItemsIdentifier), "menu");
+        testMenuItems(className, null, resources.getStringArray(menuItemsIdentifier), "menu");
       }
-      menuItemsIdentifier = res.getIdentifier(className+"_cabitems", "array", pack);
+      menuItemsIdentifier = resources.getIdentifier(className+"_cabitems", "array", pack);
       if (menuItemsIdentifier != 0) {
-        testMenuItems(className, null, res.getStringArray(menuItemsIdentifier), "cab");
+        testMenuItems(className, null, resources.getStringArray(menuItemsIdentifier), "cab");
+      }
+      menuItemsIdentifier = resources.getIdentifier(className+"_formfields", "array", pack);
+      if (menuItemsIdentifier != 0) {
+        testMenuItems(className, null, resources.getStringArray(menuItemsIdentifier), "form");
       }
       try {
         Class<Enum<?>> variants = (Class<Enum<?>>) Class.forName(activity.getName()+"$"+"HelpVariant");
@@ -70,23 +92,24 @@ public class HelpTest extends android.test.InstrumentationTestCase {
           String variantName = variant.name();
           //if there is no generic title, variant specifc ones are required
           if (titleIdentifier == 0)
-            Assert.assertTrue("title not defined for "+ className+", variant "+variantName+ " and no generic title exists",res.getIdentifier("help_" +className + "_" + variantName + "_title", "string", pack)!=0);
+            Assert.assertTrue("title not defined for "+ className+", variant "+variantName+ " and no generic title exists",
+                resources.getIdentifier("help_" +className + "_" + variantName + "_title", "string", pack)!=0);
           //and its specific info
-          Assert.assertTrue("info not defined for "+ className+", variant "+variantName,res.getIdentifier("help_" +className + "_" + variantName + "_info", "string", pack)!=0);
-          menuItemsIdentifier = res.getIdentifier(className + "_" + variantName +"_menuitems", "array", pack);
+          //Assert.assertTrue("info not defined for "+ className+", variant "+variantName,res.getIdentifier("help_" +className + "_" + variantName + "_info", "string", pack)!=0);
+          menuItemsIdentifier = resources.getIdentifier(className + "_" + variantName +"_menuitems", "array", pack);
           if (menuItemsIdentifier != 0) {
-            testMenuItems(className, variantName, res.getStringArray(menuItemsIdentifier), "menu");
+            testMenuItems(className, variantName, resources.getStringArray(menuItemsIdentifier), "menu");
           }
-          menuItemsIdentifier = res.getIdentifier(className + "_" + variantName +"_cabitems", "array", pack);
+          menuItemsIdentifier = resources.getIdentifier(className + "_" + variantName +"_cabitems", "array", pack);
           if (menuItemsIdentifier != 0) {
-            testMenuItems(className, variantName, res.getStringArray(menuItemsIdentifier), "cab");
+            testMenuItems(className, variantName, resources.getStringArray(menuItemsIdentifier), "cab");
           }
         }
       } catch (ClassNotFoundException e) {
         //title if there are no variants
         Assert.assertTrue("title not defined for "+ className,titleIdentifier!=0);
         //classes with variants can have a generic info that is displayed in all variants, but it is not required
-        Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
+        //Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
       }
     }
   }
@@ -105,23 +128,31 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       String variant,
       String[] menuItems,
       String prefix) {
-    Context ctx =  getInstrumentation().getTargetContext();
-    Resources res = ctx.getResources();
-    String pack = ctx.getPackageName();
+    context = getInstrumentation().getTargetContext();
+    resources = context.getResources();
+    String pack = context.getPackageName();
     String resIdString;
     int resId;
     for (String item: menuItems) {
-      assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
-      resIdString = "menu_"+item;
-      assertTrue("title not found for " + item,res.getIdentifier(resIdString,"string",pack) != 0);
-      resId = res.getIdentifier(prefix + "_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
-      if (resId == 0) {
-        resId = res.getIdentifier(prefix + "_" +activityName + "_" + item + "_help_text","string",pack);
-        if (resId == 0) {
-          resIdString = prefix + "_"  + item + "_help_text";
-          assertTrue("help text not found for " + item,res.getIdentifier(resIdString,"string",pack)!=0);
+      //assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
+      if (prefix.equals("form")) {
+        for (String resIdPart : item.split("\\.")) {
+          assertTrue("title not found for " + item, resources.getIdentifier(resIdPart, "string", pack) != 0);
+        }
+      } else {
+        resIdString = "menu_" + item;
+        assertTrue("title not found for " + item, resources.getIdentifier(resIdString, "string", pack) != 0);
+      }
+      if (!resolveStringOrArray(prefix + "_" + activityName + "_" + variant + "_" + item + "_help_text")) {
+        if (!resolveStringOrArray(prefix + "_" + activityName + "_" + item + "_help_text")) {
+          assertTrue("help text not found for " + item,resolveStringOrArray(prefix + "_"  + item + "_help_text"));
         }
       }
     }
+  }
+  private boolean resolveStringOrArray(String resString) {
+    if (resources.getIdentifier(resString,"array",context.getPackageName()) != 0 )
+      return true;
+    return resources.getIdentifier(resString,"string",context.getPackageName()) != 0;
   }
 }
