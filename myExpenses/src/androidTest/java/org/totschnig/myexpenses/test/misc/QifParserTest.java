@@ -622,7 +622,7 @@ public class QifParserTest extends AndroidTestCase {
       assertEquals(0, p.categories.size());
     }
 
-  public void test_should_trim_space_aroung_categories() throws Exception {
+  public void test_should_trim_space_around_categories() throws Exception {
     parseQif(
         "!Type:Cat\n" +
             "NP1\n" +
@@ -632,16 +632,13 @@ public class QifParserTest extends AndroidTestCase {
             "NP1 \n" +
             "^\n");
 
-    assertEquals(3, p.categories.size());
+    assertEquals(2, p.categories.size());
 
     List<QifCategory> categories = getCategoriesList(p);
     assertEquals("P1", categories.get(0).getName());
     assertEquals(false, categories.get(0).isIncome);
     assertEquals("P1:c1", categories.get(1).getName());
     assertEquals(false, categories.get(1).isIncome);
-    assertEquals("P2", categories.get(2).getName());
-    assertEquals(true, categories.get(2).isIncome);
-
   }
 
     public void test_should_parse_opening_balance_and_memo_from_first_entry() throws Exception {
