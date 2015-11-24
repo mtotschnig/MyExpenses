@@ -66,11 +66,11 @@
   <string name="form_date.time_help_text">Entrez l\'heure à laquelle l\'opération a eu lieu.</string>
   <string name="form_payer_or_payee_help_text">Ce champ se souvient des valeurs que vous avez entré et vous les proposera à l\'avenir.</string>
   <string name="form_amount_switch_help_text">Utilisez le commutateur pour basculer entre dépenses et revenus.</string>
-  <string name="form_calculator_help_text">&lt;! [CDATA [Le &lt;img src="?calcIcon"&gt; bouton permet d'ouvrir la calculatrice.]] &gt;</string>
+  <string name="form_calculator_help_text"><![CDATA[Le <img src=\"?calcIcon\"> bouton permet d\'ouvrir la calculatrice.]]></string>
   <string name="form_crstatus_help_text">Pour les opérations de comptes bancaires, vous pouvez modifier le statut de l\'opération à pointée. Pour mettre à rapproché, vous devez utiliser la commande \"Rapprocher le compte\" de la liste des transactions. Si le statut n\'est pas défini, l\'opération n\'est pas prise en compte.</string>
   <string name="form_comment_help_text">Entrez une note sur l\'objet.</string>
   <string name="form_method_help_text">Ce champ n\'est disponible que si le compte courant est d\'un type lié à n\'importe quel mode de paiement. Par défaut, uniquement les comptes bancaires sont liées aux moyens de paiement (chèque, carte de crédit, dépôt, prélèvement). Allez dans Paramètres -&gt; Gérer -&gt; modes de paiement pour configurer la liaison entre les types de compte et modes de paiement. Lorsque vous sélectionnez une méthode qui est définie comme étant numérotée, un champ supplémentaire pour entrer un numéro de référence devient disponible.</string>
-  <string name="form_attach_image_help_text">&lt;! [CDATA [le &lt;img src="android:ic_menu_camera"&gt; bouton vous permet d'attacher une image (par exemple de la galerie ou l'appareil photo) à l'objet.]] &gt;</string>
+  <string name="form_attach_image_help_text"><![CDATA[le <img src=\"android:ic_menu_camera\"> bouton vous permet d\'attacher une image (par exemple de la galerie ou l\'appareil photo) à l\'objet.]]></string>
   <string name="form_category_help_text">Ce bouton ouvre la liste des catégories, où vous pouvez sélectionner la catégorie vous souhaitez attribuer à l\'opération.</string>
   <string name="form_transfer_from_account_help_text">Sélectionnez le compte d\'où provient le montant transféré.</string>
   <string name="form_transfer_to_account_help_text">Sélectionnez le compte vers lequel le montant est transféré.</string>
