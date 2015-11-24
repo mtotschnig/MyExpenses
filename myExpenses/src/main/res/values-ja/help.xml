@@ -7,9 +7,6 @@
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">取引リスト</string>
   <string name="help_MyExpenses_crStatus_info">取引のステータスは、色付きの四角で示されます: 灰は未照合、青は消去、緑は照合済です。四角をクリックすると、ステータスを変更します。</string>
-  <!--<string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
-  <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled only if you have at least one other account with the same currency as the current one.</string>
-  <string name="menu_create_split_help_text">A split transaction allows you to assign partial amounts to different categories or as transfers to different accounts.</string>-->
   <string name="menu_reset_help_text">このコマンドは、QIFまたはCSV形式で、SDカード上のファイルに、現在の勘定のすべての取引をエクスポートします。期首残高が自動的に調整される場合は、エクスポートされた取引を、削除するように指定することができます。取引が削除されない場合は、代わりにエクスポート済としてマークされます。設定で指定すれば、FTP、Eメールまたはその他のファイル共有アプリケーションを通じてエクスポートした後に、My Expenses は直ちにファイルを共有することができます。</string>
   <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および転記の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
   <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
@@ -34,7 +31,6 @@
   <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。副分類をクリックすることで、現在の取引に割り当てる副分類を選択します。主分類を配置するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_select_filter_info">取引リストをフィルタリングする分類を選択します。主分類を検索するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。設定で、分類をプレーンなアルファベット順にソートすることを選ぶことができます。主分類をクリックすると、その副分類を開きます。主分類のコンテキストメニューから、新しい副分類を追加、分類を削除または編集することができます。副分類にも削除や編集のコンテキストメニューがあります。</string>
-  <!--<string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>-->
   <string name="menu_ManageCategories_distribution_grouping_help_text">グループ化の種類を設定し、日、月、週または年間の分布を表示します。</string>
   <string name="menu_back_help_text">前のグループに移動します。左から右にスワイプのジェスチャーをして移動することもできます。</string>
   <string name="menu_forward_help_text">次のグループに移動します。右から左にスワイプのジェスチャーをして移動することもできます。</string>
@@ -51,14 +47,6 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">転記分割パート用のフォーム</string>
   <string name="form_title_help_text">テンプレートを一意に識別するタイトルを入力してください。</string>
   <string name="form_plan_help_text">テンプレート用の計画を作成すると、あなたのカレンダーアプリが扱うプライベート カレンダーに追加されます。1回のイベントとして、またはカレンダーが扱うことができる任意の種類の繰り返しイベントとして、計画を定義できます。計画ボタンから、計画を作成、変更および削除できますが、一度計画を設定すると、カレンダーアプリを使用して管理することもできます。計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成され、通知を受信します。計画が手動の場合は、キャンセル、変更またはテンプレートを適用する選択肢を残して、やはり通知を受け取ります。</string>
-  <!--<string name="help_ExpenseEdit_transaction_info">Click on the - Button to toggle between expense and income.  The button for selecting a payment method, is only available if the current account is of a type linked to any payment method. By default only bank accounts, are  linked to payment methods (cheque,credit card, deposit,direct debit).</string>
-  <string name="help_ExpenseEdit_transfer_info">Select the transfer account from the drop down list.</string>
-  <string name="help_ExpenseEdit_template_info"><![CDATA[Click on the - Button to toggle between expense and income. Enter a title that uniquely identifies the template.<h2>Plans</h2>When you create a plan for a template, it is added to a private calendar handled by your Calendar app. You can define the plan as a one-time event or as any type of recurring event that the calendar can handle. You can create, modify and delete the plan from the plan button, but once the plan is set up, you can also use the Calendar app to manage it. A plan can be set to automatic or manual. When an instance of an automatic plan occurs, the transaction will be created, and you receive a notification. When the plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or applying the template to you.]]></string>
-  <string name="help_ExpenseEdit_split_info">Enter as many split parts as needed through the menu commands for category splits and transfer splits. The bottom half of the screen displays the list of split parts and the amount that has not yet been assigned to a category or a transfer. You can only save the split transaction if the transaction amount has been exactly assigned.</string>
-  <string name="help_ExpenseEdit_splitPartCategory_info">Select a category for the split part.</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_info">Assign a transfer account to the split part.</string>
-  <string name="menu_create_split_part_category_help_text">Opens the form for assigning a part of the split to a category.</string>
-  <string name="menu_create_split_part_transfer_help_text">Opens the form for defining a part of the split as a transfer to another account.</string>-->
   <string name="menu_save_help_text">データを保存して、フォームを閉じます。</string>
   <string name="menu_save_and_new_help_text">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
   <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、転記の向きを反転させます。</string>
