@@ -1481,7 +1481,9 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
         if (mTransaction instanceof SplitTransaction) {
-          findSplitPartList().updateBalance();
+          final SplitPartList splitPartList = findSplitPartList();
+          splitPartList.updateBalance();
+          splitPartList.updateFabColor(mAccounts[position].color);
         }
       }
       configureStatusSpinner();

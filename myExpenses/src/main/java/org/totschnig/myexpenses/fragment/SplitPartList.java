@@ -58,6 +58,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   private TextView balanceTv;
   private long transactionSum = 0;
   private Money unsplitAmount;
+  private FloatingActionButton fab;
 
   public static SplitPartList newInstance(Long parentId, Long accountId) {
     SplitPartList f = new SplitPartList(); 
@@ -105,11 +106,16 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       }
     });
     registerForContextMenu(lv);
-    FloatingActionButton fab = ((FloatingActionButton) v.findViewById(R.id.CREATE_COMMAND));
-    fab.setBackgroundTintList(ColorStateList.valueOf(account.color));
-    fab.setImageResource(Utils.isBrightColor(account.color) ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
+    fab = ((FloatingActionButton) v.findViewById(R.id.CREATE_COMMAND));
+    updateFabColor(account.color);
     return v;
   }
+
+  public void updateFabColor(int color) {
+    fab.setBackgroundTintList(ColorStateList.valueOf(color));
+    fab.setImageResource(Utils.isBrightColor(color) ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
+  }
+
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
