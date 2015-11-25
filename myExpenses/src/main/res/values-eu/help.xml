@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menuko komandoak</string>
   <string name="help_contextual_actions">Testuinguruko ekintzak</string>
+  <string name="help_form_fields">Formularioaren eremuak</string>
   <string name="cab_delete_help_text">Ezabatu aukeratutako elementuak.</string>
   <string name="cab_edit_help_text">Editatu aukeratutako elementua.</string>
   <!--My Expenses Transaction list-->
@@ -52,6 +53,7 @@
   <string name="menu_invert_transfer_help_text">Alderantzikatu transferentziaren norabidea \'Nondik\' eta \'Nora\' kontuak txandakatuz</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Kontuen formularioa</string>
+  <string name="form_currency_help_text">Hautatu moneta bat gaurkotutako moneten zerrendatik.</string>
   <string name="menu_set_sort_key_help_text">Ezarri zenbakizko gako bat kontuaren posizioa zehazteko nabigazio ataleko kontuen zerrendan  (goranzko ordena)</string>
   <string name="menu_exclude_from_totals_help_text">Aukera hau markatzen baduzu, kontu hau ez da monetako guztirakoetan agregatuko.</string>
   <!--MethodEdit-->

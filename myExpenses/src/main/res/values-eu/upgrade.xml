@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_260">
+    <item>Material diseinua</item>
+    <item>Hobetutako tabletarako antolaketa</item>
+    <item>Samsung Knox euskarria</item>
+  </string-array>
   <string-array name="whats_new_251">
     <item>Zenbaki formatu konfiguragarria</item>
     <item>Danierara itzulpena</item>

@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Kontua</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Kontu motak</string>
   <string name="account_type_asset">Aktiboko kontua</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Aktiboko kontuak</string>
@@ -61,6 +62,11 @@
   <string name="dialog_balance_delete">Ezabatu berdinkatutako transakzioak</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Baztertu</string>
+  <string name="dialog_confirm_discard_changes">Baztertu aldaketak?</string>
+  <string name="dialog_confirm_discard_new_transaction">Baztertu transakzio berria?</string>
+  <string name="dialog_confirm_discard_new_template">Baztertu txantiloi berria?</string>
+  <string name="dialog_confirm_discard_new_account">Baztertu kontu berria?</string>
+  <string name="dialog_confirm_discard_new_method">Baztertu ordainketa modu berria?</string>
   <string name="dialog_command_disabled_balance">Ez dago kitatutako transakziorik berdinkatzeko.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transferentziak transakzioek moneta bereko bigarren kontu bat behar dute</string>
   <string name="dialog_command_disabled_insert_transfer_2">%1$s monetako kontu bakarra duzu</string>
@@ -304,6 +310,9 @@
   <string name="pref_auto_fill_title">Automatikoki bete transakzioak</string>
   <string name="pref_auto_fill_summary">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile berdinaren aurreko transakziotik</string>
   <string name="pref_backup_summary">Sortu datu-base eta hobespenen babeskopia bat.</string>
+  <string name="pref_sort_order_title">Ordenatzeko irizpidea kategoria, txantiloi eta kontuentzat</string>
+  <string name="pref_sort_order_usages">Erabilera kontaketa</string>
+  <string name="pref_sort_order_alphabetic">Alfabetikoa</string>
   <string name="pref_category_title_advanced">Aurreratua</string>
   <string name="pref_category_title_export">Esportatu</string>
   <string name="pref_category_title_import">Inportatu</string>
@@ -374,7 +383,7 @@ Librezale.eus</string>
   <string name="pref_template_click_default_summary">Sakatu labur txantiloi zerrendako sarrera batean</string>
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Urrats bakoitzak testua 2sp handitzen ditu</string>
-  <string name="pref_ui_fontsize_title">Handitu testuaren tamaina</string>
+  <string name="pref_ui_fontsize_title">Testuaren tamaina</string>
   <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
   <string name="pref_ui_language_default">Sistemako lehenetsia</string>
   <!--Title of the preference for selecting the UI language-->
@@ -565,11 +574,13 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="pref_custom_decimal_format_title">Zenbaki formatua</string>
   <string name="pref_custom_decimal_format_summary">Ez baduzu zure hizkuntzaren lehenetsitako formatua gustuko, aldatu zure beharretara. Laga hutsik lehenetsitako data formatua erabiltzeko.</string>
   <string name="licence_validation_upgrade_needed">Eguneratu Nire Gastuak Kontrib 1.5 bertsiora</string>
-  <string name="pref_auto_backup_title">Gaitu babeskopia automatikoa</string>
+  <string name="pref_auto_backup_title">Babeskopia automatikoa</string>
   <string name="pref_auto_backup_summary">Egin egunero datu-basearen babeskopia zehaztutako orduan (soilik datuak aldatu badira)</string>
   <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
   <string name="warning_auto_backup_limited_trial">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
   <string name="warning_auto_backup_limit_reached">Doako babeskopia automatikoen gehieneko kopurua gainditu da</string>
-  <string name="switch_on_text">Aktibatuta</string>
-  <string name="switch_off_text">Desaktibatuta</string>
+  <string name="calendar_permission_required"><i>Nire Gastuak</i> zure egutegia atzitzeko baimena behar du, etorkizunerako planak eta transakzio errepikakorrak sortu ahal izateko.</string>
+  <string name="button_request_calendar_access">Baimena eman</string>
+  <string name="switch_on_text">Bai</string>
+  <string name="switch_off_text">Ez</string>
 </resources>
