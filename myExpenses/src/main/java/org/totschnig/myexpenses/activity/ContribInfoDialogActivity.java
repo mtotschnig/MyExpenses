@@ -152,8 +152,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
                         isPremium ? R.string.licence_validation_premium : R.string.licence_validation_extended,
                         R.string.thank_you),
                     Toast.LENGTH_SHORT).show();
-                Distrib.registerPurchase(ContribInfoDialogActivity.this,!isPremium);
-                ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+                Distrib.registerPurchase(ContribInfoDialogActivity.this, !isPremium);
               }
             }
             finish();
@@ -198,11 +197,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   public void finish() {
     final ContribFeature feature = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
     if (feature != null) {
-      int usagesLeft = feature.usagesLeft();
       Intent i = new Intent();
       i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
       i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
-      if (usagesLeft > 0) {
+      if (feature.hasAccess() || feature.usagesLeft() > 0) {
         setResult(RESULT_OK, i);
       } else {
         setResult(RESULT_CANCELED, i);
