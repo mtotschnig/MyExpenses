@@ -430,10 +430,17 @@ public class ExpenseEdit extends AmountActivity implements
             R.string.progress_dialog_loading);
       }
     } else {
+      mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
+      if (mOperationType==MyExpenses.TYPE_SPLIT && !ContribFeature.SPLIT_TRANSACTION.hasAccess() &&
+          ContribFeature.SPLIT_TRANSACTION.usagesLeft()<1) {
+        Toast.makeText(this, ContribFeature.SPLIT_TRANSACTION.buildRequiresString(this),
+            Toast.LENGTH_LONG).show();
+        finish();
+        return;
+      }
       final Long parentId = getIntent().getLongExtra(KEY_PARENTID,0);
       final boolean isNewTemplate = getIntent().getBooleanExtra(KEY_NEW_TEMPLATE, false);
       getSupportActionBar().setDisplayShowTitleEnabled(false);
-      mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE,MyExpenses.TYPE_TRANSACTION);
       View spinner = findViewById(R.id.OperationType);
       mOperationTypeSpinner = new SpinnerHelper(spinner);
       spinner.setVisibility(View.VISIBLE);
