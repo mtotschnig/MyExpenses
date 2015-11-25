@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Kontotypen</string>
   <string name="account_type_asset">Anlagekonto</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Anlagekonten</string>
@@ -61,6 +62,11 @@
   <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Verwerfen</string>
+  <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
+  <string name="dialog_confirm_discard_new_transaction">Neue Buchung verwerfen?</string>
+  <string name="dialog_confirm_discard_new_template">Neue Vorlage verwerfen?</string>
+  <string name="dialog_confirm_discard_new_account">Neues Konto verwerfen?</string>
+  <string name="dialog_confirm_discard_new_method">Neue Zahlungsweise verwerfen?</string>
   <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Umbuchungen benötigen ein zweites Konto mit derselben Währung.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Sie haben nur ein Konto in %1$s angelegt.</string>
@@ -304,7 +310,9 @@
   <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
   <string name="pref_auto_fill_summary">Betrag, Kategorie und Kommentar von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
+  <string name="pref_sort_order_title">Sortierreihenfolge für Kategorien, Vorlagen und Konten</string>
   <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
+  <string name="pref_sort_order_alphabetic">Alphabetisch</string>
   <string name="pref_category_title_advanced">Erweitert</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
@@ -569,6 +577,8 @@
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
   <string name="warning_auto_backup_limited_trial">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
   <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
+  <string name="calendar_permission_required"><i>Meine Ausgaben</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
+  <string name="button_request_calendar_access">Zugriff gewähren</string>
   <string name="switch_on_text">An</string>
   <string name="switch_off_text">Aus</string>
 </resources>
