@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="crash_reports_user_info">Моите разходи ще изпраща доклад за срив на приложението до програмистите, което позволява по-бързо отстраняване на проблемите. Може да забраните това в Настройки.</string>
+  <string name="pref_category_title_crash_reports">Доклад за срив</string>
+  <string name="pref_enable_acra">Разреши автоматично изпращане на доклад за срив</string>
+  <string name="pref_acra_enabled">Разрешено е автоматично изпращане</string>
+  <string name="pref_acra_disabled">Забранено е автоматично изпращане</string>
+  <string name="pref_acra_syslog">Включване на системни дневници в доклада за срив</string>
+  <string name="pref_acra_syslog_enabled">Системните дневници се включват</string>
+  <string name="pref_acra_syslog_disabled">Системните дневници не се включват</string>
+  <string name="pref_acra_user_email">Електронна поща на потребителя, която да се включи в доклад за срив</string>
+  <string name="pref_acra_user_email_summary">Моля, въведете адреса на вашата електронна поща, за връзка с вас, ако желаете да помогнете за отстраняване на проблеми.</string>
+</resources>
