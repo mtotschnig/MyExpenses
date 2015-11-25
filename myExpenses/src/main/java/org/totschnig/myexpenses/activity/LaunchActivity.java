@@ -74,11 +74,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                         inventory.getPurchase(Config.SKU_EXTENDED);
                     Purchase upgradePurchase =
                         inventory.getPurchase(Config.SKU_PREMIUM2EXTENDED);
-                    if (upgradePurchase!=null&&upgradePurchase.getPurchaseState()==0) {
-                      Distrib.registerPurchase(LaunchActivity.this, true);
-                    } else if (extendedPurchase!=null&&extendedPurchase.getPurchaseState()==0) {
-                      Distrib.registerPurchase(LaunchActivity.this, true);
-                    } else if (premiumPurchase!=null&&premiumPurchase.getPurchaseState()==0) {
+                    if ((upgradePurchase  !=null && upgradePurchase .getPurchaseState() == 0) ||
+                        (extendedPurchase !=null && extendedPurchase.getPurchaseState() == 0)) {
+                      if (!contribStatus.equals(Distrib.STATUS_EXTENDED_PERMANENT)) {
+                        Distrib.registerPurchase(LaunchActivity.this, true);
+                      }
+                    } else if (premiumPurchase !=null && premiumPurchase.getPurchaseState() == 0) {
                       if (!contribStatus.equals(Distrib.STATUS_ENABLED_PERMANENT)) {
                         Distrib.registerPurchase(LaunchActivity.this, false);
                       }
