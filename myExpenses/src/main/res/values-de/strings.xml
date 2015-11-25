@@ -324,7 +324,7 @@
   <string name="pref_checkbox_disabled">Deaktiviert</string>
   <string name="pref_contrib_purchase_summary">Zugriff auf Premium- und erweiterte Funktionen erwerben.</string>
   <string name="pref_contrib_purchase_title">Schlüssel kaufen</string>
-  <string name="pref_contrib_purchase_title_upgrade">Schlüssel aktualisieren</string>
+  <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
   <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium/erweiterte Funktionen freischalten.</string>
