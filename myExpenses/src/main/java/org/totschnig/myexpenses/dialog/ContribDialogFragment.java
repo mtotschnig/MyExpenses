@@ -83,13 +83,13 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         String pro = getString(R.string.dialog_contrib_extended_gain_access);
         CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, Utils.LicenceStatus.EXTENDED);
         message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
-        builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
+        builder.setNegativeButton(R.string.dialog_contrib_buy_premium, this);
       }
     }
     builder
         .setTitle(feature.isExtended ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
         .setMessage(message)
-        .setNegativeButton(R.string.dialog_contrib_no, this)
+        .setNeutralButton(R.string.dialog_contrib_no, this)
         .setPositiveButton(isContrib ? R.string.dialog_contrib_upgrade_extended : R.string.dialog_contrib_buy_extended, this)
         .setIcon(R.drawable.premium);
     return builder.create();
