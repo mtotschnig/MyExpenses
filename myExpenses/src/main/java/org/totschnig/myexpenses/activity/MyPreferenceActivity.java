@@ -310,6 +310,36 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       Preference.OnPreferenceChangeListener,
       Preference.OnPreferenceClickListener {
 
+    Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
+        new Preference.OnPreferenceClickListener() {
+          @Override
+          public boolean onPreferenceClick(Preference preference) {
+            Bundle extras = new Bundle();
+            extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+            extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+            int nameId = 0, iconId = 0;
+            if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())) {
+              nameId = R.string.transaction;
+              iconId = R.drawable.shortcut_create_transaction_icon;
+            }
+            if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
+              extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
+              nameId = R.string.transfer;
+              iconId = R.drawable.shortcut_create_transfer_icon;
+            }
+            if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
+              extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
+              nameId = R.string.split_transaction;
+              iconId = R.drawable.shortcut_create_split_icon;
+            }
+            if (nameId != 0) {
+              addShortcut(".activity.ExpenseEdit", nameId, iconId, extras);
+              return true;
+            }
+            return false;
+          }
+        };
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences, rootKey);
@@ -335,7 +365,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
         pref = findPreference(PrefKey.ENTER_LICENCE.getKey());
         if (pref != null) //does not exist in Play Store version
-            pref.setOnPreferenceChangeListener(this);
+          pref.setOnPreferenceChangeListener(this);
 
         pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
         pref.setOnPreferenceChangeListener(this);
@@ -346,10 +376,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         findPreference(PrefKey.APP_DIR.getKey())
             .setOnPreferenceClickListener(this);
         setAppDirSummary();
-
-        findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setSummary(
-            getString(R.string.pref_shortcut_summary) + " " +
-                ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
 
         final PreferenceCategory categoryManage =
             ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
@@ -390,9 +416,17 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
       //SHORTCUTS screen
       else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
-        findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey()).setOnPreferenceClickListener(this);
-        findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey()).setOnPreferenceClickListener(this);
-        findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setOnPreferenceClickListener(this);
+        findPreference(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())
+            .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
+        findPreference(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())
+            .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
+        pref = findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey());
+        pref.setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
+        //pref.setEnabled(MyApplication.getInstance().isContribEnabled());
+        pref.setSummary(
+            getString(R.string.pref_shortcut_summary) + " " +
+                ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
+
       }
       //Password screen
       else if (rootKey.equals(getString(R.string.pref_screen_protection))) {
@@ -534,8 +568,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           pref2.setOnPreferenceClickListener(this);
         }
       }
-
-      findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled());
     }
 
     private void setProtectionDependentsState() {
@@ -620,9 +652,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);
           if (Utils.IS_FLAVOURED) {
             startActivity(i);
-          }
-          else {
-            startActivityForResult(i,CONTRIB_PURCHASE_REQUEST);
+          } else {
+            startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
           }
         }
         return true;
@@ -683,29 +714,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
           startActivityForResult(intent, PICK_FOLDER_REQUEST);
         }
-        return true;
-      }
-      if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())) {
-        Bundle extras = new Bundle();
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-        addShortcut(".activity.ExpenseEdit", R.string.transaction, R.drawable.shortcut_create_transaction_icon, extras);
-        return true;
-      }
-      if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
-        Bundle extras = new Bundle();
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-        extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-        addShortcut(".activity.ExpenseEdit", R.string.transfer, R.drawable.shortcut_create_transfer_icon, extras);
-        return true;
-      }
-      if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
-        Bundle extras = new Bundle();
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-        extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
-        addShortcut(".activity.ExpenseEdit", R.string.split_transaction, R.drawable.shortcut_create_split_icon, extras);
         return true;
       }
       if (preference.getKey().equals(PrefKey.IMPORT_CSV.getKey())) {
