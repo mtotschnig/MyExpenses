@@ -1,29 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyTextAppearanceSubhead" parent="@style/TextAppearance.AppCompat.Subhead"/>
-
-    <style name="MyTextAppearanceSubhead.s1">
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="MyTextAppearanceSubhead.s2">
-        <item name="android:textSize">20sp</item>
-    </style>
-    <style name="MyTextAppearanceSubhead.s3">
-        <item name="android:textSize">22sp</item>
+    <style name="MyTextAppearanceSubhead" parent="@style/TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">?textSizeSubhead</item>
     </style>
 
-    <style name="MyPreference_TextAppearanceMaterialBody2" parent="@style/Preference_TextAppearanceMaterialBody2"/>
-
-    <style name="MyPreference_TextAppearanceMaterialBody2.s1">
-        <item name="android:textSize">16sp</item>
+    <style name="MyPreference_TextAppearanceMaterialBody2" parent="@style/Preference_TextAppearanceMaterialBody2">
+        <item name="android:textSize">?textSizeSmall</item>
     </style>
-    <style name="MyPreference_TextAppearanceMaterialBody2.s2">
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="MyPreference_TextAppearanceMaterialBody2.s3">
-        <item name="android:textSize">20sp</item>
-    </style>
-
 
 </resources>

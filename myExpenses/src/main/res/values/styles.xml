@@ -15,90 +15,88 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="headingStyle">
-    <item name="android:layout_width">fill_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-       <!-- <item name="android:textAllCaps">true</item> -->
-    <item name="android:textColor">?colorAccent</item>
-    <item name="android:textAppearance">?android:textAppearanceSmall</item>
-  </style>
-  <style name="headingStyle.WithMargin">
-    <item name="android:layout_marginTop">8dp</item>
-    <item name="android:layout_marginBottom">8dp</item>
-  </style>
-  <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
-  <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
-    <item name="android:textColor">@android:color/primary_text_light</item>
-  </style>
-  <style name="Widget.DropDownItemLight" parent="@android:style/Widget.DropDownItem">
-    <item name="android:textColor">@android:color/primary_text_light</item>
-  </style>
-  <style name="about_text">
-    <item name="android:layout_width">fill_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textColorLink">@drawable/linkcolor</item>
-  </style>
-  <style name="form_label">
-    <item name="android:paddingRight">12dp</item>
-    <item name="android:gravity">center_vertical</item>
-    <item name="android:layout_gravity">center_vertical</item>
-    <item name="android:minHeight">60dp</item>
-  </style>
-  <style name="form_label.compat">
-    <item name="android:textStyle">bold</item>
-  </style>
 
-  <style name="form_label.condensed" parent="form_label.compat">
-    <item name="android:minHeight">0dp</item>
-  </style>
-  <style name="dialog_text"/>
-  <!-- in the export_dialog, the bold TextView is cut on 2.3. if we do not make sure it has at least x lines -->
-  <style name="dialog_text.bold">
-  	<item name="android:textStyle">bold</item>
-  </style>
-  <style name="titleTextStyle">
-    <item name="android:textStyle">bold</item>
-  </style>
-  <style name="titleTextStyleMedium" parent="titleTextStyle">
-    <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-  </style>
-  <style name="Divider">
-    <item name="android:layout_marginTop">5dp</item>
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">1dp</item>
-    <item name="android:background">?android:attr/listDivider</item>
-  </style>
-	<style name="MyTextAppearanceLarge" parent="@android:style/TextAppearance.Large" />
-  <style name="MyTextAppearanceMedium" parent="@android:style/TextAppearance.Medium" />
-	<style name="MyTextAppearanceSmall" parent="@android:style/TextAppearance.Small" />
-  <style name="MyTextAppearanceLarge.s1">
-  	<item name="android:textSize">24sp</item>
-  </style>
-  <style name="MyTextAppearanceMedium.s1">
-    <item name="android:textSize">20sp</item>      
-  </style>
-  <style name="MyTextAppearanceSmall.s1">
-  	<item name="android:textSize">16sp</item>
-  </style>
-  <style name="MyTextAppearanceLarge.s2">
-    <item name="android:textSize">26sp</item>
-  </style>
-  <style name="MyTextAppearanceMedium.s2">
-    <item name="android:textSize">22sp</item>      
-  </style>
-  <style name="MyTextAppearanceSmall.s2">
-    <item name="android:textSize">18sp</item>
-  </style>
-  <style name="MyTextAppearanceLarge.s3">
-    <item name="android:textSize">28sp</item>
-  </style>
-  <style name="MyTextAppearanceMedium.s3">
-    <item name="android:textSize">24sp</item>      
-  </style>
-  <style name="MyTextAppearanceSmall.s3">
-    <item name="android:textSize">20sp</item>
-  </style>
-  <style name="SmallButton">
-    <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-  </style>
+    <style name="headingStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!-- <item name="android:textAllCaps">true</item> -->
+        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <style name="headingStyle.WithMargin">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+    <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->
+    <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="Widget.DropDownItemLight" parent="@android:style/Widget.DropDownItem">
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="about_text">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorLink">@drawable/linkcolor</item>
+    </style>
+
+    <style name="form_label">
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:minHeight">60dp</item>
+    </style>
+
+    <style name="form_label.compat">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="form_label.condensed" parent="form_label.compat">
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="dialog_text"/>
+    <!-- in the export_dialog, the bold TextView is cut on 2.3. if we do not make sure it has at least x lines -->
+    <style name="dialog_text.bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="titleTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="titleTextStyleMedium" parent="titleTextStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="MyTextAppearanceLarge" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">?textSizeLarge</item>
+    </style>
+
+    <style name="MyTextAppearanceMedium" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">?textSizeMedium</item>
+    </style>
+
+    <style name="MyTextAppearanceSmall" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">?textSizeSmall</item>
+    </style>
+
+    <style name="SmallButton">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">?textSizeSmall</item>
+    </style>
 </resources>
