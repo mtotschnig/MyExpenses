@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Conta</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Tipos de conta</string>
   <string name="account_type_asset">Conta de ativos</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Contas de ativo</string>
@@ -61,6 +62,11 @@
   <string name="dialog_balance_delete">Excluir transações reconciliadas</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Descarte</string>
+  <string name="dialog_confirm_discard_changes">Descartar as alterações?</string>
+  <string name="dialog_confirm_discard_new_transaction">Descartar a nova transação?</string>
+  <string name="dialog_confirm_discard_new_template">Descartar o novo modelo?</string>
+  <string name="dialog_confirm_discard_new_account">Descartar a nova conta?</string>
+  <string name="dialog_confirm_discard_new_method">Descartar o novo método de pagamento?</string>
   <string name="dialog_command_disabled_balance">Nenhuma transação apuradas para se reconciliar.</string>
   <string name="dialog_command_disabled_insert_transfer_1">As transações de transferência exigem uma segunda conta com a mesma moeda.</string>
   <string name="dialog_command_disabled_insert_transfer_2">Você tem apenas uma conta de moeda %1$s.</string>
@@ -304,7 +310,9 @@
   <string name="pref_auto_fill_title">Preenchimento automático</string>
   <string name="pref_auto_fill_summary">Preenchimento em quantidade, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
   <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
+  <string name="pref_sort_order_title">Ordem de classificação para categorias, modelos e contas</string>
   <string name="pref_sort_order_usages">Contagem de usos</string>
+  <string name="pref_sort_order_alphabetic">Alfabético</string>
   <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
   <string name="pref_category_title_import">Importar</string>
@@ -569,6 +577,8 @@
   <string name="pref_auto_backup_time_title">Horário de backup automático</string>
   <string name="warning_auto_backup_limited_trial">Depois de %d bem sucedido backups automáticos, backup automático será desativado.</string>
   <string name="warning_auto_backup_limit_reached">O limite de graça backups automáticos de sucesso foi alcançado.</string>
+  <string name="calendar_permission_required"><i>Minhas despesas</i> precisa de permissão para acessar seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
+  <string name="button_request_calendar_access">Conceder acesso</string>
   <string name="switch_on_text">Ativado</string>
   <string name="switch_off_text">Desativado</string>
 </resources>
