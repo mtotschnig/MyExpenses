@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -31,21 +32,21 @@ public class FontSizeDialogFragmentCompat extends PreferenceDialogFragmentCompat
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         TextView row = (TextView) super.getView(position, convertView, parent);
-        int style;
+        int size;
         switch (position) {
           case 1:
-            style = R.style.MyTextAppearanceMedium_s1;
+            size = R.dimen.textSizeMediumS1;
             break;
           case 2:
-            style = R.style.MyTextAppearanceMedium_s2;
+            size = R.dimen.textSizeMediumS2;
             break;
           case 3:
-            style = R.style.MyTextAppearanceMedium_s3;
+            size = R.dimen.textSizeMediumS3;
             break;
           default:
-            style = R.style.MyTextAppearanceMedium;
+            size = R.dimen.textSizeMediumBase;
         }
-        row.setTextAppearance(getActivity(), style);
+        row.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(size));
         return row;
       }
     };

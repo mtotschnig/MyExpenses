@@ -165,7 +165,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mDateFormat = DateFormat.getDateInstance(
-      DateFormat.FULL);
+      DateFormat.SHORT);
   private final java.text.DateFormat mTimeFormat = DateFormat.getTimeInstance(
       DateFormat.SHORT);
   private Long mCatId = null, mPlanId = null, mMethodId = null,
@@ -661,12 +661,10 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer) {
-      findViewById(R.id.DateRow).setVisibility(View.GONE);
-      //in portrait orientation we have a separate row for time
-      View timeRow = findViewById(R.id.TimeRow);
-      if (timeRow != null)
-        timeRow.setVisibility(View.GONE);
+      findViewById(R.id.DateTimeRow).setVisibility(View.GONE);
     } else {
+      ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(
+          R.string.date) + " / " + getString(R.string.time));
       mDateButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           showDialog(DATE_DIALOG_ID);
@@ -739,8 +737,8 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mAccountSpinner.getSpinner(), findViewById(R.id.AccountLabel));
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
     linkInputWithLabel(mTransferAccountSpinner.getSpinner(), findViewById(R.id.TransferAccountLabel));
-    linkInputWithLabel(mDateButton, findViewById(R.id.DateLabel));
-    linkInputWithLabel(mTimeButton, findViewById(R.id.TimeLabel));
+    linkInputWithLabel(mDateButton, findViewById(R.id.DateTimeLabel));
+    linkInputWithLabel(mTimeButton, findViewById(R.id.DateTimeLabel));
     linkInputWithLabel(mPayeeText, mPayeeLabel);
     View commentLabel = findViewById(R.id.CommentLabel);
     linkInputWithLabel(mStatusSpinner.getSpinner(),commentLabel);
