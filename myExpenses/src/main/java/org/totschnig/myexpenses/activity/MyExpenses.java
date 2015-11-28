@@ -808,8 +808,10 @@ public class MyExpenses extends LaunchActivity implements
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       window.setStatusBarColor(color);
-      getWindow().getDecorView().setSystemUiVisibility(
-          isBrightColor ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        getWindow().getDecorView().setSystemUiVisibility(
+            isBrightColor ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+      }
     }
     mFab.setBackgroundTintList(ColorStateList.valueOf(color));
     mFab.setImageResource(isBrightColor ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
