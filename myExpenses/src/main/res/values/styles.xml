@@ -47,7 +47,7 @@
         <item name="android:paddingRight">12dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:minHeight">60dp</item>
+        <item name="android:minHeight">50dp</item>
     </style>
 
     <style name="form_label.compat">
