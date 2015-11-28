@@ -24,6 +24,7 @@
   <string name="Main_5">Różne przychody</string>
   <string name="Sub_5_1">Prezenty</string>
   <string name="Sub_5_2">Spłaty</string>
+  <string name="Sub_5_3">Sprzedaż z drugiej ręki</string>
   <string name="Main_6">Jedzenie</string>
   <string name="Sub_6_1">Bar</string>
   <string name="Sub_6_2">Piekarnia</string>
@@ -89,6 +90,7 @@
   <string name="Sub_18_11">Wyposażenie</string>
   <string name="Sub_18_12">Gaz</string>
   <string name="Sub_18_13">Ogród</string>
+  <string name="Sub_18_14">Opieka nad domem</string>
   <string name="Sub_18_15">Telefon</string>
   <string name="Sub_18_16">Telefon komórkowy</string>
   <string name="Main_19">Wypoczynek</string>

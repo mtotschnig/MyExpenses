@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Layout de tablet melhorado</item>
+    <item>Suporte para Samsung Knox</item>
+  </string-array>
   <string-array name="whats_new_251">
     <item>Formato de número configurável</item>
     <item>Dinamarquês Tradução</item>

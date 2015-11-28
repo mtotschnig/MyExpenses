@@ -24,6 +24,7 @@
 <Category Nb="5" Na="Różne przychody"/>
 <Sub_category Nbc="5" Nb="1" Na="Prezenty"/>
 <Sub_category Nbc="5" Nb="2" Na="Spłaty"/>
+<Sub_category Nbc="5" Nb="3" Na="Sprzedaż z drugiej ręki"/>
 <Category Nb="6" Na="Jedzenie"/>
 <Sub_category Nbc="6" Nb="1" Na="Bar"/>
 <Sub_category Nbc="6" Nb="2" Na="Piekarnia"/>
@@ -89,6 +90,7 @@
 <Sub_category Nbc="18" Nb="11" Na="Wyposażenie"/>
 <Sub_category Nbc="18" Nb="12" Na="Gaz"/>
 <Sub_category Nbc="18" Nb="13" Na="Ogród"/>
+<Sub_category Nbc="18" Nb="14" Na="Opieka nad domem"/>
 <Sub_category Nbc="18" Nb="15" Na="Telefon"/>
 <Sub_category Nbc="18" Nb="16" Na="Telefon komórkowy"/>
 <Category Nb="19" Na="Wypoczynek"/>

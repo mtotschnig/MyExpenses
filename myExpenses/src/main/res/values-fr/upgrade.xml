@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_260">
-    <item>Material design</item>
+    <item>Conception matérielle</item>
     <item>Présentation améliorée pour les tablettes</item>
     <item>Support pour Samsung Knox</item>
   </string-array>
