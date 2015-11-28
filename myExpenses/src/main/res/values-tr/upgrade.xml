@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_260">
+    <item>Material design tasarımı</item>
+    <item>Geliştirilmiş tablet düzeni</item>
+    <item>Samsung Knox desteği</item>
+  </string-array>
   <string-array name="whats_new_251">
     <item>Yapılandırılabilir sayı biçimi</item>
     <item>Danca tercüme</item>

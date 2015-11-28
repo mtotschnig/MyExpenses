@@ -1,11 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">Comandi del menu</string>
+  <string name="help_menu_commands">Comandi di menu</string>
   <string name="help_contextual_actions">Azioni contestuali</string>
+  <string name="help_form_fields">Campi modulo</string>
   <string name="cab_delete_help_text">Cancellare gli elementi selezionati.</string>
   <string name="cab_edit_help_text">Modificare l\'elemento selezionato.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Elenco delle transazioni</string>
+  <string name="help_MyExpenses_info">Questa schermata elenca tutte le operazioni per il conto corrente. Utilizzare il pulsante di azione galleggiante per aprire il modulo per la creazione di una nuova operazione. Utilizzare l\'elenco di conto (su tavolette nel riquadro di sinistra, telefoni il cassetto che si apre quando si fa clic sull\'icona di hamburger) per passare da un conto. Ogni counto dispone di un menu di overflow, che permette di modificarlo o eliminarlo. Utilizzare il pulsante alla fine dell\'elenco per la creazione d\'un nuovo conto.</string>
   <string name="help_MyExpenses_crStatus_info">Lo stato della transazione è indicato da un rettangolo colorato: grigio per non riconciliata, blu per compensata, verde per riconciliata . Facendo clic sul rettangolo si modifica lo stato.</string>
   <string name="menu_reset_help_text">Questo comando consente di esportare tutte le transazioni del conto attuale in un file sulla scheda SD in formato QIF o CSV. Si può decidere di eliminare le transazioni esportate, in tal caso il saldo di apertura viene regolato automaticamente. In alternativa, se non vengono eliminate le transazioni, essi saranno contrassegnati come esportati. Le mie spese possono condividere il file immediatamente dopo l\'esportazione tramite FTP, email o qualsiasi altra applicazione di file sharing, se lo si configura in tal modo in Impostazioni.</string>
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno. Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate.. Quando si fa clic su un\'intestazione di gruppo, il gruppo delle transazioni viene compresso e viene visualizzato solo l\'intestazione. Fare nuovamente clic per espandere.</string>
@@ -15,6 +17,7 @@
   <string name="menu_print_help_text">Crea una visualizzazione stampabile delle operazioni visualizzate attualmente.</string>
   <string name="menu_search_help_text">Questa voce apre un sottomenu che permette di definire i criteri di ricerca basati su categoria, quantità, commento, stato, metodo di pagamento e beneficiario/pagatore. Quando è attivo un filtro di ricerca, puoi semplicemente cliccare sulla relativa voce del sottomenu per disattivarla.</string>
   <string name="cab_create_template_from_transaction_help_text">Definire un nuovo modello basato sulla transazione selezionata. Verrà richiesto il nome del modello.</string>
+  <string name="cab_clone_transaction_help_text">L\'operazione selezionate verranno clonate con la data corrente e l\'ora. È possibile modifichere prima di salvare la copia.</string>
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
@@ -39,6 +42,7 @@
   <string name="cab_ManageCategories_select_category_help_text">Mappa la categoria selezionata alla transazione e ritorna al modulo di transazione.</string>
   <string name="menu_categories_setup_default_help_text">Un insieme di categorie predefinite verrà importato.</string>
   <string name="menu_categories_export_help_text">Categorie verranno esportate in file QIF.</string>
+  <string name="menu_distribution_show_pie_char_help_text">Attiva o disattiva la visibilità del grafico a torta.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoria selezionata si utilizzerà per filtrare l\'elenco delle transazioni.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Modulo per le operazioni</string>
@@ -46,6 +50,21 @@
   <string name="help_ExpenseEdit_split_title">Modulo per le operazioni frazionate</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Modulo per la categoria importi parziali</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Modulo per i trasferimenti di importi parziali</string>
+  <string name="help_ExpenseEdit_templateCategory_title">Modulo per i modelli d\'operazione</string>
+  <string name="help_ExpenseEdit_templateTransfer_title">Modulo per i modelli di trasferimento</string>
+  <string name="help_ExpenseEdit_transfer_info">Sono supportati attualmente soli trasferimenti tra conti con la stessa moneta.</string>
+  <string name="form_account_help_text">Selezionare il conto a cui appartiene l\'operazione.</string>
+  <string name="form_date.time_help_text">Immettere l\'ora in cui è avvenuta l\'operazione.</string>
+  <string name="form_payer_or_payee_help_text">Questo campo si ricorda i valori si entra e suggerirà loro in futuro.</string>
+  <string name="form_amount_switch_help_text">Utilizzare l\'interruttore per alternare tra proventi ed oneri.</string>
+  <string name="form_calculator_help_text"><![CDATA[il <img src=\"?calcIcon\"> pulsante apre la calcolatrice.]]></string>
+  <string name="form_comment_help_text">Immettere qualsiasi nota sull\'oggetto.</string>
+  <string name="form_attach_image_help_text"><![CDATA[il <img src=\"android:ic_menu_camera\"> pulsante consente di allegare un\'immagine (ad es. dalla Galleria o la fotocamera) per l\'oggetto.]]></string>
+  <string name="form_category_help_text">Questo pulsante si apre l\'elenco delle categorie, dove è possibile selezionare la categoria si desidera associare a l\'operazione.</string>
+  <string name="form_transfer_from_account_help_text">Selezionare il conto da cui l\'importo viene trasferito.</string>
+  <string name="form_transfer_to_account_help_text">Selezionare il counto a cui viene trasferita la quantità.</string>
+  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selezionare una categoria per questo dividere parte.</string>
+  <string name="form_transfer_from_account.transfer_to_account_help_text">Assegnare gli account dove questo oggetto viene trasferito da o a.</string>
   <string name="form_title_help_text">Inserisci un titolo che identifica in modo univoco il modello.</string>
   <string name="form_plan_help_text">Quando si crea un scadenza per un modello, questa viene aggiunta ad un calendario privato gestito dall\'applicazione calendario. È possibile definire la scadenza come un evento unico o come qualsiasi tipo di evento ricorrente gestibile dal calendario. È possibile creare, modificare ed eliminare la scadenza dal pulsante pianificazione, ma una volta impostata è anche possibile utilizzare l\'applicazione Calendario per gestirla. Una scadenza può essere impostata su automatica o manuale. In caso di scadenza automatica, si riceve una notifica ad operazione avvenuta. Quando è manuale, si riceve anche una notifica che lascia la scelta di cancellare, modificare o applicare il modello.</string>
   <string name="menu_save_help_text">Salva i dati e chiudi il modulo.</string>
@@ -53,10 +72,20 @@
   <string name="menu_invert_transfer_help_text">Invertire la direzione del trasferimento scambiando \'Da\' e \'A\' del conto.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Modulo per i conti</string>
+  <string name="form_AccountEdit_label_help_text">L\'etichetta identifica l\'account nell\'elenco conti.</string>
+  <string name="form_description_help_text">La descrizione ha solo uno scopo informativo.</string>
+  <string name="form_AccountEdit_amount_switch_help_text">Utilizzare l\'interruttore per avviare con un saldo di apertura negativa.</string>
+  <string name="form_currency_help_text">Selezionare una valuta dall\'elenco fornito di tutte le valute correnti.</string>
+  <string name="form_AccountEdit_type_help_text">È possibile definire il tipo d\'un conto come uno dei contanti, carta di credito, banca, asset, passività. Il tipo determina i metodi di pagamento disponibili che è possibile configurare in Impostazioni -&gt; Gestisci -&gt; Metodi di pagamento.</string>
+  <string name="form_color_help_text">L\'elenco dell\'operazione per un conto, il suo colore utilizzeranno come colore dell\'interfaccia utente principale.</string>
   <string name="menu_set_sort_key_help_text">Impostare una chiave numerica, determinazione della posizione dell\'account nell\'elenco account nel cassetto navigazione (sorta di ascendente).</string>
   <string name="menu_exclude_from_totals_help_text">Se si seleziona questa opzione, questo conto non sarà incluso in aggregati per ogni moneta.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
+  <string name="form_MethodEdit_label_help_text">L\'etichetta identifica il metodo quando si associa un operazione ad esso.</string>
+  <string name="form_MethodEdit_type_help_text">Tramite il tipo di un metodo, è determinare se è applicabile per le spese (debito), reddito (credito) o entrambi (neutro).</string>
+  <string name="form_MethodEdit_numbered_help_text">Quando un metodo è numerata, le operazioni che vengono mappate ad esso, avrà un campo aggiuntivo per l\'immissione di un numero di riferimento.</string>
+  <string name="form_MethodEdit_account_types_help_text">Selezionare i tipi di conto per il quale questo metodo è applicabile.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Per ogni valuta, è possibile modificare il numero di cifre di frazione utilizzata. Ad esempio, se per Euro, è necessario gestire 1/10 di un ¢, cioè 1/1000 di un Euro, si imposta il numero a tre. Account esistenti che utilizzano la moneta, si passerà alla nuova impostazione.</string>
   <!--FolderBrowser title is in keys-->
