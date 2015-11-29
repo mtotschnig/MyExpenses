@@ -85,7 +85,7 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
     public String getFragmentName(int currentPosition) {
       //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
       //would call this function if it were visible
-      //return makeFragmentName(R.id.viewpager,currentPosition);
+      //return makeFragmentName(R.id.viewpager_main,currentPosition);
       return "android:switcher:"+ R.id.viewpager+":"+getItemId(currentPosition);
     }
   }
