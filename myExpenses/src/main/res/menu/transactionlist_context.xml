@@ -15,31 +15,32 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-  <group android:id="@+id/MenuSingle">
-  <item
-    android:id="@id/CREATE_TEMPLATE_COMMAND"
-    android:icon="@drawable/create_template_from_transaction_icon"
-    android:showAsAction="always"
-    android:title="@string/menu_create_template_from_transaction">
-  </item>
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:ignore="AppCompatResource">
+    <group android:id="@+id/MenuSingle">
+        <item
+            android:id="@id/CREATE_TEMPLATE_COMMAND"
+            android:icon="@drawable/create_template_from_transaction_icon"
+            android:showAsAction="always"
+            android:title="@string/menu_create_template_from_transaction">
+        </item>
+        <item
+            android:id="@id/CLONE_TRANSACTION_COMMAND"
+            android:icon="@drawable/ic_menu_copy"
+            android:showAsAction="always"
+            android:title="@string/menu_clone_transaction">
+        </item>
+    </group>
     <item
-        android:id="@id/CLONE_TRANSACTION_COMMAND"
-        android:icon="@drawable/ic_menu_copy"
+        android:id="@id/SPLIT_TRANSACTION_COMMAND"
+        android:icon="@drawable/ic_menu_split"
         android:showAsAction="always"
-        android:title="@string/menu_clone_transaction">
+        android:title="@string/menu_split_transaction">
     </item>
-  </group>
-  <item
-    android:id="@id/SPLIT_TRANSACTION_COMMAND"
-    android:icon="@drawable/ic_menu_split"
-    android:showAsAction="always"
-    android:title="@string/menu_split_transaction">
-  </item>
-  <item
-      android:id="@id/UNDELETE_COMMAND"
-      android:icon="@drawable/ic_menu_undelete"
-      android:showAsAction="always"
-      android:title="@string/menu_undelete_transaction">
-  </item>
+    <item
+        android:id="@id/UNDELETE_COMMAND"
+        android:icon="@drawable/ic_menu_undelete"
+        android:showAsAction="always"
+        android:title="@string/menu_undelete_transaction">
+    </item>
 </menu>
