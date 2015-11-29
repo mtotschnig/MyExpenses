@@ -166,7 +166,7 @@
         </activity>
         <activity
             android:name=".activity.CalculatorInput"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" >
+            android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
