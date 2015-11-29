@@ -149,7 +149,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       }
     }
     if (withButton) {
-      mDialog.setButton(DialogInterface.BUTTON_NEUTRAL,getString(android.R.string.ok),
+      mDialog.setButton(DialogInterface.BUTTON_POSITIVE,getString(android.R.string.ok),
           new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
