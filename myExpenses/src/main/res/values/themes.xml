@@ -281,4 +281,14 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Note that we use the base animation style here (that is no animations) because we really have no idea how this kind of activity will be used. -->
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
+
+    <style name="Theme.AppCompat.Dialog.NoTitle">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.Dialog.NoTitle">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

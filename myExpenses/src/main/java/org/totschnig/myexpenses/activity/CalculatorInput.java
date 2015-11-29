@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Stack;
 
+//TODO move to DialogFragment in order to have material styled ok and cancel buttons
 public class CalculatorInput extends ProtectedFragmentActivity implements OnClickListener {
     public static final BigDecimal HUNDRED = new BigDecimal(100);
     public static final int[] buttons = {R.id.b0, R.id.b1, R.id.b2, R.id.b3,
@@ -51,7 +52,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)?
-            R.style.Theme_AppCompat_Dialog : R.style.Theme_AppCompat_Light_Dialog);
+            R.style.Theme_AppCompat_Dialog_NoTitle : R.style.Theme_AppCompat_Light_Dialog_NoTitle);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculator);
 
