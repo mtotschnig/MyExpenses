@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Hesap</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Hesap türleri</string>
   <string name="account_type_asset">Aktif hesabı</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Aktif hesapları</string>
@@ -43,6 +44,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget\'i</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV içe aktar</string>
+  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Otomatik yedekleme</string>
   <string name="contrib_key">Katkı Anahtarı</string>
   <string name="extended_key">Genişletilmiş Anahtarı</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -60,6 +62,11 @@
   <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">At</string>
+  <string name="dialog_confirm_discard_changes">Değişiklikler gözardı edilsin mi?</string>
+  <string name="dialog_confirm_discard_new_transaction">Yeni muamele gözardı edilsin mi?</string>
+  <string name="dialog_confirm_discard_new_template">Yeni şablon gözardı edilsin mi?</string>
+  <string name="dialog_confirm_discard_new_account">Yeni hesap gözardı edilsin mi?</string>
+  <string name="dialog_confirm_discard_new_method">Yeni ödeme metodu gözardı edilsin mi?</string>
   <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
   <string name="dialog_command_disabled_insert_transfer_1">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
   <string name="dialog_command_disabled_insert_transfer_2">%1$s para biriminin sadece bir hesabı olmalısınız.</string>
@@ -242,6 +249,7 @@
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
   <string name="no_filemanager_installed">Hiçbir dosya yöneticisi kurulu değil</string>
+  <string name="no_calendar_app_installed">Takvim olayını düzenlemek için hiçbir uygulama bulunamadı.</string>
   <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
   <string name="no_methods">Hiçbir ödeme metodu yok.</string>
   <string name="no_parties">Bölüm yok.</string>
@@ -302,7 +310,9 @@
   <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
   <string name="pref_auto_fill_summary">Son muameleden aynı alacaklı/ödeyici için meblağ, kategori ve yorum alanlarını doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
+  <string name="pref_sort_order_title">Kategoriler, şablonlar ve hesaplar için sıralama düzeni</string>
   <string name="pref_sort_order_usages">Kullanım sayacı</string>
+  <string name="pref_sort_order_alphabetic">Alfabetik</string>
   <string name="pref_category_title_advanced">Gelişmiş</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
@@ -563,6 +573,14 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_show_transactions">Muameleleri göster</string>
   <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
   <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
+  <string name="licence_validation_upgrade_needed">Lütfen Harcamalarım Katkı sürümünü 1.5\'e güncelleyiniz.</string>
+  <string name="pref_auto_backup_title">Otomatik yedekleme</string>
+  <string name="pref_auto_backup_summary">Veritabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
+  <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
+  <string name="warning_auto_backup_limited_trial">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
+  <string name="warning_auto_backup_limit_reached">Başarılı otomatik yedeklemeler için sınıra erişildi.</string>
+  <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>Harcamalarımın</i> takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
+  <string name="button_request_calendar_access">İzin ver</string>
   <string name="switch_on_text">Açık</string>
   <string name="switch_off_text">Kapalı</string>
 </resources>
