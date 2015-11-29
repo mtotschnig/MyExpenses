@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
 import android.text.Html;
@@ -1233,5 +1235,10 @@ public class Utils {
         return;
       }
     }
+  }
+
+  @SuppressLint("NewApi")
+  public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
+    fab.setBackgroundTintList(ColorStateList.valueOf(color));
   }
 }
