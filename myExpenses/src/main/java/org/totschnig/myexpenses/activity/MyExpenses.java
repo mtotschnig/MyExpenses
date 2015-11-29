@@ -1436,7 +1436,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public void onBackPressed() {
-    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+    if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
       mDrawerLayout.closeDrawer(GravityCompat.START);
     } else {
       super.onBackPressed();
