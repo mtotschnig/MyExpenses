@@ -28,10 +28,14 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
    */
   SectionsPagerAdapter mSectionsPagerAdapter;
 
+  protected int getLayoutRessourceId() {
+    return R.layout.activity_with_tabs;
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_with_tabs);
+    setContentView(getLayoutRessourceId());
     setupToolbar(true);
 
     mViewPager = (ViewPager) findViewById(R.id.viewpager);

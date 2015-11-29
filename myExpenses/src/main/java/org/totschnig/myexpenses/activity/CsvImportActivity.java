@@ -41,9 +41,6 @@ public class CsvImportActivity extends TabbedActivity implements
 
     final ActionBar actionBar = getSupportActionBar();
     actionBar.setTitle(getString(R.string.pref_import_title, "CSV"));
-
-    //hide FAB
-    findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
   }
 
   @Override
