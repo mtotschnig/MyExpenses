@@ -4,22 +4,16 @@
     <style name="ThemeDarkBase.V11.V14">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
         <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
-    </style>
-    <style name="ThemeDark" parent="@style/ThemeDarkBase.V11.V14">
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
-        <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall</item>
-        <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
     </style>
+    <style name="ThemeDark" parent="@style/ThemeDarkBase.V11.V14" />
 
     <style name="ThemeLightBase.V11.V14">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
         <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
-    </style>
-    <style name="ThemeLight" parent="@style/ThemeLightBase.V11.V14">
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
-        <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall</item>
-        <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
     </style>
+    <style name="ThemeLight" parent="@style/ThemeLightBase.V11.V14" />
 
     <style name="MyCategoryPreferenceStyle" parent="@style/Preference.Category.Material">
         <item name="android:layout">@layout/preference_category_material_flexible</item>
