@@ -469,7 +469,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
       if (screen.getKey().equals(getString(R.string.pref_root_screen))) {
         setOnOffSummary(getString(R.string.pref_screen_protection),
-            PrefKey.PERFORM_PROTECTION.getBoolean(true));
+            PrefKey.PERFORM_PROTECTION.getBoolean(false));
         findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).setSummary(
             ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
                 R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
@@ -488,7 +488,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     private boolean handleScreenWithMasterSwitch(final PrefKey prefKey) {
       PreferenceScreen screen = getPreferenceScreen();
       final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-      final boolean status = prefKey.getBoolean(true);
+      final boolean status = prefKey.getBoolean(false);
       if (screen.getKey().equals(prefKey.getKey())) {
         SwitchCompat actionBarSwitch =
             (SwitchCompat) getActivity().getLayoutInflater().inflate(R.layout.pref_master_switch, null);
@@ -521,7 +521,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
 
     private void setOnOffSummary(PrefKey prefKey) {
-      setOnOffSummary(prefKey.getKey(), prefKey.getBoolean(true));
+      setOnOffSummary(prefKey.getKey(), prefKey.getBoolean(false));
     }
 
     private void setOnOffSummary(String key, boolean status) {
