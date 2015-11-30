@@ -881,7 +881,7 @@ public class MyExpenses extends LaunchActivity implements
             isBrightColor ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }
     }
-    mFab.setBackgroundTintList(ColorStateList.valueOf(color));
+    Utils.setBackgroundTintListOnFab(mFab,color);
     mFab.setImageResource(isBrightColor ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
     mAccountId = newAccountId;
     setBalance();

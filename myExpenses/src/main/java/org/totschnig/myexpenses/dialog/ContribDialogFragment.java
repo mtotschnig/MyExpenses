@@ -108,7 +108,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
       ctx.contribBuyDo(true);
-    } else if (which == AlertDialog.BUTTON_NEUTRAL) {
+    } else if (which == AlertDialog.BUTTON_NEGATIVE) {
       ctx.contribBuyDo(false);
     } else {
       ctx.finish();

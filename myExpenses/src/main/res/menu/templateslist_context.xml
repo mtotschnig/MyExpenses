@@ -15,21 +15,22 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-  <item
-    android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
-    android:icon="@drawable/create_instance_save_icon"
-    android:showAsAction="always"
-    android:orderInCategory="0"
-    android:title="@string/menu_create_instance_save">
-  </item>
-  <group android:id="@+id/MenuSingle">
-	  <item
-	    android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
-        android:icon="@drawable/create_instance_edit_icon"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:ignore="AppCompatResource">
+    <item
+        android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
+        android:icon="@drawable/create_instance_save_icon"
+        android:orderInCategory="0"
         android:showAsAction="always"
-        android:orderInCategory="1"
-	    android:title="@string/menu_create_instance_edit">
-	  </item>
-  </group>
+        android:title="@string/menu_create_instance_save">
+    </item>
+    <group android:id="@+id/MenuSingle">
+        <item
+            android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
+            android:icon="@drawable/create_instance_edit_icon"
+            android:orderInCategory="1"
+            android:showAsAction="always"
+            android:title="@string/menu_create_instance_edit">
+        </item>
+    </group>
 </menu>

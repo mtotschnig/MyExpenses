@@ -69,6 +69,12 @@ public class ManageTemplates extends TabbedActivity implements
     }
     return super.onKeyUp(keyCode, event);
   }
+
+  @Override
+  protected int getLayoutRessourceId() {
+    return R.layout.activity_with_tabs_legacy;
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());

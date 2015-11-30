@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:drawSelectorOnTop="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:paddingBottom="75dp"/>
 
     <!-- translationY corrects the fact that corrdinatorlayout does not allow to center exactly -->
     <RelativeLayout
