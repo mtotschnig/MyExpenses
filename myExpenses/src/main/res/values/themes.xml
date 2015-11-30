@@ -144,6 +144,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeLight.s3" parent="@style/ThemeLight.s3Base" />
 
     <style name="ThemeDark.EditDialogBase" parent="@style/Theme.AppCompat.DialogWhenLarge">
+        <item name="windowActionModeOverlay">true</item>
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
         <item name="calcIcon">@drawable/ic_action_calc_light</item>
@@ -160,6 +161,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeDark.EditDialog" parent="ThemeDark.EditDialogBase" />
 
     <style name="ThemeLight.EditDialogBase" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="windowActionModeOverlay">true</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
         <item name="calcIcon">@drawable/ic_action_calc_dark</item>
