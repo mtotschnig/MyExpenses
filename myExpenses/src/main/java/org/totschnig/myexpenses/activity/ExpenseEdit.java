@@ -106,6 +106,7 @@ import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -921,7 +922,12 @@ public class ExpenseEdit extends AmountActivity implements
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DATE_DIALOG_ID:
-      return new DatePickerDialog(this,
+      Context context = isBrokenSamsungDevice() ?
+          new ContextThemeWrapper(this,
+              MyApplication.getThemeType( ) == MyApplication.ThemeType.dark ?
+                  android.R.style.Theme_Holo_Dialog : android.R.style.Theme_Holo_Light_Dialog) :
+          this;
+      return new DatePickerDialog(context,
           mDateSetListener,
           mCalendar.get(Calendar.YEAR),
           mCalendar.get(Calendar.MONTH),
@@ -936,6 +942,17 @@ public class ExpenseEdit extends AmountActivity implements
       );
     }
     return null;
+  }
+
+  private static boolean isBrokenSamsungDevice() {
+    return (Build.MANUFACTURER.equalsIgnoreCase("samsung")
+        && isBetweenAndroidVersions(
+        Build.VERSION_CODES.LOLLIPOP,
+        Build.VERSION_CODES.LOLLIPOP_MR1));
+  }
+
+  private static boolean isBetweenAndroidVersions(int min, int max) {
+    return Build.VERSION.SDK_INT >= min && Build.VERSION.SDK_INT <= max;
   }
 
   /**
