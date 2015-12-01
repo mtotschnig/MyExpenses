@@ -598,5 +598,6 @@
     <string name="button_request_calendar_access">Grant access</string>
     <string name="switch_on_text">On</string>
     <string name="switch_off_text">Off</string>
+    <string name="menu_move">Move</string>
 </resources>
 

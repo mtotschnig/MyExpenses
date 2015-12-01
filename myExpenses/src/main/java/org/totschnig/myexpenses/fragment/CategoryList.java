@@ -15,27 +15,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.activity.AmountActivity.EXPENSE;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.ThemeType;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -56,20 +35,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
-import org.totschnig.myexpenses.util.Utils;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -78,6 +54,61 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.common.base.Joiner;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.ThemeType;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+
+import static org.totschnig.myexpenses.activity.AmountActivity.EXPENSE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_WEEK_START;
 
 public class CategoryList extends ContextualActionBarFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
@@ -402,7 +433,7 @@ public class CategoryList extends ContextualActionBarFragment implements
         for (int i = 0; i < itemIds.length; i++) {
           itemIdsPrim[i] = itemIds[i];
         }
-        intent.putExtra(KEY_CATID,itemIdsPrim);
+        intent.putExtra(KEY_CATID, itemIdsPrim);
         intent.putExtra(KEY_LABEL, Joiner.on(",").join(labelList));
         ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
         ctx.finish();
@@ -832,7 +863,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     case R.id.TOGGLE_CHART_COMMAND:
       showChart=!showChart;
       MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
-      mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
+      mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       if (showChart) {
         int count = mAdapter.getGroupCount();
         for (int i = 0; i < count; i++)
@@ -890,7 +921,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
     }
-    doSelection(cat_id,label,true);
+    doSelection(cat_id, label, true);
     return true;
   }
   private void doSelection(long cat_id,String label,boolean isMain) {
@@ -902,9 +933,9 @@ public class CategoryList extends ContextualActionBarFragment implements
       return;
     }
     Intent intent=new Intent();
-    intent.putExtra(KEY_CATID,cat_id);
+    intent.putExtra(KEY_CATID, cat_id);
     intent.putExtra(KEY_LABEL, label);
-    ctx.setResult(ManageCategories.RESULT_OK,intent);
+    ctx.setResult(ManageCategories.RESULT_OK, intent);
     ctx.finish();
   }
   public void setGrouping(Grouping grouping) {
@@ -952,7 +983,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   private void updateSum(String prefix, TextView tv,long amount) {
     if (tv != null)
       tv.setText(prefix + Utils.formatCurrency(
-          new Money(mAccount.currency,amount)));
+          new Money(mAccount.currency, amount)));
   }
   private void updateColor() {
     if (bottomLine != null)
@@ -962,8 +993,8 @@ public class CategoryList extends ContextualActionBarFragment implements
   public void onSaveInstanceState(Bundle outState) {
       super.onSaveInstanceState(outState);
       outState.putSerializable("grouping", mGrouping);
-      outState.putInt("groupingYear",mGroupingYear);
-      outState.putInt("groupingSecond",mGroupingSecond);
+      outState.putInt("groupingYear", mGroupingYear);
+      outState.putInt("groupingSecond", mGroupingSecond);
   }
   @Override
   protected void configureMenu(Menu menu, int count) {
@@ -976,6 +1007,7 @@ public class CategoryList extends ContextualActionBarFragment implements
         ctx.helpVariant.equals(HelpVariant.distribution);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
+    menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution);
     MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
     menuItem.setVisible(count == 1 &&
         (ctx.helpVariant.equals(HelpVariant.distribution) || ctx.helpVariant.equals(HelpVariant.select_mapping)));
@@ -983,7 +1015,41 @@ public class CategoryList extends ContextualActionBarFragment implements
       menuItem.setTitle(R.string.menu_show_transactions);
     }
     menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(ctx.helpVariant.equals(HelpVariant.select_filter));
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count==1 && !inFilterOrDistribution);
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count == 1 && !inFilterOrDistribution);
+  }
+
+  @Override
+  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
+    super.configureMenuLegacy(menu, menuInfo);
+    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+      configureMenuInternal(menu, hasChildren(info.position));
+    }
+  }
+
+  @Override
+  protected void configureMenu11(Menu menu, int count) {
+    super.configureMenu11(menu, count);
+    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      boolean hasChildren = false;
+      for (int i = 0; i < checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i) && hasChildren(checkedItemPositions.keyAt(i))) {
+          hasChildren = true;
+          break;
+        }
+      }
+      configureMenuInternal(menu, hasChildren);
+    }
+  }
+
+  private boolean hasChildren(int position) {
+    mGroupCursor.moveToPosition(position);
+    return mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0;
+  }
+
+  private void configureMenuInternal(Menu menu, boolean hasChildren) {
+    menu.findItem(R.id.MOVE_COMMAND).setVisible(!hasChildren);
   }
 
   public void setType(boolean isChecked) {

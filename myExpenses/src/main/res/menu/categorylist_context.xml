@@ -17,6 +17,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AppCompatResource">
+    <item
+        android:id="@id/MOVE_COMMAND"
+        android:icon="@drawable/ic_menu_forward"
+        android:orderInCategory="50"
+        android:showAsAction="always"
+        android:title="@string/menu_move">
+    </item>
     <group android:id="@+id/MenuSingle">
         <item
             android:id="@id/CREATE_COMMAND"
