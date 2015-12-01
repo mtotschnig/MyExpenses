@@ -75,7 +75,7 @@ public class FolderList extends ListFragment {
           //although in fact it is not
           File.createTempFile("test", null, selectedFolder).delete();
         } catch (IOException e) {
-          Toast.makeText(ctx,getString(R.string.app_dir_read_only,selectedFolder.getPath()),Toast.LENGTH_SHORT).show();
+          Toast.makeText(ctx,getString(R.string.app_dir_not_accessible,selectedFolder.getPath()),Toast.LENGTH_SHORT).show();
           break;
         }
       }

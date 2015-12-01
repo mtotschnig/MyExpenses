@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
@@ -406,10 +407,18 @@ public class Utils {
         name+="."+mimeType.split("/")[1];
       }
       if (parentDir.findFile(name)==null) {
-        DocumentFile result = parentDir.createFile(mimeType, name);
-        if (result == null) {
+        DocumentFile result = null;
+        try {
+          result = parentDir.createFile(mimeType, name);
+          if (result == null) {
+            Utils.reportToAcra(new Exception(String.format(
+                "createFile returned null: mimeType %s; name %s; parent %s",
+                mimeType,name,parentDir.getUri().toString())));
+          }
+        } catch (SecurityException e) {
           Utils.reportToAcra(new Exception(String.format(
-              "createFile returned null for mimeType %s and name %s",mimeType,name)));
+              "createFile threw SecurityException: mimeType %s; name %s; parent %s",
+              mimeType, name, parentDir.getUri().toString())));
         }
         return result;
       }
@@ -449,19 +458,18 @@ public class Utils {
     if (!Utils.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
-    DocumentFile appdir = getAppDir();
-    if (appdir == null) {
+    DocumentFile appDir = getAppDir();
+    if (appDir == null) {
       return new Result(false, R.string.io_error_appdir_null);
     }
-    if (!appdir.exists()) {
-      return new Result(false, R.string.app_dir_does_not_exist,
-          appdir.getName());
-    }
-    if (!appdir.canWrite()) {
-      return new Result(false, R.string.app_dir_read_only,
-          appdir.getName());
-    }
-    return new Result(true);
+    return dirExistsAndIsWritable(appDir) ?
+        new Result(true) : new Result(false, R.string.app_dir_not_accessible,
+        FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+  }
+
+  @NonNull
+  public static boolean dirExistsAndIsWritable(DocumentFile appdir) {
+    return appdir.exists() && appdir.canWrite();
   }
 
   public static boolean copy(File src, File dst) {

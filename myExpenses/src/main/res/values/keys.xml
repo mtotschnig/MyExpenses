@@ -15,56 +15,57 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="pref_root_screen">pref_root</string>
-  <string name="pref_category_export_key">category_export</string>
-  <string name="pref_category_contrib_key">category_contrib</string>
-  <string name="pref_category_manage_key">category_manage</string>
-  <string name="pref_sort_order_key">sort_order</string>
-  <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string><!-- legacy -->
-  <string name="pref_custom_currency_key">custom_currency</string>
-  <string name="pref_perform_share_key">perform_share</string>
-  <string name="pref_share_target_key">share_target</string>
-  <string name="pref_ui_theme_key">pref_ui_theme</string>
-  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
-  <string name="pref_backup_key">backup</string>
-  <string name="pref_auto_backup_key">auto_backup</string>
-  <string name="pref_auto_backup_info_key">auto_backup_info</string>
-  <string name="pref_auto_backup_time_key">auto_backup_time</string>
-  <string name="pref_restore_key">restore</string>
-  <string name="pref_restore_legacy_key">restore_legacy</string>
-  <string name="pref_contrib_purchase_key">contrib_purchase</string>
-  <string name="pref_request_licence_key">request_licence</string>
-  <string name="pref_enter_licence_key">pref_enter_licence_key</string>
-  <string name="pref_perform_protection_key">perform_protection</string>
-  <string name="pref_set_password_key">password</string>
-  <string name="pref_security_question_key">security_question</string>
-  <string name="pref_security_answer_key">security_answer</string>
-  <string name="pref_protection_delay_seconds_key">protection_delay_seconds</string>
-  <string name="pref_export_format_key">export_format</string>
-  <string name="pref_send_feedback_key">send_feedback</string>
-  <string name="pref_more_info_dialog_key">more_info_dialog</string>
-  <string name="pref_shortcut_create_transaction_key">shortcut_create_transaction</string>
-  <string name="pref_shortcut_create_transfer_key">shortcut_create_transfer</string>
-  <string name="pref_shortcut_create_split_key">shortcut_create_split</string>
-  <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
-  <string name="pref_rate_key">rate</string>
-  <string name="pref_ui_language_key">ui_language</string>
-  <string name="pref_app_dir_key">app_dir</string>
-  <string name="pref_auto_fill_key">auto_fill</string>
-  <string name="pref_template_click_default_key">template_click_default</string>
-  <string name="pref_protection_enable_account_widget_key">enable_account_widget</string>
-  <string name="pref_protection_enable_template_widget_key">enable_template_widget</string>
-  <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
-  <string name="pref_account_grouping_key">account_grouping</string>
-  <string name="pref_manage_stale_images_key">manage_stale_images</string>
-  <string name="pref_screen_protection">screen_protection</string>
-  <string name="pref_import_qif_key">import_qif</string>
-  <string name="pref_import_csv_key">import_csv</string>
-  <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
-  <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
-  <string name="pref_ui_home_screen_shortcuts_key">ui_home_screen_shortcuts</string>
+    <string name="pref_root_screen">pref_root</string>
+    <string name="pref_category_export_key">category_export</string>
+    <string name="pref_category_contrib_key">category_contrib</string>
+    <string name="pref_category_manage_key">category_manage</string>
+    <string name="pref_sort_order_key">sort_order</string>
+    <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
+    <!-- legacy -->
+    <string name="pref_custom_currency_key">custom_currency</string>
+    <string name="pref_perform_share_key">perform_share</string>
+    <string name="pref_share_target_key">share_target</string>
+    <string name="pref_ui_theme_key">pref_ui_theme</string>
+    <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
+    <string name="pref_backup_key">backup</string>
+    <string name="pref_auto_backup_key">auto_backup</string>
+    <string name="pref_auto_backup_info_key">auto_backup_info</string>
+    <string name="pref_auto_backup_time_key">auto_backup_time</string>
+    <string name="pref_restore_key">restore</string>
+    <string name="pref_restore_legacy_key">restore_legacy</string>
+    <string name="pref_contrib_purchase_key">contrib_purchase</string>
+    <string name="pref_request_licence_key">request_licence</string>
+    <string name="pref_enter_licence_key">pref_enter_licence_key</string>
+    <string name="pref_perform_protection_key">perform_protection</string>
+    <string name="pref_set_password_key">password</string>
+    <string name="pref_security_question_key">security_question</string>
+    <string name="pref_security_answer_key">security_answer</string>
+    <string name="pref_protection_delay_seconds_key">protection_delay_seconds</string>
+    <string name="pref_export_format_key">export_format</string>
+    <string name="pref_send_feedback_key">send_feedback</string>
+    <string name="pref_more_info_dialog_key">more_info_dialog</string>
+    <string name="pref_shortcut_create_transaction_key">shortcut_create_transaction</string>
+    <string name="pref_shortcut_create_transfer_key">shortcut_create_transfer</string>
+    <string name="pref_shortcut_create_split_key">shortcut_create_split</string>
+    <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
+    <string name="pref_rate_key">rate</string>
+    <string name="pref_ui_language_key">ui_language</string>
+    <string name="pref_app_dir_key">app_dir</string>
+    <string name="pref_auto_fill_key">auto_fill</string>
+    <string name="pref_template_click_default_key">template_click_default</string>
+    <string name="pref_protection_enable_account_widget_key">enable_account_widget</string>
+    <string name="pref_protection_enable_template_widget_key">enable_template_widget</string>
+    <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
+    <string name="pref_account_grouping_key">account_grouping</string>
+    <string name="pref_manage_stale_images_key">manage_stale_images</string>
+    <string name="pref_screen_protection">screen_protection</string>
+    <string name="pref_import_qif_key">import_qif</string>
+    <string name="pref_import_csv_key">import_csv</string>
+    <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
+    <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
+    <string name="pref_ui_home_screen_shortcuts_key">ui_home_screen_shortcuts</string>
 
-  <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
+    <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,
     licensed under GPL v2.0 .</string>
   <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders,
@@ -79,37 +80,38 @@
     licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_guava">Guava from https://github.com/google/guava
     licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_itext">iText from http://itextpdf.com, licensed under Affero General Public License .</string>
-  <string name="help_licence_wakeful">WakefulIntentService from https://commonsware.com/cwac, licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_materialseekbar">MaterialSeekBarPreference from https://github.com/MrBIMC/MaterialSeekBarPreference, licensed under  MIT licence .</string>
-  <string name="donate_button_paypal">Paypal</string>
-  <string name="donate_button_bitcoin">Bitcoin</string>
-  <!-- User retrieving MyExpenses from a repository should not hit this message,
-   so we leave it without localization -->
-  <string name="error_accessing_market">No market application found</string>
-  <!-- only shown to users experimenting with restore, so no need for localization -->
-  <string name="restore_db_not_valid">BACKUP file is no valid SQLITE3 database.</string>
-  <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
-  <string name="website">http://www.myexpenses.mobi</string>
-  
-  <string tools:ignore="UnusedResources" name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
-  <string tools:ignore="UnusedResources" name="help_ManageParties_title">@string/pref_manage_parties_title</string>
-  <string tools:ignore="UnusedResources" name="help_ManageTemplates_templates_title">@string/menu_manage_plans_tab_templates</string>
-  <string tools:ignore="UnusedResources" name="help_ManageTemplates_plans_title">@string/menu_manage_plans_tab_plans</string>
-  <string tools:ignore="UnusedResources" name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
-  <string tools:ignore="UnusedResources" name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
-  <string tools:ignore="UnusedResources" name="help_ManageCategories_select_mapping_title">@string/select_category</string>
-  <string tools:ignore="UnusedResources" name="help_ManageCategories_select_filter_title">@string/search_category</string>
-  <string tools:ignore="UnusedResources" name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
-  <string tools:ignore="UnusedResources" name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
-  <string tools:ignore="UnusedResources" name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
-  <string tools:ignore="UnusedResources" name="help_CsvImportActivity_title">@string/contrib_feature_csv_import_label</string>
-  <string name="help_ExpenseEdit_templateTransfer_info">@string/help_ExpenseEdit_transfer_info</string>
+    <string name="help_licence_itext">iText from http://itextpdf.com, licensed under Affero General Public License .</string>
+    <string name="help_licence_wakeful">WakefulIntentService from https://commonsware.com/cwac, licensed under Apache License, Version 2.0 .</string>
+    <string name="help_licence_materialseekbar">MaterialSeekBarPreference from https://github.com/MrBIMC/MaterialSeekBarPreference, licensed under  MIT licence .</string>
+    <string name="donate_button_paypal">Paypal</string>
+    <string name="donate_button_bitcoin">Bitcoin</string>
+    <!-- User retrieving MyExpenses from a repository should not hit this message,
+     so we leave it without localization -->
+    <string name="error_accessing_market">No market application found</string>
+    <!-- only shown to users experimenting with restore, so no need for localization -->
+    <string name="restore_db_not_valid">BACKUP file is no valid SQLITE3 database.</string>
+    <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
+    <string name="website">http://www.myexpenses.mobi</string>
 
-    <string name="io_error_appdir_null">No folder for storing backup found</string>
+    <string name="help_ManageMethods_title" tools:ignore="UnusedResources">@string/pref_manage_methods_title</string>
+    <string name="help_ManageParties_title" tools:ignore="UnusedResources">@string/pref_manage_parties_title</string>
+    <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans_tab_templates</string>
+    <string name="help_ManageTemplates_plans_title" tools:ignore="UnusedResources">@string/menu_manage_plans_tab_plans</string>
+    <string name="help_ManageCategories_manage_title" tools:ignore="UnusedResources">@string/pref_manage_categories_title</string>
+    <string name="help_ManageCategories_distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
+    <string name="help_ManageCategories_select_mapping_title" tools:ignore="UnusedResources">@string/select_category</string>
+    <string name="help_ManageCategories_select_filter_title" tools:ignore="UnusedResources">@string/search_category</string>
+    <string name="help_ManageCurrencies_title" tools:ignore="UnusedResources">@string/pref_custom_currency_title</string>
+    <string name="help_FolderBrowser_title" tools:ignore="UnusedResources">@string/pref_app_dir_title</string>
+    <string name="help_ManageStaleImages_title" tools:ignore="UnusedResources">@string/pref_manage_stale_images_title</string>
+    <string name="help_CsvImportActivity_title" tools:ignore="UnusedResources">@string/contrib_feature_csv_import_label</string>
+    <string name="help_ExpenseEdit_templateTransfer_info">@string/help_ExpenseEdit_transfer_info</string>
+
+    <string name="io_error_appdir_null">Application directory not found</string>
+    <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
 
-  <string-array name="whats_new_252">
-    <item>@string/contrib_feature_auto_backup_label</item>
-  </string-array>
+    <string-array name="whats_new_252">
+        <item>@string/contrib_feature_auto_backup_label</item>
+    </string-array>
 </resources>

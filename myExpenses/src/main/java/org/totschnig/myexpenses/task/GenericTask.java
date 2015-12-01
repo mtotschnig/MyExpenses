@@ -446,9 +446,17 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     if (!Utils.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
-    DocumentFile backupFile = MyApplication.requireBackupFile();
+    DocumentFile appDir = Utils.getAppDir();
+    if (appDir == null) {
+      return new Result(false, R.string.io_error_appdir_null);
+    }
+    if (!Utils.dirExistsAndIsWritable(appDir)) {
+      return new Result(false, R.string.app_dir_not_accessible,
+          FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+    }
+    DocumentFile backupFile = MyApplication.requireBackupFile(appDir);
     if (backupFile == null) {
-      return new Result(false,R.string.io_error_appdir_null);
+      return new Result(false,R.string.io_error_backupdir_null);
     }
     File cacheDir = Utils.getCacheDir();
     if (cacheDir == null) {
