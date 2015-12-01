@@ -30,6 +30,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
@@ -1431,6 +1432,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (getIntent().getBooleanExtra(KEY_CLONE,false)) {
         mTransaction.setId(0L);
         mTransaction.crStatus = CrStatus.UNRECONCILED;
+        mTransaction.status = STATUS_NONE;
         mTransaction.setDate(new Date());
         mRowId = 0L;
         mClone = true;

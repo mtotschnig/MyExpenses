@@ -152,6 +152,11 @@ public class DatabaseConstants {
   public static final String KEY_SECOND_GROUP = "second";
 
   /**
+   * No special status
+   */
+  public static final int STATUS_NONE = 0;
+
+  /**
    * transaction that already has been exported
    */
   public static final int STATUS_EXPORTED = 1;
