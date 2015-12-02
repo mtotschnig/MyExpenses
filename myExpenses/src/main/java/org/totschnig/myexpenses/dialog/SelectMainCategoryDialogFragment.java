@@ -19,6 +19,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -29,6 +31,7 @@ import com.google.common.base.Joiner;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
@@ -43,6 +46,10 @@ public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment i
   public static final String KEY_EXCLUDED_ID = "excluded_id";
   protected SimpleCursorAdapter mAdapter;
   protected Cursor mCursor;
+  private String[] projection = new String[]{
+      KEY_ROWID,
+      KEY_LABEL
+  };
 
   public interface CategorySelectedListener {
     void onCategorySelected(Bundle args);
@@ -89,7 +96,7 @@ public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment i
     CursorLoader cursorLoader = new CursorLoader(
         getActivity(),
         TransactionProvider.CATEGORIES_URI,
-        null,
+        projection,
         selection,
         null,
         null);
@@ -99,8 +106,17 @@ public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment i
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
-    mCursor = data;
-    mAdapter.swapCursor(data);
+    if (getArguments().getBoolean(KEY_WITH_ROOT)) {
+      MatrixCursor extras = new MatrixCursor(projection);
+      extras.addRow(new String[]{
+          "0",
+          getString(R.string.transform_subcategory_to_main),
+      });
+      mCursor = new MergeCursor(new Cursor[]{extras, data});
+    } else {
+      mCursor = data;
+    }
+    mAdapter.swapCursor(mCursor);
   }
 
   @Override

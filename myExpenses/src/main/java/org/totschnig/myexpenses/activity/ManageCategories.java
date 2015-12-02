@@ -291,10 +291,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   @Override
   public void onCategorySelected(Bundle args) {
     finishActionMode();
+    final long target = args.getLong(SelectMainCategoryDialogFragment.KEY_RESULT);
     startTaskExecution(
         TaskExecutionFragment.TASK_MOVE_CATEGORY,
         ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-        args.getLong(SelectMainCategoryDialogFragment.KEY_RESULT),
+        target == 0L ? null : target,
         R.string.progress_dialog_saving);
   }
 

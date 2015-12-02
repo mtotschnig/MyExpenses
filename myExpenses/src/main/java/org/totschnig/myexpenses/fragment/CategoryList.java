@@ -457,7 +457,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           excludedIds = idList.toArray(new Long[idList.size()]);
         }
         Bundle args = new Bundle(3);
-        args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT,!inGroup);
+        args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT, !inGroup);
         args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
         args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
         SelectMainCategoryDialogFragment.newInstance(args)

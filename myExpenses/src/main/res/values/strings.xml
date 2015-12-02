@@ -600,5 +600,6 @@
     <string name="switch_off_text">Off</string>
     <string name="menu_move">Move</string>
     <string name="dialog_title_select_target">Select target</string>
+    <string name="transform_subcategory_to_main">Transform to main category</string>
 </resources>
 
