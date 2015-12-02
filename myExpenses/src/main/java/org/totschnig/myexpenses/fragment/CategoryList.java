@@ -1048,8 +1048,9 @@ public class CategoryList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
     super.configureMenuLegacy(menu, menuInfo);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-      configureMenuInternal(menu, hasChildren(info.position));
+      ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+      int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+      configureMenuInternal(menu, hasChildren(groupPos));
     }
   }
 
@@ -1060,9 +1061,14 @@ public class CategoryList extends ContextualActionBarFragment implements
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
       boolean hasChildren = false;
       for (int i = 0; i < checkedItemPositions.size(); i++) {
-        if (checkedItemPositions.valueAt(i) && hasChildren(checkedItemPositions.keyAt(i))) {
-          hasChildren = true;
-          break;
+        if (checkedItemPositions.valueAt(i)) {
+          int position = checkedItemPositions.keyAt(i);
+          long pos = mListView.getExpandableListPosition(position);
+          int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+          if (hasChildren(groupPos)) {
+            hasChildren = true;
+            break;
+          }
         }
       }
       configureMenuInternal(menu, hasChildren);
