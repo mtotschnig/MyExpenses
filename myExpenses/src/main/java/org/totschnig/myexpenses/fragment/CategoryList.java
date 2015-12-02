@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectRootCategoryDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -437,6 +438,11 @@ public class CategoryList extends ContextualActionBarFragment implements
         intent.putExtra(KEY_LABEL, Joiner.on(",").join(labelList));
         ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
         ctx.finish();
+        return true;
+      case R.id.MOVE_COMMAND:
+        SelectRootCategoryDialogFragment.newInstance()
+          .show(getFragmentManager(), "SELECT_TARGET");
+        return true;
     }
     return false;
   }
