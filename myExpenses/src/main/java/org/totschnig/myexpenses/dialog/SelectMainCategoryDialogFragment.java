@@ -24,7 +24,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
 import com.google.common.base.Joiner;
 
@@ -37,18 +36,20 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class SelectRootCategoryDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
+public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
     LoaderManager.LoaderCallbacks<Cursor> {
-  private static final String KEY_WITH_MOVE_TO_ROOT = "with_move_to_root";
-  private static final String KEY_EXCLUDED_ID = "excluded_id";
+  public static final String KEY_RESULT = "result";
+  public static final String KEY_WITH_ROOT = "with_root";
+  public static final String KEY_EXCLUDED_ID = "excluded_id";
   protected SimpleCursorAdapter mAdapter;
   protected Cursor mCursor;
 
-  public static final SelectRootCategoryDialogFragment newInstance(boolean withMoveToRoot, long[] excludedIds) {
-    final SelectRootCategoryDialogFragment fragment = new SelectRootCategoryDialogFragment();
-    Bundle args = new Bundle(2);
-    args.putBoolean(KEY_WITH_MOVE_TO_ROOT,withMoveToRoot);
-    args.putLongArray(KEY_EXCLUDED_ID, excludedIds);
+  public interface CategorySelectedListener {
+    void onCategorySelected(Bundle args);
+  }
+
+  public static final SelectMainCategoryDialogFragment newInstance(Bundle args) {
+    final SelectMainCategoryDialogFragment fragment = new SelectMainCategoryDialogFragment();
     fragment.setArguments(args);
     return fragment;
   }
@@ -71,11 +72,9 @@ public class SelectRootCategoryDialogFragment extends CommitSafeDialogFragment i
     if (getActivity() == null || mCursor == null) {
       return;
     }
-    //SelectFromCursorDialogListener activity = (SelectFromCursorDialogListener) getActivity();
-    //Bundle args = getArguments();
-    //args.putLong("result", ((AlertDialog) dialog).getListView().getItemIdAtPosition(which));
-    Toast.makeText(getActivity(), "" + ((AlertDialog) dialog).getListView().getItemIdAtPosition(which), Toast.LENGTH_LONG).show();
-    //activity.onItemSelected(args);
+    Bundle args = getArguments();
+    args.putLong(KEY_RESULT, ((AlertDialog) dialog).getListView().getItemIdAtPosition(which));
+    ((CategorySelectedListener) getActivity()).onCategorySelected(args);
     dismiss();
   }
 

@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -24,6 +25,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
+
+import com.google.common.base.Joiner;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 //TODO implement complete DAO
@@ -160,5 +164,19 @@ public class Category extends Model {
       mCursor.close();
       return result;
     }
+  }
+
+  public static void move(Long[] ids, Long newParent) {
+    if(ArrayUtils.contains(ids,newParent)) {
+      throw new IllegalStateException("Cannot move category to itself");
+    }
+    if(!isMain(newParent)) {
+      throw new IllegalStateException("Cannot move to subcategory");
+    }
+    ContentValues values = new ContentValues();
+    values.put(KEY_PARENTID, newParent);
+    String selection = KEY_ROWID + " IN (" +
+        Joiner.on(',').join(ids)+ ")";
+    cr().update(CONTENT_URI,values,selection, null);
   }
 }

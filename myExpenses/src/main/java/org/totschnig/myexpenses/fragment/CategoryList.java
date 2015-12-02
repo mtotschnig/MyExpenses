@@ -63,7 +63,7 @@ import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectRootCategoryDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -438,10 +439,10 @@ public class CategoryList extends ContextualActionBarFragment implements
         ctx.finish();
         return true;
       case R.id.MOVE_COMMAND:
-        final long[] excludedIds;
+        final Long[] excludedIds;
         final boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
         if (inGroup) {
-          excludedIds = ArrayUtils.toPrimitive(itemIds);
+          excludedIds = itemIds;
         } else {
           idList = new ArrayList<Long>();
           for (int i=0; i<positions.size(); i++) {
@@ -453,9 +454,13 @@ public class CategoryList extends ContextualActionBarFragment implements
               idList.add(mGroupCursor.getLong(mGroupCursor.getColumnIndex(KEY_ROWID)));
             }
           }
-          excludedIds = ArrayUtils.toPrimitive(idList.toArray(new Long[idList.size()]));
+          excludedIds = idList.toArray(new Long[idList.size()]);
         }
-        SelectRootCategoryDialogFragment.newInstance(!inGroup, excludedIds)
+        Bundle args = new Bundle(3);
+        args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT,!inGroup);
+        args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
+        args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
+        SelectMainCategoryDialogFragment.newInstance(args)
           .show(getFragmentManager(), "SELECT_TARGET");
         return true;
     }

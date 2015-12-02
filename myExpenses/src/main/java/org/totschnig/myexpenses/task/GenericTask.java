@@ -239,6 +239,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_MOVE:
       Transaction.move((Long) ids[0], (Long) mExtra);
       return null;
+      case TaskExecutionFragment.TASK_MOVE_CATEGORY:
+        Category.move((Long[]) ids, (Long) mExtra);
+        return null;
     case TaskExecutionFragment.TASK_NEW_PLAN:
       if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
         if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {
