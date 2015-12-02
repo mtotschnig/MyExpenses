@@ -19,53 +19,48 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
-import android.util.SparseBooleanArray;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.common.base.Joiner;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
-import java.util.ArrayList;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
 
 public class SelectRootCategoryDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
-    LoaderManager.LoaderCallbacks<Cursor>
-{
+    LoaderManager.LoaderCallbacks<Cursor> {
+  private static final String KEY_WITH_MOVE_TO_ROOT = "with_move_to_root";
+  private static final String KEY_EXCLUDED_ID = "excluded_id";
   protected SimpleCursorAdapter mAdapter;
   protected Cursor mCursor;
 
-  public static final SelectRootCategoryDialogFragment newInstance() {
-    return new SelectRootCategoryDialogFragment();
+  public static final SelectRootCategoryDialogFragment newInstance(boolean withMoveToRoot, long[] excludedIds) {
+    final SelectRootCategoryDialogFragment fragment = new SelectRootCategoryDialogFragment();
+    Bundle args = new Bundle(2);
+    args.putBoolean(KEY_WITH_MOVE_TO_ROOT,withMoveToRoot);
+    args.putLongArray(KEY_EXCLUDED_ID, excludedIds);
+    fragment.setArguments(args);
+    return fragment;
   }
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.select_dialog_item, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+        new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
     final AlertDialog dialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.dialog_title_select_target)
-        .setAdapter(mAdapter,this)
+        .setAdapter(mAdapter, this)
         .create();
     //dialog.getListView().setItemsCanFocus(false);
     return dialog;
@@ -73,22 +68,24 @@ public class SelectRootCategoryDialogFragment extends CommitSafeDialogFragment i
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null || mCursor ==null) {
+    if (getActivity() == null || mCursor == null) {
       return;
     }
     //SelectFromCursorDialogListener activity = (SelectFromCursorDialogListener) getActivity();
     //Bundle args = getArguments();
     //args.putLong("result", ((AlertDialog) dialog).getListView().getItemIdAtPosition(which));
-    Toast.makeText(getActivity(),""+((AlertDialog) dialog).getListView().getItemIdAtPosition(which),Toast.LENGTH_LONG).show();
+    Toast.makeText(getActivity(), "" + ((AlertDialog) dialog).getListView().getItemIdAtPosition(which), Toast.LENGTH_LONG).show();
     //activity.onItemSelected(args);
     dismiss();
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return null;
     }
-    String selection = KEY_PARENTID + " is null";
+    String selection = KEY_PARENTID + " is null AND "+ KEY_ROWID + " NOT IN (" +
+        Joiner.on(',').join(ArrayUtils.toObject(getArguments().getLongArray(KEY_EXCLUDED_ID)))+ ")";
 
     CursorLoader cursorLoader = new CursorLoader(
         getActivity(),
@@ -100,11 +97,13 @@ public class SelectRootCategoryDialogFragment extends CommitSafeDialogFragment i
     return cursorLoader;
 
   }
+
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
     mCursor = data;
     mAdapter.swapCursor(data);
   }
+
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     mCursor = null;

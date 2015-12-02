@@ -55,6 +55,7 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.common.base.Joiner;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyApplication.ThemeType;
 import org.totschnig.myexpenses.R;
@@ -343,10 +344,11 @@ public class CategoryList extends ContextualActionBarFragment implements
   public boolean dispatchCommandMultiple(int command,
       SparseBooleanArray positions,Long[]itemIds) {
     ManageCategories ctx = (ManageCategories) getActivity();
+    ArrayList<Long> idList;
     switch(command) {
     case R.id.DELETE_COMMAND:
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
-      ArrayList<Long> idList = new ArrayList<Long>();
+      idList = new ArrayList<Long>();
       for (int i=0; i<positions.size(); i++) {
         Cursor c;
         if (positions.valueAt(i)) {
@@ -357,7 +359,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           int group = ExpandableListView.getPackedPositionGroup(pos),
               child = ExpandableListView.getPackedPositionChild(pos);
           if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            c = (Cursor) mAdapter.getChild(group,child);
+            c = mAdapter.getChild(group,child);
             c.moveToPosition(child);
           } else  {
             c = mGroupCursor;
@@ -420,7 +422,7 @@ public class CategoryList extends ContextualActionBarFragment implements
             int group = ExpandableListView.getPackedPositionGroup(pos),
                 child = ExpandableListView.getPackedPositionChild(pos);
             if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-              c = (Cursor) mAdapter.getChild(group, child);
+              c = mAdapter.getChild(group, child);
               c.moveToPosition(child);
             } else {
               c = mGroupCursor;
@@ -430,17 +432,30 @@ public class CategoryList extends ContextualActionBarFragment implements
           }
         }
         Intent intent=new Intent();
-        long[] itemIdsPrim = new long[itemIds.length];
-        for (int i = 0; i < itemIds.length; i++) {
-          itemIdsPrim[i] = itemIds[i];
-        }
-        intent.putExtra(KEY_CATID, itemIdsPrim);
+        intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
         intent.putExtra(KEY_LABEL, Joiner.on(",").join(labelList));
         ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
         ctx.finish();
         return true;
       case R.id.MOVE_COMMAND:
-        SelectRootCategoryDialogFragment.newInstance()
+        final long[] excludedIds;
+        final boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
+        if (inGroup) {
+          excludedIds = ArrayUtils.toPrimitive(itemIds);
+        } else {
+          idList = new ArrayList<Long>();
+          for (int i=0; i<positions.size(); i++) {
+            if (positions.valueAt(i)) {
+              int position = positions.keyAt(i);
+              long pos = mListView.getExpandableListPosition(position);
+              int group = ExpandableListView.getPackedPositionGroup(pos);
+                mGroupCursor.moveToPosition(group);
+              idList.add(mGroupCursor.getLong(mGroupCursor.getColumnIndex(KEY_ROWID)));
+            }
+          }
+          excludedIds = ArrayUtils.toPrimitive(idList.toArray(new Long[idList.size()]));
+        }
+        SelectRootCategoryDialogFragment.newInstance(!inGroup, excludedIds)
           .show(getFragmentManager(), "SELECT_TARGET");
         return true;
     }
@@ -456,7 +471,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-      c = (Cursor) mAdapter.getChild(group,child);
+      c = mAdapter.getChild(group,child);
       isMain = false;
     } else  {
       c = mGroupCursor;
