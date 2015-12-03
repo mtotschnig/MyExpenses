@@ -419,4 +419,5 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="switch_on_text">បើក</string>
   <string name="switch_off_text">បិទ</string>
+  <string name="menu_move">រំកិល</string>
 </resources>
