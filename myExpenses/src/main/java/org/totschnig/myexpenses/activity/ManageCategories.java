@@ -352,6 +352,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
                 "text/qif");
           }
           break;
+        default:
+          msg = r.print(this);
       }
     }  else {
       msg = r.print(this);

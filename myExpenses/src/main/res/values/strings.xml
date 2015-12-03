@@ -487,6 +487,14 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">One category was succesfully moved.</item>
+        <item quantity="other">%d categories were succesfully moved.</item>
+    </plurals>
+    <plurals name="move_category_failure">
+        <item quantity="one">One category was not moved, because the same label already exists at the target.</item>
+        <item quantity="other">%d categories were not moved, because the same label already exists at the target.</item>
+    </plurals>
     <string name="warning_delete_reconciled">Deleting reconciled transactions will cause your records to differ from the bank statement.</string>
     <string name="warning_balance_account">Please compare the cleared total with the ending balance in your bank statement. If you proceed, cleared transactions will be marked as reconciled.</string>
     <string name="warning_password_protected">App is password protected.</string>

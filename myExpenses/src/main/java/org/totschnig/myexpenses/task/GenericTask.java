@@ -83,7 +83,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     ContentResolver cr = MyApplication.getInstance().getContentResolver();
     ContentValues values;
     Cursor c;
-    int successCount = 0;
+    int successCount = 0, failureCount = 0;
     switch (mTaskId) {
 /*    case TaskExecutionFragment.TASK_CLONE:
       for (long id : (Long[]) ids) {
@@ -239,9 +239,21 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_MOVE:
       Transaction.move((Long) ids[0], (Long) mExtra);
       return null;
-      case TaskExecutionFragment.TASK_MOVE_CATEGORY:
-        Category.move((Long[]) ids, (Long) mExtra);
-        return null;
+    case TaskExecutionFragment.TASK_MOVE_CATEGORY:
+      for (long id : (Long[]) ids) {
+        if (Category.move(id, (Long) mExtra))
+          successCount++;
+        else
+          failureCount++;
+      }
+      String resultMsg = "";
+      if (successCount > 0) {
+        resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success,successCount,successCount);
+      }
+      if (failureCount > 0) {
+        resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure,failureCount,failureCount);
+      }
+      return new Result(true,resultMsg);
     case TaskExecutionFragment.TASK_NEW_PLAN:
       if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
         if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {

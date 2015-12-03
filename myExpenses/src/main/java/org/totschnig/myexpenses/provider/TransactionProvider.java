@@ -856,6 +856,7 @@ public class TransactionProvider extends ContentProvider {
     int count;
     String whereString;
     int uriMatch = URI_MATCHER.match(uri);
+    Cursor c;
     switch (uriMatch) {
     case TRANSACTIONS:
       count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
@@ -916,44 +917,73 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       break;
     case CATEGORIES:
-      //TODO should not support bulk update of categories
-      count = db.update(TABLE_CATEGORIES, values, where, whereArgs);
-      break;
+      throw new UnsupportedOperationException("Bulk update of categories is not supported");
     case CATEGORY_ID:
+      if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
+        throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
       segment = uri.getPathSegments().get(1);
       //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
       String label = values.getAsString(KEY_LABEL);
-
-      String selection;
-      String[] selectionArgs;
-      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-        selection = "label = ? and ((parent_id is null and (select parent_id from categories where _id = ?) is null) or parent_id = (select parent_id from categories where _id = ?))";
-        selectionArgs= new String[]{label,segment,segment};
-      } else {
-        //this syntax crashes on 2.1, maybe 2.2
-        selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
-        selectionArgs= new String[]{label,segment};
-      }
-      Cursor c = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
-      if (c.getCount() != 0) {
-        c.moveToFirst();
-        if (c.getLong(0) == Long.valueOf(segment)) {
-          //silently do nothing if we try to update with the same value
+      if (label != null) {
+        String selection;
+        String[] selectionArgs;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+          selection = "label = ? and ((parent_id is null and (select parent_id from categories where _id = ?) is null) or parent_id = (select parent_id from categories where _id = ?))";
+          selectionArgs = new String[]{label, segment, segment};
+        } else {
+          //this syntax crashes on 2.1, maybe 2.2
+          selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
+          selectionArgs = new String[]{label, segment};
+        }
+        c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
+        if (c.getCount() != 0) {
+          c.moveToFirst();
+          if (c.getLong(0) == Long.valueOf(segment)) {
+            //silently do nothing if we try to update with the same value
+            c.close();
+            return 0;
+          }
           c.close();
-          return 0;
+          throw new SQLiteConstraintException();
         }
         c.close();
-        throw new SQLiteConstraintException();
-      }
-      c.close();
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.update(TABLE_CATEGORIES, values, "_id=" + segment + whereString,
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
             whereArgs);
-      break;
+        break;
+      }
+      if (values.containsKey(KEY_PARENTID)) {
+        Long newParent = values.getAsLong(KEY_PARENTID);
+        String selection;
+        String[] selectionArgs;
+        selection = "label = (SELECT label FROM categories WHERE _id =?) and parent_id is " + newParent;
+        selectionArgs = new String[]{segment};
+        c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
+        if (c.getCount() != 0) {
+          c.moveToFirst();
+          if (c.getLong(0) == Long.valueOf(segment)) {
+            //silently do nothing if we try to update with the same value
+            c.close();
+            return 0;
+          }
+          c.close();
+          throw new SQLiteConstraintException();
+        }
+        c.close();
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+            whereArgs);
+        break;
+      }
+      return 0;//nothing to do
     case METHOD_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {

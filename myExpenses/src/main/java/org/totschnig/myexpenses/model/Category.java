@@ -166,8 +166,8 @@ public class Category extends Model {
     }
   }
 
-  public static void move(Long[] ids, Long newParent) {
-    if(ArrayUtils.contains(ids,newParent)) {
+  public static boolean move(Long id, Long newParent) {
+    if(id.equals(newParent)) {
       throw new IllegalStateException("Cannot move category to itself");
     }
     if(!isMain(newParent)) {
@@ -175,8 +175,11 @@ public class Category extends Model {
     }
     ContentValues values = new ContentValues();
     values.put(KEY_PARENTID, newParent);
-    String selection = KEY_ROWID + " IN (" +
-        Joiner.on(',').join(ids)+ ")";
-    cr().update(CONTENT_URI,values,selection, null);
+    try {
+      cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),values,null, null);
+      return true;
+    } catch (SQLiteConstraintException e) {
+      return false;
+    }
   }
 }
