@@ -97,6 +97,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("up", R.drawable.ic_action_up);
     iconMap.put("categories_export", R.drawable.ic_menu_download);
     iconMap.put("split_transaction", R.drawable.ic_menu_split);
+    iconMap.put("move",R.drawable.ic_menu_forward);
   }
 
   private LayoutInflater layoutInflater;
