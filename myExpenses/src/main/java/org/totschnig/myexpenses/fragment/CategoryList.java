@@ -988,7 +988,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     reset();
   }
 
-  private void reset() {
+  public void reset() {
     int count =  mAdapter.getGroupCount();
     for (int i = 0; i <count ; i++) {
 //TODO: would be nice to retrieve the same open groups on the next or previous group

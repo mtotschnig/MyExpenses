@@ -43,6 +43,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -251,9 +252,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success,successCount,successCount);
       }
       if (failureCount > 0) {
+        if (!TextUtils.isEmpty(resultMsg)) {
+          resultMsg += " ";
+        }
         resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure,failureCount,failureCount);
       }
-      return new Result(true,resultMsg);
+      return new Result(successCount>0,resultMsg);
     case TaskExecutionFragment.TASK_NEW_PLAN:
       if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
         if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {

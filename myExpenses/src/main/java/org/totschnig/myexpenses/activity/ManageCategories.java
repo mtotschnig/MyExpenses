@@ -352,6 +352,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
                 "text/qif");
           }
           break;
+        case TaskExecutionFragment.TASK_MOVE_CATEGORY:
+          getListFragment().reset();
         default:
           msg = r.print(this);
       }
