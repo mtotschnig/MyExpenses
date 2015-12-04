@@ -489,8 +489,6 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
   <string name="widget_title_accounts">Mine konti</string>
   <string name="widget_title_templates">Mine skabeloner</string>
-  <string name="app_dir_does_not_exist">Den aktuelt valgte mappe til sikkerhedskopier og eksport (%1$s) findes ikke.</string>
-  <string name="app_dir_read_only">Den aktuelt valgte mappe til sikkerhedskopier og eksport (%1$s) er skrivebeskyttet.</string>
   <string name="search_amount">Find beløb</string>
   <string name="search_category">Søg efter kategori</string>
   <string name="search_comment">Søg efter noter</string>

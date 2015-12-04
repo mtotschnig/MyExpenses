@@ -470,6 +470,14 @@
     <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">Eine Kategorie wurde erfolgreich verschoben.</item>
+    <item quantity="other">%d Kategorien wurden erfolgreich verschoben.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Eine Kategorie wurde nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
+    <item quantity="other">%d Kategorien wurden nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Wenn Sie abgestimmte Buchungen löschen, können Ihre Aufzeichnungen von Ihrem Kontoauszug abweichen.</string>
   <string name="warning_balance_account">Bitte vergleichen Sie die verrechnete Summe mit dem Kontostand Ihres Kontoauszuges. Wenn Sie fortfahren, werden verrechnete Buchungen als abgestimmt markiert.</string>
   <string name="warning_password_protected">App ist durch Passwort geschützt.</string>
@@ -501,8 +509,7 @@
   <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
   <string name="widget_title_accounts">Meine Konten</string>
   <string name="widget_title_templates">Meine Vorlagen</string>
-  <string name="app_dir_does_not_exist">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte (%1$s) ist nicht vorhanden.</string>
-  <string name="app_dir_read_only">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte (%1$s) ist nur lesbar.</string>
+  <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
   <string name="search_amount">Suche nach Betrag</string>
   <string name="search_category">Suche nach Kategorie</string>
   <string name="search_comment">Suche nach Notizen</string>
@@ -581,4 +588,7 @@
   <string name="button_request_calendar_access">Zugriff gewähren</string>
   <string name="switch_on_text">An</string>
   <string name="switch_off_text">Aus</string>
+  <string name="menu_move">Verschieben</string>
+  <string name="dialog_title_select_target">Ziel auswählen</string>
+  <string name="transform_subcategory_to_main">In eine Hauptkategorie umwandeln</string>
 </resources>

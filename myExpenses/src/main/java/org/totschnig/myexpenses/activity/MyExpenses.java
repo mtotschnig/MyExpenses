@@ -47,7 +47,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
@@ -74,11 +73,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -483,8 +481,7 @@ public class MyExpenses extends LaunchActivity implements
         nextReminder =
             MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
-          RemindRateDialogFragment f =
-              new org.totschnig.myexpenses.dialog.RemindRateDialogFragment();
+          RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "REMIND_RATE");
           return;
@@ -836,7 +833,7 @@ public class MyExpenses extends LaunchActivity implements
           public Cursor loadInBackground() {
             try {
               return super.loadInBackground();
-            } catch (Exception e) {
+            } catch (SQLiteException e) {
               Utils.reportToAcra(e);
               String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
                   ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +

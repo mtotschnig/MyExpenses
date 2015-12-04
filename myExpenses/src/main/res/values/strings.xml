@@ -487,6 +487,14 @@
     <item quantity="one">The selected transaction will be deleted.</item>
   	<item quantity="other">%1$d selected transactions will be deleted.</item>
   </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">One category was succesfully moved.</item>
+        <item quantity="other">%d categories were succesfully moved.</item>
+    </plurals>
+    <plurals name="move_category_failure">
+        <item quantity="one">One category was not moved, because the same label already exists at the target.</item>
+        <item quantity="other">%d categories were not moved, because the same label already exists at the target.</item>
+    </plurals>
     <string name="warning_delete_reconciled">Deleting reconciled transactions will cause your records to differ from the bank statement.</string>
     <string name="warning_balance_account">Please compare the cleared total with the ending balance in your bank statement. If you proceed, cleared transactions will be marked as reconciled.</string>
     <string name="warning_password_protected">App is password protected.</string>
@@ -519,8 +527,7 @@
     <string name="create_new_folder_fail">Failed to create the folder</string>
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>
-    <string name="app_dir_does_not_exist">The currently selected folder for backups and exports (%1$s) does not exist.</string>
-    <string name="app_dir_read_only">The currently selected folder for backups and exports (%1$s) is read only.</string>
+    <string name="app_dir_not_accessible">The currently selected folder for backups and exports (%1$s) is not accessible. Please select a different one.</string>
     <string name="search_amount">Search for amount</string>
     <string name="search_category">Search for category</string>
     <string name="search_comment">Search for notes</string>
@@ -599,5 +606,8 @@
     <string name="button_request_calendar_access">Grant access</string>
     <string name="switch_on_text">On</string>
     <string name="switch_off_text">Off</string>
+    <string name="menu_move">Move</string>
+    <string name="dialog_title_select_target">Select target</string>
+    <string name="transform_subcategory_to_main">Transform to main category</string>
 </resources>
 

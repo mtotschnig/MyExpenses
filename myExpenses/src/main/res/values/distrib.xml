@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help_licence_acra">Includes Acra from http://acra.ch/, licensed under Apache License, Version 2.0 .</string>
+    <string name="help_licence_openiab">Includes OpenIAB from https://github.com/onepf/OpenIAB, licensed under Apache License, Version 2.0 .</string>
+</resources>

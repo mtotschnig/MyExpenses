@@ -484,8 +484,6 @@
   <string name="create_new_folder_fail">폴더를 생성하지 못했습니다</string>
   <string name="widget_title_accounts">내 계좌</string>
   <string name="widget_title_templates">내 템플릿</string>
-  <string name="app_dir_does_not_exist">백업과 내보내기를 위해 선택된 현재의 (%1$s) 폴더가 존재하지 않습니다.</string>
-  <string name="app_dir_read_only">백업과 내보내기를 위해 선택된 현재의 (%1$s) 폴더가 읽기 전용입니다.</string>
   <string name="search_amount">금액 검색</string>
   <string name="search_category">카테고리 검색</string>
   <string name="search_comment">노트 검색</string>

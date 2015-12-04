@@ -48,7 +48,7 @@
   <string name="menu_categories_setup_default_help_text">Импорт на комплект предварително подготвени категории.</string>
   <string name="menu_categories_export_help_text">Категориите ще бъдат експортирани във файл тип QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Включва / изключва показването на графиката.</string>
-  <string name="menu_distribution_aggreate_help_text">По подразбиране, изчислените суми включват и двете - и разходи и приходи. Ако искате да се показват по отделно, бутон в ленатата за действия ще превключва между разходи и приходи.</string>
+  <string name="menu_distribution_aggreate_help_text">По подразбиране, изчислените суми включват и двете - и разходи и приходи. Ако искате да се показват по отделно, бутона - или + в ленатата за действия ще превключва между разходи и приходи.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Избраната категория ще служи за филтриране на списъка с транзакции.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Бланка за транзакция</string>

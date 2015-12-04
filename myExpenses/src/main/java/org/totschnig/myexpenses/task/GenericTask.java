@@ -43,6 +43,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -83,7 +84,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     ContentResolver cr = MyApplication.getInstance().getContentResolver();
     ContentValues values;
     Cursor c;
-    int successCount = 0;
+    int successCount = 0, failureCount = 0;
     switch (mTaskId) {
 /*    case TaskExecutionFragment.TASK_CLONE:
       for (long id : (Long[]) ids) {
@@ -239,6 +240,24 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_MOVE:
       Transaction.move((Long) ids[0], (Long) mExtra);
       return null;
+    case TaskExecutionFragment.TASK_MOVE_CATEGORY:
+      for (long id : (Long[]) ids) {
+        if (Category.move(id, (Long) mExtra))
+          successCount++;
+        else
+          failureCount++;
+      }
+      String resultMsg = "";
+      if (successCount > 0) {
+        resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success,successCount,successCount);
+      }
+      if (failureCount > 0) {
+        if (!TextUtils.isEmpty(resultMsg)) {
+          resultMsg += " ";
+        }
+        resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure,failureCount,failureCount);
+      }
+      return new Result(successCount>0,resultMsg);
     case TaskExecutionFragment.TASK_NEW_PLAN:
       if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
         if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {
@@ -446,9 +465,17 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     if (!Utils.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
-    DocumentFile backupFile = MyApplication.requireBackupFile();
+    DocumentFile appDir = Utils.getAppDir();
+    if (appDir == null) {
+      return new Result(false, R.string.io_error_appdir_null);
+    }
+    if (!Utils.dirExistsAndIsWritable(appDir)) {
+      return new Result(false, R.string.app_dir_not_accessible,
+          FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+    }
+    DocumentFile backupFile = MyApplication.requireBackupFile(appDir);
     if (backupFile == null) {
-      return new Result(false,R.string.io_error_appdir_null);
+      return new Result(false,R.string.io_error_backupdir_null);
     }
     File cacheDir = Utils.getCacheDir();
     if (cacheDir == null) {

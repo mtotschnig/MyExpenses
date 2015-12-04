@@ -98,6 +98,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_EXPORT_CATEGRIES = 35;
   public static final int TASK_CSV_PARSE = 36;
   public static final int TASK_CSV_IMPORT = 37;
+  public static final int TASK_MOVE_CATEGORY = 38;
 
 
   /**

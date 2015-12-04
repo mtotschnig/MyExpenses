@@ -100,7 +100,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private static final int PICK_FOLDER_REQUEST = 2;
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
-  private boolean mShouldShowPlanerPref;
+  private PrefKey initialPrefToShow;
   private SettingsFragment activeFragment;
 
   @Override
@@ -121,8 +121,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       ft.replace(R.id.fragment_container, fragment, SettingsFragment.class.getSimpleName());
       ft.commit();
     }
-    mShouldShowPlanerPref = TextUtils.equals(getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
-        PrefKey.PLANNER_CALENDAR_ID.getKey());
+    initialPrefToShow = savedInstanceState == null ?
+        (PrefKey) getIntent().getSerializableExtra(KEY_OPEN_PREF_KEY) : null;
   }
 
   private SettingsFragment getFragment() {
@@ -276,7 +276,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          mShouldShowPlanerPref = true;
+          initialPrefToShow = PrefKey.PLANNER_CALENDAR_ID;
         } else if (ActivityCompat.shouldShowRequestPermissionRationale(
             this, Manifest.permission.WRITE_CALENDAR)) {
           Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG).show();
@@ -287,9 +287,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   protected void onResumeFragments() {
     super.onResumeFragments();
-    if (mShouldShowPlanerPref) {
-      mShouldShowPlanerPref = false;
-      getFragment().showSelectCalendar();
+    if (initialPrefToShow != null) {
+      getFragment().showPreference(initialPrefToShow);
+      initialPrefToShow = null;
     }
   }
 
@@ -537,8 +537,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
     }
 
-    private void showSelectCalendar() {
-      findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).performClick();
+    private void showPreference(PrefKey prefKey) {
+      findPreference(prefKey.getKey()).performClick();
     }
 
     private void configureContribPrefs() {
@@ -732,7 +732,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       if (Utils.isExternalStorageAvailable()) {
         DocumentFile appDir = Utils.getAppDir();
         if (appDir != null) {
-          pref.setSummary(FileUtils.getPath(getActivity(), appDir.getUri()));
+          if (Utils.dirExistsAndIsWritable(appDir))
+            pref.setSummary(FileUtils.getPath(getActivity(), appDir.getUri()));
+          else
+            pref.setSummary(getString(R.string.app_dir_not_accessible,
+                FileUtils.getPath(MyApplication.getInstance(), appDir.getUri())));
           return;
         }
       }

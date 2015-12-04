@@ -15,12 +15,14 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
+import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
@@ -67,7 +69,8 @@ import java.util.ArrayList;
  * @author Michael Totschnig
  */
 public class ManageCategories extends ProtectedFragmentActivity implements
-    EditTextDialogListener, DbWriteFragment.TaskCallbacks {
+    EditTextDialogListener, DbWriteFragment.TaskCallbacks,
+    SelectMainCategoryDialogFragment.CategorySelectedListener {
 
   public enum HelpVariant {
     manage, distribution, select_mapping, select_filter
@@ -286,6 +289,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   }
 
   @Override
+  public void onCategorySelected(Bundle args) {
+    finishActionMode();
+    final long target = args.getLong(SelectMainCategoryDialogFragment.KEY_RESULT);
+    startTaskExecution(
+        TaskExecutionFragment.TASK_MOVE_CATEGORY,
+        ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
+        target == 0L ? null : target,
+        R.string.progress_dialog_saving);
+  }
+
+  @Override
   public void onCancelEditDialog() {
     finishActionMode();
   }
@@ -338,6 +352,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
                 "text/qif");
           }
           break;
+        case TaskExecutionFragment.TASK_MOVE_CATEGORY:
+          getListFragment().reset();
+        default:
+          msg = r.print(this);
       }
     }  else {
       msg = r.print(this);

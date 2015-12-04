@@ -53,6 +53,7 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -405,10 +406,7 @@ public class MyApplication extends Application implements
     }
   }
 
-  public static DocumentFile requireBackupFile() {
-    DocumentFile appDir = Utils.getAppDir();
-    if (appDir == null)
-      return null;
+  public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
     DocumentFile dir = Utils.timeStampedFile(appDir, "backup", "application/zip", false);
     return dir;
   }

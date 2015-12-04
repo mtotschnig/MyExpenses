@@ -8,20 +8,23 @@
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">取引リスト</string>
   <string name="help_MyExpenses_info">この画面には、現在の勘定のすべての取引が一覧表示されます。フローティングアクションボタンを使用すると、新しい取引を作成するフォームを開きます。勘定のリスト (タブレットでは左側のペインに、携帯電話ではハンバーガーのアイコンをクリックすると開くドロワーに) を使用して、勘定間を切り替えます 。各勘定には、オーバーフローメニューがあり、編集または削除することができます。新しい勘定を作成するには、リストの最後にあるボタンを使用してください。</string>
-  <string name="help_MyExpenses_crStatus_info">取引のステータスは、色付きの四角で示されます: 灰は未照合、青は消去、緑は照合済です。四角をクリックすると、ステータスを変更します。</string>
+  <string name="help_MyExpenses_crStatus_info">取引のステータスは、色付きの四角で示されます: 灰は未照合、青は消込、緑は照合済です。四角をクリックすると、ステータスを変更します。</string>
   <string name="menu_reset_help_text">このコマンドは、QIFまたはCSV形式で、SDカード上のファイルに、現在の勘定のすべての取引をエクスポートします。期首残高が自動的に調整される場合は、エクスポートされた取引を、削除するように指定することができます。取引が削除されない場合は、代わりにエクスポート済としてマークされます。設定で指定すれば、FTP、Eメールまたはその他のファイル共有アプリケーションを通じてエクスポートした後に、My Expenses は直ちにファイルを共有することができます。</string>
-  <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および転記の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
+  <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および振替の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
   <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
   <string name="menu_manage_plans_help_text">テンプレートと計画のリストを開いて、適用、編集または削除することができます。また、将来の計画や繰り返し取引を定義することができます。</string>
-  <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消去した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消去済にマークした取引と比較することができます。オプションで、照合済みの取引を削除することを指定することができます。</string>
+  <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消去した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消込済にマークした取引と比較することができます。オプションで、照合済の取引を削除することを指定することができます。</string>
   <string name="menu_print_help_text">現在表示されている取引の印刷可能なビューを生成します。</string>
   <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
   <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
   <string name="cab_clone_transaction_help_text">選択された取引は、現在の日付と時刻で複製されます。その複製を保存する前に変更することができます。</string>
   <string name="cab_split_transaction_help_text">選択された取引は、一部分で分割取引に変換されます。その後、必要に応じて取引を編集して、一部を作成することができます。</string>
   <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">この画面では、あらかじめ定義された支払方法 (小切手/手形、クレジットカード、預金、口座振替) を一覧表示し、新しいものを定義することができます。フローティングアクションボタンを使用すると、新しい方法を作成するためのフォームを開きます。</string>
   <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">この画面は、支払人/受取人フィールドのオートコンプリート用に使用される取引先/支払先が一覧表示されます。フローティングアクションボタンを使用して、新しいエントリを追加します。</string>
   <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_templates_info">このタブには、使用可能なすべてのテンプレートが一覧表示されます。テンプレートは、取引のコンテキストメニューから派生させることができますが、ここで、フローティングアクションボタンをクリックして、最初から (取引または振替用の) 新しいテンプレートを作成することができます。リストのエントリーをクリックすると、テンプレートをインスタンス化することができます。</string>
   <string name="help_ManageTemplates_plans_info"><![CDATA[計画は、プランナー カレンダーに (1回または繰り返しの) イベントを作成するテンプレートです。このタブにすべての計画が一覧表示されます。リスト内の計画のエントリを展開すると、計画の今後のインスタンスが一覧表示されます。インスタンスが発生したときに、通知を受け取るのを待つ代わりに、ここでこれらの将来の発生を事前に適用することを指定できます。取引リスト内でそれらが見えるようにするためには、コンテキストメニューから各コマンドを呼び出します。インスタンスの状態は以下のアイコンで示されます:<br><img src=\"ic_stat_open\"> インスタンスはまだ適用されていません。<br><img src=\"ic_stat_applied\"> インスタンスは適用済です。<br><img src=\"ic_stat_cancelled\"> インスタンスはキャンセルされました。すなわち、スキップするようにフラグが付けられています。取引はこのインスタンスに作成されません。]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">選択したテンプレートをインスタンス化し、すぐに保存します。</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">選択したテンプレートをインスタンス化し、保存する前にその編集フォームの入力項目に入力することができます。</string>
@@ -33,6 +36,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">選択されたイベントのインスタンスに対して取引が作成されている場合、それらは削除されます。キャンセル済としてフラグが設定されている場合、フラグは削除されます。</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">選択された計画のインスタンスに対して作成された取引を編集します。</string>
   <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。リスト内の主分類を展開すると、その副分類の分布が円グラフで表示されます。リストで分類を選択した場合は、円グラフで強調表示されます。分類を長押しすると、それにマッピングされた取引の集計リストを表示します。</string>
   <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。副分類をクリックすることで、現在の取引に割り当てる副分類を選択します。主分類を配置するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_select_filter_info">取引リストをフィルタリングする分類を選択します。主分類を検索するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。設定で、分類をプレーンなアルファベット順にソートすることを選ぶことができます。主分類をクリックすると、その副分類を開きます。主分類のコンテキストメニューから、新しい副分類を追加、分類を削除または編集することができます。副分類にも削除や編集のコンテキストメニューがあります。</string>
@@ -43,24 +47,57 @@
   <string name="cab_ManageCategories_select_category_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
   <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
   <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>
+  <string name="menu_distribution_show_pie_char_help_text">円グラフの表示を切り替えます。</string>
+  <string name="menu_distribution_aggreate_help_text">デフォルトでは、計算された合計に支出と収入の両方が含まれます。それらを個別に表示することもできます。アクションバーにあるボタンを使用すると、支出と収入の間で切り替えできます。</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">取引用のフォーム</string>
-  <string name="help_ExpenseEdit_transfer_title">転記用のフォーム</string>
+  <string name="help_ExpenseEdit_transfer_title">振替用のフォーム</string>
   <string name="help_ExpenseEdit_split_title">分割用のフォーム</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">分類分割パート用のフォーム</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_title">転記分割パート用のフォーム</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">振替分割パート用のフォーム</string>
+  <string name="help_ExpenseEdit_templateCategory_title">取引テンプレート用のフォーム</string>
+  <string name="help_ExpenseEdit_templateTransfer_title">振替テンプレート用のフォーム</string>
+  <string name="help_ExpenseEdit_transaction_info">このフォームを使用して、新しい取引を入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、新しい振替や分割取引を追加するフォームに切り替えることができます。</string>
+  <string name="help_ExpenseEdit_templateCategory_info">このフォームを使用して、新しいテンプレートを入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、新しい振替テンプレートを追加するフォームに切り替えることができます。</string>
+  <string name="help_ExpenseEdit_transfer_info">現在、振替は同じ通貨の口座間でのみサポートされています。</string>
+  <string name="help_ExpenseEdit_split_info">分割取引は、一部が分割された一つの取引で、各部分が別の分類に割り当てられ、または別の勘定に振替することができます。</string>
+  <string name="form_account_help_text">取引が属する勘定を選択します。</string>
+  <string name="form_date.time_help_text">取引が行われた時間を入力します。</string>
+  <string name="form_payer_or_payee_help_text">このフィールドは入力した値を記憶し、将来それらを提案します。</string>
+  <string name="form_amount_switch_help_text">支出と収入を切り替えるには、スイッチを使用します。</string>
+  <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> ボタンは電卓を開きます。]]></string>
+  <string name="form_crstatus_help_text">銀行口座に属する取引の場合、取引のステータスを消込済に変更することができます。照合済に設定するには、取引リストから \"貸借勘定\" コマンドを使用する必要があります。ステータスが無効に設定されている場合、取引はカウントされません。</string>
+  <string name="form_comment_help_text">対象に関するメモを入力します。</string>
+  <string name="form_method_help_text">このフィールドは、現在の勘定が何かの支払方法にリンクされた種類の場合にのみ使用可能です。デフォルトでは、銀行口座のみ支払方法 (小切手/手形、クレジットカード、預金、口座引落) にリンクされています。 設定 -&gt; 管理 -&gt; 支払方法、に移動して、勘定の種類と支払方法の間の関連付けを設定します。番号として定義されている方法を選択すると、参照番号を入力するための追加のフィールドが使用可能になります。</string>
+  <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\"> ボタンをクリックすると、オブジェクトに (例えばギャラリーやカメラから) 画像を添付することができます。]]></string>
+  <string name="form_category_help_text">このボタンは、取引にマップしたい分類を選択できる、分類のリストが表示されます。</string>
+  <string name="form_transfer_from_account_help_text">金額を振替する元の勘定を選択します。</string>
+  <string name="form_transfer_to_account_help_text">金額を振替する先の勘定を選択します。</string>
+  <string name="form_split_parts_heading_help_text">フローティングアクションボタンを使用して、必要な数の分割部分を入力してください。部分の合計と取引の差は、画面の下部に表示されます。取引金額が正確に割り当てられている場合にのみ、分割取引を保存することができます。</string>
+  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">分割部分の分類を選択します。</string>
+  <string name="form_transfer_from_account.transfer_to_account_help_text">この対象の振替元または先の勘定を割り当てます。</string>
   <string name="form_title_help_text">テンプレートを一意に識別するタイトルを入力してください。</string>
   <string name="form_plan_help_text">テンプレート用の計画を作成すると、あなたのカレンダーアプリが扱うプライベート カレンダーに追加されます。1回のイベントとして、またはカレンダーが扱うことができる任意の種類の繰り返しイベントとして、計画を定義できます。計画ボタンから、計画を作成、変更および削除できますが、一度計画を設定すると、カレンダーアプリを使用して管理することもできます。計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成され、通知を受信します。計画が手動の場合は、キャンセル、変更またはテンプレートを適用する選択肢を残して、やはり通知を受け取ります。</string>
   <string name="menu_save_help_text">データを保存して、フォームを閉じます。</string>
   <string name="menu_save_and_new_help_text">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
-  <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、転記の向きを反転させます。</string>
+  <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、振替の向きを反転させます。</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">勘定用のフォーム</string>
+  <string name="form_AccountEdit_label_help_text">ラベルは、勘定のリストで勘定を識別します。</string>
+  <string name="form_description_help_text">説明は、有益な目的を入力します。</string>
+  <string name="form_AccountEdit_amount_switch_help_text">負の期首残高で開始するには、スイッチを使用します。</string>
+  <string name="form_currency_help_text">提供される現在のすべての通貨のリストから、通貨を選択します。</string>
+  <string name="form_AccountEdit_type_help_text">現金、銀行、資産、負債、クレジットカードの一つから、勘定の種類を定義することができます。種類は、設定 -&gt; 管理 -&gt; 支払方法、で設定することができる支払方法を決定します。</string>
+  <string name="form_color_help_text">勘定の取引リストでは、色は、プライマリ ユーザーインターフェースの色として使用されます。</string>
   <string name="menu_set_sort_key_help_text">ナビゲーション ドロワーにある勘定リスト内の勘定の位置を決める数字キーを設定します (昇順ソート)。</string>
   <string name="menu_exclude_from_totals_help_text">このオプションをチェックすると、この勘定は、通貨ごとの集計に含まれません。</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">支払方法用のフォーム</string>
+  <string name="form_MethodEdit_label_help_text">取引をマッピングする際に、ラベルが方法を識別します。</string>
+  <string name="form_MethodEdit_type_help_text">方法の種類によって、それが支出 (借方)、収入 (貸方) または両方(中立) に適用可能かどうかを判断します。</string>
+  <string name="form_MethodEdit_numbered_help_text">方法が番号付けされたとき、それにマッピングされた取引は、参照番号を入力するための追加のフィールドを持ちます。</string>
+  <string name="form_MethodEdit_account_types_help_text">この方法を適用する、勘定の種類を選択します。</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">各通貨に対して、使用される小数点以下の桁数を変更することができます。例えばユーロで、1 ¢ の 1/10、すなわち 1/1000 を処理する必要がある場合は、番号に 3 を設定します。通貨を使用する既存の勘定は、新しい設定に切り替わります。</string>
   <!--FolderBrowser title is in keys-->

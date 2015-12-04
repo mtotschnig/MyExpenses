@@ -838,7 +838,7 @@ public class Account extends Model {
     String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null";
     String[] selectionArgs = new String[] { String.valueOf(getId()) };
     if (notYetExportedP)
-      selection += " AND " + KEY_STATUS + " = 0";
+      selection += " AND " + KEY_STATUS + " = " + STATUS_NONE;
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));

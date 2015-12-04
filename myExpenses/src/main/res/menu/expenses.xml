@@ -16,17 +16,11 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
-  <item
-    android:id="@id/MANAGE_PLANS_COMMAND"
-    app:showAsAction="ifRoom"
-    android:icon="@android:drawable/ic_menu_set_as"
-    android:title="@string/menu_manage_plans">
-  </item>
   <item android:checkable="true"
     android:id="@id/SEARCH_COMMAND"
     android:title="@string/menu_search"
     android:icon="@android:drawable/ic_menu_search"
-  	app:showAsAction="@integer/search_showAsAction">
+  	app:showAsAction="always">
   	<menu>
   	  <group android:checkableBehavior="all">
           <item android:id="@id/FILTER_CATEGORY_COMMAND" android:title="@string/category"/>
@@ -41,6 +35,12 @@
           <item android:id="@id/FILTER_DATE_COMMAND" android:title="@string/date"/>
       </group>
   	</menu>
+  </item>
+  <item
+      android:id="@id/MANAGE_PLANS_COMMAND"
+      app:showAsAction="ifRoom"
+      android:icon="@android:drawable/ic_menu_set_as"
+      android:title="@string/menu_manage_plans">
   </item>
   <item
       android:id="@id/DISTRIBUTION_COMMAND"

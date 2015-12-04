@@ -30,6 +30,7 @@ import com.commonsware.cwac.wakeful.WakefulIntentService;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
+import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.GenericTask;
@@ -81,11 +82,14 @@ public class AutoBackupService extends WakefulIntentService {
                 }
             } else {
                 String content = result.print(this);
+                Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
+                preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, MyApplication.PrefKey.APP_DIR);
                 NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_home_dark)
                         .setContentTitle(notifTitle)
                         .setContentText(content)
+                        .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, 0))
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
                 Notification notification = builder.build();
                 notification.flags = Notification.FLAG_AUTO_CANCEL;

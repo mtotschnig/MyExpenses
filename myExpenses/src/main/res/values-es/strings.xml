@@ -470,6 +470,14 @@
     <item quantity="one">Se eliminará la transacción seleccionada.</item>
     <item quantity="other">Se eliminarán %1$d transacciónes seleccionadas.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">Una categoría fue traslada correctamente.</item>
+    <item quantity="other">%d categorías fueron trasladas correctamente.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Una categoría no fue traslada, porque la misma etiqueta ya existe en el destino.</item>
+    <item quantity="other">%d categorías no fueron trasladadas, ya que la misma etiqueta ya existe en el destino.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Eliminar las transacciones reconciliadas hará que sus registros difieran del estado de cuenta bancario.</string>
   <string name="warning_balance_account">Por favor comparar el total despejado con el saldo final en su cuenta bancaria. Si continúa, las transacciones despejadas estarán marcadas como reconciliadas.</string>
   <string name="warning_password_protected">La aplicación está protegida con contraseña.</string>
@@ -502,8 +510,7 @@
   <string name="create_new_folder_fail">No se pudo crear la carpeta</string>
   <string name="widget_title_accounts">Mis cuentas</string>
   <string name="widget_title_templates">Mis plantillas</string>
-  <string name="app_dir_does_not_exist">No existe la carpeta seleccionada para copias de seguridad y las exportaciones (%1$s).</string>
-  <string name="app_dir_read_only">La carpeta seleccionada para copias de seguridad y las exportaciones (%1$s) es de sólo lectura.</string>
+  <string name="app_dir_not_accessible">La carpeta seleccionada para copias de seguridad y las exportaciones (%1$s) no es accesible. Por favor seleccione una diferente.</string>
   <string name="search_amount">Búsqueda por importe</string>
   <string name="search_category">Búsqueda por categoría</string>
   <string name="search_comment">Buscar por apuntes</string>
@@ -582,4 +589,7 @@
   <string name="button_request_calendar_access">Otorgar acceso</string>
   <string name="switch_on_text">Sí</string>
   <string name="switch_off_text">No</string>
+  <string name="menu_move">Mover</string>
+  <string name="dialog_title_select_target">Seleccione destino</string>
+  <string name="transform_subcategory_to_main">Transformar en categoría principal</string>
 </resources>
