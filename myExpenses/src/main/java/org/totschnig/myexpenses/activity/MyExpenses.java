@@ -768,7 +768,7 @@ public class MyExpenses extends LaunchActivity implements
           public Cursor loadInBackground() {
             try {
               return super.loadInBackground();
-            } catch (Exception e) {
+            } catch (SQLiteException e) {
               Utils.reportToAcra(e);
               String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
                   ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
