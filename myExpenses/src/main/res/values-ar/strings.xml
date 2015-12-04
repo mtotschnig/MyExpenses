@@ -366,5 +366,5 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="switch_on_text">تشغيل</string>
   <string name="switch_off_text">إيقاف</string>
-  <string name="menu_move_transaction">تحريك</string>
+  <string name="menu_move">تحريك</string>
 </resources>

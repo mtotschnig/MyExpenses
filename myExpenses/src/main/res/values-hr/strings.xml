@@ -471,8 +471,6 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="create_new_folder_fail">Kreiranje mape nije uspjelo</string>
   <string name="widget_title_accounts">Moji računi</string>
   <string name="widget_title_templates">Moji predlošci.</string>
-  <string name="app_dir_does_not_exist">Odabrana mapa za sigurnosne kopije i eksporte (%1$s) ne postoji.</string>
-  <string name="app_dir_read_only">Odabrana mapa za sigurnosne kopije i eksporte (%1$s) je samo za čitanje.</string>
   <string name="search_amount">Traži iznos</string>
   <string name="search_category">Traži kategoriju</string>
   <string name="search_comment">Traži bilješku</string>

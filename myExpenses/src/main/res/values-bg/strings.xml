@@ -501,8 +501,6 @@
   <string name="create_new_folder_fail">Неуспешно създаване на папка</string>
   <string name="widget_title_accounts">Моите сметки</string>
   <string name="widget_title_templates">Моите шаблони</string>
-  <string name="app_dir_does_not_exist">Избраната за бекъп и експорт папка (%1$s) не съществува.</string>
-  <string name="app_dir_read_only">Избраната за бекъп и експорт папка (%1$s) е само за четене.</string>
   <string name="search_amount">Търсене на сума</string>
   <string name="search_category">Търсене на категория</string>
   <string name="search_comment">Търсене на бележка</string>

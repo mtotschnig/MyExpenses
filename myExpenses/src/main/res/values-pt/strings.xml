@@ -470,6 +470,14 @@
     <item quantity="one">As transações selecionadas serão excluídas.</item>
     <item quantity="other">Transações %1$d selecionadas serão excluídas.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">Uma categoria foi com êxito se mudou.</item>
+    <item quantity="other">%d categorias foram com sucesso mudou-se.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Uma categoria não foi movida, porque o mesmo rótulo já existe no destino.</item>
+    <item quantity="other">%d categorias não foram movidas, porque o mesmo rótulo já existe no destino.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Excluir transacções reconciliadas fará com que seus registros diferir o extrato bancário.</string>
   <string name="warning_balance_account">Por favor, compare o total apurado com o saldo final em seu extrato bancário. Se você prosseguir, transações apuradas serão marcadas como reconciliados.</string>
   <string name="warning_password_protected">App é protegido por senha.</string>
@@ -501,8 +509,7 @@
   <string name="create_new_folder_fail">Falha ao criar a pasta</string>
   <string name="widget_title_accounts">Minhas contas</string>
   <string name="widget_title_templates">Meus modelos</string>
-  <string name="app_dir_does_not_exist">Não existe a pasta atualmente selecionada para backups e exportações (%1$s).</string>
-  <string name="app_dir_read_only">A pasta atualmente selecionada para backups e exportações (%1$s) é somente leitura.</string>
+  <string name="app_dir_not_accessible">A pasta atualmente selecionada para backups e exportações (%1$s) não está acessível. Por favor selecione um diferente.</string>
   <string name="search_amount">Busca por quantidade</string>
   <string name="search_category">Busca por categoria</string>
   <string name="search_comment">Busca por notas</string>
@@ -581,4 +588,7 @@
   <string name="button_request_calendar_access">Conceder acesso</string>
   <string name="switch_on_text">Ativado</string>
   <string name="switch_off_text">Desativado</string>
+  <string name="menu_move">Mover</string>
+  <string name="dialog_title_select_target">Selecione o destino</string>
+  <string name="transform_subcategory_to_main">Transformar a categoria principal</string>
 </resources>

@@ -477,8 +477,6 @@
   <string name="create_new_folder_fail">Αποτυχία δημιουργίας του φακέλου</string>
   <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
   <string name="widget_title_templates">Τα πρότυπά μου</string>
-  <string name="app_dir_does_not_exist">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν υπάρχει.</string>
-  <string name="app_dir_read_only">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές (%1$s) είναι μόνο για ανάγνωση.</string>
   <string name="search_amount">Αναζήτηση για ποσό</string>
   <string name="search_category">Αναζήτηση για κατηγορία</string>
   <string name="search_date">Αναζήτηση για ημερομηνία</string>

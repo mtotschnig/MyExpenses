@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_261">
+    <item>Kategorien können verschoben werden</item>
+  </string-array>
   <string-array name="whats_new_260">
     <item>Material design</item>
     <item>Verbessertes Layout für Tablets</item>

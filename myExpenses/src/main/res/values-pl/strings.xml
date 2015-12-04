@@ -466,8 +466,6 @@
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
   <string name="widget_title_accounts">Moje konta</string>
   <string name="widget_title_templates">Moje szablony</string>
-  <string name="app_dir_does_not_exist">Wskazany obecnie folder dla kopii zapasowych i eksportów (%1$s) nie istnieje.</string>
-  <string name="app_dir_read_only">Wskazany obecnie folder dla kopii zapasowych i eksportów (%1$s) jest dostępny jedynie do odczytu.</string>
   <string name="search_amount">Szukaj kwoty</string>
   <string name="search_category">Szukaj kategorii</string>
   <string name="search_comment">Szukaj notatek</string>
@@ -512,4 +510,5 @@
   <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
   <string name="switch_on_text">Wł.</string>
   <string name="switch_off_text">Wył.</string>
+  <string name="menu_move">Przenieś</string>
 </resources>

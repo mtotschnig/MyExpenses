@@ -421,8 +421,6 @@
   <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
   <string name="widget_title_accounts">මගේ ගිණුම් </string>
   <string name="widget_title_templates">මගේ අච්චු </string>
-  <string name="app_dir_does_not_exist">දැනට තෝරාගත් උපස්ථ හා අපනයන සදහා වූ ගොනුව (%1$s) භාවිතයේ නොමැත </string>
-  <string name="app_dir_read_only">දැනට තෝරාගත් උපස්ථ හා අපනයන සදහා වූ ගොනුව (%1$s) කියවීමට පමණයි </string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="switch_on_text">සක්‍රියයි</string>
   <string name="switch_off_text">අක්‍රියයි</string>
