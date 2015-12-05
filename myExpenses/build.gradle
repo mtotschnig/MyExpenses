@@ -114,7 +114,7 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:preference-v14:' + project.androidSupportLibraryVersion
     compile 'com.itextpdf:itextpdf:5.5.2'
-    compile 'ch.acra:acra:4.7.0-RC.3'
+    compile 'ch.acra:acra:4.7.0'
     admobCompile 'com.google.android.gms:play-services-ads:7.5.0'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
