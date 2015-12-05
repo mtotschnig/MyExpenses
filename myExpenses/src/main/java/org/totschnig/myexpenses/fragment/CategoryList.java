@@ -791,6 +791,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       if (mAccount != null) {
         actionBar.setTitle(mAccount.label);
       }
+      invalidateCAB(); //only need to do this for group since children's cab does not depnd on cursor
       break;
     default:
       //check if group still exists
@@ -912,7 +913,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 */
   @Override
   public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-    if (super.onChildClick(parent, v, groupPosition,childPosition, id))
+    if (super.onChildClick(parent, v, groupPosition, childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx==null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
@@ -927,7 +928,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           +TransactionList.CATEGORY_SEPARATOR
           +label;
     }
-    doSelection(id,label,false);
+    doSelection(id, label, false);
     return true;
   }
   @Override
@@ -1076,8 +1077,11 @@ public class CategoryList extends ContextualActionBarFragment implements
   }
 
   private boolean hasChildren(int position) {
-    mGroupCursor.moveToPosition(position);
-    return mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0;
+    if (mGroupCursor != null) {
+      mGroupCursor.moveToPosition(position);
+      return mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0;
+    }
+    return false;
   }
 
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
