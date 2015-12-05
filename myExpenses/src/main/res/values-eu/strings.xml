@@ -503,8 +503,6 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="create_new_folder_fail">Huts egin du karpeta sortzean</string>
   <string name="widget_title_accounts">Nire kontuak</string>
   <string name="widget_title_templates">Nire txantiloiak</string>
-  <string name="app_dir_does_not_exist">Babeskopiak eta esportazioetarako aukeratuta dagoen karpeta  (%1$s) ez dago erabilgarri</string>
-  <string name="app_dir_read_only">Babeskopiak eta esportazioetarako aukeratuta dagoen karpeta  (%1$s) soilik irakurtzeko da</string>
   <string name="search_amount">Bilatu kopurua</string>
   <string name="search_category">Bilatu kategoria</string>
   <string name="search_comment">Bilatu oharrak</string>

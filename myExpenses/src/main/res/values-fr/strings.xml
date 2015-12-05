@@ -470,6 +470,14 @@
     <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
     <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">Une catégorie a été correctement déplacée.</item>
+    <item quantity="other">%d catégories ont été correctement déplacées.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Une catégorie n\'a pas pu être déplacée, parce que la même étiquette existe déjà au niveau de la cible.</item>
+    <item quantity="other">%d catégories n\'ont pas pu être déplacées, parce que la même étiquette existe déjà au niveau de la cible.</item>
+  </plurals>
   <string name="warning_delete_reconciled">La suppression des opérations rapprochées entraînera une différence avec  les enregistrements de votre relevé bancaire.</string>
   <string name="warning_balance_account">Vous pouvez ici comparer le total pointé avec le solde de votre relevé bancaire. Si vous poursuivez, les opérations pointées seront marquées comme rapprochées.</string>
   <string name="warning_password_protected">L\'application est protégée par mot de passe.</string>
@@ -501,8 +509,7 @@
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
-  <string name="app_dir_does_not_exist">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'existe pas.</string>
-  <string name="app_dir_read_only">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) est en lecture seule.</string>
+  <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez sélectionner un autre.</string>
   <string name="search_amount">Recherche de montant</string>
   <string name="search_category">Recherche de catégorie</string>
   <string name="search_comment">Recherche par commentaires</string>
@@ -582,5 +589,6 @@
   <string name="switch_on_text">Activé</string>
   <string name="switch_off_text">Désactivé</string>
   <string name="menu_move">Déplacer</string>
-
+  <string name="dialog_title_select_target">Sélectionner la cible</string>
+  <string name="transform_subcategory_to_main">Transformer en catégorie principale</string>
 </resources>

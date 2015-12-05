@@ -7,15 +7,19 @@
   <string name="cab_edit_help_text">Editatu aukeratutako elementua.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Transakzioen zerrenda</string>
+  <string name="help_MyExpenses_info">Pantaila honek uneko kontuaren transakzio guztiak zerrendatzen ditu. Erabili ekintza botoi flotatzailea transakzio berri bat sortzeko formularioa irekitzeko. Erabili kontuen zerrenda (tabletetan ezkerreko panelean, telefonoetan hanburgesa menua zapalduz agertzen den panelean) kontuz aldatzeko. Kontu bakoitzak berau aldatu edo ezabatzea baimentzen duen menu bat du. Erabili zerrendaren bukaeran dagoen botoia kontu berriak sortzeko.</string>
   <string name="help_MyExpenses_crStatus_info">Transakzioaren egoera kolorezko lauki baten bidez adierazten da: grisa berdikatu gabea, urdina kitatua, berdea berdinkatuta. Sakatu laukia egoera aldatzeko.</string>
   <string name="menu_reset_help_text">Komando honek uneko kontuaren transakzio guztiak SD txarteleko fitxategi batetara esportatzen ditu QIF edo CSV formatuan. Esportatutako transakzioak ezabatzea aukeratu dezakezu, kasu horretan irekiera saldoa automatikoki doituko da. Ordea, transakzioak ez badira ezabatzen esportatuta gisa markatuko dira. Nire Gastuak esportatu eta jarraian fitxategia elkarbanatu dezake FTP, posta elektronikoa edo fitxategiak elkarbanatzeko bestelako edozein aplikazio erabilita, horrela egin dezan konfiguratzen baduzu ezarpenetan.</string>
   <string name="menu_grouping_help_text">Transakzioak taldekatu ditzakezu eguneko, asteko, hilabeteko eta urteko. Talde bakoitzean diru-sarreren, gastuen eta transferentzien guztirakoa kalkulatzen eta bistaratzen da. Taldearen goiburuan sakatzean transakzio taldea tolestu egiten da eta soilik goiburua erakusten da. Sakatu berriro taldea destolesteko.</string>
   <string name="menu_distribution_help_text">Bistaratu zure gastuen distribuzioa kategoriako. Luze sakatu dezakezu talde goiburu batean epe zehatz horren distribuzioa ikuskatzeko.</string>
+  <string name="menu_manage_plans_help_text">Txantiloi eta planen zerrenda irekitzen du, han aplikatu, editatu edo ezabatu ditzakezu, bai eta etorkizunerako planak eta transakzio errepikakorrak zehaztu. </string>
   <string name="menu_balance_help_text">Komando honek berdinkatutako azken saldoa eta kitatutako saldoa bistaratzen dien elkarrizketa-koadro bat irekitzen du. Zure bankuko saldoarekin konparatu dezakezu eta kitatutako transakzioak berdinkatuta gisa markatu. Aukeran berdinkatutako transakzioak ezabatzea erabaki dezakezu.</string>
   <string name="menu_print_help_text">Unean bistaratuta dauden transakzioen inprimatzeko ikuspegi bat sortzen du.</string>
   <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
   <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
+  <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
   <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txekea, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. Erabili ekintza botoi flotatzailea metodo berri bat sortzeko formularioa irekitzeko.</string>
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_info"><![CDATA[Plan bat planifikazio egutegiko gertaera bati lotutako txantiloi bat da (aldi bakarrekoa edo errepikakorra). Fitxa honetan planak zerrendatzen dira, plan baten etorkizuneko instantzien zerrenda ikusiko duzu ere. Hemen instantzia gertatzen deneko jakinarazpenari itxaron gabe, etorkizuneko gertaerak aurrez aplikatzea erabaki dezakezu zure transakzioen zerrendan ikusgai egon daitezen dagokion komandoa erabiliz laster-menuan. Instantzia baten egoera honako ikonoekin adierazten da:<br><img src=\"ic_stat_open\"> Instantzia ez da oraindik aplikatu.<br><img src=\"ic_stat_applied\"> Instantzia aplikatu da.<br><img src=\"ic_stat_cancelled\"> Instantzia bertan behera utzi da, adibidez saltatzeko markatu duzulako. Ez da transakziorik sortuko instantzia honetan.]]></string>
@@ -46,6 +50,12 @@
   <string name="help_ExpenseEdit_split_title">Banaketen formularioa</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Kategoria banaketen zatien formularioa</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Transferentzia banaketen zatien formularioa</string>
+  <string name="help_ExpenseEdit_templateCategory_title">Transakzio txantiloien formularioa</string>
+  <string name="help_ExpenseEdit_templateTransfer_title">Transferentzia txantiloien formularioa</string>
+  <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
+  <string name="form_date.time_help_text">Sartu transakzioa gertatu zeneko ordua.</string>
+  <string name="form_comment_help_text">Sartu objektuari buruzko edozein ohar.</string>
+  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Aukeratu kategoria bat banaketaren zati honentzat.</string>
   <string name="form_title_help_text">Sartu txantiloia identifikatzeko izen esklusibo bat.</string>
   <string name="form_plan_help_text">Txantiloi batetik plan bat sortzen duzunean, zure egutegi aplikazioak kudeatutako egutegi pribatu batetara gehitzen da. Plana aldi bakarrekoa izan daiteke ala egutegiak onartutako edozein maiztasunarekin errepikatu daiteke. Plan bat sortu, aldatu eta ezabatu dezakezu plan botoitik, eta behin plana sortuta, egutegiaren aplikaziotik ere aldatu dezakezu. Plana automatikoa ala eskuzkoa gisa ezarri daiteke. Plan automatiko baten instantzia bat gertatzen denean, transakzioa sortuko da eta jakinarazpen bat jasoko duzu. Plana eskuzkoa bada, jakinarazpen bat jasoko duzu ere eta zure esku dago txantiloia bertan behera utzi, aldatu ala aplikatzea.</string>
   <string name="menu_save_help_text">Gorde datuak eta itxi formularioa.</string>
@@ -53,11 +63,15 @@
   <string name="menu_invert_transfer_help_text">Alderantzikatu transferentziaren norabidea \'Nondik\' eta \'Nora\' kontuak txandakatuz</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Kontuen formularioa</string>
+  <string name="form_AccountEdit_label_help_text">Etiketak kontua identifikatzen du kontuen zerrendan.</string>
+  <string name="form_description_help_text">Deskripzioa informaziorako da besterik ez.</string>
   <string name="form_currency_help_text">Hautatu moneta bat gaurkotutako moneten zerrendatik.</string>
   <string name="menu_set_sort_key_help_text">Ezarri zenbakizko gako bat kontuaren posizioa zehazteko nabigazio ataleko kontuen zerrendan  (goranzko ordena)</string>
   <string name="menu_exclude_from_totals_help_text">Aukera hau markatzen baduzu, kontu hau ez da monetako guztirakoetan agregatuko.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ordainketa metodoen formularioa</string>
+  <string name="form_MethodEdit_numbered_help_text">Metodoa zenbakituta badago, bertara lotzen diren transakzioak erreferentzia zenbaki bat sartzeko eremu gehigarri bat izango dute.</string>
+  <string name="form_MethodEdit_account_types_help_text">Hautatu metodo hau erabili dezaketen kontu motak.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Moneta bakoitzeko, erabilitako dezimal kopurua aldatu dezakezu, Adibidez, Euro zentimo bateko zehaztasun handiagoa behar baduzu, esaterako 1/1000 Euro, hiru dezimal ezarri ditzakezu. Aurretik moneta hau erabiltzen duten kontuak ezarpen berrira egokituko dira.</string>
   <!--FolderBrowser title is in keys-->

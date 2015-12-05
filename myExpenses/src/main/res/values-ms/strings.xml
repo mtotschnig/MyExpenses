@@ -485,8 +485,6 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="create_new_folder_fail">Gagal mencipta folder</string>
   <string name="widget_title_accounts">Akaun saya</string>
   <string name="widget_title_templates">Templat saya</string>
-  <string name="app_dir_does_not_exist">Folder terpilih semasa untuk sandar dan eksport (%1$s) tidak wujud.</string>
-  <string name="app_dir_read_only">Folder terpilih semasa untuk sandar dan eksport (%1$s) adalah baca sahaja.</string>
   <string name="search_amount">Gelintar amaun</string>
   <string name="search_category">Gelintar kategori</string>
   <string name="search_comment">Gelintar nota</string>

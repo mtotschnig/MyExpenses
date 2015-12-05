@@ -44,6 +44,7 @@
   <string name="menu_back_help_text">Zurück zur nächsten Gruppe. Kann auch durch Swipe Geste von links nach rechts erfolgen.</string>
   <string name="menu_forward_help_text">Weiter zur nächsten Gruppe. Kann auch durch Swipe Geste von links nach rechts erfolgen.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Unterkategorie unterhalb der ausgewählten Hauptkategorie.</string>
+  <string name="cab_ManageCategories_move_help_text">Unterkategorien können in eine andere Kategorie verschoben werden, oder zu Hauptkategorien umgewandelt werden. Hauptkategorien, die keine Kinder haben, können in Unterkategorien einer anderen Hauptkategorie umgewandelt werden.</string>
   <string name="cab_ManageCategories_select_category_help_text">Die ausgewählte Kategorie wird der Buchung zugeordnet und Rückkehr zum Buchungsformular.</string>
   <string name="menu_categories_setup_default_help_text">Eine Reihe von Standardkategorien werden importiert.</string>
   <string name="menu_categories_export_help_text">Kategorien werden in QIF-Datei exportiert.</string>

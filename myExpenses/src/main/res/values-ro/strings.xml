@@ -488,8 +488,6 @@ Tradus de DD</string>
   <string name="create_new_folder_fail">Eşec la crearea folderului</string>
   <string name="widget_title_accounts">Conturile mele</string>
   <string name="widget_title_templates">Şabloanele mele</string>
-  <string name="app_dir_does_not_exist">Folderul selectat pentru backup-uri şi exporturi (%1$s) nu există.</string>
-  <string name="app_dir_read_only">Folderul selectat pentru backup-uri şi exporturi (%1$s) este read only.</string>
   <string name="search_amount">Caută o valoare</string>
   <string name="search_category">Caută o categorie</string>
   <string name="search_comment">Caută o notă</string>

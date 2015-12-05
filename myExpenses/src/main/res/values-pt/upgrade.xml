@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_261">
+    <item>Categorias podem ser movidas</item>
+  </string-array>
   <string-array name="whats_new_260">
     <item>Material design</item>
     <item>Layout de tablet melhorado</item>

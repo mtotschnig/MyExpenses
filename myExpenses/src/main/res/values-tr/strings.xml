@@ -503,8 +503,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
   <string name="widget_title_accounts">Hesaplarım</string>
   <string name="widget_title_templates">Şablonlarım</string>
-  <string name="app_dir_does_not_exist">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasör (%1$s) mevcut değildir.</string>
-  <string name="app_dir_read_only">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasör (%1$s) sadece okunur durumdadır.</string>
   <string name="search_amount">Meblağ ara</string>
   <string name="search_category">Kategori ara</string>
   <string name="search_comment">Not ara</string>
@@ -583,4 +581,5 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="button_request_calendar_access">İzin ver</string>
   <string name="switch_on_text">Açık</string>
   <string name="switch_off_text">Kapalı</string>
+  <string name="menu_move">Taşı</string>
 </resources>
