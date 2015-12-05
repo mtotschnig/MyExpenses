@@ -173,6 +173,9 @@ public class Category extends Model {
     if(!isMain(newParent)) {
       throw new IllegalStateException("Cannot move to subcategory");
     }
+    if (isMain(id) && countSub(id)>0) {
+      throw new IllegalStateException("Cannot move main category if it has children");
+    }
     ContentValues values = new ContentValues();
     values.put(KEY_PARENTID, newParent);
     try {
