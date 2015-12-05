@@ -498,33 +498,17 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
         values.put(DatabaseConstants.KEY_LABEL, "Testing an update with this string");
 
         // Tries to update the table
-        int rowsUpdated = mMockResolver.update(
-            TransactionProvider.CATEGORIES_URI,  // the URI of the data table
-            values,                     // a map of the updates to do (column title and value)
-            SELECTION_COLUMNS,           // select based on the title column
-            selectionArgs               // select "title = Note1"
-        );
-
-        // Asserts that no rows were updated.
-        assertEquals(0, rowsUpdated);
-
-        // Subtest 2.
-        // Builds the table, and then tries the update again using the same arguments.
-
-        // Inserts data into the model.
-        insertData();
-
-        //  Does the update again, using the same arguments as in subtest 1.
-        rowsUpdated = mMockResolver.update(
-            TransactionProvider.CATEGORIES_URI,   // The URI of the data table
-            values,                      // the same map of updates
-            SELECTION_COLUMNS,            // same selection, based on the title column
-            selectionArgs                // same selection argument, to select "title = Note1"
-        );
-
-        // Asserts that only one row was updated. The selection criteria evaluated to
-        // "title = Note1", and the test data should only contain one row that matches that.
-        assertEquals(1, rowsUpdated);
+        try {
+            int rowsUpdated = mMockResolver.update(
+                TransactionProvider.CATEGORIES_URI,  // the URI of the data table
+                values,                     // a map of the updates to do (column title and value)
+                SELECTION_COLUMNS,           // select based on the title column
+                selectionArgs               // select "title = Note1"
+            );
+            fail( "Bulk update should not succeed" );
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        }
     }
     public void testUniqueConstraintsCreateMain() {
       insertData();
