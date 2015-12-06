@@ -1335,7 +1335,7 @@ public class ExpenseEdit extends AmountActivity implements
             new MessageDialogFragment.Button(
                 selectButtonLabel,
                 R.id.SETTINGS_COMMAND,
-                MyApplication.PrefKey.PLANNER_CALENDAR_ID),
+                MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey()),
             createNewButton,
             MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(), "CALENDAR_SETUP_INFO");

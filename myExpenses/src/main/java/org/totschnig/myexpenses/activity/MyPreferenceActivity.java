@@ -100,7 +100,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private static final int PICK_FOLDER_REQUEST = 2;
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
-  private PrefKey initialPrefToShow;
+  private String initialPrefToShow;
   private SettingsFragment activeFragment;
 
   @Override
@@ -122,7 +122,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       ft.commit();
     }
     initialPrefToShow = savedInstanceState == null ?
-        (PrefKey) getIntent().getSerializableExtra(KEY_OPEN_PREF_KEY) : null;
+        getIntent().getStringExtra(KEY_OPEN_PREF_KEY) : null;
   }
 
   private SettingsFragment getFragment() {
@@ -154,11 +154,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   protected void onResume() {
     super.onResume();
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-    if (getIntent() != null && getIntent().getAction() != null &&
-        getIntent().getAction().equals("myexpenses.intent.preference.password")) {
-      //only used for screenshot generation
-      //setPreferenceScreen((PreferenceScreen)findPreference(getString(R.string.pref_screen_protection)));
-    }
   }
 
   @Override
@@ -276,7 +271,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          initialPrefToShow = PrefKey.PLANNER_CALENDAR_ID;
+          initialPrefToShow = PrefKey.PLANNER_CALENDAR_ID.getKey();
         } else if (ActivityCompat.shouldShowRequestPermissionRationale(
             this, Manifest.permission.WRITE_CALENDAR)) {
           Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG).show();
@@ -537,8 +532,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
     }
 
-    private void showPreference(PrefKey prefKey) {
-      findPreference(prefKey.getKey()).performClick();
+    private void showPreference(String prefKey) {
+      findPreference(prefKey).performClick();
     }
 
     private void configureContribPrefs() {

@@ -83,7 +83,7 @@ public class AutoBackupService extends WakefulIntentService {
             } else {
                 String content = result.print(this);
                 Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
-                preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, MyApplication.PrefKey.APP_DIR);
+                preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, MyApplication.PrefKey.APP_DIR.getKey());
                 NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_home_dark)

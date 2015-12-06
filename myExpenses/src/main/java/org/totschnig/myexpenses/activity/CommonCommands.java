@@ -59,7 +59,7 @@ public class CommonCommands {
       i = new Intent(ctx, MyPreferenceActivity.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       if (tag != null) {
-        i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY,(Serializable) tag);
+        i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY,(String) tag);
       }
       ctx.startActivityForResult(i,ProtectedFragmentActivity.PREFERENCES_REQUEST);
       return true;

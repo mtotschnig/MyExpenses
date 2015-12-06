@@ -1,13 +1,18 @@
 #this script currently is designed for being run on Nexus S
 import sys
+import os
 
-if (len(sys.argv) < 3):
+if len(sys.argv) < 3:
   print "Usage: monkeyrunner monkey.py {lang} {stage}"
   sys.exit(0)
 
 lang = sys.argv[1]
 stage = sys.argv[2]
-targetdir = '/home/michael/programmieren/MyExpenses/doc/screenshots/neu/' + lang + '/'
+targetdir = '/Users/privat/MyExpenses/doc/screenshots/neu/' + lang + '/'
+if not os.path.isdir(targetdir):
+  print "Make sure directory %s exists" % targetdir
+  sys.exit(0)
+
 BACKDOOR_KEY = 'KEYCODE_CAMERA'
 def snapshot(title):
   sleep()
@@ -90,39 +95,33 @@ def main():
   sleep()
   toTopLeft(8)
   snapshot("manage_accounts")
-  
-  if (stage == "1"):
-    finalize()
-    return
-  
+
   #3 GrooupedList
-  #back() does not close drawer but finishes activity?
-  toTopLeft()
-  enter()
+  back()
   snapshot("grouped_list")
     
   #4 Templates and Plans
-  toBottomLeft()
-  right()
-  right()
-  right()
-  enter() #temmplates button
+  activity = 'org.totschnig.myexpenses.activity.ManageTemplates'
+  runComponent = package + '/' + activity
+  device.startActivity(component=runComponent)
+  sleep()
   toTopLeft()
   down()
   right()
   enter() #plans tab
-  sleep(2)
+  sleep(3)
   down()
   enter() #openinstances
-  down()
-  device.press('KEYCODE_ENTER', MonkeyDevice.DOWN) # open CAB
-  sleep()
-  up()
-  up()
-  up()
-  left()
-  enter() #apply instance
-  sleep(4)
+  # since we are using windowActionModeOverlay, currently we are not able to focus cab through keyboard navigation
+  # down()
+  # device.press('DPAD_CENTER', MonkeyDevice.DOWN) # open CAB
+  # sleep()
+  # up()
+  # up()
+  # up()
+  # left()
+  # enter() #apply instance
+  # sleep(4)
   snapshot("plans")
   
   #5 ExportAndReset
@@ -132,12 +131,8 @@ def main():
   
   #6 Calculator
   back()
-  toBottomLeft()
-  sleep()
-  right()
-  sleep()
-  enter()
-  toTopLeft()
+  # hit FAB if we are lucky (run on an S4)
+  device.touch(1000,1800,MonkeyDevice.DOWN_AND_UP)
   activity = 'org.totschnig.myexpenses.activity.CalculatorInput'
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent)
@@ -146,9 +141,8 @@ def main():
   #7 Split
   back()
   back()
-  toTopLeft()
-  down()
-  down()#split is second, first is the transaction created from plan
+  toTopLeft(10)
+  down()#split is first, currently no transaction created from plan
   enter()
   sleep(2)
   right()
@@ -162,11 +156,9 @@ def main():
   back()
   toTopLeft()
   down()
-  down()
-  down() #third in list
+  down() #currently second in list
   enter()
   sleep(2)
-  right()
   right()
   enter()
   #give time for loading
@@ -181,15 +173,14 @@ def main():
   down()
   down()
   right()
-  right()
   enter()
   snapshot("attach_picture")
   
   #8 Distribution
   back()
   back()
-  menu(2)
-  right()
+  menu(0)
+  toTopLeft()
   right()
   enter()
   down()
@@ -215,28 +206,34 @@ def main():
   
   #10 Password
   back()
+  sleep()
   activity = 'org.totschnig.myexpenses.activity.MyPreferenceActivity'
   runComponent = package + '/' + activity
-  device.startActivity(component=runComponent,action="myexpenses.intent.preference.password")
+  device.startActivity(component=runComponent,extras={'openPrefKey' : 'screen_protection'})
+  sleep()
+  up()
   down()
   enter()
-  enter()
+  sleep(2)
+  device.press('KEYCODE_DPAD_CENTER')
   snapshot("password")
+  
+  if (stage == "1"):
+    finalize()
+    return
 
   #10 Light Theme
   back()
   back()
-  device.startActivity(component=runComponent)
-  for _ in range(5):
-    down()
-  enter()
+  back()
+  device.startActivity(component=runComponent,extras={'openPrefKey' : 'pref_ui_theme'}) 
+  down()
   down()
   enter()
+  back()
   back()
   snapshot("light_theme")
 
   finalize()
 
 main()
-
-
