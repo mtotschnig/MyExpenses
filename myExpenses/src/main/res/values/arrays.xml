@@ -468,6 +468,10 @@
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1674812282780243</item>
         <item>Hg7sTEPwLb4</item>
     </string-array>
+    <string-array name="version_more_info_261" tools:ignore="UnusedResources">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1676856449242493</item>
+        <item>dMHxVFrJ3b7</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
