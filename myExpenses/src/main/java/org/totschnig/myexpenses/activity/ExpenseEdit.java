@@ -326,7 +326,7 @@ public class ExpenseEdit extends AmountActivity implements
         + mPlanToggleButton.getPaddingLeft()
         + mPlanToggleButton.getPaddingRight());
 
-    mRowId = getIntent().getLongExtra(KEY_ROWID,0);
+    mRowId = Utils.getFromExtra(getIntent().getExtras(),KEY_ROWID,0);
 
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
@@ -1335,7 +1335,7 @@ public class ExpenseEdit extends AmountActivity implements
             new MessageDialogFragment.Button(
                 selectButtonLabel,
                 R.id.SETTINGS_COMMAND,
-                MyApplication.PrefKey.PLANNER_CALENDAR_ID),
+                MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey()),
             createNewButton,
             MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(), "CALENDAR_SETUP_INFO");

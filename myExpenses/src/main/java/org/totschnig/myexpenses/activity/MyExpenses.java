@@ -352,7 +352,7 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
-        mAccountId = extras.getLong(KEY_ROWID, 0);
+        mAccountId = Utils.getFromExtra(extras,KEY_ROWID, 0);
         idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
         //detail fragment from notification should only be shown upon first instantiation from notification
         if (idFromNotification != 0) {
@@ -787,8 +787,6 @@ public class MyExpenses extends LaunchActivity implements
           i.putExtra("grouping", a != null ? a.grouping : Grouping.NONE);
           i.putExtra("groupingYear", year);
           i.putExtra("groupingSecond", groupingSecond);
-        } else {
-          i.putExtra("grouping", Grouping.NONE);
         }
         startActivity(i);
         break;

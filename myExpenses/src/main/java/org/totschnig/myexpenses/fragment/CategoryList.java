@@ -177,14 +177,16 @@ public class CategoryList extends ContextualActionBarFragment implements
         mMainColors.add(col);
       mMainColors.add(ColorTemplate.getHoloBlue());
 
-      mAccount = Account.getInstanceFromDb(extras.getLong(KEY_ACCOUNTID));
+      final long id = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
+      mAccount = Account.getInstanceFromDb(id);
       if (mAccount == null) {
         TextView tv = new TextView(ctx);
-        tv.setText("Error loading distribution for account "+extras.getLong(KEY_ACCOUNTID));
+        tv.setText("Error loading distribution for account " + id);
         return  tv;
       }
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
       mGrouping = (Grouping) b.getSerializable("grouping");
+      if (mGrouping == null) mGrouping = Grouping.NONE;
       mGroupingYear = b.getInt("groupingYear");
       mGroupingSecond = b.getInt("groupingSecond");
       //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);

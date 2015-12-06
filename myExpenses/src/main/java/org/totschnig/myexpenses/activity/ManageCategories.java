@@ -15,50 +15,42 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
-import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.fragment.CategoryList;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.util.Utils;
-
-import com.github.mikephil.charting.charts.PieChart;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
+import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 

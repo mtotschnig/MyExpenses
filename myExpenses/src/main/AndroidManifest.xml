@@ -118,16 +118,15 @@
         <activity android:name=".activity.MyPreferenceActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="myexpenses.intent.preference.password" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-         </activity>
+        </activity>
         <activity
             android:name=".activity.Help"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-            </intent-filter>    
+            </intent-filter>
         </activity>
         <activity android:name=".activity.ManageParties"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
@@ -155,6 +154,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="vnd.android.cursor.item/event" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
 
             <meta-data
