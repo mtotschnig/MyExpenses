@@ -117,7 +117,7 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-            </intent-filter>    
+            </intent-filter>
         </activity>
         <activity android:name=".activity.ManageParties"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >

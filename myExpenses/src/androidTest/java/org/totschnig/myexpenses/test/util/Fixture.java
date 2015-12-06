@@ -90,7 +90,7 @@ public class Fixture {
         foreignCurrency,
         50000,
         testContext.getString(R.string.testData_account2Description), Type.CASH,
-        Build.VERSION.SDK_INT > 13 ? testContext.getResources().getColor(android.R.color.holo_red_dark) : Color.RED
+        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_red) : Color.RED
     );
     account2.save();
     if (stage ==2) return;
@@ -99,11 +99,17 @@ public class Fixture {
         defaultCurrency,
         200000,
         testContext.getString(R.string.testData_account3Description), Type.BANK,
-        Build.VERSION.SDK_INT > 13 ? testContext.getResources().getColor(android.R.color.holo_blue_dark) : Color.BLUE
+        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_blue) : Color.BLUE
     );
     account3.grouping = Account.Grouping.DAY;
     account3.save();
-    account4 = new Account("ignored", foreignCurrency,0,"",Type.BANK,Account.defaultColor);
+    account4 = new Account(
+        testContext.getString(R.string.testData_account3Description),
+        foreignCurrency,
+        0,
+        "",
+        Type.CCARD,
+        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_cyan) : Color.CYAN);
     account4.save();
     //set up categories
     setUpCategories(locale, appContext);
@@ -118,8 +124,8 @@ public class Fixture {
     Transaction op1 = Transaction.getNewInstance(account3.getId());
     op1.amount = new Money(defaultCurrency,-1200L);
     op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
-    op1.setDate(new Date( now - 300000 ));
-    op1.setPictureUri(Uri.parse("file:///sdcard/myexpenses/screenshot.jpg"));
+    op1.setDate(new Date(now - 300000));
+    op1.setPictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
     op1.save();
 
     //Transaction 2
