@@ -56,7 +56,7 @@ de:
       in-app: |
         Wenn Sie Meine Ausgaben von Google Play oder Amazon AppStore installiert haben, steht diese als In-App-Kauf zur Verfügung.
       blackberry: |
-        Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
+        Wenn Sie Meine Ausgaben von Blackberry World installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
       blackberry-extra: |
         Für Blackberry gibt es keinen Erweiterten Schlüssel. Der Contrib-Schlüssel gibt auch Zugriff auf erweiterte Funktionen.
       other: |
