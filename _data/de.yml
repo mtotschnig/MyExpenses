@@ -46,6 +46,7 @@ de:
       print: Buchungsliste als PDF-Datei drucken
       attach_picture: Bildanhang für Buchung
       ad_free: Ohne Werbung
+      csv_import: CSV import
       auto_backup: Automatisches Backup
     licence-howto-buy:
       deprecated: |
@@ -56,12 +57,16 @@ de:
         Wenn Sie Meine Ausgaben von Google Play oder Amazon AppStore installiert haben, steht diese als In-App-Kauf zur Verfügung.
       blackberry: |
         Wenn Sie Meine Ausgaben von Amazon AppStore installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
+      blackberry-extra: |
+        Für Blackberry gibt es keinen Erweiterten Schlüssel. Der Contrib-Schlüssel gibt auch Zugriff auf erweiterte Funktionen.
       other: |
         Wenn Sie meine Ausgaben von F-Droid, Yandex oder SlideMe bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
       transfer: |
         Andernfalls können Sie auch Geld auf das folgende Konto überweisen:
       key: |
         und forden Sie dann über die Einstellungen den Lizenz-Schlüssel an. Sobald Sie diesen erhalten haben, geben Sie diesen ebenfalls über die Einstellungen ein.
+      price: |
+        Der Mindestbetrag beträgt € 2.50 (0.01 bitcoins) für den Contrib Schlüssel und € 5.00 (0.02 bitcoins) für den Erweiterten Schlüssel. Für den Upgrade von Contrib auf Erweitert senden Sie € 2.50 (0.01 bitcoins).
   permissions-heading: |
     Meine Ausgaben verwendet folgende Berechtigungen
   permissions-calendar: |
