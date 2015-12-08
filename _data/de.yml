@@ -48,6 +48,7 @@ de:
       ad_free: Ohne Werbung
       csv_import: CSV import
       auto_backup: Automatisches Backup
+    extended-label: Erweitert
     licence-howto-buy:
       deprecated: |
         HINWEIS: Seit Version 2.3.9 kann der Contrib Schlüssel zur Freischaltung der Premium-Funktionalität von Meine Ausgaben einfacher durch eine In-App Bezahlung erworben werden, und Sie müssen daher die "Meine Ausgaben Contrib Schlüssel" App nicht mehr installieren.
