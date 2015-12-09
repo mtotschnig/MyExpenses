@@ -1522,12 +1522,11 @@ public class ExpenseEdit extends AmountActivity implements
         if (newType == MyExpenses.TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
           //reset to previous
           resetOperationType();
+        } else if (newType == MyExpenses.TYPE_SPLIT) {
+          resetOperationType();
+          contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
         } else {
-          if (newType == MyExpenses.TYPE_SPLIT) {
-            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
-          } else {
-            restartWithType(newType);
-          }
+          restartWithType(newType);
         }
       }
       break;
