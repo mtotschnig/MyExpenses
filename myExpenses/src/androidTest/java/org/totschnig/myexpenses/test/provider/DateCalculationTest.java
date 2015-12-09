@@ -20,8 +20,7 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
 
   // Contains an SQLite database, used as test data
   private SQLiteDatabase mDb;
-  
-  DateFormat dateformat = Utils.localizedYearlessDateFormat();
+
   String TABLE = "test_dates";
   String KEY_DATE = "date";
   public DateCalculationTest() {
@@ -71,6 +70,7 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
   }
   
   private void doTheTest() {
+    DateFormat dateformat = Utils.localizedYearlessDateFormat();
     Log.i("DEBUG",DatabaseConstants.WEEK_END);
     ContentValues v = new ContentValues();
     for (int year = 2010; year < 2022; year++) {
