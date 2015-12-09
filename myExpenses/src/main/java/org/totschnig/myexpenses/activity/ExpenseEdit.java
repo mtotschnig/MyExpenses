@@ -166,10 +166,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Long mTemplateId;
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
-  private final java.text.DateFormat mDateFormat = DateFormat.getDateInstance(
-      DateFormat.SHORT);
-  private final java.text.DateFormat mTimeFormat = DateFormat.getTimeInstance(
-      DateFormat.SHORT);
+  private DateFormat mDateFormat, mTimeFormat;
   private Long mCatId = null, mPlanId = null, mMethodId = null,
       mAccountId = null, mTransferAccountId;
   private String mLabel;
@@ -221,6 +218,10 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
+
+
+    mDateFormat = android.text.format.DateFormat.getDateFormat(this);
+    mTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
 
     setupToolbar();
     mManager= getSupportLoaderManager();

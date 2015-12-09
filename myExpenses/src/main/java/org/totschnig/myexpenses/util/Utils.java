@@ -916,8 +916,9 @@ public class Utils {
 
   public static DateFormat localizedYearlessDateFormat() {
     Locale l = Locale.getDefault();
-    String yearlessPattern = ((SimpleDateFormat) DateFormat.getDateInstance(
-        DateFormat.SHORT, l)).toPattern().replaceAll("\\W?[Yy]+\\W?", "");
+    final String contextPattern = ((SimpleDateFormat) android.text.format.DateFormat.getDateFormat(
+        MyApplication.getInstance())).toPattern();
+    String yearlessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");
     return new SimpleDateFormat(yearlessPattern, l);
   }
 
