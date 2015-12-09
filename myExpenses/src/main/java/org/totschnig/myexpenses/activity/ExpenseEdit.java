@@ -800,11 +800,7 @@ public class ExpenseEdit extends AmountActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case android.R.id.home:
-      if (mTransaction instanceof SplitTransaction) {
-        ((SplitTransaction) mTransaction).cleanupCanceledEdit();
-      } else if (mTransaction instanceof Template) {
-        deleteUnusedPlan();
-      }
+      cleanup();
       finish();
       return true;
     case R.id.SAVE_COMMAND:
@@ -1179,13 +1175,18 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   public void onBackPressed() {
+    cleanup();
+    super.onBackPressed();
+  }
+
+  protected void cleanup() {
     if (mTransaction instanceof SplitTransaction) {
       ((SplitTransaction) mTransaction).cleanupCanceledEdit();
     } else if (mTransaction instanceof Template) {
       deleteUnusedPlan();
     }
-    super.onBackPressed();
   }
+
   /**
    * when we have created a new plan without saving the template, we delete the plan
    */
@@ -1542,6 +1543,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void restartWithType(int newType) {
+    cleanup();
     Intent restartIntent = getIntent();
     restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);
     finish();
