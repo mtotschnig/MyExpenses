@@ -44,6 +44,7 @@
   <string name="menu_back_help_text">Naviguer vers le groupe précédent. Peut aussi être fait par le glissement de gauche à droite.</string>
   <string name="menu_forward_help_text">Naviguer vers le groupe suivant. Peut aussi être fait par le glissement de droite à gauche.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre une fenêtre pour spécifier le titre d\'une nouvelle sous-catégorie en dessous de la catégorie sélectionnée.</string>
+  <string name="cab_ManageCategories_move_help_text">Les sous-catégories peuvent être déplacées vers une autre catégorie principale ou être transformées en catégories principales. Une catégorie principale seule peut être changée en  sous-catégorie d\'une autre principale.</string>
   <string name="cab_ManageCategories_select_category_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
   <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
   <string name="menu_categories_export_help_text">Les catégories seront exportées vers le fichier QIF.</string>

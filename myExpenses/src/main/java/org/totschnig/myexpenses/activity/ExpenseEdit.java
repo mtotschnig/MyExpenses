@@ -166,10 +166,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Long mTemplateId;
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
-  private final java.text.DateFormat mDateFormat = DateFormat.getDateInstance(
-      DateFormat.SHORT);
-  private final java.text.DateFormat mTimeFormat = DateFormat.getTimeInstance(
-      DateFormat.SHORT);
+  private DateFormat mDateFormat, mTimeFormat;
   private Long mCatId = null, mPlanId = null, mMethodId = null,
       mAccountId = null, mTransferAccountId;
   private String mLabel;
@@ -221,6 +218,10 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
+
+
+    mDateFormat = android.text.format.DateFormat.getDateFormat(this);
+    mTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
 
     setupToolbar();
     mManager= getSupportLoaderManager();
@@ -1576,7 +1577,7 @@ public class ExpenseEdit extends AmountActivity implements
           case  DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
             errorMsg=getString(R.string.external_storage_unavailable);
             break;
-          case DbWriteFragment.ERROR_UNKNOWN:
+          case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
             errorMsg="Error while saving picture";
             break;
           default:
@@ -1638,9 +1639,9 @@ public class ExpenseEdit extends AmountActivity implements
         return null;
       return new CursorLoader(this,
           TransactionProvider.METHODS_URI.buildUpon()
-          .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
-          .appendPath(mType == INCOME ? "1" : "-1")
-          .appendPath(a.type.name())
+              .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
+              .appendPath(mType == INCOME ? "1" : "-1")
+              .appendPath(a.type.name())
           .build(), null, null, null, null);
     case ACCOUNTS_CURSOR:
         String selection = (mOperationType == MyExpenses.TYPE_TRANSFER) ?
@@ -1946,7 +1947,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     Uri outputMediaUri = getCameraUri();
     Intent gallIntent = new Intent( Utils.getContentIntentAction());
-    gallIntent.setType("image/jpeg");
+    gallIntent.setType("image/*");
     Intent chooserIntent = Intent.createChooser(gallIntent, null);
 
     //if external storage is not available, camera capture won't work

@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">계좌</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">계좌 타입</string>
   <string name="account_type_asset">자산 계좌</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">자산 계좌</string>
@@ -60,6 +61,11 @@
   <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">버리기</string>
+  <string name="dialog_confirm_discard_changes">변경 사항을 취소할까요?</string>
+  <string name="dialog_confirm_discard_new_transaction">새로운 거래 내역을 취소할까요?</string>
+  <string name="dialog_confirm_discard_new_template">새로운 템플릿을 취소할까요?</string>
+  <string name="dialog_confirm_discard_new_account">새로운 계좌를 취소할까요?</string>
+  <string name="dialog_confirm_discard_new_method">새로운 지불 방식을 취소할까요?</string>
   <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
   <string name="dialog_command_disabled_insert_transfer_1">거래 내역을 이관하려면 같은 화폐 단위를 사용하는 두번째 계좌가 필요합니다.</string>
   <string name="dialog_command_disabled_insert_transfer_2">당신은 %1$s 화폐 단위를 사용하는 하나의 계좌만 가지고 있습니다.</string>
@@ -236,7 +242,7 @@
   <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
   <string name="no_app_handling_pdf_available">PDF 파일을 다룰 수 있는 앱이 없습니다.</string>
   <string name="no_categories">카테고리가 없습니다.</string>
-  <string name="no_category_assigned">카테고리가 지정되지 않았습니다.</string>
+  <string name="no_category_assigned">카테고리 미지정</string>
   <string name="no_details">상세 정보가 없습니다.</string>
   <string name="no_expenses">지출이 아직 없습니다.</string>
   <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>
@@ -300,6 +306,9 @@
   <string name="pref_auto_fill_title">거래 내역 자동으로 채우기</string>
   <string name="pref_auto_fill_summary">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 입력</string>
   <string name="pref_backup_summary">데이터베이스와 설정값의 백업을 만들기</string>
+  <string name="pref_sort_order_title">카테고리, 템플릿, 계좌의 순서 정렬</string>
+  <string name="pref_sort_order_usages">사용 빈도</string>
+  <string name="pref_sort_order_alphabetic">알파벳 순서</string>
   <string name="pref_category_title_advanced">고급</string>
   <string name="pref_category_title_export">내보내기</string>
   <string name="pref_category_title_import">가져오기</string>
@@ -453,6 +462,12 @@
   <plurals name="warning_delete_transaction">
     <item quantity="other">%1$d 선택된 거래 내역이 삭제됩니다.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="other">%d 카테고리가 성공적으로 옮겨졌습니다.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="other">%d 카테고리가 옮겨지지 않았습니다. 같은 라벨이 이미 목적지에 있습니다.</item>
+  </plurals>
   <string name="warning_delete_reconciled">수지 결산을 맞춘 거래 내역을 삭제하게 되면 현재의 기록이 은행의 내역서와 달라지게 됩니다.</string>
   <string name="warning_balance_account">지불 완료 총계를 은행의 내역서에 표기된 결산 잔고와 비교해보세요.  계속 진행하면 지불 완료 거래 내역은 수지 결산을 맞춘 거래 내역으로 표시하게 됩니다.</string>
   <string name="warning_password_protected">앱은 암호로 보호되어 있습니다.</string>
@@ -484,6 +499,7 @@
   <string name="create_new_folder_fail">폴더를 생성하지 못했습니다</string>
   <string name="widget_title_accounts">내 계좌</string>
   <string name="widget_title_templates">내 템플릿</string>
+  <string name="app_dir_not_accessible">백업과 내보내기를 위해 현재 선택된 폴더(%1$s)가 접근 가능하지 않습니다. 다른 폴더를 선택하세요.</string>
   <string name="search_amount">금액 검색</string>
   <string name="search_category">카테고리 검색</string>
   <string name="search_comment">노트 검색</string>
@@ -558,6 +574,11 @@
   <string name="pref_auto_backup_time_title">자동 백업 시간</string>
   <string name="warning_auto_backup_limited_trial">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
   <string name="warning_auto_backup_limit_reached">무료 자동 백업 횟수 제한에 도달했습니다.</string>
+  <string name="calendar_permission_required"><i>My Expenses</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
+  <string name="button_request_calendar_access">접근 허용</string>
   <string name="switch_on_text">사용</string>
   <string name="switch_off_text">사용 안함</string>
+  <string name="menu_move">옮기기</string>
+  <string name="dialog_title_select_target">목적지 선택</string>
+  <string name="transform_subcategory_to_main">주 카테고리로 바꾸기</string>
 </resources>
