@@ -26,16 +26,18 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     super.onCreate(savedInstanceState);
     setTheme(MyApplication.getThemeIdTranslucent());
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+    sequenceCount = getIntent().getLongExtra(
+        ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
 
-    if (f == null) {
-      sequenceCount = getIntent().getLongExtra(
-          ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
-      ContribInfoDialogFragment.newInstance(sequenceCount)
-          .show(getSupportFragmentManager(), "CONTRIB_INFO");
-    } else {
-      ContribDialogFragment.newInstance(
-          f, getIntent().getSerializableExtra(KEY_TAG))
-          .show(getSupportFragmentManager(), "CONTRIB");
+    if (savedInstanceState == null) {
+      if (f == null) {
+        ContribInfoDialogFragment.newInstance(sequenceCount)
+            .show(getSupportFragmentManager(), "CONTRIB_INFO");
+      } else {
+        ContribDialogFragment.newInstance(
+            f, getIntent().getSerializableExtra(KEY_TAG))
+            .show(getSupportFragmentManager(), "CONTRIB");
+      }
     }
   }
 
@@ -68,7 +70,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     if (feature != null) {
       int usagesLeft = feature.usagesLeft();
       Intent i = new Intent();
-      i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
+      i.putExtra(KEY_FEATURE, feature);
       i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
       if (usagesLeft > 0) {
         setResult(RESULT_OK, i);
