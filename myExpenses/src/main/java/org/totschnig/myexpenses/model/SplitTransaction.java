@@ -101,24 +101,31 @@ public class SplitTransaction extends Transaction {
     }
     //make sure that parts have the same date as their parent,
     //otherwise they might be incorrectly counted in groups
-    initialValues.put(KEY_DATE, date.getTime()/1000);
-    cr().update(CONTENT_URI,initialValues,PART_OR_PEER_SELECT,
-        new String[] {idStr,idStr});
+    initialValues.put(KEY_DATE, date.getTime() / 1000);
+    cr().update(CONTENT_URI, initialValues, PART_OR_PEER_SELECT,
+        new String[]{idStr, idStr});
   }
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
+   * @param clone if true an uncommited clone of the instance is prepared
    */
-  public void prepareForEdit() {
-    String idStr = String.valueOf(getId());
+  public void prepareForEdit(boolean clone) {
+    Long oldId = getId();
+    if (clone) {
+      status = STATUS_UNCOMMITTED;
+      super.saveAsNew();
+    }
+    String idStr = String.valueOf(oldId);
     //we only create uncommited clones if none exist yet
     Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
         KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + VIEW_UNCOMMITTED
             + " WHERE " + KEY_PARENTID + " = ?)", new String[] {idStr,idStr} , null);
     c.moveToFirst();
     while(!c.isAfterLast()) {
-      Transaction t = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-      t.status = STATUS_UNCOMMITTED;
-      t.saveAsNew();
+      Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+      part.status = STATUS_UNCOMMITTED;
+      part.parentId = getId();
+      part.saveAsNew();
       c.moveToNext();
     }
     c.close();
@@ -142,9 +149,9 @@ public class SplitTransaction extends Transaction {
         KEY_PARENTID + " = ?", new String[] {String.valueOf(oldId)} , null);
     c.moveToFirst();
     while(!c.isAfterLast()) {
-      Transaction t = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-      t.parentId = getId();
-      t.saveAsNew();
+      Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+      part.parentId = getId();
+      part.saveAsNew();
       c.moveToNext();
     }
     c.close();
