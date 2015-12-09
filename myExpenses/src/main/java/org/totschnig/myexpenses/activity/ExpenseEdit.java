@@ -1946,7 +1946,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     Uri outputMediaUri = getCameraUri();
     Intent gallIntent = new Intent( Utils.getContentIntentAction());
-    gallIntent.setType("image/jpeg");
+    gallIntent.setType("image/*");
     Intent chooserIntent = Intent.createChooser(gallIntent, null);
 
     //if external storage is not available, camera capture won't work
