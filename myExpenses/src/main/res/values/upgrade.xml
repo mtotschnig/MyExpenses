@@ -18,6 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2611">
+    <item>Repaired cloning of split transactions</item>
+    <item>Repaired date filter dialog</item>
+    <item>Honour user configured date and time formats from system preferences</item>
+  </string-array>
   <string-array name="whats_new_261">
     <item>Categories can be moved</item>
   </string-array>
