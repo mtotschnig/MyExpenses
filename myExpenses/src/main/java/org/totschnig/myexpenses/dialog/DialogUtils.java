@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -93,7 +94,8 @@ public class DialogUtils {
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
     ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
     if (ctx instanceof AppCompatActivity) {
-      ((AppCompatActivity) ctx).getSupportActionBar().hide();
+      final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
+      if (actionBar!= null) actionBar.hide();
     }
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
@@ -259,7 +261,8 @@ public class DialogUtils {
           MyApplication.getInstance().setLocked(false);
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
           if (ctx instanceof AppCompatActivity) {
-            ((AppCompatActivity) ctx).getSupportActionBar().show();
+            final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
+            if (actionBar!= null) actionBar.show();
           }
           if (isInSecurityQuestion) {
             MyApplication.PrefKey.PERFORM_PROTECTION.putBoolean(false);
