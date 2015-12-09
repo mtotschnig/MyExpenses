@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menü komutları</string>
   <string name="help_contextual_actions">Bağlamsal eylemler</string>
+  <string name="help_form_fields">Form alanları</string>
   <string name="cab_delete_help_text">Seçilen unsurları sil.</string>
   <string name="cab_edit_help_text">Seçilen unsuru düzenle.</string>
   <!--My Expenses Transaction list-->
