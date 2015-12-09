@@ -1638,9 +1638,9 @@ public class ExpenseEdit extends AmountActivity implements
         return null;
       return new CursorLoader(this,
           TransactionProvider.METHODS_URI.buildUpon()
-          .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
-          .appendPath(mType == INCOME ? "1" : "-1")
-          .appendPath(a.type.name())
+              .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
+              .appendPath(mType == INCOME ? "1" : "-1")
+              .appendPath(a.type.name())
           .build(), null, null, null, null);
     case ACCOUNTS_CURSOR:
         String selection = (mOperationType == MyExpenses.TYPE_TRANSFER) ?
