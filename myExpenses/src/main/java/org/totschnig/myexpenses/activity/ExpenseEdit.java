@@ -1576,7 +1576,7 @@ public class ExpenseEdit extends AmountActivity implements
           case  DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
             errorMsg=getString(R.string.external_storage_unavailable);
             break;
-          case DbWriteFragment.ERROR_UNKNOWN:
+          case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
             errorMsg="Error while saving picture";
             break;
           default:
