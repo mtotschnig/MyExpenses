@@ -125,7 +125,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
       t = Transaction.getInstanceFromDb((Long) ids[0]);
       if (t != null && t instanceof SplitTransaction)
-        ((SplitTransaction) t).prepareForEdit();
+        ((SplitTransaction) t).prepareForEdit((Boolean)mExtra);
       return t;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       return Transaction.getInstanceFromDb((Long) ids[0]);

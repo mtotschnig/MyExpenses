@@ -68,16 +68,18 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     }
 
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
+    sequenceCount = getIntent().getLongExtra(
+        ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
 
-    if (f == null) {
-      sequenceCount = getIntent().getLongExtra(
-          ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
-      ContribInfoDialogFragment.newInstance(sequenceCount)
-          .show(getSupportFragmentManager(), "CONTRIB_INFO");
-    } else {
-      ContribDialogFragment.newInstance(
-          f, getIntent().getSerializableExtra(KEY_TAG))
-          .show(getSupportFragmentManager(), "CONTRIB");
+    if (savedInstanceState == null) {
+      if (f == null) {
+        ContribInfoDialogFragment.newInstance(sequenceCount)
+            .show(getSupportFragmentManager(), "CONTRIB_INFO");
+      } else {
+        ContribDialogFragment.newInstance(
+            f, getIntent().getSerializableExtra(KEY_TAG))
+            .show(getSupportFragmentManager(), "CONTRIB");
+      }
     }
   }
 
@@ -198,7 +200,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     final ContribFeature feature = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
     if (feature != null) {
       Intent i = new Intent();
-      i.putExtra(KEY_FEATURE, getIntent().getSerializableExtra(KEY_FEATURE));
+      i.putExtra(KEY_FEATURE, feature);
       i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
       if (feature.hasAccess() || feature.usagesLeft() > 0) {
         setResult(RESULT_OK, i);

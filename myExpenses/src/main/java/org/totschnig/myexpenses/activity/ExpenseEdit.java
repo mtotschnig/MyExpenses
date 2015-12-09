@@ -406,9 +406,12 @@ public class ExpenseEdit extends AmountActivity implements
     if (mRowId != 0 || mTemplateId != 0) {
       mNewInstance = false;
       int taskId;
+      Serializable extra = null;
       Long objectId;
       if (mRowId != 0) {
         taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION;
+        //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
+        extra = getIntent().getBooleanExtra(KEY_CLONE,false) && savedInstanceState == null;
         objectId = mRowId;
       } else {
         objectId = mTemplateId;
@@ -428,7 +431,7 @@ public class ExpenseEdit extends AmountActivity implements
         startTaskExecution(
             taskId,
             new Long[] {objectId},
-            null,
+            extra,
             R.string.progress_dialog_loading);
       }
     } else {
@@ -797,11 +800,7 @@ public class ExpenseEdit extends AmountActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case android.R.id.home:
-      if (mTransaction instanceof SplitTransaction) {
-        ((SplitTransaction) mTransaction).cleanupCanceledEdit();
-      } else if (mTransaction instanceof Template) {
-        deleteUnusedPlan();
-      }
+      cleanup();
       finish();
       return true;
     case R.id.SAVE_COMMAND:
@@ -1176,13 +1175,18 @@ public class ExpenseEdit extends AmountActivity implements
   }
   @Override
   public void onBackPressed() {
+    cleanup();
+    super.onBackPressed();
+  }
+
+  protected void cleanup() {
     if (mTransaction instanceof SplitTransaction) {
       ((SplitTransaction) mTransaction).cleanupCanceledEdit();
     } else if (mTransaction instanceof Template) {
       deleteUnusedPlan();
     }
-    super.onBackPressed();
   }
+
   /**
    * when we have created a new plan without saving the template, we delete the plan
    */
@@ -1430,11 +1434,15 @@ public class ExpenseEdit extends AmountActivity implements
         mLabel =  mTransaction.label;
       }
       if (getIntent().getBooleanExtra(KEY_CLONE,false)) {
-        mTransaction.setId(0L);
+        if (mTransaction instanceof SplitTransaction) {
+          mRowId = mTransaction.getId();
+        } else {
+          mTransaction.setId(0L);
+          mRowId = 0L;
+        }
         mTransaction.crStatus = CrStatus.UNRECONCILED;
         mTransaction.status = STATUS_NONE;
         mTransaction.setDate(new Date());
-        mRowId = 0L;
         mClone = true;
       }
       setup();
@@ -1514,12 +1522,11 @@ public class ExpenseEdit extends AmountActivity implements
         if (newType == MyExpenses.TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
           //reset to previous
           resetOperationType();
+        } else if (newType == MyExpenses.TYPE_SPLIT) {
+          resetOperationType();
+          contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
         } else {
-          if (newType == MyExpenses.TYPE_SPLIT) {
-            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION,null);
-          } else {
-            restartWithType(newType);
-          }
+          restartWithType(newType);
         }
       }
       break;
@@ -1535,6 +1542,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void restartWithType(int newType) {
+    cleanup();
     Intent restartIntent = getIntent();
     restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);
     finish();
