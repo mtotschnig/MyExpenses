@@ -91,6 +91,152 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.6.1.1
+    - "2015-12-10"
+    -
+      en: |
+        Repaired cloning of split transactions. Repaired date filter dialog. Honour user configured date and time formats from system preferences.
+  -
+    - 2.6.1
+    - "2015-12-05"
+    -
+      en: |
+        Categories can be moved.
+      fr: |
+        Catégories peuvent être déplacés.
+      de: |
+        Kategorien können verschoben werden.
+      it: |
+        Categorie possono essere spostate.
+      es: |
+        Categorías se pueden mover.
+      pt: |
+        Categorias podem ser movidas.
+      tr: |
+        Kategoriler taşınabilir.  
+  -
+    - 2.6.0
+    - "2015-11-28"
+    -
+      en: |
+        Material design. Improved tablet layout. Support for Samsung Knox.
+      fr: |
+        Material design. Présentation améliorée pour les tablettes. Support pour Samsung Knox.
+      de: |
+        Material design. Verbessertes Layout für Tablets. Unterstützung für Samsung Knox.
+      it: |
+        Material design. Migliore layout tablet. Supporto per Samsung Knox.
+      es: |
+        Material design. Mejor diseño de tableta. Soporte para Samsung Knox.
+      pt: |
+        Material design. Layout de tablet melhorado. Suporte para Samsung Knox.
+      tr: |
+        Material design tasarımı. Geliştirilmiş tablet düzeni. Samsung Knox desteği.
+      ja: |
+        マテリアルデザイン. タブレットレイアウトの改善. Samsung Knox のサポート.
+      eu: |
+        Material diseinua. Hobetutako tabletarako antolaketa. Samsung Knox euskarria.
+      bg: |
+        Приложена е технологията Material design. Подобрен изглед на таблет. Подръжка на Samsung Knox.
+  -
+    - 2.5.2
+    - "2015-09-12"
+    -
+      en: |
+        Auto-Backup
+      eu: |
+        Babeskopia automatikoa
+      ro: |
+        Auto-backup
+      ca: |
+        Còpia de seguretat automàtica
+      zh-tw: |
+        自動備份
+      pl: |
+        Automatyczna kopia zapasowa
+      ru: |
+        Авто-бэкап
+      el: |
+        Αυτόματη δημιουργία αντιγράφων ασφαλείας
+      ko: |
+        자동 백업
+      cs: |
+        Automatická záloha
+      de: |
+        Automatisches Backup
+      tr: |
+        Otomatik yedekleme
+      ms: |
+        Auto-Sandar
+      it: |
+        Backup automatico
+      pt: |
+        Backup automático
+      es: |
+        Backup automática
+      ja: |
+        自動バックアップ
+      bg: |
+        Автоматичен бекъп
+      fr: |
+        Auto-backup
+  -
+    - 2.5.1
+    - "2015-08-30"
+    -
+      en: |
+        Configurable number format. Danish translation.
+      fr: |
+        Format de nombre configurable. Traduction en danois.
+      de: |
+        Konfigurierbares Zahlenformat. Dänische Übersetzung.
+      it: |
+        Formato numero configurabile. Traduzione in danese.
+      es: |
+        Formato de número configurable. Traducción en danés.
+      pt: |
+        Formato de número configurável. Dinamarquês Tradução.
+      tr: |
+        Yapılandırılabilir sayı biçimi. Danca tercüme.
+      ms: |
+        Format nombor boleh dikonfigur. Terjemahan bahasa Belanda.
+      ja: |
+        設定可能な数値書式. デンマーク語翻訳.
+      ro: |
+        Formatul numărului configurabil. Traducere Daneză.
+      eu: |
+        Zenbaki formatu konfiguragarria. Danierara itzulpena.
+      bg: |
+        Канфигуриране на формата на цифрите. Превод на датски.
+  -
+    - 2.5.0
+    - "2015-08-26"
+    -
+      en: |
+        CSV import. Korean translation.
+      fr: |
+        Importation CSV. Traduction en coréen.
+      de: |
+        Import CSV. Koreanische Übersetzung.
+      it: |
+        Importazione CSV. Traduzione in coreano.
+      es: |
+        Importación de CSV. Traducción de Coreano.
+      pt: |
+        Importar de CSV. Coreano Tradução.
+      tr: |
+        CSV içe aktarımı. Korece tercüme.
+      ms: |
+        Import CSV. Terjemahan bahasa Korea.
+      ja: |
+        CSV インポート. 韓国語翻訳.
+      ro: |
+        Import CSV . Traducere Coreeană .
+      eu: |
+        CSV inportazioa. Korearrera itzulpena.
+      bg: |
+        Импорт от CSV файл. Превод на корейски.
+  -
     - 2.4.9
     - "2015-06-15"
     -
@@ -108,6 +254,10 @@ versions:
         Exportação de categorias para QIF. Mostrar somas agregadas em widget da tela inicial.
       tr: |
         Kategorileri QIF dosyasına aktar. Ana ekran widget'inde agrega toplamları göster.
+      eu: |
+        Esportatu kategoriak QIF fitxategira. Bistaratu pilatutako baturak hasiera pantailako trepetan.
+      bg: |
+        Експорт на категории в QIF файл. Уиджета на начален екран показва общи суми.
   -
     - 2.4.8
     - "2015-06-04"
@@ -130,6 +280,10 @@ versions:
         Status transakcji sklonowanych zostaje zresetowany do nieuzgodnionego. Alternatywny sposób odzyskania danych dla urządzeń bez menadżera plików.
       ja: |
         複製された取引のステータスを未照合にリセットします. ファイルマネージャーのないデバイス用の代替の復元方法.
+      eu: |
+        Klonatutako transakzioen egoera berdinkatu gabe gisa ezartzen da. Ordezko berreskuratze metodoa fitxategi kudeatzailerik gabeko gailuentzat.
+      bg: |
+        Статусът на клонирани транзакции се връща в несъгласувани. Допълнителен начин на възстановяване за устройства без файлов мениджър.
   -
     - 2.4.7
     - "2015-06-01"
@@ -152,6 +306,8 @@ versions:
         複製コマンドで編集フォームを開きます.
       eu: |
         Klonatu komandoak edizio formularioa irekitzen du.
+      bg: |
+        Командата Клониране отваря бланка за редактиране.
   -
     - 2.4.6
     - "2015-05-16"
@@ -176,6 +332,8 @@ versions:
         取引のステータスを "無効" にセットできます.
       eu: |
         Transakzioak "Indargabetua" egoeran ezarri daitezke.
+      bg: |
+        Транзакцията може да бъде отбелязана като "не отчитай".
   -
     - 2.4.5
     - "2015-05-04"
@@ -200,6 +358,8 @@ versions:
         エクスポートおよびリセット機能が、検索フィルターに一致する取引に適用できるようになりました.
       eu: |
         Esportatu eta leheneratu funtzioak bilaketa iragazkiarekin bat datozen transakzioetan aplikatu daitezke orain.
+      bg: |
+        Функцията Експорт и нулиране сега може да се приложи за транзакции, избрани с филтър.
   -
     - 2.4.4
     - "2015-04-21"
@@ -224,6 +384,8 @@ versions:
         期間の検索フィルター. 方法、支払先、ステータス、および分類のフィルターが、複数選択できるようになりました. バスク翻訳.
       eu: |
         Iraupenerako bilaketa iragazkia. Metodoa, ordaintzailea, egoera eta kategoriaren arabera bilatzeko iragazkiek hainbat aukera onartzen dituzte orain. Euskarara itzulpena!.
+      bg: |
+        Филтър за период от време. Филтрите за начин на плащане, платец, статус и категория сега позволяват едновременен избор. Превод на баскски език.
   -
     - 2.4.3
     - "2015-04-03"
@@ -246,6 +408,8 @@ versions:
         アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます.
       eu: |
         Aplikazioa pasahitzez babestuta badago, irudiak barne biltegiratzean gordeko dira modu seguruan.
+      bg: |
+        Ако приложението е защитено с парола, изображенията се съхраняват във вътрешно защитено хранилище.
   -
     - 2.4.2
     - "2015-03-26"
@@ -268,6 +432,8 @@ versions:
         取引に写真を添付.
       eu: |
         Erantsi irudia transakzioari.
+      bg: |
+        Прикачване на изображение към транзакцията.
   -
     - 2.4.1
     - "2015-02-23"
@@ -292,6 +458,8 @@ versions:
         分類ごとの分布を可視化する円グラフ.
       eu: |
         Tarta diagrama kategoriako distribuzioa bistaratzeko.
+      bg: |
+        Показва графично разпределение по категория.
   -
     - 2.4.0
     - "2014-12-16"
@@ -318,6 +486,8 @@ versions:
         Transformă tranzacţia normală în tranzacţie repartizată.
       eu: |
         Bihurtu transakzio arrunta banatutako transakzioan.
+      bg: |
+        Преобразуване на нормална транзакция в разпределена.
   -
     - 2.3.9
     - "2014-12-04"
@@ -338,6 +508,8 @@ versions:
         Veritabanının geri alınmasında planlamalar yeniden oluşturulur. Yeni tercümeler: Bulgarca, Hırvatça ve Rumence.
       eu: |
         Datu-basea berreskuratzean planak berregingo dira orain. Itzulpen berriak: Bulgariera, Kroaziera eta Erromaniera.
+      bg: |
+        Сега плановете се обновяват при възстановяване на базата данни. Нови преводи: български, хърватски и румънски.
   -
     - 2.3.8
     - "2014-10-31"
@@ -360,6 +532,8 @@ versions:
         Terjemahan bahasa Jepun. Kumpulan transaksi boleh dikuncupkan.
       eu: |
         Japonierara itzulpena. Transakzio taldeak tolestu daitezke.
+      bg: |
+        Превод на японски. Групите транзакции могат да се свиват.
   -
     - 2.3.7
     - "2014-10-25"
@@ -382,6 +556,8 @@ versions:
         Kaedah pembayaran diisih secara berabjad.
       eu: |
         Ordainketa metodoak alfabetikoki ordenatu daitezke.
+      bg: |
+        Начините на плащане се подреждат по азбучен ред.
   -
     - 2.3.6
     - "2014-10-21"
@@ -400,6 +576,8 @@ versions:
         Personalizar agrupamento de contas na lista de contas. Cabeçalhos de grupo agora mostram equilíbrio anterior e ganho/perda líquida.
       eu: |
         Pertsonalizatu kontuen taldekatzea kontuen zerrendan. Talde goiburuek aurreko saldoa eta irabazi edo galera netoa bistaratzen dute.
+      bg: |
+        Персонализирано групиране на сметките в списъка на сметките. Груповото заглавие сега показва предишно салдо и нетна печалба/загуба.
   -
     - 2.3.5
     - "2014-10-15"
@@ -418,6 +596,8 @@ versions:
         Tela de distribuição, exibir a lista de transações por categoria. Melhoria do preenchimento automático Beneficiário/Pagador.
       eu: |
         Distribuzio pantailan transakzioak kategoriako zerrendatu. Hobetutako onuradun/ordaintzaile bitarteko osaketa automatikoa.
+      bg: |
+        От екрана с разпределението може да се покаже списък транзакции по категория. Подобрено автоматично попълване според платец/получател.
   -
     - 2.3.4
     - "2014-09-30"
@@ -440,6 +620,8 @@ versions:
         Nombor digit pecahan boleh suai untuk matawang. Membolehkan akaun diasing dari jumlah.
       eu: |
         Nahieran aldatu dezimal kopurua monetetan. Kontuak guztirakoetatik kanpoan uzteko aukera.
+      bg: |
+        Персонализируем брой на дробните части на числата, отделно за всяка валута. Възможност да се изключват сметки от общите суми.
   -
     - 2.3.3
     - "2014-09-20"
@@ -460,6 +642,8 @@ versions:
         Yeni hesap listesi tasarımı: kullanıcı tanımlı sıralama düzeni. Muamele listesindeki grup toplamları filtreleri dikkate alır.
       eu: |
         Kontu zerrenda berregina: Erabiltzaileak zehaztutako ordena. Transakzio zerrendako taldeko baturek iragazkiak kontuan hartzen dituzte.
+      bg: |
+        Обновен изглед на списъка на сметките: потребителя може да определи подреждането. Отчитане на приложените филтри при изчисляване на групови суми.
   -
     - 2.3.2
     - "2014-09-06"
@@ -480,6 +664,8 @@ versions:
         PDF dosyasına yazdırmak artık Batılı olmayan yazma sistemlerini destekler. Malayca tercüme.
       eu: |
         PDFra inprimatu oran mendebaldekoak ez diren idazkerak onartzen ditu. Malaysierara itzulpena.
+      bg: |
+        Печатането в PDF сега поддържа допълнителни азбуки. Превод на малазийски език.
   -
     - 2.3.1
     - "2014-09-02"
@@ -500,6 +686,8 @@ versions:
         Aynı alacaklı/ödeyici için son muameleden otomatik doldurma. Şablon listesindeki bir unsura kısa dokunma ile şablon örneklemesi. QIF içe aktarım içen yapılandırılabilir kodlama.
       eu: |
         Automatikoki osatu onuradun/ordaintzaile bereko azken transakzioaren informazioa errepikatuz. Txantiloiaren instantzia sortu labur sakatuz txantiloi zerrendako sarrera batean. QIF inportazioan kodeketa konfiguragarria.
+      bg: |
+        Автоматично попълване от последната транзакция за същия получател/платец. Активиране на шаблон с кратко натискане в списъка с шаблони. Конфигуриране на енкодинга при импорт от QIF файл.
   -
     - 2.3.0
     - "2014-08-26"
@@ -520,6 +708,8 @@ versions:
         Muamele listesini PDF dosyasına yazdır (Katkı sürümünü gerektirir).
       eu: |
         Inprimatu transakzioen zerrenda PDF fitxategira (Premium).
+      bg: |
+        Печат на списък транзакции в PDF файл (Премиум функция).
   -
     - 2.2.0
     - "2014-08-09"
@@ -540,6 +730,8 @@ versions:
         Muameleleri kategori, meblağ, yorum, durum, alacaklı/mükellef veya ödeme metoduna dayanarak ara.
       eu: |
         Bilatu transakzioak kategoria, kopurua, iruzkina, egoera, onuradun/ordaintzailea, edo ordainketa metodoaren arabera.
+      bg: |
+        Търсене на транзакции по категория, сума, бележка, статус, платец/получател, начин на плащане.
   -
     - 2.1.6
     - "2014-07-01"
