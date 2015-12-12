@@ -123,6 +123,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
     initialPrefToShow = savedInstanceState == null ?
         getIntent().getStringExtra(KEY_OPEN_PREF_KEY) : null;
+
+    //when a user no longer has access to auto backup we do not want him to believe that it works
+    if (!ContribFeature.AUTO_BACKUP.hasAccess() && ContribFeature.AUTO_BACKUP.usagesLeft() < 1) {
+      PrefKey.AUTO_BACKUP.putBoolean(false);
+    }
   }
 
   private SettingsFragment getFragment() {

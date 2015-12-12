@@ -69,12 +69,13 @@ public class AutoBackupService extends WakefulIntentService {
                         getText(R.string.warning_auto_backup_limit_reached), " ",
                         ContribFeature.AUTO_BACKUP.buildRemoveLimitation(this,true));
                     Intent contribIntent = new Intent(this, ContribInfoDialogActivity.class);
+                    contribIntent.putExtra(ContribInfoDialogActivity.KEY_FEATURE, ContribFeature.AUTO_BACKUP);
                     NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.ic_home_dark)
                             .setContentTitle(notifTitle)
                             .setContentText(content)
-                            .setContentIntent(PendingIntent.getActivity(this, 0, contribIntent, 0))
+                            .setContentIntent(PendingIntent.getActivity(this, 0, contribIntent, PendingIntent.FLAG_CANCEL_CURRENT))
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
                     Notification notification = builder.build();
                     notification.flags = Notification.FLAG_AUTO_CANCEL;
@@ -89,7 +90,7 @@ public class AutoBackupService extends WakefulIntentService {
                         .setSmallIcon(R.drawable.ic_home_dark)
                         .setContentTitle(notifTitle)
                         .setContentText(content)
-                        .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, 0))
+                        .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT))
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
                 Notification notification = builder.build();
                 notification.flags = Notification.FLAG_AUTO_CANCEL;
