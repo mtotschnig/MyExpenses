@@ -417,7 +417,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
         pref = findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey());
         pref.setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
-        //pref.setEnabled(MyApplication.getInstance().isContribEnabled());
+        pref.setEnabled(MyApplication.getInstance().isContribEnabled());
         pref.setSummary(
             getString(R.string.pref_shortcut_summary) + " " +
                 ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
