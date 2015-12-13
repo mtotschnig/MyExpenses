@@ -585,7 +585,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.CREATE_ACCOUNT_COMMAND:
         if (mAccountCount == 0) {
-          Toast.makeText(this, "Account list not yet loaded. Please try again", Toast.LENGTH_LONG).show();
+          Toast.makeText(this, R.string.account_list_not_yet_loaded, Toast.LENGTH_LONG).show();
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
         else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < 5) {
