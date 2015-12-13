@@ -34,47 +34,5 @@
   <string-array name="whats_new_240">
     <item>Zamień normalną transakcję w transakcję z podziałem</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Plany są teraz odzyskiwane, podczas odzyskania bazy danych</item>
-    <item>Nowe tłumaczenia: Bułgarski, Chorwacki, Rumuński</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Tłumaczenie Japońskie</item>
-    <item>Grupy transakcji mogą być zwijane</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Metody płatności są sortowane alfabetycznie</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Własne grupowanie kont na liście kont</item>
-    <item>Nagłówki grup pokazują teraz poprzedni zysk/stratę netto</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Z ekranu dystrybucji wyświetlić można listę transakcji z podziałem na kategorię</item>
-    <item>Udoskonalone auto-uzupełnianie płatnika/beneficjenta</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Możliwość ustawienia liczby miejsc po przecinku dla walut</item>
-    <item>Opcja, by wykluczać konta z podsumowań</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Zmieniona lista kont: sortowanie definiowane przez Użytkownika</item>
-    <item>Sumy grupowe na liście transakcji biorą filtry pod uwagę</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Wydruk do PDF wspiera teraz zapisy inne niż zachodnie</item>
-    <item>Tłumaczenie Malajskie</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Automatyczne uzupełnianie ostatniej transakcji dla tego samego nadawcy/odbiorcy</item>
-    <item>Użycie szablonu poprzez krótkie dotknięcie wpisu na liście szablonów</item>
-    <item>Konfigurowalne kodowanie dla importu z QIF</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Wydrukuj listę transakcji do pliku PDF (opcja Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Możesz wyszukiwać transakcje według kategorii, kwoty, komentarza, statusu, płatnika/odbiorcy płatności, metody płatności</item>
-  </string-array>
   <string name="bug_fixes">Poprawki błędów</string>
 </resources>

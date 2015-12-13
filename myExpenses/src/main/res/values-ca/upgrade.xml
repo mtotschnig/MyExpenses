@@ -1,23 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_233">
-    <item>Redisseny de la llista de comptes: ordre definit d\'usuari</item>
-    <item>Sumes de grup en llista de transacció necessita filtres en compte</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Print to PDF ara pren en càrrega escriptures no occidentals</item>
-    <item>Traducció al Malaisi</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Emplenament automàtic de l\'última transacció per al mateix beneficiari/pagador</item>
-    <item>Plantilla instantània amb un toc curt en l\'entrada a la llista de plantilles</item>
-    <item>Codificació per a la importació QIF</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>imprimir la llista de transacció en fitxer PDF (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Recerca d\'operacions per categoria, quantitat, comentari, estatut, beneficiari/pagador, forma de pagament</item>
-  </string-array>
   <string name="bug_fixes">Correccions</string>
 </resources>

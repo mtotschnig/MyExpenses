@@ -1,46 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_239">
-    <item>Prilikom obnavljanja baze podataka, planovi su ponovno kreirani</item>
-    <item>Novi prijevodi: bugarski, hrvatski i rumunjski</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Japanski prijevod</item>
-    <item>Grupe transakcija se mogu sažeti</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Načini plaćanja sortirani su po abecedi</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Prilagodite grupirane račune u popisu s računima</item>
-    <item>Zaglavlja grupa sada prikazuju prethodni saldo i neto dobit/gubitak</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Sa zaslona za distribuciju, moguć je prikaz transakcija po kategoriji</item>
-    <item>Poboljšano automatsko dopunjavanje za platitelje/primaoce</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Podesiv broj razlomačkih znamenaka za valute</item>
-    <item>Omogućeno isključivanje računa iz totala</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Redizajnirana lista računa: Način sortiranja po korisnikovom kriteriju</item>
-    <item>Zbrojevi grupa u popisu transakcija sada uzimaju filtere u obzir</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Ispis u PDF-u sada podržava nezapadnjačko pismo</item>
-    <item>Malezijski prijevod</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Automatsko dopunjavanje iz zadnje transakcije za istog platitelja/primaoca</item>
-    <item>Prikaz primjera predloška kratkim dodirom na unos u listi predložaka</item>
-    <item>Podesivo kodiranje za QIF unos</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Ispis liste transakcija u PDF datoteci (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Pretražite transakcije po kategoriji, iznosu, komentaru, statusu, platitelju/primaocu, načinu plaćanja</item>
-  </string-array>
   <string name="bug_fixes">Popravci grešaka</string>
 </resources>

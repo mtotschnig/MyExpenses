@@ -50,47 +50,5 @@
   <string-array name="whats_new_240">
     <item>Преобразуване на нормална транзакция в разпределена</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Сега плановете се обновяват при възстановяване на базата данни</item>
-    <item>Нови преводи: български, хърватски и румънски</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Превод на японски</item>
-    <item>Групите транзакции могат да се свиват</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Начините на плащане се подреждат по азбучен ред</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Персонализирано групиране на сметките в списъка на сметките</item>
-    <item>Груповото заглавие сега показва предишно салдо и нетна печалба/загуба</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>От екрана с разпределението може да се покаже списък транзакции по категория</item>
-    <item>Подобрено автоматично попълване според платец/получател</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Персонализируем брой на дробните части на числата, отделно за всяка валута</item>
-    <item>Възможност да се изключват сметки от общите суми</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Обновен изглед на списъка на сметките: потребителя може да определи подреждането</item>
-    <item>Отчитане на приложените филтри при изчисляване на групови суми</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Печатането в PDF сега поддържа допълнителни азбуки</item>
-    <item>Превод на малазийски език</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Автоматично попълване от последната транзакция за същия получател/платец</item>
-    <item>Активиране на шаблон с кратко натискане в списъка с шаблони</item>
-    <item>Конфигуриране на енкодинга при импорт от QIF файл</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Печат на списък транзакции в PDF файл (Премиум функция)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Търсене на транзакции по категория, сума, бележка, статус, платец/получател, начин на плащане</item>
-  </string-array>
   <string name="bug_fixes">Поправени грешки</string>
 </resources>
