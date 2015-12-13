@@ -461,6 +461,12 @@
   <plurals name="warning_delete_transaction">
     <item quantity="other">%1$d の選択された取引が削除されます。</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="other">%d 分類の取引を移動しました。</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="other">%d 分類の取引が移動できませんでした。対象に同じラベルがすでに存在します。</item>
+  </plurals>
   <string name="warning_delete_reconciled">照合済の取引を削除すると、記録が銀行取引明細書と異なることになります。</string>
   <string name="warning_balance_account">銀行取引明細書の期末残高と消去済合計を比較してください。続行すると、消去済取引は照合済としてマークされます。</string>
   <string name="warning_password_protected">アプリはパスワード保護されています。</string>
@@ -493,6 +499,7 @@
   <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
   <string name="widget_title_accounts">マイ勘定</string>
   <string name="widget_title_templates">マイ テンプレート</string>
+  <string name="app_dir_not_accessible">現在、バックアップとエクスポート用に選択されているフォルダ (%1$s) にアクセスできません。別のフォルダを選択してください。</string>
   <string name="search_amount">金額の検索</string>
   <string name="search_category">分類の</string>
   <string name="search_comment">メモの検索</string>
@@ -552,7 +559,7 @@
   <string name="csv_import_field_mapped_more_than_once">%s は複数にマップされます。</string>
   <string name="csv_import_records_failed">%d レコードインポートできませんでした。</string>
   <string name="csv_import_records_discarded">%d レコード破棄されました。</string>
-  <string name="csv_import_subcategory_requires_category">サブカテゴリーをマップする場合は、カテゴリーもマップする必要があります。</string>
+  <string name="csv_import_subcategory_requires_category">副分類をマップする場合は、分類もマップする必要があります。</string>
   <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>
   <string name="csv_import_delimiter_comma">カンマ</string>
   <string name="csv_import_delimiter_semicolon">セミコロン</string>
@@ -571,4 +578,7 @@
   <string name="button_request_calendar_access">アクセスを許可</string>
   <string name="switch_on_text">ON</string>
   <string name="switch_off_text">OFF</string>
+  <string name="menu_move">移動</string>
+  <string name="dialog_title_select_target">対象を選択</string>
+  <string name="transform_subcategory_to_main">主分類に変換</string>
 </resources>

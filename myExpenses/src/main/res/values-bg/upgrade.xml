@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_261">
+    <item>Местене на категориите - под-категории от една в друга главна, преобразуване на под-категория в главна и обратно.</item>
+  </string-array>
   <string-array name="whats_new_260">
     <item>Приложена е технологията Material design</item>
     <item>Подобрен изглед на таблет</item>
