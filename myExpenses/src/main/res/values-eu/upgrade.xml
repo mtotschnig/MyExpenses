@@ -47,48 +47,5 @@
   <string-array name="whats_new_240">
     <item>Bihurtu transakzio arrunta banatutako transakzioan</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Datu-basea berreskuratzean planak berregingo dira orain</item>
-    <item>Itzulpen berriak: Bulgariera, Kroaziera eta Erromaniera</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Japonierara itzulpena</item>
-    <item>Transakzio taldeak tolestu daitezke</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Ordainketa metodoak alfabetikoki ordenatu daitezke</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Pertsonalizatu kontuen taldekatzea kontuen zerrendan
-</item>
-    <item>Talde goiburuek aurreko saldoa eta irabazi edo galera netoa bistaratzen dute</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Distribuzio pantailan transakzioak kategoriako zerrendatu</item>
-    <item>Hobetutako onuradun/ordaintzaile bitarteko osaketa automatikoa</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Nahieran aldatu dezimal kopurua monetetan</item>
-    <item>Kontuak guztirakoetatik kanpoan uzteko aukera</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Kontu zerrenda berregina: Erabiltzaileak zehaztutako ordena</item>
-    <item>Transakzio zerrendako taldeko baturek iragazkiak kontuan hartzen dituzte</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>PDFra inprimatu oran mendebaldekoak ez diren idazkerak onartzen ditu</item>
-    <item>Malaysierara itzulpena</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Automatikoki osatu onuradun/ordaintzaile bereko azken transakzioaren informazioa errepikatuz</item>
-    <item>Txantiloiaren instantzia sortu labur sakatuz txantiloi zerrendako sarrera batean</item>
-    <item>QIF inportazioan kodeketa konfiguragarria</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Inprimatu transakzioen zerrenda PDF fitxategira (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Bilatu transakzioak kategoria, kopurua, iruzkina, egoera, onuradun/ordaintzailea, edo ordainketa metodoaren arabera</item>
-  </string-array>
   <string name="bug_fixes">Konpondutako akatsak</string>
 </resources>

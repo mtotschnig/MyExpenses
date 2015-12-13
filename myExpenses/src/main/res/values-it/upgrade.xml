@@ -50,47 +50,5 @@
   <string-array name="whats_new_240">
     <item>Trasformare normali operazione nella operazione frazionate</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Al ripristino del database, i piani sono ora ricreati</item>
-    <item>Nuove traduzioni: bulgaro, croato e rumeno</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Traduzione giapponese</item>
-    <item>Gruppi di transazione possono essere compressi</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Metodi di pagamento sono ordinati alfabeticamente</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Personalizza il raggruppamento dei conti nell\'elenco dei conti</item>
-    <item>Intestazioni di gruppo ora mostrano il saldo precedente e guadagno/perdita netta</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Dalla schermata di distribuzione, visualizzare l\'elenco delle transazioni per ogni categoria</item>
-    <item>Miglioramento del completamento automatico Beneficiario/Pagatore</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Personalizzabile numero di cifre della frazione per valute</item>
-    <item>Consenti di escludere gli conti da totali</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Riprogettazione dell\'elenco account: ordinamento definito dall\'utente</item>
-    <item>Somme di gruppo nell\'elenco delle transazioni accetta filtri in considerazione</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Stampa in PDF ora supporta gli script non-occidentali</item>
-    <item>Traduzione di Malese</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Autocompilazione da ultima operazione stesso beneficiario/ordinante</item>
-    <item>Modello instantiate a breve colpetto sulla voce nell\'elenco dei modelli</item>
-    <item>Codifica configurabile per l\'importazione QIF</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Stampare un elenco dei operazione in file PDF (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Ricerca di transazioni per categoria, quantità, commento, stato, beneficiario/pagatore, metodo di pagamento</item>
-  </string-array>
   <string name="bug_fixes">Correzione di errori</string>
 </resources>

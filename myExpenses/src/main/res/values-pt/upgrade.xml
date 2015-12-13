@@ -50,47 +50,5 @@
   <string-array name="whats_new_240">
     <item>Transformar a transação normal, a transação de divisão</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Após a restauração do banco de dados, planos agora são recriados</item>
-    <item>Novas traduções: Búlgaro, croata e romeno</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Tradução em Japonês</item>
-    <item>Grupos de transação podem ser recolhidos</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Métodos de pagamento são classificados em ordem alfabética</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Personalizar agrupamento de contas na lista de contas</item>
-    <item>Cabeçalhos de grupo agora mostram equilíbrio anterior e ganho/perda líquida</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Tela de distribuição, exibir a lista de transações por categoria</item>
-    <item>Melhoria do preenchimento automático Beneficiário/Pagador</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Personalizável número de dígitos de fração para moedas</item>
-    <item>Permitir excluir contas de totais</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Redesenho da lista de contas: ordem de classificação definida pelo usuário</item>
-    <item>Somas de grupo na lista de transação leva filtros em consideração</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Imprimir para PDF agora suporta scripts não-ocidentais</item>
-    <item>Tradução de malaio</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Preenchimento automático da última transação para o mesmo beneficiário/pagador</item>
-    <item>Instantiate modelo com torneira curta na entrada na lista de modelo</item>
-    <item>Configurável de codificação para importação QIF</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Exportar lista de transações para PDF (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Busca de transações por categoria, quantidade, comentário, status, beneficiário/pagador, método de pagamento</item>
-  </string-array>
   <string name="bug_fixes">Correções de erros</string>
 </resources>

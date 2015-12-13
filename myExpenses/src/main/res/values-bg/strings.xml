@@ -470,6 +470,14 @@
     <item quantity="one">Избраната транзакция ще бъде изтрита.</item>
     <item quantity="other">Избраните %1$d транзакции ще бъдат изтрити.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">Успешно преместена категория.</item>
+    <item quantity="other">Успешно преместени %d  категории.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Категорията не е преместена, защото в приемната вече съществува такава.</item>
+    <item quantity="other">%d категории не са преместени, защото в приемната вече съществуват такива.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Изтриването на съгласувани транзакции ще предизвика вашите записи да се различават от банковото извлечение.</string>
   <string name="warning_balance_account">Моля, сравнете изчистената крайна сума с крайното салдо в банковото си извлечение. Ако продължите, изчистените плащания ще бъдат маркирани като съгласувани.</string>
   <string name="warning_password_protected">Приложението е защитено с парола.</string>
@@ -501,6 +509,7 @@
   <string name="create_new_folder_fail">Неуспешно създаване на папка</string>
   <string name="widget_title_accounts">Моите сметки</string>
   <string name="widget_title_templates">Моите шаблони</string>
+  <string name="app_dir_not_accessible">Посочената за бекъп и експорт папка (%1$s) не е достъпна. Моля, изберете друга.</string>
   <string name="search_amount">Търсене на сума</string>
   <string name="search_category">Търсене на категория</string>
   <string name="search_comment">Търсене на бележка</string>
@@ -579,4 +588,7 @@
   <string name="button_request_calendar_access">Предоставен достъп</string>
   <string name="switch_on_text">Включено</string>
   <string name="switch_off_text">Изключено</string>
+  <string name="menu_move">Премести</string>
+  <string name="dialog_title_select_target">Избери приемната категория</string>
+  <string name="transform_subcategory_to_main">Преобразувай в главна категория</string>
 </resources>

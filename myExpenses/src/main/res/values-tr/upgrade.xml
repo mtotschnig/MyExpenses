@@ -50,47 +50,5 @@
   <string-array name="whats_new_240">
     <item>Normal muamelelerin bölünmüş muamelelere dönüştürülmesi</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Veritabanının geri alınmasında planlamalar yeniden oluşturulur</item>
-    <item>Yeni tercümeler: Bulgarca, Hırvatça ve Rumence</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Japonca tercüme</item>
-    <item>Muamele grupları küçültülebilir</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Ödeme metotları alfabetik olarak sıralanır</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Hesap listesinde hesap gruplaması özelleştirilebilir</item>
-    <item>Grup başlıkları artık önceki bakiyeyi ve net kazanç/kaybı gösterir</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Dağıtım ekranından kategori başına muamele listesi görüntülenir</item>
-    <item>İyileştirilmiş ödeyici/alacaklı otomatik doldurulması</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Para birimleri için kişiselleştirilebilir kesir basamak sayısı</item>
-    <item>Hesapları toplamlardan dışlamaya izin ver</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Yeni hesap listesi tasarımı: kullanıcı tanımlı sıralama düzeni</item>
-    <item>Muamele listesindeki grup toplamları filtreleri dikkate alır</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>PDF dosyasına yazdırmak artık Batılı olmayan yazma sistemlerini destekler</item>
-    <item>Malayca tercüme</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Aynı alacaklı/ödeyici için son muameleden otomatik doldurma</item>
-    <item>Şablon listesindeki bir unsura kısa dokunma ile şablon örneklemesi</item>
-    <item>QIF içe aktarım içen yapılandırılabilir kodlama</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Muamele listesini PDF dosyasına yazdır (Katkı sürümünü gerektirir)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Muameleleri kategori, meblağ, yorum, durum, alacaklı/mükellef veya ödeme metoduna dayanarak ara</item>
-  </string-array>
   <string name="bug_fixes">Hata düzeltmeleri</string>
 </resources>
