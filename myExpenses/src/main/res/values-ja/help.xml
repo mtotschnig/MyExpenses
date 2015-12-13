@@ -9,7 +9,7 @@
   <string name="help_MyExpenses_title">取引リスト</string>
   <string name="help_MyExpenses_info">この画面には、現在の勘定のすべての取引が一覧表示されます。フローティングアクションボタンを使用すると、新しい取引を作成するフォームを開きます。勘定のリスト (タブレットでは左側のペインに、携帯電話ではハンバーガーのアイコンをクリックすると開くドロワーに) を使用して、勘定間を切り替えます 。各勘定には、オーバーフローメニューがあり、編集または削除することができます。新しい勘定を作成するには、リストの最後にあるボタンを使用してください。</string>
   <string name="help_MyExpenses_crStatus_info">取引のステータスは、色付きの四角で示されます: 灰は未照合、青は消込、緑は照合済です。四角をクリックすると、ステータスを変更します。</string>
-  <string name="menu_reset_help_text">このコマンドは、QIFまたはCSV形式で、SDカード上のファイルに、現在の勘定のすべての取引をエクスポートします。期首残高が自動的に調整される場合は、エクスポートされた取引を、削除するように指定することができます。取引が削除されない場合は、代わりにエクスポート済としてマークされます。設定で指定すれば、FTP、Eメールまたはその他のファイル共有アプリケーションを通じてエクスポートした後に、My Expenses は直ちにファイルを共有することができます。</string>
+  <string name="menu_reset_help_text">このコマンドは、SDカード上のファイルに、現在の勘定のすべての取引をQIFまたはCSV形式でエクスポートします。期首残高を自動的に調整する場合は、エクスポートした取引を削除するように指定することができます。取引を削除しない場合は、代わりにエクスポート済としてマークされます。設定で指定した場合、エクスポートした後に、FTP、Eメールまたはその他のファイル共有アプリケーションを通じて、マイエクスペンスがすぐにファイルを共有することができます。検索フィルターが有効な場合、フィルターでマッピングされた取引のみ対象になります。</string>
   <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および振替の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
   <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
   <string name="menu_manage_plans_help_text">テンプレートと計画のリストを開いて、適用、編集または削除することができます。また、将来の計画や繰り返し取引を定義することができます。</string>
@@ -44,6 +44,7 @@
   <string name="menu_back_help_text">前のグループに移動します。左から右にスワイプのジェスチャーをして移動することもできます。</string>
   <string name="menu_forward_help_text">次のグループに移動します。右から左にスワイプのジェスチャーをして移動することもできます。</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">選択した分類の下の、新しい副分類のタイトルを指定するダイアログを開きます。</string>
+  <string name="cab_ManageCategories_move_help_text">副分類は、異なる主分類に移動させること、または主分類に変換することができます。子を持たない主分類は異なる主分類の副分類に変換することができます。</string>
   <string name="cab_ManageCategories_select_category_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
   <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
   <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>

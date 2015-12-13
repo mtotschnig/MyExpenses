@@ -44,6 +44,7 @@
   <string name="menu_back_help_text">Назад до предишна група. Може да се направи и с жест - плъзгане от ляво на дясно.</string>
   <string name="menu_forward_help_text">Напред до следваща група. Може да се направи и с жест - плъзгане от дясно на ляво.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Отваря диалог за задаване на име на нова подкатегория на избраната главна.</string>
+  <string name="cab_ManageCategories_move_help_text">Под-категориите могат да бъдат преместени в друга главна категория, или да бъдат преобразувани в главни. Главни категории, които нямат под-категория, могат да се преобразуват в под-категория на друга главна.</string>
   <string name="cab_ManageCategories_select_category_help_text">Свързва избраната категория с транзакцията и връщане в бланката на транзакцията.</string>
   <string name="menu_categories_setup_default_help_text">Импорт на комплект предварително подготвени категории.</string>
   <string name="menu_categories_export_help_text">Категориите ще бъдат експортирани във файл тип QIF.</string>
