@@ -96,13 +96,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           return new Result(
               false,
               R.string.restore_backup_archive_not_valid,
-              fileUri.getPath());
+              fileUri);
         }
-      } catch (FileNotFoundException e) {
+      } catch (FileNotFoundException | SecurityException e) {
         return new Result(
             false,
             R.string.restore_backup_archive_not_valid,
-            fileUri.getPath());
+            fileUri);
       }
     } else {
       workingDir = new File(Utils.getAppDir().getUri().getPath(),dirNameLegacy);
