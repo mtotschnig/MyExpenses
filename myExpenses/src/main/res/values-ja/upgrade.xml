@@ -50,47 +50,5 @@
   <string-array name="whats_new_240">
     <item>通常の処理を分割処理に変換します</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>データベースの復元時に、計画が再作成されるようになりました</item>
-    <item>新しい翻訳: ブルガリア語、クロアチア語、ルーマニア語</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>日本語翻訳</item>
-    <item>取引のグループを折りたたむことができます</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>支払方法は、アルファベット順にソート</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>勘定リスト内の勘定のグループ化をカスタマイズ</item>
-    <item>グループヘッダーは、前の残高と純利益/損失を示すようになりました</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>分布画面で、分類ごとの取引のリストを表示</item>
-    <item>支払人/受取人のオートコンプリートの改善</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>通貨の小数点以下の桁数がカスタマイズ可能</item>
-    <item>合計から勘定の除外を許可</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>勘定リストの再設計: ユーザー定義のソート順</item>
-    <item>勘定でフィルターした取引リストのグループ合計</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>PDF に印刷が、非西欧のスクリプトをサポートするようになりました</item>
-    <item>マラヤ翻訳</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>同じ受取人/支払人の最後の取引から自動入力</item>
-    <item>テンプレートリストのエントリを短くタップすると、テンプレートをインスタンス化</item>
-    <item>QIF インポートのエンコーディングを設定可能</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>PDF ファイルに取引リストを印刷 (プレミアム)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>分類、金額、コメント、ステータス、受取人/支払人、支払方法ごとの取引を検索</item>
-  </string-array>
   <string name="bug_fixes">バグ修正</string>
 </resources>

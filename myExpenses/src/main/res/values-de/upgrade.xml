@@ -50,47 +50,5 @@
   <string-array name="whats_new_240">
     <item>Normale Buchungen in Splittbuchungen verwandeln</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Nach Wiederherstellung der Datenbank werden Pläne jetzt neu erstellt</item>
-    <item>Neue Übersetzungen: Bulgarisch, Kroatisch und Rumänisch</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Japanische Übersetzung</item>
-    <item>Buchungsgruppen können ausgeblendet werden</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Zahlungsmethoden werden alphabetisch sortiert</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Gruppierung der Konten in der Kontenliste ist anpassbar</item>
-    <item>Die Titelzeilen der Gruppen zeigen jetzt den vorhergehenden Kontostand und den Netto Gewinn/Verlust</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>In der Verteilungsansicht die Liste der Buchungen pro Kategorie anzeigen</item>
-    <item>Verbesserte Vervollständigung von Zahler/Empfänger</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Anpassbare Anzahl der Nachkommastellen für Währungen</item>
-    <item>Konten können aus der aggregierten Ansicht ausgeschlossen werden</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Neugestaltung der Kontenliste: benutzerdefinierte Sortierreihenfolge</item>
-    <item>In der Buchungsliste berücksichtigen die Gruppensummen jetzt die Filter</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>PDF Druck unterstützt jetzt nicht-westliche Skripts</item>
-    <item>Malaiische Übersetzung</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Automatisches Ausfüllen auf Basis der letzten Buchung für denselben Empfänger/Zahler</item>
-    <item>Vorlage werden durch kurzes Tippen auf den Eintrag in der Vorlagenliste angewendet</item>
-    <item>Konfigurierbare Kodierung für QIF-import</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Buchungsliste als PDF-Datei drucken (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Suche nach Buchungen pro Kategorie, Betrag, Notiz, Status, Empfänger/Zahler, Zahlungsweise</item>
-  </string-array>
   <string name="bug_fixes">Bugs behoben</string>
 </resources>

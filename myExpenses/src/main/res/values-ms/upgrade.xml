@@ -42,47 +42,5 @@
   <string-array name="whats_new_240">
     <item>Ubah transaksi bias menjadi transaksi pisah</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>Ketika pemulihan pangkalan data, pelan kini dicipta semula</item>
-    <item>Terjemahan baharu: Bahasa Bulgaria, Croatia dan Romania</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Terjemahan bahasa Jepun</item>
-    <item>Kumpulan transaksi boleh dikuncupkan</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Kaedah pembayaran diisih secara berabjad</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Suaikan pengumpulan akaun dalam senarai akaun</item>
-    <item>Tajuk kumpulan kini papar baki terdahulu dan untung/rugi bersih</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Dari skrin agihan, papar senarai transaksi per kategori</item>
-    <item>auto-lengkap pembayar/penerima yang ditambahbaik</item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Nombor digit pecahan boleh suai untuk matawang</item>
-    <item>Membolehkan akaun diasing dari jumlah</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Reka semula senarai akaun: Tertib isih ditakrif-pengguna</item>
-    <item>Hasil tambah berkumpulan dalam senarai transaksi membawa penapis ke dalam akaun</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Cetak ke PDF kini menyokong skrip non-Western</item>
-    <item>Terjemahan Bahasa Melayu... yay</item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Autoisi dari transaksi terakhir untuk penerima/pembayar yang sama</item>
-    <item>Templat segera jika ketuk pantas pada masukan dalam senarai templat</item>
-    <item>Pengekodan boleh konfigur untuk import QIF</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Cetak senarai transaksi menjadi fail PDF (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Gelintar transaksi per kategori, amaun, ulasan,, pembayar/penerima, kaedah pembayaran</item>
-  </string-array>
   <string name="bug_fixes">Pembaikan pepijat</string>
 </resources>

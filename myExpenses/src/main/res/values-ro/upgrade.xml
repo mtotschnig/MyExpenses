@@ -42,47 +42,5 @@
   <string-array name="whats_new_240">
     <item>Transformă tranzacţia normală în tranzacţie repartizată</item>
   </string-array>
-  <string-array name="whats_new_239">
-    <item>La restaurarea bazei de date, scadenţele sunt acum recreate</item>
-    <item>Noi traduceri: Bulgară ,croată şi română</item>
-  </string-array>
-  <string-array name="whats_new_238">
-    <item>Traducere Japoneză</item>
-    <item>Grupurile de tranzactii pot restrânse</item>
-  </string-array>
-  <string-array name="whats_new_237">
-    <item>Metodele de plată sunt sortate alfabetic</item>
-  </string-array>
-  <string-array name="whats_new_236">
-    <item>Particularizarea grupării conturilor în lista de conturi</item>
-    <item> Antetele grupelor acum arată soldul precedent şi câştigul/pierderea netă</item>
-  </string-array>
-  <string-array name="whats_new_235">
-    <item>Din ecranul de distribuţie, se afişează lista de tranzacţilori pe categorie</item>
-    <item>Imbunătăţirea autocompletării platitorilor/beneficiarilor </item>
-  </string-array>
-  <string-array name="whats_new_234">
-    <item>Numărul de  zecimale pentru monede este personalizabil</item>
-    <item>Permite  excluderea  conturile din totaluri</item>
-  </string-array>
-  <string-array name="whats_new_233">
-    <item>Redesign al listei de conturi: Ordinea de sortare definită de utilizator</item>
-    <item>Sume grupate în lista de tranzacţii iau în considerare filtrele</item>
-  </string-array>
-  <string-array name="whats_new_232">
-    <item>Print ân  PDF acum acceptă script-uri non-occidentale</item>
-    <item>Traducere Malaya </item>
-  </string-array>
-  <string-array name="whats_new_231">
-    <item>Autocompletare la ultima tranzacţie pentru același terţ</item>
-    <item>Instanţiere  şablon la click scurt pe intrarea din lista şabloanelor</item>
-    <item>Codificare configurabilă  pentru import QIF</item>
-  </string-array>
-  <string-array name="whats_new_230">
-    <item>Print lista tranzacţii  în fişier PDF (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_220">
-    <item>Căutare tranzacţii după categorie, cantitatea, comentariu, statut, platitor/beneficiar, metoda de plata</item>
-  </string-array>
   <string name="bug_fixes">Bug fixat</string>
 </resources>
