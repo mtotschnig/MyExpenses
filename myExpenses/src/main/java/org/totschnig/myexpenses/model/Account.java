@@ -1414,7 +1414,8 @@ public class Account extends Model {
         LineSeparator sep = new LineSeparator();
         document.add(sep);
         table = helper.newTable(4);
-        table.setWidths(new int[] {1,5,3,2});
+        table.setWidths(table.getRunDirection() == PdfWriter.RUN_DIRECTION_RTL ?
+            new int[] {2,3,5,1} : new int[] {1,5,3,2});
         table.setSpacingBefore(2f);
         table.setSpacingAfter(2f);
         table.setWidthPercentage(100f);
