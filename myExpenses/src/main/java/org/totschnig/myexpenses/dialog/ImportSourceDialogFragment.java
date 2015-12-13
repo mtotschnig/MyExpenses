@@ -1,13 +1,12 @@
 package org.totschnig.myexpenses.dialog;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +16,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.util.FileUtils;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
     implements OnClickListener, DialogInterface.OnClickListener, DialogUtils.UriTypePartChecker  {
@@ -91,18 +92,30 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
           .getString(getPrefKey(), "");
       if (!restoredUriString.equals("")) {
         Uri restoredUri = Uri.parse(restoredUriString);
-        String displayName = DialogUtils.getDisplayName(restoredUri);
-        if (displayName != null) {
-          mUri = restoredUri;
-          mFilename.setText(displayName);
+        if (!FileUtils.isDocumentUri(getActivity(),restoredUri)) {
+          String displayName = DialogUtils.getDisplayName(restoredUri);
+          if (displayName != null) {
+            mUri = restoredUri;
+            mFilename.setText(displayName);
+          }
         }
       }
     }
     setButtonState();
   }
+
+  //we cannot persist document Uris because we use ACTION_GET_CONTENT instead of ACTION_OPEN_DOCUMENT
+  protected void maybePersistUri() {
+    if (!FileUtils.isDocumentUri(getActivity(),mUri)) {
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit()
+              .putString(getPrefKey(), mUri.toString()));
+    }
+  }
+
   @Override
   public void onClick(View v) {
-   DialogUtils.openBrowse(mUri,this);
+   DialogUtils.openBrowse(mUri, this);
   }
   protected boolean isReady() {
     return mUri != null;

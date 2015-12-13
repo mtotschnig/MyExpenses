@@ -52,9 +52,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
       return;
     }
     if (id == AlertDialog.BUTTON_POSITIVE) {
-      SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
-        .putString(getPrefKey(), mUri.toString()));
+      maybePersistUri();
       ((BackupRestoreActivity) getActivity()).onSourceSelected(
           mUri,
           mRestorePlanStrategie.getCheckedRadioButtonId());

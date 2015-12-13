@@ -61,6 +61,7 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
               getString(
                   R.string.dialog_contrib_text_2,
                   "<i>" + ContribFeature.buildKeyFullName(getActivity(),isContrib) + "</i>")),
+          " ",
           getString(R.string.dialog_contrib_reminder_gain_access),
           linefeed,
           Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null,

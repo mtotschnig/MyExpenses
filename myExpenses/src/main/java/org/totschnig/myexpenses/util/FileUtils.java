@@ -261,10 +261,8 @@ public class FileUtils {
               ", Segments: " + uri.getPathSegments().toString()
       );
 
-    final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
     // DocumentProvider
-    if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+    if (isDocumentUri(context, uri)) {
       // ExternalStorageProvider
       if (isExternalStorageDocument(uri)) {
         final String docId = DocumentsContract.getDocumentId(uri);
@@ -329,6 +327,12 @@ public class FileUtils {
     }
 
     return null;
+  }
+
+  @TargetApi(Build.VERSION_CODES.KITKAT)
+  public static boolean isDocumentUri(Context context, Uri uri) {
+    final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    return isKitKat && DocumentsContract.isDocumentUri(context, uri);
   }
 
   /**

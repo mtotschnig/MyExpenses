@@ -159,16 +159,16 @@ public class DialogUtils {
           }
         }
       }
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mUri != null) {
+/*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mUri != null) {
         final int takeFlags = data.getFlags()
             & Intent.FLAG_GRANT_READ_URI_PERMISSION;
         try {
           //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
-          context.getContentResolver().takePersistableUriPermission(mUri, takeFlags);
+            context.getContentResolver().takePersistableUriPermission(mUri, takeFlags);
         } catch (SecurityException e) {
           //Utils.reportToAcra(e);
         }
-      }
+      }*/
     }
     return mUri;
   }
