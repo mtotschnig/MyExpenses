@@ -39,9 +39,7 @@ DialogInterface.OnClickListener {
       return;
     }
     if (id == AlertDialog.BUTTON_POSITIVE) {
-      SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
-        .putString(getPrefKey(), mUri.toString()));
+      maybePersistUri();
       ((GrisbiImport) getActivity()).onSourceSelected(
           mUri,
           mImportCategories.isChecked(),

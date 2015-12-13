@@ -92,9 +92,9 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
       String encoding = (String) mEncodingSpinner.getSelectedItem();
+      maybePersistUri();
       SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
-          .putString(getPrefKey(), mUri.toString())
           .putString(PREFKEY_IMPORT_ENCODING, encoding)
           .putString(PREFKEY_IMPORT_DATE_FORMAT, format.name()));
       ((QifCSVImport) getActivity()).onSourceSelected(
