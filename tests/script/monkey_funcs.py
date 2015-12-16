@@ -2,6 +2,8 @@ from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 
 device = MonkeyRunner.waitForConnection()
 BACKDOOR_KEY = 'KEYCODE_CAMERA'
+#for arab screenshots set to true
+RTL = False
 global targetdir
 
 def init(_targetdir):
@@ -31,6 +33,12 @@ def back():
 def down():
   device.press('KEYCODE_DPAD_DOWN')
 
+def end():
+  if RTL:
+    left()
+  else:
+  	end()
+
 def right():
   device.press('KEYCODE_DPAD_RIGHT')
 
@@ -53,6 +61,12 @@ def enter():
 
 def up():
   device.press('KEYCODE_DPAD_UP')
+
+def toTopStart(force=5):
+  if RTL:
+    toTopRight(force)
+  else:
+  	toTopLeft(force)
 
 def toTopLeft(force=5):
   for _ in range(force*2):
