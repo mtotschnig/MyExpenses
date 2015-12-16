@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/activatedBackgroundIndicator"
+    android:paddingRight="@dimen/general_padding"
+    android:paddingEnd="@dimen/general_padding"
     android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
     android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft">
 
