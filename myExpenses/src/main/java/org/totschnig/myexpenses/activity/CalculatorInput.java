@@ -37,6 +37,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
             R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
             R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
             R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete};
+    public static final int SCALE_DIVISION = 20;
 
     private TextView tvResult;
     private TextView tvOp;
@@ -227,7 +228,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
                 if (d2.intValue() == 0) {
                     stack.push("0.0");
                 } else {
-                    stack.push(new BigDecimal(valOne).divide(d2, 2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    stack.push(new BigDecimal(valOne).divide(d2, SCALE_DIVISION, BigDecimal.ROUND_HALF_UP).toPlainString());
                 }
                 break;
             default:
