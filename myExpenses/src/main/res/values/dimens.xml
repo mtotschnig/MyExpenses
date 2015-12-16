@@ -33,4 +33,6 @@
     <dimen name="textSizeSubheadS2">20sp</dimen>
     <dimen name="textSizeSubheadS3">22sp</dimen>
 
+    <dimen name="selected_indicator_translation_x">23dp</dimen>
+    <item name="selected_indicator_translation_rotation" type="integer">270</item>
 </resources>
