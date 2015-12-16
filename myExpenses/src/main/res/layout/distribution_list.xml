@@ -14,50 +14,63 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-  <include layout="@layout/distribution_list_inner" />
-  <TextView android:id="@+id/empty"
-      android:gravity="center"
-      android:layout_width="fill_parent"
-      android:layout_height="0px"
-      android:layout_weight="1"
-      android:text="@string/no_mapped_transactions"/>
-  <View
-     android:layout_width="fill_parent"
-     android:layout_height="1dp"
-     android:background="#ffffff"/>
-  <LinearLayout
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:paddingLeft="@dimen/general_padding"
-      android:paddingRight="@dimen/general_padding"
-      android:id="@+id/sum_line"
-      android:orientation="horizontal">
-    <TextView style="@style/titleTextStyleMedium"
-        android:id="@+id/sum_sign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="∑ : "/>
-    <TextView style="@style/titleTextStyleMedium"
-        android:id="@+id/sum_income"
-        android:layout_width="1dp"
+    android:orientation="vertical">
+
+    <include layout="@layout/distribution_list_inner"/>
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
         android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/no_mapped_transactions"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
+
+    <LinearLayout
+        android:id="@+id/sum_line"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="SUM_INCOME"/>
-    <TextView style="@style/titleTextStyleMedium"
-        android:id="@+id/sum_expense"
-        android:layout_width="1dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="SUM_EXPENSE"/>
-  </LinearLayout>
-<View
-    android:id="@+id/BottomLine"
-    android:layout_width="fill_parent"
-    android:layout_height="4dp"/>
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingRight="@dimen/general_padding">
+
+        <TextView
+            android:id="@+id/sum_sign"
+            style="@style/titleTextStyleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="∑ : "/>
+
+        <TextView
+            android:id="@+id/sum_income"
+            style="@style/titleTextStyleMedium"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="SUM_INCOME"/>
+
+        <TextView
+            android:id="@+id/sum_expense"
+            style="@style/titleTextStyleMedium"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="SUM_EXPENSE"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/BottomLine"
+        android:layout_width="fill_parent"
+        android:layout_height="4dp"/>
 </LinearLayout>
