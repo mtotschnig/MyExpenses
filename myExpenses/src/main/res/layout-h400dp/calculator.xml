@@ -25,7 +25,6 @@
             android:paddingRight="8dp"
             android:paddingTop="12dp"
             android:singleLine="true"
-            android:text="0"
             android:textColor="#000000"
             android:textSize="36dp"/>
 
@@ -52,7 +51,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="7"
+            android:tag="7"
             android:textSize="24sp"/>
 
         <Button
@@ -62,7 +61,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="8"
+            android:tag="8"
             android:textSize="24sp"/>
 
         <Button
@@ -72,7 +71,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="9"
+            android:tag="9"
             android:textSize="24sp"/>
 
         <Button
@@ -110,7 +109,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="4"
+            android:tag="4"
             android:textSize="24sp"/>
 
         <Button
@@ -120,7 +119,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="5"
+            android:tag="5"
             android:textSize="24sp"/>
 
         <Button
@@ -130,7 +129,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="6"
+            android:tag="6"
             android:textSize="24sp"/>
 
         <Button
@@ -166,7 +165,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="1"
+            android:tag="1"
             android:textSize="24sp"/>
 
         <Button
@@ -176,7 +175,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="2"
+            android:tag="2"
             android:textSize="24sp"/>
 
         <Button
@@ -186,7 +185,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="3"
+            android:tag="3"
             android:textSize="24sp"/>
 
         <Button
@@ -222,7 +221,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="0"
+            android:tag="0"
             android:textSize="24sp"/>
 
         <Button
@@ -242,7 +241,7 @@
             android:layout_margin="3dp"
             android:minHeight="@dimen/calculator_button_large"
             android:minWidth="@dimen/calculator_button_large"
-            android:text="."
+            android:tag="."
             android:textSize="24sp"/>
 
         <Button
