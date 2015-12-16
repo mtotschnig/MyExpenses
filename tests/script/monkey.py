@@ -22,14 +22,14 @@ init(targetdir)
 def main():
 
   #1 ManageAccounts
-  toTopLeft()
+  toTopStart()
   enter()
   sleep()
   down()
   down()
   down()
   sleep()
-  toTopLeft(8)
+  toTopStart(8)
   snapshot("manage_accounts")
 
   #3 GrooupedList
@@ -41,9 +41,9 @@ def main():
   runComponent = package + '/' + activity
   device.startActivity(component=runComponent)
   sleep()
-  toTopLeft()
+  toTopStart()
   down()
-  right()
+  end()
   enter() #plans tab
   sleep(3)
   down()
@@ -77,11 +77,11 @@ def main():
   #7 Split
   back()
   back()
-  toTopLeft(10)
+  toTopStart(10)
   down()#split is first, currently no transaction created from plan
   enter()
   sleep(2)
-  right()
+  end()
   enter()
   #give time for loading
   sleep(2)
@@ -90,25 +90,25 @@ def main():
   
   #8 Attach picture
   back()
-  toTopLeft()
+  toTopStart()
   down()
   down() #currently second in list
   enter()
   sleep(2)
-  right()
+  end()
   enter()
   #give time for loading
   sleep(2)
   back()#close virtual keyboard
   #navigate to imageView
-  toTopLeft()
+  toTopStart()
   down()
   down()
   down()
   down()
   down()
   down()
-  right()
+  end()
   enter()
   snapshot("attach_picture")
   
@@ -116,8 +116,8 @@ def main():
   back()
   back()
   menu(0)
-  toTopLeft()
-  right()
+  toTopStart()
+  end()
   enter()
   down()
   down()

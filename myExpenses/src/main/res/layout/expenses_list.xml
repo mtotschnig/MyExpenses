@@ -22,8 +22,6 @@
       android:id="@+id/list"
       android:scrollbars="vertical"
       android:scrollbarStyle="outsideOverlay"
-      android:paddingRight="10dp"
-      android:paddingLeft="10dp"
       android:paddingBottom="75dp"
       android:clipToPadding="false"
       android:fastScrollEnabled="true"

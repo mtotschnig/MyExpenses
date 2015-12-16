@@ -856,6 +856,10 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void createRow() {
     Account account = getCurrentAccount();
+    if (account == null) {
+      Toast.makeText(this, R.string.account_list_not_yet_loaded, Toast.LENGTH_LONG).show();
+      return;
+    }
     Intent i = new Intent(this, ExpenseEdit.class);
     forwardDataEntryFromWidget(i);
     i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);

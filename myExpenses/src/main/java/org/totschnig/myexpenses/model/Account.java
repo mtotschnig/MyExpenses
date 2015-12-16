@@ -72,6 +72,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Account extends Model {
 
+  public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
 
@@ -699,7 +700,7 @@ public class Account extends Model {
    */
   public void reset(WhereFilter filter, int handleDelete, String helperComment) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ContentProviderOperation handleDeleteOperation;
+    ContentProviderOperation handleDeleteOperation = null;
     if (handleDelete==EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
       long currentBalance = getFilteredBalance(filter).getAmountMinor();
       openingBalance.setAmountMinor(currentBalance);
@@ -707,7 +708,7 @@ public class Account extends Model {
           CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValue(KEY_OPENING_BALANCE, currentBalance)
           .build();
-    } else {
+    } else if (handleDelete==EXPORT_HANDLE_DELETED_CREATE_HELPER) {
       Transaction helper = new Transaction(this,getTransactionSum(filter));
       helper.comment = helperComment;
       helper.status = STATUS_HELPER;
@@ -727,7 +728,7 @@ public class Account extends Model {
             selectionArgs)
         .build());
     //needs to be last, otherwise helper transaction would be deleted
-    ops.add(handleDeleteOperation);
+    if (handleDeleteOperation != null) ops.add(handleDeleteOperation);
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
@@ -1414,7 +1415,8 @@ public class Account extends Model {
         LineSeparator sep = new LineSeparator();
         document.add(sep);
         table = helper.newTable(4);
-        table.setWidths(new int[] {1,5,3,2});
+        table.setWidths(table.getRunDirection() == PdfWriter.RUN_DIRECTION_RTL ?
+            new int[] {2,3,5,1} : new int[] {1,5,3,2});
         table.setSpacingBefore(2f);
         table.setSpacingAfter(2f);
         table.setWidthPercentage(100f);
