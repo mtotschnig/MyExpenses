@@ -107,7 +107,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
  */
 public class Utils {
 
-  public static final boolean IS_FLAVOURED = !BuildConfig.FLAVOR.equals("");
+  public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
   private static NumberFormat numberFormat;
 
   private static void initNumberFormat() {

@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.support.v7.app.AlertDialog;
@@ -40,6 +42,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -159,7 +164,17 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           resolveArray(activityName + "_formfields");
       ArrayList<String> menuItems = new ArrayList<String>();
       if (resId != 0) {
-        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+        menuItems.addAll(Collections2.filter(
+            Arrays.asList(res.getStringArray(resId)),
+            new Predicate<String>() {
+              @Override
+              public boolean apply(String input) {
+                //on Blackberry we hide the plan entry on ExpenseEdit
+                return BuildConfig.PLATTFORM.equals("Android") ||
+                    !activityName.equals(ExpenseEdit.class.getSimpleName()) ||
+                    !input.equals("plan");
+              }
+            }));
       }
       if (menuItems.size() == 0) {
         view.findViewById(R.id.form_fields_heading).setVisibility(View.GONE);
