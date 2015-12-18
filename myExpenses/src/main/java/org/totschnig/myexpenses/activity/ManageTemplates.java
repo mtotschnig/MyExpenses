@@ -82,7 +82,7 @@ public class ManageTemplates extends TabbedActivity implements
     super.onCreate(savedInstanceState);
 
     final ActionBar actionBar = getSupportActionBar();
-    actionBar.setTitle(getString(BuildConfig.PLATTFORM.equals("Android") ?
+    actionBar.setTitle(getString(Utils.IS_ANDROID ?
         R.string.menu_manage_plans : R.string.menu_manage_plans_tab_templates));
 
     mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -110,7 +110,7 @@ public class ManageTemplates extends TabbedActivity implements
   @Override
   protected void setupTabs(Bundle savedInstanceState) {
     mSectionsPagerAdapter.addFragment(new TemplatesList(), getString(R.string.menu_manage_plans_tab_templates));
-    if (BuildConfig.PLATTFORM.equals("Android"))
+    if (Utils.IS_ANDROID)
       mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
   }
 

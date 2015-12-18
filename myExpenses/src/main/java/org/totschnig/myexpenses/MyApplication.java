@@ -562,8 +562,10 @@ public class MyApplication extends Application implements
    * plans 3) reschedule execution through alarm
    */
   public void initPlanner() {
-    Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
-    PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+    if (Utils.IS_ANDROID) {
+      Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
+      PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+    }
   }
 
   public static String[] buildEventProjection() {

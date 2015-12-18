@@ -170,7 +170,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
               @Override
               public boolean apply(String input) {
                 //on Blackberry we hide the plan entry on ExpenseEdit
-                return BuildConfig.PLATTFORM.equals("Android") ||
+                return Utils.IS_ANDROID ||
                     !activityName.equals(ExpenseEdit.class.getSimpleName()) ||
                     !input.equals("plan");
               }

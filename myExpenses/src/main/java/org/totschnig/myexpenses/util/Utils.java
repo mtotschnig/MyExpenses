@@ -108,6 +108,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 public class Utils {
 
   public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
+  public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
   private static NumberFormat numberFormat;
 
   private static void initNumberFormat() {
