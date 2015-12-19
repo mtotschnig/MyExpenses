@@ -92,6 +92,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -1268,5 +1269,9 @@ public class Utils {
   @SuppressLint("NewApi")
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
+  }
+
+  public static int getFirstDayOfWeek(Locale locale) {
+    return new GregorianCalendar(locale).getFirstDayOfWeek();
   }
 }

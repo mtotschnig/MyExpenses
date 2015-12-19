@@ -84,8 +84,12 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Present references screen defined in Layout file
@@ -449,6 +453,24 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         String summary = getString(R.string.pref_auto_backup_summary) + " " +
             ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
         pref.setSummary(summary);
+      }
+      //GROUP start screen
+      else if (rootKey.equals(getString(R.string.pref_grouping_start))) {
+        ListPreference startPref =
+            (ListPreference) findPreference(getString(R.string.pref_group_week_starts_key));
+        final Locale locale = Locale.getDefault();
+        DateFormatSymbols dfs = new DateFormatSymbols(locale);
+        startPref.setEntries(Arrays.copyOfRange(dfs.getWeekdays(),1,7));
+        startPref.setEntryValues(new String[]{
+            String.valueOf(Calendar.SUNDAY),
+            String.valueOf(Calendar.MONDAY),
+            String.valueOf(Calendar.TUESDAY),
+            String.valueOf(Calendar.WEDNESDAY),
+            String.valueOf(Calendar.THURSDAY),
+            String.valueOf(Calendar.FRIDAY),
+            String.valueOf(Calendar.SATURDAY),
+        });
+        startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
       }
     }
 
