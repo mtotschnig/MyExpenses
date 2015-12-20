@@ -610,5 +610,6 @@
     <string name="dialog_title_select_target">Select target</string>
     <string name="transform_subcategory_to_main">Transform to main category</string>
     <string name="pref_group_week_starts_title">Week starts on</string>
+    <string name="pref_group_month_starts_title">Month starts on</string>
 </resources>
 

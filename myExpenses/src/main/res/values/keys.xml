@@ -66,6 +66,7 @@
     <string name="pref_ui_home_screen_shortcuts_key">ui_home_screen_shortcuts</string>
     <string name="pref_grouping_start">grouping_start</string>
     <string name="pref_group_week_starts_key">group_week_start</string>
+    <string name="pref_group_month_starts_key">group_month_start</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,

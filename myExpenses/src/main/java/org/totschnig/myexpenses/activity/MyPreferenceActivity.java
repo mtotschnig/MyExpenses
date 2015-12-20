@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -460,7 +459,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             (ListPreference) findPreference(getString(R.string.pref_group_week_starts_key));
         final Locale locale = Locale.getDefault();
         DateFormatSymbols dfs = new DateFormatSymbols(locale);
-        startPref.setEntries(Arrays.copyOfRange(dfs.getWeekdays(),1,7));
+        startPref.setEntries(Arrays.copyOfRange(dfs.getWeekdays(), 1, 7));
         startPref.setEntryValues(new String[]{
             String.valueOf(Calendar.SUNDAY),
             String.valueOf(Calendar.MONDAY),
@@ -470,7 +469,19 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             String.valueOf(Calendar.FRIDAY),
             String.valueOf(Calendar.SATURDAY),
         });
-        startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
+        if (!PrefKey.GROUP_WEEK_STARTS.isSet()) {
+          startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
+        }
+
+        startPref =
+            (ListPreference) findPreference(getString(R.string.pref_group_month_starts_key));
+        String[] daysEntries = new String[31], daysValues = new String[31];
+        for (int i = 1; i <= 31; i++) {
+          daysEntries[i-1] = String.format("%d.",i);
+          daysValues[i-1] = String.valueOf(i);
+        }
+        startPref.setEntries(daysEntries);
+        startPref.setEntryValues(daysValues);
       }
     }
 

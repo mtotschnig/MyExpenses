@@ -95,6 +95,7 @@ public class Transaction extends Model {
         MONTH + " AS " + KEY_MONTH,
         WEEK + " AS " + KEY_WEEK,
         DAY + " AS " + KEY_DAY,
+        DAY_OF_MONTH + " AS " + KEY_DAY_OF_MONTH,
         THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
         THIS_YEAR + " AS " + KEY_THIS_YEAR,
         THIS_WEEK + " AS " + KEY_THIS_WEEK,

@@ -51,7 +51,7 @@ public class DatabaseConstants {
   public static void buildLocalized(Locale locale) {
     weekStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_WEEK_STARTS.getString("-1"));
     if (weekStartsOn == -1)
-      weekStartsOn = Utils.getFirstDayOfWeek(locale) //JAVA starts with Sunday = 1
+      weekStartsOn = Utils.getFirstDayOfWeek(locale); //JAVA starts with Sunday = 1
     int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0
     if(weekStartsOn==Calendar.SUNDAY) {
       //weekStartsOn Sunday
@@ -75,6 +75,7 @@ public class DatabaseConstants {
   public static final String THIS_DAY   = "CAST(strftime('%j','now','localtime') AS integer)";
   public static final String MONTH = "CAST(strftime('%m',date,'unixepoch','localtime') AS integer)";
   public static final String DAY   = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
+  public static final String DAY_OF_MONTH   = "CAST(strftime('%d',date,'unixepoch','localtime') AS integer)";
   public static final String THIS_YEAR  = "CAST(strftime('%Y','now','localtime') AS integer)";
   public static final String THIS_MONTH = "CAST(strftime('%m','now','localtime') AS integer)";
   public static final String KEY_DATE = "date";
@@ -115,6 +116,7 @@ public class DatabaseConstants {
   public static final String KEY_WEEK_START = "week_start";
   public static final String KEY_WEEK_END = "week_end";
   public static final String KEY_DAY = "day";
+  public static final String KEY_DAY_OF_MONTH = "day_of_month";
   public static final String KEY_WEEK = "week";
   public static final String KEY_MONTH = "month";
   public static final String KEY_YEAR = "year";

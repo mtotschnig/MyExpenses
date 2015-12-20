@@ -112,6 +112,10 @@
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
                 android:key="@string/pref_group_week_starts_key"
                 android:title="@string/pref_group_week_starts_title"/>
+            <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+                android:defaultValue="1"
+                android:key="@string/pref_group_month_starts_key"
+                android:title="@string/pref_group_month_starts_title"/>
         </PreferenceScreen>
     </PreferenceCategory>
 
