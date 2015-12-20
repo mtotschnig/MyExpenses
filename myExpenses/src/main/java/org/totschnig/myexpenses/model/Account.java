@@ -243,7 +243,6 @@ public class Account extends Model {
      * @return a human readable String representing the group as header or activity title
      */
     public String getDisplayTitle(Context ctx, int groupYear, int groupSecond, Cursor c) {
-      int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
       int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
       int this_day = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
       int this_year = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
@@ -264,6 +263,7 @@ public class Account extends Model {
         }
         return title;
       case WEEK:
+        int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
         String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_START)),dateformat)
             + " - " + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_END)),dateformat)  + " )";
@@ -280,16 +280,8 @@ public class Account extends Model {
       case MONTH:
         int monthStarts = Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
         cal = Calendar.getInstance();
-        int displayYear= groupYear, displayMonth = groupSecond -1; //Java month is 0 based
-        if (monthStarts > 16) {
-          displayMonth++; //next month
-          if (displayMonth > Calendar.DECEMBER) {
-            displayMonth = Calendar.JANUARY;
-            displayYear++;
-          }
-        }
         if (monthStarts == 1) {
-          cal.set(displayYear, displayMonth, 1);
+          cal.set(groupYear, groupSecond -1, 1);
           return new SimpleDateFormat("MMMM y").format(cal.getTime());
         } else {
           dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);

@@ -245,7 +245,17 @@ public class TransactionProvider extends ContentProvider {
       } catch (IllegalArgumentException e) {
         group = Grouping.NONE;
       }
-      String yearExpression = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR);
+      String yearExpression;
+      switch (group) {
+        case WEEK:
+          yearExpression = YEAR_OF_WEEK_START;
+          break;
+        case MONTH:
+          yearExpression = YEAR_OF_MONTH_START;
+          break;
+        default:
+          yearExpression = YEAR;
+      }
 //      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
 //      if (group.equals(Grouping.NONE)) {
 //        qb.setTables(VIEW_COMMITTED);

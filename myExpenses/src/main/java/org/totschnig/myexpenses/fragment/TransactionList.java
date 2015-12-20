@@ -125,11 +125,11 @@ public class TransactionList extends ContextualActionBarFragment implements
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear,                 columnIndexYearOfWeekStart, columnIndexMonth,
-              columnIndexWeek,                 columnIndexDay,             columnIndexLabelSub,
-              columnIndexPayee,                columnIndexCrStatus,        columnIndexGroupYear,
-              columnIndexGroupMappedCategories,columnIndexGroupSumInterim, columnIndexGroupSumIncome,
-              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer,columnIndexDayOfMonth,
+  private int columnIndexYear,                 columnIndexYearOfWeekStart,  columnIndexMonth,
+              columnIndexWeek,                 columnIndexDay,              columnIndexLabelSub,
+              columnIndexPayee,                columnIndexCrStatus,         columnIndexGroupYear,
+              columnIndexGroupMappedCategories,columnIndexGroupSumInterim,  columnIndexGroupSumIncome,
+              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer, columnIndexYearOfMonthStart,
               columnIndexLabelMain,            columnIndexGroupSecond;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
@@ -432,10 +432,10 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (!indexesCalculated) {
         columnIndexYear = c.getColumnIndex(KEY_YEAR);
         columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
+        columnIndexYearOfMonthStart = c.getColumnIndex(KEY_YEAR_OF_MONTH_START);
         columnIndexMonth = c.getColumnIndex(KEY_MONTH);
         columnIndexWeek = c.getColumnIndex(KEY_WEEK);
         columnIndexDay  = c.getColumnIndex(KEY_DAY);
-        columnIndexDayOfMonth  = c.getColumnIndex(KEY_DAY_OF_MONTH);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
@@ -553,7 +553,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int year = c.getInt(getColumnIndexForYear());
       int second=-1;
 
       if (mGroupingCursor != null && mGroupingCursor.moveToFirst()) {
@@ -577,15 +577,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                   break traverseCursor;
                 }
               case MONTH:
-                int dayOfMonth = c.getInt(columnIndexDayOfMonth);
                 second = c.getInt(columnIndexMonth);
-                if (dayOfMonth < Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"))) {
-                  second--;
-                  if (second == 0) {
-                    second = 12;
-                    year--;
-                  }
-                }
                 if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
                   break;
                 else {
@@ -643,24 +635,16 @@ public class TransactionList extends ContextualActionBarFragment implements
         return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int year = c.getInt(getColumnIndexForYear());
       int month = c.getInt(columnIndexMonth);
       int week = c.getInt(columnIndexWeek);
       int day = c.getInt(columnIndexDay);
-      int dayOfMonth = c.getInt(columnIndexDayOfMonth);
       switch(mAccount.grouping) {
       case DAY:
         return year*1000+day;
       case WEEK:
         return year*1000+week;
       case MONTH:
-        if (dayOfMonth < monthStart) {
-          month--;
-          if (month == 0) {
-            month = 12;
-            year--;
-          }
-        }
         return year*1000+month;
       case YEAR:
         return year*1000;
@@ -668,7 +652,19 @@ public class TransactionList extends ContextualActionBarFragment implements
         return 0;
       }
     }
+
+    private int getColumnIndexForYear() {
+      switch(mAccount.grouping) {
+        case WEEK:
+          return columnIndexYearOfWeekStart;
+        case MONTH:
+          return columnIndexYearOfMonthStart;
+        default:
+          return columnIndexYear;
+      }
+    }
   }
+
   class HeaderViewHolder {
     TextView interimBalance;
     TextView text;

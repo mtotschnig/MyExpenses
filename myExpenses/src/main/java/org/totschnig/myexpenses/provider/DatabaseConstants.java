@@ -30,9 +30,10 @@ import org.totschnig.myexpenses.util.Utils;
  *
  */
 public class DatabaseConstants {
-  public static int weekStartsOn;
-  public static String YEAR_OF_WEEK_START;
-  public static String WEEK;
+  public static int weekStartsOn, monthStartsOn;
+  public static String YEAR_OF_WEEK_START, YEAR_OF_MONTH_START;
+  //public static String YEAR_OF_MONTH_START;
+  public static String WEEK, MONTH;
   public static String THIS_YEAR_OF_WEEK_START;
   public static String THIS_WEEK;
   public static String WEEK_START;
@@ -52,6 +53,8 @@ public class DatabaseConstants {
     weekStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_WEEK_STARTS.getString("-1"));
     if (weekStartsOn == -1)
       weekStartsOn = Utils.getFirstDayOfWeek(locale); //JAVA starts with Sunday = 1
+    monthStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
+    int monthDelta = monthStartsOn - 1;
     int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0
     if(weekStartsOn==Calendar.SUNDAY) {
       //weekStartsOn Sunday
@@ -61,10 +64,12 @@ public class DatabaseConstants {
       nextWeekEndSqlite = weekStartsOn -2;
     }
     YEAR_OF_WEEK_START  = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    YEAR_OF_MONTH_START = "CAST(strftime('%Y',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer)";
     WEEK_START = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEndSqlite + "', '-6 day')";
     THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
     WEEK_END = "strftime('%s',date,'unixepoch','localtime', 'weekday " + nextWeekEndSqlite + "')";
     WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; //calculated for the beginning of the week
+    MONTH = "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer)";
     THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; 
     COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1', 'weekday " + nextWeekStartsSqlite + "', '" +
         "-7 day" + 
@@ -73,9 +78,7 @@ public class DatabaseConstants {
   //if we do not cast the result to integer, we would need to do the conversion in Java
   public static final String YEAR  = "CAST(strftime('%Y',date,'unixepoch','localtime') AS integer)";
   public static final String THIS_DAY   = "CAST(strftime('%j','now','localtime') AS integer)";
-  public static final String MONTH = "CAST(strftime('%m',date,'unixepoch','localtime') AS integer)";
   public static final String DAY   = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
-  public static final String DAY_OF_MONTH   = "CAST(strftime('%d',date,'unixepoch','localtime') AS integer)";
   public static final String THIS_YEAR  = "CAST(strftime('%Y','now','localtime') AS integer)";
   public static final String THIS_MONTH = "CAST(strftime('%m','now','localtime') AS integer)";
   public static final String KEY_DATE = "date";
@@ -116,11 +119,11 @@ public class DatabaseConstants {
   public static final String KEY_WEEK_START = "week_start";
   public static final String KEY_WEEK_END = "week_end";
   public static final String KEY_DAY = "day";
-  public static final String KEY_DAY_OF_MONTH = "day_of_month";
   public static final String KEY_WEEK = "week";
   public static final String KEY_MONTH = "month";
   public static final String KEY_YEAR = "year";
   public static final String KEY_YEAR_OF_WEEK_START = "year_of_week_start";
+  public static final String KEY_YEAR_OF_MONTH_START = "year_of_month_start";
   public static final String KEY_THIS_DAY = "this_day";
   public static final String KEY_THIS_WEEK = "this_week";
   public static final String KEY_THIS_MONTH = "this_month";
