@@ -220,9 +220,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
-        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
-        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+    if (key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(PrefKey.GROUP_WEEK_STARTS.getKey())) {
       DatabaseConstants.buildLocalized(Locale.getDefault());
       Transaction.buildProjection();
     }
@@ -467,7 +467,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             (ListPreference) findPreference(getString(R.string.pref_group_week_starts_key));
         final Locale locale = Locale.getDefault();
         DateFormatSymbols dfs = new DateFormatSymbols(locale);
-        startPref.setEntries(Arrays.copyOfRange(dfs.getWeekdays(), 1, 7));
+        String[] entries = new String[7];
+        System.arraycopy(dfs.getWeekdays(), 1, entries, 0, 7);
+        startPref.setEntries(entries);
         startPref.setEntryValues(new String[]{
             String.valueOf(Calendar.SUNDAY),
             String.valueOf(Calendar.MONDAY),
