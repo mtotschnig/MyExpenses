@@ -37,16 +37,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -101,6 +102,8 @@ public class ProtectedFragmentActivity extends AppCompatActivity
         enableStrictMode();
     }
     super.onCreate(savedInstanceState);
+    if (PrefKey.PERFORM_PROTECTION.getBoolean(false))
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     setLanguage();
     Resources.Theme theme = getTheme();
@@ -175,11 +178,12 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PrefKey.UI_THEME_KEY.getKey()) ||
-        key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
-        key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey()) ||
-        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
-        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+    if (key.equals(PrefKey.UI_THEME_KEY.getKey()) ||
+        key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(PrefKey.UI_FONTSIZE.getKey()) ||
+        key.equals((PrefKey.PERFORM_PROTECTION.getKey())) ||
+        key.equals(PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(PrefKey.GROUP_WEEK_STARTS.getKey())) {
       scheduledRestart = true;
     }
   }
@@ -348,13 +352,13 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        MyApplication.PrefKey.CALENDAR_PERMISSION_REQUESTED.putBoolean(true);
+        PrefKey.CALENDAR_PERMISSION_REQUESTED.putBoolean(true);
     }
   }
 
   protected boolean calendarPermissionPermanentlyDeclined() {
     String permission= Manifest.permission.WRITE_CALENDAR;
-    return MyApplication.PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
+    return PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
         (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) &&
         !ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
   }
