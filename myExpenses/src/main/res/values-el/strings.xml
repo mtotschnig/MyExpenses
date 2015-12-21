@@ -28,19 +28,19 @@
   <string name="color">Χρώμα</string>
   <string name="comment">Σημειώσεις</string>
   <string name="confirmation_dialog_dont_show_again">Να μην εμφανιστεί ξανά</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Χωρίς διαφημίσεις</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Ο αριθμός των λογαριασμών που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 5.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Απεριόριστος αριθμός λογαριασμών</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Επισυνάψτε εικόνα στην συναλλαγή</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Κατανομή των συναλλαγών ανά κατηγορία</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Ο αριθμός των σχεδίων που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 3.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Απεριόριστος αριθμός σχεδίων</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Ερώτηση ασφαλείας</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Διαιρεμένη συναλλαγή</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Πρότυπο γραφικού στοιχείου</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Εισαγωγή CSV</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Αυτόματη δημιουργία αντιγράφων ασφαλείας</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Χωρίς διαφημίσεις</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Ο αριθμός των λογαριασμών που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 5.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός λογαριασμών</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Επισυνάψτε εικόνα στην συναλλαγή</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Κατανομή των συναλλαγών ανά κατηγορία</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Ο αριθμός των σχεδίων που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 3.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός σχεδίων</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Ερώτηση ασφαλείας</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Διαιρεμένη συναλλαγή</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Πρότυπο γραφικού στοιχείου</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Εισαγωγή CSV</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Αυτόματη δημιουργία αντιγράφων ασφαλείας</string>
   <string name="contrib_key">Contrib κλειδί</string>
   <string name="extended_key">Κλειδί Εκτεταμένης λειτουργίας</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -524,8 +524,8 @@
   <string name="comparison_operator_between">μεταξύ</string>
   <string name="comparison_operator_date_before">πριν από</string>
   <string name="comparison_operator_date_after">μετά από</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Η σημερινή ειδική προσφορά του AppGratis: Τα αναβαθμισμένα χαρακτηριστικά ξεκλειδωμένα δωρεάν.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Η αγορά απέτυχε ή ακυρώθηκε.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Η σημερινή ειδική προσφορά του AppGratis: Τα αναβαθμισμένα χαρακτηριστικά ξεκλειδωμένα δωρεάν.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
   <string name="hint_auto_fill">Θα πρέπει το ποσό, η κατηγορία και το σχόλιο να συμπληρώνεται αυτόματα από την τελευταία συναλλαγή για ίδιο δικαιούχο/πληρωτή; Μπορείτε πάντα να αλλάξετε αυτή τη συμπεριφορά από τις ρυθμίσεις.</string>
   <string name="yes">Ναι</string>
   <string name="no">Όχι</string>
@@ -588,5 +588,5 @@
   <string name="menu_move">Μετακίνηση</string>
   <string name="dialog_title_select_target">Επιλέξτε στόχο</string>
   <string name="transform_subcategory_to_main">Μεταμόρφωση στην κύρια κατηγορία</string>
-  <string name="preferences_week_start_day_title">"Έναρξη εβδομάδας:"</string>
+  <string name="preferences_week_start_day_title">Έναρξη εβδομάδας:</string>
 </resources>

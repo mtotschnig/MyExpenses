@@ -20,12 +20,12 @@
   <string name="category">Phân loại</string>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Số lượng tài khoản bạn có thể tạo trong <i>Chi Tiêu Của Tôi</i> bị giới hạn bởi 5 tài khoản.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Số lượng không giới hạn các tài khoản</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Tác động phân phối các giao dịch cho mỗi phân loại</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Phân tách giao dịch</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Số lượng tài khoản bạn có thể tạo trong <i>Chi Tiêu Của Tôi</i> bị giới hạn bởi 5 tài khoản.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Tác động phân phối các giao dịch cho mỗi phân loại</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Câu hỏi an ninh</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Phân tách giao dịch</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Yêu cầu sử dụng %s.</string>
   <string name="currency">Tiền tệ</string>
@@ -292,5 +292,5 @@
   <string name="switch_on_text">Bật</string>
   <string name="switch_off_text">Tắt</string>
   <string name="menu_move">Di chuyển</string>
-  <string name="preferences_week_start_day_title">"Tuần bắt đầu vào"</string>
+  <string name="preferences_week_start_day_title">Tuần bắt đầu vào</string>
 </resources>

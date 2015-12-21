@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_262">
+    <item>Les jours de démarrage de la semaine et du mois peuvent être configurés.</item>
+  </string-array>
   <string-array name="whats_new_261">
-    <item>Catégories peuvent être déplacés</item>
+    <item>Les catégories peuvent être déplacées</item>
   </string-array>
   <string-array name="whats_new_260">
     <item>Material design</item>

@@ -20,14 +20,14 @@
   <string name="category">Kategória</string>
   <string name="color">Szín</string>
   <string name="comment">Megjegyzés</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">A <i>Kiadásaim</i> alap változatában maximum 5 számlát kezelhet.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">A tranzakciók kategóriánkénti eloszlása</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Korlátlan számú terv</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Biztonsági kérdés</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Sablon widget</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">A <i>Kiadásaim</i> alap változatában maximum 5 számlát kezelhet.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú számla</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">A tranzakciók kategóriánkénti eloszlása</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú terv</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Biztonsági kérdés</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Tranzakció felosztása</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
   <string name="contrib_key">Contrib Kulcs</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Ehhez a %s használata szükséges.</string>
@@ -345,5 +345,5 @@
   <string name="switch_on_text">Be</string>
   <string name="switch_off_text">Ki</string>
   <string name="menu_move">Mozgat</string>
-  <string name="preferences_week_start_day_title">"A hét kezdőnapja"</string>
+  <string name="preferences_week_start_day_title">A hét kezdőnapja</string>
 </resources>

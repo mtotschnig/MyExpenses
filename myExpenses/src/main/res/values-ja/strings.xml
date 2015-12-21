@@ -31,19 +31,19 @@
   <string name="color">色</string>
   <string name="comment">メモ</string>
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">広告なし</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">取引に画像を添付</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">分類ごとの取引の分布</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">取引リストを PDF にエクスポート</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">セキュリティの質問</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">取引を分割</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">テンプレート ウィジェット</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV インポート</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">自動バックアップ</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">広告なし</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無制限の勘定数</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">取引に画像を添付</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">分類ごとの取引の分布</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無制限の計画数</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">セキュリティの質問</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">取引を分割</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">自動バックアップ</string>
   <string name="contrib_key">貢献キー</string>
   <string name="extended_key">拡張キー</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -517,8 +517,8 @@
   <string name="comparison_operator_between">間</string>
   <string name="comparison_operator_date_before">以前</string>
   <string name="comparison_operator_date_after">以降</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">購入が失敗またはキャンセルされました。</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
   <string name="hint_auto_fill">金額、分類、およびコメントを、同じ受取人/支払人に対する最後のトランザクションから自動的に入力しますか? いつでも設定からこの動作を変更することができます。</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
@@ -581,5 +581,5 @@
   <string name="menu_move">移動</string>
   <string name="dialog_title_select_target">対象を選択</string>
   <string name="transform_subcategory_to_main">主分類に変換</string>
-  <string name="preferences_week_start_day_title">"週の開始日"</string>
+  <string name="preferences_week_start_day_title">週の開始日</string>
 </resources>

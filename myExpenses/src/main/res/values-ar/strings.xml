@@ -26,13 +26,13 @@
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">توزيع العمليات لكل تصنيف</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">السؤال السري</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">توزيع العمليات لكل تصنيف</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">السؤال السري</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">تقسيم العمليات</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
@@ -367,6 +367,5 @@
   <string name="switch_on_text">تشغيل</string>
   <string name="switch_off_text">إيقاف</string>
   <string name="menu_move">تحريك</string>
-  <string name="preferences_week_start_day_title">"يبدأ الأسبوع يوم"</string>
-
+  <string name="preferences_week_start_day_title">يبدأ الأسبوع يوم</string>
 </resources>

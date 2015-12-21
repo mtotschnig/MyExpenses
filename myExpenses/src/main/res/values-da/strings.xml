@@ -31,18 +31,18 @@
   <string name="color">Farve</string>
   <string name="comment">Noter</string>
   <string name="confirmation_dialog_dont_show_again">Vis ikke igen</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Ingen annoncer</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Med <i>Mine udgifter</i> kan du oprette op til 5 konti.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Ubegrænset antal konti</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Vedhæft et billede til postering</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Fordeling af posteringer pr. kategori</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Med <i>Mine udgifter</i> kan du oprette op til 3 planer.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Ubegrænset antal planer</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Udskriv posteringer som PDF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Sikkerhedsspørgsmål</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Opsplitet postering</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Skabelon widget</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen annoncer</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Med <i>Mine udgifter</i> kan du oprette op til 5 konti.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal konti</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Vedhæft et billede til postering</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Fordeling af posteringer pr. kategori</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Med <i>Mine udgifter</i> kan du oprette op til 3 planer.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal planer</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Udskriv posteringer som PDF</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Sikkerhedsspørgsmål</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Opsplitet postering</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Skabelon widget</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
   <string name="contrib_key">Contrib Nøgle</string>
   <string name="extended_key">Nøgle til udvidet version</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -506,8 +506,8 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="comparison_operator_between">mellem</string>
   <string name="comparison_operator_date_before">før</string>
   <string name="comparison_operator_date_after">efter</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Dagens specielle tilbud med AppGratis: Premium funktioner er frigivet gratis.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Køb mislykkedes eller annulleret.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Dagens specielle tilbud med AppGratis: Premium funktioner er frigivet gratis.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
   <string name="hint_auto_fill">Skal beløb, kategori og kommentar overtages automatisk fra sidste postering for samme betalingsmodtager/betaler? Det kan altid ændres i indstillingerne.</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
@@ -557,5 +557,5 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="menu_show_transactions">Vis posterings</string>
   <string name="switch_on_text">Til</string>
   <string name="switch_off_text">Fra</string>
-  <string name="preferences_week_start_day_title">"Ugen starter"</string>
+  <string name="preferences_week_start_day_title">Ugen starter</string>
 </resources>

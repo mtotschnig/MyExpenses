@@ -32,19 +32,19 @@
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Reklamsız</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Muameleye resim ekle</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Muamele listesini PDF dosyasına aktar</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Güvenlik sorusu</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Şablon widget\'i</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV içe aktar</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Otomatik yedekleme</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Muamelelerin kategori başına dağılımı</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Sınırsız plan sayısı</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Güvenlik sorusu</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Bölünmüş muamele</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Otomatik yedekleme</string>
   <string name="contrib_key">Katkı Anahtarı</string>
   <string name="extended_key">Genişletilmiş Anahtarı</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -529,8 +529,8 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="comparison_operator_between">arasında</string>
   <string name="comparison_operator_date_before">önce</string>
   <string name="comparison_operator_date_after">sonra</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Satın alma başarısız oldu veya iptal edildi.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
   <string name="hint_auto_fill">Aynı alacaklı/ödeyici için meblağ, kategori ve yorum son muameleye dayanılarak otomatik olarak doldurulsun mu? Bunu ayarlardan değiştirebilirsiniz.</string>
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
@@ -593,5 +593,6 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_move">Taşı</string>
   <string name="dialog_title_select_target">Hedef seç</string>
   <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
-  <string name="preferences_week_start_day_title">"Haftanın ilk günü"</string>
+  <string name="preferences_week_start_day_title">Haftanın ilk günü</string>
+  <string name="preferences_month_start_date_title">Ay şu gün başlar:</string>
 </resources>
