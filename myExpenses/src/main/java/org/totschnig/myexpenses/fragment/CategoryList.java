@@ -111,6 +111,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_MONTH_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_WEEK_START;
 
 public class CategoryList extends ContextualActionBarFragment implements
@@ -603,7 +604,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     case WEEK:
       return YEAR_OF_WEEK_START + " = " + mGroupingYear + " AND " + WEEK + " = " + mGroupingSecond;
     case MONTH:
-      return year + " AND " + MONTH + " = " + mGroupingSecond;
+      return YEAR_OF_MONTH_START + " = " + mGroupingYear + " AND " + MONTH + " = " + mGroupingSecond;
     default:
       return null;
     }

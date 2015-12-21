@@ -501,4 +501,5 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="switch_on_text">Uključeno</string>
   <string name="switch_off_text">Isključeno</string>
+  <string name="preferences_week_start_day_title">"Tjedan počinje u"</string>
 </resources>

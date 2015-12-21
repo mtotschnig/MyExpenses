@@ -75,6 +75,10 @@ public class Transaction extends Model {
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
   static {
+    buildProjection();
+  }
+
+  public static void buildProjection() {
     PROJECTION_BASE = new String[]{
         KEY_ROWID,
         KEY_DATE,
@@ -91,6 +95,7 @@ public class Transaction extends Model {
         KEY_REFERENCE_NUMBER,
         KEY_PICTURE_URI,
         YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
+        YEAR_OF_MONTH_START + " AS " + KEY_YEAR_OF_MONTH_START,
         YEAR + " AS " + KEY_YEAR,
         MONTH + " AS " + KEY_MONTH,
         WEEK + " AS " + KEY_WEEK,

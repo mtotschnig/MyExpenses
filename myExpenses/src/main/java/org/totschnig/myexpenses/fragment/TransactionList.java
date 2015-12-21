@@ -76,7 +76,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -95,11 +94,9 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
+    LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
@@ -123,16 +120,21 @@ public class TransactionList extends ContextualActionBarFragment implements
   private ExpandableStickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
+
+  /**
+   * needs to be static, because a new instance is created, but loader is reused
+   */
+  private static boolean scheduledRestart = false;
   /**
    * used to restore list selection when drawer is reopened
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear,                 columnIndexYearOfWeekStart, columnIndexMonth,
-              columnIndexWeek,                 columnIndexDay,             columnIndexLabelSub,
-              columnIndexPayee,                columnIndexCrStatus,        columnIndexGroupYear,
-              columnIndexGroupMappedCategories,columnIndexGroupSumInterim, columnIndexGroupSumIncome,
-              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer,
+  private int columnIndexYear,                 columnIndexYearOfWeekStart,  columnIndexMonth,
+              columnIndexWeek,                 columnIndexDay,              columnIndexLabelSub,
+              columnIndexPayee,                columnIndexCrStatus,         columnIndexGroupYear,
+              columnIndexGroupMappedCategories,columnIndexGroupSumInterim,  columnIndexGroupSumIncome,
+              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer, columnIndexYearOfMonthStart,
               columnIndexLabelMain,            columnIndexGroupSecond;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
@@ -161,7 +163,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
   }
+
   private void setAdapter() {
     Context ctx = getActivity();
     // Create an array to specify the fields we want to display in the list
@@ -191,6 +195,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onDestroy() {
     super.onDestroy();
+    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
     if (aObserver==null)
       return;
     try {
@@ -228,8 +233,14 @@ public class TransactionList extends ContextualActionBarFragment implements
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
-    mManager.initLoader(GROUPING_CURSOR, null, this);
-    mManager.initLoader(TRANSACTION_CURSOR, null, this);
+    if (scheduledRestart) {
+      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+      mManager.restartLoader(GROUPING_CURSOR, null, this);
+      scheduledRestart = false;
+    } else {
+      mManager.initLoader(GROUPING_CURSOR, null, this);
+      mManager.initLoader(TRANSACTION_CURSOR, null, this);
+    }
     mManager.initLoader(SUM_CURSOR, null, this);
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
@@ -435,6 +446,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (!indexesCalculated) {
         columnIndexYear = c.getColumnIndex(KEY_YEAR);
         columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
+        columnIndexYearOfMonthStart = c.getColumnIndex(KEY_YEAR_OF_MONTH_START);
         columnIndexMonth = c.getColumnIndex(KEY_MONTH);
         columnIndexWeek = c.getColumnIndex(KEY_WEEK);
         columnIndexDay  = c.getColumnIndex(KEY_DAY);
@@ -495,6 +507,15 @@ public class TransactionList extends ContextualActionBarFragment implements
     return !mFilter.isEmpty();
   }
 
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    if (key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+      scheduledRestart = true;
+    }
+  }
+
   class AccountObserver extends ContentObserver {
     public AccountObserver(Handler handler) {
        super(handler);
@@ -529,6 +550,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
   public class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
     LayoutInflater inflater;
+
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(mAccount, context, layout, c, from, to, flags);
@@ -554,7 +576,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int year = c.getInt(getColumnIndexForYear());
       int second=-1;
 
       if (mGroupingCursor != null && mGroupingCursor.moveToFirst()) {
@@ -636,7 +658,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
+      int year = c.getInt(getColumnIndexForYear());
       int month = c.getInt(columnIndexMonth);
       int week = c.getInt(columnIndexWeek);
       int day = c.getInt(columnIndexDay);
@@ -653,7 +675,19 @@ public class TransactionList extends ContextualActionBarFragment implements
         return 0;
       }
     }
+
+    private int getColumnIndexForYear() {
+      switch(mAccount.grouping) {
+        case WEEK:
+          return columnIndexYearOfWeekStart;
+        case MONTH:
+          return columnIndexYearOfMonthStart;
+        default:
+          return columnIndexYear;
+      }
+    }
   }
+
   class HeaderViewHolder {
     TextView interimBalance;
     TextView text;

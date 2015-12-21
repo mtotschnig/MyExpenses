@@ -593,4 +593,5 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="menu_move">Taşı</string>
   <string name="dialog_title_select_target">Hedef seç</string>
   <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
+  <string name="preferences_week_start_day_title">"Haftanın ilk günü"</string>
 </resources>

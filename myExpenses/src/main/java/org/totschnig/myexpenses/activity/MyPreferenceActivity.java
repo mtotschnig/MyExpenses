@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -65,6 +64,7 @@ import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompa
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
@@ -84,8 +85,12 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Present references screen defined in Layout file
@@ -215,6 +220,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
+    if (key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+      DatabaseConstants.buildLocalized(Locale.getDefault());
+      Transaction.buildProjection();
+    }
     if (key.equals(PrefKey.PERFORM_PROTECTION.getKey())) {
       getFragment().setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);
@@ -449,6 +460,36 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         String summary = getString(R.string.pref_auto_backup_summary) + " " +
             ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
         pref.setSummary(summary);
+      }
+      //GROUP start screen
+      else if (rootKey.equals(getString(R.string.pref_grouping_start))) {
+        ListPreference startPref =
+            (ListPreference) findPreference(getString(R.string.pref_group_week_starts_key));
+        final Locale locale = Locale.getDefault();
+        DateFormatSymbols dfs = new DateFormatSymbols(locale);
+        startPref.setEntries(Arrays.copyOfRange(dfs.getWeekdays(), 1, 7));
+        startPref.setEntryValues(new String[]{
+            String.valueOf(Calendar.SUNDAY),
+            String.valueOf(Calendar.MONDAY),
+            String.valueOf(Calendar.TUESDAY),
+            String.valueOf(Calendar.WEDNESDAY),
+            String.valueOf(Calendar.THURSDAY),
+            String.valueOf(Calendar.FRIDAY),
+            String.valueOf(Calendar.SATURDAY),
+        });
+        if (!PrefKey.GROUP_WEEK_STARTS.isSet()) {
+          startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
+        }
+
+        startPref =
+            (ListPreference) findPreference(getString(R.string.pref_group_month_starts_key));
+        String[] daysEntries = new String[31], daysValues = new String[31];
+        for (int i = 1; i <= 31; i++) {
+          daysEntries[i-1] = String.format("%d.",i);
+          daysValues[i-1] = String.valueOf(i);
+        }
+        startPref.setEntries(daysEntries);
+        startPref.setEntryValues(daysValues);
       }
     }
 

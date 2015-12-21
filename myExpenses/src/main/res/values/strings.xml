@@ -41,25 +41,25 @@
     <string name="category">Category</string>
     <string name="split_transaction_error">Could not transform transaction to split.</string>
     <plurals name="split_transaction_success">
-      <item quantity="one">Transaction successfully transformed to split.</item>
-      <item quantity="other">%1$d transactions were successfully transformed to splits.</item>
+        <item quantity="one">Transaction successfully transformed to split.</item>
+        <item quantity="other">%1$d transactions were successfully transformed to splits.</item>
     </plurals>
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">No ads</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Attach image to transaction</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Distribution of transactions per category</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Export transaction list to PDF</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Security question</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Split transaction</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Template widget</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
-    <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-Backup</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">No ads</string>
+    <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">The number of accounts you can create with <i>My Expenses</i> is limited to 5.</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unlimited number of accounts</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Attach image to transaction</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribution of transactions per category</string>
+    <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export transaction list to PDF</string>
+    <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Security question</string>
+    <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Split transaction</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Template widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-Backup</string>
 
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>
@@ -101,8 +101,8 @@
     <string name="dialog_contrib_text_1"><i>My Expenses</i> is offered ad free and open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by purchasing %s.</string>
     <plurals name="dialog_contrib_usage_count">
-      <item quantity="one">You have one free usage left.</item>
-      <item quantity="other">You have %1$d free usages left.</item>
+        <item quantity="one">You have one free usage left.</item>
+        <item quantity="other">You have %1$d free usages left.</item>
     </plurals>
     <string name="dialog_contrib_buy_premium">Buy PREMIUM</string>
     <string name="dialog_contrib_buy_extended">Buy EXTENDED</string>
@@ -274,13 +274,13 @@
     <string name="no_templates">No templates.</string>
     <string name="no_title_given">You did not enter any title.</string>
     <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">The selected object is mapped to a transaction and cannot be deleted.</item>
-  	<item quantity="other">%1$d objects are mapped to transactions and cannot be deleted.</item>
-  </plurals>
+        <item quantity="one">The selected object is mapped to a transaction and cannot be deleted.</item>
+        <item quantity="other">%1$d objects are mapped to transactions and cannot be deleted.</item>
+    </plurals>
     <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">The selected object is mapped to a template and cannot be deleted.</item>
-    <item quantity="other">%1$d objects are mapped to templates and cannot be deleted.</item>
-  </plurals>
+        <item quantity="one">The selected object is mapped to a template and cannot be deleted.</item>
+        <item quantity="other">%1$d objects are mapped to templates and cannot be deleted.</item>
+    </plurals>
     <string name="numbered">numbered</string>
     <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
     <string name="opening_balance">Opening balance</string>
@@ -349,7 +349,7 @@
     <string name="pref_follow_gplus_title">Follow My Expenses on Google+</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
     <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
-  <!-- %s is replaced with QIF or CSV -->
+    <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">Import transactions, categories and parties from %s file</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s import</string>
@@ -432,9 +432,9 @@
     <string name="save_transaction_and_new_success">Successfully saved</string>
     <string name="save_transaction_error">Could not save new transaction from template.</string>
     <plurals name="save_transaction_from_template_success">
-    <item quantity="one">New transaction successfully saved from template.</item>
-    <item quantity="other">%1$d new transactions were successfully saved from templates.</item>
-  </plurals>
+        <item quantity="one">New transaction successfully saved from template.</item>
+        <item quantity="other">%1$d new transactions were successfully saved from templates.</item>
+    </plurals>
     <string name="save_transaction_template_deleted">Template has been deleted</string>
     <string name="select">Select</string>
     <string name="select_category">Select category</string>
@@ -472,21 +472,21 @@
     <string name="warning_backup">Database and preferences will be saved to \"%1$s\". Do you want to continue?</string>
     <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions.</string>
     <plurals name="warning_delete_main_category">
-  	<item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
-  	<item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
-  </plurals>
+        <item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
+        <item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
+    </plurals>
     <plurals name="warning_delete_plan">
-    <item quantity="one">The selected plan will be deleted.</item>
-    <item quantity="other">%1$d selected plans will be deleted.</item>
-  </plurals>
+        <item quantity="one">The selected plan will be deleted.</item>
+        <item quantity="other">%1$d selected plans will be deleted.</item>
+    </plurals>
     <plurals name="warning_delete_template">
-    <item quantity="one">The selected template will be deleted.</item>
-    <item quantity="other">%1$d selected templates will be deleted.</item>
-  </plurals>
+        <item quantity="one">The selected template will be deleted.</item>
+        <item quantity="other">%1$d selected templates will be deleted.</item>
+    </plurals>
     <plurals name="warning_delete_transaction">
-    <item quantity="one">The selected transaction will be deleted.</item>
-  	<item quantity="other">%1$d selected transactions will be deleted.</item>
-  </plurals>
+        <item quantity="one">The selected transaction will be deleted.</item>
+        <item quantity="other">%1$d selected transactions will be deleted.</item>
+    </plurals>
     <plurals name="move_category_success">
         <item quantity="one">One category was succesfully moved.</item>
         <item quantity="other">%d categories were succesfully moved.</item>
@@ -545,8 +545,8 @@
     <string name="comparison_operator_between">between</string>
     <string name="comparison_operator_date_before">before</string>
     <string name="comparison_operator_date_after">after</string>
-    <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
-    <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Purchasing failed or cancelled.</string>
+    <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Purchasing failed or cancelled.</string>
     <string name="hint_auto_fill">Should amount, category and comment be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -569,26 +569,26 @@
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
     <string name="menu_select_categories">Select checked categories</string>
     <string name="image_deleted">Picture has been deleted</string>
-  <string name="dialog_export_applied_to_filter">Only transactions matched by the current filter will be considered.</string>
-  <string name="export_handle_deleted_create_helper">Create helper transaction</string>
-  <string name="export_handle_deleted_update_balance">Update opening balance</string>
-  <string name="file_name">File name</string>
-  <string name="folder_name">Folder name</string>
-  <string name="mark_void_instead_of_delete">Do not delete transaction, mark as void instead.</string>
-  <string name="menu_undelete_transaction">Undelete</string>
-  <string name="slash_forbidden_in_filename">/ character is not allowed in filenames</string>
-  <string name="io_error_unable_to_create_file">Unable to create file %1$s in folder %2$s</string>
-  <string name="menu_categories_export">Export to QIF</string>
-  <string name="pref_csv_import_delimiter">Delimiter</string>
-  <string name="csv_import_preview">Preview</string>
-  <string name="menu_parse">Parse</string>
+    <string name="dialog_export_applied_to_filter">Only transactions matched by the current filter will be considered.</string>
+    <string name="export_handle_deleted_create_helper">Create helper transaction</string>
+    <string name="export_handle_deleted_update_balance">Update opening balance</string>
+    <string name="file_name">File name</string>
+    <string name="folder_name">Folder name</string>
+    <string name="mark_void_instead_of_delete">Do not delete transaction, mark as void instead.</string>
+    <string name="menu_undelete_transaction">Undelete</string>
+    <string name="slash_forbidden_in_filename">/ character is not allowed in filenames</string>
+    <string name="io_error_unable_to_create_file">Unable to create file %1$s in folder %2$s</string>
+    <string name="menu_categories_export">Export to QIF</string>
+    <string name="pref_csv_import_delimiter">Delimiter</string>
+    <string name="csv_import_preview">Preview</string>
+    <string name="menu_parse">Parse</string>
     <!-- Label for column where user can check rows to be discarded from import -->
-  <string name="cvs_import_discard">Discard</string>
-  <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
-  <string name="csv_import_records_failed">%d records could not be imported.</string>
-  <string name="csv_import_records_discarded">%d records were discarded.</string>
-  <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
-  <string name="cvs_import_set_first_line_as_header">Should the first line be treated as a header line?</string>
+    <string name="cvs_import_discard">Discard</string>
+    <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
+    <string name="csv_import_records_failed">%d records could not be imported.</string>
+    <string name="csv_import_records_discarded">%d records were discarded.</string>
+    <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
+    <string name="cvs_import_set_first_line_as_header">Should the first line be treated as a header line?</string>
     <string name="csv_import_delimiter_comma">Comma</string>
     <string name="csv_import_delimiter_semicolon">Semicolon</string>
     <string name="csv_import_delimiter_tab">Tab</string>
@@ -609,5 +609,7 @@
     <string name="menu_move">Move</string>
     <string name="dialog_title_select_target">Select target</string>
     <string name="transform_subcategory_to_main">Transform to main category</string>
+    <string name="preferences_week_start_day_title">Week starts on</string>
+    <string name="preferences_month_start_date_title">Month starts on</string>
 </resources>
 

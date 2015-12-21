@@ -122,7 +122,9 @@ public class MyApplication extends Application implements
     AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
     AUTO_BACKUP_DIRTY("auto_backup_dirty"),
     UI_HOME_SCREEN_SHORTCUTS(R.string.pref_ui_home_screen_shortcuts_key),
-    CALENDAR_PERMISSION_REQUESTED("calendar_permission_requested");
+    CALENDAR_PERMISSION_REQUESTED("calendar_permission_requested"),
+    GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
+    GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key);
 
     private int resId = 0;
     private String key = null;
@@ -169,6 +171,10 @@ public class MyApplication extends Application implements
 
     public void remove() {
       SharedPreferencesCompat.apply(mSelf.mSettings.edit().remove(getKey()));
+    }
+
+    public boolean isSet() {
+      return mSelf.mSettings.contains(getKey());
     }
 
     PrefKey(int resId) {
@@ -366,9 +372,6 @@ public class MyApplication extends Application implements
       config.fontScale = getResources().getConfiguration().fontScale;
       getResources().updateConfiguration(config,
           getResources().getDisplayMetrics());
-      // in order to the following statement to be effective the cursor loader
-      // would need to be restarted
-      // DatabaseConstants.buildLocalized();
     }
   }
 
@@ -562,8 +565,10 @@ public class MyApplication extends Application implements
    * plans 3) reschedule execution through alarm
    */
   public void initPlanner() {
-    Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
-    PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+    if (Utils.IS_ANDROID) {
+      Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
+      PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+    }
   }
 
   public static String[] buildEventProjection() {

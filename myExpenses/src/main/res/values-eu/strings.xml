@@ -581,4 +581,5 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="button_request_calendar_access">Baimena eman</string>
   <string name="switch_on_text">Bai</string>
   <string name="switch_off_text">Ez</string>
+  <string name="preferences_week_start_day_title">"Hau da asteko lehen eguna:"</string>
 </resources>

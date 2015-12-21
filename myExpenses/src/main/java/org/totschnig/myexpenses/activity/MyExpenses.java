@@ -414,7 +414,7 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
-      if (!TextUtils.isEmpty(BuildConfig.FLAVOR)) {
+      if (Utils.IS_FLAVOURED) {
         nextReminder =
             MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
