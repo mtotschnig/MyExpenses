@@ -509,7 +509,7 @@
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
-  <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez sélectionner un autre.</string>
+  <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez en choisir un autre.</string>
   <string name="search_amount">Recherche de montant</string>
   <string name="search_category">Recherche de catégorie</string>
   <string name="search_comment">Recherche par commentaires</string>

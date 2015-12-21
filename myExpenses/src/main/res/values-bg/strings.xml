@@ -27,7 +27,7 @@
   <string name="split_transaction_error">Не мога да преобразувам транзакцията в разпределена.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Транзакцията е успешно преобразувана в разпределена.</item>
-    <item quantity="other">%1$d транзакции са успешно преобразувани в разпределени.</item>
+    <item quantity="other">Успешно преобразувани в разпределени %1$d транзакции.</item>
   </plurals>
   <string name="color">Цвят</string>
   <string name="comment">Бележка</string>
@@ -45,7 +45,7 @@
   <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Шаблон на уиджет</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Импорт от CSV</string>
   <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Автоматичен бекъп</string>
-  <string name="contrib_key">Ключ от покупка</string>
+  <string name="contrib_key">ключ за Премиум вариант</string>
   <string name="extended_key">ключ за Разширен вариант</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Изисква %s.</string>
@@ -132,7 +132,7 @@
   <string name="expense">Разход</string>
   <string name="export_expenses">Експорт на Разходи</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Неуспешен експорт на Разходи \"%1$s\" в %2$s</string>
+  <string name="export_sdcard_failure">Неуспешен експорт на Разходи в \"%1$s\": %2$s</string>
   <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Успешен експорт на Разходи във файл \"%1$s\"</string>
   <string name="external_storage_unavailable">Няма външна памет (sdcard)!</string>
@@ -171,7 +171,7 @@
   <string name="licence_validation_failure">Не може да се валидира лицензен ключ.</string>
   <string name="licence_validation_success">Успешно валидиран ключ: </string>
   <string name="licence_validation_premium">Функциите на Премиум вариант са отключени.</string>
-  <string name="licence_validation_extended">Функциите Разширен вариант са отключени.</string>
+  <string name="licence_validation_extended">Функциите на Разширен вариант са отключени.</string>
   <string name="menu_aggregates">Общо</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Приложи</string>
@@ -365,7 +365,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Изисква се парола.</string>
   <string name="pref_qif_export_file_encoding_title">Кодиране на знаците</string>
   <string name="pref_request_licence_summary">Ако сте заплатили, поискайте ключ за андроид-ИД %1$s по електронната поща.</string>
-  <string name="pref_request_licence_title">Изискайте ключ</string>
+  <string name="pref_request_licence_title">Поискайте ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Алтернатива</string>
   <string name="pref_restore_alternative_summary">Използвайте алтернативен начин, ако на устройството нямате файлов мениджър или възстановявате от бекъп в по-стар формат.</string>
@@ -422,7 +422,7 @@
   <string name="select">Изберете</string>
   <string name="select_category">Изберете категория</string>
   <string name="menu_select_category">Изберете тази категория</string>
-  <string name="menu_select_folder">Изберете тази папка</string>
+  <string name="menu_select_folder">Избери тази папка</string>
   <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
   <string name="share_sending">Избери файл за експорт</string>
   <string name="split_parts_heading">Разпределени суми</string>
