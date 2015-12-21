@@ -64,6 +64,7 @@ import org.totschnig.myexpenses.MyApplication.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -72,6 +73,7 @@ import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompa
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
@@ -218,6 +220,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
+    if (key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+      DatabaseConstants.buildLocalized(Locale.getDefault());
+      Transaction.buildProjection();
+    }
     if (key.equals(PrefKey.PERFORM_PROTECTION.getKey())) {
       getFragment().setProtectionDependentsState();
       AbstractWidget.updateWidgets(this, AccountWidget.class);

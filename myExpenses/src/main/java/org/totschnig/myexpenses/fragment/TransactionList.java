@@ -96,7 +96,7 @@ import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
+    LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
@@ -120,6 +120,11 @@ public class TransactionList extends ContextualActionBarFragment implements
   private ExpandableStickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
+
+  /**
+   * needs to be static, because a new instance is created, but loader is reused
+   */
+  private static boolean scheduledRestart = false;
   /**
    * used to restore list selection when drawer is reopened
    */
@@ -158,7 +163,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
   }
+
   private void setAdapter() {
     Context ctx = getActivity();
     // Create an array to specify the fields we want to display in the list
@@ -188,6 +195,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onDestroy() {
     super.onDestroy();
+    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
     if (aObserver==null)
       return;
     try {
@@ -225,8 +233,14 @@ public class TransactionList extends ContextualActionBarFragment implements
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
-    mManager.initLoader(GROUPING_CURSOR, null, this);
-    mManager.initLoader(TRANSACTION_CURSOR, null, this);
+    if (scheduledRestart) {
+      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+      mManager.restartLoader(GROUPING_CURSOR, null, this);
+      scheduledRestart = false;
+    } else {
+      mManager.initLoader(GROUPING_CURSOR, null, this);
+      mManager.initLoader(TRANSACTION_CURSOR, null, this);
+    }
     mManager.initLoader(SUM_CURSOR, null, this);
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
@@ -491,6 +505,15 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   public boolean isFiltered() {
     return !mFilter.isEmpty();
+  }
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    if (key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+      scheduledRestart = true;
+    }
   }
 
   class AccountObserver extends ContentObserver {

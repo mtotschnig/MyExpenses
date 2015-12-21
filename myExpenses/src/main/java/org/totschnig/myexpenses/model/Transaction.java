@@ -75,6 +75,10 @@ public class Transaction extends Model {
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
   static {
+    buildProjection();
+  }
+
+  public static void buildProjection() {
     PROJECTION_BASE = new String[]{
         KEY_ROWID,
         KEY_DATE,
