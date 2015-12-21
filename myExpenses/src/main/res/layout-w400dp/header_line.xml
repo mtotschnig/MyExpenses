@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/header_line"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:paddingRight="@dimen/general_padding"
+    android:paddingLeft="@dimen/general_padding"
+    android:layoutDirection="locale">
 
     <TextView
         android:id="@+id/text"
         style="@style/headingStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="GROUP_TITLE" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        tools:text="GROUP_TITLE"/>
 
     <TextView
         android:id="@+id/interim_balance"
         style="@style/headingStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        tools:text="INTERIM_BALANCE"/>
 
-</LinearLayout>
+</RelativeLayout>

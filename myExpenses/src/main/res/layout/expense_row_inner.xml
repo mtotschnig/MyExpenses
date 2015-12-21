@@ -15,11 +15,12 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="DATE"
+            tools:text="DATE"
             />
 
         <RelativeLayout
@@ -28,6 +29,7 @@
             android:layout_height="?attr/colorContainerOuter"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/date"
+            android:layout_toEndOf="@+id/date"
             android:background="?attr/selectableItemBackground"
             android:onClick="toggleCrStatus">
 
@@ -45,18 +47,21 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/amount"
+            android:layout_toStartOf="@+id/amount"
             android:layout_toRightOf="@+id/colorContainer"
+            android:layout_toEndOf="@+id/colorContainer"
             android:paddingLeft="5dp"
             android:paddingRight="5dip"
-            android:text="CATEGORY"/>
+            tools:text="CATEGORY"/>
 
         <TextView
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="AMOUNT"/>
+            tools:text="AMOUNT"/>
 
         <View
             android:id="@+id/voidMarker"

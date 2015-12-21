@@ -26,15 +26,15 @@
   <string name="color">Boja</string>
   <string name="comment">Bilješke</string>
   <string name="confirmation_dialog_dont_show_again">Ne prikazuj ponovno</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Broj računa koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 5</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Neograničeni broj računa</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Pregled transakcija po kategoriji.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Broj planova koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 3.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Neograničeni broj planova</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Eksportiraj listu transakcija u PDF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Sigurnosno pitanje</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Dijeljena transakcija</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget za predložak</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Broj računa koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 5</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neograničeni broj računa</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Pregled transakcija po kategoriji.</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Broj planova koje možete kreirati na listi <i>Moji troškovi</i> je ograničen na 3.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neograničeni broj planova</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksportiraj listu transakcija u PDF</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Sigurnosno pitanje</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Dijeljena transakcija</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget za predložak</string>
   <string name="contrib_key">Contrib Ključ</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Potreban %s.</string>
@@ -483,8 +483,8 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="comparison_operator_greater_than">više od</string>
   <string name="comparison_operator_lesser_than">manje od</string>
   <string name="comparison_operator_between">između</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Kupovina neuspjela ili otkazana.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili otkazana.</string>
   <string name="hint_auto_fill">Želite li da iznos, kategorija i komentar budu automatski unešeni od zadnje transkacije za istog platitelja / primaoca? Ovo možete izmijeniti bilo kada u postavkama.</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
@@ -501,4 +501,5 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="switch_on_text">Uključeno</string>
   <string name="switch_off_text">Isključeno</string>
+  <string name="preferences_week_start_day_title">Tjedan počinje u</string>
 </resources>

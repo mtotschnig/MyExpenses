@@ -72,6 +72,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Account extends Model {
 
+  public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
 
@@ -241,8 +242,7 @@ public class Account extends Model {
      * @param c a cursor where we can find information about the current date
      * @return a human readable String representing the group as header or activity title
      */
-    public String getDisplayTitle(Context ctx, int groupYear, int groupSecond,Cursor c) {
-      int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
+    public String getDisplayTitle(Context ctx, int groupYear, int groupSecond, Cursor c) {
       int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
       int this_day = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
       int this_year = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
@@ -254,7 +254,7 @@ public class Account extends Model {
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-        String title = java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
+        String title = DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime());
         if (groupYear == this_year) {
           if (groupSecond == this_day)
             return ctx.getString(R.string.grouping_today) + " (" + title + ")";
@@ -263,6 +263,7 @@ public class Account extends Model {
         }
         return title;
       case WEEK:
+        int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
         String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_START)),dateformat)
             + " - " + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_END)),dateformat)  + " )";
@@ -277,9 +278,38 @@ public class Account extends Model {
           yearPrefix = groupYear + ", ";
         return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
       case MONTH:
+        int monthStarts = Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
         cal = Calendar.getInstance();
-        cal.set(groupYear,groupSecond-1,1);
-        return new SimpleDateFormat("MMMM y").format(cal.getTime());
+        if (monthStarts == 1) {
+          cal.set(groupYear, groupSecond -1, 1);
+          return new SimpleDateFormat("MMMM y").format(cal.getTime());
+        } else {
+          dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);
+          int beginYear = groupYear, beginMonth = groupSecond - 1;
+          cal = Calendar.getInstance();
+          cal.set(beginYear,beginMonth,1);
+          if (cal.getActualMaximum(Calendar.DAY_OF_MONTH)<monthStarts) {
+            cal.set(beginYear,beginMonth+1,1);
+          } else {
+            cal.set(Calendar.DATE,monthStarts);
+          }
+          String startDate = dateformat.format(cal.getTime());
+          int endYear = beginYear, endMonth = beginMonth+1;
+          if (endMonth > Calendar.DECEMBER) {
+            endMonth = Calendar.JANUARY;
+            endYear++;
+          }
+          cal = Calendar.getInstance();
+          cal.set(endYear,endMonth,1);
+          if (cal.getActualMaximum(Calendar.DAY_OF_MONTH)<monthStarts-1) {
+            cal.set(Calendar.DATE,cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+          } else {
+            cal.set(Calendar.DATE,monthStarts-1);
+          }
+          String endDate = dateformat.format(cal.getTime());
+          String monthRange = " (" + startDate  + " - " + endDate  + " )";
+          return monthRange;
+        }
       case YEAR:
         return String.valueOf(groupYear);
       default:
@@ -699,7 +729,7 @@ public class Account extends Model {
    */
   public void reset(WhereFilter filter, int handleDelete, String helperComment) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ContentProviderOperation handleDeleteOperation;
+    ContentProviderOperation handleDeleteOperation = null;
     if (handleDelete==EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
       long currentBalance = getFilteredBalance(filter).getAmountMinor();
       openingBalance.setAmountMinor(currentBalance);
@@ -707,7 +737,7 @@ public class Account extends Model {
           CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValue(KEY_OPENING_BALANCE, currentBalance)
           .build();
-    } else {
+    } else if (handleDelete==EXPORT_HANDLE_DELETED_CREATE_HELPER) {
       Transaction helper = new Transaction(this,getTransactionSum(filter));
       helper.comment = helperComment;
       helper.status = STATUS_HELPER;
@@ -727,7 +757,7 @@ public class Account extends Model {
             selectionArgs)
         .build());
     //needs to be last, otherwise helper transaction would be deleted
-    ops.add(handleDeleteOperation);
+    if (handleDeleteOperation != null) ops.add(handleDeleteOperation);
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
@@ -1414,7 +1444,8 @@ public class Account extends Model {
         LineSeparator sep = new LineSeparator();
         document.add(sep);
         table = helper.newTable(4);
-        table.setWidths(new int[] {1,5,3,2});
+        table.setWidths(table.getRunDirection() == PdfWriter.RUN_DIRECTION_RTL ?
+            new int[] {2,3,5,1} : new int[] {1,5,3,2});
         table.setSpacingBefore(2f);
         table.setSpacingAfter(2f);
         table.setWidthPercentage(100f);

@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -52,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/list_image_container"
+        android:layout_toEndOf="@+id/list_image_container"
         android:layout_marginTop="3dp"
         android:typeface="sans"
         android:textSize="15sp"
@@ -64,6 +66,7 @@
         android:layout_below="@id/title"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/list_image_container"
+        android:layout_toEndOf="@+id/list_image_container"
         tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
             At vero eos et accusam et justo duo dolores et ea rebum."/>

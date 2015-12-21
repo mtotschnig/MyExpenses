@@ -27,25 +27,25 @@
   <string name="split_transaction_error">Не мога да преобразувам транзакцията в разпределена.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Транзакцията е успешно преобразувана в разпределена.</item>
-    <item quantity="other">%1$d транзакции са успешно преобразувани в разпределени.</item>
+    <item quantity="other">Успешно преобразувани в разпределени %1$d транзакции.</item>
   </plurals>
   <string name="color">Цвят</string>
   <string name="comment">Бележка</string>
   <string name="confirmation_dialog_dont_show_again">Не показвай отново</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Без реклами</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Броят сметки, които може да създадете в  <i>Моите разходи</i> е ограничен до 5.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Неограничен брой сметки</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Прикачане на изображение към транзакция</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Разпределяне на транзакции по категория</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Броят на плановете, които можете да създадете с <i>Моите разходи</i> е ограничен до 3.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Неограничен брой планове</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Експортиране в PDF на списък транзакции</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Въпрос за сигурност</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Разпределена транзакция</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Шаблон на уиджет</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Импорт от CSV</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Автоматичен бекъп</string>
-  <string name="contrib_key">Ключ от покупка</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без реклами</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Броят сметки, които може да създадете в  <i>Моите разходи</i> е ограничен до 5.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Неограничен брой сметки</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Прикачане на изображение към транзакция</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Разпределяне на транзакции по категория</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Броят на плановете, които можете да създадете с <i>Моите разходи</i> е ограничен до 3.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограничен брой планове</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Експортиране в PDF на списък транзакции</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Въпрос за сигурност</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Разпределена транзакция</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон на уиджет</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Импорт от CSV</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Автоматичен бекъп</string>
+  <string name="contrib_key">ключ за Премиум вариант</string>
   <string name="extended_key">ключ за Разширен вариант</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Изисква %s.</string>
@@ -132,7 +132,7 @@
   <string name="expense">Разход</string>
   <string name="export_expenses">Експорт на Разходи</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Неуспешен експорт на Разходи \"%1$s\" в %2$s</string>
+  <string name="export_sdcard_failure">Неуспешен експорт на Разходи в \"%1$s\": %2$s</string>
   <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Успешен експорт на Разходи във файл \"%1$s\"</string>
   <string name="external_storage_unavailable">Няма външна памет (sdcard)!</string>
@@ -171,7 +171,7 @@
   <string name="licence_validation_failure">Не може да се валидира лицензен ключ.</string>
   <string name="licence_validation_success">Успешно валидиран ключ: </string>
   <string name="licence_validation_premium">Функциите на Премиум вариант са отключени.</string>
-  <string name="licence_validation_extended">Функциите Разширен вариант са отключени.</string>
+  <string name="licence_validation_extended">Функциите на Разширен вариант са отключени.</string>
   <string name="menu_aggregates">Общо</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Приложи</string>
@@ -365,7 +365,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Изисква се парола.</string>
   <string name="pref_qif_export_file_encoding_title">Кодиране на знаците</string>
   <string name="pref_request_licence_summary">Ако сте заплатили, поискайте ключ за андроид-ИД %1$s по електронната поща.</string>
-  <string name="pref_request_licence_title">Изискайте ключ</string>
+  <string name="pref_request_licence_title">Поискайте ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Алтернатива</string>
   <string name="pref_restore_alternative_summary">Използвайте алтернативен начин, ако на устройството нямате файлов мениджър или възстановявате от бекъп в по-стар формат.</string>
@@ -422,7 +422,7 @@
   <string name="select">Изберете</string>
   <string name="select_category">Изберете категория</string>
   <string name="menu_select_category">Изберете тази категория</string>
-  <string name="menu_select_folder">Изберете тази папка</string>
+  <string name="menu_select_folder">Избери тази папка</string>
   <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
   <string name="share_sending">Избери файл за експорт</string>
   <string name="split_parts_heading">Разпределени суми</string>
@@ -527,8 +527,8 @@
   <string name="comparison_operator_between">между</string>
   <string name="comparison_operator_date_before">преди</string>
   <string name="comparison_operator_date_after">след</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Само днес специална оферта в безплатното приложение: премийните функции са отключени безплатно.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Закупуването е неуспешно или отменено.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Само днес специална оферта в безплатното приложение: премийните функции са отключени безплатно.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Закупуването е неуспешно или отменено.</string>
   <string name="hint_auto_fill">Трябва ли сума, категория и коментар да се попълват автоматично от последното плащане за същия получател/платец? Винаги може да промените това от Настройки.</string>
   <string name="yes">Да</string>
   <string name="no">Не</string>
@@ -591,4 +591,5 @@
   <string name="menu_move">Премести</string>
   <string name="dialog_title_select_target">Избери приемната категория</string>
   <string name="transform_subcategory_to_main">Преобразувай в главна категория</string>
+  <string name="preferences_week_start_day_title">Седмицата започва от</string>
 </resources>

@@ -20,17 +20,17 @@
   <string name="category">類別</string>
   <string name="color">顏色</string>
   <string name="comment">附註</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">你可以在 <i>開支助手</i> 中創建賬戶的數目僅限5個。</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">帳戶數量不限</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">將圖像附加到交易項目</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">每個類別的交易分佈</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">你可以在 <i>開支助手</i> 中創建計劃的數目僅限3個。</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">計劃數量不限</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">匯出交易記錄清單成PDF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">安全問題</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">分割交易</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">模板插件</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">自動備份</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>開支助手</i> 中創建賬戶的數目僅限5個。</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帳戶數量不限</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">將圖像附加到交易項目</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">每個類別的交易分佈</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>開支助手</i> 中創建計劃的數目僅限3個。</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">計劃數量不限</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">匯出交易記錄清單成PDF</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">安全問題</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">分割交易</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">自動備份</string>
   <string name="contrib_key">貢獻密鑰</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">貨幣</string>
@@ -341,4 +341,5 @@
   <string name="switch_on_text">開啟</string>
   <string name="switch_off_text">關閉</string>
   <string name="menu_move">移動</string>
+  <string name="preferences_week_start_day_title">一週起始日</string>
 </resources>

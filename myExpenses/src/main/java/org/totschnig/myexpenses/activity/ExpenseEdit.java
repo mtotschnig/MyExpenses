@@ -45,6 +45,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -608,7 +609,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      if (!calendarPermissionPermanentlyDeclined()) {
+      if (Utils.IS_ANDROID && !calendarPermissionPermanentlyDeclined()) {
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
         findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
@@ -856,6 +857,10 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void createRow() {
     Account account = getCurrentAccount();
+    if (account == null) {
+      Toast.makeText(this, R.string.account_list_not_yet_loaded, Toast.LENGTH_LONG).show();
+      return;
+    }
     Intent i = new Intent(this, ExpenseEdit.class);
     forwardDataEntryFromWidget(i);
     i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);

@@ -9,22 +9,24 @@
       Denis Solonenko - initial API and implementation
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-  <Button
-      android:layout_weight="1"
-    	android:layout_height="wrap_content"
-      android:layout_width="0dp"
-      android:ellipsize="end"
-			android:id="@+id/bCancel"
-      android:textSize="18sp"
-      android:singleLine="true"
-			android:text="@android:string/cancel"/>
-  <Button
-      android:layout_weight="1"
-      android:layout_height="wrap_content"
-      android:layout_width="0dp"
-      android:ellipsize="end"
-      android:id="@+id/bOK"
-      android:textSize="18sp"
-      android:singleLine="true"
-      android:text="@android:string/ok"/>
+
+    <Button
+        android:id="@+id/bCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@android:string/cancel"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/bOK"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@android:string/ok"
+        android:textSize="18sp"/>
 </merge>

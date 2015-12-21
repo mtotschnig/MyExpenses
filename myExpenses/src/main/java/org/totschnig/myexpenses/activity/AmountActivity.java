@@ -61,7 +61,11 @@ public abstract class AmountActivity extends EditActivity {
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
-    nfDLocal = new DecimalFormat("#0.########",symbols);
+    String pattern = "#0";
+    if (fractionDigits>0) {
+      pattern += "." + new String(new char[fractionDigits]).replace("\0", "#");
+    }
+    nfDLocal = new DecimalFormat(pattern,symbols);
     nfDLocal.setGroupingUsed(false);
     Utils.configDecimalSeparator(mAmountText, decimalSeparator,fractionDigits);
   }

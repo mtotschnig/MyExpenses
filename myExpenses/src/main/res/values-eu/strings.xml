@@ -32,19 +32,19 @@
   <string name="color">Kolorea</string>
   <string name="comment">Oharrak</string>
   <string name="confirmation_dialog_dont_show_again">Ez erakutsi berriro</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Iragarkirik gabe</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko kontu kopurua 5 da.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Kontu kopuru mugagabea</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Erantsi irudia transakzioari</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Transakzioen distribuzioa kategoriako</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko plan kopurua 3 da.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Plan kopuru mugagabea</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Esportatu transakzio zerrenda PDFra</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Segurtasun galdera</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Banatu transakzioa</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Txantiloien trepeta</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV inportazioa</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Babeskopia automatikoa</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Iragarkirik gabe</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko kontu kopurua 5 da.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Kontu kopuru mugagabea</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Erantsi irudia transakzioari</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Transakzioen distribuzioa kategoriako</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko plan kopurua 3 da.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Plan kopuru mugagabea</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportatu transakzio zerrenda PDFra</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Segurtasun galdera</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Banatu transakzioa</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Txantiloien trepeta</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV inportazioa</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Babeskopia automatikoa</string>
   <string name="contrib_key">Kontribuzio Gakoa</string>
   <string name="extended_key">Gako hedatua</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -520,8 +520,8 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="comparison_operator_between">&gt; x &lt;</string>
   <string name="comparison_operator_date_before">lehenago</string>
   <string name="comparison_operator_date_after">beranduago</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Gaurko eskaintza berezia AppGratis bitartez: Premium ezaugarriak doan desblokeatuta.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Erosketak huts egin du eta bertan behera utzi da.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Gaurko eskaintza berezia AppGratis bitartez: Premium ezaugarriak doan desblokeatuta.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Erosketak huts egin du eta bertan behera utzi da.</string>
   <string name="hint_auto_fill">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile beraren aurreko transakzioko datuekin? Portaera hau ezarpenetan aldatu dezakezu gero ere.</string>
   <string name="yes">Bai</string>
   <string name="no">Ez</string>
@@ -581,4 +581,5 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="button_request_calendar_access">Baimena eman</string>
   <string name="switch_on_text">Bai</string>
   <string name="switch_off_text">Ez</string>
+  <string name="preferences_week_start_day_title">Hau da asteko lehen eguna:</string>
 </resources>

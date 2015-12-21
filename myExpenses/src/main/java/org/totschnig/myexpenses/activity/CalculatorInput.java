@@ -24,9 +24,12 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.Utils;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -61,12 +64,23 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
         for (int id : buttons) {
             Button b = (Button) findViewById(id);
             b.setOnClickListener(this);
+            if (b.getTag()!=null) {
+                char c = ((String) b.getTag()).charAt(0);
+                if (Character.isDigit(c)) {
+                    b.setText(String.format("%d",Character.getNumericValue(c)));
+                }
+                else if (c == '.') {
+                    b.setText(String.valueOf(Utils.getDefaultDecimalSeparator()));
+                }
+            }
         }
 
         tvResult = (TextView) findViewById(R.id.result);
+        setDisplay("0");
         tvOp = (TextView) findViewById(R.id.op);
 
         Button b = (Button) findViewById(R.id.bOK);
+
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -98,7 +112,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     @Override
     public void onClick(View v) {
         Button b = (Button) v;
-        char c = b.getText().charAt(0);
+        char c = (v.getTag() == null ? b.getText() : ((String) b.getTag())).charAt(0);
         onButtonClick(c);
     }
 
@@ -106,9 +120,24 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
         if (isNotEmpty(s)) {
             s = s.replaceAll(",", ".");
             result = s;
-            tvResult.setText(s);
+            tvResult.setText(localize(result));
         }
     }
+
+    private String localize(String in) {
+        StringBuilder out = new StringBuilder();
+        for (char c : in.toCharArray()) {
+            if (Character.isDigit(c)) {
+                out.append(String.format("%d",Character.getNumericValue(c)));
+            } else if (c == '.') {
+                out.append(String.valueOf(Utils.getDefaultDecimalSeparator()));
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
+
     public static boolean isNotEmpty(String s) {
       return s != null && s.length() > 0;
 }
@@ -139,7 +168,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     }
 
     private void doBackspace() {
-        String s = tvResult.getText().toString();
+        String s = result;
         if ("0".equals(s) || isRestart) {
             return;
         }
@@ -176,7 +205,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     }
 
     private void addChar(char c) {
-        String s = tvResult.getText().toString();
+        String s = result;
         if (c == '.' && s.indexOf('.') != -1 && !isRestart) {
             return;
         }
@@ -227,7 +256,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
                 if (d2.intValue() == 0) {
                     stack.push("0.0");
                 } else {
-                    stack.push(new BigDecimal(valOne).divide(d2, 2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    stack.push(new BigDecimal(valOne).divide(d2, MathContext.DECIMAL64).toPlainString());
                 }
                 break;
             default:
@@ -282,6 +311,6 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
       stack.addAll(Arrays.asList((String[])savedInstanceState.getSerializable("stack")));
       if (lastOp != '\0' && !isInEquals)
         tvOp.setText(String.valueOf(lastOp));
-      tvResult.setText(result);
+      setDisplay(result);
     }
 }

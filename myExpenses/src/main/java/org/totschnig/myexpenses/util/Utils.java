@@ -93,6 +93,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -108,7 +109,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
  */
 public class Utils {
 
-  public static final boolean IS_FLAVOURED = !BuildConfig.FLAVOR.equals("");
+  public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
+  public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
   private static NumberFormat numberFormat;
 
   private static void initNumberFormat() {
@@ -1286,5 +1288,9 @@ public class Utils {
   @SuppressLint("NewApi")
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
+  }
+
+  public static int getFirstDayOfWeek(Locale locale) {
+    return new GregorianCalendar(locale).getFirstDayOfWeek();
   }
 }

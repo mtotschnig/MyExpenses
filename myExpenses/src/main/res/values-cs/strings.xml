@@ -20,15 +20,15 @@
   <string name="category">Kategorie</string>
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Počet účtů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 5.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Neomezený počet účtů</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Rozdělení transakcí podle jednotlivých kategorií</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Počet plánů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 3.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Neomezený počet plánů</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Bezpečnostní otázka</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Rozdělení transakce</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Šablona widget</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatická záloha</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Počet účtů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 5.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Rozdělení transakcí podle jednotlivých kategorií</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Počet plánů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 3.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Bezpečnostní otázka</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Rozdělení transakce</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Automatická záloha</string>
   <string name="contrib_key">Klíč Contrib</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Vyžaduje %s.</string>
@@ -359,4 +359,5 @@
   <string name="switch_on_text">Zapnuto</string>
   <string name="switch_off_text">Vypnuto</string>
   <string name="menu_move">Přesun</string>
+  <string name="preferences_week_start_day_title">Začátek týdne</string>
 </resources>

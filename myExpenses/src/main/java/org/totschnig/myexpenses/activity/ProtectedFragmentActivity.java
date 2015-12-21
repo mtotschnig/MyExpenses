@@ -202,7 +202,9 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       String key) {
     if (key.equals(MyApplication.PrefKey.UI_THEME_KEY.getKey()) ||
         key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
-        key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey())) {
+        key.equals(MyApplication.PrefKey.UI_FONTSIZE.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
       scheduledRestart = true;
     }
   }

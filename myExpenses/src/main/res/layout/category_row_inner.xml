@@ -19,6 +19,8 @@
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:layout_toLeftOf="@+id/amount"
         android:layout_toRightOf="@+id/color1"
+        android:layout_toStartOf="@+id/amount"
+        android:layout_toEndOf="@+id/color1"
         android:gravity="center_vertical"/>
 
     <TextView
@@ -26,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:gravity="center_vertical" />
 
 </merge>

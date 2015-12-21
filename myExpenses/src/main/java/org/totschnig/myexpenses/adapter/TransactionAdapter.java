@@ -30,8 +30,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -39,7 +37,6 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -51,6 +48,8 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   private int colorExpense;
   private int colorIncome;
   boolean insideFragment;
+  protected int monthStart =
+      Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
 
   public TransactionAdapter(Account account, Grouping grouping, Context context, int layout, Cursor c, String[] from,
       int[] to, int flags) {
@@ -207,7 +206,8 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       itemDateFormat = localizedTimeFormat;
       break;
     case MONTH:
-      itemDateFormat = new SimpleDateFormat("dd");
+      itemDateFormat = monthStart == 1 ?
+          new SimpleDateFormat("dd") : Utils.localizedYearlessDateFormat();
       break;
     case WEEK:
       itemDateFormat = new SimpleDateFormat("EEE");

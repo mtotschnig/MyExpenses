@@ -27,19 +27,19 @@
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
   <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Brak reklam</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Dopinanie obrazów do transakcji</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Dystrybucja tranakcji na kategorię.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 3.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Nieograniczona ilość planów</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Eksport listy transakcji do PDF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Podział transakcji</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Szablon widget</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatyczna kopia zapasowa</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Brak reklam</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nieskończona ilość kont</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Dopinanie obrazów do transakcji</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Dystrybucja tranakcji na kategorię.</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Ilość planów jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 3.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nieograniczona ilość planów</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport listy transakcji do PDF</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Pytanie bezpieczeństwa</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Podział transakcji</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Szablon widget</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Automatyczna kopia zapasowa</string>
   <string name="contrib_key">Klucz Contrib</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Wymaga %s.</string>
@@ -482,8 +482,8 @@
   <string name="comparison_operator_between">pomiędzy</string>
   <string name="comparison_operator_date_before">przed</string>
   <string name="comparison_operator_date_after">po</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Zakup nie udał się lub został anulowany.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>
   <string name="learn_more">Dowiedz się więcej</string>
@@ -511,4 +511,5 @@
   <string name="switch_on_text">Wł.</string>
   <string name="switch_off_text">Wył.</string>
   <string name="menu_move">Przenieś</string>
+  <string name="preferences_week_start_day_title">Pierwszy dzień tygodnia</string>
 </resources>

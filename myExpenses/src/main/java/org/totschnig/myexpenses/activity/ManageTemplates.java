@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -81,7 +82,8 @@ public class ManageTemplates extends TabbedActivity implements
     super.onCreate(savedInstanceState);
 
     final ActionBar actionBar = getSupportActionBar();
-    actionBar.setTitle(getString(R.string.menu_manage_plans));
+    actionBar.setTitle(getString(Utils.IS_ANDROID ?
+        R.string.menu_manage_plans : R.string.menu_manage_plans_tab_templates));
 
     mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
       @Override
@@ -108,7 +110,8 @@ public class ManageTemplates extends TabbedActivity implements
   @Override
   protected void setupTabs(Bundle savedInstanceState) {
     mSectionsPagerAdapter.addFragment(new TemplatesList(), getString(R.string.menu_manage_plans_tab_templates));
-    mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
+    if (Utils.IS_ANDROID)
+      mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
   }
 
   @Override

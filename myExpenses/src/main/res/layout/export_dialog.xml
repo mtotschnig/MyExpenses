@@ -163,7 +163,6 @@
 
             <RadioButton
                 android:id="@+id/create_helper"
-                android:checked="true"
                 android:text="@string/export_handle_deleted_create_helper"/>
 
             <RadioButton
