@@ -26,14 +26,14 @@
   <string name="color">ពណ៌</string>
   <string name="comment">សម្គាល់</string>
   <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">សំណួរសន្តិសុខ</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">ប្រអប់​ធាតុពុម្ព</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">សំណួរសន្តិសុខ</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">ការញែក​​ប្រតិបត្តិការ</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">ត្រូវការកម្មវិធី %s.</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
@@ -420,5 +420,5 @@
   <string name="switch_on_text">បើក</string>
   <string name="switch_off_text">បិទ</string>
   <string name="menu_move">រំកិល</string>
-  <string name="preferences_week_start_day_title">"សប្ដាហ៍​ចាប់ផ្ដើម​នៅ"</string>
+  <string name="preferences_week_start_day_title">សប្ដាហ៍​ចាប់ផ្ដើម​នៅ</string>
 </resources>

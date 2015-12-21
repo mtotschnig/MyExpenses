@@ -32,19 +32,19 @@
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Ohne Werbung</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Bildanhang für Buchung</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Buchungsliste als PDF-Datei drucken</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Sicherheitsfrage</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Splitbuchung</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Vorlagen Widget</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV import</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Automatisches Backup</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ohne Werbung</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Mit <i>Meine Ausgaben</i> können Sie bis zu 5 Konten anlegen.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Konten</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Bildanhang für Buchung</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Verteilung der Buchungen auf Kategorien</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Sicherheitsfrage</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Splitbuchung</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Automatisches Backup</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="extended_key">Erweiterungsschlüssel</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -527,8 +527,8 @@
   <string name="comparison_operator_between">zwischen</string>
   <string name="comparison_operator_date_before">vor</string>
   <string name="comparison_operator_date_after">nach</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Einkauf ist gescheitert oder abgebrochen.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Einkauf ist gescheitert oder abgebrochen.</string>
   <string name="hint_auto_fill">Sollen Betrag, Kategorie und Kommentar automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
@@ -591,5 +591,5 @@
   <string name="menu_move">Verschieben</string>
   <string name="dialog_title_select_target">Ziel auswählen</string>
   <string name="transform_subcategory_to_main">In eine Hauptkategorie umwandeln</string>
-  <string name="preferences_week_start_day_title">"Woche beginnt am"</string>
+  <string name="preferences_week_start_day_title">Woche beginnt am</string>
 </resources>

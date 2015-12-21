@@ -31,19 +31,19 @@
   <string name="color">색상</string>
   <string name="comment">메모</string>
   <string name="confirmation_dialog_dont_show_again">다시 보여주지 않음</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">광고 없음</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description"><i>My Expenses</i>에서 만들 수 있는 계좌의 개수는 최대 5개로 제한되어 있습니다.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">개수 제한 없는 계좌</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">거래 내역에 이미지 첨부</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">카테고리당 거래 내역의 분포</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description"><i>My Expenses</i>에서 만들 수 있는 재무 계획의 개수는 최대 3개로 제한되어 있습니다.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">개수 제한 없는 재무 계획</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">거래 내역 목록을 PDF로 내보내기</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">보안 질문</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">거래 내역을 분할하기</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">템플릿 위젯</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">CSV 가져오기</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">자동 백업</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>My Expenses</i>에서 만들 수 있는 계좌의 개수는 최대 5개로 제한되어 있습니다.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">카테고리당 거래 내역의 분포</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>My Expenses</i>에서 만들 수 있는 재무 계획의 개수는 최대 3개로 제한되어 있습니다.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">보안 질문</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">거래 내역을 분할하기</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">템플릿 위젯</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV 가져오기</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">자동 백업</string>
   <string name="contrib_key">기부 확인 키</string>
   <string name="extended_key">확장 키</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -517,8 +517,8 @@
   <string name="comparison_operator_between">사이에</string>
   <string name="comparison_operator_date_before">이전에</string>
   <string name="comparison_operator_date_after">이후에</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">AppGratis의 특별 제안: 무료로 프리미엄 기능 사용</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">구매에 실패했거나 취소되었습니다.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis의 특별 제안: 무료로 프리미엄 기능 사용</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
   <string name="hint_auto_fill">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 자동으로 입력할까요? 이 동작은 설정 화면에서 언제나 변경할 수 있습니다.</string>
   <string name="yes">예</string>
   <string name="no">아니오</string>
@@ -581,5 +581,5 @@
   <string name="menu_move">옮기기</string>
   <string name="dialog_title_select_target">목적지 선택</string>
   <string name="transform_subcategory_to_main">주 카테고리로 바꾸기</string>
-  <string name="preferences_week_start_day_title">"한 주의 시작"</string>
+  <string name="preferences_week_start_day_title">한 주의 시작</string>
 </resources>

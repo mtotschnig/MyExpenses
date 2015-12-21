@@ -30,19 +30,19 @@
   <string name="color">Warna</string>
   <string name="comment">Nota</string>
   <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_ad_free_label">Tanpa iklan</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_description">Bilangan akaun yang anda boleh cipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 5.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_accounts_unlimited_label">Bilangan akaun tidak terhad</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_attach_picture_label">Lampir imej ke dalam transaksi</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_distribution_label">Agihan transaksi per kategori</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_description">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_plans_unlimited_label">Bilang pelan tidak terhad</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_print_label">Eksport senarai transaksi menjadi PDF</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_security_question_label">Soalan keselamatan</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_split_transaction_label">Transaksi pisah</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_template_widget_label">Widget  templat</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_csv_import_label">Import CSV</string>
-  <string tools:ignore="UnusedResources" name="contrib_feature_auto_backup_label">Auto-Sandar</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Tanpa iklan</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Bilangan akaun yang anda boleh cipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 5.</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Bilangan akaun tidak terhad</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lampir imej ke dalam transaksi</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Agihan transaksi per kategori</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Bilang pelan tidak terhad</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport senarai transaksi menjadi PDF</string>
+  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Soalan keselamatan</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Transaksi pisah</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget  templat</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-Sandar</string>
   <string name="contrib_key">Kunci Contrib</string>
   <string name="extended_key">Kunci Lanjutan</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -502,8 +502,8 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="comparison_operator_between">diantara</string>
   <string name="comparison_operator_date_before">sebelum</string>
   <string name="comparison_operator_date_after">selepas</string>
-  <string tools:ignore="UnusedResources" name="promotion_appgratis_welcome">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
-  <string tools:ignore="UnusedResources" name="premium_failed_or_canceled">Pembelian gagal atau dibatalkan.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Tawaran istimewa hari ini dengan AppGratis: Fitur Premium dibuka secara percuma.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Pembelian gagal atau dibatalkan.</string>
   <string name="hint_auto_fill">Patutkah amaun, kategori dan ulasan diisi secara automatik dari transaksi terakhir untuk pembayar/penerima yang sama? Anda boleh mengubah kelakuakn ini melalui tetapan.</string>
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
@@ -561,5 +561,5 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
   <string name="switch_on_text">Dihidupkan</string>
   <string name="switch_off_text">Dimatikan</string>
-  <string name="preferences_week_start_day_title">"Minggu bermula pada"</string>
+  <string name="preferences_week_start_day_title">Minggu bermula pada</string>
 </resources>
