@@ -111,11 +111,11 @@
             android:title="Configure grouping periods">
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
                 android:key="@string/pref_group_week_starts_key"
-                android:title="@string/pref_group_week_starts_title"/>
+                android:title="@string/preferences_week_start_day_title"/>
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
                 android:defaultValue="1"
                 android:key="@string/pref_group_month_starts_key"
-                android:title="@string/pref_group_month_starts_title"/>
+                android:title="@string/preferences_month_start_date_title"/>
         </PreferenceScreen>
     </PreferenceCategory>
 

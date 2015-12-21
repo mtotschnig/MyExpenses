@@ -588,4 +588,5 @@
   <string name="menu_move">Μετακίνηση</string>
   <string name="dialog_title_select_target">Επιλέξτε στόχο</string>
   <string name="transform_subcategory_to_main">Μεταμόρφωση στην κύρια κατηγορία</string>
+  <string name="preferences_week_start_day_title">"Έναρξη εβδομάδας:"</string>
 </resources>

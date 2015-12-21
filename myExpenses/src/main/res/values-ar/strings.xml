@@ -367,4 +367,6 @@
   <string name="switch_on_text">تشغيل</string>
   <string name="switch_off_text">إيقاف</string>
   <string name="menu_move">تحريك</string>
+  <string name="preferences_week_start_day_title">"يبدأ الأسبوع يوم"</string>
+
 </resources>

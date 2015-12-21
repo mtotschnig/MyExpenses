@@ -527,4 +527,5 @@ Tradus de DD</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
   <string name="switch_on_text">Activat</string>
   <string name="switch_off_text">Dezactivat</string>
+  <string name="preferences_week_start_day_title">"Săptămâna începe"</string>
 </resources>
