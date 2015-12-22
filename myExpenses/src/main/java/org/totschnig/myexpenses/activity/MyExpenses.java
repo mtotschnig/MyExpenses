@@ -763,7 +763,8 @@ public class MyExpenses extends LaunchActivity implements
           public Cursor loadInBackground() {
             try {
               return super.loadInBackground();
-            } catch (SQLiteException e) {
+            } catch (TransactionDatabase.SQLiteDowngradeFailedException |
+                TransactionDatabase.SQLiteUpgradeFailedException e) {
               Utils.reportToAcra(e);
               String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
                   ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
@@ -776,7 +777,7 @@ public class MyExpenses extends LaunchActivity implements
                   null,
                   null);
               f.setCancelable(false);
-              f.show(getSupportFragmentManager(), "DOWNGRADE");
+              f.show(getSupportFragmentManager(), "DOWN_OR_UP_GRADE");
               return null;
             }
           }
