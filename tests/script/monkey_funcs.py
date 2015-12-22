@@ -37,7 +37,7 @@ def end():
   if RTL:
     left()
   else:
-  	end()
+    right()
 
 def right():
   device.press('KEYCODE_DPAD_RIGHT')
