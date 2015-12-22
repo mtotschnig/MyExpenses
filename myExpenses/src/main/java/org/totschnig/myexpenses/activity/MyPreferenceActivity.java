@@ -404,6 +404,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         new AsyncTask<Void, Void, Boolean>() {
           @Override
           protected Boolean doInBackground(Void... params) {
+            if (getActivity() == null) return false;
             Cursor c = getActivity().getContentResolver().query(
                 TransactionProvider.STALE_IMAGES_URI,
                 new String[]{"count(*)"},
