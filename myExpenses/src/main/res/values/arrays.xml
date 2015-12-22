@@ -343,17 +343,6 @@
         <item>195</item>
         <item>193</item>
         <item>191</item>
-        <item>185</item>
-        <item>182</item>
-        <item>180</item>
-        <item>179</item>
-        <item>177</item>
-        <item>173</item>
-        <item>170</item>
-        <item>168</item>
-        <item>164</item>
-        <item>159</item>
-        <item>155</item>
     </integer-array>
     <string-array name="version_names">
         <item>2.6.2</item>
@@ -372,17 +361,6 @@
         <item>2.4.2</item>
         <item>2.4.1</item>
         <item>2.4.0</item>
-        <item>2.3.9</item>
-        <item>2.3.8</item>
-        <item>2.3.7</item>
-        <item>2.3.6</item>
-        <item>2.3.5</item>
-        <item>2.3.4</item>
-        <item>2.3.3</item>
-        <item>2.3.2</item>
-        <item>2.3.1</item>
-        <item>2.3.0</item>
-        <item>2.2.0</item>
     </string-array>
 
     <!-- first member is Facebook post id, second Google+ post id -->
