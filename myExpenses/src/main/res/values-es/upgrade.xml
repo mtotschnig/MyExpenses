@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_262">
+    <item>Días donde se puede configurar inicio de semana y mes.</item>
+  </string-array>
   <string-array name="whats_new_261">
     <item>Categorías se pueden mover</item>
   </string-array>

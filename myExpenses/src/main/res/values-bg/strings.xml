@@ -368,7 +368,7 @@
   <string name="pref_request_licence_title">Поискайте ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Алтернатива</string>
-  <string name="pref_restore_alternative_summary">Използвайте алтернативен начин, ако на устройството нямате файлов мениджър или възстановявате от бекъп в по-стар формат.</string>
+  <string name="pref_restore_alternative_summary">Използвайте алтернативния начин, ако на устройството нямате файлов мениджър или възстановявате от бекъп в по-стар формат.</string>
   <string name="pref_restore_summary">Изберете бекъп файл за възстановяване на база данни и предпочитания.</string>
   <string name="pref_restore_title">Възстановяване</string>
   <string name="pref_security_question_summary">Позволява Ви да отключите приложението, ако сте забравили паролата си.</string>
@@ -584,7 +584,7 @@
   <string name="pref_auto_backup_time_title">Време за автоматичен бекъп</string>
   <string name="warning_auto_backup_limited_trial">След  %d успешни бекъпа, автоматичното запазване ще се деактивира.</string>
   <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни бекъпи.</string>
-  <string name="calendar_permission_required"><i>Моите разходи</i> се нуждае от право на достъп до вашия календар за да създаде план на бъдещи и повтарящи се транзакции.</string>
+  <string name="calendar_permission_required"><i>Моите разходи</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
   <string name="button_request_calendar_access">Предоставен достъп</string>
   <string name="switch_on_text">Включено</string>
   <string name="switch_off_text">Изключено</string>
@@ -592,4 +592,5 @@
   <string name="dialog_title_select_target">Избери приемната категория</string>
   <string name="transform_subcategory_to_main">Преобразувай в главна категория</string>
   <string name="preferences_week_start_day_title">Седмицата започва от</string>
+  <string name="preferences_month_start_date_title">Месецът започва на</string>
 </resources>
