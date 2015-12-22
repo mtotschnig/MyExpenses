@@ -266,7 +266,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                     MyApplication.getInstance(), false));
         break;
       }
-      long dbAccountId = Account.findAny(account.memo);
+      long dbAccountId = TextUtils.isEmpty(account.memo) ? -1 : Account.findAny(account.memo);
       if (dbAccountId!=-1) {
         Account dbAccount = Account.getInstanceFromDb(accountId);
         account.dbAccount = dbAccount;

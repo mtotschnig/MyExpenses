@@ -104,7 +104,8 @@ public class QifParser {
                   t.readFrom(r, dateFormat);
                   if (t.isOpeningBalance()) {
                    account.openinBalance = t.amount;
-                   account.memo =t.toAccount;
+                    if (!TextUtils.isEmpty(t.toAccount))
+                      account.memo = t.toAccount;
                   } else {
                     addPayeeFromTransaction(t);
                     addCategoryFromTransaction(t);
