@@ -111,6 +111,11 @@ public class Utils {
 
   public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
   public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
+
+  public static boolean hasApiLevel(int checkVersion) {
+    return Build.VERSION.SDK_INT >= checkVersion;
+  }
+
   private static NumberFormat numberFormat;
 
   private static void initNumberFormat() {

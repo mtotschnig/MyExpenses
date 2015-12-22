@@ -287,6 +287,7 @@ public class MyApplication extends Application implements
     getSettings().registerOnSharedPreferenceChangeListener(this);
     DatabaseConstants.buildLocalized(Locale.getDefault());
     initContribEnabled();
+
     initPlanner();
     registerWidgetObservers();
     //      if (Distrib.isBatchAvailable()) {

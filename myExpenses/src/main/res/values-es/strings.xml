@@ -593,4 +593,5 @@
   <string name="dialog_title_select_target">Seleccione destino</string>
   <string name="transform_subcategory_to_main">Transformar en categoría principal</string>
   <string name="preferences_week_start_day_title">La semana empieza el</string>
+  <string name="preferences_month_start_date_title">Mes inicia en</string>
 </resources>

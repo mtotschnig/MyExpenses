@@ -592,4 +592,5 @@
   <string name="dialog_title_select_target">Ziel auswählen</string>
   <string name="transform_subcategory_to_main">In eine Hauptkategorie umwandeln</string>
   <string name="preferences_week_start_day_title">Woche beginnt am</string>
+  <string name="preferences_month_start_date_title">Monat beginnt am</string>
 </resources>
