@@ -45,9 +45,6 @@ public class DatabaseConstants {
    * add (weekNumber-1)*7 days to get at the beginning of the week
    */
   public static String COUNT_FROM_WEEK_START_ZERO;
-  static {
-    buildLocalized(Locale.getDefault());
-  }
 
   public static void buildLocalized(Locale locale) {
     weekStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_WEEK_STARTS.getString("-1"));
