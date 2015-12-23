@@ -108,7 +108,7 @@
             android:title="@string/pref_template_click_default_summary"/>
         <PreferenceScreen
             android:key="@string/pref_grouping_start"
-            android:title="Configure grouping periods">
+            android:title="@string/pref_grouping_periods">
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
                 android:key="@string/pref_group_week_starts_key"
                 android:title="@string/preferences_week_start_day_title"/>

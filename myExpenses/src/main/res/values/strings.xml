@@ -611,5 +611,7 @@
     <string name="transform_subcategory_to_main">Transform to main category</string>
     <string name="preferences_week_start_day_title">Week starts on</string>
     <string name="preferences_month_start_date_title">Month starts on</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">Grouping periods</string>
 </resources>
 
