@@ -3,16 +3,22 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.Map;
@@ -97,14 +103,47 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 "USAGES" : "ALPHABETIC");
       }
       VersionDialogFragment.newInstance(prev_version)
-        .show(getSupportFragmentManager(),"VERSION_INFO");
+        .show(getSupportFragmentManager(), "VERSION_INFO");
+    } else {
+      checkCalendarPermission();
     }
   }
+
+  private void checkCalendarPermission() {
+    if (!MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1").equals("-1")) {
+      if (ContextCompat.checkSelfPermission(this,
+          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+        ActivityCompat.requestPermissions(this,
+            new String[]{Manifest.permission.WRITE_CALENDAR},
+            ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+      }
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+          if (ActivityCompat.shouldShowRequestPermissionRationale(
+              this, Manifest.permission.WRITE_CALENDAR)) {
+            Toast.makeText(this, getString(R.string.calendar_permission_required),Toast.LENGTH_LONG)
+                .show();
+          } else {
+            MyApplication.getInstance().removePlanner();
+          }
+        }
+        break;
+    }
+  }
+
   /* (non-Javadoc)
-   * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
-   * The Preferences activity can be launched from activities of this subclass and we handle here 
-   * the need to restart if the restore command has been called
-   */
+     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+     * The Preferences activity can be launched from activities of this subclass and we handle here
+     * the need to restart if the restore command has been called
+     */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {

@@ -110,7 +110,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
     colorExpense = color.data;
-    theme.resolveAttribute(R.attr.colorIncome,color, true);
+    theme.resolveAttribute(R.attr.colorIncome, color, true);
     colorIncome = color.data;
   }
 
@@ -197,7 +197,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   }
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (dispatchCommand(item.getItemId(),null)) {
+    if (dispatchCommand(item.getItemId(), null)) {
       return true;
     }
     return super.onOptionsItemSelected(item);
@@ -335,7 +335,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
     }
     else {
-      CommonCommands.showContribDialog(this,feature, tag);
+      CommonCommands.showContribDialog(this, feature, tag);
     }
   }
 
@@ -353,6 +353,11 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
         PrefKey.CALENDAR_PERMISSION_REQUESTED.putBoolean(true);
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          MyApplication.getInstance().initPlanner();
+        }
+        break;
     }
   }
 
