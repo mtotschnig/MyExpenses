@@ -7,14 +7,12 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
@@ -22,7 +20,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
   Spinner selectBackupSpinner;
-  RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChanageListener;
+  RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChangeListener;
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,10 +34,12 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
-    mCalendarRestoreButtonCheckedChanageListener =
-        DialogUtils.buildCalendarRestoreStrategyChangedListener(
-            (ProtectedFragmentActivity) getActivity(), this);
-    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChanageListener);
+    if (mRestorePlanStrategie != null) {
+      mCalendarRestoreButtonCheckedChangeListener =
+          DialogUtils.buildCalendarRestoreStrategyChangedListener(
+              (ProtectedFragmentActivity) getActivity(), this);
+      mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
+    }
     return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.pref_restore_title)
         .setView(view)
@@ -83,7 +83,8 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
       if (position!= AdapterView.INVALID_POSITION) {
         ((BackupRestoreActivity) getActivity()).onSourceSelected(
             backupFiles[position],
-            mRestorePlanStrategie.getCheckedRadioButtonId());
+            mRestorePlanStrategie == null ? R.id.restore_calendar_handling_ignore :
+                mRestorePlanStrategie.getCheckedRadioButtonId());
         return;
       }
     }
@@ -98,7 +99,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
 
   private void setButtonState() {
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
-        mRestorePlanStrategie.getCheckedRadioButtonId() != -1);
+        mRestorePlanStrategie == null || mRestorePlanStrategie.getCheckedRadioButtonId() != -1);
   }
 
   @Override
@@ -110,7 +111,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
   public void onCalendarPermissionDenied() {
     mRestorePlanStrategie.setOnCheckedChangeListener(null);
     mRestorePlanStrategie.clearCheck();
-    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChanageListener);
+    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     setButtonState();
   }
 }
