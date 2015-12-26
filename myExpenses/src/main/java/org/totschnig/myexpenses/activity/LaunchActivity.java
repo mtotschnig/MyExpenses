@@ -104,9 +104,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(), "VERSION_INFO");
-    } else {
-      checkCalendarPermission();
     }
+    checkCalendarPermission();
   }
 
   private void checkCalendarPermission() {
