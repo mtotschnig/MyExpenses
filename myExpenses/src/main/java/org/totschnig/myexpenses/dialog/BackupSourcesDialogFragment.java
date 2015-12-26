@@ -3,16 +3,20 @@ package org.totschnig.myexpenses.dialog;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     implements DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
+  RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChanageListener;
+
   
   public static final BackupSourcesDialogFragment newInstance() {
     return new BackupSourcesDialogFragment();
@@ -24,7 +28,12 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
-    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
+    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
+    mCalendarRestoreButtonCheckedChanageListener =
+        DialogUtils.buildCalendarRestoreStrategyChangedListener(
+            (ProtectedFragmentActivity) getActivity(), this);
+    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChanageListener);
+
   }
   @Override
   protected String getLayoutTitle() {
@@ -71,6 +80,14 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
 
   @Override
   public void onCheckedChanged() {
+    setButtonState();
+  }
+
+  @Override
+  public void onCalendarPermissionDenied() {
+    mRestorePlanStrategie.setOnCheckedChangeListener(null);
+    mRestorePlanStrategie.clearCheck();
+    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChanageListener);
     setButtonState();
   }
 }

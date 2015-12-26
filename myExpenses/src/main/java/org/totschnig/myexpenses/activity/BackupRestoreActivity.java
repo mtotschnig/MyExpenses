@@ -39,8 +39,11 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.provider.DocumentFile;
 import android.view.Window;
 import android.widget.Toast;
@@ -48,6 +51,7 @@ import android.widget.Toast;
 public class BackupRestoreActivity extends ProtectedFragmentActivity
     implements ConfirmationDialogListener {
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
+  public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -80,7 +84,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         }
       } else {
         BackupSourcesDialogFragment.newInstance().show(
-            getSupportFragmentManager(), "GRISBI_SOURCES");
+            getSupportFragmentManager(), FRAGMENT_TAG);
       }
     }
   }
@@ -257,7 +261,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       finish();
     } else {
       BackupListDialogFragment.newInstance(backups).show(
-          getSupportFragmentManager(), "BACKUP_LIST");
+          getSupportFragmentManager(), FRAGMENT_TAG);
     }
   }
 
@@ -304,5 +308,19 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     setResult(RESULT_CANCELED);
     finish();
   }
-
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG)
+                .show();
+          ((DialogUtils.CalendarRestoreStrategyChangedListener)
+              getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).onCalendarPermissionDenied();
+        }
+        break;
+    }
+  }
 }

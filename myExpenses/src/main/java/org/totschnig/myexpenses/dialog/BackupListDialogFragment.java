@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
@@ -20,6 +22,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
   Spinner selectBackupSpinner;
+  RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChanageListener;
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -31,7 +34,12 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     selectBackupSpinner = ((Spinner) view.findViewById(R.id.select_backup));
     selectBackupSpinner.setAdapter(adapter);
     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view,this);
+    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
+    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
+    mCalendarRestoreButtonCheckedChanageListener =
+        DialogUtils.buildCalendarRestoreStrategyChangedListener(
+            (ProtectedFragmentActivity) getActivity(), this);
+    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChanageListener);
     return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.pref_restore_title)
         .setView(view)
@@ -95,6 +103,14 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
 
   @Override
   public void onCheckedChanged() {
+    setButtonState();
+  }
+
+  @Override
+  public void onCalendarPermissionDenied() {
+    mRestorePlanStrategie.setOnCheckedChangeListener(null);
+    mRestorePlanStrategie.clearCheck();
+    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChanageListener);
     setButtonState();
   }
 }
