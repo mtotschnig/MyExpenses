@@ -15,8 +15,12 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
@@ -47,6 +51,7 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -280,15 +285,12 @@ public class DialogUtils {
     }
   }
 
-  public static RadioGroup configureCalendarRestoreStrategy(
-      View view, final CalendarRestoreStrategyChangedListener dialog) {
+  public static RadioGroup configureCalendarRestoreStrategy(View view) {
+    if (!Utils.IS_ANDROID) {
+      view.findViewById(R.id.RestoreCalendarHandlingRow).setVisibility(View.GONE);
+      return null;
+    }
     RadioGroup restorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
-    restorePlanStrategie.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(RadioGroup group, int checkedId) {
-        dialog.onCheckedChanged();
-      }
-    });
     String calendarId = MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     String calendarPath = MyApplication.PrefKey.PLANNER_CALENDAR_PATH.getString("");
     RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
@@ -299,8 +301,29 @@ public class DialogUtils {
     }
     return restorePlanStrategie;
   }
-  interface CalendarRestoreStrategyChangedListener {
+
+  public static RadioGroup.OnCheckedChangeListener buildCalendarRestoreStrategyChangedListener(
+      final ProtectedFragmentActivity context, final CalendarRestoreStrategyChangedListener listener) {
+    return new RadioGroup.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId == R.id.restore_calendar_handling_backup ||
+            checkedId == R.id.restore_calendar_handling_configured) {
+          if (ContextCompat.checkSelfPermission(context,
+              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(context,
+                new String[]{Manifest.permission.WRITE_CALENDAR},
+                ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+          }
+        }
+        listener.onCheckedChanged();
+      }
+    };
+  }
+
+  public interface CalendarRestoreStrategyChangedListener {
     void onCheckedChanged();
+    void onCalendarPermissionDenied();
   }
 
   public static Spinner configureDateFormat(View view, Context context, String prefName) {

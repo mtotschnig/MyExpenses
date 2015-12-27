@@ -19,7 +19,7 @@
 ]>
 <resources>
   <string-array name="whats_new_262">
-    <item>Days where week and month start can be configured.</item>
+    <item>Days where week and month start can be configured</item>
   </string-array>
   <string-array name="whats_new_261">
     <item>Categories can be moved</item>

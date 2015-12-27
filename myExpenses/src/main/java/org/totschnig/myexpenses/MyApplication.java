@@ -33,6 +33,7 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.google.common.annotations.VisibleForTesting;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -41,11 +42,13 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -479,15 +482,19 @@ public class MyApplication extends Application implements
     mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
     if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
       if (!checkPlannerInternal(mPlannerCalendarId)) {
-        SharedPreferencesCompat.apply(mSettings.edit()
-            .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
-            .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
-            .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey()));
+        removePlanner();
         return
             INVALID_CALENDAR_ID;
       }
     }
     return mPlannerCalendarId;
+  }
+
+  public void removePlanner() {
+    SharedPreferencesCompat.apply(mSettings.edit()
+        .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
+        .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
+        .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey()));
   }
 
   /**
@@ -567,8 +574,11 @@ public class MyApplication extends Application implements
    */
   public void initPlanner() {
     if (Utils.IS_ANDROID) {
-      Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
-      PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+      if (ContextCompat.checkSelfPermission(this,
+          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
+        PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+      }
     }
   }
 
