@@ -748,9 +748,9 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mTimeButton, findViewById(R.id.DateTimeLabel));
     linkInputWithLabel(mPayeeText, mPayeeLabel);
     View commentLabel = findViewById(R.id.CommentLabel);
-    linkInputWithLabel(mStatusSpinner.getSpinner(),commentLabel);
-    linkInputWithLabel(mAttachPictureButton,commentLabel);
-    linkInputWithLabel(mPictureView,commentLabel);
+    linkInputWithLabel(mStatusSpinner.getSpinner(), commentLabel);
+    linkInputWithLabel(mAttachPictureButton, commentLabel);
+    linkInputWithLabel(mPictureView, commentLabel);
     linkInputWithLabel(mCommentText, commentLabel);
     linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
     View methodLabel = findViewById(R.id.MethodLabel);
@@ -840,13 +840,10 @@ public class ExpenseEdit extends AmountActivity implements
   private boolean checkTransferEnabled(Account account) {
     if (account == null)
       return false;
-    if (!isTransferEnabled(account)) {
+    if (!(mAccounts.length > 1)) {
       MessageDialogFragment.newInstance(
           0,
-          getString(R.string.dialog_command_disabled_insert_transfer_1) +
-              " " +
-              getString(R.string.dialog_command_disabled_insert_transfer_2,
-                  account.currency.getCurrencyCode()),
+          getString(R.string.dialog_command_disabled_insert_transfer),
           MessageDialogFragment.Button.okButton(),
           null, null)
           .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
@@ -868,15 +865,7 @@ public class ExpenseEdit extends AmountActivity implements
     i.putExtra(KEY_PARENTID,mTransaction.getId());
     startActivityForResult(i, EDIT_SPLIT_REQUEST);
   }
-  private boolean isTransferEnabled(Account fromAccount) {
-    for (int i = 0; i < mAccounts.length; i++) {
-      if (fromAccount.getId() != mAccounts[i].getId() &&
-          fromAccount.currency.equals(mAccounts[i].currency)) {
-        return true;
-      }
-    }
-    return false;
-  }
+
   /**
    * calls the activity for selecting (and managing) categories
    */
@@ -1649,12 +1638,9 @@ public class ExpenseEdit extends AmountActivity implements
               .appendPath(a.type.name())
           .build(), null, null, null, null);
     case ACCOUNTS_CURSOR:
-        String selection = (mOperationType == MyExpenses.TYPE_TRANSFER) ?
-            "(select count(*) from accounts t where currency = accounts.currency)>1" :
-            null;
       return new CursorLoader(this,TransactionProvider.ACCOUNTS_BASE_URI,
           null,
-          selection,null,null);
+          null,null,null);
     case EVENT_CURSOR:
       return new CursorLoader(
           this,
@@ -1704,11 +1690,6 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case ACCOUNTS_CURSOR:
-      if (data.getCount()==0) {
-        Toast.makeText(this,R.string.dialog_command_disabled_insert_transfer_1,Toast.LENGTH_SHORT).show();
-        finish();
-        return;
-      }
       mAccountsAdapter.swapCursor(data);
       mAccounts = new Account[data.getCount()];
       if (mSavedInstance) {
@@ -1790,8 +1771,7 @@ public class ExpenseEdit extends AmountActivity implements
     ArrayList<Integer> list = new ArrayList<Integer>();
     int position = 0,selectedPosition = 0;
     for (int i = 0; i < mAccounts.length; i++) {
-      if (fromAccount.getId() != mAccounts[i].getId() &&
-          fromAccount.currency.equals(mAccounts[i].currency)) {
+      if (fromAccount.getId() != mAccounts[i].getId()) {
         list.add(i);
         if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].getId()) {
           selectedPosition = position;
