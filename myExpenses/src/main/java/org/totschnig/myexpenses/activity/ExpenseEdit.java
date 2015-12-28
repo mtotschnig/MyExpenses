@@ -45,7 +45,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -125,6 +124,8 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -739,9 +740,8 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void linkInputsWithLabels() {
     super.linkInputsWithLabels();
-    linkInputWithLabel(mAccountSpinner.getSpinner(), findViewById(R.id.AccountLabel));
+    linkAccountLabels();
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
-    linkInputWithLabel(mTransferAccountSpinner.getSpinner(), findViewById(R.id.TransferAccountLabel));
     linkInputWithLabel(mDateButton, findViewById(R.id.DateTimeLabel));
     linkInputWithLabel(mTimeButton, findViewById(R.id.DateTimeLabel));
     linkInputWithLabel(mPayeeText, mPayeeLabel);
@@ -760,6 +760,15 @@ public class ExpenseEdit extends AmountActivity implements
         transferAmountLabel);
     linkInputWithLabel(findViewById(R.id.TransferAmountRow).findViewById(R.id.Calculator),
         transferAmountLabel);
+  }
+
+  private void linkAccountLabels() {
+    final View accountLabel = findViewById(R.id.AccountLabel);
+    final View transferAccountLabel = findViewById(R.id.TransferAccountLabel);
+    linkInputWithLabel(mAccountSpinner.getSpinner(),
+        mType == INCOME ? transferAccountLabel : accountLabel);
+    linkInputWithLabel(mTransferAccountSpinner.getSpinner(),
+        mType == INCOME ? accountLabel : transferAccountLabel);
   }
 
   @Override
@@ -1271,19 +1280,29 @@ public class ExpenseEdit extends AmountActivity implements
   private void switchAccountViews() {
     Spinner accountSpinner = mAccountSpinner.getSpinner();
     Spinner transferAccountSpinner = mTransferAccountSpinner.getSpinner();
-    ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountParent);
+    ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountRow);
     ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
+    TableLayout table = (TableLayout) findViewById(R.id.Table);
+    View  amountRow = table.findViewById(R.id.AmountRow);
+    View  transferAmountRow = table.findViewById(R.id.TransferAmountRow);
+    table.removeView(amountRow);
+    table.removeView(transferAmountRow);
     if (mType == INCOME) {
       accountParent.removeView(accountSpinner);
       transferAccountRow.removeView(transferAccountSpinner);
       accountParent.addView(transferAccountSpinner);
       transferAccountRow.addView(accountSpinner);
+      table.addView(transferAmountRow,2);
+      table.addView(amountRow,4);
     } else {
       accountParent.removeView(transferAccountSpinner);
       transferAccountRow.removeView(accountSpinner);
       accountParent.addView(accountSpinner);
       transferAccountRow.addView(transferAccountSpinner);
+      table.addView(amountRow,2);
+      table.addView(transferAmountRow,4);
     }
+    linkAccountLabels();
   }
   public Money getAmount() {
     Account a = getCurrentAccount();

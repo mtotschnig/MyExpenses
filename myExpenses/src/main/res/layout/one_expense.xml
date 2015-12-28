@@ -54,7 +54,7 @@
                     android:singleLine="true"/>
             </TableRow>
 
-            <TableRow android:id="@+id/AccountParent">
+            <TableRow android:id="@+id/AccountRow">
 
                 <TextView
                     android:id="@+id/AccountLabel"
