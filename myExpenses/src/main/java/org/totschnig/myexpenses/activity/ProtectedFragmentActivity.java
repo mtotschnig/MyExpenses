@@ -102,8 +102,10 @@ public class ProtectedFragmentActivity extends AppCompatActivity
         enableStrictMode();
     }
     super.onCreate(savedInstanceState);
-    if (PrefKey.PERFORM_PROTECTION.getBoolean(false))
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+          WindowManager.LayoutParams.FLAG_SECURE);
+    }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     setLanguage();
     Resources.Theme theme = getTheme();
@@ -238,7 +240,9 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
         Boolean success = (Boolean) o;
         if (!success) {
-          Toast.makeText(this, "There was an error deleting the object. Please contact support@myexenses.mobi !", Toast.LENGTH_LONG).show();
+          Toast.makeText(this,
+              "There was an error deleting the object. Please contact support@myexenses.mobi !",
+              Toast.LENGTH_LONG).show();
         }
         break;
     }
@@ -268,16 +272,19 @@ public class ProtectedFragmentActivity extends AppCompatActivity
    * @param extra
    * @param progressMessage if 0 no progress dialog will be shown
    */
-  public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra, int progressMessage) {
+  public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
+      int progressMessage) {
     getProtection().startTaskExecution(taskId, objectIds, extra, progressMessage);
   }
-  
+
   public void startDbWriteTask(boolean returnSequenceCount) {
     getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
-    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving), ProtectionDelegate.PROGRESS_TAG)
-    .commitAllowingStateLoss();
+        .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),
+            ProtectionDelegate.PROGRESS_TAG)
+        .commitAllowingStateLoss();
   }
+
   public void recordUsage(ContribFeature f) {
     f.recordUsage();
   }
