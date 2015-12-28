@@ -277,11 +277,10 @@ public class ExpenseEdit extends AmountActivity implements
     mPayeeText.setOnItemClickListener(new OnItemClickListener() {
 
       @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position,
-          long id) {
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Cursor c = (Cursor) mPayeeAdapter.getItem(position);
         if (c.moveToPosition(position)) {
-          mTransaction.updatePayeeWithId(c.getString(1),c.getLong(0));
+          mTransaction.updatePayeeWithId(c.getString(1), c.getLong(0));
           if (mNewInstance && mTransaction != null &&
               !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
             //moveToPosition should not be necessary,
@@ -294,18 +293,16 @@ public class ExpenseEdit extends AmountActivity implements
               } else {
                 Bundle b = new Bundle();
                 b.putLong(KEY_ROWID, c.getLong(2));
-                b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-                    R.string.dialog_title_information);
-                b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                    getString(R.string.hint_auto_fill));
-                b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.AUTO_FILL_COMMAND);
-                b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-                    MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getKey());
+                b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
+                b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
+                    .hint_auto_fill));
+                b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND);
+                b.putString(ConfirmationDialogFragment.KEY_PREFKEY, MyApplication.PrefKey
+                    .AUTO_FILL_HINT_SHOWN.getKey());
                 b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
                 b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
-                ConfirmationDialogFragment.newInstance(b)
-                    .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
+                ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(),
+                    "AUTO_FILL_HINT");
               }
             }
           }
@@ -318,6 +315,7 @@ public class ExpenseEdit extends AmountActivity implements
     mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
     mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
+    mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mPlanToggleButton = (ToggleButton) findViewById(R.id.togglebutton);
     TextPaint paint = mPlanToggleButton.getPaint();
@@ -592,6 +590,7 @@ public class ExpenseEdit extends AmountActivity implements
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       mTypeButton.setVisibility(View.GONE);
+      findViewById(R.id.TransferAmountRow).findViewById(R.id.TaType).setVisibility(View.GONE);
       categoryContainer.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
       if (accountContainer == null)
@@ -735,7 +734,6 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setOnItemSelectedListener(this);
     mMethodSpinner.setOnItemSelectedListener(this);
     mStatusSpinner.setOnItemSelectedListener(this);
-    mTransferAccountSpinner.setOnItemSelectedListener(this);
   }
 
   @Override
@@ -757,6 +755,11 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mMethodSpinner.getSpinner(), methodLabel);
     linkInputWithLabel(mReferenceNumberText, methodLabel);
     linkInputWithLabel(mPlanButton, findViewById(R.id.PlanLabel));
+    final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
+    linkInputWithLabel(findViewById(R.id.TransferAmountRow).findViewById(R.id.Amount),
+        transferAmountLabel);
+    linkInputWithLabel(findViewById(R.id.TransferAmountRow).findViewById(R.id.Calculator),
+        transferAmountLabel);
   }
 
   @Override
@@ -977,8 +980,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer))
-      setDateTime(mTransaction.getDate());
+        mTransaction instanceof SplitPartTransfer)) setDateTime(mTransaction.getDate());
 
     fillAmount(mTransaction.amount.getAmountMajor());
     if (mNewInstance) {
@@ -1187,7 +1189,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   private void deleteUnusedPlan() {
     if (mPlanId != null && !mPlanId.equals(((Template) mTransaction).planId)) {
-      Log.i(MyApplication.TAG,"deleting unused plan " + mPlanId);
+      Log.i(MyApplication.TAG, "deleting unused plan " + mPlanId);
       Plan.delete(mPlanId);
     }
   }
@@ -1218,13 +1220,11 @@ public class ExpenseEdit extends AmountActivity implements
   }
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
-    mStatusSpinner.getSpinner().setVisibility((
-        mTransaction instanceof Template ||
-            mTransaction instanceof SplitPartCategory ||
-            mTransaction instanceof SplitPartTransfer ||
-            a == null ||
-            a.type.equals(Type.CASH)) ?
-        View.GONE : View.VISIBLE);
+    mStatusSpinner.getSpinner().setVisibility((mTransaction instanceof Template ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer ||
+        a == null ||
+        a.type.equals(Type.CASH)) ? View.GONE : View.VISIBLE);
   }
   /**
    *  set label on category button
@@ -1525,7 +1525,19 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       break;
+    case R.id.TransferAccount:
+      configureTransferSameCurrency();
+      break;
     }
+  }
+
+  private void configureTransferSameCurrency() {
+    final Account transferAccount = Account.getInstanceFromDb(
+        mTransferAccountSpinner.getSelectedItemId());
+    boolean isSame = getCurrentAccount().currency.equals(transferAccount.currency);
+    findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
+    ((TextView) findViewById(R.id.TransferAmountLabel)).setText(
+        getString(R.string.amount) + " (" + transferAccount.currency.getSymbol() + ")");
   }
 
   private void setAccountLabel(Account account) {
@@ -1723,6 +1735,7 @@ public class ExpenseEdit extends AmountActivity implements
         int selectedPosition = setTransferAccountFilterMap();
         mTransferAccountsAdapter.swapCursor(mTransferAccountCursor);
         mTransferAccountSpinner.setSelection(selectedPosition);
+        configureTransferSameCurrency();
       } else {
         //the methods cursor is based on the current account,
         //hence it is loaded only after the accounts cursor is loaded

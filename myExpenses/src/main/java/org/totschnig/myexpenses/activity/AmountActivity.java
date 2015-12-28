@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -49,7 +50,7 @@ public abstract class AmountActivity extends EditActivity {
   public void setContentView(int layoutResID) {
     super.setContentView(layoutResID);
     mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
-    mAmountText = (EditText) findViewById(R.id.Amount);
+    mAmountText = (EditText) findViewById(R.id.AmountRow).findViewById(R.id.Amount);
   }
 
   /**
@@ -74,7 +75,7 @@ public abstract class AmountActivity extends EditActivity {
    * 
    */
   protected void configTypeButton() {
-    mTypeButton = (CompoundButton) findViewById(R.id.TaType);
+    mTypeButton = (CompoundButton) findViewById(R.id.AmountRow).findViewById(R.id.TaType);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
@@ -82,8 +83,11 @@ public abstract class AmountActivity extends EditActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
-        mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
-        mAmountText.setError(null);
+        EditText input = (EditText)
+            findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID,0))
+                .findViewById(R.id.Amount);
+        input.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
+        input.setError(null);
       } catch (Exception  e) {
         Utils.reportToAcra(e);
       }
@@ -100,32 +104,38 @@ public abstract class AmountActivity extends EditActivity {
   }
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
-    String strAmount = mAmountText.getText().toString();
+    return validateAmountInput(mAmountText,showToUser);
+  }
+
+  private BigDecimal validateAmountInput(EditText input, boolean showToUser) {
+    String strAmount = input.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
-        mAmountText.setError(getString(R.string.no_amount_given));
+        input.setError(getString(R.string.no_amount_given));
       return null;
     }
     BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     if (amount == null) {
       if (showToUser)
-        mAmountText.setError(getString(R.string.invalid_number_format,nfDLocal.format(11.11)));
+        input.setError(getString(R.string.invalid_number_format,nfDLocal.format(11.11)));
       return null;
     }
     return amount;
   }
+
   public void showCalculator(View view) {
-    if (mAmountText == null) {
-      return;
-    }
+    final View parent = (View) view.getParent();
+    EditText input = (EditText) parent.findViewById(R.id.Amount);
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
-    BigDecimal amount = validateAmountInput(false);
+    BigDecimal amount = validateAmountInput(input,false);
     if (amount!=null) {
       intent.putExtra(KEY_AMOUNT,amount);
     }
+    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID, ((View) parent.getParent()).getId());
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
+
   protected void forwardDataEntryFromWidget(Intent intent) {
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
         getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
@@ -155,6 +165,6 @@ public abstract class AmountActivity extends EditActivity {
   protected void linkInputsWithLabels() {
     linkInputWithLabel(mAmountText, mAmountLabel);
     linkInputWithLabel(mTypeButton, mAmountLabel);
-    linkInputWithLabel(findViewById(R.id.Calculator),mAmountLabel);
+    linkInputWithLabel(findViewById(R.id.AmountRow).findViewById(R.id.Calculator),mAmountLabel);
   }
 }

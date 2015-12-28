@@ -14,24 +14,34 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
     <include layout="@layout/type_switch"/>
-  <EditText
-      android:layout_gravity="center_vertical"
-      android:id="@+id/Amount"
-      android:layout_weight="2"
-      android:layout_width="0dp"
-      android:digits="1234567890,.٫"
-      android:inputType="numberDecimal"
-      android:layout_height="wrap_content">
-    <requestFocus />
-  </EditText>
-  <ImageView
-      style="?actionButtonStyle"
-      android:layout_gravity="center_vertical"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/Calculator"
-      android:onClick="showCalculator"
-      android:src="?attr/calcIcon" />
-</merge>
+
+    <EditText
+        android:id="@+id/Amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:digits="1234567890,.٫"
+        android:inputType="numberDecimal">
+
+        <requestFocus/>
+    </EditText>
+
+    <ImageView
+        android:id="@+id/Calculator"
+        style="?actionButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:onClick="showCalculator"
+        android:focusable="true"
+        android:src="?attr/calcIcon"/>
+</LinearLayout>
