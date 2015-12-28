@@ -107,7 +107,7 @@ public abstract class AmountActivity extends EditActivity {
     return validateAmountInput(mAmountText,showToUser);
   }
 
-  private BigDecimal validateAmountInput(EditText input, boolean showToUser) {
+  protected BigDecimal validateAmountInput(EditText input, boolean showToUser) {
     String strAmount = input.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)

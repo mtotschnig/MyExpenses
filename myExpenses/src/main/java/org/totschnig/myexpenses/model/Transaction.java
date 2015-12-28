@@ -50,6 +50,7 @@ public class Transaction extends Model {
   public String label = "";
   protected Date date;
   public Money amount;
+  public Money transferAmount;
   private Long catId;
   public Long accountId;
   public Long transfer_peer;
@@ -178,8 +179,9 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) {
     Transaction t;
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_ACCOUNTID, KEY_METHODID,
-        KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS};
+        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
+        KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER,
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -197,12 +199,18 @@ public class Transaction extends Model {
     Long parent_id = DbUtils.getLongOrNull(c, KEY_PARENTID);
     Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      t = parent_id != null ? new SplitPartTransfer(account_id, amount, parent_id) : new Transfer(account_id, amount);
+      t = parent_id != null ? new SplitPartTransfer(account_id, amount, parent_id) :
+          new Transfer(account_id, amount);
+      t.transfer_peer = transfer_peer;
+      t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+      t.transferAmount = new Money(Account.getInstanceFromDb(t.transfer_account).currency,
+          c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT)));
     } else {
       if (catId == DatabaseConstants.SPLIT_CATID) {
         t = new SplitTransaction(account_id, amount);
       } else {
-        t = parent_id != null ? new SplitPartCategory(account_id, amount, parent_id) : new Transaction(account_id, amount);
+        t = parent_id != null ? new SplitPartCategory(account_id, amount, parent_id) :
+            new Transaction(account_id, amount);
       }
     }
     try {
@@ -215,8 +223,6 @@ public class Transaction extends Model {
     t.setCatId(catId);
     t.payeeId = DbUtils.getLongOrNull(c, KEY_PAYEEID);
     t.payee = DbUtils.getString(c, KEY_PAYEE_NAME);
-    t.transfer_peer = transfer_peer;
-    t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.setId(id);
     t.setDate(c.getLong(
         c.getColumnIndexOrThrow(KEY_DATE)) * 1000L);
