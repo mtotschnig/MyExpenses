@@ -1119,7 +1119,7 @@ public class TransactionProvider extends ContentProvider {
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
-        uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS ||
+        uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS) {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
