@@ -1510,7 +1510,9 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.accountId = mAccounts[position].getId();
       setAccountLabel(mAccounts[position]);
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-        setTransferAccountFilterMap();
+        mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
+        mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+        configureTransferSameCurrency();
       } else {
         if (!(mTransaction instanceof SplitPartCategory)) {
           if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
@@ -1545,6 +1547,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case R.id.TransferAccount:
+      mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
       configureTransferSameCurrency();
       break;
     }
@@ -1754,6 +1757,7 @@ public class ExpenseEdit extends AmountActivity implements
         int selectedPosition = setTransferAccountFilterMap();
         mTransferAccountsAdapter.swapCursor(mTransferAccountCursor);
         mTransferAccountSpinner.setSelection(selectedPosition);
+        mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
         configureTransferSameCurrency();
       } else {
         //the methods cursor is based on the current account,
