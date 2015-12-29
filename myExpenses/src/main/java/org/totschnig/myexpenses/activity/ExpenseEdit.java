@@ -1529,8 +1529,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case R.id.Account:
-      mTransaction.accountId = mAccounts[position].getId();
-      setAccountLabel(mAccounts[position]);
+      final Account account = mAccounts[position];
+      mTransaction.accountId = account.getId();
+      setAccountLabel(account);
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
         mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
@@ -1546,10 +1547,11 @@ public class ExpenseEdit extends AmountActivity implements
         if (mTransaction instanceof SplitTransaction) {
           final SplitPartList splitPartList = findSplitPartList();
           splitPartList.updateBalance();
-          splitPartList.updateFabColor(mAccounts[position].color);
+          splitPartList.updateFabColor(account.color);
         }
       }
       configureStatusSpinner();
+      configAmountInput(Money.fractionDigits(account.currency));
       //once user has selected account, we no longer want
       //the passed in KEY_CURRENCY to override it in onLoadFinished
       getIntent().removeExtra(KEY_CURRENCY);

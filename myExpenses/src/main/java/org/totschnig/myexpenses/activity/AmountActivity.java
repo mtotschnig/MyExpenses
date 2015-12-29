@@ -45,6 +45,7 @@ public abstract class AmountActivity extends EditActivity {
   protected boolean mType = EXPENSE;
   protected CompoundButton mTypeButton;
   protected TextView mAmountLabel;
+  private int amountInputFractionDigits = -1;
 
   @Override
   public void setContentView(int layoutResID) {
@@ -69,6 +70,22 @@ public abstract class AmountActivity extends EditActivity {
     nfDLocal = new DecimalFormat(pattern,symbols);
     nfDLocal.setGroupingUsed(false);
     Utils.configDecimalSeparator(mAmountText, decimalSeparator,fractionDigits);
+    //if the new configuration has less fraction digits, we might have to truncate the input
+    if (amountInputFractionDigits != -1 && amountInputFractionDigits > fractionDigits) {
+      String currentText = mAmountText.getText().toString();
+      int decimalSeparatorIndex = currentText.indexOf(decimalSeparator);
+      if (decimalSeparatorIndex != -1) {
+        String minorPart = currentText.substring(decimalSeparatorIndex+1);
+        if (minorPart.length()>fractionDigits) {
+          String newText = currentText.substring(0, decimalSeparatorIndex);
+          if (fractionDigits>0) {
+            newText += String.valueOf(decimalSeparator) + minorPart.substring(0,fractionDigits);
+          }
+          mAmountText.setText(newText);
+        }
+      }
+    }
+    amountInputFractionDigits = fractionDigits;
   }
 
   /**
