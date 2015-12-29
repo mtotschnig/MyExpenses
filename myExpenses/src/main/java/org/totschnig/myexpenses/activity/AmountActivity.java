@@ -21,6 +21,7 @@ import java.text.DecimalFormatSymbols;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -38,7 +39,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
   protected DecimalFormat nfDLocal;
-  protected EditText mAmountText;
+  protected AmountEditText mAmountText;
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
@@ -51,41 +52,7 @@ public abstract class AmountActivity extends EditActivity {
   public void setContentView(int layoutResID) {
     super.setContentView(layoutResID);
     mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
-    mAmountText = (EditText) findViewById(R.id.AmountRow).findViewById(R.id.Amount);
-  }
-
-  /**
-   * configures the decimal format and the amount EditText based on configured
-   * currency_decimal_separator 
-   * @param fractionDigits 
-   */
-  protected void configAmountInput(int fractionDigits) {
-    char decimalSeparator = Utils.getDefaultDecimalSeparator();
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-    symbols.setDecimalSeparator(decimalSeparator);
-    String pattern = "#0";
-    if (fractionDigits>0) {
-      pattern += "." + new String(new char[fractionDigits]).replace("\0", "#");
-    }
-    nfDLocal = new DecimalFormat(pattern,symbols);
-    nfDLocal.setGroupingUsed(false);
-    Utils.configDecimalSeparator(mAmountText, decimalSeparator,fractionDigits);
-    //if the new configuration has less fraction digits, we might have to truncate the input
-    if (amountInputFractionDigits != -1 && amountInputFractionDigits > fractionDigits) {
-      String currentText = mAmountText.getText().toString();
-      int decimalSeparatorIndex = currentText.indexOf(decimalSeparator);
-      if (decimalSeparatorIndex != -1) {
-        String minorPart = currentText.substring(decimalSeparatorIndex+1);
-        if (minorPart.length()>fractionDigits) {
-          String newText = currentText.substring(0, decimalSeparatorIndex);
-          if (fractionDigits>0) {
-            newText += String.valueOf(decimalSeparator) + minorPart.substring(0,fractionDigits);
-          }
-          mAmountText.setText(newText);
-        }
-      }
-    }
-    amountInputFractionDigits = fractionDigits;
+    mAmountText = (AmountEditText) findViewById(R.id.AmountRow).findViewById(R.id.Amount);
   }
 
   /**
@@ -94,16 +61,17 @@ public abstract class AmountActivity extends EditActivity {
   protected void configTypeButton() {
     mTypeButton = (CompoundButton) findViewById(R.id.AmountRow).findViewById(R.id.TaType);
   }
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
-        EditText input = (EditText)
+        AmountEditText input = (AmountEditText)
             findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID,0))
                 .findViewById(R.id.Amount);
-        input.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
+        input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
         input.setError(null);
       } catch (Exception  e) {
         Utils.reportToAcra(e);
@@ -124,17 +92,18 @@ public abstract class AmountActivity extends EditActivity {
     return validateAmountInput(mAmountText,showToUser);
   }
 
-  protected BigDecimal validateAmountInput(EditText input, boolean showToUser) {
+  protected BigDecimal validateAmountInput(AmountEditText input, boolean showToUser) {
     String strAmount = input.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
         input.setError(getString(R.string.no_amount_given));
       return null;
     }
-    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
+    BigDecimal amount = Utils.validateNumber(input.getNumberFormat(), strAmount);
     if (amount == null) {
       if (showToUser)
-        input.setError(getString(R.string.invalid_number_format,nfDLocal.format(11.11)));
+        input.setError(getString(R.string.invalid_number_format, input.getNumberFormat().format
+            (11.11)));
       return null;
     }
     return amount;
@@ -142,7 +111,7 @@ public abstract class AmountActivity extends EditActivity {
 
   public void showCalculator(View view) {
     final View parent = (View) view.getParent();
-    EditText input = (EditText) parent.findViewById(R.id.Amount);
+    AmountEditText input = (AmountEditText) parent.findViewById(R.id.Amount);
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
     BigDecimal amount = validateAmountInput(input,false);

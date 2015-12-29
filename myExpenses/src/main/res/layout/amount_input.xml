@@ -23,7 +23,7 @@
 
     <include layout="@layout/type_switch"/>
 
-    <EditText
+    <org.totschnig.myexpenses.ui.AmountEditText
         android:id="@+id/Amount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:inputType="numberDecimal">
 
         <requestFocus/>
-    </EditText>
+    </org.totschnig.myexpenses.ui.AmountEditText>
 
     <ImageView
         android:id="@+id/Calculator"

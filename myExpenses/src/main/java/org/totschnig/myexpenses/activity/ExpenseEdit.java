@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
@@ -125,7 +126,6 @@ import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -153,7 +153,8 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
   private Button mDateButton;
   private Button mTimeButton;
-  private EditText mCommentText, mTitleText, mReferenceNumberText, mTransferAmountText;
+  private EditText mCommentText, mTitleText, mReferenceNumberText;
+  private AmountEditText mTransferAmountText;
   private Button mCategoryButton, mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner, mOperationTypeSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
@@ -240,7 +241,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    mTransferAmountText = (EditText) findViewById(R.id.TransferAmountRow).findViewById(R.id.Amount);
+    mTransferAmountText = (AmountEditText) findViewById(R.id.TransferAmountRow).findViewById(R.id.Amount);
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[] { KEY_PAYEE_NAME },
         new int[] {android.R.id.text1},
@@ -551,7 +552,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setup() {
-    configAmountInput(Money.fractionDigits(mTransaction.amount.getCurrency()));
+    mAmountText.setFractionDigits(Money.fractionDigits(mTransaction.amount.getCurrency()));
     linkInputsWithLabels();
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new TextWatcher(){
@@ -992,9 +993,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer)) setDateTime(mTransaction.getDate());
 
     fillAmount(mTransaction.amount.getAmountMajor());
-    if (mTransaction instanceof Transfer) {
-      mTransferAmountText.setText(nfDLocal.format(mTransaction.transferAmount.getAmountMajor().abs()));
-    }
+
     if (mNewInstance) {
       if (mTransaction instanceof Template) {
         mTitleText.requestFocus();
@@ -1013,7 +1012,7 @@ public class ExpenseEdit extends AmountActivity implements
       mType = INCOME;
     }
     if (signum != 0) {
-      mAmountText.setText(nfDLocal.format(amount));
+      mAmountText.setAmount(amount);
     }
     mAmountText.requestFocus();
     mAmountText.selectAll();
@@ -1535,7 +1534,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
         mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
-        configureTransferSameCurrency();
+        configureTransferInput();
       } else {
         if (!(mTransaction instanceof SplitPartCategory)) {
           if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
@@ -1551,7 +1550,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       configureStatusSpinner();
-      configAmountInput(Money.fractionDigits(account.currency));
+      mAmountText.setFractionDigits(Money.fractionDigits(account.currency));
       //once user has selected account, we no longer want
       //the passed in KEY_CURRENCY to override it in onLoadFinished
       getIntent().removeExtra(KEY_CURRENCY);
@@ -1572,18 +1571,19 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case R.id.TransferAccount:
       mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
-      configureTransferSameCurrency();
+      configureTransferInput();
       break;
     }
   }
 
-  private void configureTransferSameCurrency() {
+  private void configureTransferInput() {
     final Account transferAccount = Account.getInstanceFromDb(
         mTransferAccountSpinner.getSelectedItemId());
     boolean isSame = getCurrentAccount().currency.equals(transferAccount.currency);
     findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
-    ((TextView) findViewById(R.id.TransferAmountLabel)).setText(
-        getString(R.string.amount) + " (" + transferAccount.currency.getSymbol() + ")");
+    ((TextView) findViewById(R.id.TransferAmountLabel)).setText(getString(R.string.amount) + " ("
+        + transferAccount.currency.getSymbol() + ")");
+    mTransferAmountText.setFractionDigits(Money.fractionDigits(transferAccount.currency));
   }
 
   private void setAccountLabel(Account account) {
@@ -1782,7 +1782,8 @@ public class ExpenseEdit extends AmountActivity implements
         mTransferAccountsAdapter.swapCursor(mTransferAccountCursor);
         mTransferAccountSpinner.setSelection(selectedPosition);
         mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
-        configureTransferSameCurrency();
+        configureTransferInput();
+        mTransferAmountText.setAmount(mTransaction.transferAmount.getAmountMajor().abs());
       } else {
         //the methods cursor is based on the current account,
         //hence it is loaded only after the accounts cursor is loaded
