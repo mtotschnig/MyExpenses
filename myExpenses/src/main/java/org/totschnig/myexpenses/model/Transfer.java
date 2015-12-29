@@ -124,4 +124,8 @@ public class Transfer extends Transaction {
     }
     return uri;
   }
+
+  public boolean isSameCurrency() {
+    return amount.getCurrency().equals(transferAmount.getCurrency());
+  }
 }
