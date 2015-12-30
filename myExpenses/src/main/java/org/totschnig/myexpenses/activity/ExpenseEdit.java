@@ -39,9 +39,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
@@ -151,10 +153,11 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
   private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
+  public static final int EXCHANGE_RATE_FRACTION_DIGITS = 5;
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
-  private AmountEditText mTransferAmountText;
+  private AmountEditText mTransferAmountText, mExchangeRate1Text, mExchangeRate2Text;
   private Button mCategoryButton, mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner, mOperationTypeSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
@@ -206,6 +209,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected boolean mSavedInstance;
   protected boolean mRecordTemplateWidget;
   private boolean mIsResumed;
+  boolean isProcessingLinkedAmountInputs = false;
 
   public enum HelpVariant {
     transaction,transfer,split,templateCategory,templateTransfer,splitPartCategory,splitPartTransfer
@@ -241,7 +245,15 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    mTransferAmountText = (AmountEditText) findViewById(R.id.TransferAmountRow).findViewById(R.id.Amount);
+    mTransferAmountText = (AmountEditText) findViewById(R.id.TransferAmountRow).findViewById(R.id
+        .Amount);
+    mExchangeRate1Text = (AmountEditText) findViewById(R.id.ExchangeRate_1);
+    mExchangeRate1Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
+    mExchangeRate1Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
+    mExchangeRate2Text = (AmountEditText) findViewById(R.id.ExchangeRate_2);
+    mExchangeRate2Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
+    mExchangeRate2Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(false));
+
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[] { KEY_PAYEE_NAME },
         new int[] {android.R.id.text1},
@@ -555,13 +567,16 @@ public class ExpenseEdit extends AmountActivity implements
     mAmountText.setFractionDigits(Money.fractionDigits(mTransaction.amount.getCurrency()));
     linkInputsWithLabels();
     if (mTransaction instanceof SplitTransaction) {
-      mAmountText.addTextChangedListener(new TextWatcher(){
+      mAmountText.addTextChangedListener(new MyTextWatcher() {
+        @Override
         public void afterTextChanged(Editable s) {
           findSplitPartList().updateBalance();
-      }
-      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-      public void onTextChanged(CharSequence s, int start, int before, int count){}
+        }
       });
+    }
+    if (mTransaction instanceof Transfer) {
+      mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
+      mTransferAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
     }
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
@@ -1582,13 +1597,21 @@ public class ExpenseEdit extends AmountActivity implements
   private void configureTransferInput() {
     final Account transferAccount = Account.getInstanceFromDb(
         mTransferAccountSpinner.getSelectedItemId());
-    int visibility = getCurrentAccount().currency.equals(transferAccount.currency) ?
+    final Currency currency = getCurrentAccount().currency;
+    int visibility = currency.equals(transferAccount.currency) ?
         View.GONE : View.VISIBLE;
     findViewById(R.id.TransferAmountRow).setVisibility(visibility);
     findViewById(R.id.ExchangeRateRow).setVisibility(visibility);
+    final String symbol2 = transferAccount.currency.getSymbol();
     ((TextView) findViewById(R.id.TransferAmountLabel)).setText(getString(R.string.amount) + " ("
-        + transferAccount.currency.getSymbol() + ")");
+        + symbol2 + ")");
     mTransferAmountText.setFractionDigits(Money.fractionDigits(transferAccount.currency));
+    final String symbol1 = currency.getSymbol();
+    ((TextView) findViewById(R.id.ExchangeRateLabel_1_1)).setText(String.format("1 %s =", symbol1));
+    ((TextView) findViewById(R.id.ExchangeRateLabel_1_2)).setText(symbol2);
+    ((TextView) findViewById(R.id.ExchangeRateLabel_2_1)).setText(String.format("1 %s =", symbol2));
+    ((TextView) findViewById(R.id.ExchangeRateLabel_2_2)).setText(symbol1);
+
   }
 
   private void setAccountLabel(Account account) {
@@ -1860,8 +1883,6 @@ public class ExpenseEdit extends AmountActivity implements
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtstart);
     if (Utils.isIntentAvailable(this, intent)) {
-      //TODO on the Xperia X8 the calendar app started with this intent crashes
-      //can we catch such a crash and inform the user?
       startActivityForResult (intent, EDIT_EVENT_REQUEST);
     } else {
       Toast.makeText(this,R.string.no_calendar_app_installed,Toast.LENGTH_SHORT).show();
@@ -2032,6 +2053,75 @@ public class ExpenseEdit extends AmountActivity implements
           mLaunchNewPlan = true;
         }
       }
+    }
+  }
+
+  private class MyTextWatcher implements TextWatcher {
+    public void afterTextChanged(Editable s) {}
+
+    public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+
+    public void onTextChanged(CharSequence s, int start, int before, int count){}
+  }
+
+  private class LinkedTransferAmountTextWatcher extends MyTextWatcher {
+    boolean isMain;
+    BigDecimal nullValue = new BigDecimal(0);
+
+    public LinkedTransferAmountTextWatcher(boolean isMain) {
+      this.isMain = isMain;
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+      if (isProcessingLinkedAmountInputs) return;
+      isProcessingLinkedAmountInputs = true;
+      BigDecimal input = validateAmountInput(isMain ? mAmountText : mTransferAmountText, false);
+      if (mType == (isMain ? EXPENSE : INCOME)) {
+        BigDecimal exchangeRate = validateAmountInput(
+            isMain ? mExchangeRate1Text : mExchangeRate2Text,false);
+        BigDecimal result = exchangeRate != null && input != null ?
+            input.multiply(exchangeRate) : new BigDecimal(0);
+        (isMain ? mTransferAmountText : mAmountText).setAmount(result);
+      } else {
+        BigDecimal result = validateAmountInput(isMain ? mTransferAmountText: mAmountText, false);
+        BigDecimal exchangeRate = result != null && input != null && input.compareTo(nullValue) != 0 ?
+            result.divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
+        BigDecimal inverseExchangeRate = exchangeRate.compareTo(nullValue) != 0 ?
+            new BigDecimal(1).divide(exchangeRate,EXCHANGE_RATE_FRACTION_DIGITS,RoundingMode.DOWN) :
+            nullValue;
+        (isMain ? mExchangeRate1Text : mExchangeRate2Text).setAmount(exchangeRate);
+        (isMain ? mExchangeRate2Text : mExchangeRate1Text).setAmount(inverseExchangeRate);
+      }
+      isProcessingLinkedAmountInputs = false;
+    }
+  }
+
+  private class LinkedExchangeRateTextWatchter extends MyTextWatcher {
+    boolean isMain;
+    BigDecimal nullValue = new BigDecimal(0);
+
+    public LinkedExchangeRateTextWatchter(boolean isMain) {
+      this.isMain = isMain;
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+      if (isProcessingLinkedAmountInputs) return;
+      isProcessingLinkedAmountInputs = true;
+      BigDecimal input = validateAmountInput(mType == EXPENSE ? mAmountText : mTransferAmountText, false);
+      BigDecimal inputRate = validateAmountInput(
+          isMain ? mExchangeRate1Text : mExchangeRate2Text,false);
+      if (inputRate == null) inputRate = nullValue;
+      BigDecimal inverseInputRate = inputRate.compareTo(nullValue) != 0 ?
+          new BigDecimal(1).divide(inputRate,EXCHANGE_RATE_FRACTION_DIGITS,RoundingMode.DOWN) :
+          nullValue;
+      BigDecimal mainRate = isMain ? inputRate : inverseInputRate;
+      BigDecimal inverseRate = isMain ? inverseInputRate : inputRate;
+
+      (isMain ? mExchangeRate2Text : mExchangeRate1Text).setAmount(inverseInputRate);
+      ((mType == EXPENSE) ? mTransferAmountText : mAmountText).setAmount(input != null ?
+          input.multiply(mType == EXPENSE ? mainRate : inverseRate) : nullValue);
+      isProcessingLinkedAmountInputs = false;
     }
   }
 }

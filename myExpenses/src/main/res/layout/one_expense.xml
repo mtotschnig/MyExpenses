@@ -99,17 +99,18 @@
                         android:id="@+id/ExchangeRateLabel_1_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1 € = "/>
-                    <EditText
+                        tools:text="1 € = "/>
+                    <org.totschnig.myexpenses.ui.AmountEditText
                         android:id="@+id/ExchangeRate_1"
                         android:layout_width="0dp"
                         android:layout_weight="3"
+                        android:text="1"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:id="@+id/ExchangeRateLabel_1_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$"/>
+                        tools:text="$"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -118,17 +119,18 @@
                         android:id="@+id/ExchangeRateLabel_2_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1 $ ="/>
-                    <EditText
+                        tools:text="1 $ ="/>
+                    <org.totschnig.myexpenses.ui.AmountEditText
                         android:id="@+id/ExchangeRate_2"
                         android:layout_width="0dp"
                         android:layout_weight="3"
+                        android:text="1"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:id="@+id/ExchangeRateLabel_2_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="€"/>
+                        tools:text="€"/>
                 </LinearLayout>
             </TableRow>
 
