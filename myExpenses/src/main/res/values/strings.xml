@@ -612,5 +612,6 @@
     <string name="preferences_month_start_date_title">Month starts on</string>
     <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
     <string name="pref_grouping_periods">Grouping periods</string>
+    <string name="exchange_rate">Exchange rate</string>
 </resources>
 

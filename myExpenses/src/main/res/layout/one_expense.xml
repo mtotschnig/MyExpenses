@@ -14,11 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/OneExpense"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
+<LinearLayout
+    android:id="@+id/OneExpense"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -32,8 +34,8 @@
             android:id="@+id/Table"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_form"
-            android:paddingRight="@dimen/padding_form"
+            android:layout_marginLeft="@dimen/padding_form"
+            android:layout_marginRight="@dimen/padding_form"
             android:shrinkColumns="1"
             android:stretchColumns="1">
 
@@ -62,6 +64,8 @@
                     android:text="@string/account"/>
 
                 <Spinner
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:id="@+id/Account"
                     android:layout_gravity="center_vertical"/>
             </TableRow>
@@ -79,14 +83,53 @@
 
             <TableRow
                 android:id="@+id/ExchangeRateRow"
+                tools:visibility="visible"
                 android:visibility="gone">
 
                 <TextView
-                    android:text="Exchange rate"
-                    style="@style/form_label.compat"
-                    android:textColor="?attr/colorAccent"/>
+                    android:id="@+id/ExchangeRateLabel"
+                    android:text="@string/exchange_rate"
+                    style="@style/form_label.compat"/>
 
-                <TextView android:text="TBD"/>
+                <LinearLayout
+                    android:paddingRight="12dp"
+                    android:paddingEnd="12dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_1_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 € = "/>
+                    <EditText
+                        android:id="@+id/ExchangeRate_1"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_1_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 $ ="/>
+                    <EditText
+                        android:id="@+id/ExchangeRate_2"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="€"/>
+                </LinearLayout>
             </TableRow>
 
             <TableRow
@@ -95,8 +138,7 @@
 
                 <TextView
                     android:id="@+id/TransferAmountLabel"
-                    style="@style/form_label.compat"
-                    android:textColor="?attr/colorAccent"/>
+                    style="@style/form_label.compat"/>
 
                     <include layout="@layout/amount_input"/>
             </TableRow>
@@ -111,6 +153,8 @@
                     android:text="@string/transfer_to_account"/>
 
                 <Spinner
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:id="@+id/TransferAccount"
                     android:layout_gravity="center_vertical"/>
             </TableRow>

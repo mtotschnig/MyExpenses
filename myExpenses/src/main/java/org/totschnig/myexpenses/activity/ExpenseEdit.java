@@ -761,6 +761,9 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
     linkInputWithLabel(findViewById(R.id.TransferAmountRow).findViewById(R.id.Calculator),
         transferAmountLabel);
+    final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
+    linkInputWithLabel(findViewById(R.id.ExchangeRate_1),exchangeRateAmountLabel);
+    linkInputWithLabel(findViewById(R.id.ExchangeRate_2),exchangeRateAmountLabel);
   }
 
   private void linkAccountLabels() {
@@ -1579,15 +1582,17 @@ public class ExpenseEdit extends AmountActivity implements
   private void configureTransferInput() {
     final Account transferAccount = Account.getInstanceFromDb(
         mTransferAccountSpinner.getSelectedItemId());
-    boolean isSame = getCurrentAccount().currency.equals(transferAccount.currency);
-    findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
+    int visibility = getCurrentAccount().currency.equals(transferAccount.currency) ?
+        View.GONE : View.VISIBLE;
+    findViewById(R.id.TransferAmountRow).setVisibility(visibility);
+    findViewById(R.id.ExchangeRateRow).setVisibility(visibility);
     ((TextView) findViewById(R.id.TransferAmountLabel)).setText(getString(R.string.amount) + " ("
         + transferAccount.currency.getSymbol() + ")");
     mTransferAmountText.setFractionDigits(Money.fractionDigits(transferAccount.currency));
   }
 
   private void setAccountLabel(Account account) {
-    mAmountLabel.setText(getString(R.string.amount) + " ("+account.currency.getSymbol()+")");
+    mAmountLabel.setText(getString(R.string.amount) + " (" + account.currency.getSymbol() + ")");
   }
 
   private void resetOperationType() {
@@ -1783,7 +1788,9 @@ public class ExpenseEdit extends AmountActivity implements
         mTransferAccountSpinner.setSelection(selectedPosition);
         mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
         configureTransferInput();
-        mTransferAmountText.setAmount(mTransaction.transferAmount.getAmountMajor().abs());
+        if (!mNewInstance) {
+          mTransferAmountText.setAmount(mTransaction.transferAmount.getAmountMajor().abs());
+        }
       } else {
         //the methods cursor is based on the current account,
         //hence it is loaded only after the accounts cursor is loaded
