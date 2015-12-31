@@ -14,7 +14,7 @@ public class AmountEditText extends EditText {
 
   int fractionDigits = -1;
 
-  DecimalFormat numberFormat;
+  DecimalFormat numberFormat = new DecimalFormat();
 
 
   public AmountEditText(Context context) {

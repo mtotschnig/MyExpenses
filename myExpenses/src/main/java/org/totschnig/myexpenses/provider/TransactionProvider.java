@@ -106,6 +106,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_GROUPS = "groups";
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits"; 
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
+  public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_IS_FILTERED = "isFiltered";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
@@ -154,6 +155,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int STALE_IMAGES = 36;
   private static final int STALE_IMAGES_ID = 37;
   private static final int TRANSACTION_UNDELETE = 38;
+  private static final int TRANSACTIONS_LASTEXCHANGE = 39;
   
 
   protected static boolean mDirty = false;
@@ -184,6 +186,7 @@ public class TransactionProvider extends ContentProvider {
     String defaultOrderBy = null;
     String groupBy = null;
     String having = null;
+    String limit = null;
 
     String accountSelectionQuery;
     String accountSelector;
@@ -596,6 +599,27 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere("rowid = " + uri.getPathSegments().get(1));
       projection = new String[] {KEY_PICTURE_URI};
       break;
+    case TRANSACTIONS_LASTEXCHANGE:
+      String currency1 = uri.getPathSegments().get(2);
+      String currency2 = uri.getPathSegments().get(3);
+      selection = "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS +
+          " WHERE " + KEY_ROWID + " = " + KEY_ACCOUNTID + ") = ? AND " +
+          "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " +
+              "(SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " +  KEY_ROWID +
+              " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + ")) = ?";
+      selectionArgs = new String[] {currency1, currency2};
+      projection = new String[] {
+          "'" + currency1 + "'", // we pass the currency codes back so that the receiver
+          "'" + currency2 + "'", // can check if the data is still relevant for him
+          "abs(" + KEY_AMOUNT + ")",
+          "abs((SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID +
+              " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + "))"
+      };
+      sortOrder = KEY_DATE + " DESC";
+      limit = "1";
+      qb.setTables(VIEW_COMMITTED);
+      break;
+
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -609,13 +633,12 @@ public class TransactionProvider extends ContentProvider {
     if (BuildConfig.DEBUG) {
       @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
-          null, orderBy, null);
+          null, orderBy, limit);
       log("Query : " + qs);
       log("SelectionArgs : " + Arrays.toString(selectionArgs));
     }
     //long startTime = System.nanoTime();
-    c = qb.query(db, projection, selection, selectionArgs, groupBy,
-        having, orderBy);
+    c = qb.query(db, projection, selection, selectionArgs, groupBy, having, orderBy, limit);
     //long endTime = System.nanoTime();
     //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
     c.setNotificationUri(getContext().getContentResolver(), uri);
@@ -1165,6 +1188,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);

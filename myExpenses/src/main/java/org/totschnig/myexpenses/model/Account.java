@@ -651,7 +651,7 @@ public class Account extends Model {
       this.color = defaultColor;
     }
     this.sortKey = c.getInt(c.getColumnIndexOrThrow(KEY_SORT_KEY));
-    this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS))!=0;
+    this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {

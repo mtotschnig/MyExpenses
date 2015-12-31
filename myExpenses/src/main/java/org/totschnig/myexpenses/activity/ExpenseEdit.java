@@ -197,6 +197,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final int EVENT_CURSOR = 4;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
+  public static final int LAST_EXCHANGE_CURSOR = 7;
   public static final int THUMBSIZE = 96;
   private static final String KEY_PICTURE_URI = "picture_uri";
   private static final String KEY_PICTURE_URI_TMP = "picture_uri_tmp";
@@ -1616,6 +1617,10 @@ public class ExpenseEdit extends AmountActivity implements
     ((TextView) findViewById(R.id.ExchangeRateLabel_2_1)).setText(String.format("1 %s =", symbol2));
     ((TextView) findViewById(R.id.ExchangeRateLabel_2_2)).setText(symbol1);
 
+    Bundle bundle = new Bundle(2);
+    bundle.putStringArray(KEY_CURRENCY,
+        new String[] {currency.getCurrencyCode(), transferAccount.currency.getCurrencyCode()});
+    if (mNewInstance) mManager.restartLoader(LAST_EXCHANGE_CURSOR,bundle,this);
   }
 
   private void setAccountLabel(Account account) {
@@ -1694,7 +1699,10 @@ public class ExpenseEdit extends AmountActivity implements
           setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
               R.string.menu_create_transaction : R.string.menu_create_transfer);
         }
+        isProcessingLinkedAmountInputs = true;
         mAmountText.setText("");
+        mTransferAmountText.setText("");
+        isProcessingLinkedAmountInputs = false;
         Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
       } else {
         //make sure soft keyboard is closed
@@ -1725,12 +1733,11 @@ public class ExpenseEdit extends AmountActivity implements
           TransactionProvider.METHODS_URI.buildUpon()
               .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
               .appendPath(mType == INCOME ? "1" : "-1")
-              .appendPath(a.type.name())
-          .build(), null, null, null, null);
+              .appendPath(a.type.name()).build(),
+          null, null, null, null);
     case ACCOUNTS_CURSOR:
       return new CursorLoader(this,TransactionProvider.ACCOUNTS_BASE_URI,
-          null,
-          null,null,null);
+          null, null, null, null);
     case EVENT_CURSOR:
       return new CursorLoader(
           this,
@@ -1743,6 +1750,15 @@ public class ExpenseEdit extends AmountActivity implements
           null,
           null,
           null);
+      case LAST_EXCHANGE_CURSOR:
+        String[] currencies = args.getStringArray(KEY_CURRENCY);
+        return new CursorLoader(this,
+            Transaction.CONTENT_URI.buildUpon()
+                .appendPath(TransactionProvider.URI_SEGMENT_LAST_EXCHANGE)
+                .appendPath(currencies[0])
+                .appendPath(currencies[1])
+                .build(),
+            null, null, null, null);
     }
     return null;
   }
@@ -1862,6 +1878,22 @@ public class ExpenseEdit extends AmountActivity implements
       }
       configurePlan();
       break;
+    case LAST_EXCHANGE_CURSOR:
+      if (data.moveToFirst()) {
+        final Currency currency1 = getCurrentAccount().currency;
+        final Currency currency2 = Account.getInstanceFromDb(mTransferAccountSpinner
+            .getSelectedItemId()).currency;
+        if (currency1.getCurrencyCode().equals(data.getString(0)) &&
+            currency2.getCurrencyCode().equals(data.getString(1))) {
+          BigDecimal amount = new Money(currency1,data.getLong(2)).getAmountMajor();
+          BigDecimal transferAmount = new Money(currency2,data.getLong(3)).getAmountMajor();
+          BigDecimal exchangeRate = transferAmount.compareTo(nullValue) != 0 ?
+                  amount.divide(transferAmount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
+          if (exchangeRate.compareTo(nullValue) != 0) {
+            mExchangeRate1Text.setAmount(exchangeRate);
+          }
+        }
+      }
     }
   }
   private int setTransferAccountFilterMap() {
