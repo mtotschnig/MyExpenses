@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -42,6 +42,7 @@ import android.text.style.UnderlineSpan;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,6 +52,10 @@ import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class TemplatesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+
+
+  private ListView mListView;
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -65,14 +70,14 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
   private LoaderManager mManager;
   
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
-    columnIndexPayee, columnIndexColor,columnIndexTransferPeer,
-    columnIndexCurrency;
+    columnIndexPayee, columnIndexColor, columnIndexTransferPeer,
+    columnIndexCurrency, columnIndexTransferAccount;
   boolean indexesCalculated = false;
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.templates_list, null, false);
-    final ListView lv = (ListView) v.findViewById(R.id.list);
+    mListView = (ListView) v.findViewById(R.id.list);
 
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
@@ -87,44 +92,46 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
         from,
         to,
         0);
-    lv.setAdapter(mAdapter);
-    lv.setEmptyView(v.findViewById(R.id.empty));
-    lv.setOnItemClickListener(new OnItemClickListener() {
+    mListView.setAdapter(mAdapter);
+    mListView.setEmptyView(v.findViewById(R.id.empty));
+    mListView.setOnItemClickListener(new OnItemClickListener() {
 
       @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position,
-          long id) {
-        if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (isForeignExchangeTransfer(position)) {
+          ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
+              id);
+        }
+        else if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
           if (MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
-            ((ManageTemplates) getActivity()).dispatchCommand(
-                R.id.CREATE_INSTANCE_SAVE_COMMAND,
-                new Long[] {id});
+            ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_SAVE_COMMAND,
+                new Long[]{id});
           } else {
-            ((ManageTemplates) getActivity()).dispatchCommand(
-                R.id.CREATE_INSTANCE_EDIT_COMMAND,
+            ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
                 id);
           }
         } else {
           Bundle b = new Bundle();
-          b.putLong(KEY_ROWID,id);
-          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-              R.string.dialog_title_information);
-          b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-              getString(R.string.hint_template_click));
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-              R.id.CREATE_INSTANCE_SAVE_COMMAND);
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-              R.id.CREATE_INSTANCE_EDIT_COMMAND);
-          b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-              MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getKey());
-          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,R.string.menu_create_instance_save);
-          b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,R.string.menu_create_instance_edit);
-          ConfirmationDialogFragment.newInstance(b)
-            .show(getFragmentManager(),"TEMPLATE_CLICK_HINT");
+          b.putLong(KEY_ROWID, id);
+          b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
+              .hint_template_click));
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id
+              .CREATE_INSTANCE_SAVE_COMMAND);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id
+              .CREATE_INSTANCE_EDIT_COMMAND);
+          b.putString(ConfirmationDialogFragment.KEY_PREFKEY, MyApplication.PrefKey
+              .TEMPLATE_CLICK_HINT_SHOWN.getKey());
+          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string
+              .menu_create_instance_save);
+          b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string
+              .menu_create_instance_edit);
+          ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(),
+              "TEMPLATE_CLICK_HINT");
         }
       }
     });
-    registerForContextualActionBar(lv);
+    registerForContextualActionBar(mListView);
     return v;
   }
 
@@ -185,6 +192,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
         columnIndexColor = c.getColumnIndex(KEY_COLOR);
         columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
         columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
+        columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
@@ -251,4 +259,43 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
       return convertView;
     }
   }
+
+  @Override
+  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
+    super.configureMenuLegacy(menu, menuInfo);
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+    configureMenuInternal(menu, isForeignExchangeTransfer(info.position));
+  }
+
+  @Override
+  protected void configureMenu11(Menu menu, int count) {
+    super.configureMenu11(menu, count);
+    SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+    boolean hasForeignExchangeTransfer = false;
+    for (int i=0; i<checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
+          (i))) {
+        hasForeignExchangeTransfer = true;
+        break;
+      }
+    }
+    configureMenuInternal(menu, hasForeignExchangeTransfer);
+  }
+
+  private void configureMenuInternal(Menu menu, boolean foreignExchangeTransfer) {
+    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer);
+  }
+
+  private boolean isForeignExchangeTransfer(int position) {
+    if (mTemplatesCursor !=null && mTemplatesCursor.moveToPosition(position)) {
+      if (mTemplatesCursor.getInt(columnIndexTransferPeer) != 0) {
+        Account transferAccount = Account.getInstanceFromDb(
+            mTemplatesCursor.getLong(columnIndexTransferAccount));
+        return !mTemplatesCursor.getString(columnIndexCurrency).equals(
+            transferAccount.currency.getCurrencyCode());
+      }
+    }
+    return false;
+  }
+
 }

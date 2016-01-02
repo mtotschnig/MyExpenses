@@ -1183,7 +1183,7 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
     }
-    
+
     mTransaction.crStatus = (Transaction.CrStatus) mStatusSpinner.getSelectedItem();
 
     mTransaction.setPictureUri(mPictureUri);
@@ -1640,7 +1640,7 @@ public class ExpenseEdit extends AmountActivity implements
     Bundle bundle = new Bundle(2);
     bundle.putStringArray(KEY_CURRENCY, new String[]{currency.getCurrencyCode(), transferAccount
         .currency.getCurrencyCode()});
-    if (mNewInstance && !(mTransaction instanceof Template)) {
+    if (!isSame && (mNewInstance || mPlanInstanceId == -1) && !(mTransaction instanceof Template)) {
       mManager.restartLoader(LAST_EXCHANGE_CURSOR, bundle, this);
     }
   }
@@ -1909,8 +1909,8 @@ public class ExpenseEdit extends AmountActivity implements
             currency2.getCurrencyCode().equals(data.getString(1))) {
           BigDecimal amount = new Money(currency1,data.getLong(2)).getAmountMajor();
           BigDecimal transferAmount = new Money(currency2,data.getLong(3)).getAmountMajor();
-          BigDecimal exchangeRate = transferAmount.compareTo(nullValue) != 0 ?
-                  amount.divide(transferAmount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
+          BigDecimal exchangeRate = amount.compareTo(nullValue) != 0 ?
+              transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
           if (exchangeRate.compareTo(nullValue) != 0) {
             mExchangeRate1Text.setAmount(exchangeRate);
           }
@@ -2121,8 +2121,8 @@ public class ExpenseEdit extends AmountActivity implements
     BigDecimal amount = validateAmountInput(mAmountText, false);
     BigDecimal transferAmount = validateAmountInput(mTransferAmountText,false);
     BigDecimal exchangeRate =
-        (amount != null && transferAmount != null && transferAmount.compareTo(nullValue) != 0) ?
-        amount.divide(transferAmount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
+        (amount != null && transferAmount != null && amount.compareTo(nullValue) != 0) ?
+            transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
     BigDecimal inverseExchangeRate = exchangeRate.compareTo(nullValue) != 0 ?
         new BigDecimal(1).divide(exchangeRate,EXCHANGE_RATE_FRACTION_DIGITS,RoundingMode.DOWN) :
         nullValue;
@@ -2175,19 +2175,18 @@ public class ExpenseEdit extends AmountActivity implements
     public void afterTextChanged(Editable s) {
       if (isProcessingLinkedAmountInputs) return;
       isProcessingLinkedAmountInputs = true;
-      BigDecimal input = validateAmountInput(mType == EXPENSE ? mAmountText : mTransferAmountText, false);
+      BigDecimal input = validateAmountInput(isMain ? mAmountText : mTransferAmountText, false);
       BigDecimal inputRate = validateAmountInput(
           isMain ? mExchangeRate1Text : mExchangeRate2Text,false);
       if (inputRate == null) inputRate = nullValue;
       BigDecimal inverseInputRate = inputRate.compareTo(nullValue) != 0 ?
           new BigDecimal(1).divide(inputRate,EXCHANGE_RATE_FRACTION_DIGITS,RoundingMode.DOWN) :
           nullValue;
-      BigDecimal mainRate = isMain ? inputRate : inverseInputRate;
-      BigDecimal inverseRate = isMain ? inverseInputRate : inputRate;
 
       (isMain ? mExchangeRate2Text : mExchangeRate1Text).setAmount(inverseInputRate);
-      ((mType == EXPENSE) ? mTransferAmountText : mAmountText).setAmount(input != null ?
-          input.multiply(mType == EXPENSE ? mainRate : inverseRate) : nullValue);
+
+      (isMain ? mTransferAmountText : mAmountText).setAmount(input != null ?
+          input.multiply(inputRate) : nullValue);
       isProcessingLinkedAmountInputs = false;
     }
   }
