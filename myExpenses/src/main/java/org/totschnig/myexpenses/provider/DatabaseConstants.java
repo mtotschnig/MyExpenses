@@ -229,6 +229,18 @@ public class DatabaseConstants {
     "THEN " +
     "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
     "END AS " + KEY_LABEL_SUB;
+
+  /**
+   * //different from Transaction, since transfer_peer is treated as boolean here
+   */
+  public static final String LABEL_SUB_TEMPLATE =
+      "CASE WHEN " +
+          "  " + KEY_TRANSFER_PEER + " = 0 AND cat_id AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
+          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+          "THEN " +
+          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+          "END AS " + KEY_LABEL_SUB;
+
   /**
    * if transaction is linked to a subcategory
    * main and category label are concatenated
