@@ -56,8 +56,8 @@ public class ProtectionDelegate {
     MyApplication app = MyApplication.getInstance();
     if (app.shouldLock(ctx)) {
       if (pwDialog == null)
-        pwDialog = DialogUtils.passwordDialog(ctx);
-      DialogUtils.showPasswordDialog(ctx,pwDialog);
+        pwDialog = DialogUtils.passwordDialog(ctx, false);
+      DialogUtils.showPasswordDialog(ctx, pwDialog, true, null);
     }
     return pwDialog;
   }

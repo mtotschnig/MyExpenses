@@ -96,22 +96,38 @@ public class DialogUtils {
     }).create();
   }
 
-  public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
-    ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
-    if (ctx instanceof AppCompatActivity) {
-      final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
-      if (actionBar!= null) actionBar.hide();
+  public static void showPasswordDialog(final Activity ctx, AlertDialog dialog, boolean hideWindow,
+      PasswordDialogUnlockedCallback callback) {
+    if (hideWindow) {
+      ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
+      if (ctx instanceof AppCompatActivity) {
+        final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
+        if (actionBar != null) actionBar.hide();
+      }
     }
     dialog.show();
-    PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
+    if (callback==null) {
+      callback = new PasswordDialogUnlockedCallback() {
+        @Override
+        public void onPasswordDialogUnlocked() {
+          MyApplication.getInstance().setLocked(false);
+          ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
+          if (ctx instanceof AppCompatActivity) {
+            final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
+            if (actionBar!= null) actionBar.show();
+          }
+        }
+      };
+    }
+    PasswordDialogListener passwordDialogListener = new PasswordDialogListener(ctx,dialog, callback);
     Button b = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
     if (b != null)
-      b.setOnClickListener(l);
-    b = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+      b.setOnClickListener(passwordDialogListener);
+    b = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
     if (b != null)
-      b.setOnClickListener(l);
+      b.setOnClickListener(passwordDialogListener);
   }
-  public static AlertDialog passwordDialog(final Activity ctx) {
+  public static AlertDialog passwordDialog(final Activity ctx, final boolean cancelable) {
     final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
     LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.password_check, null);
@@ -122,17 +138,29 @@ public class DialogUtils {
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
-          ctx.moveTaskToBack(true);
+          if (cancelable) {
+            dialog.dismiss();
+          } else {
+            ctx.moveTaskToBack(true);
+          }
         }
       });
     if (ContribFeature.SECURITY_QUESTION.hasAccess() && !securityQuestion.equals("")) {
-      builder.setNegativeButton(R.string.password_lost, new DialogInterface.OnClickListener() {
+      builder.setNeutralButton(R.string.password_lost, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {}
       });
     }
     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int id) {}
     });
+    if (cancelable) {
+      builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          dialog.dismiss();
+        }
+      });
+    }
     return builder.create();
   }
 
@@ -233,12 +261,19 @@ public class DialogUtils {
     }
   }
 
+  public static interface PasswordDialogUnlockedCallback {
+    void onPasswordDialogUnlocked();
+  }
+
   static class PasswordDialogListener implements View.OnClickListener {
     private final AlertDialog dialog;
     private final Activity ctx;
-    public PasswordDialogListener(Activity ctx, AlertDialog dialog) {
+    private final PasswordDialogUnlockedCallback callback;
+    public PasswordDialogListener(Activity ctx, AlertDialog dialog,
+        PasswordDialogUnlockedCallback callback) {
         this.dialog = dialog;
         this.ctx = ctx;
+        this.callback = callback;
     }
     @Override
     public void onClick(View v) {
@@ -246,7 +281,7 @@ public class DialogUtils {
       final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
       EditText input = (EditText) dialog.findViewById(R.id.password);
       TextView error = (TextView) dialog.findViewById(R.id.passwordInvalid);
-      if (v == dialog.getButton(AlertDialog.BUTTON_NEGATIVE)) {
+      if (v == dialog.getButton(AlertDialog.BUTTON_NEUTRAL)) {
         if ((Boolean) input.getTag()) {
           input.setTag(Boolean.valueOf(false));
           ((Button) v).setText(R.string.password_lost);
@@ -263,12 +298,7 @@ public class DialogUtils {
             (isInSecurityQuestion ? MyApplication.PrefKey.SECURITY_ANSWER : MyApplication.PrefKey.SET_PASSWORD).getString(""))) {
           input.setText("");
           error.setText("");
-          MyApplication.getInstance().setLocked(false);
-          ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
-          if (ctx instanceof AppCompatActivity) {
-            final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
-            if (actionBar!= null) actionBar.show();
-          }
+          callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
             MyApplication.PrefKey.PERFORM_PROTECTION.putBoolean(false);
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
