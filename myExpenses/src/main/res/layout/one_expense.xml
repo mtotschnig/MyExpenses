@@ -14,11 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/OneExpense"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
+<LinearLayout
+    android:id="@+id/OneExpense"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -32,8 +34,8 @@
             android:id="@+id/Table"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_form"
-            android:paddingRight="@dimen/padding_form"
+            android:layout_marginLeft="@dimen/padding_form"
+            android:layout_marginRight="@dimen/padding_form"
             android:shrinkColumns="1"
             android:stretchColumns="1">
 
@@ -54,7 +56,7 @@
                     android:singleLine="true"/>
             </TableRow>
 
-            <TableRow android:id="@+id/AccountParent">
+            <TableRow android:id="@+id/AccountRow">
 
                 <TextView
                     android:id="@+id/AccountLabel"
@@ -62,8 +64,85 @@
                     android:text="@string/account"/>
 
                 <Spinner
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:id="@+id/Account"
                     android:layout_gravity="center_vertical"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/AmountRow">
+
+                <TextView
+                    android:id="@+id/AmountLabel"
+                    style="@style/form_label.compat"
+                    android:textColor="?attr/colorAccent"/>
+
+                    <include layout="@layout/amount_input"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/ExchangeRateRow"
+                tools:visibility="visible"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/ExchangeRateLabel"
+                    android:text="@string/exchange_rate"
+                    style="@style/form_label.compat"/>
+
+                <LinearLayout
+                    android:paddingRight="12dp"
+                    android:paddingEnd="12dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_1_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="1 € = "/>
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/ExchangeRate_1"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:text="1"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_1_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="$"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="1 $ ="/>
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/ExchangeRate_2"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:text="1"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/ExchangeRateLabel_2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="€"/>
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/TransferAmountRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/TransferAmountLabel"
+                    style="@style/form_label.compat"/>
+
+                    <include layout="@layout/amount_input"/>
             </TableRow>
 
             <TableRow
@@ -76,6 +155,8 @@
                     android:text="@string/transfer_to_account"/>
 
                 <Spinner
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:id="@+id/TransferAccount"
                     android:layout_gravity="center_vertical"/>
             </TableRow>
@@ -125,21 +206,6 @@
                     android:inputType="textPersonName"/>
             </TableRow>
 
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/AmountLabel"
-                    style="@style/form_label.compat"
-                    android:textColor="?attr/colorAccent"/>
-
-                <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/amount_input"/>
-                </LinearLayout>
-            </TableRow>
-
             <TableRow android:id="@+id/CategoryRow">
 
                 <TextView
@@ -186,6 +252,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:onClick="startMediaChooser"
+                        android:focusable="true"
                         android:src="@android:drawable/ic_menu_camera"/>
 
                     <include layout="@layout/picture_view"/>

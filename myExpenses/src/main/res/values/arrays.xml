@@ -222,24 +222,25 @@
     </string-array>
     <string-array name="ExpenseEdit_transaction_formfields" tools:ignore="UnusedResources">
         <item>account</item>
+        <item>amount</item>
         <item>date.time</item>
         <item>payer_or_payee</item>
-        <item>amount</item>
         <item>comment</item>
         <item>category</item>
         <item>method</item>
     </string-array>
     <string-array name="ExpenseEdit_transfer_formfields" tools:ignore="UnusedResources">
         <item>transfer_from_account.transfer_to_account</item>
-        <item>date.time</item>
         <item>amount</item>
+        <item>exchange_rate</item>
+        <item>date.time</item>
         <item>comment</item>
     </string-array>
     <string-array name="ExpenseEdit_templateCategory_formfields" tools:ignore="UnusedResources">
         <item>title</item>
         <item>account</item>
-        <item>payer_or_payee</item>
         <item>amount</item>
+        <item>payer_or_payee</item>
         <item>comment</item>
         <item>category</item>
         <item>method</item>
@@ -249,14 +250,15 @@
         <item>title</item>
         <item>transfer_from_account.transfer_to_account</item>
         <item>amount</item>
+        <item>exchange_rate</item>
         <item>comment</item>
         <item>plan</item>
     </string-array>
     <string-array name="ExpenseEdit_split_formfields" tools:ignore="UnusedResources">
         <item>account</item>
+        <item>amount</item>
         <item>date.time</item>
         <item>payer_or_payee</item>
-        <item>amount</item>
         <item>comment</item>
         <item>split_parts_heading</item>
     </string-array>
@@ -269,6 +271,7 @@
     <string-array name="ExpenseEdit_splitPartTransfer_formfields" tools:ignore="UnusedResources">
         <item>transfer_from_account.transfer_to_account</item>
         <item>amount</item>
+        <item>exchange_rate</item>
         <item>comment</item>
     </string-array>
     <string-array name="form_amount_help_text" tools:ignore="UnusedResources">
@@ -276,6 +279,10 @@
         <item>form_calculator_help_text</item>
     </string-array>
     <string-array name="form_ExpenseEdit_transfer_amount_help_text" tools:ignore="UnusedResources">
+        <item>form_calculator_help_text</item>
+    </string-array>
+    <string-array name="form_ExpenseEdit_templateTransfer_amount_help_text" tools:ignore="UnusedResources">
+        <item>form_ExpenseEdit_templateTransfer_foreign_currency_help_text</item>
         <item>form_calculator_help_text</item>
     </string-array>
     <string-array name="form_comment_help_text" tools:ignore="UnusedResources">
@@ -327,6 +334,7 @@
     </string-array>
 
     <integer-array name="version_codes">
+        <item>232</item>
         <item>231</item>
         <item>227</item>
         <item>222</item>
@@ -345,6 +353,7 @@
         <item>191</item>
     </integer-array>
     <string-array name="version_names">
+        <item>2.6.3</item>
         <item>2.6.2</item>
         <item>2.6.1</item>
         <item>2.6.0</item>
@@ -364,38 +373,6 @@
     </string-array>
 
     <!-- first member is Facebook post id, second Google+ post id -->
-    <string-array name="version_more_info_231" tools:ignore="UnusedResources">
-        <item>posts/1464897740438366</item>
-        <item>ernTPUcN4fy</item>
-    </string-array>
-    <string-array name="version_more_info_232" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1466255806969226</item>
-        <item>aUXDn7qHp1E</item>
-    </string-array>
-    <string-array name="version_more_info_233" tools:ignore="UnusedResources">
-        <item>posts/1470350743226399</item>
-        <item>gYVRpHMrbTi</item>
-    </string-array>
-    <string-array name="version_more_info_234" tools:ignore="UnusedResources">
-        <item>posts/1476254905969316</item>
-        <item>UcC1kZbdEpE</item>
-    </string-array>
-    <string-array name="version_more_info_235" tools:ignore="UnusedResources">
-        <item>posts/1483023585292448</item>
-        <item>K1qgfKdvodM</item>
-    </string-array>
-    <string-array name="version_more_info_236" tools:ignore="UnusedResources">
-        <item>posts/1485758261685647</item>
-        <item>6xukdJk2owx</item>
-    </string-array>
-    <string-array name="version_more_info_237" tools:ignore="UnusedResources">
-        <item>posts/1487156704879136</item>
-        <item>HZKFCr2cZAL</item>
-    </string-array>
-    <string-array name="version_more_info_238" tools:ignore="UnusedResources">
-        <item>posts/1489972704597536</item>
-        <item>8L87ma4hAL7</item>
-    </string-array>
     <string-array name="version_more_info_240" tools:ignore="UnusedResources">
         <item>posts/1508659049395568</item>
         <item>eeAevd25T73</item>

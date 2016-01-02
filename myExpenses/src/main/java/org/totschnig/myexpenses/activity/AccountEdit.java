@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -124,8 +125,7 @@ public class AccountEdit extends AmountActivity implements
         }
     }
     configTypeButton();
-    configAmountInput(Money.fractionDigits(mAccount.currency));
-    
+    mAmountText.setFractionDigits(Money.fractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
@@ -227,7 +227,7 @@ public class AccountEdit extends AmountActivity implements
       mType = INCOME;
       configureType();
     }
-    mAmountText.setText(nfDLocal.format(amount));
+    mAmountText.setAmount(amount);
     mCurrencySpinner.setSelection(Account.CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode()).ordinal());
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
@@ -277,11 +277,21 @@ public class AccountEdit extends AmountActivity implements
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
     mIsDirty = true;
-    if (parent.getId()==R.id.Color) {
-      if (mColors.get(position) != 0)
-        mAccount.color = mColors.get(position);
+    switch(parent.getId()) {
+      case R.id.Color:
+        if (mColors.get(position) != 0) mAccount.color = mColors.get(position);
+        break;
+      case R.id.Currency:
+        try {
+          mAmountText.setFractionDigits(Money.fractionDigits(
+              Currency.getInstance(Account.CurrencyEnum.values()[position].name())));
+        } catch (IllegalArgumentException e) {
+          //will be reported to user when he tries so safe
+        }
+        break;
     }
   }
+
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
     // TODO Auto-generated method stub

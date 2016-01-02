@@ -16,21 +16,25 @@
 package org.totschnig.myexpenses.model;
 
 public class SplitPartTransfer extends Transfer {
-  public SplitPartTransfer(long accountId, Long amount,long parentId) {
+  public SplitPartTransfer(long accountId, Long amount, long parentId) {
     super(accountId,amount);
     this.parentId = parentId;
   }
 
-  public SplitPartTransfer(Account account, long amount, Long parentId, Long transfer_account) {
-    super(account,amount, transfer_account);
+  public SplitPartTransfer(Account account, long amount, Long parentId, Account transferAccount) {
+    super(account,amount, transferAccount);
     this.parentId = parentId;
   }
 
-  public static SplitPartTransfer getNewInstance(long accountId, Long parentId, Long transfer_account) {
+  public static SplitPartTransfer getNewInstance(long accountId, Long parentId, Long transferAccountId) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       return null;
     }
-    return new SplitPartTransfer(account,0L,parentId,transfer_account);
+    Account transferAccount = Account.getInstanceFromDb(transferAccountId);
+    if (transferAccount == null) {
+      return null;
+    }
+    return new SplitPartTransfer(account,0L,parentId,transferAccount);
   }
 }

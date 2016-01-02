@@ -61,10 +61,7 @@ public class Template extends Transaction {
         KEY_CATID,
         LABEL_MAIN,
         FULL_LABEL,
-        "CASE" +
-            " WHEN transfer_peer = 0 AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id)" +
-            " THEN (SELECT label FROM categories WHERE _id = cat_id)" +
-            "END AS label_sub",//different from Transaction, since transfer_peer is treated as boolean here
+        LABEL_SUB_TEMPLATE,//different from Transaction, since transfer_peer is treated as boolean here
         KEY_PAYEE_NAME,
         KEY_TRANSFER_PEER,
         KEY_TRANSFER_ACCOUNT,
