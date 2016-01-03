@@ -471,6 +471,14 @@ Librezale.eus</string>
     <item quantity="one">Aukeratutako transakzioa ezabatuko da.</item>
     <item quantity="other">Aukeratutako %1$d transakzio ezabatuko dira.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">Kategoria bat ongi mugitu da.</item>
+    <item quantity="other">%d kategoria ongi mugitu dira.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Kategoria bat ez da mugitu, etiketa bera badagoelako helburuan.</item>
+    <item quantity="other">%d kategoria ez dira mugitu, etiketa bera badagoelako helburuan.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Berdinkatutako transakzioak ezabatzeak zure erregistroak eta bankukoak bat ez etortzea ekarriko du.</string>
   <string name="warning_balance_account">Konparatu kitatutako guztirakoa zure bankuko bukaera saldoarekin. Aurrera egiten baduzu, kitatutako transakzioak berdinkatuta gisa markatu dira</string>
   <string name="warning_password_protected">Aplikazioa pasahitz bidez babestuta dago.</string>
@@ -503,6 +511,7 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="create_new_folder_fail">Huts egin du karpeta sortzean</string>
   <string name="widget_title_accounts">Nire kontuak</string>
   <string name="widget_title_templates">Nire txantiloiak</string>
+  <string name="app_dir_not_accessible">Babeskopia eta esportazioetarako aukeratutako karpeta (%1$s) ezin da atzitu. mesedez aukeratu beste bat.</string>
   <string name="search_amount">Bilatu kopurua</string>
   <string name="search_category">Bilatu kategoria</string>
   <string name="search_comment">Bilatu oharrak</string>
@@ -581,5 +590,9 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="button_request_calendar_access">Baimena eman</string>
   <string name="switch_on_text">Bai</string>
   <string name="switch_off_text">Ez</string>
-  <string name="preferences_week_start_day_title">Hau da asteko lehen eguna:</string>
+  <string name="menu_move">Mugitu</string>
+  <string name="dialog_title_select_target">Aukeratu helburua</string>
+  <string name="transform_subcategory_to_main">Bihurtu kategoria nagusi</string>
+  <string name="preferences_week_start_day_title">Astearen hasiera:</string>
+  <string name="preferences_month_start_date_title">Hilabetearen hasiera: </string>
 </resources>
