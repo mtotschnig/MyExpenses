@@ -35,13 +35,5 @@
         <requestFocus/>
     </org.totschnig.myexpenses.ui.AmountEditText>
 
-    <ImageView
-        android:id="@+id/Calculator"
-        style="?actionButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:onClick="showCalculator"
-        android:focusable="true"
-        android:src="?attr/calcIcon"/>
+    <include layout="@layout/calc_icon"/>
 </LinearLayout>

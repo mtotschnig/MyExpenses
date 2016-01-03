@@ -247,8 +247,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    mTransferAmountText = (AmountEditText) findViewById(R.id.TransferAmountRow).findViewById(R.id
-        .Amount);
+    mTransferAmountText = (AmountEditText) findViewById(R.id.TranferAmount);
     mExchangeRate1Text = (AmountEditText) findViewById(R.id.ExchangeRate_1);
     mExchangeRate1Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     mExchangeRate1Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
@@ -1640,7 +1639,7 @@ public class ExpenseEdit extends AmountActivity implements
     Bundle bundle = new Bundle(2);
     bundle.putStringArray(KEY_CURRENCY, new String[]{currency.getCurrencyCode(), transferAccount
         .currency.getCurrencyCode()});
-    if (!isSame && (mNewInstance || mPlanInstanceId == -1) && !(mTransaction instanceof Template)) {
+    if (!isSame && !mSavedInstance && (mNewInstance || mPlanInstanceId == -1) && !(mTransaction instanceof Template)) {
       mManager.restartLoader(LAST_EXCHANGE_CURSOR, bundle, this);
     }
   }
@@ -2189,5 +2188,12 @@ public class ExpenseEdit extends AmountActivity implements
           input.multiply(inputRate) : nullValue);
       isProcessingLinkedAmountInputs = false;
     }
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    isProcessingLinkedAmountInputs = true;
+    super.onRestoreInstanceState(savedInstanceState);
+    isProcessingLinkedAmountInputs = false;
   }
 }

@@ -142,7 +142,26 @@
                     android:id="@+id/TransferAmountLabel"
                     style="@style/form_label.compat"/>
 
-                    <include layout="@layout/amount_input"/>
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/type_switch"/>
+
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/TranferAmount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:digits="1234567890,.٫"
+                        android:inputType="numberDecimal"/>
+
+                    <include layout="@layout/calc_icon"/>
+                </LinearLayout>
             </TableRow>
 
             <TableRow
