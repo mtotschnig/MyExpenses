@@ -84,8 +84,7 @@
     <string name="dialog_confirm_discard_new_account">Discard new account?</string>
     <string name="dialog_confirm_discard_new_method">Discard new payment method?</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
-    <string name="dialog_command_disabled_insert_transfer_1">Transfer transactions require a second account with the same currency.</string>
-    <string name="dialog_command_disabled_insert_transfer_2">You have only one account of currency %1$s.</string>
+    <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account.</string>
     <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
     <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
     <string name="dialog_contrib_no">Not yet</string>
@@ -611,5 +610,8 @@
     <string name="transform_subcategory_to_main">Transform to main category</string>
     <string name="preferences_week_start_day_title">Week starts on</string>
     <string name="preferences_month_start_date_title">Month starts on</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">Grouping periods</string>
+    <string name="exchange_rate">Exchange rate</string>
 </resources>
 

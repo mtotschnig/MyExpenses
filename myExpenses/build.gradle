@@ -23,6 +23,8 @@ android {
         }
         versionCode 231
         versionName '2.6.2'
+        versionCode 232
+        versionName '2.6.3'
 
         testApplicationId "org.totschnig.myexpenses.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"

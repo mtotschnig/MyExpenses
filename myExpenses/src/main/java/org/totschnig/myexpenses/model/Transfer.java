@@ -30,26 +30,28 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Transfer extends Transaction {
   
-  public Transfer(long accountId,Long amount) {
+  public Transfer(long accountId, Long amount) {
     super(accountId,amount);
-  }
-  public Transfer(long accountId, Money amount) {
-    super(accountId,amount);
+    this.transferAmount = new Money(this.amount.getCurrency(),this.amount.getAmountMajor().negate());
   }
 
-  public Transfer(Account account, long amount,Long transfer_account) {
+  public Transfer(long accountId, Money amount) {
+    super(accountId,amount);
+    this.transferAmount = new Money(amount.getCurrency(),amount.getAmountMajor().negate());
+  }
+
+  public Transfer(Account account, long amount, Account transferAccount) {
     super(account,amount);
-    this.transfer_account = transfer_account;
+    this.transfer_account = transferAccount.getId();
+    this.transferAmount = new Money(transferAccount.currency,this.amount.getAmountMajor().negate());
   }
-  public Transfer() {
-   super();
-  }
+
   /**
    * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
-   * @param transfer_account
+   * @param transferAccountId
    * @return
    */
-  public static Transfer getNewInstance(long accountId, Long transfer_account) {
+  public static Transfer getNewInstance(long accountId, Long transferAccountId) {
     Account account = Account.getInstanceFromDb(accountId);
     if (account == null) {
       account = Account.getInstanceFromDb(0L);
@@ -57,7 +59,11 @@ public class Transfer extends Transaction {
     if (account == null) {
       return null;
     }
-    return new Transfer(account,0L,transfer_account);
+    Account transferAccount = Account.getInstanceFromDb(transferAccountId);
+    if (transferAccount == null) {
+      return null;
+    }
+    return new Transfer(account,0L,transferAccount);
   }
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()
@@ -65,6 +71,7 @@ public class Transfer extends Transaction {
   public Uri save() {
     Uri uri;
     long amount = this.amount.getAmountMinor();
+    long transferAmount = this.transferAmount.getAmountMinor();
     //the id of the peer_account is stored in KEY_TRANSFER_ACCOUNT,
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
@@ -82,7 +89,7 @@ public class Transfer extends Transaction {
       setId(ContentUris.parseId(uri));
       //if the transfer is part of a split, the transfer peer needs to have a null parent
       initialValues.remove(KEY_PARENTID);
-      initialValues.put(KEY_AMOUNT, 0 - amount);
+      initialValues.put(KEY_AMOUNT, transferAmount);
       initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       initialValues.put(KEY_ACCOUNTID, transfer_account);
       initialValues.put(KEY_TRANSFER_PEER,getId());
@@ -107,7 +114,7 @@ public class Transfer extends Transaction {
     } else {
       uri = Uri.parse(CONTENT_URI + "/" + getId());
       cr().update(uri,initialValues,null,null);
-      initialValues.put(KEY_AMOUNT, 0 - amount);
+      initialValues.put(KEY_AMOUNT, transferAmount);
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
       initialValues.put(KEY_ACCOUNTID, transfer_account);
@@ -116,5 +123,9 @@ public class Transfer extends Transaction {
       cr().update(Uri.parse(CONTENT_URI + "/" + transfer_peer),initialValues,null,null);
     }
     return uri;
+  }
+
+  public boolean isSameCurrency() {
+    return amount.getCurrency().equals(transferAmount.getCurrency());
   }
 }

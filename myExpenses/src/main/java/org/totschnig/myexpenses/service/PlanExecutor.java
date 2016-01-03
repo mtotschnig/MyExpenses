@@ -46,8 +46,6 @@ public class PlanExecutor extends IntentService {
     } catch (Exception e) {
       //has been reported to fail (report 9bc4e977220f559fcd8a204195bcf47f)
       Utils.reportToAcra(e);
-      //we retry later
-      setAlarm(this,now+INTERVAL);
       return;
     }
     if (plannerCalendarId.equals("-1")) {

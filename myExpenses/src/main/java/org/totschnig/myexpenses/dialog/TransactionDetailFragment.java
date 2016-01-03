@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -236,10 +237,18 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       }
     }
 
+    String amountText;
     String accountLabel = Account.getInstanceFromDb(mTransaction.accountId).label;
     if (mTransaction instanceof Transfer) {
       ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
       ((TextView) mLayout.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
+      if (((Transfer) mTransaction).isSameCurrency()) {
+        amountText = formatCurrencyAbs(mTransaction.amount);
+      } else {
+        String self = formatCurrencyAbs(mTransaction.amount);
+        String other = formatCurrencyAbs(mTransaction.transferAmount);
+        amountText = type == ExpenseEdit.EXPENSE ? (self + " => " + other) : (other + " => " + self);
+      }
     } else {
       ((TextView) mLayout.findViewById(R.id.Account)).setText(accountLabel);
       if ((mTransaction.getCatId() != null && mTransaction.getCatId() > 0)) {
@@ -247,6 +256,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       } else {
         mLayout.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
+      amountText = formatCurrencyAbs(mTransaction.amount);
     }
 
     ((TextView) mLayout.findViewById(R.id.Date)).setText(
@@ -254,8 +264,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         + " "
         + DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate()));
 
-    ((TextView) mLayout.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
-        new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
+    ((TextView) mLayout.findViewById(R.id.Amount)).setText(amountText);
 
     if (!mTransaction.comment.equals("")) {
       ((TextView) mLayout.findViewById(R.id.Comment)).setText(mTransaction.comment);
@@ -297,5 +306,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       BitmapWorkerTask task = new BitmapWorkerTask(dlg, thumbsize);
       task.execute(mTransaction.getPictureUri());
     }
+  }
+
+  @NonNull
+  private String formatCurrencyAbs(Money money) {
+    return Utils.formatCurrency(money.getAmountMajor().abs(), money.getCurrency());
   }
 }

@@ -87,7 +87,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         heading.setText(version.name);
         String[] changes = version.getChanges(ctx);
         ((TextView) row.findViewById(R.id.versionInfoChanges))
-          .setText(changes != null ? ("- " + TextUtils.join("\n- ",changes)) : "");
+          .setText(changes != null ? ("\u25b6 " + TextUtils.join("\n\u25b6 ",changes)) : "");
 
         TextView learn_more = (TextView) row.findViewById(R.id.versionInfoLearnMore);
 

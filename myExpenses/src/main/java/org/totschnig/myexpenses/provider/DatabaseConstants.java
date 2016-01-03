@@ -151,6 +151,8 @@ public class DatabaseConstants {
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
   public static final String KEY_PICTURE_URI = "picture_id";//historical reasons
+  public static final String KEY_TRANSFER_AMOUNT = "transfer_amount";
+
   /**
    * column alias for the second group (month or week)
    */
@@ -227,6 +229,18 @@ public class DatabaseConstants {
     "THEN " +
     "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
     "END AS " + KEY_LABEL_SUB;
+
+  /**
+   * //different from Transaction, since transfer_peer is treated as boolean here
+   */
+  public static final String LABEL_SUB_TEMPLATE =
+      "CASE WHEN " +
+          "  " + KEY_TRANSFER_PEER + " = 0 AND cat_id AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
+          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+          "THEN " +
+          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+          "END AS " + KEY_LABEL_SUB;
+
   /**
    * if transaction is linked to a subcategory
    * main and category label are concatenated
@@ -252,6 +266,18 @@ public class DatabaseConstants {
       "(SELECT " + KEY_PARENTID
           + " FROM " + TABLE_TRANSACTIONS + " peer WHERE peer." + KEY_ROWID
           + " = " + VIEW_EXTENDED + "." + KEY_TRANSFER_PEER + ")";
+
+  /**
+   * Can only be used when fetching single transaction from DB, because the inner select is linked
+   * to VIEW_ALL used as outer table
+   */
+  public static final String TRANSFER_AMOUNT =
+      "CASE WHEN " +
+          "  " + KEY_TRANSFER_PEER + " " +
+          " THEN " +
+          "  (SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = " + VIEW_ALL + "." + KEY_TRANSFER_PEER + ") " +
+          " ELSE null" +
+      " END AS " + KEY_TRANSFER_AMOUNT;
 
   public static final Long SPLIT_CATID = 0L;
   

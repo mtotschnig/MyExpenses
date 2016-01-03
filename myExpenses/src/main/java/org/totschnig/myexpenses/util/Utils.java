@@ -217,7 +217,7 @@ public class Utils {
     return formatCurrency(amount, currency);
   }
 
-  static String formatCurrency(BigDecimal amount, Currency currency) {
+  public static String formatCurrency(BigDecimal amount, Currency currency) {
     NumberFormat nf = getNumberFormat();
     int fractionDigits = Money.fractionDigits(currency);
     nf.setCurrency(currency);

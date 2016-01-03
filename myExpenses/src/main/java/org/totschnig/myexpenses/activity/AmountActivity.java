@@ -21,12 +21,14 @@ import java.text.DecimalFormatSymbols;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -37,53 +39,40 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
   protected DecimalFormat nfDLocal;
-  protected EditText mAmountText;
+  protected AmountEditText mAmountText;
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
   protected CompoundButton mTypeButton;
   protected TextView mAmountLabel;
+  private int amountInputFractionDigits = -1;
 
   @Override
   public void setContentView(int layoutResID) {
     super.setContentView(layoutResID);
     mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
-    mAmountText = (EditText) findViewById(R.id.Amount);
-  }
-
-  /**
-   * configures the decimal format and the amount EditText based on configured
-   * currency_decimal_separator 
-   * @param fractionDigits 
-   */
-  protected void configAmountInput(int fractionDigits) {
-    char decimalSeparator = Utils.getDefaultDecimalSeparator();
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-    symbols.setDecimalSeparator(decimalSeparator);
-    String pattern = "#0";
-    if (fractionDigits>0) {
-      pattern += "." + new String(new char[fractionDigits]).replace("\0", "#");
-    }
-    nfDLocal = new DecimalFormat(pattern,symbols);
-    nfDLocal.setGroupingUsed(false);
-    Utils.configDecimalSeparator(mAmountText, decimalSeparator,fractionDigits);
+    mAmountText = (AmountEditText) findViewById(R.id.AmountRow).findViewById(R.id.Amount);
   }
 
   /**
    * 
    */
   protected void configTypeButton() {
-    mTypeButton = (CompoundButton) findViewById(R.id.TaType);
+    mTypeButton = (CompoundButton) findViewById(R.id.AmountRow).findViewById(R.id.TaType);
   }
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
-        mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
-        mAmountText.setError(null);
+        AmountEditText input = (AmountEditText)
+            findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID,0))
+                .findViewById(R.id.Amount);
+        input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
+        input.setError(null);
       } catch (Exception  e) {
         Utils.reportToAcra(e);
       }
@@ -100,32 +89,39 @@ public abstract class AmountActivity extends EditActivity {
   }
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
-    String strAmount = mAmountText.getText().toString();
+    return validateAmountInput(mAmountText,showToUser);
+  }
+
+  protected BigDecimal validateAmountInput(AmountEditText input, boolean showToUser) {
+    String strAmount = input.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
-        mAmountText.setError(getString(R.string.no_amount_given));
+        input.setError(getString(R.string.no_amount_given));
       return null;
     }
-    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
+    BigDecimal amount = Utils.validateNumber(input.getNumberFormat(), strAmount);
     if (amount == null) {
       if (showToUser)
-        mAmountText.setError(getString(R.string.invalid_number_format,nfDLocal.format(11.11)));
+        input.setError(getString(R.string.invalid_number_format, input.getNumberFormat().format
+            (11.11)));
       return null;
     }
     return amount;
   }
+
   public void showCalculator(View view) {
-    if (mAmountText == null) {
-      return;
-    }
+    final View parent = (View) view.getParent();
+    AmountEditText input = (AmountEditText) parent.findViewById(R.id.Amount);
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
-    BigDecimal amount = validateAmountInput(false);
+    BigDecimal amount = validateAmountInput(input,false);
     if (amount!=null) {
       intent.putExtra(KEY_AMOUNT,amount);
     }
+    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID, ((View) parent.getParent()).getId());
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
+
   protected void forwardDataEntryFromWidget(Intent intent) {
     intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
         getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
@@ -155,6 +151,6 @@ public abstract class AmountActivity extends EditActivity {
   protected void linkInputsWithLabels() {
     linkInputWithLabel(mAmountText, mAmountLabel);
     linkInputWithLabel(mTypeButton, mAmountLabel);
-    linkInputWithLabel(findViewById(R.id.Calculator),mAmountLabel);
+    linkInputWithLabel(findViewById(R.id.AmountRow).findViewById(R.id.Calculator),mAmountLabel);
   }
 }

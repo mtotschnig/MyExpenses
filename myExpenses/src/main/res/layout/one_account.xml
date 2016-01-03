@@ -64,7 +64,8 @@
                     android:layout_gravity="center_vertical" />
             </TableRow>
 
-            <TableRow>
+            <TableRow
+                android:id="@+id/AmountRow">
 
                 <TextView
                     android:id="@+id/AmountLabel"
@@ -72,11 +73,7 @@
                     android:textColor="?attr/colorAccent"
                     android:text="@string/opening_balance"/>
 
-                <LinearLayout
-                    android:orientation="horizontal">
-
                     <include layout="@layout/amount_input"/>
-                </LinearLayout>
             </TableRow>
 
             <TableRow>

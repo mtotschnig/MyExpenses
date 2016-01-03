@@ -1,0 +1,74 @@
+package org.totschnig.myexpenses.ui;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.EditText;
+
+import org.totschnig.myexpenses.util.Utils;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+public class AmountEditText extends EditText {
+
+  int fractionDigits = -1;
+
+  DecimalFormat numberFormat = new DecimalFormat();
+
+
+  public AmountEditText(Context context) {
+    super(context);
+  }
+
+  public AmountEditText(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+  public AmountEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+  }
+
+
+  public DecimalFormat getNumberFormat() {
+    return numberFormat;
+  }
+
+  public int getFractionDigits() {
+    return fractionDigits;
+  }
+
+  public void setFractionDigits(int fractionDigits) {
+    if (this.fractionDigits == fractionDigits) return;
+    char decimalSeparator = Utils.getDefaultDecimalSeparator();
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(decimalSeparator);
+    String pattern = "#0";
+    if (fractionDigits > 0) {
+      pattern += "." + new String(new char[fractionDigits]).replace("\0", "#");
+    }
+    numberFormat = new DecimalFormat(pattern,symbols);
+    numberFormat.setGroupingUsed(false);
+    Utils.configDecimalSeparator(this, decimalSeparator,fractionDigits);
+    //if the new configuration has less fraction digits, we might have to truncate the input
+    if (this.fractionDigits != -1 && this.fractionDigits > fractionDigits) {
+      String currentText = getText().toString();
+      int decimalSeparatorIndex = currentText.indexOf(decimalSeparator);
+      if (decimalSeparatorIndex != -1) {
+        String minorPart = currentText.substring(decimalSeparatorIndex + 1);
+        if (minorPart.length() > fractionDigits) {
+          String newText = currentText.substring(0, decimalSeparatorIndex);
+          if (fractionDigits > 0) {
+            newText += String.valueOf(decimalSeparator) + minorPart.substring(0, fractionDigits);
+          }
+          setText(newText);
+        }
+      }
+    }
+    this.fractionDigits = fractionDigits;
+  }
+
+  public void setAmount(BigDecimal amount) {
+    setText(numberFormat.format(amount));
+  }
+}

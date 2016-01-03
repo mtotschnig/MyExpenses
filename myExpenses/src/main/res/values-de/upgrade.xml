@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_262">
-    <item>Die Tage, an denen Woche und Monat beginnen, können konfiguriert werden.</item>
+    <item>Die Tage, an denen Woche und Monat beginnen, können konfiguriert werden</item>
   </string-array>
   <string-array name="whats_new_261">
     <item>Kategorien können verschoben werden</item>
