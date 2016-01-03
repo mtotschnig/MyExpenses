@@ -305,16 +305,33 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   }
 
   @Override
-  public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
+  public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat,
+      PreferenceScreen preferenceScreen) {
+    final String key = preferenceScreen.getKey();
+    if (key.equals(getString(R.string.pref_screen_protection)) &&
+        MyApplication.getInstance().isProtected()) {
+      DialogUtils.showPasswordDialog(this, DialogUtils.passwordDialog(this, true), false,
+          new DialogUtils.PasswordDialogUnlockedCallback() {
+            @Override
+            public void onPasswordDialogUnlocked() {
+              startPreferenceScreen(key);
+          }
+        });
+      return true;
+    }
+    startPreferenceScreen(key);
+    return true;
+  }
+
+  private void startPreferenceScreen(String key) {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     SettingsFragment fragment = new SettingsFragment();
     Bundle args = new Bundle();
-    args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
+    args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, key);
     fragment.setArguments(args);
-    ft.replace(R.id.fragment_container, fragment, preferenceScreen.getKey());
-    ft.addToBackStack(preferenceScreen.getKey());
+    ft.replace(R.id.fragment_container, fragment, key);
+    ft.addToBackStack(key);
     ft.commit();
-    return true;
   }
 
   public static class SettingsFragment extends PreferenceFragmentCompat implements
