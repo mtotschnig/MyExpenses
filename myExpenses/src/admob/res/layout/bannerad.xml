@@ -6,6 +6,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    ads:adSize="SMART_BANNER"
+    ads:adSize="@string/admob_banner_size"
     ads:adUnitId="@string/admob_unitid_mainscreen">
 </com.google.android.gms.ads.AdView>
