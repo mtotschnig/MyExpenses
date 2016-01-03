@@ -39,8 +39,6 @@
   <string name="default_account_description">Ez a számla automatikusan került beállításra a telepítés során</string>
   <string name="description">Leírás</string>
   <!--User confirms that he wants to discard changes-->
-  <string name="dialog_command_disabled_insert_transfer_1">Számlák közötti átutaláshoz szükség van ugyanazt a pénznemet használó másik számlára.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">A(z) %1$s pénznemhez csak egy számla tartozik.</string>
   <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
   <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <string name="dialog_contrib_no">Nem most</string>
@@ -346,4 +344,5 @@
   <string name="switch_off_text">Ki</string>
   <string name="menu_move">Mozgat</string>
   <string name="preferences_week_start_day_title">A hét kezdőnapja</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

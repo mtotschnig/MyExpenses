@@ -53,8 +53,6 @@
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
   <!--User confirms that he wants to discard changes-->
-  <string name="dialog_command_disabled_insert_transfer_1">Do przeniesienia transakcji, potrzeba drugiego konta z tą samą walutą.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Posiadasz tylko jedno konto z walutą %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
   <string name="dialog_contrib_no">Nie teraz</string>
@@ -512,4 +510,5 @@
   <string name="switch_off_text">Wył.</string>
   <string name="menu_move">Przenieś</string>
   <string name="preferences_week_start_day_title">Pierwszy dzień tygodnia</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

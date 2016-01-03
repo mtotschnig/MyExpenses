@@ -60,8 +60,6 @@
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Forkast</string>
   <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Overførseler kræver en anden konto med den samme valuta.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Du har oprettet kun én konto i valuta %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
   <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
   <string name="dialog_contrib_no">Ikke endnu</string>
@@ -558,4 +556,5 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="switch_on_text">Til</string>
   <string name="switch_off_text">Fra</string>
   <string name="preferences_week_start_day_title">Ugen starter</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

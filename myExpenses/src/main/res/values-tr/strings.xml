@@ -68,8 +68,7 @@
   <string name="dialog_confirm_discard_new_account">Yeni hesap gözardı edilsin mi?</string>
   <string name="dialog_confirm_discard_new_method">Yeni ödeme metodu gözardı edilsin mi?</string>
   <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">%1$s para biriminin sadece bir hesabı olmalısınız.</string>
+  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_contrib_no">Henüz değil</string>
@@ -595,4 +594,7 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
   <string name="preferences_week_start_day_title">Haftanın ilk günü</string>
   <string name="preferences_month_start_date_title">Ay şu gün başlar:</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Gruplandırma periyotları</string>
+  <string name="exchange_rate">Döviz kuru</string>
 </resources>

@@ -61,7 +61,6 @@
   <string name="help_ExpenseEdit_templateTransfer_title">Formular für Umbuchungs-Vorlagen</string>
   <string name="help_ExpenseEdit_transaction_info">Verwenden Sie dieses Formular, um eine neue Buchung einzugeben oder eine vorhandene zu bearbeiten. Verwenden Sie das Dropdown-Menü in der Aktionsleiste um zum Formular zum Hinzufügen einer neuen Umbuchung oder Split-Buchung zu wechseln.</string>
   <string name="help_ExpenseEdit_templateCategory_info">Verwenden Sie dieses Formular, um eine neue Vorlage einzugeben oder eine vorhandene zu bearbeiten. Verwenden Sie das Dropdown-Menü in der Aktionsleiste um zum Formular zum Hinzufügen einer neuen Umbuchungs-Vorlage zu wechseln.</string>
-  <string name="help_ExpenseEdit_transfer_info">Derzeit werden nur Umbuchungen zwischen Konten mit derselben Währung unterstützt.</string>
   <string name="help_ExpenseEdit_split_info">Eine Splittbuchung ist eine einzelne Buchung, aufgeteilt in Teile, wo jeder Teil einer anderen Kategorie zugewiesen oder auf ein anderes Konto übertragen werden kann.</string>
   <string name="form_account_help_text">Wählen Sie das Konto, zu dem die Buchung gehört.</string>
   <string name="form_date.time_help_text">Geben Sie die Uhrzeit an, wann die Buchung stattgefunden hat.</string>
@@ -73,8 +72,6 @@
   <string name="form_method_help_text">Dieses Feld ist nur verfügbar, wenn das ausgewählte Konto einen Typ hat, der mit einer Zahlungsweise verknüpft ist. Standardmäßig sind nur Bankkonten Zahlungsmethoden (Scheck, Kreditkarte, Einzahlung, Lastschrift) zugeordnet. Unter Einstellungen -&gt; Verwalten -&gt; Zahlungsweisen können Sie die Zuordnung zwischen Kontotypen und Zahlungsweisen konfigurieren. Eine zusätzliches Feld Referenznummer wird verfügbar, wenn Sie eine Methode wählen, die als nummeriert definiert ist.</string>
   <string name="form_attach_image_help_text"><![CDATA[Über die <img src=\"android:ic_menu_camera\"> Schaltfläche können Sie ein Bild (z. B. aus der Galerie oder mit der Kamera) dem Objekt anfügen.]]></string>
   <string name="form_category_help_text">Diese Schaltfläche öffnet die Liste der Kategorien, aus der Sie die Kategorie auswählen können, der Sie die Buchung zuordnen möchten.</string>
-  <string name="form_transfer_from_account_help_text">Wählen Sie das Konto, von dem der Betrag überwiesen wird.</string>
-  <string name="form_transfer_to_account_help_text">Wählen Sie das Konto, auf das der Betrag überwiesen wird.</string>
   <string name="form_split_parts_heading_help_text">Verwenden Sie die schwebende Aktionsschaltfläche, um Teile nach Bedarf hinzuzufügen. Die Differenz zwischen der Summe der Teile und dem Betrag der Buchung wird am unteren Rand des Bildschirms angezeigt. Die Splittbuchung kann nur gespeichert werden, wenn der Betrag vollständig zugewiesen wurde.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Wählen Sie eine Kategorie für diesen Buchungsteil aus.</string>
   <string name="form_transfer_from_account.transfer_to_account_help_text">Wählen Sie die Konten aus, zwischen denen dieses Objekt übertragen wird.</string>

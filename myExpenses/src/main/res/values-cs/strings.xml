@@ -40,8 +40,6 @@
   <string name="default_account_description">Tento účet byl nastaven automaticky během instalace</string>
   <string name="description">Popis</string>
   <!--User confirms that he wants to discard changes-->
-  <string name="dialog_command_disabled_insert_transfer_1">Transakce převodu vyžadují druhý účet se stejnou měnou.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Máte pouze jeden účet měny %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Žádné transakce pro export.</string>
   <string name="dialog_command_disabled_distribution">Žádné transakce nebyly namapovány do kategorií v tomto účtu.</string>
   <string name="dialog_contrib_no">Zatím ne</string>
@@ -360,4 +358,5 @@
   <string name="switch_off_text">Vypnuto</string>
   <string name="menu_move">Přesun</string>
   <string name="preferences_week_start_day_title">Začátek týdne</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

@@ -7,7 +7,6 @@
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista transakcji</string>
   <string name="help_MyExpenses_crStatus_info">Stan transakcji jest oznaczony przez pokolorowany prostokąt: szary dla nieuzgodnionego, niebieski dla czystego, zielony dla uzgodnionego. Kliknięcie na prostokącie, zmienia jego stan.</string>
-  <string name="menu_reset_help_text">To polecenie wyeksportuje wszystkie transakcje bieżącego konta do pliku na karcie SD w formacie QIF lub CSV. Możesz zdecydować czy chcesz usunąć wyeksportowane transakcje, w takim przypadku otwierający balans zostanie automatycznie skorygowany. Alternatywnie, jeżeli transakcje nie są usunięte, zostaną one oznaczone jako wyeksportowane. Moje Wydatki może udostępniać plik natychmiastowo po eksporcie przez FTP, e-mail lub każdą inną aplikację do dzielenia się plikami, jeżeli skonfigurujesz to w Ustawieniach.</string>
   <string name="menu_manage_plans_help_text">Otwiera listę szablonów oraz planów, gdzie możesz zastosować, edytować lub edytować je, i także określić plany na przyszłość oraz powtarzających się transakcji.</string>
   <string name="cab_create_template_from_transaction_help_text">Zdefiniuj nowy szablon bazujący na wybranej transakcji. Będzie on prosił cię o nazwę dla szablonu.</string>
   <!--ManageMethods title is in keys-->

@@ -61,8 +61,6 @@
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Singkir</string>
   <string name="dialog_command_disabled_balance">Tiada transaksi selesai yang disesuaikan.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Transaksi pemindahan memerlukan akaun kedua dengan matawang yang sama.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Anda hanya mempunyai satu akaun matawang %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Tiada transaksi dieksport.</string>
   <string name="dialog_command_disabled_distribution">Tiada transaksi telah dipetakan pada kategori dalam akaun ini.</string>
   <string name="dialog_contrib_no">Belum lagi</string>
@@ -562,4 +560,5 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="switch_on_text">Dihidupkan</string>
   <string name="switch_off_text">Dimatikan</string>
   <string name="preferences_week_start_day_title">Minggu bermula pada</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

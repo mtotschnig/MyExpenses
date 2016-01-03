@@ -64,8 +64,6 @@
   <string name="dialog_confirm_discard_new_account">Απόρριψη νέου λογαριασμού;</string>
   <string name="dialog_confirm_discard_new_method">Απόρριψη νέας μεθόδου πληρωμής;</string>
   <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Μεταφορά συναλλαγών απαιτεί ένα δεύτερο λογαριασμό με το ίδιο νόμισμα.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Έχετε μόνο ένα λογαριασμό του νομίσματος %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
   <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
   <string name="dialog_contrib_no">Όχι ακόμα</string>
@@ -589,4 +587,5 @@
   <string name="dialog_title_select_target">Επιλέξτε στόχο</string>
   <string name="transform_subcategory_to_main">Μεταμόρφωση στην κύρια κατηγορία</string>
   <string name="preferences_week_start_day_title">Έναρξη εβδομάδας:</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>
