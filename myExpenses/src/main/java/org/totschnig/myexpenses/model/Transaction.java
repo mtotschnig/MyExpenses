@@ -49,8 +49,8 @@ public class Transaction extends Model {
    */
   public String label = "";
   protected Date date;
-  public Money amount;
-  public Money transferAmount;
+  protected Money amount;
+  protected Money transferAmount;
   private Long catId;
   public Long accountId;
   public Long transfer_peer;
@@ -122,6 +122,17 @@ public class Transaction extends Model {
   public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(
       TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
 
+  public Money getAmount() {
+    return amount;
+  }
+
+  public void setAmount(Money amount) {
+    this.amount = amount;
+  }
+
+  public Money getTransferAmount() {
+    return transferAmount;
+  }
 
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, null);

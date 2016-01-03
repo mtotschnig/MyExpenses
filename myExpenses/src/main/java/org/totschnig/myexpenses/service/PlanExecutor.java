@@ -113,7 +113,7 @@ public class PlanExecutor extends IntentService {
               String content = template.label;
               if (!content.equals(""))
                 content += " : ";
-              content += Utils.formatCurrency(template.amount);
+              content += Utils.formatCurrency(template.getAmount());
               String title = account.label + " : " + template.title;
               NotificationCompat.Builder builder =
                   new NotificationCompat.Builder(this)

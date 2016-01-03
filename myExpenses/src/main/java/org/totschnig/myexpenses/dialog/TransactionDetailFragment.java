@@ -46,7 +46,6 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.BitmapWorkerTask;
@@ -197,7 +196,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
     mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
     int title;
-    boolean type = mTransaction.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
+    boolean type = mTransaction.getAmount().getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
 
     if (mTransaction instanceof SplitTransaction) {
       //TODO: refactor duplicated code with SplitPartList
@@ -213,7 +212,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
       // Now create a simple cursor adapter and set it to display
       mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-          mTransaction.amount.getCurrency());
+          mTransaction.getAmount().getCurrency());
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
 
@@ -243,10 +242,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
       ((TextView) mLayout.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
       if (((Transfer) mTransaction).isSameCurrency()) {
-        amountText = formatCurrencyAbs(mTransaction.amount);
+        amountText = formatCurrencyAbs(mTransaction.getAmount());
       } else {
-        String self = formatCurrencyAbs(mTransaction.amount);
-        String other = formatCurrencyAbs(mTransaction.transferAmount);
+        String self = formatCurrencyAbs(mTransaction.getAmount());
+        String other = formatCurrencyAbs(mTransaction.getTransferAmount());
         amountText = type == ExpenseEdit.EXPENSE ? (self + " => " + other) : (other + " => " + self);
       }
     } else {
@@ -256,7 +255,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       } else {
         mLayout.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
-      amountText = formatCurrencyAbs(mTransaction.amount);
+      amountText = formatCurrencyAbs(mTransaction.getAmount());
     }
 
     ((TextView) mLayout.findViewById(R.id.Date)).setText(

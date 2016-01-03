@@ -125,10 +125,10 @@ public class TemplateWidget extends AbstractWidget<Template> {
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1,
-        t.title + " : "+Utils.formatCurrency(t.amount));
+        t.title + " : "+Utils.formatCurrency(t.getAmount()));
     String commentSeparator = " / ";
     SpannableStringBuilder description = new SpannableStringBuilder(t.isTransfer ?
-        ((t.amount.getAmountMinor() < 0) ? "=> " : "<= ") + t.label :
+        ((t.getAmount().getAmountMinor() < 0) ? "=> " : "<= ") + t.label :
          t.label);
     if (!TextUtils.isEmpty(t.comment)) {
       if (description.length() != 0) {

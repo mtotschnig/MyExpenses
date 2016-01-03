@@ -46,6 +46,20 @@ public class Transfer extends Transaction {
     this.transferAmount = new Money(transferAccount.currency,this.amount.getAmountMajor().negate());
   }
 
+  @Override
+  public void setAmount(Money amount) {
+    if (!amount.getCurrency().getCurrencyCode().equals(transferAmount.getCurrency().getCurrencyCode())) {
+      throw new UnsupportedOperationException("for foreign exchange transfers, use setAmountAndTransferAmount");
+    }
+    super.setAmount(amount);
+    this.transferAmount = new Money(amount.getCurrency(),amount.getAmountMajor().negate());
+  }
+
+  public void setAmountAndTransferAmount(Money amount, Money transferAmount) {
+    this.amount = amount;
+    this.transferAmount = transferAmount;
+  }
+
   /**
    * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @param transferAccountId
@@ -53,9 +67,6 @@ public class Transfer extends Transaction {
    */
   public static Transfer getNewInstance(long accountId, Long transferAccountId) {
     Account account = Account.getInstanceFromDb(accountId);
-    if (account == null) {
-      account = Account.getInstanceFromDb(0L);
-    }
     if (account == null) {
       return null;
     }

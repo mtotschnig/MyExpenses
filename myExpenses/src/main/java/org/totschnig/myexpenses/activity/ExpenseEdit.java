@@ -566,7 +566,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setup() {
-    mAmountText.setFractionDigits(Money.fractionDigits(mTransaction.amount.getCurrency()));
+    mAmountText.setFractionDigits(Money.fractionDigits(mTransaction.getAmount().getCurrency()));
     linkInputsWithLabels();
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new MyTextWatcher() {
@@ -1013,7 +1013,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)) setDateTime(mTransaction.getDate());
 
-    fillAmount(mTransaction.amount.getAmountMajor());
+    fillAmount(mTransaction.getAmount().getAmountMajor());
 
     if (mNewInstance) {
       if (mTransaction instanceof Template) {
@@ -1113,8 +1113,8 @@ public class ExpenseEdit extends AmountActivity implements
       if (mType == EXPENSE) {
         amount = amount.negate();
       }
-      mTransaction.amount.setCurrency(account.currency);
-      mTransaction.amount.setAmountMajor(amount);
+      mTransaction.getAmount().setCurrency(account.currency);
+      mTransaction.getAmount().setAmountMajor(amount);//TODO refactor to better respect encapsulation
     }
     mTransaction.accountId = account.getId();
 
@@ -1148,15 +1148,15 @@ public class ExpenseEdit extends AmountActivity implements
             if (mType == INCOME) {
               transferAmount = transferAmount.negate();
             }
-            mTransaction.amount = new Money(transferAccount.currency,transferAmount);
+            mTransaction.setAmount(new Money(transferAccount.currency,transferAmount));
             mAmountText.setError(null);
             validP = true; //we only need either amount or transfer amount
           }
         }
       } else {
-        mTransaction.transferAmount.setCurrency(transferAccount.currency);
+        mTransaction.getTransferAmount().setCurrency(transferAccount.currency);
         if (isSame) {
-          mTransaction.transferAmount.setAmountMajor(amount.negate());
+          mTransaction.getTransferAmount().setAmountMajor(amount.negate());
         } else {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, true);
 
@@ -1167,7 +1167,7 @@ public class ExpenseEdit extends AmountActivity implements
             if (mType == INCOME) {
               transferAmount = transferAmount.negate();
             }
-            mTransaction.transferAmount.setAmountMajor(transferAmount);
+            mTransaction.getTransferAmount().setAmountMajor(transferAmount);
           }
         }
       }
@@ -1457,7 +1457,7 @@ public class ExpenseEdit extends AmountActivity implements
         mCatId = t.getCatId();
         mLabel = t.label;
         mCommentText.setText(t.comment);
-        fillAmount(t.amount.getAmountMajor());
+        fillAmount(t.getAmount().getAmountMajor());
         configureType();
       }
       break;
@@ -1855,7 +1855,7 @@ public class ExpenseEdit extends AmountActivity implements
         configureTransferInput();
         if (!mNewInstance && !(mTransaction instanceof Template)) {
           isProcessingLinkedAmountInputs = true;
-          mTransferAmountText.setAmount(mTransaction.transferAmount.getAmountMajor().abs());
+          mTransferAmountText.setAmount(mTransaction.getTransferAmount().getAmountMajor().abs());
           updateExchangeRates();
           isProcessingLinkedAmountInputs = false;
         }

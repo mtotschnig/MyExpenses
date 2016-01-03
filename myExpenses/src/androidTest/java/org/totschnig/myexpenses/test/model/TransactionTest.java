@@ -48,7 +48,7 @@ public class TransactionTest extends ModelTest  {
     String payee = "N.N";
     assertEquals(0L, Transaction.getSequenceCount().longValue());
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
-    op1.amount = new Money(mAccount1.currency,100L);
+    op1.setAmount(new Money(mAccount1.currency,100L));
     op1.comment = "test transaction";
     op1.setPictureUri(Utils.getOutputMediaUri(false));//we need an uri that is considered "home"
     op1.payee = payee;
@@ -74,7 +74,7 @@ public class TransactionTest extends ModelTest  {
   public void testTransfer() {
     Transfer op = Transfer.getNewInstance(mAccount1.getId(),mAccount2.getId());
     Transfer peer;
-    op.amount = new Money(mAccount1.currency,(long) 100);
+    op.setAmount(new Money(mAccount1.currency,(long) 100));
     op.comment = "test transfer";
     op.setPictureUri(Utils.getOutputMediaUri(false));
     op.save();
@@ -94,20 +94,20 @@ public class TransactionTest extends ModelTest  {
    */
   public void testSplit() {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(),false);
-    op1.amount = new Money(mAccount1.currency,100L);
+    op1.setAmount(new Money(mAccount1.currency,100L));
     op1.comment = "test transaction";
     op1.setPictureUri(Utils.getOutputMediaUri(false));
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
     op1.save();
     assertTrue(op1.getId() > 0);
     Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.getId(),op1.getId());
-    split1.amount = new Money(mAccount1.currency,50L);
+    split1.setAmount(new Money(mAccount1.currency,50L));
     assertTrue(split1.parentId == op1.getId());
     split1.status =org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     split1.save();
     assertTrue(split1.getId() > 0);
     Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.getId(),op1.getId());
-    split2.amount = new Money(mAccount1.currency,50L);
+    split2.setAmount(new Money(mAccount1.currency,50L));
     assertTrue(split2.parentId == op1.getId());
     split2.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     split2.save();
@@ -127,7 +127,7 @@ public class TransactionTest extends ModelTest  {
   
   public void testDeleteSplitWithPartTransfer() {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(),false);
-    op1.amount = new Money(mAccount1.currency,100L);
+    op1.setAmount(new Money(mAccount1.currency,100L));
     op1.save();
     Transaction split1 = new SplitPartTransfer(mAccount1, 100L, op1.getId(), mAccount2);
     split1.save();
@@ -141,7 +141,7 @@ public class TransactionTest extends ModelTest  {
     assertEquals(getUsage(catId1),0);
     assertEquals(getUsage(catId2),0);
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
-    op1.amount = new Money(mAccount1.currency,100L);
+    op1.setAmount(new Money(mAccount1.currency,100L));
     op1.setCatId(catId1);
     op1.save();
     //saving a new transaction increases usage
@@ -159,7 +159,7 @@ public class TransactionTest extends ModelTest  {
     assertEquals(getUsage(catId2),1);
     //new transaction without cat, does not increase usage
     Transaction op2 = Transaction.getNewInstance(mAccount1.getId());
-    op2.amount = new Money(mAccount1.currency,100L);
+    op2.setAmount(new Money(mAccount1.currency,100L));
     op2.save();
     assertEquals(getUsage(catId1),1);
     assertEquals(getUsage(catId2),1);

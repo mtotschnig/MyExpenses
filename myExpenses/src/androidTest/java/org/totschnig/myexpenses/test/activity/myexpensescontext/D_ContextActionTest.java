@@ -5,7 +5,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import java.util.Currency;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -125,7 +124,7 @@ public class D_ContextActionTest extends MyExpensesTest {
     account1 = new Account("TEST",0,"D_ContextActionTest");
     account1.save();
     Transaction op0 = Transaction.getNewInstance(account1.getId());
-    op0.amount = new Money(defaultCurrency,-1200L);
+    op0.setAmount(new Money(defaultCurrency,-1200L));
     op0.save();
     op0.saveAsNew();
     op0.saveAsNew();

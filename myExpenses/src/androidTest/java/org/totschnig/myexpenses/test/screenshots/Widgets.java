@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.screenshots;
 import java.util.Currency;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
@@ -55,7 +54,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
     );
     a.save();
     Template t = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, a.getId());
-    t.amount = new Money(c,-90000L);
+    t.setAmount(new Money(c,-90000L));
     t.title = translate(l,R.string.testData_templateSubCat);
     t.payee = translate(l,R.string.testData_templatePayee);
     t.save();
