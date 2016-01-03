@@ -61,7 +61,6 @@
   <string name="help_ExpenseEdit_templateTransfer_title">Transfer şablonları için form</string>
   <string name="help_ExpenseEdit_transaction_info">Yeni bir muamele girmek için ya da mevcut bir muameleyi düzenlemek için bu formu kullanın. Yeni bir transfer ya da bölünmüş muamele ekleme formuna geçmek  için eylem çubuğundaki menüyü kullanın.</string>
   <string name="help_ExpenseEdit_templateCategory_info">Yeni bir şablon oluşturmak ya da mevcut bir şablonu düzenlemek için bu formu kullanın. Yeni bir transfer şablonu ekleme formuna geçmek için eylem çubuğundaki menüyü kullanın.</string>
-  <string name="help_ExpenseEdit_transfer_info">Güncel olarak sadece aynı para birimini kullanan hesaplar arası transferler desteklenmektedir.</string>
   <string name="help_ExpenseEdit_split_info">Bölünmüş bir muamele, parçalara ayrılmış tek bir muameledir ve her parça değişik bir kategoriye atanabilir ya da başka bir hesaba transfer edilebilir.</string>
   <string name="form_account_help_text">Muamelenin ait olduğu hesabı seçin.</string>
   <string name="form_date.time_help_text">Muamelenin yapıldığı zamanı girin.</string>
@@ -73,16 +72,16 @@
   <string name="form_method_help_text">Bu alan sadece güncel hesap herhangi bir ödeme metoduna bağlı ise mevcuttur. Varsayılan değer olarak sadece banka hesapları ödeme metotlarına bağlıdır (çek, kredi kartı, mevduat, doğrudan ödeme). Hesap türleri ve ödeme metotları arasındaki bağlantıyı yapılandırmak için Ayarlar -&gt; Yönet -&gt; Ödeme Metotları\'na gidin. Sayılı olarak tanımlanmış bir metot seçtiğinizde referans numarasını girebileceğiniz ek bir alan belirir.</string>
   <string name="form_attach_image_help_text"><![CDATA[The <img src=\"android:ic_menu_camera\"> düğme, unsura bir resim eklemenize (mesela galeriden ya da fotoğraf makinesinden) imkan verir.]]></string>
   <string name="form_category_help_text">Bu düğme kategorilerin listesini açar ve burada muameleyi ilişkilendireceğiniz kategoriyi seçebilirsiniz.</string>
-  <string name="form_transfer_from_account_help_text">Transfer meblağının hangi hesaptan alınacağını seçin.</string>
-  <string name="form_transfer_to_account_help_text">Transfer meblağının hangi hesaba aktarılacağını seçin.</string>
   <string name="form_split_parts_heading_help_text">Kayan eylem düğmesini ne kadar gerekiyorsa o kadar bölünmüş parça girmek için kullanın. Muamele ile parçaların toplamı arasındaki fark ekranın altında gösterilir. Bölünmüş muameleyi sadece muamele miktarı tam olarak atanmışsa kaydedebilirsiniz.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Bu bölünmüş kısım için bir kategori seç.</string>
   <string name="form_transfer_from_account.transfer_to_account_help_text">Bu unsurun aktarıldığı kaynak ya da hedef hesapları atayın.</string>
+  <string name="form_exchange_rate_help_text">Döviz kurunu virmanın tek ya da iki yönü için belirtebilirsiniz. Ters oran ve döviz kuru bağımlı kısmına tekabül eden meblağ otomatik olarak hesaplanır.</string>
   <string name="form_title_help_text">Şablonu benzersiz bir biçimde tanımlayacak bir başlık girin.</string>
   <string name="form_plan_help_text">Bir şablon için yeni bir plan oluşturduğunuzda bu, Takvim uygulaması tarafından yönetilen özel bir takvime ilâve edilir. Planı bir kerelik bir olay olarak ya da takvimin yönetebileceği her tür tekrar eden olay olarak tanımlayabilirsiniz. Planı, plan düğmesinden oluşturabilir, değiştirebilir ve silebilirsiniz ancak bir plan ayarlandığında onu yönetmek için Takvim uygulamasını da kullanabilirsiniz. Bir plan el ile ya da otomatik olarak ayarlanabilir. Otomatik bir planın bir örneklendirmesi oluşturulduğunda muamele oluşturulacak ve size bir bildirim sunulacaktır. Plan el ile şeklinde ayarlandığında da bir bildirim sunulur ki bu size şablonu iptal etme, değiştirme ya da uygulama seçeneği sunar.</string>
   <string name="menu_save_help_text">Verileri kaydet ve formu kapat.</string>
   <string name="menu_save_and_new_help_text">Verileri kaydet ve aynı verilerle yeni bir muamele oluşturmak için formu açık bırak.</string>
   <string name="menu_invert_transfer_help_text">Transfer yönünü \'Kimden\' ve \'Kime\' hesaplarını takas ederek ters çevirin.</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Eğer \'Kaynak\' ve \'Hedef\' hesaplarının para birimleri değişik ise, bunlardan sadece biri için meblağı belirtmeniz gerekir. Diğeri şablondan örnekleme oluşturduğunuzda hesaplanacaktır.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="form_AccountEdit_label_help_text">Etiket hesabı hesap listesinde tanımlar.</string>

@@ -47,8 +47,6 @@
   <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
-  <string name="dialog_command_disabled_insert_transfer_1">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។</string>
-  <string name="dialog_command_disabled_insert_transfer_2">អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <string name="dialog_contrib_no">នៅទេ</string>
@@ -421,4 +419,5 @@
   <string name="switch_off_text">បិទ</string>
   <string name="menu_move">រំកិល</string>
   <string name="preferences_week_start_day_title">សប្ដាហ៍​ចាប់ផ្ដើម​នៅ</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

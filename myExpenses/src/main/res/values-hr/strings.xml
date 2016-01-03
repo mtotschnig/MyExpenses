@@ -50,8 +50,6 @@
   <string name="dialog_balance_delete">Izbriši usklađene transakcije</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">Nema odobrenih transakcija za usklađivanje</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Za transakcije za prijenos potreban je drugi račun sa istom valutom.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Postoji samo jedan račun s valutom %1$s.</string>
   <string name="dialog_command_disabled_reset_account">Ne postoje transakcije za eksport.</string>
   <string name="dialog_command_disabled_distribution">Nema transakcija označenih uz kategorije unutar ovog računa.</string>
   <string name="dialog_contrib_no">Još ne</string>
@@ -502,4 +500,5 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="switch_on_text">Uključeno</string>
   <string name="switch_off_text">Isključeno</string>
   <string name="preferences_week_start_day_title">Tjedan počinje u</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

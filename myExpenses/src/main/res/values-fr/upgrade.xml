@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_263">
+    <item>Transferts entre comptes de devises différentes</item>
+  </string-array>
   <string-array name="whats_new_262">
     <item>Les jours de démarrage de la semaine et du mois peuvent être configurés</item>
   </string-array>

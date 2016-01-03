@@ -61,8 +61,7 @@
   <string name="help_ExpenseEdit_templateTransfer_title">Modulo per i modelli di trasferimento</string>
   <string name="help_ExpenseEdit_transaction_info">Utilizzare questo modulo per immettere una nuova operazione o per modificarne uno esistente. Passare al form per l\'aggiunta di una nuova operazione di trasferimento o Spalato, utilizzare il menu a discesa nel actionbar.</string>
   <string name="help_ExpenseEdit_templateCategory_info">Utilizzare questo modulo per inserire un nuovo modello o per modificarne uno esistente. Passare al form per l\'aggiunta di un nuovo modello di trasferimento, utilizzare il menu a discesa nel actionbar.</string>
-  <string name="help_ExpenseEdit_transfer_info">Sono supportati attualmente soli trasferimenti tra conti con la stessa moneta.</string>
-  <string name="help_ExpenseEdit_split_info">Un operazione di Spalato è una singola operazione divisi in parti, dove ogni parte può essere assegnato a una categoria diversa, o trasferito a un altro conto.</string>
+  <string name="help_ExpenseEdit_split_info">Un operazione frazionata è una singola operazione divisa in parti, dove ogni parte può essere assegnato a una categoria diversa, o trasferito a un altro conto.</string>
   <string name="form_account_help_text">Selezionare il conto a cui appartiene l\'operazione.</string>
   <string name="form_date.time_help_text">Immettere l\'ora in cui è avvenuta l\'operazione.</string>
   <string name="form_payer_or_payee_help_text">Questo campo si ricorda i valori si entra e suggerirà loro in futuro.</string>
@@ -73,16 +72,16 @@
   <string name="form_method_help_text">Questo campo è disponibile solo se il conto corrente è di un tipo legato a qualsiasi metodo di pagamento. Per impostazione predefinita solo i conti bancari sono collegati ai metodi di pagamento (assegno, carta di credito, deposito, addebito diretto). Vai a Impostazioni -&gt; Gestisci -&gt; Metodi di pagamento per configurare l\'associazione fra tipi di account e metodi di pagamento. Quando si seleziona un metodo definito come numerato, un campo aggiuntivo per l\'immissione di un numero di riferimento diventa disponibile.</string>
   <string name="form_attach_image_help_text"><![CDATA[il <img src=\"android:ic_menu_camera\"> pulsante consente di allegare un\'immagine (ad es. dalla Galleria o la fotocamera) per l\'oggetto.]]></string>
   <string name="form_category_help_text">Questo pulsante si apre l\'elenco delle categorie, dove è possibile selezionare la categoria si desidera associare a l\'operazione.</string>
-  <string name="form_transfer_from_account_help_text">Selezionare il conto da cui l\'importo viene trasferito.</string>
-  <string name="form_transfer_to_account_help_text">Selezionare il counto a cui viene trasferita la quantità.</string>
   <string name="form_split_parts_heading_help_text">Utilizzare il pulsante di azione galleggiante per entrare come molti parti divise secondo le necessità. La differenza tra la somma delle parti e l\'operazione viene visualizzata nella parte inferiore dello schermo. È possibile salvare l\'operazione di Spalato, solo se l\'importo dell\'operazione è stato assegnato esattamente.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selezionare una categoria per questo dividere parte.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Assegnare gli account dove questo oggetto viene trasferito da o a.</string>
+  <string name="form_transfer_from_account.transfer_to_account_help_text">Assegnare gli conti dove questo oggetto viene trasferito da o a.</string>
+  <string name="form_exchange_rate_help_text">È possibile specificare il tasso di cambio in una delle due direzioni del transfer. Il tasso di inversa e l\'importo corrispondente alla parte seconda del tasso di cambio vengono calcolati automaticamente.</string>
   <string name="form_title_help_text">Inserisci un titolo che identifica in modo univoco il modello.</string>
   <string name="form_plan_help_text">Quando si crea un scadenza per un modello, questa viene aggiunta ad un calendario privato gestito dall\'applicazione calendario. È possibile definire la scadenza come un evento unico o come qualsiasi tipo di evento ricorrente gestibile dal calendario. È possibile creare, modificare ed eliminare la scadenza dal pulsante pianificazione, ma una volta impostata è anche possibile utilizzare l\'applicazione Calendario per gestirla. Una scadenza può essere impostata su automatica o manuale. In caso di scadenza automatica, si riceve una notifica ad operazione avvenuta. Quando è manuale, si riceve anche una notifica che lascia la scelta di cancellare, modificare o applicare il modello.</string>
   <string name="menu_save_help_text">Salva i dati e chiudi il modulo.</string>
   <string name="menu_save_and_new_help_text">Salva i dati e lascia il modulo aperto per la creazione di una nuova transazione con gli stessi dati.</string>
   <string name="menu_invert_transfer_help_text">Invertire la direzione del trasferimento scambiando \'Da\' e \'A\' del conto.</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Se le monete di conti \'De\' e \'A\' sono diverse, è necessario specificare la quantità per uno solo di loro. L\'altra sarà calcolata quando si creano istanze dal modello.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Modulo per i conti</string>
   <string name="form_AccountEdit_label_help_text">L\'etichetta identifica l\'account nell\'elenco conti.</string>

@@ -67,8 +67,6 @@
   <string name="dialog_confirm_discard_new_account">새로운 계좌를 취소할까요?</string>
   <string name="dialog_confirm_discard_new_method">새로운 지불 방식을 취소할까요?</string>
   <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">거래 내역을 이관하려면 같은 화폐 단위를 사용하는 두번째 계좌가 필요합니다.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">당신은 %1$s 화폐 단위를 사용하는 하나의 계좌만 가지고 있습니다.</string>
   <string name="dialog_command_disabled_reset_account">내보낼 거래 내역이 없습니다.</string>
   <string name="dialog_command_disabled_distribution">이 계좌의 카테고리에 배치할 거래 내역이 없습니다.</string>
   <string name="dialog_contrib_no">아직 아님</string>
@@ -582,4 +580,5 @@
   <string name="dialog_title_select_target">목적지 선택</string>
   <string name="transform_subcategory_to_main">주 카테고리로 바꾸기</string>
   <string name="preferences_week_start_day_title">한 주의 시작</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>
