@@ -122,7 +122,7 @@ public class Fixture {
 
     //Transaction 1
     Transaction op1 = Transaction.getNewInstance(account3.getId());
-    op1.amount = new Money(defaultCurrency,-1200L);
+    op1.setAmount(new Money(defaultCurrency,-1200L));
     op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
     op1.setDate(new Date(now - 300000));
     op1.setPictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
@@ -130,7 +130,7 @@ public class Fixture {
 
     //Transaction 2
     Transaction op2 = Transaction.getNewInstance(account3.getId());
-    op2.amount = new Money(defaultCurrency,-2200L);
+    op2.setAmount(new Money(defaultCurrency,-2200L));
     op2.setCatId(findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2));
     op2.comment = testContext.getString(R.string.testData_transaction2Comment);
     op2.setDate(new Date( now - 7200000 ));
@@ -138,7 +138,7 @@ public class Fixture {
     Transaction op3 = Transaction.getNewInstance(account3.getId());
 
     //Transaction 3 Cleared
-    op3.amount = new Money(defaultCurrency,-2500L);
+    op3.setAmount(new Money(defaultCurrency,-2500L));
     op3.setCatId(findCat(testContext.getString(R.string.testData_transaction3SubCat),
         findCat(testContext.getString(R.string.testData_transaction3MainCat), null)));
     op3.setDate(new Date( now - 72230000 ));
@@ -147,7 +147,7 @@ public class Fixture {
 
     //Transaction 4 Cleared
     Transaction op4 = Transaction.getNewInstance(account3.getId());
-    op4.amount = new Money(defaultCurrency,-5000L);
+    op4.setAmount(new Money(defaultCurrency,-5000L));
     op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat), mainCat2));
     op4.payee = testContext.getString(R.string.testData_transaction4Payee);
     op4.setDate(new Date( now - 98030000 ));
@@ -156,14 +156,14 @@ public class Fixture {
 
     //Transaction 5 Reconciled
     Transaction op5 = Transfer.getNewInstance(account1.getId(),account3.getId());
-    op5.amount = new Money(defaultCurrency,-10000L);
+    op5.setAmount(new Money(defaultCurrency,-10000L));
     op5.setDate(new Date( now - 800390000 ));
     op5.crStatus = CrStatus.RECONCILED;
     op5.save();
 
     //Transaction 6 Gift Reconciled
     Transaction op6 = Transaction.getNewInstance(account3.getId());
-    op6.amount = new Money(defaultCurrency,10000L);
+    op6.setAmount(new Money(defaultCurrency,10000L));
     op6.setCatId(mainCat6);
     op6.setDate(new Date( now - 810390000 ));
     op6.crStatus = CrStatus.RECONCILED;
@@ -171,20 +171,20 @@ public class Fixture {
 
     //Transaction 7 Second account foreign Currency
     Transaction op7 = Transaction.getNewInstance(account2.getId());
-    op7.amount = new Money(foreignCurrency,-34523L);
+    op7.setAmount(new Money(foreignCurrency,-34523L));
     op7.setDate(new Date( now - 1003900000 ));
     op7.save();
 
     //Transaction 8: Split
     Transaction op8 = SplitTransaction.getNewInstance(account3.getId());
-    op8.amount = new Money(defaultCurrency,-8967L);
+    op8.setAmount(new Money(defaultCurrency,-8967L));
     op8.save();
     Transaction split1 = SplitPartCategory.getNewInstance(account3.getId(),op8.getId());
-    split1.amount = new Money(defaultCurrency,-4523L);
+    split1.setAmount(new Money(defaultCurrency,-4523L));
     split1.setCatId(mainCat2);
     split1.save();
     Transaction split2 = SplitPartCategory.getNewInstance(account3.getId(),op8.getId());
-    split2.amount = new Money(defaultCurrency,-4444L);
+    split2.setAmount(new Money(defaultCurrency,-4444L));
     split2.setCatId(mainCat6);
     split2.save();
 
@@ -198,7 +198,7 @@ public class Fixture {
       e.printStackTrace();
     }
     Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.getId());
-    template.amount = new Money(defaultCurrency,-90000L);
+    template.setAmount(new Money(defaultCurrency,-90000L));
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,
         findCat(testContext.getString(R.string.testData_templateMainCat), null)));

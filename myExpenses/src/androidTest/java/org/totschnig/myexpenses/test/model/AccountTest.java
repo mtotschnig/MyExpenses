@@ -52,21 +52,21 @@ public class AccountTest extends ModelTest  {
     account2.save();
     catId = Category.write(0, TEST_CAT, null);
     op = Transaction.getNewInstance(account1.getId());
-    op.amount = new Money(account1.currency,-expense1);
+    op.setAmount(new Money(account1.currency,-expense1));
     op.crStatus = CrStatus.CLEARED;
     op.save();
-    op.amount = new Money(account1.currency,-expense2);
+    op.setAmount(new Money(account1.currency, -expense2));
     op.saveAsNew();
-    op.amount = new Money(account1.currency,income1);
+    op.setAmount(new Money(account1.currency, income1));
     op.saveAsNew();
-    op.amount = new Money(account1.currency,income2);
+    op.setAmount(new Money(account1.currency, income2));
     op.setCatId(catId);
     op.saveAsNew();
-    op = Transfer.getNewInstance(account1.getId(),account2.getId());
-    op.amount = new Money(account1.currency,transferP);
-    op.save();
-    op.amount = new Money(account1.currency,-transferN);
-    op.saveAsNew();
+    Transfer op1 = Transfer.getNewInstance(account1.getId(),account2.getId());
+    op1.setAmount(new Money(account1.currency,transferP));
+    op1.save();
+    op1.setAmount(new Money(account1.currency,-transferN));
+    op1.saveAsNew();
 
   }
   
@@ -82,7 +82,7 @@ public class AccountTest extends ModelTest  {
     assertEquals(account, restored);
     Long trAmount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(account.getId());
-    op1.amount = new Money(account.currency,trAmount);
+    op1.setAmount(new Money(account.currency,trAmount));
     op1.comment = "test transaction";
     op1.save();
     assertEquals(account.getTotalBalance().getAmountMinor().longValue(),openingBalance+trAmount);
@@ -119,7 +119,7 @@ public class AccountTest extends ModelTest  {
     cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         Account.PROJECTION_FULL,            // get all the columns
-        KEY_ROWID + "=" + account1.getId(),                       // no selection columns, get all the records
+        KEY_ROWID + "=" + account1.getId(),
         null,                       // no selection criteria
         null                        // use default the sort order
     );
@@ -138,7 +138,7 @@ public class AccountTest extends ModelTest  {
     cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         Account.PROJECTION_FULL,            // get all the columns
-        KEY_ROWID + "=" + account2.getId(),                       // no selection columns, get all the records
+        KEY_ROWID + "=" + account2.getId(),
         null,                       // no selection criteria
         null                        // use default the sort order
     );

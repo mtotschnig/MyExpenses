@@ -1,46 +1,23 @@
 package org.totschnig.myexpenses.test.activity.myexpenses;
 
-import android.app.Instrumentation;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-import junit.framework.Assert;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AccountEdit;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.SplitPartCategory;
-import org.totschnig.myexpenses.model.SplitTransaction;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.activity.MyExpensesTest;
 import org.totschnig.myexpenses.test.util.Fixture;
-import org.totschnig.myexpenses.util.CategoryTree;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 
-import java.io.InputStream;
 import java.util.Currency;
-import java.util.Date;
 import java.util.Locale;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -116,7 +93,7 @@ public class E_SearchFilterTest extends MyExpensesTest {
     catLabel1 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1MainCat);
     catLabel2 = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction2MainCat);
     Transaction op = Transaction.getNewInstance(account1.getId());
-    op.amount = new Money(defaultCurrency,-1200L);
+    op.setAmount(new Money(defaultCurrency,-1200L));
     op.setCatId(Fixture.findCat(catLabel1, null));
     op.save();
     op.setCatId(Fixture.findCat(catLabel2, null));

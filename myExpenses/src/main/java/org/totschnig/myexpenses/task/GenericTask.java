@@ -104,7 +104,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         t = Transaction.getInstanceFromDb((Long) id);
         if (t!=null  && !(t instanceof SplitTransaction)) {
           SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId,false);
-          parent.amount = t.amount;
+          parent.setAmount(t.getAmount());
           parent.setDate(t.getDate());
           parent.payeeId = t.payeeId;
           parent.crStatus = t.crStatus;
