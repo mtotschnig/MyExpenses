@@ -129,7 +129,7 @@ public class TransactionTest extends ModelTest  {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(),false);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.save();
-    Transaction split1 = new SplitPartTransfer(mAccount1, 100L, op1.getId(), mAccount2.getId());
+    Transaction split1 = new SplitPartTransfer(mAccount1, 100L, op1.getId(), mAccount2);
     split1.save();
     Transaction.delete(op1.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved",Transaction.getInstanceFromDb(op1.getId()));
