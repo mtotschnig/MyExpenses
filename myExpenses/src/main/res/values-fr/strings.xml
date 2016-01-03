@@ -68,8 +68,7 @@
   <string name="dialog_confirm_discard_new_account">Annuler le nouveau compte ?</string>
   <string name="dialog_confirm_discard_new_method">Annuler la nouvelle méthode de paiement ?</string>
   <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Les opérations de transferts nécessitent un second compte de même devise.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Vous n\'avez qu\'un seul compte dans la devise %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert requièrent un deuxième compte.</string>
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
@@ -593,4 +592,7 @@
   <string name="transform_subcategory_to_main">Transformer en catégorie principale</string>
   <string name="preferences_week_start_day_title">1er jour de la semaine :</string>
   <string name="preferences_month_start_date_title">Le mois commence le</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Périodes de regroupement</string>
+  <string name="exchange_rate">Taux de change</string>
 </resources>

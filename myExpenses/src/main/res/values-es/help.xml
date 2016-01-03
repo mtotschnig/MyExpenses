@@ -44,7 +44,7 @@
   <string name="menu_back_help_text">Acceda al grupo anterior. También se puede hacer a través del gesto Swipe de izquierda a derecha.</string>
   <string name="menu_forward_help_text">Vaya al siguiente grupo. También se puede hacer a través del gesto Swipe de derecha a izquierda.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Se abre el cuadro de diálogo para especificar el título de una nueva subcategoría por debajo de la categoría seleccionada.</string>
-  <string name="cab_ManageCategories_move_help_text">Categorías se pueden mover a una categoría distinta de la principal, o pueden ser transformados a categorías principales. Categorías principales que no tienen hijos pueden ser transformado a subcategorías de una categoría principal diferente.</string>
+  <string name="cab_ManageCategories_move_help_text">Categorías se pueden mover a una categoría principal distinta, o pueden ser transformadas en categorías principales. Categorías principales que no tienen hijas pueden ser transformadas en subcategorías de una categoría principal diferente.</string>
   <string name="cab_ManageCategories_select_category_help_text">Asignar la categoría seleccionada a la transacción y volver a la forma de transacción.</string>
   <string name="menu_categories_setup_default_help_text">Un conjunto de categorías por defecto se importarán.</string>
   <string name="menu_categories_export_help_text">Categorías se exportarán al archivo QIF.</string>
@@ -61,8 +61,7 @@
   <string name="help_ExpenseEdit_templateTransfer_title">Formulario para las plantillas de transferencia</string>
   <string name="help_ExpenseEdit_transaction_info">Utilice este formulario para entrar en una transacción nueva o editar una existente. Utilice el menú desplegable en el actionbar para cambiar a la forma para agregar una nueva transacción de transferencia o split.</string>
   <string name="help_ExpenseEdit_templateCategory_info">Utilice este formulario para entrar en una nueva plantilla o editar uno ya existente. Utilice el menú desplegable en el actionbar para cambiar a la forma para agregar una nueva plantilla de transferencia.</string>
-  <string name="help_ExpenseEdit_transfer_info">Actualmente, sólo las transferencias entre cuentas con la misma moneda son compatibles.</string>
-  <string name="help_ExpenseEdit_split_info">Una operación fraccionada es una operación simple dividido en partes, donde cada parte puede ser asignado a una categoría diferente, o transferido a otra cuenta.</string>
+  <string name="help_ExpenseEdit_split_info">Un asiento dividido es un asiento simple dividido en partes, donde cada parte puede ser asignada a una categoría diferente, o transferida a otra cuenta.</string>
   <string name="form_account_help_text">Seleccione la cuenta a la que pertenece la transacción.</string>
   <string name="form_date.time_help_text">Ingrese la hora cuando produjo la transacción.</string>
   <string name="form_payer_or_payee_help_text">Este campo, recuerda los valores que introduzca y sugerirá en el futuro.</string>
@@ -73,16 +72,16 @@
   <string name="form_method_help_text">Este campo sólo está disponible si la cuenta corriente es de un tipo vinculado a cualquier forma de pago. Por defecto sólo cuentas bancarias están vinculadas a formas de pago (cheque, tarjeta de crédito, depósito, débito directo). Vaya a Configuración -&gt; Administrar -&gt; métodos de pago para configurar la asociación entre tipos de cuenta y formas de pago. Al seleccionar un método que se define como el número, un campo adicional para ingresar un número de referencia disponible.</string>
   <string name="form_attach_image_help_text"><![CDATA[el <img src=\"android:ic_menu_camera\"> botón le permite adjuntar una imagen (por ejemplo, de la galería o la cámara) al objeto.]]></string>
   <string name="form_category_help_text">Este botón abre la lista de categorías, donde puede seleccionar la categoría que desea asignar a la transacción.</string>
-  <string name="form_transfer_from_account_help_text">Seleccione la cuenta de que la cantidad se transfiere.</string>
-  <string name="form_transfer_to_account_help_text">Seleccione la cuenta a la cual se transfiere la cantidad.</string>
   <string name="form_split_parts_heading_help_text">Use el botón de acción flotante para ingresar tantas partes divididas según sea necesario. La diferencia entre la suma de las partes y la transacción se muestra en la parte inferior de la pantalla. Sólo puede guardar la transacción split, si el monto de la transacción ha sido asignado exactamente.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Seleccione una categoría para este partido a parte.</string>
   <string name="form_transfer_from_account.transfer_to_account_help_text">Asignar las cuentas donde este objeto se transfiere desde o hacia.</string>
+  <string name="form_exchange_rate_help_text">Puede especificar il cambio en cualquiera de los dos sentidos de la transferencia. La tasa inversa y el importe correspondiente a la parte dependiente del tipo de cambio se calculan automáticamente.</string>
   <string name="form_title_help_text">Escriba un título que identifica de forma exclusiva la plantilla.</string>
   <string name="form_plan_help_text">Cuando se crea un plan para una plantilla, se agrega a un calendario privado manejado por su aplicación Calendario. Puede definir el plan como un evento de una sola vez o como cualquier tipo de evento que se repite que el calendario puede manejar. Puede crear, modificar y eliminar el plan desde el botón plan, pero una vez que el plan está configurado, también puede utilizar la aplicación Calendario para gestionarlo. Un plan puede estar en modo automático o manual. Cuando se produce una instancia de un plan automático, se creará la operación y recibirá una notificación. Cuando el plan es manual, también recibirá una notificación, lo que deja la opción de cancelar, modificar o aplicar la plantilla para usted.</string>
   <string name="menu_save_help_text">Guardar los datos y cerrar el formulario.</string>
   <string name="menu_save_and_new_help_text">Guardar los datos y dejar abierto el formulario para crear una nueva transacción con los mismos datos.</string>
   <string name="menu_invert_transfer_help_text">Invierta la dirección de la transferencia mediante el canje \'De\' y \'A\' cuenta.</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si las monedas de \'Desde\' y \'A\' cuenta son diferentes, especifique la cantidad de sólo uno de ellos. El otro se calculará al crear instancias de la plantilla.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulario para las cuentas</string>
   <string name="form_AccountEdit_label_help_text">La etiqueta identifica la cuenta en la lista de cuentas.</string>

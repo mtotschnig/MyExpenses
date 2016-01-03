@@ -68,8 +68,6 @@
   <string name="dialog_confirm_discard_new_account">Baztertu kontu berria?</string>
   <string name="dialog_confirm_discard_new_method">Baztertu ordainketa modu berria?</string>
   <string name="dialog_command_disabled_balance">Ez dago kitatutako transakziorik berdinkatzeko.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Transferentziak transakzioek moneta bereko bigarren kontu bat behar dute</string>
-  <string name="dialog_command_disabled_insert_transfer_2">%1$s monetako kontu bakarra duzu</string>
   <string name="dialog_command_disabled_reset_account">Ez dago transakziorik esportatzeko</string>
   <string name="dialog_command_disabled_distribution">Ez da transakziorik lotu kategorietara kontu honetan.</string>
   <string name="dialog_contrib_no">Oraindik ez</string>
@@ -595,4 +593,5 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="transform_subcategory_to_main">Bihurtu kategoria nagusi</string>
   <string name="preferences_week_start_day_title">Astearen hasiera:</string>
   <string name="preferences_month_start_date_title">Hilabetearen hasiera: </string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

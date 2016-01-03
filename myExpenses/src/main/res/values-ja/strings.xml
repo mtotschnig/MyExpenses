@@ -67,8 +67,6 @@
   <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
   <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
   <string name="dialog_command_disabled_balance">消去された照合すべき取引はありません。</string>
-  <string name="dialog_command_disabled_insert_transfer_1">取引の転記には、同じ通貨の2番目の勘定が必要です。</string>
-  <string name="dialog_command_disabled_insert_transfer_2">通貨 %1$s の勘定のみあります。</string>
   <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
   <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
   <string name="dialog_contrib_no">いいえ、まだ</string>
@@ -583,4 +581,5 @@
   <string name="transform_subcategory_to_main">主分類に変換</string>
   <string name="preferences_week_start_day_title">週の開始日</string>
   <string name="preferences_month_start_date_title">月の開始日</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>

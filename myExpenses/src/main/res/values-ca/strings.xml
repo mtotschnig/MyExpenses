@@ -50,8 +50,6 @@
   <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Les operacions de transferència precisen un segon compte amb la mateixa moneda.</string>
-  <string name="dialog_command_disabled_insert_transfer_2">Només disposeu d\'un compte i la seva moneda és %1$s.</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_contrib_no">Encara no</string>
@@ -386,4 +384,5 @@
   <string name="switch_off_text">Desactivat</string>
   <string name="menu_move">Mou</string>
   <string name="preferences_week_start_day_title">La setmana comença el</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
 </resources>
