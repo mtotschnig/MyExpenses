@@ -775,8 +775,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mPlanButton, findViewById(R.id.PlanLabel));
     final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
-    linkInputWithLabel(findViewById(R.id.TransferAmountRow).findViewById(R.id.Calculator),
-        transferAmountLabel);
+    linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
     final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
     linkInputWithLabel(findViewById(R.id.ExchangeRate_1),exchangeRateAmountLabel);
     linkInputWithLabel(findViewById(R.id.ExchangeRate_2),exchangeRateAmountLabel);
@@ -2188,6 +2187,14 @@ public class ExpenseEdit extends AmountActivity implements
           input.multiply(inputRate) : nullValue);
       isProcessingLinkedAmountInputs = false;
     }
+  }
+
+  @Override
+  public void showCalculator(View view) {
+    if (view.getId()==R.id.CalculatorTransfer)
+      showCalculatorInternal(mTransferAmountText);
+    else
+      super.showCalculator(view);
   }
 
   @Override

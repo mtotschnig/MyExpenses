@@ -91,47 +91,7 @@
                     android:text="@string/exchange_rate"
                     style="@style/form_label.compat"/>
 
-                <LinearLayout
-                    android:paddingRight="12dp"
-                    android:paddingEnd="12dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/ExchangeRateLabel_1_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="1 € = "/>
-                    <org.totschnig.myexpenses.ui.AmountEditText
-                        android:id="@+id/ExchangeRate_1"
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        android:text="1"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/ExchangeRateLabel_1_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="$"/>
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="0dp"/>
-                    <TextView
-                        android:id="@+id/ExchangeRateLabel_2_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="1 $ ="/>
-                    <org.totschnig.myexpenses.ui.AmountEditText
-                        android:id="@+id/ExchangeRate_2"
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        android:text="1"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/ExchangeRateLabel_2_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="€"/>
-                </LinearLayout>
+                    <include layout="@layout/exchange_rates"/>
             </TableRow>
 
             <TableRow
@@ -160,7 +120,7 @@
                         android:digits="1234567890,.٫"
                         android:inputType="numberDecimal"/>
 
-                    <include layout="@layout/calc_icon"/>
+                    <include layout="@layout/calc_icon" android:id="@+id/CalculatorTransfer"/>
                 </LinearLayout>
             </TableRow>
 

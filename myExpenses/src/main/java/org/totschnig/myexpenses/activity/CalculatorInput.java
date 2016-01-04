@@ -18,7 +18,6 @@ import android.os.Bundle;
 //import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,7 +34,7 @@ import java.util.Stack;
 
 //TODO move to DialogFragment in order to have material styled ok and cancel buttons
 public class CalculatorInput extends ProtectedFragmentActivity implements OnClickListener {
-    public static final String EXTRA_KEY_INPUT_ROW_ID = "input_row_id";
+    public static final String EXTRA_KEY_INPUT_ID = "input_id";
     public static final BigDecimal HUNDRED = new BigDecimal(100);
     public static final int[] buttons = {R.id.b0, R.id.b1, R.id.b2, R.id.b3,
             R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
@@ -291,7 +290,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     private void close() {
         Intent data = new Intent();
         data.putExtra(KEY_AMOUNT, result);
-        data.putExtra(EXTRA_KEY_INPUT_ROW_ID,getIntent().getIntExtra(EXTRA_KEY_INPUT_ROW_ID,0));
+        data.putExtra(EXTRA_KEY_INPUT_ID,getIntent().getIntExtra(EXTRA_KEY_INPUT_ID,0));
         setResult(RESULT_OK, data);
         finish();
     }

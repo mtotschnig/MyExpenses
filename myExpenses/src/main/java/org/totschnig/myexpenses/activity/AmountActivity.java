@@ -17,9 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.Utils;
@@ -28,13 +26,10 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
@@ -69,8 +64,7 @@ public abstract class AmountActivity extends EditActivity {
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
         AmountEditText input = (AmountEditText)
-            findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID,0))
-                .findViewById(R.id.Amount);
+            findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID,0));
         input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
         input.setError(null);
       } catch (Exception  e) {
@@ -110,15 +104,17 @@ public abstract class AmountActivity extends EditActivity {
   }
 
   public void showCalculator(View view) {
-    final View parent = (View) view.getParent();
-    AmountEditText input = (AmountEditText) parent.findViewById(R.id.Amount);
+    showCalculatorInternal(mAmountText);
+  }
+
+  protected void showCalculatorInternal(AmountEditText input) {
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
-    BigDecimal amount = validateAmountInput(input,false);
+    BigDecimal amount = validateAmountInput(input, false);
     if (amount!=null) {
       intent.putExtra(KEY_AMOUNT,amount);
     }
-    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ROW_ID, ((View) parent.getParent()).getId());
+    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, input.getId());
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
 
