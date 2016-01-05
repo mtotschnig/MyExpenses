@@ -75,7 +75,7 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
         "PRINT"
     };
     int[] messages = new int[] {
-        R.string.dialog_command_disabled_insert_transfer_1,
+        R.string.dialog_command_disabled_insert_transfer,
         R.string.dialog_command_disabled_reset_account,
         R.string.dialog_command_disabled_distribution,
         R.string.dialog_command_disabled_reset_account
