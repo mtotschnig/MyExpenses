@@ -68,6 +68,7 @@
   <string name="dialog_confirm_discard_new_account">Да отхвърля ли новата сметка?</string>
   <string name="dialog_confirm_discard_new_method">Да отхвърля ли новия начин на плащане?</string>
   <string name="dialog_command_disabled_balance">Няма изчистени транзакции, които да бъдат изравнени.</string>
+  <string name="dialog_command_disabled_insert_transfer">Транзакциите трансфер изискват втора сметка.</string>
   <string name="dialog_command_disabled_reset_account">Няма транзакции за експорт.</string>
   <string name="dialog_command_disabled_distribution">В тази сметка няма транзакции, отнесени към категорията.</string>
   <string name="dialog_contrib_no">Още не</string>
@@ -592,4 +593,6 @@
   <string name="preferences_week_start_day_title">Седмицата започва от</string>
   <string name="preferences_month_start_date_title">Месецът започва на</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Периоди за групиране</string>
+  <string name="exchange_rate">Обменен курс</string>
 </resources>

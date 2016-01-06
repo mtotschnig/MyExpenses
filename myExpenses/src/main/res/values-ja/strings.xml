@@ -67,6 +67,7 @@
   <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
   <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
   <string name="dialog_command_disabled_balance">消去された照合すべき取引はありません。</string>
+  <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
   <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
   <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
   <string name="dialog_contrib_no">いいえ、まだ</string>
@@ -189,14 +190,14 @@
   <string name="menu_create_party">新しい取引先</string>
   <string name="menu_create_split">新しい分割</string>
   <string name="menu_create_split_part_category">新しい分類分割パート</string>
-  <string name="menu_create_split_part_transfer">新しい転記分割パート</string>
+  <string name="menu_create_split_part_transfer">新しい振替分割パート</string>
   <string name="menu_create_sub_cat">新しい副分類</string>
   <string name="menu_create_template">新しいテンプレート</string>
   <string name="menu_create_template_from_transaction">テンプレートとして保存</string>
   <string name="menu_create_template_for_transaction">新しい取引テンプレート</string>
-  <string name="menu_create_template_for_transfer">新しい転記テンプレート</string>
+  <string name="menu_create_template_for_transfer">新しい振替テンプレート</string>
   <string name="menu_create_transaction">新しい取引</string>
-  <string name="menu_create_transfer">新しい転記</string>
+  <string name="menu_create_transfer">新しい振替</string>
   <string name="menu_delete">削除</string>
   <string name="menu_distribution">分布</string>
   <string name="menu_edit">編集</string>
@@ -207,10 +208,10 @@
   <string name="menu_edit_plan_instance">単一計画発生を編集</string>
   <string name="menu_edit_split">分割を編集</string>
   <string name="menu_edit_split_part_category">分類分割パートを編集</string>
-  <string name="menu_edit_split_part_transfer">転記分割パートを編集</string>
+  <string name="menu_edit_split_part_transfer">振替分割パートを編集</string>
   <string name="menu_edit_template">テンプレートを編集</string>
   <string name="menu_edit_transaction">取引を編集</string>
-  <string name="menu_edit_transfer">転記を編集</string>
+  <string name="menu_edit_transfer">振替を編集</string>
   <string name="menu_exclude_from_totals">合計から除外</string>
   <string name="menu_forward">前へ</string>
   <string name="menu_grouping">グループ化</string>
@@ -428,7 +429,7 @@
   <string name="subcategory">副分類</string>
   <string name="sum_expenses">支出</string>
   <string name="sum_income">収入</string>
-  <string name="sum_transfer">転記</string>
+  <string name="sum_transfer">振替</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
@@ -439,7 +440,7 @@
   <string name="total_cleared">消去済合計</string>
   <string name="total_reconciled">照合済合計</string>
   <string name="transaction">取引</string>
-  <string name="transfer">転記</string>
+  <string name="transfer">振替</string>
   <string name="transfer_from_account">元</string>
   <string name="transfer_to_account">先</string>
   <string name="type">種類</string>
@@ -478,7 +479,7 @@
   <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
-  <string name="warning_splitpartcategory_context">転記は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
+  <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>
   <string name="warning_change_fraction_digits">通貨 %1$s の小数点以下の桁数を減らしています。
 これは、すでに入力された取引の情報の損失につながります。元に戻すことはできません。続行しますか?</string>
@@ -582,4 +583,6 @@
   <string name="preferences_week_start_day_title">週の開始日</string>
   <string name="preferences_month_start_date_title">月の開始日</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">期間のグループ化</string>
+  <string name="exchange_rate">為替レート</string>
 </resources>
