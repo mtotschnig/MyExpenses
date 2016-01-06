@@ -15,24 +15,24 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
-import com.google.common.base.Joiner;
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
 public class Category extends Model {
+  public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   public String label;
   public Long parentId;
 

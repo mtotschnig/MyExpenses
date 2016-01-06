@@ -1,30 +1,28 @@
 package org.totschnig.myexpenses.adapter;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-
-import java.util.Currency;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.Build;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Currency;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
 public final class SplitPartAdapter extends SimpleCursorAdapter {
   private final String commentSeparator = " / ";
@@ -93,7 +91,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     } else {
       Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
       if (catId == null) {
-        catText = MyApplication.getInstance().getString(R.string.no_category_assigned);
+        catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
       }
       else {
         col = c.getColumnIndex(KEY_LABEL_SUB);
