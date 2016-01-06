@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_263">
+    <item>異なる通貨で口座間の振替</item>
+  </string-array>
   <string-array name="whats_new_262">
     <item>週と月の開始日を設定できます</item>
   </string-array>
