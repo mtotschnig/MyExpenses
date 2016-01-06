@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
@@ -144,14 +145,19 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     }
 
     //peek into preferences to see if there is a calendar configured
-    File sharedPrefsDir = new File(
-        "/data/data/" + MyApplication.getInstance().getPackageName()
-        + "/shared_prefs/");
+    File internalAppDir = application.getFilesDir().getParentFile();
+    File sharedPrefsDir = new File(internalAppDir.getPath() + "/shared_prefs/");
     sharedPrefsDir.mkdir();
+    if (!sharedPrefsDir.isDirectory()) {
+      Utils.reportToAcra(
+          new Exception(String.format(Locale.US,"Could not access shared preferences directory at %s",
+              sharedPrefsDir.getAbsolutePath())));
+      return new Result(false,R.string.restore_preferences_failure);
+    }
     File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
     if (!Utils.copy(backupPrefFile,tempPrefFile)) {
       Utils.reportToAcra(
-          new Exception(MyApplication.getInstance().getString(R.string.restore_preferences_failure)),
+          new Exception("Preferences restore failed"),
           "FAILED_COPY_OPERATION",
           String.format("%s => %s",
               backupPrefFile.getAbsolutePath(),
