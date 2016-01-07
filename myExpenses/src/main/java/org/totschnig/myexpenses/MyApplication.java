@@ -15,8 +15,29 @@
 
 package org.totschnig.myexpenses;
 
-import java.io.File;
-import java.util.Locale;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Configuration;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.provider.DocumentFile;
+import android.support.v7.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Calendars;
+import com.android.calendar.CalendarContractCompat.Events;
+import com.google.common.annotations.VisibleForTesting;
+
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -26,33 +47,12 @@ import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.*;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget;
 
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Calendars;
-import com.android.calendar.CalendarContractCompat.Events;
-import com.google.common.annotations.VisibleForTesting;
-
-import android.Manifest;
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.Application;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.provider.DocumentFile;
-import android.support.v7.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.util.Log;
+import java.io.File;
+import java.util.Locale;
 
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
@@ -574,11 +574,8 @@ public class MyApplication extends Application implements
    */
   public void initPlanner() {
     if (Utils.IS_ANDROID) {
-      if (ContextCompat.checkSelfPermission(this,
-          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-        Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
-        PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
-      }
+      Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
+      PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
     }
   }
 

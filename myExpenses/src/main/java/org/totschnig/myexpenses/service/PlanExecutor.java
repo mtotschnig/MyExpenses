@@ -17,6 +17,7 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -25,9 +26,11 @@ import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 public class PlanExecutor extends IntentService {
@@ -183,10 +186,12 @@ public class PlanExecutor extends IntentService {
     setAlarm(this, now + INTERVAL);
   }
   public static void setAlarm(Context ctx, long when) {
-    PendingIntent pendingIntent = getPendingIntent(ctx);
-    AlarmManager manager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
-    manager.set(AlarmManager.RTC, when,
-        pendingIntent);
+    if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_CALENDAR) ==
+        PackageManager.PERMISSION_GRANTED) {
+      PendingIntent pendingIntent = getPendingIntent(ctx);
+      AlarmManager manager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
+      manager.set(AlarmManager.RTC, when, pendingIntent);
+    }
   }
 
   private static PendingIntent getPendingIntent(Context ctx) {
