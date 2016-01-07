@@ -41,6 +41,8 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
             R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
             R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete};
 
+    private static final BigDecimal nullValue = new BigDecimal(0);
+
     private TextView tvResult;
     private TextView tvOp;
 
@@ -253,7 +255,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
                 break;
             case '/':
                 BigDecimal d2 = new BigDecimal(valTwo);
-                if (d2.intValue() == 0) {
+                if (d2.compareTo(nullValue) == 0) {
                     stack.push("0.0");
                 } else {
                     stack.push(new BigDecimal(valOne).divide(d2, MathContext.DECIMAL64).toPlainString());
