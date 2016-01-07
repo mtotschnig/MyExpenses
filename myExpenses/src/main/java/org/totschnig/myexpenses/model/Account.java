@@ -1040,7 +1040,7 @@ public class Account extends Model {
                 full_label += ":" + label_sub;
             }
           } else {
-            label_main = full_label = ctx.getString(R.string.no_category_assigned);
+            label_main = full_label = Category.NO_CATEGORY_ASSIGNED_LABEL;
             label_sub = "";
           }
           amount = splits.getLong(
@@ -1477,7 +1477,7 @@ public class Account extends Model {
                   splitText += TransactionList.CATEGORY_SEPARATOR + label_sub;
               }
             } else {
-              splitText = ctx.getString(R.string.no_category_assigned);
+              splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
             splitText += " " + Utils.convAmount(splits.getLong(
                 splits.getColumnIndexOrThrow(KEY_AMOUNT)),currency);
@@ -1494,7 +1494,7 @@ public class Account extends Model {
           splits.close();
           }
         else if (catId == null) {
-          catText = ctx.getString(R.string.no_category_assigned);
+          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         } else {
           String label_sub = transactionCursor.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {

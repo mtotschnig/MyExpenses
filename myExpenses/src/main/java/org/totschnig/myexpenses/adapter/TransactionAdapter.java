@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -147,7 +148,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
         catText = MyApplication.getInstance().getString(R.string.split_transaction);
       else if (catId == null) {
         if (c.getInt(c.getColumnIndex(KEY_STATUS)) != STATUS_HELPER) {
-          catText = MyApplication.getInstance().getString(R.string.no_category_assigned);
+          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         }
       } else {
         catText = getCatText(catText,c.getString(c.getColumnIndex(KEY_LABEL_SUB)));

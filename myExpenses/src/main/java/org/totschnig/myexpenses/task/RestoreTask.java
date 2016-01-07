@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
@@ -78,7 +79,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
   protected Result doInBackground(Void... ignored) {
     File workingDir;
     String currentPlannerId = null, currentPlannerPath = null;
-    ContentResolver cr = MyApplication.getInstance().getContentResolver();
+    final MyApplication application = MyApplication.getInstance();
+    ContentResolver cr = application.getContentResolver();
     if (fileUri != null) {
       workingDir = Utils.getCacheDir();
       if (workingDir == null) {
@@ -143,14 +145,19 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     }
 
     //peek into preferences to see if there is a calendar configured
-    File sharedPrefsDir = new File(
-        "/data/data/" + MyApplication.getInstance().getPackageName()
-        + "/shared_prefs/");
+    File internalAppDir = application.getFilesDir().getParentFile();
+    File sharedPrefsDir = new File(internalAppDir.getPath() + "/shared_prefs/");
     sharedPrefsDir.mkdir();
+    if (!sharedPrefsDir.isDirectory()) {
+      Utils.reportToAcra(
+          new Exception(String.format(Locale.US,"Could not access shared preferences directory at %s",
+              sharedPrefsDir.getAbsolutePath())));
+      return new Result(false,R.string.restore_preferences_failure);
+    }
     File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
     if (!Utils.copy(backupPrefFile,tempPrefFile)) {
       Utils.reportToAcra(
-          new Exception(MyApplication.getInstance().getString(R.string.restore_preferences_failure)),
+          new Exception("Preferences restore failed"),
           "FAILED_COPY_OPERATION",
           String.format("%s => %s",
               backupPrefFile.getAbsolutePath(),
@@ -158,9 +165,9 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       return new Result(false,R.string.restore_preferences_failure);
     }
     SharedPreferences backupPref =
-        MyApplication.getInstance().getSharedPreferences("backup_temp",0);
+        application.getSharedPreferences("backup_temp", 0);
     if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
-      currentPlannerId = MyApplication.getInstance().checkPlanner();
+      currentPlannerId = application.checkPlanner();
       currentPlannerPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
       if (currentPlannerId.equals("-1")) {
       return new Result(
@@ -207,9 +214,9 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       //upon application install does not exist yet
       String oldLicenceKey = PrefKey.ENTER_LICENCE.getString("");
 
-      MyApplication.getInstance().getSettings()
-          .unregisterOnSharedPreferenceChangeListener(MyApplication.getInstance());
-      Editor edit = MyApplication.getInstance().getSettings().edit().clear();
+      application.getSettings()
+          .unregisterOnSharedPreferenceChangeListener(application);
+      Editor edit = application.getSettings().edit().clear();
       String key;
       Object val;
       for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
@@ -237,8 +244,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       }
       
       SharedPreferencesCompat.apply(edit);
-      MyApplication.getInstance().getSettings()
-        .registerOnSharedPreferenceChangeListener(MyApplication.getInstance());
+      application.getSettings()
+        .registerOnSharedPreferenceChangeListener(application);
       tempPrefFile.delete();
       if (fileUri != null) {
         backupFile.delete();
@@ -250,7 +257,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           .putLong(System.currentTimeMillis());
       //now handling plans
       if (restorePlanStrategy!=R.id.restore_calendar_handling_ignore) {
-        publishProgress(MyApplication.getInstance().restorePlanner());
+        publishProgress(application.restorePlanner());
       } else {
         //we remove all links to plans we did not restore
         ContentValues planValues = new ContentValues();
@@ -291,8 +298,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             if (restoredImage == null || !Utils.copy(backupImage,restoredImage)) {
               Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
             } else {
-              restored = MyApplication.getInstance().isProtected() ?
-                  FileProvider.getUriForFile(MyApplication.getInstance(),
+              restored = application.isProtected() ?
+                  FileProvider.getUriForFile(application,
                       "org.totschnig.myexpenses.fileprovider", restoredImage) :
                   Uri.fromFile(restoredImage);
             }

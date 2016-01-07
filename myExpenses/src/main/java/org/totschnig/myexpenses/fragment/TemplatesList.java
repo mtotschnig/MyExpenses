@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -233,7 +234,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
       } else {
         Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
         if (catId == null) {
-          catText = getString(R.string.no_category_assigned);
+          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         } else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {

@@ -68,6 +68,7 @@
   <string name="dialog_confirm_discard_new_account">Neues Konto verwerfen?</string>
   <string name="dialog_confirm_discard_new_method">Neue Zahlungsweise verwerfen?</string>
   <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
+  <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto.</string>
   <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_contrib_no">Noch nicht</string>
@@ -592,4 +593,6 @@
   <string name="preferences_week_start_day_title">Woche beginnt am</string>
   <string name="preferences_month_start_date_title">Monat beginnt am</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Zeiträume für Gruppierungen</string>
+  <string name="exchange_rate">Wechselkurs</string>
 </resources>

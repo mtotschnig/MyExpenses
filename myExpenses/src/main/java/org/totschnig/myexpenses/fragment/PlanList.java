@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -502,7 +503,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
       } else {
         Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
         if (catId == null) {
-          catText = getString(R.string.no_category_assigned);
+          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         } else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
