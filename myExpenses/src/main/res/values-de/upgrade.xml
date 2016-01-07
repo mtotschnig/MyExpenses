@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_263">
+    <item>Umbuchungen zwischen Konten mit verschiedenen Währungen</item>
+  </string-array>
   <string-array name="whats_new_262">
     <item>Die Tage, an denen Woche und Monat beginnen, können konfiguriert werden</item>
   </string-array>
