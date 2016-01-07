@@ -334,7 +334,7 @@
     </string-array>
 
     <integer-array name="version_codes">
-        <item>233</item>
+        <item>234</item>
         <item>231</item>
         <item>227</item>
         <item>222</item>
