@@ -1154,11 +1154,11 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mTransaction.getTransferAmount().setCurrency(transferAccount.currency);
         if (isSame) {
-          mTransaction.getTransferAmount().setAmountMajor(amount.negate());
+          if (amount != null) mTransaction.getTransferAmount().setAmountMajor(amount.negate());
         } else {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, true);
 
-          if (amount == null) {
+          if (transferAmount == null) {
             //Toast is shown in validateAmountInput
             validP = false;
           } else {
