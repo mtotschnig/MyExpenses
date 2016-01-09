@@ -1706,6 +1706,8 @@ public class ExpenseEdit extends AmountActivity implements
       if (mCreateNew) {
         mCreateNew = false;
         mTransaction.setId(0L);
+        //while saving the picture might have been moved from temp to permanent
+        mPictureUri = mTransaction.getPictureUri();
         mRowId = 0L;
         mNewInstance = true;
         mClone = false;
