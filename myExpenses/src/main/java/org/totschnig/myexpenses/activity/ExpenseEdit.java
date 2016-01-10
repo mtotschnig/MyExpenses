@@ -1154,11 +1154,11 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mTransaction.getTransferAmount().setCurrency(transferAccount.currency);
         if (isSame) {
-          mTransaction.getTransferAmount().setAmountMajor(amount.negate());
+          if (amount != null) mTransaction.getTransferAmount().setAmountMajor(amount.negate());
         } else {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, true);
 
-          if (amount == null) {
+          if (transferAmount == null) {
             //Toast is shown in validateAmountInput
             validP = false;
           } else {
@@ -1706,6 +1706,8 @@ public class ExpenseEdit extends AmountActivity implements
       if (mCreateNew) {
         mCreateNew = false;
         mTransaction.setId(0L);
+        //while saving the picture might have been moved from temp to permanent
+        mPictureUri = mTransaction.getPictureUri();
         mRowId = 0L;
         mNewInstance = true;
         mClone = false;

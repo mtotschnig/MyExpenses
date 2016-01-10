@@ -86,7 +86,7 @@ public class Plan extends Model implements Serializable {
   }
 
   public static String prettyTimeInfo(Context ctx, String rRule, Long start) {
-    if (rRule != null) {
+    if (!TextUtils.isEmpty(rRule)) {
       EventRecurrence eventRecurrence = new EventRecurrence();
       try {
         eventRecurrence.parse(rRule);
