@@ -59,7 +59,7 @@ public class ManageTemplates extends TabbedActivity implements
 
   @Override
   public boolean onKeyUp (int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+    if (keyCode == KeyEvent.KEYCODE_CAMERA && BuildConfig.DEBUG) {
       switch (monkey_state) {
       case 0:
         ((PlanList) getSupportFragmentManager().findFragmentByTag(
@@ -187,14 +187,16 @@ public class ManageTemplates extends TabbedActivity implements
     }
     PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(1));
-    pl.refresh();
+    if (pl != null) {
+      pl.refresh();
+    }
   }
 
   public void finishActionMode() {
     ContextualActionBarFragment f =
     ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
-    if (f!=null) {
+    if (f != null) {
       f.finishActionMode();
     }
   }
