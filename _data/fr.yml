@@ -35,7 +35,7 @@ fr:
     thank_you: |
       Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
     feature-list-title: |
-      Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
+      L'achat de la Clé Contrib ou de la Clé Étendue vous donne un accès illimité aux fonctions Premium suivantes :
     feature:
       accounts_unlimited: Nombre illimité de comptes
       plans_unlimited: Nombre d'échéances illimité
@@ -46,7 +46,9 @@ fr:
       print: Export de la liste des opérations au format PDF
       attach_picture: Lier une image avec une transaction
       ad_free: Sans publicité
+      csv_import: Import CSV
       auto_backup: Auto-backup
+    extended-label: Étendu
     licence-howto-buy:
       deprecated: |
         NOTE: Depuis la version 2.3.9, la Clé Contrib pour déverrouiller les fonctionnalités Premium de Mes Dépenses peut être facilement achetée par un paiement dans l'application, et vous n'avez plus besoin d'installer l'application "Mes dépenses Clé Contrib".
@@ -56,6 +58,8 @@ fr:
         Si vous avez installé Mes Dépenses depuis Google Play ou Amazon App Store, elle est disponible en tant qu'achat via l'application.
       blackberry: |2
          Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
+      blackberry-extra: |
+        Sur Blackberry, il n'y a pas de clé étendue, la clé Contrib donne également accès aux fonctionnalités étendues.
       other: |
         Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Yandex ou SlideMe, envoyez un don par l'une des opérations suivantes :
       transfer: |
@@ -63,6 +67,8 @@ fr:
       key: |
         et ensuite demandez la clé de licence dans l'écran Paramètres.
         Une fois reçue par courriel, entrez-la également dans l'écran Paramètres.
+      price: |
+        Le montant minimum est de 2,50 € (0,01 bitcoins) pour la clé Contrib et 5,00 € (0,02 bitcoins) pour la clé étendue. Envoyer 2,50 € (0,01 bitcoins) pour l'upgrade de la Contrib vers l'Étendue.
   permissions-heading: |
     Mes Dépenses demande les permissions suivantes :
   permissions-calendar: |
