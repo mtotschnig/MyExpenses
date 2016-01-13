@@ -108,6 +108,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -1452,11 +1453,18 @@ public class ExpenseEdit extends AmountActivity implements
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
       if (o!=null) {
         Transaction t = (Transaction) o;
-        mCatId = t.getCatId();
-        mLabel = t.label;
-        mCommentText.setText(t.comment);
-        fillAmount(t.getAmount().getAmountMajor());
-        configureType();
+        if (mCatId == null) {
+          mCatId = t.getCatId();
+          mLabel = t.label;
+          setCategoryButton();
+        }
+        if (TextUtils.isEmpty(mCommentText.getText().toString())) {
+          mCommentText.setText(t.comment);
+        }
+        if (TextUtils.isEmpty(mAmountText.getText().toString())) {
+          fillAmount(t.getAmount().getAmountMajor());
+          configureType();
+        }
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
