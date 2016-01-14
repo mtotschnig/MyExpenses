@@ -19,13 +19,16 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -35,6 +38,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ryanharter.android.tooltips.ToolTip;
+import com.ryanharter.android.tooltips.ToolTipLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -244,6 +250,27 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     if (allP) {
       ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
     }
+
+    final ToolTipLayout tipContainer = (ToolTipLayout) view.findViewById(R.id.tooltip_container);
+    view.findViewById(R.id.date_format_help).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        View contentView = createToolTipView("Tooltip above the button", Color.BLACK,
+            getResources().getColor(android.R.color.holo_green_light));
+        contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams
+            .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ToolTip t = new ToolTip.Builder(getActivity()).anchor(dateFormatET)      // The view to
+        // which the ToolTip should be anchored
+            .gravity(Gravity.BOTTOM)      // The location of the view in relation to the anchor
+            // (LEFT, RIGHT, TOP, BOTTOM)
+            .color(Color.RED)          // The color of the pointer arrow
+            .pointerSize(20) // The size of the pointer
+            .contentView(contentView)  // The actual contents of the ToolTip
+            .build();
+        tipContainer.addTooltip(t);
+      }
+    });
+
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
         .setView(view)
@@ -253,8 +280,21 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       builder.setIcon(android.R.drawable.ic_dialog_alert);
     else
       builder.setIconAttribute(android.R.attr.alertDialogIcon);
+
     mDialog = builder.create();
     return mDialog;
+  }
+
+  private View createToolTipView(String text, int textColor, int bgColor) {
+    float density = getResources().getDisplayMetrics().density;
+    int padding = (int) (8 * density);
+
+    TextView contentView = new TextView(getActivity());
+    contentView.setPadding(padding, padding, padding, padding);
+    contentView.setText(text);
+    contentView.setTextColor(textColor);
+    contentView.setBackgroundColor(bgColor);
+    return contentView;
   }
 
   @Override

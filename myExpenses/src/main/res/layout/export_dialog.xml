@@ -14,12 +14,15 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+             >
+<ScrollView
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            tools:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            tools:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -75,12 +78,16 @@
                     <RadioButton
                         android:id="@+id/qif"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="QIF"/>
 
                     <RadioButton
                         android:id="@+id/csv"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:text="CSV"/>
                 </RadioGroup>
             </TableRow>
@@ -94,10 +101,24 @@
                     android:gravity="center_vertical"
                     android:text="@string/date_format"/>
 
-                <EditText
-                    android:id="@+id/date_format"
+                <RelativeLayout
                     android:layout_width="0dip"
-                    android:layout_weight="5"/>
+                    android:layout_weight="5">
+                    <EditText
+                        android:id="@+id/date_format"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"/>
+                    <ImageView
+                        android:id="@+id/date_format_help"
+                        style="?actionButtonStyle"
+                        android:src="@android:drawable/ic_menu_help"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:translationY="-5dp"
+                        android:layout_height="24dp"
+                        android:layout_width="24dp"/>
+                </RelativeLayout>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
@@ -118,12 +139,16 @@
                     <RadioButton
                         android:id="@+id/dot"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="."/>
 
                     <RadioButton
                         android:id="@+id/comma"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:text=","/>
                 </RadioGroup>
             </TableRow>
@@ -162,10 +187,14 @@
             tools:visibility="visible">
 
             <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/create_helper"
                 android:text="@string/export_handle_deleted_create_helper"/>
 
             <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/update_balance"
                 android:text="@string/export_handle_deleted_update_balance"/>
         </RadioGroup>
@@ -190,3 +219,8 @@
     </LinearLayout>
 
 </ScrollView>
+    <com.ryanharter.android.tooltips.ToolTipLayout
+        android:id="@+id/tooltip_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>
