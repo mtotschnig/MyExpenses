@@ -149,6 +149,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         try {
           new SimpleDateFormat(s.toString(), Locale.US);
           mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+          dateFormatET.setError(null);
         } catch (IllegalArgumentException e) {
           dateFormatET.setError(getString(R.string.date_format_illegal));
           mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
@@ -175,9 +176,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
           error = R.string.no_title_given;
         }
         mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(error == 0);
-        if (error != 0) {
-          fileNameET.setError(getString(error));
-        }
+        fileNameET.setError(error != 0 ? getString(error) : null);
       }
 
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
