@@ -72,7 +72,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.commons:commons-csv:1.1'
     compile 'com.commonsware.cwac:wakeful:1.0.+'
-    compile 'com.ryanharter.android.tooltips:library:0.0.3'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     testCompile 'junit:junit:4.12'
 }

@@ -19,28 +19,25 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.ryanharter.android.tooltips.ToolTip;
-import com.ryanharter.android.tooltips.ToolTipLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -250,24 +247,33 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     if (allP) {
       ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
     }
-
-    final ToolTipLayout tipContainer = (ToolTipLayout) view.findViewById(R.id.tooltip_container);
-    view.findViewById(R.id.date_format_help).setOnClickListener(new View.OnClickListener() {
+    
+    final View helpIcon = view.findViewById(R.id.date_format_help);
+    helpIcon.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        View contentView = createToolTipView("Tooltip above the button", Color.BLACK,
-            getResources().getColor(android.R.color.holo_green_light));
-        contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams
-            .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ToolTip t = new ToolTip.Builder(getActivity()).anchor(dateFormatET)      // The view to
-        // which the ToolTip should be anchored
-            .gravity(Gravity.BOTTOM)      // The location of the view in relation to the anchor
-            // (LEFT, RIGHT, TOP, BOTTOM)
-            .color(Color.RED)          // The color of the pointer arrow
-            .pointerSize(20) // The size of the pointer
-            .contentView(contentView)  // The actual contents of the ToolTip
-            .build();
-        tipContainer.addTooltip(t);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final TextView infoText = (TextView) inflater.inflate(
+            R.layout.textview_info, null);
+        infoText.setText("This is my very long help text one long line\nand a short one ++++");
+
+        final float scale = getResources().getDisplayMetrics().density;
+        final PopupWindow infoWindow = new PopupWindow(infoText,
+            (int)(200 * scale + 0.5f), (int)(50 * scale + 0.5f));
+        infoWindow.setBackgroundDrawable(new BitmapDrawable());
+        infoWindow.setOutsideTouchable(true);
+        infoWindow.setFocusable(true);
+        infoWindow.showAsDropDown(helpIcon);
+        infoWindow.setTouchInterceptor(new View.OnTouchListener() {
+
+          @Override
+          public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+              infoWindow.dismiss();
+            }
+            return true;
+          }
+        });
       }
     });
 
