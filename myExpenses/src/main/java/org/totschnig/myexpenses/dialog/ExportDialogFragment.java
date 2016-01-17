@@ -24,7 +24,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Layout;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.StaticLayout;
 import android.text.TextWatcher;
+import android.text.style.TabStopSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -247,23 +252,24 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     if (allP) {
       ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
     }
-    
+
     final View helpIcon = view.findViewById(R.id.date_format_help);
     helpIcon.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final TextView infoText = (TextView) inflater.inflate(
+        final TextView infoTextView = (TextView) inflater.inflate(
             R.layout.textview_info, null);
-        infoText.setText("This is my very long help text one long line\nand a short one ++++");
+        final CharSequence infoText = buildDateFormatHelpText(
+            (int)infoTextView.getPaint().measureText("M") * 2);
+        infoTextView.setText(infoText);
 
         final float scale = getResources().getDisplayMetrics().density;
-        final PopupWindow infoWindow = new PopupWindow(infoText,
+        final PopupWindow infoWindow = new PopupWindow(infoTextView,
             (int)(200 * scale + 0.5f), (int)(50 * scale + 0.5f));
         infoWindow.setBackgroundDrawable(new BitmapDrawable());
         infoWindow.setOutsideTouchable(true);
         infoWindow.setFocusable(true);
-        infoWindow.showAsDropDown(helpIcon);
         infoWindow.setTouchInterceptor(new View.OnTouchListener() {
 
           @Override
@@ -274,6 +280,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
             return true;
           }
         });
+        chooseSize(infoWindow, infoText, infoTextView);
+        infoTextView.setText(infoText);
+        infoWindow.showAsDropDown(helpIcon);
       }
     });
 
@@ -291,17 +300,43 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     return mDialog;
   }
 
-  private View createToolTipView(String text, int textColor, int bgColor) {
-    float density = getResources().getDisplayMetrics().density;
-    int padding = (int) (8 * density);
+  /* from android.widget.Editor */
+  private void chooseSize(PopupWindow pop, CharSequence text, TextView tv) {
+    int wid = tv.getPaddingLeft() + tv.getPaddingRight();
+    int ht = tv.getPaddingTop() + tv.getPaddingBottom();
 
-    TextView contentView = new TextView(getActivity());
-    contentView.setPadding(padding, padding, padding, padding);
-    contentView.setText(text);
-    contentView.setTextColor(textColor);
-    contentView.setBackgroundColor(bgColor);
-    return contentView;
+    int defaultWidthInPixels = getResources().getDimensionPixelSize(
+        R.dimen.textview_help_popup_default_width);
+    Layout l = new StaticLayout(text, tv.getPaint(), defaultWidthInPixels,
+        Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
+    float max = 0;
+    for (int i = 0; i < l.getLineCount(); i++) {
+      max = Math.max(max, l.getLineWidth(i));
+    }
+
+        /*
+         * Now set the popup size to be big enough for the text plus the border capped
+         * to DEFAULT_MAX_POPUP_WIDTH
+         */
+    pop.setWidth(wid + (int) Math.ceil(max));
+    pop.setHeight(ht + l.getHeight());
   }
+
+  private CharSequence buildDateFormatHelpText(int tabStop) {
+    String[] letters = getResources().getStringArray(R.array.help_ExportDialog_date_format_letters);
+    String[] components = getResources().getStringArray(R.array.help_ExportDialog_date_format_components);
+    SpannableStringBuilder sb = new SpannableStringBuilder();
+
+    for (int i = 0; i < letters.length; i++) {
+      sb.append(letters[i]);
+      sb.append("\t");
+      sb.append(components[i]);
+      sb.append("\n");
+    }
+    sb.setSpan(new TabStopSpan.Standard(tabStop), 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+    return sb;
+  }
+
 
   @Override
   public void onClick(DialogInterface dialog, int which) {

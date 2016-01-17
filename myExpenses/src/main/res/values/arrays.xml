@@ -472,4 +472,21 @@
         <item>\t</item>
     </string-array>
 
+    <string-array name="help_ExportDialog_date_format_letters">
+        <item>y</item>
+        <item>M</item>
+        <item>d</item>
+        <item>H</item>
+        <item>m</item>
+        <item>s</item>
+    </string-array>
+
+    <string-array name="help_ExportDialog_date_format_components">
+        <item>Year</item>
+        <item>Month</item>
+        <item>Day</item>
+        <item>Hour</item>
+        <item>Minute</item>
+        <item>Second</item>
+    </string-array>
 </resources>
