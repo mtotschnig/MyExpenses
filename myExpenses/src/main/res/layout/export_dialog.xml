@@ -98,24 +98,23 @@
                     android:gravity="center_vertical"
                     android:text="@string/date_format"/>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dip"
                     android:layout_weight="5">
                     <EditText
                         android:id="@+id/date_format"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"/>
+                        android:layout_width="0dp"/>
                     <ImageView
                         android:id="@+id/date_format_help"
                         style="?actionButtonStyle"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center"
                         android:src="@android:drawable/ic_menu_help"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:translationY="-5dp"
                         android:layout_height="24dp"
                         android:layout_width="24dp"/>
-                </RelativeLayout>
+                </LinearLayout>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
