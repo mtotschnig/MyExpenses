@@ -478,15 +478,13 @@
         <item>d</item>
         <item>H</item>
         <item>m</item>
-        <item>s</item>
     </string-array>
 
     <string-array name="help_ExportDialog_date_format_components">
-        <item>Year</item>
-        <item>Month</item>
-        <item>Day</item>
-        <item>Hour</item>
-        <item>Minute</item>
-        <item>Second</item>
+        <item>@string/grouping_year</item>
+        <item>@string/grouping_month</item>
+        <item>@string/grouping_day</item>
+        <item>@string/date_format_hour</item>
+        <item>@string/date_format_minute</item>
     </string-array>
 </resources>

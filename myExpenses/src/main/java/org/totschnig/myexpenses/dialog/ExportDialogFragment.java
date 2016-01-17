@@ -24,14 +24,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Layout;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.StaticLayout;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.TabStopSpan;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -260,28 +259,16 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final TextView infoTextView = (TextView) inflater.inflate(
             R.layout.textview_info, null);
-        final CharSequence infoText = buildDateFormatHelpText(
-            (int)infoTextView.getPaint().measureText("M") * 2);
-        infoTextView.setText(infoText);
+        final CharSequence infoText = buildDateFormatHelpText();
+        final PopupWindow infoWindow = new PopupWindow(infoTextView);
 
-        final float scale = getResources().getDisplayMetrics().density;
-        final PopupWindow infoWindow = new PopupWindow(infoTextView,
-            (int)(200 * scale + 0.5f), (int)(50 * scale + 0.5f));
         infoWindow.setBackgroundDrawable(new BitmapDrawable());
         infoWindow.setOutsideTouchable(true);
         infoWindow.setFocusable(true);
-        infoWindow.setTouchInterceptor(new View.OnTouchListener() {
-
-          @Override
-          public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-              infoWindow.dismiss();
-            }
-            return true;
-          }
-        });
         chooseSize(infoWindow, infoText, infoTextView);
         infoTextView.setText(infoText);
+        infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
         infoWindow.showAsDropDown(helpIcon);
       }
     });
@@ -300,41 +287,34 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     return mDialog;
   }
 
-  /* from android.widget.Editor */
+  /* adapted from android.widget.Editor */
   private void chooseSize(PopupWindow pop, CharSequence text, TextView tv) {
-    int wid = tv.getPaddingLeft() + tv.getPaddingRight();
     int ht = tv.getPaddingTop() + tv.getPaddingBottom();
 
-    int defaultWidthInPixels = getResources().getDimensionPixelSize(
-        R.dimen.textview_help_popup_default_width);
-    Layout l = new StaticLayout(text, tv.getPaint(), defaultWidthInPixels,
+    int widthInPixels = (int) (mDialog.getWindow().getDecorView().getWidth() * 0.75);
+    Layout l = new StaticLayout(text, tv.getPaint(), widthInPixels,
         Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
-    float max = 0;
-    for (int i = 0; i < l.getLineCount(); i++) {
-      max = Math.max(max, l.getLineWidth(i));
-    }
 
-        /*
-         * Now set the popup size to be big enough for the text plus the border capped
-         * to DEFAULT_MAX_POPUP_WIDTH
-         */
-    pop.setWidth(wid + (int) Math.ceil(max));
-    pop.setHeight(ht + l.getHeight());
+    ht += l.getHeight();
+    pop.setWidth(widthInPixels);
+    pop.setHeight(ht);
   }
 
-  private CharSequence buildDateFormatHelpText(int tabStop) {
+  private CharSequence buildDateFormatHelpText() {
     String[] letters = getResources().getStringArray(R.array.help_ExportDialog_date_format_letters);
     String[] components = getResources().getStringArray(R.array.help_ExportDialog_date_format_components);
-    SpannableStringBuilder sb = new SpannableStringBuilder();
+    StringBuilder sb = new StringBuilder();
 
     for (int i = 0; i < letters.length; i++) {
       sb.append(letters[i]);
-      sb.append("\t");
+      sb.append(" => ");
       sb.append(components[i]);
-      sb.append("\n");
+      if (i<letters.length-1)
+        sb.append(", ");
+      else
+        sb.append(". ");
     }
-    sb.setSpan(new TabStopSpan.Standard(tabStop), 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
-    return sb;
+    return TextUtils.concat(sb, Html.fromHtml(getString(R.string.help_ExportDialog_date_format)));
   }
 
 

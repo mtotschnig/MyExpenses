@@ -4,6 +4,6 @@
           android:layout_height="match_parent"
           android:textAppearance="?android:attr/textAppearanceSmall"
           android:background="?android:colorForeground"
-          android:padding="5dp"
+          android:padding="10dp"
           android:textColor="?android:attr/textColorPrimaryInverse"
     />
