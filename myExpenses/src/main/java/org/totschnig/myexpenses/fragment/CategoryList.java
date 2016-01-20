@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -25,13 +26,16 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -840,6 +844,34 @@ public class CategoryList extends ContextualActionBarFragment implements
       }
     }
   }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    ManageCategories ctx = (ManageCategories) getActivity();
+    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      inflater.inflate(R.menu.search, menu);
+      SearchManager searchManager =
+          (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+      MenuItem searchMenuItem = menu.findItem(R.id.search);
+      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+
+      searchView.setSearchableInfo(searchManager.
+          getSearchableInfo(getActivity().getComponentName()));
+      searchView.setIconifiedByDefault(true);
+      searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+          return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+          return false;
+        }
+      });
+    }
+  }
+
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
@@ -857,6 +889,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
     }
   }
+
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))
       mGroupingYear--;
