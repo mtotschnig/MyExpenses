@@ -29,6 +29,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -153,6 +154,8 @@ public class CategoryList extends ContextualActionBarFragment implements
   boolean showChart = false;
   boolean aggregateTypes;
   boolean chartDisplaysSubs;
+
+  String mFilter;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -733,17 +736,32 @@ public class CategoryList extends ContextualActionBarFragment implements
           "(select 1 FROM " + TABLE_TEMPLATES    + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
     }
+    boolean isFiltered = !TextUtils.isEmpty(mFilter);
+    String filterSelection = KEY_LABEL + " LIKE ? OR " +
+        KEY_LABEL + " LIKE ? OR " +
+        KEY_LABEL + " LIKE ?";
+    String[] filterSelectArgs = {mFilter + "%", "% " + mFilter + "%", "%." + mFilter + "%"};
     if (bundle == null) {
       //group cursor
       selection = KEY_PARENTID + " is null" + selection;
-      selectionArgs = mAccount != null ? new String[]{accountSelector,accountSelector} : null;
+      if (isFiltered) {
+        selection += " AND (" + filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
+            " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
+            + filterSelection + " )))";
+      }
+      selectionArgs = mAccount != null ? new String[]{accountSelector,accountSelector} :
+          (isFiltered ? Utils.joinArrays(filterSelectArgs,filterSelectArgs) : null);
     } else {
       //child cursor
       parentId = bundle.getLong(KEY_PARENTID);
       selection = KEY_PARENTID + " = ?"  + selection;
+      if (isFiltered) {
+        selection += " AND (" + filterSelection + ")";
+      }
       selectionArgs = mAccount != null ?
-          new String[]{accountSelector,String.valueOf(parentId),accountSelector} :
-          new String[]{String.valueOf(parentId)};
+          new String[] { accountSelector, String.valueOf(parentId), accountSelector} :
+          (isFiltered ? Utils.joinArrays(new String[] { String.valueOf(parentId) }, filterSelectArgs ) :
+              new String[] { String.valueOf(parentId) } );
     }
     return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, projection,
         selection,selectionArgs, sortOrder);
@@ -866,7 +884,10 @@ public class CategoryList extends ContextualActionBarFragment implements
 
         @Override
         public boolean onQueryTextChange(String newText) {
-          return false;
+          mFilter = newText;
+          collapseAll();
+          mManager.restartLoader(CATEGORY_CURSOR, null, CategoryList.this);
+          return true;
         }
       });
     }
@@ -928,9 +949,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       if (showChart) {
-        int count = mAdapter.getGroupCount();
-        for (int i = 0; i < count; i++)
-          mListView.collapseGroup(i);
+        collapseAll();
       } else {
         mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
       }
@@ -943,6 +962,13 @@ public class CategoryList extends ContextualActionBarFragment implements
     }
     return super.onOptionsItemSelected(item);
   }
+
+  public void collapseAll() {
+    int count = mAdapter.getGroupCount();
+    for (int i = 0; i < count; i++)
+      mListView.collapseGroup(i);
+  }
+
   /*     (non-Javadoc)
    * return the sub cat to the calling activity
    * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
@@ -1026,8 +1052,6 @@ public class CategoryList extends ContextualActionBarFragment implements
   }
 
   public void reset() {
-    int count =  mAdapter.getGroupCount();
-    for (int i = 0; i <count ; i++) {
 //TODO: would be nice to retrieve the same open groups on the next or previous group
 //the following does not work since the groups will not necessarily stay the same
 //      if (mListView.isGroupExpanded(i)) {
@@ -1037,8 +1061,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 //        bundle.putLong("parent_id", parentId);
 //        mManager.restartLoader(i, bundle, CategoryList.this);
 //      }
-      mListView.collapseGroup(i);
-    }
+    collapseAll();
     mManager.restartLoader(CATEGORY_CURSOR, null, this);
     mManager.restartLoader(SUM_CURSOR, null, this);
     mManager.restartLoader(DATEINFO_CURSOR, null, this);
