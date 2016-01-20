@@ -350,7 +350,6 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null) {
         projection = Category.PROJECTION;
       }
-      //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
       defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL);
       break;
     case CATEGORY_ID:
