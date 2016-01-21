@@ -17,24 +17,26 @@
 ** limitations under the License.
 */
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-  <TextView
-      android:layout_marginRight="@dimen/general_padding"
-      android:layout_centerVertical="true"
-      android:layout_alignParentLeft="true"
-      android:layout_toLeftOf="@id/end"
-      android:id="@id/action_bar_title"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:ellipsize="marquee" />
-  <TextView
-        android:textStyle="bold"
-        android:id="@+id/end"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
+    <TextView
+        android:id="@id/action_bar_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/general_padding"
+        android:layout_toLeftOf="@id/end"
+        android:ellipsize="marquee"/>
+
+    <TextView
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"/>
 </RelativeLayout>
