@@ -46,7 +46,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 54;
+  public static final int DATABASE_VERSION = 55;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -125,6 +125,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     "CREATE TABLE " + TABLE_CATEGORIES + " ("
       + KEY_ROWID    + " integer primary key autoincrement, "
       + KEY_LABEL    + " text not null, "
+      + KEY_LABEL_NORMALIZED + " text,"
       + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
       + KEY_USAGES   + " integer default 0, unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
@@ -488,7 +489,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.update("categories", initialValues, "_id=-1", null);
       }
       if (oldVersion < 32) {
-        db.execSQL("ALTER TABLE accounts add column grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
+        db.execSQL("ALTER TABLE accounts add column grouping text not null check (grouping in " +
+            "('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
       }
       if (oldVersion < 33) {
         db.execSQL("ALTER TABLE accounts add column usages integer default 0");
@@ -940,6 +942,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "BEGIN INSERT INTO " + "stale_uris" + " VALUES (old." + "picture_id" + "); END");
         //all Accounts with old default color are updated to the new one
         db.execSQL(String.format(Locale.US,"UPDATE accounts set color = %d WHERE color = %d",0xff009688,0xff99CC00));
+      }
+
+      if (oldVersion < 55) {
+        db.execSQL("ALTER TABLE categories add column label_normalized text");
+        Cursor c = db.query("categories", new String[]{"_id","label"},null, null, null, null, null);
+        if (c!=null) {
+          if (c.moveToFirst()) {
+            ContentValues v = new ContentValues();
+            while( c.getPosition() < c.getCount() ) {
+              v.put("label_normalized", Utils.normalize(c.getString(1)));
+              db.update("categories", v, "_id = "+c.getLong(0),null);
+              c.moveToNext();
+            }
+          }
+          c.close();
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

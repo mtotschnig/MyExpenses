@@ -92,6 +92,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -737,9 +738,9 @@ public class CategoryList extends ContextualActionBarFragment implements
       };
     }
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
-    String filterSelection = KEY_LABEL + " LIKE ? OR " +
-        KEY_LABEL + " LIKE ? OR " +
-        KEY_LABEL + " LIKE ?";
+    String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ? OR " +
+        KEY_LABEL_NORMALIZED + " LIKE ? OR " +
+        KEY_LABEL_NORMALIZED + " LIKE ?";
     String[] filterSelectArgs = {mFilter + "%", "% " + mFilter + "%", "%." + mFilter + "%"};
     if (bundle == null) {
       //group cursor
@@ -884,7 +885,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 
         @Override
         public boolean onQueryTextChange(String newText) {
-          mFilter = newText;
+          mFilter = Utils.esacapeSqlLikeExpression(Utils.normalize(newText));
           collapseAll();
           mManager.restartLoader(CATEGORY_CURSOR, null, CategoryList.this);
           return true;

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
@@ -105,6 +106,7 @@ public class Category extends Model {
   public Uri save() {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL, label);
+    initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(label));
     Uri uri;
     if (getId() == 0) {
       if (!isMain(parentId)) {
