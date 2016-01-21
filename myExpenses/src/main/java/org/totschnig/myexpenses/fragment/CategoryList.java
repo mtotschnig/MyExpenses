@@ -125,6 +125,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 
   private static final String KEY_CHILD_COUNT = "child_count";
   private static final String TABS = "\u0009\u0009\u0009\u0009";
+  private View mImportButton;
 
   protected int getMenuResource() {
     return R.menu.categorylist_context;
@@ -198,8 +199,6 @@ public class CategoryList extends ContextualActionBarFragment implements
       if (mGrouping == null) mGrouping = Grouping.NONE;
       mGroupingYear = b.getInt("groupingYear");
       mGroupingSecond = b.getInt("groupingSecond");
-      //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
-      //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
       getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
@@ -256,7 +255,9 @@ public class CategoryList extends ContextualActionBarFragment implements
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
     mListView = (ExpandableListView) v.findViewById(R.id.list);
-    mListView.setEmptyView(v.findViewById(R.id.empty));
+    final View emptyView = v.findViewById(R.id.empty);
+    mListView.setEmptyView(emptyView);
+    mImportButton = emptyView.findViewById(R.id.importButton);
     mManager.initLoader(CATEGORY_CURSOR, null, this);
     String[] from;
     int[] to;
@@ -885,7 +886,15 @@ public class CategoryList extends ContextualActionBarFragment implements
 
         @Override
         public boolean onQueryTextChange(String newText) {
-          mFilter = Utils.esacapeSqlLikeExpression(Utils.normalize(newText));
+          if (TextUtils.isEmpty(newText)) {
+            mFilter = "";
+            mImportButton.setVisibility(View.VISIBLE);
+          } else {
+            mFilter = Utils.esacapeSqlLikeExpression(Utils.normalize(newText));
+            // if a filter results in an empty list,
+            // we do not want to show the setup default categories button
+            mImportButton.setVisibility(View.GONE);
+          }
           collapseAll();
           mManager.restartLoader(CATEGORY_CURSOR, null, CategoryList.this);
           return true;
