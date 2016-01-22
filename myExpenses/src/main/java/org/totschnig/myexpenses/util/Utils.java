@@ -1099,35 +1099,46 @@ public class Utils {
     editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     editText.setFilters(new InputFilter[]{new InputFilter() {
       @Override
-      public CharSequence filter(CharSequence source, int start, int end,
-                                 Spanned dest, int dstart, int dend) {
-        int separatorPosition = dest.toString().indexOf(decimalSeparator);
-        if (fractionDigits > 0) {
-          int minorUnits = separatorPosition == -1 ? 0 : dest.length()
-              - (separatorPosition + 1);
-          if (dstart > separatorPosition && dend > separatorPosition) {
-            // filter is only needed if we are past the separator
-            // and the change increases length of string
-            if (dend - dstart < end - start && minorUnits >= fractionDigits)
-              return "";
+      public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
+          int dend) {
+        int separatorPositionInDest = dest.toString().indexOf(decimalSeparator);
+        char[] v = new char[end - start];
+        TextUtils.getChars(source, start, end, v, 0);
+        String input = new String(v).replace(otherSeparator, decimalSeparator);
+        if (fractionDigits == 0 || separatorPositionInDest != -1 || dest.length() - dend > fractionDigits) {
+          input = input.replace(String.valueOf(decimalSeparator), "");
+        } else {
+          int separatorPositionInSource = input.lastIndexOf(decimalSeparator);
+          if (separatorPositionInSource != -1) {
+            //we make sure there is only one separator in the input and after the separator we do not use
+            //more minor digits as allowed
+            int existingMinorUnits = dest.length() - dend;
+            int additionalAllowedMinorUnits = fractionDigits - existingMinorUnits;
+            int additionalPossibleMinorUnits = input.length() - separatorPositionInSource - 1;
+            int extractMinorUnits = additionalPossibleMinorUnits >= additionalAllowedMinorUnits ?
+                additionalAllowedMinorUnits : additionalPossibleMinorUnits;
+            input = input.substring(0, separatorPositionInSource).replace(String.valueOf
+                (decimalSeparator), "") +
+                decimalSeparator + (extractMinorUnits > 0 ?
+                    input.substring(separatorPositionInSource + 1,
+                        separatorPositionInSource + 1 + extractMinorUnits) :
+                    "");
           }
         }
-        for (int i = start; i < end; i++) {
-          if (source.charAt(i) == otherSeparator
-              || source.charAt(i) == decimalSeparator) {
-            char[] v = new char[end - start];
-            TextUtils.getChars(source, start, end, v, 0);
-            String s = new String(v).replace(otherSeparator, decimalSeparator);
-            if (fractionDigits == 0 || // no separator allowed
-                separatorPosition > -1 || // we already have a separator
-                dest.length() - dend > fractionDigits) // the separator would be
-              // positioned so that we have too many fraction digits
-              return s.replace(String.valueOf(decimalSeparator), "");
-            else
-              return s;
-          }
+        if (fractionDigits == 0) {
+          return input;
         }
-        return null; // keep original
+        if (separatorPositionInDest != -1 && dend > separatorPositionInDest) {
+          int existingMinorUnits = dest.length() - (separatorPositionInDest + 1);
+          int remainingMinorUnits = fractionDigits - existingMinorUnits;
+          if (remainingMinorUnits < 1) {
+            return "";
+          }
+          return input.length() > remainingMinorUnits ? input.substring(0, remainingMinorUnits) :
+              input;
+        } else {
+          return input;
+        }
       }
     }, new InputFilter.LengthFilter(16)});
   }
