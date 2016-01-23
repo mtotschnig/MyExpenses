@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_262">
+    <item>Astea eta hilabetearen hasierako eguna konfiguratu daiteke</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Kategoriak mugitu daitezke</item>
+  </string-array>
   <string-array name="whats_new_260">
     <item>Material diseinua</item>
     <item>Hobetutako tabletarako antolaketa</item>

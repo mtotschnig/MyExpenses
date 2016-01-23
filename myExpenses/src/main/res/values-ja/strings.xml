@@ -585,4 +585,7 @@
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">期間のグループ化</string>
   <string name="exchange_rate">為替レート</string>
+  <string name="date_format_hour">時間</string>
+  <string name="date_format_minute">分</string>
+  <string name="copied_to_clipboard">クリップボードにコピーしました</string>
 </resources>
