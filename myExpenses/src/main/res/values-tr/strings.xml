@@ -597,4 +597,7 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">Gruplandırma periyotları</string>
   <string name="exchange_rate">Döviz kuru</string>
+  <string name="date_format_hour">Saat</string>
+  <string name="date_format_minute">Dakika</string>
+  <string name="copied_to_clipboard">Panoya kopyalandı</string>
 </resources>

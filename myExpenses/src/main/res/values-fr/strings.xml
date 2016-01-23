@@ -595,4 +595,7 @@
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">Périodes de regroupement</string>
   <string name="exchange_rate">Taux de change</string>
+  <string name="date_format_hour">Heure</string>
+  <string name="date_format_minute">Minute</string>
+  <string name="copied_to_clipboard">Copié vers le presse-papier</string>
 </resources>
