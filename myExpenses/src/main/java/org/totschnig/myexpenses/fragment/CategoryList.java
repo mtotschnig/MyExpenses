@@ -739,10 +739,8 @@ public class CategoryList extends ContextualActionBarFragment implements
       };
     }
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
-    String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ? OR " +
-        KEY_LABEL_NORMALIZED + " LIKE ? OR " +
-        KEY_LABEL_NORMALIZED + " LIKE ?";
-    String[] filterSelectArgs = {mFilter + "%", "% " + mFilter + "%", "%." + mFilter + "%"};
+    String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
+    String[] filterSelectArgs = { "%" + mFilter + "%" };
     if (bundle == null) {
       //group cursor
       selection = KEY_PARENTID + " is null" + selection;
