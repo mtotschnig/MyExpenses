@@ -1128,7 +1128,8 @@ public class Utils {
         if (fractionDigits == 0) {
           return input;
         }
-        if (separatorPositionInDest != -1 && dend > separatorPositionInDest) {
+        if (separatorPositionInDest != -1 &&
+            dend > separatorPositionInDest && dstart > separatorPositionInDest) {
           int existingMinorUnits = dest.length() - (separatorPositionInDest + 1);
           int remainingMinorUnits = fractionDigits - existingMinorUnits;
           if (remainingMinorUnits < 1) {
