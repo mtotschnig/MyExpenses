@@ -34,6 +34,7 @@
     <dimen name="textSizeSubheadS3">22sp</dimen>
 
     <dimen name="selected_indicator_translation_x">23dp</dimen>
+    <dimen name="textview_help_popup_default_width">240dp</dimen>
     <item name="selected_indicator_translation_rotation" type="integer">270</item>
 
     <string name="admob_banner_size">SMART_BANNER</string>

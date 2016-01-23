@@ -334,6 +334,7 @@
     </string-array>
 
     <integer-array name="version_codes">
+        <item>235</item>
         <item>234</item>
         <item>231</item>
         <item>227</item>
@@ -353,6 +354,7 @@
         <item>191</item>
     </integer-array>
     <string-array name="version_names">
+        <item>2.6.4</item>
         <item>2.6.3</item>
         <item>2.6.2</item>
         <item>2.6.1</item>
@@ -472,4 +474,19 @@
         <item>\t</item>
     </string-array>
 
+    <string-array name="help_ExportDialog_date_format_letters">
+        <item>y</item>
+        <item>M</item>
+        <item>d</item>
+        <item>H</item>
+        <item>m</item>
+    </string-array>
+
+    <string-array name="help_ExportDialog_date_format_components">
+        <item>@string/grouping_year</item>
+        <item>@string/grouping_month</item>
+        <item>@string/grouping_day</item>
+        <item>@string/date_format_hour</item>
+        <item>@string/date_format_minute</item>
+    </string-array>
 </resources>

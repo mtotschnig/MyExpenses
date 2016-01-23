@@ -19,17 +19,24 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -142,6 +149,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         try {
           new SimpleDateFormat(s.toString(), Locale.US);
           mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+          dateFormatET.setError(null);
         } catch (IllegalArgumentException e) {
           dateFormatET.setError(getString(R.string.date_format_illegal));
           mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
@@ -168,9 +176,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
           error = R.string.no_title_given;
         }
         mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(error == 0);
-        if (error != 0) {
-          fileNameET.setError(getString(error));
-        }
+        fileNameET.setError(error != 0 ? getString(error) : null);
       }
 
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -244,6 +250,28 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     if (allP) {
       ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
     }
+
+    final View helpIcon = view.findViewById(R.id.date_format_help);
+    helpIcon.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final TextView infoTextView = (TextView) inflater.inflate(
+            R.layout.textview_info, null);
+        final CharSequence infoText = buildDateFormatHelpText();
+        final PopupWindow infoWindow = new PopupWindow(infoTextView);
+
+        infoWindow.setBackgroundDrawable(new BitmapDrawable());
+        infoWindow.setOutsideTouchable(true);
+        infoWindow.setFocusable(true);
+        chooseSize(infoWindow, infoText, infoTextView);
+        infoTextView.setText(infoText);
+        infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
+        infoWindow.showAsDropDown(helpIcon);
+      }
+    });
+
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
         .setView(view)
@@ -253,9 +281,41 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       builder.setIcon(android.R.drawable.ic_dialog_alert);
     else
       builder.setIconAttribute(android.R.attr.alertDialogIcon);
+
     mDialog = builder.create();
     return mDialog;
   }
+
+  /* adapted from android.widget.Editor */
+  private void chooseSize(PopupWindow pop, CharSequence text, TextView tv) {
+    int ht = tv.getPaddingTop() + tv.getPaddingBottom();
+
+    int widthInPixels = (int) (mDialog.getWindow().getDecorView().getWidth() * 0.75);
+    Layout l = new StaticLayout(text, tv.getPaint(), widthInPixels,
+        Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
+
+    ht += l.getHeight();
+    pop.setWidth(widthInPixels);
+    pop.setHeight(ht);
+  }
+
+  private CharSequence buildDateFormatHelpText() {
+    String[] letters = getResources().getStringArray(R.array.help_ExportDialog_date_format_letters);
+    String[] components = getResources().getStringArray(R.array.help_ExportDialog_date_format_components);
+    StringBuilder sb = new StringBuilder();
+
+    for (int i = 0; i < letters.length; i++) {
+      sb.append(letters[i]);
+      sb.append(" => ");
+      sb.append(components[i]);
+      if (i<letters.length-1)
+        sb.append(", ");
+      else
+        sb.append(". ");
+    }
+    return TextUtils.concat(sb, Html.fromHtml(getString(R.string.help_ExportDialog_date_format)));
+  }
+
 
   @Override
   public void onClick(DialogInterface dialog, int which) {

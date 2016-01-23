@@ -11,8 +11,9 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.totschnig.myexpenses"
-    android:installLocation="internalOnly">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.totschnig.myexpenses"
+          android:installLocation="internalOnly">
 
     <supports-screens
         android:largeScreens="true"
@@ -81,6 +82,10 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable">
+            </meta-data>
         </activity>
         <activity
             android:name=".activity.BackupRestoreActivity"

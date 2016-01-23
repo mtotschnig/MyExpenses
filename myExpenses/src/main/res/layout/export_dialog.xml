@@ -75,12 +75,16 @@
                     <RadioButton
                         android:id="@+id/qif"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="QIF"/>
 
                     <RadioButton
                         android:id="@+id/csv"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:text="CSV"/>
                 </RadioGroup>
             </TableRow>
@@ -94,10 +98,23 @@
                     android:gravity="center_vertical"
                     android:text="@string/date_format"/>
 
-                <EditText
-                    android:id="@+id/date_format"
+                <LinearLayout
                     android:layout_width="0dip"
-                    android:layout_weight="5"/>
+                    android:layout_weight="5">
+                    <EditText
+                        android:id="@+id/date_format"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"/>
+                    <ImageView
+                        android:id="@+id/date_format_help"
+                        style="?actionButtonStyle"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_help"
+                        android:layout_height="24dp"
+                        android:layout_width="24dp"/>
+                </LinearLayout>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
@@ -118,12 +135,16 @@
                     <RadioButton
                         android:id="@+id/dot"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="."/>
 
                     <RadioButton
                         android:id="@+id/comma"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:text=","/>
                 </RadioGroup>
             </TableRow>
@@ -162,10 +183,14 @@
             tools:visibility="visible">
 
             <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/create_helper"
                 android:text="@string/export_handle_deleted_create_helper"/>
 
             <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/update_balance"
                 android:text="@string/export_handle_deleted_update_balance"/>
         </RadioGroup>

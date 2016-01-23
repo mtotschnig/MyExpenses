@@ -102,8 +102,7 @@ public class Payee extends Model {
   public Uri save() {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_PAYEE_NAME, name);
-    initialValues.put(KEY_PAYEE_NAME_NORMALIZED,
-        Utils.normalize(name));
+    initialValues.put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name));
     Uri uri;
     if (getId() == 0) {
       try {

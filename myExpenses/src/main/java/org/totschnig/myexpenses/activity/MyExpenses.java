@@ -87,6 +87,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -159,7 +160,7 @@ public class MyExpenses extends LaunchActivity implements
   private View mAdView;
   private boolean mAdViewShown = false;
   private Toolbar mToolbar;
-
+  private String mCurrentBalance;
 
   public enum HelpVariant {
     crStatus
@@ -1090,10 +1091,10 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private void setBalance() {
-    ((TextView) mToolbar.findViewById(R.id.end)).setText(Utils.formatCurrency(
-        new Money(
-            Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency)),
-            mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE)))));
+    mCurrentBalance = Utils.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
+        .getString(columnIndexCurrency)), mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
+        (KEY_CURRENT_BALANCE))));
+    ((TextView) mToolbar.findViewById(R.id.end)).setText(mCurrentBalance);
   }
 
   public void setTitle(String title) {
@@ -1437,5 +1438,11 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       super.onBackPressed();
     }
+  }
+
+  public void copyToClipBoard(View view) {
+    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+    clipboard.setText(mCurrentBalance);
+    Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_LONG).show();
   }
 }

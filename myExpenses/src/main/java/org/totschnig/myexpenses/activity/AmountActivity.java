@@ -41,7 +41,6 @@ public abstract class AmountActivity extends EditActivity {
   protected boolean mType = EXPENSE;
   protected CompoundButton mTypeButton;
   protected TextView mAmountLabel;
-  private int amountInputFractionDigits = -1;
 
   @Override
   public void setContentView(int layoutResID) {

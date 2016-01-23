@@ -18,6 +18,12 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Categories screen can be searched</item>
+    <item>Account balance can be copied to clipboard</item>
+    <item>Paste into calcualtor from clipboard</item>
+    <item>Help for date format in export dialog</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Transfers between accounts with different currencies</item>
   </string-array>
