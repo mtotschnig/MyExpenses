@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Kategoriler ekranında arama yapılabilir</item>
+    <item>Hesap bakiyesi panoya kopyalanabilir</item>
+    <item>Panodan hesap makinesine yapıştırma yapılabilir</item>
+    <item>Dışa aktarma diyaloğunda tarih biçimi için yardım</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Değişik para birimleri kullanan hesaplar arası virmanlar</item>
   </string-array>
