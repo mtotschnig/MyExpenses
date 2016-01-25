@@ -441,6 +441,10 @@
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1687972834797521</item>
         <item>CpBcd7zFtVS</item>
     </string-array>
+    <string-array name="version_more_info_264" tools:ignore="UnusedResources">
+        <item>posts/1694461640815307</item>
+        <item>dC5XryCHkGx</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
