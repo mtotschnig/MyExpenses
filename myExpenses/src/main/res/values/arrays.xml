@@ -71,7 +71,8 @@
         <item>한국어</item>
         <item>Bahasa Melayu</item>
         <item>polski</item>
-        <item>português</item>
+        <item>português (Brasil)</item>
+        <item>português (Portugal)</item>
         <item>română</item>
         <item>русский</item>
         <item>සිංහල (Sinhala)</item>
@@ -101,6 +102,7 @@
         <item>ms-MY</item>
         <item>pl-PL</item>
         <item>pt-BR</item>
+        <item>pt-PT</item>
         <item>ro-RO</item>
         <item>ru-RU</item>
         <item>si-LK</item>
