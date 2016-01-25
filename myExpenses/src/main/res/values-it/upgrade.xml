@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Schermo di categorie possa essere ricercato</item>
+    <item>Saldo del conto può essere copiato negli appunti</item>
+    <item>Incolla nella calcolatrice dagli appunti</item>
+    <item>Aiuto per il formato di data nella finestra di dialogo Esporta</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Trasferimenti tra conti con valute diverse</item>
   </string-array>

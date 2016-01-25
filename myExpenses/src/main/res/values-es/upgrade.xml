@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Pantalla de categorías puede ser buscada</item>
+    <item>Saldo de la cuenta puede copiarse al portapapeles</item>
+    <item>Pegar en la calculadora desde el portapapeles</item>
+    <item>Ayuda para formato de fecha en cuadro de diálogo de exportación</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Transferencias entre cuentas con distintas divisas</item>
   </string-array>
