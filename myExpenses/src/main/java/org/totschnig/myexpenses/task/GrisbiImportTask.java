@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
@@ -76,16 +77,29 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
       if (externalP) {
         catXML = app.getContentResolver().openInputStream(fileUri);
       } else {
-        int defaultSourceResId = app.getResources().getIdentifier(
-            "cat_"+ Locale.getDefault().getLanguage(),
-            "raw",
-            app.getPackageName());
-        try {
-          catXML = app.getResources()
-              .openRawResource(defaultSourceResId);
-        } catch (NotFoundException e) {
-          catXML = app.getResources().openRawResource(R.raw.cat_en);
+
+        int defaultSourceResId = 0;
+        Locale locale = Locale.getDefault();
+        String language = locale.getLanguage().toLowerCase();
+        String country = locale.getCountry().toLowerCase();
+        if (!TextUtils.isEmpty(language)) {
+          if (!TextUtils.isEmpty(country)) {
+            defaultSourceResId = app.getResources().getIdentifier(
+                "cat_"+ language + "_" + country,
+                "raw",
+                app.getPackageName());
+          }
+          if (defaultSourceResId == 0) {
+            defaultSourceResId = app.getResources().getIdentifier(
+                "cat_"+ language,
+                "raw",
+                app.getPackageName());
+          }
         }
+        if (defaultSourceResId == 0) {
+          defaultSourceResId = R.raw.cat_en;
+        }
+        catXML = app.getResources().openRawResource(defaultSourceResId);
       } 
       result = Utils.analyzeGrisbiFileWithSAX(catXML);
       if (result.success) {
