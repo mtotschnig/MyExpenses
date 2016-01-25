@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_263">
+    <item>Transferência entre contas em diferentes moedas</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>Dias com possibilidade de configurar o início da semana e do mês</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Possibilidade de mover as categorias</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Melhorias para tablets</item>
+    <item>Suporte para Samsung Knox</item>
+  </string-array>
+  <string-array name="whats_new_251">
+    <item>Possibilidade de configurar o formato numérico</item>
+    <item>Tradução em dinamarquês</item>
+  </string-array>
+  <string-array name="whats_new_250">
+    <item>Importação CSV</item>
+    <item>Tradução em coreano</item>
+  </string-array>
+  <string-array name="whats_new_249">
+    <item>Exportação de categorias para QIF</item>
+    <item>Somas agregadas no widget do ecrã</item>
+  </string-array>
+  <string-array name="whats_new_242">
+    <item>Possibilidade de anexar imagens às transações</item>
+  </string-array>
+  <string name="bug_fixes">Correções de erros</string>
+</resources>

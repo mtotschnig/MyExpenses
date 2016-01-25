@@ -595,4 +595,7 @@
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">Zeiträume für Gruppierungen</string>
   <string name="exchange_rate">Wechselkurs</string>
+  <string name="date_format_hour">Stunde</string>
+  <string name="date_format_minute">Minute</string>
+  <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
 </resources>

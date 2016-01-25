@@ -25,7 +25,9 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.Layout;
+import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -184,6 +186,22 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
 
       public void onTextChanged(CharSequence s, int start, int before, int count) {
       }
+    });
+    fileNameET.setFilters(new InputFilter[] {
+        new InputFilter() {
+          @Override
+          public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            StringBuilder sb = new StringBuilder(end-start);
+            for (int i = start; i < end; i++) {
+              final char c = source.charAt(i);
+              int type = Character.getType(c);
+              if (type != Character.SURROGATE && type != Character.OTHER_SYMBOL) {
+                sb.append(c);
+              }
+            }
+            return sb;
+          }
+        }
     });
 
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);

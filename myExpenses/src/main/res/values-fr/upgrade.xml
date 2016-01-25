@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Recherches dans l\'écran de catégories</item>
+    <item>Le solde du compte peut être copié dans le presse-papiers</item>
+    <item>Coller dans la calculatrice depuis le presse-papiers</item>
+    <item>Aide pour le format de date dans la boîte de dialogue Exporter</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Transferts entre comptes de devises différentes</item>
   </string-array>

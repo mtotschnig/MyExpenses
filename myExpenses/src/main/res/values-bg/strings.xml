@@ -595,4 +595,7 @@
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">Периоди за групиране</string>
   <string name="exchange_rate">Обменен курс</string>
+  <string name="date_format_hour">Час</string>
+  <string name="date_format_minute">Минута</string>
+  <string name="copied_to_clipboard">Копирано в клипборда</string>
 </resources>

@@ -1286,8 +1286,14 @@ public class Utils {
     return inSampleSize;
   }
 
+  /**
+   * filters out the '/' character and characters of type {@link java.lang.Character#SURROGATE} or
+   * {@link java.lang.Character#OTHER_SYMBOL}, meant primarily to skip emojs
+   * @param in
+   * @return
+   */
   public static String escapeForFileName(String in) {
-    return in.replace("/","");
+    return in.replace("/","").replaceAll("\\p{Cs}","").replaceAll("\\p{So}","");
   }
 
   //http://stackoverflow.com/a/11072627/1199911

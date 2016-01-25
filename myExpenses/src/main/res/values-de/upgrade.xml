@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Der Kategorien-Bildschirm kann durchsucht werden</item>
+    <item>Der Kontostand kann in die Zwischenablage kopiert werden</item>
+    <item>In den Taschenrechner kann aus der Zwischenablage eingefügt werden</item>
+    <item>Hilfe für Datumsformat im Export-Dialog</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Umbuchungen zwischen Konten mit verschiedenen Währungen</item>
   </string-array>
