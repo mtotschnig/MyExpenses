@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.contrib.Config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
@@ -21,6 +22,7 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 public class Distrib {
 
   public static boolean HAS_EXTENDED = !BuildConfig.FLAVOR_distribution.equals("blackberry");
+  public static boolean IS_CHROMIUM = Build.BRAND.equals("chromium");
 
   public static final long REFUND_WINDOW = 172800000L;
   public static String STATUS_DISABLED = "0";
@@ -109,6 +111,11 @@ public class Distrib {
         new OpenIabHelper.Options.Builder()
            .setVerifyMode(OpenIabHelper.Options.VERIFY_EVERYTHING)
            .addStoreKeys(Config.STORE_KEYS_MAP);
+
+    if (IS_CHROMIUM) {
+      builder.setStoreSearchStrategy(OpenIabHelper.Options.SEARCH_STRATEGY_BEST_FIT);
+    }
+
     if (BuildConfig.FLAVOR_distribution.equals("amazon")) {
            ArrayList<Appstore> stores = new ArrayList<Appstore>();
            stores.add(new AmazonAppstore(ctx) {

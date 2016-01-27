@@ -34,7 +34,8 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   public static final String KEY_TAG = "tag";
   private OpenIabHelper mHelper;
   private boolean mSetupDone;
-  private String mPayload = BuildConfig.FLAVOR_distribution.equals("amazon") ? null : UUID.randomUUID().toString();
+  private String mPayload = (Distrib.IS_CHROMIUM || BuildConfig.FLAVOR_distribution.equals("amazon"))
+      ? null : UUID.randomUUID().toString();
   private String tag = ContribInfoDialogActivity.class.getName();
 
   @Override

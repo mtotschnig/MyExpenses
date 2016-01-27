@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.contrib;
 
 
+import android.os.Build;
+
 import org.totschnig.myexpenses.BuildConfig;
 import org.onepf.oms.OpenIabHelper;
+import org.totschnig.myexpenses.util.Distrib;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +27,10 @@ public final class Config {
      */
     public static final String GOOGLE_PLAY_KEY
         = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlyDg92FlUJWJFGnjJalxr54jgqz4FavtyBhB0buUKhhJ9paHM+ygKYbCrKat6l9haatuwmWjnAY/TA1USi+Cbsnd4pRAQdHSca0UUDDUGvW5QfWdGsogxxOE9YNwk1oDf2dkgVeow/bnGKd/hMZA54TimXK2vc4qemfA/TL7QHIOEnJSc/VVGCTBOm5NMswqRohQHz+2qM9KbLr1u/S71TTM8svIInkJPwCqlUwAl+eAuUra4DNvZvCusQ73oyCTNxUFW2Xhe/cZWdRAEu69yEwD3esyjY6zGav0rd2n7T2qWyiQ4H+B8LrfDXhqjmowTXhdfCpmo60LUocRDPdRZQIDAQAB";
+
+    // Chrome version is created with ARC Welder with the following metadata: {"enableExternalDirectory":true}
+    public static final String CHROME_STORE_KEY
+        = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1dMLk8RcgIeQu1anlBJhYduI2X4Y6UgrgD2iPLytjmlEnNuicHpo9o7fZzsIzZoRT0AGQz0butv+KyVRampk+8AnCHoOHy/dJDp3tuwj890gMLXyEfv8CM6Ue8fKv0WlU1c9f5IN7/YYPtA3lCgQ/hXWQMyud69tokZVEsKZtcRUJz1s5eBFOPoyR2tw+dehwnroCiDADTERrKLnn5kuM4mmIjuXVGzF1LyP8ujuCSuIML5Rrrm+80douE0K0gmTtYN1R64CI1PkOtzvqC+W38dgwafhG5dRhQbrE7f4mWuYW9PxIJGqFxnjNyvk2nttbBej0F9z2WlrY6aXTM8+DwIDAQAB";
 
     /**
      * Yandex.Store public key.
@@ -76,7 +83,8 @@ public final class Config {
       STORE_KEYS_MAP = new HashMap<String,String>();
       switch (BuildConfig.FLAVOR_distribution) {
         case "play":
-          STORE_KEYS_MAP.put(OpenIabHelper.NAME_GOOGLE, Config.GOOGLE_PLAY_KEY);
+          STORE_KEYS_MAP.put(OpenIabHelper.NAME_GOOGLE,
+              Distrib.IS_CHROMIUM ? Config.CHROME_STORE_KEY : Config.GOOGLE_PLAY_KEY);
           break;
 /*        case "onepf":
           STORE_KEYS_MAP.put(OpenIabHelper.NAME_YANDEX, Config.YANDEX_PUBLIC_KEY);
