@@ -2,7 +2,7 @@
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
 {% assign msg = site.data[pagelang][pagelang]  %}
 {% capture amazon %}{% if site.amazon[pagelang]%}{{site.amazon[pagelang]}}{% else %}{{site.amazon.en}}{% endif %}{% endcapture %}
-{% capture playicon %}https://developer.android.com/images/brand/{% if pagelang == "eu" %}en{% else %}{{pagelang}}{% endif %}{% if pagelang == "pt" %}-br{% endif %}_generic_rgb_wo_45.png{% endcapture %}
+{% capture playicon %}https://play.google.com/intl/en_gb/badges/images/generic/{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "it" or pagelang == "pt" or pagelang == "ja" or pagelang == "ko" or pagelang == "zh" or pagelang == "ru"%}{{pagelang}}{% else %}en{% endif %}{% if pagelang == "pt" %}-br{% endif %}{% if pagelang == "zh" %}-tw{% endif %}-play-badge.png{% endcapture %}
 <html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">
@@ -209,7 +209,7 @@
         <div class="row">
           <div class="col-xs-12 col-ms-6 col-sm-6">
             <a id="gplay" class="track" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
-              <img alt="Get it on Google Play"
+              <img alt="Get it on Google Play" width="133" height="45"
                 src="{{playicon}}" />
             </a>
           </div>
