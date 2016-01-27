@@ -41,7 +41,10 @@ pl:
       split_transaction: Podział transakcji
       security_question: Pytanie bezpieczeństwa
       template_widget: Szablon widget
+      print: Eksport listy transakcji do PDF
+      attach_picture: Dopinanie obrazów do transakcji
       ad_free: Brak reklam
+      csv_import: Import CSV
       auto_backup: Automatyczna kopia zapasowa
     licence-howto-buy:
       intro: |

@@ -35,7 +35,7 @@ es:
     thank_you: |
       Su contribución apoya el desarrollo de Mis gastos. Gracias!
     feature-list-title: |
-      Comprando Clave Contrib o Clave Extendida, Usted va a obtener acceso ilimitado a las siguientes características premium:
+      Las siguientes características Premium se pueden desbloquear mediante la adquisición de una licencia extendida o una Contrib:
     feature:
       accounts_unlimited: Cuentas sin limite
       plans_unlimited: Planes sin limite
@@ -46,17 +46,21 @@ es:
       print: Lista de transacciones de exportación a PDF
       attach_picture: Adjuntar imagen de transacción
       ad_free: Sin anuncios
-      auto_backup: Backup automática
+      csv_import: Importación CSV
+      auto_backup: Permitir backup automática
+    extended-label: Extendido
     licence-howto-buy:
       deprecated: |
         NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium mis gastos puede adquirirse más fácilmente a través de pago en la aplicación, y ya no tienes que instalar la aplicación "Mis gastos Clave Contrib".
       intro: |
-        Usted tiene las siguientes opciones para adquirir la licencia de Contrib:
+        Tienes las siguientes opciones para adquirir el Contrib y extendido licencias:
       in-app: |
-        Si ha instalado Mis Gastos de Google Play o Amazon App Store, está disponible como compra integrada en la aplicación.
+        Si ha instalado mis gastos desde Google Play o App Store de Amazon, están disponibles como las compras en la aplicación.
       blackberry: |
         Si ha instalado Mis Gastos de Blackberry World, instalar
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mis Gastos Contrib</a>.
+      blackberry-extra: |
+        En Blackberry no hay ninguna tecla extendida, la clave de Contrib también da acceso a características extendidas.
       other: |
         Si ha descargado Mis Gastos de F-Droid, Yandex o SlideMe, enviar una donación a través de uno de los siguientes:
       transfer: |
@@ -64,6 +68,8 @@ es:
       key: |
         y luego solicitar la clave de licencia en la pantalla Configuración.
         Una vez que usted lo recibe por correo electrónico, entra también en la pantalla Configuración.
+      price: |
+        El monto mínimo es de 2,50 € (0,01 bitcoins) para la clave de Contrib y 5,00 € (0,02 bitcoins) para la clave extendida. Enviar € 2,50 (0,01 bitcoins) para la actualización de Contrib a extendida.
   permissions-heading: |
     Mis gastos requiere los siguientes permisos
   permissions-calendar: |
