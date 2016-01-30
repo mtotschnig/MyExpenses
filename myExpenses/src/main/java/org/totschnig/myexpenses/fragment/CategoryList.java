@@ -740,7 +740,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     }
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
-    String[] filterSelectArgs = { "%" + mFilter + "%" };
+    String[] filterSelectArgs = { "%" + mFilter + "%", "%" + mFilter + "%" };
     if (bundle == null) {
       //group cursor
       selection = KEY_PARENTID + " is null" + selection;
@@ -750,13 +750,15 @@ public class CategoryList extends ContextualActionBarFragment implements
             + filterSelection + " )))";
       }
       selectionArgs = mAccount != null ? new String[]{accountSelector,accountSelector} :
-          (isFiltered ? Utils.joinArrays(filterSelectArgs,filterSelectArgs) : null);
+          (isFiltered ? filterSelectArgs : null);
     } else {
       //child cursor
       parentId = bundle.getLong(KEY_PARENTID);
       selection = KEY_PARENTID + " = ?"  + selection;
       if (isFiltered) {
-        selection += " AND (" + filterSelection + ")";
+        selection += " AND (" + filterSelection + " OR (SELECT " + KEY_LABEL_NORMALIZED + " FROM " +
+            TABLE_CATEGORIES +  " parent WHERE " + KEY_ROWID  + " = " + TABLE_CATEGORIES + "." +
+            KEY_PARENTID + ") LIKE ?)";
       }
       selectionArgs = mAccount != null ?
           new String[] { accountSelector, String.valueOf(parentId), accountSelector} :
