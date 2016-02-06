@@ -136,8 +136,8 @@
     </string-array>
 
     <string-array name="MyExpenses_menuitems" tools:ignore="UnusedResources">
-        <item>manage_plans</item>
         <item>search</item>
+        <item>manage_plans</item>
         <item>reset</item>
         <item>grouping</item>
         <item>distribution</item>
@@ -336,7 +336,7 @@
     </string-array>
 
     <integer-array name="version_codes">
-        <item>236</item>
+        <item>237</item>
         <item>234</item>
         <item>231</item>
         <item>227</item>
