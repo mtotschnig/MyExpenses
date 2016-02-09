@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -44,6 +45,9 @@ import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -54,27 +58,35 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class TemplatesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-
-
+  public static final String SORT_ORDER_USAGES = "USAGES";
+  public static final String SORT_ORDER_LAST_USED = "LAST_USED";
+  public static final String SORT_ORDER_AMOUNT = "AMOUNT";
+  public static final String SORT_ORDER_ALPHABETICALLY = "ALPHABETICALLY";
   private ListView mListView;
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
   }
 
-  public static final int TEMPLATES_CURSOR=1;
+  public static final int TEMPLATES_CURSOR = 1;
   Cursor mTemplatesCursor;
   private SimpleCursorAdapter mAdapter;
   //private SimpleCursorAdapter mAdapter;
   //private StickyListHeadersListView mListView;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
-  
+
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
-    columnIndexPayee, columnIndexColor, columnIndexTransferPeer,
-    columnIndexCurrency, columnIndexTransferAccount;
+      columnIndexPayee, columnIndexColor, columnIndexTransferPeer,
+      columnIndexCurrency, columnIndexTransferAccount;
   boolean indexesCalculated = false;
-  
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.templates_list, null, false);
@@ -83,11 +95,11 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_TITLE,KEY_LABEL_MAIN,KEY_AMOUNT};
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.title,R.id.category,R.id.amount};
+    String[] from = new String[]{KEY_TITLE, KEY_LABEL_MAIN, KEY_AMOUNT};
+    // and an array of the fields we want to bind those fields to
+    int[] to = new int[]{R.id.title, R.id.category, R.id.amount};
     mAdapter = new MyAdapter(
-        getActivity(), 
+        getActivity(),
         R.layout.template_row,
         null,
         from,
@@ -102,8 +114,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
         if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
-        }
-        else if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
+        } else if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
           if (MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
             ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_SAVE_COMMAND,
                 new Long[]{id});
@@ -138,101 +149,121 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-      SparseBooleanArray positions,Long[]itemIds) {
-    switch(command) {
-    case R.id.DELETE_COMMAND:
-      MessageDialogFragment.newInstance(
-          R.string.dialog_title_warning_delete_template,
-          getResources().getQuantityString(R.plurals.warning_delete_template,itemIds.length,itemIds.length),
-          new MessageDialogFragment.Button(
-              R.string.menu_delete,
-              R.id.DELETE_COMMAND_DO,
-              itemIds),
-          null,
-          new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
-        .show(getActivity().getSupportFragmentManager(),"DELETE_TEMPLATE");
-      return true;
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      return ((ManageTemplates) getActivity()).dispatchCommand(command, itemIds);
+                                         SparseBooleanArray positions, Long[] itemIds) {
+    switch (command) {
+      case R.id.DELETE_COMMAND:
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_warning_delete_template,
+            getResources().getQuantityString(R.plurals.warning_delete_template, itemIds.length, itemIds.length),
+            new MessageDialogFragment.Button(
+                R.string.menu_delete,
+                R.id.DELETE_COMMAND_DO,
+                itemIds),
+            null,
+            new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
+            .show(getActivity().getSupportFragmentManager(), "DELETE_TEMPLATE");
+        return true;
+      case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+        return ((ManageTemplates) getActivity()).dispatchCommand(command, itemIds);
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
+
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
-    switch(command) {
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-    case R.id.EDIT_COMMAND:
-      return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
+    switch (command) {
+      case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      case R.id.EDIT_COMMAND:
+        return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
     }
     return super.dispatchCommandSingle(command, info);
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    switch(id) {
-    case TEMPLATES_CURSOR:
-      return new CursorLoader(getActivity(),
-        TransactionProvider.TEMPLATES_URI,
-        null,
-        KEY_PLANID + " is null",
-        null,
-        null);
+    String sortOrder = KEY_TITLE + " COLLATE LOCALIZED";
+    switch (id) {
+      case TEMPLATES_CURSOR:
+        switch (getCurrentSortOrder()) {
+          case SORT_ORDER_USAGES:
+            sortOrder =   KEY_USAGES + " DESC, " + sortOrder;
+            break;
+          case SORT_ORDER_LAST_USED:
+            //TODO
+            break;
+          case SORT_ORDER_AMOUNT:
+            sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
+            break;
+          //default is title
+        }
+        return new CursorLoader(getActivity(),
+            TransactionProvider.TEMPLATES_URI,
+            null,
+            KEY_PLANID + " is null",
+            null,
+            sortOrder);
     }
     return null;
   }
+
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     switch (loader.getId()) {
-    case TEMPLATES_CURSOR:
-      mTemplatesCursor = c;
-      if (c!= null && !indexesCalculated) {
-        columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
-        columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
-        columnIndexComment = c.getColumnIndex(KEY_COMMENT);
-        columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
-        columnIndexColor = c.getColumnIndex(KEY_COLOR);
-        columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
-        columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
-        columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
-        indexesCalculated = true;
-      }
-      ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
-      invalidateCAB();
-      break;
+      case TEMPLATES_CURSOR:
+        mTemplatesCursor = c;
+        if (c != null && !indexesCalculated) {
+          columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
+          columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
+          columnIndexComment = c.getColumnIndex(KEY_COMMENT);
+          columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
+          columnIndexColor = c.getColumnIndex(KEY_COLOR);
+          columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
+          columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
+          columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
+          indexesCalculated = true;
+        }
+        ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
+        invalidateCAB();
+        break;
     }
   }
+
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-      ((SimpleCursorAdapter) mAdapter).swapCursor(null);
+    ((SimpleCursorAdapter) mAdapter).swapCursor(null);
   }
+
   public class MyAdapter extends SimpleCursorAdapter {
     private int colorExpense;
     private int colorIncome;
     String categorySeparator = " : ",
         commentSeparator = " / ";
+
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
-        int[] to, int flags) {
+                     int[] to, int flags) {
       super(context, layout, c, from, to, flags);
       colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
       colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      convertView=super.getView(position, convertView, parent);
+      convertView = super.getView(position, convertView, parent);
       Cursor c = getCursor();
       c.moveToPosition(position);
-      TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
+      TextView tv1 = (TextView) convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
-      tv1.setTextColor(amount<0?colorExpense:colorIncome);
-      tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
+      tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
+      tv1.setText(Utils.convAmount(amount, Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
-      TextView tv2 = (TextView)convertView.findViewById(R.id.category);
+      TextView tv2 = (TextView) convertView.findViewById(R.id.category);
       CharSequence catText = tv2.getText();
       if (c.getInt(columnIndexTransferPeer) > 0) {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
       } else {
-        Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+        Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
         if (catId == null) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         } else {
@@ -248,13 +279,13 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
       if (comment != null && comment.length() > 0) {
         ssb = new SpannableStringBuilder(comment);
         ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
-        catText = TextUtils.concat(catText,commentSeparator,ssb);
+        catText = TextUtils.concat(catText, commentSeparator, ssb);
       }
       String payee = c.getString(columnIndexPayee);
       if (payee != null && payee.length() > 0) {
         ssb = new SpannableStringBuilder(payee);
         ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
-        catText = TextUtils.concat(catText,commentSeparator,ssb);
+        catText = TextUtils.concat(catText, commentSeparator, ssb);
       }
       tv2.setText(catText);
       return convertView;
@@ -273,7 +304,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
     super.configureMenu11(menu, count);
     SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
     boolean hasForeignExchangeTransfer = false;
-    for (int i=0; i<checkedItemPositions.size(); i++) {
+    for (int i = 0; i < checkedItemPositions.size(); i++) {
       if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
           (i))) {
         hasForeignExchangeTransfer = true;
@@ -288,7 +319,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
   }
 
   private boolean isForeignExchangeTransfer(int position) {
-    if (mTemplatesCursor !=null && mTemplatesCursor.moveToPosition(position)) {
+    if (mTemplatesCursor != null && mTemplatesCursor.moveToPosition(position)) {
       if (mTemplatesCursor.getInt(columnIndexTransferPeer) != 0) {
         Account transferAccount = Account.getInstanceFromDb(
             mTemplatesCursor.getLong(columnIndexTransferAccount));
@@ -299,4 +330,64 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
     return false;
   }
 
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.templates, menu);
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    SubMenu sortMenu = menu.findItem(R.id.SORT_COMMAND).getSubMenu();
+    MenuItem activeItem;
+    switch (getCurrentSortOrder()) {
+      case SORT_ORDER_USAGES:
+        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
+        break;
+      case SORT_ORDER_LAST_USED:
+        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
+        break;
+      case SORT_ORDER_AMOUNT:
+        activeItem = sortMenu.findItem(R.id.SORT_AMOUNT_COMMAND);
+        break;
+      default:
+        activeItem = sortMenu.findItem(R.id.SORT_ALPHABETICALLY_COMMAND);
+    }
+    activeItem.setChecked(true);
+  }
+
+  @NonNull
+  private String getCurrentSortOrder() {
+    return MyApplication.PrefKey.SORT_ORDER_TEMPLATES.getString(
+        MyApplication.PrefKey.SORT_ORDER_LEGACY.getString("USAGES"));
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int command = item.getItemId();
+    String newSortOrder = null;
+    switch (command) {
+      case R.id.SORT_USAGES_COMMAND:
+        newSortOrder = SORT_ORDER_USAGES;
+        break;
+      case R.id.SORT_LAST_USED_COMMAND:
+        newSortOrder = SORT_ORDER_LAST_USED;
+        break;
+      case R.id.SORT_AMOUNT_COMMAND:
+        newSortOrder = SORT_ORDER_AMOUNT;
+        break;
+      case R.id.SORT_ALPHABETICALLY_COMMAND:
+        newSortOrder = SORT_ORDER_ALPHABETICALLY;
+        break;
+    }
+    if (newSortOrder != null && !item.isChecked()) {
+      MyApplication.PrefKey.SORT_ORDER_TEMPLATES.putString(newSortOrder);
+      getActivity().supportInvalidateOptionsMenu();
+      if (mManager.getLoader(TEMPLATES_CURSOR) != null && !mManager.getLoader(TEMPLATES_CURSOR).isReset())
+        mManager.restartLoader(TEMPLATES_CURSOR, null, this);
+      else
+        mManager.initLoader(TEMPLATES_CURSOR, null, this);
+      return true;
+    }
+    return false;
+  }
 }

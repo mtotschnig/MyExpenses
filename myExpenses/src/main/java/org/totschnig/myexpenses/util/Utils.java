@@ -78,7 +78,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ChoiceFormat;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -155,7 +154,7 @@ public class Utils {
   }
 
   public static String defaultOrderBy(String textColumn) {
-    boolean byUsagesP = MyApplication.PrefKey.SORT_ORDER.getString("USAGES").equals("USAGES");
+    boolean byUsagesP = MyApplication.PrefKey.SORT_ORDER_LEGACY.getString("USAGES").equals("USAGES");
     return (byUsagesP ? KEY_USAGES + " DESC, " : "")
         + textColumn + " COLLATE LOCALIZED";
   }
