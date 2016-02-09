@@ -46,7 +46,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 55;
+  public static final int DATABASE_VERSION = 56;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -66,7 +66,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     "CREATE TABLE " + TABLE_TRANSACTIONS  +  "( "
     + KEY_ROWID            + " integer primary key autoincrement, "
     + KEY_COMMENT          + " text, "
-    + KEY_DATE             + " DATETIME not null, "
+    + KEY_DATE             + " datetime not null, "
     + KEY_AMOUNT           + " integer not null, "
     + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
     + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
@@ -167,6 +167,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_PLANID           + " integer, "
       + KEY_PLAN_EXECUTION   + " boolean default 0, "
       + KEY_UUID             + " text, "
+      + KEY_LAST_USED        + " datetime, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
   private static final String EVENT_CACHE_CREATE = 
@@ -348,7 +349,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 20) {
         db.execSQL("CREATE TABLE transactions ( _id integer primary key autoincrement, comment text not null, "
-            + "date DATETIME not null, amount integer not null, cat_id integer, account_id integer, "
+            + "date datetime not null, amount integer not null, cat_id integer, account_id integer, "
             + "payee  text, transfer_peer integer default null);");
         db.execSQL("INSERT INTO transactions (comment,date,amount,cat_id,account_id,payee,transfer_peer)" +
             " SELECT comment,date,CAST(ROUND(amount*100) AS INTEGER),cat_id,account_id,payee,transfer_peer FROM expenses");
@@ -413,7 +414,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 28) {
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
-        db.execSQL("CREATE TABLE transactions(_id integer primary key autoincrement, comment text, date DATETIME not null, amount integer not null, " +
+        db.execSQL("CREATE TABLE transactions(_id integer primary key autoincrement, comment text, date datetime not null, amount integer not null, " +
             "cat_id integer references categories(_id), account_id integer not null references accounts(_id),payee text, " +
             "transfer_peer integer references transactions(_id), transfer_account integer references accounts(_id), " +
             "method_id integer references paymentmethods(_id));");
@@ -508,7 +509,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
         db.execSQL("CREATE TABLE transactions (" +
             " _id integer primary key autoincrement," +
-            " comment text, date DATETIME not null," +
+            " comment text, date datetime not null," +
             " amount integer not null," +
             " cat_id integer references categories(_id)," +
             " account_id integer not null references accounts(_id)," +
@@ -620,7 +621,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
         db.execSQL("CREATE TABLE transactions (" +
             " _id integer primary key autoincrement," +
-            " comment text, date DATETIME not null," +
+            " comment text, date datetime not null," +
             " amount integer not null," +
             " cat_id integer references categories(_id)," +
             " account_id integer not null references accounts(_id)," +
@@ -673,7 +674,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
         db.execSQL("CREATE TABLE transactions (" +
             " _id integer primary key autoincrement," +
-            " comment text, date DATETIME not null," +
+            " comment text, date datetime not null," +
             " amount integer not null," +
             " cat_id integer references categories(_id)," +
             " account_id integer not null references accounts(_id) ON DELETE CASCADE," +
@@ -894,7 +895,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + "transactions" +  "( "
         + "_id" + " integer primary key autoincrement, "
         + "comment" + " text, "
-        + "date" + " DATETIME not null, "
+        + "date" + " datetime not null, "
         + "amount" + " integer not null, "
         + "cat_id" + " integer references " + "categories" + "(" + "_id" + "), "
         + "account_id" + " integer not null references " + "accounts" + "(" + "_id" + ") ON DELETE CASCADE,"
@@ -958,6 +959,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+      }
+      if (oldVersion < 56) {
+        db.execSQL("ALTER TABLE templates add column last_used datetime");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

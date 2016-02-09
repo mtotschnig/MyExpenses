@@ -153,6 +153,7 @@ public class DatabaseConstants {
   public static final String KEY_PICTURE_URI = "picture_id";//historical reasons
   public static final String KEY_TRANSFER_AMOUNT = "transfer_amount";
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
+  public static final String KEY_LAST_USED = "last_used";
 
   /**
    * column alias for the second group (month or week)

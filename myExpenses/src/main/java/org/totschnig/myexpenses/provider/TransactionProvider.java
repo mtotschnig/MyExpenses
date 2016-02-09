@@ -1028,18 +1028,21 @@ public class TransactionProvider extends ContentProvider {
       break;
     case CATEGORY_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
-      db.execSQL("update " + TABLE_CATEGORIES + " set usages = usages +1 WHERE _id IN (" + segment +
-          " , (SELECT parent_id FROM categories WHERE _id = " + segment + "))");
+      db.execSQL("UPDATE " + DatabaseConstants.TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
+          KEY_USAGES + " + 1 WHERE " + KEY_ROWID + " IN (" + segment + " , (SELECT " + KEY_PARENTID +
+          " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + segment + "))");
       count = 1;
       break;
     case TEMPLATES_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
-      db.execSQL("update " + TABLE_TEMPLATES + " set usages = usages +1 WHERE _id = " + segment);
+      db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
+          KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + segment);
       count = 1;
       break;
     case ACCOUNT_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
-      db.execSQL("update " + TABLE_ACCOUNTS + " set usages = usages +1 WHERE _id = " + segment);
+      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " + KEY_USAGES +
+          " + 1  WHERE " + KEY_ROWID + " = " + segment);
       count = 1;
       break;
     //   when we move a transaction to a new target we apply two checks
@@ -1057,12 +1060,12 @@ public class TransactionProvider extends ContentProvider {
                         " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
                             " WHERE " + KEY_TYPE + " = " +
                                 " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
-                                    " WHERE " + KEY_ROWID + " = ?) " +
+                                    " WHERE " + DatabaseConstants.KEY_ROWID + " = ?) " +
                                     " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
                     " THEN " + KEY_METHODID +
                     " ELSE null " +
                 " END " +
-            " WHERE " + KEY_ROWID + " = ? " +
+            " WHERE " + DatabaseConstants.KEY_ROWID + " = ? " +
             " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
           new String[]{target,target,segment,target});
       count=1;
@@ -1081,7 +1084,7 @@ public class TransactionProvider extends ContentProvider {
               " THEN '" + "CLEARED" + "'" +
               " ELSE "  + KEY_CR_STATUS +
             " END" +
-          " WHERE " + KEY_ROWID  + " = ? ",
+          " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
           new String[]{segment});
       count = 1;
       break;
@@ -1117,12 +1120,12 @@ public class TransactionProvider extends ContentProvider {
       
             db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
                 + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
-                + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                 bindArgs);
       
             db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
                 + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
-                + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                 bindArgs);
           }
           Log.i("DEBUG","now storing "+newValue);
@@ -1153,7 +1156,7 @@ public class TransactionProvider extends ContentProvider {
         uriMatch != ACCOUNT_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(uri, null);
     }
-    if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS) {
+    if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(TEMPLATES_URI,null);
     }
     return count;

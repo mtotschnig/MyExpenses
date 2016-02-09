@@ -103,7 +103,7 @@
   <item name="CREATE_PLAN_COMMAND" type="id"/>
   <item name="MOVE_COMMAND" type="id"/>
   <item name="SORT_COMMAND" type="id" />
-  <item name="SORT_ALPHABETICALLY_COMMAND" type="id" />
+  <item name="SORT_TITLE_COMMAND" type="id" />
   <item name="SORT_USAGES_COMMAND" type="id" />
   <item name="SORT_LAST_USED_COMMAND" type="id" />
   <item name="SORT_AMOUNT_COMMAND" type="id" />

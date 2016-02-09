@@ -61,7 +61,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
   public static final String SORT_ORDER_AMOUNT = "AMOUNT";
-  public static final String SORT_ORDER_ALPHABETICALLY = "ALPHABETICALLY";
+  public static final String SORT_ORDER_TITLE = "TITLE";
   private ListView mListView;
 
   protected int getMenuResource() {
@@ -187,10 +187,10 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
       case TEMPLATES_CURSOR:
         switch (getCurrentSortOrder()) {
           case SORT_ORDER_USAGES:
-            sortOrder =   KEY_USAGES + " DESC, " + sortOrder;
+            sortOrder = KEY_USAGES + " DESC, " + sortOrder;
             break;
           case SORT_ORDER_LAST_USED:
-            //TODO
+            sortOrder = KEY_LAST_USED + " DESC, " + sortOrder;
             break;
           case SORT_ORDER_AMOUNT:
             sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
@@ -350,7 +350,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
         activeItem = sortMenu.findItem(R.id.SORT_AMOUNT_COMMAND);
         break;
       default:
-        activeItem = sortMenu.findItem(R.id.SORT_ALPHABETICALLY_COMMAND);
+        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
     }
     activeItem.setChecked(true);
   }
@@ -375,8 +375,8 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
       case R.id.SORT_AMOUNT_COMMAND:
         newSortOrder = SORT_ORDER_AMOUNT;
         break;
-      case R.id.SORT_ALPHABETICALLY_COMMAND:
-        newSortOrder = SORT_ORDER_ALPHABETICALLY;
+      case R.id.SORT_TITLE_COMMAND:
+        newSortOrder = SORT_ORDER_TITLE;
         break;
     }
     if (newSortOrder != null && !item.isChecked()) {
