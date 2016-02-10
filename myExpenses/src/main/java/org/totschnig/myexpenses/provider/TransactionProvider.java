@@ -1029,7 +1029,8 @@ public class TransactionProvider extends ContentProvider {
     case CATEGORY_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
       db.execSQL("UPDATE " + DatabaseConstants.TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
-          KEY_USAGES + " + 1 WHERE " + KEY_ROWID + " IN (" + segment + " , (SELECT " + KEY_PARENTID +
+          KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
+          " IN (" + segment + " , (SELECT " + KEY_PARENTID +
           " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + segment + "))");
       count = 1;
       break;
@@ -1041,8 +1042,8 @@ public class TransactionProvider extends ContentProvider {
       break;
     case ACCOUNT_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " + KEY_USAGES +
-          " + 1  WHERE " + KEY_ROWID + " = " + segment);
+      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
+          KEY_LAST_USED + " = strftime('%s', 'now')   WHERE " + KEY_ROWID + " = " + segment);
       count = 1;
       break;
     //   when we move a transaction to a new target we apply two checks
@@ -1158,6 +1159,12 @@ public class TransactionProvider extends ContentProvider {
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(TEMPLATES_URI,null);
+    }
+    if (uriMatch == CATEGORY_INCREASE_USAGE) {
+      getContext().getContentResolver().notifyChange(CATEGORIES_URI,null);
+    }
+    if (uriMatch == ACCOUNT_INCREASE_USAGE) {
+      getContext().getContentResolver().notifyChange(ACCOUNTS_URI,null);
     }
     return count;
   }

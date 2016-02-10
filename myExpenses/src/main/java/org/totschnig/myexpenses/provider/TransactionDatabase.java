@@ -112,7 +112,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_COLOR           + " integer default -3355444, "
         + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "', "
         + KEY_USAGES          + " integer default 0,"
-        + KEY_SORT_KEY      + " integer,"
+        + KEY_LAST_USED       + " datetime, "
+        + KEY_SORT_KEY        + " integer,"
         + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0);";
 
   /**
@@ -123,11 +124,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    */
   private static final String CATEGORIES_CREATE =
     "CREATE TABLE " + TABLE_CATEGORIES + " ("
-      + KEY_ROWID    + " integer primary key autoincrement, "
-      + KEY_LABEL    + " text not null, "
+      + KEY_ROWID            + " integer primary key autoincrement, "
+      + KEY_LABEL            + " text not null, "
       + KEY_LABEL_NORMALIZED + " text,"
-      + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-      + KEY_USAGES   + " integer default 0, unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
+      + KEY_PARENTID         + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
+      + KEY_USAGES           + " integer default 0, "
+      + KEY_LAST_USED        + " datetime, "
+      + "unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
     "CREATE TABLE " + TABLE_METHODS + " ("
@@ -962,6 +965,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 56) {
         db.execSQL("ALTER TABLE templates add column last_used datetime");
+        db.execSQL("ALTER TABLE categories add column last_used datetime");
+        db.execSQL("ALTER TABLE accounts add column last_used datetime");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

@@ -120,7 +120,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_MONTH_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_WEEK_START;
 
-public class CategoryList extends ContextualActionBarFragment implements
+public class CategoryList extends SortableListFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
 
   private static final String KEY_CHILD_COUNT = "child_count";
@@ -131,7 +131,6 @@ public class CategoryList extends ContextualActionBarFragment implements
     return R.menu.categorylist_context;
   }
 
-  private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;
 
@@ -258,7 +257,7 @@ public class CategoryList extends ContextualActionBarFragment implements
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
     mImportButton = emptyView.findViewById(R.id.importButton);
-    mManager.initLoader(CATEGORY_CURSOR, null, this);
+    mManager.initLoader(SORTABLE_CURSOR, null, this);
     String[] from;
     int[] to;
     if (mAccount != null) {
@@ -674,7 +673,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           projectionList.toArray(new String[projectionList.size()]),
           null,null, null);
     }
-    //CATEGORY_CURSOR
+    //SORTABLE_CURSOR
     long parentId;
     String selection = "",accountSelector="",sortOrder=null;
     String[] selectionArgs,projection = null;
@@ -737,6 +736,7 @@ public class CategoryList extends ContextualActionBarFragment implements
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select 1 FROM " + TABLE_TEMPLATES    + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
+      sortOrder = getSortOrderSql(KEY_LABEL);
     }
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
@@ -801,7 +801,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       thisDay = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
       maxValue = c.getInt(c.getColumnIndex(KEY_MAX_VALUE));
       break;
-    case CATEGORY_CURSOR:
+    case SORTABLE_CURSOR:
       mGroupCursor=c;
       mAdapter.setGroupCursor(c);
       if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
@@ -851,7 +851,7 @@ public class CategoryList extends ContextualActionBarFragment implements
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
     int id = loader.getId();
-    if (id == CATEGORY_CURSOR) {
+    if (id == SORTABLE_CURSOR) {
       mGroupCursor = null;
       mAdapter.setGroupCursor(null);
     } else if (id>0){
@@ -863,6 +863,11 @@ public class CategoryList extends ContextualActionBarFragment implements
                   + e.getMessage());
       }
     }
+  }
+
+  @Override
+  protected MyApplication.PrefKey getSortOrderPrefKey() {
+    return MyApplication.PrefKey.SORT_ORDER_CATEGORIES;
   }
 
   @Override
@@ -896,7 +901,7 @@ public class CategoryList extends ContextualActionBarFragment implements
             mImportButton.setVisibility(View.GONE);
           }
           collapseAll();
-          mManager.restartLoader(CATEGORY_CURSOR, null, CategoryList.this);
+          mManager.restartLoader(SORTABLE_CURSOR, null, CategoryList.this);
           return true;
         }
       });
@@ -919,6 +924,7 @@ public class CategoryList extends ContextualActionBarFragment implements
       m.setChecked(aggregateTypes);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
     }
+    configureSortMenu(menu);
   }
 
   public void back() {
@@ -969,8 +975,9 @@ public class CategoryList extends ContextualActionBarFragment implements
       MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
       getActivity().supportInvalidateOptionsMenu();
       reset();
+      return true;
     }
-    return super.onOptionsItemSelected(item);
+    return handleSortOption(item);
   }
 
   public void collapseAll() {
@@ -1072,7 +1079,7 @@ public class CategoryList extends ContextualActionBarFragment implements
 //        mManager.restartLoader(i, bundle, CategoryList.this);
 //      }
     collapseAll();
-    mManager.restartLoader(CATEGORY_CURSOR, null, this);
+    mManager.restartLoader(SORTABLE_CURSOR, null, this);
     mManager.restartLoader(SUM_CURSOR, null, this);
     mManager.restartLoader(DATEINFO_CURSOR, null, this);
   }

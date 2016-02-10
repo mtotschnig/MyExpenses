@@ -56,19 +56,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class TemplatesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TemplatesList extends SortableListFragment  {
 
-  public static final String SORT_ORDER_USAGES = "USAGES";
-  public static final String SORT_ORDER_LAST_USED = "LAST_USED";
-  public static final String SORT_ORDER_AMOUNT = "AMOUNT";
-  public static final String SORT_ORDER_TITLE = "TITLE";
   private ListView mListView;
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
   }
 
-  public static final int TEMPLATES_CURSOR = 1;
   Cursor mTemplatesCursor;
   private SimpleCursorAdapter mAdapter;
   //private SimpleCursorAdapter mAdapter;
@@ -93,7 +88,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
     mListView = (ListView) v.findViewById(R.id.list);
 
     mManager = getLoaderManager();
-    mManager.initLoader(TEMPLATES_CURSOR, null, this);
+    mManager.initLoader(SORTABLE_CURSOR, null, this);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_TITLE, KEY_LABEL_MAIN, KEY_AMOUNT};
     // and an array of the fields we want to bind those fields to
@@ -182,27 +177,14 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
 
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    String sortOrder = KEY_TITLE + " COLLATE LOCALIZED";
     switch (id) {
-      case TEMPLATES_CURSOR:
-        switch (getCurrentSortOrder()) {
-          case SORT_ORDER_USAGES:
-            sortOrder = KEY_USAGES + " DESC, " + sortOrder;
-            break;
-          case SORT_ORDER_LAST_USED:
-            sortOrder = KEY_LAST_USED + " DESC, " + sortOrder;
-            break;
-          case SORT_ORDER_AMOUNT:
-            sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
-            break;
-          //default is title
-        }
+      case SORTABLE_CURSOR:
         return new CursorLoader(getActivity(),
             TransactionProvider.TEMPLATES_URI,
             null,
             KEY_PLANID + " is null",
             null,
-            sortOrder);
+            getSortOrderSql(KEY_TITLE));
     }
     return null;
   }
@@ -210,7 +192,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     switch (loader.getId()) {
-      case TEMPLATES_CURSOR:
+      case SORTABLE_CURSOR:
         mTemplatesCursor = c;
         if (c != null && !indexesCalculated) {
           columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
@@ -223,7 +205,7 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
           columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
           indexesCalculated = true;
         }
-        ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
+        mAdapter.swapCursor(mTemplatesCursor);
         invalidateCAB();
         break;
     }
@@ -231,7 +213,12 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-    ((SimpleCursorAdapter) mAdapter).swapCursor(null);
+    mAdapter.swapCursor(null);
+  }
+
+  @Override
+  protected MyApplication.PrefKey getSortOrderPrefKey() {
+    return MyApplication.PrefKey.SORT_ORDER_TEMPLATES;
   }
 
   public class MyAdapter extends SimpleCursorAdapter {
@@ -332,62 +319,18 @@ public class TemplatesList extends ContextualActionBarFragment implements Loader
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.templates, menu);
+    inflater.inflate(R.menu.sort, menu);
+    menu.findItem(R.id.SORT_COMMAND).getSubMenu().findItem(R.id.SORT_AMOUNT_COMMAND).setVisible(true);
   }
 
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
-    SubMenu sortMenu = menu.findItem(R.id.SORT_COMMAND).getSubMenu();
-    MenuItem activeItem;
-    switch (getCurrentSortOrder()) {
-      case SORT_ORDER_USAGES:
-        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
-        break;
-      case SORT_ORDER_LAST_USED:
-        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
-        break;
-      case SORT_ORDER_AMOUNT:
-        activeItem = sortMenu.findItem(R.id.SORT_AMOUNT_COMMAND);
-        break;
-      default:
-        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
-    }
-    activeItem.setChecked(true);
-  }
-
-  @NonNull
-  private String getCurrentSortOrder() {
-    return MyApplication.PrefKey.SORT_ORDER_TEMPLATES.getString(
-        MyApplication.PrefKey.SORT_ORDER_LEGACY.getString("USAGES"));
+    configureSortMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    int command = item.getItemId();
-    String newSortOrder = null;
-    switch (command) {
-      case R.id.SORT_USAGES_COMMAND:
-        newSortOrder = SORT_ORDER_USAGES;
-        break;
-      case R.id.SORT_LAST_USED_COMMAND:
-        newSortOrder = SORT_ORDER_LAST_USED;
-        break;
-      case R.id.SORT_AMOUNT_COMMAND:
-        newSortOrder = SORT_ORDER_AMOUNT;
-        break;
-      case R.id.SORT_TITLE_COMMAND:
-        newSortOrder = SORT_ORDER_TITLE;
-        break;
-    }
-    if (newSortOrder != null && !item.isChecked()) {
-      MyApplication.PrefKey.SORT_ORDER_TEMPLATES.putString(newSortOrder);
-      getActivity().supportInvalidateOptionsMenu();
-      if (mManager.getLoader(TEMPLATES_CURSOR) != null && !mManager.getLoader(TEMPLATES_CURSOR).isReset())
-        mManager.restartLoader(TEMPLATES_CURSOR, null, this);
-      else
-        mManager.initLoader(TEMPLATES_CURSOR, null, this);
-      return true;
-    }
-    return false;
+    return handleSortOption(item);
   }
+
 }

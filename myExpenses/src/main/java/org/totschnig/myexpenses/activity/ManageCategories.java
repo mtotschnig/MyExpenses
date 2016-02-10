@@ -163,6 +163,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       });
 
     } else if (!helpVariant.equals(HelpVariant.select_filter)) {
+      inflater.inflate(R.menu.sort, menu);
       inflater.inflate(R.menu.categories, menu);
     }
     super.onCreateOptionsMenu(menu);

@@ -72,6 +72,8 @@ public class MyApplication extends Application implements
     CATEGORIES_SORT_BY_USAGES_LEGACY(R.string.pref_categories_sort_by_usages_key),
     SORT_ORDER_LEGACY(R.string.pref_sort_order_key),
     SORT_ORDER_TEMPLATES("sort_order_templates"),
+    SORT_ORDER_CATEGORIES("sort_order_categories"),
+    SORT_ORDER_ACCOUNTS("sort_order_accounts"),
     PERFORM_SHARE(R.string.pref_perform_share_key),
     SHARE_TARGET(R.string.pref_share_target_key),
     UI_THEME_KEY(R.string.pref_ui_theme_key),
