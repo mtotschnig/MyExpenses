@@ -74,6 +74,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
@@ -259,24 +260,21 @@ public class MyExpenses extends LaunchActivity implements
         R.id.reconciled_total
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to, 0);
-    LinearLayout footer = new LinearLayout(this);
-    footer.setLayoutParams(new AbsListView.LayoutParams(
-        AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-    footer.setGravity(Gravity.CENTER_HORIZONTAL);
-    Button createAccount = new Button(this);
-    createAccount.setText(R.string.menu_create_account);
-    createAccount.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_add, 0, 0, 0);
-    createAccount.setLayoutParams(new LinearLayout.LayoutParams(
-        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-    createAccount.setOnClickListener(new OnClickListener() {
+
+    Toolbar header = new Toolbar(this);
+    header.inflateMenu(R.menu.accounts);
+    header.inflateMenu(R.menu.sort);
+    MenuItemCompat.setShowAsAction(
+        header.getMenu().findItem(R.id.SORT_COMMAND), MenuItem.SHOW_AS_ACTION_NEVER);
+    header.setTitle(R.string.pref_manage_accounts_title);
+    header.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override
-      public void onClick(View v) {
-        closeDrawer();
-        dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND, null);
+      public boolean onMenuItemClick(MenuItem item) {
+        return dispatchCommand(item.getItemId(),null);
       }
     });
-    footer.addView(createAccount);
-    mDrawerList.addFooterView(footer);
+    mDrawerList.addHeaderView(header);
+
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
     mDrawerList.setOnItemClickListener(new OnItemClickListener() {
@@ -590,6 +588,7 @@ public class MyExpenses extends LaunchActivity implements
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
         else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < 5) {
+          closeDrawer();
           i = new Intent(this, AccountEdit.class);
           if (tag != null)
             i.putExtra(KEY_CURRENCY, (String) tag);
@@ -1089,7 +1088,7 @@ public class MyExpenses extends LaunchActivity implements
           @Override
           public void onClick(View v) {
             PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
-            popup.inflate(R.menu.accounts);
+            popup.inflate(R.menu.accounts_context);
             popup.getMenu().findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
