@@ -55,6 +55,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -97,6 +98,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 
 /**
@@ -153,10 +157,25 @@ public class Utils {
     return sep;
   }
 
-  public static String defaultOrderBy(String textColumn) {
-    boolean byUsagesP = MyApplication.PrefKey.SORT_ORDER_LEGACY.getString("USAGES").equals("USAGES");
-    return (byUsagesP ? KEY_USAGES + " DESC, " : "")
-        + textColumn + " COLLATE LOCALIZED";
+  public static String defaultOrderBy(String textColumn, MyApplication.PrefKey prefKey) {
+    String currentSortOrder = prefKey.getString("USAGES");
+    String sortOrder = textColumn + " COLLATE LOCALIZED";
+    switch (currentSortOrder) {
+      case ProtectedFragmentActivity.SORT_ORDER_USAGES:
+        sortOrder = KEY_USAGES + " DESC, " + sortOrder;
+        break;
+      case ProtectedFragmentActivity.SORT_ORDER_LAST_USED:
+        sortOrder = KEY_LAST_USED + " DESC, " + sortOrder;
+        break;
+      case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
+        sortOrder = KEY_SORT_KEY + " DESC, " + sortOrder;
+        break;
+      case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
+        sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
+        break;
+      //default is textColumn
+    }
+    return sortOrder;
   }
 
   /**

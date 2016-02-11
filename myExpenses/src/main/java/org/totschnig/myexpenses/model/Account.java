@@ -136,6 +136,7 @@ public class Account extends Model {
     PROJECTION_FULL[baseLength + 9] = HAS_FUTURE;
     PROJECTION_FULL[baseLength + 10] = HAS_CLEARED;
     PROJECTION_FULL[baseLength + 11] = Type.sqlOrderExpression();
+    PROJECTION_FULL[baseLength + 12] = KEY_LAST_USED;
 
   }
 

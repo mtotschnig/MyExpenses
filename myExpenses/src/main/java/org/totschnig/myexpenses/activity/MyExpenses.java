@@ -88,6 +88,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
@@ -261,19 +262,33 @@ public class MyExpenses extends LaunchActivity implements
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to, 0);
 
-    Toolbar header = new Toolbar(this);
-    header.inflateMenu(R.menu.accounts);
-    header.inflateMenu(R.menu.sort);
+    Toolbar accountsMenu = (Toolbar) findViewById(R.id.accounts_menu);
+    accountsMenu.inflateMenu(R.menu.accounts);
+    accountsMenu.inflateMenu(R.menu.sort);
+    MenuItem menuItem = accountsMenu.getMenu().findItem(R.id.SORT_COMMAND);
     MenuItemCompat.setShowAsAction(
-        header.getMenu().findItem(R.id.SORT_COMMAND), MenuItem.SHOW_AS_ACTION_NEVER);
-    header.setTitle(R.string.pref_manage_accounts_title);
-    header.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
+    accountsMenu.setTitle(R.string.pref_manage_accounts_title);
+    SubMenu sortMenu = menuItem.getSubMenu();
+    sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
+    MenuItem activeItem;
+    switch (PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES")) {
+      case SORT_ORDER_USAGES:
+        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
+        break;
+      case SORT_ORDER_LAST_USED:
+        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
+        break;
+      default:
+        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
+    }
+    activeItem.setChecked(true);
+    accountsMenu.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override
       public boolean onMenuItemClick(MenuItem item) {
-        return dispatchCommand(item.getItemId(),null);
+        return handleSortOption(item) || dispatchCommand(item.getItemId(), null);
       }
     });
-    mDrawerList.addHeaderView(header);
 
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
@@ -1280,5 +1295,34 @@ public class MyExpenses extends LaunchActivity implements
     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
     clipboard.setText(mCurrentBalance);
     Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_LONG).show();
+  }
+
+  protected boolean handleSortOption(MenuItem item) {
+    String newSortOrder = null;
+    switch (item.getItemId()) {
+      case R.id.SORT_USAGES_COMMAND:
+        newSortOrder = SORT_ORDER_USAGES;
+        break;
+      case R.id.SORT_LAST_USED_COMMAND:
+        newSortOrder = SORT_ORDER_LAST_USED;
+        break;
+      case R.id.SORT_TITLE_COMMAND:
+        newSortOrder = SORT_ORDER_TITLE;
+        break;
+      case R.id.SORT_CUSTOM_COMMAND:
+        newSortOrder = SORT_ORDER_CUSTOM;
+        break;
+    }
+    if (newSortOrder != null && !item.isChecked()) {
+      PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
+      item.setChecked(true);
+
+      if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
+        mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+      else
+        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+      return true;
+    }
+    return false;
   }
 }

@@ -736,7 +736,6 @@ public class CategoryList extends SortableListFragment implements
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select 1 FROM " + TABLE_TEMPLATES    + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
-      sortOrder = getSortOrderSql(KEY_LABEL);
     }
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
@@ -924,7 +923,7 @@ public class CategoryList extends SortableListFragment implements
       m.setChecked(aggregateTypes);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
     }
-    configureSortMenu(menu);
+    super.onPrepareOptionsMenu(menu);
   }
 
   public void back() {

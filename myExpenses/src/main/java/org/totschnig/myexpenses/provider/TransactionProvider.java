@@ -350,7 +350,7 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null) {
         projection = Category.PROJECTION;
       }
-      defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL);
+      defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, MyApplication.PrefKey.SORT_ORDER_CATEGORIES);
       break;
     case CATEGORY_ID:
       qb.setTables(TABLE_CATEGORIES);
@@ -360,7 +360,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
-      defaultOrderBy =  Utils.defaultOrderBy(KEY_LABEL);
+      defaultOrderBy =  Utils.defaultOrderBy(KEY_LABEL, MyApplication.PrefKey.SORT_ORDER_ACCOUNTS);
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
@@ -407,7 +407,9 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_USAGES,
             "1 AS " + KEY_IS_AGGREGATE,
             "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
-            "0 AS " + KEY_HAS_CLEARED+ ",0 AS " + KEY_SORT_KEY_TYPE}; //ignored
+            "0 AS " + KEY_HAS_CLEARED,
+            "0 AS " + KEY_SORT_KEY_TYPE,
+            "0 AS " + KEY_LAST_USED}; //ignored
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String grouping="";
@@ -430,7 +432,7 @@ public class TransactionProvider extends ContentProvider {
           //real accounts should come first, then aggregate accounts
           grouping = KEY_IS_AGGREGATE;
         }
-        sortOrder = grouping + "," + KEY_SORT_KEY + "," + defaultOrderBy;
+        sortOrder = grouping + "," + defaultOrderBy;
         String sql = qb.buildUnionQuery(
             new String[] {accountSubquery,currencySubquery},
             sortOrder,
@@ -551,7 +553,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      defaultOrderBy =  Utils.defaultOrderBy(KEY_TITLE);
+      defaultOrderBy =  Utils.defaultOrderBy(KEY_TITLE, MyApplication.PrefKey.SORT_ORDER_TEMPLATES);
       if (projection == null)
         projection = Template.PROJECTION_EXTENDED;
       break;

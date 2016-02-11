@@ -12,6 +12,7 @@
                 <item android:id="@id/SORT_USAGES_COMMAND" android:title="@string/pref_sort_order_usages"/>
                 <item android:id="@id/SORT_LAST_USED_COMMAND" android:title="@string/pref_sort_order_last_used"/>
                 <item android:id="@id/SORT_AMOUNT_COMMAND" android:visible="false" android:title="@string/amount" />
+                <item android:id="@id/SORT_CUSTOM_COMMAND" android:visible="false" android:title="@string/pref_sort_order_custom" />
             </group>
         </menu>
 

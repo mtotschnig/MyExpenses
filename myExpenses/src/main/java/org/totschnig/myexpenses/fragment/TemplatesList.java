@@ -184,7 +184,7 @@ public class TemplatesList extends SortableListFragment  {
             null,
             KEY_PLANID + " is null",
             null,
-            getSortOrderSql(KEY_TITLE));
+            null);
     }
     return null;
   }
@@ -321,11 +321,6 @@ public class TemplatesList extends SortableListFragment  {
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.sort, menu);
     menu.findItem(R.id.SORT_COMMAND).getSubMenu().findItem(R.id.SORT_AMOUNT_COMMAND).setVisible(true);
-  }
-
-  @Override
-  public void onPrepareOptionsMenu(Menu menu) {
-    configureSortMenu(menu);
   }
 
   @Override
