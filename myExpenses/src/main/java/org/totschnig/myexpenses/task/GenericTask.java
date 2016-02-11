@@ -47,7 +47,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * 
  * Note that we need to check if the callbacks are null in each method in case
  * they are invoked after the Activity's and Fragment's onDestroy() method
  * have been called.
@@ -72,6 +71,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
     }
   }
+
   /**
    * Note that we do NOT call the callback object's methods directly from the
    * background thread, as this could result in a race condition.
@@ -96,80 +96,80 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
       }
       return successCount;*/
-    case TaskExecutionFragment.TASK_SPLIT:
-      //ids could have been passed through bundle to ContribInfoDialog
-      //and in bundle looses its type as long array (becomes object array)
-      //https://code.google.com/p/android/issues/detail?id=3847
-      for (T id : ids) {
-        t = Transaction.getInstanceFromDb((Long) id);
-        if (t!=null  && !(t instanceof SplitTransaction)) {
-          SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId,false);
-          parent.setAmount(t.getAmount());
-          parent.setDate(t.getDate());
-          parent.payeeId = t.payeeId;
-          parent.crStatus = t.crStatus;
-          parent.save();
-          values = new ContentValues();
-          values.put(DatabaseConstants.KEY_PARENTID, parent.getId());
-          values.put(DatabaseConstants.KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
-          values.putNull(DatabaseConstants.KEY_PAYEEID);
-          if (cr.update(
-              TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-              values,null,null)>0) {
-            successCount++;
+      case TaskExecutionFragment.TASK_SPLIT:
+        //ids could have been passed through bundle to ContribInfoDialog
+        //and in bundle looses its type as long array (becomes object array)
+        //https://code.google.com/p/android/issues/detail?id=3847
+        for (T id : ids) {
+          t = Transaction.getInstanceFromDb((Long) id);
+          if (t != null && !(t instanceof SplitTransaction)) {
+            SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId, false);
+            parent.setAmount(t.getAmount());
+            parent.setDate(t.getDate());
+            parent.payeeId = t.payeeId;
+            parent.crStatus = t.crStatus;
+            parent.save();
+            values = new ContentValues();
+            values.put(DatabaseConstants.KEY_PARENTID, parent.getId());
+            values.put(DatabaseConstants.KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+            values.putNull(DatabaseConstants.KEY_PAYEEID);
+            if (cr.update(
+                TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+                values, null, null) > 0) {
+              successCount++;
+            }
           }
         }
-      }
-      ContribFeature.SPLIT_TRANSACTION.recordUsage();
-      return successCount;
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-      t = Transaction.getInstanceFromDb((Long) ids[0]);
-      if (t != null && t instanceof SplitTransaction)
-        ((SplitTransaction) t).prepareForEdit((Boolean)mExtra);
-      return t;
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
-      return Transaction.getInstanceFromDb((Long) ids[0]);
-    case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
-      return Template.getInstanceFromDb((Long) ids[0]);
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
-      // when we are called from a notification,
-      // the template could have been deleted in the meantime
-      // getInstanceFromTemplate should return null in that case
-      return Transaction.getInstanceFromTemplate((Long) ids[0]);
-    case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
-      for (int i = 0; i < ids.length; i++) {
-        t = Transaction.getInstanceFromTemplate((Long) ids[i]);
-        if (t != null) {
-          if (mExtra != null) {
-            extraInfo2d = (Long[][]) mExtra;
-            t.setDate(new Date(extraInfo2d[i][1]));
-            t.originPlanInstanceId = extraInfo2d[i][0];
-          }
-          if (t.save() != null) {
-            successCount++;
+        ContribFeature.SPLIT_TRANSACTION.recordUsage();
+        return successCount;
+      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
+        t = Transaction.getInstanceFromDb((Long) ids[0]);
+        if (t != null && t instanceof SplitTransaction)
+          ((SplitTransaction) t).prepareForEdit((Boolean) mExtra);
+        return t;
+      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+        return Transaction.getInstanceFromDb((Long) ids[0]);
+      case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
+        return Template.getInstanceFromDb((Long) ids[0]);
+      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
+        // when we are called from a notification,
+        // the template could have been deleted in the meantime
+        // getInstanceFromTemplate should return null in that case
+        return Transaction.getInstanceFromTemplate((Long) ids[0]);
+      case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
+        for (int i = 0; i < ids.length; i++) {
+          t = Transaction.getInstanceFromTemplate((Long) ids[i]);
+          if (t != null) {
+            if (mExtra != null) {
+              extraInfo2d = (Long[][]) mExtra;
+              t.setDate(new Date(extraInfo2d[i][1]));
+              t.originPlanInstanceId = extraInfo2d[i][0];
+            }
+            if (t.save() != null) {
+              successCount++;
+            }
           }
         }
-      }
-      return successCount;
-    case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
-      Account account;
-      account = Account.getInstanceFromDb(0);
-      if (account == null) {
-        account = new Account(MyApplication.getInstance().getString(R.string.default_account_name), 0,
-            MyApplication.getInstance().getString(R.string.default_account_description));
-        account.save();
-      }
-      return account;
-    case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
-      try {
-        for (long id : (Long[]) ids) {
-          Transaction.delete(id,(boolean)mExtra);
+        return successCount;
+      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
+        Account account;
+        account = Account.getInstanceFromDb(0);
+        if (account == null) {
+          account = new Account(MyApplication.getInstance().getString(R.string.default_account_name), 0,
+              MyApplication.getInstance().getString(R.string.default_account_description));
+          account.save();
         }
-      } catch (SQLiteConstraintException e) {
-        Utils.reportToAcraWithDbSchema(e);
-        return false;
-      }
-      return true;
+        return account;
+      case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
+        try {
+          for (long id : (Long[]) ids) {
+            Transaction.delete(id, (boolean) mExtra);
+          }
+        } catch (SQLiteConstraintException e) {
+          Utils.reportToAcraWithDbSchema(e);
+          return false;
+        }
+        return true;
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
@@ -180,156 +180,156 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return false;
         }
         return true;
-    case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-      try {
-        Account.delete((Long) ids[0]);
-      } catch (Exception e) {
-        Utils.reportToAcraWithDbSchema(e);
-        return false;
-      }
-      return true;
-    case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      try {
-        for (long id : (Long[])ids) {
-          PaymentMethod.delete(id);
+      case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
+        try {
+          Account.delete((Long) ids[0]);
+        } catch (Exception e) {
+          Utils.reportToAcraWithDbSchema(e);
+          return false;
         }
-      } catch (SQLiteConstraintException e) {
-        Utils.reportToAcraWithDbSchema(e);
-        return false;
-      }
-      return true;
-    case TaskExecutionFragment.TASK_DELETE_PAYEES:
-      try {
-        for (long id : (Long[])ids) {
-          Payee.delete(id);
+        return true;
+      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
+        try {
+          for (long id : (Long[]) ids) {
+            PaymentMethod.delete(id);
+          }
+        } catch (SQLiteConstraintException e) {
+          Utils.reportToAcraWithDbSchema(e);
+          return false;
         }
-      } catch (SQLiteConstraintException e) {
-        Utils.reportToAcraWithDbSchema(e);
-        return false;
-      }
-      return true;
-    case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-      try {
-        for (long id : (Long[])ids) {
-          Category.delete(id);
+        return true;
+      case TaskExecutionFragment.TASK_DELETE_PAYEES:
+        try {
+          for (long id : (Long[]) ids) {
+            Payee.delete(id);
+          }
+        } catch (SQLiteConstraintException e) {
+          Utils.reportToAcraWithDbSchema(e);
+          return false;
         }
-      } catch (SQLiteConstraintException e) {
-        Utils.reportToAcraWithDbSchema(e);
-        return false;
-      }
-      return true;
-    case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      try {
+        return true;
+      case TaskExecutionFragment.TASK_DELETE_CATEGORY:
+        try {
+          for (long id : (Long[]) ids) {
+            Category.delete(id);
+          }
+        } catch (SQLiteConstraintException e) {
+          Utils.reportToAcraWithDbSchema(e);
+          return false;
+        }
+        return true;
+      case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
+        try {
+          for (long id : (Long[]) ids) {
+            Template.delete(id);
+          }
+        } catch (SQLiteConstraintException e) {
+          Utils.reportToAcraWithDbSchema(e);
+          return false;
+        }
+        return true;
+      case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
+        cr.update(
+            TransactionProvider.TRANSACTIONS_URI
+                .buildUpon()
+                .appendPath(String.valueOf(ids[0]))
+                .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+                .build(),
+            null, null, null);
+        return null;
+      case TaskExecutionFragment.TASK_MOVE:
+        Transaction.move((Long) ids[0], (Long) mExtra);
+        return null;
+      case TaskExecutionFragment.TASK_MOVE_CATEGORY:
         for (long id : (Long[]) ids) {
-          Template.delete(id);
+          if (Category.move(id, (Long) mExtra))
+            successCount++;
+          else
+            failureCount++;
         }
-      } catch (SQLiteConstraintException e) {
-        Utils.reportToAcraWithDbSchema(e);
-        return false;
-      }
-      return true;
-    case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
-      cr.update(
-          TransactionProvider.TRANSACTIONS_URI
-            .buildUpon()
-            .appendPath(String.valueOf(ids[0]))
-            .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
-            .build(),
-          null, null, null);
-      return null;
-    case TaskExecutionFragment.TASK_MOVE:
-      Transaction.move((Long) ids[0], (Long) mExtra);
-      return null;
-    case TaskExecutionFragment.TASK_MOVE_CATEGORY:
-      for (long id : (Long[]) ids) {
-        if (Category.move(id, (Long) mExtra))
-          successCount++;
-        else
-          failureCount++;
-      }
-      String resultMsg = "";
-      if (successCount > 0) {
-        resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success,successCount,successCount);
-      }
-      if (failureCount > 0) {
-        if (!TextUtils.isEmpty(resultMsg)) {
-          resultMsg += " ";
+        String resultMsg = "";
+        if (successCount > 0) {
+          resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success, successCount, successCount);
         }
-        resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure,failureCount,failureCount);
-      }
-      return new Result(successCount>0,resultMsg);
-    case TaskExecutionFragment.TASK_NEW_PLAN:
-      if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
-        if (Template.count(Template.CONTENT_URI,KEY_PLANID + " is not null",null)>=3) {
-          return Plan.LIMIT_EXHAUSTED_ID;
+        if (failureCount > 0) {
+          if (!TextUtils.isEmpty(resultMsg)) {
+            resultMsg += " ";
+          }
+          resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
         }
-      }
-      Uri uri = ((Plan) mExtra).save();
-      return uri == null ? Plan.CALENDAR_NOT_SETUP_ID : ContentUris.parseId(uri);
-    case TaskExecutionFragment.TASK_NEW_CALENDAR:
-      return !MyApplication.getInstance().createPlanner(true).equals(MyApplication.INVALID_CALENDAR_ID);
-    case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
-      for (int i = 0; i < ids.length; i++) {
-        extraInfo2d = (Long[][]) mExtra;
-        transactionId = extraInfo2d[i][1];
-        Long templateId = extraInfo2d[i][0];
-        if (transactionId != null && transactionId > 0L) {
-          Transaction.delete(transactionId, false);
-        } else {
+        return new Result(successCount > 0, resultMsg);
+      case TaskExecutionFragment.TASK_NEW_PLAN:
+        if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
+          if (Template.count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= 3) {
+            return Plan.LIMIT_EXHAUSTED_ID;
+          }
+        }
+        Uri uri = ((Plan) mExtra).save();
+        return uri == null ? Plan.CALENDAR_NOT_SETUP_ID : ContentUris.parseId(uri);
+      case TaskExecutionFragment.TASK_NEW_CALENDAR:
+        return !MyApplication.getInstance().createPlanner(true).equals(MyApplication.INVALID_CALENDAR_ID);
+      case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
+        for (int i = 0; i < ids.length; i++) {
+          extraInfo2d = (Long[][]) mExtra;
+          transactionId = extraInfo2d[i][1];
+          Long templateId = extraInfo2d[i][0];
+          if (transactionId != null && transactionId > 0L) {
+            Transaction.delete(transactionId, false);
+          } else {
+            cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+                KEY_INSTANCEID + " = ?",
+                new String[]{String.valueOf(ids[i])});
+          }
+          values = new ContentValues();
+          values.putNull(KEY_TRANSACTIONID);
+          values.put(KEY_TEMPLATEID, templateId);
+          values.put(KEY_INSTANCEID, (Long) ids[i]);
+          cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+        }
+        return null;
+      case TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE:
+        for (int i = 0; i < ids.length; i++) {
+          transactionId = ((Long[]) mExtra)[i];
+          if (transactionId != null && transactionId > 0L) {
+            Transaction.delete(transactionId, false);
+          }
           cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-              KEY_INSTANCEID + " = ?",
-              new String[] { String.valueOf(ids[i]) });
+              KEY_INSTANCEID + " = ?", new String[]{String.valueOf(ids[i])});
         }
+        return null;
+      case TaskExecutionFragment.TASK_BACKUP:
+        return doBackup();
+      case TaskExecutionFragment.TASK_BALANCE:
+        Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
+        return null;
+      case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
         values = new ContentValues();
-        values.putNull(KEY_TRANSACTIONID);
-        values.put(KEY_TEMPLATEID, templateId);
-        values.put(KEY_INSTANCEID, (Long) ids[i]);
-        cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
-      }
-      return null;
-    case TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE:
-      for (int i = 0; i < ids.length; i++) {
-        transactionId = ((Long[]) mExtra)[i];
-        if (transactionId != null && transactionId > 0L) {
-          Transaction.delete(transactionId, false);
-        }
-        cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-            KEY_INSTANCEID + " = ?", new String[] { String.valueOf(ids[i]) });
-      }
-      return null;
-    case TaskExecutionFragment.TASK_BACKUP:
-      return doBackup();
-    case TaskExecutionFragment.TASK_BALANCE:
-      Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
-      return null;
-    case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
-      values = new ContentValues();
-      values.put(DatabaseConstants.KEY_SORT_KEY, (Integer) mExtra);
-      cr.update(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
-          values,null,null);
-      return null;
-    case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
-      return cr.update(TransactionProvider.CURRENCIES_URI.buildUpon()
-          .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
-          .appendPath((String) ids[0])
-          .appendPath(String.valueOf((Integer)mExtra))
-          .build(),null,null, null);
-    case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
-      values = new ContentValues();
-      values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean)mExtra);
-      cr.update(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids [0])).build(),
-          values,null,null);
-      return null;
+        values.put(DatabaseConstants.KEY_SORT_KEY, (Integer) mExtra);
+        cr.update(
+            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
+            values, null, null);
+        return null;
+      case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
+        return cr.update(TransactionProvider.CURRENCIES_URI.buildUpon()
+            .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
+            .appendPath((String) ids[0])
+            .appendPath(String.valueOf((Integer) mExtra))
+            .build(), null, null, null);
+      case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
+        values = new ContentValues();
+        values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean) mExtra);
+        cr.update(
+            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
+            values, null, null);
+        return null;
       case TaskExecutionFragment.TASK_DELETE_IMAGES:
         for (long id : (Long[]) ids) {
           Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
           c = cr.query(
               staleImageUri,
               null,
-              null,null,null);
-          if (c==null)
+              null, null, null);
+          if (c == null)
             continue;
           if (c.moveToFirst()) {
             Uri imageFileUri = Uri.parse(c.getString(0));
@@ -343,18 +343,18 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               if (success) {
                 Log.d(MyApplication.TAG, "Successfully deleted file " + imageFileUri.toString());
               } else {
-                Log.e(MyApplication.TAG,"Unable to delete file "+imageFileUri.toString());
+                Log.e(MyApplication.TAG, "Unable to delete file " + imageFileUri.toString());
               }
             } else {
               Log.d(MyApplication.TAG, imageFileUri.toString() + " not deleted since it might still be in use");
             }
-            cr.delete(staleImageUri,null,null);
+            cr.delete(staleImageUri, null, null);
           }
           c.close();
         }
         return null;
       case TaskExecutionFragment.TASK_SAVE_IMAGES:
-        File staleFileDir = new File(MyApplication.getInstance().getExternalFilesDir(null),"images.old");
+        File staleFileDir = new File(MyApplication.getInstance().getExternalFilesDir(null), "images.old");
         staleFileDir.mkdir();
         if (!staleFileDir.isDirectory()) {
           return null;
@@ -364,8 +364,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           c = cr.query(
               staleImageUri,
               null,
-              null,null,null);
-          if (c==null)
+              null, null, null);
+          if (c == null)
             continue;
           if (c.moveToFirst()) {
             boolean success = false;
@@ -390,7 +390,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               Log.d(MyApplication.TAG, imageFileUri.toString() + " not moved since it might still be in use");
             }
             if (success) {
-              cr.delete(staleImageUri,null,null);
+              cr.delete(staleImageUri, null, null);
             } else {
               Log.e(MyApplication.TAG, "Unable to move file " + imageFileUri.toString());
             }
@@ -402,28 +402,28 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         DocumentFile appDir = Utils.getAppDir();
         String fullLabel =
             " CASE WHEN " +
-              KEY_PARENTID +
-              " THEN " +
+                KEY_PARENTID +
+                " THEN " +
                 "(SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " parent WHERE parent." + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_PARENTID + ")" +
-                " || ':' || "+ KEY_LABEL +
-              " ELSE " + KEY_LABEL +
-            " END";
+                " || ':' || " + KEY_LABEL +
+                " ELSE " + KEY_LABEL +
+                " END";
         //sort sub categories immediately after their main category
         String sort = "CASE WHEN parent_id then parent_id else _id END,parent_id";
         if (appDir == null) {
-          return new Result(false,R.string.external_storage_unavailable);
+          return new Result(false, R.string.external_storage_unavailable);
         }
         String fileName = "categories";
         DocumentFile outputFile = Utils.timeStampedFile(
             appDir,
             fileName,
             "text/qif", false);
-        if (outputFile==null) {
+        if (outputFile == null) {
           return new Result(
               false,
               R.string.io_error_unable_to_create_file,
               fileName,
-              FileUtils.getPath(MyApplication.getInstance(),appDir.getUri()));
+              FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
         }
         try {
           OutputStreamWriter out = new OutputStreamWriter(
@@ -431,7 +431,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               ((String) mExtra));
           c = cr.query(
               Category.CONTENT_URI,
-              new String[] {fullLabel},
+              new String[]{fullLabel},
               null, null, sort);
           if (c.getCount() == 0) {
             c.close();
@@ -440,21 +440,21 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
           out.write("!Type:Cat");
           c.moveToFirst();
-          while( c.getPosition() < c.getCount() ) {
+          while (c.getPosition() < c.getCount()) {
             StringBuilder sb = new StringBuilder();
             sb.append("\nN")
-              .append(c.getString(0))
-              .append("\n^");
+                .append(c.getString(0))
+                .append("\n^");
             out.write(sb.toString());
             c.moveToNext();
           }
           c.close();
           out.close();
-          return new Result(true,R.string.export_sdcard_success,
+          return new Result(true, R.string.export_sdcard_success,
               outputFile.getUri());
         } catch (IOException e) {
-         return new Result(false,R.string.export_sdcard_failure,
-             appDir.getName(),e.getMessage());
+          return new Result(false, R.string.export_sdcard_failure,
+              appDir.getName(), e.getMessage());
         }
     }
     return null;
@@ -475,13 +475,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     }
     DocumentFile backupFile = MyApplication.requireBackupFile(appDir);
     if (backupFile == null) {
-      return new Result(false,R.string.io_error_backupdir_null);
+      return new Result(false, R.string.io_error_backupdir_null);
     }
     File cacheDir = Utils.getCacheDir();
     if (cacheDir == null) {
       Utils.reportToAcra(new Exception(
           MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
-      return new Result(false,R.string.io_error_cachedir_null);
+      return new Result(false, R.string.io_error_cachedir_null);
     }
     Result result = DbUtils.backup(cacheDir);
     String failureMessage = MyApplication.getInstance().getString(R.string.backup_failure,
@@ -489,8 +489,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     if (result.success) {
       try {
         ZipUtils.zipBackup(
-                cacheDir,
-                backupFile);
+            cacheDir,
+            backupFile);
         return new Result(
             true,
             R.string.backup_success,
@@ -515,8 +515,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Cursor c = MyApplication.getInstance().getContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI,
         new String[]{"count(*)"},
-        DatabaseConstants.KEY_PICTURE_URI + " LIKE '%"+lastPathSegment+"'",null,null);
-    if (c!=null) {
+        DatabaseConstants.KEY_PICTURE_URI + " LIKE '%" + lastPathSegment + "'", null, null);
+    if (c != null) {
       if (c.moveToFirst() && c.getInt(0) == 0) {
         result = true;
       }
