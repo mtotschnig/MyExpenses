@@ -227,6 +227,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
                   "WHERE " + KEY_PICTURE_URI + " = old." + KEY_PICTURE_URI + ") " +
           "BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
 
+  private static final String ACCOUNTS_TRIGGER_CREATE =
+      "CREATE TRIGGER sort_key_default " +
+          "AFTER INSERT ON " + TABLE_ACCOUNTS + " " +
+          "BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY +
+          " = (SELECT coalesce(max(" + KEY_SORT_KEY + "),0) FROM " + TABLE_ACCOUNTS + ") + 1 WHERE " +
+          KEY_ROWID + " = NEW." + KEY_ROWID + "; END";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
@@ -268,6 +275,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED   + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+    db.execSQL(ACCOUNTS_TRIGGER_CREATE);
     insertDefaultAccount(db);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);

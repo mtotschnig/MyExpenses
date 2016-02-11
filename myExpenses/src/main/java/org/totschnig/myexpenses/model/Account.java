@@ -86,8 +86,6 @@ public class Account extends Model {
 
   public int color;
 
-  public int sortKey = 0;
-
   public boolean excludeFromTotals = false;
 
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
@@ -694,7 +692,6 @@ public class Account extends Model {
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
     }
-    this.sortKey = c.getInt(c.getColumnIndexOrThrow(KEY_SORT_KEY));
     this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
   }
 
@@ -1168,7 +1165,6 @@ public class Account extends Model {
     initialValues.put(KEY_TYPE, type.name());
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR, color);
-    initialValues.put(KEY_SORT_KEY, sortKey);
 
     if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);

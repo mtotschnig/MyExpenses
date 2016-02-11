@@ -168,7 +168,7 @@ public class Utils {
         sortOrder = KEY_LAST_USED + " DESC, " + sortOrder;
         break;
       case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
-        sortOrder = KEY_SORT_KEY + " DESC, " + sortOrder;
+        sortOrder = KEY_SORT_KEY + " ASC, " + sortOrder;
         break;
       case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
         sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;

@@ -68,7 +68,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -81,9 +80,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -95,11 +92,8 @@ import android.view.ViewGroup;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
@@ -278,6 +272,9 @@ public class MyExpenses extends LaunchActivity implements
         break;
       case SORT_ORDER_LAST_USED:
         activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
+        break;
+      case SORT_ORDER_CUSTOM:
+        activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
         break;
       default:
         activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
@@ -1054,113 +1051,8 @@ public class MyExpenses extends LaunchActivity implements
         mViewPagerAdapter.getFragmentName(mCurrentPosition));
   }
 
-  public class MyAdapter extends SimpleCursorAdapter {
-
+  public class MyGroupedAdapter extends SimpleCursorAdapter implements StickyListHeadersAdapter {
     public static final int CARD_ELEVATION_DIP = 24;
-
-    public MyAdapter(Context context, int layout, Cursor c, String[] from,
-                     int[] to, int flags) {
-      super(context, layout, c, from, to, flags);
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-      View row = super.getView(position, convertView, parent);
-      final Cursor c = getCursor();
-      c.moveToPosition(position);
-
-      View v = row.findViewById(R.id.color1);
-      TextView labelTv = (TextView) row.findViewById(R.id.label);
-      final View accountMenu = row.findViewById(R.id.account_menu);
-
-      Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
-      final long rowId = c.getLong(columnIndexRowId);
-      long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
-
-      boolean isHighlighted = rowId == mAccountId;
-      boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      final boolean isAggregate = rowId < 0;
-      final int count = c.getCount();
-      boolean hide_cr;
-      int colorInt;
-
-      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ?
-          TypedValue.applyDimension(
-              TypedValue.COMPLEX_UNIT_DIP, CARD_ELEVATION_DIP, getResources().getDisplayMetrics()) :
-          0);
-      labelTv.setTypeface(
-          Typeface.create(labelTv.getTypeface(), Typeface.NORMAL),
-          isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        row.findViewById(R.id.selected_indicator).setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
-      }
-      if (isAggregate) {
-        accountMenu.setVisibility(View.INVISIBLE);
-        accountMenu.setOnClickListener(null);
-      } else {
-        accountMenu.setVisibility(View.VISIBLE);
-        accountMenu.setOnClickListener(new OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
-            popup.inflate(R.menu.accounts_context);
-            popup.getMenu().findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-              @Override
-              public boolean onMenuItemClick(MenuItem item) {
-                dispatchCommand(item.getItemId(), position);
-                return true;
-              }
-
-            });
-            popup.show();
-          }
-        });
-      }
-
-      if (isAggregate) {
-        hide_cr = true;
-        if (mAccountGrouping == Account.AccountGrouping.CURRENCY) {
-          labelTv.setText(R.string.menu_aggregates);
-        }
-        colorInt = colorAggregate;
-      } else {
-        //for deleting we need the position, because we need to find out the account's label
-        try {
-          hide_cr = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(Type.CASH);
-        } catch (IllegalArgumentException ex) {
-          hide_cr = true;
-        }
-        colorInt = c.getInt(columnIndexColor);
-      }
-      row.findViewById(R.id.TransferRow).setVisibility(
-          sum_transfer == 0 ? View.GONE : View.VISIBLE);
-      row.findViewById(R.id.TotalRow).setVisibility(
-          has_future ? View.VISIBLE : View.GONE);
-      row.findViewById(R.id.ClearedRow).setVisibility(
-          hide_cr ? View.GONE : View.VISIBLE);
-      row.findViewById(R.id.ReconciledRow).setVisibility(
-          hide_cr ? View.GONE : View.VISIBLE);
-      if (c.getLong(columnIndexRowId) > 0) {
-        setConvertedAmount((TextView) row.findViewById(R.id.sum_transfer), currency);
-      }
-      v.setBackgroundColor(colorInt);
-      setConvertedAmount((TextView) row.findViewById(R.id.opening_balance), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.sum_income), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.sum_expenses), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.current_balance), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.total), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.reconciled_total), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.cleared_total), currency);
-      row.findViewById(R.id.description).setVisibility(
-          c.getString(columnIndexDescription).equals("") ?
-              View.GONE : View.VISIBLE);
-      return row;
-    }
-  }
-
-  public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
     LayoutInflater inflater;
 
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
@@ -1219,6 +1111,131 @@ public class MyExpenses extends LaunchActivity implements
           }
       }
       return 0;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+      View row = super.getView(position, convertView, parent);
+      final Cursor c = getCursor();
+      c.moveToPosition(position);
+
+      View v = row.findViewById(R.id.color1);
+      TextView labelTv = (TextView) row.findViewById(R.id.label);
+      final View accountMenu = row.findViewById(R.id.account_menu);
+
+      Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
+      final long rowId = c.getLong(columnIndexRowId);
+      long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
+
+      boolean isHighlighted = rowId == mAccountId;
+      boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
+      final boolean isAggregate = rowId < 0;
+      final int count = c.getCount();
+      boolean hide_cr;
+      int colorInt;
+
+      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ?
+          TypedValue.applyDimension(
+              TypedValue.COMPLEX_UNIT_DIP, CARD_ELEVATION_DIP, getResources().getDisplayMetrics()) :
+          0);
+      labelTv.setTypeface(
+          Typeface.create(labelTv.getTypeface(), Typeface.NORMAL),
+          isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        row.findViewById(R.id.selected_indicator).setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
+      }
+      if (isAggregate) {
+        accountMenu.setVisibility(View.INVISIBLE);
+        accountMenu.setOnClickListener(null);
+      } else {
+        accountMenu.setVisibility(View.VISIBLE);
+        boolean upVisible = false, downVisible = false;
+        if (PrefKey.SORT_ORDER_ACCOUNTS.getString(SORT_ORDER_USAGES).equals(SORT_ORDER_CUSTOM)) {
+          if (position > 0 && getHeaderId(position-1) == getHeaderId(position)) {
+            getCursor().moveToPosition(position-1);
+            if (c.getLong(columnIndexRowId) > 0) upVisible = true; //ignore if previous is aggregate
+          }
+          if(position < getCount() && getHeaderId(position+1) == getHeaderId(position)) {
+            getCursor().moveToPosition(position+1);
+            if (c.getLong(columnIndexRowId) > 0) downVisible = true;
+          }
+        }
+        final boolean finalUpVisible = upVisible, finalDownVisible = downVisible;
+        accountMenu.setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
+            popup.inflate(R.menu.accounts_context);
+            Menu menu = popup.getMenu();
+            menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
+            menu.findItem(R.id.UP_COMMAND).setVisible(finalUpVisible);
+            menu.findItem(R.id.DOWN_COMMAND).setVisible(finalDownVisible);
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+              @Override
+              public boolean onMenuItemClick(MenuItem item) {
+                return handleSwap(item.getItemId(), position) ||
+                    dispatchCommand(item.getItemId(), position);
+              }
+
+              private boolean handleSwap(int itemId, int position) {
+                if (itemId != R.id.UP_COMMAND && itemId != R.id.DOWN_COMMAND) return false;
+                Cursor c = getCursor();
+                c.moveToPosition(position);
+                String sortKey1 = c.getString(c.getColumnIndex(KEY_SORT_KEY));
+                c.moveToPosition(itemId == R.id.UP_COMMAND ? position - 1 : position + 1);
+                String sortKey2 = c.getString(c.getColumnIndex(KEY_SORT_KEY));
+                startTaskExecution(
+                    TaskExecutionFragment.TASK_SWAP_SORT_KEY,
+                    new String[] {sortKey1, sortKey2},
+                    null,
+                    R.string.progress_dialog_saving);
+                return true;
+              }
+            });
+            popup.show();
+          }
+        });
+      }
+
+      if (isAggregate) {
+        hide_cr = true;
+        if (mAccountGrouping == Account.AccountGrouping.CURRENCY) {
+          labelTv.setText(R.string.menu_aggregates);
+        }
+        colorInt = colorAggregate;
+      } else {
+        //for deleting we need the position, because we need to find out the account's label
+        try {
+          hide_cr = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(Type.CASH);
+        } catch (IllegalArgumentException ex) {
+          hide_cr = true;
+        }
+        colorInt = c.getInt(columnIndexColor);
+      }
+      row.findViewById(R.id.TransferRow).setVisibility(
+          sum_transfer == 0 ? View.GONE : View.VISIBLE);
+      row.findViewById(R.id.TotalRow).setVisibility(
+          has_future ? View.VISIBLE : View.GONE);
+      row.findViewById(R.id.ClearedRow).setVisibility(
+          hide_cr ? View.GONE : View.VISIBLE);
+      row.findViewById(R.id.ReconciledRow).setVisibility(
+          hide_cr ? View.GONE : View.VISIBLE);
+      if (c.getLong(columnIndexRowId) > 0) {
+        setConvertedAmount((TextView) row.findViewById(R.id.sum_transfer), currency);
+      }
+      v.setBackgroundColor(colorInt);
+      setConvertedAmount((TextView) row.findViewById(R.id.opening_balance), currency);
+      setConvertedAmount((TextView) row.findViewById(R.id.sum_income), currency);
+      setConvertedAmount((TextView) row.findViewById(R.id.sum_expenses), currency);
+      setConvertedAmount((TextView) row.findViewById(R.id.current_balance), currency);
+      setConvertedAmount((TextView) row.findViewById(R.id.total), currency);
+      setConvertedAmount((TextView) row.findViewById(R.id.reconciled_total), currency);
+      setConvertedAmount((TextView) row.findViewById(R.id.cleared_total), currency);
+      row.findViewById(R.id.description).setVisibility(
+          c.getString(columnIndexDescription).equals("") ?
+              View.GONE : View.VISIBLE);
+      return row;
     }
   }
 

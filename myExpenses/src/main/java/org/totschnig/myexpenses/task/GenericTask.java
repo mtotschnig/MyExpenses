@@ -237,6 +237,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 .build(),
             null, null, null);
         return null;
+      case TaskExecutionFragment.TASK_SWAP_SORT_KEY:
+        cr.update(
+            TransactionProvider.ACCOUNTS_URI
+                .buildUpon()
+                .appendPath(TransactionProvider.URI_SEGMENT_SWAP_SORT_KEY)
+                .appendPath((String) ids[0])
+                .appendPath((String) ids[1])
+                .build(),
+            null, null, null);
+        return null;
       case TaskExecutionFragment.TASK_MOVE:
         Transaction.move((Long) ids[0], (Long) mExtra);
         return null;

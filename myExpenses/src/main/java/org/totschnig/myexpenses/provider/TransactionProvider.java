@@ -107,6 +107,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits"; 
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
+  public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_IS_FILTERED = "isFiltered";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
@@ -156,6 +157,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int STALE_IMAGES_ID = 37;
   private static final int TRANSACTION_UNDELETE = 38;
   private static final int TRANSACTIONS_LASTEXCHANGE = 39;
+  private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
   
 
   protected static boolean mDirty = false;
@@ -1143,6 +1145,14 @@ public class TransactionProvider extends ContentProvider {
         }
       }
       break;
+    case ACCOUNTS_SWAP_SORT_KEY:
+      String sortKey1 = uri.getPathSegments().get(2);
+      String sortKey2 = uri.getPathSegments().get(3);
+      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY + " = CASE " + KEY_SORT_KEY +
+          " WHEN ? THEN ? WHEN ? THEN ? END WHERE " + KEY_SORT_KEY + " in (?,?);",
+          new String[] {sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2 });
+      count = 2;
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
@@ -1236,6 +1246,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "debug_schema", DEBUG_SCHEMA);
     URI_MATCHER.addURI(AUTHORITY, "stale_images", STALE_IMAGES);
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/"+ URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     
   }
   public void resetDatabase() {

@@ -522,7 +522,12 @@
     <string name="import_source_select_error">Please provide a file of type %1$s</string>
     <string name="menu_categories_setup_default">Setup default categories</string>
     <string name="menu_create_folder">New folder</string>
+    <!-- This string is used for navigating up in the folder browser -->
     <string name="menu_up">Up</string>
+    <!-- Move an account up in the account list -->
+    <string name="menu_sort_up">Up</string>
+    <!-- Move an account down in the account list -->
+    <string name="menu_sort_down">Down</string>
     <string name="create_new_folder_fail">Failed to create the folder</string>
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>

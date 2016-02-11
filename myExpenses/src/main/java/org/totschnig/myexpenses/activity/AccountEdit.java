@@ -59,7 +59,7 @@ import android.widget.Toast;
  * @author Michael Totschnig
  */
 public class AccountEdit extends AmountActivity implements
-    OnItemSelectedListener, EditTextDialogListener {
+    OnItemSelectedListener  {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
@@ -312,9 +312,6 @@ public class AccountEdit extends AmountActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     MenuItemCompat.setShowAsAction(
-        menu.add(Menu.NONE, R.id.SET_SORT_KEY_COMMAND, 0, R.string.menu_set_sort_key),
-        MenuItemCompat.SHOW_AS_ACTION_NEVER);
-    MenuItemCompat.setShowAsAction(
         menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
           .setCheckable(true),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
@@ -339,14 +336,6 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
-    case R.id.SET_SORT_KEY_COMMAND:
-      Bundle args = new Bundle();
-      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_set_sort_key));
-      args.putString(EditTextDialog.KEY_VALUE, String.valueOf(mAccount.sortKey));
-      args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
-      args.putInt(EditTextDialog.KEY_MAX_LENGTH,9);
-      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "SET_SORT_KEY");
-      return true;
     case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
       mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
       if (mAccount.getId()!=0) {
@@ -359,25 +348,6 @@ public class AccountEdit extends AmountActivity implements
       return true;
     }
     return super.dispatchCommand(command, tag);
-  }
-  @Override
-  public void onFinishEditDialog(Bundle args) {
-    try {
-      mAccount.sortKey = Integer.valueOf(args.getString(EditTextDialog.KEY_RESULT));
-      if (mAccount.getId()!=0) {
-        startTaskExecution(
-            TaskExecutionFragment.TASK_UPDATE_SORT_KEY,
-            new Long[] {mAccount.getId()},
-            mAccount.sortKey, 0);
-      }
-    } catch (NumberFormatException e) {
-     Toast.makeText(this, "Could not parse as number", Toast.LENGTH_LONG).show();
-    }
-    
-  }
-  @Override
-  public void onCancelEditDialog() {
-    // TODO Auto-generated method stub
   }
 
   @Override
