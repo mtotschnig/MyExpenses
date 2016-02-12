@@ -420,7 +420,6 @@ public class TransactionProvider extends ContentProvider {
           accountGrouping = Account.AccountGrouping.valueOf(
               MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
         } catch (IllegalArgumentException e) {
-          // TODO Auto-generated catch block
           accountGrouping = Account.AccountGrouping.TYPE;
         }
         switch (accountGrouping) {

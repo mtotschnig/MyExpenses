@@ -240,8 +240,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     } else if (key.equals(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
       //Log.d("DEBUG","shared preference changed: Template Widget");
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
-    } else if (key.equals(PrefKey.ACCOUNT_GROUPING.getKey())) {
-      getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
     } else if (key.equals(PrefKey.AUTO_BACKUP.getKey()) || key.equals(PrefKey.AUTO_BACKUP_TIME.getKey())) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
     }

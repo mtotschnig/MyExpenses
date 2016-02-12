@@ -30,25 +30,6 @@
         <item>@string/pref_ui_theme_light</item>
     </string-array>
 
-    <string-array name="pref_account_grouping_values">
-        <item>TYPE</item>
-        <item>CURRENCY</item>
-        <item>NONE</item>
-    </string-array>
-    <string-array name="pref_account_grouping_entries">
-        <item>@string/type</item>
-        <item>@string/currency</item>
-        <item>@string/grouping_none</item>
-    </string-array>
-
-    <string-array name="pref_sort_order_values">
-        <item>USAGES</item>
-        <item>ALPHABETIC</item>
-    </string-array>
-    <string-array name="pref_sort_order_entries">
-        <item>@string/pref_sort_order_usages</item>
-        <item>@string/pref_sort_order_alphabetic</item>
-    </string-array>
 
     <string-array name="pref_ui_language_entries">
         <item>@string/pref_ui_language_default</item>

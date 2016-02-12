@@ -258,12 +258,14 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to, 0);
 
     Toolbar accountsMenu = (Toolbar) findViewById(R.id.accounts_menu);
+    accountsMenu.setTitle(R.string.pref_manage_accounts_title);
     accountsMenu.inflateMenu(R.menu.accounts);
     accountsMenu.inflateMenu(R.menu.sort);
+
+    //Sort submenu
     MenuItem menuItem = accountsMenu.getMenu().findItem(R.id.SORT_COMMAND);
     MenuItemCompat.setShowAsAction(
         menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
-    accountsMenu.setTitle(R.string.pref_manage_accounts_title);
     SubMenu sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
     MenuItem activeItem;
@@ -281,10 +283,35 @@ public class MyExpenses extends LaunchActivity implements
         activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
     }
     activeItem.setChecked(true);
+
+    //Grouping submenu
+    SubMenu groupingMenu = accountsMenu.getMenu().findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
+        .getSubMenu();
+    Account.AccountGrouping accountGrouping;
+    try {
+      accountGrouping = Account.AccountGrouping.valueOf(
+          MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+    } catch (IllegalArgumentException e) {
+      accountGrouping = Account.AccountGrouping.TYPE;
+    }
+    switch (accountGrouping) {
+      case TYPE:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_TYPE_COMMAND);
+        break;
+      case CURRENCY:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND);
+        break;
+      case NONE:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_NONE_COMMAND);
+        break;
+    }
+    activeItem.setChecked(true);
+
     accountsMenu.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override
       public boolean onMenuItemClick(MenuItem item) {
-        return handleSortOption(item) || dispatchCommand(item.getItemId(), null);
+        return handleSortOption(item) || handleAccountsGrouping(item) ||
+            dispatchCommand(item.getItemId(), null);
       }
     });
 
@@ -1334,6 +1361,32 @@ public class MyExpenses extends LaunchActivity implements
     }
     if (newSortOrder != null && !item.isChecked()) {
       PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
+      item.setChecked(true);
+
+      if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
+        mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+      else
+        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean handleAccountsGrouping(MenuItem item) {
+    Account.AccountGrouping newGrouping = null;
+    switch (item.getItemId()) {
+      case R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND:
+        newGrouping = Account.AccountGrouping.CURRENCY;
+        break;
+      case R.id.GROUPING_ACCOUNTS_TYPE_COMMAND:
+        newGrouping = Account.AccountGrouping.TYPE;
+        break;
+      case R.id.GROUPING_ACCOUNTS_NONE_COMMAND:
+        newGrouping = Account.AccountGrouping.NONE;
+        break;
+    }
+    if (newGrouping != null && !item.isChecked()) {
+      PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
       item.setChecked(true);
 
       if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())

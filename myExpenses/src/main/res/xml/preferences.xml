@@ -59,20 +59,7 @@
             android:defaultValue="0"
             android:key="@string/pref_ui_fontsize_key"
             android:title="@string/pref_ui_fontsize_title"/>
-        <!-- for historical reasons the key is linked to categories, but the preference also
-          determines sorting of templates and accounts -->
-        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
-            android:defaultValue="USAGES"
-            android:entries="@array/pref_sort_order_entries"
-            android:entryValues="@array/pref_sort_order_values"
-            android:key="@string/pref_sort_order_key"
-            android:title="@string/pref_sort_order_title"/>
-        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
-            android:defaultValue="TYPE"
-            android:entries="@array/pref_account_grouping_entries"
-            android:entryValues="@array/pref_account_grouping_values"
-            android:key="@string/pref_account_grouping_key"
-            android:title="@string/pref_account_grouping_title"/>
+
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:defaultValue="default"
             android:entries="@array/pref_ui_language_entries"
