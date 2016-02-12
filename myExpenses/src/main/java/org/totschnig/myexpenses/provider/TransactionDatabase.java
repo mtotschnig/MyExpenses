@@ -975,6 +975,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE templates add column last_used datetime");
         db.execSQL("ALTER TABLE categories add column last_used datetime");
         db.execSQL("ALTER TABLE accounts add column last_used datetime");
+        db.execSQL("CREATE TRIGGER sort_key_default AFTER INSERT ON accounts " +
+          "BEGIN UPDATE accounts SET sort_key = (SELECT coalesce(max(sort_key),0) FROM accounts) + 1 " +
+            "WHERE _id = NEW._id; END");
+        //The sort key could be set by user in previous versions, now it is handled internally
+        Cursor c = db.query("accounts", new String[]{"_id"},null, null, null, null, "sort_key DESC");
+        if (c!=null) {
+          if (c.moveToFirst()) {
+            ContentValues v = new ContentValues();
+            while( c.getPosition() < c.getCount() ) {
+              v.put("sort_key", c.getPosition()+1);
+              db.update("accounts", v, "_id = ?", new String[] {c.getString(0)});
+              c.moveToNext();
+            }
+          }
+          c.close();
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
