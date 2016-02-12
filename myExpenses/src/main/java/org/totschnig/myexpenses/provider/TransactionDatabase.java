@@ -979,7 +979,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "BEGIN UPDATE accounts SET sort_key = (SELECT coalesce(max(sort_key),0) FROM accounts) + 1 " +
             "WHERE _id = NEW._id; END");
         //The sort key could be set by user in previous versions, now it is handled internally
-        Cursor c = db.query("accounts", new String[]{"_id"},null, null, null, null, "sort_key DESC");
+        Cursor c = db.query("accounts", new String[]{"_id"},null, null, null, null, "sort_key ASC");
         if (c!=null) {
           if (c.moveToFirst()) {
             ContentValues v = new ContentValues();

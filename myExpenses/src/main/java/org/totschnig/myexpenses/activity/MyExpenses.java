@@ -80,6 +80,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -1159,6 +1160,7 @@ public class MyExpenses extends LaunchActivity implements
             getCursor().moveToPosition(position+1);
             if (c.getLong(columnIndexRowId) > 0) downVisible = true;
           }
+          getCursor().moveToPosition(position);
         }
         final boolean finalUpVisible = upVisible, finalDownVisible = downVisible;
         accountMenu.setOnClickListener(new OnClickListener() {
@@ -1232,9 +1234,9 @@ public class MyExpenses extends LaunchActivity implements
       setConvertedAmount((TextView) row.findViewById(R.id.total), currency);
       setConvertedAmount((TextView) row.findViewById(R.id.reconciled_total), currency);
       setConvertedAmount((TextView) row.findViewById(R.id.cleared_total), currency);
+      String description = c.getString(columnIndexDescription);
       row.findViewById(R.id.description).setVisibility(
-          c.getString(columnIndexDescription).equals("") ?
-              View.GONE : View.VISIBLE);
+          TextUtils.isEmpty(description) ? View.GONE : View.VISIBLE);
       return row;
     }
   }
