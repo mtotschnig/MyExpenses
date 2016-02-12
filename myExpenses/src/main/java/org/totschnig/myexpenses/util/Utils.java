@@ -43,6 +43,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -1118,7 +1119,7 @@ public class Utils {
     editText.setFilters(new InputFilter[]{new InputFilter() {
       @Override
       public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
-          int dend) {
+                                 int dend) {
         int separatorPositionInDest = dest.toString().indexOf(decimalSeparator);
         char[] v = new char[end - start];
         TextUtils.getChars(source, start, end, v, 0);
@@ -1138,9 +1139,9 @@ public class Utils {
             input = input.substring(0, separatorPositionInSource).replace(String.valueOf
                 (decimalSeparator), "") +
                 decimalSeparator + (extractMinorUnits > 0 ?
-                    input.substring(separatorPositionInSource + 1,
-                        separatorPositionInSource + 1 + extractMinorUnits) :
-                    "");
+                input.substring(separatorPositionInSource + 1,
+                    separatorPositionInSource + 1 + extractMinorUnits) :
+                "");
           }
         }
         if (fractionDigits == 0) {
@@ -1316,5 +1317,79 @@ public class Utils {
 
   public static int getFirstDayOfWeek(Locale locale) {
     return new GregorianCalendar(locale).getFirstDayOfWeek();
+  }
+
+  public static void configureSortMenu(SubMenu sortMenu, String currentSortOrder) {
+    MenuItem activeItem;
+    switch (currentSortOrder) {
+      case ProtectedFragmentActivity.SORT_ORDER_USAGES:
+        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
+        break;
+      case ProtectedFragmentActivity.SORT_ORDER_LAST_USED:
+        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
+        break;
+      case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
+        activeItem = sortMenu.findItem(R.id.SORT_AMOUNT_COMMAND);
+        break;
+      case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
+        activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
+        break;
+      default:
+        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
+    }
+    activeItem.setChecked(true);
+  }
+  public static String getSortOrderFromMenuItemId(int id) {
+    switch(id) {
+      case R.id.SORT_USAGES_COMMAND:
+        return ProtectedFragmentActivity.SORT_ORDER_USAGES;
+      case R.id.SORT_LAST_USED_COMMAND:
+        return ProtectedFragmentActivity.SORT_ORDER_LAST_USED;
+      case R.id.SORT_TITLE_COMMAND:
+        return ProtectedFragmentActivity.SORT_ORDER_TITLE;
+      case R.id.SORT_CUSTOM_COMMAND:
+        return ProtectedFragmentActivity.SORT_ORDER_CUSTOM;
+      case R.id.SORT_AMOUNT_COMMAND:
+        return ProtectedFragmentActivity.SORT_ORDER_AMOUNT;
+    }
+    return null;
+  }
+
+  public static void configureGroupingMenu(SubMenu groupingMenu, Account.Grouping currentGrouping) {
+    MenuItem activeItem;
+    switch (currentGrouping) {
+      case DAY:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_DAY_COMMAND);
+        break;
+      case WEEK:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_WEEK_COMMAND);
+        break;
+      case MONTH:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_MONTH_COMMAND);
+        break;
+      case YEAR:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_YEAR_COMMAND);
+        break;
+      default:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_NONE_COMMAND);
+        break;
+    }
+    activeItem.setChecked(true);
+  }
+
+  public static Account.Grouping getGroupingFromMenuItemId(int id) {
+    switch (id) {
+      case R.id.GROUPING_NONE_COMMAND:
+        return Account.Grouping.NONE;
+      case R.id.GROUPING_DAY_COMMAND:
+        return Account.Grouping.DAY;
+      case R.id.GROUPING_WEEK_COMMAND:
+        return Account.Grouping.WEEK;
+      case R.id.GROUPING_MONTH_COMMAND:
+        return Account.Grouping.MONTH;
+      case R.id.GROUPING_YEAR_COMMAND:
+        return Account.Grouping.YEAR;
+    }
+    return null;
   }
 }

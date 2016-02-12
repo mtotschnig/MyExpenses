@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -109,6 +108,10 @@ import android.support.v4.content.Loader;
 import android.util.TypedValue;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 
 /**
  * This is the main activity where all expenses are listed
@@ -268,21 +271,7 @@ public class MyExpenses extends LaunchActivity implements
         menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
     SubMenu sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
-    MenuItem activeItem;
-    switch (PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES")) {
-      case SORT_ORDER_USAGES:
-        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
-        break;
-      case SORT_ORDER_LAST_USED:
-        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
-        break;
-      case SORT_ORDER_CUSTOM:
-        activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
-        break;
-      default:
-        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
-    }
-    activeItem.setChecked(true);
+    Utils.configureSortMenu(sortMenu, PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES"));
 
     //Grouping submenu
     SubMenu groupingMenu = accountsMenu.getMenu().findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
@@ -294,15 +283,16 @@ public class MyExpenses extends LaunchActivity implements
     } catch (IllegalArgumentException e) {
       accountGrouping = Account.AccountGrouping.TYPE;
     }
+    MenuItem activeItem;
     switch (accountGrouping) {
-      case TYPE:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_TYPE_COMMAND);
-        break;
       case CURRENCY:
         activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND);
         break;
       case NONE:
         activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_NONE_COMMAND);
+        break;
+      default:
+        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_TYPE_COMMAND);
         break;
     }
     activeItem.setChecked(true);
@@ -431,13 +421,22 @@ public class MyExpenses extends LaunchActivity implements
     }
     Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BALANCE_COMMAND),
         showBalanceCommand);
-    return super.onPrepareOptionsMenu(menu);
+
+    SubMenu groupingMenu = menu.findItem(R.id.GROUPING_COMMAND).getSubMenu();
+
+    Account account = Account.getInstanceFromDb(mAccountId);
+    if (account!=null) {
+      Utils.configureGroupingMenu(groupingMenu,account.grouping);
+    }
+    super.onPrepareOptionsMenu(menu);
+    return true;
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.expenses, menu);
+    inflater.inflate(R.menu.grouping, menu);
     super.onCreateOptionsMenu(menu);
     return true;
   }
@@ -522,22 +521,6 @@ public class MyExpenses extends LaunchActivity implements
               MessageDialogFragment.Button.okButton(),
               null, null)
               .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
-        }
-        return true;
-      case R.id.GROUPING_COMMAND:
-        a = Account.getInstanceFromDb(mAccountId);
-        if (a != null) {
-          SelectGroupingDialogFragment.newInstance(
-              a.grouping.ordinal())
-              .show(getSupportFragmentManager(), "SELECT_GROUPING");
-        }
-        return true;
-      case R.id.GROUPING_COMMAND_DO:
-        Grouping value = Account.Grouping.values()[(Integer) tag];
-        if (mAccountId < 0) {
-          AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(value);
-        } else {
-          Account.getInstanceFromDb(mAccountId).persistGrouping(value);
         }
         return true;
       case R.id.CREATE_COMMAND:
@@ -1058,6 +1041,8 @@ public class MyExpenses extends LaunchActivity implements
     }
     // Handle your other action bar items...
 
+    if (handleGrouping(item)) return true;
+
     return super.onOptionsItemSelected(item);
   }
 
@@ -1344,29 +1329,17 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   protected boolean handleSortOption(MenuItem item) {
-    String newSortOrder = null;
-    switch (item.getItemId()) {
-      case R.id.SORT_USAGES_COMMAND:
-        newSortOrder = SORT_ORDER_USAGES;
-        break;
-      case R.id.SORT_LAST_USED_COMMAND:
-        newSortOrder = SORT_ORDER_LAST_USED;
-        break;
-      case R.id.SORT_TITLE_COMMAND:
-        newSortOrder = SORT_ORDER_TITLE;
-        break;
-      case R.id.SORT_CUSTOM_COMMAND:
-        newSortOrder = SORT_ORDER_CUSTOM;
-        break;
-    }
-    if (newSortOrder != null && !item.isChecked()) {
-      PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
-      item.setChecked(true);
+    String newSortOrder = Utils.getSortOrderFromMenuItemId(item.getItemId());
+    if (newSortOrder != null) {
+      if (!item.isChecked()) {
+        PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
+        item.setChecked(true);
 
-      if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
-        mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-      else
-        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+        if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
+          mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+        else
+          mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+      }
       return true;
     }
     return false;
@@ -1385,14 +1358,33 @@ public class MyExpenses extends LaunchActivity implements
         newGrouping = Account.AccountGrouping.NONE;
         break;
     }
-    if (newGrouping != null && !item.isChecked()) {
-      PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
-      item.setChecked(true);
+    if (newGrouping != null) {
+      if (!item.isChecked()) {
+        PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
+        item.setChecked(true);
 
-      if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
-        mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-      else
-        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+        if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
+          mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+        else
+          mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean handleGrouping(MenuItem item) {
+    Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
+    if (newGrouping != null) {
+      if (!item.isChecked()) {
+        PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
+        item.setChecked(true);
+        if (mAccountId < 0) {
+          AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
+        } else {
+          Account.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
+        }
+      }
       return true;
     }
     return false;

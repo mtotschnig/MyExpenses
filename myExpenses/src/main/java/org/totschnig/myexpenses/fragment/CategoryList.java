@@ -910,6 +910,7 @@ public class CategoryList extends SortableListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
+      Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(),mGrouping);
       boolean grouped = !mGrouping.equals(Grouping.NONE);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
@@ -952,6 +953,7 @@ public class CategoryList extends SortableListFragment implements
   }
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if (handleGrouping(item)) return true;
     switch (item.getItemId()) {
     case R.id.BACK_COMMAND:
       back();
@@ -977,6 +979,17 @@ public class CategoryList extends SortableListFragment implements
       return true;
     }
     return handleSortOption(item);
+  }
+
+  private boolean handleGrouping(MenuItem item) {
+    Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
+    if (newGrouping != null) {
+      if (!item.isChecked()) {
+        setGrouping(newGrouping);
+      }
+      return true;
+    }
+    return false;
   }
 
   public void collapseAll() {

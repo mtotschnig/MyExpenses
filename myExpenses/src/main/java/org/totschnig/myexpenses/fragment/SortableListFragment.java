@@ -10,6 +10,7 @@ import android.view.SubMenu;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.util.Utils;
 
 /**
  * Created by michaeltotschnig on 10.02.16.
@@ -23,6 +24,7 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
   public void onPrepareOptionsMenu(Menu menu) {
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
     if (menuItem == null) return;
+    Utils.configureSortMenu(menuItem.getSubMenu(),getCurrentSortOrder());
     SubMenu sortMenu = menuItem.getSubMenu();
     MenuItem activeItem;
     switch (getCurrentSortOrder()) {
@@ -47,29 +49,17 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
   }
 
   protected boolean handleSortOption(MenuItem item) {
-    String newSortOrder = null;
-    switch (item.getItemId()) {
-      case R.id.SORT_USAGES_COMMAND:
-        newSortOrder = ProtectedFragmentActivity.SORT_ORDER_USAGES;
-        break;
-      case R.id.SORT_LAST_USED_COMMAND:
-        newSortOrder = ProtectedFragmentActivity.SORT_ORDER_LAST_USED;
-        break;
-      case R.id.SORT_AMOUNT_COMMAND:
-        newSortOrder = ProtectedFragmentActivity.SORT_ORDER_AMOUNT;
-        break;
-      case R.id.SORT_TITLE_COMMAND:
-        newSortOrder = ProtectedFragmentActivity.SORT_ORDER_TITLE;
-        break;
-    }
-    if (newSortOrder != null && !item.isChecked()) {
-      getSortOrderPrefKey().putString(newSortOrder);
-      getActivity().supportInvalidateOptionsMenu();
-      LoaderManager manager = getLoaderManager();
-      if (manager.getLoader(SORTABLE_CURSOR) != null && !manager.getLoader(SORTABLE_CURSOR).isReset())
-        manager.restartLoader(SORTABLE_CURSOR, null, this);
-      else
-        manager.initLoader(SORTABLE_CURSOR, null, this);
+    String newSortOrder = Utils.getSortOrderFromMenuItemId(item.getItemId());
+    if (newSortOrder != null) {
+      if (!item.isChecked()) {
+        getSortOrderPrefKey().putString(newSortOrder);
+        getActivity().supportInvalidateOptionsMenu();
+        LoaderManager manager = getLoaderManager();
+        if (manager.getLoader(SORTABLE_CURSOR) != null && !manager.getLoader(SORTABLE_CURSOR).isReset())
+          manager.restartLoader(SORTABLE_CURSOR, null, this);
+        else
+          manager.initLoader(SORTABLE_CURSOR, null, this);
+      }
       return true;
     }
     return false;

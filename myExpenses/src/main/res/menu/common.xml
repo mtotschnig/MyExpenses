@@ -17,6 +17,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
   <item
     android:id="@id/HELP_COMMAND"
+    android:orderInCategory="40"
     android:icon="@android:drawable/ic_menu_help"
     android:title="@string/menu_help">
   </item>

@@ -32,11 +32,6 @@
         android:title="@string/menu_forward"
         app:showAsAction="never"/>
     <item
-        android:id="@id/GROUPING_COMMAND"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="@string/menu_grouping"
-        app:showAsAction="ifRoom"/>
-    <item
         android:id="@id/TOGGLE_CHART_COMMAND"
         app:showAsAction="never"
         android:checkable="true"

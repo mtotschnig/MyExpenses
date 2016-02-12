@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
@@ -150,6 +149,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     MenuInflater inflater = getMenuInflater();
     if (helpVariant.equals(HelpVariant.distribution)) {
       inflater.inflate(R.menu.distribution, menu);
+      inflater.inflate(R.menu.grouping, menu);
+
 
       ToggleButton typeButton = (ToggleButton)
           MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
@@ -175,13 +176,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     switch (command) {
       case R.id.CREATE_COMMAND:
         createCat(null);
-        return true;
-      case R.id.GROUPING_COMMAND:
-        SelectGroupingDialogFragment.newInstance(mListFragment.mGrouping.ordinal())
-            .show(getSupportFragmentManager(), "SELECT_GROUPING");
-        return true;
-      case R.id.GROUPING_COMMAND_DO:
-        mListFragment.setGrouping(Account.Grouping.values()[(Integer) tag]);
         return true;
       case R.id.DELETE_COMMAND_DO:
         finishActionMode();
