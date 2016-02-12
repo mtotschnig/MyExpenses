@@ -295,4 +295,12 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="AmountSwitch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <!-- Active thumb color & Active track color(30% transparency) -->
+        <item name="colorControlActivated">?colorIncome</item>
+        <!-- Inactive thumb color -->
+        <item name="colorSwitchThumbNormal">?colorExpense</item>
+        <!-- Inactive track color(30% transparency) -->
+        <item name="android:colorForeground">?colorExpense</item>
+    </style>
 </resources>

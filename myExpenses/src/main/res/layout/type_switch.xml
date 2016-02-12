@@ -25,4 +25,5 @@
     app:switchTextAppearance="@style/SwitchTextAppearance"
     android:textOff="-"
     android:textOn="+"
+    android:theme="@style/AmountSwitch"
     app:showText="true"/>

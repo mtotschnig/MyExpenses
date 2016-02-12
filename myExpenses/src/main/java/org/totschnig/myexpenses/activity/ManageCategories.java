@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -140,7 +141,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
     findViewById(R.id.CREATE_COMMAND).setVisibility(
-        (helpVariant.equals(HelpVariant.select_mapping)||helpVariant.equals(HelpVariant.manage)) ?
+        (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) ?
             View.VISIBLE : View.GONE);
   }
 
@@ -152,7 +153,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       inflater.inflate(R.menu.grouping, menu);
 
 
-      ToggleButton typeButton = (ToggleButton)
+      SwitchCompat typeButton = (SwitchCompat)
           MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
               .findViewById(R.id.TaType);
 

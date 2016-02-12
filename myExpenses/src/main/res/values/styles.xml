@@ -96,7 +96,8 @@
     </style>
 
     <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
-        <item name="android:textColor">@android:color/black</item>
+        <!-- the switch color is set to contrast with the window background, hence we need inverse text color -->
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
         <item name="android:textSize">?textSizeSmall</item>
     </style>
 </resources>
