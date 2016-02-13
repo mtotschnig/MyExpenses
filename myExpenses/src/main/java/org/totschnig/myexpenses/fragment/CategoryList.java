@@ -194,6 +194,7 @@ public class CategoryList extends SortableListFragment implements
         return tv;
       }
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
+
       mGrouping = (Grouping) b.getSerializable("grouping");
       if (mGrouping == null) mGrouping = Grouping.NONE;
       mGroupingYear = b.getInt("groupingYear");
@@ -249,6 +250,9 @@ public class CategoryList extends SortableListFragment implements
       });
     } else {
       v = inflater.inflate(R.layout.categories_list, null, false);
+      if (savedInstanceState!=null) {
+        mFilter = savedInstanceState.getString("filter");
+      }
     }
     incomeSumTv = (TextView) v.findViewById(R.id.sum_income);
     expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
@@ -919,6 +923,7 @@ public class CategoryList extends SortableListFragment implements
 
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
     if (mGrouping != null) {
       Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), mGrouping);
       boolean grouped = !mGrouping.equals(Grouping.NONE);
@@ -934,7 +939,14 @@ public class CategoryList extends SortableListFragment implements
       m.setChecked(aggregateTypes);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
     }
-    super.onPrepareOptionsMenu(menu);
+
+    MenuItem searchMenuItem = menu.findItem(R.id.search);
+    if (searchMenuItem != null && mFilter != null) {
+      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+      searchView.setQuery(mFilter, false);
+      searchView.setIconified(false);
+      searchView.clearFocus();
+    }
   }
 
   public void back() {
@@ -1128,6 +1140,9 @@ public class CategoryList extends SortableListFragment implements
     outState.putSerializable("grouping", mGrouping);
     outState.putInt("groupingYear", mGroupingYear);
     outState.putInt("groupingSecond", mGroupingSecond);
+    if (!TextUtils.isEmpty(mFilter)) {
+      outState.putString("filter", mFilter);
+    }
   }
 
   @Override
