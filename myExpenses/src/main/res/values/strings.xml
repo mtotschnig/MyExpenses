@@ -132,7 +132,6 @@
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_extended_feature">Extended feature</string>
     <string name="dialog_title_planner_setup_info">Calendar setup required</string>
-    <string name="dialog_title_select_grouping">Pick a grouping</string>
     <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
     <string name="dialog_title_set_fraction_digits">Set the number of fraction digits</string>
