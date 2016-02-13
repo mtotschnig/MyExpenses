@@ -94,7 +94,6 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
     SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.TaType);
     themeSwitch.setChecked(MyApplication.getThemeType().equals(MyApplication.ThemeType.light));
-    themeSwitch.setShowText(false);
     themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
       @Override
