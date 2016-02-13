@@ -84,7 +84,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("distribution", android.R.drawable.ic_menu_today);
     iconMap.put("edit_plan_instance", android.R.drawable.ic_menu_edit);
     iconMap.put("forward", R.drawable.ic_menu_forward);
-    iconMap.put("grouping", android.R.drawable.ic_menu_sort_by_size);
     iconMap.put("invert_transfer", R.drawable.ic_menu_refresh);
     iconMap.put("manage_plans", android.R.drawable.ic_menu_set_as);
     iconMap.put("reset", android.R.drawable.ic_menu_revert);
@@ -122,6 +121,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    Resources.Theme theme = getActivity().getTheme();
+    TypedValue value = new TypedValue();
+    theme.resolveAttribute(R.attr.groupIcon, value, true);
+    iconMap.put("grouping",value.resourceId);
+
     FragmentActivity ctx = getActivity();
     final Resources res = getResources();
     String title;

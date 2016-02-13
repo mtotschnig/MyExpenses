@@ -5,7 +5,7 @@
         android:id="@id/GROUPING_COMMAND"
         android:orderInCategory="20"
         android:title="@string/menu_grouping"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="?groupIcon"
         app:showAsAction="ifRoom">
         <menu>
             <group android:checkableBehavior="single">
