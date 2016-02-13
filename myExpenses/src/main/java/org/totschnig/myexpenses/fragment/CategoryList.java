@@ -121,7 +121,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_MONTH_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_WEEK_START;
 
 public class CategoryList extends SortableListFragment implements
-    OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
+    OnChildClickListener, OnGroupClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
   private static final String KEY_CHILD_COUNT = "child_count";
   private static final String TABS = "\u0009\u0009\u0009\u0009";
@@ -137,21 +137,21 @@ public class CategoryList extends SortableListFragment implements
   private MyExpandableListAdapter mAdapter;
   private ExpandableListView mListView;
   private LoaderManager mManager;
-  private TextView incomeSumTv,expenseSumTv;
+  private TextView incomeSumTv, expenseSumTv;
   private View bottomLine;
   private PieChart mChart;
   public Grouping mGrouping;
   int mGroupingYear;
   int mGroupingSecond;
-  int thisYear,thisMonth,thisWeek,thisDay,maxValue;
+  int thisYear, thisMonth, thisWeek, thisDay, maxValue;
 
   private Account mAccount;
   private Cursor mGroupCursor;
 
   protected boolean mType = EXPENSE;
-  private ArrayList<Integer> mMainColors,mSubColors;
+  private ArrayList<Integer> mMainColors, mSubColors;
   private int lastExpandedPosition = -1;
-  
+
   boolean showChart = false;
   boolean aggregateTypes;
   boolean chartDisplaysSubs;
@@ -160,8 +160,8 @@ public class CategoryList extends SortableListFragment implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setHasOptionsMenu(true);
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
   }
 
   @Override
@@ -175,7 +175,7 @@ public class CategoryList extends SortableListFragment implements
       showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<Integer>();
       for (int col : ColorTemplate.PASTEL_COLORS)
-          mMainColors.add(col);
+        mMainColors.add(col);
       for (int col : ColorTemplate.JOYFUL_COLORS)
         mMainColors.add(col);
       for (int col : ColorTemplate.LIBERTY_COLORS)
@@ -191,7 +191,7 @@ public class CategoryList extends SortableListFragment implements
       if (mAccount == null) {
         TextView tv = new TextView(ctx);
         tv.setText("Error loading distribution for account " + id);
-        return  tv;
+        return tv;
       }
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
       mGrouping = (Grouping) b.getSerializable("grouping");
@@ -201,26 +201,26 @@ public class CategoryList extends SortableListFragment implements
       getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
-      v = inflater.inflate( R.layout.distribution_list,null,false);
+      v = inflater.inflate(R.layout.distribution_list, null, false);
       mChart = (PieChart) v.findViewById(R.id.chart1);
-      mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
+      mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       mChart.setDescription("");
-      
+
       //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-      
+
       //mChart.setValueTypeface(tf);
       //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
       //mChart.setUsePercentValues(true);
       //mChart.setCenterText("Quarterly\nRevenue");
-      TypedValue typedValue = new TypedValue(); 
+      TypedValue typedValue = new TypedValue();
       getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, typedValue, true);
-      int[] textSizeAttr = new int[] { android.R.attr.textSize };
+      int[] textSizeAttr = new int[]{android.R.attr.textSize};
       int indexOfAttrTextSize = 0;
       TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
       int textSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
       a.recycle();
       mChart.setCenterTextSizePixels(textSize);
-       
+
       // radius of the center hole in percent of maximum radius
       //mChart.setHoleRadius(60f); 
       //mChart.setTransparentCircleRadius(0f);
@@ -233,21 +233,22 @@ public class CategoryList extends SortableListFragment implements
         @Override
         public void onValueSelected(Entry e, int dataSetIndex) {
           int index = e.getXIndex();
-          long packedPosition = (lastExpandedPosition==-1) ?
+          long packedPosition = (lastExpandedPosition == -1) ?
               ExpandableListView.getPackedPositionForGroup(index) :
               ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
           int flatPosition = mListView.getFlatListPosition(packedPosition);
-          mListView.setItemChecked(flatPosition,true);
+          mListView.setItemChecked(flatPosition, true);
           mListView.smoothScrollToPosition(flatPosition);
           setCenterText(index);
         }
+
         @Override
         public void onNothingSelected() {
-          mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
+          mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
         }
       });
     } else {
-      v = inflater.inflate(R.layout.categories_list,null,false);
+      v = inflater.inflate(R.layout.categories_list, null, false);
     }
     incomeSumTv = (TextView) v.findViewById(R.id.sum_income);
     expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
@@ -261,16 +262,16 @@ public class CategoryList extends SortableListFragment implements
     String[] from;
     int[] to;
     if (mAccount != null) {
-      from = new String[] {KEY_LABEL,KEY_SUM};
-      to = new int[] {R.id.label,R.id.amount};
+      from = new String[]{KEY_LABEL, KEY_SUM};
+      to = new int[]{R.id.label, R.id.amount};
     } else {
-      from = new String[] {KEY_LABEL};
-      to = new int[] {R.id.label};
+      from = new String[]{KEY_LABEL};
+      to = new int[]{R.id.label};
     }
     mAdapter = new MyExpandableListAdapter(ctx,
         null,
-        R.layout.category_row,R.layout.category_row,
-        from,to,from,to);
+        R.layout.category_row, R.layout.category_row,
+        from, to, from, to);
     mListView.setAdapter(mAdapter);
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
@@ -300,10 +301,10 @@ public class CategoryList extends SortableListFragment implements
         }
       });
       mListView.setOnChildClickListener(new OnChildClickListener() {
-        
+
         @Override
         public boolean onChildClick(ExpandableListView parent, View v,
-            int groupPosition, int childPosition, long id) {
+                                    int groupPosition, int childPosition, long id) {
           if (showChart) {
             long packedPosition = ExpandableListView.getPackedPositionForChild(
                 groupPosition, childPosition);
@@ -320,7 +321,7 @@ public class CategoryList extends SortableListFragment implements
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
-            int position, long id) {
+                                   int position, long id) {
           if (showChart) {
             long pos = mListView.getExpandableListPosition(position);
             int type = ExpandableListView.getPackedPositionType(pos);
@@ -328,7 +329,7 @@ public class CategoryList extends SortableListFragment implements
                 child = ExpandableListView.getPackedPositionChild(pos);
             int highlightedPos;
             if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-              if (lastExpandedPosition!=group) {
+              if (lastExpandedPosition != group) {
                 mListView.collapseGroup(lastExpandedPosition);
               }
               highlightedPos = lastExpandedPosition == -1 ? group : -1;
@@ -354,78 +355,78 @@ public class CategoryList extends SortableListFragment implements
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-      SparseBooleanArray positions,Long[]itemIds) {
+                                         SparseBooleanArray positions, Long[] itemIds) {
     ManageCategories ctx = (ManageCategories) getActivity();
     ArrayList<Long> idList;
-    switch(command) {
-    case R.id.DELETE_COMMAND:
-      int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
-      idList = new ArrayList<Long>();
-      for (int i=0; i<positions.size(); i++) {
-        Cursor c;
-        if (positions.valueAt(i)) {
-          boolean deletable = true;
-          int position = positions.keyAt(i);
-          long pos = mListView.getExpandableListPosition(position);
-          int type = ExpandableListView.getPackedPositionType(pos);
-          int group = ExpandableListView.getPackedPositionGroup(pos),
-              child = ExpandableListView.getPackedPositionChild(pos);
-          if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            c = mAdapter.getChild(group,child);
-            c.moveToPosition(child);
-          } else  {
-            c = mGroupCursor;
-            c.moveToPosition(group);
-          }
-          long itemId = c.getLong(c.getColumnIndex(KEY_ROWID));
-          Bundle extras = ctx.getIntent().getExtras();
-          if ((extras != null && extras.getLong(KEY_ROWID) == itemId) || c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS)) > 0) {
-            mappedTransactionsCount++;
-            deletable = false;
-          } else if (c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES)) > 0) {
-            mappedTemplatesCount++;
-            deletable = false;
-          }
-          if (deletable) {
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex(KEY_CHILD_COUNT)) > 0) {
-              hasChildrenCount++;
+    switch (command) {
+      case R.id.DELETE_COMMAND:
+        int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
+        idList = new ArrayList<Long>();
+        for (int i = 0; i < positions.size(); i++) {
+          Cursor c;
+          if (positions.valueAt(i)) {
+            boolean deletable = true;
+            int position = positions.keyAt(i);
+            long pos = mListView.getExpandableListPosition(position);
+            int type = ExpandableListView.getPackedPositionType(pos);
+            int group = ExpandableListView.getPackedPositionGroup(pos),
+                child = ExpandableListView.getPackedPositionChild(pos);
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+              c = mAdapter.getChild(group, child);
+              c.moveToPosition(child);
+            } else {
+              c = mGroupCursor;
+              c.moveToPosition(group);
             }
-            idList.add(itemId);
+            long itemId = c.getLong(c.getColumnIndex(KEY_ROWID));
+            Bundle extras = ctx.getIntent().getExtras();
+            if ((extras != null && extras.getLong(KEY_ROWID) == itemId) || c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS)) > 0) {
+              mappedTransactionsCount++;
+              deletable = false;
+            } else if (c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES)) > 0) {
+              mappedTemplatesCount++;
+              deletable = false;
+            }
+            if (deletable) {
+              if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex(KEY_CHILD_COUNT)) > 0) {
+                hasChildrenCount++;
+              }
+              idList.add(itemId);
+            }
           }
         }
-      }
-      if (idList.size()>0) {
-        Long[] objectIds = idList.toArray(new Long[idList.size()]);
-        if (hasChildrenCount>0) {
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_warning_delete_main_category,
-              getResources().getQuantityString(R.plurals.warning_delete_main_category,hasChildrenCount,hasChildrenCount),
-              new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
-              null,
-              new MessageDialogFragment.Button(android.R.string.no,R.id.CANCEL_CALLBACK_COMMAND,null))
-            .show(ctx.getSupportFragmentManager(),"DELETE_CATEGORY");
-        } else {
-          ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
+        if (idList.size() > 0) {
+          Long[] objectIds = idList.toArray(new Long[idList.size()]);
+          if (hasChildrenCount > 0) {
+            MessageDialogFragment.newInstance(
+                R.string.dialog_title_warning_delete_main_category,
+                getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount),
+                new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
+                null,
+                new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
+                .show(ctx.getSupportFragmentManager(), "DELETE_CATEGORY");
+          } else {
+            ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
+          }
         }
-      }
-      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
-        String message = "";
-        if (mappedTransactionsCount > 0)
-          message += getResources().getQuantityString(
-              R.plurals.not_deletable_mapped_transactions,
-              mappedTransactionsCount,
-              mappedTransactionsCount);
-        if (mappedTemplatesCount > 0)
-          message += getResources().getQuantityString(
-              R.plurals.not_deletable_mapped_templates,
-              mappedTemplatesCount,
-              mappedTemplatesCount);
-        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
-      }
-      return true;
+        if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
+          String message = "";
+          if (mappedTransactionsCount > 0)
+            message += getResources().getQuantityString(
+                R.plurals.not_deletable_mapped_transactions,
+                mappedTransactionsCount,
+                mappedTransactionsCount);
+          if (mappedTemplatesCount > 0)
+            message += getResources().getQuantityString(
+                R.plurals.not_deletable_mapped_templates,
+                mappedTemplatesCount,
+                mappedTemplatesCount);
+          Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+        return true;
       case R.id.SELECT_COMMAND_MULTIPLE:
         ArrayList<String> labelList = new ArrayList<>();
-        for (int i=0; i<positions.size(); i++) {
+        for (int i = 0; i < positions.size(); i++) {
           Cursor c;
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
@@ -443,7 +444,7 @@ public class CategoryList extends SortableListFragment implements
             labelList.add(c.getString(c.getColumnIndex(KEY_LABEL)));
           }
         }
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
         intent.putExtra(KEY_LABEL, Joiner.on(",").join(labelList));
         ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
@@ -456,12 +457,12 @@ public class CategoryList extends SortableListFragment implements
           excludedIds = itemIds;
         } else {
           idList = new ArrayList<Long>();
-          for (int i=0; i<positions.size(); i++) {
+          for (int i = 0; i < positions.size(); i++) {
             if (positions.valueAt(i)) {
               int position = positions.keyAt(i);
               long pos = mListView.getExpandableListPosition(position);
               int group = ExpandableListView.getPackedPositionGroup(pos);
-                mGroupCursor.moveToPosition(group);
+              mGroupCursor.moveToPosition(group);
               idList.add(mGroupCursor.getLong(mGroupCursor.getColumnIndex(KEY_ROWID)));
             }
           }
@@ -472,11 +473,12 @@ public class CategoryList extends SortableListFragment implements
         args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
         args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
         SelectMainCategoryDialogFragment.newInstance(args)
-          .show(getFragmentManager(), "SELECT_TARGET");
+            .show(getFragmentManager(), "SELECT_TARGET");
         return true;
     }
     return false;
   }
+
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ManageCategories ctx = (ManageCategories) getActivity();
@@ -487,139 +489,147 @@ public class CategoryList extends SortableListFragment implements
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-      c = mAdapter.getChild(group,child);
+      c = mAdapter.getChild(group, child);
       isMain = false;
-    } else  {
+    } else {
       c = mGroupCursor;
       isMain = true;
     }
-    if (c==null||c.getCount()==0) {
+    if (c == null || c.getCount() == 0) {
       //observed on Blackberry Z10
       return false;
     }
     String label = c.getString(c.getColumnIndex(KEY_LABEL));
-    switch(command) {
-    case R.id.EDIT_COMMAND:
-      ctx.editCat(label,elcmi.id);
-      return true;
-    case R.id.SELECT_COMMAND:
-      if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-        label += TABS + Utils.convAmount(
-            c.getString(c.getColumnIndex(KEY_SUM)),
-            mAccount.currency);
-      } else if (!isMain &&
-          ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
-        mGroupCursor.moveToPosition(group);
-        label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
-            +TransactionList.CATEGORY_SEPARATOR
-            +label;
-      }
-      doSelection(elcmi.id,label,isMain);
-      finishActionMode();
-      return true;
-    case R.id.CREATE_COMMAND:
-      ctx.createCat(elcmi.id);
-      return true;
+    switch (command) {
+      case R.id.EDIT_COMMAND:
+        ctx.editCat(label, elcmi.id);
+        return true;
+      case R.id.SELECT_COMMAND:
+        if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+          label += TABS + Utils.convAmount(
+              c.getString(c.getColumnIndex(KEY_SUM)),
+              mAccount.currency);
+        } else if (!isMain &&
+            ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+          mGroupCursor.moveToPosition(group);
+          label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
+              + TransactionList.CATEGORY_SEPARATOR
+              + label;
+        }
+        doSelection(elcmi.id, label, isMain);
+        finishActionMode();
+        return true;
+      case R.id.CREATE_COMMAND:
+        ctx.createCat(elcmi.id);
+        return true;
     }
-    return super. dispatchCommandSingle(command, info);
+    return super.dispatchCommandSingle(command, info);
   }
+
   /**
    * Mapping the categories table into the ExpandableList
-   * @author Michael Totschnig
    *
+   * @author Michael Totschnig
    */
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
     private int colorExpense;
     private int colorIncome;
+
     public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
-            int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
-            int[] childrenTo) {
-        super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
-                childrenTo);
-        colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
-        colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
+                                   int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
+                                   int[] childrenTo) {
+      super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
+          childrenTo);
+      colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
+      colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     }
+
     /* (non-Javadoc)
      * returns a cursor with the subcategories for the group
      * @see android.widget.CursorTreeAdapter#getChildrenCursor(android.database.Cursor)
      */
     @Override
     protected Cursor getChildrenCursor(Cursor groupCursor) {
-        // Given the group, we return a cursor for all the children within that group
+      // Given the group, we return a cursor for all the children within that group
       long parentId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(KEY_ROWID));
       Bundle bundle = new Bundle();
       bundle.putLong("parent_id", parentId);
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
-          try {
-            mManager.restartLoader(groupPos, bundle, CategoryList.this);
-          } catch (NullPointerException e) {
-            // a NPE is thrown in the following scenario:
-            //1)open a group
-            //2)orientation change
-            //3)open the same group again
-            //in this scenario getChildrenCursor is called twice, second time leads to error
-            //maybe it is trying to close the group that had been kept open before the orientation change
-            e.printStackTrace();
-          }
+        try {
+          mManager.restartLoader(groupPos, bundle, CategoryList.this);
+        } catch (NullPointerException e) {
+          // a NPE is thrown in the following scenario:
+          //1)open a group
+          //2)orientation change
+          //3)open the same group again
+          //in this scenario getChildrenCursor is called twice, second time leads to error
+          //maybe it is trying to close the group that had been kept open before the orientation change
+          e.printStackTrace();
+        }
       } else {
         mManager.initLoader(groupPos, bundle, CategoryList.this);
       }
       return null;
     }
+
     @Override
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
-      case R.id.amount:
-        v.setTextColor(Long.valueOf(text)<0?colorExpense:colorIncome);
-        text = Utils.convAmount(text,mAccount.currency);
+        case R.id.amount:
+          v.setTextColor(Long.valueOf(text) < 0 ? colorExpense : colorIncome);
+          text = Utils.convAmount(text, mAccount.currency);
       }
       super.setViewText(v, text);
     }
+
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
-        View convertView, ViewGroup parent) {
+                             View convertView, ViewGroup parent) {
       convertView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
       View colorView = convertView.findViewById(R.id.color1);
       if (showChart) {
-        colorView.setBackgroundColor(mMainColors.get(groupPosition%mMainColors.size()));
+        colorView.setBackgroundColor(mMainColors.get(groupPosition % mMainColors.size()));
       } else {
         colorView.setVisibility(View.GONE);
       }
       return convertView;
     }
+
     @Override
     public View getChildView(int groupPosition, int childPosition,
-        boolean isLastChild, View convertView, ViewGroup parent) {
+                             boolean isLastChild, View convertView, ViewGroup parent) {
       convertView = super.getChildView(groupPosition, childPosition, isLastChild,
           convertView, parent);
       View colorView = convertView.findViewById(R.id.color1);
       if (showChart) {
-        colorView.setBackgroundColor(mSubColors.get(childPosition%mSubColors.size()));
+        colorView.setBackgroundColor(mSubColors.get(childPosition % mSubColors.size()));
       } else {
         colorView.setVisibility(View.GONE);
       }
       return convertView;
     }
   }
+
   private String buildGroupingClause() {
     String year = YEAR + " = " + mGroupingYear;
-    switch(mGrouping) {
-    case YEAR:
-      return year;
-    case DAY:
-      return year + " AND " + DAY + " = " + mGroupingSecond;
-    case WEEK:
-      return YEAR_OF_WEEK_START + " = " + mGroupingYear + " AND " + WEEK + " = " + mGroupingSecond;
-    case MONTH:
-      return YEAR_OF_MONTH_START + " = " + mGroupingYear + " AND " + MONTH + " = " + mGroupingSecond;
-    default:
-      return null;
+    switch (mGrouping) {
+      case YEAR:
+        return year;
+      case DAY:
+        return year + " AND " + DAY + " = " + mGroupingSecond;
+      case WEEK:
+        return YEAR_OF_WEEK_START + " = " + mGroupingYear + " AND " + WEEK + " = " + mGroupingSecond;
+      case MONTH:
+        return YEAR_OF_MONTH_START + " = " + mGroupingYear + " AND " + MONTH + " = " + mGroupingSecond;
+      default:
+        return null;
     }
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    if (getActivity()==null)
+    if (getActivity() == null)
       return null;
     if (id == SUM_CURSOR) {
       Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
@@ -638,7 +648,7 @@ public class CategoryList extends SortableListFragment implements
     }
     if (id == DATEINFO_CURSOR) {
       ArrayList<String> projectionList = new ArrayList<String>(Arrays.asList(
-          new String[] {
+          new String[]{
               THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
               THIS_YEAR + " AS " + KEY_THIS_YEAR,
               THIS_MONTH + " AS " + KEY_THIS_MONTH,
@@ -647,19 +657,19 @@ public class CategoryList extends SortableListFragment implements
           }
       ));
       //if we are at the beginning of the year we are interested in the max of the previous year
-      int yearToLookUp = mGroupingSecond ==1 ? mGroupingYear -1 : mGroupingYear;
+      int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
       switch (mGrouping) {
-      case DAY:
-        projectionList.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE,yearToLookUp));
-        break;
-      case WEEK:
-        projectionList.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE,yearToLookUp));
-        break;
-      case MONTH:
-        projectionList.add("12 as " + KEY_MAX_VALUE);
-        break;
-      default:
-        projectionList.add("0 as " + KEY_MAX_VALUE);
+        case DAY:
+          projectionList.add(String.format(Locale.US, "strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
+          break;
+        case WEEK:
+          projectionList.add(String.format(Locale.US, "strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
+          break;
+        case MONTH:
+          projectionList.add("12 as " + KEY_MAX_VALUE);
+          break;
+        default:
+          projectionList.add("0 as " + KEY_MAX_VALUE);
       }
       if (mGrouping.equals(Grouping.WEEK)) {
         //we want to find out the week range when we are given a week number
@@ -671,12 +681,12 @@ public class CategoryList extends SortableListFragment implements
       return new CursorLoader(getActivity(),
           TransactionProvider.DUAL_URI,
           projectionList.toArray(new String[projectionList.size()]),
-          null,null, null);
+          null, null, null);
     }
     //SORTABLE_CURSOR
     long parentId;
-    String selection = "",accountSelector="",sortOrder=null;
-    String[] selectionArgs,projection = null;
+    String selection = "", accountSelector = "", sortOrder = null;
+    String[] selectionArgs, projection = null;
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
         TABLE_CATEGORIES + "." + KEY_ROWID +
         " UNION SELECT " + KEY_ROWID + " FROM "
@@ -699,47 +709,45 @@ public class CategoryList extends SortableListFragment implements
       }
       catFilter = "FROM " + VIEW_COMMITTED +
           " WHERE " + WHERE_NOT_VOID + " AND " + KEY_ACCOUNTID + accountSelection;
-      if (!aggregateTypes) { 
-          catFilter += " AND " + KEY_AMOUNT + (mType==EXPENSE ? "<" : ">")  + "0";
+      if (!aggregateTypes) {
+        catFilter += " AND " + KEY_AMOUNT + (mType == EXPENSE ? "<" : ">") + "0";
       }
       if (!mGrouping.equals(Grouping.NONE)) {
-        catFilter += " AND " +buildGroupingClause();
+        catFilter += " AND " + buildGroupingClause();
       }
       //we need to include transactions mapped to children for main categories
       if (bundle == null) {
         catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-      }
-      else {
+      } else {
         catFilter += " AND " + KEY_CATID + "  = " + TABLE_CATEGORIES + "." + KEY_ROWID;
       }
-      selection = " AND exists (SELECT 1 " + catFilter +")";
-      projection = new String[] {
+      selection = " AND exists (SELECT 1 " + catFilter + ")";
+      projection = new String[]{
           KEY_ROWID,
           KEY_LABEL,
           CHILD_COUNT_SELECT,
           "(SELECT sum(amount) " + catFilter + ") AS " + KEY_SUM
       };
-      sortOrder="abs(" + KEY_SUM + ") DESC";
+      sortOrder = "abs(" + KEY_SUM + ") DESC";
     } else {
       //manage, select
       if (bundle == null) {
         catFilter = CATTREE_WHERE_CLAUSE;
-      }
-      else {
+      } else {
         catFilter = KEY_CATID + "  = " + TABLE_CATEGORIES + "." + KEY_ROWID;
       }
-      projection = new String[] {
+      projection = new String[]{
           KEY_ROWID,
           KEY_LABEL,
           CHILD_COUNT_SELECT,
           //here we do not filter out void transactinos since they need to be considered as mapped
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-          "(select 1 FROM " + TABLE_TEMPLATES    + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+          "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
     }
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
-    String[] filterSelectArgs = { "%" + mFilter + "%", "%" + mFilter + "%" };
+    String[] filterSelectArgs = {"%" + mFilter + "%", "%" + mFilter + "%"};
     if (bundle == null) {
       //group cursor
       selection = KEY_PARENTID + " is null" + selection;
@@ -748,91 +756,92 @@ public class CategoryList extends SortableListFragment implements
             " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
             + filterSelection + " )))";
       }
-      selectionArgs = mAccount != null ? new String[]{accountSelector,accountSelector} :
+      selectionArgs = mAccount != null ? new String[]{accountSelector, accountSelector} :
           (isFiltered ? filterSelectArgs : null);
     } else {
       //child cursor
       parentId = bundle.getLong(KEY_PARENTID);
-      selection = KEY_PARENTID + " = ?"  + selection;
+      selection = KEY_PARENTID + " = ?" + selection;
       if (isFiltered) {
         selection += " AND (" + filterSelection + " OR (SELECT " + KEY_LABEL_NORMALIZED + " FROM " +
-            TABLE_CATEGORIES +  " parent WHERE " + KEY_ROWID  + " = " + TABLE_CATEGORIES + "." +
+            TABLE_CATEGORIES + " parent WHERE " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." +
             KEY_PARENTID + ") LIKE ?)";
       }
       selectionArgs = mAccount != null ?
-          new String[] { accountSelector, String.valueOf(parentId), accountSelector} :
-          (isFiltered ? Utils.joinArrays(new String[] { String.valueOf(parentId) }, filterSelectArgs ) :
-              new String[] { String.valueOf(parentId) } );
+          new String[]{accountSelector, String.valueOf(parentId), accountSelector} :
+          (isFiltered ? Utils.joinArrays(new String[]{String.valueOf(parentId)}, filterSelectArgs) :
+              new String[]{String.valueOf(parentId)});
     }
-    return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, projection,
-        selection,selectionArgs, sortOrder);
+    return new CursorLoader(getActivity(), TransactionProvider.CATEGORIES_URI, projection,
+        selection, selectionArgs, sortOrder);
   }
+
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
-    if (getActivity()==null)
+    if (getActivity() == null)
       return;
     int id = loader.getId();
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    ActionBar actionBar =  ctx.getSupportActionBar();
-    switch(id) {
-    case SUM_CURSOR:
-      boolean[] seen = new boolean[2];
-      c.moveToFirst();
-      while (c.isAfterLast() == false) {
-        int type = c.getInt(c.getColumnIndex(KEY_TYPE));
-        updateSum(type > 0 ? "+ " : "- ",
-            type > 0 ? incomeSumTv : expenseSumTv,
-            c.getLong(c.getColumnIndex(KEY_SUM)));
-        c.moveToNext();
-        seen[type] = true;
-      }
-      //if we have no income or expense, there is no row in the cursor
-      if (!seen[1]) updateSum("+ ",incomeSumTv,0);
-      if (!seen[0]) updateSum("- ",expenseSumTv,0);
-      break;
-    case DATEINFO_CURSOR:
-      c.moveToFirst();
-      actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-          mGroupingYear, mGroupingSecond,c));
-      thisYear = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
-      thisMonth = c.getInt(c.getColumnIndex(KEY_THIS_MONTH));
-      thisWeek = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
-      thisDay = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
-      maxValue = c.getInt(c.getColumnIndex(KEY_MAX_VALUE));
-      break;
-    case SORTABLE_CURSOR:
-      mGroupCursor=c;
-      mAdapter.setGroupCursor(c);
-      if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-        if (c.getCount()>0) {
-          mChart.setVisibility(showChart?View.VISIBLE:View.GONE);
-          setData(c,mMainColors);
-          highlight(0);
-          if (showChart)
-            mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)),true);
-        } else {
-          mChart.setVisibility(View.GONE);
+    ActionBar actionBar = ctx.getSupportActionBar();
+    switch (id) {
+      case SUM_CURSOR:
+        boolean[] seen = new boolean[2];
+        c.moveToFirst();
+        while (c.isAfterLast() == false) {
+          int type = c.getInt(c.getColumnIndex(KEY_TYPE));
+          updateSum(type > 0 ? "+ " : "- ",
+              type > 0 ? incomeSumTv : expenseSumTv,
+              c.getLong(c.getColumnIndex(KEY_SUM)));
+          c.moveToNext();
+          seen[type] = true;
         }
-      }
-      if (mAccount != null) {
-        actionBar.setTitle(mAccount.label);
-      }
-      invalidateCAB(); //only need to do this for group since children's cab does not depnd on cursor
-      break;
-    default:
-      //check if group still exists
-      if (mAdapter.getGroupId(id) != 0) {
+        //if we have no income or expense, there is no row in the cursor
+        if (!seen[1]) updateSum("+ ", incomeSumTv, 0);
+        if (!seen[0]) updateSum("- ", expenseSumTv, 0);
+        break;
+      case DATEINFO_CURSOR:
+        c.moveToFirst();
+        actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
+            mGroupingYear, mGroupingSecond, c));
+        thisYear = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
+        thisMonth = c.getInt(c.getColumnIndex(KEY_THIS_MONTH));
+        thisWeek = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
+        thisDay = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
+        maxValue = c.getInt(c.getColumnIndex(KEY_MAX_VALUE));
+        break;
+      case SORTABLE_CURSOR:
+        mGroupCursor = c;
+        mAdapter.setGroupCursor(c);
+        if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+          if (c.getCount() > 0) {
+            mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+            setData(c, mMainColors);
+            highlight(0);
+            if (showChart)
+              mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
+          } else {
+            mChart.setVisibility(View.GONE);
+          }
+        }
+        if (mAccount != null) {
+          actionBar.setTitle(mAccount.label);
+        }
+        invalidateCAB(); //only need to do this for group since children's cab does not depnd on cursor
+        break;
+      default:
+        //check if group still exists
+        if (mAdapter.getGroupId(id) != 0) {
           mAdapter.setChildrenCursor(id, c);
           if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
             long packedPosition;
-            if (c.getCount()>0) {
-              mSubColors = getSubColors(mMainColors.get(id%mMainColors.size()));
-              setData(c,mSubColors);
+            if (c.getCount() > 0) {
+              mSubColors = getSubColors(mMainColors.get(id % mMainColors.size()));
+              setData(c, mSubColors);
               highlight(0);
-              packedPosition = 
-                  ExpandableListView.getPackedPositionForChild(id,0);
+              packedPosition =
+                  ExpandableListView.getPackedPositionForChild(id, 0);
             } else {
-              packedPosition = 
+              packedPosition =
                   ExpandableListView.getPackedPositionForGroup(id);
               if (!chartDisplaysSubs) {//check if a loader running concurrently has already switched to subs
                 highlight(id);
@@ -844,22 +853,23 @@ public class CategoryList extends SortableListFragment implements
               mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
             }
           }
-      }
+        }
     }
   }
+
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
     int id = loader.getId();
     if (id == SORTABLE_CURSOR) {
       mGroupCursor = null;
       mAdapter.setGroupCursor(null);
-    } else if (id>0){
+    } else if (id > 0) {
       // child cursor
       try {
-          mAdapter.setChildrenCursor(id, null);
+        mAdapter.setChildrenCursor(id, null);
       } catch (NullPointerException e) {
-          Log.w("TAG", "Adapter expired, try again on the next query: "
-                  + e.getMessage());
+        Log.w("TAG", "Adapter expired, try again on the next query: "
+            + e.getMessage());
       }
     }
   }
@@ -881,7 +891,7 @@ public class CategoryList extends SortableListFragment implements
 
       searchView.setSearchableInfo(searchManager.
           getSearchableInfo(getActivity().getComponentName()));
-      searchView.setIconifiedByDefault(true);
+      //searchView.setIconifiedByDefault(true);
       searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
@@ -910,17 +920,17 @@ public class CategoryList extends SortableListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
-      Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(),mGrouping);
+      Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), mGrouping);
       boolean grouped = !mGrouping.equals(Grouping.NONE);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
     }
     MenuItem m = menu.findItem(R.id.TOGGLE_CHART_COMMAND);
-    if (m!=null) {
+    if (m != null) {
       m.setChecked(showChart);
     }
     m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
-    if (m!=null) {
+    if (m != null) {
       m.setChecked(aggregateTypes);
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
     }
@@ -939,10 +949,11 @@ public class CategoryList extends SortableListFragment implements
     }
     reset();
   }
+
   public void forward() {
     if (mGrouping.equals(Grouping.YEAR))
       mGroupingYear++;
-    else{
+    else {
       mGroupingSecond++;
       if (mGroupingSecond > maxValue) {
         mGroupingYear++;
@@ -951,32 +962,33 @@ public class CategoryList extends SortableListFragment implements
     }
     reset();
   }
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (handleGrouping(item)) return true;
     switch (item.getItemId()) {
-    case R.id.BACK_COMMAND:
-      back();
-      return true;
-    case R.id.FORWARD_COMMAND:
-      forward();
-      return true;
-    case R.id.TOGGLE_CHART_COMMAND:
-      showChart=!showChart;
-      MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
-      mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-      if (showChart) {
-        collapseAll();
-      } else {
-        mListView.setItemChecked(mListView.getCheckedItemPosition(),false);
-      }
-      return true;
-    case R.id.TOGGLE_AGGREGATE_TYPES:
-      aggregateTypes=!aggregateTypes;
-      MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
-      getActivity().supportInvalidateOptionsMenu();
-      reset();
-      return true;
+      case R.id.BACK_COMMAND:
+        back();
+        return true;
+      case R.id.FORWARD_COMMAND:
+        forward();
+        return true;
+      case R.id.TOGGLE_CHART_COMMAND:
+        showChart = !showChart;
+        MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
+        mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+        if (showChart) {
+          collapseAll();
+        } else {
+          mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
+        }
+        return true;
+      case R.id.TOGGLE_AGGREGATE_TYPES:
+        aggregateTypes = !aggregateTypes;
+        MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
+        getActivity().supportInvalidateOptionsMenu();
+        reset();
+        return true;
     }
     return handleSortOption(item);
   }
@@ -1003,78 +1015,81 @@ public class CategoryList extends SortableListFragment implements
    * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
 */
   @Override
-  public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+  public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     if (super.onChildClick(parent, v, groupPosition, childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx==null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
+    if (ctx == null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
-    String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
+    String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
-    }  else if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+    } else if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
       mGroupCursor.moveToPosition(groupPosition);
       label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
-          +TransactionList.CATEGORY_SEPARATOR
-          +label;
+          + TransactionList.CATEGORY_SEPARATOR
+          + label;
     }
     doSelection(id, label, false);
     return true;
   }
+
   @Override
   public boolean onGroupClick(ExpandableListView parent, View v,
-      int groupPosition, long id) {
+                              int groupPosition, long id) {
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx==null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
+    if (ctx == null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
     long cat_id = id;
     mGroupCursor.moveToPosition(groupPosition);
-    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0) 
+    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0)
       return false;
-    String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
+    String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
     }
     doSelection(cat_id, label, true);
     return true;
   }
-  private void doSelection(long cat_id,String label,boolean isMain) {
+
+  private void doSelection(long cat_id, String label, boolean isMain) {
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       TransactionListDialogFragment.newInstance(
-          mAccount.getId(), cat_id, isMain, mGrouping,buildGroupingClause(),label)
+          mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label)
           .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
       return;
     }
-    Intent intent=new Intent();
+    Intent intent = new Intent();
     intent.putExtra(KEY_CATID, cat_id);
     intent.putExtra(KEY_LABEL, label);
     ctx.setResult(ManageCategories.RESULT_OK, intent);
     ctx.finish();
   }
+
   public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
     mGroupingYear = thisYear;
-    switch(grouping) {
-    case NONE:
-      mGroupingYear = 0;
-      break;
-    case DAY:
-      mGroupingSecond = thisDay;
-      break;
-    case WEEK:
-      mGroupingSecond = thisWeek;
-      break;
-    case MONTH:
-      mGroupingSecond = thisMonth;
-      break;
-    case YEAR:
-      mGroupingSecond = 0;
-      break;
+    switch (grouping) {
+      case NONE:
+        mGroupingYear = 0;
+        break;
+      case DAY:
+        mGroupingSecond = thisDay;
+        break;
+      case WEEK:
+        mGroupingSecond = thisWeek;
+        break;
+      case MONTH:
+        mGroupingSecond = thisMonth;
+        break;
+      case YEAR:
+        mGroupingSecond = 0;
+        break;
     }
     getActivity().supportInvalidateOptionsMenu();
     reset();
@@ -1095,22 +1110,26 @@ public class CategoryList extends SortableListFragment implements
     mManager.restartLoader(SUM_CURSOR, null, this);
     mManager.restartLoader(DATEINFO_CURSOR, null, this);
   }
-  private void updateSum(String prefix, TextView tv,long amount) {
+
+  private void updateSum(String prefix, TextView tv, long amount) {
     if (tv != null)
       tv.setText(prefix + Utils.formatCurrency(
           new Money(mAccount.currency, amount)));
   }
+
   private void updateColor() {
     if (bottomLine != null)
       bottomLine.setBackgroundColor(mAccount.color);
   }
+
   @Override
   public void onSaveInstanceState(Bundle outState) {
-      super.onSaveInstanceState(outState);
-      outState.putSerializable("grouping", mGrouping);
-      outState.putInt("groupingYear", mGroupingYear);
-      outState.putInt("groupingSecond", mGroupingSecond);
+    super.onSaveInstanceState(outState);
+    outState.putSerializable("grouping", mGrouping);
+    outState.putInt("groupingYear", mGroupingYear);
+    outState.putInt("groupingSecond", mGroupingSecond);
   }
+
   @Override
   protected void configureMenu(Menu menu, int count) {
     ManageCategories ctx = (ManageCategories) getActivity();
@@ -1120,7 +1139,7 @@ public class CategoryList extends SortableListFragment implements
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
     boolean inFilterOrDistribution = ctx.helpVariant.equals(HelpVariant.select_filter) ||
         ctx.helpVariant.equals(HelpVariant.distribution);
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(count==1 && !inFilterOrDistribution);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution);
     MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
@@ -1180,11 +1199,12 @@ public class CategoryList extends SortableListFragment implements
     mType = isChecked;
     reset();
   }
+
   private void setData(Cursor c, ArrayList<Integer> colors) {
     chartDisplaysSubs = c != mGroupCursor;
     ArrayList<Entry> entries1 = new ArrayList<Entry>();
     ArrayList<String> xVals = new ArrayList<String>();
-    if (c!= null && c.moveToFirst()) {
+    if (c != null && c.moveToFirst()) {
       do {
         long sum = c.getLong(c.getColumnIndex(DatabaseConstants.KEY_SUM));
         xVals.add(c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)));
@@ -1207,21 +1227,22 @@ public class CategoryList extends SortableListFragment implements
       mChart.clear();
     }
   }
+
   private ArrayList<Integer> getSubColors(int color) {
     //inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
     return MyApplication.getThemeType().equals(ThemeType.dark) ?
         getTints(color) : getShades(color);
-    
+
   }
 
   private ArrayList<Integer> getShades(int color) {
     ArrayList<Integer> result = new ArrayList<Integer>();
     int red = Color.red(color);
-    int redDecrement = (int) Math.round(red*0.1);
+    int redDecrement = (int) Math.round(red * 0.1);
     int green = Color.green(color);
-    int greenDecrement = (int) Math.round(green*0.1);
+    int greenDecrement = (int) Math.round(green * 0.1);
     int blue = Color.blue(color);
-    int blueDecrement = (int) Math.round(blue*0.1);
+    int blueDecrement = (int) Math.round(blue * 0.1);
     for (int i = 0; i < 10; i++) {
       red = red - redDecrement;
       if (red <= 0) {
@@ -1244,11 +1265,11 @@ public class CategoryList extends SortableListFragment implements
   private ArrayList<Integer> getTints(int color) {
     ArrayList<Integer> result = new ArrayList<Integer>();
     int red = Color.red(color);
-    int redIncrement = (int) Math.round((255 - red)*0.1);
+    int redIncrement = (int) Math.round((255 - red) * 0.1);
     int green = Color.green(color);
-    int greenIncrement = (int) Math.round((255 - green)*0.1);
+    int greenIncrement = (int) Math.round((255 - green) * 0.1);
     int blue = Color.blue(color);
-    int blueIncrement = (int) Math.round((255 - blue)*0.1);
+    int blueIncrement = (int) Math.round((255 - blue) * 0.1);
     for (int i = 0; i < 10; i++) {
       red = red + redIncrement;
       if (red >= 255) {
@@ -1259,7 +1280,7 @@ public class CategoryList extends SortableListFragment implements
         red = 255;
       }
       blue = blue + blueIncrement;
-      if (blue>= 255) {
+      if (blue >= 255) {
         red = 255;
       }
       result.add(Color.rgb(red, green, blue));
@@ -1267,11 +1288,13 @@ public class CategoryList extends SortableListFragment implements
     result.add(Color.WHITE);
     return result;
   }
+
   private void highlight(int position) {
-    mChart.highlightValue(position,0);
+    mChart.highlightValue(position, 0);
     if (position != -1)
       setCenterText(position);
   }
+
   private void setCenterText(int position) {
     PieData data = mChart.getData();
 
@@ -1282,8 +1305,8 @@ public class CategoryList extends SortableListFragment implements
         + " %";
 
     mChart.setCenterText(
-        description+"\n"+
-        value
-        );
+        description + "\n" +
+            value
+    );
   }
 }
