@@ -115,4 +115,5 @@
   <item name="GROUPING_WEEK_COMMAND" type="id"/>
   <item name="GROUPING_MONTH_COMMAND" type="id"/>
   <item name="GROUPING_YEAR_COMMAND" type="id"/>
+  <item name="HELP_COMMAND_DRAWER" type="id"/>
 </resources>

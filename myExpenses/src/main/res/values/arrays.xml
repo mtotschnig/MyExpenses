@@ -133,6 +133,19 @@
         <item>split_transaction</item>
     </string-array>
 
+    <string-array name="NavigationDrawer_menuitems" tools:ignore="UnusedResources">
+        <item>create_account</item>
+        <item>sort</item>
+        <item>grouping</item>
+    </string-array>
+
+    <string-array name="NavigationDrawer_cabitems" tools:ignore="UnusedResources">
+        <item>edit</item>
+        <item>delete</item>
+        <item>sort_up</item>
+        <item>sort_down</item>
+    </string-array>
+
     <string-array name="ManageMethods_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
@@ -147,6 +160,9 @@
         <item>edit</item>
         <item>delete</item>
     </string-array>
+    <string-array name="ManageTemplates_templates_menuitems" tools:ignore="UnusedResources">
+        <item>sort</item>
+    </string-array>
     <string-array name="ManageTemplates_templates_cabitems" tools:ignore="UnusedResources">
         <item>create_instance_save</item>
         <item>create_instance_edit</item>
@@ -160,10 +176,14 @@
     </string-array>
 
     <string-array name="ManageCategories_manage_menuitems" tools:ignore="UnusedResources">
+        <item>sort</item>
+        <item>search</item>
         <item>categories_setup_default</item>
         <item>categories_export</item>
     </string-array>
     <string-array name="ManageCategories_select_mapping_menuitems" tools:ignore="UnusedResources">
+        <item>sort</item>
+        <item>search</item>
         <item>categories_setup_default</item>
     </string-array>
     <string-array name="ManageCategories_distribution_menuitems" tools:ignore="UnusedResources">

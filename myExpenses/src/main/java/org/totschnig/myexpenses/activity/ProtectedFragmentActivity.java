@@ -199,7 +199,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.common, menu);
+    inflater.inflate(R.menu.help, menu);
     return true;
   }
   @Override

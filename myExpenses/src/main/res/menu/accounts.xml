@@ -25,4 +25,11 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@id/HELP_COMMAND_DRAWER"
+        android:orderInCategory="40"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/menu_help"
+        app:showAsAction="never">
+    </item>
 </menu>

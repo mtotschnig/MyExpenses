@@ -22,20 +22,25 @@ import android.content.ComponentName;
 import android.os.Bundle;
 
 public class Help extends ProtectedFragmentActivity {
+
+  public static final String KEY_CONTEXT = "context";
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
-    String activityName;
-    ComponentName callingActivity = getCallingActivity();
-    if (callingActivity!=null) {
-      activityName = callingActivity.getShortClassName();
-      //trim leading .
-      activityName = activityName.substring(activityName.lastIndexOf(".")+1);
-    } else {
-      activityName = "MyExpenses";
+    String context = getIntent().getStringExtra(KEY_CONTEXT);
+    if (context == null) {
+      ComponentName callingActivity = getCallingActivity();
+      if (callingActivity != null) {
+        context = callingActivity.getShortClassName();
+        //trim leading .
+        context = context.substring(context.lastIndexOf(".") + 1);
+      } else {
+        context = "MyExpenses";
+      }
     }
     Enum<?> variant = (Enum<?>) getIntent().getSerializableExtra(HelpDialogFragment.KEY_VARIANT);
-    HelpDialogFragment.newInstance(activityName,variant).show(getSupportFragmentManager(),"HELP");
+    HelpDialogFragment.newInstance(context,variant).show(getSupportFragmentManager(),"HELP");
   }
 }

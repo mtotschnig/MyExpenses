@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
@@ -597,6 +598,12 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.REMIND_LATER_RATE_COMMAND:
         PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + TRESHOLD_REMIND_RATE);
+        return true;
+      case R.id.HELP_COMMAND_DRAWER:
+        i = new Intent(this,Help.class);
+        i.putExtra(Help.KEY_CONTEXT,"NavigationDrawer");
+        //for result is needed since it allows us to inspect the calling activity
+        startActivity(i);
         return true;
       case R.id.HELP_COMMAND:
         setHelpVariant();
