@@ -30,29 +30,35 @@ import android.os.Bundle;
 public class MessageDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   
   public static class Button implements Serializable {
+    int label;
+    int command;
+    Serializable tag;
+
     public Button(int label, int command, Serializable tag) {
       this.label = label;
       this.command = command;
       this.tag = tag;
     }
+
     public static final Button noButton() {
      return nullButton(android.R.string.no);
     }
-    int label;
-    int command;
-    Serializable tag;
+
     public static final Button okButton() {
       return nullButton(android.R.string.ok);
     }
+
     public static Button nullButton(int label) {
       return new Button(label,R.id.NO_COMMAND,null);
     }
   }
+
   public static final MessageDialogFragment newInstance(
       int title, int message, Button positive, Button neutral, Button negative) {
     return newInstance(title, MyApplication.getInstance().getString(message),
         positive, neutral, negative);
   }
+
   public static final MessageDialogFragment newInstance(
       int title, CharSequence message, Button positive, Button neutral, Button negative) {
     MessageDialogFragment dialogFragment = new MessageDialogFragment();
@@ -87,6 +93,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
       builder.setNegativeButton(negative.label, this);
     return builder.create();
   }
+
   @Override
   public void onCancel (DialogInterface dialog) {
     if (getActivity()==null) {
@@ -94,6 +101,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     }
     ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
     if (getActivity()==null) {
@@ -118,6 +126,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
       ((MessageDialogListener) getActivity())
           .dispatchCommand(clicked.command, clicked.tag);
   }
+
   public interface MessageDialogListener {
     boolean dispatchCommand(int command, Object tag);
     void onMessageDialogDismissOrCancel();

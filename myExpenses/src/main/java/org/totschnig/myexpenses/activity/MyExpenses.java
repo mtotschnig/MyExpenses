@@ -1355,10 +1355,19 @@ public class MyExpenses extends LaunchActivity implements
         PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
         item.setChecked(true);
 
-        if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
+        if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset()) {
           mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-        else
+        } else {
           mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+        }
+        if (item.getItemId()==R.id.SORT_CUSTOM_COMMAND) {
+          MessageDialogFragment.newInstance(
+              R.string.dialog_title_information,
+              R.string.dialog_info_custom_sort,
+              MessageDialogFragment.Button.okButton(),
+              null, null)
+              .show(getSupportFragmentManager(), "CUSTOM_SORT_INFO");
+        }
       }
       return true;
     }
