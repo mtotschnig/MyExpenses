@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_265">
+    <item>Sorting of templates, categories and accounts made easier</item>
+  </string-array>
   <string-array name="whats_new_264">
     <item>Categories screen can be searched</item>
     <item>Account balance can be copied to clipboard</item>
