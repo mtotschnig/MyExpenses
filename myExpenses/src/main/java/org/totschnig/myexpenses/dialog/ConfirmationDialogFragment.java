@@ -88,7 +88,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
+    ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
     if (ctx != null) {
       ctx.onDismissOrCancel(getArguments());
     }

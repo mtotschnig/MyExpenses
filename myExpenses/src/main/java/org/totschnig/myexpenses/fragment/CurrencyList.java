@@ -32,7 +32,6 @@ public class CurrencyList extends ListFragment {
         getActivity(), android.R.layout.simple_list_item_1,Account.CurrencyEnum.values()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         String text;
         TextView v = (TextView) super.getView(position, convertView, parent);
         Account.CurrencyEnum item = Account.CurrencyEnum.values()[position];
